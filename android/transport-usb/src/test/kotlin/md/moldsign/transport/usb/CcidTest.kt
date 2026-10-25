@@ -74,6 +74,28 @@ class CcidTest {
         val d = Ccid.parseDescriptor((config + iface + ccid).decodeHex())!!
         assertEquals(Ccid.ExchangeLevel.ShortApdu, d.exchangeLevel)
         assertEquals(271, d.maxMessageLength)
+        assertEquals(254, d.maxIfsd)
+        assertEquals(0x07, d.voltageSupport)
         assertTrue(d.supportsT1)
+    }
+
+    @Test
+    fun powerSelectFollowsLibccid() {
+        fun descriptor(features: Int, voltages: Int) = Ccid.Descriptor(0, 3, features, 271, voltageSupport = voltages)
+        // miniLector EVO (0x000100B6, 3 V only): the reader activates the card itself, so automatic selection
+        assertEquals(Ccid.VOLTAGE_AUTO, descriptor(0x000100B6, 0x02).powerSelect)
+        assertEquals(Ccid.VOLTAGE_AUTO, descriptor(0x00010008, 0x07).powerSelect)
+        assertEquals(Ccid.VOLTAGE_5V, descriptor(0x00010000, 0x07).powerSelect)
+        assertEquals(Ccid.VOLTAGE_3V, descriptor(0x00010000, 0x06).powerSelect)
+        assertEquals(Ccid.VOLTAGE_1_8V, descriptor(0x00010000, 0x04).powerSelect)
+    }
+
+    @Test
+    fun setParametersCarriesTheProtocolInTheHeader() {
+        // 61 | dwLength=7 | slot 0 | seq 9 | bProtocolNum 1 | RFU RFU | T=1 parameter block
+        assertEquals(
+            "61" + "07000000" + "00" + "09" + "01" + "0000" + "1110004500FE00",
+            Ccid.setParameters(0, 9, 1, "1110004500FE00".decodeHex()).toHex(),
+        )
     }
 }

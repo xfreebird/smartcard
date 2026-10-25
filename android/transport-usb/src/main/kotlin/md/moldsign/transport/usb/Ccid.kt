@@ -13,6 +13,7 @@ object Ccid {
     const val PC_TO_RDR_ICC_POWER_ON = 0x62
     const val PC_TO_RDR_ICC_POWER_OFF = 0x63
     const val PC_TO_RDR_GET_SLOT_STATUS = 0x65
+    const val PC_TO_RDR_SET_PARAMETERS = 0x61
     const val PC_TO_RDR_XFR_BLOCK = 0x6F
 
     // Reader → host (bulk IN / interrupt IN)
@@ -36,8 +37,11 @@ object Ccid {
     const val ERR_HW_ERROR = 0xFB
     const val ERR_CMD_SLOT_BUSY = 0xE0
 
-    /** bPowerSelect: 0 = automatic voltage selection. */
+    /** bPowerSelect: 0 = automatic voltage selection (only if the reader advertises it), else 1 = 5 V, 2 = 3 V, 3 = 1.8 V. */
     const val VOLTAGE_AUTO = 0
+    const val VOLTAGE_5V = 1
+    const val VOLTAGE_3V = 2
+    const val VOLTAGE_1_8V = 3
 
     fun command(type: Int, slot: Int, seq: Int, data: ByteArray = ByteArray(0), b7: Int = 0, b8: Int = 0, b9: Int = 0): ByteArray {
         val out = ByteArray(HEADER_SIZE + data.size)
@@ -61,6 +65,15 @@ object Ccid {
     fun iccPowerOff(slot: Int, seq: Int) = command(PC_TO_RDR_ICC_POWER_OFF, slot, seq)
 
     fun getSlotStatus(slot: Int, seq: Int) = command(PC_TO_RDR_GET_SLOT_STATUS, slot, seq)
+
+    /**
+     * Tells the reader which protocol the card uses and with what parameters. A TPDU reader without
+     * "automatic parameter negotiation" (dwFeatures 0x40, like the miniLector EVO) stays in its T=0 default until
+     * it gets this: it then takes a T=1 block for a malformed TPDU. [protocol] is 0 (T=0) or 1 (T=1); the T=1 block
+     * is `bmFindexDindex | bmTCCKST1 | bGuardTimeT1 | bmWaitingIntegersT1 | bClockStop | bIFSC | bNadValue`.
+     */
+    fun setParameters(slot: Int, seq: Int, protocol: Int, parameters: ByteArray) =
+        command(PC_TO_RDR_SET_PARAMETERS, slot, seq, parameters, b7 = protocol)
 
     /** Short-APDU exchange: bBWI = 0, wLevelParameter = 0 (a complete APDU in one block). */
     fun xfrBlock(slot: Int, seq: Int, apdu: ByteArray, bwi: Int = 0, levelParameter: Int = 0) =
@@ -129,7 +142,24 @@ object Ccid {
         val protocols: Int,
         val features: Int,
         val maxMessageLength: Int,
+        /** dwMaxIFSD: the largest T=1 information field the reader accepts from the card (TPDU level). */
+        val maxIfsd: Int = 0,
+        /** bVoltageSupport: bit 0 = 5 V, bit 1 = 3 V, bit 2 = 1.8 V. */
+        val voltageSupport: Int = 0,
     ) {
+        /**
+         * bPowerSelect for IccPowerOn. Like libccid: automatic when the reader selects the voltage or activates the card
+         * itself (dwFeatures 0x08 / 0x04), otherwise an explicit voltage, 5 V first.
+         */
+        val powerSelect: Int
+            get() = when {
+                (features and (0x00000008 or 0x00000004)) != 0 -> VOLTAGE_AUTO // auto voltage / auto activation, as libccid
+                (voltageSupport and 0x01) != 0 -> VOLTAGE_5V
+                (voltageSupport and 0x02) != 0 -> VOLTAGE_3V
+                (voltageSupport and 0x04) != 0 -> VOLTAGE_1_8V
+                else -> VOLTAGE_AUTO
+            }
+
         val exchangeLevel: ExchangeLevel
             get() = when {
                 (features and 0x00040000) != 0 -> ExchangeLevel.ExtendedApdu
@@ -165,6 +195,8 @@ object Ccid {
                         protocols = le32(6),
                         features = le32(40),
                         maxMessageLength = le32(44),
+                        maxIfsd = le32(28),
+                        voltageSupport = raw[pos + 5].toInt() and 0xFF,
                     )
                 }
             }

@@ -6,14 +6,16 @@ import android.hardware.usb.UsbDeviceConnection
 import android.hardware.usb.UsbEndpoint
 import android.hardware.usb.UsbInterface
 import android.hardware.usb.UsbManager
+import android.util.Log
 import md.moldsign.core.ApduTransport
 import md.moldsign.core.CardError
 
 /**
  * [ApduTransport] over a USB CCID reader using the Android USB host API (AND-02).
  *
- * Owns the [UsbDeviceConnection] and the claimed CCID interface. APDUs go as PC_to_RDR_XfrBlock at
- * short-APDU exchange level (the miniLector handles T=1 itself, docs/09 §3.1). Responses are
+ * Owns the [UsbDeviceConnection] and the claimed CCID interface. At short/extended-APDU exchange level an APDU goes
+ * as one PC_to_RDR_XfrBlock. At TPDU level (the miniLector POCKET EVO: `dwFeatures` 0x000100B6) the reader only
+ * handles the physical layer, so [T1] frames the APDU into T=1 blocks, each sent as an XfrBlock. Responses are
  * RDR_to_PC_DataBlock; time-extension replies (bmCommandStatus = 2) are skipped by re-reading.
  *
  * Thread-safe at the message level: every CCID command/response pair holds [lock], so status
@@ -33,8 +35,12 @@ class CcidTransport private constructor(
     private val lock = Any()
     private var seq = 0
     private val readBuffer = ByteArray(maxOf(READ_BUFFER, (descriptor?.maxMessageLength ?: 0).coerceAtMost(MAX_MESSAGE)))
+    private val powerSelect: Int get() = descriptor?.powerSelect ?: Ccid.VOLTAGE_AUTO
 
     @Volatile private var closed = false
+
+    /** T=1 engine of the current card session; only at TPDU level, null otherwise or while the card is off. */
+    private var t1: T1? = null
 
     /** ATR of the last successful power-on, or null when the card is not powered. */
     @Volatile var atr: ByteArray? = null
@@ -60,7 +66,8 @@ class CcidTransport private constructor(
     fun resetCard(): ByteArray = synchronized(lock) {
         runCatching { exchange { Ccid.iccPowerOff(SLOT, it) } }
         atr = null
-        val r = exchange { Ccid.iccPowerOn(SLOT, it) }
+        t1 = null
+        val r = exchange { Ccid.iccPowerOn(SLOT, it, powerSelect) }
         if (r.isFailed || r.data.isEmpty()) {
             throw when {
                 r.iccStatus == Ccid.ICC_ABSENT -> CardError.NoCard()
@@ -68,7 +75,55 @@ class CcidTransport private constructor(
                 else -> CardError.CardNotResponding("IccPowerOn failed: $r")
             }
         }
+        if (descriptor?.exchangeLevel == Ccid.ExchangeLevel.Tpdu) t1 = openT1(r.data)
         r.data.also { atr = it }
+    }
+
+    /** T=1 for a TPDU-level reader: the card's IFSC comes from the ATR, then the host IFSD is raised from 32. */
+    private fun openT1(atr: ByteArray): T1 {
+        val info = try {
+            Atr.parse(atr)
+        } catch (e: IllegalArgumentException) {
+            throw CardError.CardNotResponding("Unreadable ATR")
+        }
+        if (info.firstProtocol != 1) {
+            throw CardError.CardNotResponding("TPDU reader with a T=${info.firstProtocol} card: only T=1 is supported")
+        }
+        // a block (NAD, PCB, LEN, INF, LRC) must fit one CCID message
+        val blockCap = (descriptor?.maxMessageLength ?: 0).let { if (it > Ccid.HEADER_SIZE + 4) it - Ccid.HEADER_SIZE - 4 else 254 }
+        if (info.crc) throw CardError.CardNotResponding("T=1 with CRC error detection is not supported")
+        // A reader without automatic parameter negotiation (dwFeatures 0x40) must be told the protocol, or it keeps its
+        // T=0 default and takes every T=1 block for a malformed TPDU (libccid IFDHSetProtocolParameters does the same).
+        if (((descriptor?.features ?: 0) and 0x00000040) == 0) {
+            val parameters = byteArrayOf(
+                0x11, // Fi/Di: default rate, no PPS
+                (0x10 or (if (info.inverse) 0x02 else 0x00)).toByte(), // bmTCCKST1: LRC + convention
+                (info.guardTime ?: 0).toByte(),
+                (info.bwiCwi ?: 0x4D).toByte(),
+                0x00, // clock stop
+                (info.ifsc ?: T1.DEFAULT_IFS).toByte(),
+                0x00, // NAD
+            )
+            val r = exchange { Ccid.setParameters(SLOT, it, protocol = 1, parameters) }
+            if (r.isFailed) throw CardError.CardNotResponding("SetParameters failed: $r")
+        }
+        val engine = T1(::transceiveBlock, ifsc = minOf(info.ifsc ?: T1.DEFAULT_IFS, blockCap))
+        engine.negotiateIfsd(minOf(descriptor?.maxIfsd?.takeIf { it > 0 } ?: 254, 254, blockCap))
+        return engine
+    }
+
+    /** One T=1 block as PC_to_RDR_XfrBlock (bBWI extends the block waiting time for an S(WTX) answer). */
+    private fun transceiveBlock(block: ByteArray, bwi: Int): ByteArray {
+        val r = exchange { Ccid.xfrBlock(SLOT, it, block, bwi = bwi) }
+        if (r.isFailed) {
+            throw when {
+                r.iccStatus == Ccid.ICC_ABSENT -> CardError.NoCard()
+                r.error == Ccid.ERR_ICC_MUTE -> CardError.CardNotResponding("Card mute (T=1 block)")
+                else -> CardError.CardNotResponding("XfrBlock failed: $r")
+            }
+        }
+        if (r.type != Ccid.RDR_TO_PC_DATA_BLOCK) throw CardError.CardNotResponding("Unexpected CCID reply $r")
+        return r.data
     }
 
     fun powerOff() {
@@ -76,11 +131,23 @@ class CcidTransport private constructor(
             if (closed) return
             runCatching { exchange { Ccid.iccPowerOff(SLOT, it) } }
             atr = null
+            t1 = null
         }
     }
 
     override fun transmit(apdu: ByteArray): ByteArray = synchronized(lock) {
         if (atr == null) resetCard()
+        t1?.let { engine ->
+            val response = try {
+                engine.transmit(apdu)
+            } catch (e: CardError) {
+                atr = null
+                t1 = null
+                throw e
+            }
+            if (response.size < 2) throw CardError.CardNotResponding("Response without status word")
+            return@synchronized response
+        }
         val r = exchange { Ccid.xfrBlock(SLOT, it, apdu) }
         if (r.isFailed) {
             atr = null
@@ -204,12 +271,19 @@ class CcidTransport private constructor(
                 throw CardError.NoReader("Cannot claim the CCID interface of ${displayName(device)}")
             }
             val descriptor = connection.rawDescriptors?.let { Ccid.parseDescriptor(it) }
-            if (descriptor != null && descriptor.exchangeLevel < Ccid.ExchangeLevel.ShortApdu) {
-                // TODO(AND-02): TPDU-level readers need a T=1 block layer (I-blocks, R/S-blocks, IFSD) and
-                //  PC_to_RDR_SetParameters; the miniLector EVO is expected to be APDU level.
+            Log.i(
+                "MoldSignUsb",
+                "${displayName(device)}: CCID descriptor " + (descriptor?.let {
+                    "features=0x%08X level=%s protocols=0x%X maxMessage=%d maxSlot=%d voltages=0x%X powerSelect=%d".format(
+                        it.features, it.exchangeLevel, it.protocols, it.maxMessageLength, it.maxSlotIndex, it.voltageSupport, it.powerSelect,
+                    )
+                } ?: "not found"),
+            )
+            if (descriptor != null && descriptor.exchangeLevel < Ccid.ExchangeLevel.Tpdu) {
+                // character-level readers would need the host to do the byte-wise T=0/T=1 timing and parity
                 connection.releaseInterface(iface)
                 connection.close()
-                throw CardError.NoReader("${displayName(device)} needs ${descriptor.exchangeLevel} exchange, not supported yet")
+                throw CardError.NoReader("${displayName(device)} needs ${descriptor.exchangeLevel} exchange, not supported")
             }
             return CcidTransport(connection, iface, bulkIn, bulkOut, intIn, displayName(device), descriptor, timeoutMs)
         }

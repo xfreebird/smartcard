@@ -220,7 +220,7 @@ class UsbReaderMonitor(
             val t = try {
                 CcidTransport.open(usbManager, slot.device)
             } catch (e: CardError) {
-                Log.w(TAG, "${slot.productName}: open failed: ${e.javaClass.simpleName}")
+                Log.w(TAG, "${slot.productName}: open failed: ${e.javaClass.simpleName}: ${e.message}")
                 slot.presence = ReaderSlot.State.Error
                 publish()
                 return@launch
@@ -245,7 +245,7 @@ class UsbReaderMonitor(
                 else -> ReaderSlot.State.Card to generations.observe(slot.id, cardPresent = true)
             }
         } catch (e: CardError) {
-            Log.w(TAG, "${slot.productName}: slot status failed: ${e.javaClass.simpleName}")
+            Log.w(TAG, "${slot.productName}: slot status failed: ${e.javaClass.simpleName}: ${e.message}")
             ReaderSlot.State.Error to generations.observe(slot.id, cardPresent = false)
         }
         if (slot.sessionActive) return
