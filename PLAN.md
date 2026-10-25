@@ -146,7 +146,7 @@ Exit criteria: sign a PDF on iPhone over USB-C **and** Lightning adapters; msign
 - [ ] IOS-07 Bridge in Split View / Stage Manager (both apps foreground), documented limits (R-01)
 - [ ] IOS-08 Share extension "Semnează" (memory cap, R-06)
 - [ ] IOS-09 NFC research: CosmoX IAS/ECC over contactless? iOS 26 `createNFCSlot` + `iso7816.select-identifiers` (R-03)
-- [~] IOS-10 Packaging: `fastlane ios_ipa` → App Store signed IPA (match profile `match AppStore md.esemnbun.ios`, team H86U5Z8HYB), built locally and in the `release` workflow; `scripts/package-ios.sh` stays for unsigned archives. TestFlight upload + App Store review strategy (vendor TLS key R-02, private API audit) todo
+- [~] IOS-10 Packaging: `fastlane ios_release` → one archive, App Store IPA uploaded to TestFlight (no waiting for processing) + ad hoc IPA (match AdHoc), in the `release` workflow; App Store Connect app 6826865290; `scripts/package-ios.sh` stays for unsigned archives. Export-compliance answer + App Store review strategy (vendor TLS key R-02, private API audit) todo
 
 ### Phase 3: Android
 
@@ -305,6 +305,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ## Progress log
 
 Newest first. One line per meaningful step; link IDs.
+
+- 2026-10-25: iOS release job: one archive → App Store IPA uploaded to TestFlight (API key, `skip_waiting_for_build_processing`, `skip_submission`) + ad hoc IPA (new match AdHoc profile, 1 registered device); build number `<run>.<attempt>`; privacy manifest added (UserDefaults CA92.1). Verified locally without upload; CI does the upload.
 
 - 2026-10-25: macOS notarization working: Developer ID Application created in the portal from our CSR (Firefox), fetched via the API, imported into match. Two fixes found on the way: `match import` takes paths only interactively (lane calls `Match::Importer` directly) and the macOS keychain rejects OpenSSL-made empty-password .p12s ("MAC verification failed"), so the lane exports the .p12 with `security`; `package-macos.sh` retries timestamped codesign (one transient timestamp failure). Notarized locally: DMG + CLI Accepted, stapled, Gatekeeper accepted.
 

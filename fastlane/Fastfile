@@ -45,11 +45,12 @@ end
 
 desc "Create what is missing (owner, local): App IDs, iOS App Store + development profiles and certificates"
 lane :certs do
-  UI.user_error!("certs writes to the storage repo; CI only reads (ios_ipa, mac_signing)") if is_ci
+  UI.user_error!("certs writes to the storage repo; CI only reads (ios_release, mac_signing)") if is_ci
   register_ids
   key = asc_key
   match(type: "appstore", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: false)
   match(type: "development", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: false)
+  match(type: "adhoc", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: false)   # registered devices
   # Developer ID can't be created with an API key ("can only be performed by the Account Holder"):
   # create it in the portal from a CSR, then `fastlane import_developer_id cer:… key:…`.
 end
@@ -96,28 +97,42 @@ lane :mac_signing do
         skip_provisioning_profiles: true)
 end
 
-desc "Signed App Store IPA in dist/ios (manual signing with the match profile, iOS target only)"
-lane :ios_ipa do
+desc "iOS: one archive → App Store IPA (uploaded to TestFlight, not waiting for processing) + ad hoc IPA in dist/ios"
+lane :ios_release do |options|
   setup_ci if is_ci
-  match(type: "appstore", platform: "ios", app_identifier: IOS_ID, api_key: asc_key, readonly: true)
+  key = asc_key
+  match(type: "appstore", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: true)
+  match(type: "adhoc", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: true)
   team = ENV["sigh_#{IOS_ID}_appstore_team-id"]
-  profile = ENV["sigh_#{IOS_ID}_appstore_profile-name"]
+  appstore_profile = ENV["sigh_#{IOS_ID}_appstore_profile-name"]
+  adhoc_profile = ENV["sigh_#{IOS_ID}_adhoc_profile-name"]
+  out = File.expand_path("../dist/ios", __dir__)
+  archive = File.join(out, "eSemnBun-iOS.xcarchive")
+  # the project also has macOS targets: pin the platform or gym exports with the Mac installer method
+  common = { project: PROJECT, scheme: "eSemnBun-iOS", configuration: "Release", destination: "generic/platform=iOS",
+             sdk: "iphoneos", export_team_id: team, output_directory: out, archive_path: archive }
   pbxproj = File.join(PROJECT, "project.pbxproj")
   original = File.read(pbxproj)
   begin
     # Target-scoped signing: command-line overrides would also hit the SwiftPM package targets.
     update_code_signing_settings(path: PROJECT, use_automatic_signing: false, targets: ["eSemnBun-iOS"],
-                                 build_configurations: ["Release"], team_id: team, profile_name: profile,
+                                 build_configurations: ["Release"], team_id: team, profile_name: appstore_profile,
                                  code_sign_identity: "Apple Distribution")
     version = get_version_number(xcodeproj: PROJECT, target: "eSemnBun-iOS", configuration: "Release")
-    # the project also has macOS targets: pin the platform or gym exports with the Mac installer method
-    build_app(project: PROJECT, scheme: "eSemnBun-iOS", configuration: "Release", export_method: "app-store",
-              destination: "generic/platform=iOS", sdk: "iphoneos",
-              export_team_id: team, export_options: { provisioningProfiles: { IOS_ID => profile } },
-              output_directory: File.expand_path("../dist/ios", __dir__), output_name: "eSemnBun-#{version}.ipa",
-              archive_path: File.expand_path("../dist/ios/eSemnBun-iOS.xcarchive", __dir__),
-              xcargs: "CURRENT_PROJECT_VERSION=#{ENV.fetch('BUILD_NUMBER', '1')}", clean: true)
+    build_app(**common, export_method: "app-store", export_options: { provisioningProfiles: { IOS_ID => appstore_profile } },
+              output_name: "eSemnBun-#{version}-appstore.ipa", clean: true,
+              xcargs: "CURRENT_PROJECT_VERSION=#{ENV.fetch('BUILD_NUMBER', '1')}")
+    # same archive, re-signed with the ad hoc profile: installs on the team's registered devices
+    build_app(**common, skip_build_archive: true, export_method: "ad-hoc",
+              export_options: { provisioningProfiles: { IOS_ID => adhoc_profile } },
+              output_name: "eSemnBun-#{version}-adhoc.ipa")
   ensure
     File.write(pbxproj, original)   # never leave manual-signing edits in the committed project
+  end
+  upload = options.key?(:upload) ? options[:upload].to_s != "false" : is_ci
+  if upload
+    # returns as soon as App Store Connect has the binary; processing continues on Apple's side
+    upload_to_testflight(api_key: key, ipa: File.join(out, "eSemnBun-#{version}-appstore.ipa"),
+                         skip_waiting_for_build_processing: true, skip_submission: true)
   end
 end

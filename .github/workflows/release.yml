@@ -69,20 +69,23 @@ jobs:
 
   ios:
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'ios' }}
-    name: iOS app (App Store IPA)
+    name: iOS app (TestFlight upload + App Store and ad hoc IPAs)
     runs-on: macos-26
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      BUILD_NUMBER: ${{ github.run_number }}
+      # unique and increasing for TestFlight, also across re-runs of the same run
+      BUILD_NUMBER: ${{ github.run_number }}.${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: "3.3", bundler-cache: true }
-      - name: Archive + export (match App Store profile)
-        run: bundle exec fastlane ios_ipa
+      # one archive → App Store IPA (uploaded to TestFlight; returns without waiting for Apple's processing)
+      # and an ad hoc IPA (match AdHoc profile: installs on the team's registered devices)
+      - name: Archive, export, upload to TestFlight
+        run: bundle exec fastlane ios_release
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-ios
