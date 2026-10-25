@@ -287,7 +287,7 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 | ID | Question | Recommendation |
 |---|---|---|
 | D-03 | Ship the vendor `localhost.p12` inside our apps? | Load it from an installed vendor suite when present. Ship it only after legal review. Long term, ask STISC for an official partner channel |
-| D-04 | macOS App Sandbox on or off? | Off during Phase 1 (bridge `/sign/pdf` takes arbitrary file paths). Re-evaluate for the Mac App Store with security-scoped bookmarks |
+| D-04 | macOS App Sandbox on or off? | Off during Phase 1 (bridge `/sign/pdf` takes arbitrary file paths). Re-evaluate for the Mac App Store with security-scoped bookmarks. Note (nice to have, no action planned): a Mac App Store build is feasible: smart card, network client/server, Keychain and menu bar work sandboxed; it would need a Save dialog or folder bookmark for `<name>-semnat` output, security-scoped bookmarks for recents/Activity, and loses the bridge's `/sign/pdf` (arbitrary paths) and the vendor TLS key (D-03). The notarized Developer ID DMG stays the Mac distribution |
 | D-05 | macOS distribution | Developer ID + notarized DMG + Sparkle; Mac App Store later |
 
 ## 6. Risks and research spikes
