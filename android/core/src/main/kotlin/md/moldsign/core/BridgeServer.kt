@@ -11,8 +11,10 @@ import java.net.Socket
 import java.net.SocketException
 import java.util.Locale
 import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.SSLContext
 
 /** One parsed HTTP/1.1 request. Header names are lower-cased. */
 class BridgeRequest(
@@ -43,10 +45,11 @@ fun interface BridgeRoutes {
 }
 
 /**
- * Skeleton of the vendor MoldSign Server routes (docs/04). Only `GET /certificates` answers today.
+ * Placeholder routes: only `GET /certificates` answers, the signing routes say 501. The app uses
+ * [SigningBridgeRoutes]; this one keeps the server testable without a card.
  */
 class DefaultBridgeRoutes(
-    /** JSON array of `CertificateModel` objects; empty until the card read is wired (AND-04). */
+    /** JSON array of `CertificateModel` objects. */
     private val certificatesJson: () -> String = { "[]" },
 ) : BridgeRoutes {
     override fun handle(request: BridgeRequest): BridgeResponse {
@@ -54,8 +57,6 @@ class DefaultBridgeRoutes(
         return when {
             request.method == "GET" && path == "/certificates" ->
                 BridgeResponse.json(200, """{"certificateModel":${certificatesJson()}}""")
-            // TODO(AND-04): async signing sessions: 201 + ABSOLUTE Location + sessionId header and EMPTY body (mpass), 303 while pending, 200 result;
-            //  consent per request (SEC-02 / AND-05) before touching the private key.
             VENDOR_ROUTE_PREFIXES.any { path == it || path.startsWith("$it/") } ->
                 BridgeResponse.json(501, """{"error":"not implemented yet"}""")
             else -> BridgeResponse.json(404, """{"error":"not found"}""")
@@ -71,8 +72,11 @@ class DefaultBridgeRoutes(
  * Minimal loopback HTTP/1.1 server for the bridge (one request per connection, `Connection: close`,
  * `Content-Length` framing), applying [BridgeOriginPolicy] before any route runs.
  *
- * Pure JVM (java.net) so it is unit-testable; Android hosts it in `BridgeService` (AND-04).
- * TLS on 18443 with the `localhost.cts.md` identity is TODO(AND-04) (SSLServerSocket + PKCS12 KeyManagerFactory).
+ * Pure JVM (java.net) so it is unit-testable; Android hosts it in `BridgeService` (AND-04). Pass [tls] (see
+ * [BridgeTls]) for the HTTPS listener the portal talks to (`https://localhost.cts.md:18443`).
+ *
+ * A long-poll GET holds its worker thread until the signature exists (consent + PIN take as long as the user
+ * does), so the pool is sized for several waiting polls instead of the few short requests of the old skeleton.
  */
 class BridgeServer(
     private val policy: BridgeOriginPolicy,
@@ -80,6 +84,7 @@ class BridgeServer(
     private val port: Int = DEFAULT_HTTP_PORT,
     private val bindAddress: InetAddress = InetAddress.getByName("127.0.0.1"),
     private val maxBodyBytes: Int = MAX_BODY_BYTES,
+    private val tls: SSLContext? = null,
     private val log: (String) -> Unit = {},
 ) : Closeable {
     @Volatile private var serverSocket: ServerSocket? = null
@@ -93,14 +98,17 @@ class BridgeServer(
     @Synchronized
     fun start(): Int {
         serverSocket?.let { if (!it.isClosed) return it.localPort }
-        val ss = ServerSocket()
+        val ss = tls?.serverSocketFactory?.createServerSocket() ?: ServerSocket()
         ss.reuseAddress = true
         ss.bind(InetSocketAddress(bindAddress, port), 16)
-        val pool = Executors.newFixedThreadPool(WORKER_THREADS) { r -> Thread(r, "bridge-http").apply { isDaemon = true } }
+        val pool = ThreadPoolExecutor(
+            WORKER_THREADS, WORKER_THREADS, 30, TimeUnit.SECONDS, LinkedBlockingQueue(),
+        ) { r -> Thread(r, "bridge-http").apply { isDaemon = true } }
+        pool.allowCoreThreadTimeOut(true)
         serverSocket = ss
         workers = pool
         Thread({ acceptLoop(ss, pool) }, "bridge-accept").apply { isDaemon = true }.start()
-        log("bridge listening on ${bindAddress.hostAddress}:${ss.localPort}")
+        log("bridge listening on ${bindAddress.hostAddress}:${ss.localPort}${if (tls != null) " (TLS)" else ""}")
         return ss.localPort
     }
 
@@ -257,7 +265,7 @@ class BridgeServer(
         const val CORS_HEADER_LIST = "Origin, x-requested-with, content-type, accept, error, Location"
         private const val MAX_HEAD_BYTES = 16 * 1024
         private const val SOCKET_TIMEOUT_MS = 30_000
-        private const val WORKER_THREADS = 4
+        private const val WORKER_THREADS = 32
         private val CONTINUE = "HTTP/1.1 100 Continue\r\n\r\n".toByteArray(Charsets.ISO_8859_1)
 
         fun reason(status: Int) = when (status) {

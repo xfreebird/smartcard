@@ -16,7 +16,7 @@ this is a line-by-line port gated by [`spec/vectors/card-crypto.json`](../spec/v
 
 | Module | Kind | Package | Contents |
 |---|---|---|---|
-| `:core` | Kotlin/JVM library, no Android deps | `md.moldsign.core` | `Hex`, `Aes` (javax.crypto ECB/CBC, NoPadding), `Cmac` (RFC 4493), `Iso9797`, `Sha`, `DigestInfo`, `SecureChannel`, `CosmoXCard` (incl. the identity guard), `ApduTransport`, `CardError` (incl. `CardChanged`), `BridgeOriginPolicy`, `BridgeServer` (loopback HTTP/1.1), `SigningService` / `CardSigningService` (per-reader sessions), `Wallet.kt` (`ReaderSlot`, `CardGenerations`, `WalletState`, `StatusLight`), models, and stubs for `PadesSigner`, `XadesSigner`, `TrustServices`, `Validator` |
+| `:core` | Kotlin/JVM library, no Android deps | `md.moldsign.core` | `Hex`, `Aes` (javax.crypto ECB/CBC, NoPadding), `Cmac` (RFC 4493), `Iso9797`, `Sha`, `DigestInfo`, `SecureChannel`, `CosmoXCard` (incl. the identity guard), `ApduTransport`, `CardError` (incl. `CardChanged`), `BridgeOriginPolicy`, `BridgeServer` (loopback HTTP/1.1), `SigningService` / `CardSigningService` (per-reader sessions), `Wallet.kt` (`ReaderSlot`, `CardGenerations`, `WalletState`, `StatusLight`), models, the format signers (`PadesCmsSigner`, `XadesDocumentSigner`), `MdTrustServices` (TSA / CRL / OCSP over HTTP, one retry for the gateways' idle 502s), `OfflineValidator` + `Verdict`, and the browser bridge (`BridgeTls`, `SigningBridgeRoutes`) |
 | `:transport-usb` | Android library | `md.moldsign.transport.usb` | `Ccid` (pure framing + class-descriptor parser), `CcidTransport : ApduTransport` over USB bulk endpoints, `UsbReaderMonitor` (every attached reader: attach/detach, permission, slot polling, card generations → `StateFlow<List<ReaderSlot>>`; sessions routed by reader id), `res/xml/device_filter.xml` |
 | `:app` | Compose + Material 3 app | `md.moldsign.app` | Design v2 (docs/10 §0): theme from the design tokens (dynamic color, brand fallback), edge-to-edge `Scaffold` with `TopAppBar` + status light chip + `NavigationBar` (Semnează · Verifică · Browser · Card), card wallet, document list + FormatChip, `ExtendedFloatingActionButton`, PIN `ModalBottomSheet`, ConnectionGuide, `BridgeService` (foreground `connectedDevice`, notification = status light), `PinVault` (Keystore AES-GCM + BiometricPrompt), ro/en strings, debug-only demo mode |
 
@@ -90,7 +90,7 @@ Toolchain: Gradle 8.13, AGP 8.10.1, Kotlin 2.1.0 (Compose compiler plugin 2.1.0)
   while the file is still reachable: persisted read permission + the document still answers a query, re-checked on
   start and whenever the screen resumes) and browser requests (always kept), newest first, max 100. "Golește lista"
   asks for confirmation. Pickers take a persistable read permission so entries survive restarts.
-  TODO(AND-07): point entries at the saved `<name>-semnat.<ext>`; TODO(AND-04): log bridge requests.
+  Browser signatures add a "Semnat · PAdES-T" / "Eșuat" entry named after the site.
 * **Status light** (`StatusLight` in core, `StatusLightChip` in the top app bar): green = card ready, amber = reader
   only / reading / USB access, blue = signing (pulses), red = error, none = idle; chip text + full accessibility label.
 * **Tray = bridge notification, two states** (`WalletState.tray()`, UX-11): green accent + "Card conectat · {holder}"
@@ -125,7 +125,13 @@ swapped card fails with `CardChanged` before VERIFY (no `SM:20` in the APDU log,
 asked); the matching card signs; sessions go to the requested reader. `WalletStateTest` covers generations, one read
 per insertion, late reads for replaced cards, selection fallback, re-read and the status light.
 `BridgeOriginPolicyTest` / `BridgeServerTest` cover the allow-list, the CORS + `Access-Control-Allow-Private-Network`
-preflight, 403 without CORS headers, and a real-socket round trip.
+preflight, 403 without CORS headers, and a real-socket round trip. `SigningBridgeRoutesTest` covers the portal flow
+(certificate list, `201` + absolute `Location` + empty body, the long-poll, PIN sessions per origin and card, XAdES
+with the requested digest) and `BridgeTlsTest` the HTTPS listener with the vendor identity.
+`XadesDocumentSignerTest` validates BES / T / C / enveloping output with the JDK's XML-DSig engine (an independent
+canonicalizer); `OfflineValidatorTest` signs with a software key and a test CA / root, then checks valid, tampered,
+re-timestamped, counter-signed and detached-without-document cases; `MdTrustServicesTest` runs the PKI client against a
+local server (OCSP request, the one retry, unusable answers).
 
 ## Real vs stub
 
@@ -135,17 +141,19 @@ preflight, 403 without CORS headers, and a real-socket round trip.
 | `CardSigningService.certificate()` / `signDigestInfo()` | **Real**: process-wide card lock, progress steps, consent callback |
 | CCID transport + reader monitor (several readers, card generations) | **Real code, unverified on hardware** (AND-02, AND-03) |
 | Card wallet, status light, identity guard, per-reader signing | **Real**; wallet/light/guard logic unit-tested in `:core`, UI checked on the emulator with the demo mode |
-| `BridgeOriginPolicy` + `BridgeServer` (HTTP 18480, OPTIONS/CORS/PNA, `GET /certificates` → empty list) | **Real**; signing routes return 501 (AND-04) |
-| `BridgeService` foreground service + ongoing notification with **Oprește** | **Skeleton** (AND-04/05/08) |
+| `BridgeOriginPolicy` + `BridgeServer` (HTTP 18480 + HTTPS 18443 with the vendor `localhost.cts.md` identity, OPTIONS/CORS/PNA) | **Real**, verified on a phone with curl (valid public chain) |
+| `SigningBridgeRoutes`: `GET /certificates`, async `POST /sign/data` + long-poll, PIN sessions | **Real for PAdES-T** (signed with the real card from a simulated portal request, Swift validator + iText: valid); XAdES content answers an error until ported; `/sign/pdf`, `/sign/file`, verify routes answer 501 (file paths of the desktop suite) |
+| `BridgeService` foreground service, ongoing notification with **Oprește**, consent heads-up notification | **Real** (AND-04/05); signed from msign.gov.md in Chrome on a phone 2026-10-25; the Local Network Access prompt still to document (AND-08) |
 | `PinVault` | **Implemented, not wired into the flow** (AND-06) |
-| PAdES, XAdES, TSA/OCSP/CRL, validator | **Stubs** that throw `NotImplementedError` (AND-01) |
-| SAF save of `<name>-semnat.<ext>`, share target | TODO (AND-07) |
+| PAdES-T (`PadesCmsSigner`), MDQTSA client (`MdTrustServices.timestamp`), CRL GET, chain certs (`ChainCerts`) | **Real** (AND-01): cross-checked with `openssl cms -verify`, the Swift validator and iText 9 + BouncyCastle (the portal's stack); **signed with the real card and PIN on a phone 2026-10-25** (Swift validator: valid, chain trusted; iText `verify()=true`) |
+| XAdES BES/T/C (`XadesDocumentSigner`: detached or enveloping, SHA-256 or the portal's SHA-1), native OCSP request, CRL / OCSP metadata for XAdES-C | **Real** (AND-01): signatures validated by the JDK's XML-DSig engine, `Probe3` and the Swift validator; the OCSP request is byte-identical to `openssl ocsp`; live OCSP / CRL / MDQTSA answers parse (CRL number checked against openssl). A failing CRL / OCSP / TSA fails the signature (the Swift signer silently drops the reference). **Not yet signed with the real card on a phone** |
+| `OfflineValidator`: PAdES (ByteRange, CMS, RSA, chain, time-stamp imprint) and XAdES (references, SignedInfo, chain, time-stamp imprint) | **Real** (AND-01), same verdicts as the Swift validator on card-signed PDFs; the Verify screen shows the verdict, the signature cards and an inline picker for a detached signature's document. It does not check revocation or the time-stamp token's own signature |
+| Save of `<name>-semnat.<ext>` (`SignedFileStore`) | **Downloads/eSemnBun** via MediaStore (Android 10+; app Documents folder below); Activity rows offer Open / Share / Save as… (system save dialog); the app is a share target for PDFs and other files (AND-07, checked on a phone) |
 | NFC `IsoDep` | not started (AND-09) |
 
-The TODO markers in the code: `TODO(AND-01)` formats/trust/validator · `TODO(AND-02)` interrupt-endpoint
-NotifySlotChange instead of polling, T=1 TPDU readers, verify the power-cycle reset · `TODO(AND-03)` the bit4id
-VID/PID · `TODO(AND-04)` TLS 18443, signing routes, certificate list, FGS prerequisite · `TODO(AND-05)` background
-consent notification · `TODO(AND-06)` PinVault wiring, paste blocking · `TODO(AND-07)` SAF output ·
+The TODO markers in the code: `TODO(AND-02)` interrupt-endpoint
+NotifySlotChange instead of polling, PPS to a faster Fi/Di, verify the power-cycle reset · `TODO(AND-03)` the bit4id
+VID/PID · `TODO(AND-04)` start/stop with the reader, FGS prerequisite · `TODO(AND-06)` PinVault wiring, paste blocking ·
 `TODO(AND-08)` Chrome Local Network Access · `TODO(AND-10)` R8/signing · `TODO(UX-01)` Quick Settings tile.
 
 ## Where the port differs from the Swift reference (on purpose)
@@ -162,12 +170,24 @@ consent notification · `TODO(AND-06)` PinVault wiring, paste blocking · `TODO(
 Kept faithful even though they look odd: `authenticate()` ignores the SW of the plain SELECT MF (Swift re-checks the
 AID's SW there), the SELECT EF 0001 SW is unchecked, and a response without tag `8E` is not MAC-checked.
 
-## On-device checklist (not yet done)
+## On-device checklist
 
-- miniLector EVO over USB-C OTG: enumerates, `device_filter.xml` launches the app, permission dialog, `GetSlotStatus`.
-- `dwFeatures` reports short-APDU exchange (else the transport refuses the reader).
-- Insert card → automatic PIN-less certificate read (one attempt per insertion, never retried) → holder name.
+- miniLector EVO over USB-C OTG: enumerates, permission dialog, `GetSlotStatus`: **done 2026-10-25** (Xiaomi
+  22126RN91Y, Android 14, `adb` over Wi-Fi because the reader takes the only USB port). Still open: `device_filter.xml`
+  launching the app on attach.
+- The miniLector POCKET EVO is a **TPDU-level** CCID reader (`dwFeatures` 0x000100B6: auto ATR configuration, auto
+  activation, no automatic parameter negotiation 0x40, 3 V only), not short-APDU as assumed. `CcidTransport` drives it with
+  the host T=1 block layer (`T1`) after `PC_to_RDR_SetParameters` (protocol 1, LRC, BWI/CWI/IFSC from the ATR,
+  default Fi/Di) and an IFSD negotiation to 254, the same as libccid. **Without SetParameters the reader stays in a
+  T=0 default**: header-only commands "work", S/R blocks get an empty reply and every T=1 I-block gets `bError 0xFB`.
+  Character-level readers are still refused.
+- Insert card → automatic PIN-less certificate read → holder name: **done 2026-10-25** (mutual authentication and the
+  1799-byte certificate over T=1, "Card ready"). Not yet: PIN + signature (WTX, long responses), PPS to a faster Fi/Di
+  (now 9600 bps, so a certificate read takes a few seconds).
 - Two readers on a USB-C hub: both cards in the wallet, the selected one signs; swap a card while the PIN sheet is
   open → `CardChanged`, no PIN sent; remove + re-insert within the 1 s poll is not detected (TODO(AND-02) interrupt endpoint).
-- `BridgeService` starts on API 34+ (FGS `connectedDevice` prerequisite), Chrome reaches `http://127.0.0.1:18480/certificates` from msign.gov.md.
+- `BridgeService` starts on API 34+ (FGS `connectedDevice` prerequisite). Test without Chrome: `adb forward tcp:28443 tcp:18443` (the Mac app may hold 18443/18480), then `curl --resolve localhost.cts.md:28443:127.0.0.1 -H 'Origin: https://msign.gov.md' https://localhost.cts.md:28443/certificates`; a `POST /sign/data` shows the heads-up notification, tapping it opens the PIN sheet.
+- Chrome on the phone: msign.gov.md → sign; `localhost.cts.md` resolves to 127.0.0.1, Chrome may ask for the Local Network Access permission (AND-08), the request shows as a heads-up notification.
+- XAdES on the phone: Sign tab → pick a text or XML file → XAdES-T (or -BES / -C) → PIN; the `<name>-semnat.xml` lands in Downloads/eSemnBun. Check it on the Mac with `esemnbun verify <sig.xml> <folder with the original file>` or on the phone's Verify tab (a detached signature asks for its document). XAdES-C needs the network (CRL + OCSP + MDQTSA); the OCSP gateway can take 13 s on the first request after an idle spell.
+- Verify tab: pick a signed PDF or XAdES → verdict and signature cards appear at once; flip a byte of the PDF → "Invalid signature".
 - Never test with the real PIN in automated runs; a wrong PIN burns the retry counter (R-07).

@@ -2,15 +2,21 @@ package md.moldsign.app
 
 import android.content.Intent
 import android.hardware.usb.UsbManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.core.content.IntentCompat
 import androidx.fragment.app.FragmentActivity
 import md.moldsign.app.ui.MoldSignRoot
 import md.moldsign.app.ui.theme.MoldSignTheme
 
 /** FragmentActivity (not ComponentActivity) so PinVault can host a BiometricPrompt. */
 class MainActivity : FragmentActivity() {
+    /** The same instance MoldSignRoot gets from `viewModel()` (activity scope). */
+    private val viewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
@@ -23,6 +29,16 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        (application as MoldSignApp).container.inForeground = true
+    }
+
+    override fun onStop() {
+        (application as MoldSignApp).container.inForeground = false
+        super.onStop()
+    }
+
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         setIntent(intent)
@@ -30,12 +46,20 @@ class MainActivity : FragmentActivity() {
     }
 
     /**
-     * The reader was plugged in while we were launched by the USB_DEVICE_ATTACHED filter. Debug builds also
-     * accept the demo extra (DemoMode, src/debug); release builds compile a no-op DemoMode.
+     * The reader was plugged in while we were launched by the USB_DEVICE_ATTACHED filter, or files were shared to
+     * "Semnează" (SEND / SEND_MULTIPLE). Debug builds also accept the demo extra (DemoMode, src/debug); release
+     * builds compile a no-op DemoMode.
      */
     private fun handleIntent(intent: Intent?) {
         val container = (application as MoldSignApp).container
         if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) container.readerMonitor.rescan()
+        sharedUris(intent).takeIf { it.isNotEmpty() }?.let(viewModel::receiveShared)
         DemoMode.apply(container, intent)
+    }
+
+    private fun sharedUris(intent: Intent?): List<Uri> = when (intent?.action) {
+        Intent.ACTION_SEND -> listOfNotNull(IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java))
+        Intent.ACTION_SEND_MULTIPLE -> IntentCompat.getParcelableArrayListExtra(intent, Intent.EXTRA_STREAM, Uri::class.java).orEmpty()
+        else -> emptyList()
     }
 }

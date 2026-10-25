@@ -35,6 +35,7 @@ fun errorText(e: Throwable): String = errorText(LocalContext.current, e)
 fun messageText(context: Context, m: UiMessage): String = when (m) {
     is UiMessage.Error -> errorText(context, m.error)
     is UiMessage.Text -> context.getString(m.res)
+    is UiMessage.Saved -> context.getString(m.res)
     is UiMessage.Status -> statusLabel(context, m.status)
 }
 

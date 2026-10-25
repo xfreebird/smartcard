@@ -1,6 +1,7 @@
 package md.moldsign.app.ui
 
 import androidx.annotation.StringRes
+import android.content.Intent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -26,8 +27,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -52,6 +55,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import md.moldsign.app.MainViewModel
 import md.moldsign.app.R
+import md.moldsign.app.UiMessage
 import md.moldsign.app.messageText
 import md.moldsign.app.ui.components.PinSheet
 import md.moldsign.app.ui.components.StatusLightChip
@@ -95,13 +99,31 @@ fun MoldSignRoot(vm: MainViewModel = viewModel()) {
     val message by vm.message.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
+    val openLabel = stringResource(R.string.action_open)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
+    LaunchedEffect(Unit) {
+        vm.showSign.collect { nav.go(Dest.Sign) }
+    }
 
     LaunchedEffect(message) {
         val m = message ?: return@LaunchedEffect
         val text = messageText(context, m)
         vm.consumeMessage()
-        if (text.isNotEmpty()) snackbar.showSnackbar(text)
+        if (text.isEmpty()) return@LaunchedEffect
+        if (m is UiMessage.Saved) {
+            // long, with an action: the signed file is otherwise easy to lose in the Downloads folder
+            val result = snackbar.showSnackbar(text, actionLabel = openLabel, duration = SnackbarDuration.Long)
+            if (result == SnackbarResult.ActionPerformed) {
+                runCatching {
+                    context.startActivity(
+                        Intent(Intent.ACTION_VIEW, m.uri).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK),
+                    )
+                }
+            }
+        } else {
+            snackbar.showSnackbar(text)
+        }
     }
 
     Scaffold(

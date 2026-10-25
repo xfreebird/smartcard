@@ -27,26 +27,35 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import md.moldsign.app.AppContainer
 import md.moldsign.app.AppStatus
 import md.moldsign.app.MainActivity
 import md.moldsign.app.MoldSignApp
 import md.moldsign.app.R
+import md.moldsign.app.errorText
 import md.moldsign.app.trayText
 import md.moldsign.app.ui.theme.notificationArgb
+import md.moldsign.core.BridgeObserver
 import md.moldsign.core.BridgeOriginPolicy
 import md.moldsign.core.BridgeServer
-import md.moldsign.core.DefaultBridgeRoutes
+import md.moldsign.core.BridgeTls
+import md.moldsign.core.CardError
+import md.moldsign.core.Consent
+import md.moldsign.core.ConsentRequest
+import md.moldsign.core.SigningBridgeRoutes
 import kotlin.concurrent.thread
 
 /**
- * Foreground service (`connectedDevice`) hosting the MoldSign Server bridge on 127.0.0.1:18480 so
- * Chrome on the same phone can sign through msign.gov.md (AND-04). The origin allow-list
- * (SEC-01) and the CORS / Private-Network preflight live in core `BridgeServer`.
+ * Foreground service (`connectedDevice`) hosting the MoldSign Server bridge so Chrome on the same phone can sign
+ * through msign.gov.md (AND-04): HTTPS on 18443 with the vendor `localhost.cts.md` identity (the origin the portal
+ * calls) and plain HTTP on 127.0.0.1:18480 (curl, other clients). The origin allow-list (SEC-01) and the CORS /
+ * Private-Network preflight live in core `BridgeServer`; the routes, sessions and PIN sessions in
+ * `SigningBridgeRoutes`.
  *
- * TODO(AND-04): TLS listener on 18443 with the localhost.cts.md PKCS12 identity (SSLServerSocket +
- *  KeyManagerFactory), signing routes backed by SigningService (201 + absolute Location, 303 polling),
- *  start/stop automatically while the reader is attached.
- * TODO(AND-05): per-request consent via a heads-up notification (background activity-start limits, R-04).
+ * Every request goes through the PIN sheet (SEC-02). Chrome is in front when a request arrives, so the service posts
+ * a heads-up notification that opens the app on the sheet (R-04, AND-05).
+ *
+ * TODO(AND-04): start/stop automatically while the reader is attached.
  * TODO(AND-08): document Chrome's Local Network Access prompt.
  *
  * The ongoing notification is the Android tray (docs/10 §0.2b, UX-11): two states only. Green accent and
@@ -56,7 +65,8 @@ import kotlin.concurrent.thread
  *  today the tray state is only in this notification while the bridge runs.
  */
 class BridgeService : Service() {
-    private var server: BridgeServer? = null
+    private var servers: List<BridgeServer> = emptyList()
+    private var routes: SigningBridgeRoutes? = null
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var statusJob: Job? = null
     private val status get() = (application as MoldSignApp).container.status
@@ -69,24 +79,35 @@ class BridgeService : Service() {
             return START_NOT_STICKY
         }
         startInForeground()
-        if (server == null) {
-            val s = BridgeServer(
-                policy = BridgeOriginPolicy.bundled(),
-                routes = DefaultBridgeRoutes(), // TODO(AND-04): certificates from SigningService.certificate()
-                port = BridgeServer.DEFAULT_HTTP_PORT,
+        if (servers.isEmpty()) {
+            val container = (application as MoldSignApp).container
+            val routes = SigningBridgeRoutes(
+                service = container.signingService,
+                cards = container::bridgeCards,
+                consent = consentWithNotification(container),
+                observer = observer(container),
                 log = { Log.i(TAG, it) },
-            )
-            server = s
+            ).also { this.routes = it }
+            val policy = BridgeOriginPolicy.bundled()
+            val tls = runCatching { BridgeTls.vendorContext() }
+                .onFailure { Log.w(TAG, "TLS identity not loaded: ${it.javaClass.simpleName}: ${it.message}") }
+                .getOrNull()
+            val http = BridgeServer(policy, routes, BridgeServer.DEFAULT_HTTP_PORT, log = { Log.i(TAG, it) })
+            val https = tls?.let { BridgeServer(policy, routes, BridgeServer.DEFAULT_TLS_PORT, tls = it, log = { m -> Log.i(TAG, m) }) }
+            servers = listOfNotNull(http, https)
             thread(name = "bridge-start", isDaemon = true) {
-                try {
-                    s.start()
-                    _running.value = true
-                } catch (e: Exception) {
-                    // Port taken (another bridge running?) or bind refused.
-                    Log.w(TAG, "bridge failed to start: ${e.message}")
-                    _running.value = false
-                    stopSelf()
+                // Each listener on its own: a port taken by another bridge must not stop the other one.
+                val started = servers.count { server ->
+                    try {
+                        server.start()
+                        true
+                    } catch (e: Exception) {
+                        Log.w(TAG, "bridge listener failed to start: ${e.message}")
+                        false
+                    }
                 }
+                _running.value = started > 0
+                if (started == 0) stopSelf()
             }
         }
         return START_STICKY
@@ -94,8 +115,11 @@ class BridgeService : Service() {
 
     override fun onDestroy() {
         serviceScope.cancel()
-        server?.close()
-        server = null
+        servers.forEach { it.close() }
+        servers = emptyList()
+        routes?.close()
+        routes = null
+        cancelConsentNotification()
         _running.value = false
         super.onDestroy()
     }
@@ -117,6 +141,67 @@ class BridgeService : Service() {
                 }
             }
         }
+    }
+
+    /** Busy light and activity list for browser signatures (the Apple `onSignResult`). */
+    private fun observer(container: AppContainer) = object : BridgeObserver {
+        override fun signStarted(origin: String?) = container.beginBusy()
+
+        override fun signFinished(origin: String?, format: String, error: Throwable?) {
+            container.endBusy()
+            if (error is CardError.Cancelled) return
+            val site = origin?.substringAfter("://") ?: getString(R.string.bridge_toggle)
+            if (error == null) {
+                container.activity.browser(site, ok = true, getString(R.string.activity_signed, format))
+            } else {
+                container.activity.browser(site, ok = false, getString(R.string.activity_failed, format, errorText(this@BridgeService, error)))
+            }
+        }
+    }
+
+    /**
+     * The PIN sheet lives in the activity, but Chrome is in front: a heads-up notification (full-screen intent where
+     * allowed) opens it. An unanswered request is cancelled after [CONSENT_TIMEOUT_MS] so the card is never held forever.
+     */
+    private fun consentWithNotification(container: AppContainer) = Consent { request ->
+        if (!container.inForeground) postConsentNotification(request)
+        try {
+            container.consentBroker.obtain(request, CONSENT_TIMEOUT_MS)
+        } finally {
+            cancelConsentNotification()
+        }
+    }
+
+    private fun postConsentNotification(request: ConsentRequest) {
+        val canPost = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+            checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        if (!canPost) return
+        val nm = getSystemService(NotificationManager::class.java)
+        nm.createNotificationChannel(
+            NotificationChannel(CONSENT_CHANNEL_ID, getString(R.string.consent_channel_name), NotificationManager.IMPORTANCE_HIGH),
+        )
+        val open = PendingIntent.getActivity(
+            this, 2,
+            Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
+        val site = request.requester?.substringAfter("://") ?: getString(R.string.consent_you)
+        val builder = NotificationCompat.Builder(this, CONSENT_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_stat_moldsign)
+            .setContentTitle(getString(R.string.consent_title, site))
+            .setContentText(getString(R.string.consent_notification_text, request.documentNames.joinToString()))
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .setTimeoutAfter(CONSENT_TIMEOUT_MS)
+            .setContentIntent(open)
+        val fullScreenAllowed = Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE || nm.canUseFullScreenIntent()
+        if (fullScreenAllowed) builder.setFullScreenIntent(open, true)
+        nm.notify(CONSENT_NOTIFICATION_ID, builder.build())
+    }
+
+    private fun cancelConsentNotification() {
+        getSystemService(NotificationManager::class.java).cancel(CONSENT_NOTIFICATION_ID)
     }
 
     private fun buildNotification(s: AppStatus): Notification {
@@ -146,6 +231,9 @@ class BridgeService : Service() {
         private const val TAG = "MoldSignBridge"
         private const val CHANNEL_ID = "bridge"
         private const val NOTIFICATION_ID = 18480
+        private const val CONSENT_CHANNEL_ID = "bridge_consent"
+        private const val CONSENT_NOTIFICATION_ID = 18481
+        private const val CONSENT_TIMEOUT_MS = 2 * 60_000L
         const val ACTION_STOP = "md.moldsign.app.bridge.STOP"
 
         private val _running = MutableStateFlow(false)

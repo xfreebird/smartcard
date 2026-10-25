@@ -44,6 +44,8 @@ data class CertificateSummary(
     val surname: String? = null,
     /** Subject `GN` (2.5.4.42), when the certificate has one. */
     val givenNames: String? = null,
+    /** The X.509 DER this summary was parsed from (the browser bridge lists it as `certificateBase64`). */
+    val der: ByteArray? = null,
 ) {
     /**
      * Surname and given name(s) for the ID-card face (docs/10 §0.2b): the subject's SN / GN when present,
@@ -79,6 +81,7 @@ data class CertificateSummary(
                 sha1Hex = Sha.sha1(der).toHex(),
                 surname = named?.let { rdnValue(it, "SURNAME") },
                 givenNames = named?.let { rdnValue(it, "GIVENNAME") },
+                der = der,
             )
         }
 
@@ -147,8 +150,37 @@ data class ValidationReport(
     val integrityOk: Boolean,
     val signatureOk: Boolean,
     val chainOk: Boolean?,
+    /** Technical notes for the "Detalii tehnice" disclosure (English, not localized). */
     val details: List<String> = emptyList(),
+    /** Names of the signed documents a detached XAdES refers to and that were not supplied (integrity cannot be checked). */
+    val missingDocuments: List<String> = emptyList(),
 )
+
+/** docs/10 VerdictBadge: what the user is told about a verified file. */
+enum class Verdict {
+    /** Every signature: content unchanged, signature correct, certificate chains to MDQSign / mdtrustca. */
+    Valid,
+
+    /** A signature is wrong or the content changed after signing. */
+    Invalid,
+
+    /** Nothing is wrong, but it cannot be confirmed: the chain is not the MoldSign trust chain, or a detached XAdES lacks its document. */
+    Unconfirmed,
+
+    /** No signature this app can read. */
+    NoSignature,
+    ;
+
+    companion object {
+        fun of(reports: List<ValidationReport>): Verdict = when {
+            reports.isEmpty() -> NoSignature
+            // a document that was not supplied is not evidence of a change: only a supplied-but-different one is
+            reports.any { !it.signatureOk || (!it.integrityOk && it.missingDocuments.isEmpty()) } -> Invalid
+            reports.any { it.missingDocuments.isNotEmpty() || it.chainOk != true } -> Unconfirmed
+            else -> Valid
+        }
+    }
+}
 
 /** A named input document. */
 class Document(val name: String, val bytes: ByteArray)

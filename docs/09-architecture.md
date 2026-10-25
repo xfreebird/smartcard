@@ -90,8 +90,9 @@ Platform notes:
   app needs the `com.apple.security.smartcard` entitlement, or `default` is nil. On iOS it is always
   available; USB CCID readers work via USB-C and the Lightning camera adapters (IOS-01).
 * **Android USB CCID:** claim the CCID interface (class `0x0B`), bulk OUT/IN + interrupt IN.
-  `PC_to_RDR_IccPowerOn` (0x62) → ATR; `PC_to_RDR_XfrBlock` (0x6F) per APDU (short APDUs,
-  T=1 handled by the reader at APDU level for the miniLector); `RDR_to_PC_NotifySlotChange`
+  `PC_to_RDR_IccPowerOn` (0x62) → ATR; `PC_to_RDR_XfrBlock` (0x6F) per APDU at short/extended-APDU level, or per
+  T=1 block at TPDU level (the miniLector POCKET EVO: `PC_to_RDR_SetParameters` 0x61 first, then host-side T=1
+  framing, chaining and WTX, see `T1.kt`); `RDR_to_PC_NotifySlotChange`
   (0x50) on the interrupt endpoint for card insert/remove. Sequence numbers wrap at 255.
 * **NFC (research R-03):** iOS 26 `TKSmartCardSlotManager.createNFCSlot(message:)` with
   `com.apple.developer.nfc.readersession.iso7816.select-identifiers` = the IAS AID +

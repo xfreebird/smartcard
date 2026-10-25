@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.edit
 import androidx.core.net.toUri
+import android.provider.MediaStore
 import android.provider.OpenableColumns
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,6 +41,11 @@ class ActivityLog(context: Context, private val scope: CoroutineScope) {
         ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Document, name, subtitle, ok, System.currentTimeMillis(), uri.toString()),
     )
 
+    /** A signing request from a website: no file, the entry stays in the list. */
+    fun browser(site: String, ok: Boolean, subtitle: String) = add(
+        ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Browser, site, subtitle, ok, System.currentTimeMillis()),
+    )
+
     /** "Golește lista" (after the user confirmed). */
     fun clear() {
         _entries.value = emptyList()
@@ -70,7 +76,9 @@ class ActivityLog(context: Context, private val scope: CoroutineScope) {
             "file" -> uri.path?.let { File(it).isFile } == true
             "content" -> {
                 val resolver = appContext.contentResolver
-                val permitted = resolver.persistedUriPermissions.any { it.uri == uri && it.isReadPermission }
+                // a file this app saved to MediaStore belongs to it: no persisted permission exists or is needed
+                val permitted = uri.authority == MediaStore.AUTHORITY ||
+                    resolver.persistedUriPermissions.any { it.uri == uri && it.isReadPermission }
                 permitted && runCatching {
                     resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { it.moveToFirst() } == true
                 }.getOrDefault(false)

@@ -30,6 +30,10 @@ tasks.processResources {
     from(rootProject.file("../spec/bridge/allowed-origins.properties")) {
         into("md/moldsign/core")
     }
+    // The vendor localhost.cts.md TLS identity for the bridge's HTTPS listener (BridgeTls), shared with the Apple apps.
+    from(rootProject.file("../swift/MoldSignKit/Resources/localhost.p12")) {
+        into("md/moldsign/core")
+    }
 }
 
 tasks.test {

@@ -67,4 +67,32 @@ internal object TestCertificates {
             "tA8gVixqjDljVLkbWGqTuSM=",
         ).joinToString(""),
     )
+
+    /** Self-signed X.509 v3 around [keys] (see [issued]). */
+    fun selfSigned(keys: java.security.KeyPair, commonName: String = "Test Signer"): ByteArray =
+        issued(keys, commonName, keys, commonName)
+
+    /**
+     * X.509 v3 for [subjectKeys] with subject `C=MD, CN=<subjectName>`, signed by [issuerKeys] as `C=MD, CN=<issuerName>`:
+     * just enough DER for the signers and the validator (UTF-8 names, so diacritics exercise the vendor's `\XX` escaping).
+     */
+    fun issued(subjectKeys: java.security.KeyPair, subjectName: String, issuerKeys: java.security.KeyPair, issuerName: String): ByteArray {
+        fun name(cn: String) = Der.seq(
+            Der.set(Der.seq(Der.oid("550406".decodeHex()), Der.tlv(0x13, "MD".toByteArray()))),
+            Der.set(Der.seq(Der.oid("550403".decodeHex()), Der.tlv(0x0C, cn.toByteArray(Charsets.UTF_8)))),
+        )
+        val algorithm = Der.seq(Der.oid("2A864886F70D01010B".decodeHex()), Der.NULL)
+        val validity = Der.seq(Der.tlv(0x17, "250101000000Z".toByteArray()), Der.tlv(0x17, "350101000000Z".toByteArray()))
+        val tbs = Der.seq(
+            Der.tlv(0xA0, Der.integer(2)),
+            Der.tlv(0x02, byteArrayOf(0x01, 0x23, 0x45)),
+            algorithm, name(issuerName), validity, name(subjectName), subjectKeys.public.encoded,
+        )
+        val signature = java.security.Signature.getInstance("SHA256withRSA").run {
+            initSign(issuerKeys.private)
+            update(tbs)
+            sign()
+        }
+        return Der.seq(tbs, algorithm, Der.tlv(0x03, byteArrayOf(0) + signature))
+    }
 }

@@ -1,10 +1,8 @@
 package md.moldsign.core
 
-import java.io.File
-
 /**
- * Minimal JSON reader for the vector files (objects, arrays, strings, numbers, booleans, null).
- * Avoids a test dependency: org.json is Android-only and nothing else is needed.
+ * Minimal JSON reader / writer helpers (objects, arrays, strings, numbers, booleans, null). The core is pure JVM,
+ * where `org.json` does not exist, and the bridge and the test vectors need nothing more.
  */
 internal class MiniJson private constructor(private val s: String) {
     private var i = 0
@@ -15,6 +13,23 @@ internal class MiniJson private constructor(private val s: String) {
             ws()
             check(i == s.length) { "Trailing data at $i" }
             v
+        }
+
+        /** [text] as a JSON string literal (quotes included); non-ASCII stays as is, control characters are escaped. */
+        fun quote(text: String): String {
+            val sb = StringBuilder(text.length + 2).append('"')
+            for (c in text) {
+                when {
+                    c == '"' -> sb.append("\\\"")
+                    c == '\\' -> sb.append("\\\\")
+                    c == '\n' -> sb.append("\\n")
+                    c == '\r' -> sb.append("\\r")
+                    c == '\t' -> sb.append("\\t")
+                    c < ' ' -> sb.append("\\u%04x".format(c.code))
+                    else -> sb.append(c)
+                }
+            }
+            return sb.append('"').toString()
         }
     }
 
@@ -50,7 +65,7 @@ internal class MiniJson private constructor(private val s: String) {
     }
 
     private fun str(): String {
-        check(s[i] == '"')
+        check(i < s.length && s[i] == '"') { "Expected string at $i" }
         i++
         val sb = StringBuilder()
         while (true) {
@@ -59,6 +74,7 @@ internal class MiniJson private constructor(private val s: String) {
             when (c) {
                 '"' -> return sb.toString()
                 '\\' -> {
+                    check(i < s.length) { "Unterminated escape" }
                     when (val e = s[i++]) {
                         '"', '\\', '/' -> sb.append(e)
                         'b' -> sb.append('\b')
@@ -66,7 +82,11 @@ internal class MiniJson private constructor(private val s: String) {
                         'n' -> sb.append('\n')
                         'r' -> sb.append('\r')
                         't' -> sb.append('\t')
-                        'u' -> { sb.append(s.substring(i, i + 4).toInt(16).toChar()); i += 4 }
+                        'u' -> {
+                            check(i + 4 <= s.length) { "Bad \\u escape" }
+                            sb.append(s.substring(i, i + 4).toInt(16).toChar())
+                            i += 4
+                        }
                         else -> error("Bad escape \\$e")
                     }
                 }
@@ -79,10 +99,12 @@ internal class MiniJson private constructor(private val s: String) {
         i++
         val out = mutableListOf<Any?>()
         ws()
+        check(i < s.length) { "Unterminated array" }
         if (s[i] == ']') { i++; return out }
         while (true) {
             out += value()
             ws()
+            check(i < s.length) { "Unterminated array" }
             when (s[i++]) {
                 ',' -> continue
                 ']' -> return out
@@ -95,14 +117,16 @@ internal class MiniJson private constructor(private val s: String) {
         i++
         val out = LinkedHashMap<String, Any?>()
         ws()
+        check(i < s.length) { "Unterminated object" }
         if (s[i] == '}') { i++; return out }
         while (true) {
             ws()
             val k = str()
             ws()
-            check(s[i++] == ':') { "Expected : at ${i - 1}" }
+            check(i < s.length && s[i++] == ':') { "Expected : at ${i - 1}" }
             out[k] = value()
             ws()
+            check(i < s.length) { "Unterminated object" }
             when (s[i++]) {
                 ',' -> continue
                 '}' -> return out
@@ -110,36 +134,4 @@ internal class MiniJson private constructor(private val s: String) {
             }
         }
     }
-}
-
-/** Typed access helpers over parsed JSON. */
-@Suppress("UNCHECKED_CAST")
-internal fun Any?.obj(key: String): Map<String, Any?> = (this as Map<String, Any?>)[key] as Map<String, Any?>
-
-@Suppress("UNCHECKED_CAST")
-internal fun Any?.list(key: String): List<Any?> = (this as Map<String, Any?>)[key] as List<Any?>
-
-@Suppress("UNCHECKED_CAST")
-internal fun Any?.str(key: String): String = (this as Map<String, Any?>)[key] as String
-
-internal fun Any?.hex(key: String): ByteArray = str(key).decodeHex()
-
-/** Locates files under the repository's `spec/` folder. */
-internal object SpecFiles {
-    val repoRoot: File by lazy {
-        val candidates = sequence {
-            System.getProperty("moldsign.repoRoot")?.let { yield(File(it)) }
-            var dir: File? = File(System.getProperty("user.dir")).absoluteFile
-            while (dir != null) {
-                yield(dir)
-                dir = dir.parentFile
-            }
-        }
-        candidates.firstOrNull { File(it, "spec/vectors").isDirectory }
-            ?: error("Cannot find spec/vectors walking up from ${System.getProperty("user.dir")}")
-    }
-
-    fun read(relative: String): String = File(repoRoot, relative).readText(Charsets.UTF_8)
-
-    val cardCrypto: Any? by lazy { MiniJson.parse(read("spec/vectors/card-crypto.json")) }
 }

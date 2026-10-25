@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <!-- Ongoing bridge notification + consent heads-up (AND-05) -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
@@ -45,6 +46,15 @@
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
+            <!-- Share target "Semnează" (AND-07): PDFs and any other file the user shares to us. -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/*" />
+                <data android:mimeType="image/*" />
+                <data android:mimeType="text/*" />
+            </intent-filter>
         </activity>
 
         <service

@@ -49,6 +49,7 @@ interface SigningService {
         requester: String? = null,
         reader: String? = null,
         expectedCertificateSha1: String? = null,
+        digest: XadesDigest = XadesDigest.SHA256,
     ): SignResult
 
     /**
@@ -86,10 +87,10 @@ interface SigningService {
 class CardSigningService(
     private val transports: TransportProvider,
     override val readerState: StateFlow<ReaderState>,
-    private val pades: PadesSigner = UnportedPadesSigner(),
-    private val xades: XadesSigner = UnportedXadesSigner(),
-    private val validator: Validator = UnportedValidator(),
-    /** Issuer chain (MDQSign CA, mdtrustca) as DER. TODO(AND-01): port ChainCerts.swift. */
+    private val pades: PadesSigner = PadesCmsSigner(MdTrustServices()),
+    private val xades: XadesSigner = XadesDocumentSigner(MdTrustServices()),
+    private val validator: Validator = OfflineValidator(),
+    /** Issuer chain (MDQSign CA, mdtrustca) as DER: [ChainCerts.chain]. */
     private val chainDer: List<ByteArray> = emptyList(),
     private val log: (String) -> Unit = {},
 ) : SigningService {
@@ -126,12 +127,13 @@ class CardSigningService(
         requester: String?,
         reader: String?,
         expectedCertificateSha1: String?,
+        digest: XadesDigest,
     ): SignResult = withCard(reader) { card ->
         val certDer = readCertificate(card, expectedCertificateSha1)
         val summary = CertificateSummary.parse(certDer)
         val format = "XAdES-${level.name}"
         val request = ConsentRequest(requester, files.map { it.name }, format, summary)
-        val signed = xades.sign(files, level, packaging, certDer, chainDer, cardSigner(card, request, consent))
+        val signed = xades.sign(files, level, packaging, certDer, chainDer, cardSigner(card, request, consent), digest)
         step(SigningStep.Done)
         SignResult(signed, summary, format)
     }

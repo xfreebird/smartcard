@@ -29,6 +29,13 @@
     <string name="action_countersign">Contrasemnează</string>
     <string name="action_cancel">Anulează</string>
     <string name="action_open_portal">Deschide msign.gov.md</string>
+    <string name="action_open">Deschide</string>
+    <string name="action_share">Distribuie</string>
+    <string name="action_save_as">Salvează ca…</string>
+    <string name="action_more">Mai multe acțiuni</string>
+    <string name="share_unreadable">Fișierul primit nu a putut fi citit.</string>
+    <string name="copy_saved">Copia a fost salvată.</string>
+    <string name="copy_failed">Copia nu a putut fi salvată.</string>
 
     <!-- PIN sheet -->
     <string name="pin_title">PIN QSCD</string>
@@ -46,22 +53,21 @@
     <string name="consent_title">%1$s solicită o semnătură</string>
     <string name="consent_trust">Ai încredere în site 10 minute</string>
     <string name="consent_you">Tu</string>
+    <string name="consent_channel_name">Cereri de semnare din browser</string>
+    <string name="consent_notification_text">%1$s · atinge pentru a introduce PIN-ul</string>
     <string name="action_refuse">Refuză</string>
 
     <!-- Verify -->
-    <string name="verdict_valid">Semnătură validă</string>
-    <string name="verdict_invalid">Semnătură invalidă</string>
-    <string name="verdict_unknown">Nu poate fi confirmată</string>
     <string name="verify_hint">Alege un PDF semnat sau o semnătură XAdES (.xml).</string>
 
     <!-- Browser bridge -->
     <string name="bridge_toggle">Conexiune browser</string>
     <string name="bridge_on">Conexiune browser activă</string>
     <string name="bridge_off">Conexiune browser oprită</string>
-    <string name="bridge_description">Permite site-urilor guvernamentale (msign.gov.md) din Chrome să semneze cu cardul tău, prin 127.0.0.1:18480.</string>
+    <string name="bridge_description">Permite site-urilor guvernamentale (msign.gov.md) din Chrome să semneze cu cardul tău, prin localhost.cts.md:18443.</string>
     <string name="bridge_channel_name">Conexiune browser</string>
     <string name="bridge_notification_title">eSemnBun · conexiune browser activă</string>
-    <string name="bridge_notification_text">Ascultă pe 127.0.0.1:18480</string>
+    <string name="bridge_notification_text">Ascultă pe localhost.cts.md:18443</string>
     <string name="bridge_stop">Oprește</string>
 
     <!-- Card screen -->
@@ -180,8 +186,31 @@
     <string name="format_output_xades">Semnătură detașată · %1$s</string>
     <string name="nav_activity">Activitate</string>
     <string name="activity_signed">Semnat · %1$s</string>
+    <string name="signed_saved">Documentul semnat a fost salvat în Descărcări/eSemnBun.</string>
+    <string name="signed_saved_app">Documentul semnat a fost salvat în folderul Documente al aplicației.</string>
     <string name="activity_failed">Eșuat · %1$s · %2$s</string>
     <string name="activity_verified">Verificat</string>
+    <string name="verdict_valid">Semnătură validă</string>
+    <string name="verdict_valid_body">Documentul nu a fost modificat, iar certificatul face parte din lanțul de încredere MDQSign.</string>
+    <string name="verdict_invalid">Semnătură invalidă</string>
+    <string name="verdict_invalid_body">Documentul a fost modificat după semnare sau semnătura nu este corectă.</string>
+    <string name="verdict_unconfirmed">Nu poate fi confirmată</string>
+    <string name="verdict_unconfirmed_chain">Semnătura este corectă, dar certificatul nu face parte din lanțul de încredere MDQSign.</string>
+    <string name="verdict_unconfirmed_documents">Alege documentul semnat ca să verifici și conținutul.</string>
+    <string name="verdict_none">Nicio semnătură</string>
+    <string name="verdict_none_body">Fișierul nu conține o semnătură pe care aplicația o poate citi.</string>
+    <string name="sig_integrity">Integritate</string>
+    <string name="sig_signature">Semnătură</string>
+    <string name="sig_chain">Lanț de încredere</string>
+    <string name="sig_signed_at">Semnat la %1$s</string>
+    <string name="sig_timestamp">Marcă de timp: %1$s</string>
+    <string name="sig_unknown_signer">Semnatar necunoscut</string>
+    <string name="sig_details">Detalii tehnice</string>
+    <string name="verify_add_document">Alege documentul semnat</string>
+    <string name="verify_needs_document">Semnătura se referă la: %1$s</string>
+    <string name="activity_verified_invalid">Verificat · invalid</string>
+    <string name="activity_verified_unconfirmed">Verificat · neconfirmat</string>
+    <string name="activity_verified_none">Verificat · fără semnătură</string>
     <string name="activity_verify_failed">Verificare eșuată · %1$s</string>
     <string name="activity_recent">Recente</string>
     <string name="activity_clear">Golește lista</string>

@@ -30,6 +30,7 @@ class SignFormatAndActivityTest {
             certificateDer: ByteArray,
             chainDer: List<ByteArray>,
             signer: RawSigner,
+            digest: XadesDigest,
         ): ByteArray {
             calls += "XAdES-${level.name}/$packaging/${documents.joinToString { "${it.name}:${it.bytes.size}" }}"
             return "<xades/>".toByteArray()

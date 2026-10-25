@@ -16,8 +16,12 @@ interface PadesSigner {
     fun sign(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner): ByteArray
 }
 
-/** XAdES-BES/T/C, detached or enveloping, middleware-faithful (docs/03). Port target: Swift `XAdES.swift`. */
+/** XAdES-BES/T/C, detached or enveloping, middleware-faithful (docs/03). Port of Swift `XAdES.swift`: [XadesDocumentSigner]. */
 interface XadesSigner {
+    /**
+     * [digest] is what the references, SignedProperties, certificate digest and signature method use. The portal asks
+     * SHA-1 for Xml/Text contents and the vendor honours it; the card then signs a SHA-1 DigestInfo.
+     */
     fun sign(
         documents: List<Document>,
         level: XadesLevel,
@@ -25,6 +29,7 @@ interface XadesSigner {
         certificateDer: ByteArray,
         chainDer: List<ByteArray>,
         signer: RawSigner,
+        digest: XadesDigest = XadesDigest.SHA256,
     ): ByteArray
 }
 
@@ -72,41 +77,9 @@ interface TrustServices {
     fun ocsp(certificateDer: ByteArray, issuerDer: ByteArray): ByteArray
 }
 
-/** Offline validator (ByteRange / CMS / RSA / chain, XAdES c14n), docs/05. */
+/** Offline validator (ByteRange / CMS / RSA / chain, XAdES c14n), docs/05: [OfflineValidator]. */
 interface Validator {
     fun verifyPdf(pdf: ByteArray): List<ValidationReport>
 
     fun verifyXades(signatureXml: ByteArray, detachedDocuments: List<Document>): List<ValidationReport>
-}
-
-// TODO(AND-01): port PAdESSigner (Signing.swift + TimestampRequest.swift + ChainCerts.swift).
-class UnportedPadesSigner : PadesSigner {
-    override fun sign(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner): ByteArray =
-        TODO("AND-01: PAdES signer not ported yet")
-}
-
-// TODO(AND-01): port XAdES BES/T/C (XAdES.swift), incl. vendor quirks (full-path ObjectReference, double OCSPRef).
-class UnportedXadesSigner : XadesSigner {
-    override fun sign(
-        documents: List<Document>,
-        level: XadesLevel,
-        packaging: XadesPackaging,
-        certificateDer: ByteArray,
-        chainDer: List<ByteArray>,
-        signer: RawSigner,
-    ): ByteArray = TODO("AND-01: XAdES signer not ported yet")
-}
-
-// TODO(AND-01): TSA (RFC 3161 request DER), CRL fetch, native OCSP request builder (no `openssl` process).
-class UnportedTrustServices : TrustServices {
-    override fun timestamp(messageImprint: ByteArray): ByteArray = TODO("AND-01: TSA client not ported yet")
-    override fun fetchCrl(url: String): ByteArray = TODO("AND-01: CRL client not ported yet")
-    override fun ocsp(certificateDer: ByteArray, issuerDer: ByteArray): ByteArray = TODO("AND-01: OCSP client not ported yet")
-}
-
-// TODO(AND-01): port Validation.swift (ByteRange/CMS/RSA, manual chain, XAdES c14n checks).
-class UnportedValidator : Validator {
-    override fun verifyPdf(pdf: ByteArray): List<ValidationReport> = TODO("AND-01: PDF validator not ported yet")
-    override fun verifyXades(signatureXml: ByteArray, detachedDocuments: List<Document>): List<ValidationReport> =
-        TODO("AND-01: XAdES validator not ported yet")
 }

@@ -20,6 +20,13 @@
     <string name="action_countersign">Counter-sign</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_open_portal">Open msign.gov.md</string>
+    <string name="action_open">Open</string>
+    <string name="action_share">Share</string>
+    <string name="action_save_as">Save as…</string>
+    <string name="action_more">More actions</string>
+    <string name="share_unreadable">The shared file could not be read.</string>
+    <string name="copy_saved">The copy was saved.</string>
+    <string name="copy_failed">The copy could not be saved.</string>
 
     <string name="pin_title">QSCD PIN</string>
     <string name="pin_for">for %1$s</string>
@@ -35,20 +42,19 @@
     <string name="consent_title">%1$s requests a signature</string>
     <string name="consent_trust">Trust this site for 10 minutes</string>
     <string name="consent_you">You</string>
+    <string name="consent_channel_name">Signing requests from the browser</string>
+    <string name="consent_notification_text">%1$s · tap to enter your PIN</string>
     <string name="action_refuse">Refuse</string>
 
-    <string name="verdict_valid">Valid signature</string>
-    <string name="verdict_invalid">Invalid signature</string>
-    <string name="verdict_unknown">Cannot be confirmed</string>
     <string name="verify_hint">Choose a signed PDF or an XAdES signature (.xml).</string>
 
     <string name="bridge_toggle">Browser connection</string>
     <string name="bridge_on">Browser connection on</string>
     <string name="bridge_off">Browser connection off</string>
-    <string name="bridge_description">Lets government sites (msign.gov.md) in Chrome sign with your card through 127.0.0.1:18480.</string>
+    <string name="bridge_description">Lets government sites (msign.gov.md) in Chrome sign with your card through localhost.cts.md:18443.</string>
     <string name="bridge_channel_name">Browser connection</string>
     <string name="bridge_notification_title">eSemnBun · browser connection on</string>
-    <string name="bridge_notification_text">Listening on 127.0.0.1:18480</string>
+    <string name="bridge_notification_text">Listening on localhost.cts.md:18443</string>
     <string name="bridge_stop">Stop</string>
 
     <string name="card_holder">Holder</string>
@@ -151,8 +157,31 @@
     <string name="format_output_xades">Detached signature · %1$s</string>
     <string name="nav_activity">Activity</string>
     <string name="activity_signed">Signed · %1$s</string>
+    <string name="signed_saved">The signed document was saved to Downloads/eSemnBun.</string>
+    <string name="signed_saved_app">The signed document was saved to the app\'s Documents folder.</string>
     <string name="activity_failed">Failed · %1$s · %2$s</string>
     <string name="activity_verified">Verified</string>
+    <string name="verdict_valid">Valid signature</string>
+    <string name="verdict_valid_body">The document is unchanged and the certificate is part of the MDQSign trust chain.</string>
+    <string name="verdict_invalid">Invalid signature</string>
+    <string name="verdict_invalid_body">The document was changed after signing, or the signature is not correct.</string>
+    <string name="verdict_unconfirmed">Cannot be confirmed</string>
+    <string name="verdict_unconfirmed_chain">The signature is correct, but the certificate is not part of the MDQSign trust chain.</string>
+    <string name="verdict_unconfirmed_documents">Choose the signed document to check its content too.</string>
+    <string name="verdict_none">No signature</string>
+    <string name="verdict_none_body">The file has no signature this app can read.</string>
+    <string name="sig_integrity">Integrity</string>
+    <string name="sig_signature">Signature</string>
+    <string name="sig_chain">Trust chain</string>
+    <string name="sig_signed_at">Signed %1$s</string>
+    <string name="sig_timestamp">Time-stamp: %1$s</string>
+    <string name="sig_unknown_signer">Unknown signer</string>
+    <string name="sig_details">Technical details</string>
+    <string name="verify_add_document">Choose the signed document</string>
+    <string name="verify_needs_document">The signature refers to: %1$s</string>
+    <string name="activity_verified_invalid">Verified · invalid</string>
+    <string name="activity_verified_unconfirmed">Verified · not confirmed</string>
+    <string name="activity_verified_none">Verified · no signature</string>
     <string name="activity_verify_failed">Verification failed · %1$s</string>
     <string name="activity_recent">Recent</string>
     <string name="activity_clear">Clear the list</string>

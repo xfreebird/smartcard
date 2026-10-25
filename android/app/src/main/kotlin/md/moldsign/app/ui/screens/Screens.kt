@@ -2,13 +2,18 @@ package md.moldsign.app.ui.screens
 
 import android.Manifest
 import android.content.Intent
+import android.net.Uri
+import androidx.annotation.StringRes
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,19 +31,27 @@ import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.DeleteSweep
 import androidx.compose.material.icons.outlined.ErrorOutline
+import androidx.compose.material.icons.outlined.ExpandLess
+import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.VerifiedUser
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -53,6 +66,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -62,6 +77,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import md.moldsign.app.MainViewModel
+import md.moldsign.app.VerifyOutcome
 import md.moldsign.app.R
 import md.moldsign.app.errorText
 import md.moldsign.app.statusLabel
@@ -76,6 +92,8 @@ import md.moldsign.app.ui.theme.LocalStatusColors
 import md.moldsign.app.ui.theme.Tokens
 import md.moldsign.core.ActivityEntry
 import md.moldsign.core.SigningStep
+import md.moldsign.core.ValidationReport
+import md.moldsign.core.Verdict
 import md.moldsign.core.WalletCard
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -172,8 +190,9 @@ private fun StepCard(step: SigningStep) {
 @Composable
 fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
     val doc by vm.verifyDoc.collectAsStateWithLifecycle()
-    val working by vm.working.collectAsStateWithLifecycle()
+    val outcome by vm.verifyOutcome.collectAsStateWithLifecycle()
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { vm.pickForVerify(it) }
+    val attach = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addVerifyDocuments(it) }
 
     ScreenColumn(padding) {
         Column(Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
@@ -189,15 +208,111 @@ fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
                     shape = RoundedCornerShape(Tokens.RadiusCard),
                 ) { DocumentRow(current, format = null, onFormat = null, onRemove = vm::clearVerifyDoc) }
-                Button(onClick = vm::verify, enabled = !working, modifier = Modifier.fillMaxWidth()) {
-                    Icon(Icons.Outlined.VerifiedUser, contentDescription = null, modifier = Modifier.size(18.dp))
-                    Spacer(Modifier.width(Tokens.S2))
-                    Text(stringResource(R.string.action_verify))
+                outcome?.let { result ->
+                    VerdictBadge(result)
+                    if (result.missingDocuments.isNotEmpty()) {
+                        MissingDocuments(result.missingDocuments) { attach.launch(arrayOf("*/*")) }
+                    }
+                    result.reports.forEach { SignatureCard(it) }
                 }
             }
-            if (working) LinearProgressIndicator(Modifier.fillMaxWidth())
         }
     }
+}
+
+/** docs/10 VerdictBadge: a large icon and the verdict in words (color is never the only signal). */
+@Composable
+private fun VerdictBadge(outcome: VerifyOutcome) {
+    val colors = LocalStatusColors.current
+    val (icon, tint, title, body) = when (outcome.verdict) {
+        Verdict.Valid -> Verdict4(Icons.Outlined.CheckCircle, colors.success, R.string.verdict_valid, R.string.verdict_valid_body)
+        Verdict.Invalid -> Verdict4(Icons.Outlined.ErrorOutline, colors.danger, R.string.verdict_invalid, R.string.verdict_invalid_body)
+        Verdict.Unconfirmed -> Verdict4(
+            Icons.Outlined.WarningAmber, colors.warning, R.string.verdict_unconfirmed,
+            if (outcome.missingDocuments.isNotEmpty()) R.string.verdict_unconfirmed_documents else R.string.verdict_unconfirmed_chain,
+        )
+        Verdict.NoSignature -> Verdict4(Icons.Outlined.Info, MaterialTheme.colorScheme.onSurfaceVariant, R.string.verdict_none, R.string.verdict_none_body)
+    }
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        shape = RoundedCornerShape(Tokens.RadiusCard),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Row(Modifier.padding(Tokens.S4), horizontalArrangement = Arrangement.spacedBy(Tokens.S3), verticalAlignment = Alignment.CenterVertically) {
+            Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(40.dp))
+            Column {
+                Text(stringResource(title), style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(body), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
+    }
+}
+
+private data class Verdict4(val icon: ImageVector, val tint: Color, @StringRes val title: Int, @StringRes val body: Int)
+
+/** A detached XAdES signature names the file it signed: the user picks it (the document is matched by file name). */
+@Composable
+private fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        shape = RoundedCornerShape(Tokens.RadiusCard),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(Tokens.S4), verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
+            Text(stringResource(R.string.verify_needs_document, names.joinToString()), style = MaterialTheme.typography.bodyMedium)
+            FilledTonalButton(onClick = onPick) { Text(stringResource(R.string.verify_add_document)) }
+        }
+    }
+}
+
+/** docs/10 SignatureCard: signer, times and level, the three check chips and a technical-details disclosure. */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun SignatureCard(report: ValidationReport) {
+    var details by remember { mutableStateOf(false) }
+    val dateTime = remember { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT) }
+    Card(
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        shape = RoundedCornerShape(Tokens.RadiusCard),
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Column(Modifier.padding(Tokens.S4), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
+            Text(report.signerName ?: stringResource(R.string.sig_unknown_signer), style = MaterialTheme.typography.titleMedium)
+            report.level?.let { Text(it, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            report.signingTime?.let { Text(stringResource(R.string.sig_signed_at, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
+            report.timestampTime?.let { Text(stringResource(R.string.sig_timestamp, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(Tokens.S2), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
+                CheckChip(R.string.sig_integrity, if (report.missingDocuments.isNotEmpty()) null else report.integrityOk)
+                CheckChip(R.string.sig_signature, report.signatureOk)
+                CheckChip(R.string.sig_chain, report.chainOk)
+            }
+            if (report.details.isNotEmpty()) {
+                TextButton(onClick = { details = !details }, contentPadding = PaddingValues(horizontal = 0.dp)) {
+                    Text(stringResource(R.string.sig_details))
+                    Icon(if (details) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, contentDescription = null)
+                }
+                if (details) {
+                    Text(report.details.joinToString("\n"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
+    }
+}
+
+/** [ok] `null` = could not be checked (unknown chain, missing document): a warning, not a failure. */
+@Composable
+private fun CheckChip(@StringRes label: Int, ok: Boolean?) {
+    val colors = LocalStatusColors.current
+    val (icon, tint) = when (ok) {
+        true -> Icons.Outlined.CheckCircle to colors.success
+        false -> Icons.Outlined.ErrorOutline to colors.danger
+        null -> Icons.Outlined.WarningAmber to colors.warning
+    }
+    AssistChip(
+        onClick = {},
+        label = { Text(stringResource(label)) },
+        leadingIcon = { Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(18.dp)) },
+    )
 }
 
 /**
@@ -208,6 +323,11 @@ fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
 fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
     val entries by vm.activity.collectAsStateWithLifecycle()
     var confirm by remember { mutableStateOf(false) }
+    // "Salvează ca…": the system save dialog, one launcher per file type so the picker proposes the right extension.
+    var saveSource by remember { mutableStateOf<Uri?>(null) }
+    val savePdf = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { vm.saveCopy(saveSource, it) }
+    val saveXml = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/xml")) { vm.saveCopy(saveSource, it) }
+    val saveAs: (String) -> Unit = { name -> if (name.endsWith(".xml", ignoreCase = true)) saveXml.launch(name) else savePdf.launch(name) }
     LifecycleResumeEffect(Unit) {
         vm.pruneActivity()
         onPauseOrDispose { }
@@ -244,7 +364,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
                 ) {
                     entries.forEachIndexed { i, e ->
                         if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
-                        ActivityRow(e)
+                        ActivityRow(e, onSaveAs = { source, name -> saveSource = source; saveAs(name) })
                     }
                 }
             }
@@ -267,17 +387,29 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
     }
 }
 
+private fun mimeOf(name: String) = if (name.endsWith(".xml", ignoreCase = true)) "application/xml" else "application/pdf"
+
 @Composable
-private fun ActivityRow(e: ActivityEntry) {
+private fun ActivityRow(e: ActivityEntry, onSaveAs: (source: Uri, name: String) -> Unit) {
     val context = LocalContext.current
     val colors = LocalStatusColors.current
-    val uri = e.documentUri?.toUri()
+    val uri = e.documentUri?.toUri()?.takeIf { it.scheme == "content" }
+    var menu by remember { mutableStateOf(false) }
     // content:// entries open in the default viewer (the persisted permission travels with the intent).
-    val open: (() -> Unit)? = uri?.takeIf { it.scheme == "content" }?.let { u ->
+    val open: (() -> Unit)? = uri?.let { u ->
         {
             runCatching {
                 context.startActivity(Intent(Intent.ACTION_VIEW, u).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
             }
+        }
+    }
+    val share: (() -> Unit)? = uri?.let { u ->
+        {
+            val send = Intent(Intent.ACTION_SEND)
+                .setType(mimeOf(e.title))
+                .putExtra(Intent.EXTRA_STREAM, u)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            runCatching { context.startActivity(Intent.createChooser(send, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
         }
     }
     ListItem(
@@ -290,7 +422,23 @@ private fun ActivityRow(e: ActivityEntry) {
         },
         headlineContent = { Text(e.title, maxLines = 1, overflow = TextOverflow.MiddleEllipsis) },
         supportingContent = { Text(e.subtitle, maxLines = 2, overflow = TextOverflow.Ellipsis) },
-        trailingContent = { Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall) },
+        trailingContent = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
+                if (uri != null && open != null && share != null) {
+                    Box {
+                        IconButton(onClick = { menu = true }) {
+                            Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more))
+                        }
+                        DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                            DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; open() })
+                            DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; share() })
+                            DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
+                        }
+                    }
+                }
+            }
+        },
         colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = if (open != null) Modifier.clickable(onClick = open) else Modifier,
     )
