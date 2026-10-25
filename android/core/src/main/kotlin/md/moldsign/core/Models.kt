@@ -1,0 +1,130 @@
+package md.moldsign.core
+
+import java.io.ByteArrayInputStream
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
+import java.util.Date
+import javax.security.auth.x500.X500Principal
+
+/** Reader/card state shown by the StatusCard (docs/09 §3.4, docs/10 §3). */
+sealed class ReaderState {
+    data object NoReader : ReaderState()
+
+    /** A USB reader is attached but the user has not granted access yet (AND-03). */
+    data class PermissionRequired(val reader: String) : ReaderState()
+
+    data class Empty(val reader: String) : ReaderState()
+
+    data class CardPresent(val reader: String, val holder: String? = null) : ReaderState()
+
+    data object Busy : ReaderState()
+
+    data class Error(val message: String) : ReaderState()
+}
+
+/** Progress of one operation (docs/09 §3.4). */
+enum class SigningStep { Idle, Connecting, Authenticating, ReadingCertificate, VerifyingPin, Signing, Timestamping, Revocation, Writing, Done }
+
+enum class XadesLevel { BES, T, C }
+
+enum class XadesPackaging { Detached, Enveloping }
+
+/** Public data about the card certificate; reading it needs mutual auth but no PIN. */
+data class CertificateSummary(
+    val commonName: String,
+    val subjectDn: String,
+    val issuerDn: String,
+    val issuerCommonName: String?,
+    val notBefore: Date,
+    val notAfter: Date,
+    val serialHex: String,
+    /** SHA-1 of the DER: the vendor `certificateId` and the PinVault key (docs/09 §3.5). */
+    val sha1Hex: String,
+) {
+    companion object {
+        fun parse(der: ByteArray): CertificateSummary {
+            val cert = CertificateFactory.getInstance("X.509").generateCertificate(ByteArrayInputStream(der)) as X509Certificate
+            val subject = cert.subjectX500Principal.getName(X500Principal.RFC2253)
+            val issuer = cert.issuerX500Principal.getName(X500Principal.RFC2253)
+            return CertificateSummary(
+                commonName = rdnValue(subject, "CN") ?: subject,
+                subjectDn = subject,
+                issuerDn = issuer,
+                issuerCommonName = rdnValue(issuer, "CN"),
+                notBefore = cert.notBefore,
+                notAfter = cert.notAfter,
+                serialHex = cert.serialNumber.toString(16).uppercase(),
+                sha1Hex = Sha.sha1(der).toHex(),
+            )
+        }
+
+        /** First value of attribute [type] in an RFC 2253 DN (handles `\,` escapes; no javax.naming on Android). */
+        internal fun rdnValue(dn: String, type: String): String? {
+            var i = 0
+            while (i < dn.length) {
+                val eq = dn.indexOf('=', i)
+                if (eq < 0) return null
+                val key = dn.substring(i, eq).trim()
+                val value = StringBuilder()
+                var j = eq + 1
+                while (j < dn.length && dn[j] != ',' && dn[j] != '+') {
+                    if (dn[j] == '\\' && j + 1 < dn.length) j++
+                    value.append(dn[j])
+                    j++
+                }
+                if (key.equals(type, ignoreCase = true)) return value.toString()
+                i = j + 1
+            }
+            return null
+        }
+    }
+}
+
+/** What the platform consent UI is asked to approve (docs/10 ConsentSheet / PIN sheet). */
+data class ConsentRequest(
+    /** `null` for the local user ("Tu"), else the requesting web origin. */
+    val requester: String?,
+    val documentNames: List<String>,
+    val format: String,
+    val certificate: CertificateSummary,
+    /** Remaining PIN attempts when known (after a wrong PIN). */
+    val attemptsLeft: Int? = null,
+)
+
+sealed class ConsentResult {
+    /** The PIN to present; the service wipes the array after VERIFY. */
+    class Pin(val pin: CharArray) : ConsentResult()
+
+    data object Cancelled : ConsentResult()
+}
+
+/**
+ * The single place where the platform shows UI (PIN sheet, biometric prompt for the stored PIN,
+ * bridge consent). Called on the signing thread; may block until the user answers.
+ */
+fun interface Consent {
+    fun obtain(request: ConsentRequest): ConsentResult
+}
+
+class SignResult(
+    val output: ByteArray,
+    val certificate: CertificateSummary,
+    val format: String,
+)
+
+class RawSignature(val signature: ByteArray, val certificateDer: ByteArray)
+
+/** One signature's verdict (docs/10 VerdictBadge / SignatureCard). */
+data class ValidationReport(
+    val signerName: String?,
+    val signingTime: Date?,
+    val timestampTime: Date?,
+    val level: String?,
+    val integrityOk: Boolean,
+    val signatureOk: Boolean,
+    val chainOk: Boolean?,
+    val details: List<String> = emptyList(),
+)
+
+/** A named input document. */
+class Document(val name: String, val bytes: ByteArray)

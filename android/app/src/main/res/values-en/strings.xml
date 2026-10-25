@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_sign">Sign</string>
+    <string name="nav_verify">Verify</string>
+    <string name="nav_browser">Browser</string>
+    <string name="nav_card">Card</string>
+
+    <string name="status_no_reader">Connect the reader</string>
+    <string name="status_empty">Insert the card</string>
+    <string name="status_ready">Card ready</string>
+    <string name="status_reading">Reading the card…</string>
+    <string name="status_busy">Working with the card…</string>
+    <string name="status_permission">Allow access to the reader</string>
+    <string name="status_error">Reader problem</string>
+    <string name="status_reader_line">%1$s · %2$s</string>
+    <string name="status_valid_until">Certificate valid until %1$s</string>
+
+    <string name="usb_permission_title">Allow access to the reader</string>
+    <string name="usb_permission_body">MoldSign needs access to the USB reader to read the card. Android will ask you to confirm.</string>
+    <string name="action_allow">Allow</string>
+
+    <string name="drop_title">Drop documents here</string>
+    <string name="drop_subtitle">or choose files</string>
+    <string name="action_choose_document">Choose document</string>
+    <string name="format_hint">PDF → PAdES · others → XAdES</string>
+    <string name="action_remove">Remove</string>
+    <string name="sign_empty_hint">Choose a document, then tap Sign.</string>
+
+    <string name="action_sign">Sign</string>
+    <string name="action_verify">Verify</string>
+    <string name="action_countersign">Counter-sign</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_read_certificate">Read certificate</string>
+    <string name="action_open_portal">Open msign.gov.md</string>
+
+    <string name="pin_title">QSCD PIN</string>
+    <string name="pin_for">for %1$s</string>
+    <string name="pin_remember">Remember PIN</string>
+    <string name="pin_attempts">Attempts left: %1$d</string>
+    <string name="pin_hint">4–8 digits</string>
+    <string name="pin_field_description">PIN field, %1$d digits entered</string>
+    <string name="pin_stored_delete">Delete saved PIN</string>
+    <string name="pin_stored_deleted">The saved PIN was deleted</string>
+    <string name="biometric_title">Confirm it is you</string>
+    <string name="biometric_subtitle">Unlock the saved PIN for this card</string>
+
+    <string name="consent_title">%1$s requests a signature</string>
+    <string name="consent_trust">Trust this site for 10 minutes</string>
+    <string name="consent_you">You</string>
+    <string name="action_refuse">Refuse</string>
+
+    <string name="verdict_valid">Valid signature</string>
+    <string name="verdict_invalid">Invalid signature</string>
+    <string name="verdict_unknown">Cannot be confirmed</string>
+    <string name="verify_hint">Choose a signed PDF or an XAdES signature (.xml).</string>
+
+    <string name="bridge_toggle">Browser connection</string>
+    <string name="bridge_on">Browser connection on</string>
+    <string name="bridge_off">Browser connection off</string>
+    <string name="bridge_description">Lets government sites (msign.gov.md) in Chrome sign with your card through 127.0.0.1:18480.</string>
+    <string name="bridge_channel_name">Browser connection</string>
+    <string name="bridge_notification_title">MoldSign · browser connection on</string>
+    <string name="bridge_notification_text">Listening on 127.0.0.1:18480</string>
+    <string name="bridge_stop">Stop</string>
+
+    <string name="card_holder">Holder</string>
+    <string name="card_issuer">Issuer</string>
+    <string name="card_validity">Validity</string>
+    <string name="card_serial">Serial number</string>
+    <string name="card_reader">Reader</string>
+    <string name="card_not_read">The certificate has not been read yet.</string>
+
+    <string name="guide_title">How to connect the reader</string>
+    <string name="guide_usbc_title">USB-C → USB-A (OTG)</string>
+    <string name="guide_usbc_body">Android phones and tablets with a USB-C port: use an OTG adapter.</string>
+    <string name="guide_micro_title">Micro-USB → USB-A (OTG)</string>
+    <string name="guide_micro_body">Older phones: a micro-USB OTG cable. The phone must support USB host.</string>
+
+    <string name="error_no_reader">Connect the reader</string>
+    <string name="error_no_card">Insert the card</string>
+    <string name="error_wrong_pin">Wrong PIN. Attempts left: %1$d</string>
+    <string name="error_pin_blocked">PIN blocked. Unblock it at CEV</string>
+    <string name="error_card_stuck">Remove and re-insert the card</string>
+    <string name="error_sm_out_of_sync">The secure connection to the card was lost. Try again.</string>
+    <string name="error_network">%1$s is not responding. Try again.</string>
+    <string name="error_not_ported">This feature is not available on Android yet.</string>
+    <string name="error_generic">Something went wrong: %1$s</string>
+</resources>

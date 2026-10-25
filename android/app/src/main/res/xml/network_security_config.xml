@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cleartext only where the Moldovan PKI is HTTP-only: MDQTSA (tsp.pki.gov.md) and CRL/OCSP under pki.md.
+     Their payloads are signed, so integrity does not depend on TLS (docs/06). -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">tsp.pki.gov.md</domain>
+        <domain includeSubdomains="true">pki.md</domain>
+    </domain-config>
+</network-security-config>

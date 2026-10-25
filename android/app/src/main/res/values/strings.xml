@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Romanian is the default locale (docs/10 §5). English lives in values-en. -->
+<resources>
+    <string name="app_name" translatable="false">MoldSign</string>
+
+    <!-- Navigation -->
+    <string name="nav_sign">Semnează</string>
+    <string name="nav_verify">Verifică</string>
+    <string name="nav_browser">Browser</string>
+    <string name="nav_card">Card</string>
+
+    <!-- Reader / card status (StatusCard) -->
+    <string name="status_no_reader">Conectează cititorul</string>
+    <string name="status_empty">Introdu cardul în cititor</string>
+    <string name="status_ready">Card pregătit</string>
+    <string name="status_reading">Se citește cardul…</string>
+    <string name="status_busy">Se lucrează cu cardul…</string>
+    <string name="status_permission">Permite accesul la cititor</string>
+    <string name="status_error">Problemă cu cititorul</string>
+    <string name="status_reader_line">%1$s · %2$s</string>
+    <string name="status_valid_until">Certificat valabil până %1$s</string>
+
+    <!-- USB permission explainer (docs/10 §4.5) -->
+    <string name="usb_permission_title">Permite accesul la cititor</string>
+    <string name="usb_permission_body">MoldSign are nevoie de acces la cititorul USB ca să citească cardul. Android îți va cere confirmarea.</string>
+    <string name="action_allow">Permite</string>
+
+    <!-- Documents -->
+    <string name="drop_title">Trage documentele aici</string>
+    <string name="drop_subtitle">sau alege fișiere</string>
+    <string name="action_choose_document">Alege document</string>
+    <string name="format_hint">PDF → PAdES · altele → XAdES</string>
+    <string name="action_remove">Elimină</string>
+    <string name="sign_empty_hint">Alege un document, apoi apasă Semnează.</string>
+
+    <!-- Actions -->
+    <string name="action_sign">Semnează</string>
+    <string name="action_verify">Verifică</string>
+    <string name="action_countersign">Contrasemnează</string>
+    <string name="action_cancel">Anulează</string>
+    <string name="action_read_certificate">Citește certificatul</string>
+    <string name="action_open_portal">Deschide msign.gov.md</string>
+
+    <!-- PIN sheet -->
+    <string name="pin_title">PIN QSCD</string>
+    <string name="pin_for">pentru %1$s</string>
+    <string name="pin_remember">Ține minte PIN-ul</string>
+    <string name="pin_attempts">Încercări rămase: %1$d</string>
+    <string name="pin_hint">4–8 cifre</string>
+    <string name="pin_field_description">Câmp PIN, %1$d cifre introduse</string>
+    <string name="pin_stored_delete">Șterge PIN-ul salvat</string>
+    <string name="pin_stored_deleted">PIN-ul salvat a fost șters</string>
+    <string name="biometric_title">Confirmă identitatea</string>
+    <string name="biometric_subtitle">Deblochează PIN-ul salvat pentru card</string>
+
+    <!-- Consent -->
+    <string name="consent_title">%1$s solicită o semnătură</string>
+    <string name="consent_trust">Ai încredere în site 10 minute</string>
+    <string name="consent_you">Tu</string>
+    <string name="action_refuse">Refuză</string>
+
+    <!-- Verify -->
+    <string name="verdict_valid">Semnătură validă</string>
+    <string name="verdict_invalid">Semnătură invalidă</string>
+    <string name="verdict_unknown">Nu poate fi confirmată</string>
+    <string name="verify_hint">Alege un PDF semnat sau o semnătură XAdES (.xml).</string>
+
+    <!-- Browser bridge -->
+    <string name="bridge_toggle">Conexiune browser</string>
+    <string name="bridge_on">Conexiune browser activă</string>
+    <string name="bridge_off">Conexiune browser oprită</string>
+    <string name="bridge_description">Permite site-urilor guvernamentale (msign.gov.md) din Chrome să semneze cu cardul tău, prin 127.0.0.1:18480.</string>
+    <string name="bridge_channel_name">Conexiune browser</string>
+    <string name="bridge_notification_title">MoldSign · conexiune browser activă</string>
+    <string name="bridge_notification_text">Ascultă pe 127.0.0.1:18480</string>
+    <string name="bridge_stop">Oprește</string>
+
+    <!-- Card screen -->
+    <string name="card_holder">Titular</string>
+    <string name="card_issuer">Emitent</string>
+    <string name="card_validity">Valabilitate</string>
+    <string name="card_serial">Număr de serie</string>
+    <string name="card_reader">Cititor</string>
+    <string name="card_not_read">Certificatul nu a fost citit încă.</string>
+
+    <!-- Connection guide (mobile) -->
+    <string name="guide_title">Cum conectezi cititorul</string>
+    <string name="guide_usbc_title">USB-C → USB-A (OTG)</string>
+    <string name="guide_usbc_body">Telefoane și tablete Android cu port USB-C: folosește un adaptor OTG.</string>
+    <string name="guide_micro_title">Micro-USB → USB-A (OTG)</string>
+    <string name="guide_micro_body">Telefoane mai vechi: un cablu OTG micro-USB. Telefonul trebuie să suporte USB host.</string>
+
+    <!-- Errors (docs/09 §3.3) -->
+    <string name="error_no_reader">Conectează cititorul</string>
+    <string name="error_no_card">Introdu cardul</string>
+    <string name="error_wrong_pin">PIN greșit. Încercări rămase: %1$d</string>
+    <string name="error_pin_blocked">PIN blocat. Deblochează-l la CEV</string>
+    <string name="error_card_stuck">Scoate și reintrodu cardul</string>
+    <string name="error_sm_out_of_sync">Conexiunea securizată cu cardul s-a pierdut. Încearcă din nou.</string>
+    <string name="error_network">Serviciul %1$s nu răspunde. Încearcă din nou.</string>
+    <string name="error_not_ported">Această funcție nu este încă disponibilă pe Android.</string>
+    <string name="error_generic">A apărut o eroare: %1$s</string>
+</resources>

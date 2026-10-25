@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- docs/10 §2 `brand` (light). Compose colors live in ui/theme/Color.kt. -->
+    <color name="brand">#FF2350D8</color>
+    <color name="accent">#FFF5B700</color>
+</resources>
