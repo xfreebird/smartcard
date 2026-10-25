@@ -57,6 +57,9 @@ modules:
   - name: pcsc-lite
     buildsystem: meson
     config-opts:
+      # meson's default libdir on this SDK is lib64, which neither the link (-L/app/lib) nor the runtime loader
+      # searches (first CI build: "cannot find -lpcsclite")
+      - --libdir=lib
       - -Dlibsystemd=false
       - -Dlibudev=false
       - -Dpolkit=false
