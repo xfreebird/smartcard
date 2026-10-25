@@ -1,0 +1,654 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 271172B4B652C80AD3F64967 /* MoldSignKit */; };
+		74A873709C5AAAA449081549 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 396DE1DA3F8E87AE2E83E516 /* MoldSignKit */; };
+		7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE1540A69DD726BA154AB629 /* MoldSignKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		9D3A4354BB64867F51E37837 /* MoldSignKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MoldSignKit; path = ../swift/MoldSignKit; sourceTree = SOURCE_ROOT; };
+		C62C76F898CF23FE6B39E022 /* MoldSign-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MoldSign-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F44F8E98815B97E665D97178 /* MoldSign-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "MoldSign-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49893864352DC4EBBCD6042 /* moldsign-cli */ = {isa = PBXFileReference; includeInIndex = 0; path = "moldsign-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		833099CAA7E4B112695EA2ED /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 17BEBCA95EA2E3B2714B9E43 /* MoldSign-macOS */;
+		};
+		9E0B2AC2D099B6436F719108 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 4D6FDB6F3A417301EBF98977 /* MoldSign-iOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		81B22A7491DCAC3D156E2714 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			name = Shared;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		9D0758035342A0F18AA94E73 /* macOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				833099CAA7E4B112695EA2ED /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			name = macOS;
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		CBFEFEC42BF3B545DCA5069C /* moldsign */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			name = moldsign;
+			path = moldsign;
+			sourceTree = "<group>";
+		};
+		D0B0B9FE2AA57A1BA9C5A8BB /* iOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9E0B2AC2D099B6436F719108 /* PBXFileSystemSynchronizedBuildFileExceptionSet */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			name = iOS;
+			path = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4951CEED8B3DDAC0E3AB5210 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74A873709C5AAAA449081549 /* MoldSignKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF36D0A0DD2D213706BF4F3D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B599DF791A78DFB8337BEF81 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		033BFFADBFCCC6BE9A02D653 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F49893864352DC4EBBCD6042 /* moldsign-cli */,
+				F44F8E98815B97E665D97178 /* MoldSign-iOS.app */,
+				C62C76F898CF23FE6B39E022 /* MoldSign-macOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1EF5874DE5B843B8DB3BB458 /* Apps */ = {
+			isa = PBXGroup;
+			children = (
+				D0B0B9FE2AA57A1BA9C5A8BB /* iOS */,
+				9D0758035342A0F18AA94E73 /* macOS */,
+				81B22A7491DCAC3D156E2714 /* Shared */,
+			);
+			path = Apps;
+			sourceTree = "<group>";
+		};
+		46557909EB8F29D8BDCD9652 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CBFEFEC42BF3B545DCA5069C /* moldsign */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		6CAF78A395442051146D047C = {
+			isa = PBXGroup;
+			children = (
+				1EF5874DE5B843B8DB3BB458 /* Apps */,
+				D3BAA8E7F029DB79141EB1A5 /* MoldSignKit */,
+				A40AA187AECC19AD5E24C508 /* Packages */,
+				033BFFADBFCCC6BE9A02D653 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A40AA187AECC19AD5E24C508 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				9D3A4354BB64867F51E37837 /* MoldSignKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+		D3BAA8E7F029DB79141EB1A5 /* MoldSignKit */ = {
+			isa = PBXGroup;
+			children = (
+				46557909EB8F29D8BDCD9652 /* Sources */,
+			);
+			name = MoldSignKit;
+			path = ../swift/MoldSignKit;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		17BEBCA95EA2E3B2714B9E43 /* MoldSign-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8E70AA7A4BDC6E6DE8111D0 /* Build configuration list for PBXNativeTarget "MoldSign-macOS" */;
+			buildPhases = (
+				223CF72DE113455DFBB5E737 /* Sources */,
+				7BCDF02B4F614193E4F74F29 /* Resources */,
+				AF36D0A0DD2D213706BF4F3D /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				81B22A7491DCAC3D156E2714 /* Shared */,
+				9D0758035342A0F18AA94E73 /* macOS */,
+			);
+			name = "MoldSign-macOS";
+			packageProductDependencies = (
+				271172B4B652C80AD3F64967 /* MoldSignKit */,
+			);
+			productName = "MoldSign-macOS";
+			productReference = C62C76F898CF23FE6B39E022 /* MoldSign-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4D6FDB6F3A417301EBF98977 /* MoldSign-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C3742411DEAB8B645787EACE /* Build configuration list for PBXNativeTarget "MoldSign-iOS" */;
+			buildPhases = (
+				1403A2D6CD19CE561213CAF7 /* Sources */,
+				25B795AB9CEE9D371D47D46C /* Resources */,
+				4951CEED8B3DDAC0E3AB5210 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				81B22A7491DCAC3D156E2714 /* Shared */,
+				D0B0B9FE2AA57A1BA9C5A8BB /* iOS */,
+			);
+			name = "MoldSign-iOS";
+			packageProductDependencies = (
+				396DE1DA3F8E87AE2E83E516 /* MoldSignKit */,
+			);
+			productName = "MoldSign-iOS";
+			productReference = F44F8E98815B97E665D97178 /* MoldSign-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D8D5F2ABFCA3FB9FD890D10D /* moldsign-cli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4B28F6091ED0B01AFBACBC10 /* Build configuration list for PBXNativeTarget "moldsign-cli" */;
+			buildPhases = (
+				83959DA2FFF3E33F40F9CDE8 /* Sources */,
+				581C8E751B8B20576F1E4A5E /* Resources */,
+				B599DF791A78DFB8337BEF81 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				CBFEFEC42BF3B545DCA5069C /* moldsign */,
+			);
+			name = "moldsign-cli";
+			packageProductDependencies = (
+				FE1540A69DD726BA154AB629 /* MoldSignKit */,
+			);
+			productName = "moldsign-cli";
+			productReference = F49893864352DC4EBBCD6042 /* moldsign-cli */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BE9061C6BB0447C32441F63C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					17BEBCA95EA2E3B2714B9E43 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					4D6FDB6F3A417301EBF98977 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					D8D5F2ABFCA3FB9FD890D10D = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 4D38FC3A41B9BB252AB53E70 /* Build configuration list for PBXProject "MoldSign" */;
+			developmentRegion = ro;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				ro,
+			);
+			mainGroup = 6CAF78A395442051146D047C;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FD641AE35A48C0B3A519D3EF /* XCLocalSwiftPackageReference "MoldSignKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 033BFFADBFCCC6BE9A02D653 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				17BEBCA95EA2E3B2714B9E43 /* MoldSign-macOS */,
+				4D6FDB6F3A417301EBF98977 /* MoldSign-iOS */,
+				D8D5F2ABFCA3FB9FD890D10D /* moldsign-cli */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		25B795AB9CEE9D371D47D46C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		581C8E751B8B20576F1E4A5E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BCDF02B4F614193E4F74F29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1403A2D6CD19CE561213CAF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		223CF72DE113455DFBB5E737 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		83959DA2FFF3E33F40F9CDE8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		4E3B0DFF0323B9D4D49F5F8A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = ../swift/MoldSignKit/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.cli;
+				PRODUCT_MODULE_NAME = moldsign_cli;
+				PRODUCT_NAME = moldsign;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		5AD148B4B91A0C7B4A98968E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Apps/iOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.ios;
+				PRODUCT_NAME = MoldSign;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5C0163264AAACF726A52F92C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Apps/macOS/MoldSign.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Apps/macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.mac;
+				PRODUCT_NAME = MoldSign;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		62A5F2CC1ED223FD56D8C0CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = Apps/iOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.ios;
+				PRODUCT_NAME = MoldSign;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		7B3BE0747DCB3E8A0AB22C45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Apps/macOS/MoldSign.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Apps/macOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.mac;
+				PRODUCT_NAME = MoldSign;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		9D6DB60D3FF4E44A919E5592 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.3;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C8B04213252B0DDCF7E8CFF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = ../swift/MoldSignKit/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.cli;
+				PRODUCT_MODULE_NAME = moldsign_cli;
+				PRODUCT_NAME = moldsign;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		FB2FA1B2B32B1C25FE308166 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4B28F6091ED0B01AFBACBC10 /* Build configuration list for PBXNativeTarget "moldsign-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C8B04213252B0DDCF7E8CFF6 /* Debug */,
+				4E3B0DFF0323B9D4D49F5F8A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4D38FC3A41B9BB252AB53E70 /* Build configuration list for PBXProject "MoldSign" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D6DB60D3FF4E44A919E5592 /* Debug */,
+				FB2FA1B2B32B1C25FE308166 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A8E70AA7A4BDC6E6DE8111D0 /* Build configuration list for PBXNativeTarget "MoldSign-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5C0163264AAACF726A52F92C /* Debug */,
+				7B3BE0747DCB3E8A0AB22C45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C3742411DEAB8B645787EACE /* Build configuration list for PBXNativeTarget "MoldSign-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5AD148B4B91A0C7B4A98968E /* Debug */,
+				62A5F2CC1ED223FD56D8C0CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		FD641AE35A48C0B3A519D3EF /* XCLocalSwiftPackageReference "MoldSignKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../swift/MoldSignKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		271172B4B652C80AD3F64967 /* MoldSignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoldSignKit;
+		};
+		396DE1DA3F8E87AE2E83E516 /* MoldSignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoldSignKit;
+		};
+		FE1540A69DD726BA154AB629 /* MoldSignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoldSignKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = BE9061C6BB0447C32441F63C /* Project object */;
+}
