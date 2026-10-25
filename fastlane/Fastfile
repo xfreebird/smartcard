@@ -54,17 +54,38 @@ lane :certs do
   # create it in the portal from a CSR, then `fastlane import_developer_id cer:… key:…`.
 end
 
-desc "Store a portal-made Developer ID Application certificate in match (cer: downloaded .cer, key: CSR private key)"
+desc "Store a portal-made Developer ID Application certificate in match (cer: downloaded .cer, key: CSR private key; or p12:)"
 lane :import_developer_id do |options|
   UI.user_error!("import_developer_id writes to the storage repo; run it locally") if is_ci
   cer = File.expand_path(options.fetch(:cer))
-  p12 = cer.sub(/\.cer\z/, ".p12")
-  sh("openssl", "x509", "-inform", "DER", "-in", cer, "-out", "#{cer}.pem")
-  sh("openssl", "pkcs12", "-export", "-legacy", "-inkey", File.expand_path(options.fetch(:key)), "-in", "#{cer}.pem",
-     "-out", p12, "-passout", "pass:", "-name", "Developer ID Application")
-  sh("bundle", "exec", "fastlane", "match", "import", "--type", "developer_id", "--platform", "macos",
-     "--app_identifier", MAC_ID, "--cert_path", cer, "--p12_path", p12, "--profile_path", "",
-     "--skip_certificate_matching", "false", "--readonly", "false")
+  p12 = options[:p12] ? File.expand_path(options[:p12]) : cer.sub(/\.cer\z/, ".p12")
+  unless options[:p12]
+    # The .p12 must come from the macOS keychain: OpenSSL encodes an empty password differently, and `security
+    # import` then fails with "MAC verification failed" (or "Unknown format" without a MAC).
+    require "securerandom"
+    require "tmpdir"
+    dir = Dir.mktmpdir
+    keychain = File.join(dir, "import.keychain-db")
+    password = SecureRandom.hex(8)
+    sh("security", "create-keychain", "-p", password, keychain, log: false)
+    begin
+      sh("security", "unlock-keychain", "-p", password, keychain, log: false)
+      sh("security", "import", File.expand_path(options.fetch(:key)), "-k", keychain, "-T", "/usr/bin/codesign")
+      sh("security", "import", cer, "-k", keychain)
+      UI.important("macOS asks to allow exporting the key from the throwaway keychain: its password is #{password}")
+      sh("security", "export", "-k", keychain, "-t", "identities", "-f", "pkcs12", "-P", "", "-o", p12)
+    ensure
+      sh("security", "delete-keychain", keychain, log: false)
+      FileUtils.rm_rf(dir)
+    end
+  end
+  # `fastlane match import` only takes the file paths interactively: call its importer directly
+  require "match"
+  params = FastlaneCore::Configuration.create(Match::Options.available_options, {
+    type: "developer_id", platform: "macos", app_identifier: [MAC_ID], api_key: asc_key, readonly: false
+  })
+  params.load_configuration_file("Matchfile")
+  Match::Importer.new.import_cert(params, cert_path: cer, p12_path: p12, profile_path: "")
 end
 
 desc "Install the Developer ID identity (CI: temporary keychain) for scripts/package-macos.sh"

@@ -124,7 +124,7 @@ msign.gov.md works through the bridge with consent, PIN in Keychain, starts at l
 - [ ] MAC-12 Verify on device: `SCardReconnect(RESET)` on connect (docs say "always"; code doesn't)
 - [~] MAC-13 Entitlements + hardened runtime: `com.apple.security.smartcard` set; sandbox decision D-04 open
 - [ ] MAC-14 Finder Quick Action / Share extension "Semnează cu MoldSign"
-- [~] MAC-15 Packaging: `scripts/package-macos.sh` → universal DMG + archive + universal CLI tarball; Developer ID signing + notarization (DMG stapled, CLI notarized) with the App Store Connect API key, in the `release` workflow. Blocked on the Developer ID certificate: Apple lets only the Account Holder create it (portal step, then `fastlane import_developer_id`). Sparkle (D-05) todo
+- [~] MAC-15 Packaging: `scripts/package-macos.sh` → universal DMG + archive + universal CLI tarball; Developer ID signing + notarization (DMG stapled, CLI notarized) with the App Store Connect API key, in the `release` workflow. Developer ID Application `4N85G38A26` (portal, from our CSR; the API can't create it) imported into match; local run: DMG and CLI notarized (Accepted), DMG stapled, Gatekeeper `accepted / Notarized Developer ID`. Sparkle (D-05) todo
 - [ ] MAC-16 Localization: String Catalog ro (default), ru, en
 - [ ] MAC-17 First-run onboarding (docs/10 §4.7)
 - [~] MAC-20 **Several cards at once**: per-reader cards with a picker (popover, Sign, Card screens); `/certificates` lists all; the bridge signs with the portal-chosen card; consent for that card. Simulator-tested + live `/certificates` with 2 real cards (both listed, names decoded). GNOME too: `CardSelector` (AdwComboRow / GtkDropDown) on Card + Sign pages, run against both real readers
@@ -305,6 +305,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ## Progress log
 
 Newest first. One line per meaningful step; link IDs.
+
+- 2026-10-25: macOS notarization working: Developer ID Application created in the portal from our CSR (Firefox), fetched via the API, imported into match. Two fixes found on the way: `match import` takes paths only interactively (lane calls `Match::Importer` directly) and the macOS keychain rejects OpenSSL-made empty-password .p12s ("MAC verification failed"), so the lane exports the .p12 with `security`; `package-macos.sh` retries timestamped codesign (one transient timestamp failure). Notarized locally: DMG + CLI Accepted, stapled, Gatekeeper accepted.
 
 - 2026-10-25: Tray/menu-bar glyph restyled like GitHub's (solid disc, signature cut out, dot as badge) on macOS, Windows and the Android notification; then the app icon on every platform from the same motif (UX-13). Release v0.2.0 published by the workflow (11 installers + checksums; macOS pending Developer ID).
 

@@ -30,6 +30,17 @@ elif [[ "$IDENTITY" != "-" && -n "${ASC_KEY_ID:-}" && ( -n "${ASC_KEY_PATH:-}" |
   notary=(--key "$KEY_FILE" --key-id "$ASC_KEY_ID" --issuer "$ASC_ISSUER_ID")
 fi
 
+# codesign with a secure timestamp: Apple's timestamp server occasionally doesn't answer, so retry
+sign_ts() {
+  local attempt
+  for attempt in 1 2 3; do
+    codesign "$@" && return 0
+    echo "  timestamp server didn't answer (attempt $attempt), retrying" >&2
+    sleep 5
+  done
+  return 1
+}
+
 # notarize <file>: submit, wait, fail unless Apple accepts it (prints the log on rejection)
 notarize() {
   local result id status
@@ -59,7 +70,7 @@ STAGE="$OUT/dmg-stage"
 mkdir -p "$STAGE" && cp -R "$APP" "$STAGE/" && ln -s /Applications "$STAGE/Applications"
 hdiutil create -quiet -volname "eSemnBun $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$OUT/eSemnBun-$VERSION.dmg"
 rm -rf "$STAGE"
-[[ "$IDENTITY" != "-" ]] && codesign --sign "$IDENTITY" --timestamp "$OUT/eSemnBun-$VERSION.dmg"
+[[ "$IDENTITY" != "-" ]] && sign_ts --sign "$IDENTITY" --timestamp "$OUT/eSemnBun-$VERSION.dmg"
 
 if (( ${#notary[@]} )); then
   echo "▸ Notarizing the DMG"
@@ -70,7 +81,7 @@ fi
 echo "▸ Building the esemnbun CLI (release)"
 (cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun --arch arm64 --arch x86_64 >/dev/null)
 CLI="$(cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun --arch arm64 --arch x86_64 --show-bin-path)/esemnbun"
-codesign --force --options runtime --identifier md.esemnbun.cli --sign "$IDENTITY" ${MACOS_SIGN_IDENTITY:+--timestamp} "$CLI"
+sign_ts --force --options runtime --identifier md.esemnbun.cli --sign "$IDENTITY" ${MACOS_SIGN_IDENTITY:+--timestamp} "$CLI"
 if (( ${#notary[@]} )); then
   echo "▸ Notarizing the CLI"
   (cd "$(dirname "$CLI")" && /usr/bin/ditto -c -k esemnbun "$OUT/esemnbun-notarize.zip")
