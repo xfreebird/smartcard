@@ -1,0 +1,13 @@
+<Project>
+  <!-- Shared settings for every project under windows/. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Company>MoldSign</Company>
+    <Product>MoldSign</Product>
+    <Deterministic>true</Deterministic>
+    <!-- Repo root (windows/..): spec/ lives there and is shared with the Swift and Kotlin ports. -->
+    <MoldSignRepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</MoldSignRepoRoot>
+  </PropertyGroup>
+</Project>

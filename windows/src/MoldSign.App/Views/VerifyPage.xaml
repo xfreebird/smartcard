@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Verifică (docs/10 §4.2): DropZone → VerdictBadge + SignatureCards (validator: WIN-01). -->
+<Page
+    x:Class="MoldSign.App.Views.VerifyPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MoldSign.App.Controls">
+
+    <ScrollViewer>
+        <StackPanel Padding="{StaticResource PagePadding}" Spacing="16">
+            <TextBlock
+                x:Uid="VerifyPageTitle"
+                Style="{StaticResource MsTitleTextStyle}"
+                Text="Verifică" />
+
+            <controls:DropZone x:Name="Drop" />
+
+            <!-- VerdictBadge -->
+            <StackPanel
+                x:Name="Verdict"
+                Orientation="Horizontal"
+                Spacing="12"
+                Visibility="Collapsed">
+                <FontIcon
+                    x:Name="VerdictIcon"
+                    FontSize="32"
+                    Glyph="&#xE73E;" />
+                <TextBlock
+                    x:Name="VerdictText"
+                    VerticalAlignment="Center"
+                    Style="{StaticResource MsTitleTextStyle}" />
+            </StackPanel>
+
+            <InfoBar
+                x:Name="Result"
+                IsClosable="True"
+                IsOpen="False" />
+
+            <TextBlock
+                x:Uid="VerifyHint"
+                Style="{StaticResource MsCaptionTextStyle}"
+                Text="PDF semnat (PAdES) sau semnătură .xml (XAdES); pentru o semnătură detașată alege și fișierele semnate."
+                TextWrapping="Wrap" />
+            <!-- TODO(WIN-01): SignatureCards (signer, time, TSA time, level, Integritate / Semnătură / Lanț de încredere),
+                 "Detalii tehnice", Contrasemnează, Arată în Explorer, inline picker for detached documents. -->
+        </StackPanel>
+    </ScrollViewer>
+</Page>

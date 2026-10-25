@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Card (docs/10 §4.2): card art, holder, issuer, validity, serial, reader; remember-PIN toggles; troubleshooting. -->
+<Page
+    x:Class="MoldSign.App.Views.CardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="720"
+            Padding="{StaticResource PagePadding}"
+            HorizontalAlignment="Left"
+            Spacing="16">
+            <TextBlock
+                x:Uid="CardPageTitle"
+                Style="{StaticResource MsTitleTextStyle}"
+                Text="Card" />
+
+            <Grid ColumnSpacing="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <!-- Large card art (decorative) -->
+                <Border
+                    Width="200"
+                    Height="126"
+                    Padding="18"
+                    AutomationProperties.AccessibilityView="Raw"
+                    Background="{ThemeResource BrandBrush}"
+                    CornerRadius="{StaticResource CardCornerRadius}">
+                    <Border
+                        Width="40"
+                        Height="30"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        Background="{ThemeResource AccentChipBrush}"
+                        CornerRadius="5" />
+                </Border>
+                <StackPanel
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Spacing="4">
+                    <TextBlock
+                        x:Name="HolderText"
+                        Style="{StaticResource MsTitleTextStyle}"
+                        Text="{x:Bind State.Holder, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.StatusLine, Mode=OneWay}" />
+                </StackPanel>
+            </Grid>
+
+            <Border Style="{StaticResource MsCardBorderStyle}">
+                <Grid ColumnSpacing="16" RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Uid="CardIssuer" Style="{StaticResource MsCaptionTextStyle}" Text="Emitent" />
+                    <TextBlock x:Name="IssuerText" Grid.Column="1" IsTextSelectionEnabled="True" TextWrapping="Wrap" />
+                    <TextBlock x:Uid="CardValidity" Grid.Row="1" Style="{StaticResource MsCaptionTextStyle}" Text="Valabil" />
+                    <TextBlock x:Name="ValidityText" Grid.Row="1" Grid.Column="1" />
+                    <TextBlock x:Uid="CardSerial" Grid.Row="2" Style="{StaticResource MsCaptionTextStyle}" Text="Număr de serie" />
+                    <TextBlock x:Name="SerialText" Grid.Row="2" Grid.Column="1" IsTextSelectionEnabled="True" />
+                    <TextBlock x:Uid="CardSha1" Grid.Row="3" Style="{StaticResource MsCaptionTextStyle}" Text="SHA-1" />
+                    <TextBlock x:Name="Sha1Text" Grid.Row="3" Grid.Column="1" IsTextSelectionEnabled="True" />
+                    <TextBlock x:Uid="CardReader" Grid.Row="4" Style="{StaticResource MsCaptionTextStyle}" Text="Cititor" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{x:Bind State.ReaderName, Mode=OneWay, TargetNullValue='—'}" />
+                </Grid>
+            </Border>
+
+            <Button
+                x:Uid="CardRead"
+                Click="OnReadClick"
+                Content="Citește cardul" />
+
+            <ToggleSwitch
+                x:Name="RememberToggle"
+                x:Uid="CardRememberPin"
+                Header="Ține minte PIN-ul (Windows Hello)"
+                Toggled="OnRememberToggled" />
+            <Button
+                x:Uid="CardForgetPin"
+                Click="OnForgetClick"
+                Content="Șterge PIN-ul salvat" />
+
+            <InfoBar
+                x:Name="Result"
+                IsClosable="True"
+                IsOpen="False" />
+
+            <TextBlock
+                x:Uid="CardTipsHeader"
+                Style="{StaticResource MsSectionHeaderTextStyle}"
+                Text="DACĂ CARDUL NU RĂSPUNDE" />
+            <TextBlock
+                x:Uid="CardTips"
+                Style="{StaticResource MsCaptionTextStyle}"
+                Text="Scoate cardul și reintrodu-l. Conectează cititorul direct la computer, fără hub. PIN-ul nu se încearcă niciodată automat după o greșeală."
+                TextWrapping="Wrap" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

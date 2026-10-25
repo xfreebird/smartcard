@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Settings (docs/10 §4.2): General, Conexiune browser, Avansat. -->
+<Page
+    x:Class="MoldSign.App.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ScrollViewer>
+        <StackPanel
+            MaxWidth="720"
+            Padding="{StaticResource PagePadding}"
+            HorizontalAlignment="Left"
+            Spacing="16">
+            <TextBlock
+                x:Uid="SettingsPageTitle"
+                Style="{StaticResource MsTitleTextStyle}"
+                Text="Setări" />
+
+            <TextBlock
+                x:Uid="SettingsGeneral"
+                Style="{StaticResource MsSectionHeaderTextStyle}"
+                Text="GENERAL" />
+            <ToggleSwitch
+                x:Name="StartAtLoginToggle"
+                x:Uid="SettingsStartAtLogin"
+                Header="Pornește la autentificare"
+                IsEnabled="False" />
+            <!-- TODO(WIN-04): start at login (HKCU\...\Run unpackaged, StartupTask under MSIX) and enable the toggle. -->
+            <ToggleSwitch
+                x:Name="ToastsToggle"
+                x:Uid="SettingsReaderToasts"
+                Header="Notificări la conectarea cititorului"
+                Toggled="OnToastsToggled" />
+            <ComboBox
+                x:Uid="SettingsLanguage"
+                Header="Limba"
+                IsEnabled="False"
+                SelectedIndex="0">
+                <ComboBoxItem Content="Română" />
+                <ComboBoxItem Content="English" />
+            </ComboBox>
+            <!-- TODO(WIN-04): language override (Microsoft.Windows.Globalization.ApplicationLanguages); Русский ships later. -->
+
+            <TextBlock
+                x:Uid="SettingsBridge"
+                Style="{StaticResource MsSectionHeaderTextStyle}"
+                Text="CONEXIUNE BROWSER" />
+            <ToggleSwitch
+                x:Name="BridgeToggle"
+                x:Uid="SettingsBridgeToggle"
+                Header="Conexiune browser (MoldSign Server)"
+                IsOn="{x:Bind State.BridgeEnabled, Mode=OneWay}"
+                Toggled="OnBridgeToggled" />
+            <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.BridgeStatus, Mode=OneWay}" />
+            <TextBlock
+                Style="{StaticResource MsCaptionTextStyle}"
+                Text="http://127.0.0.1:18480 · https://localhost.cts.md:18443"
+                IsTextSelectionEnabled="True" />
+            <TextBlock
+                x:Name="AllowedSitesText"
+                Style="{StaticResource MsCaptionTextStyle}" />
+
+            <TextBlock
+                x:Uid="SettingsAdvanced"
+                Style="{StaticResource MsSectionHeaderTextStyle}"
+                Text="AVANSAT" />
+            <TextBlock
+                x:Name="VersionText"
+                Style="{StaticResource MsCaptionTextStyle}"
+                IsTextSelectionEnabled="True" />
+            <!-- TODO(WIN-04): diagnostics export (no PIN, no session keys: SEC-04) and reset. -->
+        </StackPanel>
+    </ScrollViewer>
+</Page>

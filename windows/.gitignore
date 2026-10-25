@@ -1,0 +1,19 @@
+# .NET / Visual Studio build output
+bin/
+obj/
+.vs/
+*.user
+*.suo
+TestResults/
+artifacts/
+
+# Windows App SDK / MSIX intermediates
+AppPackages/
+BundleArtifacts/
+*.msix
+*.msixbundle
+*.appx
+
+# TLS identities and secrets must never land in git (SEC-07, D-03)
+*.pfx
+*.p12

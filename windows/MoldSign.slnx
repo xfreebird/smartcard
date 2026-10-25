@@ -1,0 +1,20 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="ARM64" />
+  </Configurations>
+  <Folder Name="/src/">
+    <!-- WinUI 3 app: x64/ARM64 only, Windows only. Use MoldSign.Portable.slnf on macOS/Linux. -->
+    <Project Path="src/MoldSign.App/MoldSign.App.csproj">
+      <Platform Solution="*|Any CPU" Project="x64" />
+      <Platform Solution="*|x64" Project="x64" />
+      <Platform Solution="*|ARM64" Project="ARM64" />
+    </Project>
+    <Project Path="src/MoldSign.Cli/MoldSign.Cli.csproj" />
+    <Project Path="src/MoldSign.Core/MoldSign.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MoldSign.Core.Tests/MoldSign.Core.Tests.csproj" />
+  </Folder>
+</Solution>

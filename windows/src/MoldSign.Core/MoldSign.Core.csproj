@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    MoldSign.Core: C# port of the Swift reference core (docs/09-architecture.md §2).
+    Cross-platform on purpose: it builds and its tests run on macOS/Linux too.
+    Only WinSCardTransport is Windows-only, and only at runtime (P/Invoke into winscard.dll).
+  -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>MoldSign.Core</RootNamespace>
+    <AssemblyName>MoldSign.Core</AssemblyName>
+    <!-- LibraryImport (source-generated P/Invoke) needs unsafe code. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!-- The Windows CLI is published with NativeAOT: keep Core reflection-free (analyzers enforce it). -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MoldSign.Core.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Single source of truth for the bridge origin allow-list (SEC-01), shared with the other ports. -->
+    <EmbeddedResource Include="$(MoldSignRepoRoot)/spec/bridge/allowed-origins.properties"
+                      LogicalName="MoldSign.Core.Bridge.allowed-origins.properties"
+                      Link="Bridge/allowed-origins.properties" />
+  </ItemGroup>
+
+</Project>
