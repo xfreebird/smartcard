@@ -1,0 +1,29 @@
+# macOS
+.DS_Store
+
+# SwiftPM / Xcode
+.build/
+.swiftpm/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+
+# Android / Gradle (see also android/.gitignore)
+.gradle/
+local.properties
+*.iml
+.idea/
+
+# .NET (see also windows/.gitignore)
+bin/
+obj/
+.vs/
+*.user
+
+# secrets that must never land in git
+*.pin
+.env
+
+# packaging outputs and portable-mode test builds
+dist/
+.build-portable/

@@ -1,0 +1,90 @@
+{
+  "description": "Golden vectors for the CosmoX ID-A IAS/ECC stack. Every port (Swift MoldSignKit, Kotlin core, C# MoldSign.Core) must pass all of them byte-for-byte. Hex is upper-case, no separators. Sources: re/test_vectors.txt and captures (kdf, external_auth, response_decode, session_keys); NIST SP 800-38B (cmac); the Swift reference implementation (sm_wrap, sm_unwrap, digest_info). Regenerate sm_* only if the Swift reference changes and the card still accepts it.",
+  "version": 1,
+
+  "constants": {
+    "ias_aid": "A000000077030C60000000FE00000500",
+    "generic_adf": "E828BD080FD25047656E65726963",
+    "mk_class": "C1765FCA5C11B6E9F827EB1230FA74C3140619976CE92B66199801CFDB125F1E",
+    "rnd_ifd": "199F0388C3ACEC2D84C6CE4CE785CB7B",
+    "sn_ifd": "4A95FED1DB606A62",
+    "k_ifd": "445969C4020CEDD4A8C4BFCE4B9820D2BE8CDD972F983B813038A512905BBF08",
+    "mse_sm_apdu": "0022C1A4098004FF40108C830104",
+    "mse_sign_data": "800102840181",
+    "pin_reference": "03"
+  },
+
+  "kdf": {
+    "comment": "Kenc = SHA256(seed || serial || mk_class || 00000002); Kmac = ... || 00000003. seed/serial are the ASCII bytes read from EF D004 / D003.",
+    "seed_ascii": "32972F83F5A65D4C",
+    "serial_ascii": "51180B0A2B597D33",
+    "kenc": "1BDE993470F87C880481AAA0B4D9BDFEB01DF43194464CEFB49E7E329F2E3DA6",
+    "kmac": "85CBC3EEDDFA3259F0C3609124CB110863A89DAC73293C228384AC6A156F57C1"
+  },
+
+  "external_auth": {
+    "comment": "plain = rnd_ifd || sn_ifd || rnd_icc || sn_icc || k_ifd; ct = AES-256-CBC(kenc, IV=0, no padding); mac = AES-CMAC(kmac, ct) (full 16 bytes). sn_icc = last 8 ASCII bytes of the serial.",
+    "rnd_icc": "EB63C8C95B758260D5CDD94892B9DAF4",
+    "sn_icc_ascii": "2B597D33",
+    "ciphertext": "492D28A5F7722BE4222BA37B4D53FE83E462F9D3B1CDD3CC51D394AA31C662D5FA331118DEF7FAB76EABC3E59665AA5230CD658A0581FD88CFB0A92221D6C1B8822AA242F8E4E5BF9E37B6FB8D94AC59",
+    "cmac": "B3FC8B4E4A6ACAFD0CA35E1B80AA3068"
+  },
+
+  "response_decode": {
+    "comment": "96-byte EXTERNAL AUTHENTICATE response = ct(80) || cmac(16). CMAC(kmac, ct) must equal the tail; AES-CBC-decrypt(kenc, IV=0) first 16 bytes = the card challenge; bytes 48..<80 = K_ICC.",
+    "response": "BD017A412B40499E566ADF1F983BE4FD3DE549BF1A3D62F9C8FBFBAC65D3B2147CDBE675816055A5FA8966F576376617C25FD86B99ED17EC79B18D7EFD5462AAC283714BB903E32B0EDF2FC70181D60E6A672FD505BF789BD28E3F3E9C4D0237",
+    "challenge": "2CA2978A2A5EB048B12A547F01FC1454"
+  },
+
+  "session_keys": {
+    "comment": "secret = K_ICC XOR K_IFD; sessENC = SHA256(secret || 00000001); sessMAC = SHA256(secret || 00000002); SSC = plain[8..<16] || rnd_ifd[8..<16].",
+    "k_icc": "3B7F16CD9E13543B6A207F24619A55EBE3F24C3D4142A05F4E49A74532C6A7CF",
+    "sess_enc": "7C0749D47D8591E071A2C07788359A01AD12F94CAB3D2CA74F97FFD088CDCEDE",
+    "sess_mac": "A6C8773EFCA56A978389E6D9E1D4D19F6A6E54B05DCE27A84943B7FDB3A3F530"
+  },
+
+  "sm": {
+    "comment": "Each wrap case starts from a FRESH channel with ssc_initial. Rules: CLA |= 0x0C; SSC += 1 before wrapping; IV = AES-ECB(sessENC, SSC); data → ISO9797-2 pad → AES-CBC → tag 87 (01 || ct) for even INS, tag 85 for odd; Le → tag 97; MAC = AES-CMAC(sessMAC, pad(SSC || pad(header) || TLVs))[0..<8] in tag 8E; Lc = len(TLVs); ALWAYS append Le=00.",
+    "sess_enc": "7C0749D47D8591E071A2C07788359A01AD12F94CAB3D2CA74F97FFD088CDCEDE",
+    "sess_mac": "A6C8773EFCA56A978389E6D9E1D4D19F6A6E54B05DCE27A84943B7FDB3A3F530",
+    "ssc_initial": "62AB2DF56EFCB9D384C6CE4CE785CB7B",
+    "iv_for_ssc_initial": "12E84EF42CB9EDE2E0792B19599E79AF",
+    "wrap": [
+      { "name": "SELECT MF",                "apdu": "00A4000C023F0000",                         "wrapped": "0CA4000C20871101AE044C4585EAE81C2189932D52E002809701008E081494F8475493502800" },
+      { "name": "SELECT Generic ADF (P2=04)","apdu": "00A404040EE828BD080FD25047656E6572696300", "wrapped": "0CA40404208711012BD9B052950EA997286C2E763BE78C4D9701008E081CF1528E8C4566CD00" },
+      { "name": "VERIFY PIN ref 03 (dummy 12345678)", "apdu": "00200003083132333435363738", "wrapped": "0C2000031D871101FE99164D3214F27A473D01B3087617EA8E085F63A6E0A845DB5A00" },
+      { "name": "READ BINARY 128",          "apdu": "00B0000080",                               "wrapped": "0CB000000D9701808E089DF1993D573D852900" },
+      { "name": "MSE SET sign template",    "apdu": "002241A406800102840181",                   "wrapped": "0C2241A41D871101E8FA9A8B738B59C9B8560D7143A502578E08C7E6CE2D9D32EB2000" },
+      { "name": "INTERNAL AUTHENTICATE DigestInfo", "apdu": "00880000333031300D06096086480165030402010500042001DF6D86943B6959946AF59C47BD2FF70FCBE3AC0806940378D5DE0C315132EB", "wrapped": "0C8800004D8741016FE168230EFAD2BE94EF3E6081D24181C9AEF97689ABA0A0A2CABE1F3131E0C1557E7929290DA166337AACCD7A0FE89A248229086EEEC5BA32F3A6F03CF532278E08452238644542958100" }
+    ],
+    "unwrap": {
+      "comment": "Channel at ssc_initial wraps one command (READ BINARY 5 bytes: 00B0000005), so the response is checked with SSC = ssc_initial + 2. Response TLVs: 87 (01 || ct), 99 (SW), 8E (MAC over pad(SSC || 87 || 99)), then the transport SW.",
+      "command_before": "00B0000005",
+      "response": "87110170E98D5D228A2053EBD5455E3F79B06C990290008E08D4DDE76BD4E444919000",
+      "data": "3F00AABBCC",
+      "sw": "9000"
+    }
+  },
+
+  "cmac": {
+    "comment": "NIST SP 800-38B AES-256 CMAC examples.",
+    "key": "603DEB1015CA71BE2B73AEF0857D77811F352C073B6108D72D9810A30914DFF4",
+    "cases": [
+      { "message": "",                                                                                 "tag": "028962F61B7BF89EFC6B551F4667D983" },
+      { "message": "6BC1BEE22E409F96E93D7E117393172A",                                                 "tag": "28A7023F452E8F82BD4BF28D8C37C35C" },
+      { "message": "6BC1BEE22E409F96E93D7E117393172AAE2D8A571E03AC9C9EB76FAC45AF8E5130C81C46A35CE411", "tag": "AAF3D8F1DE5640C232F5B169B9C911E6" }
+    ]
+  },
+
+  "iso9797": [
+    { "input": "010203", "padded": "01020380000000000000000000000000" },
+    { "input": "",       "padded": "80000000000000000000000000000000" },
+    { "input": "000102030405060708090A0B0C0D0E0F", "padded": "000102030405060708090A0B0C0D0E0F80000000000000000000000000000000" }
+  ],
+
+  "digest_info": {
+    "comment": "DigestInfo(SHA-256) for INTERNAL AUTHENTICATE: 3031300D060960864801650304020105000420 || sha256(message).",
+    "message_ascii": "abc",
+    "digest_info": "3031300D060960864801650304020105000420BA7816BF8F01CFEA414140DE5DAE2223B00361A396177A9CB410FF61F20015AD"
+  }
+}
