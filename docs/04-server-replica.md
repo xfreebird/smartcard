@@ -27,7 +27,7 @@ so the msign.gov.md "Sign with MoldSign / IdCard" browser flows work with our ap
 | Method/Path | In | Out |
 |---|---|---|
 | `GET /certificates[?private_only=true]` | — | `{"certificateModel":[CertificateModel…]}` (XML if Accept xml) |
-| `POST /sign/data` | `SignDataInputModel` (JSON or Jersey-XML) | 201 + `Location: <absolute>` |
+| `POST /sign/data` | `SignDataInputModel` (JSON or Jersey-XML) | 201 + `Location: <absolute>` + `sessionId` header, **empty body** |
 | `GET /sign/data/PKCS11/{sessionId}/{type}[?keep_pin_session=1]` | — | **long-poll**: held until the worker finishes, then `200 {"base64File": "…"}` or `400` + `error` header |
 | `POST /sign/pdf` | `SignPdfInputModel` | same async, poll → `{"path": "…"}` |
 | `POST /sign/file` | `SignFileInputModel` (XML from tool, JSON from browser) | poll → `<XadesSignatureModelContainer>` |
@@ -83,7 +83,9 @@ so the msign.gov.md "Sign with MoldSign / IdCard" browser flows work with our ap
      `p = {algorithm:"SHA-1", certificate:null, signatureType:"Embedded", signFormat:"XAdES-T"}`.
      PDF content → `p.contentType="Pdf", p.signFormat="PAdES-T"`, `data` = the PDF (`MoldNationalSign/GetContent`).
      Otherwise `p.contentType = "Text"` (hash content) or `"Xml"`, `data` = `contentHash` → **enveloping XAdES-T**.
-  3. `POST {prefix}/sign/data[?use_pin_session=<first sessionId>]` → `201` + `Location`.
+  3. `POST {prefix}/sign/data[?use_pin_session=<first sessionId>]` → `201` + `Location`. **The body must be empty** (vendor `Response.created(uri)`): mpass login uses
+     `$.post({dataType:'json'})` and polls only from `.fail`; a JSON body lands in `.done` and the page hangs on
+     "Introduceți PIN-ul semnăturii".
   4. **One** `GET` on `Location` (+ `?keep_pin_session=1` for the first of several documents) → `base64File`.
   5. `POST MoldNationalSign/Signature?id=…` with `base64File` → expects `"Signature received"`, then the next document.
 - `use_pin_session` / `keep_pin_session=1` keep the PIN alive across a multi-document batch (vendor

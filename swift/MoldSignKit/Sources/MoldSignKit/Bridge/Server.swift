@@ -372,6 +372,13 @@ public final class MoldSignServer {
         return Data(head.utf8) + Data(body.utf8)
     }
 
+    /// `201 Created` exactly like the vendor's Jersey `Response.created(uri).header("sessionId", id)`: no body.
+    /// mpass's jQuery login code continues only from `.fail`, i.e. when the empty body doesn't parse as JSON;
+    /// a JSON body sends it to `.done`, where it does nothing (stuck on "Introduceți PIN-ul semnăturii").
+    private func respondCreated(sessionId: String, origin: String?, location: String) -> Data {
+        respond(201, "", contentType: "text/plain", origin: origin, extra: ["Location: \(location)", "sessionId: \(sessionId)"])
+    }
+
     private func respondJSON(_ status: Int, _ json: String, origin: String?, extra: [String] = []) -> Data {
         respond(status, json, contentType: "application/json", origin: origin, extra: extra)
     }
@@ -659,8 +666,8 @@ public final class MoldSignServer {
                 self.onSignResult?(request, error)
             }
         }
-        return respondJSON(201, #"{"sessionId":""# + sessionId + "\"}", origin: origin,
-                           extra: ["Location: https://\(host)/sign/data/PKCS11/\(sessionId)/Any"])
+        return respondCreated(sessionId: sessionId, origin: origin,
+                           location: "https://\(host)/sign/data/PKCS11/\(sessionId)/Any")
     }
 
     private func startSignPDF(body: Data, caller: String?, origin: String, host: String) -> Data {
@@ -696,8 +703,8 @@ public final class MoldSignServer {
                 self.onSignResult?(request, error)
             }
         }
-        return respondJSON(201, #"{"sessionId":""# + sessionId + "\"}", origin: origin,
-                           extra: ["Location: https://\(host)/sign/pdf/PKCS11/\(sessionId)"])
+        return respondCreated(sessionId: sessionId, origin: origin,
+                           location: "https://\(host)/sign/pdf/PKCS11/\(sessionId)")
     }
 
     private func startSignFile(body: Data, caller: String?, origin: String, host: String) -> Data {
@@ -747,8 +754,8 @@ public final class MoldSignServer {
                 self.onSignResult?(request, error)
             }
         }
-        return respondJSON(201, #"{"sessionId":""# + sessionId + "\"}", origin: origin,
-                           extra: ["Location: https://\(host)/sign/file/PKCS11/\(sessionId)"])
+        return respondCreated(sessionId: sessionId, origin: origin,
+                           location: "https://\(host)/sign/file/PKCS11/\(sessionId)")
     }
 
     private func startVerifyFile(body: Data, origin: String, host: String) -> Data {
@@ -770,8 +777,8 @@ public final class MoldSignServer {
             s.contentType = "application/xml"
             s.payload = "<verifySignedFileResponseModel><valid>\(valid)</valid></verifySignedFileResponseModel>"
         }
-        return respondJSON(201, #"{"sessionId":""# + sessionId + "\"}", origin: origin,
-                           extra: ["Location: https://\(host)/sign/file/verify/\(sessionId)"])
+        return respondCreated(sessionId: sessionId, origin: origin,
+                           location: "https://\(host)/sign/file/verify/\(sessionId)")
     }
 
     private func startVerifyPDF(body: Data, origin: String, host: String) -> Data {
@@ -785,8 +792,8 @@ public final class MoldSignServer {
             s.contentType = "application/xml"
             s.payload = "<verifyPdfResponseModel><valid>\(valid)</valid></verifyPdfResponseModel>"
         }
-        return respondJSON(201, #"{"sessionId":""# + sessionId + "\"}", origin: origin,
-                           extra: ["Location: https://\(host)/sign/pdf/verify/\(sessionId)"])
+        return respondCreated(sessionId: sessionId, origin: origin,
+                           location: "https://\(host)/sign/pdf/verify/\(sessionId)")
     }
 
     private func xmlEsc(_ s: String) -> String {

@@ -64,7 +64,7 @@ public sealed class BridgeHost : IAsyncDisposable
         app.MapGet("/certificates", static () =>
             Results.Text(JsonSerializer.Serialize(new CertificateListResponse([])), "application/json"));
         // TODO(WIN-06): GET /certificates from SigningService.Certificate() (certificateId = SHA-1, privateKeyPresent).
-        // TODO(WIN-06): POST /sign/data, /sign/pdf, /sign/file, /sign/file/verify, /verify/pdf with 201 + ABSOLUTE
+        // TODO(WIN-06): POST /sign/data, /sign/pdf, /sign/file, /sign/file/verify, /verify/pdf with 201 (empty body, mpass) + ABSOLUTE
         //               Location, 303 polling, Jersey-XML or JSON models (docs/04); consent window in front (SEC-02).
 
         await app.StartAsync(cancellationToken);

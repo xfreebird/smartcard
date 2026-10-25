@@ -312,6 +312,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 
 Newest first. One line per meaningful step; link IDs.
 
+- 2026-10-25: mpass.gov.md ID-card login hung on "Introduceți PIN-ul semnăturii" after a successful signature: our `201` carried a JSON body, so mpass's jQuery (`dataType:'json'`, polls only from `.fail`) never polled. The `201` now matches the vendor's `Response.created(uri).header("sessionId", id)`: empty body. Regression test added.
+
 - 2026-10-25: Microsoft Store: free individual registration, product eSemnBun (9PDPR6RNT42S). First upload rejected (PublisherDisplayName "eSemnBun" ≠ account "Nicolae Ghimbovschi"): the Store identity now comes from repository variables (Identity/Name, Publisher CN, display name), MSIX rebuilt by the Release workflow; `runFullTrust` needs a justification in the submission. Windows code signing for GitHub downloads stays open (paid certificate, e.g. SSL.com eSigner).
 
 - 2026-10-25: iOS release job: one archive → App Store IPA uploaded to TestFlight (API key, `skip_waiting_for_build_processing`, `skip_submission`) + ad hoc IPA (new match AdHoc profile, 1 registered device); build number `<run>.<attempt>`; privacy manifest added (UserDefaults CA92.1). Verified locally without upload; CI does the upload.

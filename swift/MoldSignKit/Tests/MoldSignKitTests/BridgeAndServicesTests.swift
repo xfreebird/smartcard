@@ -158,6 +158,9 @@ final class BridgeConsentTests: XCTestCase {
         let body = Data(#"{"data":"PGEvPg==","contentType":"xml","signFormat":"XAdES-BES"}"#.utf8)
         let created = try request("POST", "/sign/data", body: body)
         XCTAssertTrue(created.hasPrefix("HTTP/1.1 201"), created)
+        // vendor `Response.created(uri)`: no body. mpass's jQuery login polls only from `.fail` (unparsable body)
+        XCTAssertTrue(created.hasSuffix("\r\n\r\n"), "201 must have an empty body: \(created)")
+        XCTAssertTrue(created.contains("\r\nsessionId: "), created)
         wait(for: [asked, reported], timeout: 10)
         XCTAssertNotNil(seen?.1, "a denial must be reported as an error")
 

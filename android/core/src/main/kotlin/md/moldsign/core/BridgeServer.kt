@@ -54,7 +54,7 @@ class DefaultBridgeRoutes(
         return when {
             request.method == "GET" && path == "/certificates" ->
                 BridgeResponse.json(200, """{"certificateModel":${certificatesJson()}}""")
-            // TODO(AND-04): async signing sessions: 201 + ABSOLUTE Location, 303 while pending, 200 result;
+            // TODO(AND-04): async signing sessions: 201 + ABSOLUTE Location + sessionId header and EMPTY body (mpass), 303 while pending, 200 result;
             //  consent per request (SEC-02 / AND-05) before touching the private key.
             VENDOR_ROUTE_PREFIXES.any { path == it || path.startsWith("$it/") } ->
                 BridgeResponse.json(501, """{"error":"not implemented yet"}""")
