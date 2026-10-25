@@ -19,6 +19,7 @@ offline validation, and a drop-in replica of the MoldSign Server used by msign.g
 | [09-architecture.md](09-architecture.md) | Cross-platform architecture: layers, per-language module map, CardTransport / CosmoXCard / PinVault / Bridge / ReaderMonitor contracts, testing strategy, why no shared core |
 | [10-design-system.md](10-design-system.md) | Design tokens, components, every screen (macOS menu bar, windows, sheets, iOS, Android, Windows), copy ro→en, accessibility |
 | [11-build-and-release.md](11-build-and-release.md) | Per-platform build/test/package commands, `scripts/package-*.sh`, signing inputs (env only), what's been packaged, notarization recipe |
+| [privacy-policy.md](privacy-policy.md) | Public privacy policy for the store listings (App Store, Google Play, Microsoft Store): what stays on the device, what goes to the Moldovan trust services |
 | [../spec/](../spec) | Cross-platform contracts: `vectors/card-crypto.json` (golden bytes every port must pass), `bridge/allowed-origins.properties`, `cli.md` |
 
 ## Quick start
