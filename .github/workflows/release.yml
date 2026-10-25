@@ -12,6 +12,12 @@ on:
   push:
     tags: ["v*"]
   workflow_dispatch:
+    inputs:
+      only:
+        description: Build one platform only (tags always build everything)
+        type: choice
+        options: [all, macos, ios, android, linux, flatpak, windows]
+        default: all
 
 permissions:
   contents: write
@@ -27,6 +33,7 @@ env:
 
 jobs:
   macos:
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'macos' }}
     name: macOS app (DMG, Developer ID, notarized) + CLI
     runs-on: macos-26
     env:
@@ -54,6 +61,7 @@ jobs:
           if-no-files-found: error
 
   ios:
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'ios' }}
     name: iOS app (App Store IPA)
     runs-on: macos-26
     env:
@@ -75,6 +83,7 @@ jobs:
           if-no-files-found: error
 
   android:
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'android' }}
     name: Android (APK + AAB, upload key)
     runs-on: ubuntu-24.04
     steps:
@@ -104,6 +113,7 @@ jobs:
           if-no-files-found: error
 
   linux:
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'linux' }}
     name: Linux (CLI tarball, .deb, .rpm)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
@@ -126,6 +136,7 @@ jobs:
           if-no-files-found: error
 
   flatpak:
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'flatpak' }}
     name: Linux (Flatpak bundle)
     runs-on: ubuntu-24.04
     steps:
@@ -133,7 +144,8 @@ jobs:
       - name: flatpak-builder
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends flatpak flatpak-builder
+          # elfutils: flatpak-builder strips binaries with the host's eu-strip
+          sudo apt-get install -y --no-install-recommends flatpak flatpak-builder elfutils
           # Ubuntu 24.04 blocks unprivileged user namespaces, which bubblewrap needs
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - name: Build the bundle
@@ -152,6 +164,7 @@ jobs:
           if-no-files-found: error
 
   windows:
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'windows' }}
     name: Windows (MSI, MSIX, winget manifests)
     runs-on: windows-latest
     env:
