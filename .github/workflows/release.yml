@@ -186,6 +186,7 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
       MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
@@ -202,6 +203,23 @@ jobs:
       - name: Package
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64
+      # Microsoft Store: upload the MSIX as a new submission (tags only: each upload needs a higher version).
+      # Needs the Partner Center Entra app secrets (docs/11); skipped while they are missing.
+      - name: Publish to the Microsoft Store
+        if: startsWith(github.ref, 'refs/tags/v') && env.MSSTORE_CLIENT_ID != ''
+        uses: microsoft/setup-msstore-cli@v1
+      - name: Submit the MSIX
+        if: startsWith(github.ref, 'refs/tags/v') && env.MSSTORE_CLIENT_ID != ''
+        shell: pwsh
+        env:
+          MSSTORE_TENANT_ID: ${{ secrets.MSSTORE_TENANT_ID }}
+          MSSTORE_SELLER_ID: ${{ secrets.MSSTORE_SELLER_ID }}
+          MSSTORE_CLIENT_SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
+        run: |
+          msstore reconfigure --tenantId $env:MSSTORE_TENANT_ID --sellerId $env:MSSTORE_SELLER_ID `
+            --clientId $env:MSSTORE_CLIENT_ID --clientSecret $env:MSSTORE_CLIENT_SECRET
+          $msix = Get-ChildItem dist/windows/*.msix | Select-Object -First 1
+          msstore publish $msix.FullName --appId 9PDPR6RNT42S
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-windows
