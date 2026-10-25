@@ -176,6 +176,12 @@ Exit criteria: tray app replaces the vendor suite on Windows 10/11; portal flow 
 - [ ] WIN-07 Explorer context menu "Semnează cu MoldSign"
 - [~] WIN-08 MSIX packaging + code signing (thumbprint or Azure Trusted Signing from env; unsigned otherwise) + winget manifest: see WIN-09
 
+- [ ] WIN-10 Microsoft Store uploads from CI (step in `release.yml`, disabled with `if: false`). To enable: (1) complete the first submission of 9PDPR6RNT42S by hand (listings ro/en, screenshots, privacy policy URL, age rating, runFullTrust justification); (2) Partner Center → Microsoft Entra application (Manager) → secrets `MSSTORE_TENANT_ID`, `MSSTORE_SELLER_ID`, `MSSTORE_CLIENT_ID`, `MSSTORE_CLIENT_SECRET`; (3) restore the `if:` to tags-only + secrets present; (4) bump the version for each tag
+- [ ] WIN-11 Windows code signing for GitHub downloads (MSI/MSIX outside the Store): paid OV certificate with cloud signing (e.g. SSL.com eSigner → eSigner CKA on the runner + thumbprint mode); Azure Artifact Signing is not available to individuals in Moldova
+- [ ] AND-11 Google Play: finish developer-account verification, create the app (eSemnBun, Romanian, free), Play App Signing enrolment, service-account key for CI uploads
+- [ ] X-12 Publish `docs/privacy-policy.txt` at a public URL (e.g. GitHub Pages) for the store listings
+- [ ] X-13 Store screenshots per platform (Windows needs a real Windows run)
+
 ### Phase CLI: command line on every desktop OS
 
 The contract is [spec/cli.md](spec/cli.md). macOS and Linux use the native Swift CLI; Windows uses the .NET CLI (D-09).
