@@ -1,0 +1,14 @@
+esemnbun (0.2.0-1) unstable; urgency=medium
+
+  * Rebrand to eSemnBun (packages esemnbun, esemnbun-cli; CLI `esemnbun`).
+  * GNOME app: identity-card face, card switcher on the card, two-state
+    background status.
+
+ -- eSemnBun maintainers <packaging@esemnbun.invalid>  Sun, 25 Oct 2026 12:00:00 +0200
+
+esemnbun (0.1.0-1) unstable; urgency=medium
+
+  * Initial packaging: the GNOME app (esemnbun) and the command-line tool with
+    the browser bridge as a systemd user unit (esemnbun-cli).
+
+ -- eSemnBun maintainers <packaging@esemnbun.invalid>  Sun, 25 Oct 2026 12:00:00 +0200

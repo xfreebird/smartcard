@@ -1,0 +1,9 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: eSemnBun
+Comment: TODO(LNX-14): the project has no LICENSE file yet. Replace the stanza
+ below with the real license before publishing packages.
+
+Files: *
+Copyright: 2026 eSemnBun contributors
+License: LicenseRef-proprietary
+ All rights reserved until the project license is chosen (TODO(LNX-14)).

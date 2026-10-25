@@ -141,6 +141,18 @@ func presentConfirmDialog(parent: Widget, heading: String, body: String, action:
     adw_dialog_present(dialog, parent)
 }
 
+// MARK: - Clear the activity list
+
+func presentClearActivityDialog(parent: Widget, completion: @escaping (Bool) -> Void) {
+    let dialog = alert(heading: "Golești lista?", body: "Se șterge doar istoricul din aplicație. Documentele semnate rămân pe disc.")
+    addResponse(dialog, "cancel", "Anulează")
+    addResponse(dialog, "clear", "Golește lista", ADW_RESPONSE_DESTRUCTIVE)
+    adw_alert_dialog_set_default_response(dialog.cast(), "cancel")
+    adw_alert_dialog_set_close_response(dialog.cast(), "cancel")
+    onResponse(dialog) { completion($0 == "clear") }
+    adw_dialog_present(dialog, parent)
+}
+
 // MARK: - Preferences (AdwPreferencesDialog)
 
 func presentPreferences(parent: Widget, controller: AppController) {
@@ -196,9 +208,9 @@ func presentPreferences(parent: Widget, controller: AppController) {
 
 func presentAbout(parent: Widget) {
     let about = adw_about_dialog_new()!
-    adw_about_dialog_set_application_name(about.opaque, "MoldSign")
+    adw_about_dialog_set_application_name(about.opaque, "eSemnBun")
     adw_about_dialog_set_application_icon(about.opaque, "md.moldsign.MoldSign")
-    adw_about_dialog_set_version(about.opaque, "0.1.0")
+    adw_about_dialog_set_version(about.opaque, "0.2.0")
     adw_about_dialog_set_comments(about.opaque,
         "Semnătură electronică cu buletinul de identitate al Republicii Moldova (card IDEMIA CosmoX ID-A), " +
         "PAdES și XAdES, și conexiunea browser pentru msign.gov.md.")

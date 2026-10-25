@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+# eSemnBun Debian packaging (LNX-07, LNX-15; codename MoldSign in code). Two ways to use it:
+#  * scripts/package-linux.sh builds once, stages into a root and runs dpkg-buildpackage with
+#    MOLDSIGN_STAGE=<root>: the packages are cut from that staging root.
+#  * From a checkout: cp -r linux/packaging/debian . && dpkg-buildpackage -us -uc -b -d
+#    (swift on PATH; -d because the swift.org toolchain is not a Debian package).
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+
+override_dh_auto_clean:
+
+# the core's tests run in CI (swift test); they need no packaging
+override_dh_auto_test:
+
+override_dh_auto_build:
+ifeq ($(MOLDSIGN_STAGE),)
+	cd swift/MoldSignKit && swift build -c release --product esemnbun --static-swift-stdlib
+	cd linux && swift build -c release --static-swift-stdlib
+endif
+
+override_dh_auto_install:
+ifeq ($(MOLDSIGN_STAGE),)
+	linux/packaging/install.sh $(CURDIR)/debian/tmp /usr all
+else
+	mkdir -p debian/tmp
+	cp -a $(MOLDSIGN_STAGE)/. debian/tmp/
+endif
+
+# The bridge is opt-in: never enable the user unit for every user.
+override_dh_installsystemduser:
+	dh_installsystemduser --no-enable
+
+# Swift binaries: no dbgsym from the static stdlib, and dwz does not need to rewrite their DWARF.
+override_dh_strip:
+	dh_strip --no-automatic-dbgsym
+
+override_dh_dwz:

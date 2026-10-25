@@ -51,6 +51,57 @@ enum ReaderStatus: Equatable {
     }
 }
 
+/// The status light (docs/10 §0.1, UX-01): green = a card is ready, amber = reader only / card being read,
+/// blue = signing, red = error, none = nothing connected. Never the only signal: `text` always says the same.
+/// GNOME has no tray: it goes to the Background portal (Quick Settings → Background Apps) and to the
+/// Sign page's action bar.
+struct StatusLight: Equatable {
+    enum Light: String { case ready, reader, busy, error, idle }
+
+    let light: Light
+    let text: String
+
+    static func from(status: ReaderStatus, cardCount: Int, busy: Bool) -> StatusLight {
+        if busy { return StatusLight(light: .busy, text: "Se semnează…") }
+        switch status {
+        case .ready(_, let holder, _):
+            return StatusLight(light: .ready, text: "Card pregătit · \(holder)" + (cardCount > 1 ? " · \(cardCount) carduri" : ""))
+        case .reading:
+            return StatusLight(light: .reader, text: "Cititor conectat · se citește cardul…")
+        case .empty:
+            return StatusLight(light: .reader, text: "Cititor conectat · introdu cardul")
+        case .busy:
+            return StatusLight(light: .busy, text: "Se semnează…")
+        case .error(let message, let recovery):
+            return StatusLight(light: .error, text: recovery.isEmpty ? message : "\(message). \(recovery)")
+        case .noReader:
+            return StatusLight(light: .idle, text: "Conectează cititorul")
+        }
+    }
+}
+
+/// The tray-style status (docs/10 §0.2b, UX-11): two states only. GNOME has no tray, so this is the Background
+/// portal's status text (Quick Settings → Background Apps); the five-state light stays in the window.
+struct TrayStatus: Equatable {
+    /// At least one card is inserted (reading, ready or signing).
+    let connected: Bool
+    let text: String
+
+    static func from(cards: [CardSlot], selected: CardSlot?, status: ReaderStatus) -> TrayStatus {
+        // cards that are only "in error" count as not connected
+        let usable = cards.filter { $0.certificate != nil || $0.problem == nil }
+        if !usable.isEmpty {
+            let shown = selected.flatMap { card in usable.contains(card) ? card : nil } ?? usable[0]
+            let holder = shown.certificate?.holder ?? usable.lazy.compactMap(\.certificate?.holder).first
+            return TrayStatus(connected: true, text: holder.map { "Card conectat · \($0)" } ?? "Card conectat")
+        }
+        if case .error(let message, let recovery) = status {
+            return TrayStatus(connected: false, text: recovery.isEmpty ? message : "\(message). \(recovery)")
+        }
+        return TrayStatus(connected: false, text: "Niciun card conectat")
+    }
+}
+
 enum SignFormat: String, CaseIterable, Codable {
     case padesT, xadesBES, xadesT, xadesC
 
@@ -79,9 +130,10 @@ enum SignFormat: String, CaseIterable, Codable {
         url.pathExtension.lowercased() == "pdf" ? .padesT : .xadesT
     }
 
-    /// Choices offered for a file (PDF is always PAdES; others pick an XAdES level).
+    /// Choices offered for a file. A PDF can also get a detached XAdES over its bytes (`<name>-semnat.xml`);
+    /// other files pick an XAdES level.
     static func choices(for url: URL) -> [SignFormat] {
-        url.pathExtension.lowercased() == "pdf" ? [.padesT] : [.xadesBES, .xadesT, .xadesC]
+        url.pathExtension.lowercased() == "pdf" ? [.padesT, .xadesBES, .xadesT, .xadesC] : [.xadesBES, .xadesT, .xadesC]
     }
 }
 
@@ -162,6 +214,11 @@ struct ActivityItem: Codable, Equatable {
     var ok: Bool
     var date = Date()
     var filePath: String?
+
+    /// File entries are shown only while the file still exists; browser requests (no file) always are.
+    var isShowable: Bool {
+        filePath.map { FileManager.default.fileExists(atPath: $0) } ?? true
+    }
 }
 
 /// What the PIN dialog shows. `attemptsLeft` comes from the last 63Cx.
@@ -180,7 +237,6 @@ struct PinEntry {
     let remember: Bool
 }
 
-/// A browser asking for a signature (SEC-02).
 /// One inserted card. `generation` comes from the reader monitor: a new value means a (re)inserted card.
 struct CardSlot: Equatable {
     let reader: String
@@ -188,8 +244,12 @@ struct CardSlot: Equatable {
     var certificate: SigningService.CertificateSummary?
     var problem: String?
     var hasStoredPIN = false
+
+    /// Identity of this insertion (the wallet rebuilds its pages when the set of keys changes).
+    var key: String { "\(reader)#\(generation)" }
 }
 
+/// A browser asking for a signature (SEC-02).
 struct ConsentRequest {
     let request: BridgeRequest
     let holder: String
@@ -246,6 +306,14 @@ enum Format {
         let f = DateFormatter()
         f.locale = Locale(identifier: "ro_MD")
         f.dateFormat = "MM.yyyy"
+        return f.string(from: date)
+    }
+
+    /// ID-card face: "Valabil până la/Valid until" as `dd MM yyyy` (docs/10 §0.2b; the certificate's notAfter).
+    static func cardDate(_ date: Date) -> String {
+        let f = DateFormatter()
+        f.locale = Locale(identifier: "ro_MD")
+        f.dateFormat = "dd MM yyyy"
         return f.string(from: date)
     }
 

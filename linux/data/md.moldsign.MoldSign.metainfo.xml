@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- AppStream metadata (LNX-14). Validate: appstreamcli validate md.moldsign.MoldSign.metainfo.xml -->
+<!-- AppStream metadata (LNX-14). Public name eSemnBun (UX-12); the ID keeps the codename md.moldsign.MoldSign.
+     Validate: appstreamcli validate md.moldsign.MoldSign.metainfo.xml -->
 <component type="desktop-application">
   <id>md.moldsign.MoldSign</id>
   <metadata_license>CC0-1.0</metadata_license>
   <!-- TODO(LNX-14): set the real project license (no LICENSE file in the repo yet). -->
   <project_license>LicenseRef-proprietary</project_license>
-  <name>MoldSign</name>
-  <name xml:lang="ro">MoldSign</name>
+  <name>eSemnBun</name>
+  <name xml:lang="ro">eSemnBun</name>
   <summary>Sign and verify documents with the Moldovan eID card</summary>
   <summary xml:lang="ro">Semnează și verifică documente cu buletinul de identitate</summary>
   <developer id="md.moldsign">
-    <name>MoldSign contributors</name>
+    <name>eSemnBun contributors</name>
   </developer>
   <description>
     <p>
-      MoldSign signs documents with the qualified certificate on the Moldovan electronic identity card
+      eSemnBun signs documents with the qualified certificate on the Moldovan electronic identity card
       (IDEMIA CosmoX ID-A) through a USB smart-card reader, and verifies signed documents offline.
     </p>
     <ul>
+      <li>The card in the reader is shown as an identity card; with several cards, switch on the card itself</li>
       <li>PDF documents are signed as PAdES-T, accepted by msign.gov.md</li>
       <li>Other files are signed as detached XAdES (BES, T or C)</li>
       <li>Verifies PAdES and XAdES signatures, timestamps and the certificate chain</li>
@@ -25,17 +27,16 @@
       <li>Optionally remembers the PIN in GNOME Keyring, per card; never retries a PIN automatically</li>
     </ul>
     <p xml:lang="ro">
-      MoldSign semnează documente cu certificatul calificat de pe buletinul de identitate electronic al
+      eSemnBun semnează documente cu certificatul calificat de pe buletinul de identitate electronic al
       Republicii Moldova, printr-un cititor de carduri USB, și verifică documente semnate.
     </p>
   </description>
   <launchable type="desktop-id">md.moldsign.MoldSign.desktop</launchable>
   <provides>
-    <binary>moldsign-gnome</binary>
+    <binary>esemnbun-gnome</binary>
   </provides>
   <categories>
     <category>Office</category>
-    <category>Security</category>
   </categories>
   <keywords>
     <keyword>signature</keyword>
@@ -59,9 +60,16 @@
   <!-- TODO(LNX-14): screenshots (Sign, Verify, Card pages) hosted at a stable URL. -->
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.0" date="2026-10-25">
+      <description>
+        <p>New name: eSemnBun. The card in the reader is drawn as an identity card, and with several cards you
+          switch on the card itself. Packages for Debian/Ubuntu, Fedora and Flatpak.</p>
+      </description>
+    </release>
     <release version="0.1.0" date="2026-10-25">
       <description>
-        <p>First GNOME build: signing, verification, activity, card details, browser connection.</p>
+        <p>First GNOME build: signing, verification, activity, card details, browser connection, and a card
+          wallet that shows every inserted card and selects the one used for signing.</p>
       </description>
     </release>
   </releases>

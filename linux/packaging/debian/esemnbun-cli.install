@@ -1,0 +1,2 @@
+usr/bin/esemnbun
+usr/lib/systemd/user/esemnbun-server.service

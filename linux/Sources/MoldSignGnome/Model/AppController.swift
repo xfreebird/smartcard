@@ -32,17 +32,34 @@ final class AppController {
     private(set) var verifyReports: [Validator.Report]?
 
     // Activity, settings, bridge, PIN vault
-    private(set) var activity: [ActivityItem] = Store.loadActivity()
+    /// Pruned on load: entries whose file was deleted or moved are dropped (browser requests stay).
+    private(set) var activity: [ActivityItem] = Store.loadActivity().filter(\.isShowable)
     private(set) var settings = Store.loadSettings()
     private(set) var bridgeState: BridgeState = .stopped
     private(set) var vaultProblem: String?
+    /// A browser request was approved and the card is signing it (blue status light until `onSignResult`).
+    private(set) var bridgeSigning = false
+
+    /// docs/10 §0.1 five-state status light, shown in the window (Sign page action bar, UX-01).
+    var statusLight: StatusLight {
+        StatusLight.from(status: status, cardCount: cards.count, busy: isSigning || bridgeSigning)
+    }
+
+    /// docs/10 §0.2b two-state status for the Background portal (UX-11).
+    var trayStatus: TrayStatus {
+        TrayStatus.from(cards: cards, selected: selectedCard, status: status)
+    }
 
     // UI hooks, installed by MainWindow (all called on the main thread).
     var askPIN: ((PinRequest, @escaping (PinEntry?) -> Void) -> Void)?
     var askConsent: ((ConsentRequest, @escaping (_ approved: Bool, _ trust: Bool) -> Void) -> Void)?
     var askConfirm: ((_ heading: String, _ body: String, _ action: String, @escaping (Bool) -> Void) -> Void)?
     var toast: ((String) -> Void)?
+    /// Toast with one button, e.g. "Document semnat" + "Arată".
+    var toastWithAction: ((_ text: String, _ button: String, _ action: @escaping () -> Void) -> Void)?
     var presentWindow: (() -> Void)?
+    /// Shows a file in the file manager (OpenURI portal / FileManager1).
+    var reveal: ((URL) -> Void)?
 
     let service = SigningService.shared
     private let vault = PinVault()
@@ -58,6 +75,14 @@ final class AppController {
     private let cardQueue = DispatchQueue(label: "md.moldsign.card")
     private let vaultQueue = DispatchQueue(label: "md.moldsign.vault")
     private let verifyQueue = DispatchQueue(label: "md.moldsign.verify")
+
+    #if MOLDSIGN_DEMO
+    /// `MSIGN_DEMO_CARDS` (debug builds only): fake cards, no card/keyring/bridge I/O.
+    private let demo = DemoMode.current
+    var isDemo: Bool { demo != nil }
+    #else
+    var isDemo: Bool { false }
+    #endif
 
     /// Registers a re-render callback (called once now, then after state changes). Returns a token for `unobserve`.
     @discardableResult
@@ -86,6 +111,13 @@ final class AppController {
 
     func start() {
         MSLog.sink = nil   // SEC-04: core traces contain SM session keys
+        #if MOLDSIGN_DEMO
+        if let demo {
+            vaultProblem = "Mod demonstrativ"
+            apply(demo.snapshot)
+            return
+        }
+        #endif
         let selected = selectedReader
         // nil (no specific card asked for) → the card selected in the UI
         service.transportFactory = { reader in try CardTransports.connect(reader: reader ?? selected.name) }
@@ -134,6 +166,20 @@ final class AppController {
 
     /// PIN-less certificate read so the UI can greet the holder (MAC-02 equivalent). Ignored if the card changed meanwhile.
     private func readCertificate(of card: CardSlot) {
+        #if MOLDSIGN_DEMO
+        if let demo {
+            // a short "reading" phase, like a real PIN-less read
+            after(milliseconds: 700) { [weak self] in
+                guard let self,
+                      let index = self.cards.firstIndex(where: { $0.reader == card.reader && $0.generation == card.generation })
+                else { return }
+                self.cards[index].certificate = demo.certificates[card.reader]
+                self.cards[index].problem = demo.certificates[card.reader] == nil ? demo.failure : nil
+                self.recomputeStatus()
+            }
+            return
+        }
+        #endif
         let service = self.service
         let vault = self.vault
         let reader = card.reader
@@ -168,8 +214,20 @@ final class AppController {
         for card in cards { readCertificate(of: card) }
     }
 
-    /// "Reîncearcă": re-read the inserted cards, or re-poll the readers when there are none.
+    /// "Recitește cardul" on one card of the wallet (its context menu).
+    func rereadCard(reader: String) {
+        guard !isSigning, let index = cards.firstIndex(where: { $0.reader == reader }) else { return }
+        cards[index].certificate = nil
+        cards[index].problem = nil
+        recomputeStatus()
+        readCertificate(of: cards[index])
+    }
+
+    /// "Reîncearcă" / the header's re-read button: re-read the inserted cards, or re-poll the readers when there are none.
     func retryCard() {
+        #if MOLDSIGN_DEMO
+        if let demo, cards.isEmpty { return apply(demo.snapshot) }
+        #endif
         if cards.isEmpty { monitor.refresh() } else { rereadCards() }
     }
 
@@ -243,6 +301,10 @@ final class AppController {
     /// Signs every queued file with one PIN entry. Wrong PIN: stop, drop the stored PIN, never retry (MAC-05).
     func signAll() {
         guard canSign, let card = selectedCard, let cert = card.certificate else { return }
+        if isDemo {
+            toast?("Mod demonstrativ: semnarea este dezactivată")
+            return
+        }
         isSigning = true
         lastError = nil
         lastSigned = []
@@ -343,7 +405,11 @@ final class AppController {
             toast?(lastError.map { "\($0.message). \($0.recovery)" } ?? "Semnarea a eșuat")
         } else {
             lastAttemptsLeft = nil
-            toast?(lastSigned.count == 1 ? "Document semnat" : "Documente semnate: \(lastSigned.count)")
+            if lastSigned.count == 1, let file = lastSigned.first, let toastWithAction {
+                toastWithAction("Document semnat: \(file.lastPathComponent)", "Arată") { [weak self] in self?.reveal?(file) }
+            } else {
+                toast?("Documente semnate: \(lastSigned.count)")
+            }
         }
         changed()
     }
@@ -501,6 +567,10 @@ final class AppController {
 
     private func startBridge() {
         guard server == nil else { return }
+        if isDemo {
+            logInfo("demo mode: browser bridge not started")
+            return
+        }
         let server = MoldSignServer()
         server.authorize = { [weak self] request in
             // Called on the server's work queue: block it (never the GTK thread) until the user answers.
@@ -517,7 +587,10 @@ final class AppController {
             return answer.value
         }
         server.onSignResult = { [weak self] request, error in
-            onMain { self?.log(Self.bridgeActivity(request, error)) }   // MAC-10: outcome, not just "request received"
+            onMain {
+                self?.bridgeSigning = false
+                self?.log(Self.bridgeActivity(request, error))   // MAC-10: outcome, not just "request received"
+            }
             // A stored PIN the card rejected during a browser request must go, like in the UI flow (MAC-05).
             guard let error else { return }
             switch error {
@@ -573,15 +646,20 @@ final class AppController {
         let holder = target?.certificate?.holder ?? request.certificateHolder ?? "—"
         let proceed: () -> Void = { [weak self] in
             guard let self else { return completion(.deny) }
-            if request.pinIncluded { return completion(.allow(pin: nil, certificateSHA1: certID)) }
+            if request.pinIncluded {
+                self.markBridgeSigning()
+                return completion(.allow(pin: nil, certificateSHA1: certID))
+            }
             guard let certID else {
                 self.toast?("Introdu cardul în cititor și încearcă din nou")
                 return completion(.deny)
             }
             let host = ConsentRequest(request: request, holder: holder, hasStoredPIN: false).originHost
             self.obtainPIN(certID: certID, holder: holder, purpose: "\(host) · \(request.documentName ?? "document")",
-                           confirmStored: nil, allowRemember: false) { entry in
-                completion(entry.map { .allow(pin: $0.pin, certificateSHA1: certID) } ?? .deny)
+                           confirmStored: nil, allowRemember: false) { [weak self] entry in
+                guard let entry else { return completion(.deny) }
+                self?.markBridgeSigning()
+                completion(.allow(pin: entry.pin, certificateSHA1: certID))
             }
         }
         if (trustedUntil[origin] ?? .distantPast) > Date() { return proceed() }
@@ -593,6 +671,12 @@ final class AppController {
             if trust { self?.trustedUntil[origin] = Date().addingTimeInterval(600) }
             proceed()
         }
+    }
+
+    /// Approved browser request: the card is about to sign (cleared by `onSignResult`).
+    private func markBridgeSigning() {
+        bridgeSigning = true
+        changed()
     }
 
     // MARK: - Activity

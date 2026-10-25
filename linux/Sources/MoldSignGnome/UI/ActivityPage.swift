@@ -1,7 +1,8 @@
 import CAdwaita
 import Foundation
 
-/// "Activitate": the last 100 signatures, verifications and browser requests (LNX-09).
+/// "Activitate": the last 100 signatures, verifications and browser requests (LNX-09). File entries show only
+/// while the file still exists (checked on every render and once a minute); "Golește lista" asks first.
 final class ActivityPage {
     let root: Widget
     private let controller: AppController
@@ -20,7 +21,7 @@ final class ActivityPage {
         adw_status_page_set_description(empty.opaque, "Documentele semnate și verificate și cererile din browser apar aici.")
 
         let group = preferencesGroup(title: "Recente")
-        let clear = button("Șterge istoricul", classes: ["flat"]) { controller.clearActivity() }
+        let clear = button("Golește lista", classes: ["flat"]) {}
         adw_preferences_group_set_header_suffix(group.cast(), clear)
         list = boxedList()
         groupAdd(group, list)
@@ -32,6 +33,17 @@ final class ActivityPage {
         root = stack.widget
         gtk_widget_set_vexpand(root, 1)
 
+        onSignal(clear, "clicked") { [weak self] in
+            guard let parent = self?.window() else { return }
+            presentClearActivityDialog(parent: parent.widget) { confirmed in
+                if confirmed { controller.clearActivity() }
+            }
+        }
+        // a file deleted while the app runs disappears the next time the page is shown
+        onSignal(root, "map") { [weak self] in
+            self?.renderedKey = ""
+            self?.render()
+        }
         controller.observe { [weak self] in self?.render() }
         // Relative times ("acum 2 min") age: refresh once a minute.
         every(seconds: 60) { [weak self] in
@@ -42,7 +54,7 @@ final class ActivityPage {
     }
 
     private func render() {
-        let items = controller.activity
+        let items = controller.activity.filter(\.isShowable)
         gtk_stack_set_visible_child_name(stack, items.isEmpty ? "empty" : "list")
         let key = items.map { $0.id.uuidString }.joined()
         guard key != renderedKey else { return }
@@ -56,7 +68,7 @@ final class ActivityPage {
             case .signed, .verified: icon = item.ok ? "object-select-symbolic" : "dialog-warning-symbolic"
             }
             var suffix: [Widget] = [label(Format.relative(item.date), classes: ["dim-label", "caption"])]
-            if let path = item.filePath, FileManager.default.fileExists(atPath: path) {
+            if let path = item.filePath {
                 suffix.append(iconButton("folder-open-symbolic", tooltip: "Deschide dosarul") { [weak self] in
                     revealInFolder(path, parent: self?.window())
                 })

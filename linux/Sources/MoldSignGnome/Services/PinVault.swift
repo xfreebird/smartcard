@@ -39,7 +39,7 @@ final class PinVault {
         var error: UnsafeMutablePointer<GError>?
         let ok = withAttributes(certID) { attrs in
             // nil collection = the default keyring ("login" on GNOME)
-            secret_password_storev_sync(schema, attrs, nil, "MoldSign PIN QSCD — \(holder)", pin, nil, &error)
+            secret_password_storev_sync(schema, attrs, nil, "eSemnBun PIN QSCD — \(holder)", pin, nil, &error)
         }
         if ok == 0 { throw VaultError(message: takeGError(error) ?? "secret_password_storev_sync failed") }
     }

@@ -110,6 +110,43 @@ func onOpenFiles(_ app: GPointer, _ handler: @escaping ([String]) -> Void) -> gu
     return connectRaw(app, "open", unsafeBitCast(thunk, to: GCallback.self), retained(handler))
 }
 
+/// GtkGestureClick `pressed` — `void (*)(GtkGestureClick *, gint n_press, gdouble x, gdouble y, gpointer)`.
+@discardableResult
+func onClickPressed(_ gesture: GPointer, _ handler: @escaping (_ x: Double, _ y: Double) -> Void) -> gulong {
+    let thunk: @convention(c) (gpointer?, gint, Double, Double, gpointer?) -> Void = { _, _, x, y, data in
+        unbox(data, as: ((Double, Double) -> Void).self)(x, y)
+    }
+    return connectRaw(gesture, "pressed", unsafeBitCast(thunk, to: GCallback.self), retained(handler))
+}
+
+/// GtkGestureLongPress `pressed` — `void (*)(GtkGestureLongPress *, gdouble x, gdouble y, gpointer)`.
+@discardableResult
+func onLongPressed(_ gesture: GPointer, _ handler: @escaping (_ x: Double, _ y: Double) -> Void) -> gulong {
+    let thunk: @convention(c) (gpointer?, Double, Double, gpointer?) -> Void = { _, x, y, data in
+        unbox(data, as: ((Double, Double) -> Void).self)(x, y)
+    }
+    return connectRaw(gesture, "pressed", unsafeBitCast(thunk, to: GCallback.self), retained(handler))
+}
+
+/// GtkEventControllerKey `key-pressed` — `gboolean (*)(…, guint keyval, guint keycode, GdkModifierType, gpointer)`.
+/// Return true when the key was handled (stops propagation).
+@discardableResult
+func onKeyPressed(_ controller: GPointer, _ handler: @escaping (_ keyval: UInt32, _ modifiers: UInt32) -> Bool) -> gulong {
+    let thunk: @convention(c) (gpointer?, guint, guint, GdkModifierType, gpointer?) -> gboolean = { _, keyval, _, state, data in
+        unbox(data, as: ((UInt32, UInt32) -> Bool).self)(keyval, state.rawValue) ? 1 : 0
+    }
+    return connectRaw(controller, "key-pressed", unsafeBitCast(thunk, to: GCallback.self), retained(handler))
+}
+
+/// `gtk_drawing_area_set_draw_func` with a Swift closure `(cairo_t *, width, height)`.
+func setDrawFunc(_ area: Widget, _ draw: @escaping (OpaquePointer, Int32, Int32) -> Void) {
+    let thunk: GtkDrawingAreaDrawFunc = { _, cr, width, height, data in
+        guard let cr else { return }
+        unbox(data, as: ((OpaquePointer, Int32, Int32) -> Void).self)(cr, width, height)
+    }
+    gtk_drawing_area_set_draw_func(area.cast(), thunk, retained(draw), releaseData)
+}
+
 /// One-shot `GAsyncReadyCallback` + user_data for the GIO-style async APIs
 /// (GtkFileDialog, GtkFileLauncher). The closure gets the `GAsyncResult *`.
 func asyncReady(_ body: @escaping (OpaquePointer?) -> Void) -> (GAsyncReadyCallback, gpointer) {
@@ -138,6 +175,20 @@ func every(seconds: UInt32, _ tick: @escaping () -> Bool) -> guint {
         unbox(data, as: (() -> Bool).self)() ? 1 : 0
     }
     return g_timeout_add_seconds_full(G_PRIORITY_DEFAULT, seconds, thunk, retained(tick), releaseData)
+}
+
+/// One-shot main-loop timer.
+func after(milliseconds: UInt32, _ block: @escaping () -> Void) {
+    let thunk: GSourceFunc = { data in
+        unbox(data, as: (() -> Void).self)()
+        return 0 // G_SOURCE_REMOVE
+    }
+    g_timeout_add_full(G_PRIORITY_DEFAULT, milliseconds, thunk, retained(block), releaseData)
+}
+
+/// Diagnostics on stderr (g_message/g_warning are variadic and don't import). Never log PINs or keys.
+func logInfo(_ message: String) {
+    FileHandle.standardError.write(Data("esemnbun-gnome: \(message)\n".utf8))
 }
 
 // MARK: - GLib values
@@ -301,13 +352,14 @@ func margins(_ w: Widget, _ all: Int32) {
 }
 
 /// Scrolled page body: AdwClamp (readable max width) inside a vertical-only GtkScrolledWindow.
-func scrolledPage(_ content: Widget, maxWidth: Int32 = 720) -> Widget {
+/// `top` spans the full width above the clamp (the card wallet: its neighbour cards run to the window edge).
+func scrolledPage(_ content: Widget, maxWidth: Int32 = 720, top: Widget? = nil) -> Widget {
     let clamp = adw_clamp_new()!
     adw_clamp_set_maximum_size(clamp.opaque, maxWidth)
     adw_clamp_set_child(clamp.opaque, content)
     let scroll = gtk_scrolled_window_new()!
     gtk_scrolled_window_set_policy(scroll.opaque, GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC)
-    gtk_scrolled_window_set_child(scroll.opaque, clamp)
+    gtk_scrolled_window_set_child(scroll.opaque, top.map { vbox(spacing: 0, [$0, clamp]) } ?? clamp)
     gtk_widget_set_vexpand(scroll, 1)
     return scroll
 }
@@ -356,6 +408,21 @@ func setAccessibleLabel(_ widget: GPointer, _ text: String) {
     g_value_set_string(&value, text)
     gtk_accessible_update_property_value(widget.opaque, 1, &property, &value)
     g_value_unset(&value)
+}
+
+/// Boolean accessible state (`GTK_ACCESSIBLE_STATE_EXPANDED`, `…_SELECTED`); gtk_accessible_update_state is variadic.
+func setAccessibleState(_ widget: GPointer, _ state: GtkAccessibleState, _ on: Bool) {
+    var key = state
+    var value = GValue()
+    g_value_init(&value, g_type_from_name("gboolean"))
+    g_value_set_boolean(&value, on ? 1 : 0)
+    gtk_accessible_update_state_value(widget.opaque, 1, &key, &value)
+    g_value_unset(&value)
+}
+
+/// Screen-reader announcement (GTK ≥ 4.14), e.g. "the selected card changed".
+func announce(_ widget: GPointer, _ text: String) {
+    gtk_accessible_announce(widget.opaque, text, GTK_ACCESSIBLE_ANNOUNCEMENT_PRIORITY_MEDIUM)
 }
 
 /// AdwStatusPage look (large icon, title-1, wrapped description) for use *inside* scrolled content:

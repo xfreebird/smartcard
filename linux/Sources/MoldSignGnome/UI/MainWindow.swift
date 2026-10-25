@@ -2,15 +2,18 @@ import CAdwaita
 import Foundation
 import MoldSignKit
 
-/// AdwApplicationWindow: header bar with view switcher, status banner, toasts, four pages (LNX-09).
+/// AdwApplicationWindow: header bar with view switcher, banner, toasts, four pages (LNX-09, UX-07).
 ///
 /// ```
 /// AdwToolbarView
-///  ├─ top:    AdwHeaderBar [AdwViewSwitcher | primary menu]
-///  ├─ top:    AdwBanner (reader/card problems, bridge port busy)
+///  ├─ top:    AdwHeaderBar [re-read cards | AdwViewSwitcher | primary menu]
+///  ├─ top:    AdwBanner (browser bridge could not bind its ports)
 ///  ├─ content AdwToastOverlay → AdwViewStack: Semnează · Verifică · Activitate · Card
 ///  └─ bottom: AdwViewSwitcherBar (revealed on narrow windows by an AdwBreakpoint)
 /// ```
+///
+/// Card status is not a banner: the card wallet on Semnează / Card shows it (docs/10 §0.2), and the status
+/// light goes to the Background portal (§0.1).
 final class MainWindow {
     let window: UnsafeMutablePointer<GtkWindow>
     private let controller: AppController
@@ -29,7 +32,7 @@ final class MainWindow {
         self.controller = controller
         let win = adw_application_window_new(app.cast())!
         window = win.cast()
-        gtk_window_set_title(window, "MoldSign")
+        gtk_window_set_title(window, "eSemnBun")
         gtk_window_set_default_size(window, 900, 640)
         gtk_widget_set_size_request(win, 360, 420)
 
@@ -63,7 +66,7 @@ final class MainWindow {
         let menu = g_menu_new()
         let section = g_menu_new()
         g_menu_append(section, "Preferințe", "app.preferences")
-        g_menu_append(section, "Despre MoldSign", "app.about")
+        g_menu_append(section, "Despre eSemnBun", "app.about")
         g_menu_append_section(menu, nil, section?.cast())
         let quitSection = g_menu_new()
         g_menu_append(quitSection, "Ieșire", "app.quit")
@@ -75,6 +78,9 @@ final class MainWindow {
         gtk_widget_set_tooltip_text(menuButton, "Meniu principal")
         setAccessibleLabel(menuButton, "Meniu principal")
         adw_header_bar_pack_end(header.opaque, menuButton)
+        // docs/10 §0.2: re-read is a card context-menu action plus a small toolbar button
+        let reread = iconButton("view-refresh-symbolic", tooltip: "Recitește cardurile") { controller.retryCard() }
+        adw_header_bar_pack_start(header.opaque, reread)
         g_object_unref(section?.raw)
         g_object_unref(quitSection?.raw)
         g_object_unref(menu?.raw)
@@ -94,11 +100,18 @@ final class MainWindow {
         adw_toolbar_view_add_bottom_bar(toolbar.opaque, switcherBar)
         adw_application_window_set_content(win.cast(), toolbar)
 
-        // Narrow windows: switcher moves from the header to the bottom bar (GNOME HIG adaptive pattern).
-        if let condition = adw_breakpoint_condition_parse("max-width: 550sp") {
+        // Narrow windows: switcher moves from the header to the bottom bar (GNOME HIG adaptive pattern);
+        // narrower still, the wallet draws compact cards (260 × 164 instead of 340 × 214).
+        for (query, compactCards) in [("max-width: 550sp", false), ("max-width: 420sp", true)] {
+            guard let condition = adw_breakpoint_condition_parse(query) else { continue }
             let breakpoint = adw_breakpoint_new(condition)!
             setBreakpointBool(breakpoint, switcherBar, "reveal", true)
             setBreakpointBool(breakpoint, header, "show-title", false)
+            if compactCards {
+                let wallets = [signPage.wallet, cardPage.wallet]
+                onSignal(breakpoint, "apply") { wallets.forEach { $0.setCompact(true) } }
+                onSignal(breakpoint, "unapply") { wallets.forEach { $0.setCompact(false) } }
+            }
             adw_application_window_add_breakpoint(win.cast(), breakpoint)
         }
 
@@ -125,25 +138,22 @@ final class MainWindow {
         adw_toast_overlay_add_toast(toasts, toast)
     }
 
-    /// Reader/card problems first (status first, docs/10 §1), then a bridge that could not bind.
+    /// Outcome toast with one action ("Document semnat" · "Arată").
+    func toast(_ text: String, button: String, action: @escaping () -> Void) {
+        let toast = adw_toast_new(escapeMarkup(text))
+        adw_toast_set_timeout(toast, 6)
+        adw_toast_set_button_label(toast, button)
+        onSignal(toast!, "button-clicked") { action() }
+        adw_toast_overlay_add_toast(toasts, toast)
+    }
+
+    /// A browser bridge that could not bind its ports (the vendor suite holds them). Card problems are shown by
+    /// the wallet instead (docs/10 §0.2).
     private func renderBanner() {
-        let status = controller.status
         var title: String?
         var buttonLabel: String?
         bannerAction = nil
-        switch status {
-        case .noReader:
-            title = "Conectează cititorul de carduri"
-        case .empty:
-            title = "Introdu cardul în cititor"
-        case .error(let message, let recovery):
-            title = recovery.isEmpty ? message : "\(message). \(recovery)"
-            buttonLabel = "Reîncearcă"
-            bannerAction = { [weak self] in self?.controller.retryCard() }
-        case .reading, .ready, .busy:
-            break
-        }
-        if title == nil, controller.settings.bridgeEnabled, controller.bridgeState == .portBusy {
+        if controller.settings.bridgeEnabled, controller.bridgeState == .portBusy {
             title = "Conexiunea browser nu a pornit: porturile \(MoldSignServer.defaultHTTPPort)/\(MoldSignServer.defaultHTTPSPort) sunt ocupate de altă aplicație"
             buttonLabel = "Reîncearcă"
             bannerAction = { [weak self] in self?.controller.restartBridge() }

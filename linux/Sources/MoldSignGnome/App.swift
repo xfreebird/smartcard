@@ -8,6 +8,8 @@ final class MoldSignApp {
     let app: UnsafeMutablePointer<AdwApplication>
     let controller = AppController()
     private var window: MainWindow?
+    /// Status light → Quick Settings "Background Apps" (UX-01); created at startup (needs the D-Bus connection).
+    private var portal: BackgroundPortal?
     private var held = false
     private var notifiedBackground = false
     /// `--background`: start with the bridge only, no window (XDG autostart / Background portal, LNX-12).
@@ -62,7 +64,13 @@ final class MoldSignApp {
             presentConfirmDialog(parent: window.window.widget, heading: heading, body: body, action: action, completion: done)
         }
         controller.toast = { window.toast($0) }
+        controller.toastWithAction = { text, button, action in window.toast(text, button: button, action: action) }
+        controller.reveal = { url in revealInFolder(url.path, parent: window.window) }
         controller.presentWindow = { [unowned self] in presentWindow() }
+        let portal = BackgroundPortal(application: app)
+        self.portal = portal
+        let model = controller
+        model.observe { portal.setStatus(model.trayStatus.text) }
         controller.start()
     }
 
@@ -77,7 +85,7 @@ final class MoldSignApp {
         presentWindow()
     }
 
-    /// Files from the file manager ("Deschide cu MoldSign") or the command line go to "Semnează".
+    /// Files from the file manager ("Deschide cu eSemnBun") or the command line go to "Semnează".
     private func open(_ paths: [String]) {
         startHidden = false
         presentWindow()
@@ -89,6 +97,12 @@ final class MoldSignApp {
         if let window { return window }
         let window = MainWindow(app: app, controller: controller)
         self.window = window
+        #if MOLDSIGN_DEMO
+        if controller.isDemo {
+            if let size = DemoMode.windowSize { gtk_window_set_default_size(window.window, size.width, size.height) }
+            if let page = DemoMode.page { window.show(page: page) }
+        }
+        #endif
         onSignalBool(window.window, "close-request") { [unowned self] in
             guard controller.shouldRunInBackground else { return false }   // closes; the app quits with it
             gtk_widget_set_visible(window.window.widget, 0)
@@ -106,20 +120,21 @@ final class MoldSignApp {
         }
     }
 
-    /// Window hidden, bridge still listening: hold the application so it outlives its window (LNX-12).
-    /// TODO(LNX-12): ask the Background portal (org.freedesktop.portal.Background.RequestBackground)
-    /// so GNOME lists MoldSign under "Background Apps" and Flatpak does not kill it; autostart toggle.
+    /// Window hidden, bridge still listening: hold the application so it outlives its window, and tell the
+    /// Background portal (Flatpak keeps it alive; GNOME lists it under Background Apps with the status text).
+    /// TODO(LNX-12): autostart toggle.
     private func goBackground() {
         _ = mainWindow   // dialogs for bridge requests need a (hidden) window to attach to
         if !held {
             held = true
             g_application_hold(app.cast())
         }
+        portal?.requestBackground(reason: "Conexiunea browser (msign.gov.md) rămâne activă după închiderea ferestrei.")
         #if os(Linux)
         if !notifiedBackground {
             notifiedBackground = true
-            let notification = g_notification_new("MoldSign rulează în fundal")
-            g_notification_set_body(notification, "Conexiunea browser rămâne activă. Deschide MoldSign din lista de aplicații.")
+            let notification = g_notification_new("eSemnBun rulează în fundal")
+            g_notification_set_body(notification, "Conexiunea browser rămâne activă. Deschide eSemnBun din lista de aplicații.")
             g_application_send_notification(app.cast(), "background", notification)
             g_object_unref(notification?.raw)
         }

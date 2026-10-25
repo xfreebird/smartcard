@@ -1,0 +1,57 @@
+Source: esemnbun
+Section: utils
+Priority: optional
+Maintainer: eSemnBun maintainers <packaging@esemnbun.invalid>
+# The Swift 6 toolchain is not a Debian package: install it from swift.org (or swiftly) and build with
+# `dpkg-buildpackage -b -d`, or let scripts/package-linux.sh build and stage first (MOLDSIGN_STAGE).
+Build-Depends: debhelper-compat (= 13),
+               pkgconf | pkg-config,
+               libadwaita-1-dev,
+               libgtk-4-dev,
+               libsecret-1-dev,
+               libpcsclite-dev,
+               libssl-dev
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+
+Package: esemnbun
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         pcscd,
+         libccid,
+         libpcsclite1,
+         libadwaita-1-0,
+         libsecret-1-0,
+         libssl3t64 | libssl3
+Recommends: gnome-keyring | org.freedesktop.secrets,
+            xdg-desktop-portal-gnome | xdg-desktop-portal-backend
+Suggests: esemnbun-cli
+Description: sign and verify documents with the Moldovan eID card (GNOME app)
+ eSemnBun signs documents with the qualified certificate on the Moldovan
+ electronic identity card (IDEMIA CosmoX ID-A) through a USB smart-card
+ reader, and verifies signed documents offline.
+ .
+  * PDF documents are signed as PAdES-T, accepted by msign.gov.md
+  * other files are signed as detached XAdES (BES, T or C)
+  * browser connection compatible with the MoldSign Desktop protocol,
+    with consent before every signature
+  * the PIN can be remembered in the Secret Service (GNOME Keyring), per card
+ .
+ The reader is reached through pcscd (CCID readers via libccid).
+
+Package: esemnbun-cli
+Architecture: any
+Depends: ${shlibs:Depends},
+         ${misc:Depends},
+         pcscd,
+         libccid,
+         libpcsclite1,
+         libssl3t64 | libssl3
+Description: sign and verify documents with the Moldovan eID card (command line)
+ The `esemnbun` command signs PDF (PAdES-T) and other files (XAdES), verifies
+ signatures offline, reads the card certificate, and runs the browser bridge
+ (MoldSign Server protocol on localhost) for msign.gov.md.
+ .
+ Ships a systemd user unit, esemnbun-server.service, which is not enabled
+ by default: systemctl --user enable --now esemnbun-server.service

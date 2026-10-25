@@ -1,0 +1,30 @@
+# systemd --user unit for the eSemnBun browser bridge (LNX-06), shipped in esemnbun-cli, NOT enabled by default.
+#
+#   systemctl --user enable --now esemnbun-server.service
+#   journalctl --user -u esemnbun-server.service -f
+#
+# It serves the MoldSign Server protocol (the vendor's bridge protocol) on 127.0.0.1:18480 and
+# https://localhost.cts.md:18443 so that msign.gov.md can sign through the card reader without a desktop app.
+# * Headless: there is no consent or PIN dialog. A page that does not send the PIN gets an error (MSIGN_PIN in
+#   the environment would answer every request with the PIN: do not set it here).
+#   For consent + PIN dialogs use the GNOME app's "Conexiune browser" instead.
+# * Do not run both: the GNOME app's bridge and this service (or the vendor's MoldSign Desktop) need the same ports.
+# * The HTTPS listener needs the localhost.cts.md identity in ~/.local/share/moldsign/localhost.p12 (see the README).
+# * The card is reached through the system pcscd (pcscd.socket); a user unit cannot order itself after it.
+[Unit]
+Description=eSemnBun browser bridge (MoldSign Server protocol on localhost)
+
+[Service]
+Type=simple
+ExecStart=@bindir@/esemnbun server
+Restart=on-failure
+RestartSec=5
+# Hardening that works in user units: loopback/pcscd sockets only, no privilege gain.
+NoNewPrivileges=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+LockPersonality=yes
+RestrictRealtime=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=default.target

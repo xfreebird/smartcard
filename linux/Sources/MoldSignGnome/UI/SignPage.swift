@@ -1,7 +1,8 @@
 import CAdwaita
 import Foundation
 
-/// docs/10 §4.2 "Semnează": drop → automatic format chips → one primary button (LNX-09).
+/// docs/10 §4.2 + §0 "Semnează": card wallet on top (status first, the cards are the selector), drop →
+/// automatic format chips → one primary button; the action bar carries the status light (LNX-09, UX-01/02/07).
 final class SignPage {
     let root: Widget
     private let controller: AppController
@@ -21,7 +22,7 @@ final class SignPage {
     private let statusDot: Widget
     private let statusLabel: Widget
     private let signButton: Widget
-    private let cardSelector: CardSelector
+    let wallet: CardWallet
 
     private var filesKey = ""
     private var resultKey = ""
@@ -32,21 +33,27 @@ final class SignPage {
 
         let content = vbox(spacing: 18)
         margins(content, 24)
+        gtk_widget_set_margin_top(content, 6)
 
-        // DropZone
-        dropIcon = image("folder-documents-symbolic", size: 48, classes: ["dim-label"])
-        dropTitle = label("Trage documentele aici", classes: ["title-3"], xalign: 0.5)
-        dropHint = label("PDF → PAdES-T · alte fișiere → XAdES-T", classes: ["dim-label"], xalign: 0.5, wrap: true)
-        let choose = button("Alege fișiere", classes: ["pill"]) {}
-        gtk_widget_set_halign(choose, GTK_ALIGN_CENTER)
-        dropZone = vbox(spacing: 8, classes: ["dropzone"], [dropIcon, dropTitle, dropHint, choose])
-        append(content, dropZone)
+        // Card wallet: which card signs, and whether it can (docs/10 §0.2); full width above the clamp
+        wallet = CardWallet(controller: controller)
+        gtk_widget_set_margin_top(wallet.root, 12)
 
-        // Files
+        // Documents: the list of added files, then the drop zone (large while empty, compact under the list after)
         filesGroup = preferencesGroup(title: "Documente")
         filesList = boxedList()
         groupAdd(filesGroup, filesList)
         append(content, filesGroup)
+
+        dropIcon = image("folder-documents-symbolic", size: 48, classes: ["dim-label"])
+        dropTitle = label("Trage documentele aici", classes: ["title-3"], xalign: 0.5)
+        dropHint = label("PDF → PAdES-T, alte fișiere → XAdES-T; formatul se poate schimba pe fiecare rând",
+                         classes: ["dim-label"], xalign: 0.5, wrap: true)
+        gtk_label_set_justify(dropHint.opaque, GTK_JUSTIFY_CENTER)
+        let choose = button("Alege fișiere…", classes: ["pill"]) {}
+        gtk_widget_set_halign(choose, GTK_ALIGN_CENTER)
+        dropZone = vbox(spacing: 8, classes: ["dropzone"], [dropIcon, dropTitle, dropHint, choose])
+        append(content, dropZone)
 
         // StepProgress
         stepsBox = hbox(spacing: 10, classes: ["steps"])
@@ -68,7 +75,7 @@ final class SignPage {
         groupAdd(resultGroup, resultList)
         append(content, resultGroup)
 
-        // Footer: compact StatusCard + the one primary button (docs/10 §4.2)
+        // Footer: status light + the one primary button (docs/10 §4.2, §0.1)
         statusDot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0)!
         addClasses(statusDot, ["status-dot"])
         gtk_widget_set_valign(statusDot, GTK_ALIGN_CENTER)
@@ -83,12 +90,10 @@ final class SignPage {
             gtk_widget_set_margin_top(w, 6)
             gtk_widget_set_margin_bottom(w, 6)
         }
-        cardSelector = CardSelector(controller: controller, style: .dropDown)   // shown with 2+ cards
         gtk_action_bar_pack_start(actionBar.opaque, statusBox)
         gtk_action_bar_pack_end(actionBar.opaque, signButton)
-        gtk_action_bar_pack_end(actionBar.opaque, cardSelector.root)
 
-        root = vbox(spacing: 0, classes: ["drop-page"], [scrolledPage(content), actionBar])
+        root = vbox(spacing: 0, classes: ["drop-page"], [scrolledPage(content, top: wallet.root), actionBar])
 
         onSignal(choose, "clicked") { [weak self] in self?.pickFiles() }
         addFileDropTarget(root) { paths in controller.addFiles(paths) }
@@ -106,7 +111,7 @@ final class SignPage {
         let c = controller
         let hasFiles = !c.signItems.isEmpty
 
-        // DropZone collapses to a compact bar once files exist.
+        // The drop zone stays once files exist, compact, under the list.
         setClass(dropZone, "compact", hasFiles)
         setVisible(dropIcon, !hasFiles)
         setLabel(dropTitle, hasFiles ? "Trage aici alte documente" : "Trage documentele aici")
@@ -122,17 +127,28 @@ final class SignPage {
         }
         renderResults()
 
-        // Footer
-        let status = c.status
-        setLabel(statusLabel, status.canSign ? "\(status.title) · Card pregătit" : status.title)
-        gtk_widget_set_tooltip_text(statusLabel, status.subtitle)
-        setClass(statusDot, "ready", status.canSign)
-        setClass(statusDot, "busy", { if case .busy = status { return true }; if case .reading = status { return true }; return false }())
-        setClass(statusDot, "problem", { if case .error = status { return true }; return false }())
+        // Footer: the status light, never color alone (the label says the same)
+        let light = c.statusLight
+        setLabel(statusLabel, light.text)
+        gtk_widget_set_tooltip_text(statusLabel, light.text)
+        for name in ["ready", "reader", "busy", "error"] {
+            setClass(statusDot, name, light.light.rawValue == name)
+        }
+        setVisible(statusDot, light.light != .idle)   // idle: no dot, the text alone (docs/10 §0.1)
         let count = c.signItems.count
         gtk_button_set_label(signButton.cast(), count > 1 ? "Semnează \(count) documente" : "Semnează")
-        cardSelector.render()
         setSensitive(signButton, c.canSign)
+        // a disabled primary action must look plainly disabled, not like a pale suggested action
+        setClass(signButton, "suggested-action", c.canSign)
+        gtk_widget_set_tooltip_text(signButton, c.canSign ? "Ctrl+Enter" : signHint)
+    }
+
+    /// Why "Semnează" is disabled (tooltip).
+    private var signHint: String {
+        let c = controller
+        if c.isSigning { return "Se semnează…" }
+        if c.signItems.isEmpty { return "Adaugă mai întâi documentele" }
+        return c.statusLight.text
     }
 
     private func renderFiles() {

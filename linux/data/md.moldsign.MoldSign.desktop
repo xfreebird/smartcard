@@ -1,17 +1,19 @@
 [Desktop Entry]
 Type=Application
-Name=MoldSign
-Name[ro]=MoldSign
+Name=eSemnBun
+Name[ro]=eSemnBun
 GenericName=Electronic Signature
 GenericName[ro]=Semnătură electronică
 Comment=Sign and verify documents with the Moldovan eID card
 Comment[ro]=Semnează și verifică documente cu buletinul de identitate (eID Moldova)
+# Public name eSemnBun (UX-12); the app ID / file name keep the codename md.moldsign.MoldSign.
 # %U: files from "Open With" land on the Sign page (G_APPLICATION_HANDLES_OPEN)
-Exec=moldsign-gnome %U
+Exec=esemnbun-gnome %U
 Icon=md.moldsign.MoldSign
 Terminal=false
 StartupNotify=true
-Categories=Office;Security;GTK;GNOME;
+# Not "Security": the menu spec only allows it next to Settings or System (desktop-file-validate)
+Categories=Office;GTK;GNOME;
 Keywords=signature;sign;eID;smartcard;PAdES;XAdES;msign;semnătură;semnează;buletin;card;
 MimeType=application/pdf;application/xml;text/xml;
 X-GNOME-UsesNotifications=true

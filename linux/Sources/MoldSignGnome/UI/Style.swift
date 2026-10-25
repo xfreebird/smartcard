@@ -1,9 +1,11 @@
 /// App CSS on top of libadwaita. Colors come from libadwaita's named colors (accent, success,
-/// warning, error), so light/dark and the user's GNOME accent color apply automatically; the
+/// warning, error) and its palette, so light/dark and the user's GNOME accent color apply automatically; the
 /// design tokens in docs/10 §2 map onto them (brand → accent, success/warning/danger → the same names).
+/// The card art itself (text included) is drawn with cairo + Pango (CardArt.swift); its button, outline and
+/// disclosure are styled here.
 enum Style {
     static let css = """
-    /* DropZone (docs/10 §3): dashed 1.5px border, radius 14; brand-soft fill + solid border while dragging */
+    /* DropZone (docs/10 §3): dashed border, radius 14; brand-soft fill + solid border while dragging */
     .dropzone {
         border: 2px dashed alpha(currentColor, 0.25);
         border-radius: 14px;
@@ -35,11 +37,52 @@ enum Style {
     .step.active label { font-weight: bold; }
     .step.pending { opacity: 0.55; }
 
-    /* StatusCard dot */
-    .status-dot { min-width: 10px; min-height: 10px; border-radius: 999px; background-color: alpha(currentColor, 0.3); }
-    .status-dot.ready { background-color: @success_color; }
-    .status-dot.busy { background-color: @accent_color; }
-    .status-dot.problem { background-color: @warning_color; }
+    /* Status light (docs/10 §0.1): green ready, amber reader/reading, blue busy, red error, none idle */
+    .status-dot { min-width: 10px; min-height: 10px; border-radius: 999px; }
+    .status-dot.ready { background-color: @success_bg_color; }
+    .status-dot.reader { background-color: @warning_bg_color; }
+    .status-dot.busy { background-color: @blue_3; }
+    .status-dot.error { background-color: @error_bg_color; }
+
+    /* Card wallet (docs/10 §0.2b). The button is the card: no button chrome, the ID-card art is the drawing
+       area (fixed colors, hairline drawn there); the shadow lets it read on dark windows too. */
+    .wallet-card {
+        padding: 0;
+        min-height: 0;
+        min-width: 0;
+        border-radius: 15px;   /* 0.045 W */
+        background: none;
+        /* must fit the 8 px under the card: the revealer around each card clips */
+        box-shadow: 0 1px 2px alpha(black, 0.2), 0 3px 6px alpha(black, 0.14);
+        transition: box-shadow 200ms ease-out;
+    }
+    .wallet-card.compact { border-radius: 12px; }
+    .wallet-card:hover, .wallet-card:active, .wallet-card:checked { background: none; }
+    .wallet-card:hover { box-shadow: 0 1px 2px alpha(black, 0.22), 0 3px 7px alpha(black, 0.2); }
+    .wallet-card:focus-visible { outline: 2px solid alpha(@accent_color, 0.6); outline-offset: 2px; }
+
+    /* Expanded list: the selected card keeps an accent outline; its status strip (drawn) reads
+       "✓ Folosit pentru semnare" (docs/10 §0.2b, UX-10) */
+    .wallet-card.chosen { outline: 2px solid @accent_color; outline-offset: 2px; }
+
+    /* Disclosure inside the card: round, 85 % white + hairline, fixed dark chevron like the face */
+    button.card-disclosure {
+        min-width: 0;
+        min-height: 0;
+        padding: 0;
+        color: #1e2230;
+        background-color: alpha(white, 0.85);
+        box-shadow: 0 0 0 1px alpha(black, 0.14), 0 1px 3px alpha(black, 0.12);
+        -gtk-icon-size: 14px;
+    }
+    button.card-disclosure:hover { background-color: alpha(white, 0.95); }
+    button.card-disclosure:active { background-color: white; }
+
+    .wallet-placeholder .placeholder-title { font-weight: bold; font-size: 1.1em; }
+    .wallet-placeholder .placeholder-caption { opacity: 0.7; font-size: 0.9em; }
+    .wallet-placeholder.error-card .placeholder-title { color: @error_color; }
+    .wallet-placeholder .small-pill { padding: 2px 14px; min-height: 26px; font-size: 0.9em; }
+    .wallet-placeholder.compact .placeholder-caption { font-size: 0.85em; }
 
     /* PIN field: large, spaced digits */
     .pin-entry text { font-size: 1.6em; letter-spacing: 0.4em; }
