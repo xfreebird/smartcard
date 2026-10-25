@@ -351,7 +351,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.cli;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.cli;
 				PRODUCT_MODULE_NAME = moldsign_cli;
 				PRODUCT_NAME = esemnbun;
 				SDKROOT = macosx;
@@ -369,7 +369,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios;
 				PRODUCT_NAME = eSemnBun;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -390,7 +390,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.mac;
 				PRODUCT_NAME = eSemnBun;
 				SDKROOT = macosx;
 			};
@@ -407,7 +407,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios;
 				PRODUCT_NAME = eSemnBun;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -428,7 +428,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.mac;
 				PRODUCT_NAME = eSemnBun;
 				SDKROOT = macosx;
 			};
@@ -517,7 +517,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.cli;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.cli;
 				PRODUCT_MODULE_NAME = moldsign_cli;
 				PRODUCT_NAME = esemnbun;
 				SDKROOT = macosx;

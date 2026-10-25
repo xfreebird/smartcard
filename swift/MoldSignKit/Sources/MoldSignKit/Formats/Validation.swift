@@ -45,9 +45,10 @@ public enum Validator {
             let name: String
             var hexText: String? = nil
             if let objEnd = text.range(of: "endobj", range: r0.upperBound..<text.endIndex) {
-                let objRegion = text[r0.lowerBound..<objEnd.lowerBound]
+                // a String, not a Substring: Linux Foundation has no NSRange ↔ Range conversion for Substring
+                let objRegion = String(text[r0.lowerBound..<objEnd.lowerBound])
                 if let cre = try? NSRegularExpression(pattern: #"/Contents\s*<([0-9A-Fa-f\s]+)>"#),
-                   let cm = cre.firstMatch(in: String(objRegion), range: NSRange(objRegion.startIndex..., in: objRegion)),
+                   let cm = cre.firstMatch(in: objRegion, range: NSRange(objRegion.startIndex..., in: objRegion)),
                    let cr = Range(cm.range(at: 1), in: objRegion) {
                     hexText = String(objRegion[cr]).replacingOccurrences(of: "\\s", with: "", options: .regularExpression)
                 }

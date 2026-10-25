@@ -1,0 +1,4 @@
+# eSemnBun (D-07, D-15): the owner's personal Apple team. Credentials come only from the environment
+# (App Store Connect API key: ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8 or ASC_KEY_PATH); nothing secret lives in git.
+app_identifier("md.esemnbun.ios")
+team_id(ENV["APPLE_TEAM_ID"]) if ENV["APPLE_TEAM_ID"]

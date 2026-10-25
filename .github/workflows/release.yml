@@ -1,0 +1,209 @@
+# Installation artifacts for every platform (docs/11). Tag `v*` → a GitHub Release with all files attached;
+# "Run workflow" (workflow_dispatch) → the same artifacts on the run page only.
+#
+# Secrets (repository → Settings → Secrets and variables → Actions):
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8      App Store Connect API key (match, export, notarization)
+#   MATCH_PASSWORD                              decrypts the match storage (github.com/xfreebird/fastlanecerts)
+#   ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD   upload key
+#   Windows signing stays optional (windows/README.md "Signing"): without it the MSI/MSIX are unsigned.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  FASTLANE_SKIP_UPDATE_CHECK: "1"
+  FASTLANE_HIDE_CHANGELOG: "1"
+  FASTLANE_OPT_OUT_USAGE: "1"
+
+jobs:
+  macos:
+    name: macOS app (DMG, Developer ID, notarized) + CLI
+    runs-on: macos-26
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: "3.3", bundler-cache: true }
+      - name: Developer ID identity (match, read-only, temporary keychain)
+        run: bundle exec fastlane mac_signing
+      - name: Build, sign, notarize
+        env:
+          MACOS_SIGN_IDENTITY: Developer ID Application
+          MACOS_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: scripts/package-macos.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-macos
+          path: |
+            dist/macos/*.dmg
+            dist/macos/*.tar.gz
+          if-no-files-found: error
+
+  ios:
+    name: iOS app (App Store IPA)
+    runs-on: macos-26
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      BUILD_NUMBER: ${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with: { ruby-version: "3.3", bundler-cache: true }
+      - name: Archive + export (match App Store profile)
+        run: bundle exec fastlane ios_ipa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-ios
+          path: dist/ios/*.ipa
+          if-no-files-found: error
+
+  android:
+    name: Android (APK + AAB, upload key)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - name: Upload key
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          printf '%s' "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/upload.jks"
+          echo "ANDROID_KEYSTORE=$RUNNER_TEMP/upload.jks" >> "$GITHUB_ENV"
+      - name: Build and sign
+        env:
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: scripts/package-android.sh
+      - run: rm -f "$RUNNER_TEMP/upload.jks"
+        if: always()
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-android
+          path: |
+            dist/android/*.apk
+            dist/android/*.aab
+          if-no-files-found: error
+
+  linux:
+    name: Linux (CLI tarball, .deb, .rpm)
+    runs-on: ubuntu-24.04
+    container: swift:6.2-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: System libraries + packaging tools
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends pkg-config libpcsclite-dev libssl-dev \
+            libadwaita-1-dev libgtk-4-dev libsecret-1-dev \
+            dpkg-dev debhelper rpm binutils desktop-file-utils appstream
+      - name: Packages
+        env:
+          MOLDSIGN_PACKAGES: tar deb rpm
+        run: scripts/package-linux.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-linux
+          path: dist/linux/
+          if-no-files-found: error
+
+  flatpak:
+    name: Linux (Flatpak bundle)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: flatpak-builder
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends flatpak flatpak-builder
+          # Ubuntu 24.04 blocks unprivileged user namespaces, which bubblewrap needs
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Build the bundle
+        run: |
+          VERSION=$(sed -n 's/.*<release version="\([^"]*\)".*/\1/p' linux/data/md.moldsign.MoldSign.metainfo.xml | head -1)
+          flatpak remote-add --user --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+          flatpak-builder --user --install-deps-from=flathub --force-clean --disable-rofiles-fuse \
+            --repo="$RUNNER_TEMP/repo" "$RUNNER_TEMP/build" linux/flatpak/md.moldsign.MoldSign.yml
+          mkdir -p dist/linux
+          flatpak build-bundle --runtime-repo=https://dl.flathub.org/repo/flathub.flatpakrepo \
+            "$RUNNER_TEMP/repo" "dist/linux/eSemnBun-$VERSION.flatpak" md.moldsign.MoldSign
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-flatpak
+          path: dist/linux/*.flatpak
+          if-no-files-found: error
+
+  windows:
+    name: Windows (MSI, MSIX, winget manifests)
+    runs-on: windows-latest
+    env:
+      # Optional code signing (windows/README.md "Signing"): unset = unsigned artifacts.
+      MOLDSIGN_TS_ENDPOINT: ${{ secrets.MOLDSIGN_TS_ENDPOINT }}
+      MOLDSIGN_TS_ACCOUNT: ${{ secrets.MOLDSIGN_TS_ACCOUNT }}
+      MOLDSIGN_TS_PROFILE: ${{ secrets.MOLDSIGN_TS_PROFILE }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
+      MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
+      MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { global-json-file: windows/global.json }
+      - name: Azure Trusted Signing client (only when configured)
+        if: env.MOLDSIGN_TS_ENDPOINT != ''
+        shell: pwsh
+        run: |
+          nuget install Microsoft.Trusted.Signing.Client -OutputDirectory "$env:RUNNER_TEMP\ts" -ExcludeVersion -NonInteractive
+          "MOLDSIGN_TS_DLIB=$env:RUNNER_TEMP\ts\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll" >> $env:GITHUB_ENV
+      - name: Package
+        shell: pwsh
+        run: windows/scripts/package-windows.ps1 -Platforms x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-windows
+          path: |
+            dist/windows/*.msi
+            dist/windows/*.msix
+            dist/windows/SHA256SUMS.txt
+            dist/windows/winget/
+          if-no-files-found: error
+
+  release:
+    name: GitHub Release (tags only)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [macos, ios, android, linux, flatpak, windows]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: artifacts, pattern: "esemnbun-*" }
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' -o -name '*.ipa' -o -name '*.apk' -o -name '*.aab' \
+            -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' -o -name '*.msi' -o -name '*.msix' \) -print0 \
+            | xargs -0 sha256sum | sed 's#  artifacts/[^/]*/#  #' > SHA256SUMS.txt
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "eSemnBun ${GITHUB_REF_NAME#v}" \
+            --generate-notes SHA256SUMS.txt \
+            $(find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' -o -name '*.ipa' -o -name '*.apk' -o -name '*.aab' \
+              -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' -o -name '*.msi' -o -name '*.msix' \))

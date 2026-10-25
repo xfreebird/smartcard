@@ -11,7 +11,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "md.moldsign.app"
+        applicationId = "md.esemnbun.app"   // public ID (D-07); the Kotlin namespace keeps the codename
         minSdk = 26
         targetSdk = 36
         versionCode = 2

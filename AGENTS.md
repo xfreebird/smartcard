@@ -6,9 +6,14 @@ and is growing it into native apps for **macOS, iOS, Android, Windows** plus a C
 **macOS, Linux, Windows**. Everything below documents how the system works, how every
 artifact was obtained, and how to re-derive them if the vendor app changes.
 
-**Naming:** the product is **eSemnBun** (this casing) on every platform; the CLI command is `esemnbun`. `MoldSign`
-stays the codename in code (modules, namespaces, bundle/application IDs `md.moldsign.*`, storage paths, keychain
+**Naming:** the product is **eSemnBun** (this casing) on every platform; the CLI command is `esemnbun`; store IDs are
+`md.esemnbun.ios` / `md.esemnbun.mac` / `md.esemnbun.cli` (Apple, team H86U5Z8HYB) and `md.esemnbun.app` (Android).
+`MoldSign` stays the codename in code (modules, namespaces, Kotlin package, Linux/Windows IDs, storage paths, keychain
 names, `MSIGN_PIN`) and the name of the *vendor* suite and its bridge protocol (docs/10 §0.2b, D-07).
+
+**Signing/release:** fastlane match (`fastlane/`, storage `github.com/xfreebird/fastlanecerts`), `.github/workflows/release.yml`,
+secrets only in GitHub Actions secrets and the owner's offline copy: docs/11 "Signing secrets". `gh` on the dev Mac
+defaults to an employer GitHub Enterprise host: always pass `GH_HOST=github.com`.
 
 > **Living plan: [`PLAN.md`](PLAN.md)**: phases, task IDs (`F-…`, `MAC-…`, `IOS-…`, `AND-…`, `WIN-…`,
 > `CLI-…`, `LNX-…`, `SEC-…`), decisions, risks, progress log. Update it in the same change as the work.

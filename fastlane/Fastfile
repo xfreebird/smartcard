@@ -1,0 +1,102 @@
+# eSemnBun Apple signing (docs/11): match keeps the certificates and profiles in the storage repo (Matchfile).
+# Local (owner): `bundle exec fastlane certs` creates what is missing. CI: the lanes below fetch read-only.
+# Credentials only from the environment, see fastlane/SIGNING.md.
+default_platform(:ios)
+
+IOS_ID = "md.esemnbun.ios"
+MAC_ID = "md.esemnbun.mac"
+PROJECT = File.expand_path("../apple/eSemnBun.xcodeproj", __dir__)
+
+# App Store Connect API key: ASC_KEY_ID + ASC_ISSUER_ID + (ASC_KEY_P8 content | ASC_KEY_PATH file).
+def asc_key
+  app_store_connect_api_key(
+    key_id: ENV.fetch("ASC_KEY_ID"),
+    issuer_id: ENV.fetch("ASC_ISSUER_ID"),
+    key_content: ENV["ASC_KEY_P8"],
+    key_filepath: ENV["ASC_KEY_PATH"],
+    in_house: false
+  )
+end
+
+desc "Register the App IDs md.esemnbun.ios and md.esemnbun.mac (idempotent)"
+lane :register_ids do
+  Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.from(hash: asc_key)
+  { IOS_ID => ["eSemnBun iOS", Spaceship::ConnectAPI::Platform::IOS],
+    MAC_ID => ["eSemnBun macOS", Spaceship::ConnectAPI::Platform::MAC_OS] }.each do |identifier, (name, platform)|
+    if Spaceship::ConnectAPI::BundleId.find(identifier)
+      UI.message("#{identifier} already registered")
+    else
+      Spaceship::ConnectAPI::BundleId.create(name: name, identifier: identifier, platform: platform)
+      UI.success("Registered #{identifier}")
+    end
+  end
+end
+
+desc "DESTRUCTIVE: revoke every certificate and delete every profile of the team. Local only"
+lane :nuke_all do
+  UI.user_error!("nuke_all never runs in CI") if is_ci
+  key = asc_key
+  # developer_id is left out: match_nuke 2.241 fails on it ("Unknown cert type: developer_id_application");
+  # revoke Developer ID certificates in the developer portal if ever needed.
+  [%w[development ios], %w[appstore ios], %w[adhoc ios], %w[development macos], %w[appstore macos]].each do |type, platform|
+    match_nuke(type: type, platform: platform, api_key: key, skip_confirmation: true)
+  end
+end
+
+desc "Create what is missing (owner, local): App IDs, iOS App Store + development profiles and certificates"
+lane :certs do
+  UI.user_error!("certs writes to the storage repo; CI only reads (ios_ipa, mac_signing)") if is_ci
+  register_ids
+  key = asc_key
+  match(type: "appstore", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: false)
+  match(type: "development", platform: "ios", app_identifier: IOS_ID, api_key: key, readonly: false)
+  # Developer ID can't be created with an API key ("can only be performed by the Account Holder"):
+  # create it in the portal from a CSR, then `fastlane import_developer_id cer:… key:…`.
+end
+
+desc "Store a portal-made Developer ID Application certificate in match (cer: downloaded .cer, key: CSR private key)"
+lane :import_developer_id do |options|
+  UI.user_error!("import_developer_id writes to the storage repo; run it locally") if is_ci
+  cer = File.expand_path(options.fetch(:cer))
+  p12 = cer.sub(/\.cer\z/, ".p12")
+  sh("openssl", "x509", "-inform", "DER", "-in", cer, "-out", "#{cer}.pem")
+  sh("openssl", "pkcs12", "-export", "-legacy", "-inkey", File.expand_path(options.fetch(:key)), "-in", "#{cer}.pem",
+     "-out", p12, "-passout", "pass:", "-name", "Developer ID Application")
+  sh("bundle", "exec", "fastlane", "match", "import", "--type", "developer_id", "--platform", "macos",
+     "--app_identifier", MAC_ID, "--cert_path", cer, "--p12_path", p12, "--profile_path", "",
+     "--skip_certificate_matching", "false", "--readonly", "false")
+end
+
+desc "Install the Developer ID identity (CI: temporary keychain) for scripts/package-macos.sh"
+lane :mac_signing do
+  setup_ci if is_ci
+  # no provisioning profile: the unsandboxed app only uses the smart-card entitlement
+  match(type: "developer_id", platform: "macos", app_identifier: MAC_ID, api_key: asc_key, readonly: true,
+        skip_provisioning_profiles: true)
+end
+
+desc "Signed App Store IPA in dist/ios (manual signing with the match profile, iOS target only)"
+lane :ios_ipa do
+  setup_ci if is_ci
+  match(type: "appstore", platform: "ios", app_identifier: IOS_ID, api_key: asc_key, readonly: true)
+  team = ENV["sigh_#{IOS_ID}_appstore_team-id"]
+  profile = ENV["sigh_#{IOS_ID}_appstore_profile-name"]
+  pbxproj = File.join(PROJECT, "project.pbxproj")
+  original = File.read(pbxproj)
+  begin
+    # Target-scoped signing: command-line overrides would also hit the SwiftPM package targets.
+    update_code_signing_settings(path: PROJECT, use_automatic_signing: false, targets: ["eSemnBun-iOS"],
+                                 build_configurations: ["Release"], team_id: team, profile_name: profile,
+                                 code_sign_identity: "Apple Distribution")
+    version = get_version_number(xcodeproj: PROJECT, target: "eSemnBun-iOS", configuration: "Release")
+    # the project also has macOS targets: pin the platform or gym exports with the Mac installer method
+    build_app(project: PROJECT, scheme: "eSemnBun-iOS", configuration: "Release", export_method: "app-store",
+              destination: "generic/platform=iOS", sdk: "iphoneos",
+              export_team_id: team, export_options: { provisioningProfiles: { IOS_ID => profile } },
+              output_directory: File.expand_path("../dist/ios", __dir__), output_name: "eSemnBun-#{version}.ipa",
+              archive_path: File.expand_path("../dist/ios/eSemnBun-iOS.xcarchive", __dir__),
+              xcargs: "CURRENT_PROJECT_VERSION=#{ENV.fetch('BUILD_NUMBER', '1')}", clean: true)
+  ensure
+    File.write(pbxproj, original)   # never leave manual-signing edits in the committed project
+  end
+end

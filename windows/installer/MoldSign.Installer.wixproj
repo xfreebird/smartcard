@@ -20,6 +20,9 @@
     <CliDir Condition="'$(CliDir)' == ''">$(StagingRoot)\cli</CliDir>
     <AppIcon>$(MSBuildThisFileDirectory)..\src\MoldSign.App\Assets\AppIcon.ico</AppIcon>
     <DefineConstants>$(DefineConstants);ProductVersion=$(ProductVersion);AppDir=$(AppDir);CliDir=$(CliDir);AppIcon=$(AppIcon)</DefineConstants>
+    <!-- ICE03 "Invalid Language Id": some harvested Windows App SDK / .NET runtime DLLs carry a version-resource
+         language the MSI validator rejects (first CI run, 6 files). The files are fine; skip only that check. -->
+    <SuppressIces>ICE03</SuppressIces>
   </PropertyGroup>
 
   <ItemGroup>

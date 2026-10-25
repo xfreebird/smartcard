@@ -124,7 +124,7 @@ msign.gov.md works through the bridge with consent, PIN in Keychain, starts at l
 - [ ] MAC-12 Verify on device: `SCardReconnect(RESET)` on connect (docs say "always"; code doesn't)
 - [~] MAC-13 Entitlements + hardened runtime: `com.apple.security.smartcard` set; sandbox decision D-04 open
 - [ ] MAC-14 Finder Quick Action / Share extension "Semnează cu MoldSign"
-- [~] MAC-15 Packaging: `scripts/package-macos.sh` → universal DMG + archive + universal CLI tarball (ad-hoc signed today); Developer ID + notarization wired via env (`MACOS_SIGN_IDENTITY`, `NOTARY_PROFILE`), untested; Sparkle (D-05) todo
+- [~] MAC-15 Packaging: `scripts/package-macos.sh` → universal DMG + archive + universal CLI tarball; Developer ID signing + notarization (DMG stapled, CLI notarized) with the App Store Connect API key, in the `release` workflow. Blocked on the Developer ID certificate: Apple lets only the Account Holder create it (portal step, then `fastlane import_developer_id`). Sparkle (D-05) todo
 - [ ] MAC-16 Localization: String Catalog ro (default), ru, en
 - [ ] MAC-17 First-run onboarding (docs/10 §4.7)
 - [~] MAC-20 **Several cards at once**: per-reader cards with a picker (popover, Sign, Card screens); `/certificates` lists all; the bridge signs with the portal-chosen card; consent for that card. Simulator-tested + live `/certificates` with 2 real cards (both listed, names decoded). GNOME too: `CardSelector` (AdwComboRow / GtkDropDown) on Card + Sign pages, run against both real readers
@@ -146,7 +146,7 @@ Exit criteria: sign a PDF on iPhone over USB-C **and** Lightning adapters; msign
 - [ ] IOS-07 Bridge in Split View / Stage Manager (both apps foreground), documented limits (R-01)
 - [ ] IOS-08 Share extension "Semnează" (memory cap, R-06)
 - [ ] IOS-09 NFC research: CosmoX IAS/ECC over contactless? iOS 26 `createNFCSlot` + `iso7816.select-identifiers` (R-03)
-- [~] IOS-10 Packaging: `scripts/package-ios.sh` → Release archive + IPA (unsigned today; `IOS_TEAM_ID` for a signed export). App Store review strategy (vendor TLS key R-02, private API audit) todo
+- [~] IOS-10 Packaging: `fastlane ios_ipa` → App Store signed IPA (match profile `match AppStore md.esemnbun.ios`, team H86U5Z8HYB), built locally and in the `release` workflow; `scripts/package-ios.sh` stays for unsigned archives. TestFlight upload + App Store review strategy (vendor TLS key R-02, private API audit) todo
 
 ### Phase 3: Android
 
@@ -161,7 +161,7 @@ Exit criteria: sign on a USB-C Android phone; Chrome on the same phone signs thr
 - [ ] AND-07 Storage Access Framework save; share-target "Semnează"
 - [ ] AND-08 Chrome Local Network Access prompt (R-05)
 - [ ] AND-09 NFC `IsoDep` path, if R-03 is positive
-- [~] AND-10 Packaging: `scripts/package-android.sh` → release APK (debug-signed for testing) + AAB; upload key via env. R8 shrinking (14 MB APK today) and Play listing todo
+- [~] AND-10 Packaging: `scripts/package-android.sh` → APK + AAB signed with the upload key (`md.esemnbun.app`, keystore kept by the owner, CI secret `ANDROID_KEYSTORE_BASE64`). R8 shrinking (14 MB APK today), Play App Signing enrolment and listing todo
 
 ### Phase 4: Windows
 
@@ -236,7 +236,7 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 - [-] X-02 "Ștergere securizată" (secure delete): **dropped**. Overwrite-based deletion is meaningless on SSD/APFS/flash, so the app would promise something it can't deliver. Document why in the FAQ
 - [ ] X-03 ASiC-E container support (if portals require it)
 - [ ] X-04 Async core APIs (`async`/`await`, coroutines, `Task`) replacing semaphore-bridged calls; Swift 6 language mode for the apps
-- [ ] X-05 CI: macOS (swift test + xcodebuild), Android (gradle test), Windows (dotnet test), Linux (LNX-07); vectors job
+- [~] X-05 CI: `ci.yml` (tests + builds on every push) and `release.yml` (all installation artifacts; tag `v*` → GitHub Release). The first CI run found a Linux-only Foundation error (`Range(NSRange, in: Substring)`) and a WiX ICE03 failure, both fixed. Vectors job todo
 - [ ] X-06 Crash-safe card handling: `6985`/`6988` recovery playbook surfaced in the UI ("re-insert the card")
 - [ ] X-07 Telemetry: none by default; opt-in local diagnostics export with secrets redacted
 - [ ] X-08 Explicit HTTP proxy setting for PKI calls (they deliberately bypass the system proxy today)
@@ -272,8 +272,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 | D-13 | PKI HTTP (TSA/OCSP/CRL) uses a minimal plain-HTTP client (`NWConnection` on Apple, POSIX on Linux), bypassing the system proxy | URLSession applies HSTS (`tsp.pki.gov.md` → https fails); matches the proven `curl` behavior. Proxy setting = X-08 |
 | D-10 | Linux gets a **GNOME app** (GTK4 + libadwaita) as well as the CLI, written in Swift against the GTK C API (no third-party Swift GTK wrappers), reusing MoldSignKit | User requirement: "add linux port too, use native solution, no dotnet. gnome gtk solution" |
 | D-14 | The Swift core lives at `swift/MoldSignKit/` (not under `apple/`) | Shared by the Apple apps and Linux |
-| D-07 | Public product name **eSemnBun** (user decision, 2026-10-25); CLI `esemnbun`. `MoldSign` stays the codename in code, bundle/application IDs (`md.moldsign.*`), storage and keychain names, `MSIGN_PIN`; "MoldSign" in UI text only where it means the vendor suite | Distinct from the vendor trademark; keeping IDs avoids losing saved PINs/settings. IDs can still change before the first store release |
-| D-15 | Packages stay ad-hoc / debug signed until the project has its own Apple team and Android upload key; scripts never use the employer signing identities present on the dev Mac | Signing a personal project with employer certificates is the owner's call |
+| D-07 | Public product name **eSemnBun** (user decision, 2026-10-25); CLI `esemnbun`. Store identifiers follow it: Apple `md.esemnbun.ios` / `.mac` / `.cli`, Android `md.esemnbun.app` (user decision when signing was set up). `MoldSign` stays the codename in code (modules, namespaces, Kotlin package), Linux/Windows IDs, storage and keychain names, `MSIGN_PIN`; "MoldSign" in UI text only where it means the vendor suite | Distinct from the vendor trademark. The ID change resets saved PIN/settings of existing dev installs once |
+| D-15 | Signing uses the owner's own accounts only: Apple team H86U5Z8HYB (fastlane match in `github.com/xfreebird/fastlanecerts`), an Android upload key generated for the project; never the employer identities on the dev Mac (nor the employer GitHub Enterprise host `gh` defaults to: pass `GH_HOST=github.com`) | Personal project; the owner provided the Apple account and asked for match |
 
 ### Open (recommendation first)
 
@@ -304,6 +304,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ## Progress log
 
 Newest first. One line per meaningful step; link IDs.
+
+- 2026-10-25: Signing + release pipeline (user request). Apple: App Store Connect API key, `fastlane match` storage reset (nuked: 6 stale 2020 profiles; the team had no certificates), App IDs `md.esemnbun.ios`/`.mac` registered, Apple Distribution + Development certificates and profiles created; signed App Store IPA built locally (team H86U5Z8HYB). Developer ID: the API refuses ("Account Holder only") → CSR prepared for a portal upload, `import_developer_id` lane. Android: upload keystore generated, signed APK/AAB built. `release.yml` builds every installer (DMG notarized, IPA, APK/AAB, deb/rpm/tarball, Flatpak, MSI/MSIX/winget) and publishes on `v*` tags; 9 Actions secrets set. IDs moved to `md.esemnbun.*` (D-07), D-15 rewritten. The first CI run had failed on Linux (Foundation `Range(NSRange, in: Substring)`) and WiX ICE03; both fixed.
 
 - 2026-10-25: Repo published privately at `github.com/xfreebird/smartcard` (branches `main`, `cross-platform-apps`). History rewritten before the push: all 7 commits authored `xfreebird <xfreebird@gmail.com>` (was the employer address), PIN purged (SEC-06), committed build output dropped (101 MB → 5.5 MB); the final tree is unchanged. Local repo-level git identity set to xfreebird. Then the 0.2.0 work was committed per area on `cross-platform-apps` and `main` fast-forwarded to it (user: "merge all to main").
 

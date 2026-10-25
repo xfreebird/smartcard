@@ -1,0 +1,5 @@
+# Certificates and profiles live encrypted (MATCH_PASSWORD) in the match storage repo.
+# Reading works anonymously over HTTPS (the repo is public); writing needs MATCH_GIT_BASIC_AUTHORIZATION.
+git_url(ENV["MATCH_GIT_URL"] || "https://github.com/xfreebird/fastlanecerts.git")
+storage_mode("git")
+git_branch("master")
