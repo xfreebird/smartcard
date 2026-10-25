@@ -116,7 +116,11 @@ Accessibility: collapsed, the card is one element "{holder}, card de identitate,
 adjustable (increment/decrement = next/previous card); the disclosure button is "Alege cardul ({n} carduri)" with
 expanded/collapsed state. Expanded, each card is a button "Semnează cu {holder}" and the selected one reports *selected*.
 
-**Tray / menu bar (UX-11).** Two states only, on the bottom-right dot of the monochrome glyph:
+**Tray / menu bar (UX-11).** The glyph follows the menu-bar convention (GitHub's, for one): a **solid disc with the
+signature cut out**, so the bar shows through the signature; macOS draws it in `labelColor` with SF Symbol
+`signature` punched out (`StatusIcon.swift`), Windows renders `windows/design/icons/tray.svg` per taskbar theme, the
+Android notification icon is the same disc without the dot (`android/design/ic_stat.svg`). Two states only, on the
+bottom-right dot of the glyph:
 
 | Dot | When | Tooltip |
 |---|---|---|
