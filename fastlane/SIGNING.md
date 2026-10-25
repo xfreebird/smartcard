@@ -35,8 +35,9 @@ Notes from setting it up (2026-10-25):
 * Manual signing is applied to the iOS target only (`update_code_signing_settings`) and the project file is restored
   afterwards; command-line overrides would also hit the SwiftPM package targets.
 * TestFlight: `upload_to_testflight` with the API key, `skip_waiting_for_build_processing` (the job ends when the
-  binary is uploaded) and `skip_submission`. Builds show "Missing Compliance" until the encryption question is answered
-  in App Store Connect (or `ITSAppUsesNonExemptEncryption` is set in Info.plist). The upload needs
+  binary is uploaded) and `skip_submission`. Export compliance is answered by `ITSAppUsesNonExemptEncryption = NO` in
+  `apple/Apps/iOS/Info.plist` (owner's declaration: only exempt encryption, i.e. OS TLS plus authentication/signature
+  cryptography with the ID card), so builds don't stop at "Missing Compliance". The upload needs
   `apple/Apps/iOS/PrivacyInfo.xcprivacy` (UserDefaults, reason CA92.1).
 * Ad hoc: the same archive re-signed with "match AdHoc md.esemnbun.ios". A new device needs registering in the
   portal, then `fastlane match adhoc --force_for_new_devices` locally, then a new build.

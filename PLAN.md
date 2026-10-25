@@ -146,7 +146,7 @@ Exit criteria: sign a PDF on iPhone over USB-C **and** Lightning adapters; msign
 - [ ] IOS-07 Bridge in Split View / Stage Manager (both apps foreground), documented limits (R-01)
 - [ ] IOS-08 Share extension "Semnează" (memory cap, R-06)
 - [ ] IOS-09 NFC research: CosmoX IAS/ECC over contactless? iOS 26 `createNFCSlot` + `iso7816.select-identifiers` (R-03)
-- [~] IOS-10 Packaging: `fastlane ios_release` → one archive, App Store IPA uploaded to TestFlight (no waiting for processing) + ad hoc IPA (match AdHoc), in the `release` workflow; App Store Connect app 6826865290; `scripts/package-ios.sh` stays for unsigned archives. Export-compliance answer + App Store review strategy (vendor TLS key R-02, private API audit) todo
+- [~] IOS-10 Packaging: `fastlane ios_release` → one archive, App Store IPA uploaded to TestFlight (no waiting for processing) + ad hoc IPA (match AdHoc), in the `release` workflow; App Store Connect app 6826865290; `scripts/package-ios.sh` stays for unsigned archives. Export compliance: `ITSAppUsesNonExemptEncryption = NO` (owner's call, exempt encryption only). App Store review strategy (vendor TLS key R-02, private API audit) todo
 
 ### Phase 3: Android
 
