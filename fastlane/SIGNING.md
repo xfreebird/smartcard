@@ -40,4 +40,4 @@ Notes from setting it up (2026-10-25):
   cryptography with the ID card), so builds don't stop at "Missing Compliance". The upload needs
   `apple/Apps/iOS/PrivacyInfo.xcprivacy` (UserDefaults, reason CA92.1).
 * Ad hoc: the same archive re-signed with "match AdHoc md.esemnbun.ios". A new device needs registering in the
-  portal, then `fastlane match adhoc --force_for_new_devices` locally, then a new build.
+  portal, then `bundle exec fastlane new_devices` locally (API key, writes to match), then a new build.

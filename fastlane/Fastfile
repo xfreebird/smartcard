@@ -55,6 +55,13 @@ lane :certs do
   # create it in the portal from a CSR, then `fastlane import_developer_id cer:… key:…`.
 end
 
+desc "Regenerate the ad hoc profile with every device registered in the portal (then run a new build)"
+lane :new_devices do
+  UI.user_error!("new_devices writes to the storage repo; run it locally") if is_ci
+  match(type: "adhoc", platform: "ios", app_identifier: IOS_ID, api_key: asc_key, readonly: false,
+        force_for_new_devices: true)
+end
+
 desc "Store a portal-made Developer ID Application certificate in match (cer: downloaded .cer, key: CSR private key; or p12:)"
 lane :import_developer_id do |options|
   UI.user_error!("import_developer_id writes to the storage repo; run it locally") if is_ci
