@@ -130,6 +130,13 @@ bottom-right dot of the glyph:
 The richer five-state light (§0.1) stays inside the popover/flyout/window header. GNOME has no tray: the Background
 portal status text carries the same wording. Android: the bridge notification's accent color is green/gray the same way.
 
+**App icon (UX-13).** Same motif as the tray glyph: a white disc with the signature cut out (the plate shows through)
+on the brand-blue gradient plate (`#3F6EF5` → `#1A39A6`), finer signature strokes than the 16 px tray version. One
+generator, `scripts/make-app-icons.py`, writes every platform from the constants at its top (masters in
+`design/app-icon/`): iOS 1024 px full bleed and opaque, macOS 16…1024 px on Apple's grid (824 px body + shadow),
+Android adaptive icon (gradient background vector + foreground/monochrome PNGs inside the 66 dp safe circle) and the
+512 px Play listing icon, Windows `app.svg` → `AppIcon.ico` + MSIX tiles, GNOME 128 px SVG (112 px body).
+
 **Name (UX-12, D-07 decided).** The public product name is **eSemnBun** (exactly this casing) on every platform: app and
 window titles, menu-bar/tray tooltips, About, installers, package and file names. The CLI command is `esemnbun`.
 The codename `MoldSign` stays in code (modules, namespaces, bundle/application IDs `md.moldsign.*`, storage paths,
