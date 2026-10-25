@@ -1,0 +1,16 @@
+Summary for /Applications/STISC/MoldSign/lib/NetworkUtils-2.19.1.jar
+Decompiled with CFR 0.152
+
+
+dorkbox.netUtil.IPv4
+----------------------------
+
+findFreeSubnet24Cidr()
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [2[DOLOOP]], but top level block is 0[TRYBLOCK]
+
+
+dorkbox.netUtil.dnsUtils.ResolveConf
+----------------------------
+
+getUnsortedNameServers$NetworkUtils()
+  Unable to fully structure code

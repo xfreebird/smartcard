@@ -1,0 +1,32 @@
+Summary for /Applications/STISC/MoldSign/lib/Utilities-1.39.jar
+Decompiled with CFR 0.152
+
+
+dorkbox.util.crypto.CryptoPGP
+----------------------------
+
+signGpgCompatible(java.io.InputStream java.lang.String char[] java.io.File )
+  Loose catch block
+encrypt(java.io.InputStream java.lang.String )
+  Loose catch block
+
+
+dorkbox.util.WebUtil
+----------------------------
+
+invokeSuspend(java.lang.Object )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 11[CASE]
+
+
+dorkbox.util.CommonUtilsKt
+----------------------------
+
+invokeSuspend(java.lang.Object )
+  Unable to fully structure code
+
+
+dorkbox.util.FileUtil
+----------------------------
+
+isZipFile(java.io.File )
+  Unable to fully structure code

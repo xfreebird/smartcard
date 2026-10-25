@@ -1,0 +1,658 @@
+CMS_ContentInfo: 
+  contentType: pkcs7-signedData (1.2.840.113549.1.7.2)
+  d.signedData: 
+    version: 1
+    digestAlgorithms:
+        algorithm: sha256 (2.16.840.1.101.3.4.2.1)
+        parameter: NULL
+    encapContentInfo: 
+      eContentType: pkcs7-data (1.2.840.113549.1.7.1)
+      eContent: <ABSENT>
+    certificates:
+      d.certificate: 
+        cert_info: 
+          version: 2
+          serialNumber: 1298074217626875734588754529109008
+          signature: 
+            algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+            parameter: NULL
+          issuer:           C=MD, L=Chișinău, O=IP Serviciul Tehnologia Informației şi Securitate Cibernetică, CN=MDQSign, organizationIdentifier=NTRMD-1003600096694
+          validity: 
+            notBefore: Oct 22 10:17:40 2025 GMT
+            notAfter: Oct 22 10:17:40 2026 GMT
+          subject:           CN=Econom Natalia, serialNumber=2002027055652, L=Chisinau, ST=Republica Moldova, telephoneNumber=+37379902890, title=Specialist Resurse Umane, C=MD, OU=Resurse Umane, O=Î.C.S. "ENDAVA" S.R.L. 1002600023471
+          key:           X509_PUBKEY: 
+            algor: 
+              algorithm: rsaEncryption (1.2.840.113549.1.1.1)
+              parameter: NULL
+            public_key:  (0 unused bits)
+              0000 - 30 82 01 0a 02 82 01 01-00 d5 84 f3 40 0e   0...........@.
+              000e - 3d 74 29 a3 cb 75 6b 76-20 5e 3e c8 2d 91   =t)..ukv ^>.-.
+              001c - ed 52 5c ed 5d e3 0d 03-39 52 ab ed 19 be   .R\.]...9R....
+              002a - b8 88 fa b1 e3 12 58 0d-f8 df 97 30 0a 98   ......X....0..
+              0038 - f1 ca a4 f1 cf 0e 64 3f-a1 f9 8a b7 a2 61   ......d?.....a
+              0046 - 2f 36 f3 0f bd 66 4e 54-c6 7b c3 3e 31 aa   /6...fNT.{.>1.
+              0054 - 44 cb df da 1c b3 a2 79-cb 09 32 73 45 91   D......y..2sE.
+              0062 - 30 5f cb be 6d d9 a7 a2-c4 92 8d 5a 47 e0   0_..m......ZG.
+              0070 - 05 ef 15 88 4f 28 59 c1-0e 08 b9 1b 3f 22   ....O(Y.....?"
+              007e - 24 ca 3e f0 43 f8 91 8c-6e bd 5e 6f 90 7e   $.>.C...n.^o.~
+              008c - 1b c5 44 82 ce c4 0e 27-5d a7 96 65 e5 2b   ..D....']..e.+
+              009a - 61 14 63 ed f1 0d de d1-94 81 1a 70 76 95   a.c........pv.
+              00a8 - d9 11 e2 f2 32 4c a3 0f-8a d9 a4 b0 7d cd   ....2L......}.
+              00b6 - ff e7 9e 43 1c cc 1d 48-dc 70 da 77 29 22   ...C...H.p.w)"
+              00c4 - 28 5a b8 d0 e0 4e 25 76-25 28 64 be 55 b2   (Z...N%v%(d.U.
+              00d2 - 36 f7 8b 4f e4 46 bd b1-0d 63 06 1f 12 8c   6..O.F...c....
+              00e0 - 99 7b b8 79 8c cc 48 31-49 ca 44 f9 2a 00   .{.y..H1I.D.*.
+              00ee - 59 e8 91 9e 65 40 d0 83-d1 e3 46 29 77 bb   Y...e@....F)w.
+              00fc - c5 b2 91 d6 bd cd 8e 6e-45 a7 24 ad 79 02   .......nE.$.y.
+              010a - 03 01 00 01                                 ....
+          issuerUID: <ABSENT>
+          subjectUID: <ABSENT>
+          extensions:
+              object: Authority Information Access (1.3.6.1.5.5.7.1.1)
+              critical: FALSE
+              value: 
+                0000 - 30 54 30 26 06 08 2b 06-01 05 05 07 30   0T0&..+.....0
+                000d - 01 86 1a 68 74 74 70 3a-2f 2f 6d 64 71   ...http://mdq
+                001a - 73 69 67 6e 2e 6f 63 73-70 2e 70 6b 69   sign.ocsp.pki
+                0027 - 2e 6d 64 30 2a 06 08 2b-06 01 05 05 07   .md0*..+.....
+                0034 - 30 02 86 1e 68 74 74 70-3a 2f 2f 70 6b   0...http://pk
+                0041 - 69 2e 6d 64 2f 63 65 72-74 2f 6d 64 71   i.md/cert/mdq
+                004e - 73 69 67 6e 2e 63 72 74-                 sign.crt
+
+              object: X509v3 CRL Distribution Points (2.5.29.31)
+              critical: FALSE
+              value: 
+                0000 - 30 25 30 23 a0 21 a0 1f-86 1d 68 74 74   0%0#.!....htt
+                000d - 70 3a 2f 2f 70 6b 69 2e-6d 64 2f 63 72   p://pki.md/cr
+                001a - 6c 2f 6d 64 71 73 69 67-6e 2e 63 72 6c   l/mdqsign.crl
+
+              object: X509v3 Key Usage (2.5.29.15)
+              critical: TRUE
+              value: 
+                0000 - 03 02 06 40                              ...@
+
+              object: X509v3 Subject Key Identifier (2.5.29.14)
+              critical: FALSE
+              value: 
+                0000 - 04 14 5f 78 78 0b c5 e5-be 88 a4 a1 5d   .._xx.......]
+                000d - 82 6c 64 74 a6 39 e2 3e-49               .ldt.9.>I
+
+              object: X509v3 Authority Key Identifier (2.5.29.35)
+              critical: FALSE
+              value: 
+                0000 - 30 16 80 14 93 ca a1 9c-e1 6b de 29 88   0........k.).
+                000d - 13 a2 d7 1d 74 32 08 c8-b6 ec 60         ....t2....`
+
+              object: X509v3 Certificate Policies (2.5.29.32)
+              critical: FALSE
+              value: 
+                0000 - 30 37 30 35 06 07 2a 83-72 03 20 01 01   0705..*.r. ..
+                000d - 30 2a 30 28 06 08 2b 06-01 05 05 07 02   0*0(..+......
+                001a - 01 16 1c 68 74 74 70 3a-2f 2f 70 6b 69   ...http://pki
+                0027 - 2e 6d 64 2f 70 6f 6c 69-63 79 2f 6d 64   .md/policy/md
+                0034 - 71 73 69 67 6e                           qsign
+
+              object: X509v3 Subject Alternative Name (2.5.29.17)
+              critical: FALSE
+              value: 
+                0000 - 30 1b 81 19 6e 61 74 61-6c 69 61 2e 65   0...natalia.e
+                000d - 63 6f 6e 6f 6d 40 65 6e-64 61 76 61 2e   conom@endava.
+                001a - 63 6f 6d                                 com
+
+              object: qcStatements (1.3.6.1.5.5.7.1.3)
+              critical: FALSE
+              value: 
+                0000 - 30 0a 30 08 06 06 04 00-8e 46 01 01      0.0......F..
+        sig_alg: 
+          algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+          parameter: NULL
+        signature:  (0 unused bits)
+          0000 - 1f 71 1b c6 8b ba 25 64-6c 7c ef 46 82 82 57   .q....%dl|.F..W
+          000f - 6c 73 41 a0 be 53 22 e3-b2 6a b3 08 2b 19 42   lsA..S"..j..+.B
+          001e - 77 c0 50 c0 dc d1 64 42-65 28 6a bd 06 42 01   w.P...dBe(j..B.
+          002d - 13 ae d4 dc 51 c6 d6 54-bc 54 34 c1 4a f4 d7   ....Q..T.T4.J..
+          003c - d3 0c aa b3 95 2c 75 e8-af 98 4a 9b e7 82 05   .....,u...J....
+          004b - 92 0f ed 8d 1c 2d 00 75-15 ba 4a 02 f6 fc cf   .....-.u..J....
+          005a - ea 7e 9f 72 86 5a 24 81-ea 9e 7f c6 43 fd 9c   .~.r.Z$.....C..
+          0069 - 95 f6 5e 28 91 0a 46 86-d9 30 09 e1 b7 83 a0   ..^(..F..0.....
+          0078 - b7 63 c1 9a 9b 88 02 0a-a7 ee 84 95 05 58 96   .c...........X.
+          0087 - c5 27 6a 85 be d3 87 20-4f 64 11 f2 b6 d5 d1   .'j.... Od.....
+          0096 - 70 97 7d 40 d6 23 fc 28-35 0c 03 1b 94 81 8b   p.}@.#.(5......
+          00a5 - 7d 6f 1c b0 fc 22 24 bc-d6 61 44 a8 8c 79 4b   }o..."$..aD..yK
+          00b4 - ec e9 a4 dc 26 b1 6f 5a-4b f7 cf 8e dd 96 5d   ....&.oZK.....]
+          00c3 - 12 b8 b0 6f 86 c0 f6 44-01 a5 5e 8d 16 8f d6   ...o...D..^....
+          00d2 - 13 6e 61 89 b8 85 bc 85-ca d7 7d b6 c6 23 e2   .na.......}..#.
+          00e1 - 7a e9 6c be cf 20 f3 98-fd 9d de 1b 01 32 76   z.l.. .......2v
+          00f0 - ed 97 e9 49 4a 6a 50 ce-77 55 1b a2 f0 04 25   ...IJjP.wU....%
+          00ff - cf f0 6d bc 6a 29 27 f1-6c de 4f 04 d5 7d f0   ..m.j)'.l.O..}.
+          010e - f4 53 e4 09 45 24 94 8e-e6 1b 39 83 2a 29 2b   .S..E$....9.*)+
+          011d - b2 47 36 e9 bd 56 20 fe-6c 9d fd 5f 99 e0 8e   .G6..V .l.._...
+          012c - 8a 35 9c 80 48 20 5a 29-52 06 70 66 2a 9f 4e   .5..H Z)R.pf*.N
+          013b - f8 46 17 60 8a 30 49 90-e8 2b e9 be b2 8f 27   .F.`.0I..+....'
+          014a - 72 9a 03 d1 90 a6 65 95-68 62 12 b7 3e 7a fb   r.....e.hb..>z.
+          0159 - b8 de b2 95 92 3f 43 bc-3e be 70 26 c6 c6 b5   .....?C.>.p&...
+          0168 - 01 65 7b 6c 0b 63 4a a6-e5 4c b7 20 3d 0b e1   .e{l.cJ..L. =..
+          0177 - e2 4e 51 2b d1 e6 d9 f2-80 fe 21 5e bb 77 8a   .NQ+......!^.w.
+          0186 - 0d 5c d6 fc 78 d3 96 ff-6b 26 a1 9c b9 8f e6   .\..x...k&.....
+          0195 - 68 f8 ad 15 57 20 5a a1-40 63 90 65 5f c3 4c   h...W Z.@c.e_.L
+          01a4 - 5d fd 6a 44 6d 31 6e 74-7d c0 95 77 99 e5 60   ].jDm1nt}..w..`
+          01b3 - 08 fa 31 d5 6a dd 2f 30-f6 2d e6 e5 fe 39 8e   ..1.j./0.-...9.
+          01c2 - b9 e7 b4 96 84 10 6f 52-3f 41 be 16 d7 d5 2c   ......oR?A....,
+          01d1 - 00 da 30 37 91 18 14 29-8e 60 34 8b c2 e3 2f   ..07...).`4.../
+          01e0 - 40 16 b8 0e 9f 71 65 9c-c3 0e e5 ef 92 5e e3   @....qe......^.
+          01ef - cb c1 2e a2 63 7a 5a d0-ce 7b f9 4d 64 fe 9f   ....czZ..{.Md..
+          01fe - aa 60                                          .`
+
+      d.certificate: 
+        cert_info: 
+          version: 2
+          serialNumber: 1298074214734647624508817148735695
+          signature: 
+            algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+            parameter: NULL
+          issuer:           C=MD, L=Chișinău, O=IP Serviciul Tehnologia Informației şi Securitate Cibernetică, CN=mdtrustca, organizationIdentifier=NTRMD-1003600096694
+          validity: 
+            notBefore: Jan  4 17:30:39 2025 GMT
+            notAfter: Jan  4 17:30:39 2045 GMT
+          subject:           C=MD, L=Chișinău, O=IP Serviciul Tehnologia Informației şi Securitate Cibernetică, CN=mdtrustca, organizationIdentifier=NTRMD-1003600096694
+          key:           X509_PUBKEY: 
+            algor: 
+              algorithm: rsaEncryption (1.2.840.113549.1.1.1)
+              parameter: NULL
+            public_key:  (0 unused bits)
+              0000 - 30 82 02 0a 02 82 02 01-00 a4 21 0e d1 5b   0.........!..[
+              000e - fd 2c a9 8b 15 17 13 81-8f b7 0f 46 55 52   .,.........FUR
+              001c - 63 95 33 ae 45 75 a3 e3-df 31 34 05 1b 98   c.3.Eu...14...
+              002a - b9 48 29 30 f8 f8 ee 74-fe fd 88 67 10 0a   .H)0...t...g..
+              0038 - 59 ca 38 9c 19 0d ad df-40 e6 41 98 87 33   Y.8.....@.A..3
+              0046 - a6 b3 a1 92 78 bf bd 3c-09 5e 9e 28 f5 28   ....x..<.^.(.(
+              0054 - 11 ca 84 56 e5 e2 a5 fc-bc f3 eb 8c a2 bb   ...V..........
+              0062 - 66 fa e5 57 f2 43 98 80-c4 26 fe d2 85 cb   f..W.C...&....
+              0070 - 36 bd 77 44 6f 65 0d d0-6b 1f 1a 22 ef 42   6.wDoe..k..".B
+              007e - 0c 27 b1 7b 1e 2f ba 79-ff bb f4 4c 4b 3e   .'.{./.y...LK>
+              008c - 26 86 e2 e4 af b2 c9 26-b0 77 e4 4d 32 d3   &......&.w.M2.
+              009a - e6 31 2e d0 8c b3 ce c3-9e d7 88 bc 5a 57   .1..........ZW
+              00a8 - 8c ee eb 10 6b 8a c8 87-bb 2f 97 24 cc 33   ....k..../.$.3
+              00b6 - 8b 1f 0f 3f 0d de c4 98-de 18 fb 22 ac 54   ...?.......".T
+              00c4 - b7 1f f6 44 3c b9 1f d2-ed e5 ad b8 c9 8b   ...D<.........
+              00d2 - ff 00 51 23 c8 ad 95 c8-43 52 10 2f 34 9c   ..Q#....CR./4.
+              00e0 - ec b2 c4 99 13 f7 13 23-07 f1 71 2a 37 20   .......#..q*7 
+              00ee - 55 27 85 bf 2e b0 bd a2-42 85 12 d2 ca b9   U'......B.....
+              00fc - 47 ac f4 f3 b1 3e a0 67-6c 58 f2 29 b0 f4   G....>.glX.)..
+              010a - 79 cb 99 70 c4 40 a7 6b-ff 2e d1 e7 75 55   y..p.@.k....uU
+              0118 - b0 24 e8 e6 01 90 b1 fc-a9 a2 0c ab 6e 26   .$..........n&
+              0126 - 25 fb fa 0f 84 38 d0 fc-b3 ce 16 26 d4 df   %....8.....&..
+              0134 - ac 06 6f 69 c3 f4 80 b8-38 bf 6f 06 b3 26   ..oi....8.o..&
+              0142 - 77 59 e3 8c 67 eb 18 ad-b5 54 78 fe c6 bf   wY..g....Tx...
+              0150 - 1b 18 61 70 55 e9 55 62-92 f6 7c 69 40 52   ..apU.Ub..|i@R
+              015e - 9d f6 f5 86 63 49 94 37-56 3c ff 44 5a 09   ....cI.7V<.DZ.
+              016c - a8 84 4d 57 f3 40 92 f1-e8 07 dc 70 7d ac   ..MW.@.....p}.
+              017a - 68 ac 99 f3 8a 94 15 55-56 7c 58 6b 18 8c   h......UV|Xk..
+              0188 - 08 9a 93 4e 92 38 48 11-44 03 a8 d7 6c af   ...N.8H.D...l.
+              0196 - 26 f1 4c 85 89 91 d3 7c-e9 95 b4 bd 08 07   &.L....|......
+              01a4 - 0f 6a 3d 36 de 8a 95 7e-80 01 b7 e9 db fb   .j=6...~......
+              01b2 - 2c 75 d9 63 be 50 5b 29-2f b7 65 66 ba b2   ,u.c.P[)/.ef..
+              01c0 - e0 22 6a fc 37 bc 34 ef-4f ac 55 fd 6d 8e   ."j.7.4.O.U.m.
+              01ce - f6 d8 32 a9 33 18 20 65-3a ce e2 5c 88 56   ..2.3. e:..\.V
+              01dc - 22 72 c0 61 7d c6 07 59-2f 68 88 07 a1 ea   "r.a}..Y/h....
+              01ea - bc da 8c bd 0f 27 fd 6c-2c d3 25 50 57 89   .....'.l,.%PW.
+              01f8 - 6e dc 9b ba 3b a5 63 d5-27 62 5a bf 86 08   n...;.c.'bZ...
+              0206 - 27 ad 5d 02 03 01 00 01-                    '.].....
+          issuerUID: <ABSENT>
+          subjectUID: <ABSENT>
+          extensions:
+              object: Authority Information Access (1.3.6.1.5.5.7.1.1)
+              critical: FALSE
+              value: 
+                0000 - 30 57 30 28 06 08 2b 06-01 05 05 07 30   0W0(..+.....0
+                000d - 01 86 1c 68 74 74 70 3a-2f 2f 6d 64 74   ...http://mdt
+                001a - 72 75 73 74 63 61 2e 6f-63 73 70 2e 70   rustca.ocsp.p
+                0027 - 6b 69 2e 6d 64 30 2b 06-08 2b 06 01 05   ki.md0+..+...
+                0034 - 05 07 30 02 86 1f 68 74-74 70 3a 2f 2f   ..0...http://
+                0041 - 70 6b 69 2e 6d 64 2f 63-65 72 2f 6d 64   pki.md/cer/md
+                004e - 74 72 75 73 74 63 61 2e-63 65 72         trustca.cer
+
+              object: X509v3 CRL Distribution Points (2.5.29.31)
+              critical: FALSE
+              value: 
+                0000 - 30 27 30 25 a0 23 a0 21-86 1f 68 74 74   0'0%.#.!..htt
+                000d - 70 3a 2f 2f 70 6b 69 2e-6d 64 2f 63 72   p://pki.md/cr
+                001a - 6c 2f 6d 64 74 72 75 73-74 63 61 2e 63   l/mdtrustca.c
+                0027 - 72 6c                                    rl
+
+              object: X509v3 Basic Constraints (2.5.29.19)
+              critical: TRUE
+              value: 
+                0000 - 30 03 01 01 ff                           0....
+
+              object: X509v3 Certificate Policies (2.5.29.32)
+              critical: FALSE
+              value: 
+                0000 - 30 36 30 34 06 04 55 1d-20 00 30 2c 30   0604..U. .0,0
+                000d - 2a 06 08 2b 06 01 05 05-07 02 01 16 1e   *..+.........
+                001a - 68 74 74 70 3a 2f 2f 70-6b 69 2e 6d 64   http://pki.md
+                0027 - 2f 70 6f 6c 69 63 79 2f-6d 64 74 72 75   /policy/mdtru
+                0034 - 73 74 63 61                              stca
+
+              object: X509v3 Key Usage (2.5.29.15)
+              critical: TRUE
+              value: 
+                0000 - 03 02 01 06                              ....
+
+              object: X509v3 Subject Key Identifier (2.5.29.14)
+              critical: FALSE
+              value: 
+                0000 - 04 14 6d 36 87 be 0a 5d-77 3d e3 f7 71   ..m6...]w=..q
+                000d - 95 15 8d 03 68 b8 b0 6d-78               ....h..mx
+
+              object: X509v3 Private Key Usage Period (2.5.29.16)
+              critical: FALSE
+              value: 
+                0000 - 30 22 80 0f 32 30 32 35-30 31 30 34 31   0"..202501041
+                000d - 37 33 30 33 34 5a 81 0f-32 30 33 35 30   73034Z..20350
+                001a - 31 30 35 30 35 33 30 33-34 5a            105053034Z
+        sig_alg: 
+          algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+          parameter: NULL
+        signature:  (0 unused bits)
+          0000 - a1 cd b8 bf da 3a d5 12-7b 34 96 26 05 09 54   .....:..{4.&..T
+          000f - 91 7a ea e9 9b 61 99 4e-02 d1 c4 0b 9b e6 9d   .z...a.N.......
+          001e - 45 f8 54 a3 ae b3 07 29-c7 6b bf 12 ae 47 68   E.T....).k...Gh
+          002d - b0 c9 fa 5a db c7 ed 66-6e 98 bc 54 38 c4 7f   ...Z...fn..T8..
+          003c - ec c3 40 1b 0b 02 38 2d-f3 0d b2 ee 94 82 37   ..@...8-......7
+          004b - f5 5a 82 28 cf 7b c0 16-99 ea 0c 82 d7 3a 08   .Z.(.{.......:.
+          005a - 90 c1 e6 4b 36 5e a5 e9-f2 d9 d5 c3 12 44 f5   ...K6^.......D.
+          0069 - 76 9f 39 f5 f0 35 2f da-3a 15 68 20 3f b5 66   v.9..5/.:.h ?.f
+          0078 - 33 b6 72 93 52 ca 5b d7-c8 26 d8 4c f8 6f 9e   3.r.R.[..&.L.o.
+          0087 - 71 3d 22 f1 46 ba 28 b2-f0 eb b1 b6 63 99 2d   q=".F.(.....c.-
+          0096 - 4c b4 d7 56 cb 54 ce 13-34 a9 12 38 97 04 77   L..V.T..4..8..w
+          00a5 - 93 f3 52 b4 d2 ff a3 2f-17 f8 58 74 b9 d8 8b   ..R..../..Xt...
+          00b4 - 2b ca 58 5f d1 c7 b4 12-51 72 67 13 dc 5d a6   +.X_....Qrg..].
+          00c3 - e2 76 d5 73 de b1 db cb-c3 54 b2 d0 69 27 ee   .v.s.....T..i'.
+          00d2 - 0f cb 83 db 10 2e 88 fb-94 42 ae c9 17 1a 2d   .........B....-
+          00e1 - 55 70 04 e4 28 6c eb d5-c0 ce de df fd 60 e5   Up..(l.......`.
+          00f0 - 3b b0 3a 96 a8 62 b5 2b-46 86 50 4f 94 e9 89   ;.:..b.+F.PO...
+          00ff - b4 61 80 f1 c1 91 d9 3f-2e 15 4d 56 ab 29 40   .a.....?..MV.)@
+          010e - 7e 07 a8 05 ee ee 7f a2-e6 4f 63 c9 bf c8 bc   ~........Oc....
+          011d - f0 0e 0b 0c 5e e3 ff 43-95 12 13 b8 bc 1d 6a   ....^..C......j
+          012c - 43 10 c2 5f b4 94 f1 71-f0 9e b0 c4 92 fd 10   C.._...q.......
+          013b - 58 f5 d3 fe 41 f4 92 02-92 d8 97 08 14 8b 43   X...A.........C
+          014a - 04 e2 72 e2 0e a7 d9 eb-c3 5b 15 8c 42 6e 75   ..r......[..Bnu
+          0159 - 1f c7 a7 cd 8c 8d 15 91-b0 9c ca 6c 51 2b c8   ...........lQ+.
+          0168 - 97 7b 24 60 7b c0 ad c8-1d d7 4d eb fe 39 09   .{$`{.....M..9.
+          0177 - 50 3e 4b 74 d1 77 02 a4-1c 63 e6 d3 0b d7 e7   P>Kt.w...c.....
+          0186 - 67 93 88 9f bb cd 87 04-b3 55 73 d0 2d 4f 86   g........Us.-O.
+          0195 - 19 74 c1 4f 07 a5 4d c0-f1 b1 f7 ba 12 6f 71   .t.O..M......oq
+          01a4 - a9 24 86 d5 1a 3b a8 f6-06 ec eb 81 d2 37 88   .$...;.......7.
+          01b3 - a0 82 14 95 ce 8e 97 b2-c5 15 6b 02 e5 8f 2b   ..........k...+
+          01c2 - 65 b6 ed 32 47 ec 08 db-03 c3 3b b8 9c 50 c3   e..2G.....;..P.
+          01d1 - a3 25 cc 9b 56 4f c2 d7-5c 47 24 77 c5 36 0e   .%..VO..\G$w.6.
+          01e0 - 07 2f 10 36 e6 47 90 5e-1c ac 0a da a3 af 89   ./.6.G.^.......
+          01ef - b4 0f 20 56 2c 6a 8c 39-63 54 b9 1b 58 6a 93   .. V,j.9cT..Xj.
+          01fe - b9 23                                          .#
+
+      d.certificate: 
+        cert_info: 
+          version: 2
+          serialNumber: 1298074214710150348378953499914283
+          signature: 
+            algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+            parameter: NULL
+          issuer:           C=MD, L=Chișinău, O=IP Serviciul Tehnologia Informației şi Securitate Cibernetică, CN=mdtrustca, organizationIdentifier=NTRMD-1003600096694
+          validity: 
+            notBefore: Jan  4 18:08:23 2025 GMT
+            notAfter: Jan  4 18:08:23 2035 GMT
+          subject:           C=MD, L=Chișinău, O=IP Serviciul Tehnologia Informației şi Securitate Cibernetică, CN=MDQSign, organizationIdentifier=NTRMD-1003600096694
+          key:           X509_PUBKEY: 
+            algor: 
+              algorithm: rsaEncryption (1.2.840.113549.1.1.1)
+              parameter: NULL
+            public_key:  (0 unused bits)
+              0000 - 30 82 02 0a 02 82 02 01-00 cf 56 dd cf a3   0.........V...
+              000e - de 01 47 5e 3b 59 ae 98-e5 72 65 bb 1e ac   ..G^;Y...re...
+              001c - 9f da 80 e3 cc 5a 6c a0-81 76 34 80 8b 41   .....Zl..v4..A
+              002a - 89 e5 10 34 6e f4 80 fb-9e 5f 4b 69 f8 59   ...4n...._Ki.Y
+              0038 - 58 29 ec db 5c c0 e6 56-72 61 04 77 92 fd   X)..\..Vra.w..
+              0046 - b1 e5 3c 3c 53 f8 f8 dc-a4 e3 d6 db 23 9e   ..<<S.......#.
+              0054 - e5 69 9a 7d 74 1e 7a 51-4e e1 d0 a3 b7 07   .i.}t.zQN.....
+              0062 - b7 81 39 ba 88 4d 2d c8-e3 6b 01 c6 c3 bf   ..9..M-..k....
+              0070 - 75 f8 ee fa 48 cf e6 91-90 c0 2a 77 03 98   u...H.....*w..
+              007e - 96 e4 32 33 6a 79 d5 34-39 94 79 de 16 f5   ..23jy.49.y...
+              008c - c6 6a 93 1b 97 b6 f9 af-88 b7 9f d5 f1 b1   .j............
+              009a - f0 24 dc ba 69 2f 66 4d-6e ba df be 67 be   .$..i/fMn...g.
+              00a8 - 51 4b fb 10 75 e8 60 d6-9f db 43 c6 67 1e   QK..u.`...C.g.
+              00b6 - 46 3e 5f 25 e3 b0 7c 8d-7d e5 d4 48 5c dd   F>_%..|.}..H\.
+              00c4 - ac 31 4a 7e b4 6c 6b b2-8b 26 a2 9f b0 50   .1J~.lk..&...P
+              00d2 - 62 5f 2d 04 a2 68 96 1b-c6 8e 25 37 b9 c8   b_-..h....%7..
+              00e0 - 27 51 00 1e 68 c3 3f 97-b7 b9 fd e5 db c6   'Q..h.?.......
+              00ee - 05 65 ef 41 f8 f6 06 5b-89 db 8a b6 c6 3e   .e.A...[.....>
+              00fc - ed 07 58 e3 f2 c5 c8 50-7d ca 2a 25 7d 54   ..X....P}.*%}T
+              010a - de 05 8a b9 26 51 ff a6-79 2d ca 6f 3e 9c   ....&Q..y-.o>.
+              0118 - 23 51 e2 2f 7c 9c b2 31-8d 13 2b a3 8a 52   #Q./|..1..+..R
+              0126 - 5f cc 53 52 4a f3 b4 b0-74 81 88 71 7f 97   _.SRJ...t..q..
+              0134 - d4 c1 2e d4 54 9b ec bb-78 72 8d c3 08 c9   ....T...xr....
+              0142 - df 61 37 95 5b 07 82 3a-e0 fa 29 60 22 28   .a7.[..:..)`"(
+              0150 - 53 c0 b0 3a e5 eb 95 3a-e5 21 ea 2a 42 bb   S..:...:.!.*B.
+              015e - 69 63 78 b6 0d d3 42 d1-a1 f4 cb 0c f1 c7   icx...B.......
+              016c - 8d cd 67 ab 7f fd bc e8-af c6 2b 50 20 e9   ..g.......+P .
+              017a - 68 32 50 d5 dd 7b ae ed-f3 90 16 d6 6a b3   h2P..{......j.
+              0188 - a1 91 6a d3 5f 6c 56 01-0f 5b af eb e9 17   ..j._lV..[....
+              0196 - ac 57 c0 e4 67 f7 55 54-ab 0e 9f 79 12 13   .W..g.UT...y..
+              01a4 - 8e 9d 4c a1 4a e2 46 f6-5f a7 f8 f4 54 fe   ..L.J.F._...T.
+              01b2 - 29 42 8d 02 5a f7 0b 7e-03 15 52 e8 6a 0e   )B..Z..~..R.j.
+              01c0 - db 78 78 09 41 60 f3 3c-f5 29 54 29 fd e1   .xx.A`.<.)T)..
+              01ce - f0 88 49 03 52 d9 97 68-4d c1 92 02 8f 49   ..I.R..hM....I
+              01dc - d6 a6 23 3c 6d be d0 a2-2d 12 b3 d2 4d 3e   ..#<m...-...M>
+              01ea - ed d4 8b ed 27 ec bc 47-51 95 85 b8 7c 9b   ....'..GQ...|.
+              01f8 - 53 1e 2e 19 55 20 7e 1e-27 c4 3d 92 02 9a   S...U ~.'.=...
+              0206 - fa ac 29 02 03 01 00 01-                    ..).....
+          issuerUID: <ABSENT>
+          subjectUID: <ABSENT>
+          extensions:
+              object: Authority Information Access (1.3.6.1.5.5.7.1.1)
+              critical: FALSE
+              value: 
+                0000 - 30 57 30 28 06 08 2b 06-01 05 05 07 30   0W0(..+.....0
+                000d - 01 86 1c 68 74 74 70 3a-2f 2f 6d 64 74   ...http://mdt
+                001a - 72 75 73 74 63 61 2e 6f-63 73 70 2e 70   rustca.ocsp.p
+                0027 - 6b 69 2e 6d 64 30 2b 06-08 2b 06 01 05   ki.md0+..+...
+                0034 - 05 07 30 02 86 1f 68 74-74 70 3a 2f 2f   ..0...http://
+                0041 - 70 6b 69 2e 6d 64 2f 63-65 72 2f 6d 64   pki.md/cer/md
+                004e - 74 72 75 73 74 63 61 2e-63 65 72         trustca.cer
+
+              object: X509v3 CRL Distribution Points (2.5.29.31)
+              critical: FALSE
+              value: 
+                0000 - 30 27 30 25 a0 23 a0 21-86 1f 68 74 74   0'0%.#.!..htt
+                000d - 70 3a 2f 2f 70 6b 69 2e-6d 64 2f 63 72   p://pki.md/cr
+                001a - 6c 2f 6d 64 74 72 75 73-74 63 61 2e 63   l/mdtrustca.c
+                0027 - 72 6c                                    rl
+
+              object: X509v3 Basic Constraints (2.5.29.19)
+              critical: TRUE
+              value: 
+                0000 - 30 03 01 01 ff                           0....
+
+              object: X509v3 Authority Key Identifier (2.5.29.35)
+              critical: FALSE
+              value: 
+                0000 - 30 16 80 14 6d 36 87 be-0a 5d 77 3d e3   0...m6...]w=.
+                000d - f7 71 95 15 8d 03 68 b8-b0 6d 78         .q....h..mx
+
+              object: X509v3 Certificate Policies (2.5.29.32)
+              critical: FALSE
+              value: 
+                0000 - 30 36 30 34 06 04 55 1d-20 00 30 2c 30   0604..U. .0,0
+                000d - 2a 06 08 2b 06 01 05 05-07 02 01 16 1e   *..+.........
+                001a - 68 74 74 70 3a 2f 2f 70-6b 69 2e 6d 64   http://pki.md
+                0027 - 2f 70 6f 6c 69 63 79 2f-6d 64 74 72 75   /policy/mdtru
+                0034 - 73 74 63 61                              stca
+
+              object: X509v3 Key Usage (2.5.29.15)
+              critical: TRUE
+              value: 
+                0000 - 03 02 01 06                              ....
+
+              object: X509v3 Subject Key Identifier (2.5.29.14)
+              critical: FALSE
+              value: 
+                0000 - 04 14 93 ca a1 9c e1 6b-de 29 88 13 a2   .......k.)...
+                000d - d7 1d 74 32 08 c8 b6 ec-60               ..t2....`
+
+              object: X509v3 Private Key Usage Period (2.5.29.16)
+              critical: FALSE
+              value: 
+                0000 - 30 22 80 0f 32 30 32 35-30 31 30 34 31   0"..202501041
+                000d - 38 30 37 34 37 5a 81 0f-32 30 33 30 30   80747Z..20300
+                001a - 31 30 34 31 38 30 37 34-37 5a            104180747Z
+        sig_alg: 
+          algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+          parameter: NULL
+        signature:  (0 unused bits)
+          0000 - 2a 7d 9c 30 e0 17 ff cc-02 dc 85 d9 da 66 8e   *}.0.........f.
+          000f - 22 f8 f0 5b f4 b2 33 a3-ac 02 db 2e 26 c5 ca   "..[..3.....&..
+          001e - 97 74 4c b1 e8 28 87 c8-72 86 1d e0 a9 57 f8   .tL..(..r....W.
+          002d - b7 50 ce 62 90 3f 0e 7f-75 58 3d f5 7a c2 69   .P.b.?..uX=.z.i
+          003c - 93 79 23 f5 56 1e b3 23-1d 22 4d 83 04 83 d8   .y#.V..#."M....
+          004b - 3a 32 94 78 ec 24 8d b5-06 7a d5 3e c8 be b3   :2.x.$...z.>...
+          005a - 54 16 80 8a 02 fc 65 c2-f4 88 3b 33 92 38 a6   T.....e...;3.8.
+          0069 - e0 bf bf 96 7d 01 38 23-3f d5 ea 86 ff 73 16   ....}.8#?....s.
+          0078 - 50 ba 05 a6 d6 57 14 23-fd 5b a7 16 c2 e0 58   P....W.#.[....X
+          0087 - 50 35 b6 da c8 31 34 40-25 5d 10 14 5c 7a 37   P5...14@%]..\z7
+          0096 - 79 76 81 37 c6 52 54 23-b1 5a 3e 6f 33 15 a1   yv.7.RT#.Z>o3..
+          00a5 - 02 2c d1 cf dc 17 ff 3b-89 94 55 35 6c 25 d1   .,.....;..U5l%.
+          00b4 - eb 3a 89 00 fb ab 34 ce-52 c0 6e b0 b9 4e c9   .:....4.R.n..N.
+          00c3 - 2a 8c 87 13 fe 71 61 6b-3a 89 7b 53 e1 f6 21   *....qak:.{S..!
+          00d2 - 62 9c 0d c7 db d0 dd 7b-2d ef 94 73 99 27 bf   b......{-..s.'.
+          00e1 - 71 08 b2 70 87 62 8b eb-93 5c 82 c2 3c 08 b2   q..p.b...\..<..
+          00f0 - 68 0a 8a c4 59 f4 e7 c1-4c d1 ca 6b c4 fb 9a   h...Y...L..k...
+          00ff - 55 ce 48 8a 54 59 90 06-fa 95 b5 f3 f3 d3 4d   U.H.TY........M
+          010e - ae 6c 54 d6 0b 2e 45 94-f1 1c 0f 35 ce 65 cb   .lT...E....5.e.
+          011d - bf bf 5d 6e a8 9b 5e a4-33 02 99 00 47 2f 2c   ..]n..^.3...G/,
+          012c - 0e 50 20 e0 c3 24 e6 88-13 2d 26 c1 bb 2c df   .P ..$...-&..,.
+          013b - c8 87 aa b0 82 cc 76 a3-66 27 53 ed f0 36 79   ......v.f'S..6y
+          014a - 39 ab f8 68 e0 3a f2 4a-7a bc a4 23 45 3c 91   9..h.:.Jz..#E<.
+          0159 - 1f e6 46 d4 47 ea 37 94-d0 ba 40 6a e4 fa ea   ..F.G.7...@j...
+          0168 - 2b 82 f9 a2 a4 78 09 0d-cc f2 74 09 0e 49 02   +....x....t..I.
+          0177 - 07 d3 96 ad 0b f6 f8 9f-bd 69 51 83 9f 35 0c   .........iQ..5.
+          0186 - 81 fb b8 9f d0 e1 0f 07-79 b4 2a 66 14 45 61   ........y.*f.Ea
+          0195 - 2a 60 e7 66 20 af 74 05-d2 ba fd 1e fa 95 01   *`.f .t........
+          01a4 - 64 25 e9 a7 93 16 0a 55-35 35 2f 97 0c 16 97   d%.....U55/....
+          01b3 - 7a 81 dd 33 84 9b 1e ef-34 ce c7 0c 76 5c cb   z..3....4...v\.
+          01c2 - 31 8f 8c 71 87 70 18 0d-69 43 7a d3 cd 97 1a   1..q.p..iCz....
+          01d1 - 71 3c f5 e2 e3 b3 f3 ad-f4 31 f1 4d 57 94 62   q<.......1.MW.b
+          01e0 - 15 b2 b3 3c 91 3b 91 64-6e 2f 7f 35 00 71 c0   ...<.;.dn/.5.q.
+          01ef - cd 46 18 c3 c5 9d fe f6-8b 3d 28 9c 7c 4d 92   .F.......=(.|M.
+          01fe - 65 48                                          eH
+    crls:
+      <ABSENT>
+    signerInfos:
+        version: 1
+        d.issuerAndSerialNumber: 
+          issuer:           C=MD, L=Chișinău, O=IP Serviciul Tehnologia Informației şi Securitate Cibernetică, CN=MDQSign, organizationIdentifier=NTRMD-1003600096694
+          serialNumber: 1298074217626875734588754529109008
+        digestAlgorithm: 
+          algorithm: sha256 (2.16.840.1.101.3.4.2.1)
+          parameter: NULL
+        signedAttrs:
+            object: contentType (1.2.840.113549.1.9.3)
+            set:
+              OBJECT:pkcs7-data (1.2.840.113549.1.7.1)
+
+            object: messageDigest (1.2.840.113549.1.9.4)
+            set:
+              OCTET STRING:
+                0000 - b1 01 b7 f8 3b c7 79 bf-4b a7 e3 84 37   ....;.y.K...7
+                000d - 89 48 2c a8 52 e3 60 0e-12 89 78 57 85   .H,.R.`...xW.
+                001a - 00 5c 87 fd 5a 20                        .\..Z 
+
+            object: id-smime-aa-signingCertificateV2 (1.2.840.113549.1.9.16.2.47)
+            set:
+              SEQUENCE:
+    0:d=0  hl=2 l=  38 cons: SEQUENCE          
+    2:d=1  hl=2 l=  36 cons:  SEQUENCE          
+    4:d=2  hl=2 l=  34 cons:   SEQUENCE          
+    6:d=3  hl=2 l=  32 prim:    OCTET STRING      [HEX DUMP]:F4C2F1121932955DF883C0AA19D5B1FE0EF90CDE9996418E5424D8B808F05866
+        signatureAlgorithm: 
+          algorithm: sha256WithRSAEncryption (1.2.840.113549.1.1.11)
+          parameter: NULL
+        signature: 
+          0000 - 5e ef bd ef f9 19 90 e7-65 b5 1c 7e b3 b4 ad   ^.......e..~...
+          000f - e2 d8 81 af 7d 5e c2 1a-60 8f 13 eb f6 8e 1a   ....}^..`......
+          001e - 40 26 3d c2 c5 30 e6 20-79 b8 6b 89 ad 6e 48   @&=..0. y.k..nH
+          002d - 39 6a 30 db 99 5d 67 4f-2e e0 79 0f 98 a5 af   9j0..]gO..y....
+          003c - 2b 64 7e 50 67 9a 69 e4-cd a6 ee 53 f3 61 18   +d~Pg.i....S.a.
+          004b - 92 b4 ce d4 53 0d 68 51-cb f2 fa 12 65 18 ab   ....S.hQ....e..
+          005a - b1 14 9f 34 57 24 31 11-f9 9d c1 08 48 75 46   ...4W$1.....HuF
+          0069 - cc 3a 11 ce 15 f1 7c a2-ce cf 86 61 e7 54 5b   .:....|....a.T[
+          0078 - 8a 53 80 82 16 e8 5f 90-0a 2b b7 5c 08 b0 fe   .S...._..+.\...
+          0087 - ee 95 d9 7d e6 ba 23 d3-05 52 77 8f be 04 b9   ...}..#..Rw....
+          0096 - ae 9f b0 07 45 c5 01 8d-fa 35 bc fa 26 52 f2   ....E....5..&R.
+          00a5 - 44 af 4e fa 92 83 65 db-ee 70 1e 47 21 2d ab   D.N...e..p.G!-.
+          00b4 - 58 6d 71 50 34 67 b7 5a-9d be 5e 6b 0f 3e d0   XmqP4g.Z..^k.>.
+          00c3 - e2 66 0e a9 86 86 45 9c-88 cd 49 31 43 c6 9f   .f....E...I1C..
+          00d2 - c3 e7 4f f8 b4 04 ed a2-4d 48 7a 4b cf 28 d0   ..O.....MHzK.(.
+          00e1 - 05 62 51 5c e8 da 1b 23-35 b0 89 dc 84 ce f3   .bQ\...#5......
+          00f0 - af 26 0d 9b d2 36 2b de-32 45 d5 01 31 f0 d6   .&...6+.2E..1..
+          00ff - ea                                             .
+        unsignedAttrs:
+            object: id-smime-aa-timeStampToken (1.2.840.113549.1.9.16.2.14)
+            set:
+              SEQUENCE:
+    0:d=0  hl=4 l=3023 cons: SEQUENCE          
+    4:d=1  hl=2 l=   9 prim:  OBJECT            :pkcs7-signedData
+   15:d=1  hl=4 l=3008 cons:  cont [ 0 ]        
+   19:d=2  hl=4 l=3004 cons:   SEQUENCE          
+   23:d=3  hl=2 l=   1 prim:    INTEGER           :03
+   26:d=3  hl=2 l=  11 cons:    SET               
+   28:d=4  hl=2 l=   9 cons:     SEQUENCE          
+   30:d=5  hl=2 l=   5 prim:      OBJECT            :sha1
+   37:d=5  hl=2 l=   0 prim:      NULL              
+   39:d=3  hl=4 l= 286 cons:    SEQUENCE          
+   43:d=4  hl=2 l=  11 prim:     OBJECT            :id-smime-ct-TSTInfo
+   56:d=4  hl=4 l= 269 cons:     cont [ 0 ]        
+   60:d=5  hl=4 l= 265 prim:      OCTET STRING      [HEX DUMP]:3082010502010106062A8372032005302F300B06096086480165030402010420F399A48F8D9D9B055739A9E46285818BBF3114F1B63E9A6AA55515F57AFC23B802040571D7FD180F32303236313030393037323230385A300302013C020601A11F8A6F13A081A2A4819F30819C311C301A06035504610C134E54524D442D31303033363030303936363934310B3009060355040613024D443113301106035504070C0A436869C899696EC4837531493047060355040A0C4049502053657276696369756C205465686E6F6C6F67696120496E666F726D61C89B69656920C59F6920536563757269746174652043696265726E65746963C483310F300D06035504030C064D4451545341
+  329:d=3  hl=4 l=1817 cons:    cont [ 0 ]        
+  333:d=4  hl=4 l=1813 cons:     SEQUENCE          
+  337:d=5  hl=4 l=1277 cons:      SEQUENCE          
+  341:d=6  hl=2 l=   3 cons:       cont [ 0 ]        
+  343:d=7  hl=2 l=   1 prim:        INTEGER           :02
+  346:d=6  hl=2 l=  14 prim:       INTEGER           :400000001C3401DB5F8C7E854000
+  362:d=6  hl=2 l=  13 cons:       SEQUENCE          
+  364:d=7  hl=2 l=   9 prim:        OBJECT            :sha256WithRSAEncryption
+  375:d=7  hl=2 l=   0 prim:        NULL              
+  377:d=6  hl=3 l= 159 cons:       SEQUENCE          
+  380:d=7  hl=2 l=  11 cons:        SET               
+  382:d=8  hl=2 l=   9 cons:         SEQUENCE          
+  384:d=9  hl=2 l=   3 prim:          OBJECT            :countryName
+  389:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :MD
+  393:d=7  hl=2 l=  19 cons:        SET               
+  395:d=8  hl=2 l=  17 cons:         SEQUENCE          
+  397:d=9  hl=2 l=   3 prim:          OBJECT            :localityName
+  402:d=9  hl=2 l=  10 prim:          UTF8STRING        :Chișinău
+  414:d=7  hl=2 l=  73 cons:        SET               
+  416:d=8  hl=2 l=  71 cons:         SEQUENCE          
+  418:d=9  hl=2 l=   3 prim:          OBJECT            :organizationName
+  423:d=9  hl=2 l=  64 prim:          UTF8STRING        :IP Serviciul Tehnologia Informației şi Securitate Cibernetică
+  489:d=7  hl=2 l=  18 cons:        SET               
+  491:d=8  hl=2 l=  16 cons:         SEQUENCE          
+  493:d=9  hl=2 l=   3 prim:          OBJECT            :commonName
+  498:d=9  hl=2 l=   9 prim:          PRINTABLESTRING   :mdtrustca
+  509:d=7  hl=2 l=  28 cons:        SET               
+  511:d=8  hl=2 l=  26 cons:         SEQUENCE          
+  513:d=9  hl=2 l=   3 prim:          OBJECT            :organizationIdentifier
+  518:d=9  hl=2 l=  19 prim:          PRINTABLESTRING   :NTRMD-1003600096694
+  539:d=6  hl=2 l=  30 cons:       SEQUENCE          
+  541:d=7  hl=2 l=  13 prim:        UTCTIME           :250105161136Z
+  556:d=7  hl=2 l=  13 prim:        UTCTIME           :300105161136Z
+  571:d=6  hl=3 l= 156 cons:       SEQUENCE          
+  574:d=7  hl=2 l=  28 cons:        SET               
+  576:d=8  hl=2 l=  26 cons:         SEQUENCE          
+  578:d=9  hl=2 l=   3 prim:          OBJECT            :organizationIdentifier
+  583:d=9  hl=2 l=  19 prim:          UTF8STRING        :NTRMD-1003600096694
+  604:d=7  hl=2 l=  11 cons:        SET               
+  606:d=8  hl=2 l=   9 cons:         SEQUENCE          
+  608:d=9  hl=2 l=   3 prim:          OBJECT            :countryName
+  613:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :MD
+  617:d=7  hl=2 l=  19 cons:        SET               
+  619:d=8  hl=2 l=  17 cons:         SEQUENCE          
+  621:d=9  hl=2 l=   3 prim:          OBJECT            :localityName
+  626:d=9  hl=2 l=  10 prim:          UTF8STRING        :Chișinău
+  638:d=7  hl=2 l=  73 cons:        SET               
+  640:d=8  hl=2 l=  71 cons:         SEQUENCE          
+  642:d=9  hl=2 l=   3 prim:          OBJECT            :organizationName
+  647:d=9  hl=2 l=  64 prim:          UTF8STRING        :IP Serviciul Tehnologia Informației şi Securitate Cibernetică
+  713:d=7  hl=2 l=  15 cons:        SET               
+  715:d=8  hl=2 l=  13 cons:         SEQUENCE          
+  717:d=9  hl=2 l=   3 prim:          OBJECT            :commonName
+  722:d=9  hl=2 l=   6 prim:          UTF8STRING        :MDQTSA
+  730:d=6  hl=4 l= 546 cons:       SEQUENCE          
+  734:d=7  hl=2 l=  13 cons:        SEQUENCE          
+  736:d=8  hl=2 l=   9 prim:         OBJECT            :rsaEncryption
+  747:d=8  hl=2 l=   0 prim:         NULL              
+  749:d=7  hl=4 l= 527 prim:        BIT STRING        
+ 1280:d=6  hl=4 l= 334 cons:       cont [ 3 ]        
+ 1284:d=7  hl=4 l= 330 cons:        SEQUENCE          
+ 1288:d=8  hl=2 l= 101 cons:         SEQUENCE          
+ 1290:d=9  hl=2 l=   8 prim:          OBJECT            :Authority Information Access
+ 1300:d=9  hl=2 l=  89 prim:          OCTET STRING      [HEX DUMP]:3057302806082B06010505073001861C687474703A2F2F6D64747275737463612E6F6373702E706B692E6D64302B06082B06010505073002861F687474703A2F2F706B692E6D642F6365722F6D64747275737463612E636572
+ 1391:d=8  hl=2 l=  48 cons:         SEQUENCE          
+ 1393:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 CRL Distribution Points
+ 1398:d=9  hl=2 l=  41 prim:          OCTET STRING      [HEX DUMP]:30273025A023A021861F687474703A2F2F706B692E6D642F63726C2F6D64747275737463612E63726C
+ 1441:d=8  hl=2 l=   9 cons:         SEQUENCE          
+ 1443:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 Basic Constraints
+ 1448:d=9  hl=2 l=   2 prim:          OCTET STRING      [HEX DUMP]:3000
+ 1452:d=8  hl=2 l=  31 cons:         SEQUENCE          
+ 1454:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 Authority Key Identifier
+ 1459:d=9  hl=2 l=  24 prim:          OCTET STRING      [HEX DUMP]:301680146D3687BE0A5D773DE3F77195158D0368B8B06D78
+ 1485:d=8  hl=2 l=  63 cons:         SEQUENCE          
+ 1487:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 Certificate Policies
+ 1492:d=9  hl=2 l=  56 prim:          OCTET STRING      [HEX DUMP]:303630340604551D2000302C302A06082B06010505070201161E687474703A2F2F706B692E6D642F706F6C6963792F6D6474727573746361
+ 1550:d=8  hl=2 l=  11 cons:         SEQUENCE          
+ 1552:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 Key Usage
+ 1557:d=9  hl=2 l=   4 prim:          OCTET STRING      [HEX DUMP]:030206C0
+ 1563:d=8  hl=2 l=  22 cons:         SEQUENCE          
+ 1565:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 Extended Key Usage
+ 1570:d=9  hl=2 l=   1 prim:          BOOLEAN           :255
+ 1573:d=9  hl=2 l=  12 prim:          OCTET STRING      [HEX DUMP]:300A06082B06010505070308
+ 1587:d=8  hl=2 l=  29 cons:         SEQUENCE          
+ 1589:d=9  hl=2 l=   3 prim:          OBJECT            :X509v3 Subject Key Identifier
+ 1594:d=9  hl=2 l=  22 prim:          OCTET STRING      [HEX DUMP]:04149DD2D73B43C14B67AA4AAC3C9D8705298C90720C
+ 1618:d=5  hl=2 l=  13 cons:      SEQUENCE          
+ 1620:d=6  hl=2 l=   9 prim:       OBJECT            :sha256WithRSAEncryption
+ 1631:d=6  hl=2 l=   0 prim:       NULL              
+ 1633:d=5  hl=4 l= 513 prim:      BIT STRING        
+ 2150:d=3  hl=4 l= 873 cons:    SET               
+ 2154:d=4  hl=4 l= 869 cons:     SEQUENCE          
+ 2158:d=5  hl=2 l=   1 prim:      INTEGER           :01
+ 2161:d=5  hl=3 l= 178 cons:      SEQUENCE          
+ 2164:d=6  hl=3 l= 159 cons:       SEQUENCE          
+ 2167:d=7  hl=2 l=  11 cons:        SET               
+ 2169:d=8  hl=2 l=   9 cons:         SEQUENCE          
+ 2171:d=9  hl=2 l=   3 prim:          OBJECT            :countryName
+ 2176:d=9  hl=2 l=   2 prim:          PRINTABLESTRING   :MD
+ 2180:d=7  hl=2 l=  19 cons:        SET               
+ 2182:d=8  hl=2 l=  17 cons:         SEQUENCE          
+ 2184:d=9  hl=2 l=   3 prim:          OBJECT            :localityName
+ 2189:d=9  hl=2 l=  10 prim:          UTF8STRING        :Chișinău
+ 2201:d=7  hl=2 l=  73 cons:        SET               
+ 2203:d=8  hl=2 l=  71 cons:         SEQUENCE          
+ 2205:d=9  hl=2 l=   3 prim:          OBJECT            :organizationName
+ 2210:d=9  hl=2 l=  64 prim:          UTF8STRING        :IP Serviciul Tehnologia Informației şi Securitate Cibernetică
+ 2276:d=7  hl=2 l=  18 cons:        SET               
+ 2278:d=8  hl=2 l=  16 cons:         SEQUENCE          
+ 2280:d=9  hl=2 l=   3 prim:          OBJECT            :commonName
+ 2285:d=9  hl=2 l=   9 prim:          PRINTABLESTRING   :mdtrustca
+ 2296:d=7  hl=2 l=  28 cons:        SET               
+ 2298:d=8  hl=2 l=  26 cons:         SEQUENCE          
+ 2300:d=9  hl=2 l=   3 prim:          OBJECT            :organizationIdentifier
+ 2305:d=9  hl=2 l=  19 prim:          PRINTABLESTRING   :NTRMD-1003600096694
+ 2326:d=6  hl=2 l=  14 prim:       INTEGER           :400000001C3401DB5F8C7E854000
+ 2342:d=5  hl=2 l=   9 cons:      SEQUENCE          
+ 2344:d=6  hl=2 l=   5 prim:       OBJECT            :sha1
+ 2351:d=6  hl=2 l=   0 prim:       NULL              
+ 2353:d=5  hl=3 l= 140 cons:      cont [ 0 ]        
+ 2356:d=6  hl=2 l=  26 cons:       SEQUENCE          
+ 2358:d=7  hl=2 l=   9 prim:        OBJECT            :contentType
+ 2369:d=7  hl=2 l=  13 cons:        SET               
+ 2371:d=8  hl=2 l=  11 prim:         OBJECT            :id-smime-ct-TSTInfo
+ 2384:d=6  hl=2 l=  28 cons:       SEQUENCE          
+ 2386:d=7  hl=2 l=   9 prim:        OBJECT            :signingTime
+ 2397:d=7  hl=2 l=  15 cons:        SET               
+ 2399:d=8  hl=2 l=  13 prim:         UTCTIME           :261009072208Z
+ 2414:d=6  hl=2 l=  35 cons:       SEQUENCE          
+ 2416:d=7  hl=2 l=   9 prim:        OBJECT            :messageDigest
+ 2427:d=7  hl=2 l=  22 cons:        SET               
+ 2429:d=8  hl=2 l=  20 prim:         OCTET STRING      [HEX DUMP]:9D18A16D1F3FB2034C4299DAB818D002DEE63BB1
+ 2451:d=6  hl=2 l=  43 cons:       SEQUENCE          
+ 2453:d=7  hl=2 l=  11 prim:        OBJECT            :id-smime-aa-signingCertificate
+ 2466:d=7  hl=2 l=  28 cons:        SET               
+ 2468:d=8  hl=2 l=  26 cons:         SEQUENCE          
+ 2470:d=9  hl=2 l=  24 cons:          SEQUENCE          
+ 2472:d=10 hl=2 l=  22 cons:           SEQUENCE          
+ 2474:d=11 hl=2 l=  20 prim:            OCTET STRING      [HEX DUMP]:222F7897E9BBA9E48961D6C9DB7BA177BF26E0A7
+ 2496:d=5  hl=2 l=  13 cons:      SEQUENCE          
+ 2498:d=6  hl=2 l=   9 prim:       OBJECT            :rsaEncryption
+ 2509:d=6  hl=2 l=   0 prim:       NULL              
+ 2511:d=5  hl=4 l= 512 prim:      OCTET STRING      [HEX DUMP]:116A6503F666BC1DFFC4F69371B99440D5F4508699D505536E5F7DAAD554C6157A2010071D302AD7B6980D0569FC7D2823F33D4A5087E0F296B4B88CCC93EB17EA4DD135BB1129C9C6722FEB98CA4AD0EA2039124241D6288CBB9922CE643857569862FDA05CB0A1FE3C26CF19A7A4D79B81D0F0CED2B001B882F39DE192257C2FD0DC03F7B512B5079FA7DE0E67816332C7287F4ED30DDAB01607E53C6257276834964ADFA236DA7F43262EB43C7E73FD7C88CDCE714C287602BFA2F7DA3770EA8D4A770E75B864EF6BED70073999C50AB0E4B112F68A0416E023D4379C0D4C3CE5779FFA31B751D41C67B7B111195D782DA2731D61CE91D4FE796292BB07FF46AC611208E745C5CBA4D74568B2B31DB938CCD9E7F60112949A6F764F983F3B394619212545645657DD6BA4067DDC21D7643B044EC917C73495EC5ACBDC113CAB62B8AE453229629972B5CAD70B2EC8A31CA1171A3AFF513673ED8741FA19C9BB7B4022EEC4B8B36955A7C09ECB945AEDEB0D88A0ABAC04C427AB15D76B3FE49A250944766210178A37051822FAC1B295B01E31E88F15391B89A0D18D26317221A286F6FB294E389610B375C95AEDA433A894BF3BE5FD9F2F74A95B65F525DB565DB878FB9141273D0A53CE246DDFBF90B70513B20ACBEABF282E25B8A820E2827EA67549D1B2E3C3B52B1EAACFE1671C406AC15A551294D0150E92A761D05E

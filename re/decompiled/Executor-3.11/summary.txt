@@ -1,0 +1,61 @@
+Summary for /Applications/STISC/MoldSign/lib/Executor-3.11.jar
+Decompiled with CFR 0.152
+
+
+dorkbox.executor.stream.PumpedOutputChannel
+----------------------------
+
+pump(int java.io.InputStream kotlin.coroutines.Continuation<? super kotlin.Unit> )
+  Unable to fully structure code
+
+
+dorkbox.executor.stream.PumpStreamHandler
+----------------------------
+
+invokeSuspend(java.lang.Object )
+  Unable to fully structure code
+invokeSuspend(java.lang.Object )
+  Unable to fully structure code
+invokeSuspend(java.lang.Object )
+  Unable to fully structure code
+stop(java.lang.Process boolean kotlin.coroutines.Continuation<? super kotlin.Unit> )
+  Unable to fully structure code
+
+
+dorkbox.executor.DeferredProcessResult
+----------------------------
+
+invokeSuspend(java.lang.Object )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [14[SWITCH], 17[CASE]], but top level block is 2[TRYBLOCK]
+await(long java.util.concurrent.TimeUnit kotlin.coroutines.Continuation<? super dorkbox.executor.processResults.SyncProcessResult> )
+  Unable to fully structure code
+waitForProcessToComplete(kotlin.coroutines.Continuation<? super java.lang.Integer> )
+  Unable to fully structure code
+finishWaiting(int kotlin.coroutines.Continuation<? super dorkbox.executor.processResults.SyncProcessResult> )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 7[WHILELOOP]
+
+
+dorkbox.executor.processResults.AsyncProcessOutput
+----------------------------
+
+getBuffered(kotlin.coroutines.Continuation<? super byte[]> )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 11[UNCONDITIONALDOLOOP]
+getRaw(kotlin.coroutines.Continuation<? super byte[]> )
+  Unable to fully structure code
+  Could not resolve type clashes
+string(kotlin.coroutines.Continuation<? super java.lang.String> )
+  Unable to fully structure code
+stringBuffered(kotlin.coroutines.Continuation<? super java.lang.String> )
+  Unable to fully structure code
+string(java.nio.charset.Charset kotlin.coroutines.Continuation<? super java.lang.String> )
+  Unable to fully structure code
+  Could not resolve type clashes
+stringBuffered(java.nio.charset.Charset kotlin.coroutines.Continuation<? super java.lang.String> )
+  Unable to fully structure code
+  Could not resolve type clashes
+lines(kotlin.coroutines.Continuation<? super java.util.List<java.lang.String>> )
+  Unable to fully structure code
+linesAsUtf8(kotlin.coroutines.Continuation<? super java.util.List<java.lang.String>> )
+  Unable to fully structure code
+getLines(java.nio.charset.Charset kotlin.coroutines.Continuation<? super java.util.List<java.lang.String>> )
+  Unable to fully structure code
