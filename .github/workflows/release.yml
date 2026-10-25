@@ -144,8 +144,9 @@ jobs:
       - name: flatpak-builder
         run: |
           sudo apt-get update
-          # elfutils: flatpak-builder strips binaries with the host's eu-strip
-          sudo apt-get install -y --no-install-recommends flatpak flatpak-builder elfutils
+          # with recommends: flatpak-builder strips with the host's eu-strip (elfutils) and runs AppStream compose on
+          # the host, which needs the SVG pixbuf loader (librsvg2-common) to read the app icon ("file-read-error")
+          sudo apt-get install -y flatpak flatpak-builder elfutils librsvg2-common
           # Ubuntu 24.04 blocks unprivileged user namespaces, which bubblewrap needs
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - name: Build the bundle
