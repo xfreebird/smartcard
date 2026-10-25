@@ -1,4 +1,4 @@
-# MoldSign — Cross-Platform Development Plan
+# eSemnBun (codename MoldSign) — Cross-Platform Development Plan
 
 > **Living document.** Update it in the same change as the work it describes: tick the box,
 > add a line to the [Progress log](#progress-log), and move decisions from *Open* to *Decided*.
@@ -169,12 +169,12 @@ Exit criteria: tray app replaces the vendor suite on Windows 10/11; portal flow 
 
 - [ ] WIN-01 C# core port of PAdES, XAdES, TSA/OCSP/CRL, validator; must pass `spec/vectors`
 - [ ] WIN-02 WinSCard transport on hardware (`SCardReconnect` reset, T=1), Microsoft CCID class driver with the miniLector
-- [ ] WIN-03 Reader hot-plug via `DeviceWatcher` + `SmartCardReader.CardAdded/Removed`; toast notifications
-- [ ] WIN-04 Tray icon + flyout (H.NotifyIcon.WinUI), Mica main window, start at login
+- [~] WIN-03 Reader hot-plug: WinSCard reader/card events + 2 s poll, per-insertion generations, late reads dropped (Core, unit-tested). TODO: toast notifications, hardware check
+- [~] WIN-04 Tray icon + flyout (H.NotifyIcon.WinUI), Mica main window, start at sign-in (MSIX startup task / MSI registry). TODO: single instance, first-run TeachingTip, language override
 - [ ] WIN-05 PIN in Credential Locker, gated by Windows Hello
 - [ ] WIN-06 Bridge on Kestrel (PFX identity), consent window brought to front
 - [ ] WIN-07 Explorer context menu "Semnează cu MoldSign"
-- [ ] WIN-08 MSIX packaging + code signing + winget manifest
+- [~] WIN-08 MSIX packaging + code signing (thumbprint or Azure Trusted Signing from env; unsigned otherwise) + winget manifest: see WIN-09
 
 ### Phase CLI: command line on every desktop OS
 
@@ -185,7 +185,7 @@ The contract is [spec/cli.md](spec/cli.md). macOS and Linux use the native Swift
 - [~] CLI-03 Windows: `MoldSign.Cli` (.NET, Native AOT): `readers`/`cert`/`sign-hex` real, the rest wait on WIN-01; exit codes + PIN rules done. Contract change to follow: `xades --digest SHA-1|SHA-256`
 - [~] CLI-04 Release packaging: macOS universal tarball done (ad-hoc); notarized + Homebrew tap, Windows winget, Linux (LNX-07) todo
 - [ ] CLI-05 Shell completions (zsh/bash/fish/PowerShell) + man page
-- [~] CLI-06 CI matrix: `.github/workflows/ci.yml` (macOS Apple + portable, Xcode, Linux container, Android, Windows); runs once the repo has a GitHub remote
+- [~] CLI-06 CI matrix: `.github/workflows/ci.yml` (macOS Apple + portable, Xcode, Linux container, Android, Windows); remote `github.com/xfreebird/smartcard` (private) exists; runs on push once Actions are enabled
 
 ### Phase Linux: native CLI + GNOME app (no .NET)
 
@@ -200,8 +200,8 @@ live PKI, live TLS bridge); a real Linux build waits on CI (R-09):
 - [~] LNX-03 RSA verify without Security.framework: `RSAVerifier` → OpenSSL (`EVP_PKEY_verify`), proven on a real middleware CMS
 - [~] LNX-04 `PlainHTTP` POSIX-socket client (live TSA/CRL/OCSP pass)
 - [~] LNX-05 Bridge on POSIX sockets + OpenSSL TLS with the vendor p12 (loads the legacy provider if needed); live: TLS 1.3, allow-list, 403, PNA, loopback, port-busy
-- [ ] LNX-06 `systemd --user` unit for `moldsign server`; udev/pcscd setup notes
-- [ ] LNX-07 CLI packaging: static-stdlib tarball, `.deb`, `.rpm` (CI job builds the static CLI)
+- [~] LNX-06 `systemd --user` unit (`esemnbun-server.service`, shipped not enabled) + udev/pcscd notes in linux/README.md. Gap: on Linux `MoldSignServer.fallbackPIN()` returns nil, so the headless server only serves pages that send the PIN (TODO: `systemd-ask-password` hook)
+- [~] LNX-07 CLI packaging: static-stdlib tarball, `esemnbun-cli` `.deb`/`.rpm` (see LNX-15); CI `linux` job builds and uploads them
 
 GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS with Homebrew GTK for UI work):
 
@@ -212,6 +212,23 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 - [~] LNX-12 Background running: `GApplication` hold when the window closes. TODO: Background portal + autostart
 - [~] LNX-13 Flatpak manifest (`--socket=pcsc`, network, Secret Service). TODO: Swift SDK extension name, pcsc-lite module checksum, bridge TLS identity delivery (core looks in `$XDG_DATA_HOME/moldsign`, `/app/share/moldsign`, `/usr/share/moldsign`)
 - [~] LNX-14 `.desktop`, AppStream metainfo, placeholder icons. TODO: final icon, screenshots, project LICENSE
+
+### Phase UX: v2 redesign (docs/10 §0)
+
+- [~] UX-01 Status light: green = card ready, amber = reader only / reading, blue = busy, red = error, none = idle, always with text. Inside the apps (Apple sidebar + bridge row, Android status chip). The tray/menu-bar dot is now two-state (UX-11). TODO: Android Quick Settings tile
+- [x] UX-02 Card wallet: card illustrations as the selector, empty/error states as cards, re-read from the context menu. Superseded by UX-09/UX-10 (one card + in-card switcher instead of a carousel with dots)
+- [x] UX-03 macOS per HIG: system button styles, `Form`/`List`, toolbar, materials; card selector in popover + Card/Sign pages (demo-mode screenshots, light + dark)
+- [x] UX-04 iOS per HIG: large titles, inset-grouped lists, paging card selector, bottom prominent action, haptics (simulator screenshots)
+- [x] UX-05 Android per Material 3: pager card selector, ExtendedFAB, bottom sheets, status in the foreground notification (emulator, light + dark)
+- [~] UX-06 Windows per Fluent 2: NavigationView + Mica, InfoBar, accent Sign button, card selector, tray dot (4 icons: green/gray × light/dark taskbar). C# compiles against Windows App SDK 1.8 on macOS; XAML compile and runtime need Windows
+- [x] UX-07 GNOME per GNOME HIG: AdwCarousel (one card wide) card selector, AdwStatusPage empty states, AdwToast, Background portal status (`BackgroundPortal.swift`, GDBus), debug demo mode (`MSIGN_DEMO_CARDS=1…4|empty|noreader|error|pcscd`). Verified with Homebrew GTK screenshots; the portal itself needs a real GNOME session
+- [ ] UX-08 Refresh the design mock-ups artifact
+- [~] UX-09 Card face = stylized Moldovan identity card (docs/10 §0.2b): pastel guilloche paper, bilingual headings, neutral shield (never the coat of arms), portrait silhouette, Surname / Given names (certificate SN/GN, else CN split "Surname Given"), valid-until, issuer, status strip. No photo, document number or IDNP. Apple, Android, GNOME done; Windows written (unverified on Windows)
+- [~] UX-10 Card and selector are ONE component: the selected card with a **disclosure button at its right-centre** that expands, in place, into a list of every card at the same size; pick one → it collapses to it (user revision, docs/10 §0.2b). Plus ←/→, context menu, accessibility adjust. (First version: "1/2" capsule menu + paging.) Apple, Android, GNOME done; Windows written (unverified on Windows). TODO: keyboard (←/→, Escape) and screen-reader checks on Android/GNOME hardware
+- [~] UX-11 Tray / menu-bar dot is two-state: green while a card is inserted (reading, ready, signing), gray otherwise; tooltip "eSemnBun · Card conectat · {holder}" / "Niciun card conectat". macOS, Android notification, GNOME Background-portal text done; Windows tray icons written and checked as images
+- [~] UX-12 Public name **eSemnBun** on every platform (apps, windows, tray, installers, file names); CLI command `esemnbun`; codename `MoldSign` stays in code and IDs (D-07). Apple, Android, GNOME (`esemnbun-gnome`, deb/rpm/flatpak names), core CLI, scripts, CI done; Windows (`eSemnBun.exe`, `bin\esemnbun.exe`, installer names) written. Version 0.2.0 everywhere
+- [~] WIN-09 Installers (`windows/scripts/package-windows.ps1`, CI job `windows`): `eSemnBun-0.2.0-x64.msi` (WiX v5, per machine, `Program Files\eSemnBun`, CLI at `bin\esemnbun.exe` with only `bin\` on PATH because `esemnbun.exe`/`eSemnBun.exe` collide case-insensitively, optional start at sign-in, in-place upgrades), `eSemnBun-0.2.0-x64.msix` (startup task, identity from env), winget manifests, `SHA256SUMS.txt`. `Package.wxs` compiles and links with WiX on macOS; the MSI/MSIX builds and installs need Windows. TODO: arm64 in CI, LICENSE/homepage in winget
+- [~] LNX-15 Installers: `scripts/package-linux.sh` → `esemnbun_0.2.0-1_<arch>.deb` + `esemnbun-cli_…deb`, `esemnbun-0.2.0-1.<arch>.rpm` + `esemnbun-cli-…rpm` (`linux/packaging/{debian,rpm}`, shared `install.sh`), `eSemnBun-0.2.0.flatpak` (GNOME 51 runtime, swift6 SDK extension, pcsc-lite 2.5.2 with verified checksum), CLI tarball + `esemnbun-server.service` user unit (not enabled). Dry-run on macOS only; real deb/rpm/flatpak builds, `desktop-file-validate`/`appstreamcli` and installs need CI or a Linux box. TODO: licence, maintainer address, metainfo screenshots, signed repos
 
 ### Phase 5: Parity and beyond
 
@@ -233,8 +250,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 - [~] SEC-03 Bound to 127.0.0.1 (verified: LAN refused); 64 MB body cap. TODO: rate limit
 - [x] SEC-04 PIN never logged; apps set `MSLog.sink = nil` (SM traces contain session keys)
 - [~] SEC-05 PIN storage gated by device-owner auth on Apple (LAContext); Android Keystore written; Windows pending
-- [ ] SEC-06 **Purge the PIN that the first commit hard-coded** from git history before the repo gets any remote (`git filter-repo`), then rotate if it was ever shared
-- [~] SEC-08 Identity guard before VERIFY in **every** port (docs/09 §3.1b): Swift done (app, bridge, batch PIN sessions); Kotlin (`android/core`) and C# (`MoldSign.Core`) card flows must read + compare the certificate before VERIFY and add `cardChanged`
+- [x] SEC-06 **Purge the PIN that the first commit hard-coded** from git history before the repo gets any remote. Done 2026-10-25 before the first push: `filter-branch` on a mirror redacted the literal in the first commit's `main.swift` and dropped the committed `MoldSignMac/.build/` (its binaries embedded it too); verified absent from every tree, blob and message of the pushed history. Old objects still sit in the local reflog until `git gc --prune`
+- [~] SEC-08 Identity guard before VERIFY in **every** port (docs/09 §3.1b): Swift (app, bridge, batch PIN sessions), Kotlin (`IdentityGuardTest`) and C# (`CardErrorKind.CardChanged`, `IdentityGuardTests` incl. full mutual auth on the simulator) all compare the certificate SHA-1 before VERIFY. TODO: hardware check on Android/Windows
 - [ ] SEC-07 Vendor TLS key (`localhost.p12`): load from the installed vendor suite when present; bundling decision D-03
 
 ---
@@ -249,12 +266,13 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 | D-02 | Swift core stays the reference implementation | It is the one proven on the live portal |
 | D-06 | Output naming `<name>-semnat.<ext>` next to the original, never overwrite (iOS: app Documents) | Predictable |
 | D-08 | Min iOS 17 | TK USB readers need 16+; 17 gives `@Observable` |
-| D-09 | CLI: native Swift `moldsign` on **macOS and Linux**; .NET only on **Windows** | User requirement: "for cli macos and linux, use native solution, not dot.net" |
-| D-11 | Apple apps live in a committed **Xcode project** (`apple/MoldSign.xcodeproj`, synchronized folders); the core is a local SwiftPM package linked by it. No XcodeGen spec is kept | User requirement: iOS must be an Xcode project, not package-only; one source of truth |
+| D-09 | CLI: native Swift `esemnbun` (was `moldsign`) on **macOS and Linux**; .NET only on **Windows** | User requirement: "for cli macos and linux, use native solution, not dot.net" |
+| D-11 | Apple apps live in a committed **Xcode project** (`apple/eSemnBun.xcodeproj`, was `MoldSign.xcodeproj`; synchronized folders); the core is a local SwiftPM package linked by it. No XcodeGen spec is kept | User requirement: iOS must be an Xcode project, not package-only; one source of truth |
 | D-12 | macOS app minimum macOS 15 (`defaultLaunchBehavior(.suppressed)` keeps the main window closed at launch); CLI stays macOS 14 | Menu-bar agent UX |
 | D-13 | PKI HTTP (TSA/OCSP/CRL) uses a minimal plain-HTTP client (`NWConnection` on Apple, POSIX on Linux), bypassing the system proxy | URLSession applies HSTS (`tsp.pki.gov.md` → https fails); matches the proven `curl` behavior. Proxy setting = X-08 |
 | D-10 | Linux gets a **GNOME app** (GTK4 + libadwaita) as well as the CLI, written in Swift against the GTK C API (no third-party Swift GTK wrappers), reusing MoldSignKit | User requirement: "add linux port too, use native solution, no dotnet. gnome gtk solution" |
 | D-14 | The Swift core lives at `swift/MoldSignKit/` (not under `apple/`) | Shared by the Apple apps and Linux |
+| D-07 | Public product name **eSemnBun** (user decision, 2026-10-25); CLI `esemnbun`. `MoldSign` stays the codename in code, bundle/application IDs (`md.moldsign.*`), storage and keychain names, `MSIGN_PIN`; "MoldSign" in UI text only where it means the vendor suite | Distinct from the vendor trademark; keeping IDs avoids losing saved PINs/settings. IDs can still change before the first store release |
 | D-15 | Packages stay ad-hoc / debug signed until the project has its own Apple team and Android upload key; scripts never use the employer signing identities present on the dev Mac | Signing a personal project with employer certificates is the owner's call |
 
 ### Open (recommendation first)
@@ -264,7 +282,6 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 | D-03 | Ship the vendor `localhost.p12` inside our apps? | Load it from an installed vendor suite when present. Ship it only after legal review. Long term, ask STISC for an official partner channel |
 | D-04 | macOS App Sandbox on or off? | Off during Phase 1 (bridge `/sign/pdf` takes arbitrary file paths). Re-evaluate for the Mac App Store with security-scoped bookmarks |
 | D-05 | macOS distribution | Developer ID + notarized DMG + Sparkle; Mac App Store later |
-| D-07 | Product name (vendor trademark "MoldSign") | Pick a distinct public name before release (mock-ups use the placeholder "eSemn"); keep `MoldSign` as the codename |
 
 ## 6. Risks and research spikes
 
@@ -287,6 +304,15 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ## Progress log
 
 Newest first. One line per meaningful step; link IDs.
+
+- 2026-10-25: Repo published privately at `github.com/xfreebird/smartcard` (branches `main`, `cross-platform-apps`). History rewritten before the push: all 7 commits authored `xfreebird <xfreebird@gmail.com>` (was the employer address), PIN purged (SEC-06), committed build output dropped (101 MB → 5.5 MB); the final tree is unchanged. Local repo-level git identity set to xfreebird. Then the 0.2.0 work was committed per area on `cross-platform-apps` and `main` fast-forwarded to it (user: "merge all to main").
+
+- 2026-10-25: User feedback round (macOS screenshot): (1) disabled toolbar "Semnează" rendered as an accent fill → hidden until documents exist, accent only while enabled (all platforms); (2) Documents = large drop zone with "Alege fișiere…" + list, compact zone under the list (all); (3) recent documents only while the file exists, "Golește" in the popover/flyout hides recents, Activity page "Golește lista" (confirmed) clears the log; moved/deleted files are pruned (all; Windows now persists the log in `%LOCALAPPDATA%\MoldSign\activity.json`); (4) popover/flyout closes before opening a window/settings/picker/Finder (macOS: closes the MenuBarExtra window; Windows: hides the flyout); (5) macOS app becomes a regular app (Dock, Cmd-Tab) while the main window or Settings is open — verified via System Events: UIElement → Foreground on open, back on close, popover alone stays UIElement; (6) PDF format selectable: PAdES-T or detached XAdES-BES/T/C (all; Windows tests 138/138, signing still WIN-01). Android: new Activitate tab with a persisted log (entries kept while the URI grant + file exist), Sign FAB only when signable; 56 + 7 tests, lint clean; the output file still waits on AND-01/AND-07.
+
+- 2026-10-25: UX-10 revised (user): the "1/2" capsule + paging are replaced by a disclosure button at the card's right-centre that expands, in place, into every card at the same size (selected one ringed, "Folosit pentru semnare"); pick → collapse. Keys: ←/→ collapsed, ↑/↓ expanded, Space/Return, Escape. Done on all platforms: Apple (macOS popover/window + iOS screenshots, `MSIGN_DEMO_EXPANDED=1`), Android (emulator, light/dark; card now also on Browser; 51 + 7 tests, lint clean), GNOME (GtkRevealer, Homebrew GTK screenshots, 0 warnings), Windows (flyout grows/re-anchors, list scrolls past screen height; compiles against Windows App SDK, 130/130, not run on Windows). Selected card in the list: status strip "✓ Folosit pentru semnare" (blue) unless it is reading/signing/in error. Windows issuer field kept full width (only the name rows share the disclosure's band).
+- 2026-10-25: Tray popover/flyout tidy-up (user feedback; macOS + Windows): no drop zone (the popover/flyout closes before a drag can reach it), recents without timestamps, browser switch on the trailing edge, "Deschide eSemnBun" and "Ieșire" on separate menu-style rows (docs/10 §4.1).
+
+- 2026-10-25: **0.2.0 rebrand + v3 design** (user request: rename to eSemnBun, ID-card illustration, card and selector merged, green/gray tray). Spec: docs/10 §0.2b. Apple: `CardSelector` (paging `ScrollView`, in-card "1/2" menu, ←/→ with keyboard navigation, VoiceOver adjust) + `IDCardFace` (Canvas guilloche/rosette/shield/silhouette, relative layout); menu-bar dot green/gray; Xcode project/targets renamed (`eSemnBun.xcodeproj`, `eSemnBun-macOS/-iOS`, `esemnbun-cli`); demo switches `MSIGN_DEMO_CARDS=none`, `MSIGN_DEMO_SELECTED`, `MSIGN_DEMO_DARK`. Core: `CertificateSummary.surname/givenNames` (SN/GN, else CN split), CLI product `esemnbun` (43 tests). Android (agent): Canvas ID card, pager + in-card menu, green/gray notification, `eSemnBun-0.2.0` packages; 51 + 7 tests, lint clean. CI YAML never parsed (unquoted `name:` with a colon) → fixed. GNOME (agent): cairo ID card, one-card-wide AdwCarousel + in-card menu, portal text green/gray wording, `esemnbun-gnome`, deb/rpm/flatpak packaging (dry-run only). Windows (agent): C# identity guard (`CardChanged` before VERIFY), multi-card model with generations, Fluent card selector + ID face, green/gray tray, MSI/MSIX/winget pipeline; 130/130 tests on macOS, nothing run on Windows yet. Name fallback unified: CN "Surname Given" on all four ports (Windows had it reversed). During the GNOME run both real cards answered SW 6985 on a PIN-less read (no PIN sent, not retried): re-insert before the next real test (R-07).
 
 - 2026-10-25: GNOME app gets the same multi-card + card-change support (per-reader generations incl. pcsc-lite event counter, card selector, re-read, identity-guarded signing, consent for the portal-chosen card); run against both real readers (PIN-less only), names decoded. Cosmetic: `auth-smartcard-symbolic` missing from the macOS test icon theme.
 - 2026-10-25: **0.1.3** — user reports: (1) no card-change detection, (2) "M\C3\AEndru" shown, (3) second card → "no available signatures" in the browser, (4) two cards connected. Root causes: (2) display reused the XAdES `\XX` escaping → new `X509Name` decoder (MAC-22); (3) live-reproduced: `/certificates` returned **invalid JSON** (unescaped `label` with `\C3`), and only one card → JSONSerialization + all cards (MAC-20); (1) single-card monitor and no identity check → per-reader generations + **identity guard before VERIFY** (MAC-21: a swapped card can no longer receive the other card's stored PIN). Live check with both real cards: valid JSON, both holders decoded. 42/42 tests on both backends (multi-card, swap-refused-before-PIN, diacritics). `MoldSign-0.1.3.dmg` packaged.

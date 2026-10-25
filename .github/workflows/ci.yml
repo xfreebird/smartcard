@@ -15,7 +15,7 @@ jobs:
       - name: Test (Apple frameworks)
         working-directory: swift/MoldSignKit
         run: swift test
-      - name: Test (Linux code paths: OpenSSL + POSIX)
+      - name: "Test (Linux code paths: OpenSSL + POSIX)"
         run: scripts/test-portable-macos.sh
 
   apple-apps:
@@ -23,32 +23,37 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
-      - run: xcodebuild -project apple/MoldSign.xcodeproj -scheme MoldSign-macOS CODE_SIGN_IDENTITY=- build
-      - run: xcodebuild -project apple/MoldSign.xcodeproj -scheme moldsign-cli CODE_SIGN_IDENTITY=- build
-      - run: xcodebuild -project apple/MoldSign.xcodeproj -scheme MoldSign-iOS -destination 'generic/platform=iOS Simulator' build
+      - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS CODE_SIGN_IDENTITY=- build
+      - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
+      - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -destination 'generic/platform=iOS Simulator' build
 
   linux:
-    name: Linux (Swift core, CLI, GNOME app)
+    name: Linux (Swift core, CLI, GNOME app, packages)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
     steps:
       - uses: actions/checkout@v4
-      - name: System libraries
+      - name: System libraries + packaging tools
         run: |
           apt-get update
           apt-get install -y --no-install-recommends pkg-config libpcsclite-dev libssl-dev \
-            libadwaita-1-dev libgtk-4-dev libsecret-1-dev
+            libadwaita-1-dev libgtk-4-dev libsecret-1-dev \
+            dpkg-dev debhelper rpm binutils desktop-file-utils appstream
       - name: Core + CLI tests
         working-directory: swift/MoldSignKit
         run: swift test
-      - name: CLI (release, static stdlib)
-        working-directory: swift/MoldSignKit
-        run: |
-          swift build -c release --product moldsign --static-swift-stdlib
-          .build/release/moldsign --version
-      - name: GNOME app
+      - name: GNOME app (debug, includes the MSIGN_DEMO_CARDS demo mode)
         working-directory: linux
-        run: swift build -c release
+        run: swift build
+      # Release builds (static Swift stdlib) of the CLI and the GNOME app, then the CLI tarball, .deb and .rpm
+      # (LNX-07, LNX-15). The Flatpak bundle is skipped here: flatpak-builder needs a privileged container.
+      - name: Packages
+        run: scripts/package-linux.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-linux-${{ github.sha }}
+          path: dist/linux/
+          if-no-files-found: error
 
   android:
     name: Android (core vectors, CCID, app)
@@ -61,13 +66,40 @@ jobs:
         run: ./gradlew :core:test :transport-usb:testDebugUnitTest :app:assembleDebug
 
   windows:
-    name: Windows (C# core + CLI tests, AOT CLI)
+    name: Windows (C# core + CLI tests; eSemnBun MSI + MSIX)
     runs-on: windows-latest
+    env:
+      # Optional code signing (windows/README.md "Signing"): unset secrets/variables = unsigned artifacts.
+      MOLDSIGN_TS_ENDPOINT: ${{ secrets.MOLDSIGN_TS_ENDPOINT }}
+      MOLDSIGN_TS_ACCOUNT: ${{ secrets.MOLDSIGN_TS_ACCOUNT }}
+      MOLDSIGN_TS_PROFILE: ${{ secrets.MOLDSIGN_TS_PROFILE }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
+      MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
+      MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v4
         with: { global-json-file: windows/global.json }
       - working-directory: windows
         run: dotnet test MoldSign.Portable.slnf
-      - working-directory: windows
-        run: dotnet publish src/MoldSign.Cli -c Release -r win-x64 -p:PublishAot=true
+      - name: Azure Trusted Signing client (only when configured)
+        if: env.MOLDSIGN_TS_ENDPOINT != ''
+        shell: pwsh
+        run: |
+          nuget install Microsoft.Trusted.Signing.Client -OutputDirectory "$env:RUNNER_TEMP\ts" -ExcludeVersion -NonInteractive
+          "MOLDSIGN_TS_DLIB=$env:RUNNER_TEMP\ts\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll" >> $env:GITHUB_ENV
+      - name: Package (Native AOT CLI, WinUI app, MSI, MSIX, winget manifests)
+        shell: pwsh
+        run: windows/scripts/package-windows.ps1 -Platforms x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-windows-x64
+          path: |
+            dist/windows/*.msi
+            dist/windows/*.msix
+            dist/windows/SHA256SUMS.txt
+            dist/windows/winget/
+          if-no-files-found: error

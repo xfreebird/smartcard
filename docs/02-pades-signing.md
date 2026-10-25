@@ -89,7 +89,7 @@ Detect it in minutes: `/tmp/pk7/Probe.java` against the STISC libs (iText 9 + BC
 2. `openssl cms -verify -binary -inform DER -in cms.der -content <byterange-bytes> -noverify`
    (without `-binary` openssl CRLF-mangles the content and fails a correct signature —
    a classic false-negative).
-3. `moldsign verify <file>` — full offline: digest + RSA + manual chain.
+3. `esemnbun verify <file>` — full offline: digest + RSA + manual chain.
 4. Portal: https://msign.gov.md/#/ verify upload.
 
 ## Byte-template method (fastest way to a working file)

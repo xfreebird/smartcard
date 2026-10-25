@@ -49,8 +49,8 @@ Rules:
 | Validation | `Validator` | `Validator` | `Validator` |
 | Bridge | `MoldSignServer` + `BridgeOriginPolicy` | `BridgeServer` | `BridgeServer` (Kestrel) |
 | Facade | `SigningService` | `SigningService` | `SigningService` |
-| CLI | `moldsign` (macOS **and Linux**, spec/cli.md) | — | `MoldSign.Cli` (Windows only) |
-| Apps | `apple/MoldSign.xcodeproj` → `Apps/{Shared,macOS,iOS}`; `linux/` GNOME (GTK4/libadwaita C API) | `android/app` | `windows/src/MoldSign.App` |
+| CLI | `esemnbun` (macOS **and Linux**, spec/cli.md) | — | `MoldSign.Cli` (Windows only) |
+| Apps | `apple/eSemnBun.xcodeproj` → `Apps/{Shared,macOS,iOS}`; `linux/` GNOME (GTK4/libadwaita C API) | `android/app` | `windows/src/MoldSign.App` |
 | Linux backends | `MOLDSIGN_PORTABLE`: OpenSSL (AES/CMAC/SHA/RSA/TLS), POSIX sockets, pcsc-lite | — | — |
 
 ## 3. Contracts

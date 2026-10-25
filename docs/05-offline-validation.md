@@ -1,4 +1,4 @@
-# 05 — Offline Validation (`moldsign verify`)
+# 05 — Offline Validation (`esemnbun verify`)
 
 `swift/MoldSignKit/Sources/MoldSignKit/Formats/Validation.swift` (`Validator`). Everything runs offline in ms —
 no SecTrust (it hangs fetching missing intermediates), no revocation calls.

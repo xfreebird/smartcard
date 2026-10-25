@@ -119,7 +119,7 @@ URI-building `replacePath(...).path(sessionId)` calls — they dictate the Locat
 ## Hardening and embedding (2026-10, F-07 / SEC-01…03)
 
 The replica is now an embeddable component (`MoldSignServer`: `start()` / `stop()` / `run()`), hosted by the
-macOS menu-bar app, the iOS app (foreground only) and the `moldsign server` CLI. Behavior changes vs. the
+macOS menu-bar app, the iOS app (foreground only) and the `esemnbun server` CLI. Behavior changes vs. the
 first replica:
 
 | Change | Why |

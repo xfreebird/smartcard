@@ -1,4 +1,4 @@
-# MoldSign — Documentation
+# eSemnBun (codename MoldSign) — Documentation
 
 Native re-implementation (macOS, iOS, Android, Windows, Linux/GNOME; CLI on macOS, Linux, Windows) of the Moldovan STISC MoldSign signing stack:
 eID smart-card driver, PAdES/XAdES signing (single + counter-signatures with timestamps),
@@ -25,10 +25,10 @@ offline validation, and a drop-in replica of the MoldSign Server used by msign.g
 
 ```bash
 cd swift/MoldSignKit && swift build && swift test              # core + CLI (MSIGN_NETWORK_TESTS=1 adds live TSA/CRL/OCSP)
-.build/debug/moldsign sign ~/Downloads/doc.pdf                 # → doc-semnat.pdf (PIN prompt, or MSIGN_PIN)
-.build/debug/moldsign verify ~/Downloads/doc-semnat.pdf        # validate offline
-.build/debug/moldsign server                                   # browser bridge on 127.0.0.1:18480 / :18443
-open ../../apple/MoldSign.xcodeproj                            # macOS menu-bar app, iOS app, CLI targets
+.build/debug/esemnbun sign ~/Downloads/doc.pdf                 # → doc-semnat.pdf (PIN prompt, or MSIGN_PIN)
+.build/debug/esemnbun verify ~/Downloads/doc-semnat.pdf        # validate offline
+.build/debug/esemnbun server                                   # browser bridge on 127.0.0.1:18480 / :18443
+open ../../apple/eSemnBun.xcodeproj                            # macOS menu-bar app, iOS app, CLI targets
 cd ../../android && ./gradlew :core:test :app:assembleDebug    # Android
 cd ../windows && dotnet test MoldSign.Portable.slnf            # Windows core + CLI tests (see windows/README.md)
 ```
@@ -41,5 +41,5 @@ of the Java suite (quit the vendor suite first — they share ports 18480/18443)
 `swift/MoldSignKit/Sources/MoldSignKit/`: `Card/` (CosmoXCard IAS/ECC driver, SecureChannel, AES/CMAC, CardTransport: PC/SC +
 CryptoTokenKit) · `Formats/` (PAdES + CMS, XAdES, Validator, ChainCerts, RFC3161 request) · `Network/TrustServices`
 (TSA/OCSP/CRL over plain HTTP) · `Bridge/` (MoldSign Server protocol + origin policy) · `Services/SigningService`
-(app facade, card lock) · `Support/Log`. `CPCSC` = PC/SC + CommonCrypto C shims. `moldsign` = CLI.
-Apps: `apple/Apps/{Shared,macOS,iOS}` (Xcode project `apple/MoldSign.xcodeproj`) · `linux/` (GNOME) · `android/` · `windows/`.
+(app facade, card lock) · `Support/Log`. `CPCSC` = PC/SC + CommonCrypto C shims. `moldsign` = CLI source (product `esemnbun`).
+Apps: `apple/Apps/{Shared,macOS,iOS}` (Xcode project `apple/eSemnBun.xcodeproj`) · `linux/` (GNOME) · `android/` · `windows/`.

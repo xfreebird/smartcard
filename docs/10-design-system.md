@@ -9,10 +9,143 @@ the app tells you what state the card is in and takes documents with one gesture
 
 Plan items: F-11, F-15, MAC-01…10, IOS-03…06, AND-*, WIN-04.
 
+## 0. Design v2 (2026-10-25): status light, card wallet, native guidelines
+
+v2 supersedes the per-screen details below wherever they disagree. Plan items: UX-01…UX-08.
+
+### 0.1 Status light (tray / menu bar / notification)
+
+The one glance that answers "can I sign?". It uses the same semantics everywhere:
+
+| State | Light | Meaning | Tooltip / accessibility label |
+|---|---|---|---|
+| `ready` | **green** dot | at least one card read and ready | "Card pregătit · {holder}" (+ "· N carduri") |
+| `reader` | **amber** dot | reader(s) connected, no card (or card being read) | "Cititor conectat · introdu cardul" |
+| `busy` | **blue** dot (pulses where the platform allows) | signing / bridge request in progress | "Se semnează…" |
+| `error` | **red** dot | mute card, card stuck, PIN blocked, PC/SC service down | the error's one-line recovery |
+| `idle` | no dot, glyph dimmed | nothing connected | "Conectează cititorul" |
+
+The dot sits on the bottom-right of the app glyph and is never the only signal: tooltip/label text always
+says the same thing (WCAG, color blindness). The glyph stays monochrome/template so it fits the system bar;
+only the dot carries color.
+
+* **macOS:** `MenuBarExtra` label = template SF Symbol drawn in `labelColor` plus a `systemGreen/Orange/Blue/Red` dot
+  (an `NSImage` drawing handler, so it adapts to light/dark/tinted menu bars).
+* **Windows:** tray icon variants (glyph + colored dot) generated at runtime; tooltip = label.
+* **Android:** the foreground-service notification uses a small icon + colored `setColor`, status text as content;
+  a Quick Settings tile is optional (later).
+* **GNOME:** no tray (GNOME HIG). Status goes to the Background portal (`SetStatus`, shown under Quick Settings →
+  Background Apps) and to the window's status banner/card wallet.
+* **iOS:** no tray; the wallet header carries the light.
+
+### 0.2 Card wallet (card switching *is* the card illustration)
+
+Every inserted card is drawn as an ID-card illustration and the illustrations are the selector. There is no separate
+picker anywhere.
+
+* **Card face:** rounded rect (ISO ID-1 ratio 85.6 × 54 → 1.585:1), brand gradient with a hue nudged per card
+  (from the certificate SHA-1, ±25°) so two cards are told apart at a glance; gold chip; holder name (headline,
+  1–2 lines, never truncated to "…" when short); "MDQSign · valabil până la MM/AAAA"; reader name (caption);
+  state badge top-right (✓ ready, spinner reading, ⚠ error).
+* **Selection:** the selected card is front-and-center at full scale with a "Folosit pentru semnare" (Used for signing)
+  check badge and a focus ring. Other cards sit beside it slightly smaller (0.92) and dimmed (0.6); tap/click one to
+  select it (spring animation, haptic on iOS/Android). Keyboard: ←/→ moves selection, Space/Enter selects. Paging
+  dots when > 1 card.
+* **Empty states are cards too:** dashed outline card "Introdu cardul" (reader connected), connector illustration
+  "Conectează cititorul" (no reader), red-tinted card with the recovery text on error.
+* **Re-read** ("Recitește cardul") is a context-menu / long-press action on a card plus a small toolbar button,
+  not a separate panel.
+* **Sizes:** popover/flyout compact (≈ 260 × 164), window large (≈ 340 × 214), phone full width minus 2 × 24 pt.
+* **Accessibility:** each card is a button: "{holder}, card MDQSign, valabil până la …, {selected|neselectat}";
+  selection is announced.
+
+| Platform | Component |
+|---|---|
+| macOS / iOS | `ScrollView(.horizontal)` + `scrollTargetBehavior(.viewAligned)`, `matchedGeometryEffect`, `sensoryFeedback` (iOS) |
+| Android | Material 3 `HorizontalMultiBrowseCarousel` (or `HorizontalPager`) with cards as `ElevatedCard`, haptic `LongPress` |
+| Windows | `FlipView` / horizontal `ItemsView` of card templates (Fluent elevation, Mica), arrow-key selection |
+| GNOME | `AdwCarousel` + `AdwCarouselIndicatorDots`, cards as `.card` styled boxes |
+
+### 0.2b v3: national-ID card face, card and selector as ONE component, two-state tray (UX-09…UX-11)
+
+Supersedes the card face in §0.2 and the tray colors in §0.1.
+
+**Card face (UX-09).** The card is drawn as a stylized illustration of the Moldovan identity card (2025 design):
+light pastel paper with guilloche lines, bilingual headings, a portrait frame and labelled fields. It is an
+illustration of the user's own card: **no photo, no state coat of arms, no document number, no MRZ, no IDNP**.
+It shows only data from the signing certificate. Fixed colors in light and dark mode (it depicts a physical object,
+like a Wallet pass), with a hairline border and a shadow so it reads on dark backgrounds.
+
+Normalized layout (W = card width, H = W / 1.586, corner radius 0.045 W, origin top-left):
+
+| Element | Position | Style |
+|---|---|---|
+| Paper | full card | linear gradient TL→BR `#F4EAF0` → `#ECEFF7` → `#F6F0E1` |
+| Guilloche | full card, behind everything | 12 sine waves across the width (amplitude 0.04 H, period ≈ 0.55 W, phase step 0.35 rad), 0.5–0.8 px, alternating rose `#C6A3BC` / blue `#A7B6DA` at 35 % opacity; a rosette of 8 ellipses centred (0.78 W, 0.62 H), radius ≤ 0.22 W, gold `#C9B48A` at 25 %. Per card the guilloche hue is rotated ±20° from the first byte of the certificate SHA-1, so two cards differ at a glance |
+| "REPUBLICA MOLDOVA" / "REPUBLIC OF MOLDOVA" | top-left, x 0.045 W, y 0.06 H | navy `#283A8C`; 1st line bold, 0.036 W, letter-spaced; 2nd line regular 0.026 W; a 1 px navy rule under each |
+| Emblem | centred between the headings, ≈ 0.07 W tall | **neutral shield outline** (bronze `#8C6A3A` stroke, `#E9D9B4` fill 60 %). Never the state coat of arms |
+| "CARTE DE IDENTITATE" / "IDENTITY CARD" | top, right of the emblem | burgundy `#9E2A3F`; same sizes as the left heading |
+| Contact chip | top-right corner, 0.10 W × 0.075 W | the gold chip from v2 |
+| Portrait frame | x 0.045–0.285 W, y 0.30–0.90 H, radius 0.02 W | vertical gradient `#D9DCE3` → `#BFC4CF`, neutral grey silhouette (head + shoulders, `#8E95A3`) |
+| Fields | x from 0.32 W; rows at y 0.30, 0.47, 0.64 H | label 0.024 W `#5A6070` "Numele/Surname", "Prenumele/Given name(s)", "Valabil până la/Valid until" (+ a second column at x 0.66 W on row 3: "Emitent/Issuer"); value 0.046 W semibold `#1E2230`, UPPERCASE with diacritics kept (MÎNDRU). Surname/given names come from the certificate's SN/GN; fallback: split the holder name at the first space. Date as `dd MM yyyy` (certificate notAfter, not the document expiry) |
+| Status strip | x from 0.32 W, y 0.80–0.95 H | dot + one line: green "Pregătit pentru semnare", amber "Se citește cardul…" (with placeholder bars instead of field values), red problem text; reader name as a caption on large sizes |
+| Disclosure (only with > 1 card) | right edge, vertically centred: centre (0.935 W, 0.50 H), diameter 0.085 W | round button, 85 % white fill + hairline, chevron pointing right (collapsed) that turns to point down (expanded), see below. Field values stop at 0.88 W so they never run under it |
+
+Typography: the system font everywhere (SF / Roboto / Segoe UI Variable / Cantarell–Inter); sizes are relative to W so the
+face scales from the popover (W ≈ 288) to phone width. Text uses fixed dark colors, never the theme's label color.
+
+**Card + selector = one component (UX-10, revised).** There is no picker, menu, dots or carousel outside the card.
+Collapsed, the component shows the *selected* card. With more than one card, a **disclosure button** sits inside the
+card at the right edge, vertically centred:
+
+* **Collapsed → expanded:** the chevron (pointing right) turns to point down and the component expands *in place* into a
+  vertical list of **every** inserted card, each drawn at exactly the same size as the collapsed card (same face,
+  same status strip), in reader order, 10–12 pt apart. The selected card carries the accent focus ring, and its status
+  strip reads "✓ Folosit pentru semnare" in the brand blue instead of "Pregătit pentru semnare" (no separate badge:
+  every other spot collides with the headings, chip or portrait); the disclosure button stays on it.
+* **Pick:** tap/click any card in the list → it becomes the signing card and the list collapses back to it (spring /
+  ease-out 250 ms, no motion with Reduce Motion). The disclosure button, Escape or a click on the selected card collapse
+  without changing anything.
+* **Keyboard:** the disclosure button is focusable (Space/Enter toggles); ←/→ on the collapsed card still switch to the
+  previous/next card; ↑/↓ move between cards in the expanded list.
+* **Context menu / long press** (unchanged): "Recitește cardul", plus "Semnează cu {holder}" for the other cards.
+* With one card there is no disclosure button; with none, the component is the empty-state card (§0.2 rules).
+* Containers grow with it: the menu-bar popover / tray flyout gets taller, forms/lists push the content below down.
+
+Accessibility: collapsed, the card is one element "{holder}, card de identitate, valabil până la …, {i} din {n}",
+adjustable (increment/decrement = next/previous card); the disclosure button is "Alege cardul ({n} carduri)" with
+expanded/collapsed state. Expanded, each card is a button "Semnează cu {holder}" and the selected one reports *selected*.
+
+**Tray / menu bar (UX-11).** Two states only, on the bottom-right dot of the monochrome glyph:
+
+| Dot | When | Tooltip |
+|---|---|---|
+| **green** | at least one card is inserted (reading, ready or signing) | "eSemnBun · Card conectat · {holder}" |
+| **gray** | no card (no reader, empty reader, or only cards in error) | "eSemnBun · Niciun card conectat" (or the error's one-liner) |
+
+The richer five-state light (§0.1) stays inside the popover/flyout/window header. GNOME has no tray: the Background
+portal status text carries the same wording. Android: the bridge notification's accent color is green/gray the same way.
+
+**Name (UX-12, D-07 decided).** The public product name is **eSemnBun** (exactly this casing) on every platform: app and
+window titles, menu-bar/tray tooltips, About, installers, package and file names. The CLI command is `esemnbun`.
+The codename `MoldSign` stays in code (modules, namespaces, bundle/application IDs `md.moldsign.*`, storage paths,
+keychain/credential service names, `MSIGN_PIN`). Vendor references stay "MoldSign" (the STISC suite, the bridge
+protocol, `/Reason(MoldSign Signature)` in PDFs, "Porturi ocupate de MoldSign (Java)").
+
+### 0.3 Native guidelines per platform
+
+| | Do | Avoid |
+|---|---|---|
+| macOS (HIG) | `MenuBarExtra(.window)`, sidebar `NavigationSplitView`, `Form(.grouped)`, `.borderedProminent` default action, toolbar items, SF Symbols, materials (`.regularMaterial`), Settings scene | custom-drawn buttons, colored menu-bar glyphs (only the dot is colored) |
+| iOS (HIG) | `NavigationStack` large titles, `List(.insetGrouped)`, bottom prominent action, sheets with detents, Dynamic Type, haptics | dense desktop layouts |
+| Android (Material 3) | dynamic color, `TopAppBar` + `NavigationBar`, `ExtendedFloatingActionButton` for Sign, carousel, `ModalBottomSheet` for PIN, edge-to-edge | iOS-style chevrons, custom toggles |
+| Windows (Fluent 2) | `NavigationView`, Mica, `InfoBar` for status/errors, accent `Button` style, `TeachingTip` for first run, tray flyout with acrylic | custom title bars without Snap support |
+| GNOME (HIG) | `AdwApplicationWindow`, `AdwHeaderBar` + `AdwViewSwitcher`, `AdwStatusPage` empty states, `AdwPreferencesDialog`, `AdwToast`, suggested-action pill, background portal | tray icons, custom chrome |
+
 ## 1. Principles
 
 1. **Status first.** The top of every surface answers "can I sign right now?" (reader, card, holder).
-2. **Drop to act.** Files dropped on the menu-bar popover, the window, the Dock icon or the tray flyout start the flow. The format is chosen automatically.
+2. **Drop to act.** Files dropped on the window or the Dock icon start the flow (not on the menu-bar popover or tray flyout: they close when a drag starts elsewhere). The format is chosen automatically.
 3. **One primary button.** It's filled and in the brand color. Everything else is plain or secondary.
 4. **Explain consent.** Signing always shows *what*, *for whom*, *with which certificate*, and a biometric confirm.
 5. **Calm errors.** Say what happened and what to do next, plus one recovery action. Never show raw status words. The SW goes in the technical details.
@@ -58,9 +191,9 @@ Windows: the system accent color for selection, `brand` for the primary button. 
 | Component | Description |
 |---|---|
 | **StatusCard** | Card-art thumbnail (yellow chip on a blue card) + holder name + status line + validity. States: `noReader` (outline card, "Conectează cititorul"), `empty` ("Introdu cardul"), `reading` (shimmer), `ready` (name + "Card pregătit" + green dot), `busy` (progress), `error` (danger icon + one-line fix) |
-| **DropZone** | Dashed 1.5 pt border, radius 14, icon + "Trage documentele aici" + secondary "sau alege fișiere". Hover/drag-over: `brandSoft` fill, solid `brand` border |
+| **DropZone** | Dashed 1.5 pt border, radius 14, icon + "Trage documentele aici" + format hint + an "Alege fișiere…" button inside. Large (~170–190 pt) while the list is empty, one compact line under the list once files are added. Drag-over: `brandSoft` fill, solid `brand` border. Window only, never in the popover/flyout |
 | **FileRow** | Doc icon, name (middle-truncated), size, **format chip** (`PAdES-T`, `XAdES-T`…) and a remove button |
-| **FormatChip** | Small capsule. Tapping it opens the per-file format menu |
+| **FormatChip** | Per-file format menu. PDF: PAdES-T (default, inside the PDF) or XAdES-BES/T/C (detached `.xml`); other files: XAdES-BES/T/C |
 | **StepProgress** | Horizontal steps on desktop, vertical on phones: Card → PIN → Semnătură → Marcă temporală → Salvare. Each step is pending, active (spinner) or done (check) |
 | **PinField** | 4–8 boxed secure digits, numeric keyboard on mobile, paste disabled. Under it: remaining-attempts line (`warning` at ≤ 2) |
 | **ConsentSheet** | Requester (origin or "Tu"), document row(s), certificate row, "Ai încredere în site 10 minute" checkbox, buttons **Refuză** / **Semnează** (with the biometric glyph) |
@@ -71,31 +204,33 @@ Windows: the system accent color for selection, `brand` for the primary button. 
 
 ## 4. Screens
 
-### 4.1 macOS menu-bar popover (MAC-01)
+### 4.1 macOS menu-bar popover (MAC-01) / Windows tray flyout
 
-Menu-bar icon: SF Symbol `signature`, template-rendered. It's dimmed with no reader, at full strength
-when a card is ready, shows the `ellipsis` pulse while busy and `exclamationmark.triangle` on error.
-Files can be dropped on the icon.
+Menu-bar / tray glyph: monochrome `signature` glyph with the two-state dot (§0.2b UX-11: green = card inserted,
+gray = none). No drop target on the popover/flyout: it closes as soon as Finder/Explorer takes focus, so a drag can
+never reach it. Files go to the main window or the Dock icon. Every action (Semnează…/Verifică…, Settings, open
+window, a recent document) closes the popover/flyout first. While the main window or Settings is open the macOS app
+is a regular app (Dock icon, Cmd-Tab); with only the menu-bar item it is an agent again.
 
 ```
 ┌──────────────────────────────────────────┐
-│  MoldSign                         ⚙︎  ⋯   │
-│ ┌──────────────────────────────────────┐ │
-│ │ ▣  ION POPESCU                       │ │  StatusCard
-│ │    ● Card pregătit · miniLector EVO  │ │
-│ │    Certificat valabil până 03.2030   │ │
-│ └──────────────────────────────────────┘ │
-│ ┌ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐ │
-│        ⤓  Trage documentele aici         │  DropZone (drop = sign)
-│      PDF → PAdES · altele → XAdES        │
-│ └ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘ │
+│  eSemnBun                             ⚙︎  │
+│ ╭──────────────────────────────────────╮ │
+│ │ REPUBLICA MOLDOVA ⛉ CARTE DE IDENT. ▦│ │  CardSelector (§0.2b): the card
+│ │ ┌───┐ Numele/Surname                 │ │  is the status and the switcher
+│ │ │ ◯ │ POPESCU                        │ │
+│ │ │╱ ╲│ Prenumele/Given name(s)  ION   │ │
+│ │ └───┘ ● Pregătit pentru semnare [1/2]│ │
+│ ╰──────────────────────────────────────╯ │
 │  [ Semnează… ]        [ Verifică… ]      │
-│  RECENTE                                 │
-│  ✓ contract-semnat.pdf          acum 2m  │
-│  ✓ msign.gov.md · cerere.pdf      10:12  │
+│  Documente recente             Golește   │  files that still exist, no timestamps;
+│  ✓ contract-semnat.pdf                   │  click = reveal in Finder/Explorer;
+│  ✓ factura-semnat.xml                    │  "Golește" hides them, Activity keeps its log
 │ ──────────────────────────────────────── │
-│  🌐 Conexiune browser         ● activă ⏻ │
-│  Deschide fereastra            Ieșire    │
+│  ● Conexiune browser activă         ⏻   │  switch on the trailing edge
+│ ──────────────────────────────────────── │
+│  Deschide eSemnBun                       │  one menu-style row each
+│  Ieșire                             ⌘Q   │
 └──────────────────────────────────────────┘
 ```
 

@@ -1,10 +1,14 @@
-# Smartcard / MoldSign — Project Knowledge Base
+# Smartcard / eSemnBun (codename MoldSign) — Project Knowledge Base
 
 This repo reverse-engineered and re-implemented the STISC **MoldSign** signing stack
 (Moldovan national eID: IDEMIA CosmoX ID-A card on a bit4id miniLector POCKET EVO reader)
 and is growing it into native apps for **macOS, iOS, Android, Windows** plus a CLI on
 **macOS, Linux, Windows**. Everything below documents how the system works, how every
 artifact was obtained, and how to re-derive them if the vendor app changes.
+
+**Naming:** the product is **eSemnBun** (this casing) on every platform; the CLI command is `esemnbun`. `MoldSign`
+stays the codename in code (modules, namespaces, bundle/application IDs `md.moldsign.*`, storage paths, keychain
+names, `MSIGN_PIN`) and the name of the *vendor* suite and its bridge protocol (docs/10 §0.2b, D-07).
 
 > **Living plan: [`PLAN.md`](PLAN.md)**: phases, task IDs (`F-…`, `MAC-…`, `IOS-…`, `AND-…`, `WIN-…`,
 > `CLI-…`, `LNX-…`, `SEC-…`), decisions, risks, progress log. Update it in the same change as the work.
@@ -20,7 +24,7 @@ PLAN.md                      Living development plan (update as you go)
 spec/                        Cross-platform contracts every port must honour
   vectors/card-crypto.json   Golden bytes: KDF, ext-auth, session keys, SM wrap/unwrap, CMAC, padding
   bridge/allowed-origins.properties   Vendor origin allow-list for the browser bridge
-  cli.md                     `moldsign` CLI contract (commands, PIN rules, exit codes)
+  cli.md                     `esemnbun` CLI contract (commands, PIN rules, exit codes)
 swift/MoldSignKit/           SwiftPM package — THE CORE (moved from MoldSignMac/, history kept), used by
                              the Apple apps AND the Linux CLI/GNOME app
   Sources/MoldSignKit/
@@ -32,20 +36,22 @@ swift/MoldSignKit/           SwiftPM package — THE CORE (moved from MoldSignMa
     Support/                 MSLog, BuildInfo, POSIXSocket (Linux listener/client)
   Sources/CPCSC/             C shims: PC/SC (PCSC.framework | pcsc-lite) + AES/CMAC (CommonCrypto | OpenSSL)
                              + OpenSSL SHA/RSA/TLS for Linux. Real platform headers live only in cpcsc.c
-  Sources/moldsign/          CLI (spec/cli.md), macOS + Linux
+  Sources/moldsign/          CLI (spec/cli.md), macOS + Linux; SwiftPM product `esemnbun`
   Tests/MoldSignKitTests/    Vectors, real-signature RSA, PDF/XAdES structure, bridge, live PKI (opt-in), and
                              Support/SimulatedCosmoXCard: full IAS/ECC card (mutual auth, SM, PIN counter, real RSA with a
                              test key). Use it for any card-flow or bridge change instead of the real card
   Resources/                 Info.plist (ATS), localhost.p12 (see "Sensitive"), test.pdf
 apple/
-  MoldSign.xcodeproj         Xcode project (source of truth): MoldSign-macOS (menu-bar app), MoldSign-iOS,
-                             moldsign-cli; synchronized folders → new files join automatically
-  Apps/Shared/               SwiftUI design system, AppModel, screens, ReaderMonitor (CTK), PinVault (Keychain)
+  eSemnBun.xcodeproj         Xcode project (source of truth): eSemnBun-macOS (menu-bar app), eSemnBun-iOS,
+                             esemnbun-cli; synchronized folders → new files join automatically
+  Apps/Shared/               SwiftUI design system (CardSelector = ID-card face + switcher), AppModel, screens,
+                             ReaderMonitor (CTK), PinVault (Keychain)
   Apps/macOS/  Apps/iOS/     Platform shells (menu bar + auth panel / tabs + in-app browser)
 linux/                       GNOME app (GTK4 + libadwaita via the C API from Swift), data/, flatpak/ — linux/README.md
 android/                     Gradle: core (Kotlin port), transport-usb (CCID), app (Compose) — android/README.md
 windows/                     .NET: MoldSign.Core (C# port), MoldSign.Cli, MoldSign.App (WinUI 3) — windows/README.md
-scripts/                     package-{macos,ios,android}.sh, test-portable-macos.sh  → dist/ (git-ignored)
+scripts/                     package-{macos,ios,android,linux}.sh, package-windows.ps1, test-portable-macos.sh
+                             → dist/ (git-ignored)
 docs/                        01–08 RE + protocol docs, 09 architecture, 10 design system, 11 build & release
 re/                          Reverse-engineering workspace — see docs/08-re-inventory.md
 ```
@@ -56,18 +62,19 @@ re/                          Reverse-engineering workspace — see docs/08-re-in
 cd swift/MoldSignKit
 swift build && swift test                                # MSIGN_NETWORK_TESTS=1 → live TSA/CRL/OCSP too
 ../../scripts/test-portable-macos.sh                     # same tests through the Linux code paths (OpenSSL, POSIX)
-.build/debug/moldsign readers                            # PC/SC readers + card presence
-.build/debug/moldsign cert --out leaf.der                # signing certificate, no PIN
-.build/debug/moldsign sign <in.pdf> [<out.pdf>]          # PAdES-T (default <name>-semnat.pdf)
-.build/debug/moldsign <in.pdf> <out.pdf>                 # legacy form, same as `sign`
-.build/debug/moldsign xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping]
-.build/debug/moldsign verify <signed.pdf>                # PAdES validate (exit 2 = invalid)
-.build/debug/moldsign verify <sig.xml> <docs_dir>        # XAdES validate
-.build/debug/moldsign sign-hex <digestinfo_hex>          # raw card signature
-.build/debug/moldsign cms-for-hash <sha256_hex>          # detached CMS for external digest
-.build/debug/moldsign server [port [https_port]]         # MoldSign Server replica (vendor suite must be quit)
+.build/debug/esemnbun readers                            # PC/SC readers + card presence
+.build/debug/esemnbun cert --out leaf.der                # signing certificate, no PIN
+.build/debug/esemnbun sign <in.pdf> [<out.pdf>]          # PAdES-T (default <name>-semnat.pdf)
+.build/debug/esemnbun <in.pdf> <out.pdf>                 # legacy form, same as `sign`
+.build/debug/esemnbun xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping]
+.build/debug/esemnbun verify <signed.pdf>                # PAdES validate (exit 2 = invalid)
+.build/debug/esemnbun verify <sig.xml> <docs_dir>        # XAdES validate
+.build/debug/esemnbun sign-hex <digestinfo_hex>          # raw card signature
+.build/debug/esemnbun cms-for-hash <sha256_hex>          # detached CMS for external digest
+.build/debug/esemnbun server [port [https_port]]         # MoldSign Server replica (vendor suite must be quit)
 # PIN: --pin-stdin → MSIGN_PIN → no-echo prompt. Never on the command line, never in code.
-xcodebuild -project apple/MoldSign.xcodeproj -scheme MoldSign-macOS build   # or open in Xcode
+xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS build   # or open in Xcode
+MSIGN_DEMO_CARDS=2|none [MSIGN_DEMO_SELECTED=1 MSIGN_DEMO_DARK=1] <Debug app binary>  # fictional cards, no PC/SC
 ```
 
 Java probes (in `/tmp/pk7/`): `Probe.java` = iText 9 + BouncyCastle `readSignatureData`
@@ -191,7 +198,7 @@ gets 403 without CORS headers. Preflights add `Access-Control-Allow-Private-Netw
 **Sensitive — never commit/publish:**
 * **PIN QSCD of the user's card.** Lives only in terminal env/unit-test runs (`MSIGN_PIN`),
   never in the repo. New contributors must not learn it from code. (It *was* hard-coded in the first
-  commit's `main.swift`; removed in F-03. Purge it from history before any push, SEC-06.)
+  commit's `main.swift`; removed in F-03 and purged from history before the first push, SEC-06. Never reintroduce it.)
 * **If the session is suddenly failing with SW=6985**: the PIN retry counter may be
   nearly exhausted — warning worth treating as sensitive for the user's physical card safety.
 
@@ -241,7 +248,9 @@ Moved to [`PLAN.md`](PLAN.md) (phases, IDs, decisions) and [`docs/09-architectur
   took 43 s). Always anchor with `(?<!\d)`.
 * `readBinary` used to strip ISO-9797 padding twice: chunks ending in `00`/`80` were truncated (fixed; simulator test).
 * The C CMAC wrote `M_last[16]` for empty messages (fixed; NIST vector in `spec/vectors`).
-* Xcode targets must not differ only by case (`MoldSign` vs `moldsign` collide on APFS): CLI target is `moldsign-cli`.
+* Xcode targets must not differ only by case (`MoldSign` vs `moldsign` collided on APFS): targets are `eSemnBun-macOS`,
+  `eSemnBun-iOS`, `esemnbun-cli`. Products `eSemnBun.app` and `esemnbun` coexist; on Windows (case-insensitive) the CLI
+  lives in its own folder, see windows/README.md.
 * macOS PC/SC uses **32-bit** `DWORD`/handles (`PCSC.framework/Headers/wintypes.h`), Linux pcsc-lite uses
   `unsigned long` (64-bit). Never redeclare PC/SC types: `cpcsc.c` includes the real header; Swift sees
   only fixed-width wrappers. (The first shim used 64-bit DWORD on macOS and worked only by little-endian luck.)
