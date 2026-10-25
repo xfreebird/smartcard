@@ -1,0 +1,84 @@
+# Flatpak manifest for MoldSign (GNOME) — LNX-13.
+#
+#   flatpak-builder --user --install --force-clean build-dir linux/flatpak/md.moldsign.MoldSign.yml
+#   flatpak run md.moldsign.MoldSign
+#
+# Run from the repository root (the module source is the whole checkout: linux/ depends on
+# ../swift/MoldSignKit by path). Nothing in it has been built yet: there is no Linux host on the dev
+# Mac (R-09). TODO(LNX-13): build on Linux and fix whatever this guesses wrong.
+id: md.moldsign.MoldSign
+runtime: org.gnome.Platform
+runtime-version: '49'
+sdk: org.gnome.Sdk
+# TODO(LNX-13): verify the Swift SDK extension. Flathub ships org.freedesktop.Sdk.Extension.swift5 and
+# (believed, for the 24.08/25.08 bases) .swift6; the branch must match the GNOME runtime's freedesktop base
+# (GNOME 49 → 25.08). Fallback: a module that unpacks the swift.org Linux toolchain tarball.
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.swift6
+command: moldsign-gnome
+
+finish-args:
+  - --share=ipc
+  - --socket=wayland
+  - --socket=fallback-x11
+  - --device=dri
+  # Smart-card reader through the host pcscd (pcsc-lite client talks to /run/pcscd/pcscd.comm).
+  - --socket=pcsc
+  # TSA / OCSP / CRL (plain HTTP to *.pki.md / tsp.pki.gov.md) and the browser bridge listening on
+  # 127.0.0.1:18480 / 18443 (loopback listeners need the network namespace shared with the host).
+  - --share=network
+  # PIN vault (libsecret → GNOME Keyring / any Secret Service).
+  - --talk-name=org.freedesktop.secrets
+  # Signed files are written next to the original; files picked through the document portal fall back
+  # to ~/Documents/MoldSign. Everything else goes through the FileChooser / OpenURI portals.
+  - --filesystem=xdg-documents
+  # TODO(LNX-12): Background portal (RequestBackground + autostart) instead of a plain g_application_hold.
+  # TODO(LNX-13): the bridge's TLS identity (localhost.cts.md p12, D-03/SEC-07). It is vendor-shipped and
+  # must stay out of public artifacts; point MSIGN_TLS_P12 at a user-provided copy, e.g.
+  # --env=MSIGN_TLS_P12=~/.var/app/md.moldsign.MoldSign/data/moldsign/localhost.p12 (needs the core to
+  # expand it) or ship it only in private builds.
+
+build-options:
+  append-path: /usr/lib/sdk/swift6/bin
+  prepend-ld-library-path: /usr/lib/sdk/swift6/lib
+
+modules:
+  # pcsc-lite client library + headers for CPCSC (LNX-02). TODO(LNX-13): drop this module if the
+  # 25.08 runtime already ships libpcsclite (only the client library is needed; the daemon is the host's).
+  - name: pcsc-lite
+    buildsystem: meson
+    config-opts:
+      - -Dlibsystemd=false
+      - -Dlibudev=false
+      - -Dpolkit=false
+      - -Dusb=false
+      - -Dserial=false
+      - -Ddocumentation=false
+    cleanup:
+      - /sbin
+      - /share/man
+    sources:
+      - type: archive
+        url: https://pcsclite.apdu.fr/files/pcsc-lite-2.3.0.tar.xz
+        sha256: 0000000000000000000000000000000000000000000000000000000000000000  # TODO(LNX-13): real checksum
+
+  - name: moldsign-gnome
+    buildsystem: simple
+    sources:
+      - type: dir
+        path: ../..
+        skip:
+          - linux/.build
+          - swift/MoldSignKit/.build
+          - android
+          - windows
+          - apple
+          - re
+    build-commands:
+      # No network needed: the only package dependency is the local MoldSignKit path package.
+      - swift build --package-path linux -c release --static-swift-stdlib
+      - install -Dm755 linux/.build/release/moldsign-gnome /app/bin/moldsign-gnome
+      - install -Dm644 linux/data/md.moldsign.MoldSign.desktop /app/share/applications/md.moldsign.MoldSign.desktop
+      - install -Dm644 linux/data/md.moldsign.MoldSign.metainfo.xml /app/share/metainfo/md.moldsign.MoldSign.metainfo.xml
+      - install -Dm644 linux/data/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg /app/share/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg
+      - install -Dm644 linux/data/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg /app/share/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg

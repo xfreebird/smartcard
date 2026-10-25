@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=MoldSign
+Name[ro]=MoldSign
+GenericName=Electronic Signature
+GenericName[ro]=Semnătură electronică
+Comment=Sign and verify documents with the Moldovan eID card
+Comment[ro]=Semnează și verifică documente cu buletinul de identitate (eID Moldova)
+# %U: files from "Open With" land on the Sign page (G_APPLICATION_HANDLES_OPEN)
+Exec=moldsign-gnome %U
+Icon=md.moldsign.MoldSign
+Terminal=false
+StartupNotify=true
+Categories=Office;Security;GTK;GNOME;
+Keywords=signature;sign;eID;smartcard;PAdES;XAdES;msign;semnătură;semnează;buletin;card;
+MimeType=application/pdf;application/xml;text/xml;
+X-GNOME-UsesNotifications=true
