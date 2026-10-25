@@ -54,7 +54,7 @@ struct PinEntryView: View {
                     .keyboardShortcut(.cancelAction)
                 Spacer()
                 Button("Semnează") { onSubmit(pin, remember && request.canRemember) }
-                    .buttonStyle(.primary)
+                    .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
                     .disabled(!valid)
             }
@@ -100,7 +100,7 @@ struct ConsentView: View {
                 } label: {
                     Label("Semnează", systemImage: consent.hasStoredPIN ? "touchid" : "lock")
                 }
-                .buttonStyle(.primary)
+                .buttonStyle(.borderedProminent)
                 .keyboardShortcut(.defaultAction)
             }
         }

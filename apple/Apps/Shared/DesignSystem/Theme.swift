@@ -34,6 +34,12 @@ enum Theme {
 }
 
 extension Color {
+    /// Fixed sRGB color (illustrations that look the same in light and dark).
+    init(rgb: UInt32) {
+        self.init(.sRGB, red: Double((rgb >> 16) & 0xFF) / 255, green: Double((rgb >> 8) & 0xFF) / 255,
+                  blue: Double(rgb & 0xFF) / 255)
+    }
+
     /// Light/dark pair resolved by the system appearance.
     init(light: UInt32, dark: UInt32) {
         #if os(macOS)
@@ -75,24 +81,4 @@ struct CardSurface<Content: View>: View {
             .overlay(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous)
                 .strokeBorder(.primary.opacity(0.08)))
     }
-}
-
-/// The one filled, brand-colored button per screen.
-struct PrimaryButtonStyle: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.headline)
-            .foregroundStyle(Theme.onBrand)
-            .padding(.horizontal, Theme.Space.xl)
-            .padding(.vertical, Theme.Space.m)
-            .frame(minHeight: 36)
-            .background(Theme.brand.opacity(isEnabled ? (configuration.isPressed ? 0.8 : 1) : 0.4),
-                        in: RoundedRectangle(cornerRadius: Theme.Radius.control, style: .continuous))
-    }
-}
-
-extension ButtonStyle where Self == PrimaryButtonStyle {
-    static var primary: PrimaryButtonStyle { PrimaryButtonStyle() }
 }

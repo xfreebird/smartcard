@@ -14,7 +14,7 @@ struct BrowserScreen: View {
             .safeAreaInset(edge: .top) {
                 HStack(spacing: Theme.Space.s) {
                     Circle().fill(model.bridgeState == .running ? Theme.success : Theme.warning).frame(width: 8, height: 8)
-                    Text(model.bridgeState == .running ? "Conexiune MoldSign activă" : "Conexiune MoldSign oprită")
+                    Text(model.bridgeState == .running ? "Conexiune browser activă" : "Conexiune browser oprită")
                         .font(.caption.weight(.medium))
                     Spacer()
                 }
@@ -49,7 +49,7 @@ struct ConnectionGuideView: View {
         NavigationStack {
             List {
                 Section {
-                    StatusCardView(status: model.status)
+                    CardSelector(size: .phone)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
                 }

@@ -68,6 +68,21 @@ enum ReaderStatus: Equatable {
     }
 }
 
+/// The one-glance "can I sign?" light (docs/10 §0.1, UX-01). Color is never the only signal: `label` says it too.
+enum StatusLight: Equatable {
+    case idle, reader, ready, busy, error
+
+    var color: Color? {
+        switch self {
+        case .idle: return nil
+        case .reader: return .orange
+        case .ready: return .green
+        case .busy: return .blue
+        case .error: return .red
+        }
+    }
+}
+
 /// One inserted card. `generation` comes from the reader monitor: a new value means a (re)inserted card.
 struct CardSlot: Identifiable, Equatable {
     let reader: String
@@ -102,6 +117,11 @@ enum SignFormat: String, CaseIterable, Identifiable {
     /// PDF → PAdES-T, anything else → XAdES-T detached (docs/10 principle 2).
     static func automatic(for url: URL) -> SignFormat {
         url.pathExtension.lowercased() == "pdf" ? .padesT : .xadesT
+    }
+
+    /// PDFs: PAdES-T inside the PDF (default) or a detached XAdES next to it; other files: XAdES only.
+    static func choices(for url: URL) -> [SignFormat] {
+        url.pathExtension.lowercased() == "pdf" ? [.padesT, .xadesBES, .xadesT, .xadesC] : [.xadesBES, .xadesT, .xadesC]
     }
 }
 

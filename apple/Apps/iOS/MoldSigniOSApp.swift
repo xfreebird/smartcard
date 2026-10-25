@@ -23,19 +23,32 @@ struct MoldSigniOSApp: App {
 }
 
 struct RootTabView: View {
+    enum TabID: String { case sign, verify, browser, card }
+
     @Environment(AppModel.self) private var model
+    @State private var tab: TabID = {
+        #if DEBUG
+        // design QA: MSIGN_DEMO_TAB=card opens on the Card tab (debug builds only)
+        if let raw = ProcessInfo.processInfo.environment["MSIGN_DEMO_TAB"], let tab = TabID(rawValue: raw) { return tab }
+        #endif
+        return .sign
+    }()
 
     var body: some View {
         @Bindable var model = model
-        TabView {
-            NavigationStack { SignScreen().safeAreaInset(edge: .top) { ConnectionBanner() } }
+        TabView(selection: $tab) {
+            NavigationStack { SignScreen() }
                 .tabItem { Label("Semnează", systemImage: "signature") }
+                .tag(TabID.sign)
             NavigationStack { VerifyScreen() }
                 .tabItem { Label("Verifică", systemImage: "checkmark.seal") }
+                .tag(TabID.verify)
             NavigationStack { BrowserScreen() }
                 .tabItem { Label("Browser", systemImage: "globe") }
+                .tag(TabID.browser)
             NavigationStack { CardScreen() }
                 .tabItem { Label("Card", systemImage: "person.text.rectangle") }
+                .tag(TabID.card)
         }
         .tint(Theme.brand)
         .sheet(item: $model.pinRequest) { request in
@@ -50,21 +63,5 @@ struct RootTabView: View {
                 .presentationDetents([.medium])
                 .interactiveDismissDisabled()
         }
-    }
-}
-
-/// Top banner mirroring the StatusCard; tapping it in `noReader` opens the adapter guide (IOS-03).
-struct ConnectionBanner: View {
-    @Environment(AppModel.self) private var model
-    @State private var showGuide = false
-
-    var body: some View {
-        Button { showGuide = true } label: {
-            StatusCardView(status: model.status, compact: true)
-        }
-        .buttonStyle(.plain)
-        .padding(.horizontal)
-        .padding(.top, Theme.Space.s)
-        .sheet(isPresented: $showGuide) { ConnectionGuideView() }
     }
 }

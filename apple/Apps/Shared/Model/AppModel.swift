@@ -52,20 +52,68 @@ final class AppModel {
     @ObservationIgnored private var pinContinuation: CheckedContinuation<(pin: String, remember: Bool)?, Never>?
     @ObservationIgnored private var consentContinuation: CheckedContinuation<(approved: Bool, trust: Bool), Never>?
     @ObservationIgnored private var trustedUntil: [String: Date] = [:]
-    @ObservationIgnored private var readers: [String] = []
-    @ObservationIgnored private var muteCard = false
-    @ObservationIgnored private var signing = false
+    private(set) var readers: [String] = []
+    private var muteCard = false
+    private var signing = false
+
+    /// Tray / menu-bar light (UX-01).
+    var light: StatusLight {
+        if signing || pinRequest != nil || consentRequest != nil { return .busy }
+        if cards.contains(where: { $0.certificate != nil }) { return .ready }
+        switch status {
+        case .error, .unavailable: return .error
+        default: break
+        }
+        return readers.isEmpty ? .idle : .reader
+    }
+
+    /// Menu-bar dot (docs/10 §0.2b, UX-11): green while a card is inserted (reading, ready or signing), gray otherwise.
+    var cardConnected: Bool { cards.contains { $0.problem == nil } }
+
+    var trayLabel: String {
+        if cardConnected {
+            let holder = certificate?.holder ?? cards.compactMap(\.certificate).first?.holder
+            return holder.map { String(localized: "eSemnBun · Card conectat · \($0)") } ?? String(localized: "eSemnBun · Card conectat")
+        }
+        switch status {
+        case .error, .unavailable: return "eSemnBun · \(status.title)"
+        default: return String(localized: "eSemnBun · Niciun card conectat")
+        }
+    }
+
+    /// Text twin of `light` (tooltip, VoiceOver).
+    var lightLabel: String {
+        switch light {
+        case .ready:
+            let ready = cards.compactMap(\.certificate)
+            let holder = certificate?.holder ?? ready.first?.holder ?? ""
+            return ready.count > 1 ? String(localized: "Card pregătit · \(holder) · \(ready.count) carduri")
+                                   : String(localized: "Card pregătit · \(holder)")
+        case .reader: return String(localized: "Cititor conectat · introdu cardul")
+        case .busy: return String(localized: "Se semnează…")
+        case .error: return status.title
+        case .idle: return String(localized: "Conectează cititorul")
+        }
+    }
 
     init() {
         bridgeEnabled = UserDefaults.standard.object(forKey: "bridgeEnabled") as? Bool ?? true
         if let data = UserDefaults.standard.data(forKey: "activity"),
            let items = try? JSONDecoder().decode([ActivityItem].self, from: data) {
             activity = items
+            pruneMissingFiles()
         }
     }
 
     func start() {
         MSLog.sink = nil   // SEC-04: no SM traces or session keys in app logs
+        #if DEBUG
+        if let demo = ProcessInfo.processInfo.environment["MSIGN_DEMO_CARDS"], let count = Int(demo == "none" ? "0" : demo),
+           count > 0 || demo == "none" {
+            loadDemoCards(count)
+            return
+        }
+        #endif
         let selected = selectedReader
         // nil (no specific card asked for) → the card selected in the UI
         service.transportFactory = { reader in try CardTransports.connect(reader: reader ?? selected.name) }
@@ -113,6 +161,29 @@ final class AppModel {
         }
         recomputeStatus()
     }
+
+    #if DEBUG
+    /// Screenshots / design QA without hardware: `MSIGN_DEMO_CARDS=2`. Never compiled into release builds.
+    private func loadDemoCards(_ count: Int) {
+        let holders = ["Popescu Ion", "Mîndru Ștefan", "Rusu Ana"]   // CN order on Moldovan certificates
+        readers = (0..<count).map { $0 == 0 ? "bit4id miniLector POCKET EVO" : "bit4id miniLector POCKET EVO 0\($0)" }
+        cards = readers.enumerated().map { index, reader in
+            let sha = String(format: "%02x", index * 97 + 20) + String(repeating: "0", count: 38)
+            let cert = SigningService.CertificateSummary(
+                der: Data(), holder: holders[index % holders.count], subjectDN: "CN=\(holders[index % holders.count]),C=MD",
+                issuer: "CN=MDQSign,C=MD", issuerName: "MDQSign", serialDecimal: "1298074214877499210738125554536943",
+                sha1Hex: sha, notAfter: Calendar.current.date(byAdding: .year, value: 4 - index, to: Date()))
+            return CardSlot(reader: reader, generation: 1, certificate: cert)
+        }
+        if let files = ProcessInfo.processInfo.environment["MSIGN_DEMO_FILES"] {
+            addFiles(files.split(separator: ":").map { URL(filePath: String($0)) })
+        }
+        let selected = ProcessInfo.processInfo.environment["MSIGN_DEMO_SELECTED"].flatMap(Int.init) ?? 0
+        selectedReaderName = cards.isEmpty ? nil : cards[min(max(selected, 0), cards.count - 1)].reader
+        bridgeState = .running
+        recomputeStatus()
+    }
+    #endif
 
     /// "Recitește cardul": forget what we know about the inserted cards and read them again.
     func rereadCards() {
@@ -392,7 +463,43 @@ final class AppModel {
     func log(_ item: ActivityItem) {
         activity.insert(item, at: 0)
         if activity.count > 100 { activity.removeLast(activity.count - 100) }
+        saveActivity()
+    }
+
+    /// Recent documents: signed/verified files that are still on disk (browser requests have no file), newer than the
+    /// last "Golește" in the popover. Clearing recents keeps the Activity history; that one has its own clear.
+    var recentDocuments: [ActivityItem] {
+        activity.filter { item in
+            item.date > recentsClearedAt && (item.fileURL.map(Self.fileExists) ?? false)
+        }
+    }
+
+    private(set) var recentsClearedAt = UserDefaults.standard.object(forKey: "recentsClearedAt") as? Date ?? .distantPast
+
+    func clearRecents() {
+        recentsClearedAt = Date()
+        UserDefaults.standard.set(recentsClearedAt, forKey: "recentsClearedAt")
+    }
+
+    /// Forget entries whose file was moved or deleted (called when a list of them is shown).
+    func pruneMissingFiles() {
+        let kept = activity.filter { $0.fileURL.map(Self.fileExists) ?? true }
+        guard kept.count != activity.count else { return }
+        activity = kept
+        saveActivity()
+    }
+
+    func clearActivity() {
+        activity.removeAll()
+        saveActivity()
+    }
+
+    private func saveActivity() {
         if let data = try? JSONEncoder().encode(activity) { UserDefaults.standard.set(data, forKey: "activity") }
+    }
+
+    private static func fileExists(_ url: URL) -> Bool {
+        FileManager.default.fileExists(atPath: url.path(percentEncoded: false))
     }
 
     // MARK: - Errors (docs/09 §3.3)

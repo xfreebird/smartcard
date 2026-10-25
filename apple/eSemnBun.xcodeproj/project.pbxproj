@@ -14,9 +14,9 @@
 
 /* Begin PBXFileReference section */
 		9D3A4354BB64867F51E37837 /* MoldSignKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MoldSignKit; path = ../swift/MoldSignKit; sourceTree = SOURCE_ROOT; };
-		C62C76F898CF23FE6B39E022 /* MoldSign-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MoldSign-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F44F8E98815B97E665D97178 /* MoldSign-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "MoldSign-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F49893864352DC4EBBCD6042 /* moldsign-cli */ = {isa = PBXFileReference; includeInIndex = 0; path = "moldsign-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eSemnBun-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "eSemnBun-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49893864352DC4EBBCD6042 /* esemnbun-cli */ = {isa = PBXFileReference; includeInIndex = 0; path = "esemnbun-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -25,14 +25,14 @@
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 17BEBCA95EA2E3B2714B9E43 /* MoldSign-macOS */;
+			target = 17BEBCA95EA2E3B2714B9E43 /* eSemnBun-macOS */;
 		};
 		9E0B2AC2D099B6436F719108 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 4D6FDB6F3A417301EBF98977 /* MoldSign-iOS */;
+			target = 4D6FDB6F3A417301EBF98977 /* eSemnBun-iOS */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -116,9 +116,9 @@
 		033BFFADBFCCC6BE9A02D653 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F49893864352DC4EBBCD6042 /* moldsign-cli */,
-				F44F8E98815B97E665D97178 /* MoldSign-iOS.app */,
-				C62C76F898CF23FE6B39E022 /* MoldSign-macOS.app */,
+				F49893864352DC4EBBCD6042 /* esemnbun-cli */,
+				F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */,
+				C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -171,9 +171,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		17BEBCA95EA2E3B2714B9E43 /* MoldSign-macOS */ = {
+		17BEBCA95EA2E3B2714B9E43 /* eSemnBun-macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A8E70AA7A4BDC6E6DE8111D0 /* Build configuration list for PBXNativeTarget "MoldSign-macOS" */;
+			buildConfigurationList = A8E70AA7A4BDC6E6DE8111D0 /* Build configuration list for PBXNativeTarget "eSemnBun-macOS" */;
 			buildPhases = (
 				223CF72DE113455DFBB5E737 /* Sources */,
 				7BCDF02B4F614193E4F74F29 /* Resources */,
@@ -187,17 +187,17 @@
 				81B22A7491DCAC3D156E2714 /* Shared */,
 				9D0758035342A0F18AA94E73 /* macOS */,
 			);
-			name = "MoldSign-macOS";
+			name = "eSemnBun-macOS";
 			packageProductDependencies = (
 				271172B4B652C80AD3F64967 /* MoldSignKit */,
 			);
-			productName = "MoldSign-macOS";
-			productReference = C62C76F898CF23FE6B39E022 /* MoldSign-macOS.app */;
+			productName = "eSemnBun-macOS";
+			productReference = C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4D6FDB6F3A417301EBF98977 /* MoldSign-iOS */ = {
+		4D6FDB6F3A417301EBF98977 /* eSemnBun-iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C3742411DEAB8B645787EACE /* Build configuration list for PBXNativeTarget "MoldSign-iOS" */;
+			buildConfigurationList = C3742411DEAB8B645787EACE /* Build configuration list for PBXNativeTarget "eSemnBun-iOS" */;
 			buildPhases = (
 				1403A2D6CD19CE561213CAF7 /* Sources */,
 				25B795AB9CEE9D371D47D46C /* Resources */,
@@ -211,17 +211,17 @@
 				81B22A7491DCAC3D156E2714 /* Shared */,
 				D0B0B9FE2AA57A1BA9C5A8BB /* iOS */,
 			);
-			name = "MoldSign-iOS";
+			name = "eSemnBun-iOS";
 			packageProductDependencies = (
 				396DE1DA3F8E87AE2E83E516 /* MoldSignKit */,
 			);
-			productName = "MoldSign-iOS";
-			productReference = F44F8E98815B97E665D97178 /* MoldSign-iOS.app */;
+			productName = "eSemnBun-iOS";
+			productReference = F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D8D5F2ABFCA3FB9FD890D10D /* moldsign-cli */ = {
+		D8D5F2ABFCA3FB9FD890D10D /* esemnbun-cli */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4B28F6091ED0B01AFBACBC10 /* Build configuration list for PBXNativeTarget "moldsign-cli" */;
+			buildConfigurationList = 4B28F6091ED0B01AFBACBC10 /* Build configuration list for PBXNativeTarget "esemnbun-cli" */;
 			buildPhases = (
 				83959DA2FFF3E33F40F9CDE8 /* Sources */,
 				581C8E751B8B20576F1E4A5E /* Resources */,
@@ -234,12 +234,12 @@
 			fileSystemSynchronizedGroups = (
 				CBFEFEC42BF3B545DCA5069C /* moldsign */,
 			);
-			name = "moldsign-cli";
+			name = "esemnbun-cli";
 			packageProductDependencies = (
 				FE1540A69DD726BA154AB629 /* MoldSignKit */,
 			);
-			productName = "moldsign-cli";
-			productReference = F49893864352DC4EBBCD6042 /* moldsign-cli */;
+			productName = "esemnbun-cli";
+			productReference = F49893864352DC4EBBCD6042 /* esemnbun-cli */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -265,7 +265,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 4D38FC3A41B9BB252AB53E70 /* Build configuration list for PBXProject "MoldSign" */;
+			buildConfigurationList = 4D38FC3A41B9BB252AB53E70 /* Build configuration list for PBXProject "eSemnBun" */;
 			developmentRegion = ro;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -282,9 +282,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				17BEBCA95EA2E3B2714B9E43 /* MoldSign-macOS */,
-				4D6FDB6F3A417301EBF98977 /* MoldSign-iOS */,
-				D8D5F2ABFCA3FB9FD890D10D /* moldsign-cli */,
+				17BEBCA95EA2E3B2714B9E43 /* eSemnBun-macOS */,
+				4D6FDB6F3A417301EBF98977 /* eSemnBun-iOS */,
+				D8D5F2ABFCA3FB9FD890D10D /* esemnbun-cli */,
 			);
 		};
 /* End PBXProject section */
@@ -353,7 +353,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.cli;
 				PRODUCT_MODULE_NAME = moldsign_cli;
-				PRODUCT_NAME = moldsign;
+				PRODUCT_NAME = esemnbun;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -370,7 +370,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.ios;
-				PRODUCT_NAME = MoldSign;
+				PRODUCT_NAME = eSemnBun;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -391,7 +391,7 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.mac;
-				PRODUCT_NAME = MoldSign;
+				PRODUCT_NAME = eSemnBun;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -408,7 +408,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.ios;
-				PRODUCT_NAME = MoldSign;
+				PRODUCT_NAME = eSemnBun;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -429,7 +429,7 @@
 					"@executable_path/../Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.mac;
-				PRODUCT_NAME = MoldSign;
+				PRODUCT_NAME = eSemnBun;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -492,7 +492,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -519,7 +519,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = md.moldsign.cli;
 				PRODUCT_MODULE_NAME = moldsign_cli;
-				PRODUCT_NAME = moldsign;
+				PRODUCT_NAME = esemnbun;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -576,7 +576,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.1.3;
+				MARKETING_VERSION = 0.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -590,7 +590,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4B28F6091ED0B01AFBACBC10 /* Build configuration list for PBXNativeTarget "moldsign-cli" */ = {
+		4B28F6091ED0B01AFBACBC10 /* Build configuration list for PBXNativeTarget "esemnbun-cli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C8B04213252B0DDCF7E8CFF6 /* Debug */,
@@ -599,7 +599,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		4D38FC3A41B9BB252AB53E70 /* Build configuration list for PBXProject "MoldSign" */ = {
+		4D38FC3A41B9BB252AB53E70 /* Build configuration list for PBXProject "eSemnBun" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9D6DB60D3FF4E44A919E5592 /* Debug */,
@@ -608,7 +608,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		A8E70AA7A4BDC6E6DE8111D0 /* Build configuration list for PBXNativeTarget "MoldSign-macOS" */ = {
+		A8E70AA7A4BDC6E6DE8111D0 /* Build configuration list for PBXNativeTarget "eSemnBun-macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5C0163264AAACF726A52F92C /* Debug */,
@@ -617,7 +617,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C3742411DEAB8B645787EACE /* Build configuration list for PBXNativeTarget "MoldSign-iOS" */ = {
+		C3742411DEAB8B645787EACE /* Build configuration list for PBXNativeTarget "eSemnBun-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5AD148B4B91A0C7B4A98968E /* Debug */,

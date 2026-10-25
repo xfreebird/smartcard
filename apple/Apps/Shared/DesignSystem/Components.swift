@@ -4,151 +4,48 @@ import MoldSignKit
 
 // Components from docs/10-design-system.md §3.
 
-/// Stylized eID card: blue card with the yellow chip. Outline-only when no card is present.
-struct CardArt: View {
-    var present: Bool
-    var size: CGFloat = 44
-
-    var body: some View {
-        RoundedRectangle(cornerRadius: size * 0.12, style: .continuous)
-            .fill(present ? AnyShapeStyle(Theme.brand.gradient) : AnyShapeStyle(.clear))
-            .overlay(RoundedRectangle(cornerRadius: size * 0.12, style: .continuous)
-                .strokeBorder(present ? .clear : .secondary, style: StrokeStyle(lineWidth: 1.5, dash: [4, 3])))
-            .overlay(alignment: .leading) {
-                RoundedRectangle(cornerRadius: size * 0.05)
-                    .fill(present ? Theme.accent : .secondary.opacity(0.4))
-                    .frame(width: size * 0.22, height: size * 0.17)
-                    .padding(.leading, size * 0.14)
-            }
-            .frame(width: size, height: size * 0.63)
-            .accessibilityHidden(true)
-    }
-}
-
-/// "Can I sign right now?" Holder, reader and validity, or the one thing to fix.
-struct StatusCardView: View {
-    let status: ReaderStatus
+/// docs/10 §3 DropZone: dashed area that takes dropped files and has its own "choose" button. Large while the list
+/// is empty, one compact line once documents are queued. On iPhone it's simply a big tile (drag works on iPad).
+struct DropZone: View {
     var compact = false
+    var targeted = false
+    let choose: () -> Void
 
     var body: some View {
-        CardSurface(padding: compact ? Theme.Space.m : Theme.Space.l) {
-            HStack(spacing: Theme.Space.m) {
-                CardArt(present: status.cardPresent, size: compact ? 36 : 48)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(status.title)
-                        .font(compact ? .subheadline.weight(.semibold) : .headline)
-                        .lineLimit(1)
-                    HStack(spacing: 6) {
-                        Circle().fill(status.tint).frame(width: 7, height: 7)
-                        Text(status.subtitle).lineLimit(1)
-                    }
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    if !compact, let detail = status.detail {
-                        Text(detail).font(.caption).foregroundStyle(.secondary)
-                    }
+        let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
+        Group {
+            if compact {
+                HStack(spacing: Theme.Space.s) {
+                    Image(systemName: "arrow.down.doc")
+                    Text("Trage alte documente aici sau")
+                    Button("Alege fișiere…", action: choose).buttonStyle(.borderless)
                 }
-                Spacer(minLength: 0)
-                if case .reading = status { ProgressView().controlSize(.small) }
-                if case .busy = status { ProgressView().controlSize(.small) }
-            }
-        }
-        .accessibilityElement(children: .combine)
-    }
-}
-
-/// Dashed drop target. Dropping files starts the flow; tapping opens the file picker.
-struct DropZoneView: View {
-    var title: LocalizedStringKey = "Trage documentele aici"
-    var subtitle: LocalizedStringKey = "sau alege fișiere"
-    var hint: LocalizedStringKey? = "PDF → PAdES · altele → XAdES"
-    var minHeight: CGFloat = 120
-    let onFiles: ([URL]) -> Void
-    let onBrowse: () -> Void
-
-    @State private var targeted = false
-
-    var body: some View {
-        Button(action: onBrowse) {
-            VStack(spacing: Theme.Space.s) {
-                Image(systemName: "arrow.down.doc")
-                    .font(.system(size: 26, weight: .regular))
-                    .foregroundStyle(targeted ? Theme.brand : .secondary)
-                Text(title).font(.headline)
-                Text(subtitle).font(.subheadline).foregroundStyle(Theme.brand)
-                if let hint { Text(hint).font(.caption).foregroundStyle(.secondary) }
-            }
-            .frame(maxWidth: .infinity, minHeight: minHeight)
-            .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .background(targeted ? Theme.brandSoft : .clear,
-                    in: RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: Theme.Radius.card, style: .continuous)
-            .strokeBorder(targeted ? Theme.brand : .secondary.opacity(0.5),
-                          style: StrokeStyle(lineWidth: 1.5, dash: targeted ? [] : [6, 4])))
-        .dropDestination(for: URL.self) { urls, _ in
-            onFiles(urls)
-            return !urls.isEmpty
-        } isTargeted: { targeted = $0 }
-        .animation(.easeOut(duration: 0.2), value: targeted)
-    }
-}
-
-/// Which inserted card to sign with, shown only when several eID cards are connected.
-struct CardPicker: View {
-    @Environment(AppModel.self) private var model
-
-    var body: some View {
-        if model.cards.count > 1 {
-            Picker(selection: Binding(get: { model.selectedCard?.reader ?? "" }, set: { model.selectCard($0) })) {
-                ForEach(model.cards) { card in
-                    Text(card.certificate?.holder ?? String(localized: "Se citește…")).tag(card.reader)
-                }
-            } label: {
-                Label("Card", systemImage: "person.text.rectangle")
-            }
-            .pickerStyle(.menu)
-            .accessibilityHint(Text("Alege cardul cu care semnezi"))
-        }
-    }
-}
-
-struct FormatChip: View {
-    let format: SignFormat
-
-    var body: some View {
-        Text(format.label)
-            .font(.caption.weight(.semibold))
-            .padding(.horizontal, 8)
-            .padding(.vertical, 3)
-            .foregroundStyle(Theme.brand)
-            .background(Theme.brandSoft, in: Capsule())
-    }
-}
-
-struct FileRowView: View {
-    let item: SignItem
-    var onRemove: (() -> Void)?
-
-    var body: some View {
-        HStack(spacing: Theme.Space.m) {
-            Image(systemName: item.format == .padesT ? "doc.richtext" : "doc")
+                .font(.callout)
                 .foregroundStyle(.secondary)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(item.url.lastPathComponent).lineLimit(1).truncationMode(.middle)
-                Text(item.sizeText).font(.caption).foregroundStyle(.secondary)
-            }
-            Spacer()
-            FormatChip(format: item.format)
-            if let onRemove {
-                Button(action: onRemove) { Image(systemName: "xmark.circle.fill") }
-                    .buttonStyle(.plain)
-                    .foregroundStyle(.secondary)
-                    .accessibilityLabel("Elimină")
+                .frame(maxWidth: .infinity, minHeight: 48)
+            } else {
+                VStack(spacing: Theme.Space.s) {
+                    Image(systemName: "arrow.down.doc")
+                        .font(.system(size: 34, weight: .light))
+                        .foregroundStyle(targeted ? Color.accentColor : .secondary)
+                        .symbolEffect(.bounce, value: targeted)
+                    Text(targeted ? "Eliberează pentru a adăuga" : "Trage documentele aici").font(.headline)
+                    Text("PDF → PAdES-T în PDF · alte fișiere → XAdES-T separat. Formatul se poate schimba.")
+                        .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                    Button("Alege fișiere…", action: choose)
+                        .buttonStyle(.bordered)
+                        .controlSize(.large)
+                        .padding(.top, Theme.Space.xs)
+                }
+                .padding(Theme.Space.l)
+                .frame(maxWidth: .infinity, minHeight: 190)
             }
         }
-        .padding(.vertical, 4)
+        .background(targeted ? Color.accentColor.opacity(0.10) : Color.secondary.opacity(0.05), in: shape)
+        .overlay(shape.strokeBorder(targeted ? Color.accentColor : Color.secondary.opacity(0.45),
+                                    style: StrokeStyle(lineWidth: targeted ? 2 : 1.5, dash: targeted ? [] : [7, 5])))
+        .contentShape(shape)
+        .animation(.easeOut(duration: 0.15), value: targeted)
     }
 }
 
@@ -213,46 +110,10 @@ struct VerdictBadge: View {
     }
 }
 
-struct SignatureCardView: View {
-    let report: Validator.Report
-    @State private var showDetails = false
-
-    var body: some View {
-        CardSurface {
-            VStack(alignment: .leading, spacing: Theme.Space.s) {
-                HStack {
-                    Image(systemName: "person.text.rectangle").foregroundStyle(Theme.brand)
-                    Text(report.signer).font(.headline)
-                    Spacer()
-                    Text(report.level).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
-                }
-                Text("Semnat \(report.signingTime)").font(.subheadline)
-                if let tst = report.timestampTime {
-                    Text("Marcă temporală \(tst)").font(.caption).foregroundStyle(.secondary)
-                }
-                HStack(spacing: Theme.Space.s) {
-                    check("Integritate", report.contentIntact)
-                    check("Semnătură", report.signatureValid)
-                    check("Lanț de încredere", report.chainTrusted)
-                }
-                DisclosureGroup("Detalii tehnice", isExpanded: $showDetails) {
-                    Text(report.summary).font(.caption.monospaced()).textSelection(.enabled)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .font(.caption)
-            }
-        }
-    }
-
-    private func check(_ title: LocalizedStringKey, _ ok: Bool) -> some View {
-        Label(title, systemImage: ok ? "checkmark.circle.fill" : "xmark.octagon.fill")
-            .font(.caption)
-            .foregroundStyle(ok ? Theme.success : Theme.danger)
-    }
-}
-
 struct ActivityRowView: View {
     let item: ActivityItem
+    /// Off in the menu-bar popover (a glance at what happened, not when).
+    var showsDate = true
 
     var body: some View {
         HStack(spacing: Theme.Space.m) {
@@ -263,7 +124,9 @@ struct ActivityRowView: View {
                 Text(item.subtitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
             }
             Spacer()
-            Text(item.date, style: .relative).font(.caption).foregroundStyle(.secondary)
+            if showsDate {
+                Text(item.date, format: .relative(presentation: .named)).font(.caption).foregroundStyle(.secondary)
+            }
         }
     }
 }

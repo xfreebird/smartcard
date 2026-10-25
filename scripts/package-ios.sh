@@ -13,9 +13,9 @@ DD="$ROOT/dist/.derived-ios"
 rm -rf "$OUT" && mkdir -p "$OUT"
 
 if [[ -n "${IOS_TEAM_ID:-}" ]]; then
-  echo "▸ Archiving MoldSign-iOS (team $IOS_TEAM_ID)"
-  xcodebuild -project "$ROOT/apple/MoldSign.xcodeproj" -scheme MoldSign-iOS -configuration Release \
-    -destination 'generic/platform=iOS' -derivedDataPath "$DD" -archivePath "$OUT/MoldSign-iOS.xcarchive" \
+  echo "▸ Archiving eSemnBun-iOS (team $IOS_TEAM_ID)"
+  xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-iOS -configuration Release \
+    -destination 'generic/platform=iOS' -derivedDataPath "$DD" -archivePath "$OUT/eSemnBun-iOS.xcarchive" \
     DEVELOPMENT_TEAM="$IOS_TEAM_ID" CODE_SIGN_STYLE=Automatic -allowProvisioningUpdates archive -quiet
   cat > "$OUT/ExportOptions.plist" <<PLIST
 <?xml version="1.0" encoding="UTF-8"?>
@@ -26,17 +26,17 @@ if [[ -n "${IOS_TEAM_ID:-}" ]]; then
   <key>signingStyle</key><string>automatic</string>
 </dict></plist>
 PLIST
-  xcodebuild -exportArchive -archivePath "$OUT/MoldSign-iOS.xcarchive" -exportPath "$OUT" \
+  xcodebuild -exportArchive -archivePath "$OUT/eSemnBun-iOS.xcarchive" -exportPath "$OUT" \
     -exportOptionsPlist "$OUT/ExportOptions.plist" -allowProvisioningUpdates -quiet
 else
-  echo "▸ Archiving MoldSign-iOS (unsigned)"
-  xcodebuild -project "$ROOT/apple/MoldSign.xcodeproj" -scheme MoldSign-iOS -configuration Release \
-    -destination 'generic/platform=iOS' -derivedDataPath "$DD" -archivePath "$OUT/MoldSign-iOS.xcarchive" \
+  echo "▸ Archiving eSemnBun-iOS (unsigned)"
+  xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-iOS -configuration Release \
+    -destination 'generic/platform=iOS' -derivedDataPath "$DD" -archivePath "$OUT/eSemnBun-iOS.xcarchive" \
     CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO archive -quiet
   STAGE="$OUT/ipa-stage/Payload"
   mkdir -p "$STAGE"
-  cp -R "$OUT/MoldSign-iOS.xcarchive/Products/Applications/MoldSign.app" "$STAGE/"
-  (cd "$OUT/ipa-stage" && zip -qry "$OUT/MoldSign-unsigned.ipa" Payload)
+  cp -R "$OUT/eSemnBun-iOS.xcarchive/Products/Applications/eSemnBun.app" "$STAGE/"
+  (cd "$OUT/ipa-stage" && zip -qry "$OUT/eSemnBun-unsigned.ipa" Payload)
   rm -rf "$OUT/ipa-stage"
 fi
 

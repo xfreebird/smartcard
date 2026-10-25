@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "17BEBCA95EA2E3B2714B9E43"
-               BuildableName = "MoldSign-macOS.app"
-               BlueprintName = "MoldSign-macOS"
-               ReferencedContainer = "container:MoldSign.xcodeproj">
+               BuildableName = "eSemnBun-macOS.app"
+               BlueprintName = "eSemnBun-macOS"
+               ReferencedContainer = "container:eSemnBun.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "17BEBCA95EA2E3B2714B9E43"
-            BuildableName = "MoldSign-macOS.app"
-            BlueprintName = "MoldSign-macOS"
-            ReferencedContainer = "container:MoldSign.xcodeproj">
+            BuildableName = "eSemnBun-macOS.app"
+            BlueprintName = "eSemnBun-macOS"
+            ReferencedContainer = "container:eSemnBun.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -69,9 +69,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "17BEBCA95EA2E3B2714B9E43"
-            BuildableName = "MoldSign-macOS.app"
-            BlueprintName = "MoldSign-macOS"
-            ReferencedContainer = "container:MoldSign.xcodeproj">
+            BuildableName = "eSemnBun-macOS.app"
+            BlueprintName = "eSemnBun-macOS"
+            ReferencedContainer = "container:eSemnBun.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -88,9 +88,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "17BEBCA95EA2E3B2714B9E43"
-            BuildableName = "MoldSign-macOS.app"
-            BlueprintName = "MoldSign-macOS"
-            ReferencedContainer = "container:MoldSign.xcodeproj">
+            BuildableName = "eSemnBun-macOS.app"
+            BlueprintName = "eSemnBun-macOS"
+            ReferencedContainer = "container:eSemnBun.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
