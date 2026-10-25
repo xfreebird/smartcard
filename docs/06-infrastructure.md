@@ -9,7 +9,7 @@ mdtrustca (root, self-signed)                       ChainCerts.mdTrustCA
 ```
 
 Both CA certs are **public** — extracted from a signed CMS (certificates[0] in the
-middleware output) and embedded as `MoldSignMac/MoldSignMac/ChainCerts.swift` base64.
+middleware output) and embedded as `swift/MoldSignKit/Sources/MoldSignKit/Formats/ChainCerts.swift` base64.
 Re-acquire from any freshly-signed document (see doc 02 byte-template tool: offsets
 60+1799… of the padding-stripped CMS).
 
@@ -37,7 +37,7 @@ X509v3 AIA/CRL-DP parsing in `XAdESSigner.extractExtensionURI` uses regex
     -srckeystore /Applications/STISC/MoldSign/MoldSignData/Server/sslKeyStore2.jks \
     -destkeystore localhost.p12 -deststoretype PKCS12 \
     -srcstorepass <pass-from-decompiled-ApiServer.java> -deststorepass <same>
-  → MoldSignMac/Resources/localhost.p12
+  → swift/MoldSignKit/Resources/localhost.p12
   ```
   (password is compiled into the vendor binary — `re/decompiled/ClientCardServer-2.0/
   md/cts/moldsign/clientcardmanager/server/ApiServer.java`, `setKeyStorePass(…)`).

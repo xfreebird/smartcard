@@ -62,7 +62,7 @@ reverse-engineering phase. Grouped by purpose.
 ## Misc data
 
 - `certs/` — currently empty (previously held extracted chain certs; those now live in
-  `MoldSignMac/MoldSignMac/ChainCerts.swift`).
+  `swift/MoldSignKit/Sources/MoldSignKit/Formats/ChainCerts.swift`).
 - `FINDINGS.md` — chronological RE journal; useful for "why does X exist" archaeology.
 - `sig2.asn.txt`, `cms1.txt` — see above.
 

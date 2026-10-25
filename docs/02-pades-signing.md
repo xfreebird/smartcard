@@ -1,6 +1,6 @@
 # 02 — PAdES Signing (PDFs msign.gov.md accepts)
 
-Implemented in `MoldSignMac/MoldSignMac/Signing.swift` (`PAdESSigner`). This file is the
+Implemented in `swift/MoldSignKit/Sources/MoldSignKit/Formats/Signing.swift` (`PAdESSigner`). This file is the
 distillation of ~2 weeks of portal rejections; every element below exists because some
 validator proved it necessary.
 
@@ -89,7 +89,7 @@ Detect it in minutes: `/tmp/pk7/Probe.java` against the STISC libs (iText 9 + BC
 2. `openssl cms -verify -binary -inform DER -in cms.der -content <byterange-bytes> -noverify`
    (without `-binary` openssl CRLF-mangles the content and fails a correct signature —
    a classic false-negative).
-3. `MoldSignMac verify <file>` — full offline: digest + RSA + manual chain.
+3. `moldsign verify <file>` — full offline: digest + RSA + manual chain.
 4. Portal: https://msign.gov.md/#/ verify upload.
 
 ## Byte-template method (fastest way to a working file)

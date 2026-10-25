@@ -1,9 +1,14 @@
-# Smartcard / MoldSignMac — Project Knowledge Base
+# Smartcard / MoldSign — Project Knowledge Base
 
 This repo reverse-engineered and re-implemented the STISC **MoldSign** signing stack
 (Moldovan national eID: IDEMIA CosmoX ID-A card on a bit4id miniLector POCKET EVO reader)
-as a native macOS app. Everything below documents how the system works, how every
+and is growing it into native apps for **macOS, iOS, Android, Windows** plus a CLI on
+**macOS, Linux, Windows**. Everything below documents how the system works, how every
 artifact was obtained, and how to re-derive them if the vendor app changes.
+
+> **Living plan: [`PLAN.md`](PLAN.md)**: phases, task IDs (`F-…`, `MAC-…`, `IOS-…`, `AND-…`, `WIN-…`,
+> `CLI-…`, `LNX-…`, `SEC-…`), decisions, risks, progress log. Update it in the same change as the work.
+> Code references tasks as `TODO(ID)`.
 
 > **Deep documentation: [](docs/README.md)** — card protocol, PAdES, XAdES,
 > server replica, offline validation, infrastructure, and the full re-derivation runbook.
@@ -11,43 +16,58 @@ artifact was obtained, and how to re-derive them if the vendor app changes.
 ## Layout
 
 ```
-MoldSignMac/                 SwiftPM package — the whole product
-  MoldSignMac/
-    Card.swift               IAS/ECC card driver (connect, mutual auth, VERIFY, sign, cert read)
-    SecureChannel.swift      AES-256-CBC/CMAC secure messaging, SSC tracking
-    Crypto.swift             AES/SHA wrappers, Data hex helpers
-    CPCSC/                   C target: PC/SC + AES-CBC/ECB/CMAC via CommonCrypto
-    Signing.swift            PAdES: detached CMS builder + iText-style PDF incremental update, TSA
-    ChainCerts.swift         MDQSign CA + mdtrustca root, base64 DER (public certs)
-    XAdES.swift              XAdES-BES/T/C builder (detached + enveloping), DN/ASN.1 helpers,
-                             CRL/OCSP fetching via curl/openssl
-    Validation.swift         Offline validator: ByteRange/CMS/RSA, manual chain, XAdES c14n checks
-    Server.swift             MoldSign Server protocol replica (NWListener, HttpServer class)
-    TimestampRequest.swift   RFC3161 request DER builder
-    main.swift               CLI modes (see cheat sheet)
-  MoldSignMacTests/          Unit + structural tests (golden crypto vectors, PDF/XAdES probes)
-  Resources/Info.plist       ATS exception for tsp.pki.gov.md (HTTP-only TSA)
-  Resources/localhost.p12    localhost.cts.md TLS identity (see "Sensitive" section)
+PLAN.md                      Living development plan (update as you go)
+spec/                        Cross-platform contracts every port must honour
+  vectors/card-crypto.json   Golden bytes: KDF, ext-auth, session keys, SM wrap/unwrap, CMAC, padding
+  bridge/allowed-origins.properties   Vendor origin allow-list for the browser bridge
+  cli.md                     `moldsign` CLI contract (commands, PIN rules, exit codes)
+swift/MoldSignKit/           SwiftPM package — THE CORE (moved from MoldSignMac/, history kept), used by
+                             the Apple apps AND the Linux CLI/GNOME app
+  Sources/MoldSignKit/
+    Card/                    CosmoXCard (IAS/ECC), SecureChannel, AES/CMAC, CardTransport (PC/SC, TKSmartCard)
+    Formats/                 PAdES (Signing.swift), XAdES, Validation, RSAVerifier, ChainCerts, TimestampRequest
+    Network/TrustServices    TSA/OCSP/CRL over plain HTTP (NWConnection on Apple, POSIX on Linux)
+    Bridge/                  MoldSign Server replica (Server.swift) + BridgeOriginPolicy
+    Services/SigningService  App facade: one card op at a time, progress steps, output naming
+    Support/                 MSLog, BuildInfo, POSIXSocket (Linux listener/client)
+  Sources/CPCSC/             C shims: PC/SC (PCSC.framework | pcsc-lite) + AES/CMAC (CommonCrypto | OpenSSL)
+                             + OpenSSL SHA/RSA/TLS for Linux. Real platform headers live only in cpcsc.c
+  Sources/moldsign/          CLI (spec/cli.md), macOS + Linux
+  Tests/MoldSignKitTests/    Vectors, real-signature RSA, PDF/XAdES structure, bridge, live PKI (opt-in), and
+                             Support/SimulatedCosmoXCard: full IAS/ECC card (mutual auth, SM, PIN counter, real RSA with a
+                             test key). Use it for any card-flow or bridge change instead of the real card
+  Resources/                 Info.plist (ATS), localhost.p12 (see "Sensitive"), test.pdf
+apple/
+  MoldSign.xcodeproj         Xcode project (source of truth): MoldSign-macOS (menu-bar app), MoldSign-iOS,
+                             moldsign-cli; synchronized folders → new files join automatically
+  Apps/Shared/               SwiftUI design system, AppModel, screens, ReaderMonitor (CTK), PinVault (Keychain)
+  Apps/macOS/  Apps/iOS/     Platform shells (menu bar + auth panel / tabs + in-app browser)
+linux/                       GNOME app (GTK4 + libadwaita via the C API from Swift), data/, flatpak/ — linux/README.md
+android/                     Gradle: core (Kotlin port), transport-usb (CCID), app (Compose) — android/README.md
+windows/                     .NET: MoldSign.Core (C# port), MoldSign.Cli, MoldSign.App (WinUI 3) — windows/README.md
+scripts/                     package-{macos,ios,android}.sh, test-portable-macos.sh  → dist/ (git-ignored)
+docs/                        01–08 RE + protocol docs, 09 architecture, 10 design system, 11 build & release
 re/                          Reverse-engineering workspace — see docs/08-re-inventory.md
-  FINDINGS.md                Running notes from the RE phase
-  decompiled/<jar>/          CFR-decompiled vendor jars (ground truth for protocol)
-  pcsc_trace.c, apdu_capture.log, run_capture.sh   PC/SC interposer + captured sessions
-  sig1.der                   Reference CMS captured from middleware
-  tools (memscan, dump_regions, sm_probe[DO_NOT_RUN])
 ```
 
 ## CLI cheat sheet
 
 ```bash
-cd MoldSignMac
-swift build && swift test
-.build/debug/MoldSignMac <in.pdf> <out-signed.pdf>      # PAdES sign (prompts for PIN QSCD)
-.build/debug/MoldSignMac sign-hex <digestinfo_hex>      # raw card signature
-.build/debug/MoldSignMac cms-for-hash <sha256_hex>      # detached CMS for external digest
-.build/debug/MoldSignMac xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml>
-.build/debug/MoldSignMac verify <signed.pdf>            # PAdES validate
-.build/debug/MoldSignMac verify <sig.xml> <docs_dir>    # XAdES validate
-MSIGN_PIN=... .build/debug/MoldSignMac server           # MoldSign Server replica
+cd swift/MoldSignKit
+swift build && swift test                                # MSIGN_NETWORK_TESTS=1 → live TSA/CRL/OCSP too
+../../scripts/test-portable-macos.sh                     # same tests through the Linux code paths (OpenSSL, POSIX)
+.build/debug/moldsign readers                            # PC/SC readers + card presence
+.build/debug/moldsign cert --out leaf.der                # signing certificate, no PIN
+.build/debug/moldsign sign <in.pdf> [<out.pdf>]          # PAdES-T (default <name>-semnat.pdf)
+.build/debug/moldsign <in.pdf> <out.pdf>                 # legacy form, same as `sign`
+.build/debug/moldsign xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping]
+.build/debug/moldsign verify <signed.pdf>                # PAdES validate (exit 2 = invalid)
+.build/debug/moldsign verify <sig.xml> <docs_dir>        # XAdES validate
+.build/debug/moldsign sign-hex <digestinfo_hex>          # raw card signature
+.build/debug/moldsign cms-for-hash <sha256_hex>          # detached CMS for external digest
+.build/debug/moldsign server [port [https_port]]         # MoldSign Server replica (vendor suite must be quit)
+# PIN: --pin-stdin → MSIGN_PIN → no-echo prompt. Never on the command line, never in code.
+xcodebuild -project apple/MoldSign.xcodeproj -scheme MoldSign-macOS build   # or open in Xcode
 ```
 
 Java probes (in `/tmp/pk7/`): `Probe.java` = iText 9 + BouncyCastle `readSignatureData`
@@ -60,6 +80,7 @@ Run with `java -cp "/Applications/STISC/MoldSign/lib/*" Probe.java file.pdf`.
 
 * Reader: "bit4id miniLector POCKET EVO"; ATR `3B DF 96 00 81 31 FE 45 80 73 84 21 E0 57 4D 44 41 5F 41 53 50 81 0F 78`.
 * Always `SCardReconnect(SCARD_RESET_CARD)` on connect — kills stale SM state from crashed sessions.
+  (The current code does **not** do this by default; `PCSCTransport.reset()` exists. Verify on device: MAC-12.)
 * Mutual auth: IAS/ECC → session keys (AES-256). SM wrap: AES-256-CBC,
   `IV = AES-ECB(Kenc, SSC+1)`, CMAC-8; **always append `Le=00`** even for case-3 APDUs;
   SSC advances for SW-only responses too. Data-slice `startIndex` bugs are the #1 crash source
@@ -111,7 +132,7 @@ replaced (offsets can't move if placeholder widths are kept).
 
 Golden references: POST `/sign/file` to a running Java server with header
 `moldSign: DesktopSuiteClient` (or any Origin in its allow-list) — XML `SignFileInputModel`,
-async `Location` polling until non-303. Fields/paths/models are in
+async `Location` long-poll. Fields/paths/models are in
 `re/decompiled/TransferObjects-2.0` and `ClientCardServer-2.0/.../Signature.java`.
 
 Format facts (all load-bearing):
@@ -144,7 +165,14 @@ Browser facts (msign.gov.md frontend):
 * Auth: any `Origin` from the vendor's allow-list, **or header `moldSign: DesktopSuiteClient`**.
 * Async signing: `POST` → `201 Created` + **`Location` with ABSOLUTE URL**
   (relative paths get resolved against the portal by axios — this was a real bug).
-  Poll → `303 See Other` (+ absolute `Location`) until ready, then `200`.
+  The result `GET` is a **long-poll** (vendor `Future.get()`): held until the signature exists, then `200`
+  (`400` + `error` header on failure). **Never 303-loop**: the portal issues one GET and browsers cap redirects at 20.
+* Several cards: `/certificates` lists every inserted card; signing goes to the reader holding the chosen
+  certificate; **the card's certificate is compared before every VERIFY** (`CosmoXCard.prepareForSigning`), so a
+  swapped card never receives another card's PIN. Display names are decoded (`X509Name`), never `\XX` escapes.
+* Portal batches: `use_pin_session=<first id>` on later POSTs, `keep_pin_session=1` on the first poll → one consent
+  + PIN per batch (same origin, memory only, 5 min TTL). XAdES honours the request's `algorithm` (portal: SHA-1
+  for Xml/Text; vendor-faithful); `signatureType:"Embedded"` = enveloping. PAdES stays SHA-256 (portal-accepted).
 * Model field names (JSON or Jersey-XML): `data, contentType, algorithm, signFormat,
   signatureType, certificate{...base64...}, pin` → `{"base64File": "..."}`;
   `/sign/pdf` → `{"path": "..."}`; verify → `<valid>true|false</valid>`.
@@ -152,21 +180,23 @@ Browser facts (msign.gov.md frontend):
 * CMS/PIN: posts may omit `pin` → vendor pops a GUI dialog; replica shows an osascript
   password prompt (fallbacks: JSON pin → `MSIGN_PIN` env → dialog → tty).
 
-Our replica (`Server.swift`) serves `http://127.0.0.1:18480` and `https://localhost.cts.md:18443`
-with the vendor's cert chain, full CORS filter (`Access-Control-Allow-Origin: <echo origin>`,
-`Origin, x-requested-with, content-type, accept, error, Location` allow+expose headers,
-`OPTIONS` handlers).
+Our replica (`Bridge/Server.swift`) serves `http://127.0.0.1:18480` and `https://localhost.cts.md:18443`
+(bound to 127.0.0.1 only) with the vendor's cert chain. CORS echoes the origin **only for origins on
+the vendor allow-list** (`BridgeOriginPolicy`, `spec/bridge/allowed-origins.properties`). Everyone else
+gets 403 without CORS headers. Preflights add `Access-Control-Allow-Private-Network: true`. Apps plug in
+`authorize` (consent + PIN). Details: docs/04 "Hardening and embedding".
 
 ## 5. Sensitive vs not
 
 **Sensitive — never commit/publish:**
 * **PIN QSCD of the user's card.** Lives only in terminal env/unit-test runs (`MSIGN_PIN`),
-  never in the repo. New contributors must not learn it from code.
+  never in the repo. New contributors must not learn it from code. (It *was* hard-coded in the first
+  commit's `main.swift`; removed in F-03. Purge it from history before any push, SEC-06.)
 * **If the session is suddenly failing with SW=6985**: the PIN retry counter may be
   nearly exhausted — warning worth treating as sensitive for the user's physical card safety.
 
 **Vendor-shipped (required to function; not user secrets; still keep off public repos):**
-* `Resources/localhost.p12` — localhost.cts.md TLS identity (publicly-issued Certum DV cert +
+* `swift/MoldSignKit/Resources/localhost.p12` — localhost.cts.md TLS identity (publicly-issued Certum DV cert +
   its private key + chain, shipped inside every MoldSign Desktop install). Re-extract:
   `keytool -importkeystore -srckeystore /Applications/STISC/MoldSign/MoldSignData/Server/sslKeyStore2.jks
   -destkeystore localhost.p12 -deststoretype PKCS12` (password is the one compiled into the
@@ -194,19 +224,26 @@ SM-encrypted there, but treat files as private).
 4. **PDF/XAdES reference regeneration**: run vendors' Java server, use `/certificates`,
    `/sign/file`, `/sign/data` (documented headers/auth above) to make new golden outputs for
    each format; also sign one PDF via their GUI for the PAdES template.
-5. **Re-validate ours**: `swift test` + Probe.java (PAdES) + Probe3.java (XAdES) + portal upload.
+5. **Re-validate ours**: `swift test` (in `swift/MoldSignKit`) + Probe.java (PAdES) + Probe3.java (XAdES) + portal upload.
+   If protocol bytes change, regenerate `spec/vectors/card-crypto.json` from Swift and re-run the Kotlin/C# suites.
 
-## 7. TODO — iOS port
+## 7. Cross-platform work
 
-* Replace `CPCSC` (PC/SC) with **CryptoTokenKit**: `TKSmartCardSlotManager` /
-  `TKSmartCard` transmit; keep `Card.swift`/`SecureChannel.swift` — they take APDUs the same.
-* AES-CBC/CMAC: CryptoKit `AES` doesn't expose CMAC directly — implement on top of `AES` block
-  cipher (CMAC = CBC-MAC with subkey doubling, already proven in the C code), or use
-  `CCCrypt` (available on iOS).
-* TSA/OCSP/CRL via `URLSession` (needs HTTPS or ATS exceptions — MDQTSA is HTTP-only, so an
-  `Info.plist` domain exception for `tsp.pki.gov.md` is required on device too).
-* `openssl ocsp` call in XAdES-C → replace with a Security-framework-free OCSP client
-  (build OCSPRequest DER manually over signer/issuer certIDs and POST to the responder).
-* UI: document picker → PIN prompt → PAdES/XAdES sign → share sheet. Validation screens can
-  reuse `Validation.swift` as-is (SecKeyVerifySignature works on iOS).
-```
+Moved to [`PLAN.md`](PLAN.md) (phases, IDs, decisions) and [`docs/09-architecture.md`](docs/09-architecture.md)
+(contracts). Gotchas found while building it:
+
+* **URLSession can't reach the TSA**: HSTS rewrites `http://tsp.pki.gov.md` to https, where the TSA
+  drops the connection (-1005). ATS exceptions don't help. `TrustServices` uses a minimal HTTP/1.1 client over `NWConnection`.
+* `NWConnection` honours the **system HTTP proxy** (e.g. a leftover Charles proxy → 503s). PKI calls set
+  `preferNoProxies`, which matches the old `curl` behavior.
+* `URL.path` drops the trailing slash: `/moldsign2` → TSA answers 301. Use `URLComponents.percentEncodedPath`.
+* Regexes like `(\d+) 0 obj` are **quadratic** over the 37,960-zero `/Contents` placeholder (counter-signing
+  took 43 s). Always anchor with `(?<!\d)`.
+* `readBinary` used to strip ISO-9797 padding twice: chunks ending in `00`/`80` were truncated (fixed; simulator test).
+* The C CMAC wrote `M_last[16]` for empty messages (fixed; NIST vector in `spec/vectors`).
+* Xcode targets must not differ only by case (`MoldSign` vs `moldsign` collide on APFS): CLI target is `moldsign-cli`.
+* macOS PC/SC uses **32-bit** `DWORD`/handles (`PCSC.framework/Headers/wintypes.h`), Linux pcsc-lite uses
+  `unsigned long` (64-bit). Never redeclare PC/SC types: `cpcsc.c` includes the real header; Swift sees
+  only fixed-width wrappers. (The first shim used 64-bit DWORD on macOS and worked only by little-endian luck.)
+* `MOLDSIGN_PORTABLE` (automatic on Linux) selects OpenSSL + POSIX sockets. `scripts/test-portable-macos.sh` runs
+  the whole suite that way on macOS, so most Linux bugs show up without a Linux box.

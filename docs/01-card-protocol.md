@@ -1,7 +1,7 @@
 # 01 — Card Protocol (IDEMIA CosmoX ID-A via IAS/ECC + Secure Messaging)
 
-How MoldSignMac talks to the Moldovan national eID card. Implemented in
-`MoldSignMac/MoldSignMac/{Card,SecureChannel,Crypto}.swift` + `MoldSignMac/CPCSC/` (C target).
+How MoldSignKit talks to the Moldovan national eID card. Implemented in
+`swift/MoldSignKit/Sources/MoldSignKit/Card/{Card,SecureChannel,Crypto,Transport}.swift` + `swift/MoldSignKit/Sources/CPCSC/` (C target).
 
 ## Hardware
 
@@ -27,7 +27,7 @@ STISC-specific AIDs and templates extracted from runtime traces.
    - Kenc = `SHA256(seed ‖ serial ‖ MK ‖ 0x00000002)`, Kmac = `SHA256(seed ‖ serial ‖ MK ‖ 0x00000003)`
    - Ext-auth payload: `AES-256-CBC(Kenc, 80B) ‖ CMAC-16(Kmac)`; card proves with CMAC over ciphertext.
    - Session keys = `SHA256(K_ICC ⊕ K_IFD ‖ counter)` — all vectors in
-     `MoldSignMacTests/CryptoTests.swift` (golden, from middleware).
+     `swift/MoldSignKit/Tests/MoldSignKitTests/CryptoTests.swift` + `spec/vectors/card-crypto.json` (golden, from middleware).
 
 ## Secure Messaging rules (every bug here was hit once)
 

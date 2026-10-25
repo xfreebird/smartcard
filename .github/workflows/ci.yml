@@ -1,0 +1,73 @@
+# Build + test every platform (X-05, CLI-06, LNX-07). Nothing here needs secrets: signing happens in
+# release jobs that read keys from repository secrets (not yet configured).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  swift-macos:
+    name: Swift core + CLI (macOS, Apple + portable backends)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test (Apple frameworks)
+        working-directory: swift/MoldSignKit
+        run: swift test
+      - name: Test (Linux code paths: OpenSSL + POSIX)
+        run: scripts/test-portable-macos.sh
+
+  apple-apps:
+    name: Xcode project (macOS app, iOS app, CLI)
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: xcodebuild -project apple/MoldSign.xcodeproj -scheme MoldSign-macOS CODE_SIGN_IDENTITY=- build
+      - run: xcodebuild -project apple/MoldSign.xcodeproj -scheme moldsign-cli CODE_SIGN_IDENTITY=- build
+      - run: xcodebuild -project apple/MoldSign.xcodeproj -scheme MoldSign-iOS -destination 'generic/platform=iOS Simulator' build
+
+  linux:
+    name: Linux (Swift core, CLI, GNOME app)
+    runs-on: ubuntu-24.04
+    container: swift:6.2-noble
+    steps:
+      - uses: actions/checkout@v4
+      - name: System libraries
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends pkg-config libpcsclite-dev libssl-dev \
+            libadwaita-1-dev libgtk-4-dev libsecret-1-dev
+      - name: Core + CLI tests
+        working-directory: swift/MoldSignKit
+        run: swift test
+      - name: CLI (release, static stdlib)
+        working-directory: swift/MoldSignKit
+        run: |
+          swift build -c release --product moldsign --static-swift-stdlib
+          .build/release/moldsign --version
+      - name: GNOME app
+        working-directory: linux
+        run: swift build -c release
+
+  android:
+    name: Android (core vectors, CCID, app)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 17 }
+      - working-directory: android
+        run: ./gradlew :core:test :transport-usb:testDebugUnitTest :app:assembleDebug
+
+  windows:
+    name: Windows (C# core + CLI tests, AOT CLI)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { global-json-file: windows/global.json }
+      - working-directory: windows
+        run: dotnet test MoldSign.Portable.slnf
+      - working-directory: windows
+        run: dotnet publish src/MoldSign.Cli -c Release -r win-x64 -p:PublishAot=true

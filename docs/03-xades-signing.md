@@ -1,6 +1,10 @@
 # 03 — XAdES Signing (BES / T / C, middleware-faithful)
 
-Implemented in `MoldSignMac/MoldSignMac/XAdES.swift` (`XAdESSigner`). Verified byte-structurally
+Implemented in `swift/MoldSignKit/Sources/MoldSignKit/Formats/XAdES.swift` (`XAdESSigner`).
+Digest: SHA-256 by default; `digest: .sha1` (bridge requests with `algorithm: "SHA-1"`, CLI `--digest SHA-1`)
+switches the references, SignedProperties, CertDigest and SignatureMethod (`xmldsig#rsa-sha1`) together.
+XAdES-C refs and the timestamp imprint stay SHA-256. The validator reads each Reference's DigestMethod and
+verifies enveloped `#FileObject-` content too (it used to skip it). Verified byte-structurally
 identical to golden middleware outputs (all tag sequences equal) and JDK-XMLDSig valid.
 
 ## Container document
