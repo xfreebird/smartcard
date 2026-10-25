@@ -17,8 +17,14 @@ Plan items: MAC-15, IOS-10, AND-10, WIN-08, CLI-04, LNX-07, LNX-13.
 
 ## Release workflow (`.github/workflows/release.yml`)
 
-Tag `v*` (e.g. `git tag v0.2.0 && git push origin v0.2.0`) → one job per platform, then a GitHub Release with every
-file and a `SHA256SUMS.txt`. "Run workflow" on the Actions tab builds the same artifacts without a release.
+Every run ends in a GitHub Release with the installers and a `SHA256SUMS.txt` over all of them:
+
+* tag `v*` push (`git tag v0.2.0 && git push origin v0.2.0`) → release named after the tag;
+* "Run workflow" on the Actions tab → release `v<MARKETING_VERSION>` (or the `tag` input), created if missing, else its
+  files are replaced; `only: <platform>` rebuilds one platform and swaps just its files in (e.g. `macos` once the
+  Developer ID certificate exists).
+
+A platform that fails doesn't block the release: it is named in the release notes and can be re-run alone.
 
 | Job | Runner | Produces | Signed with |
 |---|---|---|---|
@@ -35,6 +41,7 @@ file and a `SHA256SUMS.txt`. "Run workflow" on the Actions tab builds the same a
 |---|---|
 | GitHub → Settings → Secrets → Actions | `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`, `APPLE_TEAM_ID`, `MATCH_PASSWORD`, `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` |
 | `github.com/xfreebird/fastlanecerts` (match storage, public, encrypted) | Apple Distribution + Apple Development certificates and profiles for `md.esemnbun.ios`; Developer ID Application once imported |
+| App Store Connect | app record **eSemnBun**, Apple ID 6826865290, SKU `esemnbun-ios`, primary language Romanian (created in the web UI: the API refuses `POST /v1/apps`) |
 | The owner's offline copy (outside git; README inside it) | every value above, the `.p8`, the Android upload keystore, the exported Apple identities, the Developer ID key + CSR |
 
 Apple team `H86U5Z8HYB` (personal account), bundle IDs `md.esemnbun.ios` / `md.esemnbun.mac` (CLI identifier

@@ -1,5 +1,8 @@
-# Installation artifacts for every platform (docs/11). Tag `v*` → a GitHub Release with all files attached;
-# "Run workflow" (workflow_dispatch) → the same artifacts on the run page only.
+# Installation artifacts for every platform (docs/11), always published as a GitHub Release:
+#   tag `v*` push        → release named after the tag
+#   "Run workflow"       → release v<MARKETING_VERSION> (or the `tag` input); created if missing, else its files are
+#                          replaced. `only: macos` etc. rebuilds one platform and swaps just its files in.
+# Platforms that failed are listed in the release notes; SHA256SUMS.txt always covers every file of the release.
 #
 # Secrets (repository → Settings → Secrets and variables → Actions):
 #   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_P8      App Store Connect API key (match, export, notarization)
@@ -18,6 +21,10 @@ on:
         type: choice
         options: [all, macos, ios, android, linux, flatpak, windows]
         default: all
+      tag:
+        description: Release tag (default v<MARKETING_VERSION> from the Xcode project)
+        type: string
+        required: false
 
 permissions:
   contents: write
@@ -203,21 +210,48 @@ jobs:
           if-no-files-found: error
 
   release:
-    name: GitHub Release (tags only)
-    if: startsWith(github.ref, 'refs/tags/v')
+    name: GitHub Release
+    # publish whatever was built, even when a platform failed (it is named in the notes and can be re-run alone)
+    if: ${{ !cancelled() }}
     needs: [macos, ios, android, linux, flatpak, windows]
     runs-on: ubuntu-24.04
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with: { path: artifacts, pattern: "esemnbun-*" }
-      - name: Create the release
+      - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
+          INPUT_TAG: ${{ inputs.tag }}
+          RESULTS: ${{ toJSON(needs) }}
         run: |
-          find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' -o -name '*.ipa' -o -name '*.apk' -o -name '*.aab' \
-            -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' -o -name '*.msi' -o -name '*.msix' \) -print0 \
-            | xargs -0 sha256sum | sed 's#  artifacts/[^/]*/#  #' > SHA256SUMS.txt
-          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --title "eSemnBun ${GITHUB_REF_NAME#v}" \
-            --generate-notes SHA256SUMS.txt \
-            $(find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' -o -name '*.ipa' -o -name '*.apk' -o -name '*.aab' \
-              -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' -o -name '*.msi' -o -name '*.msix' \))
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            VERSION=$(sed -n 's/.*MARKETING_VERSION = \([^;]*\);.*/\1/p' apple/eSemnBun.xcodeproj/project.pbxproj | head -1)
+            TAG="${INPUT_TAG:-v$VERSION}"
+          fi
+          mapfile -t FILES < <(find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' -o -name '*.ipa' \
+            -o -name '*.apk' -o -name '*.aab' -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' \
+            -o -name '*.msi' -o -name '*.msix' \) | sort)
+          if (( ${#FILES[@]} == 0 )); then echo "::error::nothing was built"; exit 1; fi
+          FAILED=$(jq -r 'to_entries[] | select(.value.result == "failure") | .key' <<<"$RESULTS" | paste -sd, - | sed 's/,/, /g')
+          NOTE="Built by run ${GITHUB_RUN_NUMBER} from ${GITHUB_SHA::7}."
+          [[ -n "$FAILED" ]] && NOTE="$NOTE Not built in this run: $FAILED (re-run the Release workflow with \`only\` set to add them)."
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber "${FILES[@]}"
+          else
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+              --title "eSemnBun ${TAG#v}" --notes "$NOTE" --generate-notes "${FILES[@]}"
+          fi
+          # checksums over every installer now in the release (earlier runs included)
+          mkdir -p all
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --dir all --clobber
+          (cd all && rm -f SHA256SUMS.txt && sha256sum * > ../SHA256SUMS.txt)
+          gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber SHA256SUMS.txt
+          {
+            echo "### Release $TAG"
+            echo "$NOTE"
+            echo
+            printf -- '- %s\n' "${FILES[@]##*/}"
+          } >> "$GITHUB_STEP_SUMMARY"
