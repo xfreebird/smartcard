@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Single-project MSIX manifest (WIN-08, WIN-09). Used only when building with -p:WindowsPackageType=MSIX
+  (scripts/package-windows.ps1); the default build is unpackaged and ignores this file.
+
+  Public name eSemnBun (docs/10 §0.2b); the package identity keeps the codename (an ID, like md.moldsign.*).
+  Placeholders: scripts/package-windows.ps1 replaces them at build time and restores this file afterwards:
+    Identity/@Name                  MOLDSIGN_MSIX_IDENTITY (Partner Center "Package/Identity/Name" for the Store)
+    Identity/@Publisher             MOLDSIGN_MSIX_PUBLISHER (must equal the signing certificate's Subject)
+    Identity/@Version               -Version (four parts, the last one 0 for the Store)
+    Properties/PublisherDisplayName MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME (the publisher's own name)
+  Never commit real certificate material next to it.
+-->
+<Package
+    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+    xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+    IgnorableNamespaces="uap uap5 rescap">
+
+    <Identity
+        Name="MoldSign.Desktop"
+        Publisher="CN=MoldSign Development"
+        Version="0.2.0.0" />
+
+    <Properties>
+        <DisplayName>eSemnBun</DisplayName>
+        <PublisherDisplayName>eSemnBun</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+    </Dependencies>
+
+    <Resources>
+        <Resource Language="x-generate" />
+    </Resources>
+
+    <Applications>
+        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
+            <uap:VisualElements
+                DisplayName="eSemnBun"
+                Description="Semnătură electronică calificată cu buletinul de identitate (eID) al Republicii Moldova"
+                BackgroundColor="transparent"
+                Square150x150Logo="Assets\Square150x150Logo.png"
+                Square44x44Logo="Assets\Square44x44Logo.png">
+                <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+                <uap:SplashScreen Image="Assets\SplashScreen.png" />
+            </uap:VisualElements>
+
+            <Extensions>
+                <!--
+                  Start at sign-in (Settings › General). Off until the user turns it on in the app
+                  (StartupRegistration.TaskId); Windows lists it under Settings › Apps › Startup.
+                -->
+                <uap5:Extension Category="windows.startupTask">
+                    <uap5:StartupTask TaskId="MoldSignStartup" Enabled="false" DisplayName="eSemnBun" />
+                </uap5:Extension>
+            </Extensions>
+        </Application>
+    </Applications>
+
+    <Capabilities>
+        <!-- Win32 desktop app: PC/SC (winscard.dll), Credential Locker, Windows Hello, the tray icon. -->
+        <rescap:Capability Name="runFullTrust" />
+        <!-- Timestamp, OCSP and CRL services (tsp.pki.gov.md, pki.md). -->
+        <Capability Name="internetClient" />
+        <!-- Browser bridge on 127.0.0.1:18480 / localhost.cts.md:18443 (loopback server). -->
+        <Capability Name="privateNetworkClientServer" />
+    </Capabilities>
+</Package>

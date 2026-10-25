@@ -18,6 +18,18 @@ public sealed partial class DropZone : UserControl
 
     public event EventHandler<IReadOnlyList<string>>? FilesChosen;
 
+    /// <summary>Compact one-row zone (≈ 56 epx) under a document list; large (≈ 170 epx) otherwise.</summary>
+    public bool IsCompact
+    {
+        get => CompactContent.Visibility == Visibility.Visible;
+        set
+        {
+            LargeContent.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
+            CompactContent.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+            MinHeight = value ? 56 : 170;
+        }
+    }
+
     /// <summary>Picker filter, e.g. ".pdf", ".xml"; empty = all files.</summary>
     public IList<string> Extensions { get; } = [];
 

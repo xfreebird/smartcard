@@ -26,8 +26,14 @@ internal static partial class WinSCardNative
     public const uint SCARD_LEAVE_CARD = 0;
     public const uint SCARD_RESET_CARD = 1;
 
+    // SCARD_READERSTATE dwCurrentState / dwEventState bits; the upper 16 bits of dwEventState count card events.
+    public const uint SCARD_STATE_UNAWARE = 0x0000;
+    public const uint SCARD_STATE_PRESENT = 0x0020;
+    public const uint SCARD_STATE_MUTE = 0x0200;
+
     // Return codes (LONG; compared as unchecked uint)
     public const int SCARD_S_SUCCESS = 0;
+    public const uint SCARD_E_TIMEOUT = 0x8010000A;
     public const uint SCARD_E_SHARING_VIOLATION = 0x8010000B;
     public const uint SCARD_E_NO_SMARTCARD = 0x8010000C;
     public const uint SCARD_E_READER_UNAVAILABLE = 0x80100017;
@@ -45,6 +51,22 @@ internal static partial class WinSCardNative
     {
         public uint dwProtocol;
         public uint cbPciLength;
+    }
+
+    /// <summary>
+    /// SCARD_READERSTATEW: { LPCWSTR szReader; LPVOID pvUserData; DWORD dwCurrentState; DWORD dwEventState;
+    /// DWORD cbAtr; BYTE rgbAtr[36]; } = 64 bytes on x64/ARM64. Blittable: the reader name is a caller-owned
+    /// UTF-16 pointer.
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
+    public unsafe struct ScardReaderState
+    {
+        public nint szReader;
+        public nint pvUserData;
+        public uint dwCurrentState;
+        public uint dwEventState;
+        public uint cbAtr;
+        public fixed byte rgbAtr[36];
     }
 
     private static readonly Lazy<nint> s_t0Pci = new(() => ResolvePci("g_rgSCardT0Pci", SCARD_PROTOCOL_T0));
@@ -91,6 +113,10 @@ internal static partial class WinSCardNative
 
     [LibraryImport(Lib)]
     public static partial int SCardDisconnect(nint hCard, uint dwDisposition);
+
+    [LibraryImport(Lib, EntryPoint = "SCardGetStatusChangeW")]
+    public static unsafe partial int SCardGetStatusChange(nint hContext, uint dwTimeout,
+        ScardReaderState* rgReaderStates, uint cReaders);
 
     [LibraryImport(Lib)]
     public static partial int SCardTransmit(nint hCard, nint pioSendPci,

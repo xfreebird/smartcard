@@ -25,12 +25,6 @@
   <data name="Status_Reading" xml:space="preserve">
     <value>Reading the card…</value>
   </data>
-  <data name="Status_Busy" xml:space="preserve">
-    <value>Working with the card…</value>
-  </data>
-  <data name="Card_ValidUntil" xml:space="preserve">
-    <value>Certificate valid until {0}</value>
-  </data>
   <data name="Card_PinForgotten" xml:space="preserve">
     <value>The saved PIN was deleted.</value>
   </data>
@@ -95,7 +89,7 @@
     <value>Browser connection off</value>
   </data>
   <data name="Bridge_PortBusy" xml:space="preserve">
-    <value>Port {0} is in use (is MoldSign Desktop running?)</value>
+    <value>Port {0} is in use (probably by MoldSign (Java)). Close it and restart the connection.</value>
   </data>
   <data name="Activity_Signed" xml:space="preserve">
     <value>Signed</value>
@@ -139,11 +133,131 @@
   <data name="Settings_AllowedSites" xml:space="preserve">
     <value>{0} allowed sites (vendor list)</value>
   </data>
+  <data name="Settings_StartupManaged" xml:space="preserve">
+    <value>Set by your administrator for all users (MSI install)</value>
+  </data>
+  <data name="Settings_StartupDisabledByUser" xml:space="preserve">
+    <value>Turned off in Settings › Apps › Startup; turn it on there</value>
+  </data>
+  <data name="Light_Idle" xml:space="preserve">
+    <value>Connect the reader</value>
+  </data>
+  <data name="Light_Reader" xml:space="preserve">
+    <value>Reader connected · insert the card</value>
+  </data>
+  <data name="Light_Reading" xml:space="preserve">
+    <value>Reading the card…</value>
+  </data>
+  <data name="Light_Ready" xml:space="preserve">
+    <value>Card ready · {0}</value>
+  </data>
+  <data name="Light_ReadyMany" xml:space="preserve">
+    <value>Card ready · {0} · {1} cards</value>
+  </data>
+  <data name="Light_Busy" xml:space="preserve">
+    <value>Signing…</value>
+  </data>
+  <data name="Info_NoReaderTitle" xml:space="preserve">
+    <value>No reader connected</value>
+  </data>
+  <data name="Info_CardErrorTitle" xml:space="preserve">
+    <value>The card cannot sign right now</value>
+  </data>
+  <data name="Wallet_InsertTitle" xml:space="preserve">
+    <value>Insert the card</value>
+  </data>
+  <data name="Wallet_ConnectTitle" xml:space="preserve">
+    <value>Connect the reader</value>
+  </data>
+  <data name="Wallet_ConnectMessage" xml:space="preserve">
+    <value>Plug the card reader into a USB port.</value>
+  </data>
+  <data name="Wallet_MuteTitle" xml:space="preserve">
+    <value>The card does not respond</value>
+  </data>
+  <data name="Wallet_CardName" xml:space="preserve">
+    <value>{0}, identity card, valid until {1}, {2} of {3}</value>
+  </data>
+  <data name="Wallet_CardReadingName" xml:space="preserve">
+    <value>Card in {0}, reading, {1} of {2}</value>
+  </data>
+  <data name="Wallet_CardErrorName" xml:space="preserve">
+    <value>Card in {0}: {1}, {2} of {3}</value>
+  </data>
+  <data name="Error_CardChanged" xml:space="preserve">
+    <value>The card in the reader changed. Check the holder and sign again.</value>
+  </data>
+  <data name="Wallet_CardInReader" xml:space="preserve">
+    <value>Card in {0}</value>
+  </data>
+  <data name="Wallet_StatusReady" xml:space="preserve">
+    <value>Ready to sign</value>
+  </data>
+  <data name="Wallet_Reread" xml:space="preserve">
+    <value>Read the card again</value>
+  </data>
+  <data name="Wallet_RereadAll" xml:space="preserve">
+    <value>Read the cards again</value>
+  </data>
+  <data name="Wallet_DisclosureName" xml:space="preserve">
+    <value>Choose the card ({0} cards)</value>
+  </data>
+  <data name="Wallet_UsedForSigning" xml:space="preserve">
+    <value>Used for signing</value>
+  </data>
+  <data name="Wallet_SignWith" xml:space="preserve">
+    <value>Sign with {0}</value>
+  </data>
+  <data name="Tray_Connected" xml:space="preserve">
+    <value>Card connected · {0}</value>
+  </data>
+  <data name="Tray_ConnectedNoHolder" xml:space="preserve">
+    <value>Card connected</value>
+  </data>
+  <data name="Tray_None" xml:space="preserve">
+    <value>No card connected</value>
+  </data>
+  <data name="Activity_ClearTitle" xml:space="preserve">
+    <value>Clear the activity list?</value>
+  </data>
+  <data name="Activity_ClearMessage" xml:space="preserve">
+    <value>The entries are removed from the list. Signed documents stay on disk.</value>
+  </data>
+  <data name="Activity_ClearConfirm" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="Step_Connecting" xml:space="preserve">
+    <value>Connecting to the card…</value>
+  </data>
+  <data name="Step_Authenticating" xml:space="preserve">
+    <value>Opening a secure session…</value>
+  </data>
+  <data name="Step_ReadingCertificate" xml:space="preserve">
+    <value>Reading the certificate…</value>
+  </data>
+  <data name="Step_VerifyingPin" xml:space="preserve">
+    <value>Checking the PIN…</value>
+  </data>
+  <data name="Step_Signing" xml:space="preserve">
+    <value>Signing…</value>
+  </data>
+  <data name="Step_Timestamping" xml:space="preserve">
+    <value>Timestamping…</value>
+  </data>
+  <data name="Step_Revocation" xml:space="preserve">
+    <value>Checking revocation…</value>
+  </data>
+  <data name="Step_Writing" xml:space="preserve">
+    <value>Saving…</value>
+  </data>
+  <data name="Step_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
   <data name="DropTitle.Text" xml:space="preserve">
     <value>Drop documents here</value>
   </data>
   <data name="DropBrowse.Content" xml:space="preserve">
-    <value>or choose files</value>
+    <value>Choose files…</value>
   </data>
   <data name="DropHint.Text" xml:space="preserve">
     <value>PDF → PAdES · others → XAdES</value>
@@ -176,7 +290,7 @@
     <value>Browser connection</value>
   </data>
   <data name="TrayOpenWindow.Content" xml:space="preserve">
-    <value>Open window</value>
+    <value>Open eSemnBun</value>
   </data>
   <data name="TrayQuit.Content" xml:space="preserve">
     <value>Quit</value>
@@ -188,13 +302,10 @@
     <value>Advanced options</value>
   </data>
   <data name="SignPdfFormat.Text" xml:space="preserve">
-    <value>PDF → PAdES-T (required by msign.gov.md)</value>
-  </data>
-  <data name="SignXadesFormat.Header" xml:space="preserve">
-    <value>Other files</value>
+    <value>PDF → PAdES-T (required by msign.gov.md); XAdES writes a separate .xml file</value>
   </data>
   <data name="SignPackaging.Header" xml:space="preserve">
-    <value>Type</value>
+    <value>XAdES packaging</value>
   </data>
   <data name="SignAlgorithm.Text" xml:space="preserve">
     <value>Algorithm: SHA-256</value>
@@ -226,8 +337,11 @@
   <data name="CardReader.Text" xml:space="preserve">
     <value>Reader</value>
   </data>
-  <data name="CardRead.Content" xml:space="preserve">
-    <value>Read the card</value>
+  <data name="CardRereadLabel.Text" xml:space="preserve">
+    <value>Read the card again</value>
+  </data>
+  <data name="CardHolder.Text" xml:space="preserve">
+    <value>Holder</value>
   </data>
   <data name="CardRememberPin.Header" xml:space="preserve">
     <value>Remember PIN (Windows Hello)</value>
@@ -260,10 +374,28 @@
     <value>BROWSER CONNECTION</value>
   </data>
   <data name="SettingsBridgeToggle.Header" xml:space="preserve">
-    <value>Browser connection (MoldSign Server)</value>
+    <value>Browser connection (MoldSign Server compatible)</value>
   </data>
   <data name="SettingsAdvanced.Text" xml:space="preserve">
     <value>ADVANCED</value>
+  </data>
+  <data name="StatusInfoReread.Content" xml:space="preserve">
+    <value>Read the card again</value>
+  </data>
+  <data name="DropTitleCompact.Text" xml:space="preserve">
+    <value>Drop more documents here</value>
+  </data>
+  <data name="DropBrowseCompact.Content" xml:space="preserve">
+    <value>Choose files…</value>
+  </data>
+  <data name="RecentClear.Content" xml:space="preserve">
+    <value>Clear list</value>
+  </data>
+  <data name="RecentDocsEmpty.Text" xml:space="preserve">
+    <value>No recent documents</value>
+  </data>
+  <data name="ActivityClearLabel.Text" xml:space="preserve">
+    <value>Clear list</value>
   </data>
   <data name="FlyoutSettings.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Settings</value>
@@ -271,7 +403,28 @@
   <data name="BridgeToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Browser connection</value>
   </data>
+  <data name="FileFormat.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Signature format</value>
+  </data>
+  <data name="ActivityList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Activity</value>
+  </data>
   <data name="FileRemove.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Remove</value>
+  </data>
+  <data name="FlyoutSettings.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="FlyoutReread.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Read the card again</value>
+  </data>
+  <data name="FlyoutReread.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Read the card again</value>
+  </data>
+  <data name="RecentList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="SignFileList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Documents to sign</value>
   </data>
 </root>

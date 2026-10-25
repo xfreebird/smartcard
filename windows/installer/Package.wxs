@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  eSemnBun MSI (WIN-09; public name eSemnBun, codename MoldSign in code and IDs, docs/10 §0.2b).
+  Per-machine install into Program Files\eSemnBun:
+    * the self-contained WinUI tray app (eSemnBun.exe + the Windows App SDK and .NET runtimes, no prerequisites);
+    * the Native AOT CLI as Program Files\eSemnBun\bin\esemnbun.exe, with bin\ appended to the system PATH. It has its
+      own folder because "esemnbun.exe" and "eSemnBun.exe" are the same file name on NTFS (case-insensitive), and so
+      PATH never exposes the app's DLLs;
+    * a Start menu shortcut;
+    * optional start at sign-in for every user: STARTATLOGIN=1 (default) writes HKLM\...\Run "MoldSign"
+      (the app shows that as "set by your administrator"); STARTATLOGIN=0 skips it. The choice is remembered
+      across upgrades and repairs (HKLM\Software\MoldSign\StartAtLogin);
+    * the Add/Remove Programs entry, uninstaller included (Windows Installer).
+  Upgrades: fixed UpgradeCode + MajorUpgrade, so installing a newer MSI replaces the older one in place; downgrades
+  are refused. Silent:  msiexec /i eSemnBun-<version>-x64.msi /qn STARTATLOGIN=0
+  Strings stay ASCII on purpose (the MSI database codepage is ANSI); the app itself is localized.
+-->
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs"
+     xmlns:util="http://wixtoolset.org/schemas/v4/wxs/util">
+
+  <Package Name="eSemnBun"
+           Manufacturer="eSemnBun"
+           Version="$(var.ProductVersion)"
+           UpgradeCode="6375D249-5D81-5AEB-824C-A6391F6DC689"
+           Scope="perMachine"
+           InstallerVersion="500"
+           Compressed="yes">
+    <SummaryInformation Description="eSemnBun - qualified e-signatures with the Moldovan eID card" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- Add/Remove Programs -->
+    <Icon Id="AppIcon.ico" SourceFile="$(var.AppIcon)" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon.ico" />
+    <Property Id="ARPNOMODIFY" Value="1" />
+    <Property Id="ARPCOMMENTS" Value="Qualified electronic signatures (PAdES, XAdES) with the Moldovan eID card" />
+
+    <!-- STARTATLOGIN: command line wins, else the value remembered by a previous install, else 1. -->
+    <Property Id="STARTATLOGIN" Secure="yes" />
+    <Property Id="REMEMBERED_STARTATLOGIN" Secure="yes">
+      <RegistrySearch Id="RememberedStartAtLogin" Root="HKLM" Key="Software\MoldSign" Name="StartAtLogin"
+                      Type="raw" Bitness="always64" />
+    </Property>
+    <SetProperty Action="SetStartAtLoginRemembered" Id="STARTATLOGIN" Value="[REMEMBERED_STARTATLOGIN]"
+                 After="AppSearch" Sequence="first" Condition="NOT STARTATLOGIN AND REMEMBERED_STARTATLOGIN" />
+    <SetProperty Action="SetStartAtLoginDefault" Id="STARTATLOGIN" Value="1"
+                 After="SetStartAtLoginRemembered" Sequence="first" Condition="NOT STARTATLOGIN" />
+
+    <!-- The tray app keeps running in the notification area: close it (or end it) before replacing files. -->
+    <util:CloseApplication Id="CloseTrayApp" Target="eSemnBun.exe" CloseMessage="yes" RebootPrompt="no"
+                           TerminateProcess="1" />
+
+    <StandardDirectory Id="ProgramMenuFolder" />
+    <StandardDirectory Id="ProgramFiles6432Folder">
+      <Directory Id="INSTALLFOLDER" Name="eSemnBun">
+        <Directory Id="CLIFOLDER" Name="bin" />
+      </Directory>
+    </StandardDirectory>
+
+    <Feature Id="Main" Title="eSemnBun" Level="1" AllowAbsent="no">
+      <ComponentGroupRef Id="AppFiles" />
+      <ComponentGroupRef Id="Cli" />
+      <ComponentGroupRef Id="Shortcuts" />
+      <ComponentGroupRef Id="StartAtLogin" />
+    </Feature>
+  </Package>
+
+  <!-- The self-contained app publish folder, subfolders included (Assets\Tray\*.ico, runtimes, resources.pri). -->
+  <Fragment>
+    <ComponentGroup Id="AppFiles" Directory="INSTALLFOLDER">
+      <Files Include="$(var.AppDir)\**">
+        <Exclude Files="$(var.AppDir)\**\*.pdb" />
+      </Files>
+    </ComponentGroup>
+  </Fragment>
+
+  <!-- esemnbun.exe (spec/cli.md) in bin\, on the system PATH. -->
+  <Fragment>
+    <ComponentGroup Id="Cli" Directory="CLIFOLDER">
+      <Component Id="CliExe">
+        <File Id="CliExeFile" Source="$(var.CliDir)\esemnbun.exe" KeyPath="yes" />
+        <Environment Id="CliOnPath" Name="PATH" Value="[CLIFOLDER]" Part="last" Action="set" System="yes"
+                     Permanent="no" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <!-- Start menu shortcut (all users). HKCU key path as in the WiX shortcut how-to (ICE38/ICE43). -->
+  <Fragment>
+    <ComponentGroup Id="Shortcuts">
+      <Component Id="StartMenuShortcut" Directory="ProgramMenuFolder">
+        <Shortcut Id="StartMenuEntry" Name="eSemnBun"
+                  Description="Qualified e-signatures with the Moldovan eID card"
+                  Target="[INSTALLFOLDER]eSemnBun.exe" WorkingDirectory="INSTALLFOLDER" />
+        <RegistryValue Root="HKCU" Key="Software\MoldSign" Name="StartMenuShortcut" Type="integer" Value="1"
+                       KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <!-- The Run value name "MoldSign" (an ID: codename) and the autostart argument must match StartupRegistration.cs. -->
+  <Fragment>
+    <ComponentGroup Id="StartAtLogin" Directory="INSTALLFOLDER">
+      <Component Id="RunAtSignIn" Condition="STARTATLOGIN = &quot;1&quot;">
+        <RegistryValue Root="HKLM" Key="Software\Microsoft\Windows\CurrentVersion\Run" Name="MoldSign"
+                       Type="string" Value="&quot;[INSTALLFOLDER]eSemnBun.exe&quot; --autostart" KeyPath="yes" />
+      </Component>
+      <Component Id="RememberStartAtLogin">
+        <RegistryValue Root="HKLM" Key="Software\MoldSign" Name="StartAtLogin" Type="string"
+                       Value="[STARTATLOGIN]" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

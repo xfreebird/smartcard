@@ -1,10 +1,16 @@
-# MoldSign for Windows (F-13)
+# eSemnBun for Windows (F-13)
 
-Native Windows port of the MoldSign signing stack for the Moldovan eID card (IDEMIA CosmoX ID-A, IAS/ECC)
-on a PC/SC reader (bit4id miniLector POCKET EVO). The C# core is a line-by-line port of the Swift
-reference (`apple/Sources/MoldSignKit`), gated by the shared golden vectors in `../spec/vectors`.
-Contracts: [`docs/09-architecture.md`](../docs/09-architecture.md), [`docs/10-design-system.md`](../docs/10-design-system.md),
-[`spec/cli.md`](../spec/cli.md), plan items `WIN-*` and `CLI-*` in [`PLAN.md`](../PLAN.md).
+**eSemnBun** (codename *MoldSign* in code) is the native Windows app and CLI for qualified electronic signatures with
+the Moldovan eID card (IDEMIA CosmoX ID-A, IAS/ECC) on a PC/SC reader (bit4id miniLector POCKET EVO). The C# core is
+a line-by-line port of the Swift reference (`swift/MoldSignKit`), gated by the shared golden vectors in `../spec/vectors`.
+Contracts: [`docs/09-architecture.md`](../docs/09-architecture.md), [`docs/10-design-system.md`](../docs/10-design-system.md)
+(§0 v2 + §0.2b v3), [`spec/cli.md`](../spec/cli.md), plan items `WIN-*`, `UX-*` and `CLI-*` in [`PLAN.md`](../PLAN.md).
+
+Naming (docs/10 §0.2b, UX-12): users see **eSemnBun** (window titles, tray tooltip, About, Start menu, installers, file
+names), the app is `eSemnBun.exe` and the CLI command is `esemnbun`. The codename stays in code: projects and namespaces
+`MoldSign.*`, the MSIX identity, `%LOCALAPPDATA%\MoldSign`, the Credential Locker resource, registry IDs, `MSIGN_PIN`.
+Vendor references stay "MoldSign" (the STISC Java suite, the bridge protocol). Version: **0.2.0** (one source:
+`Directory.Build.props`).
 
 ## Project map
 
@@ -12,26 +18,40 @@ Contracts: [`docs/09-architecture.md`](../docs/09-architecture.md), [`docs/10-de
 windows/
   MoldSign.slnx                  all projects (the WinUI app maps Any CPU → x64)
   MoldSign.Portable.slnf         Core + CLI + tests: builds and tests on any OS
+  Directory.Build.props          shared settings, Product = eSemnBun, Version = 0.2.0
   global.json                    .NET SDK 10.0.1xx or later feature band
   src/MoldSign.Core/             class library (net10.0, AOT-compatible), namespace MoldSign.Core
     Crypto/    Hex, AesPrimitives (ECB/CBC, no padding), Cmac (RFC 4493), Iso9797, DigestInfo
     Card/      SecureChannel (SM wrap/unwrap), IasEcc (KDF, external auth, session keys),
-               CosmoXCard (APDU flow), CardException + CardErrorKind, ApduResponse
-    Transport/ ICardTransport, WinSCardTransport (+ WinSCardNative P/Invoke, LibraryImport)
+               CosmoXCard (APDU flow + identity guard), CardException + CardErrorKind, ApduResponse
+    Transport/ ICardTransport, WinSCardTransport (+ WinSCardNative P/Invoke, LibraryImport; GetReaderStates)
     Bridge/    BridgeOriginPolicy (embeds ../spec/bridge/allowed-origins.properties), BridgeProtocol DTOs
     Signing/   PadesSigner, XadesSigner, TrustServices, Validator   ← stubs, TODO(WIN-01)
-    Services/  SigningService facade (docs/09 §3.4) + models (ReaderState, CertificateSummary, Consent…)
-  src/MoldSign.Cli/              moldsign.exe, the Windows CLI (spec/cli.md, CLI-03)
-  src/MoldSign.App/              WinUI 3 tray app (net10.0-windows10.0.19041.0, unpackaged)
+    Services/  SigningService facade (docs/09 §3.4, reader routing, listCards) + models;
+               CardWallet (multi-card model, status light) + ReaderGenerationTracker (card generations)
+  src/MoldSign.Cli/              esemnbun.exe, the Windows CLI (spec/cli.md, CLI-03)
+  src/MoldSign.App/              eSemnBun.exe: WinUI 3 tray app (net10.0-windows10.0.19041.0)
     App.xaml(.cs)                tray-first lifetime (DispatcherShutdownMode.OnExplicitShutdown)
-    MainWindow.xaml              Mica + NavigationView: Semnează, Verifică, Activitate, Card (+ Setări)
-    Tray/                        TrayIconService (H.NotifyIcon), TrayFlyoutWindow (acrylic flyout = macOS popover)
-    Controls/                    StatusCard, DropZone
+    MainWindow.xaml              Mica + NavigationView (Auto): Semnează, Verifică, Activitate, Card (+ Setări);
+                                 status light in the title bar, status/error InfoBar above the pages
+    Tray/                        TrayIconService (two-state dot), TrayFlyoutWindow (acrylic; card on top = macOS popover)
+    Controls/                    CardWallet + IdCardFace (the card IS the selector, code-only), StatusLightPill, DropZone
     Views/                       SignPage, VerifyPage, ActivityPage, CardPage, SettingsPage
-    Services/                    AppServices (composition root), ReaderWatcher, PinVault, BridgeHost (Kestrel),
-                                 ConsentCoordinator (PIN dialog / Windows Hello), AppState, AppSettings, Loc
-    Strings/ro-RO|en-US/         Resources.resw (Romanian default, English fallback; copy from docs/10 §5)
-  tests/MoldSign.Core.Tests/     xUnit: spec/vectors, SM, card flow over fake transports, origin policy, CLI
+    Services/                    AppServices (composition root), AppState, ReaderWatcher, StartupRegistration,
+                                 PinVault, BridgeHost (Kestrel), ConsentCoordinator, CardArt, AppSettings, Loc
+    Strings/ro-RO|en-US/         Resources.resw, generated by scripts/make-strings.py (Romanian default)
+    Assets/                      AppIcon.ico, Tray/*.ico, MSIX logos, generated by scripts/make-icons.py
+    Package.appxmanifest         single-project MSIX (identity placeholders, startup task)
+  installer/
+    MoldSign.Installer.wixproj   WiX Toolset v5 MSI project
+    Package.wxs                  eSemnBun MSI: app + CLI on PATH + Start menu + optional start at sign-in
+    winget/                      winget manifest templates (eSemnBun.eSemnBun.*.yaml)
+  scripts/
+    package-windows.ps1          builds dist/windows: MSI, MSIX, winget manifests, SHA256SUMS (Windows only)
+    make-icons.py                tray/app/MSIX icons from design/icons/*.svg (rsvg-convert + plain Python)
+    make-strings.py              the ro/en string table → Resources.resw
+  design/icons/                  tray.svg (glyph + status dot), app.svg (app icon)
+  tests/MoldSign.Core.Tests/     xUnit: vectors, SM, card flow, identity guard, wallet, origin policy, CLI
 ```
 
 ## Prerequisites
@@ -40,11 +60,12 @@ windows/
 |---|---|
 | OS (run) | Windows 10 1809 (17763) or later, Windows 11; x64 or ARM64 |
 | .NET SDK | 10.0.100 or later (verified with 10.0.402) |
-| Visual Studio (app) | 2022 17.14+ or 2026, workloads ".NET desktop development" and "WinUI application development" (`.slnx` needs 17.13+) |
+| Visual Studio (app, optional) | 2022 17.14+ or 2026, workloads ".NET desktop development" and "WinUI application development" |
 | Windows App SDK | 1.8.260921001 (NuGet, self-contained: no runtime installer needed) |
-| Windows SDK build tools | 10.0.26100.7705 (NuGet) |
+| Windows SDK build tools | 10.0.26100.7705 (NuGet; also provides MakePri, MakeAppx and signtool) |
 | H.NotifyIcon.WinUI | 2.4.1 |
-| NativeAOT CLI | on Windows: VS "Desktop development with C++" (MSVC linker + Windows SDK) |
+| WiX Toolset | v5.0.2 MSBuild SDK (restored from NuGet by `dotnet build`, nothing to install) |
+| NativeAOT CLI | on Windows: VS "Desktop development with C++" (MSVC linker + Windows SDK); ARM64 needs the ARM64 tools |
 | Card | Smart Card service (`SCardSvr`) and the inbox Microsoft CCID driver (`usbccid.sys`) for the miniLector, see WIN-02 |
 
 ## Build, test, run
@@ -52,7 +73,7 @@ windows/
 Any OS (macOS/Linux included, card commands excepted):
 
 ```sh
-dotnet test MoldSign.Portable.slnf              # 108 tests: vectors, SM, card flow, origin policy, CLI
+dotnet test MoldSign.Portable.slnf              # 138 tests: vectors, SM, card flow, identity guard, wallet, formats, CLI
 dotnet run --project src/MoldSign.Cli -- --help
 dotnet run --project src/MoldSign.Cli -- readers # non-Windows: "error: PC/SC transport is only available on Windows", exit 5
 ```
@@ -61,38 +82,126 @@ Windows:
 
 ```powershell
 dotnet build MoldSign.slnx -c Debug -p:Platform=x64
-dotnet test  MoldSign.Portable.slnf
-dotnet run --project src/MoldSign.App -p:Platform=x64      # or F5 in Visual Studio (MoldSign.App, x64)
+dotnet run --project src/MoldSign.App -p:Platform=x64      # or F5 in Visual Studio (MoldSign.App, x64, unpackaged)
 dotnet run --project src/MoldSign.Cli -- readers
-dotnet run --project src/MoldSign.Cli -- cert --out my-cert.der
 dotnet run --project src/MoldSign.Cli -- sign-hex <digestinfo_hex>   # PIN prompt without echo; or $env:MSIGN_PIN / --pin-stdin
 ```
 
-### Publishing the CLI (`moldsign.exe`)
-
-Product RIDs: `win-x64`, `win-arm64`.
-
-```powershell
-# NativeAOT (must run ON Windows; AOT cannot cross-compile between OSes)
-dotnet publish src/MoldSign.Cli -c Release -r win-x64   -p:PublishAot=true
-dotnet publish src/MoldSign.Cli -c Release -r win-arm64 -p:PublishAot=true   # needs the MSVC ARM64 build tools
-```
+Icons and strings are generated and committed, so a Windows build needs neither tool. After changing
+`design/icons/*.svg` or the string table (any OS):
 
 ```sh
-# From macOS/Linux (non-AOT, self-contained single file; works cross-OS)
-dotnet publish src/MoldSign.Cli -c Release -r win-x64 --self-contained -p:PublishSingleFile=true
+python3 scripts/make-icons.py     # needs rsvg-convert (brew install librsvg / apt install librsvg2-bin)
+python3 scripts/make-strings.py
 ```
 
-macOS and Linux CLIs are the native Swift `moldsign` (CLI-02), not this project.
+## The app (design v2/v3, UX-01, UX-02, UX-06, UX-09…UX-11)
+
+* **Card = selector** (`Controls/CardWallet` + `IdCardFace`). The selected card is drawn as a stylized Moldovan ID
+  card: pastel paper, guilloche waves and a rosette (Path geometry built in code, hue rotated ±20° per card from the
+  certificate SHA-1), "REPUBLICA MOLDOVA / REPUBLIC OF MOLDOVA" and "CARTE DE IDENTITATE / IDENTITY CARD", a neutral shield
+  outline (never the coat of arms), the gold chip, a grey portrait frame with a silhouette, Numele/Surname,
+  Prenumele/Given name(s), Valabil până la/Valid until (`dd MM yyyy`, certificate notAfter) and Emitent/Issuer, and a
+  status strip. Only certificate data: no photo, no document number, no IDNP. Fixed colors in both themes.
+  With several cards (UX-10 revised) a round disclosure button sits inside the card (right edge, mid-height): it
+  expands the component in place into a vertical list of every card (same size, reader order, 11 epx apart; the
+  selected one keeps an accent ring, "✓ Folosit pentru semnare" and the disclosure). Clicking another card makes it the
+  signing card and collapses the list; the disclosure, Escape or the selected card collapse without change. Keys:
+  Space/Enter on the disclosure, ←/→ on the collapsed card, ↑/↓ in the list. The context menu keeps "Recitește
+  cardul" and "Semnează cu {holder}". Motion uses Fluent theme transitions and is off when Windows animations are off.
+  The tray flyout grows with the list and stays anchored above the taskbar (the list scrolls beyond the screen height).
+  No cards: dashed empty-state card. Narrator: collapsed, one adjustable element ("{holder}, card de identitate, valabil
+  până la …, 1 din 2"); the disclosure is "Alege cardul (2 carduri)" with expand/collapse state; in the list every card
+  is a button "Semnează cu {holder}" and the selected one reports selected.
+* **Several cards** (docs/09 §3.1b). `ReaderWatcher` reads PC/SC (`SCardGetStatusChange`, zero timeout, no connect) on
+  every DeviceWatcher / CardAdded / CardRemoved event and every 2 s. `ReaderGenerationTracker` gives each insertion a
+  generation (presence + the event counter in `dwEventState`), and `CardWallet` (Core, unit-tested) keeps per-card PIN-less
+  reads, drops late answers for re-inserted cards, and keeps the selection. Signing goes to the selected card's reader
+  with its certificate SHA-1 as the **identity guard**: read certificate → compare → SELECT ADF → VERIFY, so a swapped
+  card fails with `CardChanged` before any PIN is sent; the app then re-reads the cards.
+* **Tray** (UX-11): green dot when at least one card is inserted (reading, ready, signing), gray otherwise; tooltip
+  "eSemnBun · Card conectat · {holder}" / "eSemnBun · Niciun card conectat" / the error one-liner. Glyph variants for
+  dark and light taskbars (`SystemUsesLightTheme`). The five-state light (green/amber/blue/red/none, docs/10 §0.1) is in
+  the flyout and window headers (`StatusLightPill`), and errors also show in the main window `InfoBar`.
+* **Sign page**: a large dashed drop zone with "Alege fișiere…"; once files are added, their list (with a format picker
+  per document) and the drop zone, compact, under it. PDFs: PAdES-T (default), XAdES-BES, XAdES-T or XAdES-C (detached
+  XAdES over the PDF bytes → `<name>-semnat.xml`); other files: the XAdES levels. The choice reaches
+  `SigningService.Sign` (unit-tested routing; the signers themselves are still WIN-01 stubs).
+* **Recents and Activity**: the log is kept in `%LOCALAPPDATA%\MoldSign\activity.json` (no PIN or certificate data).
+  Document rows are shown only while the file exists (pruned at startup, when the flyout opens and when the Activity
+  page is shown). The flyout's "Recente" lists existing documents only (browser requests stay on the Activity page),
+  click = reveal in Explorer, "Golește lista" clears it at once; the Activity page clears the whole log after a
+  confirmation dialog.
+* **Fluent 2**: NavigationView + Mica, acrylic tray flyout, InfoBar for status and errors, system caption buttons
+  (Snap layouts keep working). The primary Sign button uses the accent style only while it is enabled (default style
+  while disabled). Every flyout action that opens something (pickers, settings, the window, Explorer) hides the flyout
+  first; a sign/verify result reopens it. The main window is a normal app window (taskbar, Alt+Tab).
+* **Start at sign-in** (Settings): StartupTask under MSIX; the HKCU Run key unpackaged; an HKLM value written by the MSI
+  shows as "set by your administrator".
+
+## Installers (WIN-08, WIN-09)
+
+`scripts/package-windows.ps1` (PowerShell 7, **on Windows**) builds everything into `dist/windows/`:
+
+```powershell
+pwsh windows/scripts/package-windows.ps1                       # x64, version from Directory.Build.props (0.2.0)
+pwsh windows/scripts/package-windows.ps1 -Platforms x64,arm64 -ReleaseBaseUrl https://github.com/<owner>/<repo>/releases/download/v0.2.0
+pwsh windows/scripts/package-windows.ps1 -SelfSignForTesting   # throwaway cert so the MSIX installs on a test machine
+```
+
+| Output | What it is |
+|---|---|
+| `eSemnBun-0.2.0-x64.msi` | WiX v5, per machine: `Program Files\eSemnBun\eSemnBun.exe` (self-contained, no prerequisites), the CLI as `Program Files\eSemnBun\bin\esemnbun.exe` with `bin\` on the system PATH, Start menu entry "eSemnBun", optional start at sign-in for all users (`STARTATLOGIN=1` default, remembered across upgrades), Add/Remove Programs entry. Fixed UpgradeCode + MajorUpgrade: a newer MSI upgrades in place, downgrades are refused. Closes the running tray app before replacing files |
+| `eSemnBun-0.2.0-x64.msix` | Single-project MSIX (`Package.appxmanifest`): DisplayName eSemnBun, startup task, `runFullTrust`, self-contained. Identity placeholders are replaced from environment variables during the build |
+| `winget/0.2.0/eSemnBun.eSemnBun*.yaml` | winget manifests (MSI installer, machine scope, command `esemnbun`) with the MSI's URL, SHA-256 and ProductCode filled in; `__LICENSE__` / `__HOMEPAGE__` stay to fill before submitting |
+| `SHA256SUMS.txt` | checksums of the MSI/MSIX files |
+
+**Why `bin\`:** `esemnbun.exe` and `eSemnBun.exe` are the same name on NTFS (case-insensitive), so the CLI cannot sit
+next to the app. A separate `bin\` folder also keeps the app's DLLs off PATH.
+
+CI (`.github/workflows/ci.yml`, job `windows`) runs the tests, then the script for x64, and uploads the MSI, MSIX,
+checksums and winget manifests as the `esemnbun-windows-x64` artifact (unsigned unless signing is configured).
+
+### Signing (environment variables only)
+
+Nothing in the repository holds a certificate, key or password; the script reads only these variables:
+
+| Variable | Use |
+|---|---|
+| `MOLDSIGN_SIGN_THUMBPRINT` | SHA-1 thumbprint of a code-signing certificate in `Cert:\CurrentUser\My` or `LocalMachine\My` |
+| `MOLDSIGN_TIMESTAMP_URL` | RFC 3161 server for that mode (default `http://timestamp.digicert.com`) |
+| `MOLDSIGN_TS_ENDPOINT`, `MOLDSIGN_TS_ACCOUNT`, `MOLDSIGN_TS_PROFILE`, `MOLDSIGN_TS_DLIB` | Azure Trusted Signing (used instead of the thumbprint); authentication through `AZURE_TENANT_ID` / `AZURE_CLIENT_ID` / `AZURE_CLIENT_SECRET`. CI fetches the dlib (`Microsoft.Trusted.Signing.Client`) when the endpoint secret is set |
+| `MOLDSIGN_MSIX_PUBLISHER` | MSIX `Identity/@Publisher`, must equal the signing certificate's Subject (defaults to the thumbprint certificate's Subject) |
+| `MOLDSIGN_MSIX_IDENTITY`, `MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME` | MSIX identity name (Store: from Partner Center) and the publisher's display name |
+
+The script signs `eSemnBun.exe`, `eSemnBun.dll`, `MoldSign.Core.dll` and `esemnbun.exe` before they go into the MSI,
+then the `.msi` and the `.msix`. Without any variable the artifacts are unsigned: the MSI still installs (SmartScreen
+warns), but an unsigned MSIX does not install (use `-SelfSignForTesting` and trust the exported `.cer` on the test machine).
+
+### Installing
+
+```powershell
+msiexec /i eSemnBun-0.2.0-x64.msi                         # interactive (UAC prompt)
+msiexec /i eSemnBun-0.2.0-x64.msi /qn STARTATLOGIN=0      # silent, no start at sign-in (Intune, GPO, SCCM)
+msiexec /x eSemnBun-0.2.0-x64.msi /qn                     # uninstall (or Settings › Apps)
+Add-AppxPackage .\eSemnBun-0.2.0-x64.msix                 # signed MSIX (or double-click: App Installer)
+winget install eSemnBun.eSemnBun                          # once the manifest is published (or: winget install --manifest <dir>)
+esemnbun --help                                           # new terminal after installing the MSI
+```
 
 ## CLI (spec/cli.md)
 
-`readers`, `cert [--out f.der]`, `sign-hex <digestinfo_hex>` are real. `sign`, `xades`, `verify`, `server`,
-`cms-for-hash` print `error: not implemented yet (WIN-01)` and exit 1. Global options: `--reader <name|substring>`
-(default: first reader with a card), `--quiet`, `--pin-stdin`. PIN order: `--pin-stdin` → `MSIGN_PIN` → prompt
-without echo (`Console.ReadKey(intercept: true)`); `--pin` is rejected. Exit codes: 0 ok, 1 usage/unexpected,
-2 verify invalid, 3 wrong PIN (remaining attempts on stderr), 4 PIN blocked, 5 no reader/card (and non-Windows),
-6 network.
+The command is `esemnbun`. `readers`, `cert [--out f.der]`, `sign-hex <digestinfo_hex>` are real. `sign`, `xades`,
+`verify`, `server`, `cms-for-hash` print `error: not implemented yet (WIN-01)` and exit 1. Global options:
+`--reader <name|substring>` (default: first reader with a card), `--quiet`, `--pin-stdin`. PIN order: `--pin-stdin` →
+`MSIGN_PIN` → prompt without echo (`Console.ReadKey(intercept: true)`); `--pin` is rejected. Exit codes: 0 ok,
+1 usage/unexpected, 2 verify invalid, 3 wrong PIN (remaining attempts on stderr), 4 PIN blocked, 5 no reader/card
+(and non-Windows), 6 network.
+
+```powershell
+dotnet publish src/MoldSign.Cli -c Release -r win-x64 -p:PublishAot=true     # must run ON Windows
+dotnet publish src/MoldSign.Cli -c Release -r win-x64 --self-contained -p:PublishSingleFile=true   # from macOS/Linux
+```
 
 ## Real vs stub
 
@@ -100,17 +209,18 @@ without echo (`Console.ReadKey(intercept: true)`); `--pin` is rejected. Exit cod
 |---|---|
 | Crypto (AES ECB/CBC, CMAC, ISO 9797-2, DigestInfo) | real, vector-tested |
 | Secure messaging (wrap/unwrap, SSC rules, Le=00, 87/85/97/99/8E) | real, vector-tested |
-| CosmoXCard: authenticate, SELECT MF/ADF, READ BINARY, VERIFY ref 03, MSE SET + INTERNAL AUTHENTICATE, certificate read | real, tested over fake transports; not yet run against a card |
-| WinSCardTransport (SHARED, T0\|T1, `g_rgSCardT1Pci`, reconnect/reset option) | real; runtime unverified (WIN-02) |
+| CosmoXCard: authenticate, SELECT MF/ADF, READ BINARY, VERIFY ref 03, MSE SET + INTERNAL AUTHENTICATE, certificate read | real, tested over fake transports and the SM simulator; not yet run against a card |
+| Identity guard (`EnsureExpectedCard`, `PrepareForSigning`, `CardErrorKind.CardChanged`), reader routing, `ListCards` | real; xUnit with the SM simulator, end to end through mutual authentication |
+| Card generations + multi-card wallet model + status light (`ReaderGenerationTracker`, `CardWallet`) | real, unit-tested |
+| WinSCardTransport (SHARED, T0\|T1, `g_rgSCardT1Pci`, reconnect/reset option, `GetReaderStates`) | real; runtime unverified (WIN-02) |
 | BridgeOriginPolicy (all 73 vendor values, vendor regex conversion, header only without Origin) | real, tested |
-| SigningService: `Certificate()`, `SignDigestInfo()`, card lock, reader state, `DefaultOutputPath` (D-06) | real |
+| SigningService: `Certificate()`, `SignDigestInfo()`, card lock, `DefaultOutputPath` (D-06) | real |
 | SigningService: `SignPdf`, `SignXades`, `Verify` → PadesSigner / XadesSigner / Validator / TrustServices | stubs, `NotImplementedException` TODO(WIN-01) |
-| App: tray icon + flyout, Mica main window, pages, StatusCard, DropZone, Romanian strings | real UI, signing buttons surface "not available yet (WIN-01)" |
-| App: ReaderWatcher (DeviceWatcher + CardAdded/Removed), PIN-less holder greeting | real; toasts TODO(WIN-03) |
-| App: PinVault (Credential Locker, Windows Hello gate via `UserConsentVerifierInterop`) | real (WIN-05) |
-| App: BridgeHost (Kestrel 127.0.0.1:18480, origin gate, CORS, PNA preflight, `GET /certificates` → `{"certificateModel":[]}`) | skeleton; TLS 18443 PFX + signing routes TODO(WIN-06) |
-| Start at login, single instance, first run, language override | TODO(WIN-04) |
-| Explorer verb, MSIX/winget | TODO(WIN-07), TODO(WIN-08) |
+| App: card component, tray (two-state), flyout, Mica window, InfoBar, pages, start at sign-in | real UI, signing surfaces "not available yet (WIN-01)" |
+| App: PinVault (Credential Locker, Windows Hello via `UserConsentVerifierInterop`) | real (WIN-05) |
+| App: BridgeHost (Kestrel 127.0.0.1:18480, origin gate, CORS, PNA, `GET /certificates` → `{"certificateModel":[]}`) | skeleton; TLS 18443 PFX + signing routes TODO(WIN-06) |
+| MSI (WiX v5), MSIX, winget manifests, packaging script, CI artifacts | written; first real build happens in CI (Windows only) |
+| Single instance, first-run TeachingTip, language override, toasts, Explorer verb | TODO(WIN-04, WIN-03, WIN-07) |
 
 ## Deliberate deviations from the Swift reference (APDU bytes unchanged)
 
@@ -121,13 +231,18 @@ without echo (`Console.ReadKey(intercept: true)`); `--pin` is rejected. Exit cod
   its 1799-byte certificate ends in those bytes); a test covers it here. Swift should get the same fix.
 * Malformed plain APDUs (Lc beyond the body, extended length) throw instead of being silently mangled.
 * Like Swift, SM responses without tag 8E are accepted; rejecting them is TODO(WIN-01) once Swift changes first.
+* Card-face name fallback (no SN/GN in the certificate): the common name is split at the first space as
+  "{given name} {surname}" (X.509 CN order, "ION POPESCU" → surname POPESCU).
 
 ## How this was verified without Windows
 
-On macOS with the .NET 10 SDK: Core, CLI and tests build with warnings as errors and all tests pass; the CLI
-NativeAOT-compiles with no trim/AOT warnings; the win-x64 single-file publish produces a PE32+ console exe.
-The WinUI app cannot be built off Windows (XAML compiler, MakePri), so its C# (services and code-behind, with
-emulated XAML-generated members) was compiled against the real Windows App SDK 1.8 / Windows SDK / H.NotifyIcon
-reference assemblies, every XAML type/attribute/property-element/setter name was type-checked via `nameof`, the
-theme-resource keys were matched against WinUI's `generic.xaml`, and `BridgeHost` was run and probed with curl.
-Still unverified: the XAML markup compile itself, the app at runtime, and WinSCard against a real reader.
+On macOS with the .NET 10 SDK: Core, CLI and tests build with warnings as errors and all 138 tests pass. The WinUI app
+cannot be built off Windows (XAML compiler, MakePri), so its C# (services, controls, code-behind, with emulated
+XAML-generated members) is compiled against the real Windows App SDK 1.8 / Windows SDK / H.NotifyIcon reference
+assemblies with warnings as errors, every XAML type/attribute/property-element/setter name is type-checked via
+`nameof`, and theme-resource keys are matched against WinUI's `generic.xaml`. The card face layout was checked with an SVG
+mock of the same geometry. Installers: every `.wxs`/`.wixproj`/`.appxmanifest` is well-formed XML; `Package.wxs`
+compiles and links with the WiX v5 CLI on macOS (binding needs `msi.dll`); the wixproj restores the WiX SDK and its input
+check works; the winget YAML parses before and after rendering; `package-windows.ps1` parses in PowerShell 7.6 and its
+version/manifest/winget helpers were run against copies. Still unverified: the XAML markup compile, the app at runtime,
+WinSCard against a real reader, the MSI/MSIX builds and ICE validation (first CI run), and installs on Windows.

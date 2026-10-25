@@ -42,15 +42,17 @@ public partial class App : Application
         _flyout = new TrayFlyoutWindow();
         _tray = new TrayIconService(ToggleFlyout, () => EnsureMainWindow(activate: true), Quit);
         _tray.Create();
+        // Tray dot (docs/10 §0.2b): green with a card connected, gray otherwise; tooltip = the same in words.
         AppState.Current.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName is nameof(AppState.Kind) or nameof(AppState.StatusLine))
-                _tray.Update(AppState.Current.Kind, AppState.Current.StatusLine);
+            if (e.PropertyName is "" or null or nameof(AppState.Light) or nameof(AppState.LightLabel))
+                _tray.Update(AppState.Current.TrayConnected, AppState.Current.TrayLabel);
         };
+        _tray.Update(AppState.Current.TrayConnected, AppState.Current.TrayLabel);
 
         Services.Start();
 
-        if (!Services.Settings.FirstRunDone)
+        if (!Services.Settings.FirstRunDone && !StartupRegistration.LaunchedAtSignIn(args.Arguments))
         {
             // TODO(WIN-04): three-step first run (docs/10 §4.7); for now open the main window once.
             EnsureMainWindow(activate: true);

@@ -295,4 +295,33 @@ public sealed class CosmoXCard
         VerifyPin(pin);
         return Sign(digestInfo);
     }
+
+    /// <summary>
+    /// Identity guard (docs/09 §3.1b): throws <see cref="CardErrorKind.CardChanged"/> unless the certificate read
+    /// from the card has the SHA-1 that the PIN / consent / UI selection was given for. A null or empty expectation
+    /// means "any card" (CLI, PIN-less greeting).
+    /// </summary>
+    public static void EnsureExpectedCard(byte[] certificateDer, string? expectedCertificateSha1)
+    {
+        ArgumentNullException.ThrowIfNull(certificateDer);
+        if (string.IsNullOrEmpty(expectedCertificateSha1)) return;
+        var actual = Hex.Encode(SHA1.HashData(certificateDer));
+        if (!string.Equals(actual, expectedCertificateSha1, StringComparison.OrdinalIgnoreCase))
+            throw new CardException(CardErrorKind.CardChanged,
+                "The card in the reader changed; check the holder and sign again");
+    }
+
+    /// <summary>
+    /// SELECT MF → ADF → read EF 0001 → identity check → SELECT ADF → VERIFY, the order every port uses
+    /// (docs/09 §3.1b). The certificate is read before the PIN goes out, so a swapped card never receives
+    /// another card's PIN. Returns the certificate (full X.509 DER).
+    /// </summary>
+    public byte[] PrepareForSigning(string pin, string? expectedCertificateSha1)
+    {
+        var certificate = ReadCertificate();
+        EnsureExpectedCard(certificate, expectedCertificateSha1);
+        SelectGenericAdf();
+        VerifyPin(pin);
+        return certificate;
+    }
 }

@@ -1,0 +1,38 @@
+<Project Sdk="WixToolset.Sdk/5.0.2" InitialTargets="CheckInputs">
+
+  <!--
+    eSemnBun MSI (WIN-09; codename MoldSign): the unpackaged, enterprise-friendly installer. WiX Toolset v5, builds on Windows only
+    (light/ICE validation need msi.dll). scripts/package-windows.ps1 publishes the inputs and runs:
+
+      dotnet build installer/MoldSign.Installer.wixproj -c Release
+          -p:InstallerPlatform=x64 -p:ProductVersion=0.2.0
+          -p:AppDir=<self-contained MoldSign.App publish folder> -p:CliDir=<Native AOT esemnbun.exe folder>
+          -p:OutputPath=<dist folder>\
+
+    The binaries are signed before this runs and the .msi after it (signtool, environment variables only).
+  -->
+  <PropertyGroup>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">0.2.0</ProductVersion>
+    <InstallerPlatform Condition="'$(InstallerPlatform)' == ''">x64</InstallerPlatform>
+    <OutputName>eSemnBun-$(ProductVersion)-$(InstallerPlatform)</OutputName>
+    <StagingRoot>$(MSBuildThisFileDirectory)..\artifacts\package\win-$(InstallerPlatform)</StagingRoot>
+    <AppDir Condition="'$(AppDir)' == ''">$(StagingRoot)\app</AppDir>
+    <CliDir Condition="'$(CliDir)' == ''">$(StagingRoot)\cli</CliDir>
+    <AppIcon>$(MSBuildThisFileDirectory)..\src\MoldSign.App\Assets\AppIcon.ico</AppIcon>
+    <DefineConstants>$(DefineConstants);ProductVersion=$(ProductVersion);AppDir=$(AppDir);CliDir=$(CliDir);AppIcon=$(AppIcon)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- util:CloseApplication: stop the running tray app before files are replaced (upgrade/uninstall). -->
+    <PackageReference Include="WixToolset.Util.wixext" Version="5.0.2" />
+  </ItemGroup>
+
+  <!-- A missing harvest folder is only a WiX warning: fail instead of shipping an MSI without the app. -->
+  <Target Name="CheckInputs" Condition="'$(MSBuildIsRestoring)' != 'true' and '$(DesignTimeBuild)' != 'true'">
+    <Error Condition="!Exists('$(AppDir)\eSemnBun.exe')"
+           Text="AppDir '$(AppDir)' has no eSemnBun.exe: publish the app first (scripts/package-windows.ps1)." />
+    <Error Condition="!Exists('$(CliDir)\esemnbun.exe')"
+           Text="CliDir '$(CliDir)' has no esemnbun.exe: publish the CLI first (scripts/package-windows.ps1)." />
+  </Target>
+
+</Project>

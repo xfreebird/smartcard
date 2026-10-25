@@ -1,7 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <!--
-    moldsign.exe: the Windows CLI (spec/cli.md, CLI-03). Product RIDs: win-x64, win-arm64.
+    esemnbun.exe: the Windows CLI (spec/cli.md, CLI-03; public name eSemnBun, codename MoldSign in code).
+    Product RIDs: win-x64, win-arm64. The installers put it in a separate bin\ folder: "esemnbun.exe" and the app's
+    "eSemnBun.exe" are the same name on a case-insensitive file system.
     Plain net10.0 so it also builds/tests on other hosts; there, card commands exit 5 with
     "PC/SC transport is only available on Windows" (macOS/Linux ship the native Swift CLI, CLI-02).
     NativeAOT: dotnet publish -c Release -r win-x64 -p:PublishAot=true   (must run on Windows)
@@ -9,7 +11,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <AssemblyName>moldsign</AssemblyName>
+    <AssemblyName>esemnbun</AssemblyName>
+    <AssemblyTitle>eSemnBun CLI</AssemblyTitle>
     <RootNamespace>MoldSign.Cli</RootNamespace>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsAotCompatible>true</IsAotCompatible>

@@ -13,7 +13,7 @@ internal static partial class WindowHelpers
 {
     /// <summary>Flyout width (docs/10 §2: 360 epx).</summary>
     public const int FlyoutWidth = 360;
-    public const int FlyoutHeight = 600;
+    public const int FlyoutHeight = 660;
 
     /// <summary>docs/10 §2: main window min 860 × 580.</summary>
     public const int MainMinWidth = 860;
@@ -68,22 +68,27 @@ internal static partial class WindowHelpers
     }
 
     /// <summary>
-    /// Bottom-right corner of the primary work area, i.e. above the notification area for the default
-    /// taskbar position. TODO(WIN-04): follow the taskbar edge (top/left/right) and the monitor the icon is on.
+    /// Bottom-right corner of the primary work area, i.e. above the notification area for the default taskbar position.
+    /// <paramref name="extraHeight"/> (epx) grows the flyout, e.g. for the expanded card list (docs/10 §0.2b); the height
+    /// is clamped to the work area and the bottom edge stays anchored, so the flyout never leaves the screen.
+    /// TODO(WIN-04): follow the taskbar edge (top/left/right) and the monitor the icon is on.
     /// </summary>
-    public static void PlaceNearTray(Window window)
+    public static void PlaceNearTray(Window window, double extraHeight = 0)
     {
         var scale = Scale(window);
-        var width = (int)(FlyoutWidth * scale);
-        var height = (int)(FlyoutHeight * scale);
-        var margin = (int)(12 * scale);
         var area = DisplayArea.Primary.WorkArea;
+        var margin = (int)(12 * scale);
+        var width = (int)(FlyoutWidth * scale);
+        var height = (int)Math.Min((FlyoutHeight + Math.Max(0, extraHeight)) * scale, area.Height - 2 * margin);
         window.AppWindow.MoveAndResize(new RectInt32(
             area.X + area.Width - width - margin,
             area.Y + area.Height - height - margin,
             width,
             height));
     }
+
+    /// <summary>Tallest flyout that fits in the primary work area (epx).</summary>
+    public static double MaxFlyoutHeight(Window window) => DisplayArea.Primary.WorkArea.Height / Scale(window) - 24;
 
     /// <summary>HWND of the window hosting <paramref name="root"/> (pickers need it in unpackaged apps).</summary>
     public static nint HandleFor(XamlRoot root) =>
@@ -117,6 +122,15 @@ internal static partial class WindowHelpers
             UseShellExecute = true,
         });
     }
+
+    /// <summary>
+    /// Primary-action style: AccentButtonStyle only while the button is enabled, DefaultButtonStyle otherwise (Fluent:
+    /// never show a disabled accent-filled button).
+    /// </summary>
+    public static Style? ButtonStyle(bool accent) =>
+        Application.Current.Resources.TryGetValue(accent ? "AccentButtonStyle" : "DefaultButtonStyle", out var value)
+            ? value as Style
+            : null;
 
     /// <summary>Brush from the merged theme dictionaries (Themes/Tokens.xaml), or a fallback.</summary>
     public static Brush ThemeBrush(string key) =>

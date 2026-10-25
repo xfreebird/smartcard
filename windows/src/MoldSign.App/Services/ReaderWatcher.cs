@@ -1,45 +1,69 @@
 using System.Diagnostics;
+using MoldSign.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.SmartCards;
 
 namespace MoldSign.App.Services;
 
-/// <summary>One reader and whether a card sits in it.</summary>
-public sealed record ReaderSnapshot(string Name, bool CardPresent);
-
 /// <summary>
-/// Windows ReaderMonitor (docs/09 §3.7, WIN-03): <see cref="DeviceWatcher"/> over
-/// <c>SmartCardReader.GetDeviceSelector(SmartCardReaderKind.Any)</c> for reader hot-plug, plus
-/// <c>SmartCardReader.CardAdded/CardRemoved</c> per reader. Events arrive on thread-pool threads.
+/// Windows ReaderMonitor (docs/09 §3.1b and §3.7, WIN-03): every reader, every card, every card change.
+///
+/// The truth is PC/SC: <see cref="WinSCardTransport.GetReaderStates"/> (SCardGetStatusChange, zero timeout, never
+/// connects) gives the reader names the transport connects to, card presence, the mute flag and the card event
+/// counter; <see cref="ReaderGenerationTracker"/> turns that into a generation per reader, so a remove + reinsert or
+/// a swap always produces a new card. What triggers a snapshot:
+/// <list type="bullet">
+/// <item><see cref="DeviceWatcher"/> over <c>SmartCardReader.GetDeviceSelector</c> (reader hot-plug) and
+///       <c>SmartCardReader.CardAdded/CardRemoved</c> per reader: instant updates;</item>
+/// <item>a 2-second poll as a safety net (missed WinRT events, mute cards, the Smart Card service restarting).</item>
+/// </list>
+/// <see cref="Changed"/> fires on a thread-pool thread, only when the snapshot changed.
+/// TODO(WIN-03): toast on reader connect/disconnect (AppNotificationManager), honoring AppSettings.ReaderToasts.
 /// </summary>
 public sealed class ReaderWatcher : IDisposable
 {
+    private static readonly TimeSpan s_pollInterval = TimeSpan.FromSeconds(2);
+
     private readonly object _gate = new();
+    private readonly ReaderGenerationTracker _tracker = new();
     private readonly Dictionary<string, SmartCardReader> _readers = new(StringComparer.Ordinal);
     private DeviceWatcher? _watcher;
+    private Timer? _poll;
+    private IReadOnlyList<ReaderSlot>? _last;
 
-    /// <summary>Full snapshot after every change (reader added/removed, card inserted/removed).</summary>
-    public event EventHandler<IReadOnlyList<ReaderSnapshot>>? Changed;
+    /// <summary>Every reader with its card state and generation, after each change.</summary>
+    public event EventHandler<IReadOnlyList<ReaderSlot>>? Changed;
 
     public void Start()
     {
         if (_watcher is not null) return;
-        _watcher = DeviceInformation.CreateWatcher(SmartCardReader.GetDeviceSelector(SmartCardReaderKind.Any));
-        _watcher.Added += OnReaderAdded;
-        _watcher.Removed += OnReaderRemoved;
-        _watcher.Updated += OnReaderUpdated;
-        _watcher.EnumerationCompleted += OnEnumerationCompleted;
-        _watcher.Start();
-        // TODO(WIN-03): toast on reader connect/disconnect (AppNotificationManager), honoring AppSettings.ReaderToasts.
+        try
+        {
+            _watcher = DeviceInformation.CreateWatcher(SmartCardReader.GetDeviceSelector(SmartCardReaderKind.Any));
+            _watcher.Added += OnReaderAdded;
+            _watcher.Removed += OnReaderRemoved;
+            _watcher.EnumerationCompleted += OnEnumerationCompleted;
+            _watcher.Start();
+        }
+        catch (Exception e)
+        {
+            // The poll below still works without the WinRT triggers.
+            Debug.WriteLine($"ReaderWatcher: DeviceWatcher unavailable: {e.Message}");
+        }
+        _poll = new Timer(_ => Poll(force: false), null, TimeSpan.Zero, s_pollInterval);
     }
+
+    /// <summary>Publishes the current snapshot even if unchanged (after "Recitește cardul" or a card operation).</summary>
+    public void Refresh() => ThreadPool.QueueUserWorkItem(_ => Poll(force: true));
 
     public void Dispose()
     {
+        _poll?.Dispose();
+        _poll = null;
         if (_watcher is { } watcher)
         {
             watcher.Added -= OnReaderAdded;
             watcher.Removed -= OnReaderRemoved;
-            watcher.Updated -= OnReaderUpdated;
             watcher.EnumerationCompleted -= OnEnumerationCompleted;
             if (watcher.Status is DeviceWatcherStatus.Started or DeviceWatcherStatus.EnumerationCompleted)
                 watcher.Stop();
@@ -57,37 +81,34 @@ public sealed class ReaderWatcher : IDisposable
         try
         {
             var reader = await SmartCardReader.FromIdAsync(info.Id);
-            if (reader is null) return;
-            reader.CardAdded += OnCardAdded;
-            reader.CardRemoved += OnCardRemoved;
-            lock (_gate) _readers[info.Id] = reader;
-            await PublishAsync();
+            if (reader is not null)
+            {
+                reader.CardAdded += OnCardAdded;
+                reader.CardRemoved += OnCardRemoved;
+                lock (_gate) _readers[info.Id] = reader;
+            }
         }
         catch (Exception e)
         {
             Debug.WriteLine($"ReaderWatcher: cannot open {info.Name}: {e.Message}");
         }
+        Poll(force: false);
     }
 
-    private async void OnReaderRemoved(DeviceWatcher sender, DeviceInformationUpdate update)
+    private void OnReaderRemoved(DeviceWatcher sender, DeviceInformationUpdate update)
     {
         lock (_gate)
         {
             if (_readers.Remove(update.Id, out var reader)) Detach(reader);
         }
-        await PublishAsync();
+        Poll(force: false);
     }
 
-    private void OnReaderUpdated(DeviceWatcher sender, DeviceInformationUpdate update)
-    {
-        // Property changes only; card presence comes from CardAdded/CardRemoved.
-    }
+    private void OnEnumerationCompleted(DeviceWatcher sender, object args) => Poll(force: false);
 
-    private async void OnEnumerationCompleted(DeviceWatcher sender, object args) => await PublishAsync();
+    private void OnCardAdded(SmartCardReader sender, CardAddedEventArgs args) => Poll(force: false);
 
-    private async void OnCardAdded(SmartCardReader sender, CardAddedEventArgs args) => await PublishAsync();
-
-    private async void OnCardRemoved(SmartCardReader sender, CardRemovedEventArgs args) => await PublishAsync();
+    private void OnCardRemoved(SmartCardReader sender, CardRemovedEventArgs args) => Poll(force: false);
 
     private void Detach(SmartCardReader reader)
     {
@@ -95,34 +116,33 @@ public sealed class ReaderWatcher : IDisposable
         reader.CardRemoved -= OnCardRemoved;
     }
 
-    private async Task PublishAsync()
+    /// <summary>One PC/SC snapshot → generations → <see cref="Changed"/>. Serialized: triggers arrive on any thread.</summary>
+    private void Poll(bool force)
     {
-        SmartCardReader[] readers;
-        lock (_gate) readers = [.. _readers.Values];
-
-        var snapshot = new List<ReaderSnapshot>(readers.Length);
-        foreach (var reader in readers)
+        lock (_gate)
         {
-            var present = false;
+            IReadOnlyList<ReaderStatus> states;
             try
             {
-                var cards = await reader.FindAllCardsAsync();
-                present = cards.Count > 0;
+                states = WinSCardTransport.GetReaderStates();
+            }
+            catch (CardException e)
+            {
+                Debug.WriteLine($"ReaderWatcher: {e.Message}");
+                states = [];
+            }
+
+            var slots = _tracker.Update(states);
+            if (!force && _last is not null && _last.SequenceEqual(slots)) return;
+            _last = slots;
+            try
+            {
+                Changed?.Invoke(this, slots);
             }
             catch (Exception e)
             {
-                Debug.WriteLine($"ReaderWatcher: {reader.Name}: {e.Message}");
+                Debug.WriteLine($"ReaderWatcher subscriber failed: {e}");
             }
-            snapshot.Add(new ReaderSnapshot(reader.Name, present));
-        }
-
-        try
-        {
-            Changed?.Invoke(this, snapshot);
-        }
-        catch (Exception e)
-        {
-            Debug.WriteLine($"ReaderWatcher subscriber failed: {e}");
         }
     }
 }

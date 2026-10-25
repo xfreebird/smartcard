@@ -1,3 +1,4 @@
+using System.Formats.Asn1;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using static MoldSign.Core.Tests.VectorFile;
@@ -7,14 +8,14 @@ namespace MoldSign.Core.Tests;
 /// <summary>CosmoXCard over fake transports: exact APDU sequence, SW mapping, 61xx loop, certificate read.</summary>
 public class CosmoXCardTests
 {
-    [Fact]
-    public void Authenticate_sends_the_reference_sequence_and_opens_the_channel()
+    /// <summary>The reference mutual-authentication exchange (10 APDUs) from spec/vectors.</summary>
+    internal static (string Apdu, string Response)[] AuthenticationScript()
     {
         var serial = Ascii("kdf", "serial_ascii");
         var seed = Ascii("kdf", "seed_ascii");
         var expectedEa = Hex.Encode([.. Bytes("external_auth", "ciphertext"), .. Bytes("external_auth", "cmac")]);
-
-        var transport = new ScriptedTransport(
+        return
+        [
             ("00A4040010A000000077030C60000000FE0000050000", "9000"),          // SELECT IAS AID
             ("00A4000C023F0000", "9000"),                                      // SELECT MF
             ("00A4020402D00300", "9000"),                                      // SELECT EF D003
@@ -24,7 +25,29 @@ public class CosmoXCardTests
             ("0022C1A4098004FF40108C830104", "9000"),                          // MSE SET (SM)
             ("0084000010", String("external_auth", "rnd_icc") + "9000"),       // GET CHALLENGE
             ("0082000060" + expectedEa, "6160"),                               // EXTERNAL AUTHENTICATE → 61 60
-            ("00C0000060", String("response_decode", "response") + "9000"));   // GET RESPONSE (96 bytes)
+            ("00C0000060", String("response_decode", "response") + "9000"),   // GET RESPONSE (96 bytes)
+        ];
+    }
+
+    /// <summary>
+    /// The session the card side holds after <see cref="AuthenticationScript"/>: K_ICC from the vector response
+    /// (opened with the vector admin keys) → session keys, SSC = plain[8..&lt;16] || rnd_ifd[8..&lt;16].
+    /// Feeds <see cref="SimulatedSmCard"/> when a test runs the full Authenticate() first.
+    /// </summary>
+    internal static (byte[] SessEnc, byte[] SessMac, byte[] Ssc) SessionAfterAuthentication()
+    {
+        var (kenc, kmac) = IasEcc.DeriveAdminKeys(Ascii("kdf", "seed_ascii"), Ascii("kdf", "serial_ascii"));
+        var plain = IasEcc.OpenExternalAuthenticateResponse(kenc, kmac, Bytes("response_decode", "response"));
+        var (sessEnc, sessMac) = IasEcc.DeriveSessionKeys(plain.AsSpan(48, 32));
+        return (sessEnc, sessMac, IasEcc.InitialSsc(plain));
+    }
+
+    [Fact]
+    public void Authenticate_sends_the_reference_sequence_and_opens_the_channel()
+    {
+        var serial = Ascii("kdf", "serial_ascii");
+        var seed = Ascii("kdf", "seed_ascii");
+        var transport = new ScriptedTransport(AuthenticationScript());
 
         var card = new CosmoXCard(transport);
         card.Authenticate();
@@ -201,6 +224,39 @@ public class CosmoXCardTests
     }
 
     [Fact]
+    public void Certificate_summary_reads_surname_and_given_name_with_diacritics()
+    {
+        using var rsa = RSA.Create(2048);
+        var subject = new X500DistinguishedNameBuilder();
+        subject.AddCountryOrRegion("MD");
+        subject.Add("2.5.4.4", "Mîndru", UniversalTagNumber.UTF8String);   // SN
+        subject.Add("2.5.4.42", "Ștefan", UniversalTagNumber.UTF8String);  // GN
+        subject.AddCommonName("Ștefan Mîndru");
+        var request = new CertificateRequest(subject.Build(), rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        using var cert = request.CreateSelfSigned(DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddYears(1));
+
+        var summary = CertificateSummary.FromDer(cert.Export(X509ContentType.Cert));
+
+        Assert.Equal("Mîndru", summary.Surname);
+        Assert.Equal("Ștefan", summary.GivenName);
+        Assert.Equal(("Mîndru", "Ștefan"), summary.NameParts());
+    }
+
+    [Theory]
+    [InlineData("POPESCU ION", "POPESCU", "ION")]
+    [InlineData("Rusu Ana Maria", "Rusu", "Ana Maria")]
+    [InlineData("RUSU", "RUSU", "")]
+    public void Name_parts_fall_back_to_the_common_name(string commonName, string surname, string given)
+    {
+        var summary = new CertificateSummary
+        {
+            CommonName = commonName, Subject = $"CN={commonName}", Issuer = "CN=MDQSign", SerialNumber = "01",
+            NotBefore = DateTimeOffset.UnixEpoch, NotAfter = DateTimeOffset.UnixEpoch, Sha1 = "00", Der = [],
+        };
+        Assert.Equal((surname, given), summary.NameParts());
+    }
+
+    [Fact]
     public void Default_output_path_never_overwrites()
     {
         var dir = Directory.CreateTempSubdirectory("moldsign-test-");
@@ -222,7 +278,7 @@ public class CosmoXCardTests
     // MARK: - Fakes
 
     /// <summary>Expects an exact APDU sequence ("*" = any) and replays canned responses.</summary>
-    private sealed class ScriptedTransport(params (string Apdu, string Response)[] script) : ICardTransport
+    internal sealed class ScriptedTransport(params (string Apdu, string Response)[] script) : ICardTransport
     {
         private int _next;
 
@@ -245,7 +301,7 @@ public class CosmoXCardTests
     /// Card side of IAS/ECC SM for one session: checks each command's MAC, decrypts its data, and answers
     /// with 87/99/8E objects (SW-only 9000 for SELECTs), splitting long answers into 61xx + GET RESPONSE.
     /// </summary>
-    private sealed class SimulatedSmCard(byte[] sessEnc, byte[] sessMac, byte[] ssc) : ICardTransport
+    internal sealed class SimulatedSmCard(byte[] sessEnc, byte[] sessMac, byte[] ssc) : ICardTransport
     {
         private readonly byte[] _ssc = (byte[])ssc.Clone();
         private byte[] _pending = [];

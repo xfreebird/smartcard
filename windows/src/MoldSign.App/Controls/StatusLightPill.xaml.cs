@@ -3,9 +3,9 @@ using MoldSign.App.Services;
 
 namespace MoldSign.App.Controls;
 
-public sealed partial class StatusCard : UserControl
+public sealed partial class StatusLightPill : UserControl
 {
-    public StatusCard()
+    public StatusLightPill()
     {
         InitializeComponent();
     }

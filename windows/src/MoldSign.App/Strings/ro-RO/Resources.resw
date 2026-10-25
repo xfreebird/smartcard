@@ -25,12 +25,6 @@
   <data name="Status_Reading" xml:space="preserve">
     <value>Se citește cardul…</value>
   </data>
-  <data name="Status_Busy" xml:space="preserve">
-    <value>Se lucrează cu cardul…</value>
-  </data>
-  <data name="Card_ValidUntil" xml:space="preserve">
-    <value>Certificat valabil până {0}</value>
-  </data>
   <data name="Card_PinForgotten" xml:space="preserve">
     <value>PIN-ul salvat a fost șters.</value>
   </data>
@@ -95,7 +89,7 @@
     <value>Conexiune browser oprită</value>
   </data>
   <data name="Bridge_PortBusy" xml:space="preserve">
-    <value>Portul {0} este ocupat (rulează MoldSign Desktop?)</value>
+    <value>Portul {0} este ocupat (probabil de MoldSign (Java)). Închide-l și repornește conexiunea.</value>
   </data>
   <data name="Activity_Signed" xml:space="preserve">
     <value>Semnat</value>
@@ -139,11 +133,131 @@
   <data name="Settings_AllowedSites" xml:space="preserve">
     <value>{0} site-uri permise (lista furnizorului)</value>
   </data>
+  <data name="Settings_StartupManaged" xml:space="preserve">
+    <value>Setat de administrator pentru toți utilizatorii (instalarea MSI)</value>
+  </data>
+  <data name="Settings_StartupDisabledByUser" xml:space="preserve">
+    <value>Oprit din Setări › Aplicații › Pornire; activează-l de acolo</value>
+  </data>
+  <data name="Light_Idle" xml:space="preserve">
+    <value>Conectează cititorul</value>
+  </data>
+  <data name="Light_Reader" xml:space="preserve">
+    <value>Cititor conectat · introdu cardul</value>
+  </data>
+  <data name="Light_Reading" xml:space="preserve">
+    <value>Se citește cardul…</value>
+  </data>
+  <data name="Light_Ready" xml:space="preserve">
+    <value>Card pregătit · {0}</value>
+  </data>
+  <data name="Light_ReadyMany" xml:space="preserve">
+    <value>Card pregătit · {0} · {1} carduri</value>
+  </data>
+  <data name="Light_Busy" xml:space="preserve">
+    <value>Se semnează…</value>
+  </data>
+  <data name="Info_NoReaderTitle" xml:space="preserve">
+    <value>Niciun cititor conectat</value>
+  </data>
+  <data name="Info_CardErrorTitle" xml:space="preserve">
+    <value>Cardul nu poate semna acum</value>
+  </data>
+  <data name="Wallet_InsertTitle" xml:space="preserve">
+    <value>Introdu cardul</value>
+  </data>
+  <data name="Wallet_ConnectTitle" xml:space="preserve">
+    <value>Conectează cititorul</value>
+  </data>
+  <data name="Wallet_ConnectMessage" xml:space="preserve">
+    <value>Conectează cititorul de carduri la un port USB.</value>
+  </data>
+  <data name="Wallet_MuteTitle" xml:space="preserve">
+    <value>Cardul nu răspunde</value>
+  </data>
+  <data name="Wallet_CardName" xml:space="preserve">
+    <value>{0}, card de identitate, valabil până la {1}, {2} din {3}</value>
+  </data>
+  <data name="Wallet_CardReadingName" xml:space="preserve">
+    <value>Card în {0}, se citește, {1} din {2}</value>
+  </data>
+  <data name="Wallet_CardErrorName" xml:space="preserve">
+    <value>Card în {0}: {1}, {2} din {3}</value>
+  </data>
+  <data name="Error_CardChanged" xml:space="preserve">
+    <value>Cardul din cititor s-a schimbat. Verifică titularul și semnează din nou.</value>
+  </data>
+  <data name="Wallet_CardInReader" xml:space="preserve">
+    <value>Card în {0}</value>
+  </data>
+  <data name="Wallet_StatusReady" xml:space="preserve">
+    <value>Pregătit pentru semnare</value>
+  </data>
+  <data name="Wallet_Reread" xml:space="preserve">
+    <value>Recitește cardul</value>
+  </data>
+  <data name="Wallet_RereadAll" xml:space="preserve">
+    <value>Recitește cardurile</value>
+  </data>
+  <data name="Wallet_DisclosureName" xml:space="preserve">
+    <value>Alege cardul ({0} carduri)</value>
+  </data>
+  <data name="Wallet_UsedForSigning" xml:space="preserve">
+    <value>Folosit pentru semnare</value>
+  </data>
+  <data name="Wallet_SignWith" xml:space="preserve">
+    <value>Semnează cu {0}</value>
+  </data>
+  <data name="Tray_Connected" xml:space="preserve">
+    <value>Card conectat · {0}</value>
+  </data>
+  <data name="Tray_ConnectedNoHolder" xml:space="preserve">
+    <value>Card conectat</value>
+  </data>
+  <data name="Tray_None" xml:space="preserve">
+    <value>Niciun card conectat</value>
+  </data>
+  <data name="Activity_ClearTitle" xml:space="preserve">
+    <value>Golești lista activității?</value>
+  </data>
+  <data name="Activity_ClearMessage" xml:space="preserve">
+    <value>Intrările dispar din listă. Documentele semnate rămân pe disc.</value>
+  </data>
+  <data name="Activity_ClearConfirm" xml:space="preserve">
+    <value>Golește</value>
+  </data>
+  <data name="Step_Connecting" xml:space="preserve">
+    <value>Conectare la card…</value>
+  </data>
+  <data name="Step_Authenticating" xml:space="preserve">
+    <value>Sesiune securizată cu cardul…</value>
+  </data>
+  <data name="Step_ReadingCertificate" xml:space="preserve">
+    <value>Se citește certificatul…</value>
+  </data>
+  <data name="Step_VerifyingPin" xml:space="preserve">
+    <value>Se verifică PIN-ul…</value>
+  </data>
+  <data name="Step_Signing" xml:space="preserve">
+    <value>Se semnează…</value>
+  </data>
+  <data name="Step_Timestamping" xml:space="preserve">
+    <value>Marcă temporală…</value>
+  </data>
+  <data name="Step_Revocation" xml:space="preserve">
+    <value>Se verifică revocarea…</value>
+  </data>
+  <data name="Step_Writing" xml:space="preserve">
+    <value>Se salvează…</value>
+  </data>
+  <data name="Step_Done" xml:space="preserve">
+    <value>Gata</value>
+  </data>
   <data name="DropTitle.Text" xml:space="preserve">
     <value>Trage documentele aici</value>
   </data>
   <data name="DropBrowse.Content" xml:space="preserve">
-    <value>sau alege fișiere</value>
+    <value>Alege fișiere…</value>
   </data>
   <data name="DropHint.Text" xml:space="preserve">
     <value>PDF → PAdES · altele → XAdES</value>
@@ -176,7 +290,7 @@
     <value>Conexiune browser</value>
   </data>
   <data name="TrayOpenWindow.Content" xml:space="preserve">
-    <value>Deschide fereastra</value>
+    <value>Deschide eSemnBun</value>
   </data>
   <data name="TrayQuit.Content" xml:space="preserve">
     <value>Ieșire</value>
@@ -188,13 +302,10 @@
     <value>Opțiuni avansate</value>
   </data>
   <data name="SignPdfFormat.Text" xml:space="preserve">
-    <value>PDF → PAdES-T (cerut de msign.gov.md)</value>
-  </data>
-  <data name="SignXadesFormat.Header" xml:space="preserve">
-    <value>Alte fișiere</value>
+    <value>PDF → PAdES-T (cerut de msign.gov.md); XAdES produce un fișier .xml separat</value>
   </data>
   <data name="SignPackaging.Header" xml:space="preserve">
-    <value>Tip</value>
+    <value>Ambalare XAdES</value>
   </data>
   <data name="SignAlgorithm.Text" xml:space="preserve">
     <value>Algoritm: SHA-256</value>
@@ -226,8 +337,11 @@
   <data name="CardReader.Text" xml:space="preserve">
     <value>Cititor</value>
   </data>
-  <data name="CardRead.Content" xml:space="preserve">
-    <value>Citește cardul</value>
+  <data name="CardRereadLabel.Text" xml:space="preserve">
+    <value>Recitește cardul</value>
+  </data>
+  <data name="CardHolder.Text" xml:space="preserve">
+    <value>Titular</value>
   </data>
   <data name="CardRememberPin.Header" xml:space="preserve">
     <value>Ține minte PIN-ul (Windows Hello)</value>
@@ -260,10 +374,28 @@
     <value>CONEXIUNE BROWSER</value>
   </data>
   <data name="SettingsBridgeToggle.Header" xml:space="preserve">
-    <value>Conexiune browser (MoldSign Server)</value>
+    <value>Conexiune browser (compatibilă MoldSign Server)</value>
   </data>
   <data name="SettingsAdvanced.Text" xml:space="preserve">
     <value>AVANSAT</value>
+  </data>
+  <data name="StatusInfoReread.Content" xml:space="preserve">
+    <value>Recitește cardul</value>
+  </data>
+  <data name="DropTitleCompact.Text" xml:space="preserve">
+    <value>Trage aici alte documente</value>
+  </data>
+  <data name="DropBrowseCompact.Content" xml:space="preserve">
+    <value>Alege fișiere…</value>
+  </data>
+  <data name="RecentClear.Content" xml:space="preserve">
+    <value>Golește lista</value>
+  </data>
+  <data name="RecentDocsEmpty.Text" xml:space="preserve">
+    <value>Niciun document recent</value>
+  </data>
+  <data name="ActivityClearLabel.Text" xml:space="preserve">
+    <value>Golește lista</value>
   </data>
   <data name="FlyoutSettings.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Setări</value>
@@ -271,7 +403,28 @@
   <data name="BridgeToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Conexiune browser</value>
   </data>
+  <data name="FileFormat.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Format semnătură</value>
+  </data>
+  <data name="ActivityList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Activitate</value>
+  </data>
   <data name="FileRemove.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Elimină</value>
+  </data>
+  <data name="FlyoutSettings.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Setări</value>
+  </data>
+  <data name="FlyoutReread.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Recitește cardul</value>
+  </data>
+  <data name="FlyoutReread.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+    <value>Recitește cardul</value>
+  </data>
+  <data name="RecentList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Recente</value>
+  </data>
+  <data name="SignFileList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+    <value>Documente de semnat</value>
   </data>
 </root>

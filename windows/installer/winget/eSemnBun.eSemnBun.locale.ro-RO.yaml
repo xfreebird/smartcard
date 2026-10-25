@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.locale.1.9.0.schema.json
+# winget locale manifest TEMPLATE (Romanian). Tokens: __VERSION__.
+PackageIdentifier: eSemnBun.eSemnBun
+PackageVersion: __VERSION__
+PackageLocale: ro-RO
+Publisher: eSemnBun
+PackageName: eSemnBun
+ShortDescription: Semnătură electronică calificată cu buletinul de identitate (eID) al Republicii Moldova (PAdES, XAdES).
+Description: |-
+  eSemnBun semnează PDF-uri (PAdES-T) și alte documente (XAdES) cu certificatul calificat de pe buletinul electronic
+  moldovenesc, prin orice cititor PC/SC, verifică semnăturile și conectează msign.gov.md din browser la card.
+  Stă în zona de notificare; comanda esemnbun se adaugă în PATH.
+ManifestType: locale
+ManifestVersion: 1.9.0

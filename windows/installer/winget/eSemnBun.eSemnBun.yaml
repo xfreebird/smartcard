@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.version.1.9.0.schema.json
+# winget version manifest TEMPLATE (WIN-08, WIN-09). scripts/package-windows.ps1 renders the three files into
+# dist/windows/winget/<version>/ with the real version, URL, SHA-256 and ProductCode; submit that folder to
+# microsoft/winget-pkgs as manifests/e/eSemnBun/eSemnBun/<version>/. Tokens: __VERSION__.
+PackageIdentifier: eSemnBun.eSemnBun
+PackageVersion: __VERSION__
+DefaultLocale: en-US
+ManifestType: version
+ManifestVersion: 1.9.0

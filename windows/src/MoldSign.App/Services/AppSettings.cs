@@ -14,7 +14,7 @@ public sealed class AppSettings
     public bool BridgeEnabled { get; set; } = true;
     public bool RememberPin { get; set; }
     public bool ReaderToasts { get; set; } = true;
-    /// <summary>TODO(WIN-04): register/unregister (HKCU Run key unpackaged, StartupTask under MSIX).</summary>
+    /// <summary>Last known start-at-sign-in choice; the source of truth is <see cref="StartupRegistration"/>.</summary>
     public bool StartAtLogin { get; set; }
     public bool FirstRunDone { get; set; }
 

@@ -78,7 +78,7 @@ internal sealed record CliOptions
         }
         else if (positionals.Count == 2 && positionals[0].EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
         {
-            command = "sign"; // legacy form: moldsign <in.pdf> <out.pdf>
+            command = "sign"; // legacy form: esemnbun <in.pdf> <out.pdf>
             rest = positionals;
         }
         else

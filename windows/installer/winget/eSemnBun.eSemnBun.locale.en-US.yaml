@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
+# winget default-locale manifest TEMPLATE. Tokens: __VERSION__, __LICENSE__ (TODO: project LICENSE), __HOMEPAGE__.
+PackageIdentifier: eSemnBun.eSemnBun
+PackageVersion: __VERSION__
+PackageLocale: en-US
+Publisher: eSemnBun
+PackageName: eSemnBun
+PackageUrl: __HOMEPAGE__
+License: __LICENSE__
+ShortDescription: Qualified electronic signatures with the Moldovan eID card (PAdES, XAdES), plus the esemnbun CLI.
+Description: |-
+  eSemnBun signs PDF (PAdES-T) and other documents (XAdES) with the qualified certificate on the Moldovan eID card
+  (IDEMIA CosmoX ID-A) through any PC/SC reader, verifies signatures offline, and connects msign.gov.md in the
+  browser to the card. It lives in the notification area; the esemnbun command-line tool is added to PATH.
+Moniker: esemnbun
+Tags:
+  - eid
+  - moldova
+  - e-signature
+  - pades
+  - xades
+  - smartcard
+ManifestType: defaultLocale
+ManifestVersion: 1.9.0

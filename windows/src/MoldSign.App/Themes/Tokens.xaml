@@ -13,6 +13,9 @@
             <SolidColorBrush x:Key="SuccessBrush" Color="#15803D" />
             <SolidColorBrush x:Key="WarningBrush" Color="#B45309" />
             <SolidColorBrush x:Key="DangerBrush" Color="#C62828" />
+            <SolidColorBrush x:Key="SuccessSoftBrush" Color="#EDF7F0" />
+            <SolidColorBrush x:Key="WarningSoftBrush" Color="#FEF5E7" />
+            <SolidColorBrush x:Key="DangerSoftBrush" Color="#FDECEC" />
             <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="#FFFFFF" />
 
             <!-- Lightweight styling: every AccentButtonStyle button is the brand primary button. -->
@@ -31,6 +34,9 @@
             <SolidColorBrush x:Key="SuccessBrush" Color="#4ADE80" />
             <SolidColorBrush x:Key="WarningBrush" Color="#FBBF24" />
             <SolidColorBrush x:Key="DangerBrush" Color="#F87171" />
+            <SolidColorBrush x:Key="SuccessSoftBrush" Color="#12291B" />
+            <SolidColorBrush x:Key="WarningSoftBrush" Color="#2E2410" />
+            <SolidColorBrush x:Key="DangerSoftBrush" Color="#331616" />
             <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="#1E1F24" />
 
             <SolidColorBrush x:Key="AccentButtonBackground" Color="#7C9BFF" />
@@ -47,6 +53,9 @@
             <SolidColorBrush x:Key="SuccessBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
             <SolidColorBrush x:Key="WarningBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
             <SolidColorBrush x:Key="DangerBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="SuccessSoftBrush" Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="WarningSoftBrush" Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="DangerSoftBrush" Color="{ThemeResource SystemColorWindowColor}" />
             <SolidColorBrush x:Key="SurfaceRaisedBrush" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
@@ -78,7 +87,23 @@
         <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
     </Style>
 
-    <!-- Raised card surface (StatusCard, SignatureCard…). -->
+    <!-- Icon-only toolbar button (re-read, settings): transparent until hovered; always has a Narrator name + tooltip. -->
+    <Style x:Key="MsIconButtonStyle" TargetType="Button">
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="MinWidth" Value="36" />
+        <Setter Property="MinHeight" Value="36" />
+        <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- Full-width menu-item row in the tray flyout (open window, quit): transparent until hovered. -->
+    <Style x:Key="MsMenuRowButtonStyle" TargetType="Button">
+        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="Background" Value="{ThemeResource SubtleFillColorTransparentBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- Raised card surface (details panels, SignatureCard…). -->
     <Style x:Key="MsCardBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />

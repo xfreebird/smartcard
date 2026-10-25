@@ -24,24 +24,24 @@ internal static class ExitCodes
     };
 }
 
-/// <summary>The <c>moldsign</c> command dispatcher (CLI-03).</summary>
+/// <summary>The <c>esemnbun</c> command dispatcher (CLI-03; product name eSemnBun, docs/10 §0.2b).</summary>
 internal static class CliApp
 {
     public const string NotImplementedMessage = "not implemented yet (WIN-01)";
 
     public const string Usage = """
-        moldsign: MoldSign CLI for the Moldovan eID (IDEMIA CosmoX ID-A), Windows
+        esemnbun: eSemnBun CLI for the Moldovan eID (IDEMIA CosmoX ID-A), Windows
 
         Usage:
-          moldsign readers                                   List PC/SC readers and card presence
-          moldsign cert [--out <file.der>]                   Read the signing certificate (no PIN)
-          moldsign sign <in.pdf> [<out.pdf>]                 PAdES-T (default output: <name>-semnat.pdf)
-          moldsign xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping]
-          moldsign verify <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
-          moldsign server [<port>]                           Browser bridge (http 18480, https 18443)
-          moldsign sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
-          moldsign cms-for-hash <sha256_hex>                 Developer: detached CMS for an external digest
-          moldsign <in.pdf> <out.pdf>                        Legacy form of 'sign'
+          esemnbun readers                                   List PC/SC readers and card presence
+          esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN)
+          esemnbun sign <in.pdf> [<out.pdf>]                 PAdES-T (default output: <name>-semnat.pdf)
+          esemnbun xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping]
+          esemnbun verify <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
+          esemnbun server [<port>]                           Browser bridge (http 18480, https 18443)
+          esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
+          esemnbun cms-for-hash <sha256_hex>                 Developer: detached CMS for an external digest
+          esemnbun <in.pdf> <out.pdf>                        Legacy form of 'sign'
 
         Options:
           --reader <name>   Reader name or substring (default: first reader with a card)
@@ -65,7 +65,7 @@ internal static class CliApp
         catch (UsageException e)
         {
             host.Error.WriteLine($"error: {e.Message}");
-            host.Error.WriteLine("run 'moldsign --help' for usage");
+            host.Error.WriteLine("run 'esemnbun --help' for usage");
             return ExitCodes.UsageOrUnexpected;
         }
 

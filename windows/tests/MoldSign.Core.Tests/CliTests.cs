@@ -53,7 +53,7 @@ public class CliTests
     {
         var (code, output, _) = Run(["--help"], new FakeCards());
         Assert.Equal(0, code);
-        Assert.Contains("moldsign readers", output);
+        Assert.Contains("esemnbun readers", output);
     }
 
     [Fact]

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Main window (docs/10 §4.2, WIN-04): Mica backdrop, NavigationView with Semnează / Verifică / Activitate / Card + settings gear. -->
+<!--
+  Main window (docs/10 §4.2, §0.3 Windows row; UX-06, WIN-04): Mica backdrop, NavigationView (Semnează / Verifică /
+  Activitate / Card + settings gear), status light in the title bar, and an InfoBar for status and errors
+  ("Niciun cititor conectat", "Cardul nu răspunde · Scoate și reintrodu cardul" + Recitește cardul).
+  The title bar keeps the system caption buttons, so Snap layouts work.
+-->
 <Window
     x:Class="MoldSign.App.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="MoldSign">
+    xmlns:controls="using:MoldSign.App.Controls"
+    Title="eSemnBun">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -15,20 +21,27 @@
         <Grid
             x:Name="AppTitleBar"
             Height="48"
-            Padding="16,0,140,0">
+            Padding="16,0,140,0"
+            ColumnSpacing="16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <StackPanel
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <FontIcon
-                    FontSize="16"
-                    Foreground="{ThemeResource BrandBrush}"
-                    Glyph="&#xE70F;" />
+                <Image
+                    Width="16"
+                    Height="16"
+                    AutomationProperties.AccessibilityView="Raw"
+                    Source="ms-appx:///Assets/Square44x44Logo.targetsize-24_altform-unplated.png" />
                 <TextBlock
                     VerticalAlignment="Center"
                     Style="{StaticResource CaptionTextBlockStyle}"
-                    Text="MoldSign" />
+                    Text="eSemnBun" />
             </StackPanel>
+            <controls:StatusLightPill Grid.Column="1" />
         </Grid>
 
         <NavigationView
@@ -37,7 +50,7 @@
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="True"
             OpenPaneLength="220"
-            PaneDisplayMode="Left"
+            PaneDisplayMode="Auto"
             SelectionChanged="OnNavSelectionChanged">
             <NavigationView.MenuItems>
                 <NavigationViewItem
@@ -74,7 +87,29 @@
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 
-            <Frame x:Name="ContentFrame" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <!-- Status / errors (docs/10 §0.3: InfoBar), driven by the status light. -->
+                <InfoBar
+                    Margin="32,16,32,0"
+                    IsClosable="True"
+                    IsOpen="{x:Bind State.StatusInfoOpen, Mode=OneWay}"
+                    Message="{x:Bind State.StatusInfoMessage, Mode=OneWay}"
+                    Severity="{x:Bind State.StatusInfoSeverity, Mode=OneWay}"
+                    Title="{x:Bind State.StatusInfoTitle, Mode=OneWay}">
+                    <InfoBar.ActionButton>
+                        <Button
+                            x:Uid="StatusInfoReread"
+                            Click="OnStatusRereadClick"
+                            Content="Recitește cardul"
+                            Visibility="{x:Bind State.StatusInfoActionVisibility, Mode=OneWay}" />
+                    </InfoBar.ActionButton>
+                </InfoBar>
+                <Frame x:Name="ContentFrame" Grid.Row="1" />
+            </Grid>
         </NavigationView>
     </Grid>
 </Window>

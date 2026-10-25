@@ -5,7 +5,11 @@ using MoldSign.App.Services;
 
 namespace MoldSign.App.Tray;
 
-/// <summary>Borderless always-on-top window next to the notification area; hides when it loses focus.</summary>
+/// <summary>
+/// Borderless always-on-top window next to the notification area; hides when it loses focus. Mirrors the macOS
+/// popover: card on top, Sign/Verify, recent documents, browser connection, window/quit rows. Every action that opens
+/// something (a picker, Explorer, the main window) hides the flyout first; a signing/verification result reopens it.
+/// </summary>
 public sealed partial class TrayFlyoutWindow : Window
 {
     private DateTime _hiddenByDeactivationAt;
@@ -17,7 +21,18 @@ public sealed partial class TrayFlyoutWindow : Window
         WindowHelpers.ApplyAcrylic(this);
         Activated += OnActivated;
         AppWindow.Closing += OnClosing;
-        Drop.FilesChosen += OnFilesChosen;
+        Wallet.CardActivated += (_, _) =>
+        {
+            HideFlyout();
+            App.Current.EnsureMainWindow(activate: true).ShowSection("card");
+        };
+        // The card list expands in place (docs/10 §0.2b): the flyout grows and stays anchored above the taskbar.
+        Wallet.ExpandedChanged += (_, _) =>
+        {
+            if (AppWindow.IsVisible) WindowHelpers.PlaceNearTray(this, Wallet.ExpandedExtraHeight);
+        };
+        State.PropertyChanged += (_, _) => UpdateSignButton();
+        UpdateSignButton();
     }
 
     public AppState State => AppState.Current;
@@ -31,12 +46,20 @@ public sealed partial class TrayFlyoutWindow : Window
 
     public void ShowFlyout()
     {
-        WindowHelpers.PlaceNearTray(this);
+        State.PruneMissingFiles(); // recents only list documents that still exist
+        // Beyond what fits above the taskbar, the expanded card list scrolls inside the flyout.
+        Wallet.MaxExpandedHeight = Math.Max(Wallet.CollapsedHeight,
+            WindowHelpers.MaxFlyoutHeight(this) - (WindowHelpers.FlyoutHeight - Wallet.CollapsedHeight));
+        WindowHelpers.PlaceNearTray(this, Wallet.ExpandedExtraHeight);
         AppWindow.Show();
         Activate();
     }
 
-    public void HideFlyout() => AppWindow.Hide();
+    public void HideFlyout()
+    {
+        AppWindow.Hide();
+        Wallet.Collapse(); // reopen on the selected card
+    }
 
     private void OnActivated(object sender, WindowActivatedEventArgs args)
     {
@@ -52,16 +75,10 @@ public sealed partial class TrayFlyoutWindow : Window
         sender.Hide();
     }
 
-    private async void OnFilesChosen(object? sender, IReadOnlyList<string> paths)
-    {
-        // Drop = sign (docs/10 §4.1); the format is picked per file.
-        var outcome = await App.Current.Services.SignFilesAsync(paths);
-        ShowOutcome(outcome);
-    }
-
     private async void OnSignClick(object sender, RoutedEventArgs e)
     {
         if (Content.XamlRoot is not { } root) return;
+        HideFlyout(); // the picker (and the PIN dialog in the main window) must not sit behind an always-on-top flyout
         var paths = await WindowHelpers.PickFilesAsync(root);
         if (paths.Count > 0) ShowOutcome(await App.Current.Services.SignFilesAsync(paths));
     }
@@ -69,13 +86,26 @@ public sealed partial class TrayFlyoutWindow : Window
     private async void OnVerifyClick(object sender, RoutedEventArgs e)
     {
         if (Content.XamlRoot is not { } root) return;
+        HideFlyout();
         var paths = await WindowHelpers.PickFilesAsync(root, ".pdf", ".xml");
         if (paths.Count > 0) ShowOutcome(await App.Current.Services.VerifyAsync(paths[0]));
     }
 
     private void OnRecentClick(object sender, ItemClickEventArgs e)
     {
-        if (e.ClickedItem is ActivityItem { Path: { } path }) WindowHelpers.RevealInExplorer(path);
+        if (e.ClickedItem is not ActivityItem { Path: { } path }) return;
+        HideFlyout();
+        WindowHelpers.RevealInExplorer(path);
+    }
+
+    /// <summary>"Golește lista": empties the recent documents right away (the Activity page keeps the history).</summary>
+    private void OnClearRecentClick(object sender, RoutedEventArgs e) => State.ClearRecentDocuments();
+
+    /// <summary>Accent only while enabled (the selected card can sign); default style while disabled.</summary>
+    private void UpdateSignButton()
+    {
+        SignButton.IsEnabled = State.CanSign;
+        SignButton.Style = WindowHelpers.ButtonStyle(accent: State.CanSign);
     }
 
     private async void OnBridgeToggled(object sender, RoutedEventArgs e)
@@ -83,6 +113,8 @@ public sealed partial class TrayFlyoutWindow : Window
         if (BridgeToggle.IsOn == State.BridgeEnabled) return; // echo of the OneWay binding
         await App.Current.Services.SetBridgeEnabledAsync(BridgeToggle.IsOn);
     }
+
+    private void OnRereadClick(object sender, RoutedEventArgs e) => App.Current.Services.RereadCards();
 
     private void OnSettingsClick(object sender, RoutedEventArgs e)
     {
@@ -98,11 +130,13 @@ public sealed partial class TrayFlyoutWindow : Window
 
     private void OnQuitClick(object sender, RoutedEventArgs e) => App.Current.Quit();
 
+    /// <summary>Reopens the flyout with the result (it was hidden for the picker); cancelled = silent.</summary>
     private void ShowOutcome(OperationOutcome outcome)
     {
-        if (string.IsNullOrEmpty(outcome.Message)) return; // cancelled: silent
+        if (string.IsNullOrEmpty(outcome.Message)) return;
         Result.Severity = outcome.Success ? InfoBarSeverity.Success : InfoBarSeverity.Warning;
         Result.Message = outcome.Message;
         Result.IsOpen = true;
+        ShowFlyout();
     }
 }

@@ -9,7 +9,7 @@ public sealed class SigningService
 {
     private static readonly object s_cardLock = new();
 
-    private readonly Func<ICardTransport> _connect;
+    private readonly Func<string?, ICardTransport> _connect;
     private readonly Action<string>? _trace;
     private readonly PadesSigner _pades;
     private readonly XadesSigner _xades;
@@ -20,8 +20,19 @@ public sealed class SigningService
     /// <param name="trust">TSA/OCSP/CRL client; a default <see cref="TrustServices"/> when null.</param>
     /// <param name="trace">Step-level diagnostics; never receives PINs or key material.</param>
     public SigningService(Func<ICardTransport> connect, TrustServices? trust = null, Action<string>? trace = null)
+        : this(AnyReader(connect), trust, trace)
     {
-        _connect = connect ?? throw new ArgumentNullException(nameof(connect));
+    }
+
+    /// <param name="connectReader">
+    /// Opens a fresh transport per operation for the named reader; null = the caller's default choice
+    /// (several eID cards can be connected at once, docs/09 §3.1b). Every card operation below takes the reader.
+    /// </param>
+    /// <param name="trust">TSA/OCSP/CRL client; a default <see cref="TrustServices"/> when null.</param>
+    /// <param name="trace">Step-level diagnostics; never receives PINs or key material.</param>
+    public SigningService(Func<string?, ICardTransport> connectReader, TrustServices? trust = null, Action<string>? trace = null)
+    {
+        _connect = connectReader ?? throw new ArgumentNullException(nameof(connectReader));
         _trace = trace;
         trust ??= new TrustServices();
         _pades = new PadesSigner(trust);
@@ -46,34 +57,67 @@ public sealed class SigningService
     }
 
     /// <summary>PIN-less certificate read (full mutual auth, so it takes the card lock too).</summary>
-    public CertificateSummary Certificate() =>
-        WithCard(card => CertificateSummary.FromDer(ReadCertificate(card)));
+    /// <param name="reader">Reader to read; null = the connect callback's default.</param>
+    public CertificateSummary Certificate(string? reader = null) =>
+        WithCard(reader, card => CertificateSummary.FromDer(ReadCertificate(card, expectedCertificateSha1: null)));
+
+    /// <summary>
+    /// <c>listCards()</c> (docs/09 §3.1b): every given reader that holds a readable card, with its PIN-less
+    /// certificate. Unreadable cards are skipped. The bridge's <c>/certificates</c> lists all of them.
+    /// </summary>
+    public IReadOnlyList<CardEntry> ListCards(IEnumerable<string> readers)
+    {
+        ArgumentNullException.ThrowIfNull(readers);
+        var entries = new List<CardEntry>();
+        foreach (var reader in readers)
+        {
+            try
+            {
+                entries.Add(new CardEntry(reader, Certificate(reader)));
+            }
+            catch (CardException e)
+            {
+                _trace?.Invoke($"listCards: {reader}: {e.Kind}");
+            }
+        }
+        return entries;
+    }
 
     /// <summary>
     /// Raw card signature over a DigestInfo (CLI <c>sign-hex</c>, bridge hash signing, and the callback
-    /// the PAdES/XAdES builders use). Runs: auth → certificate → consent → ADF → VERIFY → sign.
+    /// the PAdES/XAdES builders use). Runs: auth → certificate → identity guard → consent → ADF → VERIFY → sign.
     /// </summary>
+    /// <param name="reader">Reader holding the card to sign with; null = the connect callback's default.</param>
+    /// <param name="expectedCertificateSha1">
+    /// SHA-1 of the card the user chose (wallet selection, bridge <c>certificateId</c>). A different card in the
+    /// reader fails with <see cref="CardErrorKind.CardChanged"/> before consent and before VERIFY.
+    /// </param>
     public (byte[] Signature, CertificateSummary Certificate) SignDigestInfo(byte[] digestInfo, ConsentProvider consent,
-                                                                            string requester = "Tu", string format = "RAW")
+                                                                            string requester = "Tu", string format = "RAW",
+                                                                            string? reader = null,
+                                                                            string? expectedCertificateSha1 = null)
     {
         ArgumentNullException.ThrowIfNull(digestInfo);
         ArgumentNullException.ThrowIfNull(consent);
-        return WithCard(card =>
+        return WithCard(reader, card =>
         {
-            var summary = CertificateSummary.FromDer(ReadCertificate(card));
+            var summary = CertificateSummary.FromDer(ReadCertificate(card, expectedCertificateSha1));
             var signature = SignWithConsent(card, summary, digestInfo, consent, requester, [], format);
             return (signature, summary);
         });
     }
 
     /// <summary>PAdES-T signature of <paramref name="input"/> into <paramref name="output"/>.</summary>
-    public SignResult SignPdf(string input, string output, ConsentProvider consent, string requester = "Tu")
+    /// <param name="reader">Reader holding the card to sign with; null = the connect callback's default.</param>
+    /// <param name="expectedCertificateSha1">Identity guard, see <see cref="SignDigestInfo"/>.</param>
+    public SignResult SignPdf(string input, string output, ConsentProvider consent, string requester = "Tu",
+                              string? reader = null, string? expectedCertificateSha1 = null)
     {
         ArgumentNullException.ThrowIfNull(consent);
         var pdf = File.ReadAllBytes(input);
-        return WithCard(card =>
+        return WithCard(reader, card =>
         {
-            var der = ReadCertificate(card);
+            var der = ReadCertificate(card, expectedCertificateSha1);
             var summary = CertificateSummary.FromDer(der);
             var signed = _pades.Sign(pdf, der, digestInfo =>
                 SignWithConsent(card, summary, digestInfo, consent, requester, [Path.GetFileName(input)], "PAdES-T"));
@@ -85,15 +129,18 @@ public sealed class SigningService
     }
 
     /// <summary>XAdES signature over <paramref name="files"/> written to <paramref name="output"/>.</summary>
+    /// <param name="reader">Reader holding the card to sign with; null = the connect callback's default.</param>
+    /// <param name="expectedCertificateSha1">Identity guard, see <see cref="SignDigestInfo"/>.</param>
     public SignResult SignXades(IReadOnlyList<string> files, XadesFormat format, XadesPackaging packaging,
-                                string output, ConsentProvider consent, string requester = "Tu")
+                                string output, ConsentProvider consent, string requester = "Tu",
+                                string? reader = null, string? expectedCertificateSha1 = null)
     {
         ArgumentNullException.ThrowIfNull(files);
         ArgumentNullException.ThrowIfNull(consent);
         var label = format switch { XadesFormat.Bes => "XAdES-BES", XadesFormat.T => "XAdES-T", _ => "XAdES-C" };
-        return WithCard(card =>
+        return WithCard(reader, card =>
         {
-            var der = ReadCertificate(card);
+            var der = ReadCertificate(card, expectedCertificateSha1);
             var summary = CertificateSummary.FromDer(der);
             // TODO(WIN-01): chain = MDQSign CA + mdtrustca (port ChainCerts.swift).
             var xml = _xades.Sign(files, format, packaging, der, [], digestInfo =>
@@ -104,6 +151,23 @@ public sealed class SigningService
             Report(SigningStep.Done);
             return new SignResult([output], summary, label);
         });
+    }
+
+    /// <summary>
+    /// Signs one document in the chosen <paramref name="format"/> (the Sign page's per-document picker): PAdES-T for a
+    /// PDF, or XAdES-BES/T/C over any file, PDFs included (detached over the bytes → <c>&lt;name&gt;-semnat.xml</c>).
+    /// Output next to the input, never overwriting (<see cref="SignatureFormats.OutputPath"/>).
+    /// </summary>
+    public SignResult Sign(string input, SignatureFormat format, XadesPackaging packaging, ConsentProvider consent,
+                           string requester = "Tu", string? reader = null, string? expectedCertificateSha1 = null)
+    {
+        ArgumentNullException.ThrowIfNull(input);
+        if (!SignatureFormats.Allowed(input).Contains(format))
+            throw new ArgumentException($"{SignatureFormats.Label(format)} cannot sign {Path.GetFileName(input)}", nameof(format));
+        var output = SignatureFormats.OutputPath(input, format);
+        return SignatureFormats.ToXades(format) is { } xades
+            ? SignXades([input], xades, packaging, output, consent, requester, reader, expectedCertificateSha1)
+            : SignPdf(input, output, consent, requester, reader, expectedCertificateSha1);
     }
 
     /// <summary>Offline verification of a signed PDF, or of an XAdES file plus its detached documents.</summary>
@@ -131,7 +195,7 @@ public sealed class SigningService
 
     // MARK: - Internals
 
-    private T WithCard<T>(Func<CosmoXCard, T> operation)
+    private T WithCard<T>(string? reader, Func<CosmoXCard, T> operation)
     {
         lock (s_cardLock)
         {
@@ -140,7 +204,7 @@ public sealed class SigningService
             ICardTransport transport;
             try
             {
-                transport = _connect();
+                transport = _connect(reader);
             }
             catch (CardException e)
             {
@@ -150,11 +214,11 @@ public sealed class SigningService
 
             using (transport)
             {
-                var reader = transport.ReaderName;
-                var idle = previous as ReaderState.CardPresent ?? new ReaderState.CardPresent(reader, null);
+                var connected = transport.ReaderName;
+                var idle = previous as ReaderState.CardPresent ?? new ReaderState.CardPresent(connected, null);
                 try
                 {
-                    PublishReaderState(new ReaderState.Busy(reader, SigningStep.Authenticating));
+                    PublishReaderState(new ReaderState.Busy(connected, SigningStep.Authenticating));
                     Report(SigningStep.Authenticating);
                     var card = new CosmoXCard(transport, _trace);
                     card.Authenticate();
@@ -164,7 +228,7 @@ public sealed class SigningService
                 }
                 catch (CardException e) when (e.Kind != CardErrorKind.Cancelled)
                 {
-                    PublishReaderState(new ReaderState.Error(e.Kind, e.Message, reader));
+                    PublishReaderState(new ReaderState.Error(e.Kind, e.Message, connected));
                     throw;
                 }
                 catch
@@ -178,10 +242,22 @@ public sealed class SigningService
         }
     }
 
-    private byte[] ReadCertificate(CosmoXCard card)
+    /// <summary>
+    /// Reads the certificate and applies the identity guard (docs/09 §3.1b) before anything else happens: the
+    /// consent UI, the stored-PIN lookup and VERIFY all run only for the expected card.
+    /// </summary>
+    private byte[] ReadCertificate(CosmoXCard card, string? expectedCertificateSha1)
     {
         Report(SigningStep.ReadingCertificate);
-        return card.ReadCertificate();
+        var der = card.ReadCertificate();
+        CosmoXCard.EnsureExpectedCard(der, expectedCertificateSha1);
+        return der;
+    }
+
+    private static Func<string?, ICardTransport> AnyReader(Func<ICardTransport> connect)
+    {
+        ArgumentNullException.ThrowIfNull(connect);
+        return _ => connect();
     }
 
     private byte[] SignWithConsent(CosmoXCard card, CertificateSummary summary, byte[] digestInfo,

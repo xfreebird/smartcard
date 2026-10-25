@@ -26,6 +26,12 @@ public enum CardErrorKind
     UnexpectedResponse,
     /// <summary>PIN not 4–8 ASCII characters (rejected before anything is sent to the card).</summary>
     InvalidPinFormat,
+    /// <summary>
+    /// The card in the reader is not the one the PIN / consent / selection was for (removed and another one
+    /// inserted). Raised by the identity guard BEFORE VERIFY (docs/09 §3.1b), so a PIN never reaches a card it
+    /// was not given for (it would burn a retry there). UI: re-read the cards, "Verifică titularul și semnează din nou".
+    /// </summary>
+    CardChanged,
     /// <summary>TSA/OCSP/CRL failure (TrustServices).</summary>
     Network,
     /// <summary>PDF/XML parse errors.</summary>

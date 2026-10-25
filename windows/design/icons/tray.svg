@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tray glyph with the status dot (docs/10 §0.2b, UX-11). Source for scripts/make-icons.py, which recolors it per
+  state and taskbar theme: the glyph is monochrome (root `color`), only the dot (#dot) carries color (green: a card
+  is connected; gray: none), and the knockout ring (#knockout-hole) keeps the dot readable at 16 px.
+  32-unit grid: 2 units = 1 px at 16 px, so the 2-unit strokes on odd coordinates stay crisp.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" color="#FFFFFF">
+  <defs>
+    <mask id="knockout" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+      <rect width="32" height="32" fill="#FFFFFF"/>
+      <circle id="knockout-hole" cx="25" cy="25" r="9" fill="#000000"/>
+    </mask>
+  </defs>
+  <g id="glyph" mask="url(#knockout)">
+    <!-- ID card outline (ISO ID-1 proportions), chip, two text lines -->
+    <rect x="3" y="7" width="26" height="18" rx="3" fill="none" stroke="currentColor" stroke-width="2"/>
+    <rect x="6" y="12" width="6" height="6" rx="1" fill="currentColor"/>
+    <path d="M16 13h8M16 17h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <circle id="dot" cx="25" cy="25" r="7" fill="#4ADE80"/>
+</svg>

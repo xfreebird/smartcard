@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Tray flyout (docs/10 §4.6): mirrors the macOS popover (§4.1) with Fluent styling and an acrylic backdrop. -->
+<!--
+  Tray flyout (docs/10 §4.6, §0.2): mirrors the macOS popover (§4.1) with Fluent styling and an acrylic backdrop.
+  The card wallet sits on top (the selector itself), the status light text under the title, then the accent Sign
+  button, recent activity (what, not when), the browser connection and the window/quit rows. No drop zone: the
+  flyout hides as soon as Explorer gets focus, so a drag can never reach it.
+-->
 <Window
     x:Class="MoldSign.App.Tray.TrayFlyoutWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:MoldSign.App.Controls"
     xmlns:services="using:MoldSign.App.Services"
-    Title="MoldSign">
+    Title="eSemnBun">
 
-    <Grid Padding="16" RowSpacing="12">
+    <Grid Padding="16,12,16,12" RowSpacing="10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -21,39 +25,52 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Grid>
-            <TextBlock
-                VerticalAlignment="Center"
-                Style="{StaticResource MsHeadlineTextStyle}"
-                Text="MoldSign" />
+        <!-- Header: title + status light text, re-read and settings -->
+        <Grid ColumnSpacing="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Spacing="2">
+                <TextBlock Style="{StaticResource MsHeadlineTextStyle}" Text="eSemnBun" />
+                <controls:StatusLightPill />
+            </StackPanel>
+            <Button
+                x:Uid="FlyoutReread"
+                Grid.Column="1"
+                AutomationProperties.Name="Recitește cardul"
+                Click="OnRereadClick"
+                Style="{StaticResource MsIconButtonStyle}"
+                ToolTipService.ToolTip="Recitește cardul">
+                <FontIcon FontSize="16" Glyph="&#xE72C;" />
+            </Button>
             <Button
                 x:Uid="FlyoutSettings"
-                Padding="6"
-                HorizontalAlignment="Right"
+                Grid.Column="2"
                 AutomationProperties.Name="Setări"
-                Background="Transparent"
-                BorderThickness="0"
-                Click="OnSettingsClick">
+                Click="OnSettingsClick"
+                Style="{StaticResource MsIconButtonStyle}"
+                ToolTipService.ToolTip="Setări">
                 <FontIcon FontSize="16" Glyph="&#xE713;" />
             </Button>
         </Grid>
 
-        <controls:StatusCard Grid.Row="1" />
+        <!-- Card wallet: the inserted cards are the selector (docs/10 §0.2) -->
+        <controls:CardWallet x:Name="Wallet" Grid.Row="1" IsCompact="True" />
 
-        <controls:DropZone x:Name="Drop" Grid.Row="2" />
-
-        <Grid Grid.Row="3" ColumnSpacing="8">
+        <Grid Grid.Row="2" ColumnSpacing="8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <!-- Style + IsEnabled from code: accent only while enabled (never a disabled accent-filled button). -->
             <Button
+                x:Name="SignButton"
                 x:Uid="FlyoutSign"
                 HorizontalAlignment="Stretch"
                 Click="OnSignClick"
-                Content="Semnează…"
-                Style="{StaticResource AccentButtonStyle}" />
+                Content="Semnează…" />
             <Button
                 x:Uid="FlyoutVerify"
                 Grid.Column="1"
@@ -64,21 +81,35 @@
 
         <InfoBar
             x:Name="Result"
-            Grid.Row="4"
+            Grid.Row="3"
             IsClosable="True"
             IsOpen="False" />
 
-        <TextBlock
-            x:Uid="RecentHeader"
-            Grid.Row="5"
-            Style="{StaticResource MsSectionHeaderTextStyle}"
-            Text="RECENTE" />
+        <!-- Recent documents (existing files only) + "Golește lista" (no confirmation, like "Clear recent"). -->
+        <Grid Grid.Row="4">
+            <TextBlock
+                x:Uid="RecentHeader"
+                VerticalAlignment="Center"
+                Style="{StaticResource MsSectionHeaderTextStyle}"
+                Text="RECENTE" />
+            <HyperlinkButton
+                x:Uid="RecentClear"
+                Padding="4,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Click="OnClearRecentClick"
+                Content="Golește lista"
+                FontSize="12"
+                Visibility="{x:Bind State.RecentClearVisibility, Mode=OneWay}" />
+        </Grid>
 
-        <Grid Grid.Row="6">
+        <Grid Grid.Row="5">
             <ListView
+                x:Uid="RecentList"
+                AutomationProperties.Name="Recente"
                 IsItemClickEnabled="True"
                 ItemClick="OnRecentClick"
-                ItemsSource="{x:Bind State.Recent}"
+                ItemsSource="{x:Bind State.RecentDocuments}"
                 SelectionMode="None">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="services:ActivityItem">
@@ -86,33 +117,28 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <FontIcon FontSize="14" Glyph="{x:Bind Glyph}" />
                             <TextBlock
                                 Grid.Column="1"
                                 Text="{x:Bind FileName}"
                                 TextTrimming="CharacterEllipsis" />
-                            <TextBlock
-                                Grid.Column="2"
-                                Style="{StaticResource MsCaptionTextStyle}"
-                                Text="{x:Bind WhenText}" />
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
             <TextBlock
-                x:Uid="RecentEmpty"
+                x:Uid="RecentDocsEmpty"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 Style="{StaticResource MsCaptionTextStyle}"
-                Text="Nicio activitate încă"
+                Text="Niciun document recent"
                 Visibility="{x:Bind State.RecentEmptyVisibility, Mode=OneWay}" />
         </Grid>
 
         <!-- Browser bridge -->
         <Grid
-            Grid.Row="7"
+            Grid.Row="6"
             Padding="0,8,0,0"
             BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
             BorderThickness="0,1,0,0"
@@ -139,16 +165,26 @@
                 Toggled="OnBridgeToggled" />
         </Grid>
 
-        <Grid Grid.Row="8">
-            <HyperlinkButton
+        <!-- Window / quit: one row each, menu-item style -->
+        <StackPanel
+            Grid.Row="7"
+            Padding="0,6,0,0"
+            BorderBrush="{ThemeResource DividerStrokeColorDefaultBrush}"
+            BorderThickness="0,1,0,0">
+            <Button
                 x:Uid="TrayOpenWindow"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
                 Click="OnOpenWindowClick"
-                Content="Deschide fereastra" />
-            <HyperlinkButton
+                Content="Deschide eSemnBun"
+                Style="{StaticResource MsMenuRowButtonStyle}" />
+            <Button
                 x:Uid="TrayQuit"
-                HorizontalAlignment="Right"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Left"
                 Click="OnQuitClick"
-                Content="Ieșire" />
-        </Grid>
+                Content="Ieșire"
+                Style="{StaticResource MsMenuRowButtonStyle}" />
+        </StackPanel>
     </Grid>
 </Window>

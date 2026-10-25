@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Globalization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,6 +6,7 @@ using MoldSign.Core;
 
 namespace MoldSign.App.Views;
 
+/// <summary>Card page: the selected wallet card's details follow the wallet selection.</summary>
 public sealed partial class CardPage : Page
 {
     public CardPage()
@@ -15,21 +15,20 @@ public sealed partial class CardPage : Page
         Loaded += (_, _) =>
         {
             RememberToggle.IsOn = App.Current.Services.Settings.RememberPin;
-            State.PropertyChanged += OnStateChanged;
-            ShowCertificate(State.Certificate);
+            State.WalletChanged += OnWalletChanged;
+            ShowSelectedCard();
         };
-        Unloaded += (_, _) => State.PropertyChanged -= OnStateChanged;
+        Unloaded += (_, _) => State.WalletChanged -= OnWalletChanged;
     }
 
     public AppState State => AppState.Current;
 
-    private void OnStateChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(AppState.Certificate)) ShowCertificate(State.Certificate);
-    }
+    private void OnWalletChanged(object? sender, EventArgs e) => ShowSelectedCard();
 
-    private void ShowCertificate(CertificateSummary? certificate)
+    private void ShowSelectedCard()
     {
+        CertificateSummary? certificate = State.Certificate;
+        HolderText.Text = certificate?.CommonName ?? "—";
         IssuerText.Text = certificate?.Issuer ?? "—";
         ValidityText.Text = certificate is null
             ? "—"
@@ -37,24 +36,10 @@ public sealed partial class CardPage : Page
                 $"{certificate.NotBefore.ToLocalTime():dd.MM.yyyy} – {certificate.NotAfter.ToLocalTime():dd.MM.yyyy}");
         SerialText.Text = certificate?.SerialNumber ?? "—";
         Sha1Text.Text = certificate?.Sha1 ?? "—";
+        ReaderText.Text = State.SelectedReader ?? "—";
     }
 
-    private async void OnReadClick(object sender, RoutedEventArgs e)
-    {
-        var services = App.Current.Services;
-        try
-        {
-            var certificate = await Task.Run(() => services.Signing.Certificate());
-            services.Signing.PublishReaderState(new ReaderState.CardPresent(State.ReaderName ?? "", certificate.CommonName, certificate));
-            Result.IsOpen = false;
-        }
-        catch (CardException ex)
-        {
-            Result.Severity = InfoBarSeverity.Warning;
-            Result.Message = AppState.ErrorText(ex.Kind);
-            Result.IsOpen = true;
-        }
-    }
+    private void OnRereadClick(object sender, RoutedEventArgs e) => App.Current.Services.RereadCards();
 
     private void OnRememberToggled(object sender, RoutedEventArgs e)
     {

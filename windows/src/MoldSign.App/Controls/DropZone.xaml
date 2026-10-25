@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- DropZone (docs/10 §3): dashed 1.5 border, radius 14; drag-over = brandSoft fill + solid brand border. -->
+<!--
+  DropZone (docs/10 §3): dashed 1.5 border, radius 14; drag-over = brandSoft fill + solid brand border.
+  Large (default, ~170 epx): icon, "Trage documentele aici", the "Alege fișiere…" button, the format hint.
+  Compact (IsCompact, under the document list once files were added): one row with the same button.
+-->
 <UserControl
     x:Class="MoldSign.App.Controls.DropZone"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    MinHeight="170"
     AllowDrop="True"
     DragLeave="OnDragLeave"
     DragOver="OnDragOver"
     Drop="OnDrop">
 
-    <Grid MinHeight="128" Background="Transparent">
+    <Grid Background="Transparent">
         <Rectangle
             x:Name="Outline"
             Fill="Transparent"
@@ -18,14 +23,16 @@
             Stroke="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
             StrokeDashArray="4,3"
             StrokeThickness="1.5" />
+
         <StackPanel
+            x:Name="LargeContent"
             Padding="16"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Spacing="4">
+            Spacing="8">
             <FontIcon
                 HorizontalAlignment="Center"
-                FontSize="22"
+                FontSize="26"
                 Foreground="{ThemeResource BrandBrush}"
                 Glyph="&#xE896;" />
             <TextBlock
@@ -33,12 +40,11 @@
                 HorizontalAlignment="Center"
                 Style="{StaticResource MsHeadlineTextStyle}"
                 Text="Trage documentele aici" />
-            <HyperlinkButton
+            <Button
                 x:Uid="DropBrowse"
-                Padding="4,2"
                 HorizontalAlignment="Center"
                 Click="OnBrowseClick"
-                Content="sau alege fișiere" />
+                Content="Alege fișiere…" />
             <TextBlock
                 x:Name="HintText"
                 x:Uid="DropHint"
@@ -46,5 +52,34 @@
                 Style="{StaticResource MsCaptionTextStyle}"
                 Text="PDF → PAdES · altele → XAdES" />
         </StackPanel>
+
+        <Grid
+            x:Name="CompactContent"
+            Padding="16,8"
+            ColumnSpacing="12"
+            Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <FontIcon
+                VerticalAlignment="Center"
+                FontSize="18"
+                Foreground="{ThemeResource BrandBrush}"
+                Glyph="&#xE896;" />
+            <TextBlock
+                x:Uid="DropTitleCompact"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Style="{StaticResource MsCaptionTextStyle}"
+                Text="Trage aici alte documente" />
+            <Button
+                x:Uid="DropBrowseCompact"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                Click="OnBrowseClick"
+                Content="Alege fișiere…" />
+        </Grid>
     </Grid>
 </UserControl>

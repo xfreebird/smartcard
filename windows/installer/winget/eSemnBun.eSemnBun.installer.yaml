@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://aka.ms/winget-manifest.installer.1.9.0.schema.json
+# winget installer manifest TEMPLATE. Tokens filled by scripts/package-windows.ps1:
+#   __VERSION__, __MSI_X64_URL__ (-ReleaseBaseUrl), __MSI_X64_SHA256__, __MSI_X64_PRODUCT_CODE__ (read from the MSI).
+# The MSI is the winget installer: machine scope, no prerequisites (self-contained), upgrades in place
+# (fixed UpgradeCode + MajorUpgrade). The MSIX can be added as a second installer once it is signed with a
+# publicly trusted certificate (winget validation rejects untrusted MSIX signatures).
+# TODO(WIN-09): arm64 entry once CI builds win-arm64 (needs the MSVC ARM64 tools for the Native AOT CLI).
+PackageIdentifier: eSemnBun.eSemnBun
+PackageVersion: __VERSION__
+MinimumOSVersion: 10.0.17763.0
+InstallerType: msi
+Scope: machine
+InstallModes:
+  - interactive
+  - silent
+  - silentWithProgress
+UpgradeBehavior: install
+Commands:
+  - esemnbun
+ReleaseDate: __RELEASE_DATE__
+Installers:
+  - Architecture: x64
+    InstallerUrl: __MSI_X64_URL__
+    InstallerSha256: __MSI_X64_SHA256__
+    ProductCode: "__MSI_X64_PRODUCT_CODE__"
+    AppsAndFeaturesEntries:
+      - DisplayName: eSemnBun
+        Publisher: eSemnBun
+        DisplayVersion: __VERSION__
+        ProductCode: "__MSI_X64_PRODUCT_CODE__"
+        UpgradeCode: "{6375D249-5D81-5AEB-824C-A6391F6DC689}"
+ManifestType: installer
+ManifestVersion: 1.9.0

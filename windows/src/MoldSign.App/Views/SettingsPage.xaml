@@ -20,12 +20,18 @@
                 x:Uid="SettingsGeneral"
                 Style="{StaticResource MsSectionHeaderTextStyle}"
                 Text="GENERAL" />
+            <!-- Start at sign-in: StartupTask under MSIX, HKCU Run key unpackaged; HKLM (MSI STARTATLOGIN=1) = managed. -->
             <ToggleSwitch
                 x:Name="StartAtLoginToggle"
                 x:Uid="SettingsStartAtLogin"
                 Header="Pornește la autentificare"
-                IsEnabled="False" />
-            <!-- TODO(WIN-04): start at login (HKCU\...\Run unpackaged, StartupTask under MSIX) and enable the toggle. -->
+                IsEnabled="False"
+                Toggled="OnStartAtLoginToggled" />
+            <TextBlock
+                x:Name="StartAtLoginNote"
+                Style="{StaticResource MsCaptionTextStyle}"
+                TextWrapping="Wrap"
+                Visibility="Collapsed" />
             <ToggleSwitch
                 x:Name="ToastsToggle"
                 x:Uid="SettingsReaderToasts"
@@ -48,7 +54,7 @@
             <ToggleSwitch
                 x:Name="BridgeToggle"
                 x:Uid="SettingsBridgeToggle"
-                Header="Conexiune browser (MoldSign Server)"
+                Header="Conexiune browser (compatibilă MoldSign Server)"
                 IsOn="{x:Bind State.BridgeEnabled, Mode=OneWay}"
                 Toggled="OnBridgeToggled" />
             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.BridgeStatus, Mode=OneWay}" />

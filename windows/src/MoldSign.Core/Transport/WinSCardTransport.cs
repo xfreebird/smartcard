@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using static MoldSign.Core.WinSCardNative;
 
@@ -97,6 +98,70 @@ public sealed class WinSCardTransport : ICardTransport
         }
         finally
         {
+            SCardReleaseContext(ctx);
+        }
+    }
+
+    /// <summary>
+    /// Every reader with card presence, the mute flag and the card event counter (upper 16 bits of
+    /// <c>dwEventState</c>), from <c>SCardGetStatusChange</c> with a zero timeout on a fresh context. It never
+    /// connects, so it is safe next to a running signing session (docs/09 §3.1b; feed it to
+    /// <see cref="ReaderGenerationTracker"/>). Empty when there is no reader or the Smart Card service is stopped
+    /// (Windows stops it when the last reader goes away).
+    /// </summary>
+    public static unsafe IReadOnlyList<ReaderStatus> GetReaderStates()
+    {
+        nint ctx;
+        try
+        {
+            ctx = EstablishContext();
+        }
+        catch (CardException e) when (e.Kind == CardErrorKind.NoReader)
+        {
+            return [];
+        }
+
+        var names = new List<nint>();
+        try
+        {
+            var readers = ListReaders(ctx);
+            if (readers.Count == 0) return [];
+
+            var states = new ScardReaderState[readers.Count];
+            for (var i = 0; i < readers.Count; i++)
+            {
+                var name = Marshal.StringToHGlobalUni(readers[i]);
+                names.Add(name);
+                states[i].szReader = name;
+                states[i].dwCurrentState = SCARD_STATE_UNAWARE;
+            }
+
+            int rv;
+            fixed (ScardReaderState* first = states)
+            {
+                rv = SCardGetStatusChange(ctx, 0, first, (uint)states.Length);
+            }
+            var code = unchecked((uint)rv);
+            if (rv != SCARD_S_SUCCESS && code != SCARD_E_TIMEOUT)
+            {
+                var error = Map(code, "SCardGetStatusChange");
+                if (error.Kind == CardErrorKind.NoReader) return []; // unplugged between the two calls
+                throw error;
+            }
+
+            var result = new List<ReaderStatus>(readers.Count);
+            for (var i = 0; i < readers.Count; i++)
+            {
+                var events = states[i].dwEventState;
+                var present = (events & SCARD_STATE_PRESENT) != 0;
+                result.Add(new ReaderStatus(readers[i], present, present && (events & SCARD_STATE_MUTE) != 0,
+                                            (int)(events >> 16)));
+            }
+            return result;
+        }
+        finally
+        {
+            foreach (var name in names) Marshal.FreeHGlobal(name);
             SCardReleaseContext(ctx);
         }
     }
