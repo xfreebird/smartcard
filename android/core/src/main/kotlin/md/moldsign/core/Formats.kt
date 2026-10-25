@@ -28,6 +28,40 @@ interface XadesSigner {
     ): ByteArray
 }
 
+/**
+ * The format chosen per file (docs/10 FormatChip). A PDF offers PAdES-T (default) or a detached XAdES over the PDF
+ * bytes (BES / T / C); any other file offers XAdES only (default XAdES-T).
+ */
+enum class SignFormat(val label: String, val xadesLevel: XadesLevel?) {
+    PadesT("PAdES-T", null),
+    XadesBes("XAdES-BES", XadesLevel.BES),
+    XadesT("XAdES-T", XadesLevel.T),
+    XadesC("XAdES-C", XadesLevel.C),
+    ;
+
+    /** Output extension: the signed PDF for PAdES, the detached signature for XAdES. */
+    val extension: String get() = if (xadesLevel == null) "pdf" else "xml"
+
+    companion object {
+        fun options(isPdf: Boolean): List<SignFormat> = if (isPdf) entries.toList() else listOf(XadesBes, XadesT, XadesC)
+
+        fun default(isPdf: Boolean): SignFormat = if (isPdf) PadesT else XadesT
+
+        /**
+         * `<name>-semnat.<pdf|xml>` (Swift `SigningService.outputURL`): `contract.pdf` + XAdES-T → `contract-semnat.xml`.
+         * De-duplication (" 2") is left to the platform's save dialog.
+         */
+        fun outputName(inputName: String, format: SignFormat): String {
+            val dot = inputName.lastIndexOf('.')
+            val base = if (dot > 0) inputName.substring(0, dot) else inputName
+            return "$base-semnat.${format.extension}"
+        }
+    }
+}
+
+/** `%PDF-` header check (PAdES needs a PDF, whatever the file is called). */
+fun Document.isPdf(): Boolean = bytes.size >= 5 && String(bytes, 0, 5, Charsets.ISO_8859_1) == "%PDF-"
+
 /** TSA / OCSP / CRL over HttpURLConnection (no OkHttp), docs/06. */
 interface TrustServices {
     /** RFC 3161 token over [messageImprint] (SHA-256) from `http://tsp.pki.gov.md/moldsign2/`. */

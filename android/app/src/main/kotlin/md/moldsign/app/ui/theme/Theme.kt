@@ -19,7 +19,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.sp
+import md.moldsign.core.StatusLight
+import md.moldsign.core.TrayStatus
 
 // docs/10 §2 design tokens.
 object Tokens {
@@ -50,7 +53,22 @@ object Tokens {
     val RadiusControl = 12.dp // M3 small
     val RadiusCard = 14.dp
     val RadiusSheet = 18.dp
+
+    /** ISO/IEC 7810 ID-1: 85.6 × 54 mm. */
+    const val IdCardRatio = 85.6f / 54f
 }
+
+/** Status light dot color (docs/10 §0.1); `null` = no dot (idle). Semantic tokens, never dynamic color. */
+fun StatusColors.forLight(light: StatusLight): Color? = when (light) {
+    StatusLight.Ready -> success
+    StatusLight.Reader -> warning
+    StatusLight.Busy -> brand
+    StatusLight.Error -> danger
+    StatusLight.Idle -> null
+}
+
+/** Accent of the bridge's foreground notification (docs/10 §0.2b two-state tray, UX-11): green or gray. */
+fun TrayStatus.notificationArgb(): Int = (if (connected) Tokens.SuccessLight else Color(0xFF757680)).toArgb()
 
 /** Semantic colors Material 3 has no slot for. */
 @Immutable

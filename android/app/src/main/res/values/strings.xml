@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Romanian is the default locale (docs/10 §5). English lives in values-en. -->
-<resources>
-    <string name="app_name" translatable="false">MoldSign</string>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:locale="ro">
+    <!-- Public product name (docs/10 §0.2b, UX-12). The codename MoldSign stays in code and IDs. -->
+    <string name="app_name" translatable="false">eSemnBun</string>
 
     <!-- Navigation -->
     <string name="nav_sign">Semnează</string>
@@ -10,35 +11,23 @@
     <string name="nav_card">Card</string>
 
     <!-- Reader / card status (StatusCard) -->
-    <string name="status_no_reader">Conectează cititorul</string>
-    <string name="status_empty">Introdu cardul în cititor</string>
-    <string name="status_ready">Card pregătit</string>
     <string name="status_reading">Se citește cardul…</string>
-    <string name="status_busy">Se lucrează cu cardul…</string>
-    <string name="status_permission">Permite accesul la cititor</string>
-    <string name="status_error">Problemă cu cititorul</string>
-    <string name="status_reader_line">%1$s · %2$s</string>
-    <string name="status_valid_until">Certificat valabil până %1$s</string>
 
     <!-- USB permission explainer (docs/10 §4.5) -->
     <string name="usb_permission_title">Permite accesul la cititor</string>
-    <string name="usb_permission_body">MoldSign are nevoie de acces la cititorul USB ca să citească cardul. Android îți va cere confirmarea.</string>
     <string name="action_allow">Permite</string>
 
     <!-- Documents -->
     <string name="drop_title">Trage documentele aici</string>
     <string name="drop_subtitle">sau alege fișiere</string>
     <string name="action_choose_document">Alege document</string>
-    <string name="format_hint">PDF → PAdES · altele → XAdES</string>
     <string name="action_remove">Elimină</string>
-    <string name="sign_empty_hint">Alege un document, apoi apasă Semnează.</string>
 
     <!-- Actions -->
     <string name="action_sign">Semnează</string>
     <string name="action_verify">Verifică</string>
     <string name="action_countersign">Contrasemnează</string>
     <string name="action_cancel">Anulează</string>
-    <string name="action_read_certificate">Citește certificatul</string>
     <string name="action_open_portal">Deschide msign.gov.md</string>
 
     <!-- PIN sheet -->
@@ -71,7 +60,7 @@
     <string name="bridge_off">Conexiune browser oprită</string>
     <string name="bridge_description">Permite site-urilor guvernamentale (msign.gov.md) din Chrome să semneze cu cardul tău, prin 127.0.0.1:18480.</string>
     <string name="bridge_channel_name">Conexiune browser</string>
-    <string name="bridge_notification_title">MoldSign · conexiune browser activă</string>
+    <string name="bridge_notification_title">eSemnBun · conexiune browser activă</string>
     <string name="bridge_notification_text">Ascultă pe 127.0.0.1:18480</string>
     <string name="bridge_stop">Oprește</string>
 
@@ -81,7 +70,6 @@
     <string name="card_validity">Valabilitate</string>
     <string name="card_serial">Număr de serie</string>
     <string name="card_reader">Cititor</string>
-    <string name="card_not_read">Certificatul nu a fost citit încă.</string>
 
     <!-- Connection guide (mobile) -->
     <string name="guide_title">Cum conectezi cititorul</string>
@@ -100,4 +88,106 @@
     <string name="error_network">Serviciul %1$s nu răspunde. Încearcă din nou.</string>
     <string name="error_not_ported">Această funcție nu este încă disponibilă pe Android.</string>
     <string name="error_generic">A apărut o eroare: %1$s</string>
+
+    <!-- Status light (docs/10 §0.1): full text = accessibility label + notification text -->
+    <string name="light_ready">Card pregătit · %1$s</string>
+    <string name="light_ready_many">Card pregătit · %1$s · %2$s</string>
+    <string name="light_reader">Cititor conectat · introdu cardul</string>
+    <string name="light_reading">Se citește cardul…</string>
+    <string name="light_permission">Permite accesul la cititor</string>
+    <string name="light_busy">Se semnează…</string>
+    <string name="light_idle">Conectează cititorul</string>
+    <string name="light_reader_error">Cititorul nu răspunde · deconectează-l și conectează-l din nou</string>
+    <plurals name="cards_count">
+        <item quantity="one">%d card</item>
+        <item quantity="few">%d carduri</item>
+        <item quantity="other">%d de carduri</item>
+    </plurals>
+    <!-- Status light: short chip text in the top app bar -->
+    <string name="chip_ready">Card pregătit</string>
+    <string name="chip_reader">Introdu cardul</string>
+    <string name="chip_reading">Se citește…</string>
+    <string name="chip_permission">Permite accesul</string>
+    <string name="chip_busy">Se semnează…</string>
+    <string name="chip_error">Problemă card</string>
+    <string name="chip_idle">Fără cititor</string>
+
+    <!-- Card wallet (docs/10 §0.2) -->
+    <string name="wallet_card_description">%1$s, card de identitate, valabil până la %2$s, %3$d din %4$d</string>
+    <string name="wallet_reading_description">Card de identitate în %1$s, se citește, %2$d din %3$d</string>
+    <string name="wallet_error_title">Cardul nu poate fi citit</string>
+    <string name="wallet_insert_title">Introdu cardul</string>
+    <string name="wallet_insert_body">Cititor conectat: %1$s</string>
+    <string name="wallet_connect_title">Conectează cititorul</string>
+    <string name="wallet_connect_body">Cititorul USB, printr-un adaptor OTG. Cardul apare aici.</string>
+    <string name="wallet_reader_error_title">Cititorul nu răspunde</string>
+    <string name="wallet_reader_error_body">Deconectează cititorul și conectează-l din nou</string>
+    <string name="action_reread">Recitește cardul</string>
+
+    <!-- Sign screen -->
+    <string name="sign_documents">Documente</string>
+    <string name="sign_choose_title">Alege documentele</string>
+    <string name="sign_choose_body">PDF → PAdES-T · altele → XAdES-T</string>
+    <plurals name="sign_n">
+        <item quantity="one">Semnează</item>
+        <item quantity="few">Semnează %d documente</item>
+        <item quantity="other">Semnează %d de documente</item>
+    </plurals>
+    <string name="step_connecting">Conectare la card…</string>
+    <string name="step_authenticating">Autentificare securizată…</string>
+    <string name="step_reading_certificate">Citirea certificatului…</string>
+    <string name="step_verifying_pin">Verificarea PIN-ului…</string>
+    <string name="step_signing">Semnare…</string>
+    <string name="step_timestamping">Marcă temporală…</string>
+    <string name="step_revocation">Verificarea revocării…</string>
+    <string name="step_writing">Salvare…</string>
+    <string name="step_done">Gata</string>
+    <string name="card_fingerprint">Amprentă SHA-1</string>
+    <string name="error_card_changed">Cardul din cititor s-a schimbat. Verifică titularul și semnează din nou.</string>
+
+    <!-- v3 (docs/10 §0.2b): ID-card face, card + selector as one component, two-state tray -->
+    <string name="card_ready_to_sign">Pregătit pentru semnare</string>
+    <string name="wallet_problem_description">Card de identitate în %1$s: %2$s, %3$d din %4$d</string>
+    <string name="action_next_card">Cardul următor</string>
+    <string name="action_previous_card">Cardul anterior</string>
+    <string name="action_sign_with">Semnează cu %1$s</string>
+    <!-- Two-state tray / bridge notification / Quick Settings tile (UX-11) -->
+    <string name="tray_connected">Card conectat · %1$s</string>
+    <string name="tray_no_card">Niciun card conectat</string>
+    <string name="qs_tile_label" translatable="false" tools:ignore="UnusedResources">eSemnBun</string>
+    <!-- About -->
+    <string name="about_title">Despre eSemnBun</string>
+    <string name="about_version">Versiunea %1$s</string>
+    <string name="about_body">Semnează documente cu cartea de identitate electronică a Republicii Moldova, pe telefon și în msign.gov.md.</string>
+    <string name="action_close">Închide</string>
+
+    <!-- UX-10 revised: disclosure button + inline list of cards -->
+    <plurals name="wallet_choose_card">
+        <item quantity="one">Alege cardul (%d card)</item>
+        <item quantity="few">Alege cardul (%d carduri)</item>
+        <item quantity="other">Alege cardul (%d de carduri)</item>
+    </plurals>
+    <string name="state_expanded">extins</string>
+    <string name="state_collapsed">restrâns</string>
+    <string name="wallet_used_for_signing">Folosit pentru semnare</string>
+    <string name="wallet_selected">selectat</string>
+    <string name="wallet_not_selected">neselectat</string>
+
+    <!-- macOS feedback: documents tile, format per PDF, activity list -->
+    <string name="sign_add_more">Adaugă documente</string>
+    <string name="format_chip_description">Format semnătură: %1$s. Schimbă formatul</string>
+    <string name="format_output_pades">PDF semnat · %1$s</string>
+    <string name="format_output_xades">Semnătură detașată · %1$s</string>
+    <string name="nav_activity">Activitate</string>
+    <string name="activity_signed">Semnat · %1$s</string>
+    <string name="activity_failed">Eșuat · %1$s · %2$s</string>
+    <string name="activity_verified">Verificat</string>
+    <string name="activity_verify_failed">Verificare eșuată · %1$s</string>
+    <string name="activity_recent">Recente</string>
+    <string name="activity_clear">Golește lista</string>
+    <string name="activity_clear_title">Golești lista de activitate?</string>
+    <string name="activity_clear_body">Se șterge doar istoricul. Documentele rămân unde sunt.</string>
+    <string name="activity_clear_confirm">Golește</string>
+    <string name="activity_empty_title">Nicio activitate încă</string>
+    <string name="activity_empty_body">Documentele semnate sau verificate și cererile din browser apar aici.</string>
 </resources>

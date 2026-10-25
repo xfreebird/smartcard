@@ -40,12 +40,34 @@ data class CertificateSummary(
     val serialHex: String,
     /** SHA-1 of the DER: the vendor `certificateId` and the PinVault key (docs/09 §3.5). */
     val sha1Hex: String,
+    /** Subject `SN` (2.5.4.4), when the certificate has one. */
+    val surname: String? = null,
+    /** Subject `GN` (2.5.4.42), when the certificate has one. */
+    val givenNames: String? = null,
 ) {
+    /**
+     * Surname and given name(s) for the ID-card face (docs/10 §0.2b): the subject's SN / GN when present,
+     * otherwise the holder name split at the first space (first word = surname, the rest = given names).
+     */
+    val nameParts: Pair<String, String>
+        get() {
+            val sn = surname?.trim().orEmpty()
+            val gn = givenNames?.trim().orEmpty()
+            if (sn.isNotEmpty() || gn.isNotEmpty()) return sn to gn
+            val cn = commonName.trim()
+            val space = cn.indexOf(' ')
+            return if (space < 0) cn to "" else cn.substring(0, space) to cn.substring(space + 1).trim()
+        }
+
     companion object {
+        /** OID → keyword so RFC 2253 output prints SN / GN as strings instead of `#hex`. */
+        private val NAME_KEYWORDS = mapOf("2.5.4.4" to "SURNAME", "2.5.4.42" to "GIVENNAME")
+
         fun parse(der: ByteArray): CertificateSummary {
             val cert = CertificateFactory.getInstance("X.509").generateCertificate(ByteArrayInputStream(der)) as X509Certificate
             val subject = cert.subjectX500Principal.getName(X500Principal.RFC2253)
             val issuer = cert.issuerX500Principal.getName(X500Principal.RFC2253)
+            val named = runCatching { cert.subjectX500Principal.getName(X500Principal.RFC2253, NAME_KEYWORDS) }.getOrNull()
             return CertificateSummary(
                 commonName = rdnValue(subject, "CN") ?: subject,
                 subjectDn = subject,
@@ -55,6 +77,8 @@ data class CertificateSummary(
                 notAfter = cert.notAfter,
                 serialHex = cert.serialNumber.toString(16).uppercase(),
                 sha1Hex = Sha.sha1(der).toHex(),
+                surname = named?.let { rdnValue(it, "SURNAME") },
+                givenNames = named?.let { rdnValue(it, "GIVENNAME") },
             )
         }
 

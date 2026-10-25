@@ -8,8 +8,11 @@ import kotlin.concurrent.withLock
 
 /** Opens a fresh transport per card operation (CCID: claim + power-on reset). */
 fun interface TransportProvider {
-    /** Throws [CardError.NoReader] / [CardError.NoCard]. */
-    fun open(): ApduTransport
+    /**
+     * Opens a session on [reader] (a `ReaderSlot.id`); `null` = the first reader holding a card.
+     * Throws [CardError.NoReader] / [CardError.NoCard].
+     */
+    fun open(reader: String?): ApduTransport
 }
 
 /**
@@ -20,10 +23,23 @@ interface SigningService {
     val readerState: StateFlow<ReaderState>
     val progress: StateFlow<SigningStep>
 
-    /** Holder certificate summary: mutual auth + EF 0001, no PIN. */
-    fun certificate(): CertificateSummary
+    /** Holder certificate summary of the card in [reader] (`null` = first card): mutual auth + EF 0001, no PIN. */
+    fun certificate(reader: String? = null): CertificateSummary
 
-    fun signPdf(input: Document, consent: Consent, requester: String? = null): SignResult
+    /*
+     * Signing calls take the card to use: [reader] routes the session (several cards can be connected,
+     * docs/09 §3.1b) and `expectedCertificateSha1` is the card the user selected / the PIN belongs to. The card's
+     * certificate is read and compared BEFORE the consent / PIN is asked for and before VERIFY; a different
+     * card fails with CardError.CardChanged.
+     */
+
+    fun signPdf(
+        input: Document,
+        consent: Consent,
+        requester: String? = null,
+        reader: String? = null,
+        expectedCertificateSha1: String? = null,
+    ): SignResult
 
     fun signXades(
         files: List<Document>,
@@ -31,10 +47,38 @@ interface SigningService {
         packaging: XadesPackaging,
         consent: Consent,
         requester: String? = null,
+        reader: String? = null,
+        expectedCertificateSha1: String? = null,
     ): SignResult
 
+    /**
+     * Signs [input] in the format the user picked: PAdES-T → [signPdf]; XAdES-BES/T/C → a detached [signXades] over the
+     * file's bytes, PDFs included. PAdES on a non-PDF fails with [CardError.Format] before the card is touched.
+     */
+    fun sign(
+        input: Document,
+        format: SignFormat,
+        consent: Consent,
+        requester: String? = null,
+        reader: String? = null,
+        expectedCertificateSha1: String? = null,
+    ): SignResult = when (val level = format.xadesLevel) {
+        null -> {
+            if (!input.isPdf()) throw CardError.Format("PAdES needs a PDF: ${input.name}")
+            signPdf(input, consent, requester, reader, expectedCertificateSha1)
+        }
+        else -> signXades(listOf(input), level, XadesPackaging.Detached, consent, requester, reader, expectedCertificateSha1)
+    }
+
     /** Raw card signature over a DigestInfo (bridge `/sign/data` building block, CLI `sign-hex`). */
-    fun signDigestInfo(digestInfo: ByteArray, documentName: String, consent: Consent, requester: String? = null): RawSignature
+    fun signDigestInfo(
+        digestInfo: ByteArray,
+        documentName: String,
+        consent: Consent,
+        requester: String? = null,
+        reader: String? = null,
+        expectedCertificateSha1: String? = null,
+    ): RawSignature
 
     fun verify(file: Document, detachedDocuments: List<Document> = emptyList()): List<ValidationReport>
 }
@@ -52,15 +96,21 @@ class CardSigningService(
     private val progressFlow = MutableStateFlow(SigningStep.Idle)
     override val progress: StateFlow<SigningStep> = progressFlow.asStateFlow()
 
-    override fun certificate(): CertificateSummary = withCard { card ->
+    override fun certificate(reader: String?): CertificateSummary = withCard(reader) { card ->
         card.selectMF()
         card.selectGenericADF()
         step(SigningStep.ReadingCertificate)
         CertificateSummary.parse(card.readCertificate())
     }
 
-    override fun signPdf(input: Document, consent: Consent, requester: String?): SignResult = withCard { card ->
-        val certDer = readCertificate(card)
+    override fun signPdf(
+        input: Document,
+        consent: Consent,
+        requester: String?,
+        reader: String?,
+        expectedCertificateSha1: String?,
+    ): SignResult = withCard(reader) { card ->
+        val certDer = readCertificate(card, expectedCertificateSha1)
         val summary = CertificateSummary.parse(certDer)
         val request = ConsentRequest(requester, listOf(input.name), FORMAT_PADES_T, summary)
         val signed = pades.sign(input.bytes, certDer, chainDer, cardSigner(card, request, consent))
@@ -74,8 +124,10 @@ class CardSigningService(
         packaging: XadesPackaging,
         consent: Consent,
         requester: String?,
-    ): SignResult = withCard { card ->
-        val certDer = readCertificate(card)
+        reader: String?,
+        expectedCertificateSha1: String?,
+    ): SignResult = withCard(reader) { card ->
+        val certDer = readCertificate(card, expectedCertificateSha1)
         val summary = CertificateSummary.parse(certDer)
         val format = "XAdES-${level.name}"
         val request = ConsentRequest(requester, files.map { it.name }, format, summary)
@@ -84,26 +136,30 @@ class CardSigningService(
         SignResult(signed, summary, format)
     }
 
-    override fun signDigestInfo(digestInfo: ByteArray, documentName: String, consent: Consent, requester: String?): RawSignature =
-        withCard { card ->
-            val certDer = readCertificate(card)
-            val request = ConsentRequest(requester, listOf(documentName), "PKCS#1", CertificateSummary.parse(certDer))
-            val sig = cardSigner(card, request, consent).sign(digestInfo)
-            step(SigningStep.Done)
-            RawSignature(sig, certDer)
-        }
-
-    override fun verify(file: Document, detachedDocuments: List<Document>): List<ValidationReport> {
-        val isPdf = file.bytes.size >= 5 && String(file.bytes, 0, 5, Charsets.ISO_8859_1) == "%PDF-"
-        return if (isPdf) validator.verifyPdf(file.bytes) else validator.verifyXades(file.bytes, detachedDocuments)
+    override fun signDigestInfo(
+        digestInfo: ByteArray,
+        documentName: String,
+        consent: Consent,
+        requester: String?,
+        reader: String?,
+        expectedCertificateSha1: String?,
+    ): RawSignature = withCard(reader) { card ->
+        val certDer = readCertificate(card, expectedCertificateSha1)
+        val request = ConsentRequest(requester, listOf(documentName), "PKCS#1", CertificateSummary.parse(certDer))
+        val sig = cardSigner(card, request, consent).sign(digestInfo)
+        step(SigningStep.Done)
+        RawSignature(sig, certDer)
     }
+
+    override fun verify(file: Document, detachedDocuments: List<Document>): List<ValidationReport> =
+        if (file.isPdf()) validator.verifyPdf(file.bytes) else validator.verifyXades(file.bytes, detachedDocuments)
 
     // ------------------------------------------------------------------ card session
 
-    private fun <T> withCard(block: (CosmoXCard) -> T): T = CARD_LOCK.withLock {
+    private fun <T> withCard(reader: String?, block: (CosmoXCard) -> T): T = CARD_LOCK.withLock {
         step(SigningStep.Connecting)
         try {
-            transports.open().use { transport ->
+            transports.open(reader).use { transport ->
                 val card = CosmoXCard(transport, log)
                 step(SigningStep.Authenticating)
                 card.authenticate()
@@ -114,12 +170,15 @@ class CardSigningService(
         }
     }
 
-    /** Swift `signPDF` order: SELECT MF → ADF → readCertificate (which re-selects MF/ADF/EF). */
-    private fun readCertificate(card: CosmoXCard): ByteArray {
+    /**
+     * Swift `signPDF` order: SELECT MF → ADF → readCertificate (which re-selects MF/ADF/EF) → identity guard.
+     * Runs before the consent / PIN request, so a swapped card fails here and never sees a PIN.
+     */
+    private fun readCertificate(card: CosmoXCard, expectedSha1: String?): ByteArray {
         card.selectMF()
         card.selectGenericADF()
         step(SigningStep.ReadingCertificate)
-        return card.readCertificate()
+        return card.readCertificate().also { CosmoXCard.checkIdentity(it, expectedSha1) }
     }
 
     /** The PIN is requested lazily, only once the document hash is ready; never retried (R-07). */

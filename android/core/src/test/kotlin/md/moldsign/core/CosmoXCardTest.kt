@@ -88,8 +88,11 @@ class CosmoXCardTest {
     }
 }
 
-/** Card-side IAS/ECC + SM simulator. */
-private class SimulatedCard(v: Any?) : ApduTransport {
+/**
+ * Card-side IAS/ECC + SM simulator. [certificateDer] is what EF 0001 holds (default: a 1799-byte pseudo
+ * certificate that is not parseable X.509). Shared with [IdentityGuardTest].
+ */
+internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduTransport {
     companion object {
         const val PIN = "123456"
 
@@ -122,10 +125,12 @@ private class SimulatedCard(v: Any?) : ApduTransport {
     private var ssc = ByteArray(16)
     private var pending = ByteArray(0)
     private var selectedFile = ""
-    private var attempts = 3
+    /** PIN retry counter as the card keeps it: a test can prove a PIN never reached this card. */
+    var attempts = 3
+        private set
 
     /** 1799-byte pseudo certificate; chunk ends at file offsets 131/259 are 00/80 (double-unpad trap). */
-    val certificate: ByteArray = ByteArray(1799) { (it * 7 + 3).toByte() }.also {
+    val certificate: ByteArray = certificateDer ?: ByteArray(1799) { (it * 7 + 3).toByte() }.also {
         val outer = it.size - 4
         it[0] = 0x30; it[1] = 0x82.toByte(); it[2] = (outer ushr 8).toByte(); it[3] = outer.toByte()
         it[4] = 0x30; it[5] = 0x82.toByte(); it[6] = 0x04; it[7] = 0xEB.toByte()

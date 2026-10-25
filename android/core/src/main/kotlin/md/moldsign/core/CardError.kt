@@ -26,6 +26,14 @@ sealed class CardError(message: String, cause: Throwable? = null) : Exception(me
     /** `6985`: card stuck in a state; ask to physically re-insert it (`error.cardStuck`). Do not retry auth. */
     class CardStateStuck : CardError("Conditions of use not satisfied (SW=6985): remove and re-insert the card")
 
+    /**
+     * Identity guard (docs/09 §3.1b): the card in the reader is not the one the PIN / consent / selection is
+     * for (removed and another inserted). Raised BEFORE VERIFY, so another card's PIN is never sent (it would
+     * burn a retry there). The UI re-reads the cards and asks the user to check the holder (`error.cardChanged`).
+     */
+    class CardChanged(val expectedSha1: String, val actualSha1: String) :
+        CardError("The card in the reader changed; check the holder and sign again")
+
     /** `6988` or a response MAC failure: drop the session and reconnect once. */
     class SmOutOfSync(detail: String) : CardError("Secure messaging out of sync: $detail")
 

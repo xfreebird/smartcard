@@ -38,3 +38,26 @@ class ConsentBroker {
         }
     }
 }
+
+/**
+ * One PIN entry for a batch ("Semnează 3 documente", like the Apple `signAll`): the first request goes to [inner],
+ * later ones get a copy of the same PIN (the core wipes each copy after VERIFY). [close] wipes the kept copy.
+ * A wrong PIN stops the batch at the first document (CardError.WrongPin is never retried, R-07).
+ */
+class BatchConsent(private val inner: Consent) : Consent, AutoCloseable {
+    private var pin: CharArray? = null
+
+    @Synchronized
+    override fun obtain(request: ConsentRequest): ConsentResult {
+        pin?.let { return ConsentResult.Pin(it.copyOf()) }
+        val answer = inner.obtain(request)
+        if (answer is ConsentResult.Pin) pin = answer.pin.copyOf()
+        return answer
+    }
+
+    @Synchronized
+    override fun close() {
+        pin?.fill('\u0000')
+        pin = null
+    }
+}

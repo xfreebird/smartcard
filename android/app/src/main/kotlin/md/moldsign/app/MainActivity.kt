@@ -14,7 +14,8 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        handleIntent(intent)
+        // A recreated activity (rotation, dark mode, locale) must not replay the launch intent.
+        if (savedInstanceState == null) handleIntent(intent)
         setContent {
             MoldSignTheme {
                 MoldSignRoot()
@@ -24,13 +25,17 @@ class MainActivity : FragmentActivity() {
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        setIntent(intent)
         handleIntent(intent)
     }
 
-    /** The reader was plugged in while we were launched by the USB_DEVICE_ATTACHED filter. */
+    /**
+     * The reader was plugged in while we were launched by the USB_DEVICE_ATTACHED filter. Debug builds also
+     * accept the demo extra (DemoMode, src/debug); release builds compile a no-op DemoMode.
+     */
     private fun handleIntent(intent: Intent?) {
-        if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) {
-            (application as MoldSignApp).container.readerMonitor.rescan()
-        }
+        val container = (application as MoldSignApp).container
+        if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) container.readerMonitor.rescan()
+        DemoMode.apply(container, intent)
     }
 }

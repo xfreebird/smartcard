@@ -199,6 +199,19 @@ class CosmoXCard(
         return file.copyOf(minOf(outerLen, file.size))
     }
 
+    /**
+     * Swift `prepareForSigning`: SELECT MF → ADF → read EF 0001 → identity check → SELECT ADF → VERIFY.
+     * The certificate is read and compared before the PIN goes out, so a swapped card never receives another
+     * card's PIN ([CardError.CardChanged], docs/09 §3.1b). Returns the certificate DER.
+     */
+    fun prepareForSigning(pin: CharArray, expectedCertificateSha1: String?): ByteArray {
+        val cert = readCertificate() // SELECT MF → ADF → EF 0001 → READ BINARY
+        checkIdentity(cert, expectedCertificateSha1)
+        selectGenericADF()
+        verifyPin(pin)
+        return cert
+    }
+
     /** Forgets the session (does not close the transport, which the caller owns). */
     fun reset() {
         channel = null
@@ -215,6 +228,19 @@ class CosmoXCard(
         val MSE_SIGN_DATA: ByteArray get() = "800102840181".decodeHex()
         const val PIN_REFERENCE = 0x03
         const val READ_CHUNK = 128
+
+        /**
+         * Identity guard (docs/09 §3.1b): throws [CardError.CardChanged] unless SHA-1([certificateDer]) equals
+         * [expectedSha1Hex] (hex, any case). `null` means "no expectation" (the consent shows this card's own
+         * certificate, so the PIN is asked for this card).
+         */
+        fun checkIdentity(certificateDer: ByteArray, expectedSha1Hex: String?) {
+            if (expectedSha1Hex == null) return
+            val actual = Sha.sha1(certificateDer).toHex()
+            if (!actual.equals(expectedSha1Hex.trim(), ignoreCase = true)) {
+                throw CardError.CardChanged(expectedSha1Hex, actual)
+            }
+        }
 
         /** Kenc = SHA256(seed ‖ serial ‖ MK ‖ 00000002), Kmac = … ‖ 00000003. */
         fun deriveAdminKeys(seed: ByteArray, serial: ByteArray): Pair<ByteArray, ByteArray> {
