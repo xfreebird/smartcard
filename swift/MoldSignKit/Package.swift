@@ -6,7 +6,7 @@ let package = Package(
     platforms: [.macOS(.v14), .iOS(.v17)],
     products: [
         .library(name: "MoldSignKit", targets: ["MoldSignKit"]),
-        .executable(name: "moldsign", targets: ["moldsign"]),
+        .executable(name: "esemnbun", targets: ["moldsign"]),   // public name (docs/10 §0.2b); codename target
     ],
     targets: [
         // C shims: PC/SC (macOS PCSC.framework, Linux pcsc-lite) + AES-256/CMAC (CommonCrypto on Apple,

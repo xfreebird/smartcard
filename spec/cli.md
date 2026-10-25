@@ -1,11 +1,12 @@
-# `moldsign` CLI contract
+# `esemnbun` CLI contract
 
-One command-line interface on every desktop OS, always a **native** build. Two implementations follow this contract:
+One command-line interface on every desktop OS, always a **native** build. The command is `esemnbun`
+(public name eSemnBun, docs/10 §0.2b); the code keeps the codename (`Sources/moldsign`, `MoldSign.Cli`). Two implementations follow this contract:
 
 | OS | Implementation | Build |
 |---|---|---|
-| macOS | Swift: `apple/Sources/moldsign` (SwiftPM product, also the Xcode target `moldsign`) | `swift build -c release` or Xcode |
-| Linux | Swift: the same `moldsign` sources, built with the Swift toolchain for Linux (LNX-*) | `swift build -c release --static-swift-stdlib` |
+| macOS | Swift: `swift/MoldSignKit/Sources/moldsign` (SwiftPM product `esemnbun`, also the Xcode target `esemnbun-cli`) | `swift build -c release --product esemnbun` or Xcode |
+| Linux | Swift: the same sources (product `esemnbun`), built with the Swift toolchain for Linux (LNX-*) | `swift build -c release --static-swift-stdlib` |
 | Windows | .NET: `windows/src/MoldSign.Cli` over `MoldSign.Core` (Native AOT) | `dotnet publish -r win-x64 -p:PublishAot=true` |
 
 Plan items: CLI-01…CLI-06 in [`../PLAN.md`](../PLAN.md).
@@ -13,18 +14,18 @@ Plan items: CLI-01…CLI-06 in [`../PLAN.md`](../PLAN.md).
 ## Commands
 
 ```
-moldsign readers                                   List PC/SC readers and card presence
-moldsign cert [--out <file.der>]                   Read the signing certificate (no PIN); print holder, issuer, validity, SHA-1
-moldsign sign <in.pdf> [<out.pdf>]                 PAdES-T (default output: <name>-semnat.pdf next to the input, never overwrite)
-moldsign xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping] [--digest SHA-1|SHA-256]
+esemnbun readers                                   List PC/SC readers and card presence
+esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN); print holder, issuer, validity, SHA-1
+esemnbun sign <in.pdf> [<out.pdf>]                 PAdES-T (default output: <name>-semnat.pdf next to the input, never overwrite)
+esemnbun xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping] [--digest SHA-1|SHA-256]
                                                    XAdES signature (detached, SHA-256 by default; SHA-1 only where a
                                                    relying party asks for it, like the portal's Xml/Text contents)
-moldsign verify <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
-moldsign server [<port> [<https_port>]]            Browser bridge (MoldSign Server protocol), defaults http 18480, https 18443
-moldsign sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
-moldsign cms-for-hash <sha256_hex>                 Developer: detached CMS for an external content digest
+esemnbun verify <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
+esemnbun server [<port> [<https_port>]]            Browser bridge (MoldSign Server protocol), defaults http 18480, https 18443
+esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
+esemnbun cms-for-hash <sha256_hex>                 Developer: detached CMS for an external content digest
 
-Legacy form (kept for scripts): moldsign <in.pdf> <out.pdf>   ==  moldsign sign <in.pdf> <out.pdf>
+Legacy form (kept for scripts): esemnbun <in.pdf> <out.pdf>   ==  esemnbun sign <in.pdf> <out.pdf>
 ```
 
 Global options: `--reader <name>` (default: first reader with a card), `--quiet` (no protocol traces),

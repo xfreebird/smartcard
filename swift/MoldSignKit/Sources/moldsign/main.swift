@@ -4,7 +4,7 @@ import Glibc
 #endif
 import MoldSignKit
 
-// `moldsign` — macOS and Linux implementation of spec/cli.md (CLI-02, LNX-*).
+// `esemnbun` (codename moldsign) — macOS and Linux implementation of spec/cli.md (CLI-02, LNX-*).
 setbuf(stdout, nil)
 
 // MARK: - Global options
@@ -56,7 +56,7 @@ func fail(_ error: Error) -> Never {
 
 func usage() -> Never {
     print("""
-    Usage: moldsign <command> [options]
+    Usage: esemnbun <command> [options]
       readers                                  list readers and card presence
       cert [--out <file.der>]                  read the signing certificate (no PIN)
       sign <in.pdf> [<out.pdf>]                PAdES-T signature
@@ -294,11 +294,11 @@ case "-h", "--help", "help":
     usage()
 
 case "--version", "version":
-    print("moldsign (MoldSignKit) · crypto: \(BuildInfo.cryptoBackend) · smart cards: \(BuildInfo.smartCardStack)")
+    print("esemnbun (MoldSignKit) · crypto: \(BuildInfo.cryptoBackend) · smart cards: \(BuildInfo.smartCardStack)")
     exit(0)
 
 default:
-    // Legacy form: moldsign <input.pdf> <output.pdf>
+    // Legacy form: esemnbun <input.pdf> <output.pdf>
     guard args.count >= 3 else { usage() }
     signPDF(args[1], args[2])
 }

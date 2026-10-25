@@ -21,11 +21,20 @@ public final class SigningService: @unchecked Sendable {
         public let serialDecimal: String
         public let sha1Hex: String
         public let notAfter: Date?
+        /// For the ID-card face: the subject's SN / GN, else `holder` split at the first space
+        /// (Moldovan CNs are "Surname Given").
+        public let surname: String
+        public let givenNames: String
 
         public init(der: Data) {
             self.der = der
             holder = Validator.subjectCN(der) ?? "—"
-            subjectDN = (try? XAdESSigner.nameDER(der, subject: true)).map(X509Name.displayString) ?? ""
+            let subjectDER = try? XAdESSigner.nameDER(der, subject: true)
+            subjectDN = subjectDER.map(X509Name.displayString) ?? ""
+            let subject = subjectDER.map(X509Name.attributes) ?? []
+            (surname, givenNames) = Self.nameParts(holder: holder,
+                                                   surname: subject.last { $0.type == "SN" }?.value,
+                                                   givenNames: subject.last { $0.type == "GN" }?.value)
             let name = try? XAdESSigner.parseIssuer(der)
             let issuerDER = try? XAdESSigner.nameDER(der, subject: false)
             issuer = issuerDER.map(X509Name.displayString) ?? ""
@@ -33,6 +42,27 @@ public final class SigningService: @unchecked Sendable {
             serialDecimal = name?.serialDecimal ?? ""
             sha1Hex = der.sha1().hexString.lowercased()
             notAfter = Self.notAfter(der)
+        }
+
+        /// Explicit values (SwiftUI previews, debug demo cards, tests).
+        public init(der: Data, holder: String, subjectDN: String, issuer: String, issuerName: String,
+                    serialDecimal: String, sha1Hex: String, notAfter: Date?,
+                    surname: String? = nil, givenNames: String? = nil) {
+            self.der = der
+            self.holder = holder
+            self.subjectDN = subjectDN
+            self.issuer = issuer
+            self.issuerName = issuerName
+            self.serialDecimal = serialDecimal
+            self.sha1Hex = sha1Hex
+            self.notAfter = notAfter
+            (self.surname, self.givenNames) = Self.nameParts(holder: holder, surname: surname, givenNames: givenNames)
+        }
+
+        static func nameParts(holder: String, surname: String?, givenNames: String?) -> (String, String) {
+            if let surname, !surname.isEmpty { return (surname, givenNames ?? "") }
+            let parts = holder.split(separator: " ", maxSplits: 1).map(String.init)
+            return (parts.first ?? holder, parts.count > 1 ? parts[1] : "")
         }
 
         /// Validity.notAfter from the TBS (UTCTime or GeneralizedTime).

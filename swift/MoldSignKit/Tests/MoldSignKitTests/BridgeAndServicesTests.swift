@@ -41,6 +41,15 @@ final class TrustServicesTests: XCTestCase {
         XCTAssertEqual(s.holder, "MDQSign")
         XCTAssertNotNil(s.notAfter)
         XCTAssertEqual(s.sha1Hex.count, 40)
+        XCTAssertEqual(s.surname, "MDQSign")
+        XCTAssertEqual(s.givenNames, "")
+    }
+
+    func testCardFaceNameParts() {
+        let parts = SigningService.CertificateSummary.nameParts
+        XCTAssertTrue(parts("Mîndru Ștefan Ion", nil, nil) == ("Mîndru", "Ștefan Ion"))     // CN "Surname Given"
+        XCTAssertTrue(parts("Mîndru Ștefan", "Mîndru-Rusu", "Ștefan") == ("Mîndru-Rusu", "Ștefan"))  // SN/GN win
+        XCTAssertTrue(parts("Ana", nil, nil) == ("Ana", ""))
     }
 
     func testOutputNamingNeverOverwrites() throws {
