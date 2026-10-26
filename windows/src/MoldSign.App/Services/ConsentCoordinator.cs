@@ -21,13 +21,19 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
 
     public ConsentResult Request(ConsentRequest request)
     {
+        using var timeout = new CancellationTokenSource();
+        if (request.Requester != "Tu") timeout.CancelAfter(TimeSpan.FromMinutes(2));
         LastCertificateSha1 = request.Certificate.Sha1;
         var answer = new TaskCompletionSource<ConsentResult>(TaskCreationOptions.RunContinuationsAsynchronously);
         var queued = ui.TryEnqueue(async () =>
         {
             try
             {
-                answer.SetResult(await RequestOnUiThreadAsync(request));
+                answer.SetResult(await RequestOnUiThreadAsync(request, timeout.Token));
+            }
+            catch (OperationCanceledException)
+            {
+                answer.SetResult(ConsentResult.Cancelled);
             }
             catch (Exception e)
             {
@@ -37,17 +43,25 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
         return queued ? answer.Task.GetAwaiter().GetResult() : ConsentResult.Cancelled;
     }
 
-    private async Task<ConsentResult> RequestOnUiThreadAsync(ConsentRequest request)
+    private async Task<ConsentResult> RequestOnUiThreadAsync(ConsentRequest request, CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+        using var presentation = WindowHelpers.PresentConsent(App.Current.EnsureMainWindow(activate: true),
+            aboveBrowser: request.Requester != "Tu");
         var sha1 = request.Certificate.Sha1;
         if (settings.RememberPin && pins.Contains(sha1))
         {
-            var stored = await pins.LoadAsync(sha1, Loc.Format("Consent_HelloReason", request.Certificate.CommonName));
+            var reason = request.Requester == "Tu"
+                ? Loc.Format("Consent_HelloReason", request.Certificate.CommonName)
+                : Loc.Format("Consent_HelloBrowser", request.Requester, request.Certificate.CommonName,
+                    string.Join(", ", request.Documents), request.Format);
+            var stored = await pins.LoadAsync(sha1, reason);
+            cancellationToken.ThrowIfCancellationRequested();
             if (stored is not null) return ConsentResult.WithPin(stored);
         }
 
         if (await dialogRoot() is not { } root) return ConsentResult.Cancelled;
-        var (pin, remember) = await ShowPinDialogAsync(request, root);
+        var (pin, remember) = await ShowPinDialogAsync(request, root, cancellationToken);
         if (pin is null) return ConsentResult.Cancelled;
         if (remember)
         {
@@ -60,7 +74,8 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
     }
 
     /// <summary>PIN QSCD sheet: 4–8 digits, no paste, remember toggle, attempts-left line.</summary>
-    private async Task<(string? Pin, bool Remember)> ShowPinDialogAsync(ConsentRequest request, XamlRoot root)
+    private async Task<(string? Pin, bool Remember)> ShowPinDialogAsync(ConsentRequest request, XamlRoot root,
+        CancellationToken cancellationToken)
     {
         var requester = request.Requester == "Tu"
             ? Loc.Format("Pin_For", request.Certificate.CommonName)
@@ -76,6 +91,7 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
 
         var panel = new StackPanel { Spacing = 12, MinWidth = 320 };
         panel.Children.Add(new TextBlock { Text = requester, TextWrapping = TextWrapping.Wrap });
+        panel.Children.Add(new TextBlock { Text = request.Certificate.CommonName, TextWrapping = TextWrapping.Wrap });
         if (request.Documents.Count > 0)
         {
             panel.Children.Add(new TextBlock
@@ -108,8 +124,12 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
         };
         box.PasswordChanged += (_, _) =>
             dialog.IsPrimaryButtonEnabled = box.Password.Length is >= 4 and <= 8 && box.Password.All(char.IsAsciiDigit);
+        dialog.Opened += (_, _) => box.Focus(FocusState.Programmatic);
 
+        using var registration = cancellationToken.Register(() => ui.TryEnqueue(dialog.Hide));
+        cancellationToken.ThrowIfCancellationRequested();
         var result = await dialog.ShowAsync();
+        cancellationToken.ThrowIfCancellationRequested();
         return result == ContentDialogResult.Primary ? (box.Password, remember.IsChecked == true) : (null, false);
     }
 }

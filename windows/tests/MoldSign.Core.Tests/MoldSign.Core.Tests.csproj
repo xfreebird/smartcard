@@ -25,4 +25,10 @@
     <ProjectReference Include="../../src/MoldSign.Cli/MoldSign.Cli.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <Compile Include="../../src/MoldSign.App/Services/BridgeHost.cs" Link="BridgeHost.cs" />
+    <Compile Include="../../src/MoldSign.App/Services/BridgeTls.cs" Link="BridgeTls.cs" />
+  </ItemGroup>
+
 </Project>

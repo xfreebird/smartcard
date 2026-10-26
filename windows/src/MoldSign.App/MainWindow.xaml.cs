@@ -27,6 +27,12 @@ public sealed partial class MainWindow : Window
 
     public AppState State => AppState.Current;
 
+    public async Task VerifyFilesAsync(IReadOnlyList<string> paths)
+    {
+        ShowSection("verify");
+        if (ContentFrame.Content is VerifyPage page) await page.VerifyFilesAsync(paths);
+    }
+
     /// <summary>Selects a section: "sign", "verify", "activity", "card" or "settings".</summary>
     public void ShowSection(string tag)
     {

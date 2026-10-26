@@ -45,6 +45,11 @@ public struct BridgeEvent: Sendable {
 /// `authorize` (consent + PIN) and `onEvent` (activity log). Card work runs on its own queue; result polls
 /// are long-polls held until the session finishes, exactly like the vendor's `Future.get()`.
 public final class MoldSignServer {
+    public enum TLSIdentityError: Error {
+        case missing
+        case invalid
+    }
+
     struct Session {
         var ready = false
         var payload = ""       // JSON body for the poll response
@@ -120,8 +125,7 @@ public final class MoldSignServer {
     }
 
     #if canImport(Network) && !MOLDSIGN_PORTABLE
-    private func tlsIdentity() -> sec_identity_t? {
-        guard let data = tlsP12 else { return nil }
+    private static func tlsIdentity(from data: Data) -> sec_identity_t? {
         var items: CFArray?
         let status = SecPKCS12Import(data as CFData, [kSecImportExportPassphrase: Self.p12Password] as CFDictionary, &items)
         guard status == errSecSuccess,
@@ -131,18 +135,35 @@ public final class MoldSignServer {
     }
     #endif
 
+    /// Checks an imported vendor identity before replacing the installed copy.
+    public static func validateTLSP12(_ data: Data) throws {
+        #if canImport(Network) && !MOLDSIGN_PORTABLE
+        guard tlsIdentity(from: data) != nil else { throw TLSIdentityError.invalid }
+        #else
+        let ctx = data.withUnsafeBytes {
+            c_tls_server_new($0.bindMemory(to: UInt8.self).baseAddress, data.count, p12Password)
+        }
+        guard let ctx else { throw TLSIdentityError.invalid }
+        c_tls_server_free(ctx)
+        #endif
+    }
+
     // MARK: - Lifecycle
 
     /// Starts the http (and, with a TLS identity, https) listeners bound to 127.0.0.1 only (SEC-03).
-    public func start() throws {
+    public func start(requireHTTPS: Bool = false) throws {
         guard !isRunning else { return }
+        if requireHTTPS {
+            guard let tlsP12 else { throw TLSIdentityError.missing }
+            try Self.validateTLSP12(tlsP12)
+        }
         #if canImport(Network) && !MOLDSIGN_PORTABLE
         let plain = NWParameters.tcp
         try listen(plain, port: httpPort)
         MSLog.info("MoldSign server replica (http) on http://127.0.0.1:\(httpPort)")
 
         // HTTPS with the localhost.cts.md identity (same cert the Java suite uses)
-        if let identity = tlsIdentity() {
+        if let data = tlsP12, let identity = Self.tlsIdentity(from: data) {
             let tlsOpts = NWProtocolTLS.Options()
             sec_protocol_options_set_min_tls_protocol_version(tlsOpts.securityProtocolOptions, .TLSv12)
             sec_protocol_options_set_local_identity(tlsOpts.securityProtocolOptions, identity)
@@ -151,12 +172,19 @@ public final class MoldSignServer {
                 MSLog.info("MoldSign server replica (https) on https://localhost.cts.md:\(httpsPort)")
             } catch {
                 MSLog.info("WARNING: https listener failed: \(error)")
+                if requireHTTPS { stop(); throw error }
             }
         } else {
             MSLog.info("WARNING: localhost.p12 not found — https listener disabled")
+            if requireHTTPS { stop(); throw TLSIdentityError.invalid }
         }
         #else
-        try startPOSIX()
+        do {
+            try startPOSIX(requireHTTPS: requireHTTPS)
+        } catch {
+            stop()
+            throw error
+        }
         #endif
         isRunning = true
     }
@@ -221,7 +249,7 @@ public final class MoldSignServer {
 
     #if !(canImport(Network) && !MOLDSIGN_PORTABLE)
     /// Linux / portable: POSIX sockets on 127.0.0.1, TLS via OpenSSL with the same p12 (LNX-05).
-    private func startPOSIX() throws {
+    private func startPOSIX(requireHTTPS: Bool) throws {
         let handler: (Data, @escaping (Data) -> Void) -> Void = { [weak self] raw, reply in
             guard let self else { return }
             self.queue.async { self.route(raw, reply: reply) }
@@ -242,6 +270,7 @@ public final class MoldSignServer {
         let ctx = p12.withUnsafeBytes { c_tls_server_new($0.bindMemory(to: UInt8.self).baseAddress, p12.count, Self.p12Password) }
         guard let ctx else {
             MSLog.info("WARNING: could not load the TLS identity — https listener disabled")
+            if requireHTTPS { throw TLSIdentityError.invalid }
             return
         }
         do {
@@ -251,6 +280,7 @@ public final class MoldSignServer {
         } catch {
             MSLog.info("[ERR] listener :\(httpsPort) failed: \(error)")
             onListenerError?(httpsPort, error)
+            if requireHTTPS { throw error }
         }
     }
     #endif

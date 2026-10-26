@@ -307,7 +307,7 @@ public class CosmoXCardTests
         private byte[] _pending = [];
 
         public byte[] EfContent { get; init; } = [];
-        public Func<byte[], byte[]>? InternalAuthenticate { get; init; }
+        public Func<byte[], byte[]>? InternalAuthenticate { get; set; }
         public List<byte[]> Commands { get; } = [];
         public List<(int Offset, int Length)> Reads { get; } = [];
         public int GetResponseCount { get; private set; }

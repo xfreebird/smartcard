@@ -37,6 +37,7 @@ public sealed partial class DropZone : UserControl
     {
         if (!e.DataView.Contains(StandardDataFormats.StorageItems)) return;
         e.AcceptedOperation = DataPackageOperation.Copy;
+        e.Handled = true;
         SetHover(true);
     }
 
@@ -45,11 +46,19 @@ public sealed partial class DropZone : UserControl
     private async void OnDrop(object sender, DragEventArgs e)
     {
         SetHover(false);
+        e.Handled = true;
         var deferral = e.GetDeferral();
         try
         {
+            Failure.IsOpen = false;
             var paths = await WindowHelpers.DroppedPathsAsync(e.DataView);
             if (paths.Count > 0) FilesChosen?.Invoke(this, paths);
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            Failure.Message = Loc.Format("Error_FileSelection", error.Message);
+            Failure.IsOpen = true;
         }
         finally
         {
@@ -59,9 +68,19 @@ public sealed partial class DropZone : UserControl
 
     private async void OnBrowseClick(object sender, RoutedEventArgs e)
     {
-        if (XamlRoot is null) return;
-        var paths = await WindowHelpers.PickFilesAsync(XamlRoot, [.. Extensions]);
-        if (paths.Count > 0) FilesChosen?.Invoke(this, paths);
+        try
+        {
+            Failure.IsOpen = false;
+            if (XamlRoot is null) throw new InvalidOperationException(Loc.Get("Error_PickerWindow"));
+            var paths = await WindowHelpers.PickFilesAsync(XamlRoot, [.. Extensions]);
+            if (paths.Count > 0) FilesChosen?.Invoke(this, paths);
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            Failure.Message = Loc.Format("Error_FileSelection", error.Message);
+            Failure.IsOpen = true;
+        }
     }
 
     private void SetHover(bool hover)

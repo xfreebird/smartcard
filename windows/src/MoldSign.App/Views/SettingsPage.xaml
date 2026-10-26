@@ -65,6 +65,10 @@
             <TextBlock
                 x:Name="AllowedSitesText"
                 Style="{StaticResource MsCaptionTextStyle}" />
+            <Button
+                x:Uid="SettingsImportIdentity"
+                Click="OnImportIdentityClick"
+                Content="Importă identitatea HTTPS (localhost.p12)…" />
 
             <TextBlock
                 x:Uid="SettingsAdvanced"

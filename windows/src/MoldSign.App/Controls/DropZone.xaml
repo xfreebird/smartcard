@@ -81,5 +81,11 @@
                 Click="OnBrowseClick"
                 Content="Alege fișiere…" />
         </Grid>
+        <InfoBar
+            x:Name="Failure"
+            MaxWidth="520"
+            VerticalAlignment="Bottom"
+            IsOpen="False"
+            Severity="Error" />
     </Grid>
 </UserControl>

@@ -22,19 +22,14 @@ public class SignatureFormatTests
     [Fact]
     public void Output_is_semnat_pdf_for_pades_and_semnat_xml_for_xades_over_a_pdf()
     {
-        var dir = Directory.CreateTempSubdirectory("moldsign-format-");
-        try
+        using var dir = new SigningCoreTests.TestFiles();
         {
-            var pdf = Path.Combine(dir.FullName, "contract.pdf");
+            var pdf = Path.Combine(dir.DirectoryPath, "contract.pdf");
             File.WriteAllText(pdf, "%PDF-1.7");
-            Assert.Equal(Path.Combine(dir.FullName, "contract-semnat.pdf"), SignatureFormats.OutputPath(pdf, SignatureFormat.PadesT));
-            Assert.Equal(Path.Combine(dir.FullName, "contract-semnat.xml"), SignatureFormats.OutputPath(pdf, SignatureFormat.XadesC));
-            File.WriteAllText(Path.Combine(dir.FullName, "contract-semnat.xml"), "<x/>");
-            Assert.Equal(Path.Combine(dir.FullName, "contract-semnat (2).xml"), SignatureFormats.OutputPath(pdf, SignatureFormat.XadesT));
-        }
-        finally
-        {
-            dir.Delete(recursive: true);
+            Assert.Equal(Path.Combine(dir.DirectoryPath, "contract-semnat.pdf"), SignatureFormats.OutputPath(pdf, SignatureFormat.PadesT));
+            Assert.Equal(Path.Combine(dir.DirectoryPath, "contract-semnat.xml"), SignatureFormats.OutputPath(pdf, SignatureFormat.XadesC));
+            File.WriteAllText(Path.Combine(dir.DirectoryPath, "contract-semnat.xml"), "<x/>");
+            Assert.Equal(Path.Combine(dir.DirectoryPath, "contract-semnat (2).xml"), SignatureFormats.OutputPath(pdf, SignatureFormat.XadesT));
         }
     }
 
@@ -45,24 +40,25 @@ public class SignatureFormatTests
     [InlineData(SignatureFormat.XadesC, "XAdES")]
     public void Sign_routes_a_pdf_to_the_chosen_signer(SignatureFormat format, string signer)
     {
-        var dir = Directory.CreateTempSubdirectory("moldsign-format-");
-        try
+        using var dir = new SigningCoreTests.TestFiles();
+        using var identity = new SigningCoreTests.TestIdentity();
+        using var pki = new SigningCoreTests.FakePki(identity);
         {
-            var pdf = Path.Combine(dir.FullName, "contract.pdf");
-            File.WriteAllText(pdf, "%PDF-1.7");
-            var certificate = IdentityGuardTests.TestCertificate("CN=ION POPESCU, C=MD");
-            var service = new SigningService(reader => new IdentityGuardTests.AuthenticatingTransport(
-                IdentityGuardTests.Simulator(certificate, CosmoXCardTests.SessionAfterAuthentication()), reader ?? "R"));
-
-            // Signing itself is still a WIN-01 stub: the stub that throws tells which signer the format reached.
-            var e = Assert.Throws<NotImplementedException>(() => service.Sign(pdf, format, XadesPackaging.Detached,
-                _ => ConsentResult.WithPin("1234")));
-
-            Assert.Contains(signer, e.Message);
-        }
-        finally
-        {
-            dir.Delete(recursive: true);
+            var pdf = dir.Write("contract.pdf", SigningCoreTests.MinimalPdf());
+            var sim = IdentityGuardTests.Simulator(identity.Certificate, CosmoXCardTests.SessionAfterAuthentication());
+            sim.InternalAuthenticate = identity.Sign;
+            var service = new SigningService(reader => new IdentityGuardTests.AuthenticatingTransport(sim, reader ?? "R"), pki.Trust);
+            // C uses the national chain in SigningService, so test routing by cancelling at the single consent.
+            ConsentRequest? asked = null;
+            var e = Assert.Throws<CardException>(() => service.Sign(pdf, format, XadesPackaging.Detached, request =>
+            {
+                asked = request;
+                return ConsentResult.Cancelled;
+            }));
+            Assert.Equal(CardErrorKind.Cancelled, e.Kind);
+            Assert.StartsWith(signer, asked!.Format);
+            Assert.DoesNotContain(sim.Commands, c => c[1] == 0x20);
+            Assert.Equal(0, pki.TimestampRequests);
         }
     }
 

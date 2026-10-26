@@ -38,6 +38,7 @@ extern int32_t c_rsa_verify_digest(const uint8_t *cert_der, size_t cert_len,
                                    const uint8_t *digest, size_t digest_len, const uint8_t *sig, size_t sig_len);
 /// TLS server context from a PKCS#12 identity (loads OpenSSL's legacy provider if needed). NULL on failure.
 extern void *c_tls_server_new(const uint8_t *p12, size_t p12_len, const char *password);
+extern void c_tls_server_free(void *server_ctx);
 /// Wraps an accepted socket; NULL when the handshake fails.
 extern void *c_tls_accept(void *server_ctx, int fd);
 extern int32_t c_tls_read(void *session, uint8_t *buf, int32_t len);

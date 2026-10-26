@@ -77,6 +77,10 @@ public sealed class AppState : INotifyPropertyChanged
 
     public CertificateSummary? Certificate => _wallet.Selected?.Certificate;
 
+    public IReadOnlyList<CardEntry> BridgeCards => _wallet.Cards
+        .Where(c => c.Certificate is not null && c.Problem is null)
+        .Select(c => new CardEntry(c.Reader, c.Certificate!)).ToArray();
+
     public string? SelectedReader => _wallet.Selected?.Reader;
 
     /// <summary>The selected card can sign right now.</summary>

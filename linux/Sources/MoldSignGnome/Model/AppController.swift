@@ -565,6 +565,24 @@ final class AppController {
         changed()
     }
 
+    func importBridgeIdentity(from url: URL) {
+        do {
+            let data = try Data(contentsOf: url)
+            try MoldSignServer.validateTLSP12(data)
+            let destination = Store.bridgeIdentityURL
+            try FileManager.default.createDirectory(at: destination.deletingLastPathComponent(),
+                withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
+            try data.write(to: destination, options: .atomic)
+            try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: destination.path)
+            if settings.bridgeEnabled { restartBridge() }
+            toast?("Identitatea HTTPS a fost importată")
+        } catch is MoldSignServer.TLSIdentityError {
+            toast?("Fișierul nu conține identitatea HTTPS MoldSign. Alege localhost.p12 din MoldSign Desktop.")
+        } catch {
+            toast?("Identitatea HTTPS nu a putut fi importată: \(error.localizedDescription)")
+        }
+    }
+
     private func startBridge() {
         guard server == nil else { return }
         if isDemo {
@@ -610,9 +628,12 @@ final class AppController {
             }
         }
         do {
-            try server.start()
+            try server.start(requireHTTPS: true)
             self.server = server
             if bridgeState != .portBusy { bridgeState = .running }
+        } catch is MoldSignServer.TLSIdentityError {
+            server.stop()
+            bridgeState = .identityRequired
         } catch {
             server.stop()
             bridgeState = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")

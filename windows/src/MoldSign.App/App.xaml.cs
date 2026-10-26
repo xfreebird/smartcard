@@ -20,7 +20,11 @@ public partial class App : Application
         InitializeComponent();
         // Closing the last window must not end a tray app.
         DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
-        UnhandledException += (_, e) => System.Diagnostics.Debug.WriteLine($"Unhandled: {e.Exception}");
+        UnhandledException += (_, e) => AppLog.Error(e.Exception);
+        AppDomain.CurrentDomain.UnhandledException += (_, e) =>
+        {
+            if (e.ExceptionObject is Exception error) AppLog.Error(error);
+        };
     }
 
     public static new App Current => (App)Application.Current;

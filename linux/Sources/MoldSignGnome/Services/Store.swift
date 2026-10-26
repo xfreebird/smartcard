@@ -20,6 +20,10 @@ enum Store {
         URL(fileURLWithPath: userDataDir).appendingPathComponent("moldsign/activity.json")
     }
 
+    static var bridgeIdentityURL: URL {
+        URL(fileURLWithPath: userDataDir).appendingPathComponent("moldsign/localhost.p12")
+    }
+
     static let activityLimit = 100
 
     static func loadSettings() -> Settings {

@@ -263,6 +263,7 @@ struct ConsentRequest {
 enum BridgeState: Equatable {
     case stopped
     case running
+    case identityRequired
     case portBusy   // the vendor Java server holds 18480/18443 (MAC-08)
     case failed(String)
 
@@ -270,6 +271,7 @@ enum BridgeState: Equatable {
         switch self {
         case .stopped: return "Oprită"
         case .running: return "Activă pe 127.0.0.1:\(MoldSignServer.defaultHTTPPort) și localhost.cts.md:\(MoldSignServer.defaultHTTPSPort)"
+        case .identityRequired: return "Lipsește identitatea HTTPS MoldSign sau nu poate fi citită. Importă fișierul localhost.p12 din MoldSign Desktop."
         case .portBusy: return "Porturile \(MoldSignServer.defaultHTTPPort)/\(MoldSignServer.defaultHTTPSPort) sunt ocupate (probabil de MoldSign Desktop). Închide-l și repornește conexiunea."
         case .failed(let message): return "Nu a pornit: \(message)"
         }

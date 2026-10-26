@@ -45,7 +45,7 @@ public sealed class FileRow(string path)
                     ? string.Create(CultureInfo.CurrentCulture, $"{Math.Max(1, bytes / 1024)} KB")
                     : string.Create(CultureInfo.CurrentCulture, $"{bytes / (1024.0 * 1024):0.#} MB");
             }
-            catch (IOException)
+            catch (Exception error) when (error is IOException or UnauthorizedAccessException)
             {
                 return "";
             }

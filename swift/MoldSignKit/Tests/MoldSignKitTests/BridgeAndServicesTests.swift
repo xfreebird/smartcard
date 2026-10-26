@@ -133,6 +133,31 @@ final class BuildInfoTests: XCTestCase {
 
 /// Live loopback test of the consent hook (SEC-02) and the sign-result callback (MAC-05, LNX-11).
 final class BridgeConsentTests: XCTestCase {
+    func testBrowserHostRequiresTLSIdentityWithoutStartingHTTPOnly() throws {
+        let server = MoldSignServer(tlsP12: nil, httpPort: 28504, httpsPort: 28505)
+        defer { server.stop() }
+        XCTAssertThrowsError(try server.start(requireHTTPS: true)) {
+            guard case MoldSignServer.TLSIdentityError.missing = $0 else { return XCTFail("\($0)") }
+        }
+        XCTAssertFalse(server.isRunning)
+        try server.start()
+        XCTAssertTrue(server.isRunning, "the CLI may still explicitly run without HTTPS")
+    }
+
+    func testInvalidImportedIdentityIsRejectedBeforeListening() throws {
+        let invalid = Data("not a PKCS#12 identity".utf8)
+        XCTAssertThrowsError(try MoldSignServer.validateTLSP12(invalid))
+        let server = MoldSignServer(tlsP12: invalid, httpPort: 28506, httpsPort: 28507)
+        defer { server.stop() }
+        XCTAssertThrowsError(try server.start(requireHTTPS: true)) {
+            guard case MoldSignServer.TLSIdentityError.invalid = $0 else { return XCTFail("\($0)") }
+        }
+        XCTAssertFalse(server.isRunning)
+        let plain = MoldSignServer(tlsP12: nil, httpPort: 28506, httpsPort: 28507)
+        defer { plain.stop() }
+        try plain.start()
+    }
+
     func testDeniedRequestReportsResultAndNeverTouchesTheCard() throws {
         let server = MoldSignServer(tlsP12: nil, httpPort: 28490, httpsPort: 28491)
         let asked = expectation(description: "consent asked")

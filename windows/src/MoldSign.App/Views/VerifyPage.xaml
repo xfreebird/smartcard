@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Verifică (docs/10 §4.2): DropZone → VerdictBadge + SignatureCards (validator: WIN-01). -->
+<!-- Verifică (docs/10 §4.2): DropZone → VerdictBadge + SignatureCards. -->
 <Page
     x:Class="MoldSign.App.Views.VerifyPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -7,13 +7,23 @@
     xmlns:controls="using:MoldSign.App.Controls">
 
     <ScrollViewer>
-        <StackPanel Padding="{StaticResource PagePadding}" Spacing="16">
+        <StackPanel MaxWidth="880" Padding="{StaticResource PagePadding}" Spacing="16">
             <TextBlock
                 x:Uid="VerifyPageTitle"
                 Style="{StaticResource MsTitleTextStyle}"
                 Text="Verifică" />
 
-            <controls:DropZone x:Name="Drop" />
+            <controls:DropZone x:Name="FileDrop" />
+
+            <StackPanel x:Name="DocumentInfo" Spacing="8" Visibility="Collapsed">
+                <TextBlock x:Name="DocumentName" IsTextSelectionEnabled="True" TextWrapping="Wrap" />
+                <Button x:Uid="VerifyReveal" Click="OnRevealClick" Content="Arată în Explorer" />
+            </StackPanel>
+
+            <StackPanel x:Name="Checking" Orientation="Horizontal" Spacing="12" Visibility="Collapsed">
+                <ProgressRing x:Name="Spinner" Width="24" Height="24" IsActive="False" />
+                <TextBlock x:Uid="VerifyChecking" VerticalAlignment="Center" Text="Se verifică…" />
+            </StackPanel>
 
             <!-- VerdictBadge -->
             <StackPanel
@@ -31,6 +41,16 @@
                     Style="{StaticResource MsTitleTextStyle}" />
             </StackPanel>
 
+            <TextBlock x:Name="SignatureCount" Visibility="Collapsed" />
+            <StackPanel x:Name="SignatureCards" Spacing="16" />
+
+            <StackPanel x:Name="ReferencedDocuments" Spacing="8" Visibility="Collapsed">
+                <TextBlock x:Uid="VerifyDetachedHint" TextWrapping="Wrap"
+                    Text="Pentru o semnătură detașată, adaugă documentele originale pentru verificarea integrității." />
+                <Button x:Uid="VerifyAddDocuments" Click="OnAddDocumentsClick" Content="Alege documentele semnate…" />
+                <TextBlock x:Name="ReferencedNames" IsTextSelectionEnabled="True" TextWrapping="Wrap" />
+            </StackPanel>
+
             <InfoBar
                 x:Name="Result"
                 IsClosable="True"
@@ -41,8 +61,6 @@
                 Style="{StaticResource MsCaptionTextStyle}"
                 Text="PDF semnat (PAdES) sau semnătură .xml (XAdES); pentru o semnătură detașată alege și fișierele semnate."
                 TextWrapping="Wrap" />
-            <!-- TODO(WIN-01): SignatureCards (signer, time, TSA time, level, Integritate / Semnătură / Lanț de încredere),
-                 "Detalii tehnice", Contrasemnează, Arată în Explorer, inline picker for detached documents. -->
         </StackPanel>
     </ScrollViewer>
 </Page>

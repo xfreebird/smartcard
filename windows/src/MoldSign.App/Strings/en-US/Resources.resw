@@ -73,6 +73,9 @@
   <data name="Consent_HelloReason" xml:space="preserve">
     <value>Sign with the saved PIN for {0}</value>
   </data>
+  <data name="Consent_HelloBrowser" xml:space="preserve">
+    <value>{0} requests signing as {1}: {2} · {3}</value>
+  </data>
   <data name="Verdict_Valid" xml:space="preserve">
     <value>Valid signature</value>
   </data>
@@ -82,11 +85,143 @@
   <data name="Verdict_Unknown" xml:space="preserve">
     <value>Cannot be confirmed</value>
   </data>
+  <data name="Verdict_Unsigned" xml:space="preserve">
+    <value>No signatures found</value>
+  </data>
+  <data name="Verify_SignatureCount" xml:space="preserve">
+    <value>Signatures: {0}</value>
+  </data>
+  <data name="Verify_Signature" xml:space="preserve">
+    <value>Signature {0}</value>
+  </data>
+  <data name="Verify_Signer" xml:space="preserve">
+    <value>Signer</value>
+  </data>
+  <data name="Verify_SigningTime" xml:space="preserve">
+    <value>Signed at</value>
+  </data>
+  <data name="Verify_Timestamp" xml:space="preserve">
+    <value>Timestamp</value>
+  </data>
+  <data name="Verify_NoTimestamp" xml:space="preserve">
+    <value>No timestamp</value>
+  </data>
+  <data name="Verify_Level" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="Verify_Integrity" xml:space="preserve">
+    <value>Document integrity</value>
+  </data>
+  <data name="Verify_IntegrityGood" xml:space="preserve">
+    <value>The verified content matches the signed content.</value>
+  </data>
+  <data name="Verify_IntegrityBad" xml:space="preserve">
+    <value>The content differs or the original detached documents are missing.</value>
+  </data>
+  <data name="Verify_Crypto" xml:space="preserve">
+    <value>Cryptographic signature</value>
+  </data>
+  <data name="Verify_CryptoGood" xml:space="preserve">
+    <value>The RSA signature matches the certificate.</value>
+  </data>
+  <data name="Verify_CryptoBad" xml:space="preserve">
+    <value>The cryptographic signature could not be confirmed.</value>
+  </data>
+  <data name="Verify_Chain" xml:space="preserve">
+    <value>Trust chain</value>
+  </data>
+  <data name="Verify_ChainGood" xml:space="preserve">
+    <value>The certificate chain is valid up to mdtrustca.</value>
+  </data>
+  <data name="Verify_ChainBad" xml:space="preserve">
+    <value>Unknown or incomplete chain, or an expired certificate.</value>
+  </data>
+  <data name="Verify_Imprint" xml:space="preserve">
+    <value>Timestamp imprint</value>
+  </data>
+  <data name="Verify_ImprintGood" xml:space="preserve">
+    <value>The timestamp covers this signature.</value>
+  </data>
+  <data name="Verify_ImprintBad" xml:space="preserve">
+    <value>The timestamp imprint does not match the signature.</value>
+  </data>
+  <data name="Verify_Limits" xml:space="preserve">
+    <value>Offline verification limits</value>
+  </data>
+  <data name="Verify_TsaNotChecked" xml:space="preserve">
+    <value>The TSA signature and its trust chain have not been verified.</value>
+  </data>
+  <data name="Verify_RevocationNotChecked" xml:space="preserve">
+    <value>Revocation status has not been checked.</value>
+  </data>
+  <data name="Verify_Details" xml:space="preserve">
+    <value>Technical details</value>
+  </data>
+  <data name="Verify_Format" xml:space="preserve">
+    <value>Format</value>
+  </data>
+  <data name="Verify_Identifier" xml:space="preserve">
+    <value>Identifier</value>
+  </data>
+  <data name="Verify_TsaSignature" xml:space="preserve">
+    <value>TSA signature and chain</value>
+  </data>
+  <data name="Verify_Revocation" xml:space="preserve">
+    <value>Revocation (CRL / OCSP)</value>
+  </data>
+  <data name="Verify_Notes" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="Verify_Checked" xml:space="preserve">
+    <value>Checked</value>
+  </data>
+  <data name="Verify_NotChecked" xml:space="preserve">
+    <value>Not checked</value>
+  </data>
+  <data name="Verify_Unavailable" xml:space="preserve">
+    <value>Unavailable</value>
+  </data>
+  <data name="Verify_Failed" xml:space="preserve">
+    <value>The document could not be verified.</value>
+  </data>
+  <data name="VerifyReveal.Content" xml:space="preserve">
+    <value>Show in Explorer</value>
+  </data>
+  <data name="VerifyChecking.Text" xml:space="preserve">
+    <value>Verifying…</value>
+  </data>
+  <data name="VerifyDetachedHint.Text" xml:space="preserve">
+    <value>For a detached signature, add the original documents to verify content integrity.</value>
+  </data>
+  <data name="VerifyAddDocuments.Content" xml:space="preserve">
+    <value>Choose the signed documents…</value>
+  </data>
   <data name="Bridge_On" xml:space="preserve">
     <value>Browser connection on</value>
   </data>
   <data name="Bridge_Off" xml:space="preserve">
     <value>Browser connection off</value>
+  </data>
+  <data name="Bridge_IdentityMissing" xml:space="preserve">
+    <value>localhost.p12 is missing. Import the MoldSign Desktop HTTPS identity in Settings.</value>
+  </data>
+  <data name="Bridge_IdentityInvalid" xml:space="preserve">
+    <value>The HTTPS identity cannot be read or has expired. Import localhost.p12 from MoldSign Desktop.</value>
+  </data>
+  <data name="Bridge_IdentityImported" xml:space="preserve">
+    <value>HTTPS identity imported</value>
+  </data>
+  <data name="Bridge_Error" xml:space="preserve">
+    <value>Browser connection could not start: {0}</value>
+  </data>
+  <data name="SettingsImportIdentity.Content" xml:space="preserve">
+    <value>Import HTTPS identity (localhost.p12)…</value>
+  </data>
+  <data name="Error_FileSelection" xml:space="preserve">
+    <value>Could not open files: {0}</value>
+  </data>
+  <data name="Error_PickerWindow" xml:space="preserve">
+    <value>Open the app window and try again.</value>
   </data>
   <data name="Bridge_PortBusy" xml:space="preserve">
     <value>Port {0} is in use (probably by MoldSign (Java)). Close it and restart the connection.</value>

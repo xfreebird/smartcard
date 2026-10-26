@@ -77,18 +77,34 @@ public sealed partial class TrayFlyoutWindow : Window
 
     private async void OnSignClick(object sender, RoutedEventArgs e)
     {
-        if (Content.XamlRoot is not { } root) return;
         HideFlyout(); // the picker (and the PIN dialog in the main window) must not sit behind an always-on-top flyout
-        var paths = await WindowHelpers.PickFilesAsync(root);
-        if (paths.Count > 0) ShowOutcome(await App.Current.Services.SignFilesAsync(paths));
+        try
+        {
+            var window = App.Current.EnsureMainWindow(activate: true);
+            var paths = await WindowHelpers.PickFilesAsync(window.AppWindow.Id);
+            if (paths.Count > 0) ShowOutcome(await App.Current.Services.SignFilesAsync(paths));
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            ShowOutcome(new OperationOutcome(false, Loc.Format("Error_FileSelection", error.Message), []));
+        }
     }
 
     private async void OnVerifyClick(object sender, RoutedEventArgs e)
     {
-        if (Content.XamlRoot is not { } root) return;
         HideFlyout();
-        var paths = await WindowHelpers.PickFilesAsync(root, ".pdf", ".xml");
-        if (paths.Count > 0) ShowOutcome(await App.Current.Services.VerifyAsync(paths[0]));
+        try
+        {
+            var window = App.Current.EnsureMainWindow(activate: true);
+            var paths = await WindowHelpers.PickFilesAsync(window.AppWindow.Id, ".pdf", ".xml");
+            if (paths.Count > 0) await window.VerifyFilesAsync(paths);
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            ShowOutcome(new OperationOutcome(false, Loc.Format("Error_FileSelection", error.Message), []));
+        }
     }
 
     private void OnRecentClick(object sender, ItemClickEventArgs e)
@@ -134,7 +150,9 @@ public sealed partial class TrayFlyoutWindow : Window
     private void ShowOutcome(OperationOutcome outcome)
     {
         if (string.IsNullOrEmpty(outcome.Message)) return;
-        Result.Severity = outcome.Success ? InfoBarSeverity.Success : InfoBarSeverity.Warning;
+        Result.Severity = outcome.Success ? InfoBarSeverity.Success :
+            outcome.Reports is { } reports && MoldSign.Core.Validator.OverallVerdict(reports) != MoldSign.Core.Verdict.Invalid
+                ? InfoBarSeverity.Informational : InfoBarSeverity.Warning;
         Result.Message = outcome.Message;
         Result.IsOpen = true;
         ShowFlyout();

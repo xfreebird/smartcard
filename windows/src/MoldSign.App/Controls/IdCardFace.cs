@@ -111,18 +111,18 @@ internal sealed class IdCardFace : Grid
         });
 
         var center = new Point(0.78 * w, 0.62 * h);
-        var rosette = new GeometryGroup();
+        // Separate paths avoid WinUI's null geometry in GeometryGroup's stroke-mask renderer on Windows 10.
         for (var i = 0; i < 8; i++)
         {
-            rosette.Children.Add(new EllipseGeometry
+            canvas.Children.Add(new Path
             {
-                Center = center,
-                RadiusX = 0.22 * w,
-                RadiusY = 0.07 * w,
-                Transform = new RotateTransform { Angle = i * 22.5, CenterX = center.X, CenterY = center.Y },
+                Data = new EllipseGeometry { Center = center, RadiusX = 0.22 * w, RadiusY = 0.07 * w },
+                RenderTransform = new RotateTransform { Angle = i * 22.5, CenterX = center.X, CenterY = center.Y },
+                Stroke = Solid(CardArt.RosetteGold),
+                StrokeThickness = 0.8,
+                Opacity = 0.25,
             });
         }
-        canvas.Children.Add(new Path { Data = rosette, Stroke = Solid(CardArt.RosetteGold), StrokeThickness = 0.8, Opacity = 0.25 });
     }
 
     /// <summary>Bold letter-spaced first line + regular second line, a 1 px rule under each; shrinks to fit.</summary>

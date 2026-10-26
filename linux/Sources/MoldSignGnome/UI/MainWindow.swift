@@ -157,6 +157,13 @@ final class MainWindow {
             title = "Conexiunea browser nu a pornit: porturile \(MoldSignServer.defaultHTTPPort)/\(MoldSignServer.defaultHTTPSPort) sunt ocupate de altă aplicație"
             buttonLabel = "Reîncearcă"
             bannerAction = { [weak self] in self?.controller.restartBridge() }
+        } else if controller.settings.bridgeEnabled, controller.bridgeState == .identityRequired {
+            title = controller.bridgeState.description
+            buttonLabel = "Importă…"
+            bannerAction = { [weak self] in
+                guard let self else { return }
+                chooseBridgeIdentity(parent: self.window.cast(), controller: self.controller)
+            }
         }
         adw_banner_set_title(banner, escapeMarkup(title ?? ""))
         adw_banner_set_button_label(banner, buttonLabel)

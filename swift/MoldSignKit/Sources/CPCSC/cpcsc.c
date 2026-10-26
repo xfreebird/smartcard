@@ -299,6 +299,8 @@ void *c_tls_server_new(const uint8_t *p12_der, size_t p12_len, const char *passw
     return ctx;
 }
 
+void c_tls_server_free(void *server_ctx) { SSL_CTX_free((SSL_CTX *)server_ctx); }
+
 void *c_tls_accept(void *server_ctx, int fd) {
     SSL *ssl = SSL_new((SSL_CTX *)server_ctx);
     if (!ssl) return NULL;
@@ -325,6 +327,7 @@ int32_t c_rsa_verify_digest(const uint8_t *c, size_t cl, const uint8_t *d, size_
     (void)c; (void)cl; (void)d; (void)dl; (void)s; (void)sl; return 0;
 }
 void *c_tls_server_new(const uint8_t *p, size_t l, const char *pw) { (void)p; (void)l; (void)pw; return NULL; }
+void c_tls_server_free(void *c) { (void)c; }
 void *c_tls_accept(void *c, int fd) { (void)c; (void)fd; return NULL; }
 int32_t c_tls_read(void *s, uint8_t *b, int32_t l) { (void)s; (void)b; (void)l; return -1; }
 int32_t c_tls_write(void *s, const uint8_t *b, int32_t l) { (void)s; (void)b; (void)l; return -1; }

@@ -35,8 +35,8 @@ public sealed class SigningService
         _connect = connectReader ?? throw new ArgumentNullException(nameof(connectReader));
         _trace = trace;
         trust ??= new TrustServices();
-        _pades = new PadesSigner(trust);
-        _xades = new XadesSigner(trust);
+        _pades = new PadesSigner(trust) { Progress = Report };
+        _xades = new XadesSigner(trust) { Progress = Report };
         _validator = new Validator();
     }
 
@@ -133,7 +133,7 @@ public sealed class SigningService
     /// <param name="expectedCertificateSha1">Identity guard, see <see cref="SignDigestInfo"/>.</param>
     public SignResult SignXades(IReadOnlyList<string> files, XadesFormat format, XadesPackaging packaging,
                                 string output, ConsentProvider consent, string requester = "Tu",
-                                string? reader = null, string? expectedCertificateSha1 = null)
+                                string? reader = null, string? expectedCertificateSha1 = null, string? digestAlgorithm = null)
     {
         ArgumentNullException.ThrowIfNull(files);
         ArgumentNullException.ThrowIfNull(consent);
@@ -142,10 +142,9 @@ public sealed class SigningService
         {
             var der = ReadCertificate(card, expectedCertificateSha1);
             var summary = CertificateSummary.FromDer(der);
-            // TODO(WIN-01): chain = MDQSign CA + mdtrustca (port ChainCerts.swift).
-            var xml = _xades.Sign(files, format, packaging, der, [], digestInfo =>
+            var xml = _xades.Sign(files, format, packaging, der, ChainCertificates.All, digestInfo =>
                 SignWithConsent(card, summary, digestInfo, consent, requester,
-                                files.Select(Path.GetFileName).OfType<string>().ToArray(), label));
+                                files.Select(Path.GetFileName).OfType<string>().ToArray(), label), digestAlgorithm);
             Report(SigningStep.Writing);
             WriteNew(output, xml);
             Report(SigningStep.Done);
@@ -226,15 +225,14 @@ public sealed class SigningService
                     PublishReaderState(idle);
                     return result;
                 }
-                catch (CardException e) when (e.Kind != CardErrorKind.Cancelled)
+                catch (CardException e) when (e.Kind is not CardErrorKind.Cancelled and not CardErrorKind.Format and not CardErrorKind.Network)
                 {
                     PublishReaderState(new ReaderState.Error(e.Kind, e.Message, connected));
                     throw;
                 }
                 catch
                 {
-                    // Cancelled, I/O, format or not-yet-ported (NotImplementedException) failures:
-                    // the card itself is fine.
+                    // Consent, document and network failures do not mean the card itself failed.
                     PublishReaderState(idle);
                     throw;
                 }

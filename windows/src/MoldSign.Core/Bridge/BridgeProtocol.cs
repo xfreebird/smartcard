@@ -32,7 +32,7 @@ public sealed record CertificateModel
     [JsonPropertyName("certificateName")] public string CertificateName { get; init; } = "";
     [JsonPropertyName("subjectDN")] public string SubjectDN { get; init; } = "";
     [JsonPropertyName("issuerDN")] public string IssuerDN { get; init; } = "";
-    [JsonPropertyName("authority")] public string? Authority { get; init; }
+    [JsonPropertyName("authority")] public bool Authority { get; init; }
     [JsonPropertyName("trusted")] public bool Trusted { get; init; }
     [JsonPropertyName("verified")] public int Verified { get; init; }
     [JsonPropertyName("privateKeyPresent")] public bool PrivateKeyPresent { get; init; }

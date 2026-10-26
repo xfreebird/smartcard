@@ -6,7 +6,10 @@ using MoldSign.Core;
 namespace MoldSign.App.Services;
 
 /// <summary>Result of a UI-triggered operation, ready for an InfoBar.</summary>
-public sealed record OperationOutcome(bool Success, string Message, IReadOnlyList<string> Outputs);
+public sealed record OperationOutcome(bool Success, string Message, IReadOnlyList<string> Outputs)
+{
+    public IReadOnlyList<VerificationReport>? Reports { get; init; }
+}
 
 /// <summary>One document to sign and the format chosen for it on the Sign page (PDF: PAdES-T or XAdES; others: XAdES).</summary>
 public sealed record DocumentJob(string Path, SignatureFormat Format);
@@ -23,6 +26,8 @@ public sealed record DocumentJob(string Path, SignatureFormat Format);
 public sealed class AppServices : IAsyncDisposable
 {
     private readonly DispatcherQueue _ui;
+    private IReadOnlyList<CardEntry> _bridgeCards = [];
+    private int _busyCount;
 
     /// <param name="ui">UI-thread dispatcher.</param>
     /// <param name="dialogRoot">XamlRoot for the PIN dialog (the main window, shown on demand).</param>
@@ -35,9 +40,21 @@ public sealed class AppServices : IAsyncDisposable
         Readers = new ReaderWatcher();
         Consent = new ConsentCoordinator(ui, Pins, Settings, dialogRoot);
         // Every operation names its PC/SC reader (the wallet selection); null = the first reader with a card.
-        Signing = new SigningService(reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }),
-                                     trace: line => Debug.WriteLine($"[card] {line}"));
-        Bridge = new BridgeHost(BridgeOriginPolicy.Default, tlsPfxPath: () => null /* TODO(WIN-06) */);
+        Signing = new SigningService(reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
+        Bridge = new BridgeHost(BridgeOriginPolicy.Default, () => BridgeTls.IdentityPath,
+            () => Volatile.Read(ref _bridgeCards), Signing, Consent.Request);
+        State.WalletChanged += (_, _) => Volatile.Write(ref _bridgeCards, State.BridgeCards);
+        Bridge.SigningStarted += (_, _) => _ui.TryEnqueue(() => SetBusy(true));
+        Bridge.Completed += (_, outcome) => _ui.TryEnqueue(() =>
+        {
+            SetBusy(false);
+            var host = Uri.TryCreate(outcome.Origin, UriKind.Absolute, out var uri) ? uri.Host : "localhost";
+            var action = outcome.Error is CardException error
+                ? HandleCardError(error, outcome.Card.Reader, outcome.Card.Certificate.Sha1)
+                : outcome.Error is null ? Loc.Get("Activity_Signed") : Loc.Get("Error_Generic");
+            State.AddActivity(new ActivityItem(host, $"{action} · {outcome.Format}",
+                DateTimeOffset.Now, outcome.Error is null, null));
+        });
 
         Signing.Progress += (_, step) => _ui.TryEnqueue(() => State.SetStep(step));
         Readers.Changed += (_, slots) => _ui.TryEnqueue(() => OnReadersChanged(slots));
@@ -67,16 +84,54 @@ public sealed class AppServices : IAsyncDisposable
             else await Bridge.StopAsync();
             State.BridgeStatus = Loc.Get(enabled ? "Bridge_On" : "Bridge_Off");
         }
-        catch (IOException e)
+        catch (FileNotFoundException e)
+        {
+            AppLog.Error(e);
+            State.BridgeStatus = Loc.Get("Bridge_IdentityMissing");
+        }
+        catch (System.Security.Cryptography.CryptographicException e)
+        {
+            AppLog.Error(e);
+            State.BridgeStatus = Loc.Get("Bridge_IdentityInvalid");
+        }
+        catch (IOException e) when (e.InnerException is Microsoft.AspNetCore.Connections.AddressInUseException)
         {
             // Port taken, typically by the vendor Java server.
             Debug.WriteLine($"bridge: {e.Message}");
-            enabled = false;
-            State.BridgeStatus = Loc.Format("Bridge_PortBusy", BridgeProtocol.HttpPort);
+            State.BridgeStatus = Loc.Format("Bridge_PortBusy", $"{BridgeProtocol.HttpPort}/{BridgeProtocol.HttpsPort}");
+        }
+        catch (Exception e)
+        {
+            AppLog.Error(e);
+            State.BridgeStatus = Loc.Format("Bridge_Error", e.Message);
         }
         State.BridgeEnabled = enabled;
         Settings.BridgeEnabled = enabled;
         Settings.Save();
+    }
+
+    public async Task ImportBridgeIdentityAsync(string source)
+    {
+        try
+        {
+            var certificates = BridgeTls.Load(source);
+            foreach (var certificate in certificates) certificate.Dispose();
+            var destination = BridgeTls.IdentityPath;
+            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+            if (!string.Equals(Path.GetFullPath(source), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase))
+                File.Copy(source, destination, overwrite: true);
+            if (Settings.BridgeEnabled)
+            {
+                await Bridge.StopAsync();
+                await SetBridgeEnabledAsync(true);
+            }
+            else State.BridgeStatus = Loc.Get("Bridge_IdentityImported");
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            State.BridgeStatus = Loc.Get("Bridge_IdentityInvalid");
+        }
     }
 
     // MARK: - Cards
@@ -110,6 +165,11 @@ public sealed class AppServices : IAsyncDisposable
             // Removed while reading: the next reader snapshot drops the card anyway.
             if (e.Kind is not (CardErrorKind.NoCard or CardErrorKind.NoReader)) State.FailRead(card, e.Kind);
         }
+        catch (Exception e)
+        {
+            AppLog.Error(e);
+            State.FailRead(card, CardErrorKind.CardNotResponding);
+        }
     }
 
     // MARK: - Signing
@@ -127,7 +187,7 @@ public sealed class AppServices : IAsyncDisposable
         if (State.SelectedReader is not { } reader || State.Certificate is not { } certificate || !State.CanSign)
             return new OperationOutcome(false, State.LightLabel, []);
 
-        State.SetBusy(true);
+        SetBusy(true);
         var outputs = new List<string>();
         try
         {
@@ -161,9 +221,14 @@ public sealed class AppServices : IAsyncDisposable
         {
             return new OperationOutcome(false, e.Message, outputs);
         }
+        catch (Exception e)
+        {
+            AppLog.Error(e);
+            return new OperationOutcome(false, Loc.Get("Error_Generic"), outputs);
+        }
         finally
         {
-            State.SetBusy(false);
+            SetBusy(false);
         }
     }
 
@@ -172,9 +237,17 @@ public sealed class AppServices : IAsyncDisposable
         try
         {
             var reports = Signing.Verify(path, detachedDocs);
-            var allValid = reports.Count > 0 && reports.All(r => r.Verdict == Verdict.Valid);
+            var verdict = Validator.OverallVerdict(reports);
+            var allValid = verdict == Verdict.Valid;
             Record(Path.GetFileName(path), Loc.Get("Activity_Verified"), allValid, path);
-            return new OperationOutcome(allValid, Loc.Get(allValid ? "Verdict_Valid" : "Verdict_Invalid"), []);
+            var key = verdict switch
+            {
+                Verdict.Valid => "Verdict_Valid",
+                Verdict.Invalid => "Verdict_Invalid",
+                Verdict.Indeterminate => "Verdict_Unknown",
+                _ => "Verdict_Unsigned",
+            };
+            return new OperationOutcome(allValid, Loc.Get(key), []) { Reports = reports };
         }
         catch (NotImplementedException)
         {
@@ -183,6 +256,11 @@ public sealed class AppServices : IAsyncDisposable
         catch (IOException e)
         {
             return new OperationOutcome(false, e.Message, []);
+        }
+        catch (Exception e)
+        {
+            AppLog.Error(e);
+            return new OperationOutcome(false, Loc.Get("Verify_Failed"), []);
         }
     });
 
@@ -219,4 +297,10 @@ public sealed class AppServices : IAsyncDisposable
 
     private void Record(string file, string action, bool success, string? path) =>
         _ui.TryEnqueue(() => State.AddActivity(new ActivityItem(file, action, DateTimeOffset.Now, success, path)));
+
+    private void SetBusy(bool busy)
+    {
+        _busyCount = Math.Max(0, _busyCount + (busy ? 1 : -1));
+        State.SetBusy(_busyCount > 0);
+    }
 }

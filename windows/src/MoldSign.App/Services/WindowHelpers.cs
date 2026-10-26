@@ -21,6 +21,33 @@ internal static partial class WindowHelpers
 
     public static nint Handle(Window window) => WinRT.Interop.WindowNative.GetWindowHandle(window);
 
+    public static IDisposable PresentConsent(Window window, bool aboveBrowser)
+    {
+        var presenter = window.AppWindow.Presenter as OverlappedPresenter;
+        var wasTopmost = presenter?.IsAlwaysOnTop ?? false;
+        if (presenter is not null)
+        {
+            if (aboveBrowser) presenter.IsAlwaysOnTop = true;
+            if (presenter.State == OverlappedPresenterState.Minimized) presenter.Restore();
+        }
+        window.AppWindow.Show();
+        window.Activate();
+        _ = SetForegroundWindow(Handle(window));
+        return new ConsentPresentation(presenter, wasTopmost);
+    }
+
+    private sealed class ConsentPresentation(OverlappedPresenter? presenter, bool wasTopmost) : IDisposable
+    {
+        public void Dispose()
+        {
+            try
+            {
+                if (presenter is not null) presenter.IsAlwaysOnTop = wasTopmost;
+            }
+            catch (COMException error) { AppLog.Error(error); }
+        }
+    }
+
     /// <summary>Effective-pixel scale of the window's monitor.</summary>
     public static double Scale(Window window)
     {
@@ -95,11 +122,16 @@ internal static partial class WindowHelpers
         Win32Interop.GetWindowFromWindowId(root.ContentIslandEnvironment.AppWindowId);
 
     /// <summary>Multi-file open picker owned by the window of <paramref name="root"/>; empty when cancelled.</summary>
-    public static async Task<IReadOnlyList<string>> PickFilesAsync(XamlRoot root, params string[] extensions)
+    public static Task<IReadOnlyList<string>> PickFilesAsync(XamlRoot root, params string[] extensions)
     {
-        var picker = new Windows.Storage.Pickers.FileOpenPicker();
-        WinRT.Interop.InitializeWithWindow.Initialize(picker, HandleFor(root));
-        if (extensions.Length == 0) picker.FileTypeFilter.Add("*");
+        var windowId = root.ContentIslandEnvironment.AppWindowId;
+        if (windowId.Value == 0) windowId = App.Current.EnsureMainWindow(activate: true).AppWindow.Id;
+        return PickFilesAsync(windowId, extensions);
+    }
+
+    public static async Task<IReadOnlyList<string>> PickFilesAsync(WindowId windowId, params string[] extensions)
+    {
+        var picker = new Microsoft.Windows.Storage.Pickers.FileOpenPicker(windowId);
         foreach (var extension in extensions) picker.FileTypeFilter.Add(extension);
         var files = await picker.PickMultipleFilesAsync();
         return files is null ? [] : files.Select(f => f.Path).Where(p => !string.IsNullOrEmpty(p)).ToList();
@@ -140,4 +172,7 @@ internal static partial class WindowHelpers
 
     [LibraryImport("user32.dll")]
     private static partial uint GetDpiForWindow(nint hwnd);
+
+    [LibraryImport("user32.dll")]
+    private static partial int SetForegroundWindow(nint hwnd);
 }

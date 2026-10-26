@@ -27,6 +27,21 @@ public sealed partial class SettingsPage : Page
         await App.Current.Services.SetBridgeEnabledAsync(BridgeToggle.IsOn);
     }
 
+    private async void OnImportIdentityClick(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (XamlRoot is null) return;
+            var paths = await WindowHelpers.PickFilesAsync(XamlRoot, ".p12", ".pfx");
+            if (paths.Count > 0) await App.Current.Services.ImportBridgeIdentityAsync(paths[0]);
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            State.BridgeStatus = Loc.Format("Error_FileSelection", error.Message);
+        }
+    }
+
     private async void OnStartAtLoginToggled(object sender, RoutedEventArgs e)
     {
         if (_loadingStartup) return;

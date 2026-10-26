@@ -171,6 +171,16 @@ func presentPreferences(parent: Widget, controller: AppController) {
     gtk_widget_set_valign(retry, GTK_ALIGN_CENTER)
     adw_action_row_add_suffix(bridgeRow.cast(), retry)
 
+    let identityRow = actionRow(title: "Identitate HTTPS MoldSign",
+        subtitle: "Necesară pentru msign.gov.md. Alege localhost.p12 din MoldSign Desktop.",
+        icon: "network-server-symbolic")
+    let importIdentity = button("Importă…", classes: ["flat"]) {
+        chooseBridgeIdentity(parent: parent, controller: controller)
+    }
+    gtk_widget_set_valign(importIdentity, GTK_ALIGN_CENTER)
+    adw_action_row_add_suffix(identityRow.cast(), importIdentity)
+    groupAdd(bridge, identityRow)
+
     let background = preferencesGroup(title: "Fundal")
     let backgroundRow = adw_switch_row_new()!
     adw_preferences_row_set_title(backgroundRow.cast(), "Rulează în fundal")
@@ -202,6 +212,13 @@ func presentPreferences(parent: Widget, controller: AppController) {
     }
     onSignal(dialog, "closed") { controller.unobserve(token) }
     adw_dialog_present(dialog, parent)
+}
+
+func chooseBridgeIdentity(parent: Widget, controller: AppController) {
+    chooseFiles(parent: parent.cast(), title: "Identitate HTTPS MoldSign", multiple: false,
+                filters: [(name: "PKCS#12", suffixes: ["p12", "pfx"])]) { paths in
+        if let path = paths.first { controller.importBridgeIdentity(from: URL(fileURLWithPath: path)) }
+    }
 }
 
 // MARK: - About
