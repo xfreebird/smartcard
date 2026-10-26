@@ -127,6 +127,9 @@ python3 scripts/make-strings.py
   `GeometryGroup` stroke-mask renderer (`UnwrapD2DGeometry` access violation). The card rosette now uses
   separate rotated paths rather than transformed ellipse geometries in a group; the patched installed
   app remains responsive on Windows 10 Pro 19045.
+  Card removal also exposed an icon-ownership bug: H.NotifyIcon disposes the previous icon, so it must receive
+  a clone rather than the cached original. The cache now owns its originals; ready/empty and theme changes
+  hand off independent copies. Two physical insert/remove cycles were confirmed stable by the owner.
 * **Sign page**: a large dashed drop zone with "Alege fișiere…"; once files are added, their list (with a format picker
   per document) and the drop zone, compact, under it. PDFs: PAdES-T (default), XAdES-BES, XAdES-T or XAdES-C (detached
   XAdES over the PDF bytes → `<name>-semnat.xml`); other files: the XAdES levels. The choice reaches

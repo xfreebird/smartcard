@@ -148,7 +148,15 @@ public sealed class AppServices : IAsyncDisposable
 
     private void OnReadersChanged(IReadOnlyList<ReaderSlot> slots)
     {
-        foreach (var card in State.ApplySlots(slots)) _ = ReadCertificateAsync(card);
+        try
+        {
+            foreach (var card in State.ApplySlots(slots)) _ = ReadCertificateAsync(card);
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+            throw;
+        }
     }
 
     /// <summary>docs/09 §3.7: PIN-less certificate read so the wallet can greet the holder (full mutual auth, card lock).</summary>

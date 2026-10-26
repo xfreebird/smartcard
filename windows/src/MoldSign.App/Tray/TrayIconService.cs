@@ -67,7 +67,8 @@ public sealed partial class TrayIconService(Action toggleFlyout, Action openWind
         if (file == _shownFile) return;
         if (Load(file) is { } icon)
         {
-            _icon.Icon = icon;
+            // H.NotifyIcon disposes replaced icons; keep the cache masters privately owned.
+            _icon.Icon = (System.Drawing.Icon)icon.Clone();
             _shownFile = file;
         }
     }
