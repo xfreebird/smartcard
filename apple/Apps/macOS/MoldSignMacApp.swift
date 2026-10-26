@@ -76,7 +76,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         for name in names {
             NotificationCenter.default.addObserver(forName: name, object: nil, queue: .main) { [weak self] note in
                 let closing = name == NSWindow.willCloseNotification ? note.object as? NSWindow : nil
-                MainActor.assumeIsolated { self?.updateActivationPolicy(closing: closing) }
+                MainActor.assumeIsolated {
+                    if let closing { WindowPresentation.shared.unregister(closing) }
+                    self?.updateActivationPolicy(closing: closing)
+                }
             }
         }
     }
@@ -87,7 +90,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 && window.styleMask.contains(.titled) && !(window is NSPanel)
                 && !window.className.contains("MenuBarExtra")
         }
-        let policy: NSApplication.ActivationPolicy = hasAppWindow ? .regular : .accessory
+        let policy: NSApplication.ActivationPolicy =
+            hasAppWindow || WindowPresentation.shared.hasPendingRequest ? .regular : .accessory
         guard NSApp.activationPolicy() != policy else { return }
         NSApp.setActivationPolicy(policy)
         if policy == .regular { NSApp.activate() }

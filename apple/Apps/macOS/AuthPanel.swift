@@ -20,11 +20,22 @@ final class AuthPanelController {
         guard let model else { return }
         let root = AuthPanelContent(onFinish: { [weak self] in self?.hide() }).environment(model)
         let panel = self.panel ?? makePanel()
-        panel.contentViewController = NSHostingController(rootView: root)
-        panel.center()
-        NSApp.activate()
-        panel.makeKeyAndOrderFront(nil)
+        let host = NSHostingController(rootView: root)
+        panel.contentViewController = host
+        panel.setContentSize(host.view.fittingSize)
+        Self.centerOnActiveScreen(panel)
+        WindowPresentation.bringForward(panel)
         self.panel = panel
+    }
+
+    /// True center of the screen the user is working on (the one under the pointer); `NSWindow.center()` sits higher.
+    private static func centerOnActiveScreen(_ window: NSWindow) {
+        let mouse = NSEvent.mouseLocation
+        guard let screen = NSScreen.screens.first(where: { NSMouseInRect(mouse, $0.frame, false) }) ?? NSScreen.main
+        else { return window.center() }
+        let area = screen.visibleFrame
+        let size = window.frame.size
+        window.setFrameOrigin(NSPoint(x: (area.midX - size.width / 2).rounded(), y: (area.midY - size.height / 2).rounded()))
     }
 
     private func hide() {

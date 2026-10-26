@@ -10,6 +10,7 @@ struct SettingsView: View {
             BridgeSettings().tabItem { Label("Conexiune browser", systemImage: "globe") }
         }
         .frame(width: 520, height: 360)
+        .background(WindowReader { WindowPresentation.shared.register($0, for: .settings) })
     }
 }
 

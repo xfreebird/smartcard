@@ -1,7 +1,4 @@
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using MoldSign.Core;
 
 namespace MoldSign.App.Services;
@@ -9,9 +6,9 @@ namespace MoldSign.App.Services;
 /// <summary>
 /// The platform side of <see cref="ConsentProvider"/> (docs/09 §3.4): SigningService calls it on a worker
 /// thread; it shows UI on the dispatcher and blocks until the user answers.
-/// Stored PIN → Windows Hello only; otherwise the PIN dialog (docs/10 §4.3).
+/// Stored PIN → Windows Hello only; otherwise the PIN window (docs/10 §4.3).
 /// </summary>
-public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSettings settings, Func<Task<XamlRoot?>> dialogRoot)
+public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSettings settings)
 {
     /// <summary>SHA-1 of the certificate the last PIN was given for (deleted from the vault on WrongPin).</summary>
     public string? LastCertificateSha1 { get; private set; }
@@ -46,11 +43,12 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
     private async Task<ConsentResult> RequestOnUiThreadAsync(ConsentRequest request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        using var presentation = WindowHelpers.PresentConsent(App.Current.EnsureMainWindow(activate: true),
-            aboveBrowser: request.Requester != "Tu");
         var sha1 = request.Certificate.Sha1;
         if (settings.RememberPin && pins.Contains(sha1))
         {
+            // Windows Hello is owned by the main window, so bring it forward (above the browser) for the prompt.
+            using var presentation = WindowHelpers.PresentConsent(App.Current.EnsureMainWindow(activate: true),
+                aboveBrowser: request.Requester != "Tu");
             var reason = request.Requester == "Tu"
                 ? Loc.Format("Consent_HelloReason", request.Certificate.CommonName)
                 : Loc.Format("Consent_HelloBrowser", request.Requester, request.Certificate.CommonName,
@@ -60,8 +58,8 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
             if (stored is not null) return ConsentResult.WithPin(stored);
         }
 
-        if (await dialogRoot() is not { } root) return ConsentResult.Cancelled;
-        var (pin, remember) = await ShowPinDialogAsync(request, root, cancellationToken);
+        App.Current.HideFlyout(); // the always-on-top flyout must not cover the PIN window
+        var (pin, remember) = await ShowPinWindowAsync(request, cancellationToken);
         if (pin is null) return ConsentResult.Cancelled;
         if (remember)
         {
@@ -73,63 +71,16 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, PinVault pins, AppSet
         return ConsentResult.WithPin(pin);
     }
 
-    /// <summary>PIN QSCD sheet: 4–8 digits, no paste, remember toggle, attempts-left line.</summary>
-    private async Task<(string? Pin, bool Remember)> ShowPinDialogAsync(ConsentRequest request, XamlRoot root,
-        CancellationToken cancellationToken)
+    /// <summary>PIN QSCD window: 4–8 digits, no paste, remember toggle, attempts-left line; centered on the screen.</summary>
+    private Task<(string? Pin, bool Remember)> ShowPinWindowAsync(ConsentRequest request, CancellationToken cancellationToken)
     {
-        var requester = request.Requester == "Tu"
+        var heading = request.Requester == "Tu"
             ? Loc.Format("Pin_For", request.Certificate.CommonName)
-            : Loc.Format("Consent_Title", request.Requester);
-        var box = new PasswordBox
-        {
-            MaxLength = 8,
-            PlaceholderText = "••••",
-            InputScope = new InputScope { Names = { new InputScopeName(InputScopeNameValue.NumericPin) } },
-        };
-        box.Paste += (_, e) => e.Handled = true;
-        var remember = new CheckBox { Content = Loc.Get("Pin_Remember"), IsChecked = settings.RememberPin };
-
-        var panel = new StackPanel { Spacing = 12, MinWidth = 320 };
-        panel.Children.Add(new TextBlock { Text = requester, TextWrapping = TextWrapping.Wrap });
-        panel.Children.Add(new TextBlock { Text = request.Certificate.CommonName, TextWrapping = TextWrapping.Wrap });
-        if (request.Documents.Count > 0)
-        {
-            panel.Children.Add(new TextBlock
-            {
-                Text = $"{string.Join(", ", request.Documents)} · {request.Format}",
-                TextWrapping = TextWrapping.Wrap,
-                Opacity = 0.8,
-            });
-        }
-        panel.Children.Add(box);
-        panel.Children.Add(remember);
-        if (LastRemainingAttempts is { } left)
-        {
-            panel.Children.Add(new TextBlock
-            {
-                Text = Loc.Format("Pin_Attempts", left),
-                Foreground = WindowHelpers.ThemeBrush(left <= 2 ? "WarningBrush" : "TextFillColorSecondaryBrush"),
-            });
-        }
-
-        var dialog = new ContentDialog
-        {
-            XamlRoot = root,
-            Title = Loc.Get("Pin_Title"),
-            Content = panel,
-            PrimaryButtonText = Loc.Get("Action_Sign"),
-            CloseButtonText = Loc.Get("Action_Cancel"),
-            DefaultButton = ContentDialogButton.Primary,
-            IsPrimaryButtonEnabled = false,
-        };
-        box.PasswordChanged += (_, _) =>
-            dialog.IsPrimaryButtonEnabled = box.Password.Length is >= 4 and <= 8 && box.Password.All(char.IsAsciiDigit);
-        dialog.Opened += (_, _) => box.Focus(FocusState.Programmatic);
-
-        using var registration = cancellationToken.Register(() => ui.TryEnqueue(dialog.Hide));
-        cancellationToken.ThrowIfCancellationRequested();
-        var result = await dialog.ShowAsync();
-        cancellationToken.ThrowIfCancellationRequested();
-        return result == ContentDialogResult.Primary ? (box.Password, remember.IsChecked == true) : (null, false);
+            : $"{Loc.Format("Consent_Title", request.Requester)}\n{request.Certificate.CommonName}";
+        var details = request.Documents.Count > 0
+            ? new[] { $"{string.Join(", ", request.Documents)} · {request.Format}" }
+            : [];
+        var window = new PinWindow(heading, details, settings.RememberPin, LastRemainingAttempts);
+        return window.ShowAsync(cancellationToken);
     }
 }

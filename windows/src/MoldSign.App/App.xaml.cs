@@ -40,7 +40,6 @@ public partial class App : Application
         var dispatcher = DispatcherQueue.GetForCurrentThread();
         Services = new AppServices(
             dispatcher,
-            dialogRoot: DialogRootAsync,
             ownerWindow: () => _main is null ? 0 : WindowHelpers.Handle(_main));
 
         _flyout = new TrayFlyoutWindow();
@@ -74,21 +73,6 @@ public partial class App : Application
             _main.Activate();
         }
         return _main;
-    }
-
-    /// <summary>XamlRoot for ContentDialogs: the main window, shown and loaded.</summary>
-    private async Task<XamlRoot?> DialogRootAsync()
-    {
-        HideFlyout();
-        var window = EnsureMainWindow(activate: true);
-        if (window.Content is not FrameworkElement root) return null;
-        if (root.XamlRoot is null)
-        {
-            var loaded = new TaskCompletionSource();
-            root.Loaded += (_, _) => loaded.TrySetResult();
-            await Task.WhenAny(loaded.Task, Task.Delay(TimeSpan.FromSeconds(3)));
-        }
-        return root.XamlRoot;
     }
 
     public void ToggleFlyout() => _flyout?.Toggle();

@@ -30,15 +30,14 @@ public sealed class AppServices : IAsyncDisposable
     private int _busyCount;
 
     /// <param name="ui">UI-thread dispatcher.</param>
-    /// <param name="dialogRoot">XamlRoot for the PIN dialog (the main window, shown on demand).</param>
     /// <param name="ownerWindow">HWND owning the Windows Hello prompt.</param>
-    public AppServices(DispatcherQueue ui, Func<Task<XamlRoot?>> dialogRoot, Func<nint> ownerWindow)
+    public AppServices(DispatcherQueue ui, Func<nint> ownerWindow)
     {
         _ui = ui;
         Settings = AppSettings.Load();
         Pins = new PinVault(ownerWindow);
         Readers = new ReaderWatcher();
-        Consent = new ConsentCoordinator(ui, Pins, Settings, dialogRoot);
+        Consent = new ConsentCoordinator(ui, Pins, Settings);
         // Every operation names its PC/SC reader (the wallet selection); null = the first reader with a card.
         Signing = new SigningService(reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
         Bridge = new BridgeHost(BridgeOriginPolicy.Default, () => BridgeTls.IdentityPath,

@@ -20,12 +20,19 @@ struct PinEntryView: View {
                 Text("pentru \(request.holder)").foregroundStyle(.secondary)
             }
             ZStack {
+                // Invisible key catcher behind the boxes: no system focus ring or bezel, the boxes show focus instead.
                 SecureField("", text: $pin)
                     .focused($focused)
                     #if os(iOS)
                     .keyboardType(.numberPad)
                     #endif
-                    .opacity(0.02)
+                    .textFieldStyle(.plain)
+                    .focusEffectDisabled()
+                    .foregroundStyle(.clear)
+                    .tint(.clear)
+                    .frame(width: 1, height: 1)
+                    .opacity(0.01)
+                    .accessibilityLabel("PIN")
                     .onChange(of: pin) { _, value in pin = String(value.filter(\.isNumber).prefix(8)) }
                     .onSubmit { if valid { onSubmit(pin, remember && request.canRemember) } }
                 HStack(spacing: 6) {
@@ -38,8 +45,8 @@ struct PinEntryView: View {
                 }
                 .allowsHitTesting(false)
             }
+            .contentShape(Rectangle())
             .onTapGesture { focused = true }
-            .accessibilityLabel("PIN")
 
             if request.canRemember {
                 Toggle("Ține minte PIN-ul (Touch ID / Face ID)", isOn: $remember)

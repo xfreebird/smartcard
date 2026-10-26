@@ -15,7 +15,9 @@ struct MenuBarPopover: View {
             HStack(spacing: 8) {
                 Text("eSemnBun").font(.headline)
                 Spacer()
-                Button { dismissThen { openSettings(); NSApp.activate() } } label: { Image(systemName: "gearshape") }
+                Button {
+                    dismissThen { WindowPresentation.shared.present(.settings) { openSettings() } }
+                } label: { Image(systemName: "gearshape") }
                     .buttonStyle(.borderless)
                     .help("Setări")
                     .accessibilityLabel("Setări")
@@ -117,14 +119,14 @@ struct MenuBarPopover: View {
     private func showMain(_ section: MainWindowView.Section) {
         UserDefaults.standard.set(section.rawValue, forKey: "mainSection")
         dismissThen {
-            openWindow(id: "main")
-            NSApp.activate()
+            WindowPresentation.shared.present(.main) { openWindow(id: "main") }
         }
     }
 }
 
 /// The NSWindow hosting a SwiftUI view.
-private struct WindowReader: NSViewRepresentable {
+@MainActor
+struct WindowReader: NSViewRepresentable {
     let onWindow: (NSWindow?) -> Void
 
     func makeNSView(context: Context) -> NSView {
@@ -238,6 +240,7 @@ struct MainWindowView: View {
                 case .activity: ActivityScreen()
                 }
             }
+            .background(WindowReader { WindowPresentation.shared.register($0, for: .main) })
         }
     }
 }
