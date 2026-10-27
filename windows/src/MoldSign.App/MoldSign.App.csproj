@@ -53,6 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- Vendor localhost.cts.md TLS identity for the browser bridge (D-03): shipped in the MSI and MSIX. -->
+    <Content Include="..\..\..\swift\MoldSignKit\Resources\localhost.p12" Link="localhost.p12"
+             CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Kestrel for the browser bridge (BridgeHost, WIN-06). -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>

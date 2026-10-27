@@ -292,8 +292,9 @@ When testing resumes:
    (exception type/HRESULT/call sites only, no PIN or document payload). The pre-port installed files are
    backed up under `%LOCALAPPDATA%\MoldSign\diagnostics\before-signing-port`.
 
-HTTPS setup on another PC: Settings → **Import HTTPS identity (localhost.p12)…**, exported from MoldSign
-Desktop. The default path is `%LOCALAPPDATA%\MoldSign\localhost.p12`; `MSIGN_TLS_P12` overrides it. Import
+HTTPS identity: the MSI and MSIX ship `localhost.p12` next to `eSemnBun.exe` (D-03), so a fresh PC needs no setup.
+Settings → **Import HTTPS identity (localhost.p12)…** replaces it (e.g. after a vendor renewal) by copying to
+`%LOCALAPPDATA%\MoldSign\localhost.p12`, which wins over the bundled copy; `MSIGN_TLS_P12` overrides both. Import
 validates the hostname/private key/expiry and restarts an enabled bridge. On Windows, the loader uses
 `UserKeySet` (without `PersistKeySet`); Schannel cannot serve the ephemeral PKCS#12 key used on other OSes.
 Web-page PIN fields are ignored; the user approves in the app. Batch PIN reuse is memory-only, same origin

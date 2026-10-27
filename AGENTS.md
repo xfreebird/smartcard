@@ -208,6 +208,8 @@ gets 403 without CORS headers. Preflights add `Access-Control-Allow-Private-Netw
   nearly exhausted — warning worth treating as sensitive for the user's physical card safety.
 
 **Vendor-shipped (required to function; not user secrets; still keep off public repos):**
+* Shipped inside the macOS, Windows, Linux and Android apps (D-03): without it the bridge has no HTTPS and the
+  portal lists no identities. The vendor suite itself only has `sslKeyStore2.jks` (real JKS), never a `.p12`.
 * `swift/MoldSignKit/Resources/localhost.p12` — localhost.cts.md TLS identity (publicly-issued Certum DV cert +
   its private key + chain, shipped inside every MoldSign Desktop install). Re-extract:
   `keytool -importkeystore -srckeystore /Applications/STISC/MoldSign/MoldSignData/Server/sslKeyStore2.jks

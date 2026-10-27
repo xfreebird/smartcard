@@ -10,8 +10,8 @@
 #   gui  linux/.build/release/esemnbun-gnome          swift build -c release --static-swift-stdlib        (in linux/)
 #   cli  swift/MoldSignKit/.build/release/esemnbun    swift build -c release --product esemnbun --static-swift-stdlib
 #
-# The browser bridge's localhost.cts.md TLS identity is vendor-shipped (AGENTS.md §5) and is never packaged:
-# each user copies it to ~/.local/share/moldsign/localhost.p12 (Flatpak: ~/.var/app/md.moldsign.MoldSign/data/moldsign/).
+# The GUI ships the browser bridge's localhost.cts.md TLS identity (vendor localhost.p12, D-03) as
+# <prefix>/share/moldsign/localhost.p12; an imported copy in ~/.local/share/moldsign/ takes precedence.
 set -euo pipefail
 
 here="$(cd "$(dirname "$0")" && pwd)"
@@ -38,6 +38,7 @@ install_gui() {
     "$root/share/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg"
   install -Dm644 "$repo/linux/data/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg" \
     "$root/share/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg"
+  install -Dm644 "$repo/swift/MoldSignKit/Resources/localhost.p12" "$root/share/moldsign/localhost.p12"
 }
 
 install_cli() {

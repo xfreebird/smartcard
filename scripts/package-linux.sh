@@ -16,7 +16,7 @@
 #   MOLDSIGN_VERSION   default: the newest <release> in linux/data/md.moldsign.MoldSign.metainfo.xml
 #   MOLDSIGN_SKIP_BUILD=1  reuse the existing release builds
 #   MOLDSIGN_NO_STRIP=1    keep symbols in the staged binaries
-# The bridge's TLS identity (vendor-shipped localhost.p12) is never packaged (AGENTS.md §5).
+# The GUI package ships the bridge's TLS identity (vendor localhost.p12, D-03) in /usr/share/moldsign.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

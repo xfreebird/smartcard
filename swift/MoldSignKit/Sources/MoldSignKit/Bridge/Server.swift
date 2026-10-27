@@ -127,7 +127,11 @@ public final class MoldSignServer {
     #if canImport(Network) && !MOLDSIGN_PORTABLE
     private static func tlsIdentity(from data: Data) -> sec_identity_t? {
         var items: CFArray?
-        let status = SecPKCS12Import(data as CFData, [kSecImportExportPassphrase: Self.p12Password] as CFDictionary, &items)
+        var options: [CFString: Any] = [kSecImportExportPassphrase: Self.p12Password]
+        // Otherwise macOS stores the key in the login keychain with an ACL for the importing binary: any other build
+        // then blocks the TLS handshake on a "wants to sign using key" prompt and the portal hangs.
+        if #available(macOS 15, iOS 18, *) { options[kSecImportToMemoryOnly] = true }
+        let status = SecPKCS12Import(data as CFData, options as CFDictionary, &items)
         guard status == errSecSuccess,
               let arr = items as? [[String: Any]], let first = arr.first,
               let identity = first[kSecImportItemIdentity as String] else { return nil }

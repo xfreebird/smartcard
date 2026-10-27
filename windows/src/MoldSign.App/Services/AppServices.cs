@@ -40,7 +40,7 @@ public sealed class AppServices : IAsyncDisposable
         Consent = new ConsentCoordinator(ui, Pins, Settings);
         // Every operation names its PC/SC reader (the wallet selection); null = the first reader with a card.
         Signing = new SigningService(reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
-        Bridge = new BridgeHost(BridgeOriginPolicy.Default, () => BridgeTls.IdentityPath,
+        Bridge = new BridgeHost(BridgeOriginPolicy.Default, BridgeTls.ResolvePath,
             () => Volatile.Read(ref _bridgeCards), Signing, Consent.Request);
         State.WalletChanged += (_, _) => Volatile.Write(ref _bridgeCards, State.BridgeCards);
         Bridge.SigningStarted += (_, _) => _ui.TryEnqueue(() => SetBusy(true));

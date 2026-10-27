@@ -186,8 +186,9 @@ Protocol details: [04-server-replica.md](04-server-replica.md). Additions every 
    is allowed without consent (it only reads the public certificate).
 3. **Loopback only (SEC-03):** bind `127.0.0.1`; cap request bodies (64 MB); one signing at a time.
 4. **Private Network Access:** answer preflights with `Access-Control-Allow-Private-Network: true`.
-5. TLS identity: `localhost.cts.md` p12, loaded from the installed vendor suite when present,
-   else from the app bundle (D-03).
+5. TLS identity: `localhost.cts.md` p12, shipped in every app (macOS bundle, Windows app folder, Linux
+   `share/moldsign`, Android core jar, D-03); a user-imported copy or `MSIGN_TLS_P12` wins. The vendor suite has only a
+   JKS (`sslKeyStore2.jks`), so there is nothing to load from it. Apps refuse to report the bridge as running without HTTPS.
 6. **Result polls are long-polls.** Hold `GET …/PKCS11/{session}/…` until the session finishes, then `200`
    with the result, or `400` + header `error: <message>`. Never answer "not ready" with 303: the portal sends
    exactly one GET per document, and browsers stop after 20 redirects. That bug shipped in macOS 0.1.0.

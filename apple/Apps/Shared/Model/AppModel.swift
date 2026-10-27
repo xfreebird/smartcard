@@ -404,7 +404,12 @@ final class AppModel {
             }
         }
         do {
+            #if os(macOS)
+            // msign.gov.md only talks to https://localhost.cts.md:18443; http alone looks like "no identities".
+            try server.start(requireHTTPS: true)
+            #else
             try server.start()
+            #endif
             bridgeState = .running
             self.server = server
         } catch {

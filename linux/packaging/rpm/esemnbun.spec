@@ -76,6 +76,7 @@ cp -a %{moldsign_stage}/. %{buildroot}/
 %{_datadir}/metainfo/md.moldsign.MoldSign.metainfo.xml
 %{_datadir}/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg
 %{_datadir}/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg
+%{_datadir}/moldsign/localhost.p12
 
 %files cli
 %{_bindir}/esemnbun

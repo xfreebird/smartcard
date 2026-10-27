@@ -160,14 +160,16 @@ alongside MoldSign Desktop: they all need 18480/18443.
 
 ### Bridge TLS identity
 
-The HTTPS listener (`localhost.cts.md:18443`) needs the vendor's `localhost.p12` (see AGENTS.md §5). It is never
-packaged. In the GNOME app, use **Preferences → Conexiune browser → Identitate HTTPS MoldSign → Importă…**,
-or the **Importă…** button in the setup banner. Select the `localhost.p12` exported from MoldSign Desktop
+The HTTPS listener (`localhost.cts.md:18443`) needs the vendor's `localhost.p12` (see AGENTS.md §5). The GUI
+packages (deb, rpm, Flatpak) ship it as `<prefix>/share/moldsign/localhost.p12` (D-03), so nothing has to be set up.
+To replace it (e.g. after the vendor renews the certificate), use **Preferences → Conexiune browser → Identitate HTTPS
+MoldSign → Importă…**, or the **Importă…** button in the setup banner, and select a `localhost.p12`
 (not a personal signing certificate). The app validates it before replacing the installed copy, stores it
 with mode 0600, and restarts an enabled bridge. The file picker also works inside Flatpak.
 
 Alternatively, copy it to `~/.local/share/moldsign/localhost.p12`, or for Flatpak to
-`~/.var/app/md.moldsign.MoldSign/data/moldsign/localhost.p12`. `MSIGN_TLS_P12=<path>` overrides the location.
+`~/.var/app/md.moldsign.MoldSign/data/moldsign/localhost.p12`; an imported copy wins over the packaged one.
+`MSIGN_TLS_P12=<path>` overrides both.
 The GUI now requires a usable HTTPS identity instead of claiming the browser connection is active with
 only HTTP. The CLI server can still run HTTP-only (127.0.0.1:18480), but that is not enough for msign.gov.md.
 Run the browser on the same Linux machine as the app: `localhost.cts.md` points to that machine's loopback.

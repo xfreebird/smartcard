@@ -37,8 +37,8 @@ finish-args:
   # to ~/Documents/MoldSign. Everything else goes through the FileChooser / OpenURI portals.
   - --filesystem=xdg-documents
   # Background portal (RequestBackground, SetStatus → Quick Settings "Background Apps") needs no permission.
-  # The bridge's TLS identity (vendor-shipped, never in public artifacts, D-03/SEC-07) is read from
-  # ~/.var/app/md.moldsign.MoldSign/data/moldsign/localhost.p12 ($XDG_DATA_HOME inside the sandbox).
+  # The bridge's TLS identity (vendor localhost.p12, D-03) ships as /app/share/moldsign/localhost.p12; an imported
+  # copy in ~/.var/app/md.moldsign.MoldSign/data/moldsign/ ($XDG_DATA_HOME inside the sandbox) takes precedence.
 
 build-options:
   append-path: /usr/lib/sdk/swift6/bin

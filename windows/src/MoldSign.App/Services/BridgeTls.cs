@@ -10,6 +10,15 @@ public static class BridgeTls
         Environment.GetEnvironmentVariable("MSIGN_TLS_P12") ??
         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MoldSign", "localhost.p12");
 
+    /// Copy shipped next to the exe (MSI/MSIX, D-03).
+    public static string BundledPath => Path.Combine(AppContext.BaseDirectory, "localhost.p12");
+
+    /// Identity the bridge serves: `MSIGN_TLS_P12`, then an imported copy, then the bundled one.
+    public static string ResolvePath() =>
+        Environment.GetEnvironmentVariable("MSIGN_TLS_P12") is { } env ? env
+        : File.Exists(IdentityPath) ? IdentityPath
+        : BundledPath;
+
     public static X509Certificate2Collection Load(string path)
     {
         if (!File.Exists(path))

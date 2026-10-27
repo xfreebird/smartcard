@@ -10,6 +10,7 @@
 		1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 271172B4B652C80AD3F64967 /* MoldSignKit */; };
 		74A873709C5AAAA449081549 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 396DE1DA3F8E87AE2E83E516 /* MoldSignKit */; };
 		7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE1540A69DD726BA154AB629 /* MoldSignKit */; };
+		5E1B0C7A2D4F4E8A9B3C6D11 /* localhost.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eSemnBun-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "eSemnBun-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49893864352DC4EBBCD6042 /* esemnbun-cli */ = {isa = PBXFileReference; includeInIndex = 0; path = "esemnbun-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; name = localhost.p12; path = Resources/localhost.p12; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				46557909EB8F29D8BDCD9652 /* Sources */,
+				5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */,
 			);
 			name = MoldSignKit;
 			path = ../swift/MoldSignKit;
@@ -308,6 +311,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E1B0C7A2D4F4E8A9B3C6D11 /* localhost.p12 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
