@@ -1,0 +1,4 @@
+#!/bin/bash
+# v <vm> <vshot args...>   (fedora=5901, windows=5902 on the Air; QEMU VNC ports)
+case "$1" in fedora) p=5901 ;; windows) p=5902 ;; *) p=$1 ;; esac; shift
+exec ~/VMs/shots/venv/bin/python ~/VMs/shots/vshot.py $p "$@"

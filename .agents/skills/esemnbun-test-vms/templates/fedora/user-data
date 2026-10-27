@@ -1,0 +1,16 @@
+#cloud-config
+# Rendered by the rebuild steps in SKILL.md: @@HASH@@ = `openssl passwd -6 -stdin` of the account password,
+# @@KEYS@@ = the Air's and the main Mac's ~/.ssh/id_ed25519.pub (one "- ssh-ed25519 ..." line each).
+hostname: fedora-esemnbun
+users:
+  - name: user
+    gecos: eSemnBun tester
+    groups: [wheel]
+    lock_passwd: false
+    passwd: '@@HASH@@'
+    shell: /bin/bash
+    ssh_authorized_keys:
+@@KEYS@@
+ssh_pwauth: true
+growpart: {mode: auto, devices: ['/']}
+resize_rootfs: true

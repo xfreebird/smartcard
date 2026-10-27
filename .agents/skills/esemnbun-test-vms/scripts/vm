@@ -1,0 +1,78 @@
+#!/bin/bash
+# eSemnBun test VMs on this Mac (QEMU + HVF). UTM 4.7/5.0 crashes on macOS 27, hence plain QEMU.
+#
+#   vm list                          VMs, state, snapshots
+#   vm start <fedora|windows> [--reader] [--install]
+#                                    --reader: capture the miniLector (25dd:3111) for the whole run
+#   vm stop <vm>                     ACPI shutdown (vm kill <vm> = power off)
+#   vm reader attach|detach <vm>     hand the card reader to / back from a running VM
+#   vm snapshot <vm> <name>          disk + UEFI vars snapshot (VM must be stopped)
+#   vm restore <vm> <name>           roll back to a snapshot (VM must be stopped)
+#   vm ssh <vm> [cmd]                ssh into the guest (fedora: port 2222, windows: 2223)
+#
+# QEMU runs as root: macOS only lets root take a USB device away from its smart-card daemon.
+set -euo pipefail
+VMS="$HOME/VMs"
+QEMU_IMG=/opt/homebrew/bin/qemu-img
+READER_VID=9693 READER_PID=12561    # 0x25dd:0x3111 bit4id miniLector POCKET EVO
+
+die() { echo "vm: $*" >&2; exit 1; }
+dir_of() { case "${1:-}" in fedora|windows) echo "$VMS/$1" ;; *) die "unknown VM '${1:-}' (fedora|windows)" ;; esac; }
+disk_of() { case "$1" in fedora) echo "$VMS/fedora/fedora.qcow2" ;; windows) echo "$VMS/windows/windows.qcow2" ;; esac; }
+port_of() { case "$1" in fedora) echo 2222 ;; windows) echo 2223 ;; esac; }
+title_of() { case "$1" in fedora) echo "Fedora 44 eSemnBun" ;; windows) echo "Windows 11 eSemnBun" ;; esac; }
+running() { dir_of "$1" >/dev/null; pgrep -f "qemu-system-aarch64 -name $(title_of "$1")" >/dev/null; }
+qmp() {  # qmp <vm> <json command>...
+  local d; d=$(dir_of "$1"); shift
+  { echo '{"execute":"qmp_capabilities"}'; printf '%s\n' "$@"; sleep 1; } | sudo nc -U "$d/qmp.sock" | grep -v '"QMP"' | grep -v '^{"return": {}}$' || true
+}
+
+cmd="${1:-list}"; shift || true
+case "$cmd" in
+  list)
+    for v in fedora windows; do
+      state=stopped; running "$v" && state=running
+      printf '%-8s %-8s snapshots: %s\n' "$v" "$state" "$($QEMU_IMG snapshot -l -U "$(disk_of $v)" 2>/dev/null | awk 'NR>2{print $2}' | paste -sd, -)"
+    done ;;
+  start)
+    vm="${1:-}"; d=$(dir_of "$vm"); shift
+    running "$vm" && die "$vm is already running"
+    env=() extra=()
+    for a in "$@"; do case "$a" in
+      --reader) extra+=(-device "usb-host,vendorid=$READER_VID,productid=$READER_PID,id=reader") ;;
+      --install) env+=(INSTALL=1 SEED=1) ;;
+      *) die "unknown option $a" ;;
+    esac; done
+    sudo -v
+    if [ -n "${SSH_CONNECTION:-}" ]; then   # from SSH: open the window in the logged-in GUI session
+      sudo launchctl asuser "$(id -u)" env "${env[@]+"${env[@]}"}" nohup "$d/run.sh" "${extra[@]+"${extra[@]}"}" >"$d/qemu.log" 2>&1 &
+    else
+      sudo env "${env[@]+"${env[@]}"}" nohup "$d/run.sh" "${extra[@]+"${extra[@]}"}" >"$d/qemu.log" 2>&1 &
+    fi
+    sleep 3; running "$vm" && echo "$vm started (log: $d/qemu.log)" || { cat "$d/qemu.log"; die "$vm did not start"; } ;;
+  stop) qmp "$1" '{"execute":"system_powerdown"}'; echo "shutdown requested" ;;
+  kill) qmp "$1" '{"execute":"quit"}' ;;
+  reader)
+    action="${1:-}" vm="${2:-}"; running "$vm" || die "$vm is not running"
+    case "$action" in
+      attach)
+        for other in fedora windows; do
+          [ "$other" != "$vm" ] && running "$other" && qmp "$other" '{"execute":"device_del","arguments":{"id":"reader"}}' >/dev/null
+        done
+        qmp "$vm" "{\"execute\":\"device_add\",\"arguments\":{\"driver\":\"usb-host\",\"vendorid\":$READER_VID,\"productid\":$READER_PID,\"id\":\"reader\"}}"
+        echo "reader attached to $vm (the Mac loses it until 'vm reader detach $vm')" ;;
+      detach) qmp "$vm" '{"execute":"device_del","arguments":{"id":"reader"}}'; echo "reader returned to the Mac" ;;
+      *) die "usage: vm reader attach|detach <vm>" ;;
+    esac ;;
+  snapshot|restore)
+    vm="${1:-}" name="${2:-}"; d=$(dir_of "$vm"); [ -n "$name" ] || die "usage: vm $cmd <vm> <name>"
+    running "$vm" && die "stop $vm first (vm stop $vm)"
+    if [ "$cmd" = snapshot ]; then
+      sudo $QEMU_IMG snapshot -c "$name" "$(disk_of "$vm")"; sudo cp "$d/efivars.fd" "$d/efivars.$name.fd"
+    else
+      sudo $QEMU_IMG snapshot -a "$name" "$(disk_of "$vm")"; sudo cp "$d/efivars.$name.fd" "$d/efivars.fd"
+    fi
+    sudo chown "$(id -un)" "$(disk_of "$vm")" "$d"/efivars*.fd; echo "$cmd $vm '$name' done" ;;
+  ssh) vm="${1:-}"; shift || true; exec ssh -p "$(port_of "$vm")" -o StrictHostKeyChecking=accept-new user@127.0.0.1 "$@" ;;
+  *) sed -n '2,15p' "$0"; exit 2 ;;
+esac

@@ -59,6 +59,9 @@ scripts/                     package-{macos,ios,android,linux}.sh, package-windo
                              → dist/ (git-ignored)
 docs/                        01–08 RE + protocol docs, 09 architecture, 10 design system, 11 build & release
 re/                          Reverse-engineering workspace — see docs/08-re-inventory.md
+.agents/skills/               Agent skills (Copilot, Codex; Claude via CLAUDE.md → this file):
+  esemnbun-test-vms/          Fedora + Windows 11 ARM64 test VMs on the MacBook Air with the card reader passed
+                             through, remote control from the main Mac, screenshot tooling, rebuild recipes
 ```
 
 ## CLI cheat sheet
@@ -263,3 +266,22 @@ Moved to [`PLAN.md`](PLAN.md) (phases, IDs, decisions) and [`docs/09-architectur
   only fixed-width wrappers. (The first shim used 64-bit DWORD on macOS and worked only by little-endian luck.)
 * `MOLDSIGN_PORTABLE` (automatic on Linux) selects OpenSSL + POSIX sockets. `scripts/test-portable-macos.sh` runs
   the whole suite that way on macOS, so most Linux bugs show up without a Linux box.
+* The vendor suite ships the bridge identity only as `sslKeyStore2.jks` (real JKS, magic `FEEDFEED`), never a `.p12`;
+  our apps bundle `localhost.p12` (D-03). On macOS, `SecPKCS12Import` without `kSecImportToMemoryOnly` stores the key in
+  the login keychain bound to the importing build: the next build blocks every TLS handshake on a hidden keychain
+  prompt (both bridge ports stop answering). Keep the import in memory.
+* Chrome (142+) asks "Local network access" before msign.gov.md may call `localhost.cts.md`; if the user refuses, the
+  portal lists no identities although the bridge works. A system HTTP proxy (Charles) also hides the bridge.
+
+## 8. Test machines and screenshots
+
+* **Rules from the owner:** git push, `gh` and release dispatch run only from the main MacBook Pro, as
+  `xfreebird <xfreebird@gmail.com>`, with `GH_HOST=github.com`; never touch the other `gh` host's session there.
+  Release builds: `GH_HOST=github.com gh workflow run release.yml -R xfreebird/smartcard -f only=all`.
+* **Test VMs** (Fedora 44 GNOME aarch64, Windows 11 Pro ARM64) run under QEMU+HVF on the MacBook Air, with the bit4id
+  reader handed to a VM on demand (`vm start <vm> --reader`, `vm reader attach|detach <vm>`, snapshots). Everything
+  (layout, remote control, building the apps inside, rebuild recipes, traps) is in
+  [`.agents/skills/esemnbun-test-vms/SKILL.md`](.agents/skills/esemnbun-test-vms/SKILL.md). UTM crashes on macOS 27.
+* **Screenshots** of every app state (light + dark) were taken on 2026-10-27 with the real card and the debug demo
+  modes; the tooling and per-platform tricks are in the same skill. Real-card PINs come from the owner per session,
+  are typed via stdin only, and never land in files, logs or commits.
