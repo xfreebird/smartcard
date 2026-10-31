@@ -1,0 +1,8 @@
+{
+  "name": "eSemnBun",
+  "subtitle": "Semnează cu buletinul",
+  "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
+  "description": "Semnează documente PDF și fișiere cu certificatul de pe buletinul electronic al Republicii Moldova. Conectează un cititor compatibil, alege cardul și documentele, apoi confirmă fiecare cerere de semnare. Verifică semnături PAdES și XAdES și distribuie documentele semnate. Cheia privată rămâne pe card; PIN-ul nu este retransmis automat după o eroare. Serviciile publice de marcare temporală și verificare a certificatelor necesită acces la internet. Funcțiile disponibile depind de platformă și de cititor.",
+  "keywords": "semnătură,eID,PDF,PAdES,XAdES,Moldova",
+  "releaseNotes": "Selectare orizontală a cardurilor, aspect adaptiv și setări native."
+}

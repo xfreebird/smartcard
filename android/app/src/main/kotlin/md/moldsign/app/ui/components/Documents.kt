@@ -47,9 +47,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import md.moldsign.app.PickedDocument
+import md.moldsign.app.application.PickedDocument
 import md.moldsign.app.R
-import md.moldsign.app.SignItem
+import md.moldsign.app.application.SignItem
 import md.moldsign.app.ui.theme.Tokens
 import md.moldsign.core.SignFormat
 

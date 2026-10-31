@@ -9,7 +9,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:MoldSign.App.Controls">
 
-    <ScrollViewer>
+    <ScrollViewer x:Name="CardScroll"
+                  AutomationProperties.AutomationId="CardScroll"
+                  IsTabStop="True"
+                  VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
         <StackPanel
             MaxWidth="760"
             Padding="{StaticResource PagePadding}"
@@ -75,6 +79,8 @@
                 Header="Ține minte PIN-ul (Windows Hello)"
                 Toggled="OnRememberToggled" />
             <Button
+                x:Name="ForgetPinButton"
+                AutomationProperties.AutomationId="CardForgetPin"
                 x:Uid="CardForgetPin"
                 Click="OnForgetClick"
                 Content="Șterge PIN-ul salvat" />
@@ -89,6 +95,7 @@
                 Style="{StaticResource MsSectionHeaderTextStyle}"
                 Text="DACĂ CARDUL NU RĂSPUNDE" />
             <TextBlock
+                AutomationProperties.AutomationId="CardTips"
                 x:Uid="CardTips"
                 Style="{StaticResource MsCaptionTextStyle}"
                 Text="Scoate cardul și reintrodu-l. Conectează cititorul direct la computer, fără hub. PIN-ul nu se încearcă niciodată automat după o greșeală."

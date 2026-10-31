@@ -12,8 +12,7 @@ internal static class ActivityLog
 {
     public const int MaxItems = 100;
 
-    private static readonly string s_path = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MoldSign", "activity.json");
+    private static readonly string s_path = AppSettings.ActivityPath;
 
     private static readonly JsonSerializerOptions s_json = new() { WriteIndented = true };
 
@@ -21,6 +20,7 @@ internal static class ActivityLog
 
     public static Snapshot Load()
     {
+        if (DemoMode.Scenario is not null) return new Snapshot([], DateTimeOffset.MinValue);
         try
         {
             if (File.Exists(s_path) && JsonSerializer.Deserialize<Stored>(File.ReadAllText(s_path), s_json) is { } stored)
@@ -35,6 +35,7 @@ internal static class ActivityLog
 
     public static void Save(IEnumerable<ActivityItem> items, DateTimeOffset recentsClearedAt)
     {
+        if (DemoMode.Scenario is not null) return;
         try
         {
             Directory.CreateDirectory(Path.GetDirectoryName(s_path)!);

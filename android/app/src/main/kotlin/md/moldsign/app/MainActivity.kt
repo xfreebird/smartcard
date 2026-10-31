@@ -1,10 +1,15 @@
 package md.moldsign.app
 
+import md.moldsign.app.presentation.MainViewModel
+
 import android.content.Intent
 import android.hardware.usb.UsbManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.content.IntentCompat
@@ -16,6 +21,18 @@ import md.moldsign.app.ui.theme.MoldSignTheme
 class MainActivity : FragmentActivity() {
     /** The same instance MoldSignRoot gets from `viewModel()` (activity scope). */
     private val viewModel: MainViewModel by viewModels()
+    private var demoPage by mutableStateOf<String?>(null)
+    private var demoGeneration by mutableStateOf(0)
+
+    fun changeDemoMode(enabled: Boolean) {
+        if (viewModel.working.value) return
+        if ((application as MoldSignApp).changeDemoMode(enabled)) {
+            // A new task gives Navigation/Compose a fresh, lifecycle-owned ViewModelStore.
+            // Clearing a live store before disposing its NavHost can otherwise crash during recomposition.
+            startActivity(Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+            finish()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -24,7 +41,7 @@ class MainActivity : FragmentActivity() {
         if (savedInstanceState == null) handleIntent(intent)
         setContent {
             MoldSignTheme {
-                MoldSignRoot()
+                MoldSignRoot(demoPage = demoPage, demoGeneration = demoGeneration)
             }
         }
     }
@@ -54,7 +71,11 @@ class MainActivity : FragmentActivity() {
         val container = (application as MoldSignApp).container
         if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) container.readerMonitor.rescan()
         sharedUris(intent).takeIf { it.isNotEmpty() }?.let(viewModel::receiveShared)
-        DemoMode.apply(container, intent)
+        DemoMode.apply(container, intent, viewModel)
+        if (intent?.hasExtra("demo") == true) {
+            demoPage = intent.getStringExtra("demo_page")
+            demoGeneration++
+        }
     }
 
     private fun sharedUris(intent: Intent?): List<Uri> = when (intent?.action) {

@@ -27,13 +27,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
-import md.moldsign.app.AppContainer
-import md.moldsign.app.AppStatus
+import md.moldsign.app.application.AppContainer
+import md.moldsign.app.application.AppStatus
 import md.moldsign.app.MainActivity
 import md.moldsign.app.MoldSignApp
 import md.moldsign.app.R
-import md.moldsign.app.errorText
-import md.moldsign.app.trayText
+import md.moldsign.app.presentation.errorText
+import md.moldsign.app.presentation.trayText
 import md.moldsign.app.ui.theme.notificationArgb
 import md.moldsign.core.BridgeObserver
 import md.moldsign.core.BridgeOriginPolicy
@@ -74,7 +74,7 @@ class BridgeService : Service() {
     override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (intent?.action == ACTION_STOP) {
+        if ((application as MoldSignApp).container.isDemo || intent?.action == ACTION_STOP) {
             stopSelf()
             return START_NOT_STICKY
         }

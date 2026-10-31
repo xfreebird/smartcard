@@ -54,8 +54,8 @@ object Tokens {
     val RadiusCard = 14.dp
     val RadiusSheet = 18.dp
 
-    /** ISO/IEC 7810 ID-1: 85.6 × 54 mm. */
-    const val IdCardRatio = 85.6f / 54f
+    /** Stylized card illustration uses the golden ratio. */
+    const val IdCardRatio = 1.618034f
 }
 
 /** Status light dot color (docs/10 §0.1); `null` = no dot (idle). Semantic tokens, never dynamic color. */

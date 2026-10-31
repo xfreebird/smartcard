@@ -1,5 +1,8 @@
 import SwiftUI
 import MoldSignKit
+#if APP_STORE
+import CryptoTokenKit
+#endif
 
 /// App state shared by the macOS menu-bar app and the iOS app.
 /// UI state lives here on the main actor; card work runs detached through `SigningService` (one card op at a time).
@@ -23,6 +26,9 @@ final class AppModel {
     var lastSigned: [URL] = []
     var lastError: (message: String, recovery: String)?
 
+    /// Web links opened with the app are routed to the foreground iOS browser.
+    var browserURL: URL?
+
     // Verify
     var verifyFile: URL?
     var verifyReports: [Validator.Report]?
@@ -36,17 +42,27 @@ final class AppModel {
     var bridgeState: BridgeState = .stopped
     var bridgeEnabled: Bool {
         didSet {
-            UserDefaults.standard.set(bridgeEnabled, forKey: "bridgeEnabled")
+            AppPreferencesStore.defaults.set(bridgeEnabled, forKey: "bridgeEnabled")
             bridgeEnabled ? startBridge() : stopBridge()
         }
     }
 
     /// macOS brings the auth panel forward (the request may come from the menu bar or the browser).
+    @ObservationIgnored var presentInsertedCard: (() -> Void)?
     @ObservationIgnored var presentAuthUI: (() -> Void)?
 
-    @ObservationIgnored let service = SigningService.shared
-    @ObservationIgnored let vault = PinVault()
-    @ObservationIgnored private let monitor = ReaderMonitor()
+    @ObservationIgnored let service: SigningService
+    @ObservationIgnored private let certificateReader: any CertificateReading
+    @ObservationIgnored private let documentSigner: any DocumentSigning
+    @ObservationIgnored private let documentVerifier: any DocumentVerifying
+    @ObservationIgnored private let liveActivityStore: any ActivityStoring
+    @ObservationIgnored private let demoActivityStore = MemoryActivityStore()
+    private var activityStore: any ActivityStoring { demoMode ? demoActivityStore : liveActivityStore }
+    @ObservationIgnored private let liveVault: any PinStoring
+    @ObservationIgnored private let demoVault = MemoryPinVault()
+    var vault: any PinStoring { demoMode ? demoVault : liveVault }
+    @ObservationIgnored private let monitor: any ReaderMonitoring
+    @ObservationIgnored private let transportFactory: (String?) throws -> CardTransport
     @ObservationIgnored private let selectedReader = SelectedReader()
     @ObservationIgnored private var server: MoldSignServer?
     @ObservationIgnored private var pinContinuation: CheckedContinuation<(pin: String, remember: Bool)?, Never>?
@@ -55,6 +71,22 @@ final class AppModel {
     private(set) var readers: [String] = []
     private var muteCard = false
     private var signing = false
+    private var obtainingPIN = false
+    @ObservationIgnored private let batchRunner = SigningBatchRunner()
+    private(set) var demoMode = false
+    private var fixtureMode = false
+    private var started = false
+    private var readingCount = 0
+    private var verifying = false
+    @ObservationIgnored private let hardwareGate: DemoHardwareGate
+    @ObservationIgnored private let demoFiles: DemoDocumentFiles
+    @ObservationIgnored private let liveReaders: () -> [String]
+
+    var canChangeDemoMode: Bool {
+        !signing && !obtainingPIN && !verifying && readingCount == 0 &&
+        pinRequest == nil && consentRequest == nil && currentStep == nil && !fixtureMode
+    }
+    private var vaultRevision = 0
 
     /// Tray / menu-bar light (UX-01).
     var light: StatusLight {
@@ -71,61 +103,169 @@ final class AppModel {
     var cardConnected: Bool { cards.contains { $0.problem == nil } }
 
     var trayLabel: String {
+        if demoMode { return "eSemnBun · \(L10n.text(.demo_banner))" }
         if cardConnected {
             let holder = certificate?.holder ?? cards.compactMap(\.certificate).first?.holder
-            return holder.map { String(localized: "eSemnBun · Card conectat · \($0)") } ?? String(localized: "eSemnBun · Card conectat")
+            return holder.map { L10n.text(.ui_esemnbun_card_connected_value, $0) } ?? L10n.text(.ui_esemnbun_card_connected)
         }
         switch status {
         case .error, .unavailable: return "eSemnBun · \(status.title)"
-        default: return String(localized: "eSemnBun · Niciun card conectat")
+        default: return L10n.text(.ui_esemnbun_no_card_connected)
         }
     }
 
     /// Text twin of `light` (tooltip, VoiceOver).
     var lightLabel: String {
+        if demoMode { return L10n.text(.demo_banner) }
         switch light {
         case .ready:
             let ready = cards.compactMap(\.certificate)
-            let holder = certificate?.holder ?? ready.first?.holder ?? ""
-            return ready.count > 1 ? String(localized: "Card pregătit · \(holder) · \(ready.count) carduri")
-                                   : String(localized: "Card pregătit · \(holder)")
-        case .reader: return String(localized: "Cititor conectat · introdu cardul")
-        case .busy: return String(localized: "Se semnează…")
+            let holder = certificate?.holder ?? ready.first?.holder ?? L10n.text(.ui_)
+            return ready.count > 1 ? L10n.text(.ui_card_ready_count_count_cards, holder, ready.count)
+                                   : L10n.text(.ui_card_ready_value, holder)
+        case .reader: return L10n.text(.ui_reader_connected_insert_the_card)
+        case .busy: return L10n.text(.ui_signing)
         case .error: return status.title
-        case .idle: return String(localized: "Conectează cititorul")
+        case .idle: return L10n.text(.ui_connect_the_reader)
         }
     }
 
-    init() {
-        bridgeEnabled = UserDefaults.standard.object(forKey: "bridgeEnabled") as? Bool ?? true
-        if let data = UserDefaults.standard.data(forKey: "activity"),
-           let items = try? JSONDecoder().decode([ActivityItem].self, from: data) {
-            activity = items
-            pruneMissingFiles()
-        }
+    init(service: SigningService = .shared, monitor: any ReaderMonitoring = ReaderMonitor(),
+         vault: any PinStoring = PinVault(),
+         certificateReader: (any CertificateReading)? = nil,
+         documentSigner: (any DocumentSigning)? = nil,
+         documentVerifier: (any DocumentVerifying)? = nil,
+         activityStore: (any ActivityStoring)? = nil,
+         transportFactory: @escaping (String?) throws -> CardTransport = AppModel.defaultTransport) {
+        self.service = service
+        self.certificateReader = certificateReader ?? CoreCertificateReader(service: service)
+        self.documentSigner = documentSigner ?? CoreDocumentSigner(service: service)
+        self.documentVerifier = documentVerifier ?? CoreDocumentVerifier(service: service)
+        #if DEBUG
+        let offlineQA = ProcessInfo.processInfo.environment["MSIGN_QA_NO_HARDWARE"] == "1" &&
+            ProcessInfo.processInfo.environment["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true
+        self.monitor = offlineQA ? MockReaderMonitor() : monitor
+        #else
+        self.monitor = monitor
+        #endif
+        #if DEBUG
+        let fixture = ProcessInfo.processInfo.environment["MSIGN_DEMO_CARDS"] != nil
+        #else
+        let fixture = false
+        #endif
+        let demo = fixture || AppPreferencesStore.defaults.bool(forKey: "demoModeEnabled")
+        fixtureMode = fixture
+        demoMode = demo
+        hardwareGate = DemoHardwareGate(demo: demo)
+        demoFiles = DemoDocumentFiles(directory: FileManager.default.temporaryDirectory
+            .appendingPathComponent("eSemnBun-demo-\(UUID().uuidString)", isDirectory: true), notice: L10n.text(.demo_output_notice))
+        #if DEBUG
+        liveReaders = offlineQA ? { [] } : service.readersWithCards
+        #else
+        liveReaders = service.readersWithCards
+        #endif
+        self.liveActivityStore = activityStore ?? PreferencesActivityStore()
+        self.liveVault = vault
+        #if DEBUG
+        self.transportFactory = offlineQA ? { _ in throw CardError.noCard } : transportFactory
+        #else
+        self.transportFactory = transportFactory
+        #endif
+        bridgeEnabled = AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true
+        activity = self.activityStore.load()
+        recentsClearedAt = self.activityStore.recentsClearedAt
+        pruneMissingFiles()
+    }
+
+    nonisolated static func defaultTransport(_ reader: String?) throws -> CardTransport {
+        #if APP_STORE
+        return try TKSmartCardTransport.connect(slotName: reader)
+        #else
+        return try CardTransports.connect(reader: reader)
+        #endif
     }
 
     func start() {
+        guard !started else { return }
+        started = true
         MSLog.sink = nil   // SEC-04: no SM traces or session keys in app logs
-        #if DEBUG
-        if let demo = ProcessInfo.processInfo.environment["MSIGN_DEMO_CARDS"], let count = Int(demo == "none" ? "0" : demo),
-           count > 0 || demo == "none" {
-            loadDemoCards(count)
+        let selected = selectedReader
+        let connect = transportFactory
+        let gate = hardwareGate
+        service.transportFactory = { reader in
+            guard gate.begin() else { throw CardError.noCard }
+            do { return GatedCardTransport(base: try connect(reader ?? selected.name), gate: gate) }
+            catch { gate.end(); throw error }
+        }
+        let readers = liveReaders
+        service.readersWithCards = {
+            guard gate.begin() else { return [] }
+            defer { gate.end() }
+            #if APP_STORE
+            guard let manager = TKSmartCardSlotManager.default else { return [] }
+            return manager.slotNames.filter { manager.slotNamed($0)?.state == .validCard }
+            #else
+            return readers()
+            #endif
+        }
+        if demoMode {
+            #if DEBUG
+            if let demo = ProcessInfo.processInfo.environment["MSIGN_DEMO_CARDS"] {
+                loadDemoCards(min(max(Int(demo == "none" ? "0" : demo) ?? 0, 0), 8))
+                return
+            }
+            #endif
+            loadDemoCards(2)
+            signItems = (try? demoFiles.inputs().map(SignItem.init)) ?? []
             return
         }
-        #endif
-        let selected = selectedReader
-        // nil (no specific card asked for) → the card selected in the UI
-        service.transportFactory = { reader in try CardTransports.connect(reader: reader ?? selected.name) }
+        startLiveMonitoring()
+    }
+
+    private func startLiveMonitoring() {
         monitor.onChange = { [weak self] snapshot in self?.apply(snapshot) }
         monitor.start()
         if bridgeEnabled { startBridge() }
     }
 
+    /// The transport gate rejects changing modes while a connected operation is active. No pending
+    /// PIN/consent, selected real input, credentials or demo results cross this boundary.
+    @discardableResult
+    func setDemoMode(_ enabled: Bool) -> Bool {
+        guard enabled != demoMode else { return true }
+        guard canChangeDemoMode, hardwareGate.changeMode(demo: enabled) else {
+            lastError = (L10n.text(.ui_demo_mode), L10n.text(.demo_switch_unavailable))
+            return false
+        }
+        monitor.stop()
+        monitor.onChange = nil
+        stopBridge()
+        trustedUntil.removeAll()
+        demoMode = enabled
+        AppPreferencesStore.defaults.set(enabled, forKey: "demoModeEnabled")
+        AppMonitoring.demoModeChanged()
+        cards = []; readers = []; selectedReaderName = nil
+        signItems = []; lastSigned = []; lastError = nil
+        verifyFile = nil; verifyReports = nil; browserURL = nil
+        vaultRevision += 1
+        activity = activityStore.load()
+        recentsClearedAt = activityStore.recentsClearedAt
+        if enabled {
+            loadDemoCards(2)
+            signItems = (try? demoFiles.inputs().map(SignItem.init)) ?? []
+        } else {
+            status = .noReader
+            startLiveMonitoring()
+        }
+        return true
+    }
+
     // MARK: - Reader state
 
     private func apply(_ snapshot: ReaderMonitor.Snapshot) {
+        guard !demoMode else { return }
         guard snapshot.available else { status = .unavailable; return }
+        let previousReaders = Set(readers)
         readers = snapshot.slots.map(\.name)
         muteCard = snapshot.slots.contains { $0.state == .mute }
         var next: [CardSlot] = []
@@ -147,13 +287,19 @@ final class AppModel {
         selectedReader.name = selectedCard?.reader
         recomputeStatus()
         for card in toRead { Task { await readCertificate(of: card) } }
+        if (!toRead.isEmpty || !Set(readers).subtracting(previousReaders).isEmpty),
+           AppPreferencesStore.defaults.bool(forKey: "openOnCardInsertion") { presentInsertedCard?() }
     }
 
     /// PIN-less certificate read so the UI can greet the holder (MAC-02). Ignored if the card changed meanwhile.
     private func readCertificate(of card: CardSlot) async {
-        let service = self.service
+        guard !demoMode else { return }
+        readingCount += 1
+        defer { readingCount -= 1 }
         let reader = card.reader
-        let result = await Task.detached { Result { try service.readCertificate(reader: reader) } }.value
+        let result: Result<SigningService.CertificateSummary, Error>
+        do { result = .success(try await certificateReader.readCertificate(reader: reader)) }
+        catch { result = .failure(error) }
         guard let index = cards.firstIndex(where: { $0.reader == reader && $0.generation == card.generation }) else { return }
         switch result {
         case .success(let summary): cards[index].certificate = summary; cards[index].problem = nil
@@ -162,31 +308,67 @@ final class AppModel {
         recomputeStatus()
     }
 
-    #if DEBUG
-    /// Screenshots / design QA without hardware: `MSIGN_DEMO_CARDS=2`. Never compiled into release builds.
+    /// Fictional cards for the user-controlled demo and Debug screenshot scenarios.
     private func loadDemoCards(_ count: Int) {
-        let holders = ["Popescu Ion", "Mîndru Ștefan", "Rusu Ana"]   // CN order on Moldovan certificates
+        demoMode = true
+        let holders = ["Popescu Ion", L10n.text(.ui_mindru_stefan), "Rusu Ana"]   // CN order on Moldovan certificates
         readers = (0..<count).map { $0 == 0 ? "bit4id miniLector POCKET EVO" : "bit4id miniLector POCKET EVO 0\($0)" }
         cards = readers.enumerated().map { index, reader in
-            let sha = String(format: "%02x", index * 97 + 20) + String(repeating: "0", count: 38)
+            let sha = String(format: "%02x", Int(UInt8(truncatingIfNeeded: index * 97 + 20))) + String(repeating: "0", count: 38)
             let cert = SigningService.CertificateSummary(
                 der: Data(), holder: holders[index % holders.count], subjectDN: "CN=\(holders[index % holders.count]),C=MD",
                 issuer: "CN=MDQSign,C=MD", issuerName: "MDQSign", serialDecimal: "1298074214877499210738125554536943",
                 sha1Hex: sha, notAfter: Calendar.current.date(byAdding: .year, value: 4 - index, to: Date()))
             return CardSlot(reader: reader, generation: 1, certificate: cert)
         }
+        #if DEBUG
         if let files = ProcessInfo.processInfo.environment["MSIGN_DEMO_FILES"] {
             addFiles(files.split(separator: ":").map { URL(filePath: String($0)) })
         }
         let selected = ProcessInfo.processInfo.environment["MSIGN_DEMO_SELECTED"].flatMap(Int.init) ?? 0
         selectedReaderName = cards.isEmpty ? nil : cards[min(max(selected, 0), cards.count - 1)].reader
-        bridgeState = .running
+        bridgeState = fixtureMode ? .running : .stopped
         recomputeStatus()
+        applyDemoScenario(ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "ready")
+        FileHandle.standardOutput.write(Data("MSIGN_DEMO_READY\n".utf8))
+        #else
+        selectedReaderName = cards.first?.reader
+        bridgeState = .stopped
+        recomputeStatus()
+        #endif
+    }
+
+    #if DEBUG
+    /// Presentation fixtures never connect a reader, start a listener, or submit a PIN.
+    private func applyDemoScenario(_ scenario: String) {
+        switch scenario {
+        case "no-reader": cards = []; readers = []; status = .noReader
+        case "empty-reader": cards = []; readers = ["USB demo reader"]; status = .empty(reader: readers[0])
+        case "unavailable": cards = []; readers = []; status = .unavailable
+        case "reading":
+            if !cards.isEmpty { cards[0].certificate = nil; recomputeStatus() }
+        case "error":
+            if !cards.isEmpty {
+                cards[0].certificate = nil
+                cards[0].problem = L10n.text(.ui_the_card_does_not_respond)
+                recomputeStatus()
+            }
+        case "signing": currentStep = .timestamping
+        case "success":
+            lastSigned = signItems.map(\.url)
+            signItems = []
+        case "pin":
+            pinRequest = PinRequest(holder: certificate?.holder ?? "Popescu Ion", attemptsLeft: 3, canRemember: true,
+                                    documentNames: signItems.map { $0.url.lastPathComponent })
+            presentAuthUI?()
+        default: break
+        }
     }
     #endif
 
     /// "Recitește cardul": forget what we know about the inserted cards and read them again.
     func rereadCards() {
+        guard !demoMode else { return }
         for index in cards.indices {
             cards[index].certificate = nil
             cards[index].problem = nil
@@ -196,6 +378,7 @@ final class AppModel {
     }
 
     func selectCard(_ reader: String) {
+        guard selectedReaderName != reader else { return }
         selectedReaderName = reader
     }
 
@@ -204,14 +387,14 @@ final class AppModel {
         guard let firstReader = readers.first else { status = .noReader; return }
         guard let card = selectedCard else {
             status = muteCard
-                ? .error(message: String(localized: "Cardul nu răspunde"), recovery: String(localized: "Scoate și reintrodu cardul"))
+                ? .error(message: L10n.text(.ui_the_card_does_not_respond), recovery: L10n.text(.ui_remove_and_re_insert_the_card))
                 : .empty(reader: firstReader)
             return
         }
         if let cert = card.certificate {
             status = .ready(reader: card.reader, holder: cert.holder, validUntil: cert.notAfter)
         } else if let problem = card.problem {
-            status = .error(message: problem, recovery: String(localized: "Scoate și reintrodu cardul"))
+            status = .error(message: problem, recovery: L10n.text(.ui_remove_and_re_insert_the_card))
         } else {
             status = .reading(reader: card.reader)
         }
@@ -228,72 +411,86 @@ final class AppModel {
         signItems.removeAll { $0.id == item.id }
     }
 
-    /// Signs every queued file with one PIN entry. Wrong PIN: stop, drop the stored PIN, never retry (MAC-05).
+    /// Freezes the selected files/card before authorization. One credential is scoped to this batch;
+    /// completed files leave the queue, additions remain queued, and any failure stops without retry.
     func signAll() async {
-        guard let card = selectedCard, let cert = card.certificate, status.canSign, !signItems.isEmpty else { return }
+        if demoMode { await signDemoBatch(); return }
+        guard !signing, !batchRunner.isRunning, let card = selectedCard, let cert = card.certificate,
+              status.canSign, !signItems.isEmpty else { return }
+        let items = signItems
+        let context = BatchContext(reader: card.reader, certificate: cert)
         lastError = nil
         lastSigned = []
-        guard let entry = await obtainPIN(certID: cert.sha1Hex, holder: cert.holder, allowRemember: true) else { return }
-        let reader = card.reader
         signing = true
-        status = .busy(reader: reader, holder: cert.holder)
+        status = .busy(reader: context.reader, holder: cert.holder)
         defer {
             currentStep = nil
             signing = false
             recomputeStatus()
         }
-        for item in signItems {
+        var didAttemptPINStorage = false
+        _ = await batchRunner.run(
+            items: items, context: context,
+            authorize: { context, batch in
+                await self.obtainPIN(certID: context.certificate.sha1Hex, holder: context.certificate.holder,
+                                     allowRemember: true, documentNames: batch.map { $0.url.lastPathComponent })
+            },
+            sign: { item, context, entry in
+                // The core checks this original certificate before every VERIFY, including after a card swap.
+                try await self.sign(item, pin: entry.pin, reader: context.reader,
+                                    certificateSHA1: context.certificate.sha1Hex)
+            },
+            didSign: { item, output, entry in
+                self.lastSigned.append(output)
+                self.remove(item)
+                self.log(ActivityItem(title: output.lastPathComponent,
+                                      subtitle: L10n.text(.ui_signed_value, item.format.label), ok: true, fileURL: output))
+                if entry.remember && !didAttemptPINStorage {
+                    didAttemptPINStorage = true
+                    try? self.vault.save(entry.pin, certID: context.certificate.sha1Hex)
+                }
+            },
+            didFail: { item, error in
+                self.handleCardError(error, certID: context.certificate.sha1Hex)
+                self.log(ActivityItem(title: item.url.lastPathComponent, subtitle: self.lastError?.message ?? L10n.text(.ui_), ok: false))
+                if case CardError.cardChanged = error { self.rereadCards() }
+            }
+        )
+    }
+
+    private func signDemoBatch() async {
+        guard !signing, status.canSign, !signItems.isEmpty else { return }
+        signing = true
+        lastError = nil; lastSigned = []
+        let batch = signItems
+        let signer = DemoDocumentSigner(files: demoFiles)
+        defer { signing = false; currentStep = nil; recomputeStatus() }
+        for item in batch {
             do {
-                // the expected certificate makes the core refuse a swapped card before the PIN is sent
-                let output = try await sign(item, pin: entry.pin, reader: reader, certificateSHA1: cert.sha1Hex)
+                let output = try await signer.sign(item, pin: "", reader: "", certificateSHA1: "") { [weak self] step in
+                    Task { @MainActor in self?.currentStep = step }
+                }
                 lastSigned.append(output)
-                log(ActivityItem(title: output.lastPathComponent, subtitle: String(localized: "Semnat · \(item.format.label)"),
-                                 ok: true, fileURL: output))
-                if entry.remember { try? vault.save(entry.pin, certID: cert.sha1Hex) }
+                remove(item)
+                log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(.demo_simulation_complete), ok: true, fileURL: output))
             } catch {
-                handleCardError(error, certID: cert.sha1Hex)
-                log(ActivityItem(title: item.url.lastPathComponent, subtitle: lastError?.message ?? "", ok: false))
-                if case CardError.cardChanged = error { rereadCards() }
-                return
+                lastError = (L10n.text(.ui_demo_mode), L10n.text(.demo_output_notice))
+                break
             }
         }
-        signItems.removeAll()
+    }
+
+    private struct BatchContext {
+        let reader: String
+        let certificate: SigningService.CertificateSummary
     }
 
     private func sign(_ item: SignItem, pin: String, reader: String, certificateSHA1: String) async throws -> URL {
-        let service = self.service
-        let input = item.url
-        let format = item.format
-        let output = outputURL(for: input, format: format)
-        let progress: @Sendable (SigningService.Step) -> Void = { [weak self] step in
-            Task { @MainActor in self?.currentStep = step }
-        }
-        let scoped = input.startAccessingSecurityScopedResource()
-        defer { if scoped { input.stopAccessingSecurityScopedResource() } }
-        try await Task.detached {
-            let signed: Data
-            if let xades = format.xades {
-                signed = try service.signXAdES(files: [input], format: xades, pin: pin, reader: reader,
-                                               expectedCertificateSHA1: certificateSHA1, progress: progress)
-            } else {
-                signed = try service.signPDF(try Data(contentsOf: input), pin: pin, reader: reader,
-                                             expectedCertificateSHA1: certificateSHA1, progress: progress)
+        try await AppMonitoring.signDocument {
+            try await documentSigner.sign(item, pin: pin, reader: reader, certificateSHA1: certificateSHA1) { [weak self] step in
+                Task { @MainActor in self?.currentStep = step }
             }
-            progress(.writing)
-            try signed.write(to: output, options: .withoutOverwriting)
-        }.value
-        return output
-    }
-
-    private func outputURL(for input: URL, format: SignFormat) -> URL {
-        let ext = format == .padesT ? "pdf" : "xml"
-        #if os(macOS)
-        return SigningService.outputURL(for: input, pathExtension: ext)
-        #else
-        // iOS: the picked file's folder is usually not writable; keep results in Documents and offer Share
-        let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return SigningService.outputURL(for: documents.appendingPathComponent(input.lastPathComponent), pathExtension: ext)
-        #endif
+        }
     }
 
     private func handleCardError(_ error: Error, certID: String) {
@@ -302,18 +499,39 @@ final class AppModel {
             vault.delete(certID: certID)
         }
         if case CardError.pinBlocked = error { vault.delete(certID: certID) }
+        if case CardError.wrongPIN = error { /* Expected user correction, no telemetry. */ }
+        else if case CardError.pinBlocked = error { /* Cardholder state, no telemetry. */ }
+        else if !(error is CancellationError) { AppMonitoring.capture(.signingFailed) }
         lastError = Self.describe(error)
     }
 
     // MARK: - PIN
 
-    private func obtainPIN(certID: String, holder: String, allowRemember: Bool) async -> (pin: String, remember: Bool)? {
-        if let stored = await vault.load(certID: certID, reason: String(localized: "semnarea cu certificatul \(holder)")) {
+    private func obtainPIN(certID: String, holder: String, allowRemember: Bool,
+                           documentNames: [String] = []) async -> (pin: String, remember: Bool)? {
+        // A browser request may arrive while the manual batch is authorizing. Never replace its continuation.
+        guard !obtainingPIN else { return nil }
+        obtainingPIN = true
+        defer { obtainingPIN = false }
+        let reason: String
+        if documentNames.isEmpty {
+            reason = L10n.text(.ui_signing_with_certificate_value, holder)
+        } else {
+            let action = documentNames.count == 1 ? L10n.text(.ui_sign)
+                : L10n.text(.ui_sign_count_documents, documentNames.count)
+            reason = [action, documentNames.joined(separator: ", "), holder].joined(separator: " · ")
+        }
+        if vault.hasPIN(certID: certID) {
+            // Cancelling device-owner authentication cancels this batch instead of opening another prompt.
+            guard let stored = await vault.load(certID: certID, reason: reason) else { return nil }
             return (stored, false)
         }
-        pinRequest = PinRequest(holder: holder, attemptsLeft: lastAttemptsLeft, canRemember: allowRemember)
-        presentAuthUI?()
-        return await withCheckedContinuation { pinContinuation = $0 }
+        return await withCheckedContinuation { continuation in
+            pinContinuation = continuation
+            pinRequest = PinRequest(holder: holder, attemptsLeft: lastAttemptsLeft,
+                                    canRemember: allowRemember, documentNames: documentNames)
+            presentAuthUI?()
+        }
     }
 
     func submitPIN(_ pin: String, remember: Bool) {
@@ -329,51 +547,43 @@ final class AppModel {
     }
 
     func forgetPIN() {
-        if let cert = certificate { vault.delete(certID: cert.sha1Hex) }
+        if let cert = certificate { forgetPIN(certID: cert.sha1Hex) }
+    }
+
+    func forgetPIN(certID: String) {
+        vault.delete(certID: certID)
+        vaultRevision += 1
     }
 
     var hasStoredPIN: Bool {
-        certificate.map { vault.hasPIN(certID: $0.sha1Hex) } ?? false
+        _ = vaultRevision
+        return certificate.map { vault.hasPIN(certID: $0.sha1Hex) } ?? false
     }
 
     // MARK: - Verify
 
     func verify(_ url: URL) async {
-        verifyFile = url
-        verifyReports = nil
-        let scoped = url.startAccessingSecurityScopedResource()
-        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        guard let data = try? Data(contentsOf: url) else {
-            verifyReports = []
+        guard !verifying else { return }
+        verifying = true
+        defer { verifying = false }
+        if demoMode {
+            verifyFile = url
+            verifyReports = await DemoDocumentVerifier().verify(url)
             return
         }
-        let isPDF = url.pathExtension.lowercased() == "pdf"
-        let detached = isPDF ? [:] : Self.detachedDocuments(for: data, near: url)
-        let service = self.service
-        let reports = await Task.detached { service.verify(data, isPDF: isPDF, detached: detached) }.value
+        verifyFile = url
+        verifyReports = nil
+        let reports = await documentVerifier.verify(url)
         verifyReports = reports
         let verdict = Verdict(reports)
-        log(ActivityItem(title: url.lastPathComponent, subtitle: String(localized: "Verificat"),
+        log(ActivityItem(title: url.lastPathComponent, subtitle: L10n.text(.ui_verified),
                          ok: { if case .valid = verdict { return true } else { return false } }(), fileURL: url))
-    }
-
-    /// XAdES detached references are `file:/<basename>`: look next to the signature (same rule as the CLI).
-    private static func detachedDocuments(for xml: Data, near url: URL) -> [String: Data] {
-        var files: [String: Data] = [:]
-        let text = String(decoding: xml, as: UTF8.self)
-        var start = text.startIndex
-        while let r = text.range(of: "URI=\"file:/", range: start..<text.endIndex),
-              let e = text[r.upperBound...].firstIndex(of: "\"") {
-            let name = String(text[r.upperBound..<e])
-            files[name] = try? Data(contentsOf: url.deletingLastPathComponent().appendingPathComponent(name))
-            start = e
-        }
-        return files
     }
 
     // MARK: - Bridge (MAC-07, IOS-06)
 
     func startBridge() {
+        guard !demoMode else { return }
         guard server == nil else { return }
         let server = MoldSignServer()
         server.authorize = { [weak self] request in
@@ -388,7 +598,7 @@ final class AppModel {
         }
         server.onSignResult = { [weak self] request, error in
             Task { @MainActor in
-                guard let self else { return }
+                guard let self, !self.demoMode else { return }
                 self.log(Self.bridgeActivity(request, error))   // MAC-10: outcome, not just "request received"
                 // A stored PIN the card rejected during a browser request must go, like in the UI flow (MAC-05).
                 guard let error, let cert = self.certificate else { return }
@@ -400,7 +610,8 @@ final class AppModel {
         }
         server.onListenerError = { [weak self] _, error in
             Task { @MainActor in
-                self?.bridgeState = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")
+                guard let self, !self.demoMode else { return }
+                self.bridgeState = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")
             }
         }
         do {
@@ -425,6 +636,7 @@ final class AppModel {
 
     /// Consent (unless the origin is trusted for 10 minutes), then the PIN unless the page sent one.
     private func authorize(_ request: BridgeRequest) async -> BridgeDecision {
+        guard !demoMode else { return .deny }
         let origin = request.origin ?? "local"
         // the page picked a certificate from /certificates (several cards may be connected): consent + PIN for THAT card
         let target = request.certificateSHA1.flatMap { sha in cards.first { $0.certificate?.sha1Hex == sha }?.certificate }
@@ -453,9 +665,9 @@ final class AppModel {
             what += " (SHA-1)"
         }
         if let document = request.documentName { what += " · \(document)" }
-        if request.batchSession != nil { what += String(localized: " · lot") }
-        guard let error else { return ActivityItem(title: host, subtitle: String(localized: "Semnat · \(what)"), ok: true) }
-        return ActivityItem(title: host, subtitle: String(localized: "Eșuat · \(what) · \(describe(error).message)"), ok: false)
+        if request.batchSession != nil { what += L10n.text(.ui_batch) }
+        guard let error else { return ActivityItem(title: host, subtitle: L10n.text(.ui_signed_value, what), ok: true) }
+        return ActivityItem(title: host, subtitle: L10n.text(.ui_failed_value_value, what, describe(error).message), ok: false)
     }
 
     func answerConsent(approved: Bool, trust: Bool) {
@@ -479,11 +691,11 @@ final class AppModel {
         }
     }
 
-    private(set) var recentsClearedAt = UserDefaults.standard.object(forKey: "recentsClearedAt") as? Date ?? .distantPast
+    private(set) var recentsClearedAt = Date.distantPast
 
     func clearRecents() {
         recentsClearedAt = Date()
-        UserDefaults.standard.set(recentsClearedAt, forKey: "recentsClearedAt")
+        activityStore.recentsClearedAt = recentsClearedAt
     }
 
     /// Forget entries whose file was moved or deleted (called when a list of them is shown).
@@ -500,7 +712,7 @@ final class AppModel {
     }
 
     private func saveActivity() {
-        if let data = try? JSONEncoder().encode(activity) { UserDefaults.standard.set(data, forKey: "activity") }
+        activityStore.save(activity)
     }
 
     private static func fileExists(_ url: URL) -> Bool {
@@ -512,25 +724,25 @@ final class AppModel {
     static func describe(_ error: Error) -> (message: String, recovery: String) {
         switch error {
         case CardError.wrongPIN(let remaining):
-            return (String(localized: "PIN greșit"), String(localized: "Încercări rămase: \(remaining)"))
+            return (L10n.text(.ui_incorrect_pin), L10n.text(.ui_attempts_left_count, remaining))
         case CardError.pinBlocked:
-            return (String(localized: "PIN blocat"), String(localized: "Deblochează-l la CEV"))
+            return (L10n.text(.ui_pin_blocked), L10n.text(.ui_unblock_it_at_cev))
         case CardError.noReader:
-            return (String(localized: "Conectează cititorul"), "")
+            return (L10n.text(.ui_connect_the_reader), L10n.text(.ui_))
         case CardError.noCard:
-            return (String(localized: "Introdu cardul în cititor"), "")
+            return (L10n.text(.ui_insert_the_card), L10n.text(.ui_))
         case CardError.cardChanged:
-            return (String(localized: "Cardul din cititor s-a schimbat"), String(localized: "Verifică titularul și semnează din nou"))
+            return (L10n.text(.ui_the_card_in_the_reader_changed), L10n.text(.ui_check_the_holder_and_sign_again))
         case CardError.apduError(0x6985):
-            return (String(localized: "Cardul a rămas într-o stare invalidă"), String(localized: "Scoate și reintrodu cardul"))
+            return (L10n.text(.ui_the_card_is_in_an_invalid_state), L10n.text(.ui_remove_and_re_insert_the_card))
         case CardError.apduError(0x6988), CardError.macVerificationFailed:
-            return (String(localized: "Sesiunea securizată s-a întrerupt"), String(localized: "Încearcă din nou"))
+            return (L10n.text(.ui_the_secure_session_was_interrupted), L10n.text(.ui_try_again))
         case CardError.signFailed(let message) where message.hasPrefix("TSA"):
-            return (String(localized: "Serviciul de marcă temporală nu răspunde"), String(localized: "Verifică conexiunea și încearcă din nou"))
+            return (L10n.text(.ui_the_timestamp_service_is_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
         case is TrustServices.NetworkError:
-            return (String(localized: "Serviciile PKI nu răspund"), String(localized: "Verifică conexiunea și încearcă din nou"))
+            return (L10n.text(.ui_pki_services_are_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
         default:
-            return (error.localizedDescription, String(localized: "Încearcă din nou"))
+            return (error.localizedDescription, L10n.text(.ui_try_again))
         }
     }
 }

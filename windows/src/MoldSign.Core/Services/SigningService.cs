@@ -5,7 +5,7 @@ namespace MoldSign.Core;
 /// Owns the process-wide card lock: UI and bridge requests queue behind it, because two interleaved
 /// secure-messaging sessions desync the SSC (6988).
 /// </summary>
-public sealed class SigningService
+public sealed class SigningService : IDocumentSigner, IDocumentVerifier
 {
     private static readonly object s_cardLock = new();
 

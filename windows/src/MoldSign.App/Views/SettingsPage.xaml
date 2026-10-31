@@ -12,9 +12,13 @@
             HorizontalAlignment="Left"
             Spacing="16">
             <TextBlock
-                x:Uid="SettingsPageTitle"
+                x:Uid="SettingsPageTitle" AutomationProperties.AutomationId="SettingsPageTitle"
                 Style="{StaticResource MsTitleTextStyle}"
                 Text="Setări" />
+
+            <ToggleSwitch x:Name="DemoModeToggle" AutomationProperties.AutomationId="DemoModeToggle" Toggled="OnDemoModeToggled" />
+            <TextBlock x:Name="DemoModeDescription" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
+            <TextBlock x:Name="DemoModeStatus" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
 
             <TextBlock
                 x:Uid="SettingsGeneral"
@@ -37,15 +41,37 @@
                 x:Uid="SettingsReaderToasts"
                 Header="Notificări la conectarea cititorului"
                 Toggled="OnToastsToggled" />
-            <ComboBox
-                x:Uid="SettingsLanguage"
-                Header="Limba"
-                IsEnabled="False"
-                SelectedIndex="0">
-                <ComboBoxItem Content="Română" />
-                <ComboBoxItem Content="English" />
+            <ToggleSwitch x:Name="OpenOnInsertionToggle" x:Uid="SettingsOpenOnInsertion"
+                Header="Deschide aplicația la introducerea cardului" Toggled="OnOpenOnInsertionToggled" />
+            <ToggleSwitch x:Name="OpenOnReaderInsertionToggle" x:Uid="SettingsOpenOnReaderInsertion"
+                Header="Deschide la conectarea cititorului" Toggled="OnOpenOnReaderInsertionToggled" />
+            <TextBlock x:Name="InsertionHelperStatus" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
+            <ComboBox x:Name="LanguagePicker" x:Uid="SettingsLanguage" Header="Limba" SelectionChanged="OnLanguageChanged">
+                <ComboBoxItem x:Uid="SettingsThemeSystem" Content="Sistem" Tag="" />
+                <ComboBoxItem Content="Română" Tag="ro-RO" />
+                <ComboBoxItem Content="English" Tag="en-US" />
+                <ComboBoxItem Content="Русский" Tag="ru-RU" />
             </ComboBox>
-            <!-- TODO(WIN-04): language override (Microsoft.Windows.Globalization.ApplicationLanguages); Русский ships later. -->
+            <TextBlock x:Uid="SettingsLanguageRestart" Style="{StaticResource MsCaptionTextStyle}"
+                Text="Limba se aplică după repornirea aplicației." TextWrapping="Wrap" />
+            <ComboBox x:Name="ThemePicker" x:Uid="SettingsTheme" Header="Aspect" SelectionChanged="OnThemeChanged">
+                <ComboBoxItem x:Uid="SettingsThemeSystem" Content="Sistem" Tag="system" />
+                <ComboBoxItem x:Uid="SettingsThemeLight" Content="Luminos" Tag="light" />
+                <ComboBoxItem x:Uid="SettingsThemeDark" Content="Întunecat" Tag="dark" />
+            </ComboBox>
+            <TextBlock x:Uid="SettingsPins" Text="PIN-uri salvate" Style="{StaticResource MsSectionHeaderTextStyle}" />
+            <ToggleSwitch x:Name="RememberPinToggle" x:Uid="SettingsRememberPin" Header="Permite salvarea PIN-urilor"
+                Toggled="OnRememberPinToggled" />
+            <StackPanel x:Name="SavedPinsList" Spacing="8" />
+            <Button x:Name="DeleteAllPinsButton" x:Uid="SettingsDeletePins" Content="Șterge toate PIN-urile salvate" Click="OnDeletePinsClick" />
+            <TextBlock x:Name="PinsStatus" Style="{StaticResource MsCaptionTextStyle}" />
+
+            <TextBlock x:Name="MonitoringTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
+            <TextBlock x:Name="MonitoringHint" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
+            <ToggleSwitch x:Name="MonitoringCrashToggle" AutomationProperties.AutomationId="MonitoringSettingsCrash"
+                Toggled="OnMonitoringToggled" />
+            <ToggleSwitch x:Name="MonitoringMetricsToggle" AutomationProperties.AutomationId="MonitoringSettingsMetrics"
+                Toggled="OnMonitoringToggled" />
 
             <TextBlock
                 x:Uid="SettingsBridge"
@@ -78,6 +104,9 @@
                 x:Name="VersionText"
                 Style="{StaticResource MsCaptionTextStyle}"
                 IsTextSelectionEnabled="True" />
+            <TextBlock x:Name="AboutTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
+            <TextBlock x:Name="AboutDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+            <HyperlinkButton Content="esemnbun.md" NavigateUri="https://esemnbun.md" />
             <!-- TODO(WIN-04): diagnostics export (no PIN, no session keys: SEC-04) and reset. -->
         </StackPanel>
     </ScrollViewer>

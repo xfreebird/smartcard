@@ -25,10 +25,10 @@ enum ReaderStatus: Equatable {
 
     var title: String {
         switch self {
-        case .unavailable: return String(localized: "Acces la cititor indisponibil")
-        case .noReader: return String(localized: "Conectează cititorul")
-        case .empty: return String(localized: "Introdu cardul în cititor")
-        case .reading: return String(localized: "Se citește cardul…")
+        case .unavailable: return L10n.text(.ui_reader_access_unavailable)
+        case .noReader: return L10n.text(.ui_connect_the_reader)
+        case .empty: return L10n.text(.ui_insert_the_card)
+        case .reading: return L10n.text(.ui_reading_the_card)
         case .ready(_, let holder, _), .busy(_, let holder): return holder
         case .error(let message, _): return message
         }
@@ -36,18 +36,23 @@ enum ReaderStatus: Equatable {
 
     var subtitle: String {
         switch self {
-        case .unavailable: return String(localized: "Verifică permisiunile aplicației")
-        case .noReader: return String(localized: "USB-A, USB-C sau adaptor Lightning")
+        case .unavailable: return L10n.text(.ui_check_the_app_permissions)
+        case .noReader:
+            #if os(iOS)
+            return L10n.text(.ui_usb_c_or_lightning_adapter_for_iphone_and_ipad)
+            #else
+            return L10n.text(.ui_usb_a_or_usb_c_adapter)
+            #endif
         case .empty(let reader), .reading(let reader): return reader
-        case .ready(let reader, _, _): return String(localized: "Card pregătit · \(reader)")
-        case .busy: return String(localized: "Se semnează…")
+        case .ready(let reader, _, _): return L10n.text(.ui_card_ready_value, reader)
+        case .busy: return L10n.text(.ui_signing)
         case .error(_, let recovery): return recovery
         }
     }
 
     var detail: String? {
         guard case .ready(_, _, let until?) = self else { return nil }
-        return String(localized: "Certificat valabil până la \(until.formatted(.dateTime.month(.twoDigits).year()))")
+        return L10n.text(.ui_certificate_valid_until_value, until.formatted(.dateTime.month(.twoDigits).year()))
     }
 
     var tint: Color {
@@ -154,19 +159,19 @@ enum Verdict {
         }
     }
 
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
-        case .valid: return "Semnătură validă"
-        case .invalid: return "Semnătură invalidă"
-        case .unknown: return "Nu poate fi confirmată"
+        case .valid: return L10n.text(.ui_valid_signature)
+        case .invalid: return L10n.text(.ui_invalid_signature)
+        case .unknown: return L10n.text(.ui_cannot_be_confirmed)
         }
     }
 
-    var subtitle: LocalizedStringKey {
+    var subtitle: String {
         switch self {
-        case .valid(let count): return "Semnături verificate: \(count)"
-        case .invalid: return "Documentul a fost modificat sau semnătura nu corespunde"
-        case .unknown: return "Nicio semnătură găsită sau lanț de încredere necunoscut"
+        case .valid(let count): return L10n.text(.ui_verified_signatures_count, count)
+        case .invalid: return L10n.text(.ui_the_document_has_been_modified_or_the_signature_does_not_match)
+        case .unknown: return L10n.text(.ui_no_signature_found_or_unknown_trust_chain)
         }
     }
 
@@ -202,6 +207,14 @@ struct PinRequest: Identifiable {
     let holder: String
     let attemptsLeft: Int?
     let canRemember: Bool
+    let documentNames: [String]
+
+    init(holder: String, attemptsLeft: Int?, canRemember: Bool, documentNames: [String] = []) {
+        self.holder = holder
+        self.attemptsLeft = attemptsLeft
+        self.canRemember = canRemember
+        self.documentNames = documentNames
+    }
 }
 
 /// A browser asking for a signature (SEC-02).
@@ -212,7 +225,7 @@ struct ConsentRequest: Identifiable {
     let hasStoredPIN: Bool
 
     var originHost: String {
-        request.origin.flatMap { URL(string: $0)?.host } ?? String(localized: "Aplicație locală")
+        request.origin.flatMap { URL(string: $0)?.host } ?? L10n.text(.ui_local_application)
     }
 }
 

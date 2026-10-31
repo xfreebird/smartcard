@@ -33,10 +33,10 @@ SIGNING
       AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET   picked up by the dlib (DefaultAzureCredential)
 
       MSIX identity (Package.appxmanifest placeholders, restored after the build):
-      MOLDSIGN_MSIX_IDENTITY     package name (Partner Center Package/Identity/Name for the Store); default MoldSign.Desktop
+      MOLDSIGN_MSIX_IDENTITY     package name (Partner Center Package/Identity/Name for the Store); default NicolaeGhimbovschi.eSemnBun
       MOLDSIGN_MSIX_PUBLISHER    must equal the signing certificate's Subject; default: the thumbprint certificate's
-                                 Subject, else "CN=MoldSign Development"
-      MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME   the publisher's own display name (default eSemnBun)
+                                 Subject, else the verified Partner Center publisher
+      MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME   the publisher's own display name (default Nicolae Ghimbovschi)
 
 .PARAMETER Version
     Product version (major.minor.patch). Default: <Version> of windows/Directory.Build.props (0.2.0).
@@ -83,6 +83,8 @@ $RepoRoot = Split-Path -Parent $WindowsDir
 $Dist = Join-Path $RepoRoot 'dist/windows'
 $Staging = Join-Path $WindowsDir 'artifacts/package'
 $AppProject = Join-Path $WindowsDir 'src/MoldSign.App/MoldSign.App.csproj'
+$WatcherProject = Join-Path $WindowsDir 'src/MoldSign.Watcher/MoldSign.Watcher.csproj'
+$HelperPayload = Join-Path $WindowsDir 'src/MoldSign.App/HelperPayload'
 $BuildProps = Join-Path $WindowsDir 'Directory.Build.props'
 $CliProject = Join-Path $WindowsDir 'src/MoldSign.Cli/MoldSign.Cli.csproj'
 $Installer = Join-Path $WindowsDir 'installer/MoldSign.Installer.wixproj'
@@ -219,11 +221,11 @@ New-Item -ItemType Directory -Force -Path $Staging | Out-Null
 $script:SigningMode = Get-SigningMode
 $script:SignTool = if ($script:SigningMode -ne 'none') { Find-SignTool } else { $null }
 
-$MsixName = if ($env:MOLDSIGN_MSIX_IDENTITY) { $env:MOLDSIGN_MSIX_IDENTITY } else { 'MoldSign.Desktop' }
+$MsixName = if ($env:MOLDSIGN_MSIX_IDENTITY) { $env:MOLDSIGN_MSIX_IDENTITY } else { 'NicolaeGhimbovschi.eSemnBun' }
 $MsixPublisher = if ($env:MOLDSIGN_MSIX_PUBLISHER) { $env:MOLDSIGN_MSIX_PUBLISHER }
                  elseif ($script:SigningMode -eq 'thumbprint') { Get-CertificateSubject $env:MOLDSIGN_SIGN_THUMBPRINT }
-                 else { 'CN=MoldSign Development' }
-$MsixPublisherDisplayName = if ($env:MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME) { $env:MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME } else { 'eSemnBun' }
+                 else { 'CN=3AAF334E-BE21-4B3F-8FDE-FBEDDF7498EE' }
+$MsixPublisherDisplayName = if ($env:MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME) { $env:MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME } else { 'Nicolae Ghimbovschi' }
 if ($script:SigningMode -eq 'self-signed') { $script:SelfSignedThumbprint = New-TestSigningCertificate $MsixPublisher }
 
 Write-Host "eSemnBun $Version ($($Platforms -join ', ')) - signing: $($script:SigningMode) - MSIX publisher: $MsixPublisher"
@@ -242,6 +244,12 @@ foreach ($platform in $Platforms) {
     Invoke-Tool dotnet @('publish', $CliProject, '-c', $Configuration, '-r', $rid, '-p:PublishAot=true',
         "-p:Version=$Version", '-o', $cliOut)
 
+    # Separate self-contained process: no WinUI, card connection, PIN or credential-vault dependency.
+    Remove-Item -Recurse -Force $HelperPayload -ErrorAction SilentlyContinue
+    Invoke-Tool dotnet @('publish', $WatcherProject, '-c', $Configuration, '-r', $rid,
+        '--self-contained', '-p:PublishSingleFile=true', "-p:Version=$Version", '-o', $HelperPayload)
+    Get-ChildItem $HelperPayload -Recurse -Filter *.pdb | Remove-Item -Force
+
     Write-Host "`n== ${rid}: app eSemnBun.exe (self-contained, unpackaged)" -ForegroundColor Cyan
     Invoke-Tool dotnet @('publish', $AppProject, '-c', $Configuration, '-r', $rid, "-p:Platform=$msbuildPlatform",
         '--self-contained', '-p:WindowsPackageType=None', "-p:Version=$Version", '-o', $appOut)
@@ -250,7 +258,7 @@ foreach ($platform in $Platforms) {
         throw "The tray icons are missing from $appOut (Content items of MoldSign.App)"
     }
     Invoke-Sign @((Join-Path $appOut 'eSemnBun.exe'), (Join-Path $appOut 'eSemnBun.dll'),
-        (Join-Path $appOut 'MoldSign.Core.dll'), (Join-Path $cliOut 'esemnbun.exe'))
+        (Join-Path $appOut 'MoldSign.Core.dll'), (Join-Path $cliOut 'esemnbun.exe'), (Join-Path $appOut 'helper/eSemnBun.Watcher.exe'))
 
     if (-not $SkipMsi) {
         Write-Host "`n== ${rid}: MSI (WiX v5)" -ForegroundColor Cyan
@@ -320,3 +328,5 @@ Set-Content -Path (Join-Path $Dist 'SHA256SUMS.txt') -Value $sums -Encoding asci
 
 Write-Host "`nDone: $Dist" -ForegroundColor Green
 Get-ChildItem $Dist -Recurse -File | ForEach-Object { '  {0,12:N0}  {1}' -f $_.Length, $_.FullName.Substring($Dist.Length + 1) }
+
+Remove-Item -Recurse -Force $HelperPayload -ErrorAction SilentlyContinue

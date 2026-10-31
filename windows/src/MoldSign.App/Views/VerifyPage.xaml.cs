@@ -27,6 +27,8 @@ public sealed partial class VerifyPage : Page
     public async Task VerifyFilesAsync(IReadOnlyList<string> paths)
     {
         if (paths.Count == 0) return;
+        if (App.Current.Services.IsDemo && paths.Any(path => !App.Current.Services.IsDemoDocument(path)))
+        { ShowError(Loc.Get("demo_fixture_only")); return; }
         _signature = paths.FirstOrDefault(p => p.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
             ?? paths.FirstOrDefault(p => p.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)) ?? paths[0];
         _documents.Clear();
@@ -39,7 +41,8 @@ public sealed partial class VerifyPage : Page
         try
         {
             if (XamlRoot is null) return;
-            var paths = await WindowHelpers.PickFilesAsync(XamlRoot);
+            var paths = App.Current.Services.IsDemo ? App.Current.Services.DemoDocuments
+                : await WindowHelpers.PickFilesAsync(XamlRoot);
             AddDocuments(paths);
             if (paths.Count > 0) await VerifyCurrentAsync();
         }

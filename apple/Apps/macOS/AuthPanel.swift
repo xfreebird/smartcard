@@ -18,7 +18,7 @@ final class AuthPanelController {
 
     private func show() {
         guard let model else { return }
-        let root = AuthPanelContent(onFinish: { [weak self] in self?.hide() }).environment(model)
+        let root = AuthPanelContent(onFinish: { [weak self] in self?.hide() }).environment(model).appPreferences()
         let panel = self.panel ?? makePanel()
         let host = NSHostingController(rootView: root)
         panel.contentViewController = host

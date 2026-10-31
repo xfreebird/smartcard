@@ -106,8 +106,18 @@ public final class MoldSignServer {
         #if os(Linux) || MOLDSIGN_PORTABLE
         // XDG data dir, Flatpak (/app), distro packages (LNX-13)
         let dataHome = ProcessInfo.processInfo.environment["XDG_DATA_HOME"] ?? NSHomeDirectory() + "/.local/share"
-        paths += [dataHome + "/moldsign/localhost.p12", "/app/share/moldsign/localhost.p12",
-                  "/usr/local/share/moldsign/localhost.p12", "/usr/share/moldsign/localhost.p12"]
+        // Relocatable distributions: executable + share/ or prefix/bin + prefix/share/.
+        // Resolve symlinks so a launcher outside the installation still finds its identity.
+        let executable = URL(fileURLWithPath: CommandLine.arguments[0]).resolvingSymlinksInPath()
+        let directory = executable.deletingLastPathComponent()
+        paths.append(dataHome + "/moldsign/localhost.p12")
+        for base in [directory, directory.deletingLastPathComponent()] {
+            paths.append(base.appendingPathComponent("share/moldsign/localhost.p12").path)
+            paths.append(base.appendingPathComponent("share/moldsign-cli/localhost.p12").path)
+        }
+        paths += ["/app/share/moldsign/localhost.p12",
+                  "/usr/local/share/moldsign/localhost.p12", "/usr/share/moldsign/localhost.p12",
+                  "/usr/local/share/moldsign-cli/localhost.p12", "/usr/share/moldsign-cli/localhost.p12"]
         #endif
         paths.append(NSHomeDirectory() + "/Projects/smartcard/swift/MoldSignKit/Resources/localhost.p12")
         for path in paths {

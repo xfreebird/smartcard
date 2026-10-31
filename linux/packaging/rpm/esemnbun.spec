@@ -21,6 +21,7 @@ License:        LicenseRef-proprietary
 
 BuildRequires:  pkgconfig(libadwaita-1)
 BuildRequires:  pkgconfig(libsecret-1)
+BuildRequires:  cmake curl libcurl-devel
 BuildRequires:  pkgconfig(libpcsclite)
 BuildRequires:  pkgconfig(openssl)
 Requires:       pcsc-lite
@@ -29,6 +30,7 @@ Requires:       pcsc-lite-libs
 Requires:       libadwaita
 Requires:       libsecret
 Requires:       openssl-libs
+Requires:       libcurl
 Recommends:     gnome-keyring
 Recommends:     xdg-desktop-portal
 Suggests:       esemnbun-cli
@@ -58,6 +60,7 @@ systemctl --user enable --now esemnbun-server.service
 
 %build
 %if 0%{!?moldsign_stage:1}
+%{moldsign_src}/linux/scripts/build-sentry-sdk.sh
 cd %{moldsign_src}/swift/MoldSignKit && swift build -c release --product esemnbun --static-swift-stdlib
 cd %{moldsign_src}/linux && swift build -c release --static-swift-stdlib
 %endif
@@ -77,9 +80,12 @@ cp -a %{moldsign_stage}/. %{buildroot}/
 %{_datadir}/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg
 %{_datadir}/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg
 %{_datadir}/moldsign/localhost.p12
+%{_prefix}/lib/esemnbun/libsentry.so
+%{_datadir}/licenses/esemnbun/sentry-native-LICENSE
 
 %files cli
 %{_bindir}/esemnbun
+%{_datadir}/moldsign-cli/localhost.p12
 %{_userunitdir}/esemnbun-server.service
 
 %changelog

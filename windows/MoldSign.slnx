@@ -13,6 +13,8 @@
     </Project>
     <Project Path="src/MoldSign.Cli/MoldSign.Cli.csproj" />
     <Project Path="src/MoldSign.Core/MoldSign.Core.csproj" />
+    <Project Path="src/MoldSign.Desktop/MoldSign.Desktop.csproj" />
+    <Project Path="src/MoldSign.Watcher/MoldSign.Watcher.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/MoldSign.Core.Tests/MoldSign.Core.Tests.csproj" />

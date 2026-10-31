@@ -1,5 +1,7 @@
 package md.moldsign.app.pin
 
+import md.moldsign.app.R
+
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException

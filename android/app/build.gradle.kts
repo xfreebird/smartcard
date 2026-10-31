@@ -10,10 +10,16 @@ android {
     namespace = "md.moldsign.app"
     compileSdk = 36
 
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     defaultConfig {
         applicationId = "md.esemnbun.app"   // public ID (D-07); the Kotlin namespace keeps the codename
         minSdk = 26
         targetSdk = 36
+        // ADJ-13: universal APK and Play ABI splits cover ARM and Intel phones/tablets.
+        ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64") }
         versionCode = 2
         versionName = "0.2.0"
     }

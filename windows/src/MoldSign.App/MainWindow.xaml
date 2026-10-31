@@ -90,10 +90,15 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
+                <InfoBar Grid.Row="0" Margin="32,12,32,0" IsClosable="False"
+                    AutomationProperties.AutomationId="DemoModeBanner"
+                    IsOpen="{x:Bind State.IsDemo, Mode=OneWay}"
+                    Message="{x:Bind State.DemoDisclaimer, Mode=OneWay}" Severity="Informational" />
                 <!-- Status / errors (docs/10 §0.3: InfoBar), driven by the status light. -->
-                <InfoBar
+                <InfoBar Grid.Row="1"
                     Margin="32,16,32,0"
                     IsClosable="True"
                     IsOpen="{x:Bind State.StatusInfoOpen, Mode=OneWay}"
@@ -108,7 +113,7 @@
                             Visibility="{x:Bind State.StatusInfoActionVisibility, Mode=OneWay}" />
                     </InfoBar.ActionButton>
                 </InfoBar>
-                <Frame x:Name="ContentFrame" Grid.Row="1" />
+                <Frame x:Name="ContentFrame" Grid.Row="2" />
             </Grid>
         </NavigationView>
     </Grid>

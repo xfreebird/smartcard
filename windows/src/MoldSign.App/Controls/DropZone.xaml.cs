@@ -35,7 +35,7 @@ public sealed partial class DropZone : UserControl
 
     private void OnDragOver(object sender, DragEventArgs e)
     {
-        if (!e.DataView.Contains(StandardDataFormats.StorageItems)) return;
+        if (App.Current.Services.IsDemo || !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
         e.AcceptedOperation = DataPackageOperation.Copy;
         e.Handled = true;
         SetHover(true);
@@ -47,6 +47,10 @@ public sealed partial class DropZone : UserControl
     {
         SetHover(false);
         e.Handled = true;
+        if (App.Current.Services.IsDemo)
+        {
+            Failure.Message = Loc.Get("demo_fixture_only"); Failure.IsOpen = true; return;
+        }
         var deferral = e.GetDeferral();
         try
         {
@@ -71,6 +75,10 @@ public sealed partial class DropZone : UserControl
         try
         {
             Failure.IsOpen = false;
+            if (App.Current.Services.IsDemo)
+            {
+                FilesChosen?.Invoke(this, App.Current.Services.DemoDocuments); return;
+            }
             if (XamlRoot is null) throw new InvalidOperationException(Loc.Get("Error_PickerWindow"));
             var paths = await WindowHelpers.PickFilesAsync(XamlRoot, [.. Extensions]);
             if (paths.Count > 0) FilesChosen?.Invoke(this, paths);

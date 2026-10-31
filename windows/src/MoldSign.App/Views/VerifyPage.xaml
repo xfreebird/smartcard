@@ -9,7 +9,7 @@
     <ScrollViewer>
         <StackPanel MaxWidth="880" Padding="{StaticResource PagePadding}" Spacing="16">
             <TextBlock
-                x:Uid="VerifyPageTitle"
+                x:Uid="VerifyPageTitle" AutomationProperties.AutomationId="VerifyPageTitle"
                 Style="{StaticResource MsTitleTextStyle}"
                 Text="Verifică" />
 
@@ -26,20 +26,20 @@
             </StackPanel>
 
             <!-- VerdictBadge -->
-            <StackPanel
+            <Grid
                 x:Name="Verdict"
-                Orientation="Horizontal"
-                Spacing="12"
+                ColumnSpacing="12"
                 Visibility="Collapsed">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
                 <FontIcon
                     x:Name="VerdictIcon"
                     FontSize="32"
                     Glyph="&#xE73E;" />
                 <TextBlock
-                    x:Name="VerdictText"
+                    x:Name="VerdictText" Grid.Column="1" TextWrapping="Wrap" AutomationProperties.AutomationId="VerificationOutcome"
                     VerticalAlignment="Center"
                     Style="{StaticResource MsTitleTextStyle}" />
-            </StackPanel>
+            </Grid>
 
             <TextBlock x:Name="SignatureCount" Visibility="Collapsed" />
             <StackPanel x:Name="SignatureCards" Spacing="16" />

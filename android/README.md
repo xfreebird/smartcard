@@ -18,7 +18,7 @@ this is a line-by-line port gated by [`spec/vectors/card-crypto.json`](../spec/v
 |---|---|---|---|
 | `:core` | Kotlin/JVM library, no Android deps | `md.moldsign.core` | `Hex`, `Aes` (javax.crypto ECB/CBC, NoPadding), `Cmac` (RFC 4493), `Iso9797`, `Sha`, `DigestInfo`, `SecureChannel`, `CosmoXCard` (incl. the identity guard), `ApduTransport`, `CardError` (incl. `CardChanged`), `BridgeOriginPolicy`, `BridgeServer` (loopback HTTP/1.1), `SigningService` / `CardSigningService` (per-reader sessions), `Wallet.kt` (`ReaderSlot`, `CardGenerations`, `WalletState`, `StatusLight`), models, the format signers (`PadesCmsSigner`, `XadesDocumentSigner`), `MdTrustServices` (TSA / CRL / OCSP over HTTP, one retry for the gateways' idle 502s), `OfflineValidator` + `Verdict`, and the browser bridge (`BridgeTls`, `SigningBridgeRoutes`) |
 | `:transport-usb` | Android library | `md.moldsign.transport.usb` | `Ccid` (pure framing + class-descriptor parser), `CcidTransport : ApduTransport` over USB bulk endpoints, `UsbReaderMonitor` (every attached reader: attach/detach, permission, slot polling, card generations → `StateFlow<List<ReaderSlot>>`; sessions routed by reader id), `res/xml/device_filter.xml` |
-| `:app` | Compose + Material 3 app | `md.moldsign.app` | Design v2 (docs/10 §0): theme from the design tokens (dynamic color, brand fallback), edge-to-edge `Scaffold` with `TopAppBar` + status light chip + `NavigationBar` (Semnează · Verifică · Browser · Card), card wallet, document list + FormatChip, `ExtendedFloatingActionButton`, PIN `ModalBottomSheet`, ConnectionGuide, `BridgeService` (foreground `connectedDevice`, notification = status light), `PinVault` (Keystore AES-GCM + BiometricPrompt), ro/en strings, debug-only demo mode |
+| `:app` | Compose + Material 3 app | `md.moldsign.app` | Design v2 (docs/10 §0): theme from the design tokens (dynamic color, brand fallback), edge-to-edge `Scaffold` with `TopAppBar` + status light chip + `NavigationBar` (Semnează · Verifică · Browser · Card), card wallet, document list + FormatChip, `ExtendedFloatingActionButton`, PIN `ModalBottomSheet`, ConnectionGuide, `BridgeService` (foreground `connectedDevice`, notification = status light), `PinVault` (Keystore AES-GCM + BiometricPrompt), ro/en/ru keyed resources, debug-only demo mode |
 
 The bridge allow-list is not copied: `:core` packages `../spec/bridge/allowed-origins.properties` into its jar
 (`md/moldsign/core/allowed-origins.properties`, loaded by `BridgeOriginPolicy.bundled()`).
@@ -58,27 +58,14 @@ Toolchain: Gradle 8.13, AGP 8.10.1, Kotlin 2.1.0 (Compose compiler plugin 2.1.0)
   identity card drawn in one `drawWithCache` pass (Canvas + `TextMeasurer`, every size a fraction of the card width):
   pastel paper gradient, 12 guilloche sine waves (hue rotated ±20° by the first certificate SHA-1 byte) and a rosette,
   bilingual "REPUBLICA MOLDOVA / REPUBLIC OF MOLDOVA" and "CARTE DE IDENTITATE / IDENTITY CARD" (scaled to fit left of
-  the chip), a **neutral** shield outline (never the coat of arms), the gold chip top-right, a grey portrait frame with
+  the chip), a **neutral** shield outline (never the coat of arms), the gold chip at the right-center, a grey portrait frame with
   a silhouette, fields Numele/Surname, Prenumele/Given name(s), Valabil până la/Valid until (`dd MM yyyy`, certificate
   notAfter) and Emitent/Issuer, and a status strip (green "Pregătit pentru semnare", amber "Se citește cardul…" with
   placeholder bars, red problem text; reader caption on large sizes). Surname / given names come from the
   certificate's SN / GN (`CertificateSummary.nameParts`), else the CN split at the first space (first word = surname).
   No photo, no document number, no MRZ, no IDNP. Fixed colors in light and dark, hairline border and shadow.
-* **Card + selector = one component** (`ui/components/CardWallet.kt`, UX-10 revised): nothing outside the card (no
-  dots, picker, menu or carousel). Collapsed it shows only the selected card. With > 1 card a round disclosure button
-  sits inside the card at (0.935 W, 0.50 H), diameter 0.085 W (85 % white + hairline, 48 dp touch target), chevron
-  pointing right; field values stop at 0.88 W. Tapping it expands the component in place into a `Column` of every
-  card, same size, 11 dp apart, in reader order (each card is an `AnimatedVisibility`, 250 ms; Compose follows
-  "Remove animations"); the chevron turns down and the selected card keeps the accent ring while its status strip reads
-  "✓ Folosit pentru semnare" in brand blue `#2350D8` (a check instead of the dot; no separate badge; a selected card
-  still reading or in error keeps that line). Tap a card → it becomes the signing card and the list collapses; the disclosure, the selected card,
-  Back or Escape collapse without change. Long press: "Recitește cardul" + "Semnează cu {holder}" for the other cards.
-  ←/→ on the collapsed card switch cards. TalkBack: the collapsed card is one element "{holder}, card de identitate,
-  valabil până la …, {i} din {n}" with "Cardul următor" / "Cardul anterior" / "Recitește cardul"; the disclosure is
-  "Alege cardul ({n} carduri)" with expand/collapse actions and state; expanded cards are buttons "Semnează cu
-  {holder}", the selected one marked "selectat". Same component on Semnează, Card and Browser; a tap on the collapsed
-  card opens the Card screen from Semnează / Browser. Empty states stay cards: connector illustration (no reader),
-  USB access, dashed "Introdu cardul", red reader error.
+* **Horizontal wallet carousel (ADJ-02)**: a native Compose pager keeps the selected card centered, shows adjacent-card peeks and commits selection when a swipe settles. Keyboard and TalkBack selection actions use the same reader identity. A numbered position label replaces the old vertical disclosure list. Empty states remain native connection cards. The card uses a golden-ratio landscape aspect and the avatar frame uses3:5 width:height; the chip is vertically centered on the right and text reserves its space.
+
 * **Documents and formats.** Empty: the large "Alege documentele" tile; with documents, the list and a smaller
   "Adaugă documente" tile under it. Every row has a format chip: a PDF offers PAdES-T (default), XAdES-BES, XAdES-T
   and XAdES-C (a detached `.xml` over the PDF bytes); other files offer XAdES only. Each option shows the file it will
@@ -191,3 +178,74 @@ AID's SW there), the SELECT EF 0001 SW is unchecked, and a response without tag 
 - XAdES on the phone: Sign tab → pick a text or XML file → XAdES-T (or -BES / -C) → PIN; the `<name>-semnat.xml` lands in Downloads/eSemnBun. Check it on the Mac with `esemnbun verify <sig.xml> <folder with the original file>` or on the phone's Verify tab (a detached signature asks for its document). XAdES-C needs the network (CRL + OCSP + MDQTSA); the OCSP gateway can take 13 s on the first request after an idle spell.
 - Verify tab: pick a signed PDF or XAdES → verdict and signature cards appear at once; flip a byte of the PDF → "Invalid signature".
 - Never test with the real PIN in automated runs; a wrong PIN burns the retry counter (R-07).
+
+## Tablets, architectures and batch signing (ADJ-13 / ADJ-14)
+
+The activity supports rotation and resizable windows. Expanded windows use a native Material3 navigation rail
+and split signing workspace; compact windows keep phone navigation. Card selection remains centered and bounded
+in width, with explicit gutters. The layout responds to available window width rather than device model.
+
+The universal APK includes ARM32 (`armeabi-v7a`), ARM64 (`arm64-v8a`), x86 and x86-64 native dependency slices.
+Play App Bundles split these by ABI. `python3 scripts/check-android-abis.py <apk-or-aab>` checks matching library
+sets and actual ELF headers. Core signing/USB transport code is Kotlin/JVM and is shared across these targets.
+Packaging verification is separate from device runtime evidence. The manual `Android x86-64 runtime smoke`
+workflow exercises phone/tablet mock scenarios on an x86-64 emulator; local validation uses ARM64.
+
+A frozen document batch displays its complete file/format list in one PIN sheet. `BatchConsent` keeps an
+in-memory PIN copy scoped to that certificate/requester and approved filenames; each card operation gets its own
+copy. Closing/cancellation/scope changes end the session; the batch stops at the first signing error. Another
+batch asks again. Simulated tests never use real card PINs.
+
+Mock capture defaults now include `documents` (one selected fictional PDF) and `batch` (three fictional PDF/text
+inputs), alongside the seven wallet states. Every image has a JSON readiness sidecar. `MSIGN_CAPTURE_SCENARIOS`,
+`MSIGN_CAPTURE_PAGES` and `MSIGN_CAPTURE_THEMES` can restrict a run. Readiness waits for a rendered requested page
+and completed document loading. Warm intent transitions exercise card-list membership changes without restarting
+the process; pager state is rebuilt when reader membership changes to prevent stale lazy-layout indices.
+
+For tablet validation on a dedicated emulator, set `adb shell wm size 2560x1600` and `adb shell wm density 240`
+capture, then use `wm size 1600x2560` for portrait. Restore with `wm size reset`
+and `wm density reset`. Use `adb -s SERIAL` when more than one emulator is connected.
+
+## Source responsibilities (31 October 2026)
+
+`:app` keeps the Android composition entry points at its root, feature coordination and ports in
+`application/`, UI state in `presentation/`, adapters in `infrastructure/`, and Compose code in `ui/`.
+`DocumentAccess` isolates SAF permissions, metadata, reads and export copies from MainViewModel.
+`ReaderGateway` isolates USB monitoring and transports from application orchestration; AppContainer accepts
+reader and signing factories. Debug fixtures and release no-op entry points remain separate source sets.
+`:core` groups application, card, crypto, formats, network and bridge implementations without Android imports.
+The app packages match these responsibility folders. Core public package names remain stable for library API compatibility; manifest entry points remain at the app root.
+
+Tablet amendment (31 October): expanded windows follow the desktop vertical signing hierarchy, with a
+centered card above documents/picker and a compact signing button below. All destinations use a bounded
+680dp reading column; native navigation remains a rail. Portrait and landscape share this hierarchy.
+
+## User-controlled demo mode
+
+Open the settings gear on any screen, enable **Demo mode**, and confirm its disclaimer.
+The preference survives cold launches in both Debug and Release. Switching at idle stops the old
+reader/bridge, disposes its application scope, and starts a fresh Activity/task with the selected
+composition. Switching is disabled while signing or a consent request is pending.
+
+Demo mode initializes a hardware-free reader and signing adapter before any USB adapter is created.
+It shows fictional cards and two sample PDFs; picked/shared real documents are ignored. It never
+opens a physical transport, uses a PIN or vault entry, or starts the browser bridge. A banner stays
+visible on every screen. Demo history uses its own preferences, separate from real activity.
+
+The simulated batch produces one new **DEMO-…-NOT-SIGNED.pdf** per selected sample. These are fixed
+fixture pages carrying **DEMO - NOT A VALID SIGNATURE** and **DEMO ONLY - UNSIGNED** watermarks,
+with no cryptographic signature. Their names/URIs are separately available in Activity for Open,
+Share and Save as. The store inserts new files rather than overwriting inputs or previous outputs.
+
+Hardware-free verification:
+
+```sh
+./gradlew :app:assembleDebug :app:assembleRelease :app:lintDebug :app:testDebugUnitTest --no-daemon
+python3 scripts/test-demo-mode.py emulator-5580 /absolute/screenshot/output
+```
+
+The native interaction script uses an English 1080×2400 mock phone emulator. It exercises the actual
+settings, confirmation, cold-launch persistence, preview batch, system share chooser and exit from
+demo. The rendered floating action is omitted from this emulator's UIAutomator hierarchy, so its
+activation uses a native touch at the screenshot-verified position. For an explicitly installed,
+locally signed Release validation APK, pass `--allow-release`. No physical device is accepted.

@@ -4,6 +4,21 @@ internal static class AppLog
 {
     private static readonly object s_gate = new();
 
+    public static void Stage(string stage)
+    {
+        if (Environment.GetEnvironmentVariable("MSIGN_UI_DIAGNOSTICS") != "1") return;
+        try
+        {
+            lock (s_gate)
+            {
+                var path = Path.Combine(Path.GetTempPath(), "esemnbun-ui-startup.log");
+                if (File.Exists(path) && new FileInfo(path).Length > 512 * 1024) File.WriteAllText(path, "");
+                File.AppendAllText(path, $"{DateTimeOffset.Now:O} {stage}\n");
+            }
+        }
+        catch (Exception) { }
+    }
+
     public static void Error(Exception error)
     {
         try

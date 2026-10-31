@@ -1,0 +1,7 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework><OutputType>WinExe</OutputType>
+    <AssemblyName>eSemnBun.Watcher</AssemblyName><RootNamespace>MoldSign.Watcher</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup><ProjectReference Include="../MoldSign.Desktop/MoldSign.Desktop.csproj" /></ItemGroup>
+</Project>

@@ -1,0 +1,7 @@
+// Pass with -xcconfig for the eSemnBun-macOS Release archive.
+CODE_SIGN_ENTITLEMENTS = Configuration/AppStore.entitlements
+CODE_SIGN_IDENTITY = Apple Distribution
+CODE_SIGN_STYLE = Manual
+DEVELOPMENT_TEAM = H86U5Z8HYB
+ENABLE_APP_SANDBOX = YES
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = $(inherited) APP_STORE

@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><RootNamespace>MoldSign.Desktop</RootNamespace></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../MoldSign.Core/MoldSign.Core.csproj" /></ItemGroup>
+</Project>

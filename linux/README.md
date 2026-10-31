@@ -16,7 +16,7 @@ Plan items: LNX-06…LNX-15, UX-01, UX-02, UX-07, UX-09…UX-12 in [`../PLAN.md`
 
 ## Design (docs/10 §0, §0.2b)
 
-* **ID-card face (UX-09).** The inserted card is drawn with cairo + Pango (`UI/CardArt.swift`) as a stylized
+* **ID-card face (UX-09).** The inserted card is drawn with cairo + Pango (`Presentation/Views/CardArt.swift`) as a stylized
   illustration of the Moldovan identity card: pastel paper, guilloche waves and a rosette (hue rotated ±20° per
   card from the certificate SHA-1), "REPUBLICA MOLDOVA / REPUBLIC OF MOLDOVA" and "CARTE DE IDENTITATE / IDENTITY
   CARD", a **neutral shield outline** (never the coat of arms), the gold chip, a grey portrait frame with a
@@ -70,7 +70,7 @@ MSIGN_DEMO_PAGE=card MSIGN_DEMO_WINDOW=400x760 …        # open a page, set the
 ADW_DEBUG_COLOR_SCHEME=prefer-dark …                    # dark style (libadwaita)
 ```
 
-The fake cards carry self-made EC test certificates of fictional people (`Model/DemoMode.swift`). Demo mode never touches PC/SC,
+The fake cards carry self-made EC test certificates of fictional people (`Presentation/Preview/DemoMode.swift`). Demo mode never touches PC/SC,
 the keyring or the network: the bridge does not start and "Semnează" only shows a toast.
 
 ## Build and run on Linux
@@ -225,33 +225,27 @@ Sources/CLibSecret/           module.modulemap + shim.h (#include <libsecret/sec
 Sources/MoldSignGnome/
   main.swift                  --background handling, runs the application
   App.swift                   AdwApplication md.moldsign.MoldSign: actions/accels, window lifetime, background hold
-  GLib/Gtk.swift              the thin C-API helper layer (see below)
-  GLib/Files.swift            GtkFileDialog, GtkDropTarget (GdkFileList), GtkFileLauncher
-  Model/Models.swift          ReaderStatus, SignFormat, Verdict, ActivityItem… (toolkit-free; same copy as macOS)
-  Model/AppController.swift   app state + flows: reader, sign, PIN, verify, bridge, activity (mirrors AppModel)
-  Model/DemoMode.swift        MSIGN_DEMO_CARDS fake cards (debug builds only)
-  Services/ReaderMonitor.swift PC/SC polling (LNX-08)
-  Services/BackgroundPortal.swift  GDBus: Background portal SetStatus (status light) + RequestBackground
-  Services/PinVault.swift     libsecret, schema md.moldsign.pin, attribute cert = SHA-1 (LNX-10)
-  Services/Store.swift        settings.json ($XDG_CONFIG_HOME/moldsign), activity.json ($XDG_DATA_HOME/moldsign)
-  UI/MainWindow.swift         AdwToolbarView: header (re-read, view switcher, menu), banner, toasts, view stack, breakpoints
-  UI/CardWallet.swift         card + selector component: revealer list, disclosure, check badge, menus, keys, placeholders
-  UI/CardArt.swift            cairo + Pango: the ID-card face (§0.2b) and the placeholder cards
-  UI/SignPage.swift           wallet, drop zone, file rows + format chips, step progress, result, status light, primary button
-  UI/VerifyPage.swift         drop/choose → AdwStatusPage verdict + one group per signature
-  UI/ActivityPage.swift       last 100 entries
-  UI/CardPage.swift           wallet + selected card's certificate, stored PIN, troubleshooting; AdwStatusPage when empty
-  UI/Dialogs.swift            PIN, consent, confirmation (AdwAlertDialog), preferences, about
-  UI/Style.swift              app CSS on libadwaita named colors
-data/                         .desktop, AppStream metainfo, scalable + symbolic icons (LNX-14)
-flatpak/                      Flatpak manifest (LNX-13)
-packaging/install.sh          staging installer shared by every package
-packaging/debian/             Debian packaging: esemnbun + esemnbun-cli (LNX-15)
-packaging/rpm/esemnbun.spec   RPM packaging: esemnbun + esemnbun-cli (LNX-15)
-packaging/systemd/            esemnbun-server.service.in, the bridge as a systemd --user unit (LNX-06)
+  Application/               UI orchestration and injectable use cases
+    AppController.swift      observable screen state; coordinates dialogs and service results
+    ReaderSession.swift      reader generations, selection, stale certificate-read rejection
+    BatchSigningService.swift frozen identity/PIN, stop-on-first-error, one vault-save attempt
+    SettingsCoordinator.swift preference invariants and SettingsStoring persistence
+    ActivationPolicy.swift   first presentation before background activation
+  Domain/                    card, signing, verification, activity value types
+  Infrastructure/            PC/SC, Secret Service, JSON settings/launch state, portal/login adapters
+    BridgeHost.swift         HTTPS listener lifetime and worker/main-loop boundary
+    DocumentSigner.swift     core signing and output-file persistence
+    DocumentVerifier.swift   signature validation and detached-file resolution
+    GTK/                     thin C API helpers and native file dialogs
+    Localization/            generated typed catalog keys and format helper
+  Presentation/
+    Views/                   GTK pages, dialogs, wallet, card artwork and CSS
+    Preview/                 debug-only fictional cards and deterministic scenarios
+    UserFacingError.swift    localized error/recovery mapping at the source
+Tests/MoldSignGnomeTests/     injectable activation, settings, batch and localization checks
 ```
 
-### The C-API helper layer (`GLib/Gtk.swift`)
+### The C-API helper layer (`Infrastructure/GTK/Gtk.swift`)
 
 Swift imports the GTK headers directly. The helper layer only fills the gaps the importer leaves:
 
@@ -313,3 +307,78 @@ Swift imports the GTK headers directly. The helper layer only fills the gaps the
 | UX-01 | Blue status light for bridge requests starts when the request is approved, not when it arrives. On host (non-Flatpak) installs the Background Apps list may not show the app (GNOME lists sandboxed apps there). |
 | UX-09 | The headings shrink to fit the system font next to the chip (Cantarell/Inter are wider than the spec's reference); long field values shrink (to 70 %) before they are cut. |
 | UX-10 | GTK has no "adjustable" accessible role, so increment/decrement on the collapsed card is not exposed: ←/→ and the disclosure list are the accessible ways to change cards. |
+
+### Desktop preferences and mock captures
+
+Preferences now include system/light/dark appearance, Romanian/English/Russian language selection
+(restart to rebuild the window in the selected language), deleting this application's saved PINs
+including absent cards, and showing the window after a card insertion. Insertion activation requires
+the app to remain running; enable background mode before closing the window. It never verifies a PIN.
+The default does not bring the app forward when a card is inserted.
+
+Enable **Start at login** to keep the utility available after signing in. It starts quietly with
+`--background`; **Show application on card insertion** controls whether an insertion presents the
+window. Both options default off. Login registration uses an XDG user autostart entry on native Linux
+and the Background portal inside Flatpak. A denied portal request leaves the option off; disabling it
+removes only this app's login registration. The app never runs a privileged daemon or stores a PIN in
+the startup entry. Enabling login startup also enables background mode.
+
+Multiple cards use one horizontal scrollable row; click another card to select it, or use Left/Right,
+Home/End. The selected card has an accent outline. The card illustration uses golden-ratio proportions and the portrait frame uses a 3:5 width-to-height
+ratio, with an unstretched silhouette. The chip is centered vertically on the right margin.
+
+`AppController` accepts a signing service, `CardMonitoring`, `PINStoring`, a card transport factory,
+`BatchSigning`, `DocumentVerifying`, `SettingsStoring`, and `BridgeHosting`. `MoldSignApp` accepts a
+`LaunchStateStoring` adapter. Run `swift test` inside `linux/` for hardware-free application tests.
+
+On a fresh profile, `--background` still presents the main window. Only after GTK maps it does the app
+persist `$XDG_CONFIG_HOME/moldsign/launch-state.json`; subsequent background activation may hide the window
+when the configured background features are available. A normal launch always presents it.
+
+Localization uses generated `L10n.Key` values, including formatted and accessibility text. Views and GTK
+helpers render already-localized strings; certificate names, file paths and external diagnostic details
+are never looked up as translation keys. Historic activity descriptions retain their language at creation.
+This permits fake monitor/vault implementations and the core simulated card without accessing PC/SC.
+Debug builds also retain `MSIGN_DEMO_CARDS=noreader|empty|pcscd|error|1|2|4`,
+`MSIGN_DEMO_PAGE=sign|verify|activity|card`, and `MSIGN_DEMO_DARK=1` for deterministic reader/card layouts.
+Run `linux/scripts/capture-mocks-air.sh` **on the Air**, with Fedora already running, to capture 46
+light/dark reader/card/preferences screenshots (including all three languages) using the existing VNC tool. No PINs or signing operations occur.
+Both capture drivers wait for a Debug-only JSON ready marker containing the run ID, scenario and rendered
+page before taking a picture. State files and app data live in isolated temporary directories.
+
+`linux/scripts/capture-scenarios-air.sh` adds 34 representative UI captures: queued PDF/text documents,
+signing progress, PIN entry and remaining-attempt warning, result handoff actions, signing error,
+verification in progress/valid/invalid/unknown-chain/unsigned, recent activity and preferences. Set
+`MSIGN_DEMO_SCENARIO` to `documents|signing|pin|pin-error|success|signing-error|verify-checking|verify-valid|verify-invalid|verify-unknown|verify-unsigned|activity|settings`
+in a Debug build. Unknown scenario names fail rather than entering hardware mode. The app shows a
+permanent demo-data banner. Result PDFs are valid **unsigned** PDFs labelled DEMO, not fake real signatures;
+verification outcomes are presentation fixtures. No PIN is populated, no keyring/network/card operation
+is performed, and the driver never submits a PIN or chooses a handoff app. The result's native **Open with**
+action lets the user select another installed app; available sharing destinations depend on the desktop.
+These are representative layouts, not an exhaustive inventory of arbitrary file chooser, portal,
+hardware, accessibility, error and authentication combinations.
+
+`linux/scripts/validate-ubuntu.sh` builds inside an Ubuntu 24.04 (Noble) Swift container with native
+GTK/libadwaita development packages. It requires Podman (or `CONTAINER_ENGINE=docker`). A successful
+container build checks Ubuntu library compatibility, not Ubuntu desktop behavior or physical-card I/O.
+
+Batch PIN/consent lifecycle audit: [Linux batch audit](../docs/reports/linux-batch-audit-2026-10-30.md).
+
+### Reproduce the scoped desktop check
+
+After copying and building the current source in the guests, run the following on the Air with both
+VMs already started without a reader:
+
+```bash
+bash capture-desktop-air.sh ubuntu /path/to/ubuntu-screenshots
+bash capture-desktop-air.sh fedora /path/to/fedora-screenshots
+bash verify-first-launch-air.sh ubuntu /path/to/ubuntu-screenshots
+bash verify-first-launch-air.sh fedora /path/to/fedora-screenshots
+```
+
+The scripts are in `linux/scripts/`; they use the existing VNC tools under `~/VMs/shots`. The capture
+script creates 28 fictional-state images with matching readiness markers. The launch script adds three
+native images using a fresh XDG profile: first `--background` launch, subsequent background launch, and
+explicit activation. Ubuntu's launch check uses the installed release package. Fedora uses its native
+debug binary without demo variables. Use 100% desktop scaling for the 1600×1000 VM display; restore the
+original scale after capture. These checks do not exercise a physical card or Flatpak portal permissions.

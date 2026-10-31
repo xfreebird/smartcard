@@ -81,7 +81,8 @@ public sealed partial class TrayFlyoutWindow : Window
         try
         {
             var window = App.Current.EnsureMainWindow(activate: true);
-            var paths = await WindowHelpers.PickFilesAsync(window.AppWindow.Id);
+            var paths = App.Current.Services.IsDemo ? App.Current.Services.DemoDocuments
+                : await WindowHelpers.PickFilesAsync(window.AppWindow.Id);
             if (paths.Count > 0) ShowOutcome(await App.Current.Services.SignFilesAsync(paths));
         }
         catch (Exception error)
@@ -97,7 +98,8 @@ public sealed partial class TrayFlyoutWindow : Window
         try
         {
             var window = App.Current.EnsureMainWindow(activate: true);
-            var paths = await WindowHelpers.PickFilesAsync(window.AppWindow.Id, ".pdf", ".xml");
+            var paths = App.Current.Services.IsDemo ? App.Current.Services.DemoDocuments
+                : await WindowHelpers.PickFilesAsync(window.AppWindow.Id, ".pdf", ".xml");
             if (paths.Count > 0) await window.VerifyFilesAsync(paths);
         }
         catch (Exception error)

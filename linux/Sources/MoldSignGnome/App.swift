@@ -14,8 +14,10 @@ final class MoldSignApp {
     private var notifiedBackground = false
     /// `--background`: start with the bridge only, no window (XDG autostart / Background portal, LNX-12).
     private var startHidden: Bool
+    private let activation: ActivationPolicy
 
-    init(startHidden: Bool) {
+    init(startHidden: Bool, launchState: any LaunchStateStoring = JSONLaunchStateStore()) {
+        activation = ActivationPolicy(store: launchState)
         self.startHidden = startHidden
         // G_APPLICATION_HANDLES_OPEN (1 << 2). Recent GLib marks GApplicationFlags as a flag enum, which
         // renames its constants in Swift; the raw value imports the same on every GLib version.
@@ -38,6 +40,7 @@ final class MoldSignApp {
     // MARK: - Lifecycle
 
     private func startup() {
+        controller.applyAppearance()
         installCSS(Style.css)
         addDevelopmentIcons()
         addAction("preferences", accels: ["<Control>comma"]) { [unowned self] in
@@ -69,18 +72,45 @@ final class MoldSignApp {
         controller.presentWindow = { [unowned self] in presentWindow() }
         let portal = BackgroundPortal(application: app)
         self.portal = portal
+        controller.configureLoginStartup = { enabled, done in
+            LoginStartup.configure(enabled, portal: portal, completion: done)
+        }
         let model = controller
         model.observe { portal.setStatus(model.trayStatus.text) }
+        #if MOLDSIGN_DEMO
+        if controller.isDemo {
+            controller.showDemoPage = { window.show(page: $0) }
+            controller.showDemoPreferences = { presentPreferences(parent: window.window.widget, controller: model) }
+            var preparedAt: Date?
+            var wroteReady = false
+            onFrame(window.window.widget) {
+                guard !wroteReady, model.demoPrepared, gtk_widget_get_mapped(window.window.widget) != 0 else { return }
+                if preparedAt == nil { preparedAt = Date() }
+                guard Date().timeIntervalSince(preparedAt!) >= 0.4,
+                      let path = ProcessInfo.processInfo.environment["MSIGN_DEMO_READY_FILE"] else { return }
+                let marker: [String: Any] = [
+                    "ready": true,
+                    "scenario": DemoScenario.current?.rawValue ?? "baseline",
+                    "page": window.visiblePage,
+                    "language": L10n.language ?? "system",
+                    "run": ProcessInfo.processInfo.environment["MSIGN_DEMO_RUN_ID"] ?? "",
+                ]
+                if let data = try? JSONSerialization.data(withJSONObject: marker, options: [.sortedKeys]) {
+                    wroteReady = (try? data.write(to: URL(fileURLWithPath: path), options: .atomic)) != nil
+                }
+            }
+        }
+        #endif
         controller.start()
     }
 
     private func activate() {
-        if startHidden {
-            startHidden = false
-            if controller.shouldRunInBackground {
-                goBackground()
-                return
-            }
+        let destination = activation.destination(backgroundRequested: startHidden,
+                                                 backgroundAllowed: controller.shouldRunInBackground)
+        startHidden = false
+        if destination == .background {
+            goBackground()
+            return
         }
         presentWindow()
     }
@@ -97,6 +127,10 @@ final class MoldSignApp {
         if let window { return window }
         let window = MainWindow(app: app, controller: controller)
         self.window = window
+        onFrame(window.window.widget) { [weak self] in
+            guard gtk_widget_get_mapped(window.window.widget) != 0 else { return }
+            self?.activation.mainWindowDidPresent()
+        }
         #if MOLDSIGN_DEMO
         if controller.isDemo {
             if let size = DemoMode.windowSize { gtk_window_set_default_size(window.window, size.width, size.height) }
@@ -122,19 +156,21 @@ final class MoldSignApp {
 
     /// Window hidden, bridge still listening: hold the application so it outlives its window, and tell the
     /// Background portal (Flatpak keeps it alive; GNOME lists it under Background Apps with the status text).
-    /// TODO(LNX-12): autostart toggle.
     private func goBackground() {
         _ = mainWindow   // dialogs for bridge requests need a (hidden) window to attach to
         if !held {
             held = true
             g_application_hold(app.cast())
         }
-        portal?.requestBackground(reason: "Conexiunea browser (msign.gov.md) rămâne activă după închiderea ferestrei.")
+        if LoginStartup.sandboxed {
+            portal?.requestBackground(reason: L10n.text(.ui_esemnbun_monitors_cards_and_signing_requests_in_the_background),
+                                      autostart: controller.settings.launchAtLogin)
+        }
         #if os(Linux)
         if !notifiedBackground {
             notifiedBackground = true
-            let notification = g_notification_new("eSemnBun rulează în fundal")
-            g_notification_set_body(notification, "Conexiunea browser rămâne activă. Deschide eSemnBun din lista de aplicații.")
+            let notification = g_notification_new(L10n.text(.ui_esemnbun_is_running_in_the_background))
+            g_notification_set_body(notification, L10n.text(.ui_the_browser_connection_remains_active_open_esemnbun_from_the_applications_list))
             g_application_send_notification(app.cast(), "background", notification)
             g_object_unref(notification?.raw)
         }

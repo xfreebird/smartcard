@@ -10,6 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -40,6 +42,7 @@ import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
@@ -69,19 +72,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import md.moldsign.app.MainViewModel
-import md.moldsign.app.VerifyOutcome
+import md.moldsign.app.presentation.MainViewModel
+import md.moldsign.app.application.VerifyOutcome
 import md.moldsign.app.R
-import md.moldsign.app.errorText
-import md.moldsign.app.statusLabel
-import md.moldsign.app.stepText
+import md.moldsign.app.presentation.errorText
+import md.moldsign.app.presentation.statusLabel
+import md.moldsign.app.presentation.stepText
 import md.moldsign.app.ui.components.CardWallet
 import md.moldsign.app.ui.components.ConnectionGuide
 import md.moldsign.app.ui.components.DocumentAddTile
@@ -99,64 +104,100 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-/** Scrollable screen body; the wallet bleeds to the edges, everything else gets the 16 dp gutter. */
+/** A bounded reading width on large windows; destination content keeps native nonzero gutters. */
 @Composable
-private fun ScreenColumn(padding: PaddingValues, content: @Composable ColumnScope.() -> Unit) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .padding(padding)
-            .verticalScroll(rememberScrollState())
-            .padding(vertical = Tokens.S3),
-        verticalArrangement = Arrangement.spacedBy(Tokens.S4),
-        content = content,
-    )
+private fun ScreenColumn(padding: PaddingValues, fullWidth: Boolean = false, content: @Composable ColumnScope.() -> Unit) {
+    Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
+        Column(
+            Modifier
+                .then(if (fullWidth) Modifier else Modifier.widthIn(max = 680.dp))
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(vertical = Tokens.S3),
+            verticalArrangement = Arrangement.spacedBy(Tokens.S4),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            content = content,
+        )
+    }
 }
 
 private val Gutter = Modifier.padding(horizontal = Tokens.S4)
 
 @Composable
-private fun SectionHeader(title: String, action: (@Composable () -> Unit)? = null) {
-    Row(Gutter.fillMaxWidth().height(40.dp), verticalAlignment = Alignment.CenterVertically) {
+private fun SectionHeader(title: String, modifier: Modifier = Gutter, action: (@Composable () -> Unit)? = null) {
+    Row(modifier.fillMaxWidth().heightIn(min = 48.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
         action?.invoke()
     }
 }
 
-/** Semnează: card wallet on top, document list (SAF OpenMultipleDocuments) with FormatChips; the FAB is in the scaffold. */
+/** Desktop hierarchy on tablets: centered card, documents, then a compact primary action. */
 @Composable
-fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit) {
+fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit, expanded: Boolean = false) {
     val status by vm.status.collectAsStateWithLifecycle()
     val items by vm.signItems.collectAsStateWithLifecycle()
     val progress by vm.progress.collectAsStateWithLifecycle()
     val working by vm.working.collectAsStateWithLifecycle()
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addForSigning(it) }
+    val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
+    val pick = { picker.launch(arrayOf("*/*")) }
 
-    ScreenColumn(padding) {
+    val walletContent: @Composable () -> Unit = {
         CardWallet(
             status.wallet,
             onSelect = vm::selectCard,
             onReread = vm::rereadCards,
             onAllowUsb = vm::requestUsbPermission,
             onOpen = onOpenCard,
+            selectionEnabled = !status.busy,
         )
-        if (working) StepCard(progress)
+    }
+    val documentContent: @Composable () -> Unit = {
         Column {
-            SectionHeader(stringResource(R.string.sign_documents))
-            Column(Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
-                val pick = { picker.launch(arrayOf("*/*")) }
+            SectionHeader(stringResource(R.string.sign_documents), modifier = if (expanded) Modifier else Gutter)
+            Column(if (expanded) Modifier else Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
                 if (items.isEmpty()) {
                     DocumentPickZone(onPick = pick)
                 } else {
                     DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove)
-                    // No accent FAB while signing is impossible (docs/10): say why instead.
-                    val canSign = status.wallet.selectedCard?.isReady == true && !status.busy
                     if (!canSign && !working) SignBlockedHint(statusLabel(LocalContext.current, status))
                     DocumentAddTile(onPick = pick)
                 }
             }
         }
-        Spacer(Modifier.height(72.dp)) // room for the extended FAB
+    }
+
+    if (expanded) {
+        Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
+            Column(
+                Modifier.fillMaxWidth()
+                    .verticalScroll(rememberScrollState()).padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(Tokens.S4),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                walletContent()
+                if (working) StepCard(progress, modifier = Modifier)
+                Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) { documentContent() }
+                if (items.isNotEmpty()) {
+                    Button(
+                        onClick = vm::sign,
+                        enabled = canSign,
+                        modifier = Modifier.heightIn(min = 48.dp),
+                    ) {
+                        Icon(Icons.Rounded.Draw, contentDescription = null, modifier = Modifier.size(20.dp))
+                        Spacer(Modifier.width(Tokens.S2))
+                        Text(pluralStringResource(R.plurals.sign_n, items.size, items.size))
+                    }
+                }
+            }
+        }
+    } else {
+        ScreenColumn(padding) {
+            walletContent()
+            if (working) StepCard(progress)
+            documentContent()
+            Spacer(Modifier.height(72.dp)) // keep the phone's floating action clear of the final document
+        }
     }
 }
 
@@ -171,12 +212,12 @@ private fun SignBlockedHint(text: String) {
 
 /** StepProgress collapsed to the active step (docs/10 §3, phones). */
 @Composable
-private fun StepCard(step: SigningStep) {
+private fun StepCard(step: SigningStep, modifier: Modifier = Gutter) {
     val context = LocalContext.current
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         shape = RoundedCornerShape(Tokens.RadiusCard),
-        modifier = Gutter.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         Row(Modifier.padding(Tokens.S4), verticalAlignment = Alignment.CenterVertically) {
             CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.5.dp)
@@ -464,15 +505,16 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
     val status = LocalStatusColors.current
     val notifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.setBridge(true) }
 
-    ScreenColumn(padding) {
+    ScreenColumn(padding, fullWidth = true) {
         CardWallet(
             wallet.wallet,
+            selectionEnabled = !wallet.busy,
             onSelect = vm::selectCard,
             onReread = vm::rereadCards,
             onAllowUsb = vm::requestUsbPermission,
             onOpen = onOpenCard,
         )
-        Column(Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
+        Column(Modifier.widthIn(max = 680.dp).fillMaxWidth().then(Gutter), verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
                 shape = RoundedCornerShape(Tokens.RadiusCard),
@@ -490,6 +532,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                     trailingContent = {
                         Switch(
                             checked = running,
+                            enabled = !vm.demoMode,
                             onCheckedChange = { on ->
                                 if (on && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                     notifications.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -525,9 +568,9 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
 fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
     val status by vm.status.collectAsStateWithLifecycle()
     val wallet = status.wallet
-    ScreenColumn(padding) {
-        CardWallet(wallet, onSelect = vm::selectCard, onReread = vm::rereadCards, onAllowUsb = vm::requestUsbPermission, large = true)
-        Column(Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
+    ScreenColumn(padding, fullWidth = true) {
+        CardWallet(wallet, onSelect = vm::selectCard, onReread = vm::rereadCards, onAllowUsb = vm::requestUsbPermission, large = true, selectionEnabled = !status.busy)
+        Column(Modifier.widthIn(max = 680.dp).fillMaxWidth().then(Gutter), verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
             val card = wallet.selectedCard
             if (card != null) CardDetails(card)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Tokens.S2), verticalAlignment = Alignment.CenterVertically) {
@@ -536,7 +579,7 @@ fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
                     Spacer(Modifier.width(Tokens.S2))
                     Text(stringResource(R.string.action_reread))
                 }
-                TextButton(onClick = vm::deleteStoredPin, enabled = card?.certificate != null) {
+                TextButton(onClick = vm::deleteStoredPin, enabled = card?.certificate != null && !vm.demoMode) {
                     Text(stringResource(R.string.pin_stored_delete))
                 }
             }
@@ -553,6 +596,7 @@ fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
 @Composable
 private fun AboutRow() {
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
     var open by remember { mutableStateOf(false) }
     val version = remember {
         runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull().orEmpty()
@@ -569,7 +613,14 @@ private fun AboutRow() {
             onDismissRequest = { open = false },
             icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
             title = { Text(stringResource(R.string.app_name)) },
-            text = { Text(stringResource(R.string.about_version, version) + "\n\n" + stringResource(R.string.about_body)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Text(stringResource(R.string.about_version, version))
+                    Text(stringResource(R.string.about_body))
+                    Text("Nicolae Ghimbovschi")
+                    TextButton(onClick = { uriHandler.openUri("https://esemnbun.md") }) { Text("esemnbun.md") }
+                }
+            },
             confirmButton = { TextButton(onClick = { open = false }) { Text(stringResource(R.string.action_close)) } },
         )
     }

@@ -13,6 +13,7 @@
     Signing is never configured here: the script signs with signtool from environment variables only.
   -->
   <PropertyGroup>
+    <SentryNative>false</SentryNative>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
@@ -50,6 +51,9 @@
       Assets\Tray\*.ico from the app folder); the MSIX packs them from the same items.
     -->
     <Content Update="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Packaging publishes the independent helper here before the MSIX build. -->
+    <Content Include="HelperPayload\**" Link="helper\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" Condition="Exists('HelperPayload')" />
   </ItemGroup>
 
   <ItemGroup>
@@ -71,6 +75,8 @@
 
   <ItemGroup>
     <ProjectReference Include="../MoldSign.Core/MoldSign.Core.csproj" />
+    <ProjectReference Include="../MoldSign.Diagnostics/MoldSign.Diagnostics.csproj" />
+    <ProjectReference Include="../MoldSign.Desktop/MoldSign.Desktop.csproj" />
   </ItemGroup>
 
   <ItemGroup>

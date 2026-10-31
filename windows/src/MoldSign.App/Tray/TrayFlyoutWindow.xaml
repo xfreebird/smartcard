@@ -35,6 +35,8 @@
             <StackPanel VerticalAlignment="Center" Spacing="2">
                 <TextBlock Style="{StaticResource MsHeadlineTextStyle}" Text="eSemnBun" />
                 <controls:StatusLightPill />
+                <TextBlock Text="{x:Bind State.DemoDisclaimer, Mode=OneWay}" MaxWidth="260" TextWrapping="Wrap"
+                    Style="{StaticResource MsCaptionTextStyle}" Visibility="{x:Bind State.DemoVisibility, Mode=OneWay}" />
             </StackPanel>
             <Button
                 x:Uid="FlyoutReread"

@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using MoldSign.Core;
+using MoldSign.Desktop;
 
 namespace MoldSign.App.Services;
 
@@ -28,24 +29,58 @@ public sealed class AppServices : IAsyncDisposable
     private readonly DispatcherQueue _ui;
     private IReadOnlyList<CardEntry> _bridgeCards = [];
     private int _busyCount;
+    private int _activeOperations;
+    private volatile bool _disposed;
+    private readonly DemoSession? _demo;
+    private bool _demoSelectionApplied;
+    private readonly IDocumentSigner _documentSigner;
+    private readonly IDocumentVerifier _verifier;
+    private readonly DocumentBatchSigner _batches;
+    private readonly Func<string, Task<CertificateSummary>> _certificates;
+    private readonly ConsentProvider _authorize;
 
     /// <param name="ui">UI-thread dispatcher.</param>
     /// <param name="ownerWindow">HWND owning the Windows Hello prompt.</param>
-    public AppServices(DispatcherQueue ui, Func<nint> ownerWindow)
+    public AppServices(DispatcherQueue ui, Func<nint> ownerWindow, AppServiceDependencies? dependencies = null)
     {
+        dependencies ??= new AppServiceDependencies();
         _ui = ui;
         Settings = AppSettings.Load();
-        Pins = new PinVault(ownerWindow);
-        Readers = new ReaderWatcher();
+        Readers = DemoMode.Scenario is { } scenario ? new DemoReaderSource(scenario) : dependencies.Readers ?? new ReaderWatcher();
+        Pins = Readers is DemoReaderSource ? new DemoPinVault() : dependencies.Pins ?? new PinVault(ownerWindow);
         Consent = new ConsentCoordinator(ui, Pins, Settings);
         // Every operation names its PC/SC reader (the wallet selection); null = the first reader with a card.
-        Signing = new SigningService(reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
+        _demo = Readers is DemoReaderSource ? new DemoSession() : null;
+        Func<string?, ICardTransport> transport = IsDemo
+            ? _ => throw new InvalidOperationException("Demo mode never opens a card transport.")
+            : dependencies.Transport ?? (reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
+        Signing = new SigningService(transport);
+        _documentSigner = IsDemo ? _demo! : dependencies.Documents ?? Signing;
+        _verifier = IsDemo ? _demo! : dependencies.Verifier ?? Signing;
+        _certificates = dependencies.Certificates ?? (reader => Task.Run(() => Signing.Certificate(reader)));
+        var authorization = dependencies.Authorize ?? Consent.Request;
+        _authorize = IsDemo ? _ => throw new InvalidOperationException("Demo mode never requests a real PIN.")
+            : request => _disposed ? ConsentResult.Cancelled : authorization(request);
+        _batches = new DocumentBatchSigner(_documentSigner);
         Bridge = new BridgeHost(BridgeOriginPolicy.Default, BridgeTls.ResolvePath,
-            () => Volatile.Read(ref _bridgeCards), Signing, Consent.Request);
-        State.WalletChanged += (_, _) => Volatile.Write(ref _bridgeCards, State.BridgeCards);
-        Bridge.SigningStarted += (_, _) => _ui.TryEnqueue(() => SetBusy(true));
-        Bridge.Completed += (_, outcome) => _ui.TryEnqueue(() =>
+            () => Volatile.Read(ref _bridgeCards), Signing, _authorize);
+        BrowserConnection = IsDemo || dependencies.BrowserConnection is null ? new BrowserConnectionController(Bridge, Settings, (enabled, status) =>
         {
+            State.BridgeEnabled = enabled;
+            State.BridgeStatus = status;
+        }, IsDemo) : dependencies.BrowserConnection;
+        State.WalletChanged += OnWalletChanged;
+        Bridge.SigningStarted += (_, _) =>
+        {
+            Interlocked.Increment(ref _activeOperations);
+            _ui.TryEnqueue(() => { if (!_disposed) SetBusy(true); });
+        };
+        Bridge.Completed += (_, outcome) =>
+        {
+            Interlocked.Decrement(ref _activeOperations);
+            _ui.TryEnqueue(() =>
+        {
+            if (_disposed) return;
             SetBusy(false);
             var host = Uri.TryCreate(outcome.Origin, UriKind.Absolute, out var uri) ? uri.Host : "localhost";
             var action = outcome.Error is CardException error
@@ -54,84 +89,40 @@ public sealed class AppServices : IAsyncDisposable
             State.AddActivity(new ActivityItem(host, $"{action} · {outcome.Format}",
                 DateTimeOffset.Now, outcome.Error is null, null));
         });
+        };
 
         Signing.Progress += (_, step) => _ui.TryEnqueue(() => State.SetStep(step));
-        Readers.Changed += (_, slots) => _ui.TryEnqueue(() => OnReadersChanged(slots));
+        Readers.Changed += (_, slots) => _ui.TryEnqueue(() => { if (!_disposed) OnReadersChanged(slots); });
     }
 
+    public event EventHandler? CardInserted;
+    private readonly MoldSign.Desktop.InsertionActivationPolicy _activationPolicy = new();
+
     public AppSettings Settings { get; }
-    public PinVault Pins { get; }
-    public ReaderWatcher Readers { get; }
+    public IPinVault Pins { get; }
+    public IReaderSource Readers { get; }
+    public bool IsDemo => Readers is DemoReaderSource;
+    public bool IsOperationActive => State.IsBusy || Volatile.Read(ref _activeOperations) > 0;
+    public IReadOnlyList<string> DemoDocuments => _demo?.Documents ?? [];
+    public bool IsDemoDocument(string path) => _demo?.Owns(path) == true;
+    private void OnWalletChanged(object? sender, EventArgs args) => Volatile.Write(ref _bridgeCards, State.BridgeCards);
     public ConsentCoordinator Consent { get; }
     public SigningService Signing { get; }
     public BridgeHost Bridge { get; }
+    public IBrowserConnectionController BrowserConnection { get; }
 
     private static AppState State => AppState.Current;
 
     public void Start()
     {
-        State.LoadActivity(); // saved log, documents that no longer exist dropped
+        State.ResetSession(IsDemo);
+        if (!IsDemo) State.LoadActivity(); // demo does not expose real document history
         Readers.Start();
-        _ = SetBridgeEnabledAsync(Settings.BridgeEnabled);
+        if (!IsDemo) _ = SetBridgeEnabledAsync(Settings.BridgeEnabled);
     }
 
-    public async Task SetBridgeEnabledAsync(bool enabled)
-    {
-        try
-        {
-            if (enabled) await Bridge.StartAsync();
-            else await Bridge.StopAsync();
-            State.BridgeStatus = Loc.Get(enabled ? "Bridge_On" : "Bridge_Off");
-        }
-        catch (FileNotFoundException e)
-        {
-            AppLog.Error(e);
-            State.BridgeStatus = Loc.Get("Bridge_IdentityMissing");
-        }
-        catch (System.Security.Cryptography.CryptographicException e)
-        {
-            AppLog.Error(e);
-            State.BridgeStatus = Loc.Get("Bridge_IdentityInvalid");
-        }
-        catch (IOException e) when (e.InnerException is Microsoft.AspNetCore.Connections.AddressInUseException)
-        {
-            // Port taken, typically by the vendor Java server.
-            Debug.WriteLine($"bridge: {e.Message}");
-            State.BridgeStatus = Loc.Format("Bridge_PortBusy", $"{BridgeProtocol.HttpPort}/{BridgeProtocol.HttpsPort}");
-        }
-        catch (Exception e)
-        {
-            AppLog.Error(e);
-            State.BridgeStatus = Loc.Format("Bridge_Error", e.Message);
-        }
-        State.BridgeEnabled = enabled;
-        Settings.BridgeEnabled = enabled;
-        Settings.Save();
-    }
-
-    public async Task ImportBridgeIdentityAsync(string source)
-    {
-        try
-        {
-            var certificates = BridgeTls.Load(source);
-            foreach (var certificate in certificates) certificate.Dispose();
-            var destination = BridgeTls.IdentityPath;
-            Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
-            if (!string.Equals(Path.GetFullPath(source), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase))
-                File.Copy(source, destination, overwrite: true);
-            if (Settings.BridgeEnabled)
-            {
-                await Bridge.StopAsync();
-                await SetBridgeEnabledAsync(true);
-            }
-            else State.BridgeStatus = Loc.Get("Bridge_IdentityImported");
-        }
-        catch (Exception error)
-        {
-            AppLog.Error(error);
-            State.BridgeStatus = Loc.Get("Bridge_IdentityInvalid");
-        }
-    }
+    public Task SetBridgeEnabledAsync(bool enabled) => BrowserConnection.SetEnabledAsync(enabled);
+    public Task ImportBridgeIdentityAsync(string source) => BrowserConnection.ImportIdentityAsync(source);
 
     // MARK: - Cards
 
@@ -149,7 +140,18 @@ public sealed class AppServices : IAsyncDisposable
     {
         try
         {
+            var inserted = _activationPolicy.Update(slots.Select(slot =>
+                new ReaderStatus(slot.Name, slot.State != SlotState.Empty, slot.State == SlotState.Mute, slot.Generation)).ToArray(), Settings);
             foreach (var card in State.ApplySlots(slots)) _ = ReadCertificateAsync(card);
+            if (IsDemo && !_demoSelectionApplied)
+            {
+                _demoSelectionApplied = true;
+                var selected = int.TryParse(Environment.GetEnvironmentVariable("MSIGN_DEMO_SELECTED"), out var index) ? index : 0;
+                if (DemoMode.Scenario == "multiple-second") selected = 1;
+                var cards = State.WalletItems.Where(item => item.Kind == WalletItemKind.Card).ToList();
+                if (cards.Count > 0 && cards[Math.Clamp(selected, 0, cards.Count - 1)].Reader is { } reader) State.Select(reader);
+            }
+            if (inserted) CardInserted?.Invoke(this, EventArgs.Empty);
         }
         catch (Exception error)
         {
@@ -161,22 +163,35 @@ public sealed class AppServices : IAsyncDisposable
     /// <summary>docs/09 §3.7: PIN-less certificate read so the wallet can greet the holder (full mutual auth, card lock).</summary>
     private async Task ReadCertificateAsync(WalletCard card)
     {
+        if (IsDemo)
+        {
+            var scenario = DemoMode.Scenario;
+            if (scenario == "reading") return;
+            if (scenario == "blocked") State.FailRead(card, CardErrorKind.PinBlocked);
+            else if (scenario == "stuck") State.FailRead(card, CardErrorKind.CardStateStuck);
+            else State.CompleteRead(card, DemoReaderSource.Certificate(card.Reader));
+            if (scenario == "signing") State.SetBusy(true);
+            return;
+        }
+        Interlocked.Increment(ref _activeOperations);
         try
         {
-            var certificate = await Task.Run(() => Signing.Certificate(card.Reader));
+            var certificate = await _certificates(card.Reader);
+            if (_disposed) return;
             State.CompleteRead(card, certificate); // ignored when the card changed meanwhile
         }
         catch (CardException e)
         {
             Debug.WriteLine($"certificate read failed in {card.Reader}: {e.Kind}: {e.Message}");
             // Removed while reading: the next reader snapshot drops the card anyway.
-            if (e.Kind is not (CardErrorKind.NoCard or CardErrorKind.NoReader)) State.FailRead(card, e.Kind);
+            if (!_disposed && e.Kind is not (CardErrorKind.NoCard or CardErrorKind.NoReader)) State.FailRead(card, e.Kind);
         }
         catch (Exception e)
         {
             AppLog.Error(e);
-            State.FailRead(card, CardErrorKind.CardNotResponding);
+            if (!_disposed) State.FailRead(card, CardErrorKind.CardNotResponding);
         }
+        finally { Interlocked.Decrement(ref _activeOperations); }
     }
 
     // MARK: - Signing
@@ -187,30 +202,34 @@ public sealed class AppServices : IAsyncDisposable
 
     /// <summary>
     /// Signs with the selected wallet card, each document in its chosen format (a PDF can also get XAdES, written as
-    /// <c>&lt;name&gt;-semnat.xml</c>). One consent/PIN per file for now (TODO(WIN-01): one PIN for the batch, like MAC-05).
+    /// <c>&lt;name&gt;-semnat.xml</c>). One scoped consent/PIN for the frozen batch; the certificate is checked for every file.
     /// </summary>
     public async Task<OperationOutcome> SignDocumentsAsync(IReadOnlyList<DocumentJob> jobs, XadesPackaging packaging)
     {
+        if (IsDemo && jobs.Any(job => !IsDemoDocument(job.Path)))
+            return new OperationOutcome(false, Loc.Get("demo_fixture_only"), []);
+        var frozenJobs = jobs.ToArray();
+        if (frozenJobs.Length == 0) return new OperationOutcome(false, "", []);
         if (State.SelectedReader is not { } reader || State.Certificate is not { } certificate || !State.CanSign)
             return new OperationOutcome(false, State.LightLabel, []);
 
-        SetBusy(true);
         var outputs = new List<string>();
         try
         {
+            SetBusy(true);
             await Task.Run(() =>
             {
-                foreach (var job in jobs)
-                {
-                    var result = Signing.Sign(job.Path, job.Format, packaging, Consent.Request,
-                                              reader: reader, expectedCertificateSha1: certificate.Sha1);
-                    outputs.AddRange(result.OutputFiles);
-                    Record(Path.GetFileName(job.Path), $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
-                           true, result.OutputFiles.FirstOrDefault());
-                }
+                var result = _batches.Sign(frozenJobs.Select(job => new SigningDocumentJob(job.Path, job.Format)).ToArray(),
+                    reader, certificate.Sha1, packaging, _authorize, (job, signed) =>
+                    {
+                        outputs.AddRange(signed.OutputFiles);
+                        Record(Path.GetFileName(job.Path), IsDemo ? Loc.Get("demo_sign_success") : $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
+                            true, signed.OutputFiles.FirstOrDefault());
+                    });
+                if (result.Error is { } failure) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
             });
             Consent.LastRemainingAttempts = null;
-            return new OperationOutcome(true, Loc.Format("Sign_Done", outputs.Count), outputs);
+            return new OperationOutcome(true, IsDemo ? Loc.Get("demo_sign_success") : Loc.Format("Sign_Done", outputs.Count), outputs);
         }
         catch (CardException e) when (e.Kind == CardErrorKind.Cancelled)
         {
@@ -219,6 +238,10 @@ public sealed class AppServices : IAsyncDisposable
         catch (CardException e)
         {
             return new OperationOutcome(false, HandleCardError(e, reader, certificate.Sha1), outputs);
+        }
+        catch (DocumentBatchBusyException)
+        {
+            return new OperationOutcome(false, Loc.Get("Light_Busy"), outputs);
         }
         catch (NotImplementedException)
         {
@@ -239,14 +262,19 @@ public sealed class AppServices : IAsyncDisposable
         }
     }
 
-    public Task<OperationOutcome> VerifyAsync(string path, IReadOnlyList<string>? detachedDocs = null) => Task.Run(() =>
+    public Task<OperationOutcome> VerifyAsync(string path, IReadOnlyList<string>? detachedDocs = null)
+    {
+        if (IsDemo && (!IsDemoDocument(path) || detachedDocs?.Any(file => !IsDemoDocument(file)) == true))
+            return Task.FromResult(new OperationOutcome(false, Loc.Get("demo_fixture_only"), []));
+        Interlocked.Increment(ref _activeOperations);
+        return Task.Run(() =>
     {
         try
         {
-            var reports = Signing.Verify(path, detachedDocs);
+            var reports = _verifier.Verify(path, detachedDocs);
             var verdict = Validator.OverallVerdict(reports);
             var allValid = verdict == Verdict.Valid;
-            Record(Path.GetFileName(path), Loc.Get("Activity_Verified"), allValid, path);
+            Record(Path.GetFileName(path), IsDemo ? Loc.Get("demo_verify_success") : Loc.Get("Activity_Verified"), allValid, path);
             var key = verdict switch
             {
                 Verdict.Valid => "Verdict_Valid",
@@ -254,7 +282,7 @@ public sealed class AppServices : IAsyncDisposable
                 Verdict.Indeterminate => "Verdict_Unknown",
                 _ => "Verdict_Unsigned",
             };
-            return new OperationOutcome(allValid, Loc.Get(key), []) { Reports = reports };
+            return new OperationOutcome(allValid, IsDemo ? Loc.Get("demo_verify_success") : Loc.Get(key), []) { Reports = reports };
         }
         catch (NotImplementedException)
         {
@@ -269,12 +297,20 @@ public sealed class AppServices : IAsyncDisposable
             AppLog.Error(e);
             return new OperationOutcome(false, Loc.Get("Verify_Failed"), []);
         }
+        finally { Interlocked.Decrement(ref _activeOperations); }
     });
+    }
 
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
+        State.WalletChanged -= OnWalletChanged;
         Readers.Dispose();
+        Consent.CancelPending();
         await Bridge.DisposeAsync();
+        // Old in-flight reads / browser work must finish before a new service generation is visible.
+        while (Volatile.Read(ref _activeOperations) > 0) await Task.Delay(25);
+        _demo?.Dispose();
     }
 
     /// <summary>docs/09 §3.3 on the UI thread: drop rejected PINs, mark stuck cards, re-read swapped ones.</summary>
@@ -303,7 +339,7 @@ public sealed class AppServices : IAsyncDisposable
     }
 
     private void Record(string file, string action, bool success, string? path) =>
-        _ui.TryEnqueue(() => State.AddActivity(new ActivityItem(file, action, DateTimeOffset.Now, success, path)));
+        _ui.TryEnqueue(() => { if (!_disposed) State.AddActivity(new ActivityItem(file, action, DateTimeOffset.Now, success, path)); });
 
     private void SetBusy(bool busy)
     {

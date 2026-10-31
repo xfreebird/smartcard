@@ -20,7 +20,7 @@ namespace MoldSign.App.Services;
 /// <see cref="Changed"/> fires on a thread-pool thread, only when the snapshot changed.
 /// TODO(WIN-03): toast on reader connect/disconnect (AppNotificationManager), honoring AppSettings.ReaderToasts.
 /// </summary>
-public sealed class ReaderWatcher : IDisposable
+public sealed class ReaderWatcher : IReaderSource
 {
     private static readonly TimeSpan s_pollInterval = TimeSpan.FromSeconds(2);
 

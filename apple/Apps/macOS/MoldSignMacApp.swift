@@ -6,25 +6,32 @@ import MoldSignKit
 struct MoldSignMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
+    init() { AppMonitoring.start() }
+
     var body: some Scene {
         MenuBarExtra {
             MenuBarPopover()
                 .environment(appDelegate.model)
+                .appPreferences()
         } label: {
             MenuBarIcon(connected: appDelegate.model.cardConnected, label: appDelegate.model.trayLabel)
         }
         .menuBarExtraStyle(.window)
 
-        Window("eSemnBun", id: "main") {
+        Window(L10n.text(.ui_esemnbun), id: "main") {
             MainWindowView()
+                .modifier(MonitoringConsentPrompt())
                 .environment(appDelegate.model)
+                .appPreferences()
                 .frame(minWidth: 860, minHeight: 580)
+                .onAppear { AppPreferencesStore.defaults.set(true, forKey: "didPresentMainWindow") }
         }
         .defaultLaunchBehavior(.suppressed)
 
         Settings {
             SettingsView()
                 .environment(appDelegate.model)
+                .appPreferences()
         }
     }
 }
@@ -36,8 +43,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         authPanel.attach(model)
+        model.presentInsertedCard = {
+            NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+        }
         model.start()
         observeWindows()
+        let firstLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow") || MonitoringPreferences.shared.shouldAsk
+        if firstLaunch || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
+            Task { @MainActor in
+                try? await Task.sleep(for: .milliseconds(250))
+                NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+            }
+        }
         #if DEBUG
         let env = ProcessInfo.processInfo.environment
         if env["MSIGN_DEMO_CARDS"] != nil, env["MSIGN_DEMO_PREVIEW"] != "0" { showDesignPreviews() }
@@ -51,8 +68,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     private func showDesignPreviews() {
         if ProcessInfo.processInfo.environment["MSIGN_DEMO_DARK"] != nil { NSApp.appearance = NSAppearance(named: .darkAqua) }
-        let popover = NSHostingController(rootView: MenuBarPopover().environment(model))
-        let main = NSHostingController(rootView: MainWindowView().environment(model).frame(width: 980, height: 700))
+        let popover = NSHostingController(rootView: MenuBarPopover().environment(model).appPreferences())
+        let main = NSHostingController(rootView: MainWindowView().modifier(MonitoringConsentPrompt()).environment(model).appPreferences().frame(width: 980, height: 700))
         for (title, controller, origin) in [("Popover preview", popover as NSViewController, NSPoint(x: 60, y: 120)),
                                             ("eSemnBun preview", main as NSViewController, NSPoint(x: 420, y: 80))] {
             let window = NSWindow(contentViewController: controller)
@@ -61,9 +78,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             window.makeKeyAndOrderFront(nil)
             previewWindows.append(window)
         }
-        NSApp.activate()
+        NSApp.activate(ignoringOtherApps: true)
+        if let main = previewWindows.last { WindowPresentation.bringForward(main) }
     }
     #endif
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+        return false
+    }
 
     // MARK: Dock / Cmd-Tab presence
 
@@ -103,7 +126,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
+extension Notification.Name {
+    static let showInsertedCard = Notification.Name("showInsertedCard")
+}
+
 private struct MenuBarIcon: View {
+    @Environment(\.openWindow) private var openWindow
     let connected: Bool
     let label: String
 
@@ -111,5 +139,8 @@ private struct MenuBarIcon: View {
         Image(nsImage: StatusIcon.image(connected: connected))
             .accessibilityLabel(label)
             .help(label)
+            .onReceive(NotificationCenter.default.publisher(for: .showInsertedCard)) { _ in
+                WindowPresentation.shared.present(.main) { openWindow(id: "main") }
+            }
     }
 }

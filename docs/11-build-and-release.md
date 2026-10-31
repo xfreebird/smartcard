@@ -75,3 +75,26 @@ The app needs the hardened runtime (on) and the `com.apple.security.smartcard` e
   non-AOT single-file exe can be produced anywhere with `--self-contained -p:PublishSingleFile=true`.
 * **Linux**: build on Linux (or CI in the `swift:6.x` image). On macOS, `scripts/test-portable-macos.sh`
   exercises the Linux code paths: OpenSSL AES/CMAC/SHA/RSA, POSIX HTTP client, POSIX + OpenSSL TLS bridge.
+
+## Optional desktop Sentry diagnostics
+
+Only the macOS, Windows and Linux desktop apps include Sentry. iOS, Android and CLIs do not.
+Each desktop app asks at first launch with independent crash-report/application-metric choices, both OFF.
+No SDK starts and no diagnostic uploads occur before opt-in. Settings can change either choice immediately;
+revocation cancels the reporting session and purges unsent local queues. SDK data is limited to sanitized
+technical diagnostics, fixed metric names/counters/durations and sampled fixed-operation traces.
+
+Projects in EU organization `personal-kee`: `apple` (macOS only), `esemnbun-windows`, `esemnbun-linux`.
+The unused Android project and historical iOS/CLI test events remain in Sentry; no current build sends from them.
+Linux uses the in-process crash backend: sanitized JSON crash reports are sent on the next opted-in launch,
+without raw minidumps. Normal app termination may flush consented data; revocation never flushes.
+
+Configure an organization upload token as GitHub Actions repository secret `SENTRY_AUTH_TOKEN` for
+`xfreebird/smartcard`. Do not paste it into chat or commit it. The release workflow uploads macOS dSYMs,
+Windows PDBs and Linux DWARF files, with no source context. `scripts/upload-sentry-ci.sh` installs official
+Sentry CLI3.8.2 with pinned SHA256 verification. Missing credentials emit a warning; attempted upload
+failures fail the job. Native production file/line symbolication remains unverified until this token exists.
+
+No production build or store submission was dispatched. Publish the updated privacy policy and review
+`distribution/diagnostics-privacy.json` against desktop store forms before submission. Mobile declarations
+must continue to reflect that Sentry is absent.

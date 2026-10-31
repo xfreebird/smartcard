@@ -18,12 +18,12 @@ namespace MoldSign.App.Controls;
 /// guilloche waves and a rosette, bilingual headings, a NEUTRAL shield outline (never the coat of arms), the chip,
 /// a grey portrait frame with a silhouette, the certificate's fields, a status strip), or a dashed empty-state card.
 /// It shows only data from the signing certificate: no photo, no document number, no MRZ, no IDNP.
-/// All geometry is relative to W (H = W / 1.586) so the face scales from the flyout to the Card page.
+/// All geometry is relative to W (H = W / 1.61803398875) so the face scales from the flyout to the Card page.
 /// Raw for UI Automation: <see cref="CardWallet"/> is the one accessible element.
 /// </summary>
 internal sealed class IdCardFace : Grid
 {
-    public const double AspectRatio = 1.586;
+    public const double AspectRatio = 1.61803398875;
 
     private static readonly CultureInfo s_ro = CultureInfo.GetCultureInfo("ro-RO");
 
@@ -59,25 +59,27 @@ internal sealed class IdCardFace : Grid
         var certificate = item.Certificate;
         AddGuilloche(canvas, w, h, CardArt.HueOffset(certificate?.Sha1));
 
-        // Headings: left navy, right burgundy, the neutral shield centred between them, the chip top-right.
-        Place(canvas, Heading("REPUBLICA MOLDOVA", "REPUBLIC OF MOLDOVA", CardArt.Navy, w, 0.37 * w), 0.045 * w, 0.06 * h);
+        // Headings: left navy, right burgundy, the neutral shield centred between them, the chip centred on the right margin.
+        Place(canvas, Heading(Loc.Get("Card_CountryPrimary"), Loc.Get("Card_CountrySecondary"), CardArt.Navy, w, 0.37 * w), 0.045 * w, 0.06 * h);
         var shieldHeight = 0.07 * w;
         Place(canvas, Shield(shieldHeight), 0.48 * w - shieldHeight * 0.41, 0.06 * h);
-        Place(canvas, Heading("CARTE DE IDENTITATE", "IDENTITY CARD", CardArt.Burgundy, w, 0.32 * w), 0.52 * w, 0.06 * h);
-        Place(canvas, Chip(w), 0.855 * w, 0.06 * h);
-        Place(canvas, Portrait(0.24 * w, 0.60 * h, 0.02 * w), 0.045 * w, 0.30 * h);
+        Place(canvas, Heading(Loc.Get("Card_TypePrimary"), Loc.Get("Card_TypeSecondary"), CardArt.Burgundy, w, 0.32 * w), 0.52 * w, 0.06 * h);
+        Place(canvas, Chip(w), 0.855 * w, 0.50 * h - 0.0375 * w);
+        // Portrait frame is 3:5; head/body are drawn independently without stretching to the frame.
+        var portraitWidth = 0.20 * w;
+        Place(canvas, Portrait(portraitWidth, portraitWidth * 5 / 3, 0.02 * w), 0.045 * w, 0.30 * h);
 
         // Fields (certificate data only). Before the read finishes: placeholder bars instead of values.
         // With the disclosure button on the card, values stop at 0.88 W so they never run under it.
-        var x = 0.32 * w;
-        var right = (withDisclosure ? 0.88 : 0.955) * w;
+        var x = 0.28 * w;
+        var right = 0.82 * w; // reserve the right-centre chip area for both name rows
         var (surname, given) = certificate?.NameParts() ?? ("", "");
         var until = certificate?.NotAfter.ToLocalTime().ToString("dd MM yyyy", CultureInfo.InvariantCulture);
-        AddField(canvas, w, "Numele/Surname", certificate is null ? null : surname, x, 0.30 * h, right - x, 0.42);
-        AddField(canvas, w, "Prenumele/Given name(s)", certificate is null ? null : given, x, 0.47 * h, right - x, 0.32);
-        AddField(canvas, w, "Valabil până la/Valid until", until, x, 0.64 * h, 0.33 * w, 0.22);
+        AddField(canvas, w, Loc.Get("Card_LabelSurname"), certificate is null ? null : surname, x, 0.30 * h, right - x, 0.42);
+        AddField(canvas, w, Loc.Get("Card_LabelGivenNames"), certificate is null ? null : given, x, 0.47 * h, right - x, 0.32);
+        AddField(canvas, w, Loc.Get("Card_LabelValidUntil"), until, x, 0.64 * h, 0.33 * w, 0.22);
         // The disclosure (0.43–0.57 H) only shares rows with the names; the issuer row keeps the full width.
-        AddField(canvas, w, "Emitent/Issuer", certificate?.IssuerName, 0.66 * w, 0.64 * h, 0.955 * w - 0.66 * w, 0.2);
+        AddField(canvas, w, Loc.Get("Card_LabelIssuer"), certificate?.IssuerName, 0.66 * w, 0.64 * h, 0.955 * w - 0.66 * w, 0.2);
 
         AddStatusStrip(canvas, item, w, h, x, signing, usedForSigning);
     }
@@ -162,7 +164,7 @@ internal sealed class IdCardFace : Grid
         });
         var geometry = new PathGeometry();
         geometry.Figures.Add(figure);
-        return new Path { Data = geometry, Stroke = Solid(CardArt.ShieldStroke), StrokeThickness = 1, Fill = Solid(CardArt.ShieldFill) };
+        return new Path { Width = width, Height = height, Stretch = Stretch.None, Data = geometry, Stroke = Solid(CardArt.ShieldStroke), StrokeThickness = 1, Fill = Solid(CardArt.ShieldFill) };
     }
 
     /// <summary>The gold contact chip, 0.10 W × 0.075 W, with its contact lines.</summary>
@@ -171,9 +173,16 @@ internal sealed class IdCardFace : Grid
         var chipWidth = 0.10 * w;
         var chipHeight = 0.075 * w;
         var lines = new Canvas { Width = chipWidth, Height = chipHeight };
-        foreach (var fx in new[] { 0.34, 0.66 })
-            Place(lines, new Rectangle { Width = 1, Height = chipHeight, Fill = Solid(CardArt.ChipLine) }, chipWidth * fx, 0);
-        Place(lines, new Rectangle { Width = chipWidth, Height = 1, Fill = Solid(CardArt.ChipLine) }, 0, chipHeight * 0.5);
+        // Eight contacts: three on each side and two in the middle; rails have no extra island boundary.
+        var ink = Solid(CardArt.ChipLine);
+        foreach (var fraction in new[] { 0.32, 0.68 })
+            Place(lines, new Rectangle { Width = 0.65, Height = chipHeight, Fill = ink }, chipWidth * fraction, 0);
+        foreach (var row in new[] { 1.0 / 3, 2.0 / 3 })
+        {
+            Place(lines, new Rectangle { Width = chipWidth * 0.32, Height = 0.65, Fill = ink }, 0, chipHeight * row);
+            Place(lines, new Rectangle { Width = chipWidth * 0.32, Height = 0.65, Fill = ink }, chipWidth * 0.68, chipHeight * row);
+        }
+        Place(lines, new Rectangle { Width = chipWidth * 0.36, Height = 0.65, Fill = ink }, chipWidth * 0.32, chipHeight * 0.5);
         return new Border
         {
             Width = chipWidth,
@@ -190,14 +199,24 @@ internal sealed class IdCardFace : Grid
     private static Border Portrait(double width, double height, double radius)
     {
         var silhouette = new Canvas { Width = width, Height = height, Clip = new RectangleGeometry { Rect = new Rect(0, 0, width, height) } };
-        var headWidth = 0.42 * width;
-        var headHeight = headWidth * 1.2;
-        var headTop = 0.17 * height;
-        Place(silhouette, new Ellipse { Width = headWidth, Height = headHeight, Fill = Solid(CardArt.Silhouette) },
-              (width - headWidth) / 2, headTop);
-        var shoulders = 0.96 * width;
-        Place(silhouette, new Ellipse { Width = shoulders, Height = shoulders * 0.8, Fill = Solid(CardArt.Silhouette) },
-              (width - shoulders) / 2, headTop + headHeight + 0.03 * height);
+        // Natural bust in width units, independent of the taller 3:5 frame.
+        var headDiameter = 0.48 * width;
+        Place(silhouette, new Ellipse { Width = headDiameter, Height = headDiameter, Fill = Solid(CardArt.Silhouette) },
+            0.26 * width, 0.29 * width);
+        var torso = new PathFigure { StartPoint = new Point(0.10 * width, 1.32 * width), IsClosed = true, IsFilled = true };
+        torso.Segments.Add(new BezierSegment
+        {
+            Point1 = new Point(0.10 * width, 1.00 * width), Point2 = new Point(0.30 * width, 0.90 * width),
+            Point3 = new Point(0.50 * width, 0.90 * width),
+        });
+        torso.Segments.Add(new BezierSegment
+        {
+            Point1 = new Point(0.70 * width, 0.90 * width), Point2 = new Point(0.90 * width, 1.00 * width),
+            Point3 = new Point(0.90 * width, 1.32 * width),
+        });
+        var geometry = new PathGeometry(); geometry.Figures.Add(torso);
+        Place(silhouette, new Path { Width = width, Height = height, Stretch = Stretch.None, Data = geometry,
+            Fill = Solid(CardArt.Silhouette) }, 0, 0);
         return new Border
         {
             Width = width,
@@ -302,6 +321,13 @@ internal sealed class IdCardFace : Grid
     private void BuildPlaceholder(WalletCardItem item, double w)
     {
         var radius = 0.045 * w;
+        // Resolve from the element's active theme; Application resources can be in the light scope.
+        var title = new TextBlock
+        {
+            Text = item.PlaceholderTitle, FontSize = 15, FontWeight = FontWeights.SemiBold,
+            HorizontalAlignment = HorizontalAlignment.Center,
+        };
+        Rectangle? outline = null;
         if (item.Kind == WalletItemKind.MuteCard)
         {
             Children.Add(new Border
@@ -314,30 +340,36 @@ internal sealed class IdCardFace : Grid
         }
         else
         {
-            Children.Add(new Rectangle
+            outline = new Rectangle
             {
-                RadiusX = radius,
-                RadiusY = radius,
-                Stroke = WindowHelpers.ThemeBrush("ControlStrongStrokeColorDefaultBrush"),
-                StrokeDashArray = [4, 3],
-                StrokeThickness = 1.5,
-            });
+                RadiusX = radius, RadiusY = radius, StrokeDashArray = [4, 3],
+                StrokeThickness = 1.5, Opacity = 0.55,
+            };
+            Children.Add(outline);
         }
         var content = new StackPanel { Padding = new Thickness(16), Spacing = 6, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-        content.Children.Add(new FontIcon
+        var icon = new FontIcon
         {
-            Glyph = item.PlaceholderGlyph, FontSize = 28, HorizontalAlignment = HorizontalAlignment.Center,
-            Foreground = WindowHelpers.ThemeBrush("TextFillColorSecondaryBrush"),
-        });
-        content.Children.Add(new TextBlock
-        {
-            Text = item.PlaceholderTitle, FontSize = 15, FontWeight = FontWeights.SemiBold, HorizontalAlignment = HorizontalAlignment.Center,
-        });
-        content.Children.Add(new TextBlock
+            Glyph = item.PlaceholderGlyph, FontSize = 28, HorizontalAlignment = HorizontalAlignment.Center, Opacity = 0.7,
+        };
+        content.Children.Add(icon);
+        content.Children.Add(title);
+        var message = new TextBlock
         {
             Text = item.PlaceholderMessage, FontSize = 12, TextAlignment = TextAlignment.Center, TextWrapping = TextWrapping.Wrap,
-            HorizontalAlignment = HorizontalAlignment.Center, Foreground = WindowHelpers.ThemeBrush("TextFillColorSecondaryBrush"),
-        });
+            HorizontalAlignment = HorizontalAlignment.Center, Opacity = 0.7,
+        };
+        content.Children.Add(message);
+        void ApplyTheme()
+        {
+            var brush = Solid(title.ActualTheme == ElementTheme.Dark ? Microsoft.UI.Colors.White : Microsoft.UI.Colors.Black);
+            title.Foreground = brush;
+            icon.Foreground = brush;
+            message.Foreground = brush;
+            if (outline is not null) outline.Stroke = brush;
+        }
+        title.Loaded += (_, _) => ApplyTheme();
+        title.ActualThemeChanged += (_, _) => ApplyTheme();
         Children.Add(content);
     }
 

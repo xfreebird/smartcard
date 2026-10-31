@@ -1,18 +1,27 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
+using System.Text.Json;
 using MoldSign.App.Services;
+using MoldSign.App.Controls;
 using MoldSign.App.Views;
 
 namespace MoldSign.App;
 
 public sealed partial class MainWindow : Window
 {
+    private bool _initializingNavigation = true;
+
     public MainWindow()
     {
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
+        if (Content is FrameworkElement root)
+            root.ActualThemeChanged += (_, _) => WindowHelpers.ApplyCaptionTheme(this);
+        WindowHelpers.ApplyCaptionTheme(this);
         AppWindow.Title = AppInfo.ProductName;
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico"));
         // A normal app window: taskbar button and Alt+Tab (only the tray flyout is hidden from switchers).
@@ -23,6 +32,7 @@ public sealed partial class MainWindow : Window
 
         Nav.SelectedItem = Nav.MenuItems[0];
         ContentFrame.Navigate(typeof(SignPage));
+        _initializingNavigation = false;
     }
 
     public AppState State => AppState.Current;
@@ -49,6 +59,12 @@ public sealed partial class MainWindow : Window
         Navigate(PageFor(tag));
     }
 
+    public void ResetForServices()
+    {
+        Nav.SelectedItem = Nav.SettingsItem;
+        ContentFrame.Navigate(typeof(SettingsPage), null, new SuppressNavigationTransitionInfo());
+    }
+
     private void OnClosing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         // Tray-first: closing hides; "Ieșire" in the tray quits.
@@ -61,6 +77,7 @@ public sealed partial class MainWindow : Window
 
     private void OnNavSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
     {
+        if (_initializingNavigation || args.SelectedItem != sender.SelectedItem) return;
         var page = args.IsSettingsSelected
             ? typeof(SettingsPage)
             : PageFor((args.SelectedItem as NavigationViewItem)?.Tag as string);
@@ -69,7 +86,59 @@ public sealed partial class MainWindow : Window
 
     private void Navigate(Type page)
     {
-        if (ContentFrame.CurrentSourcePageType != page) ContentFrame.Navigate(page);
+        var section = page == typeof(SignPage) ? "sign" : page == typeof(VerifyPage) ? "verify"
+            : page == typeof(CardPage) ? "card" : page == typeof(SettingsPage) ? "settings"
+            : page == typeof(ActivityPage) ? "activity" : "unknown";
+        App.Current.Monitoring.RecordNavigation(section);
+        if (ContentFrame.CurrentSourcePageType != page)
+            ContentFrame.Navigate(page, null, App.Current.Services.IsDemo ? new SuppressNavigationTransitionInfo() : null);
+        AppLog.Stage($"Navigation frame={ContentFrame.CurrentSourcePageType?.Name}");
+    }
+
+    /// <summary>Development-only capture handshake, written after the requested page has rendered stably.</summary>
+    public void PrepareDemoCapture(string tag)
+    {
+#if DEBUG
+        var path = Environment.GetEnvironmentVariable("MSIGN_DEMO_READY_FILE");
+        if (!App.Current.Services.IsDemo || string.IsNullOrEmpty(path)) return;
+        var expected = PageFor(tag);
+        var frames = 0;
+        EventHandler<object>? rendered = null;
+        rendered = (_, _) =>
+        {
+            if (ContentFrame.Content is not Page page || page.GetType() != expected || !page.IsLoaded)
+            {
+                frames = 0;
+                return;
+            }
+            page.UpdateLayout();
+            if (!WalletsCentered(page)) { frames = 0; return; }
+            if (++frames < 3) return;
+            CompositionTarget.Rendering -= rendered;
+            // The temporary marker contains only scenario metadata, never certificates, documents or PINs.
+            File.WriteAllText(path, JsonSerializer.Serialize(new
+            {
+                Page = tag,
+                ActualPage = page.GetType().Name,
+                Scenario = DemoMode.Scenario,
+                ProcessId = Environment.ProcessId,
+                Window = WindowHelpers.Handle(this).ToInt64(),
+                CarouselsCentered = true,
+            }));
+        };
+        if (AppWindow.Presenter is OverlappedPresenter presenter) presenter.IsAlwaysOnTop = true;
+        ShowSection(tag);
+        ContentFrame.UpdateLayout();
+        CompositionTarget.Rendering += rendered;
+#endif
+    }
+
+    private static bool WalletsCentered(DependencyObject element)
+    {
+        if (element is CardWallet wallet && !wallet.IsSelectionCentered) return false;
+        for (var index = 0; index < VisualTreeHelper.GetChildrenCount(element); index++)
+            if (!WalletsCentered(VisualTreeHelper.GetChild(element, index))) return false;
+        return true;
     }
 
     private static Type PageFor(string? tag) => tag switch

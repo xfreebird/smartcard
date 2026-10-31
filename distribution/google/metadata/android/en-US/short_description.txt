@@ -1,0 +1,1 @@
+Sign and verify documents with the Moldovan electronic identity card.

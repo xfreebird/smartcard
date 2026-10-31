@@ -7,7 +7,190 @@
 
 Status legend: `[x]` done · `[~]` in progress / partial (implemented, not yet verified on device) · `[ ]` todo · `[-]` dropped (say why)
 
-Last updated: **2026-10-26**
+Last updated: **2026-10-31**
+
+---
+
+## User-facing demo mode — 31 October 2026
+
+- [x] ABOUT-01 List Nicolae Ghimbovschi and the esemnbun.md website in the native About or settings
+  surfaces on macOS, iOS, Android, Windows and Linux; the website is a link. Localization export,
+  Swift parsing, XAML well-formedness and whitespace checks passed; native builds and UI checks remain.
+
+- [x] DEMO-01 Add a persisted, user-controlled demo mode to macOS, iOS, Android and Windows settings.
+  Switching uses isolated mock services and safe simulated outputs, with a visible demo disclaimer.
+- [x] DEMO-02 Linux automated screenshot fixtures suppress demo disclaimers only when explicitly capturing;
+  ordinary interactive mock runs remain labelled. Debug/Release builds, 13 policy tests and native Fedora
+  screenshots verified both modes without real card/PIN operations.
+- [x] DEMO-03 Center the empty saved-PIN message in macOS settings and separate Open/Quit tray actions.
+- [x] DEMO-04 Validate switching, persistence, isolation and screenshots using mock data; keep evidence on Desktop.
+
+  Android Debug and non-debuggable Release native flows passed enable/confirmation, cold relaunch,
+  per-document unsigned sample generation, native sharing and disable; four-ABI audit and focused
+  safety tests passed. Fedora screenshot scripts capture without the demo notice and exit GNOME's
+  overview before capturing (34 scenario and 28 layout images). macOS native mode switching, sample
+  signing and empty-PIN layout passed; the insertion helper was checked with mock insertion events.
+  iOS native confirmation, simulated batch, persistence and exit passed; share-sheet presentation
+  and a dedicated macOS tray screenshot need separate visual confirmation. Windows Release native confirmation, signing, verification,
+  persistence, telemetry suspension and exit passed with 28 focused tests. Apple policy tests passed.
+
+## Optional desktop Sentry — 31 October 2026
+
+- [x] MON-01 Sentry is included ONLY in macOS, Windows and Linux desktop apps. Remove SDKs,
+  instrumentation and upload configuration from iOS/Android and CLI tools. Historical mobile/CLI
+  test events and the unused Android project remain untouched in the organization.
+- [x] MON-02 Native first-launch prompt with separate crash-report and application-metric switches,
+  both OFF; no SDK/network reporting before explicit opt-in. Persist decline, do not ask again on
+  restart; allow both choices to change immediately in Settings. Cancel sessions and purge unsent
+  queues on changes/opt-out. Stable RO/EN/RU keys live in the shared localization catalog.
+- [x] MON-03 Actual SDK application metrics (fixed counters and duration distributions), sanitized
+  crash reports and optional sampled fixed-operation timings, each gated by its own consent.
+  Linux in-process backend records sanitized JSON crash reports for the next opted-in launch,
+  without raw minidumps. Windows captures managed unhandled failures; raw native dumps stay disabled.
+- [x] MON-04 Native macOS/Windows/Fedora consent flows verified: unknown and persisted decline,
+  independent choices, opt-out/cache removal, no repeated prompt. Hosted metrics confirmed in all
+  three desktop projects; real controlled SIGABRT received as ESEMNBUN-LINUX-4 after opt-in/relaunch.
+  Android clean builds/lint/dependency+APK audits show no Sentry; iOS build/symbol/DSN audit shows no SDK.
+- [~] MON-05 Native production symbol uploads are wired for macOS dSYMs, Windows PDBs and Linux DWARF.
+  GitHub Actions secret SENTRY_AUTH_TOKEN is configured and Sentry CLI authentication verified; actual upload/full native file-line symbolication remains unverified.
+  No production release or store upload was dispatched.
+- [x] MON-06 Local privacy policy, macOS manifest and desktop store-disclosure checklist updated;
+  mobile remains SDK-free. Public privacy URL and portal forms remain submission prerequisites.
+- [x] MON-07 Ubuntu24.04 bundled SDK/app build, thirteen policy tests in a clean scratch directory and
+  actual desktop prompt/metrics-only opt-in/default SDK path/opt-out runtime validation passed. Native
+  layout compatibility was fixed for libadwaita1.5. Fedora final Debug/Release +13tests also passed.
+  Fifteen native consent screenshots across desktop platforms are saved on Desktop, with proof files.
+
+## Card pagination simplification — 31 October 2026
+
+- [x] UI-20 Remove visible previous/next arrows and numeric position rows from Apple and Windows card
+  carousels; replace Android's numeric row with dots. Keep native iOS dots, add matching macOS,
+  Android, Windows and Linux indicators, and preserve swipe/scroll, keyboard and accessibility navigation.
+  Update interaction scripts to observe card selection instead of removed counter text.
+- Validation: source and syntax checks only for this small presentation change; native builds and
+  refreshed screenshots have not been run. Existing revision2 screenshots predate UI-20.
+
+## Keyboard, carousel and capture corrections — 31 October 2026
+
+- [x] UI-15 Android PIN dialog: actual IME-visible tests must prove the entire field and cancel/sign actions
+  remain above the keyboard on phones and tablets, portrait/landscape, including resize while focused.
+- [x] UI-16 Android carousel: viewport spans available window content width with native gutters; document
+  and detail panels retain bounded reading widths. Keep the selected card centered and fully visible.
+- [x] UI-17 iPad/Duo: prove actual touch swipes change selected cards, not only arrows/programmatic scrolling.
+  Use a visible native paging affordance and retain one-card snap/centering.
+- [x] UI-18 Windows: reduce card imagery, bound/scroll Card page so bottom actions are reachable at ordinary
+  and shorter window heights; test wheel and keyboard scrolling.
+- [x] UI-19 Standard iPhone: add missing light/dark key-screen screenshots alongside iPad/Duo evidence.
+
+Validation complete: Android has 24 fresh images, eight keyboard-visible matrix cases plus two focused-resize
+bounds proofs and a native swipe/cancel check. Windows has 10 fresh images with all four size/theme scroll
+checks passing. Apple has 26 iOS + 2 macOS images, including 14 standard iPhone states; six native finger tests
+passed across phone/iPad/expanded Duo, selecting 1→2→3 with matching visible holders, selected traits,
+full bounds and unchanged center coordinates. Builds, localization and script checks pass.
+
+Evidence goes under each platform's `2026-10-31/revision2` folder. Previous screenshots are before-change
+references. Mock-only; no PIN or physical-card operations. Root owns shared tracking/Android, platform agents
+own Apple/Windows. Screenshot readiness must include completed navigation/keyboard layout, not just composition.
+
+## Android tablet desktop-layout amendment — 31 October 2026
+
+- [x] AND-14: Tablet Sign uses the desktop vertical hierarchy: centered bounded card, document list/picker
+  underneath, compact centered signing action below. Remove independent side-by-side signing panes.
+  Keep native navigation rail and nonzero 24dp gutters; other destinations use the same 680dp reading width.
+  Apply from 600dp window width so smaller portrait tablets also receive it; narrow split-screen stays compact.
+- Validation passed: Debug/Release APK/Release AAB/lint; 32 final-APK-matched portrait/landscape light/dark
+  mock captures cover Sign/Card/Verify/Browser/Activity, including multi-document, no-reader and PIN states.
+  Portrait runs at 600dp window width; landscape at 1707dp. Compact windows below 600dp retain the phone layout.
+
+## 2026-10-31 corrective acceptance pass
+
+The owner rejected the prior completion assessment after reviewing screenshots. Reopen the following
+items until current-source runtime evidence exists. Earlier screenshot counts are historical evidence,
+not acceptance of layout or architecture. Preserve existing source changes and unrelated scheme edits.
+
+| ID | Status | Acceptance requirement |
+|---|---|---|
+| FIX-01 | [x] | Stable semantic localization identifiers in every platform; typed Apple/Linux API, no display-text lookups; three-language exports checked |
+| FIX-02 | [x] | Platform code grouped by responsibility, meaningful feature/infrastructure ports and small coordinators; document dependency directions |
+| FIX-03 | [x] | Windows carousel centers selection without tiny clipped adjacent-card slivers; reader/drop placeholders match vertical macOS hierarchy |
+| FIX-04 | [x] | macOS empty reader is one dotted rectangle; iPad/Duo symmetric pane gutters and centered signing CTA |
+| FIX-05 | [x] | Natural portrait bust inside 3:5 frame, proper chip contacts, larger centered PIN entry across platforms |
+| FIX-06 | [x] | Configurable non-store macOS and Windows helper detects reader/card insertion while main app is closed; helper lifecycle packaged |
+| FIX-07 | [x] | First launch always presents desktop main window on macOS, Windows and Linux, including background-launch edge case |
+| FIX-08 | [x] | Rebuild affected targets, targeted current-source screenshot evidence under Desktop/2026-10-31 and validation report; keep runtime gates explicit |
+
+Parallel ownership: Apple platform, Windows platform, Linux platform; root owns Android and shared catalog,
+generators and integration. Physical cards remain unused during mock verification; no PIN retries.
+
+---
+
+## 2026-10-30 product adjustment work
+
+**Current layout constraints (owner amendments):** Windows Sign always stacks centered card → selected documents →
+drop zone, including wide windows. Maintain native nonzero gutters and spacing; avatar frame3:5, uniformly scaled
+person; card golden ratio, right-center chip. iPad/iPhoneDuo wide CTA is one compact native button without a nested
+container; selected-document bottom spacing matches the rest of the file pane. Android tablets need adaptive
+navigation/workspace; Android builds include ARM and x86-64. Batch authorization/PIN is once for the frozen list,
+with no reuse across unrelated batches and no automatic wrong-PIN retry.
+
+These items supersede the earlier expandable vertical wallet design. Implemented items remain `[~]`
+until their platform build and runtime evidence is recorded. No physical-card PIN attempts may run concurrently;
+mock scenarios must never invoke real transports or credential stores.
+
+| ID | Status | Requested outcome |
+|---|---|---|
+| ADJ-01 | [x] | Golden-ratio card,3:5 avatar with uniform human scaling, chip at right center; fix Windows stretching |
+| ADJ-02 | [x] | Horizontal multi-card carousel on every platform; native controls and common hierarchy |
+| ADJ-03 | [x] | Desktop language, system/light/dark theme, saved-PIN deletion preferences |
+| ADJ-04 | [x] | Configurable card-insertion activation plus desktop startup/background utility |
+| ADJ-05 | [x] | iOS custom URL in-app browsing, mobile-only guidance, compact signing and document sharing |
+| ADJ-06 | [x] | Platform sources remain grouped; shared Apple/Linux core retained without duplication; ownership documented |
+| ADJ-07 | [x] | One localization catalog, individual platform exports, Romanian/English/Russian |
+| ADJ-08 | [x] | Injectable services and isolated mock scenario entry points on every platform |
+| ADJ-09 | [x] | Repeatable mock screenshot matrix and Desktop delivery for all platforms |
+| ADJ-10 | [x] | VM runtime verification on Air; serialized real-card access; Ubuntu coverage |
+| ADJ-11 | [~] | Sandboxed macOS App Store configuration and packaging |
+| ADJ-12 | [x] | Repository store metadata/configuration for Apple, Google, Microsoft and Huawei |
+| ADJ-13 | [x] | Android tablet adaptive workspace/navigation and explicit ARM/x86-64 package verification |
+| ADJ-14 | [x] | One authorization/PIN per frozen document batch; isolate scope and stop on first error |
+
+Validation ledger: initial working tree had an unrelated macOS scheme change; preserve it. Air reachable;
+Fedora and Windows initially stopped. Fedora started without reader for mock-only checks. Existing QEMU/HVF
+VMs are used because documented UTM 4.7/5.0 versions crash on macOS 27. No new sudo wrapper created.
+No PINs or signing credentials belong in this plan, source, fixtures, screenshots or command arguments.
+
+Implementation and verification (31 October, corrective pass):
+
+- FIX-01/02 replace display-text localization lookups with typed stable identifiers and group code by
+  responsibility, with narrow signing/verification, reader, document, activity, settings and activation ports.
+  Catalog/native export/source usage checks pass for all three languages. See docs/12-platform-adjustments.md.
+- FIX-03/04/05 correct Windows selected-second-card centering and vertical empty-reader/drop-zone layout;
+  Apple wide pane 24pt gutters, centered CTA, standalone dotted empty state; compact natural bust, explicit
+  eight-pad chip, and larger centered PIN content. Current-source targeted captures are dated 31 October.
+- Apple native macOS Debug, iOS simulator and unsigned Store-candidate Release builds pass; eight policy tests
+  pass. Separate-helper reader/card cold-start and first-launch visible-window checks pass with isolated data.
+- Windows native build passes with zero warnings/errors; nineteen focused tests pass, including scoped
+  batches, separate signer/verifier interfaces, insertion preferences/muted-card insertion and real IPC.
+  Separate-helper reader/card cold starts and first/subsequent ordinary manual visible-window launches pass.
+- Fedora and Ubuntu native application builds and nine policy tests per distribution pass. Installed release
+  first-background→visible, subsequent-background→hidden and explicit activation→visible checks pass on both.
+  Trusted HTTPS works without an insecure bypass. Ubuntu GUI/CLI packages rebuilt and reinstalled.
+- Android Debug/unsigned Release APK/Release AAB/lint pass after package/port changes. Core:117 tests, zero failures, one opt-in skip; USB:21 tests, zero failures. Four-ABI ELF audits pass. Final 24 ARM64 runtime captures cover phone and
+  both tablet orientations; normal lifecycle factory launch works with injectable ViewModel dependencies.
+- Frozen batch authorization and PIN scope are preserved; saved-PIN persistence is attempted once per batch,
+  even if storage fails. First failure/cancellation ends the batch without a wrong-PIN retry.
+- No physical-card PIN/signature attempts in this pass. The earlier serialized PIN-free certificate read is
+  the only real-card probe. No new privileged wrapper, credential change, commit/push, store upload or
+  agreement acceptance. Support/privacy URLs deliberately remain placeholders.
+
+Remaining execution/release gates are explicit: owner login-keychain authorization for the distribution
+private key and signed Store export/installed acceptance (isolated ad-hoc sandbox launch passed); real OS background permission acceptance;
+Flatpak Background portal permission UI; Android x86-64 runtime workflow; physical-card batch/biometric and
+insertion acceptance. These are not represented as completed hardware or store-certification tests.
+
+Final evidence ledger and platform reports: docs/reports/platform-corrections-2026-10-31.md.
+
+See `docs/12-platform-adjustments.md` for source ownership, capture commands and evidence limits.
 
 ---
 
@@ -311,6 +494,11 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ## Progress log
 
 Newest first. One line per meaningful step; link IDs.
+
+- 2026-10-31: **Demo mode and screenshots (DEMO-01–04)**: introduced opt-in, persisted mock sessions
+  with explicit consent and a visible disclaimer on Apple, Android and Windows; mock exports are
+  marked unsigned. Linux screenshot-only mock fixtures suppress the notice. Native verification and
+  evidence collection are tracked above; no physical card, real PIN or user document was used.
 
 - 2026-10-26: **PIN entry and centering (MAC-04, WIN-05, LNX-11)**: on macOS the PIN boxes were overlaid by the system focus ring of the hidden `SecureField` (opacity only dims the text, not AppKit's ring). The key catcher is now a 1 pt plain field with `focusEffectDisabled()`, clear text and tint, so only the boxes show focus; the whole box row is tappable. The auth panel sizes itself to the SwiftUI content and centers on the visible frame of the screen under the pointer for both consent and PIN (`NSWindow.center()` sits above center). Release build installed on the dev Mac. Windows: the PIN moves from a `ContentDialog` inside the main window to its own code-only `PinWindow` (always on top, centered in the work area of the display under the cursor, Enter signs, Escape/close cancels, no paste); the Windows Hello path still brings the main window forward because it owns the prompt; the `dialogRoot` plumbing is gone. **Not yet built on Windows** (the test PC was offline): CI is the first compile. Linux unchanged: the `AdwAlertDialog` is centered over the app window, and GTK 4 on Wayland gives window placement to the compositor.
 - 2026-10-26: **macOS dropdown window activation (MAC-01, MAC-04, MAC-09)**: menu actions previously called `openWindow`/`openSettings` followed by activation before SwiftUI necessarily had a target window; a reused window also was not explicitly raised. Added a main-actor presentation coordinator with weak Main/Settings window registration and a one-shot pending request. After popover dismissal, it orders the selected window in, explicitly activates the agent and makes that window key; minimized windows are restored, and background SwiftUI updates never request activation. The Dock-policy observer does not demote the app while a requested window is being created. Auth panels share the same foreground ordering without changing their floating level or agent policy. macOS Debug build passes; a real AppKit accessory-app probe passes new/reused Main, minimized Main, new/reused Settings and no-focus-stealing background registration against foreground Finder windows. Release build installed in /Applications on the dev Mac for the owner to test.

@@ -1,47 +1,41 @@
-using System.Text.Json;
+using MoldSign.Desktop;
 
 namespace MoldSign.App.Services;
 
-/// <summary>
-/// User preferences in %LOCALAPPDATA%\MoldSign\settings.json (the app is unpackaged, so
-/// ApplicationData.LocalSettings is not available; WIN-08 may switch to it under MSIX).
-/// </summary>
-public sealed class AppSettings
+/// <summary>UI preference adapter; persistence is shared with the independent insertion helper.</summary>
+public sealed class AppSettings : DesktopPreferences
 {
-    private static readonly string s_path = Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MoldSign", "settings.json");
-
-    public bool BridgeEnabled { get; set; } = true;
-    public bool RememberPin { get; set; }
-    public bool ReaderToasts { get; set; } = true;
-    /// <summary>Last known start-at-sign-in choice; the source of truth is <see cref="StartupRegistration"/>.</summary>
-    public bool StartAtLogin { get; set; }
-    public bool FirstRunDone { get; set; }
-
-    public static AppSettings Load()
+    internal static string PreferencesPath
     {
-        try
+        get
         {
-            if (File.Exists(s_path))
-                return JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(s_path)) ?? new AppSettings();
+#if DEBUG
+            if (Environment.GetEnvironmentVariable("MSIGN_TEST_PREFERENCES") is { Length: > 0 } path)
+                return Path.GetFullPath(path);
+#endif
+            return DesktopPreferenceStore.DefaultPath;
         }
-        catch (Exception e) when (e is IOException or JsonException or UnauthorizedAccessException)
-        {
-            // Corrupt or locked: start from defaults.
-        }
-        return new AppSettings();
     }
+    internal static string ActivityPath => Path.Combine(Path.GetDirectoryName(PreferencesPath)!, "activity.json");
+    internal static bool IsolatedTestPreferences
+    {
+        get
+        {
+#if DEBUG
+            return !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("MSIGN_TEST_PREFERENCES"));
+#else
+            return false;
+#endif
+        }
+    }
+    private static readonly DesktopPreferenceStore Store = new(PreferencesPath);
+    public static AppSettings Load() => DemoMode.PreviewScenario is not null && !IsolatedTestPreferences
+        ? new AppSettings { BridgeEnabled = false } : Store.Load<AppSettings>();
 
     public void Save()
     {
-        try
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(s_path)!);
-            File.WriteAllText(s_path, JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true }));
-        }
-        catch (Exception e) when (e is IOException or UnauthorizedAccessException)
-        {
-            System.Diagnostics.Debug.WriteLine($"settings not saved: {e.Message}");
-        }
+        if (DemoMode.PreviewScenario is not null && !IsolatedTestPreferences) return;
+        try { Store.Save(this); }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException) { AppLog.Error(error); }
     }
 }

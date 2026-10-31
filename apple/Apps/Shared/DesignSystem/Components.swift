@@ -17,8 +17,8 @@ struct DropZone: View {
             if compact {
                 HStack(spacing: Theme.Space.s) {
                     Image(systemName: "arrow.down.doc")
-                    Text("Trage alte documente aici sau")
-                    Button("Alege fișiere…", action: choose).buttonStyle(.borderless)
+                    Text(L10n.text(.ui_drop_more_documents_here_or))
+                    Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.borderless)
                 }
                 .font(.callout)
                 .foregroundStyle(.secondary)
@@ -29,10 +29,10 @@ struct DropZone: View {
                         .font(.system(size: 34, weight: .light))
                         .foregroundStyle(targeted ? Color.accentColor : .secondary)
                         .symbolEffect(.bounce, value: targeted)
-                    Text(targeted ? "Eliberează pentru a adăuga" : "Trage documentele aici").font(.headline)
-                    Text("PDF → PAdES-T în PDF · alte fișiere → XAdES-T separat. Formatul se poate schimba.")
+                    Text(targeted ? L10n.text(.ui_release_to_add) : L10n.text(.ui_drop_documents_here)).font(.headline)
+                    Text(L10n.text(.ui_pdf_pades_t_within_the_pdf_other_files_separate_xades_t_the_format_can_be_changed))
                         .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
-                    Button("Alege fișiere…", action: choose)
+                    Button(L10n.text(.ui_choose_files), action: choose)
                         .buttonStyle(.bordered)
                         .controlSize(.large)
                         .padding(.top, Theme.Space.xs)
@@ -53,32 +53,21 @@ struct DropZone: View {
 struct StepProgressView: View {
     let current: SigningService.Step
 
-    private static let steps: [(SigningService.Step, LocalizedStringKey)] = [
-        (.authenticating, "Card"), (.verifyingPIN, "PIN"), (.signing, "Semnătură"),
-        (.timestamping, "Marcă temporală"), (.writing, "Salvare"),
+    private static let steps: [(SigningService.Step, String)] = [
+        (.authenticating, L10n.text(.ui_card)), (.verifyingPIN, L10n.text(.ui_pin)), (.signing, L10n.text(.ui_signature)),
+        (.timestamping, L10n.text(.ui_timestamp)), (.writing, L10n.text(.ui_saving)),
     ]
 
     var body: some View {
-        HStack(spacing: Theme.Space.s) {
-            ForEach(Array(Self.steps.enumerated()), id: \.offset) { index, step in
-                let state = stepState(index)
-                HStack(spacing: 4) {
-                    ZStack {
-                        Circle().fill(state == .done ? Theme.success : state == .active ? Theme.brand : .secondary.opacity(0.25))
-                            .frame(width: 18, height: 18)
-                        if state == .done {
-                            Image(systemName: "checkmark").font(.system(size: 9, weight: .bold)).foregroundStyle(.white)
-                        } else if state == .active {
-                            ProgressView().controlSize(.mini).tint(.white)
-                        }
-                    }
-                    Text(step.1).font(.caption).foregroundStyle(state == .pending ? .secondary : .primary)
-                }
-                if index < Self.steps.count - 1 {
-                    Rectangle().fill(.secondary.opacity(0.3)).frame(height: 1).frame(maxWidth: 24)
-                }
-            }
+        let active = Self.steps.indices.first { stepState($0) == .active }
+        let completed = Self.steps.indices.filter { stepState($0) == .done }.count
+        let label = active.map { Self.steps[$0].1 } ?? (current == .done ? L10n.text(.ui_done) : String(L10n.text(.ui_card)))
+        ProgressView(value: Double(completed), total: Double(Self.steps.count)) {
+            Text(label).font(.caption)
         }
+        .progressViewStyle(.linear)
+        .controlSize(.small)
+        .accessibilityLabel(Text(label))
     }
 
     private enum StepState { case pending, active, done }

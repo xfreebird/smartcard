@@ -39,6 +39,7 @@ public sealed class AppState : INotifyPropertyChanged
 
     private readonly CardWallet _wallet = new();
     private bool _busy;
+    private bool _isDemo;
     private SigningStep? _step;
     private StatusLight _light = StatusLight.Idle;
     private string _lightLabel = "";
@@ -136,7 +137,7 @@ public sealed class AppState : INotifyPropertyChanged
 
     // MARK: - Status InfoBar (main window)
 
-    public bool StatusInfoOpen => Light is StatusLight.Error or StatusLight.Idle;
+    public bool StatusInfoOpen => Light == StatusLight.Error;
 
     public InfoBarSeverity StatusInfoSeverity => Light == StatusLight.Error ? InfoBarSeverity.Error : InfoBarSeverity.Informational;
 
@@ -170,6 +171,17 @@ public sealed class AppState : INotifyPropertyChanged
     public bool BridgeEnabled { get => _bridgeEnabled; set => Set(ref _bridgeEnabled, value); }
 
     public string BridgeStatus { get => _bridgeStatus; set => Set(ref _bridgeStatus, value); }
+
+    public bool IsDemo => _isDemo;
+    public string DemoDisclaimer => Loc.Get("demo_mode_disclaimer");
+    public Visibility DemoVisibility => _isDemo ? Visibility.Visible : Visibility.Collapsed;
+    public void ResetSession(bool demo)
+    {
+        _wallet.Apply([]); _busy = false; _step = null; _isDemo = demo;
+        Activity.Clear(); RecentDocuments.Clear(); _recentsClearedAt = DateTimeOffset.MinValue;
+        BridgeEnabled = false; BridgeStatus = "";
+        Refresh(); Raise(nameof(IsDemo)); Raise(nameof(DemoVisibility));
+    }
 
     // MARK: - Mutations (UI thread)
 

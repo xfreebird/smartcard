@@ -42,7 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import md.moldsign.app.R
-import md.moldsign.app.errorText
+import md.moldsign.app.presentation.errorText
 import md.moldsign.app.ui.theme.Tokens
 import md.moldsign.core.WalletCard
 import java.text.SimpleDateFormat
@@ -55,7 +55,7 @@ import kotlin.math.sin
  * docs/10 §0.2b (UX-09): the card drawn as a stylized illustration of the Moldovan identity card. It shows only
  * certificate data: NO photo, NO state coat of arms (a neutral shield outline instead), NO document number,
  * NO MRZ, NO IDNP. Fixed colors in light and dark (a physical object, like a Wallet pass) with a hairline border
- * and a shadow. All positions and sizes are fractions of the card width W (H = W / 1.586).
+ * and a shadow. All positions and sizes are fractions of the card width W (H = W / 1.618034).
  */
 
 private val PAPER = listOf(Color(0xFFF4EAF0), Color(0xFFECEFF7), Color(0xFFF6F0E1))
@@ -228,7 +228,7 @@ private fun CacheDrawScope.layoutFace(
 
     // Headings: left (navy) | neutral shield | right (burgundy), all left of the chip; scaled down to fit.
     val margin = 0.045f * w
-    val chipX = w - margin - 0.10f * w
+    val chipX = w - margin
     val gap = 0.02f * w
     val emblemW = 0.055f * w
     fun heads(scale: Float): Pair<List<TextLayoutResult>, List<TextLayoutResult>> {
@@ -280,8 +280,8 @@ private fun CacheDrawScope.layoutFace(
         )
         values += v to Offset(x, vy)
     }
-    // With the disclosure button, values stop at 0.88 W (the button sits at 0.935 W ± 0.0425 W).
-    val valueRight = if (reserveDisclosure) 0.88f * w else w - margin
+    // Field values reserve the right-center contact-chip column.
+    val valueRight = 0.825f * w
     val fullW = valueRight - x0
     val reading = surname.isEmpty() && given.isEmpty()
     field(L_SURNAME, if (reading) "" else surname.ifEmpty { "—" }, x0, rows[0], fullW, 0.36f * w)
@@ -337,8 +337,8 @@ private fun DrawScope.drawFace(f: FaceLayout, strip: Strip, placeholders: Boolea
     headBlock(f.headLeft, f.headLeftX, NAVY)
     headBlock(f.headRight, f.headRightX, BURGUNDY)
     drawShield(Offset(f.emblemX, f.headTop + (f.headBlockH - 0.07f * w) / 2), Size(f.emblemW, 0.07f * w))
-    drawChip(Offset(w - 0.045f * w - 0.10f * w, 0.06f * h), Size(0.10f * w, 0.075f * w))
-    drawPortrait(Offset(0.045f * w, 0.30f * h), Size(0.24f * w, 0.60f * h), 0.02f * w)
+    drawChip(Offset(0.855f * w, 0.5f * h - 0.05f * w / 1.618034f), Size(0.10f * w, 0.10f * w / 1.618034f))
+    drawPortrait(Offset(0.045f * w, 0.30f * h), Size(0.18f * w, 0.18f * w * 5f / 3f), 0.02f * w)
 
     f.labels.forEach { (t, at) -> drawText(t, topLeft = at) }
     f.values.forEach { (t, at) -> drawText(t, topLeft = at) }
@@ -397,12 +397,14 @@ private fun DrawScope.drawChip(at: Offset, size: Size) {
     val sw = max(1f, 0.8.dp.toPx())
     fun l(x1: Float, y1: Float, x2: Float, y2: Float) =
         drawLine(line, Offset(at.x + x1 * size.width, at.y + y1 * size.height), Offset(at.x + x2 * size.width, at.y + y2 * size.height), sw)
-    l(0.5f, 0.18f, 0.5f, 0.82f)
-    l(0f, 0.36f, 0.34f, 0.36f)
-    l(0f, 0.64f, 0.34f, 0.64f)
-    l(0.66f, 0.36f, 1f, 0.36f)
-    l(0.66f, 0.64f, 1f, 0.64f)
-    drawRoundRect(line, Offset(at.x + 0.34f * size.width, at.y + 0.3f * size.height), Size(0.32f * size.width, 0.4f * size.height), CornerRadius(3f), style = Stroke(sw))
+    // Eight pads: three on each side, two in the center. All separators meet a rail.
+    l(0.32f, 0f, 0.32f, 1f)
+    l(0.68f, 0f, 0.68f, 1f)
+    for (y in listOf(1f / 3f, 2f / 3f)) {
+        l(0f, y, 0.32f, y)
+        l(0.68f, y, 1f, y)
+    }
+    l(0.32f, 0.5f, 0.68f, 0.5f)
 }
 
 /** Grey portrait frame with a neutral head-and-shoulders silhouette (never a photo). */
@@ -411,8 +413,15 @@ private fun DrawScope.drawPortrait(at: Offset, size: Size, radius: Float) {
     clipPath(frame) {
         drawRect(Brush.verticalGradient(PORTRAIT, at.y, at.y + size.height), at, size)
         val cx = at.x + size.width / 2
-        drawCircle(SILHOUETTE, radius = 0.21f * size.width, center = Offset(cx, at.y + 0.36f * size.height))
-        drawOval(SILHOUETTE, topLeft = Offset(cx - 0.44f * size.width, at.y + 0.60f * size.height), size = Size(0.88f * size.width, 0.62f * size.height))
+        val unit = size.width
+        drawCircle(SILHOUETTE, radius = 0.24f * unit, center = Offset(cx, at.y + 0.53f * unit))
+        val bust = Path().apply {
+            moveTo(cx - 0.44f * unit, at.y + 1.32f * unit)
+            cubicTo(cx - 0.44f * unit, at.y + 1.04f * unit, cx - 0.23f * unit, at.y + 0.90f * unit, cx, at.y + 0.90f * unit)
+            cubicTo(cx + 0.23f * unit, at.y + 0.90f * unit, cx + 0.44f * unit, at.y + 1.04f * unit, cx + 0.44f * unit, at.y + 1.32f * unit)
+            close()
+        }
+        drawPath(bust, SILHOUETTE)
     }
     drawPath(frame, LABEL.copy(alpha = 0.25f), style = Stroke(max(1f, 0.6.dp.toPx())))
 }

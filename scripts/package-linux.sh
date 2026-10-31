@@ -43,6 +43,8 @@ rm -rf "$OUT" "$WORK"
 mkdir -p "$OUT" "$WORK"
 built=()
 
+"$ROOT/linux/scripts/build-sentry-sdk.sh"
+
 # ── Build (release, static Swift stdlib: no Swift runtime package needed on the target) ──────────────────
 if [[ "${MOLDSIGN_SKIP_BUILD:-0}" != 1 ]]; then
   have swift || { echo "swift not found: install a Swift 6 toolchain (https://www.swift.org/install/linux/)." >&2; exit 1; }
@@ -54,6 +56,12 @@ fi
 
 # ── Stage: one install layout (/usr) for every package ──────────────────────────────────────────────────
 STAGE="$WORK/stage"
+# Preserve matching DWARF before stripping the package executable.
+mkdir -p "$OUT/symbols"
+if have objcopy; then
+  objcopy --only-keep-debug "$ROOT/linux/.build/release/esemnbun-gnome" "$OUT/symbols/esemnbun-gnome.debug"
+  objcopy --only-keep-debug "$ROOT/linux/.build/sentry-native/install/lib/libsentry.so" "$OUT/symbols/libsentry.so.debug"
+fi
 echo "▸ Staging into $STAGE"
 "$ROOT/linux/packaging/install.sh" "$STAGE" /usr all
 if [[ "${MOLDSIGN_NO_STRIP:-0}" != 1 ]] && have strip; then
@@ -76,6 +84,7 @@ if wants tar; then
   echo "▸ CLI tarball"
   tarroot="$WORK/tar/esemnbun-$VERSION"
   install -Dm755 "$STAGE/usr/bin/esemnbun" "$tarroot/esemnbun"
+  install -Dm644 "$ROOT/swift/MoldSignKit/Resources/localhost.p12" "$tarroot/share/moldsign/localhost.p12"
   install -Dm644 "$STAGE/usr/lib/systemd/user/esemnbun-server.service" "$tarroot/esemnbun-server.service"
   tar -C "$WORK/tar" -czf "$OUT/esemnbun-$VERSION-linux-$ARCH.tar.gz" "esemnbun-$VERSION"
   built+=("tar")

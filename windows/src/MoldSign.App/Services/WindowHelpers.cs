@@ -48,6 +48,23 @@ internal static partial class WindowHelpers
         }
     }
 
+    /// <summary>Keep caption buttons legible when app appearance differs from the system theme.</summary>
+    public static void ApplyCaptionTheme(Window window)
+    {
+        if (!AppWindowTitleBar.IsCustomizationSupported() || window.Content is not FrameworkElement root) return;
+        var dark = root.ActualTheme == ElementTheme.Dark;
+        var foreground = dark ? Colors.White : Colors.Black;
+        var titleBar = window.AppWindow.TitleBar;
+        titleBar.ButtonForegroundColor = foreground;
+        titleBar.ButtonHoverForegroundColor = foreground;
+        titleBar.ButtonPressedForegroundColor = foreground;
+        titleBar.ButtonInactiveForegroundColor = dark ? Colors.LightGray : Colors.DimGray;
+        titleBar.ButtonBackgroundColor = Colors.Transparent;
+        titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+        titleBar.ButtonHoverBackgroundColor = Windows.UI.Color.FromArgb(0x22, foreground.R, foreground.G, foreground.B);
+        titleBar.ButtonPressedBackgroundColor = Windows.UI.Color.FromArgb(0x33, foreground.R, foreground.G, foreground.B);
+    }
+
     /// <summary>Effective-pixel scale of the window's monitor.</summary>
     public static double Scale(Window window)
     {

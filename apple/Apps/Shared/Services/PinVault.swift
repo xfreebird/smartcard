@@ -8,8 +8,38 @@ import Security
 /// Signed builds also get `SecAccessControl(.userPresence)` on a data-protection keychain item.
 /// Unsigned dev builds lack the keychain entitlement (-34018), so they fall back to a plain item, still gated by LAContext.
 /// On macOS a query only searches the store it names, so lookups try the data-protection store first, then the legacy one.
-struct PinVault {
+protocol PinStoring {
+    func savedAccounts() -> [String]
+    func hasPIN(certID: String) -> Bool
+    func save(_ pin: String, certID: String) throws
+    func load(certID: String, reason: String) async -> String?
+    func delete(certID: String)
+}
+
+struct PinVault: PinStoring {
     private let service = "md.moldsign.pin"
+
+    /// Metadata only, including cards that are currently disconnected.
+    func savedAccounts() -> [String] {
+        var accounts = Set<String>()
+        for dataProtection in [true, false] {
+            var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                kSecAttrService as String: service, kSecReturnAttributes as String: true,
+                kSecMatchLimit as String: kSecMatchLimitAll]
+            if dataProtection { query[kSecUseDataProtectionKeychain as String] = true }
+            let silent = LAContext()
+            silent.interactionNotAllowed = true
+            query[kSecUseAuthenticationContext as String] = silent
+            var result: CFTypeRef?
+            if SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess,
+               let items = result as? [[String: Any]] {
+                for item in items {
+                    if let account = item[kSecAttrAccount as String] as? String { accounts.insert(account) }
+                }
+            }
+        }
+        return accounts.sorted()
+    }
 
     func hasPIN(certID: String) -> Bool {
         let silent = LAContext()
@@ -43,7 +73,7 @@ struct PinVault {
     func load(certID: String, reason: String) async -> String? {
         guard hasPIN(certID: certID) else { return nil }
         let context = LAContext()
-        context.localizedCancelTitle = String(localized: "Introdu PIN-ul")
+        context.localizedCancelTitle = L10n.text(.ui_cancel)
         guard (try? await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)) == true else {
             return nil
         }

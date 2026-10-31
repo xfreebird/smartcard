@@ -13,16 +13,17 @@ struct MenuBarPopover: View {
         @Bindable var model = model
         VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 8) {
-                Text("eSemnBun").font(.headline)
+                Text(L10n.text(.ui_esemnbun)).font(.headline)
                 Spacer()
                 Button {
                     dismissThen { WindowPresentation.shared.present(.settings) { openSettings() } }
                 } label: { Image(systemName: "gearshape") }
                     .buttonStyle(.borderless)
-                    .help("Setări")
-                    .accessibilityLabel("Setări")
+                    .help(L10n.text(.ui_settings))
+                    .accessibilityLabel(L10n.text(.ui_settings))
             }
 
+            if model.demoMode { DemoModeBanner() }
             CardSelector(size: .compact)
 
             if let step = model.currentStep {
@@ -38,8 +39,8 @@ struct MenuBarPopover: View {
             }
 
             HStack(spacing: 10) {
-                Button { showMain(.sign) } label: { Label("Semnează…", systemImage: "signature").frame(maxWidth: .infinity) }
-                Button { showMain(.verify) } label: { Label("Verifică…", systemImage: "checkmark.seal").frame(maxWidth: .infinity) }
+                Button { showMain(.sign) } label: { Label(L10n.text(.ui_sign_2), systemImage: "signature").frame(maxWidth: .infinity) }
+                Button { showMain(.verify) } label: { Label(L10n.text(.ui_verify_2), systemImage: "checkmark.seal").frame(maxWidth: .infinity) }
             }
             .buttonStyle(.bordered)
             .controlSize(.large)
@@ -48,12 +49,12 @@ struct MenuBarPopover: View {
             if !recents.isEmpty {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
-                        Text("Documente recente").font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                        Text(L10n.text(.ui_recent_documents)).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                         Spacer()
-                        Button("Golește") { model.clearRecents() }
+                        Button(L10n.text(.ui_clear)) { model.clearRecents() }
                             .buttonStyle(.borderless)
                             .font(.caption)
-                            .help("Golește lista de documente recente (fișierele și istoricul din Activitate rămân)")
+                            .help(L10n.text(.ui_clear_the_recent_documents_list_files_and_activity_history_are_kept))
                     }
                     ForEach(recents) { item in
                         Button {
@@ -62,7 +63,7 @@ struct MenuBarPopover: View {
                             ActivityRowView(item: item, showsDate: false).font(.subheadline).contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
-                        .help("Arată în Finder")
+                        .help(L10n.text(.ui_show_in_finder))
                     }
                 }
             }
@@ -80,8 +81,19 @@ struct MenuBarPopover: View {
 
             Divider()
             VStack(spacing: 0) {
-                MenuRow(title: "Deschide eSemnBun") { showMain(.sign) }
-                MenuRow(title: "Ieșire", shortcut: "⌘Q") { NSApp.terminate(nil) }
+                MenuRow(title: L10n.text(.ui_open_esemnbun)) { showMain(.sign) }
+                MenuRow(title: L10n.text(.about_app_title)) {
+                    dismissThen {
+                        let credits = NSMutableAttributedString(string: "Nicolae Ghimbovschi\n")
+                        credits.append(NSAttributedString(string: "esemnbun.md", attributes: [
+                            .link: URL(string: "https://esemnbun.md")!
+                        ]))
+                        NSApp.activate(ignoringOtherApps: true)
+                        NSApp.orderFrontStandardAboutPanel(options: [.credits: credits])
+                    }
+                }
+                Divider().padding(.vertical, 4)
+                MenuRow(title: L10n.text(.ui_quit), shortcut: "⌘Q") { NSApp.terminate(nil) }
                     .keyboardShortcut("q")
             }
             .padding(.horizontal, -6)   // hover highlight reaches the content edges, like menu items
@@ -109,15 +121,15 @@ struct MenuBarPopover: View {
 
     private var bridgeText: String {
         switch model.bridgeState {
-        case .running: return String(localized: "Conexiune browser activă")
-        case .stopped: return String(localized: "Conexiune browser oprită")
-        case .portBusy: return String(localized: "Porturi ocupate de MoldSign (Java)")
-        case .failed: return String(localized: "Conexiune browser: eroare")
+        case .running: return L10n.text(.ui_browser_connection_on)
+        case .stopped: return L10n.text(.ui_browser_connection_off)
+        case .portBusy: return L10n.text(.ui_bridge_ports_busy)
+        case .failed: return L10n.text(.ui_bridge_connection_error)
         }
     }
 
     private func showMain(_ section: MainWindowView.Section) {
-        UserDefaults.standard.set(section.rawValue, forKey: "mainSection")
+        AppPreferencesStore.defaults.set(section.rawValue, forKey: "mainSection")
         dismissThen {
             WindowPresentation.shared.present(.main) { openWindow(id: "main") }
         }
@@ -142,7 +154,7 @@ struct WindowReader: NSViewRepresentable {
 
 /// A full-width, menu-item-like row: highlights on hover, optional shortcut on the trailing side.
 private struct MenuRow: View {
-    let title: LocalizedStringKey
+    let title: String
     var shortcut: String?
     let action: () -> Void
     @State private var hovered = false
@@ -190,12 +202,12 @@ struct MainWindowView: View {
     enum Section: String, CaseIterable, Identifiable {
         case sign, verify, card, activity
         var id: String { rawValue }
-        var title: LocalizedStringKey {
+        var title: String {
             switch self {
-            case .sign: return "Semnează"
-            case .verify: return "Verifică"
-            case .card: return "Card"
-            case .activity: return "Activitate"
+            case .sign: return L10n.text(.ui_sign)
+            case .verify: return L10n.text(.ui_verify)
+            case .card: return L10n.text(.ui_card)
+            case .activity: return L10n.text(.ui_activity)
             }
         }
         var symbol: String {
@@ -209,16 +221,16 @@ struct MainWindowView: View {
     }
 
     @Environment(AppModel.self) private var model
-    @AppStorage("mainSection") private var stored = Section.sign.rawValue
+    @AppStorage("mainSection", store: AppPreferencesStore.defaults) private var stored = Section.sign.rawValue
 
     var body: some View {
         let selection = Binding<Section?>(get: { Section(rawValue: stored) ?? .sign }, set: { stored = ($0 ?? .sign).rawValue })
         NavigationSplitView {
             List(selection: selection) {
-                SwiftUI.Section("Documente") {
+                SwiftUI.Section(L10n.text(.ui_documents)) {
                     ForEach([Section.sign, .verify]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
                 }
-                SwiftUI.Section("Cont") {
+                SwiftUI.Section(L10n.text(.ui_account)) {
                     ForEach([Section.card, .activity]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
                 }
             }
@@ -242,5 +254,6 @@ struct MainWindowView: View {
             }
             .background(WindowReader { WindowPresentation.shared.register($0, for: .main) })
         }
+        .safeAreaInset(edge: .top, spacing: 0) { if model.demoMode { DemoModeBanner() } }
     }
 }

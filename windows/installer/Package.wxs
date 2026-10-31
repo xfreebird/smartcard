@@ -48,6 +48,7 @@
                  After="SetStartAtLoginRemembered" Sequence="first" Condition="NOT STARTATLOGIN" />
 
     <!-- The tray app keeps running in the notification area: close it (or end it) before replacing files. -->
+    <util:CloseApplication Id="CloseInsertionHelper" Target="eSemnBun.Watcher.exe" CloseMessage="no" RebootPrompt="no" TerminateProcess="1" />
     <util:CloseApplication Id="CloseTrayApp" Target="eSemnBun.exe" CloseMessage="yes" RebootPrompt="no"
                            TerminateProcess="1" />
 

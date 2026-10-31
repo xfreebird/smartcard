@@ -1,5 +1,39 @@
 # 10 — Design System and Screens
 
+## Current adjustments (31 October 2026)
+
+These decisions supersede earlier vertical expand/collapse wallet descriptions below:
+
+- Use a horizontal carousel; the selected card stays centered on swipe, arrow selection, resize and wallet changes.
+- Draw the stylized card at width/height = 1.618034. The avatar frame uses width:height =
+  3:5 (latest owner amendment); the head remains circular and shoulders retain their own proportions.
+- Place the contact chip at the right edge, vertically centered. Reserve field width so text never crosses it.
+  Draw eight contacts: three left, three right, two central pads; avoid an additional center island that creates extra regions.
+- Draw a compact head-and-shoulders bust inside the 3:5 portrait frame, without long vertical torso sides.
+  PIN entry is larger, bounded to available width and centered with its heading and document context.
+- Keep nonzero native content gutters and intercomponent spacing throughout; backgrounds may extend to window edges. Windows Sign stacks the card above the document drop zone.
+- Keep one hierarchy across platforms with native controls: card selection, document workspace, primary action,
+  then outcomes/history. Desktop preferences expose language, appearance, stored PIN management and optional
+  reader/card-insertion activation. Non-store macOS and Windows have a separately running helper that can open
+  a closed app; startup/background permissions remain visible and configurable. First launch shows the main
+  window on macOS, Windows and Linux, including the initial background-start case.
+- Android tablets use the desktop vertical hierarchy: centered card, documents/picker below, then a compact
+  centered signing action. From 600dp window width, keep the native navigation rail and bounded 680dp content
+  with 24dp gutters; narrower multitasking windows use the compact layout.
+- iOS compact layouts use a compact toolbar signing action. At wide widths (iPad and expanded iPhone Duo),
+  signing/card controls sit left and document browsing/selection/operations sit right. Adapt to available width,
+  including rotation and window resizing. Wide pane contents use symmetric 24pt inner/outer gutters; the primary
+  action centers under the card. macOS and Windows reader-empty states use one dotted rectangle without an
+  additional titled panel; Windows keeps the document drop area below it. Signed results expose native sharing/export.
+- iOS browser has address entry, navigation and share controls. Connectivity guidance refers only to mobile
+  readers/adapters. Browser requests still require the normal origin and consent checks.
+
+Translations are maintained in `localization/catalog.json` with stable semantic IDs; `scripts/localize.py`
+exports native resources and typed Apple/Linux key APIs. Display wording is not a lookup key.
+Debug mock scenarios use fictional cardholders and isolate hardware operations. Screenshots from older designs
+remain historical evidence; dated captures live under the owner's Desktop screenshot directory.
+
+
 Visual mock-ups of every screen below (all platforms, light/dark): **[eSemn UI concepts](https://claude.ai/artifact/5LZRjfVTDrQ9TKnscfWTyi)**
 (private artifact; "eSemn" is a placeholder product name, see D-07).
 

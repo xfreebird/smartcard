@@ -1,6 +1,6 @@
 eSemnBun Privacy Policy
 
-Effective date: 25 October 2026
+Effective date: 31 October 2026
 Developer: Nicolae Ghimbovschi, Republic of Moldova
 Contact: nicolae.ghimbovschi@gmail.com
 
@@ -10,9 +10,9 @@ on macOS, Windows, Linux, iOS and Android. This policy explains what information
 
 SUMMARY
 
-- eSemnBun has no user accounts, no analytics, no advertising and no tracking, and contains no third-party SDKs.
+- eSemnBun has no user accounts, advertising or cross-app tracking. The desktop apps offer optional Sentry crash reporting and application metrics. iOS, Android and command-line tools do not include Sentry.
 - Your documents never leave your device. Signing happens on your device and on your ID card.
-- The developer does not receive or store any of your data.
+- Desktop diagnostics are off by default. The first launch asks separately about crash reports and application metrics. Nothing is sent to Sentry until you opt in. You can change either choice in Settings.
 - To make signatures legally valid, the app contacts Moldova's public trust services (timestamping and
   certificate-status checks). These requests contain hashes and certificate identifiers, never your documents.
 
@@ -37,7 +37,7 @@ biometric data.
 
 INFORMATION SENT OVER THE NETWORK
 
-The app connects only to the following services, and only when needed:
+The app connects to the following services:
 
 - Timestamp authority (tsp.pki.gov.md, Moldovan public-key infrastructure): when a signature includes a timestamp,
   the app sends a cryptographic hash (SHA-256) of the signature value. The document and its contents are not sent.
@@ -49,33 +49,41 @@ The app connects only to the following services, and only when needed:
   on the official MoldSign allow-list are accepted. Before every signature the app shows which website is asking and
   what will be signed. The resulting signature is returned only to that website, after your confirmation. You can
   switch this feature off in the app.
+- Optional desktop reliability diagnostics (Sentry): after opt-in, app errors, technical stack frames, operating-system and app version,
+  build and environment, and application counters, duration metrics and sampled timings are sent to the developer's Sentry organization in the EU region, only for the categories you enabled.
+  Document contents and names, PINs, cardholder names, certificate identifiers, browser URLs, screenshots,
+  session recordings and arbitrary application logs are excluded by the application's diagnostic boundary.
+  The receiving network service processes the connection IP address as part of delivering the report.
+  These reports are used to find and fix failures, not for advertising or cross-app tracking. Disabling a category stops its reporting immediately and discards unsent local reports. It does not delete reports already received by Sentry.
 - In-app browser (iOS): opens msign.gov.md so the browser connection works on iPhone and iPad. That website's own
   privacy policy applies to what you do there.
 
-These services are operated by Moldovan public institutions, and their privacy policies apply to the requests they
-receive. The developer does not operate them and receives nothing from them.
+The public trust services are operated by Moldovan public institutions. Sentry operates the diagnostic service
+on the developer's behalf. The respective providers' privacy policies apply to their processing.
 
 
 WHAT WE DO NOT DO
 
-- We do not collect, sell or share personal information.
-- We do not use analytics, advertising identifiers or crash-reporting SDKs. If you have enabled crash reporting in
-  your operating system, Apple, Google or Microsoft may receive crash reports under their own policies.
+- We do not sell personal information or use advertising identifiers.
+- We do not record screens, document interactions or PIN entry. Diagnostic reports are limited as described above.
+  Your operating system may separately send crash reports to Apple, Google or Microsoft under its own policies.
 - We do not access your contacts, photos, location, camera or microphone.
 
 
 PERMISSIONS
 
 - USB / smart-card access: to talk to your card reader.
-- Network: for the timestamp and certificate-status services above, and for the optional local browser connection.
+- Network: for timestamping, certificate-status checks, reliability diagnostics and the optional local browser connection.
 - Notifications (Android): to show the status of the browser connection.
 - Face ID / Touch ID / Windows Hello: only if you choose to remember your PIN, to unlock it.
 
 
 DATA RETENTION AND DELETION
 
-All data the app stores stays on your device. Deleting the remembered PIN, clearing the activity list, or uninstalling
-the app removes it. Signed documents remain wherever you saved them.
+PINs, settings and the activity list are stored on your device. Deleting the remembered PIN, clearing the activity
+list, or uninstalling the app removes that local data. Signed documents remain wherever you saved them.
+If you opted in on a desktop app, diagnostic reports are stored separately in Sentry under the organization's configured retention period.
+Uninstalling the app does not delete reports already sent. Contact the developer about diagnostic data requests.
 
 
 CHILDREN
@@ -85,9 +93,8 @@ eSemnBun is a tool for adults who hold a Moldovan electronic identity card and i
 
 YOUR RIGHTS
 
-Because the developer does not receive personal data, there is nothing for us to access, correct or delete on our
-side. Questions about how the public trust services process requests should go to their operator. You can still
-contact us at nicolae.ghimbovschi@gmail.com with any question about this policy. Moldova's personal data protection
+Contact nicolae.ghimbovschi@gmail.com about access, correction or deletion requests relating to diagnostics.
+Questions about how the public trust services process requests should go to their operator. Moldova's personal data protection
 law (Law No. 133/2011) and, where applicable, the EU General Data Protection Regulation apply to this policy.
 
 

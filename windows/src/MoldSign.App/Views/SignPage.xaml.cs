@@ -8,57 +8,14 @@ using MoldSign.Core;
 
 namespace MoldSign.App.Views;
 
-/// <summary>
-/// FileRow (docs/10 §3): name, size and the format picker. PDFs offer PAdES-T (default), XAdES-BES, XAdES-T and
-/// XAdES-C (detached XAdES over the PDF bytes → &lt;name&gt;-semnat.xml); other files offer the XAdES levels.
-/// </summary>
-public sealed class FileRow(string path)
-{
-    private readonly List<SignatureFormat> _formats = [.. SignatureFormats.Allowed(path)];
-
-    public string Path { get; } = path;
-
-    public string Name => System.IO.Path.GetFileName(Path);
-
-    public SignatureFormat Format { get; set; } = SignatureFormats.Default(path);
-
-    public List<string> FormatLabels => [.. _formats.Select(SignatureFormats.Label)];
-
-    /// <summary>Two-way with the row's ComboBox.</summary>
-    public int FormatIndex
-    {
-        get => _formats.IndexOf(Format);
-        set
-        {
-            if (value >= 0 && value < _formats.Count) Format = _formats[value];
-        }
-    }
-
-    public string SizeText
-    {
-        get
-        {
-            try
-            {
-                var bytes = new FileInfo(Path).Length;
-                return bytes < 1024 * 1024
-                    ? string.Create(CultureInfo.CurrentCulture, $"{Math.Max(1, bytes / 1024)} KB")
-                    : string.Create(CultureInfo.CurrentCulture, $"{bytes / (1024.0 * 1024):0.#} MB");
-            }
-            catch (Exception error) when (error is IOException or UnauthorizedAccessException)
-            {
-                return "";
-            }
-        }
-    }
-}
-
 public sealed partial class SignPage : Page
 {
     public SignPage()
     {
         InitializeComponent();
-        Drop.FilesChosen += OnFilesChosen;
+        DetachedOption.Content = Loc.Get("Packaging_Detached");
+        EnvelopingOption.Content = Loc.Get("Packaging_Enveloping");
+        DocumentDrop.FilesChosen += OnFilesChosen;
         Files.CollectionChanged += (_, _) =>
         {
             UpdateDocumentsArea();
@@ -81,6 +38,10 @@ public sealed partial class SignPage : Page
 
     private void OnFilesChosen(object? sender, IReadOnlyList<string> paths)
     {
+        if (App.Current.Services.IsDemo && paths.Any(path => !App.Current.Services.IsDemoDocument(path)))
+        {
+            Result.Message = Loc.Get("demo_fixture_only"); Result.IsOpen = true; return;
+        }
         foreach (var path in paths)
         {
             if (Files.All(f => !string.Equals(f.Path, path, StringComparison.OrdinalIgnoreCase))) Files.Add(new FileRow(path));
@@ -115,7 +76,7 @@ public sealed partial class SignPage : Page
         var hasFiles = Files.Count > 0;
         FileList.Visibility = hasFiles ? Visibility.Visible : Visibility.Collapsed;
         ListRow.Height = hasFiles ? new GridLength(1, GridUnitType.Star) : GridLength.Auto;
-        Drop.IsCompact = hasFiles;
+        DocumentDrop.IsCompact = hasFiles;
     }
 
     /// <summary>

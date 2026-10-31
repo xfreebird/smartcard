@@ -16,7 +16,7 @@ namespace MoldSign.App.Services;
 /// </summary>
 internal sealed partial class PinWindow : Window
 {
-    private const double ContentWidth = 400;
+    private const double ContentWidth = 480;
 
     private readonly TaskCompletionSource<(string? Pin, bool Remember)> _result =
         new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -24,15 +24,27 @@ internal sealed partial class PinWindow : Window
     private readonly PasswordBox _box = new()
     {
         MaxLength = 8,
+        FontSize = 28,
+        MinHeight = 56,
+        Padding = new Thickness(20, 10, 20, 10),
+        HorizontalContentAlignment = HorizontalAlignment.Center,
         PlaceholderText = "••••",
-        HorizontalAlignment = HorizontalAlignment.Stretch,
+        Width = 300,
+        HorizontalAlignment = HorizontalAlignment.Center,
         InputScope = new InputScope { Names = { new InputScopeName(InputScopeNameValue.NumericPin) } },
     };
     private readonly CheckBox _remember = new() { Content = Loc.Get("Pin_Remember") };
     private readonly Button _sign = new() { Content = Loc.Get("Action_Sign"), IsEnabled = false, MinWidth = 120 };
 
-    public PinWindow(string heading, IReadOnlyList<string> details, bool remember, int? attemptsLeft)
+    public PinWindow(string heading, IReadOnlyList<string> details, bool remember, int? attemptsLeft,
+                     ElementTheme? appearance = null)
     {
+        _root.RequestedTheme = appearance ?? (App.Current.Services.Settings.Theme switch
+        {
+            "light" => ElementTheme.Light,
+            "dark" => ElementTheme.Dark,
+            _ => ElementTheme.Default,
+        });
         Title = Loc.Get("Pin_Title");
         AppWindow.Title = Loc.Get("Pin_Title");
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico"));
@@ -64,14 +76,21 @@ internal sealed partial class PinWindow : Window
             Text = heading, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center,
             HorizontalAlignment = HorizontalAlignment.Center,
         });
+        var documentDetails = new StackPanel { Spacing = 6 };
         foreach (var line in details)
         {
-            text.Children.Add(new TextBlock
+            documentDetails.Children.Add(new TextBlock
             {
                 Text = line, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center, Opacity = 0.75,
             });
         }
+
+        if (details.Count > 0) text.Children.Add(new ScrollViewer
+        {
+            MaxHeight = 180, VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled, Content = documentDetails,
+        });
 
         _box.Paste += (_, e) => e.Handled = true;
         _box.PasswordChanged += (_, _) => _sign.IsEnabled = IsValid;
@@ -122,6 +141,11 @@ internal sealed partial class PinWindow : Window
 
         AppWindow.Closing += (_, _) => _result.TrySetResult((null, false));
     }
+
+#if DEBUG
+    internal bool HasEmptyPin => _box.Password.Length == 0;
+    internal void ClearPreviewPlaceholder() => _box.PlaceholderText = " ";
+#endif
 
     private bool IsValid => _box.Password.Length is >= 4 and <= 8 && _box.Password.All(char.IsAsciiDigit);
 

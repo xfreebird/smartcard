@@ -41,7 +41,7 @@
                 Style="{StaticResource MsHeadlineTextStyle}"
                 Text="Trage documentele aici" />
             <Button
-                x:Uid="DropBrowse"
+                x:Uid="DropBrowse" AutomationProperties.AutomationId="ChooseDocuments"
                 HorizontalAlignment="Center"
                 Click="OnBrowseClick"
                 Content="Alege fișiere…" />
@@ -75,7 +75,7 @@
                 Style="{StaticResource MsCaptionTextStyle}"
                 Text="Trage aici alte documente" />
             <Button
-                x:Uid="DropBrowseCompact"
+                x:Uid="DropBrowseCompact" AutomationProperties.AutomationId="ChooseMoreDocuments"
                 Grid.Column="2"
                 VerticalAlignment="Center"
                 Click="OnBrowseClick"

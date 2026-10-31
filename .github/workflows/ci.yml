@@ -7,6 +7,14 @@ on:
   pull_request:
 
 jobs:
+  localization:
+    name: Shared localization exports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/localize.py --check --require-complete
+      - run: python3 scripts/prepare-store-metadata.py --check
+
   swift-macos:
     name: Swift core + CLI (macOS, Apple + portable backends)
     runs-on: macos-15
@@ -64,6 +72,7 @@ jobs:
         with: { distribution: temurin, java-version: 17 }
       - working-directory: android
         run: ./gradlew :core:test :transport-usb:testDebugUnitTest :app:assembleDebug
+      - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
 
   windows:
     name: Windows (C# core + CLI tests; eSemnBun MSI + MSIX)

@@ -8,7 +8,13 @@ import CryptoTokenKit
 /// `generation`. A quick remove + reinsert (or a swap) can coalesce the slot's state into "valid → valid",
 /// so the monitor also holds a `TKSmartCard` per inserted card and watches its `valid` flag, which drops
 /// when that physical card is removed. Hosts re-read the certificate whenever the generation changes.
-final class ReaderMonitor {
+protocol ReaderMonitoring: AnyObject {
+    var onChange: ((ReaderMonitor.Snapshot) -> Void)? { get set }
+    func start()
+    func stop()
+}
+
+final class ReaderMonitor: ReaderMonitoring {
     struct Slot: Equatable {
         enum State: Equatable { case empty, probing, card, mute }
         let name: String

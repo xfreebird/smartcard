@@ -28,9 +28,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import md.moldsign.app.AppStatus
-import md.moldsign.app.statusChipText
-import md.moldsign.app.statusLabel
+import md.moldsign.app.application.AppStatus
+import md.moldsign.app.presentation.statusChipText
+import md.moldsign.app.presentation.statusLabel
 import md.moldsign.app.ui.theme.LocalStatusColors
 import md.moldsign.app.ui.theme.forLight
 import md.moldsign.core.StatusLight

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+        A5E001000000000000000001 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = A5E001000000000000000003 /* Sentry */; };
 		1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 271172B4B652C80AD3F64967 /* MoldSignKit */; };
 		74A873709C5AAAA449081549 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 396DE1DA3F8E87AE2E83E516 /* MoldSignKit */; };
 		7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE1540A69DD726BA154AB629 /* MoldSignKit */; };
@@ -101,6 +102,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */,
+                A5E001000000000000000001 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,6 +183,7 @@
 				223CF72DE113455DFBB5E737 /* Sources */,
 				7BCDF02B4F614193E4F74F29 /* Resources */,
 				AF36D0A0DD2D213706BF4F3D /* Frameworks */,
+				3E45AC1070334D3F8822E001 /* Build reader watcher */,
 			);
 			buildRules = (
 			);
@@ -193,6 +196,7 @@
 			name = "eSemnBun-macOS";
 			packageProductDependencies = (
 				271172B4B652C80AD3F64967 /* MoldSignKit */,
+                A5E001000000000000000003 /* Sentry */,
 			);
 			productName = "eSemnBun-macOS";
 			productReference = C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */;
@@ -279,6 +283,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				FD641AE35A48C0B3A519D3EF /* XCLocalSwiftPackageReference "MoldSignKit" */,
+                A5E001000000000000000005 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 033BFFADBFCCC6BE9A02D653 /* Products */;
@@ -316,6 +321,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3E45AC1070334D3F8822E001 /* Build reader watcher */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = ();
+			inputPaths = ("$(SRCROOT)/Helpers/ReaderWatcher/main.swift", "$(SRCROOT)/Helpers/ReaderWatcher/InsertionPolicy.swift", "$(SRCROOT)/Helpers/ReaderWatcher/ReaderWatcher.entitlements", "$(SRCROOT)/Helpers/ReaderWatcher/md.esemnbun.reader-watcher.plist", "$(SRCROOT)/scripts/build-reader-watcher.sh");
+			name = "Build reader watcher";
+			outputPaths = ("$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/esemnbun-reader-watcher", "$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Library/LaunchAgents/md.esemnbun.reader-watcher.plist");
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "\"$SRCROOT/scripts/build-reader-watcher.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1403A2D6CD19CE561213CAF7 /* Sources */ = {
@@ -386,6 +405,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apps/macOS/MoldSign.entitlements;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -424,6 +444,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Apps/macOS/MoldSign.entitlements;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -639,7 +660,16 @@
 		};
 /* End XCLocalSwiftPackageReference section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+        A5E001000000000000000005 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+            isa = XCRemoteSwiftPackageReference;
+            repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+            requirement = { kind = exactVersion; version = 9.32.0; };
+        };
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+        A5E001000000000000000003 /* Sentry */ = { isa = XCSwiftPackageProductDependency; package = A5E001000000000000000005; productName = Sentry; };
 		271172B4B652C80AD3F64967 /* MoldSignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MoldSignKit;

@@ -3,7 +3,7 @@
   Single-project MSIX manifest (WIN-08, WIN-09). Used only when building with -p:WindowsPackageType=MSIX
   (scripts/package-windows.ps1); the default build is unpackaged and ignores this file.
 
-  Public name eSemnBun (docs/10 §0.2b); the package identity keeps the codename (an ID, like md.moldsign.*).
+  Public name eSemnBun (docs/10 §0.2b); the package identity matches the reserved Partner Center product.
   Placeholders: scripts/package-windows.ps1 replaces them at build time and restores this file afterwards:
     Identity/@Name                  MOLDSIGN_MSIX_IDENTITY (Partner Center "Package/Identity/Name" for the Store)
     Identity/@Publisher             MOLDSIGN_MSIX_PUBLISHER (must equal the signing certificate's Subject)
@@ -19,13 +19,13 @@
     IgnorableNamespaces="uap uap5 rescap">
 
     <Identity
-        Name="MoldSign.Desktop"
-        Publisher="CN=MoldSign Development"
+        Name="NicolaeGhimbovschi.eSemnBun"
+        Publisher="CN=3AAF334E-BE21-4B3F-8FDE-FBEDDF7498EE"
         Version="0.2.0.0" />
 
     <Properties>
         <DisplayName>eSemnBun</DisplayName>
-        <PublisherDisplayName>eSemnBun</PublisherDisplayName>
+        <PublisherDisplayName>Nicolae Ghimbovschi</PublisherDisplayName>
         <Logo>Assets\StoreLogo.png</Logo>
     </Properties>
 
@@ -54,6 +54,10 @@
                   Start at sign-in (Settings › General). Off until the user turns it on in the app
                   (StartupRegistration.TaskId); Windows lists it under Settings › Apps › Startup.
                 -->
+                <uap5:Extension Category="windows.startupTask" Executable="helper\eSemnBun.Watcher.exe"
+                                EntryPoint="Windows.FullTrustApplication">
+                    <uap5:StartupTask TaskId="MoldSignInsertionHelper" Enabled="false" DisplayName="eSemnBun" />
+                </uap5:Extension>
                 <uap5:Extension Category="windows.startupTask">
                     <uap5:StartupTask TaskId="MoldSignStartup" Enabled="false" DisplayName="eSemnBun" />
                 </uap5:Extension>

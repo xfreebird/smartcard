@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <data name="Status_NoReader" xml:space="preserve"><value>Подключите считыватель</value></data>
+  <data name="Status_Empty" xml:space="preserve"><value>Вставьте карту в считыватель</value></data>
+  <data name="Status_Ready" xml:space="preserve"><value>Карта готова</value></data>
+  <data name="Status_Reading" xml:space="preserve"><value>Чтение карты…</value></data>
+  <data name="Card_PinForgotten" xml:space="preserve"><value>Сохранённый PIN-код удалён.</value></data>
+  <data name="Drop_Title" xml:space="preserve"><value>Перетащите документы сюда</value></data>
+  <data name="Drop_Subtitle" xml:space="preserve"><value>или выберите файлы</value></data>
+  <data name="Action_Sign" xml:space="preserve"><value>Подписать</value></data>
+  <data name="Action_Verify" xml:space="preserve"><value>Проверить</value></data>
+  <data name="Action_Countersign" xml:space="preserve"><value>Добавить подпись</value></data>
+  <data name="Action_Cancel" xml:space="preserve"><value>Отмена</value></data>
+  <data name="Sign_ButtonCount" xml:space="preserve"><value>Подписать документы: {0}</value></data>
+  <data name="Sign_Done" xml:space="preserve"><value>Подписано документов: {0}</value></data>
+  <data name="Pin_Title" xml:space="preserve"><value>PIN-код QSCD</value></data>
+  <data name="Pin_For" xml:space="preserve"><value>для {0}</value></data>
+  <data name="Pin_Remember" xml:space="preserve"><value>Запомнить PIN-код (Windows Hello)</value></data>
+  <data name="Pin_Attempts" xml:space="preserve"><value>Осталось попыток: {0}</value></data>
+  <data name="Consent_Title" xml:space="preserve"><value>{0} запрашивает подпись</value></data>
+  <data name="Consent_Trust" xml:space="preserve"><value>Доверять этому сайту 10 минут</value></data>
+  <data name="Consent_HelloReason" xml:space="preserve"><value>Подписать с сохранённым PIN-кодом для {0}</value></data>
+  <data name="Consent_HelloBrowser" xml:space="preserve"><value>{0} запрашивает подпись от имени {1}: {2} · {3}</value></data>
+  <data name="Verdict_Valid" xml:space="preserve"><value>Действительная подпись</value></data>
+  <data name="Verdict_Invalid" xml:space="preserve"><value>Недействительная подпись</value></data>
+  <data name="Verdict_Unknown" xml:space="preserve"><value>Не удалось подтвердить</value></data>
+  <data name="Verdict_Unsigned" xml:space="preserve"><value>Подписи не найдены</value></data>
+  <data name="Verify_SignatureCount" xml:space="preserve"><value>Подписей: {0}</value></data>
+  <data name="Verify_Signature" xml:space="preserve"><value>Подпись {0}</value></data>
+  <data name="Verify_Signer" xml:space="preserve"><value>Подписант</value></data>
+  <data name="Verify_SigningTime" xml:space="preserve"><value>Время подписания</value></data>
+  <data name="Verify_Timestamp" xml:space="preserve"><value>Метка времени</value></data>
+  <data name="Verify_NoTimestamp" xml:space="preserve"><value>Без метки времени</value></data>
+  <data name="Verify_Level" xml:space="preserve"><value>Уровень</value></data>
+  <data name="Verify_Integrity" xml:space="preserve"><value>Целостность документа</value></data>
+  <data name="Verify_IntegrityGood" xml:space="preserve"><value>Проверенное содержимое совпадает с подписанным.</value></data>
+  <data name="Verify_IntegrityBad" xml:space="preserve"><value>Содержимое отличается или отсутствуют исходные документы отсоединённой подписи.</value></data>
+  <data name="Verify_Crypto" xml:space="preserve"><value>Криптографическая подпись</value></data>
+  <data name="Verify_CryptoGood" xml:space="preserve"><value>Подпись RSA соответствует сертификату.</value></data>
+  <data name="Verify_CryptoBad" xml:space="preserve"><value>Не удалось подтвердить криптографическую подпись.</value></data>
+  <data name="Verify_Chain" xml:space="preserve"><value>Цепочка доверия</value></data>
+  <data name="Verify_ChainGood" xml:space="preserve"><value>Цепочка сертификата действительна до mdtrustca.</value></data>
+  <data name="Verify_ChainBad" xml:space="preserve"><value>Цепочка неизвестна или неполна, либо срок действия сертификата истёк.</value></data>
+  <data name="Verify_Imprint" xml:space="preserve"><value>Отпечаток метки времени</value></data>
+  <data name="Verify_ImprintGood" xml:space="preserve"><value>Метка времени относится к этой подписи.</value></data>
+  <data name="Verify_ImprintBad" xml:space="preserve"><value>Отпечаток метки времени не соответствует подписи.</value></data>
+  <data name="Verify_Limits" xml:space="preserve"><value>Ограничения проверки без подключения к сети</value></data>
+  <data name="Verify_TsaNotChecked" xml:space="preserve"><value>Подпись службы меток времени (TSA) и её цепочка доверия не проверены.</value></data>
+  <data name="Verify_RevocationNotChecked" xml:space="preserve"><value>Статус отзыва сертификата не проверен.</value></data>
+  <data name="Verify_Details" xml:space="preserve"><value>Технические сведения</value></data>
+  <data name="Verify_Format" xml:space="preserve"><value>Формат</value></data>
+  <data name="Verify_Identifier" xml:space="preserve"><value>Идентификатор</value></data>
+  <data name="Verify_TsaSignature" xml:space="preserve"><value>Подпись и цепочка TSA</value></data>
+  <data name="Verify_Revocation" xml:space="preserve"><value>Отзыв сертификата (CRL / OCSP)</value></data>
+  <data name="Verify_Notes" xml:space="preserve"><value>Примечания</value></data>
+  <data name="Verify_Checked" xml:space="preserve"><value>Проверено</value></data>
+  <data name="Verify_NotChecked" xml:space="preserve"><value>Не проверено</value></data>
+  <data name="Verify_Unavailable" xml:space="preserve"><value>Недоступно</value></data>
+  <data name="Verify_Failed" xml:space="preserve"><value>Не удалось проверить документ.</value></data>
+  <data name="VerifyReveal.Content" xml:space="preserve"><value>Показать в Проводнике</value></data>
+  <data name="VerifyChecking.Text" xml:space="preserve"><value>Проверка…</value></data>
+  <data name="VerifyDetachedHint.Text" xml:space="preserve"><value>Для отсоединённой подписи добавьте исходные документы, чтобы проверить целостность содержимого.</value></data>
+  <data name="VerifyAddDocuments.Content" xml:space="preserve"><value>Выбрать подписанные документы…</value></data>
+  <data name="Bridge_On" xml:space="preserve"><value>Подключение к браузеру включено</value></data>
+  <data name="Bridge_Off" xml:space="preserve"><value>Подключение к браузеру выключено</value></data>
+  <data name="Bridge_IdentityMissing" xml:space="preserve"><value>Отсутствует localhost.p12. Импортируйте удостоверение HTTPS из MoldSign Desktop в настройках.</value></data>
+  <data name="Bridge_IdentityInvalid" xml:space="preserve"><value>Не удалось прочитать удостоверение HTTPS или срок его действия истёк. Импортируйте localhost.p12 из MoldSign Desktop.</value></data>
+  <data name="Bridge_IdentityImported" xml:space="preserve"><value>Удостоверение HTTPS импортировано</value></data>
+  <data name="Bridge_Error" xml:space="preserve"><value>Не удалось запустить подключение к браузеру: {0}</value></data>
+  <data name="SettingsImportIdentity.Content" xml:space="preserve"><value>Импортировать удостоверение HTTPS (localhost.p12)…</value></data>
+  <data name="Error_FileSelection" xml:space="preserve"><value>Не удалось открыть файлы: {0}</value></data>
+  <data name="Error_PickerWindow" xml:space="preserve"><value>Откройте окно приложения и попробуйте ещё раз.</value></data>
+  <data name="Bridge_PortBusy" xml:space="preserve"><value>Порт {0} занят (вероятно, MoldSign (Java)). Закройте эту программу и перезапустите подключение.</value></data>
+  <data name="Activity_Signed" xml:space="preserve"><value>Подписано</value></data>
+  <data name="Activity_Verified" xml:space="preserve"><value>Проверено</value></data>
+  <data name="Activity_BridgeRequest" xml:space="preserve"><value>Запрос от {0}</value></data>
+  <data name="Error_NoCard" xml:space="preserve"><value>Вставьте карту в считыватель</value></data>
+  <data name="Error_WrongPin" xml:space="preserve"><value>Неверный PIN-код. Автоматическая повторная попытка не выполняется.</value></data>
+  <data name="Error_PinBlocked" xml:space="preserve"><value>PIN-код заблокирован. Обратитесь в CEV для разблокировки</value></data>
+  <data name="Error_CardStuck" xml:space="preserve"><value>Извлеките и снова вставьте карту</value></data>
+  <data name="Error_SmOutOfSync" xml:space="preserve"><value>Соединение с картой потеряно. Попробуйте ещё раз.</value></data>
+  <data name="Error_Network" xml:space="preserve"><value>Служба меток времени не отвечает. Попробуйте ещё раз.</value></data>
+  <data name="Error_Generic" xml:space="preserve"><value>Карта ответила некорректно. Попробуйте ещё раз.</value></data>
+  <data name="Error_NotImplemented" xml:space="preserve"><value>Эта функция пока недоступна на Windows (WIN-01).</value></data>
+  <data name="Tray_OpenWindow" xml:space="preserve"><value>Открыть окно</value></data>
+  <data name="Tray_Quit" xml:space="preserve"><value>Выход</value></data>
+  <data name="Settings_AllowedSites" xml:space="preserve"><value>Разрешённых сайтов: {0} (список поставщика)</value></data>
+  <data name="Settings_StartupManaged" xml:space="preserve"><value>Настроено администратором для всех пользователей (установка MSI)</value></data>
+  <data name="Settings_StartupDisabledByUser" xml:space="preserve"><value>Выключено в разделе Параметры › Приложения › Автозагрузка; включите там</value></data>
+  <data name="Light_Idle" xml:space="preserve"><value>Подключите считыватель</value></data>
+  <data name="Light_Reader" xml:space="preserve"><value>Считыватель подключён · вставьте карту</value></data>
+  <data name="Light_Reading" xml:space="preserve"><value>Чтение карты…</value></data>
+  <data name="Light_Ready" xml:space="preserve"><value>Карта готова · {0}</value></data>
+  <data name="Light_ReadyMany" xml:space="preserve"><value>Карта готова · {0} · карт: {1}</value></data>
+  <data name="Light_Busy" xml:space="preserve"><value>Подписание…</value></data>
+  <data name="Info_NoReaderTitle" xml:space="preserve"><value>Нет подключённых считывателей</value></data>
+  <data name="Info_CardErrorTitle" xml:space="preserve"><value>Сейчас карта не может подписывать</value></data>
+  <data name="Wallet_InsertTitle" xml:space="preserve"><value>Вставьте карту в считыватель</value></data>
+  <data name="Wallet_ConnectTitle" xml:space="preserve"><value>Подключите считыватель</value></data>
+  <data name="Wallet_ConnectMessage" xml:space="preserve"><value>Подключите считыватель карт к USB-порту.</value></data>
+  <data name="Wallet_MuteTitle" xml:space="preserve"><value>Карта не отвечает</value></data>
+  <data name="Wallet_CardName" xml:space="preserve"><value>{0}, удостоверение личности, действительно до {1}, {2} из {3}</value></data>
+  <data name="Wallet_CardReadingName" xml:space="preserve"><value>Карта в {0}, чтение, {1} из {2}</value></data>
+  <data name="Wallet_CardErrorName" xml:space="preserve"><value>Карта в {0}: {1}, {2} из {3}</value></data>
+  <data name="Error_CardChanged" xml:space="preserve"><value>Карта в считывателе заменена. Проверьте владельца и подпишите ещё раз.</value></data>
+  <data name="Wallet_CardInReader" xml:space="preserve"><value>Карта в {0}</value></data>
+  <data name="Wallet_StatusReady" xml:space="preserve"><value>Готова к подписанию</value></data>
+  <data name="Wallet_Reread" xml:space="preserve"><value>Считать карту заново</value></data>
+  <data name="Wallet_RereadAll" xml:space="preserve"><value>Считать карты заново</value></data>
+  <data name="Wallet_DisclosureName" xml:space="preserve"><value>Выберите карту (карт: {0})</value></data>
+  <data name="Wallet_UsedForSigning" xml:space="preserve"><value>Используется для подписания</value></data>
+  <data name="Wallet_SignWith" xml:space="preserve"><value>Подписать картой {0}</value></data>
+  <data name="Tray_Connected" xml:space="preserve"><value>Карта подключена · {0}</value></data>
+  <data name="Tray_ConnectedNoHolder" xml:space="preserve"><value>Карта подключена</value></data>
+  <data name="Tray_None" xml:space="preserve"><value>Нет подключённых карт</value></data>
+  <data name="Activity_ClearTitle" xml:space="preserve"><value>Очистить список действий?</value></data>
+  <data name="Activity_ClearMessage" xml:space="preserve"><value>Записи будут удалены из списка. Подписанные документы останутся на диске.</value></data>
+  <data name="Activity_ClearConfirm" xml:space="preserve"><value>Очистить</value></data>
+  <data name="Step_Connecting" xml:space="preserve"><value>Подключение к карте…</value></data>
+  <data name="Step_Authenticating" xml:space="preserve"><value>Открытие защищённого сеанса…</value></data>
+  <data name="Step_ReadingCertificate" xml:space="preserve"><value>Чтение сертификата…</value></data>
+  <data name="Step_VerifyingPin" xml:space="preserve"><value>Проверка PIN-кода…</value></data>
+  <data name="Step_Signing" xml:space="preserve"><value>Подписание…</value></data>
+  <data name="Step_Timestamping" xml:space="preserve"><value>Получение метки времени…</value></data>
+  <data name="Step_Revocation" xml:space="preserve"><value>Проверка отзыва сертификата…</value></data>
+  <data name="Step_Writing" xml:space="preserve"><value>Сохранение…</value></data>
+  <data name="Step_Done" xml:space="preserve"><value>Готово</value></data>
+  <data name="DropTitle.Text" xml:space="preserve"><value>Перетащите документы сюда</value></data>
+  <data name="DropBrowse.Content" xml:space="preserve"><value>Выбрать файлы…</value></data>
+  <data name="DropHint.Text" xml:space="preserve"><value>PDF → PAdES · другие → XAdES</value></data>
+  <data name="NavSign.Content" xml:space="preserve"><value>Подписать</value></data>
+  <data name="NavVerify.Content" xml:space="preserve"><value>Проверить</value></data>
+  <data name="NavActivity.Content" xml:space="preserve"><value>Действия</value></data>
+  <data name="NavCard.Content" xml:space="preserve"><value>Карта</value></data>
+  <data name="FlyoutSign.Content" xml:space="preserve"><value>Подписать…</value></data>
+  <data name="FlyoutVerify.Content" xml:space="preserve"><value>Проверить…</value></data>
+  <data name="RecentHeader.Text" xml:space="preserve"><value>НЕДАВНИЕ</value></data>
+  <data name="RecentEmpty.Text" xml:space="preserve"><value>Пока нет действий</value></data>
+  <data name="BridgeLabel.Text" xml:space="preserve"><value>Подключение к браузеру</value></data>
+  <data name="TrayOpenWindow.Content" xml:space="preserve"><value>Открыть eSemnBun</value></data>
+  <data name="TrayQuit.Content" xml:space="preserve"><value>Выход</value></data>
+  <data name="SignPageTitle.Text" xml:space="preserve"><value>Подписать</value></data>
+  <data name="SignAdvanced.Header" xml:space="preserve"><value>Дополнительные параметры</value></data>
+  <data name="SignPdfFormat.Text" xml:space="preserve"><value>PDF → PAdES-T (требуется для msign.gov.md); XAdES создаёт отдельный файл .xml</value></data>
+  <data name="SignPackaging.Header" xml:space="preserve"><value>Упаковка XAdES</value></data>
+  <data name="SignAlgorithm.Text" xml:space="preserve"><value>Алгоритм: SHA-256</value></data>
+  <data name="VerifyPageTitle.Text" xml:space="preserve"><value>Проверить</value></data>
+  <data name="VerifyHint.Text" xml:space="preserve"><value>Подписанный PDF (PAdES) или подпись .xml (XAdES); для отсоединённой подписи выберите также подписанные файлы.</value></data>
+  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Действия</value></data>
+  <data name="CardPageTitle.Text" xml:space="preserve"><value>Карта</value></data>
+  <data name="CardIssuer.Text" xml:space="preserve"><value>Издатель</value></data>
+  <data name="CardValidity.Text" xml:space="preserve"><value>Действует</value></data>
+  <data name="CardSerial.Text" xml:space="preserve"><value>Серийный номер</value></data>
+  <data name="CardSha1.Text" xml:space="preserve"><value>SHA-1</value></data>
+  <data name="CardReader.Text" xml:space="preserve"><value>Считыватель</value></data>
+  <data name="CardRereadLabel.Text" xml:space="preserve"><value>Считать карту заново</value></data>
+  <data name="CardHolder.Text" xml:space="preserve"><value>Владелец</value></data>
+  <data name="CardRememberPin.Header" xml:space="preserve"><value>Запомнить PIN-код (Windows Hello)</value></data>
+  <data name="CardForgetPin.Content" xml:space="preserve"><value>Удалить сохранённый PIN-код</value></data>
+  <data name="CardTipsHeader.Text" xml:space="preserve"><value>ЕСЛИ КАРТА НЕ ОТВЕЧАЕТ</value></data>
+  <data name="CardTips.Text" xml:space="preserve"><value>Извлеките карту и вставьте её снова. Подключите считыватель напрямую к компьютеру, без USB-концентратора. После ошибки ввода PIN-код никогда не проверяется повторно автоматически.</value></data>
+  <data name="SettingsPageTitle.Text" xml:space="preserve"><value>Настройки</value></data>
+  <data name="SettingsGeneral.Text" xml:space="preserve"><value>ОБЩИЕ</value></data>
+  <data name="SettingsStartAtLogin.Header" xml:space="preserve"><value>Запускать при входе в систему</value></data>
+  <data name="SettingsReaderToasts.Header" xml:space="preserve"><value>Уведомлять при подключении считывателя</value></data>
+  <data name="SettingsLanguage.Header" xml:space="preserve"><value>Язык</value></data>
+  <data name="SettingsBridge.Text" xml:space="preserve"><value>ПОДКЛЮЧЕНИЕ К БРАУЗЕРУ</value></data>
+  <data name="SettingsBridgeToggle.Header" xml:space="preserve"><value>Подключение к браузеру (совместимо с MoldSign Server)</value></data>
+  <data name="SettingsAdvanced.Text" xml:space="preserve"><value>ДОПОЛНИТЕЛЬНО</value></data>
+  <data name="StatusInfoReread.Content" xml:space="preserve"><value>Считать карту заново</value></data>
+  <data name="DropTitleCompact.Text" xml:space="preserve"><value>Перетащите сюда другие документы</value></data>
+  <data name="DropBrowseCompact.Content" xml:space="preserve"><value>Выбрать файлы…</value></data>
+  <data name="RecentClear.Content" xml:space="preserve"><value>Очистить список</value></data>
+  <data name="RecentDocsEmpty.Text" xml:space="preserve"><value>Нет недавних документов</value></data>
+  <data name="ActivityClearLabel.Text" xml:space="preserve"><value>Очистить список</value></data>
+  <data name="FlyoutSettings.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Настройки</value></data>
+  <data name="BridgeToggle.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Подключение к браузеру</value></data>
+  <data name="FileFormat.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Формат подписи</value></data>
+  <data name="ActivityList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Действия</value></data>
+  <data name="FileRemove.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Удалить</value></data>
+  <data name="FlyoutSettings.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Настройки</value></data>
+  <data name="FlyoutReread.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Считать карту заново</value></data>
+  <data name="FlyoutReread.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve"><value>Считать карту заново</value></data>
+  <data name="RecentList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Недавние</value></data>
+  <data name="SignFileList.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve"><value>Документы для подписания</value></data>
+  <data name="Wallet_Previous" xml:space="preserve"><value>Предыдущая карта</value></data>
+  <data name="Wallet_Next" xml:space="preserve"><value>Следующая карта</value></data>
+  <data name="SettingsOpenOnInsertion.Header" xml:space="preserve"><value>Открывать приложение при вставке карты</value></data>
+  <data name="SettingsLanguageRestart.Text" xml:space="preserve"><value>Язык изменится после перезапуска приложения.</value></data>
+  <data name="SettingsTheme.Header" xml:space="preserve"><value>Оформление</value></data>
+  <data name="SettingsThemeSystem.Content" xml:space="preserve"><value>Системное</value></data>
+  <data name="SettingsThemeLight.Content" xml:space="preserve"><value>Светлое</value></data>
+  <data name="SettingsThemeDark.Content" xml:space="preserve"><value>Тёмное</value></data>
+  <data name="SettingsPins.Text" xml:space="preserve"><value>Сохранённые PIN-коды</value></data>
+  <data name="SettingsRememberPin.Header" xml:space="preserve"><value>Разрешить сохранение PIN-кодов</value></data>
+  <data name="SettingsDeletePins.Content" xml:space="preserve"><value>Удалить все сохранённые PIN-коды</value></data>
+  <data name="Settings_PinsDeleted" xml:space="preserve"><value>Сохранённые PIN-коды удалены.</value></data>
+  <data name="Demo_NoSigning" xml:space="preserve"><value>Демонстрационный режим: подписание отключено.</value></data>
+  <data name="Action_ForgetPin" xml:space="preserve"><value>Удалить сохранённый PIN-код</value></data>
+  <data name="SettingsOpenOnReaderInsertion.Header" xml:space="preserve"><value>Открывать при подключении считывателя</value></data>
+  <data name="Settings_HelperInstalled" xml:space="preserve"><value>Помощник работает отдельно и может открыть закрытое приложение.</value></data>
+  <data name="Settings_HelperUnavailable" xml:space="preserve"><value>Помощник не установлен. Установите полную настольную версию.</value></data>
+  <data name="Settings_HelperPackaged" xml:space="preserve"><value>Помощник запускается отдельно при входе с разрешения Windows.</value></data>
+  <data name="Packaging_Detached" xml:space="preserve"><value>Отсоединённая</value></data>
+  <data name="Packaging_Enveloping" xml:space="preserve"><value>Встроенная</value></data>
+  <data name="Card_CountryPrimary" xml:space="preserve"><value>REPUBLICA MOLDOVA</value></data>
+  <data name="Card_CountrySecondary" xml:space="preserve"><value>REPUBLIC OF MOLDOVA</value></data>
+  <data name="Card_TypePrimary" xml:space="preserve"><value>CARTE DE IDENTITATE</value></data>
+  <data name="Card_TypeSecondary" xml:space="preserve"><value>IDENTITY CARD</value></data>
+  <data name="Card_LabelSurname" xml:space="preserve"><value>Фамилия</value></data>
+  <data name="Card_LabelGivenNames" xml:space="preserve"><value>Имя</value></data>
+  <data name="Card_LabelValidUntil" xml:space="preserve"><value>Действует до</value></data>
+  <data name="Card_LabelIssuer" xml:space="preserve"><value>Издатель</value></data>
+  <data name="File_SizeKB" xml:space="preserve"><value>{0} КБ</value></data>
+  <data name="File_SizeMB" xml:space="preserve"><value>{0} МБ</value></data>
+  <data name="monitoring_title" xml:space="preserve"><value>Необязательная диагностика</value></data>
+  <data name="monitoring_description" xml:space="preserve"><value>Помогите улучшить приложение: отправляйте в Sentry отчёты о сбоях и технические метрики приложения. Документы, PIN-коды и данные карты не включаются. Вы можете изменить выбор в настройках.</value></data>
+  <data name="monitoring_crash" xml:space="preserve"><value>Отправлять отчёты о сбоях</value></data>
+  <data name="monitoring_metrics" xml:space="preserve"><value>Отправлять метрики приложения</value></data>
+  <data name="monitoring_allow" xml:space="preserve"><value>Сохранить выбор</value></data>
+  <data name="monitoring_decline" xml:space="preserve"><value>Не отправлять</value></data>
+  <data name="monitoring_settings_hint" xml:space="preserve"><value>Необязательно. Изменения применяются сразу. При отключении неотправленные локальные отчёты удаляются.</value></data>
+  <data name="demo_settings_title" xml:space="preserve"><value>Демонстрационный режим</value></data>
+  <data name="demo_settings_description" xml:space="preserve"><value>Изучайте приложение с вымышленными картами и документами без считывателя. Результаты не являются действительными подписями.</value></data>
+  <data name="demo_banner" xml:space="preserve"><value>Демонстрационный режим — вымышленные данные</value></data>
+  <data name="demo_output_notice" xml:space="preserve"><value>Демонстрационный документ — не является действительной электронной подписью</value></data>
+  <data name="demo_simulation_complete" xml:space="preserve"><value>Демонстрационное подписание завершено</value></data>
+  <data name="demo_switch_unavailable" xml:space="preserve"><value>Завершите или отмените текущую операцию перед сменой режима.</value></data>
+  <data name="ui_no_saved_pins" xml:space="preserve"><value>Нет сохранённых PIN-кодов</value></data>
+  <data name="ui_open_esemnbun" xml:space="preserve"><value>Открыть eSemnBun</value></data>
+  <data name="demo_mode_title" xml:space="preserve"><value>Демонстрационный режим</value></data>
+  <data name="demo_mode_description" xml:space="preserve"><value>Изучайте приложение с вымышленными картами и документами без считывателя. Действительные подписи не создаются.</value></data>
+  <data name="demo_mode_disclaimer" xml:space="preserve"><value>ДЕМО-РЕЖИМ — вымышленные данные. Подписи недействительны.</value></data>
+  <data name="demo_fixture_only" xml:space="preserve"><value>Выбирайте только демонстрационные документы</value></data>
+  <data name="demo_sign_success" xml:space="preserve"><value>Подписание имитировано. Результат не является действительной подписью.</value></data>
+  <data name="demo_verify_success" xml:space="preserve"><value>Демонстрационная проверка — результат имитирован</value></data>
+  <data name="demo_switch_busy" xml:space="preserve"><value>Завершите или отмените текущую операцию перед сменой режима.</value></data>
+  <data name="demo_mode_result" xml:space="preserve"><value>Демонстрация завершена. Настоящая подпись не создана.</value></data>
+  <data name="demo_mode_settings" xml:space="preserve"><value>Настройки</value></data>
+  <data name="demo_enable_title" xml:space="preserve"><value>Включить демонстрационный режим?</value></data>
+  <data name="demo_enable_action" xml:space="preserve"><value>Включить демонстрационный режим</value></data>
+  <data name="demo_mode_enable" xml:space="preserve"><value>Включить деморежим</value></data>
+  <data name="demo_mode_confirm" xml:space="preserve"><value>Включить деморежим? Реальные считыватели и соединение с браузером будут остановлены. Будут использоваться только вымышленные карты и документы.</value></data>
+  <data name="demo_monitoring_paused" xml:space="preserve"><value>Мониторинг приостановлен в деморежиме; настройки обычного режима сохранены.</value></data>
+  <data name="about_developer" xml:space="preserve"><value>Разработчик</value></data>
+  <data name="about_app_title" xml:space="preserve"><value>О eSemnBun</value></data>
+</root>

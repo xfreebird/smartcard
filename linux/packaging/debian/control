@@ -6,11 +6,13 @@ Maintainer: eSemnBun maintainers <packaging@esemnbun.invalid>
 # `dpkg-buildpackage -b -d`, or let scripts/package-linux.sh build and stage first (MOLDSIGN_STAGE).
 Build-Depends: debhelper-compat (= 13),
                pkgconf | pkg-config,
-               libadwaita-1-dev,
-               libgtk-4-dev,
+               libadwaita-1-dev (>= 1.5),
+               libgtk-4-dev (>= 4.14),
                libsecret-1-dev,
                libpcsclite-dev,
-               libssl-dev
+               libssl-dev,
+               cmake,
+               libcurl4-openssl-dev
 Standards-Version: 4.7.0
 Rules-Requires-Root: no
 
@@ -21,9 +23,11 @@ Depends: ${shlibs:Depends},
          pcscd,
          libccid,
          libpcsclite1,
-         libadwaita-1-0,
+         libadwaita-1-0 (>= 1.5),
+         libgtk-4-1 (>= 4.14),
          libsecret-1-0,
-         libssl3t64 | libssl3
+         libssl3t64 | libssl3,
+         libcurl4t64 | libcurl4
 Recommends: gnome-keyring | org.freedesktop.secrets,
             xdg-desktop-portal-gnome | xdg-desktop-portal-backend
 Suggests: esemnbun-cli

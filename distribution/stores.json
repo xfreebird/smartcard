@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "product": "eSemnBun",
+  "version": "0.2.0",
+  "locales": [
+    "ro",
+    "en",
+    "ru"
+  ],
+  "privacyPolicySource": "docs/privacy-policy.txt",
+  "privacyPolicyURL": "https://example.invalid/esemnbun/privacy",
+  "supportURL": "https://example.invalid/esemnbun/support",
+  "supportEmail": "nicolae.ghimbovschi@gmail.com",
+  "apple": {
+    "teamID": "H86U5Z8HYB",
+    "iosBundleID": "md.esemnbun.ios",
+    "macosBundleID": "md.esemnbun.mac",
+    "status": "Existing Apple Developer team verified in Firefox; App Store app records need verification",
+    "credentialsEnvironment": [
+      "ASC_KEY_ID",
+      "ASC_ISSUER_ID",
+      "ASC_KEY_PATH"
+    ]
+  },
+  "google": {
+    "packageName": "md.esemnbun.app",
+    "developerID": "8344963402071617946",
+    "status": "Firefox console shows no apps; app record not created",
+    "artifact": "dist/android/*.aab"
+  },
+  "microsoft": {
+    "productID": "9PDPR6RNT42S",
+    "identityName": "NicolaeGhimbovschi.eSemnBun",
+    "publisher": "CN=3AAF334E-BE21-4B3F-8FDE-FBEDDF7498EE",
+    "publisherDisplayName": "Nicolae Ghimbovschi",
+    "status": "Existing draft Submission 1; prior MSIX validated; store listings incomplete",
+    "artifact": "dist/windows/*.msix"
+  },
+  "huawei": {
+    "packageName": "md.esemnbun.app",
+    "status": "Developer identity verification required in AppGallery Connect before distribution access",
+    "artifact": "dist/android/*.apk"
+  },
+  "usesPlaceholderURLs": true
+}

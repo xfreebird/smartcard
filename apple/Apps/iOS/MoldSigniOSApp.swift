@@ -11,8 +11,16 @@ struct MoldSigniOSApp: App {
         WindowGroup {
             RootTabView()
                 .environment(model)
+                .appPreferences()
                 .task { model.start() }
-                .onOpenURL { url in model.addFiles([url]) }   // "Open in…" / share-to (IOS-04)
+                .onOpenURL { url in
+                    if ["https", "http"].contains(url.scheme?.lowercased() ?? L10n.text(.ui_)) { model.browserURL = url }
+                    else if url.scheme == "esemnbun", url.host == "browser",
+                            let target = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "url" })?.value,
+                            let webURL = URL(string: target), ["https", "http"].contains(webURL.scheme?.lowercased() ?? L10n.text(.ui_)) {
+                        model.browserURL = webURL
+                    } else if url.isFileURL { model.addFiles([url]) }
+                }   // "Open in…" / share-to (IOS-04)
         }
         .onChange(of: scenePhase) { _, phase in
             // R-01: iOS suspends us in the background; the bridge only serves while we are foreground
@@ -38,24 +46,25 @@ struct RootTabView: View {
         @Bindable var model = model
         TabView(selection: $tab) {
             NavigationStack { SignScreen() }
-                .tabItem { Label("Semnează", systemImage: "signature") }
+                .tabItem { Label(L10n.text(.ui_sign), systemImage: "signature") }
                 .tag(TabID.sign)
             NavigationStack { VerifyScreen() }
-                .tabItem { Label("Verifică", systemImage: "checkmark.seal") }
+                .tabItem { Label(L10n.text(.ui_verify), systemImage: "checkmark.seal") }
                 .tag(TabID.verify)
             NavigationStack { BrowserScreen() }
-                .tabItem { Label("Browser", systemImage: "globe") }
+                .tabItem { Label(L10n.text(.ui_browser), systemImage: "globe") }
                 .tag(TabID.browser)
             NavigationStack { CardScreen() }
-                .tabItem { Label("Card", systemImage: "person.text.rectangle") }
+                .tabItem { Label(L10n.text(.ui_card), systemImage: "person.text.rectangle") }
                 .tag(TabID.card)
         }
+        .onChange(of: model.browserURL) { _, url in if url != nil { tab = .browser } }
         .tint(Theme.brand)
         .sheet(item: $model.pinRequest) { request in
             PinEntryView(request: request,
                          onSubmit: { model.submitPIN($0, remember: $1) },
                          onCancel: { model.cancelPIN() })
-                .presentationDetents([.medium])
+                .presentationDetents(request.documentNames.isEmpty ? [.medium] : [.large])
                 .interactiveDismissDisabled()
         }
         .sheet(item: $model.consentRequest) { consent in

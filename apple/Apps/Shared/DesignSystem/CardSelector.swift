@@ -1,10 +1,8 @@
 import SwiftUI
 import MoldSignKit
 
-/// The card selector (docs/10 §0.2b, UX-09/UX-10): the selected card drawn as an identity card. With several cards a
-/// disclosure button at the card's right-centre expands the component, in place, into every card at the same size;
-/// picking one collapses back to it. Also ←/→ (collapsed) and ↑/↓ (expanded), Space/Return to expand or confirm,
-/// Escape, the context menu and VoiceOver adjust. Nothing (picker, dots, menu) sits outside the card.
+/// Horizontally paged identity cards. Selection follows the visible page; arrows and VoiceOver
+/// provide the same selection without gestures. All geometry is derived from the card width.
 struct CardSelector: View {
     enum Size {
         case compact, large, phone
@@ -20,163 +18,195 @@ struct CardSelector: View {
     @Environment(AppModel.self) private var model
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var size: Size = .large
-    @State private var expanded = CardSelector.startsExpanded
     @State private var width: CGFloat = 288
-
-    #if DEBUG
-    /// Design QA: `MSIGN_DEMO_EXPANDED=1` opens the card list (debug builds only).
-    private static var startsExpanded: Bool { ProcessInfo.processInfo.environment["MSIGN_DEMO_EXPANDED"] != nil }
-    #else
-    private static let startsExpanded = false
-    #endif
-    @FocusState private var focused: Bool
-
-    private var cardWidth: CGFloat { max(120, width) }
+    @State private var visibleReader: String?
+    @State private var userIsScrolling = false
+    @State private var selectionPending = false
+    @State private var selectionCommit: Task<Void, Never>?
+    private var cardWidth: CGFloat {
+        #if os(iOS)
+        return max(120, width - 8)
+        #else
+        return max(120, model.cards.count > 1 ? width * 0.84 : width - 8)
+        #endif
+    }
+    private var sideInset: CGFloat { max(4, (width - cardWidth) / 2) }
     private var cardHeight: CGFloat { cardWidth / IDCardFace.ratio }
-    private var several: Bool { model.cards.count > 1 }
+    private var selectedIndex: Int { model.cards.firstIndex { $0.reader == model.selectedCard?.reader } ?? 0 }
 
     var body: some View {
-        Group {
+        VStack(spacing: 10) {
             if model.cards.isEmpty {
                 EmptyCardFace(status: model.status, size: size)
                     .frame(height: cardHeight)
-            } else if expanded && several {
-                list
-            } else if let card = model.selectedCard ?? model.cards.first {
-                collapsed(card)
+            } else {
+                #if os(iOS)
+                TabView(selection: Binding(get: { model.selectedCard?.reader ?? "" }, set: { model.selectCard($0) })) {
+                    ForEach(model.cards) { card in
+                        cardFace(card)
+                            .padding(.bottom, model.cards.count > 1 ? 32 : 0)
+                            .tag(card.reader)
+                    }
+                }
+                .tabViewStyle(.page(indexDisplayMode: model.cards.count > 1 ? .always : .never))
+                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .frame(height: cardHeight + (model.cards.count > 1 ? 36 : 8))
+                .allowsHitTesting(model.currentStep == nil)
+                #else
+                ScrollViewReader { proxy in
+                    ScrollView(.horizontal) {
+                    LazyHStack(spacing: 12) {
+                        ForEach(model.cards) { card in
+                            cardFace(card).id(card.reader)
+                        }
+                    }
+                    .scrollTargetLayout()
+                    .padding(.vertical, 4)
+                }
+                .contentMargins(.horizontal, sideInset, for: .scrollContent)
+                .scrollIndicators(.hidden)
+                .modifier(CardPaging(interactionChanged: interactionChanged))
+                .scrollPosition(id: $visibleReader, anchor: .center)
+                .scrollDisabled(model.currentStep != nil)
+                .frame(height: cardHeight + 8)
+                .onAppear { visibleReader = model.selectedCard?.reader }
+                .task(id: cardWidth) {
+                    // Content margins and card width are measured after the first layout. Restore the
+                    // selected item with the native proxy once that geometry is available.
+                    let target = model.selectedCard?.reader
+                    await Task.yield()
+                    guard !Task.isCancelled, let target else { return }
+                    proxy.scrollTo(target, anchor: .center)
+                }
+                .onChange(of: visibleReader) { _, reader in
+                    if selectionPending && !userIsScrolling { commitSelectionWhenSettled() }
+                }
+                .onChange(of: model.selectedCard?.reader) { _, reader in
+                    // During a swipe the binding already contains this reader. Only explicit selection
+                    // changes (keyboard, card replacement) need an imperative scroll.
+                    guard !userIsScrolling, !selectionPending, visibleReader != reader, let reader else { return }
+                    withAnimation(reduceMotion ? nil : .snappy(duration: 0.25)) {
+                        visibleReader = reader
+                        proxy.scrollTo(reader, anchor: .center)
+                    }
+                }
+                }
+                #endif
+                #if os(macOS)
+                if model.cards.count > 1 {
+                    HStack(spacing: 8) {
+                        ForEach(model.cards.indices, id: \.self) { index in
+                            Circle()
+                                .fill(index == selectedIndex ? Color.accentColor : Color.secondary.opacity(0.3))
+                                .frame(width: 7, height: 7)
+                        }
+                    }
+                    .padding(.vertical, 8)
+                    .accessibilityHidden(true)
+                }
+                #endif
             }
         }
-        .padding(.bottom, 4)            // room for the card's shadow
         .frame(maxWidth: size.maxWidth ?? .infinity)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width = $0 }
         .frame(maxWidth: .infinity)
-        .focusable(interactions: .activate)   // like a button: in the key loop with keyboard navigation on
-        .focusEffectDisabled()                // the ring is drawn on the selected card instead
-        .focused($focused)
-        .onKeyPress(.leftArrow) { expanded ? .ignored : move(-1) }
-        .onKeyPress(.rightArrow) { expanded ? .ignored : move(+1) }
-        .onKeyPress(.upArrow) { expanded ? move(-1) : .ignored }
-        .onKeyPress(.downArrow) { expanded ? move(+1) : .ignored }
-        .onKeyPress(.space) { toggle() }
-        .onKeyPress(.return) { toggle() }
-        .onKeyPress(.escape) {
-            guard expanded else { return .ignored }
-            setExpanded(false)
-            return .handled
+        .onDisappear { selectionCommit?.cancel(); userIsScrolling = false; selectionPending = false }
+        .onKeyPress(.leftArrow) { move(-1); return .handled }
+        .onKeyPress(.rightArrow) { move(1); return .handled }
+        .accessibilityAdjustableAction { direction in
+            switch direction {
+            case .increment: move(1)
+            case .decrement: move(-1)
+            @unknown default: break
+            }
         }
-        .onChange(of: model.cards.count) { _, count in if count < 2 { expanded = false } }
         #if os(iOS)
         .sensoryFeedback(.selection, trigger: model.selectedCard?.reader)
         #endif
     }
 
-    // MARK: Collapsed: the selected card + disclosure
-
-    private func collapsed(_ card: CardSlot) -> some View {
-        face(card, selected: true)
-            .overlay(alignment: .trailing) { if several { disclosure } }
+    private func cardFace(_ card: CardSlot) -> some View {
+        IDCardFace(card: card, busy: model.currentStep != nil && card.reader == model.selectedCard?.reader,
+                   inUse: model.cards.count > 1 && card.reader == model.selectedCard?.reader)
+            .frame(width: cardWidth, height: cardHeight)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(IDCardFace.accessibilityLabel(card))
-            .accessibilityValue(several ? Text("\(selectedIndex + 1) din \(model.cards.count)") : Text(""))
-            .accessibilityAdjustableAction { direction in
-                switch direction {
-                case .increment: _ = move(+1)
-                case .decrement: _ = move(-1)
-                @unknown default: break
-                }
+            .accessibilityAddTraits(card.reader == model.selectedCard?.reader ? .isSelected : [])
+            .contextMenu {
+                Button { model.rereadCards() } label: { Label(L10n.text(.ui_read_the_card_again), systemImage: "arrow.clockwise") }
             }
-            .accessibilityAction(named: Text("Arată toate cardurile")) { setExpanded(true) }
-            .accessibilityAction(named: Text("Recitește cardul")) { model.rereadCards() }
     }
 
-    // MARK: Expanded: every card at the same size
-
-    private var list: some View {
-        VStack(spacing: 12) {
-            ForEach(model.cards) { card in
-                let selected = card.reader == model.selectedCard?.reader
-                Button { pick(card) } label: { face(card, selected: selected, inUse: selected) }
-                    .buttonStyle(.plain)
-                    .overlay(alignment: .trailing) { if selected { disclosure } }
-                    .accessibilityLabel(Text("Semnează cu \(card.certificate?.holder ?? card.reader)"))
-                    .accessibilityAddTraits(selected ? .isSelected : [])
-                    .transition(.opacity.combined(with: .move(edge: .top)))
-            }
+    private func interactionChanged(_ active: Bool) {
+        if active {
+            selectionCommit?.cancel()
+            userIsScrolling = true
+            selectionPending = true
+        } else if selectionPending {
+            userIsScrolling = false
+            commitSelectionWhenSettled()
         }
     }
 
-    private func face(_ card: CardSlot, selected: Bool, inUse: Bool = false) -> some View {
-        IDCardFace(card: card, busy: selected && model.currentStep != nil, reservesDisclosure: several, inUse: inUse)
-            .frame(width: cardWidth, height: cardHeight)
-            .overlay {
-                if selected && (focused || expanded) {
-                    RoundedRectangle(cornerRadius: cardWidth * IDCardFace.cornerRatio, style: .continuous)
-                        .strokeBorder(Color.accentColor, lineWidth: 2.5)
-                }
+    private func commitSelectionWhenSettled() {
+        selectionCommit?.cancel()
+        selectionCommit = Task { @MainActor in
+            if #available(iOS 18.0, macOS 15.0, *) {
+                await Task.yield()
+            } else {
+                // Older iOS has no native scroll-phase callback; debounce its final binding changes.
+                try? await Task.sleep(for: .milliseconds(180))
             }
-            .contextMenu { contextMenu(for: card) }
-    }
-
-    /// Round chevron at the card's right-centre (centre 0.935 W, diameter 0.085 W): right = collapsed, down = expanded.
-    private var disclosure: some View {
-        let diameter = cardWidth * 0.085
-        #if os(iOS)
-        let target = max(44, diameter)      // HIG minimum touch target around the smaller visual
-        #else
-        let target = diameter
-        #endif
-        return Button { setExpanded(!expanded) } label: {
-            Image(systemName: "chevron.right")
-                .font(.system(size: diameter * 0.42, weight: .bold))
-                .foregroundStyle(IDCardFace.ink)
-                .rotationEffect(.degrees(expanded ? 90 : 0))
-                .frame(width: diameter, height: diameter)
-                .background(.white.opacity(0.85), in: Circle())
-                .overlay(Circle().strokeBorder(.black.opacity(0.14), lineWidth: 0.5))
-                .shadow(color: .black.opacity(0.12), radius: 2, y: 1)
-                .frame(width: target, height: target)
-                .contentShape(Rectangle())
-        }
-        .buttonStyle(.plain)
-        .padding(.trailing, max(0, cardWidth * 0.065 - target / 2))
-        .help(expanded ? "Ascunde celelalte carduri" : "Alege cardul cu care semnezi")
-        .accessibilityLabel(Text("Alege cardul (\(model.cards.count) carduri)"))
-        .accessibilityValue(expanded ? Text("extins") : Text("restrâns"))
-    }
-
-    @ViewBuilder private func contextMenu(for card: CardSlot) -> some View {
-        Button { model.rereadCards() } label: { Label("Recitește cardul", systemImage: "arrow.clockwise") }
-        let others = model.cards.filter { $0.reader != model.selectedCard?.reader && $0.certificate != nil }
-        if !others.isEmpty { Divider() }
-        ForEach(others) { other in
-            Button { model.selectCard(other.reader) } label: {
-                Label("Semnează cu \(other.certificate?.holder ?? other.reader)", systemImage: "person.text.rectangle")
-            }
+            guard !Task.isCancelled, !userIsScrolling else { return }
+            if let reader = visibleReader, model.currentStep == nil,
+               model.cards.contains(where: { $0.reader == reader }) { model.selectCard(reader) }
+            selectionPending = false
         }
     }
 
-    private var selectedIndex: Int { model.cards.firstIndex { $0.reader == model.selectedCard?.reader } ?? 0 }
-
-    private func pick(_ card: CardSlot) {
-        model.selectCard(card.reader)
-        setExpanded(false)
-    }
-
-    private func setExpanded(_ value: Bool) {
-        withAnimation(reduceMotion ? nil : .snappy(duration: 0.25)) { expanded = value && several }
-    }
-
-    private func toggle() -> KeyPress.Result {
-        guard several else { return .ignored }
-        setExpanded(!expanded)
-        return .handled
-    }
-
-    private func move(_ delta: Int) -> KeyPress.Result {
-        guard several else { return .ignored }
+    private func move(_ delta: Int) {
+        guard !model.cards.isEmpty, model.currentStep == nil else { return }
         let next = min(max(selectedIndex + delta, 0), model.cards.count - 1)
-        model.selectCard(model.cards[next].reader)
-        return .handled
+        withAnimation(reduceMotion ? nil : .snappy(duration: 0.25)) {
+            model.selectCard(model.cards[next].reader)
+        }
+    }
+}
+
+/// Use the native behavior directly so SwiftUI registers view-aligned scroll targets as well as snapping.
+private struct CardPaging: ViewModifier {
+    let interactionChanged: (Bool) -> Void
+    @State private var legacyHorizontalDrag = false
+
+    @ViewBuilder func body(content: Content) -> some View {
+        if #available(iOS 26.0, macOS 26.0, *) {
+            content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne, anchor: .center))
+                .onScrollPhaseChange { _, phase in phaseChanged(phase) }
+        } else if #available(iOS 18.0, macOS 15.0, *) {
+            content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
+                .onScrollPhaseChange { _, phase in phaseChanged(phase) }
+        } else {
+            content.scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+                .simultaneousGesture(DragGesture(minimumDistance: 4)
+                    .onChanged { value in
+                        if abs(value.translation.width) > abs(value.translation.height) {
+                            legacyHorizontalDrag = true
+                            interactionChanged(true)
+                        }
+                    }
+                    .onEnded { _ in
+                        if legacyHorizontalDrag { legacyHorizontalDrag = false; interactionChanged(false) }
+                    })
+        }
+    }
+
+    @available(iOS 18.0, macOS 15.0, *)
+    private func phaseChanged(_ phase: ScrollPhase) {
+        switch phase {
+        case .tracking, .interacting, .decelerating: interactionChanged(true)
+        case .idle: interactionChanged(false)
+        default: break
+        }
     }
 }
 
@@ -184,7 +214,7 @@ struct CardSelector: View {
 /// certificate data only (no photo, coat of arms, document number or IDNP). Fixed colors in light and dark, like a
 /// Wallet pass. Every length is relative to the card width so it scales from the popover to a phone.
 struct IDCardFace: View {
-    static let ratio: CGFloat = 1.586
+    static let ratio: CGFloat = (1 + sqrt(5)) / 2
     static let cornerRatio: CGFloat = 0.045
     static let ink = Color(rgb: 0x1E2230)
     private static let muted = Color(rgb: 0x5A6070)
@@ -211,7 +241,7 @@ struct IDCardFace: View {
                     .offset(x: w * 0.465, y: h * 0.055)
                 Chip()
                     .frame(width: w * 0.10, height: w * 0.075)
-                    .offset(x: w * 0.855, y: h * 0.06)
+                    .offset(x: w * 0.855, y: (h - w * 0.075) / 2)
                 fields(w: w, h: h)
                 status(w: w)
                     .frame(width: w * 0.635, alignment: .leading)
@@ -245,14 +275,14 @@ struct IDCardFace: View {
 
     @ViewBuilder private func fields(w: CGFloat, h: CGFloat) -> some View {
         let cert = card.certificate
-        let nameWidth = w * (reservesDisclosure ? 0.56 : 0.635)
+        let nameWidth = w * 0.50
         field("Numele/Surname", cert?.surname, w: w)
             .frame(width: nameWidth, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.29)
         field("Prenumele/Given name(s)", cert?.givenNames, w: w)
             .frame(width: nameWidth, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.46)
-        field("Valabil până la/Valid until", cert.map { $0.notAfter.map(Self.cardDate) ?? "—" }, w: w)
+        field(L10n.text(.ui_valid_until_2), cert.map { $0.notAfter.map(Self.cardDate) ?? "—" }, w: w)
             .frame(width: w * 0.32, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.63)
         field("Emitent/Issuer", cert?.issuerName, w: w)
@@ -286,7 +316,7 @@ struct IDCardFace: View {
             } else {
                 Circle().fill(color).frame(width: w * 0.024, height: w * 0.024)
             }
-            Text(checked ? String(localized: "Folosit pentru semnare") : text)
+            Text(checked ? L10n.text(.ui_used_for_signing) : text)
                 .foregroundStyle(isProblem ? color : checked ? Color(rgb: 0x2350D8) : Self.ink)
                 .font(.system(size: w * 0.033, weight: .medium))
                 .lineLimit(1)
@@ -296,9 +326,9 @@ struct IDCardFace: View {
 
     private var statusLine: (String, Color, Bool) {
         if let problem = card.problem { return (problem, Color(rgb: 0xC62828), true) }
-        if card.certificate == nil { return (String(localized: "Se citește cardul…"), Color(rgb: 0xD08A00), false) }
-        if busy { return (String(localized: "Se semnează…"), Color(rgb: 0x2350D8), false) }
-        return (String(localized: "Pregătit pentru semnare"), Color(rgb: 0x1E9E55), false)
+        if card.certificate == nil { return (L10n.text(.ui_reading_the_card), Color(rgb: 0xD08A00), false) }
+        if busy { return (L10n.text(.ui_signing), Color(rgb: 0x2350D8), false) }
+        return (L10n.text(.ui_ready_to_sign), Color(rgb: 0x1E9E55), false)
     }
 
     // MARK: Drawing
@@ -359,17 +389,38 @@ struct IDCardFace: View {
         context.stroke(inner, with: .color(Color(rgb: 0x8C6A3A).opacity(0.6)), lineWidth: line)
 
         // portrait frame with a neutral silhouette
-        let photo = CGRect(x: w * 0.045, y: h * 0.29, width: w * 0.24, height: h * 0.62)
+        let photo = CGRect(x: w * 0.045, y: h * 0.29, width: w * 0.24, height: w * 0.24 * 5 / 3)
         let frame = Path(roundedRect: photo, cornerRadius: w * 0.02, style: .continuous)
         context.fill(frame, with: .linearGradient(Gradient(colors: [Color(rgb: 0xDDE0E7), Color(rgb: 0xBEC3CE)]),
                                                   startPoint: CGPoint(x: photo.midX, y: photo.minY),
                                                   endPoint: CGPoint(x: photo.midX, y: photo.maxY)))
         var portrait = context
         portrait.clip(to: frame)
-        var person = Path(ellipseIn: CGRect(x: photo.midX - photo.width * 0.21, y: photo.minY + photo.height * 0.2,
-                                            width: photo.width * 0.42, height: photo.width * 0.48))
-        person.addEllipse(in: CGRect(x: photo.minX + photo.width * 0.06, y: photo.minY + photo.height * 0.66,
-                                     width: photo.width * 0.88, height: photo.height * 0.62))
+        // Frame is 3:5, while all anatomy uses one common scale and circular geometry.
+        let unit = min(photo.width, photo.height)
+        let head = CGRect(x: photo.midX - unit * 0.25, y: photo.minY + unit * 0.28,
+                          width: unit * 0.50, height: unit * 0.50)
+        var person = Path(ellipseIn: head)
+        person.addRoundedRect(in: CGRect(x: photo.midX - unit * 0.08, y: head.maxY - unit * 0.04,
+                                          width: unit * 0.16, height: unit * 0.18),
+                              cornerSize: CGSize(width: unit * 0.03, height: unit * 0.03))
+        // A compact head-and-shoulders bust; the 3:5 frame must never stretch the torso.
+        let shoulderY = head.maxY + unit * 0.10
+        var torso = Path()
+        torso.move(to: CGPoint(x: photo.midX - unit * 0.12, y: shoulderY))
+        torso.addCurve(to: CGPoint(x: photo.midX - unit * 0.45, y: photo.minY + unit * 1.16),
+                       control1: CGPoint(x: photo.midX - unit * 0.34, y: shoulderY + unit * 0.02),
+                       control2: CGPoint(x: photo.midX - unit * 0.45, y: shoulderY + unit * 0.16))
+        torso.addQuadCurve(to: CGPoint(x: photo.midX - unit * 0.35, y: photo.minY + unit * 1.32),
+                          control: CGPoint(x: photo.midX - unit * 0.46, y: photo.minY + unit * 1.32))
+        torso.addLine(to: CGPoint(x: photo.midX + unit * 0.35, y: photo.minY + unit * 1.32))
+        torso.addQuadCurve(to: CGPoint(x: photo.midX + unit * 0.45, y: photo.minY + unit * 1.16),
+                          control: CGPoint(x: photo.midX + unit * 0.46, y: photo.minY + unit * 1.32))
+        torso.addCurve(to: CGPoint(x: photo.midX + unit * 0.12, y: shoulderY),
+                       control1: CGPoint(x: photo.midX + unit * 0.45, y: shoulderY + unit * 0.16),
+                       control2: CGPoint(x: photo.midX + unit * 0.34, y: shoulderY + unit * 0.02))
+        torso.closeSubpath()
+        person.addPath(torso)
         portrait.fill(person, with: .color(Color(rgb: 0x8E95A3)))
         context.stroke(frame, with: .color(.black.opacity(0.12)), lineWidth: line)
     }
@@ -382,10 +433,10 @@ struct IDCardFace: View {
     }
 
     static func accessibilityLabel(_ card: CardSlot) -> String {
-        guard let cert = card.certificate else { return String(localized: "Card în \(card.reader), se citește") }
+        guard let cert = card.certificate else { return L10n.text(.ui_card_in_value_reading, card.reader) }
         let until = cert.notAfter.map { $0.formatted(date: .abbreviated, time: .omitted) } ?? "—"
         if let problem = card.problem { return "\(cert.holder), \(problem)" }
-        return String(localized: "\(cert.holder), card de identitate, valabil până la \(until)")
+        return L10n.text(.ui_value_identity_card_valid_until_value, cert.holder, until)
     }
 }
 
@@ -416,10 +467,15 @@ private struct Chip: View {
                                      startPoint: .topLeading, endPoint: .bottomTrailing))
                 .overlay {
                     Path { p in
-                        p.move(to: CGPoint(x: w * 0.38, y: 0)); p.addLine(to: CGPoint(x: w * 0.38, y: h))
-                        p.move(to: CGPoint(x: w * 0.62, y: 0)); p.addLine(to: CGPoint(x: w * 0.62, y: h))
-                        p.move(to: CGPoint(x: 0, y: h * 0.5)); p.addLine(to: CGPoint(x: w * 0.38, y: h * 0.5))
-                        p.move(to: CGPoint(x: w * 0.62, y: h * 0.5)); p.addLine(to: CGPoint(x: w, y: h * 0.5))
+                        // Eight regions: three pads on either side and two in the middle.
+                        let left = w * 0.32, right = w * 0.68
+                        p.move(to: CGPoint(x: left, y: 0)); p.addLine(to: CGPoint(x: left, y: h))
+                        p.move(to: CGPoint(x: right, y: 0)); p.addLine(to: CGPoint(x: right, y: h))
+                        for y in [CGFloat(1) / 3, CGFloat(2) / 3] {
+                            p.move(to: CGPoint(x: 0, y: h * y)); p.addLine(to: CGPoint(x: left, y: h * y))
+                            p.move(to: CGPoint(x: right, y: h * y)); p.addLine(to: CGPoint(x: w, y: h * y))
+                        }
+                        p.move(to: CGPoint(x: left, y: h * 0.5)); p.addLine(to: CGPoint(x: right, y: h * 0.5))
                     }
                     .stroke(Color(red: 0.55, green: 0.40, blue: 0.10).opacity(0.55), lineWidth: 0.8)
                 }
@@ -447,7 +503,7 @@ struct EmptyCardFace: View {
                 .fixedSize(horizontal: false, vertical: true)
             #if os(iOS)
             if case .noReader = status {
-                Button("Cum conectez cititorul?") { showGuide = true }
+                Button(L10n.text(.ui_how_do_i_connect_the_reader)) { showGuide = true }
                     .font(.caption.weight(.semibold))
                     .sheet(isPresented: $showGuide) { ConnectionGuideView() }
             }
@@ -458,7 +514,7 @@ struct EmptyCardFace: View {
         .background(isError ? Color.red.opacity(0.08) : Color.secondary.opacity(0.06), in: shape)
         .overlay(shape.strokeBorder(isError ? Color.red.opacity(0.5) : Color.secondary.opacity(0.45),
                                     style: StrokeStyle(lineWidth: 1.5, dash: isError ? [] : [7, 5])))
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .contain)
     }
 
     private var isError: Bool {

@@ -14,6 +14,9 @@ let package = Package(
         .package(path: "../swift/MoldSignKit"),
     ],
     targets: [
+        .target(name: "CSentryRuntime", path: "Sources/CSentryRuntime", exclude: ["LICENSE"],
+                publicHeadersPath: "include", linkerSettings: [.linkedLibrary("dl", .when(platforms: [.linux]))]),
+        .testTarget(name: "MoldSignGnomeTests", dependencies: ["MoldSignGnome"]),
         // GTK 4 + libadwaita 1.x headers (pkg-config pulls in gtk4, gio, glib, pango, cairo...)
         .systemLibrary(
             name: "CAdwaita",
@@ -40,12 +43,13 @@ let package = Package(
             name: "MoldSignGnome",
             dependencies: [
                 "CAdwaita",
+                "CSentryRuntime",
                 "CLibSecret",
                 .product(name: "MoldSignKit", package: "MoldSignKit"),
             ],
             path: "Sources/MoldSignGnome",
             swiftSettings: [
-                // MSIGN_DEMO_CARDS=<n> (fake cards for screenshots, Model/DemoMode.swift) exists in debug builds only
+                // MSIGN_DEMO_CARDS=<n> (fake cards for screenshots, Presentation/Preview/DemoMode.swift) exists in debug builds only
                 .define("MOLDSIGN_DEMO", .when(configuration: .debug)),
             ]
         ),

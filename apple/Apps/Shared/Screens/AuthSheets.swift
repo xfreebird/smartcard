@@ -6,7 +6,7 @@ struct PinEntryView: View {
     let onSubmit: (String, Bool) -> Void
     let onCancel: () -> Void
 
-    @State private var pin = ""
+    @State private var pin = L10n.text(.ui_)
     @State private var remember = true
     @FocusState private var focused: Bool
 
@@ -16,12 +16,29 @@ struct PinEntryView: View {
         VStack(spacing: Theme.Space.l) {
             Image(systemName: "lock.fill").font(.system(size: 28)).foregroundStyle(Theme.brand)
             VStack(spacing: 4) {
-                Text("PIN QSCD").font(.title3.weight(.semibold))
-                Text("pentru \(request.holder)").foregroundStyle(.secondary)
+                Text(L10n.text(.ui_qscd_pin)).font(.title3.weight(.semibold))
+                Text(L10n.text(.ui_for_value, request.holder)).foregroundStyle(.secondary)
+            }
+            if !request.documentNames.isEmpty {
+                VStack(alignment: .center, spacing: 6) {
+                    if request.documentNames.count > 1 {
+                        Text(L10n.text(.ui_sign_count_documents, request.documentNames.count)).font(.subheadline.weight(.semibold))
+                    }
+                    ScrollView {
+                        VStack(alignment: .center, spacing: 4) {
+                            ForEach(Array(request.documentNames.enumerated()), id: \.offset) { _, name in
+                                Label(name, systemImage: "doc").lineLimit(2).truncationMode(.middle)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .center)
+                    }
+                    .frame(maxHeight: min(88, CGFloat(request.documentNames.count) * 28))
+                }
+                .font(.caption)
             }
             ZStack {
                 // Invisible key catcher behind the boxes: no system focus ring or bezel, the boxes show focus instead.
-                SecureField("", text: $pin)
+                SecureField(L10n.text(.ui_), text: $pin)
                     .focused($focused)
                     #if os(iOS)
                     .keyboardType(.numberPad)
@@ -32,42 +49,44 @@ struct PinEntryView: View {
                     .tint(.clear)
                     .frame(width: 1, height: 1)
                     .opacity(0.01)
-                    .accessibilityLabel("PIN")
+                    .accessibilityLabel(L10n.text(.ui_pin))
                     .onChange(of: pin) { _, value in pin = String(value.filter(\.isNumber).prefix(8)) }
                     .onSubmit { if valid { onSubmit(pin, remember && request.canRemember) } }
                 HStack(spacing: 6) {
                     ForEach(0..<8, id: \.self) { i in
                         RoundedRectangle(cornerRadius: 6)
                             .strokeBorder(i == pin.count && focused ? Theme.brand : .secondary.opacity(0.4), lineWidth: 1.5)
-                            .frame(width: 30, height: 38)
+                            .frame(maxWidth: 40, minHeight: 48, maxHeight: 48)
                             .overlay { if i < pin.count { Circle().frame(width: 8, height: 8) } }
                     }
                 }
+                .frame(maxWidth: 376)
                 .allowsHitTesting(false)
             }
             .contentShape(Rectangle())
             .onTapGesture { focused = true }
 
             if request.canRemember {
-                Toggle("Ține minte PIN-ul (Touch ID / Face ID)", isOn: $remember)
+                Toggle(L10n.text(.ui_remember_pin_touch_id_face_id), isOn: $remember)
             }
             if let left = request.attemptsLeft {
-                Label("Încercări rămase: \(left)", systemImage: "exclamationmark.triangle.fill")
+                Label(L10n.text(.ui_attempts_left_count, left), systemImage: "exclamationmark.triangle.fill")
                     .foregroundStyle(left <= 2 ? Theme.warning : .secondary)
                     .font(.subheadline)
             }
             HStack {
-                Button("Anulează", role: .cancel, action: onCancel)
+                Button(L10n.text(.ui_cancel), role: .cancel, action: onCancel)
                     .keyboardShortcut(.cancelAction)
                 Spacer()
-                Button("Semnează") { onSubmit(pin, remember && request.canRemember) }
+                Button(L10n.text(.ui_sign)) { onSubmit(pin, remember && request.canRemember) }
                     .buttonStyle(.borderedProminent)
                     .keyboardShortcut(.defaultAction)
                     .disabled(!valid)
             }
         }
+        .multilineTextAlignment(.center)
         .padding(Theme.Space.xl)
-        .frame(minWidth: 340)
+        .frame(minWidth: 340, maxWidth: 480)
         .onAppear { focused = true }
     }
 }
@@ -84,28 +103,28 @@ struct ConsentView: View {
                 Image(systemName: "globe").font(.system(size: 26)).foregroundStyle(Theme.brand)
                 VStack(alignment: .leading, spacing: 2) {
                     Text(consent.originHost).font(.title3.weight(.semibold))
-                    Text("solicită o semnătură").foregroundStyle(.secondary)
+                    Text(L10n.text(.ui_requests_a_signature)).foregroundStyle(.secondary)
                 }
             }
             CardSurface(padding: Theme.Space.m) {
                 VStack(alignment: .leading, spacing: Theme.Space.s) {
-                    Label(consent.request.documentName ?? String(localized: "Date de semnat"), systemImage: "doc.richtext")
+                    Label(consent.request.documentName ?? L10n.text(.ui_data_to_sign), systemImage: "doc.richtext")
                     if let format = consent.request.format {
                         Label(format, systemImage: "signature")
                     }
-                    Label("\(consent.holder) · MDQSign", systemImage: "person.text.rectangle")
+                    Label(L10n.text(.ui_value_mdqsign, consent.holder), systemImage: "person.text.rectangle")
                 }
                 .font(.subheadline)
             }
-            Toggle("Ai încredere în site 10 minute", isOn: $trust)
+            Toggle(L10n.text(.ui_trust_this_site_for_10_minutes), isOn: $trust)
             HStack {
-                Button("Refuză", role: .cancel) { onAnswer(false, false) }
+                Button(L10n.text(.ui_refuse), role: .cancel) { onAnswer(false, false) }
                     .keyboardShortcut(.cancelAction)
                 Spacer()
                 Button {
                     onAnswer(true, trust)
                 } label: {
-                    Label("Semnează", systemImage: consent.hasStoredPIN ? "touchid" : "lock")
+                    Label(L10n.text(.ui_sign), systemImage: consent.hasStoredPIN ? "touchid" : "lock")
                 }
                 .buttonStyle(.borderedProminent)
                 .keyboardShortcut(.defaultAction)

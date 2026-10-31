@@ -1,5 +1,6 @@
 package md.moldsign.app.ui.components
 
+
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
@@ -9,6 +10,13 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.runtime.key
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.snapshotFlow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -101,7 +109,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
 import md.moldsign.app.R
-import md.moldsign.app.errorText
+import md.moldsign.app.presentation.errorText
 import md.moldsign.app.ui.theme.Tokens
 import md.moldsign.core.ReaderSlot
 import md.moldsign.core.WalletCard
@@ -125,23 +133,9 @@ private val LIST_GAP = 11.dp
 private const val MOTION_MS = 250
 
 /**
- * Card wallet (docs/10 §0.2b, UX-09/UX-10 revised): the ID-card face and the card selector are ONE component.
- * Nothing sits outside the card: no dots, no picker, no carousel.
- *
- * * **Collapsed** it shows only the selected card. With > 1 card a round disclosure button sits inside the card at
- *   (0.935 W, 0.50 H), chevron pointing right.
- * * **Expanded** (tap the disclosure) the component grows in place into a vertical list of every card, same size,
- *   [LIST_GAP] apart, in reader order; the chevron points down; the selected card carries the accent ring and its
- *   status strip reads "✓ Folosit pentru semnare" in brand blue (no separate badge). Tap a card → it becomes the signing card and the list collapses; tap the
- *   disclosure, the selected card, Back or Escape → collapse without change.
- * * Long press (both states): "Recitește cardul" + "Semnează cu {holder}" for the other cards.
- * * ←/→ on the collapsed card switch to the previous / next card; ↑/↓ move focus through the expanded list.
- * * TalkBack: collapsed card = one element "{holder}, card de identitate, valabil până la …, {i} din {n}" with
- *   "Cardul următor" / "Cardul anterior" / "Recitește cardul"; the disclosure = "Alege cardul ({n} carduri)" with
- *   its expanded / collapsed state; expanded cards = buttons "Semnează cu {holder}", the selected one marked selected.
- *
- * A tap on the collapsed card only calls [onOpen] (e.g. the Card screen from Semnează), never anything destructive.
- * With no card the component is the empty-state card (connector, USB access, dashed "Introdu cardul", reader error).
+ * Horizontal reader-keyed carousel. A settled swipe selects the centered card; programmatic selection
+ * scrolls to the same page. Empty wallets retain connection/reader guidance. Accessibility and keyboard
+ * actions use the same selection callback as touch input.
  */
 @Composable
 fun CardWallet(
@@ -151,6 +145,7 @@ fun CardWallet(
     onAllowUsb: (readerId: String?) -> Unit,
     modifier: Modifier = Modifier,
     large: Boolean = false,
+    selectionEnabled: Boolean = true,
     onOpen: (() -> Unit)? = null,
 ) {
     val cards = wallet.cards
@@ -162,69 +157,54 @@ fun CardWallet(
         return
     }
 
-    val haptics = LocalHapticFeedback.current
-    val multi = cards.size > 1
-    var expandedState by rememberSaveable { mutableStateOf(false) }
-    val expanded = expandedState && multi
-    LaunchedEffect(multi) { if (!multi) expandedState = false }
-    BackHandler(enabled = expanded) { expandedState = false }
-
-    val selectedId = wallet.selectedCard?.readerId
-    val selectedIndex = cards.indexOfFirst { it.readerId == selectedId }.coerceAtLeast(0)
-    val pick: (Int) -> Unit = { i ->
-        val target = cards.getOrNull(i)
-        if (target != null && target.readerId != selectedId) {
-            haptics.performHapticFeedback(HapticFeedbackType.SegmentTick)
-            onSelect(target.readerId)
+    key(cards.map { it.readerId }) {
+    val selectedIndex = cards.indexOfFirst { it.readerId == wallet.selectedCard?.readerId }.coerceAtLeast(0)
+    val currentSelectedId by rememberUpdatedState(wallet.selectedCard?.readerId)
+    val pager = rememberPagerState(initialPage = selectedIndex, pageCount = { cards.size })
+    // A swipe commits the card only after settling, never midway through an interrupted gesture.
+    LaunchedEffect(pager, cards.map { it.readerId }) {
+        snapshotFlow { pager.settledPage }.distinctUntilChanged().collect { page ->
+            cards.getOrNull(page)?.let { if (it.readerId != currentSelectedId) onSelect(it.readerId) }
         }
-        expandedState = false
     }
-    val toggle = {
-        haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
-        expandedState = !expandedState
+    LaunchedEffect(selectedIndex) {
+        if (!pager.isScrollInProgress && pager.currentPage != selectedIndex) pager.animateScrollToPage(selectedIndex)
     }
-
-    BoxWithConstraints(modifier.fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
-        val cardWidth = min(maxWidth - 2 * Tokens.S6, maxCard) + 2 * RING_PAD
-        Column(
-            Modifier
-                .width(cardWidth)
-                .onKeyEvent { e -> if (expanded && e.type == KeyEventType.KeyDown && e.key == Key.Escape) { expandedState = false; true } else false },
+    Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        BoxWithConstraints(Modifier.fillMaxWidth().padding(horizontal = Tokens.S4)) {
+            val pageWidth = min(maxWidth - 2 * Tokens.S3, maxCard)
+            HorizontalPager(
+            state = pager,
+            userScrollEnabled = selectionEnabled,
+            pageSize = PageSize.Fixed(pageWidth),
+            key = { cards.getOrNull(it)?.readerId ?: "removed-$it" },
+            contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = (maxWidth - pageWidth) / 2),
+            pageSpacing = 12.dp,
+            modifier = Modifier.fillMaxWidth(),
+        ) { i ->
+            val card = cards.getOrNull(i) ?: return@HorizontalPager
+            WalletCardItem(
+                card = card, index = i, cards = cards, selected = i == selectedIndex,
+                expanded = true, large = large, canOpen = onOpen != null,
+                onTap = { if (selectionEnabled) { if (i != selectedIndex) onSelect(card.readerId) else onOpen?.invoke() } },
+                onPick = { index -> if (selectionEnabled) cards.getOrNull(index)?.let { onSelect(it.readerId) } },
+                onToggle = {}, onReread = onReread,
+            )
+        }
+        }
+        if (cards.size > 1) Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(vertical = 8.dp),
         ) {
-            // Every card is in the column; collapsed, only the selected one is visible, so expanding grows the list
-            // in place around it (reader order) and collapsing shrinks it back.
-            cards.forEachIndexed { i, card ->
-                val isSelected = i == selectedIndex
-                AnimatedVisibility(
-                    visible = expanded || isSelected,
-                    enter = expandVertically(tween(MOTION_MS)) + fadeIn(tween(MOTION_MS)),
-                    exit = shrinkVertically(tween(MOTION_MS)) + fadeOut(tween(MOTION_MS)),
-                ) {
-                    Column {
-                        // Faces end up LIST_GAP apart: two ring paddings plus this spacer.
-                        if (expanded && i > 0) Spacer(Modifier.height(LIST_GAP - 2 * RING_PAD))
-                        WalletCardItem(
-                            card = card,
-                            index = i,
-                            cards = cards,
-                            selected = isSelected,
-                            expanded = expanded,
-                            large = large,
-                            canOpen = onOpen != null,
-                            onTap = {
-                                when {
-                                    expanded -> pick(i)
-                                    else -> onOpen?.invoke()
-                                }
-                            },
-                            onPick = pick,
-                            onToggle = toggle,
-                            onReread = onReread,
-                        )
-                    }
-                }
+            repeat(cards.size) { index ->
+                Box(Modifier.size(7.dp).background(
+                    if (index == selectedIndex) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
+                    CircleShape,
+                ))
             }
         }
+    }
     }
 }
 
@@ -278,7 +258,7 @@ private fun WalletCardItem(
         IdCardFace(
             card = card,
             showReader = w >= 330.dp,
-            reserveDisclosure = multi,
+            reserveDisclosure = false,
             usedForSigning = expanded && selected,
             modifier = Modifier
                 .clearAndSetSemantics {
@@ -309,7 +289,7 @@ private fun WalletCardItem(
                 }
                 .combinedClickable(onClick = onTap, onLongClick = openMenu),
         )
-        if (multi && selected) {
+        if (multi && selected && !expanded) {
             DisclosureButton(
                 expanded = expanded,
                 count = cards.size,

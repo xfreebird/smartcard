@@ -8,6 +8,17 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -16,16 +27,26 @@ import androidx.compose.material.icons.outlined.CreditCard
 import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.VerifiedUser
 import androidx.compose.material.icons.rounded.Draw
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Surface
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import md.moldsign.app.MainActivity
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -53,10 +74,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import md.moldsign.app.MainViewModel
+import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.app.R
-import md.moldsign.app.UiMessage
-import md.moldsign.app.messageText
+import md.moldsign.app.presentation.UiMessage
+import md.moldsign.app.presentation.messageText
 import md.moldsign.app.ui.components.PinSheet
 import md.moldsign.app.ui.components.StatusLightChip
 import md.moldsign.app.ui.screens.ActivityScreen
@@ -82,13 +103,15 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
 }
 
 /**
- * Material 3 shell (docs/10 §0.3, §4.5, UX-05): edge-to-edge Scaffold, TopAppBar with the status light chip
- * (tap → Card) and a "Recitește cardul" action, bottom NavigationBar, ExtendedFloatingActionButton
- * "Semnează" on Semnează, PIN in a ModalBottomSheet.
+ * Adaptive Material 3 shell. Expanded windows use a navigation rail and in-pane signing controls;
+ * compact windows use the navigation bar and a floating primary action. Classification follows the
+ * current window constraints, including split screen and rotation, rather than the device model.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MoldSignRoot(vm: MainViewModel = viewModel()) {
+fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
+    var settingsOpen by remember { mutableStateOf(false) }
+    var confirmDemoEnable by remember { mutableStateOf(false) }
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val dest = Dest.entries.firstOrNull { it.route == backStack?.destination?.route } ?: Dest.Sign
@@ -102,6 +125,22 @@ fun MoldSignRoot(vm: MainViewModel = viewModel()) {
     val openLabel = stringResource(R.string.action_open)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    LaunchedEffect(demoPage) {
+        Dest.entries.firstOrNull { it.route == demoPage }?.let { nav.go(it) }
+    }
+
+    LaunchedEffect(dest.route, status.wallet, items, working, pending, demoGeneration) {
+        val activity = context as? android.app.Activity
+        val isDemo = activity?.intent?.hasExtra("demo") == true
+        val isPinDemo = activity?.intent?.getStringExtra("demo") == "pin"
+        val consentReady = if (isPinDemo) pending != null else pending == null
+        if (isDemo && !working && consentReady) {
+            androidx.compose.runtime.withFrameNanos { }
+            androidx.compose.runtime.withFrameNanos { }
+            android.util.Log.i("MoldSignDemo", "ready:${dest.route}")
+        }
+    }
+
     LaunchedEffect(Unit) {
         vm.showSign.collect { nav.go(Dest.Sign) }
     }
@@ -109,8 +148,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel()) {
     LaunchedEffect(message) {
         val m = message ?: return@LaunchedEffect
         val text = messageText(context, m)
-        vm.consumeMessage()
-        if (text.isEmpty()) return@LaunchedEffect
+        if (text.isEmpty()) { vm.consumeMessage(); return@LaunchedEffect }
         if (m is UiMessage.Saved) {
             // long, with an action: the signed file is otherwise easy to lose in the Downloads folder
             val result = snackbar.showSnackbar(text, actionLabel = openLabel, duration = SnackbarDuration.Long)
@@ -124,69 +162,140 @@ fun MoldSignRoot(vm: MainViewModel = viewModel()) {
         } else {
             snackbar.showSnackbar(text)
         }
+        // Consuming before showSnackbar changes this effect's key and cancels the visible message.
+        vm.consumeMessage()
     }
 
-    Scaffold(
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            TopAppBar(
-                // Home shows the public name (UX-12); the other destinations their own title.
-                title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label)) },
-                actions = {
-                    if ((dest == Dest.Sign || dest == Dest.Card || dest == Dest.Browser) && status.wallet.cards.isNotEmpty()) {
-                        IconButton(onClick = vm::rereadCards, enabled = !status.busy) {
-                            Icon(Icons.Rounded.Refresh, contentDescription = stringResource(R.string.action_reread))
+    BoxWithConstraints(Modifier.fillMaxSize()) {
+        val expanded = maxWidth >= 600.dp
+        Scaffold(
+            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            topBar = {
+                Column {
+                TopAppBar(
+                    // Home shows the public name (UX-12); the other destinations their own title.
+                    title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label)) },
+                    actions = {
+                        IconButton(onClick = { settingsOpen = true }) {
+                            Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.demo_mode_settings))
                         }
+                        if ((dest == Dest.Sign || dest == Dest.Card || dest == Dest.Browser) && status.wallet.cards.isNotEmpty()) {
+                            IconButton(onClick = vm::rereadCards, enabled = !status.busy) {
+                                Icon(Icons.Rounded.Refresh, contentDescription = stringResource(R.string.action_reread))
+                            }
+                        }
+                        StatusLightChip(status, onClick = { nav.go(Dest.Card) })
+                        Spacer(Modifier.width(Tokens.S3))
+                    },
+                    scrollBehavior = scrollBehavior,
+                )
+                if (vm.demoMode) Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+                    Text(stringResource(R.string.demo_mode_disclaimer),
+                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
+                        style = MaterialTheme.typography.labelLarge)
+                }
+                }
+            },
+            bottomBar = {
+                if (!expanded) NavigationBar {
+                    Dest.entries.forEach { d ->
+                        NavigationBarItem(
+                            selected = dest == d,
+                            onClick = { nav.go(d) },
+                            icon = { Icon(d.icon, contentDescription = null) },
+                            label = { Text(stringResource(d.label)) },
+                        )
                     }
-                    StatusLightChip(status, onClick = { nav.go(Dest.Card) })
-                    Spacer(Modifier.width(Tokens.S3))
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        },
-        bottomBar = {
-            NavigationBar {
-                Dest.entries.forEach { d ->
-                    NavigationBarItem(
-                        selected = dest == d,
-                        onClick = { nav.go(d) },
-                        icon = { Icon(d.icon, contentDescription = null) },
-                        label = { Text(stringResource(d.label)) },
+                }
+            },
+            floatingActionButton = {
+                // Never an accent FAB while signing is impossible: only with documents and a ready, idle card. Otherwise
+                // the Semnează screen says why under the list, and the step card shows a running signature.
+                val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
+                AnimatedVisibility(
+                    visible = !expanded && dest == Dest.Sign && canSign,
+                    enter = scaleIn(tween(200)) + fadeIn(tween(200)),
+                    exit = scaleOut(tween(150)) + fadeOut(tween(150)),
+                ) {
+                    ExtendedFloatingActionButton(
+                        onClick = vm::sign,
+                        icon = { Icon(Icons.Rounded.Draw, contentDescription = null) },
+                        text = { Text(pluralStringResource(R.plurals.sign_n, items.size, items.size)) },
                     )
                 }
+            },
+            snackbarHost = { SnackbarHost(snackbar) },
+        ) { padding ->
+            Row(Modifier.fillMaxSize().padding(padding)) {
+                if (expanded) {
+                    NavigationRail(
+                        modifier = Modifier.fillMaxHeight().width(96.dp)
+                            .verticalScroll(rememberScrollState()).padding(vertical = 12.dp),
+                        windowInsets = WindowInsets(0, 0, 0, 0),
+                    ) {
+                        Dest.entries.forEach { d ->
+                            NavigationRailItem(
+                                selected = dest == d,
+                                onClick = { nav.go(d) },
+                                icon = { Icon(d.icon, contentDescription = null) },
+                                label = { Text(stringResource(d.label)) },
+                            )
+                        }
+                    }
+                }
+                // Scaffold insets are consumed once around the rail and destination, never once per pane.
+                NavHost(nav, startDestination = Dest.Sign.route, modifier = Modifier.weight(1f).fillMaxHeight()) {
+                    composable(Dest.Sign.route) {
+                        SignScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }, expanded = expanded)
+                    }
+                    composable(Dest.Verify.route) { VerifyScreen(vm, PaddingValues(0.dp)) }
+                    composable(Dest.Activity.route) { ActivityScreen(vm, PaddingValues(0.dp)) }
+                    composable(Dest.Browser.route) { BrowserScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }) }
+                    composable(Dest.Card.route) { CardScreen(vm, PaddingValues(0.dp)) }
+                }
             }
-        },
-        floatingActionButton = {
-            // Never an accent FAB while signing is impossible: only with documents and a ready, idle card. Otherwise
-            // the Semnează screen says why under the list, and the step card shows a running signature.
-            val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
-            AnimatedVisibility(
-                visible = dest == Dest.Sign && canSign,
-                enter = scaleIn(tween(200)) + fadeIn(tween(200)),
-                exit = scaleOut(tween(150)) + fadeOut(tween(150)),
-            ) {
-                ExtendedFloatingActionButton(
-                    onClick = vm::sign,
-                    icon = { Icon(Icons.Rounded.Draw, contentDescription = null) },
-                    text = { Text(pluralStringResource(R.plurals.sign_n, items.size, items.size)) },
-                )
-            }
-        },
-        snackbarHost = { SnackbarHost(snackbar) },
-    ) { padding ->
-        NavHost(nav, startDestination = Dest.Sign.route) {
-            composable(Dest.Sign.route) { SignScreen(vm, padding, onOpenCard = { nav.go(Dest.Card) }) }
-            composable(Dest.Verify.route) { VerifyScreen(vm, padding) }
-            composable(Dest.Activity.route) { ActivityScreen(vm, padding) }
-            composable(Dest.Browser.route) { BrowserScreen(vm, padding, onOpenCard = { nav.go(Dest.Card) }) }
-            composable(Dest.Card.route) { CardScreen(vm, padding) }
         }
     }
+
+    if (settingsOpen) AlertDialog(
+        onDismissRequest = { settingsOpen = false },
+        title = { Text(stringResource(R.string.demo_mode_settings)) },
+        text = {
+            Column {
+                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                    Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
+                    Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null,
+                        onCheckedChange = { enabled ->
+                            settingsOpen = false
+                            if (enabled) confirmDemoEnable = true
+                            else (context as? MainActivity)?.changeDemoMode(false)
+                        })
+                }
+                Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
+            }
+        },
+        confirmButton = { TextButton(onClick = { settingsOpen = false }) { Text(stringResource(R.string.action_close)) } },
+    )
+
+    if (confirmDemoEnable) AlertDialog(
+        onDismissRequest = { confirmDemoEnable = false },
+        title = { Text(stringResource(R.string.demo_mode_title)) },
+        text = { Column {
+            Text(stringResource(R.string.demo_mode_description))
+            Spacer(Modifier.size(12.dp))
+            Text(stringResource(R.string.demo_mode_disclaimer), style = MaterialTheme.typography.titleSmall)
+        } },
+        confirmButton = { TextButton(onClick = {
+            confirmDemoEnable = false
+            (context as? MainActivity)?.changeDemoMode(true)
+        }) { Text(stringResource(R.string.demo_mode_enable)) } },
+        dismissButton = { TextButton(onClick = { confirmDemoEnable = false }) { Text(stringResource(R.string.action_cancel)) } },
+    )
 
     pending?.let { p ->
         PinSheet(
             request = p.request,
-            rememberAvailable = vm.pinVaultAvailable,
+            rememberAvailable = false,
             onConfirm = { pin, _ ->
                 // TODO(AND-06): if "Ține minte PIN-ul" is on, PinVault.save(...) after a successful VERIFY.
                 p.answer(ConsentResult.Pin(pin))
