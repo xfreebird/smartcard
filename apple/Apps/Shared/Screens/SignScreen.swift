@@ -78,13 +78,12 @@ struct SignScreen: View {
     /// Shared hierarchy for desktop and wide mobile: selected documents, then a standalone drop target.
     /// Explicit pane padding makes the divider gutter equal to the outer gutter on foldable displays.
     private var documentContent: some View {
-        @Bindable var model = model
         return VStack(alignment: .leading, spacing: 16) {
             if !model.signItems.isEmpty {
                 Text(L10n.text(.ui_documents)).font(.headline).foregroundStyle(.secondary)
                 VStack(spacing: 0) {
-                    ForEach($model.signItems) { $item in
-                        DocumentRow(item: $item).padding(16)
+                    ForEach(model.signItems) { item in
+                        DocumentRow(item: item).padding(16)
                         if item.id != model.signItems.last?.id { Divider().padding(.horizontal, 16) }
                     }
                 }
@@ -127,12 +126,14 @@ struct SignScreen: View {
     }
 
     @ViewBuilder private var documentSection: some View {
-        @Bindable var model = model
+        let items = model.signItems
         if !model.signItems.isEmpty {
             Section {
-                ForEach($model.signItems) { $item in DocumentRow(item: $item) }
+                ForEach(items) { item in DocumentRow(item: item) }
                     .onDelete { offsets in
-                        let removed = offsets.map { model.signItems[$0] }
+                        // Delete from the snapshot used to construct these rows, not a queue
+                        // that may have changed while a signing operation completed.
+                        let removed = offsets.compactMap { items.indices.contains($0) ? items[$0] : nil }
                         for item in removed { model.remove(item) }
                     }
             } header: { Text(L10n.text(.ui_documents)) }
@@ -205,8 +206,20 @@ struct SignScreen: View {
 }
 
 private struct DocumentRow: View {
-    @Binding var item: SignItem
+    // SwiftUI can keep a row alive during removal animations. Keep its display value
+    // instead of a collection-index Binding that becomes invalid when signing dequeues it.
+    let item: SignItem
     @Environment(AppModel.self) private var model
+
+    private var format: Binding<SignFormat> {
+        Binding(
+            get: { model.signItems.first { $0.id == item.id }?.format ?? item.format },
+            set: { value in
+                guard let index = model.signItems.firstIndex(where: { $0.id == item.id }) else { return }
+                model.signItems[index].format = value
+            }
+        )
+    }
 
     var body: some View {
         HStack(spacing: Theme.Space.m) {
@@ -219,7 +232,7 @@ private struct DocumentRow: View {
                 Text(item.sizeText).font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
-            Picker(L10n.text(.ui_format), selection: $item.format) {
+            Picker(L10n.text(.ui_format), selection: format) {
                 ForEach(SignFormat.choices(for: item.url)) { Text($0.label).tag($0) }
             }
             .labelsHidden()

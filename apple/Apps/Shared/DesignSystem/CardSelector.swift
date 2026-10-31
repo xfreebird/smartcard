@@ -91,21 +91,24 @@ struct CardSelector: View {
                 #if os(macOS)
                 if model.cards.count > 1 {
                     HStack(spacing: 8) {
-                        ForEach(model.cards.indices, id: \.self) { index in
+                        // A reader may disappear while SwiftUI is still updating its old
+                        // children. Capture each card's value rather than a live array index.
+                        ForEach(model.cards) { card in
                             Button {
-                                guard model.currentStep == nil else { return }
-                                model.selectCard(model.cards[index].reader)
+                                guard model.currentStep == nil,
+                                      model.cards.contains(where: { $0.reader == card.reader }) else { return }
+                                model.selectCard(card.reader)
                             } label: {
                                 Circle()
-                                    .fill(index == selectedIndex ? Color.accentColor : Color.secondary.opacity(0.3))
+                                    .fill(card.reader == model.selectedCard?.reader ? Color.accentColor : Color.secondary.opacity(0.3))
                                     .frame(width: 7, height: 7)
                                     .frame(width: 24, height: 24)
                                     .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                             .disabled(model.currentStep != nil)
-                            .accessibilityLabel(IDCardFace.accessibilityLabel(model.cards[index]))
-                            .accessibilityAddTraits(index == selectedIndex ? .isSelected : [])
+                            .accessibilityLabel(IDCardFace.accessibilityLabel(card))
+                            .accessibilityAddTraits(card.reader == model.selectedCard?.reader ? .isSelected : [])
                         }
                     }
                     .padding(.vertical, 8)

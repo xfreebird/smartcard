@@ -11,6 +11,19 @@ Last updated: **2026-10-31**
 
 ---
 
+## macOS signing crash — 31 October 2026
+
+- [~] MAC-16 Fix a SwiftUI carousel array-bounds crash when reader/card state changes while signing.
+  Pagination now captures stable card values rather than indices into a changing array. Document
+  rows also use identity-based format bindings so completed or removed files cannot leave stale
+  collection-index bindings in the view hierarchy.
+- Mock regression on the MacBook Air reproduced the old crash (`Index out of range`) as the card
+  list shrank. The fixed app survived 3→2→1→0→3 transitions, and native demo signing succeeded
+  for one document and a two-document batch. The reusable Debug-only regression is
+  `apple/scripts/test-macos-card-transitions.sh`. A local universal Release DMG was built and its
+  signature and image checksum verified; the archive retains matching debug symbols. Physical-card
+  signing has not yet been revalidated.
+
 ## User-facing demo mode — 31 October 2026
 
 - [x] ABOUT-01 List Nicolae Ghimbovschi and the esemnbun.md website in the native About or settings

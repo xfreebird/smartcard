@@ -212,6 +212,7 @@ final class AppModel {
             #if DEBUG
             if let demo = ProcessInfo.processInfo.environment["MSIGN_DEMO_CARDS"] {
                 loadDemoCards(min(max(Int(demo == "none" ? "0" : demo) ?? 0, 0), 8))
+                runDemoCardTransitionsIfRequested()
                 return
             }
             #endif
@@ -338,6 +339,30 @@ final class AppModel {
     }
 
     #if DEBUG
+    /// Exercise reader removal/reinsertion against a rendered wallet without touching hardware.
+    /// Only an explicitly isolated QA fixture can enable the sequence.
+    private func runDemoCardTransitionsIfRequested() {
+        let environment = ProcessInfo.processInfo.environment
+        guard environment["MSIGN_QA_NO_HARDWARE"] == "1",
+              environment["MSIGN_DEMO_CARD_TRANSITIONS"] == "1",
+              environment["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true,
+              cards.count >= 3 else { return }
+        let initialCards = cards
+        Task { @MainActor in
+            for count in [2, 1, 0, 3] {
+                try? await Task.sleep(for: .seconds(2))
+                guard self.demoMode else { return }
+                self.cards = Array(initialCards.prefix(count))
+                self.readers = self.cards.map(\.reader)
+                if !self.cards.contains(where: { $0.reader == self.selectedReaderName }) {
+                    self.selectedReaderName = self.cards.first?.reader
+                }
+                self.recomputeStatus()
+                FileHandle.standardOutput.write(Data("MSIGN_QA_CARD_COUNT=\(count)\n".utf8))
+            }
+        }
+    }
+
     /// Presentation fixtures never connect a reader, start a listener, or submit a PIN.
     private func applyDemoScenario(_ scenario: String) {
         switch scenario {
