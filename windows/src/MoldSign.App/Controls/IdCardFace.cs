@@ -200,19 +200,23 @@ internal sealed class IdCardFace : Grid
     {
         var silhouette = new Canvas { Width = width, Height = height, Clip = new RectangleGeometry { Rect = new Rect(0, 0, width, height) } };
         // Natural bust in width units, independent of the taller 3:5 frame.
-        var headDiameter = 0.48 * width;
+        // Match the Linux portrait: a 0.46-width head and a shallow curved bust.
+        var headCenter = 0.34 * height;
+        var headDiameter = 0.46 * width;
         Place(silhouette, new Ellipse { Width = headDiameter, Height = headDiameter, Fill = Solid(CardArt.Silhouette) },
-            0.26 * width, 0.29 * width);
-        var torso = new PathFigure { StartPoint = new Point(0.10 * width, 1.32 * width), IsClosed = true, IsFilled = true };
+            0.27 * width, headCenter - headDiameter / 2);
+        var shoulderTop = headCenter + 0.31 * width;
+        var shoulderBase = shoulderTop + 0.36 * width;
+        var torso = new PathFigure { StartPoint = new Point(0.04 * width, shoulderBase), IsClosed = true, IsFilled = true };
         torso.Segments.Add(new BezierSegment
         {
-            Point1 = new Point(0.10 * width, 1.00 * width), Point2 = new Point(0.30 * width, 0.90 * width),
-            Point3 = new Point(0.50 * width, 0.90 * width),
+            Point1 = new Point(0.06 * width, shoulderTop + 0.11 * width), Point2 = new Point(0.27 * width, shoulderTop),
+            Point3 = new Point(0.50 * width, shoulderTop),
         });
         torso.Segments.Add(new BezierSegment
         {
-            Point1 = new Point(0.70 * width, 0.90 * width), Point2 = new Point(0.90 * width, 1.00 * width),
-            Point3 = new Point(0.90 * width, 1.32 * width),
+            Point1 = new Point(0.73 * width, shoulderTop), Point2 = new Point(0.94 * width, shoulderTop + 0.11 * width),
+            Point3 = new Point(0.96 * width, shoulderBase),
         });
         var geometry = new PathGeometry(); geometry.Figures.Add(torso);
         Place(silhouette, new Path { Width = width, Height = height, Stretch = Stretch.None, Data = geometry,

@@ -9,6 +9,9 @@ final class CardWallet {
     private let stack: OpaquePointer
     private let list: Widget
     private let carousel: Widget
+    private let previousButton: Widget
+    private let nextButton: Widget
+    private var hovering = false
     private let pageDots: Widget
     private let leadingSpace: Widget
     private let trailingSpace: Widget
@@ -58,13 +61,30 @@ final class CardWallet {
         gtk_scrolled_window_set_min_content_width(carousel.opaque, CardArt.large.width + 2 * CardItem.margin.start)
         gtk_scrolled_window_set_propagate_natural_height(carousel.opaque, 1)
         gtk_scrolled_window_set_child(carousel.opaque, list)
-        gtk_stack_add_named(stack, carousel, "cards")
+        let cardOverlay = gtk_overlay_new()!
+        gtk_widget_set_halign(cardOverlay, GTK_ALIGN_CENTER)
+        gtk_overlay_set_child(cardOverlay.opaque, carousel)
+        previousButton = gtk_button_new_from_icon_name("go-previous-symbolic")!
+        nextButton = gtk_button_new_from_icon_name("go-next-symbolic")!
+        for (button, alignment, title) in [(previousButton, GTK_ALIGN_START, L10n.text(.ui_previous_card)),
+                                            (nextButton, GTK_ALIGN_END, L10n.text(.ui_next_card))] {
+            addClasses(button, ["circular", "card-disclosure"])
+            gtk_widget_set_halign(button, alignment)
+            gtk_widget_set_valign(button, GTK_ALIGN_CENTER)
+            gtk_widget_set_margin_start(button, 36)
+            gtk_widget_set_margin_end(button, 36)
+            gtk_widget_set_size_request(button, 32, 32)
+            setAccessibleLabel(button, title)
+            setVisible(button, false)
+            gtk_overlay_add_overlay(cardOverlay.opaque, button)
+        }
+        gtk_stack_add_named(stack, cardOverlay, "cards")
         gtk_stack_add_named(stack, placeholder.root, "placeholder")
 
-        pageDots = hbox(spacing: 8)
+        pageDots = hbox(spacing: 0)
         gtk_widget_set_halign(pageDots, GTK_ALIGN_CENTER)
-        gtk_widget_set_margin_top(pageDots, 8)
-        gtk_widget_set_margin_bottom(pageDots, 8)
+        gtk_widget_set_margin_top(pageDots, 2)
+        gtk_widget_set_margin_bottom(pageDots, 2)
         root = vbox(spacing: 0, classes: ["wallet"], [stack.widget, pageDots])
         gtk_widget_set_margin_bottom(root, 6)
 
@@ -80,6 +100,13 @@ final class CardWallet {
         g_object_unref(group.raw)
         popover = gtk_popover_menu_new_from_model(nil)!
         gtk_widget_set_parent(popover, root)
+
+        let motion = gtk_event_controller_motion_new()!
+        onMotionEnter(motion) { [weak self] in self?.hovering = true; self?.updateArrows() }
+        onSignal(motion, "leave") { [weak self] in self?.hovering = false; self?.updateArrows() }
+        gtk_widget_add_controller(cardOverlay, motion)
+        onSignal(previousButton, "clicked") { [weak self] in self?.selectAdjacent(-1) }
+        onSignal(nextButton, "clicked") { [weak self] in self?.selectAdjacent(1) }
 
         onSignal(selectAction, "activate") { [weak self] value in
             guard let value else { return }
@@ -134,11 +161,13 @@ final class CardWallet {
             for card in cards {
                 let dot = gtk_button_new_with_label("●")!
                 addClasses(dot, ["flat", card.reader == c.selectedCard?.reader ? "accent" : "dim-label"])
+                addClasses(dot, ["wallet-dot"])
                 setAccessibleLabel(dot, card.certificate?.holder ?? card.reader)
                 onSignal(dot, "clicked") { [weak self] in self?.controller.selectCard(card.reader) }
                 gtk_box_append(pageDots.cast(), dot)
             }
         }
+        updateArrows()
 
         guard !cards.isEmpty else {
             if !items.isEmpty { rebuild([]) }
@@ -160,6 +189,25 @@ final class CardWallet {
             announce(root, localized(.ui_signing_with_the_card_of_value, holder))
         }
         lastSelected = selected
+    }
+
+    private func updateArrows() {
+        let cards = controller.cards
+        let index = cards.firstIndex { $0.reader == controller.selectedCard?.reader } ?? 0
+        let show = hovering && cards.count > 1
+        setVisible(previousButton, show)
+        setVisible(nextButton, show)
+        setSensitive(previousButton, index > 0 && !controller.isSigning && !controller.bridgeSigning)
+        setSensitive(nextButton, index + 1 < cards.count && !controller.isSigning && !controller.bridgeSigning)
+    }
+
+    private func selectAdjacent(_ delta: Int) {
+        let cards = controller.cards
+        guard !controller.isSigning, !controller.bridgeSigning,
+              let current = cards.firstIndex(where: { $0.reader == controller.selectedCard?.reader }) else { return }
+        let next = current + delta
+        guard cards.indices.contains(next) else { return }
+        controller.selectCard(cards[next].reader)
     }
 
     /// Faces, disclosure, outline and which cards are revealed. `animated`: the user expanded or collapsed the list

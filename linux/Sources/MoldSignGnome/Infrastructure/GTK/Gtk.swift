@@ -68,6 +68,15 @@ func onSignal(_ instance: GPointer, _ signal: String, _ handler: @escaping () ->
     return connectRaw(instance, signal, unsafeBitCast(thunk, to: GCallback.self), retained(handler))
 }
 
+/// GtkEventControllerMotion::enter includes pointer coordinates.
+@discardableResult
+func onMotionEnter(_ controller: GPointer, _ handler: @escaping () -> Void) -> gulong {
+    let thunk: @convention(c) (gpointer?, Double, Double, gpointer?) -> Void = { _, _, _, data in
+        unbox(data, as: (() -> Void).self)()
+    }
+    return connectRaw(controller, "enter", unsafeBitCast(thunk, to: GCallback.self), retained(handler))
+}
+
 /// Signals with one pointer argument: `response` (const char *), `notify::prop` (GParamSpec *),
 /// `row-activated` (GtkListBoxRow *)…
 @discardableResult

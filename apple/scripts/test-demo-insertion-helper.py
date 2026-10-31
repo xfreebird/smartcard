@@ -26,7 +26,9 @@ with tempfile.TemporaryDirectory(prefix='esemnbun-demo-helper-') as directory:
     choice(True)
     env = dict(os.environ, MSIGN_DEMO_PREFERENCES_SUITE=suite)
     with log.open('wb') as output:
-        process = subprocess.Popen([str(helper), '--mock-snapshot', str(snapshot)], env=env, stdout=output, stderr=subprocess.STDOUT)
+        # BundleProgram starts the executable with a relative argv[0] under launchd.
+        process = subprocess.Popen(['Contents/Helpers/esemnbun-reader-watcher', '--mock-snapshot', str(snapshot)],
+                                   executable=str(helper.resolve()), env=env, stdout=output, stderr=subprocess.STDOUT)
         try:
             def wait_for(predicate, timeout=15):
                 deadline = time.monotonic() + timeout

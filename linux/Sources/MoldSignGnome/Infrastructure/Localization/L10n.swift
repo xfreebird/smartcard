@@ -3,6 +3,8 @@ import Foundation
 
 enum L10n {
     enum Key: String, CaseIterable {
+        case ui_previous_card
+        case ui_next_card
         case ui_add_documents_first
         case ui_trust_this_site_for_10_minutes
         case ui_choose_files
@@ -264,6 +266,16 @@ enum L10n {
     private static let translations: [String: [String: String]] = {
         let data = Data(#"""
 {
+  "ui_previous_card": {
+    "ro": "Cardul anterior",
+    "en": "Previous card",
+    "ru": "Предыдущая карта"
+  },
+  "ui_next_card": {
+    "ro": "Cardul următor",
+    "en": "Next card",
+    "ru": "Следующая карта"
+  },
   "ui_add_documents_first": {
     "ro": "Adaugă mai întâi documentele",
     "en": "Add documents first",

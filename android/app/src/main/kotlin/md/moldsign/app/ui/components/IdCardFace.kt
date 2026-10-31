@@ -339,7 +339,7 @@ private fun DrawScope.drawFace(f: FaceLayout, strip: Strip, placeholders: Boolea
     headBlock(f.headRight, f.headRightX, BURGUNDY)
     drawShield(Offset(f.emblemX, f.headTop + (f.headBlockH - 0.07f * w) / 2), Size(f.emblemW, 0.07f * w))
     drawChip(Offset(0.855f * w, 0.5f * h - 0.05f * w / 1.618034f), Size(0.10f * w, 0.10f * w / 1.618034f))
-    drawPortrait(Offset(0.045f * w, 0.30f * h), Size(0.18f * w, 0.18f * w * 5f / 3f), 0.02f * w)
+    drawPortrait(Offset(0.045f * w, 0.30f * h), Size(0.20f * w, 0.20f * w * 5f / 3f), 0.02f * w)
 
     f.labels.forEach { (t, at) -> drawText(t, topLeft = at) }
     f.values.forEach { (t, at) -> drawText(t, topLeft = at) }
@@ -415,11 +415,14 @@ private fun DrawScope.drawPortrait(at: Offset, size: Size, radius: Float) {
         drawRect(Brush.verticalGradient(PORTRAIT, at.y, at.y + size.height), at, size)
         val cx = at.x + size.width / 2
         val unit = size.width
-        drawCircle(SILHOUETTE, radius = 0.24f * unit, center = Offset(cx, at.y + 0.53f * unit))
+        val headY = at.y + size.height * 0.34f
+        val shoulderTop = headY + unit * 0.31f
+        val shoulderBase = shoulderTop + unit * 0.36f
+        drawCircle(SILHOUETTE, radius = 0.23f * unit, center = Offset(cx, headY))
         val bust = Path().apply {
-            moveTo(cx - 0.44f * unit, at.y + 1.32f * unit)
-            cubicTo(cx - 0.44f * unit, at.y + 1.04f * unit, cx - 0.23f * unit, at.y + 0.90f * unit, cx, at.y + 0.90f * unit)
-            cubicTo(cx + 0.23f * unit, at.y + 0.90f * unit, cx + 0.44f * unit, at.y + 1.04f * unit, cx + 0.44f * unit, at.y + 1.32f * unit)
+            moveTo(cx - 0.46f * unit, shoulderBase)
+            cubicTo(cx - 0.44f * unit, shoulderTop + 0.11f * unit, cx - 0.23f * unit, shoulderTop, cx, shoulderTop)
+            cubicTo(cx + 0.23f * unit, shoulderTop, cx + 0.44f * unit, shoulderTop + 0.11f * unit, cx + 0.46f * unit, shoulderBase)
             close()
         }
         drawPath(bust, SILHOUETTE)

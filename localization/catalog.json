@@ -4391,6 +4391,16 @@
     },
     {
       "platform": "linux",
+      "key": "ui_previous_card",
+      "translations": {"ro": "Cardul anterior", "en": "Previous card", "ru": "Предыдущая карта"}
+    },
+    {
+      "platform": "linux",
+      "key": "ui_next_card",
+      "translations": {"ro": "Cardul următor", "en": "Next card", "ru": "Следующая карта"}
+    },
+    {
+      "platform": "linux",
       "key": "ui_add_documents_first",
       "translations": {
         "ro": "Adaugă mai întâi documentele",

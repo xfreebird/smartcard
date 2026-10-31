@@ -23,6 +23,9 @@ struct CardSelector: View {
     @State private var userIsScrolling = false
     @State private var selectionPending = false
     @State private var selectionCommit: Task<Void, Never>?
+    #if os(macOS)
+    @State private var hoveringCard = false
+    #endif
     private var cardWidth: CGFloat {
         return max(120, width - 8)
     }
@@ -65,6 +68,20 @@ struct CardSelector: View {
                 .scrollPosition(id: $visibleReader, anchor: .center)
                 .scrollDisabled(model.currentStep != nil)
                 .frame(height: cardHeight + 8)
+                .overlay {
+                    if model.cards.count > 1 {
+                        HStack {
+                            carouselArrow(-1)
+                            Spacer()
+                            carouselArrow(1)
+                        }
+                        .padding(.horizontal, 12)
+                        .opacity(hoveringCard ? 1 : 0)
+                        .allowsHitTesting(hoveringCard)
+                        .accessibilityHidden(!hoveringCard)
+                    }
+                }
+                .onHover { hoveringCard = $0 }
                 .onAppear { visibleReader = model.selectedCard?.reader }
                 .task(id: cardWidth) {
                     // Content margins and card width are measured after the first layout. Restore the
@@ -90,7 +107,7 @@ struct CardSelector: View {
                 #endif
                 #if os(macOS)
                 if model.cards.count > 1 {
-                    HStack(spacing: 8) {
+                    HStack(spacing: 0) {
                         // A reader may disappear while SwiftUI is still updating its old
                         // children. Capture each card's value rather than a live array index.
                         ForEach(model.cards) { card in
@@ -102,7 +119,7 @@ struct CardSelector: View {
                                 Circle()
                                     .fill(card.reader == model.selectedCard?.reader ? Color.accentColor : Color.secondary.opacity(0.3))
                                     .frame(width: 7, height: 7)
-                                    .frame(width: 24, height: 24)
+                                    .frame(width: 20, height: 20)
                                     .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
@@ -111,7 +128,7 @@ struct CardSelector: View {
                             .accessibilityAddTraits(card.reader == model.selectedCard?.reader ? .isSelected : [])
                         }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.vertical, 2)
                 }
                 #endif
             }
@@ -145,6 +162,25 @@ struct CardSelector: View {
                 Button { model.rereadCards() } label: { Label(L10n.text(.ui_read_the_card_again), systemImage: "arrow.clockwise") }
             }
     }
+
+    #if os(macOS)
+    private func carouselArrow(_ direction: Int) -> some View {
+        let title = L10n.text(direction < 0 ? .ui_previous_card : .ui_next_card)
+        return Button { move(direction) } label: {
+            Image(systemName: direction < 0 ? "chevron.left" : "chevron.right")
+                .font(.system(size: 13, weight: .semibold))
+                .foregroundStyle(.primary)
+                .frame(width: 32, height: 32)
+                .background(.regularMaterial, in: Circle())
+                .overlay(Circle().strokeBorder(Color.primary.opacity(0.12)))
+                .contentShape(Circle())
+        }
+        .buttonStyle(.plain)
+        .disabled(model.currentStep != nil || (direction < 0 ? selectedIndex == 0 : selectedIndex >= model.cards.count - 1))
+        .accessibilityLabel(title)
+        .help(title)
+    }
+    #endif
 
     private func interactionChanged(_ active: Bool) {
         if active {
@@ -404,36 +440,29 @@ struct IDCardFace: View {
         context.stroke(inner, with: .color(Color(rgb: 0x8C6A3A).opacity(0.6)), lineWidth: line)
 
         // portrait frame with a neutral silhouette
-        let photo = CGRect(x: w * 0.045, y: h * 0.29, width: w * 0.24, height: w * 0.24 * 5 / 3)
+        // Match the portrait proportions and silhouette used by the Linux card.
+        let photo = CGRect(x: w * 0.045, y: h * 0.30, width: w * 0.20, height: w * 0.20 * 5 / 3)
         let frame = Path(roundedRect: photo, cornerRadius: w * 0.02, style: .continuous)
-        context.fill(frame, with: .linearGradient(Gradient(colors: [Color(rgb: 0xDDE0E7), Color(rgb: 0xBEC3CE)]),
+        context.fill(frame, with: .linearGradient(Gradient(colors: [Color(rgb: 0xD9DCE3), Color(rgb: 0xBFC4CF)]),
                                                   startPoint: CGPoint(x: photo.midX, y: photo.minY),
                                                   endPoint: CGPoint(x: photo.midX, y: photo.maxY)))
         var portrait = context
         portrait.clip(to: frame)
-        // Frame is 3:5, while all anatomy uses one common scale and circular geometry.
-        let unit = min(photo.width, photo.height)
-        let head = CGRect(x: photo.midX - unit * 0.25, y: photo.minY + unit * 0.28,
-                          width: unit * 0.50, height: unit * 0.50)
+        let unit = photo.width
+        let headCenterY = photo.minY + photo.height * 0.34
+        let head = CGRect(x: photo.midX - unit * 0.23, y: headCenterY - unit * 0.23,
+                          width: unit * 0.46, height: unit * 0.46)
         var person = Path(ellipseIn: head)
-        person.addRoundedRect(in: CGRect(x: photo.midX - unit * 0.08, y: head.maxY - unit * 0.04,
-                                          width: unit * 0.16, height: unit * 0.18),
-                              cornerSize: CGSize(width: unit * 0.03, height: unit * 0.03))
-        // A compact head-and-shoulders bust; the 3:5 frame must never stretch the torso.
-        let shoulderY = head.maxY + unit * 0.10
+        let shoulderY = headCenterY + unit * 0.31
+        let shoulderBase = shoulderY + unit * 0.36
         var torso = Path()
-        torso.move(to: CGPoint(x: photo.midX - unit * 0.12, y: shoulderY))
-        torso.addCurve(to: CGPoint(x: photo.midX - unit * 0.45, y: photo.minY + unit * 1.16),
-                       control1: CGPoint(x: photo.midX - unit * 0.34, y: shoulderY + unit * 0.02),
-                       control2: CGPoint(x: photo.midX - unit * 0.45, y: shoulderY + unit * 0.16))
-        torso.addQuadCurve(to: CGPoint(x: photo.midX - unit * 0.35, y: photo.minY + unit * 1.32),
-                          control: CGPoint(x: photo.midX - unit * 0.46, y: photo.minY + unit * 1.32))
-        torso.addLine(to: CGPoint(x: photo.midX + unit * 0.35, y: photo.minY + unit * 1.32))
-        torso.addQuadCurve(to: CGPoint(x: photo.midX + unit * 0.45, y: photo.minY + unit * 1.16),
-                          control: CGPoint(x: photo.midX + unit * 0.46, y: photo.minY + unit * 1.32))
-        torso.addCurve(to: CGPoint(x: photo.midX + unit * 0.12, y: shoulderY),
-                       control1: CGPoint(x: photo.midX + unit * 0.45, y: shoulderY + unit * 0.16),
-                       control2: CGPoint(x: photo.midX + unit * 0.34, y: shoulderY + unit * 0.02))
+        torso.move(to: CGPoint(x: photo.midX - unit * 0.46, y: shoulderBase))
+        torso.addCurve(to: CGPoint(x: photo.midX, y: shoulderY),
+                       control1: CGPoint(x: photo.midX - unit * 0.44, y: shoulderY + unit * 0.11),
+                       control2: CGPoint(x: photo.midX - unit * 0.23, y: shoulderY))
+        torso.addCurve(to: CGPoint(x: photo.midX + unit * 0.46, y: shoulderBase),
+                       control1: CGPoint(x: photo.midX + unit * 0.23, y: shoulderY),
+                       control2: CGPoint(x: photo.midX + unit * 0.44, y: shoulderY + unit * 0.11))
         torso.closeSubpath()
         person.addPath(torso)
         portrait.fill(person, with: .color(Color(rgb: 0x8E95A3)))

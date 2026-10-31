@@ -11,6 +11,22 @@ Last updated: **2026-10-31**
 
 ---
 
+## Desktop carousel, browser and insertion helper — 31 October 2026
+
+- [~] MAC-17 Investigate first browser-session crash. The available crash reports are from the
+  older installed app and show the previously fixed carousel array-bounds failure. A no-hardware
+  browser request from msign.gov.md displayed the macOS consent panel on the Air without a new
+  crash; actual card selection, approval and browser signing still need device verification.
+- [~] MAC-18 Fix the registered reader watcher exiting with code 2: launchd provides a relative
+  executable name, so the helper now locates its process executable using proc_pidpath. An isolated
+  mock helper started with relative argv[0] and launched the app on insertion; the updated installed
+  launch agent and real physical insertion have not yet been verified.
+- [~] UI-22 Add bounded hover arrows on desktop cards and tighter dot indicators, while preserving
+  selection and keyboard navigation. Use Linux's portrait geometry on all four platform UIs. Native
+  mock hover and next-card interaction were verified on macOS, Windows and Fedora; Debug builds
+  passed for macOS, iOS Simulator, Windows, Fedora, Ubuntu and Android. Native hover and next-card
+  interaction also passed on Ubuntu; iOS and Android avatar appearance has not been visually checked.
+
 ## macOS signing crash — 31 October 2026
 
 - [~] MAC-16 Fix a SwiftUI carousel array-bounds crash when reader/card state changes while signing.

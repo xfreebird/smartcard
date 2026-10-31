@@ -1,8 +1,13 @@
 import AppKit
 import CryptoTokenKit
+import Darwin
 
 // No PC/SC connection, certificate, APDU, signing service or credential access: observe slot state only.
-let executable = URL(filePath: CommandLine.arguments[0]).standardizedFileURL
+// launchd's BundleProgram may supply a relative argv[0]; resolve the actual process
+// executable rather than interpreting that argument relative to launchd's working directory.
+var executablePath = [CChar](repeating: 0, count: 4096)
+guard proc_pidpath(getpid(), &executablePath, UInt32(executablePath.count)) > 0 else { exit(2) }
+let executable = URL(filePath: String(cString: executablePath)).standardizedFileURL
 let app = executable.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
 guard app.pathExtension == "app" else { exit(2) }
 #if DEBUG

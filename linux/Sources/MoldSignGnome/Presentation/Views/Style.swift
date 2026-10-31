@@ -78,6 +78,8 @@ enum Style {
     button.card-disclosure:hover { background-color: alpha(white, 0.95); }
     button.card-disclosure:active { background-color: white; }
 
+    button.wallet-dot { min-width: 20px; min-height: 20px; padding: 0; }
+
     .wallet-placeholder .placeholder-title { font-weight: bold; font-size: 1.1em; }
     .wallet-placeholder .placeholder-caption { opacity: 0.7; font-size: 0.9em; }
     .wallet-placeholder.error-card .placeholder-title { color: @error_color; }
