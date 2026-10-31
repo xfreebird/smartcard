@@ -186,8 +186,14 @@ private struct CardPaging: ViewModifier {
 
     @ViewBuilder func body(content: Content) -> some View {
         if #available(iOS 26.0, macOS 26.0, *) {
+            #if compiler(>=6.2)
             content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne, anchor: .center))
                 .onScrollPhaseChange { _, phase in phaseChanged(phase) }
+            #else
+            // Xcode 16 can target older systems but does not contain the iOS 26 anchor overload.
+            content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
+                .onScrollPhaseChange { _, phase in phaseChanged(phase) }
+            #endif
         } else if #available(iOS 18.0, macOS 15.0, *) {
             content.scrollTargetBehavior(.viewAligned(limitBehavior: .alwaysByOne))
                 .onScrollPhaseChange { _, phase in phaseChanged(phase) }

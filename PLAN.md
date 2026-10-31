@@ -39,11 +39,21 @@ Last updated: **2026-10-31**
 - [~] UI-21 Reviewed the latest available screenshots and corrected the demo banner overlap,
   clipped card neighbors, truncated issuer and document names, and inaccessible PIN content.
   Apple, Android, Windows and Linux selectors show a complete centered card with selectable dots.
-  Source changes require fresh platform builds and native visual/interaction checks.
+  Fresh Ubuntu and Fedora builds and mock screenshot matrices (28 each, RO/EN/RU and light/dark)
+  passed; selecting another card using the pagination dots was verified on both desktops. macOS
+  build and native demo-banner/card-dot interaction passed. Android phone and tablet interaction
+  checks, Windows desktop UI checks and iOS simulator checks are being completed.
 - [x] MON-08 Removed desktop Sentry SDKs, telemetry consent, instrumentation, localization,
   packaging, CI symbol uploads and the GitHub Actions upload secret. Previously submitted reports
   may remain with the provider; the previously created token still needs to be revoked in Sentry.
-  Localization export and static project checks passed; native builds have not been run.
+  Localization export, static project checks and native macOS, Linux and Android builds passed.
+
+- [~] CI-21 Fix the Xcode 16 SDK compilation failure by using the supported scroll behavior on
+  older compilers. Local macOS, iOS Simulator and CLI builds pass with Xcode 26; CI on Xcode 16
+  still needs to confirm the fallback.
+- [~] CI-22 Fix the Windows activation-pipe startup race by creating the first server before
+  returning from Listen. The formerly failing test and all 193 portable tests pass on Windows ARM;
+  hosted CI still needs to confirm the fix.
 
 ## Card pagination simplification — 31 October 2026
 

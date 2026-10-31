@@ -29,23 +29,27 @@ public sealed class DesktopActivationBroker : IDisposable
     public void Listen(Action open)
     {
         if (!IsPrimary || _listener is not null) return;
-        _listener = Task.Run(async () =>
+        // Create the first pipe before returning so a secondary process can connect
+        // immediately, even when the thread pool is busy during application startup.
+        _listener = ListenAsync(open);
+    }
+
+    private async Task ListenAsync(Action open)
+    {
+        while (!_shutdown.IsCancellationRequested)
         {
-            while (!_shutdown.IsCancellationRequested)
+            try
             {
-                try
-                {
-                    using var server = new NamedPipeServerStream(_pipe, PipeDirection.In, 1,
-                        PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
-                    await server.WaitForConnectionAsync(_shutdown.Token);
-                    var buffer = new byte[16];
-                    var count = await server.ReadAsync(buffer, _shutdown.Token);
-                    if (Encoding.UTF8.GetString(buffer, 0, count) == "open") open();
-                }
-                catch (OperationCanceledException) { break; }
-                catch (IOException) { /* A failed client cannot end activation listening. */ }
+                using var server = new NamedPipeServerStream(_pipe, PipeDirection.In, 1,
+                    PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+                await server.WaitForConnectionAsync(_shutdown.Token).ConfigureAwait(false);
+                var buffer = new byte[16];
+                var count = await server.ReadAsync(buffer, _shutdown.Token).ConfigureAwait(false);
+                if (Encoding.UTF8.GetString(buffer, 0, count) == "open") open();
             }
-        });
+            catch (OperationCanceledException) { break; }
+            catch (IOException) { /* A failed client cannot end activation listening. */ }
+        }
     }
 
     public async Task OpenExistingAsync(CancellationToken cancellationToken)
