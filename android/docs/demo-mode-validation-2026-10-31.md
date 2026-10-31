@@ -27,7 +27,7 @@ Final batch passed:
 
 Log: `/tmp/esemnbun-android-demo-snackbar-verified-build.log` (35 seconds).
 Two focused mock-safety tests passed; lint reports zero errors. Both APKs pass the four-ABI ELF audit
-(ARMv7, ARM64, x86, x86_64), and both APKs remain free of Sentry assets, native libraries and DEX classes.
+(ARMv7, ARM64, x86, x86_64).
 
 | Artifact | SHA-256 |
 | --- | --- |

@@ -1,7 +1,7 @@
 import SwiftUI
 import MoldSignKit
 
-/// Horizontally paged identity cards. Selection follows the visible page; arrows and VoiceOver
+/// Horizontally paged identity cards. Selection follows the visible page; dots and VoiceOver
 /// provide the same selection without gestures. All geometry is derived from the card width.
 struct CardSelector: View {
     enum Size {
@@ -24,11 +24,7 @@ struct CardSelector: View {
     @State private var selectionPending = false
     @State private var selectionCommit: Task<Void, Never>?
     private var cardWidth: CGFloat {
-        #if os(iOS)
         return max(120, width - 8)
-        #else
-        return max(120, model.cards.count > 1 ? width * 0.84 : width - 8)
-        #endif
     }
     private var sideInset: CGFloat { max(4, (width - cardWidth) / 2) }
     private var cardHeight: CGFloat { cardWidth / IDCardFace.ratio }
@@ -96,13 +92,23 @@ struct CardSelector: View {
                 if model.cards.count > 1 {
                     HStack(spacing: 8) {
                         ForEach(model.cards.indices, id: \.self) { index in
-                            Circle()
-                                .fill(index == selectedIndex ? Color.accentColor : Color.secondary.opacity(0.3))
-                                .frame(width: 7, height: 7)
+                            Button {
+                                guard model.currentStep == nil else { return }
+                                model.selectCard(model.cards[index].reader)
+                            } label: {
+                                Circle()
+                                    .fill(index == selectedIndex ? Color.accentColor : Color.secondary.opacity(0.3))
+                                    .frame(width: 7, height: 7)
+                                    .frame(width: 24, height: 24)
+                                    .contentShape(Rectangle())
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(model.currentStep != nil)
+                            .accessibilityLabel(IDCardFace.accessibilityLabel(model.cards[index]))
+                            .accessibilityAddTraits(index == selectedIndex ? .isSelected : [])
                         }
                     }
                     .padding(.vertical, 8)
-                    .accessibilityHidden(true)
                 }
                 #endif
             }

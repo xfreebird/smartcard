@@ -43,7 +43,6 @@ rm -rf "$OUT" "$WORK"
 mkdir -p "$OUT" "$WORK"
 built=()
 
-"$ROOT/linux/scripts/build-sentry-sdk.sh"
 
 # ── Build (release, static Swift stdlib: no Swift runtime package needed on the target) ──────────────────
 if [[ "${MOLDSIGN_SKIP_BUILD:-0}" != 1 ]]; then
@@ -60,7 +59,6 @@ STAGE="$WORK/stage"
 mkdir -p "$OUT/symbols"
 if have objcopy; then
   objcopy --only-keep-debug "$ROOT/linux/.build/release/esemnbun-gnome" "$OUT/symbols/esemnbun-gnome.debug"
-  objcopy --only-keep-debug "$ROOT/linux/.build/sentry-native/install/lib/libsentry.so" "$OUT/symbols/libsentry.so.debug"
 fi
 echo "▸ Staging into $STAGE"
 "$ROOT/linux/packaging/install.sh" "$STAGE" /usr all

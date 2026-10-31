@@ -4,7 +4,6 @@ using Microsoft.UI.Xaml.Controls;
 using MoldSign.App.Services;
 using MoldSign.App.Tray;
 using MoldSign.Desktop;
-using MoldSign.Diagnostics;
 
 namespace MoldSign.App;
 
@@ -14,8 +13,6 @@ namespace MoldSign.App;
 /// </summary>
 public partial class App : Application
 {
-    public MonitoringController Monitoring { get; }
-    private bool _monitoringPromptVisible;
     private TrayIconService? _tray;
     private TrayFlyoutWindow? _flyout;
     private MainWindow? _main;
@@ -27,20 +24,9 @@ public partial class App : Application
         UnhandledException += (_, e) =>
         {
             AppLog.Error(e.Exception);
-            if (Monitoring is not null && !Monitoring.IsSuspended) AppDiagnostics.CaptureUnhandled(e.Exception, Monitoring.Consent);
         };
         var settings = AppSettings.Load();
         DemoMode.Configure(settings.DemoModeEnabled);
-        Monitoring = new MonitoringController(new MonitoringConsent(settings.MonitoringDecisionMade,
-            settings.MonitoringCrashReports, settings.MonitoringUsageMetrics), AppDiagnostics.Start, consent =>
-        {
-            var current = Services?.Settings ?? settings;
-            current.MonitoringDecisionMade = consent.DecisionMade;
-            current.MonitoringCrashReports = consent.CrashReports;
-            current.MonitoringUsageMetrics = consent.UsageMetrics;
-            current.Save();
-        }, suspended: DemoMode.Scenario is not null);
-        Monitoring.Changed += WriteMonitoringProof;
         // MSIX persists overrides. Resolve System explicitly so a previous choice cannot remain active;
         // Windows App SDK versions that reject an empty override still receive a supported BCP-47 tag.
         var systemLanguage = Windows.System.UserProfile.GlobalizationPreferences.Languages
@@ -53,7 +39,6 @@ public partial class App : Application
         AppLog.Stage("before application resources");
         InitializeComponent();
         AppLog.Stage("after application resources");
-        WriteMonitoringProof(Monitoring.Consent);
         // Closing the last window must not end a tray app.
         DispatcherShutdownMode = DispatcherShutdownMode.OnExplicitShutdown;
         AppDomain.CurrentDomain.UnhandledException += (_, e) =>
@@ -157,69 +142,8 @@ public partial class App : Application
         {
             _main.AppWindow.Show();
             _main.Activate();
-            if (Monitoring.NeedsPrompt && !Services.IsDemo && !_monitoringPromptVisible)
-                _main.DispatcherQueue.TryEnqueue(DispatcherQueuePriority.Low, () => _ = ShowMonitoringConsentAsync());
         }
         return _main;
-    }
-
-    private async Task ShowMonitoringConsentAsync()
-    {
-        if (_main?.Content is not FrameworkElement root || !Monitoring.NeedsPrompt || Services.IsDemo || _monitoringPromptVisible) return;
-        if (!root.IsLoaded)
-        {
-            root.Loaded += OnMainLoaded;
-            return;
-        }
-        _monitoringPromptVisible = true;
-        try
-        {
-            var crash = new ToggleSwitch { Header = Loc.Get("monitoring_crash"), IsOn = false };
-            var metrics = new ToggleSwitch { Header = Loc.Get("monitoring_metrics"), IsOn = false };
-            Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(crash, "MonitoringConsentCrash");
-            Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(metrics, "MonitoringConsentMetrics");
-            var content = new StackPanel { Spacing = 16, Margin = new Thickness(4) };
-            content.Children.Add(new TextBlock { Text = Loc.Get("monitoring_description"), TextWrapping = TextWrapping.Wrap, MaxWidth = 440 });
-            content.Children.Add(crash);
-            content.Children.Add(metrics);
-            var dialog = new ContentDialog
-            {
-                XamlRoot = root.XamlRoot, Title = Loc.Get("monitoring_title"), Content = content,
-                PrimaryButtonText = Loc.Get("monitoring_allow"), CloseButtonText = Loc.Get("monitoring_decline"),
-                DefaultButton = ContentDialogButton.Close,
-            };
-            Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(dialog, "MonitoringConsentDialog");
-            var result = await dialog.ShowAsync();
-            Monitoring.Apply(result == ContentDialogResult.Primary && crash.IsOn,
-                result == ContentDialogResult.Primary && metrics.IsOn);
-#if DEBUG
-            if (Environment.GetEnvironmentVariable("MSIGN_SENTRY_VERIFY") == "1" && AppSettings.IsolatedTestPreferences && !Services.IsDemo && Monitoring.Consent.CanSendCrash)
-            {
-                await AppDiagnostics.VerifyAsync(Monitoring.Consent);
-                Quit();
-            }
-#endif
-        }
-        catch (Exception error) { AppLog.Error(error); }
-        finally { _monitoringPromptVisible = false; }
-    }
-
-    private void OnMainLoaded(object sender, RoutedEventArgs args)
-    {
-        if (sender is FrameworkElement root) root.Loaded -= OnMainLoaded;
-        _ = ShowMonitoringConsentAsync();
-    }
-
-    private static void WriteMonitoringProof(MonitoringConsent consent)
-    {
-#if DEBUG
-        if ((!AppSettings.IsolatedTestPreferences && DemoMode.PreviewScenario is null) || Environment.GetEnvironmentVariable("MSIGN_MONITORING_PROOF_FILE") is not { Length: > 0 } path) return;
-        File.WriteAllText(path, System.Text.Json.JsonSerializer.Serialize(new
-        {
-            consent.DecisionMade, consent.CanSendCrash, consent.CanSendMetrics,
-            SdkEnabled = AppDiagnostics.IsEnabled, ProcessId = Environment.ProcessId,
-        }));
-#endif
     }
 
     private bool _switchingDemo;
@@ -230,7 +154,6 @@ public partial class App : Application
         _switchingDemo = true;
         try
         {
-            if (enabled) Monitoring.SetSuspended(true);
             var settings = Services.Settings;
             settings.DemoModeEnabled = enabled;
             settings.Save();
@@ -246,7 +169,6 @@ public partial class App : Application
             _main?.ResetForServices();
             if (!enabled)
             {
-                Monitoring.SetSuspended(false);
                 if (Services.Settings.InsertionHelperEnabled) InsertionHelperRegistration.Start();
                 EnsureMainWindow(activate: true);
             }
@@ -279,7 +201,6 @@ public partial class App : Application
         await Services.DisposeAsync();
         _flyout?.Close();
         _main?.Close();
-        await Monitoring.ShutdownAsync();
         Exit();
     }
 }

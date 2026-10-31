@@ -79,20 +79,6 @@ modules:
           project-id: 2611
           url-template: https://pcsclite.apdu.fr/files/pcsc-lite-$version.tar.xz
 
-  - name: sentry-native
-    buildsystem: cmake-ninja
-    config-opts:
-      - -DCMAKE_INSTALL_LIBDIR=lib/esemnbun
-      - -DSENTRY_BACKEND=inproc
-      - -DSENTRY_TRANSPORT=curl
-      - -DSENTRY_BUILD_SHARED_LIBS=ON
-      - -DSENTRY_BUILD_TESTS=OFF
-      - -DSENTRY_BUILD_EXAMPLES=OFF
-    sources:
-      - type: archive
-        url: https://github.com/getsentry/sentry-native/archive/refs/tags/0.17.5.tar.gz
-        sha256: 7a537f5717684bd54a4d15a61d20f0e04de4f3aa73556687c7dd255a19b5874d
-
   - name: esemnbun-gnome
     buildsystem: simple
     sources:
@@ -112,6 +98,4 @@ modules:
       - >-
         swift build --package-path linux -c release --static-swift-stdlib
         -Xcc -I/app/include/PCSC -Xcc -I/app/include -Xlinker -L/app/lib
-      - mkdir -p linux/.build/sentry-native/install/lib
-      - cp /app/lib/esemnbun/libsentry.so linux/.build/sentry-native/install/lib/
       - linux/packaging/install.sh / /app gui

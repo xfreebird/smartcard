@@ -38,6 +38,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -171,8 +172,8 @@ fun CardWallet(
         if (!pager.isScrollInProgress && pager.currentPage != selectedIndex) pager.animateScrollToPage(selectedIndex)
     }
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        BoxWithConstraints(Modifier.fillMaxWidth().padding(horizontal = Tokens.S4)) {
-            val pageWidth = min(maxWidth - 2 * Tokens.S3, maxCard)
+        BoxWithConstraints(Modifier.widthIn(max = maxCard + 2 * Tokens.S4).fillMaxWidth().padding(horizontal = Tokens.S4)) {
+            val pageWidth = min(maxWidth, maxCard)
             HorizontalPager(
             state = pager,
             userScrollEnabled = selectionEnabled,
@@ -197,11 +198,15 @@ fun CardWallet(
             modifier = Modifier.padding(vertical = 8.dp),
         ) {
             repeat(cards.size) { index ->
+                Box(Modifier.size(28.dp).clickable(enabled = selectionEnabled, onClickLabel = cards[index].readerId) {
+                    onSelect(cards[index].readerId)
+                }, contentAlignment = Alignment.Center) {
                 Box(Modifier.size(7.dp).background(
                     if (index == selectedIndex) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.3f),
                     CircleShape,
                 ))
+                }
             }
         }
     }

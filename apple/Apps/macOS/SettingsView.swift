@@ -49,7 +49,6 @@ private struct GeneralSettings: View {
                 }
             }
             DemoModeSettings()
-            MonitoringSettings()
             #if !APP_STORE
             Toggle(L10n.text(.ui_open_app_on_reader_or_card_insertion), isOn: $watcherEnabled)
                 .onChange(of: watcherEnabled) { _, enabled in

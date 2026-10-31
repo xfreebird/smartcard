@@ -82,6 +82,9 @@ fun PinSheet(
                 tonalElevation = 6.dp,
             ) {
                 Column(Modifier.padding(if (shortViewport) 8.dp else 20.dp)) {
+                    Text(stringResource(R.string.pin_title),
+                        modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge)
                     Column(
                         Modifier.weight(1f, fill = false).fillMaxWidth()
                             .verticalScroll(rememberScrollState()).testTag("pin.details"),
@@ -90,7 +93,6 @@ fun PinSheet(
                     ) {
                         Icon(Icons.Outlined.Lock, contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
-                        Text(stringResource(R.string.pin_title), style = MaterialTheme.typography.titleLarge)
                         Text(stringResource(R.string.pin_for, request.certificate.commonName),
                             textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant)

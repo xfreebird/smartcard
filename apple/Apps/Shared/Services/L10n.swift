@@ -190,13 +190,6 @@ enum L10n {
         case ui_open_window_on_card_insertion
         case ui_pdf_format
         case ui_addresses
-        case monitoring_title
-        case monitoring_description
-        case monitoring_crash
-        case monitoring_metrics
-        case monitoring_allow
-        case monitoring_decline
-        case monitoring_settings_hint
         case demo_settings_title
         case demo_settings_description
         case demo_banner
@@ -218,7 +211,6 @@ enum L10n {
         case demo_enable_action
         case demo_mode_enable
         case demo_mode_confirm
-        case demo_monitoring_paused
         case about_developer
         case about_app_title
     }

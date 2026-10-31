@@ -157,37 +157,6 @@ func presentClearActivityDialog(parent: Widget, completion: @escaping (Bool) -> 
     adw_dialog_present(dialog, parent)
 }
 
-// MARK: - Optional desktop diagnostics
-
-func monitoringChoices(crashes: Bool, metrics: Bool, explanatory: Bool = true) -> (Widget, Widget, Widget) {
-    let group = preferencesGroup(title: explanatory ? L10n.text(.monitoring_title) : nil, description: explanatory ? L10n.text(.monitoring_settings_hint) : nil)
-    let crash = adw_switch_row_new()!
-    adw_preferences_row_set_title(crash.cast(), L10n.text(.monitoring_crash))
-    adw_switch_row_set_active(crash.opaque, crashes ? 1 : 0)
-    groupAdd(group, crash)
-    let metric = adw_switch_row_new()!
-    adw_preferences_row_set_title(metric.cast(), L10n.text(.monitoring_metrics))
-    adw_switch_row_set_active(metric.opaque, metrics ? 1 : 0)
-    groupAdd(group, metric)
-    return (group, crash, metric)
-}
-
-func presentMonitoringConsent(parent: Widget) {
-    let dialog = alert(heading: L10n.text(.monitoring_title), body: L10n.text(.monitoring_description))
-    let (group, crash, metric) = monitoringChoices(crashes: false, metrics: false, explanatory: false)
-    adw_alert_dialog_set_extra_child(dialog.cast(), group)
-    addResponse(dialog, "decline", L10n.text(.monitoring_decline))
-    addResponse(dialog, "save", L10n.text(.monitoring_allow))
-    adw_alert_dialog_set_default_response(dialog.cast(), "decline")
-    adw_alert_dialog_set_close_response(dialog.cast(), "decline")
-    onResponse(dialog) { response in
-        _ = AppMonitoring.choose(crashes: response == "save" && adw_switch_row_get_active(crash.opaque) != 0,
-            metrics: response == "save" && adw_switch_row_get_active(metric.opaque) != 0)
-    }
-    moldsign_alert_prefer_wide(dialog.cast())
-    adw_dialog_present(dialog, parent)
-}
-
 // MARK: - Preferences (AdwPreferencesDialog)
 
 func presentPreferences(parent: Widget, controller: AppController) {
@@ -273,15 +242,6 @@ func presentPreferences(parent: Widget, controller: AppController) {
 
     adw_preferences_page_add(page.cast(), bridge.cast())
     adw_preferences_page_add(page.cast(), background.cast())
-    let (diagnostics, crashChoice, metricChoice) = monitoringChoices(
-        crashes: AppMonitoring.consent?.crashes ?? false, metrics: AppMonitoring.consent?.metrics ?? false)
-    for row in [crashChoice, metricChoice] {
-        onSignal(row, "notify::active") { _ in
-            _ = AppMonitoring.choose(crashes: adw_switch_row_get_active(crashChoice.opaque) != 0,
-                                     metrics: adw_switch_row_get_active(metricChoice.opaque) != 0)
-        }
-    }
-    adw_preferences_page_add(page.cast(), diagnostics.cast())
     adw_preferences_dialog_add(dialog.cast(), page.cast())
 
     var updating = false

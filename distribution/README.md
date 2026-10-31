@@ -19,6 +19,4 @@ certification submission is performed by these scripts. Store assets must meet t
 requirements at upload time. The same Android package and upload certificate are used for Play and Huawei;
 no Google Play Services dependency is needed by this app.
 
-Optional Sentry diagnostics are configured only for desktop apps, with separate default-OFF first-launch consent for crash reports and application metrics. Mobile apps and CLIs have no Sentry. `diagnostics-privacy.json` records the store-form disclosures and exclusions.
-The updated `docs/privacy-policy.txt` must be published at the real privacy URL before submission. Portal privacy
-forms have not been changed; verify retention and service-provider processing in Sentry before release.
+The updated `docs/privacy-policy.txt` must be published at the real privacy URL before submission. Portal privacy forms must be reviewed before release.

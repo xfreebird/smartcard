@@ -48,10 +48,14 @@ final class CardWallet {
         gtk_stack_set_vhomogeneous(stack, 0)
         gtk_stack_set_interpolate_size(stack, 1)
         carousel = gtk_scrolled_window_new()!
-        // Keep clipped neighboring cards inside the same 24 pt content gutter as the pages.
+        // Show a complete card in the centered viewport; dots select the other cards.
         gtk_widget_set_margin_start(carousel, 24)
         gtk_widget_set_margin_end(carousel, 24)
+        gtk_widget_set_halign(carousel, GTK_ALIGN_CENTER)
         gtk_scrolled_window_set_policy(carousel.opaque, GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER)
+        gtk_scrolled_window_set_propagate_natural_width(carousel.opaque, 1)
+        gtk_scrolled_window_set_max_content_width(carousel.opaque, CardArt.large.width + 2 * CardItem.margin.start)
+        gtk_scrolled_window_set_min_content_width(carousel.opaque, CardArt.large.width + 2 * CardItem.margin.start)
         gtk_scrolled_window_set_propagate_natural_height(carousel.opaque, 1)
         gtk_scrolled_window_set_child(carousel.opaque, list)
         gtk_stack_add_named(stack, carousel, "cards")
@@ -109,6 +113,11 @@ final class CardWallet {
         guard on != compact else { return }
         compact = on
         viewportWidth = 0
+        let width = (on ? CardArt.compact.width : CardArt.large.width) + 2 * CardItem.margin.start
+        // Clear the old minimum before lowering the maximum when the window narrows.
+        gtk_scrolled_window_set_min_content_width(carousel.opaque, -1)
+        gtk_scrolled_window_set_max_content_width(carousel.opaque, width)
+        gtk_scrolled_window_set_min_content_width(carousel.opaque, width)
         items.forEach { $0.setCompact(on) }
         placeholder.setCompact(on)
         render()
@@ -123,7 +132,10 @@ final class CardWallet {
         setVisible(pageDots, cards.count > 1)
         if cards.count > 1 {
             for card in cards {
-                let dot = label("●", classes: [card.reader == c.selectedCard?.reader ? "accent" : "dim-label"])
+                let dot = gtk_button_new_with_label("●")!
+                addClasses(dot, ["flat", card.reader == c.selectedCard?.reader ? "accent" : "dim-label"])
+                setAccessibleLabel(dot, card.certificate?.holder ?? card.reader)
+                onSignal(dot, "clicked") { [weak self] in self?.controller.selectCard(card.reader) }
                 gtk_box_append(pageDots.cast(), dot)
             }
         }

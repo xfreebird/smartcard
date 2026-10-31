@@ -370,13 +370,6 @@ performs no signing actions. `MSIGN_TEST_PREFERENCES` only exists in Debug build
 
 Native validation details and remaining release gates: [Windows correction report](../docs/reports/windows-platform-corrections-2026-10-31.md).
 
-## Sentry monitoring
-
-Only the WinUI desktop app uses the official Sentry .NET SDK through
-[`MoldSign.Diagnostics`](src/MoldSign.Diagnostics/README.md). First-launch consent and separate crash/metrics Settings controls gate a
-strict allowlist so signing documents, PINs and cardholder data do not become telemetry. The CLI remains uninstrumented. The module
-README documents the Debug-only hardware-free verification path and CI debug-symbol upload.
-
 ## User demo mode
 
 Settings offers a persistent demo switch in Debug **and Release**. Confirming entry stops the current
@@ -384,7 +377,7 @@ reader/browser services and opens a sample-only sandbox with fictional cards. A 
 marks every demo screen. Choosing documents loads bundled/generated samples; signing and verification
 complete through mock services. Outputs are explicitly `DEMO-NOT-SIGNED` and contain no valid digital
 signature. External documents are rejected and never read. Saved PIN storage and real history stay
-untouched; Sentry is paused regardless of saved consent. Leaving demo restores normal services/choices.
+untouched. Leaving demo restores normal services.
 
 `windows/scripts/test-demo-mode.ps1` exercises this through native controls in an isolated test guest,
 restoring its preferences/history afterward. It does not require a card or a Debug fixture environment.

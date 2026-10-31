@@ -89,7 +89,6 @@ public sealed partial class MainWindow : Window
         var section = page == typeof(SignPage) ? "sign" : page == typeof(VerifyPage) ? "verify"
             : page == typeof(CardPage) ? "card" : page == typeof(SettingsPage) ? "settings"
             : page == typeof(ActivityPage) ? "activity" : "unknown";
-        App.Current.Monitoring.RecordNavigation(section);
         if (ContentFrame.CurrentSourcePageType != page)
             ContentFrame.Navigate(page, null, App.Current.Services.IsDemo ? new SuppressNavigationTransitionInfo() : null);
         AppLog.Stage($"Navigation frame={ContentFrame.CurrentSourcePageType?.Name}");

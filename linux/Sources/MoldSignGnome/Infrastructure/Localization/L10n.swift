@@ -255,13 +255,6 @@ enum L10n {
         case linux_summary
         case linux_correct
         case linux_saving
-        case monitoring_title
-        case monitoring_description
-        case monitoring_crash
-        case monitoring_metrics
-        case monitoring_allow
-        case monitoring_decline
-        case monitoring_settings_hint
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -1530,41 +1523,6 @@ enum L10n {
     "ro": "Salvare",
     "en": "Saving",
     "ru": "Сохранение"
-  },
-  "monitoring_title": {
-    "ro": "Diagnosticare opțională",
-    "en": "Optional diagnostics",
-    "ru": "Необязательная диагностика"
-  },
-  "monitoring_description": {
-    "ro": "Doriți să contribuiți la îmbunătățirea aplicației? Puteți trimite rapoarte de blocare și metrici tehnice de utilizare către Sentry. Documentele, PIN-urile și datele cardului nu sunt incluse. Puteți schimba alegerea în Setări.",
-    "en": "Help improve the app by sharing crash reports and technical application metrics with Sentry. Documents, PINs and card details are excluded. You can change your choice in Settings.",
-    "ru": "Помогите улучшить приложение: отправляйте в Sentry отчёты о сбоях и технические метрики приложения. Документы, PIN-коды и данные карты не включаются. Вы можете изменить выбор в настройках."
-  },
-  "monitoring_crash": {
-    "ro": "Trimite rapoarte de blocare",
-    "en": "Send crash reports",
-    "ru": "Отправлять отчёты о сбоях"
-  },
-  "monitoring_metrics": {
-    "ro": "Trimite metrici ale aplicației",
-    "en": "Send application metrics",
-    "ru": "Отправлять метрики приложения"
-  },
-  "monitoring_allow": {
-    "ro": "Salvează alegerea",
-    "en": "Save choices",
-    "ru": "Сохранить выбор"
-  },
-  "monitoring_decline": {
-    "ro": "Nu trimite",
-    "en": "Don’t send",
-    "ru": "Не отправлять"
-  },
-  "monitoring_settings_hint": {
-    "ro": "Opțional. Modificările se aplică imediat. Dezactivarea șterge rapoartele locale netrimise.",
-    "en": "Optional. Changes apply immediately. Turning this off deletes unsent local reports.",
-    "ru": "Необязательно. Изменения применяются сразу. При отключении неотправленные локальные отчёты удаляются."
   }
 }
 """#.utf8)

@@ -15,9 +15,6 @@ public class DesktopPreferences
     public bool StartAtLogin { get; set; }
     public bool FirstRunDone { get; set; }
     public bool DemoModeEnabled { get; set; }
-    public bool MonitoringDecisionMade { get; set; }
-    public bool MonitoringCrashReports { get; set; }
-    public bool MonitoringUsageMetrics { get; set; }
     [System.Text.Json.Serialization.JsonIgnore]
     public bool InsertionHelperEnabled => !DemoModeEnabled && (OpenOnCardInsertion || OpenOnReaderInsertion);
 }

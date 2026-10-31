@@ -66,13 +66,6 @@
             <Button x:Name="DeleteAllPinsButton" x:Uid="SettingsDeletePins" Content="Șterge toate PIN-urile salvate" Click="OnDeletePinsClick" />
             <TextBlock x:Name="PinsStatus" Style="{StaticResource MsCaptionTextStyle}" />
 
-            <TextBlock x:Name="MonitoringTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
-            <TextBlock x:Name="MonitoringHint" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
-            <ToggleSwitch x:Name="MonitoringCrashToggle" AutomationProperties.AutomationId="MonitoringSettingsCrash"
-                Toggled="OnMonitoringToggled" />
-            <ToggleSwitch x:Name="MonitoringMetricsToggle" AutomationProperties.AutomationId="MonitoringSettingsMetrics"
-                Toggled="OnMonitoringToggled" />
-
             <TextBlock
                 x:Uid="SettingsBridge"
                 Style="{StaticResource MsSectionHeaderTextStyle}"

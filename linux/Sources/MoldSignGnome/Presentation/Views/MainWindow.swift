@@ -20,7 +20,6 @@ final class MainWindow {
     private let stack: OpaquePointer
     private let banner: OpaquePointer
     private let toasts: OpaquePointer
-    private var monitoringPromptPresented = false
     private var bannerAction: (() -> Void)?
 
     // Pages are owned here: they observe the controller weakly.
@@ -131,10 +130,6 @@ final class MainWindow {
 
     func present() {
         gtk_window_present(window)
-        if AppMonitoring.consent == nil && !monitoringPromptPresented && (!controller.isDemo || ProcessInfo.processInfo.environment["MSIGN_DEMO_MONITORING_PROMPT"] == "1") {
-            monitoringPromptPresented = true
-            presentMonitoringConsent(parent: window.widget)
-        }
     }
 
     func toast(_ text: String) {

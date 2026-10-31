@@ -287,7 +287,8 @@ private fun CacheDrawScope.layoutFace(
     field(L_SURNAME, if (reading) "" else surname.ifEmpty { "—" }, x0, rows[0], fullW, 0.36f * w)
     field(L_GIVEN, if (reading) "" else given.ifEmpty { "—" }, x0, rows[1], fullW, 0.28f * w)
     field(L_VALID, validUntil, x0, rows[2], x1 - x0 - gap, 0.22f * w)
-    field(L_ISSUER, if (reading) "" else issuer, x1, rows[2], valueRight - x1, 0.18f * w)
+    // The chip is above this row; use the remaining right margin for the issuer.
+    field(L_ISSUER, if (reading) "" else issuer, x1, rows[2], w - margin - x1, 0.18f * w)
 
     // Status strip: x from 0.32 W, y 0.80–0.95 H; dot + one line (+ reader caption on large sizes).
     val dotRadius = 0.011f * w

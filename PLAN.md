@@ -32,34 +32,18 @@ Last updated: **2026-10-31**
   signing and empty-PIN layout passed; the insertion helper was checked with mock insertion events.
   iOS native confirmation, simulated batch, persistence and exit passed; share-sheet presentation
   and a dedicated macOS tray screenshot need separate visual confirmation. Windows Release native confirmation, signing, verification,
-  persistence, telemetry suspension and exit passed with 28 focused tests. Apple policy tests passed.
+  persistence and exit passed with 28 focused tests. Apple policy tests passed.
 
-## Optional desktop Sentry — 31 October 2026
+## Screenshot review and diagnostics removal — 31 October 2026
 
-- [x] MON-01 Sentry is included ONLY in macOS, Windows and Linux desktop apps. Remove SDKs,
-  instrumentation and upload configuration from iOS/Android and CLI tools. Historical mobile/CLI
-  test events and the unused Android project remain untouched in the organization.
-- [x] MON-02 Native first-launch prompt with separate crash-report and application-metric switches,
-  both OFF; no SDK/network reporting before explicit opt-in. Persist decline, do not ask again on
-  restart; allow both choices to change immediately in Settings. Cancel sessions and purge unsent
-  queues on changes/opt-out. Stable RO/EN/RU keys live in the shared localization catalog.
-- [x] MON-03 Actual SDK application metrics (fixed counters and duration distributions), sanitized
-  crash reports and optional sampled fixed-operation timings, each gated by its own consent.
-  Linux in-process backend records sanitized JSON crash reports for the next opted-in launch,
-  without raw minidumps. Windows captures managed unhandled failures; raw native dumps stay disabled.
-- [x] MON-04 Native macOS/Windows/Fedora consent flows verified: unknown and persisted decline,
-  independent choices, opt-out/cache removal, no repeated prompt. Hosted metrics confirmed in all
-  three desktop projects; real controlled SIGABRT received as ESEMNBUN-LINUX-4 after opt-in/relaunch.
-  Android clean builds/lint/dependency+APK audits show no Sentry; iOS build/symbol/DSN audit shows no SDK.
-- [~] MON-05 Native production symbol uploads are wired for macOS dSYMs, Windows PDBs and Linux DWARF.
-  GitHub Actions secret SENTRY_AUTH_TOKEN is configured and Sentry CLI authentication verified; actual upload/full native file-line symbolication remains unverified.
-  No production release or store upload was dispatched.
-- [x] MON-06 Local privacy policy, macOS manifest and desktop store-disclosure checklist updated;
-  mobile remains SDK-free. Public privacy URL and portal forms remain submission prerequisites.
-- [x] MON-07 Ubuntu24.04 bundled SDK/app build, thirteen policy tests in a clean scratch directory and
-  actual desktop prompt/metrics-only opt-in/default SDK path/opt-out runtime validation passed. Native
-  layout compatibility was fixed for libadwaita1.5. Fedora final Debug/Release +13tests also passed.
-  Fifteen native consent screenshots across desktop platforms are saved on Desktop, with proof files.
+- [~] UI-21 Reviewed the latest available screenshots and corrected the demo banner overlap,
+  clipped card neighbors, truncated issuer and document names, and inaccessible PIN content.
+  Apple, Android, Windows and Linux selectors show a complete centered card with selectable dots.
+  Source changes require fresh platform builds and native visual/interaction checks.
+- [x] MON-08 Removed desktop Sentry SDKs, telemetry consent, instrumentation, localization,
+  packaging, CI symbol uploads and the GitHub Actions upload secret. Previously submitted reports
+  may remain with the provider; the previously created token still needs to be revoked in Sentry.
+  Localization export and static project checks passed; native builds have not been run.
 
 ## Card pagination simplification — 31 October 2026
 

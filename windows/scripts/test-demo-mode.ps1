@@ -20,7 +20,7 @@ $strings=@{};foreach($entry in $resources.root.data){$strings[$entry.name]=[stri
 $prefs=Join-Path $env:LOCALAPPDATA 'MoldSign/settings.json'
 $history=Join-Path $env:LOCALAPPDATA 'MoldSign/activity.json'
 $backup=@{};foreach($file in $prefs,$history){$backup[$file]=$(if(Test-Path $file){[IO.File]::ReadAllBytes($file)}else{$null})}
-$original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES','MSIGN_SENTRY_VERIFY'){
+$original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES'){
  $original[$name]=[Environment]::GetEnvironmentVariable($name);[Environment]::SetEnvironmentVariable($name,$null)
 }
 $beforeDirs=@(Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Select-Object -ExpandProperty FullName)
@@ -95,7 +95,7 @@ function History-Hash{if(Test-Path $history){return (Get-FileHash $history).Hash
 try{
  if(Get-Process eSemnBun -ErrorAction SilentlyContinue){throw 'Close running eSemnBun before this isolated guest test'}
  New-Item -ItemType Directory -Force (Split-Path $prefs)|Out-Null
- @{Language='en-US';BridgeEnabled=$false;MonitoringDecisionMade=$true;MonitoringCrashReports=$false;MonitoringUsageMetrics=$false;DemoModeEnabled=$false;RememberPin=$true}|ConvertTo-Json|Set-Content $prefs
+ @{Language='en-US';BridgeEnabled=$false;DemoModeEnabled=$false;RememberPin=$true}|ConvertTo-Json|Set-Content $prefs
  Launch;Navigate $strings['SettingsPageTitle.Text'];$toggle=Find 'DemoModeToggle'
  $historyHash=History-Hash
  Toggle $toggle;$null=Find 'DemoModeConfirmation';Capture 'release-demo-confirmation';Invoke (Find 'CloseButton')
@@ -116,14 +116,11 @@ try{
  Navigate $strings['NavVerify.Content'];Invoke (Find 'ChooseDocuments');$null=Text $strings['demo_verify_success'];Capture 'release-demo-verification'
  if((History-Hash) -ne $historyHash){throw 'Demo changed real history'}
  Stop-Owned;Launch;Wait-Demo $true;Navigate $strings['SettingsPageTitle.Text'];Capture 'release-demo-restored'
- # Real-mode monitoring choices may be edited in demo but cannot initialize the SDK while suspended.
- Scroll 75;Toggle (Find 'MonitoringSettingsCrash');Toggle (Find 'MonitoringSettingsMetrics');$null=Text $strings['demo_monitoring_paused']
  Start-Sleep -Milliseconds 500
  $connections=@(Get-NetTCPConnection -OwningProcess $process.Id -ErrorAction SilentlyContinue)
  if($connections.Count -ne 0){throw 'Demo unexpectedly opened a network connection'}
- Toggle (Find 'MonitoringSettingsCrash');Toggle (Find 'MonitoringSettingsMetrics')
  Scroll 0;Toggle (Find 'DemoModeToggle');Wait-Demo $false;Capture 'release-normal-restored'
- if(-not (Read-Prefs).RememberPin -or (Read-Prefs).MonitoringCrashReports -or (Read-Prefs).MonitoringUsageMetrics){throw 'Real-mode preferences changed unexpectedly'}
+ if(-not (Read-Prefs).RememberPin){throw 'Real-mode preferences changed unexpectedly'}
  @{passed=$true;releaseApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true}|
  ConvertTo-Json|Set-Content (Join-Path $Output 'release-demo-validation.json')
 }catch{

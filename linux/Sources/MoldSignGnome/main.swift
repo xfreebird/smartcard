@@ -9,8 +9,6 @@ var arguments = CommandLine.arguments
 let background = arguments.contains("--background")
 arguments.removeAll { $0 == "--background" }
 
-AppMonitoring.start()
 let application = MoldSignApp(startHidden: background)
 let exitCode = application.run(arguments: arguments)
-AppMonitoring.close()
 exit(exitCode)

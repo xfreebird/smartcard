@@ -294,7 +294,8 @@ enum CardArt {
             (0.30, L10n.text(.ui_surname), face.surname, x, right, 0.34),
             (0.47, L10n.text(.ui_given_names), face.givenNames, x, right, 0.26),
             (0.64, L10n.text(.ui_valid_until_2), date, x, column2 - 0.02 * W, 0.18),
-            (0.64, L10n.text(.ui_issuer), face.issuer, column2, right, 0.16),
+            // The issuer is below the chip, so it can use the remaining card width.
+            (0.64, L10n.text(.ui_issuer), face.issuer, column2, 0.96 * W, 0.16),
         ]
         for row in rows {
             let y = row.y * H

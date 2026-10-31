@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../../src/MoldSign.Core/MoldSign.Core.csproj" />
-    <ProjectReference Include="../../src/MoldSign.Diagnostics/MoldSign.Diagnostics.csproj" />
     <ProjectReference Include="../../src/MoldSign.Desktop/MoldSign.Desktop.csproj" />
     <ProjectReference Include="../../src/MoldSign.Cli/MoldSign.Cli.csproj" />
   </ItemGroup>

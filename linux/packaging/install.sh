@@ -32,10 +32,6 @@ need() {
 install_gui() {
   need "$gui_bin" "build it: cd linux && swift build -c release --static-swift-stdlib"
   install -Dm755 "$gui_bin" "$root/bin/esemnbun-gnome"
-  local sentry_library="$repo/linux/.build/sentry-native/install/lib/libsentry.so"
-  need "$sentry_library" "run linux/scripts/build-sentry-sdk.sh first"
-  install -Dm755 "$sentry_library" "$root/lib/esemnbun/libsentry.so"
-  install -Dm644 "$repo/linux/Sources/CSentryRuntime/LICENSE" "$root/share/licenses/esemnbun/sentry-native-LICENSE"
   install -Dm644 "$repo/linux/data/md.moldsign.MoldSign.desktop" "$root/share/applications/md.moldsign.MoldSign.desktop"
   install -Dm644 "$repo/linux/data/md.moldsign.MoldSign.metainfo.xml" "$root/share/metainfo/md.moldsign.MoldSign.metainfo.xml"
   install -Dm644 "$repo/linux/data/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg" \

@@ -7415,195 +7415,6 @@
     },
     {
       "platform": "apple",
-      "key": "monitoring_title",
-      "translations": {
-        "ro": "Diagnosticare opțională",
-        "en": "Optional diagnostics",
-        "ru": "Необязательная диагностика"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "monitoring_description",
-      "translations": {
-        "ro": "Doriți să contribuiți la îmbunătățirea aplicației? Puteți trimite rapoarte de blocare și metrici tehnice de utilizare către Sentry. Documentele, PIN-urile și datele cardului nu sunt incluse. Puteți schimba alegerea în Setări.",
-        "en": "Help improve the app by sharing crash reports and technical application metrics with Sentry. Documents, PINs and card details are excluded. You can change your choice in Settings.",
-        "ru": "Помогите улучшить приложение: отправляйте в Sentry отчёты о сбоях и технические метрики приложения. Документы, PIN-коды и данные карты не включаются. Вы можете изменить выбор в настройках."
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "monitoring_crash",
-      "translations": {
-        "ro": "Trimite rapoarte de blocare",
-        "en": "Send crash reports",
-        "ru": "Отправлять отчёты о сбоях"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "monitoring_metrics",
-      "translations": {
-        "ro": "Trimite metrici ale aplicației",
-        "en": "Send application metrics",
-        "ru": "Отправлять метрики приложения"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "monitoring_allow",
-      "translations": {
-        "ro": "Salvează alegerea",
-        "en": "Save choices",
-        "ru": "Сохранить выбор"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "monitoring_decline",
-      "translations": {
-        "ro": "Nu trimite",
-        "en": "Don’t send",
-        "ru": "Не отправлять"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "monitoring_settings_hint",
-      "translations": {
-        "ro": "Opțional. Modificările se aplică imediat. Dezactivarea șterge rapoartele locale netrimise.",
-        "en": "Optional. Changes apply immediately. Turning this off deletes unsent local reports.",
-        "ru": "Необязательно. Изменения применяются сразу. При отключении неотправленные локальные отчёты удаляются."
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_title",
-      "translations": {
-        "ro": "Diagnosticare opțională",
-        "en": "Optional diagnostics",
-        "ru": "Необязательная диагностика"
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_description",
-      "translations": {
-        "ro": "Doriți să contribuiți la îmbunătățirea aplicației? Puteți trimite rapoarte de blocare și metrici tehnice de utilizare către Sentry. Documentele, PIN-urile și datele cardului nu sunt incluse. Puteți schimba alegerea în Setări.",
-        "en": "Help improve the app by sharing crash reports and technical application metrics with Sentry. Documents, PINs and card details are excluded. You can change your choice in Settings.",
-        "ru": "Помогите улучшить приложение: отправляйте в Sentry отчёты о сбоях и технические метрики приложения. Документы, PIN-коды и данные карты не включаются. Вы можете изменить выбор в настройках."
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_crash",
-      "translations": {
-        "ro": "Trimite rapoarte de blocare",
-        "en": "Send crash reports",
-        "ru": "Отправлять отчёты о сбоях"
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_metrics",
-      "translations": {
-        "ro": "Trimite metrici ale aplicației",
-        "en": "Send application metrics",
-        "ru": "Отправлять метрики приложения"
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_allow",
-      "translations": {
-        "ro": "Salvează alegerea",
-        "en": "Save choices",
-        "ru": "Сохранить выбор"
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_decline",
-      "translations": {
-        "ro": "Nu trimite",
-        "en": "Don’t send",
-        "ru": "Не отправлять"
-      }
-    },
-    {
-      "platform": "windows",
-      "key": "monitoring_settings_hint",
-      "translations": {
-        "ro": "Opțional. Modificările se aplică imediat. Dezactivarea șterge rapoartele locale netrimise.",
-        "en": "Optional. Changes apply immediately. Turning this off deletes unsent local reports.",
-        "ru": "Необязательно. Изменения применяются сразу. При отключении неотправленные локальные отчёты удаляются."
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_title",
-      "translations": {
-        "ro": "Diagnosticare opțională",
-        "en": "Optional diagnostics",
-        "ru": "Необязательная диагностика"
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_description",
-      "translations": {
-        "ro": "Doriți să contribuiți la îmbunătățirea aplicației? Puteți trimite rapoarte de blocare și metrici tehnice de utilizare către Sentry. Documentele, PIN-urile și datele cardului nu sunt incluse. Puteți schimba alegerea în Setări.",
-        "en": "Help improve the app by sharing crash reports and technical application metrics with Sentry. Documents, PINs and card details are excluded. You can change your choice in Settings.",
-        "ru": "Помогите улучшить приложение: отправляйте в Sentry отчёты о сбоях и технические метрики приложения. Документы, PIN-коды и данные карты не включаются. Вы можете изменить выбор в настройках."
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_crash",
-      "translations": {
-        "ro": "Trimite rapoarte de blocare",
-        "en": "Send crash reports",
-        "ru": "Отправлять отчёты о сбоях"
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_metrics",
-      "translations": {
-        "ro": "Trimite metrici ale aplicației",
-        "en": "Send application metrics",
-        "ru": "Отправлять метрики приложения"
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_allow",
-      "translations": {
-        "ro": "Salvează alegerea",
-        "en": "Save choices",
-        "ru": "Сохранить выбор"
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_decline",
-      "translations": {
-        "ro": "Nu trimite",
-        "en": "Don’t send",
-        "ru": "Не отправлять"
-      }
-    },
-    {
-      "platform": "linux",
-      "key": "monitoring_settings_hint",
-      "translations": {
-        "ro": "Opțional. Modificările se aplică imediat. Dezactivarea șterge rapoartele locale netrimise.",
-        "en": "Optional. Changes apply immediately. Turning this off deletes unsent local reports.",
-        "ru": "Необязательно. Изменения применяются сразу. При отключении неотправленные локальные отчёты удаляются."
-      }
-    },
-    {
-      "platform": "apple",
       "key": "demo_settings_title",
       "translations": {
         "ro": "Mod demonstrativ",
@@ -8152,15 +7963,6 @@
       }
     },
     {
-      "platform": "windows",
-      "key": "demo_monitoring_paused",
-      "translations": {
-        "ro": "Monitorizarea este oprită în modul demonstrativ; opțiunile pentru modul real sunt păstrate.",
-        "en": "Monitoring is paused in demo mode; your real-mode choices are preserved.",
-        "ru": "Мониторинг приостановлен в деморежиме; настройки обычного режима сохранены."
-      }
-    },
-    {
       "platform": "apple",
       "key": "demo_mode_confirm",
       "translations": {
@@ -8170,30 +7972,12 @@
       }
     },
     {
-      "platform": "apple",
-      "key": "demo_monitoring_paused",
-      "translations": {
-        "ro": "Monitorizarea este oprită în modul demonstrativ; opțiunile pentru modul real sunt păstrate.",
-        "en": "Monitoring is paused in demo mode; your real-mode choices are preserved.",
-        "ru": "Мониторинг приостановлен в деморежиме; настройки обычного режима сохранены."
-      }
-    },
-    {
       "platform": "android",
       "key": "demo_mode_confirm",
       "translations": {
         "ro": "Activezi modul demonstrativ? Cititoarele reale și conexiunea browser vor fi oprite. Vor fi utilizate numai date și documente fictive.",
         "en": "Enter demo mode? Real readers and the browser connection will stop. Only fictional cards and sample documents will be used.",
         "ru": "Включить деморежим? Реальные считыватели и соединение с браузером будут остановлены. Будут использоваться только вымышленные карты и документы."
-      }
-    },
-    {
-      "platform": "android",
-      "key": "demo_monitoring_paused",
-      "translations": {
-        "ro": "Monitorizarea este oprită în modul demonstrativ; opțiunile pentru modul real sunt păstrate.",
-        "en": "Monitoring is paused in demo mode; your real-mode choices are preserved.",
-        "ru": "Мониторинг приостановлен в деморежиме; настройки обычного режима сохранены."
       }
     },
     {

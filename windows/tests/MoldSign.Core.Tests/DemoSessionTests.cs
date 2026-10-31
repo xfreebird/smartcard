@@ -85,13 +85,12 @@ public class DemoSessionTests
         {
             var store = new DesktopPreferenceStore(path);
             store.Save(new DesktopPreferences { DemoModeEnabled = true, RememberPin = true, BridgeEnabled = true,
-                OpenOnCardInsertion = true, MonitoringDecisionMade = true, MonitoringCrashReports = true });
+                OpenOnCardInsertion = true });
             var restored = store.Load<DesktopPreferences>();
             Assert.True(restored.DemoModeEnabled);
             Assert.True(restored.RememberPin);
             Assert.True(restored.BridgeEnabled);
             Assert.True(restored.OpenOnCardInsertion);
-            Assert.True(restored.MonitoringCrashReports);
             Assert.False(restored.InsertionHelperEnabled);
             restored.DemoModeEnabled = false;
             store.Save(restored);

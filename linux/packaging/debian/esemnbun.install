@@ -4,5 +4,3 @@ usr/share/metainfo/md.moldsign.MoldSign.metainfo.xml
 usr/share/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg
 usr/share/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg
 usr/share/moldsign/localhost.p12
-usr/lib/esemnbun/libsentry.so
-usr/share/licenses/esemnbun/sentry-native-LICENSE

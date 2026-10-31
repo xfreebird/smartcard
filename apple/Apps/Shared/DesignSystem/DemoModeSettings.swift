@@ -33,9 +33,11 @@ struct DemoModeBanner: View {
     var body: some View {
         Label(L10n.text(.demo_banner), systemImage: "sparkles")
             .font(.callout.weight(.semibold))
+            .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
             .padding(.horizontal, 16).padding(.vertical, 10)
-            .background(.orange.opacity(0.14))
+            // An opaque base prevents scrolled content from showing through the fixed banner.
+            .background { Rectangle().fill(.background).overlay(Color.orange.opacity(0.14)) }
             .accessibilityIdentifier("demo.banner")
     }
 }

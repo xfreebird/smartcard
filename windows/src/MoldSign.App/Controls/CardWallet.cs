@@ -68,7 +68,7 @@ public sealed partial class CardWallet : UserControl
     public bool IsExpanded => false;
     public bool IsSelectionCentered => State.CardCount < 2 || Math.Abs(_scroller.HorizontalOffset - TargetOffset) < 1;
     private double TargetOffset => Math.Max(0, State.SelectedIndex) * (_width + 2 * Pad + 16);
-    public double CollapsedHeight => _width / IdCardFace.AspectRatio + 2 * Pad + (State.CardCount > 1 ? 29 : 0);
+    public double CollapsedHeight => _width / IdCardFace.AspectRatio + 2 * Pad + (State.CardCount > 1 ? 50 : 0);
     public double ExpandedExtraHeight => 0;
     public event EventHandler? ExpandedChanged;
     public event EventHandler? CardActivated;
@@ -78,10 +78,9 @@ public sealed partial class CardWallet : UserControl
     {
         var max = IsCompact ? CompactMaxWidth : LargeMaxWidth;
         var outer = double.IsInfinity(availableSize.Width) ? max : Math.Min(availableSize.Width, max);
-        // Wide panes show a readable neighbor preview. Narrow tray panes page full cards without slivers.
-        var showNeighbors = State.CardCount > 1 && outer >= 440;
-        var slotWidth = Math.Min(IsCompact ? 288 : 328, showNeighbors ? outer * 0.66 : outer);
-        var viewport = State.CardCount > 1 && !showNeighbors ? slotWidth : outer;
+        // Show one complete card per page; selection is available through swiping or the dots.
+        var slotWidth = Math.Min(IsCompact ? 288 : 328, outer);
+        var viewport = slotWidth;
         var width = Math.Max(1, Math.Floor(slotWidth - 2 * Pad));
         _cards.Padding = new Thickness(Math.Max(0, (viewport - width - 2 * Pad) / 2), 0,
             Math.Max(0, (viewport - width - 2 * Pad) / 2), 0);
@@ -151,7 +150,20 @@ public sealed partial class CardWallet : UserControl
                 Opacity = index == State.SelectedIndex ? 1 : 0.3,
             };
             AutomationProperties.SetAccessibilityView(dot, AccessibilityView.Raw);
-            _navigation.Children.Add(dot);
+            var cardIndex = index;
+            var button = new Button
+            {
+                Width = 28, Height = 28, MinWidth = 0, MinHeight = 0, Padding = new Thickness(0),
+                Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent),
+                BorderThickness = new Thickness(0), Content = dot,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center,
+            };
+            var cards = State.WalletItems.Where(c => c.Kind == WalletItemKind.Card).ToList();
+            if (cardIndex < cards.Count)
+                AutomationProperties.SetName(button, cards[cardIndex].AccessibleName(cardIndex + 1, cards.Count));
+            button.Click += (_, _) => { if (cardIndex < cards.Count) Select(cards[cardIndex]); };
+            _navigation.Children.Add(button);
         }
         _rendering = false;
         _alignSelection = true;

@@ -45,7 +45,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import md.moldsign.app.application.PickedDocument
 import md.moldsign.app.R
@@ -154,7 +153,7 @@ fun DocumentAddTile(onPick: () -> Unit, modifier: Modifier = Modifier) {
     }
 }
 
-/** FileRows (docs/10 §3) as M3 list items: doc icon, middle-truncated name, size, format chip, remove. */
+/** FileRows (docs/10 §3) as M3 list items: doc icon, name, size, format chip, remove. */
 @Composable
 fun DocumentList(items: List<SignItem>, onFormat: (SignItem, SignFormat) -> Unit, onRemove: (SignItem) -> Unit) {
     Card(
@@ -180,7 +179,7 @@ fun DocumentRow(doc: PickedDocument, format: SignFormat?, onFormat: ((SignFormat
                 tint = MaterialTheme.colorScheme.primary,
             )
         },
-        headlineContent = { Text(doc.name, maxLines = 1, overflow = TextOverflow.MiddleEllipsis) },
+        headlineContent = { Text(doc.name) },
         supportingContent = if (doc.size >= 0) {
             { Text(Formatter.formatShortFileSize(context, doc.size)) }
         } else {

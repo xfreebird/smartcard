@@ -215,13 +215,6 @@
   <data name="Card_LabelIssuer" xml:space="preserve"><value>Issuer</value></data>
   <data name="File_SizeKB" xml:space="preserve"><value>{0} KB</value></data>
   <data name="File_SizeMB" xml:space="preserve"><value>{0} MB</value></data>
-  <data name="monitoring_title" xml:space="preserve"><value>Optional diagnostics</value></data>
-  <data name="monitoring_description" xml:space="preserve"><value>Help improve the app by sharing crash reports and technical application metrics with Sentry. Documents, PINs and card details are excluded. You can change your choice in Settings.</value></data>
-  <data name="monitoring_crash" xml:space="preserve"><value>Send crash reports</value></data>
-  <data name="monitoring_metrics" xml:space="preserve"><value>Send application metrics</value></data>
-  <data name="monitoring_allow" xml:space="preserve"><value>Save choices</value></data>
-  <data name="monitoring_decline" xml:space="preserve"><value>Don’t send</value></data>
-  <data name="monitoring_settings_hint" xml:space="preserve"><value>Optional. Changes apply immediately. Turning this off deletes unsent local reports.</value></data>
   <data name="demo_settings_title" xml:space="preserve"><value>Demo mode</value></data>
   <data name="demo_settings_description" xml:space="preserve"><value>Explore with fictional cards and sample documents without hardware. Outputs are not valid signatures.</value></data>
   <data name="demo_banner" xml:space="preserve"><value>Demo mode — fictional data</value></data>
@@ -243,7 +236,6 @@
   <data name="demo_enable_action" xml:space="preserve"><value>Use demo mode</value></data>
   <data name="demo_mode_enable" xml:space="preserve"><value>Enable demo mode</value></data>
   <data name="demo_mode_confirm" xml:space="preserve"><value>Enter demo mode? Real readers and the browser connection will stop. Only fictional cards and sample documents will be used.</value></data>
-  <data name="demo_monitoring_paused" xml:space="preserve"><value>Monitoring is paused in demo mode; your real-mode choices are preserved.</value></data>
   <data name="about_developer" xml:space="preserve"><value>Developer</value></data>
   <data name="about_app_title" xml:space="preserve"><value>About eSemnBun</value></data>
 </root>

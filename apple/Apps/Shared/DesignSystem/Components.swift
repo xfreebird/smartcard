@@ -15,13 +15,22 @@ struct DropZone: View {
         let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
         Group {
             if compact {
-                HStack(spacing: Theme.Space.s) {
-                    Image(systemName: "arrow.down.doc")
-                    Text(L10n.text(.ui_drop_more_documents_here_or))
-                    Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.borderless)
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: Theme.Space.s) {
+                        Image(systemName: "arrow.down.doc")
+                        Text(L10n.text(.ui_drop_more_documents_here_or)).fixedSize()
+                        Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.borderless).fixedSize()
+                    }
+                    VStack(spacing: Theme.Space.s) {
+                        Label(L10n.text(.ui_drop_more_documents_here_or), systemImage: "arrow.down.doc")
+                            .multilineTextAlignment(.center)
+                        Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.borderless)
+                    }
+                    .padding(.vertical, Theme.Space.s)
                 }
                 .font(.callout)
                 .foregroundStyle(.secondary)
+                .padding(.horizontal, Theme.Space.s)
                 .frame(maxWidth: .infinity, minHeight: 48)
             } else {
                 VStack(spacing: Theme.Space.s) {

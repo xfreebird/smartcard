@@ -243,7 +243,6 @@ final class AppModel {
         trustedUntil.removeAll()
         demoMode = enabled
         AppPreferencesStore.defaults.set(enabled, forKey: "demoModeEnabled")
-        AppMonitoring.demoModeChanged()
         cards = []; readers = []; selectedReaderName = nil
         signItems = []; lastSigned = []; lastError = nil
         verifyFile = nil; verifyReports = nil; browserURL = nil
@@ -486,10 +485,8 @@ final class AppModel {
     }
 
     private func sign(_ item: SignItem, pin: String, reader: String, certificateSHA1: String) async throws -> URL {
-        try await AppMonitoring.signDocument {
-            try await documentSigner.sign(item, pin: pin, reader: reader, certificateSHA1: certificateSHA1) { [weak self] step in
-                Task { @MainActor in self?.currentStep = step }
-            }
+        try await documentSigner.sign(item, pin: pin, reader: reader, certificateSHA1: certificateSHA1) { [weak self] step in
+            Task { @MainActor in self?.currentStep = step }
         }
     }
 
@@ -499,9 +496,6 @@ final class AppModel {
             vault.delete(certID: certID)
         }
         if case CardError.pinBlocked = error { vault.delete(certID: certID) }
-        if case CardError.wrongPIN = error { /* Expected user correction, no telemetry. */ }
-        else if case CardError.pinBlocked = error { /* Cardholder state, no telemetry. */ }
-        else if !(error is CancellationError) { AppMonitoring.capture(.signingFailed) }
         lastError = Self.describe(error)
     }
 

@@ -200,5 +200,4 @@
   <string name="demo_enable_action">Folosește modul demonstrativ</string>
   <string name="demo_mode_enable">Activează modul demonstrativ</string>
   <string name="demo_mode_confirm">Activezi modul demonstrativ? Cititoarele reale și conexiunea browser vor fi oprite. Vor fi utilizate numai date și documente fictive.</string>
-  <string name="demo_monitoring_paused">Monitorizarea este oprită în modul demonstrativ; opțiunile pentru modul real sunt păstrate.</string>
 </resources>

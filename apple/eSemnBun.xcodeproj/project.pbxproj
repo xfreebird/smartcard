@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-        A5E001000000000000000001 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = A5E001000000000000000003 /* Sentry */; };
 		1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 271172B4B652C80AD3F64967 /* MoldSignKit */; };
 		74A873709C5AAAA449081549 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 396DE1DA3F8E87AE2E83E516 /* MoldSignKit */; };
 		7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE1540A69DD726BA154AB629 /* MoldSignKit */; };
@@ -102,7 +101,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1637F631CE266B479CD79ED5 /* MoldSignKit in Frameworks */,
-                A5E001000000000000000001 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,7 +194,6 @@
 			name = "eSemnBun-macOS";
 			packageProductDependencies = (
 				271172B4B652C80AD3F64967 /* MoldSignKit */,
-                A5E001000000000000000003 /* Sentry */,
 			);
 			productName = "eSemnBun-macOS";
 			productReference = C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */;
@@ -283,7 +280,6 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				FD641AE35A48C0B3A519D3EF /* XCLocalSwiftPackageReference "MoldSignKit" */,
-                A5E001000000000000000005 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 033BFFADBFCCC6BE9A02D653 /* Products */;
@@ -661,15 +657,9 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-        A5E001000000000000000005 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-            isa = XCRemoteSwiftPackageReference;
-            repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
-            requirement = { kind = exactVersion; version = 9.32.0; };
-        };
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-        A5E001000000000000000003 /* Sentry */ = { isa = XCSwiftPackageProductDependency; package = A5E001000000000000000005; productName = Sentry; };
 		271172B4B652C80AD3F64967 /* MoldSignKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = MoldSignKit;

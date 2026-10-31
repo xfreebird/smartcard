@@ -197,5 +197,4 @@
   <string name="demo_enable_action">Use demo mode</string>
   <string name="demo_mode_enable">Enable demo mode</string>
   <string name="demo_mode_confirm">Enter demo mode? Real readers and the browser connection will stop. Only fictional cards and sample documents will be used.</string>
-  <string name="demo_monitoring_paused">Monitoring is paused in demo mode; your real-mode choices are preserved.</string>
 </resources>

@@ -39,5 +39,5 @@ consent without silently changing it. The monitoring page explicitly explains th
   policy; the native Release flow also observed zero process TCP connections while both monitoring
   choices were switched on in demo. Saved PIN storage is excluded by `DemoPinVault` composition.
 
-The CLI remains free of Sentry and is unaffected by this UI mode. No physical card or PIN is used for
+The CLI is unaffected by this UI mode. No physical card or PIN is used for
 these checks; the Windows guest runs without the reader attached. No deployment or store upload occurred.

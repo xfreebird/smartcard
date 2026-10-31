@@ -16,8 +16,7 @@ rejects all hardware transport/enumeration access through an atomic `DemoHardwar
 connection prevents changing modes until it disconnects. Reader snapshots and old bridge callbacks
 are ignored while demo is active. Switching modes clears selected documents/results/certificates
 and restores the corresponding history/vault boundary. iOS's embedded browser becomes inert while
-demo is active. Sentry is suspended and its local queue cleared during user demo mode; re-entering
-live mode still honors the independent diagnostics consent choices.
+demo is active.
 
 The non-App-Store insertion helper reads the app's persisted demo preference. It continues updating
 its insertion baseline without launching during demo, avoids a deferred launch immediately after

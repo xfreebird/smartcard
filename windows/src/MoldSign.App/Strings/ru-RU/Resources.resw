@@ -215,13 +215,6 @@
   <data name="Card_LabelIssuer" xml:space="preserve"><value>Издатель</value></data>
   <data name="File_SizeKB" xml:space="preserve"><value>{0} КБ</value></data>
   <data name="File_SizeMB" xml:space="preserve"><value>{0} МБ</value></data>
-  <data name="monitoring_title" xml:space="preserve"><value>Необязательная диагностика</value></data>
-  <data name="monitoring_description" xml:space="preserve"><value>Помогите улучшить приложение: отправляйте в Sentry отчёты о сбоях и технические метрики приложения. Документы, PIN-коды и данные карты не включаются. Вы можете изменить выбор в настройках.</value></data>
-  <data name="monitoring_crash" xml:space="preserve"><value>Отправлять отчёты о сбоях</value></data>
-  <data name="monitoring_metrics" xml:space="preserve"><value>Отправлять метрики приложения</value></data>
-  <data name="monitoring_allow" xml:space="preserve"><value>Сохранить выбор</value></data>
-  <data name="monitoring_decline" xml:space="preserve"><value>Не отправлять</value></data>
-  <data name="monitoring_settings_hint" xml:space="preserve"><value>Необязательно. Изменения применяются сразу. При отключении неотправленные локальные отчёты удаляются.</value></data>
   <data name="demo_settings_title" xml:space="preserve"><value>Демонстрационный режим</value></data>
   <data name="demo_settings_description" xml:space="preserve"><value>Изучайте приложение с вымышленными картами и документами без считывателя. Результаты не являются действительными подписями.</value></data>
   <data name="demo_banner" xml:space="preserve"><value>Демонстрационный режим — вымышленные данные</value></data>
@@ -243,7 +236,6 @@
   <data name="demo_enable_action" xml:space="preserve"><value>Включить демонстрационный режим</value></data>
   <data name="demo_mode_enable" xml:space="preserve"><value>Включить деморежим</value></data>
   <data name="demo_mode_confirm" xml:space="preserve"><value>Включить деморежим? Реальные считыватели и соединение с браузером будут остановлены. Будут использоваться только вымышленные карты и документы.</value></data>
-  <data name="demo_monitoring_paused" xml:space="preserve"><value>Мониторинг приостановлен в деморежиме; настройки обычного режима сохранены.</value></data>
   <data name="about_developer" xml:space="preserve"><value>Разработчик</value></data>
   <data name="about_app_title" xml:space="preserve"><value>О eSemnBun</value></data>
 </root>

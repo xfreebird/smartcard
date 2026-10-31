@@ -215,7 +215,7 @@ private struct DocumentRow: View {
                 .foregroundStyle(.secondary)
                 .frame(width: 24)
             VStack(alignment: .leading, spacing: 1) {
-                Text(item.url.lastPathComponent).lineLimit(1).truncationMode(.middle)
+                Text(item.url.lastPathComponent).fixedSize(horizontal: false, vertical: true)
                 Text(item.sizeText).font(.caption).foregroundStyle(.secondary)
             }
             Spacer()
@@ -249,7 +249,7 @@ private struct SignedRow: View {
         HStack {
             Label(url.lastPathComponent, systemImage: "checkmark.seal.fill")
                 .labelStyle(SuccessLabelStyle())
-                .lineLimit(1).truncationMode(.middle)
+                .fixedSize(horizontal: false, vertical: true)
             Spacer()
             #if APP_STORE && os(macOS)
             Button(L10n.text(.ui_export)) { exporting = true }

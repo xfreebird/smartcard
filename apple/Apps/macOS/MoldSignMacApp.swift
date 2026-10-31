@@ -6,7 +6,6 @@ import MoldSignKit
 struct MoldSignMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
-    init() { AppMonitoring.start() }
 
     var body: some Scene {
         MenuBarExtra {
@@ -20,7 +19,6 @@ struct MoldSignMacApp: App {
 
         Window(L10n.text(.ui_esemnbun), id: "main") {
             MainWindowView()
-                .modifier(MonitoringConsentPrompt())
                 .environment(appDelegate.model)
                 .appPreferences()
                 .frame(minWidth: 860, minHeight: 580)
@@ -48,7 +46,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         model.start()
         observeWindows()
-        let firstLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow") || MonitoringPreferences.shared.shouldAsk
+        let firstLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow")
         if firstLaunch || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
             Task { @MainActor in
                 try? await Task.sleep(for: .milliseconds(250))
@@ -69,7 +67,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func showDesignPreviews() {
         if ProcessInfo.processInfo.environment["MSIGN_DEMO_DARK"] != nil { NSApp.appearance = NSAppearance(named: .darkAqua) }
         let popover = NSHostingController(rootView: MenuBarPopover().environment(model).appPreferences())
-        let main = NSHostingController(rootView: MainWindowView().modifier(MonitoringConsentPrompt()).environment(model).appPreferences().frame(width: 980, height: 700))
+        let main = NSHostingController(rootView: MainWindowView().environment(model).appPreferences().frame(width: 980, height: 700))
         for (title, controller, origin) in [("Popover preview", popover as NSViewController, NSPoint(x: 60, y: 120)),
                                             ("eSemnBun preview", main as NSViewController, NSPoint(x: 420, y: 80))] {
             let window = NSWindow(contentViewController: controller)

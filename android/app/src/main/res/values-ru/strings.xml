@@ -203,5 +203,4 @@
   <string name="demo_enable_action">Включить демонстрационный режим</string>
   <string name="demo_mode_enable">Включить деморежим</string>
   <string name="demo_mode_confirm">Включить деморежим? Реальные считыватели и соединение с браузером будут остановлены. Будут использоваться только вымышленные карты и документы.</string>
-  <string name="demo_monitoring_paused">Мониторинг приостановлен в деморежиме; настройки обычного режима сохранены.</string>
 </resources>

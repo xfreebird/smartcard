@@ -20,12 +20,6 @@ public sealed partial class SettingsPage : Page
         DemoModeDescription.Text = Loc.Get("demo_mode_description");
         RememberPinToggle.IsEnabled = !App.Current.Services.IsDemo;
         DeleteAllPinsButton.IsEnabled = !App.Current.Services.IsDemo;
-        MonitoringTitle.Text = Loc.Get("monitoring_title");
-        MonitoringHint.Text = Loc.Get(App.Current.Services.IsDemo ? "demo_monitoring_paused" : "monitoring_settings_hint");
-        MonitoringCrashToggle.Header = Loc.Get("monitoring_crash");
-        MonitoringMetricsToggle.Header = Loc.Get("monitoring_metrics");
-        MonitoringCrashToggle.IsOn = App.Current.Monitoring.Consent.CanSendCrash;
-        MonitoringMetricsToggle.IsOn = App.Current.Monitoring.Consent.CanSendMetrics;
         ToastsToggle.IsOn = settings.ReaderToasts;
         OpenOnInsertionToggle.IsOn = settings.OpenOnCardInsertion;
         OpenOnReaderInsertionToggle.IsOn = settings.OpenOnReaderInsertion;
@@ -72,12 +66,6 @@ public sealed partial class SettingsPage : Page
         _loadingPreferences = true;
         DemoModeToggle.IsOn = App.Current.Services.IsDemo;
         _loadingPreferences = false;
-    }
-
-    private void OnMonitoringToggled(object sender, RoutedEventArgs e)
-    {
-        if (_loadingPreferences) return;
-        App.Current.Monitoring.Apply(MonitoringCrashToggle.IsOn, MonitoringMetricsToggle.IsOn);
     }
 
     private async void OnBridgeToggled(object sender, RoutedEventArgs e)

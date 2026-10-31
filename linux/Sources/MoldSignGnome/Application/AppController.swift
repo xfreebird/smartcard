@@ -634,7 +634,6 @@ final class AppController {
     }
 
     private func log(_ item: ActivityItem) {
-        AppMonitoring.operationFinished(failed: !item.ok)
         activity.insert(item, at: 0)
         if activity.count > Store.activityLimit { activity.removeLast(activity.count - Store.activityLimit) }
         Store.save(activity)

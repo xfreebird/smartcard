@@ -215,13 +215,6 @@
   <data name="Card_LabelIssuer" xml:space="preserve"><value>Emitent</value></data>
   <data name="File_SizeKB" xml:space="preserve"><value>{0} KB</value></data>
   <data name="File_SizeMB" xml:space="preserve"><value>{0} MB</value></data>
-  <data name="monitoring_title" xml:space="preserve"><value>Diagnosticare opțională</value></data>
-  <data name="monitoring_description" xml:space="preserve"><value>Doriți să contribuiți la îmbunătățirea aplicației? Puteți trimite rapoarte de blocare și metrici tehnice de utilizare către Sentry. Documentele, PIN-urile și datele cardului nu sunt incluse. Puteți schimba alegerea în Setări.</value></data>
-  <data name="monitoring_crash" xml:space="preserve"><value>Trimite rapoarte de blocare</value></data>
-  <data name="monitoring_metrics" xml:space="preserve"><value>Trimite metrici ale aplicației</value></data>
-  <data name="monitoring_allow" xml:space="preserve"><value>Salvează alegerea</value></data>
-  <data name="monitoring_decline" xml:space="preserve"><value>Nu trimite</value></data>
-  <data name="monitoring_settings_hint" xml:space="preserve"><value>Opțional. Modificările se aplică imediat. Dezactivarea șterge rapoartele locale netrimise.</value></data>
   <data name="demo_settings_title" xml:space="preserve"><value>Mod demonstrativ</value></data>
   <data name="demo_settings_description" xml:space="preserve"><value>Explorează aplicația cu carduri și documente fictive, fără cititor. Rezultatele nu sunt semnături valide.</value></data>
   <data name="demo_banner" xml:space="preserve"><value>Mod demonstrativ — date fictive</value></data>
@@ -243,7 +236,6 @@
   <data name="demo_enable_action" xml:space="preserve"><value>Folosește modul demonstrativ</value></data>
   <data name="demo_mode_enable" xml:space="preserve"><value>Activează modul demonstrativ</value></data>
   <data name="demo_mode_confirm" xml:space="preserve"><value>Activezi modul demonstrativ? Cititoarele reale și conexiunea browser vor fi oprite. Vor fi utilizate numai date și documente fictive.</value></data>
-  <data name="demo_monitoring_paused" xml:space="preserve"><value>Monitorizarea este oprită în modul demonstrativ; opțiunile pentru modul real sunt păstrate.</value></data>
   <data name="about_developer" xml:space="preserve"><value>Dezvoltator</value></data>
   <data name="about_app_title" xml:space="preserve"><value>Despre eSemnBun</value></data>
 </root>

@@ -59,10 +59,6 @@ jobs:
           MACOS_SIGN_IDENTITY: Developer ID Application
           MACOS_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: scripts/package-macos.sh
-      - name: Upload macOS debug symbols to Sentry
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: scripts/upload-sentry-ci.sh apple dist/macos/eSemnBun.xcarchive/dSYMs
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-macos
@@ -143,10 +139,6 @@ jobs:
         env:
           MOLDSIGN_PACKAGES: tar deb rpm
         run: scripts/package-linux.sh
-      - name: Upload Linux debug symbols to Sentry
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: scripts/upload-sentry-ci.sh linux dist/linux/symbols
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-linux
@@ -211,11 +203,6 @@ jobs:
       - name: Package
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64
-      - name: Upload Windows debug symbols to Sentry
-        shell: bash
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        run: scripts/upload-sentry-ci.sh windows windows/artifacts/package
       # Microsoft Store: upload the MSIX as a new submission (tags only: each upload needs a higher version).
       # Needs the Partner Center Entra app secrets (docs/11); skipped while they are missing.
       - name: Publish to the Microsoft Store

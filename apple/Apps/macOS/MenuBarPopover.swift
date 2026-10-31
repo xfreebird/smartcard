@@ -245,15 +245,17 @@ struct MainWindowView: View {
             }
         } detail: {
             NavigationStack {
-                switch Section(rawValue: stored) ?? .sign {
-                case .sign: SignScreen()
-                case .verify: VerifyScreen()
-                case .card: CardScreen()
-                case .activity: ActivityScreen()
+                VStack(spacing: 0) {
+                    if model.demoMode { DemoModeBanner() }
+                    switch Section(rawValue: stored) ?? .sign {
+                    case .sign: SignScreen()
+                    case .verify: VerifyScreen()
+                    case .card: CardScreen()
+                    case .activity: ActivityScreen()
+                    }
                 }
             }
             .background(WindowReader { WindowPresentation.shared.register($0, for: .main) })
         }
-        .safeAreaInset(edge: .top, spacing: 0) { if model.demoMode { DemoModeBanner() } }
     }
 }
