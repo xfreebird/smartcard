@@ -41,16 +41,21 @@ Last updated: **2026-10-31**
   Apple, Android, Windows and Linux selectors show a complete centered card with selectable dots.
   Fresh Ubuntu and Fedora builds and mock screenshot matrices (28 each, RO/EN/RU and light/dark)
   passed; selecting another card using the pagination dots was verified on both desktops. macOS
-  build and native demo-banner/card-dot interaction passed. Android phone and tablet interaction
-  checks, Windows desktop UI checks and iOS simulator checks are being completed.
+  build and native demo-banner/card-dot interaction passed. Windows UI build and 24 mock screenshots
+  passed; wheel, keyboard and pagination-dot card selection and lower controls were checked at two window heights.
+  Android phone PIN rotation/cancel, tablet card swipe and 12 tablet keyboard-visible PIN cases
+  passed. Added localized accessibility labels and selection state to the Android carousel dots;
+  the rebuilt app exposes these in the accessibility tree, but a post-change tap is unverified.
+  Eight iPhone light/dark screenshots were captured; iPhone swipe and iPad/Duo interaction checks
+  remain outstanding because the host ran critically low on disk space during simulator startup.
 - [x] MON-08 Removed desktop Sentry SDKs, telemetry consent, instrumentation, localization,
   packaging, CI symbol uploads and the GitHub Actions upload secret. Previously submitted reports
   may remain with the provider; the previously created token still needs to be revoked in Sentry.
   Localization export, static project checks and native macOS, Linux and Android builds passed.
 
-- [~] CI-21 Fix the Xcode 16 SDK compilation failure by using the supported scroll behavior on
-  older compilers. Local macOS, iOS Simulator and CLI builds pass with Xcode 26; CI on Xcode 16
-  still needs to confirm the fallback.
+- [x] CI-21 Fix the Xcode 16 SDK compilation failure by using the supported scroll behavior on
+  older compilers. Local macOS, iOS Simulator and CLI builds pass with Xcode 26; the Xcode 16
+  GitHub CI job passed for commit 98885a3.
 - [~] CI-22 Fix the Windows activation-pipe startup race by creating the first server before
   returning from Listen. The formerly failing test and all 193 portable tests pass on Windows ARM;
   hosted CI still needs to confirm the fix.

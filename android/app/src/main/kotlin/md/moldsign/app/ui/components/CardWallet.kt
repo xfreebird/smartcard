@@ -198,8 +198,13 @@ fun CardWallet(
             modifier = Modifier.padding(vertical = 8.dp),
         ) {
             repeat(cards.size) { index ->
-                Box(Modifier.size(28.dp).clickable(enabled = selectionEnabled, onClickLabel = cards[index].readerId) {
+                val label = stringResource(R.string.action_sign_with, holderOrReader(cards[index]))
+                Box(Modifier.size(28.dp).clickable(enabled = selectionEnabled, onClickLabel = label) {
                     onSelect(cards[index].readerId)
+                }.semantics {
+                    contentDescription = label
+                    role = Role.Button
+                    selected = index == selectedIndex
                 }, contentAlignment = Alignment.Center) {
                 Box(Modifier.size(7.dp).background(
                     if (index == selectedIndex) MaterialTheme.colorScheme.primary
