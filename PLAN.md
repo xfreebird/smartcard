@@ -36,7 +36,7 @@ Last updated: **2026-10-31**
 
 ## Screenshot review and diagnostics removal — 31 October 2026
 
-- [~] UI-21 Reviewed the latest available screenshots and corrected the demo banner overlap,
+- [x] UI-21 Reviewed the latest available screenshots and corrected the demo banner overlap,
   clipped card neighbors, truncated issuer and document names, and inaccessible PIN content.
   Apple, Android, Windows and Linux selectors show a complete centered card with selectable dots.
   Fresh Ubuntu and Fedora builds and mock screenshot matrices (28 each, RO/EN/RU and light/dark)
@@ -45,9 +45,13 @@ Last updated: **2026-10-31**
   passed; wheel, keyboard and pagination-dot card selection and lower controls were checked at two window heights.
   Android phone PIN rotation/cancel, tablet card swipe and 12 tablet keyboard-visible PIN cases
   passed. Added localized accessibility labels and selection state to the Android carousel dots;
-  the rebuilt app exposes these in the accessibility tree, but a post-change tap is unverified.
-  Eight iPhone light/dark screenshots were captured; iPhone swipe and iPad/Duo interaction checks
-  remain outstanding because the host ran critically low on disk space during simulator startup.
+  the rebuilt app exposes these in the accessibility tree. On the MacBook Air, the dot tap,
+  tablet swipe and focused phone resize with the keyboard visible and Cancel interaction passed.
+  An earlier concurrent-startup attempt produced an Android emulator ANR; the isolated retry passed.
+  On the MacBook Air, macOS dot selection passed and iPhone, iPad and expanded Duo each passed
+  both native carousel tests, including actual swipe gestures and centered-card assertions.
+  The expanded Duo PIN field and actions were visible above the keyboard. Air screenshots and
+  test results are saved in the Desktop screenshot folders under `2026-10-31/air-review`.
 - [x] MON-08 Removed desktop Sentry SDKs, telemetry consent, instrumentation, localization,
   packaging, CI symbol uploads and the GitHub Actions upload secret. Previously submitted reports
   may remain with the provider; the previously created token still needs to be revoked in Sentry.
@@ -56,9 +60,9 @@ Last updated: **2026-10-31**
 - [x] CI-21 Fix the Xcode 16 SDK compilation failure by using the supported scroll behavior on
   older compilers. Local macOS, iOS Simulator and CLI builds pass with Xcode 26; the Xcode 16
   GitHub CI job passed for commit 98885a3.
-- [~] CI-22 Fix the Windows activation-pipe startup race by creating the first server before
+- [x] CI-22 Fix the Windows activation-pipe startup race by creating the first server before
   returning from Listen. The formerly failing test and all 193 portable tests pass on Windows ARM;
-  hosted CI still needs to confirm the fix.
+  hosted CI passed all jobs for commit 57e36f6.
 
 ## Card pagination simplification — 31 October 2026
 
