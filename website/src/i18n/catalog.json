@@ -223,5 +223,10 @@
     "en": "Ready to save or share",
     "ro": "Gata de salvat sau distribuit",
     "ru": "Можно сохранить или отправить"
+  },
+  "mobileStoreStatus": {
+    "en": "App Store availability depends on review. Google Play may require testing access.",
+    "ro": "Disponibilitatea în App Store depinde de aprobare. Google Play poate necesita acces la testare.",
+    "ru": "Доступность в App Store зависит от проверки. Для Google Play может потребоваться доступ к тестированию."
   }
 }

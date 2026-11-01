@@ -32,3 +32,33 @@
    technology while the visible progress row labels the continuous illustration. */
 .continuous-heading{position:absolute;width:1px;height:1px;min-height:0;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;top:0;left:0;transform:none}
 @media(prefers-reduced-motion:reduce){.continuous-heading{position:relative;width:auto;height:auto;margin:0;padding:90px 24px 0;clip-path:none;white-space:normal;text-align:center}.continuous-scene{top:260px!important;left:5%!important;width:90%!important}}
+/* Comfortable reading sizes across the landing page, navigation and docs. */
+:root{--ifm-font-size-base:18px}
+.navbar__logo img{border-radius:23%;overflow:hidden}.navbar__link{font-size:17px}
+.project-label,.source-link,.scroll-cue,.guide-link,.trust-section a{font-size:17px}
+.hero-intro>small{font-size:16px}.download-button{font-size:18px;min-height:48px}
+.download-options{width:350px}.download-options a{padding:15px 18px}.download-options b{font-size:17px}.download-options small{font-size:15px;line-height:1.5}
+.feature-grid p,.trust-section p,.final-cta p{font-size:18px;line-height:1.75}.section-label{font-size:15px;letter-spacing:.04em}
+.footer__title{font-size:18px}.footer__link-item,.footer__copyright{font-size:16px;line-height:1.8}
+.story-steps{font-size:16px}.story-steps b{font-size:14px;width:26px;height:26px}
+.mobile-stores{display:none}
+@media(max-width:760px){
+ .hero-intro{padding:24px 20px 20px}.hero-intro h1{font-size:34px;margin:18px 0}.hero-intro p{font-size:18px;line-height:1.5}
+ .hero-actions{margin:22px 0 14px;gap:15px}.scroll-cue{margin-top:22px}.hero-intro>small{font-size:16px;display:block;margin-top:12px;line-height:1.6}
+ .source-link,.guide-link{font-size:17px}.project-label{font-size:16px}
+ .mobile-stores{display:block;margin:18px auto 10px;max-width:390px}
+ .mobile-store-badges{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+ .mobile-store-badges a{display:flex;align-items:center;justify-content:center;min-height:64px}
+ .apple-store-badge{width:150px;height:50px}.google-store-badge{width:190px;height:74px;object-fit:contain}
+ .mobile-stores p{font-size:16px;line-height:1.5;color:#5d676f;margin:8px 12px}
+ .continuous-story{height:230svh}.continuous-progress{font-size:14px;max-width:calc(100% - 16px)}
+ .story-steps span{padding:8px 6px;gap:5px}.story-steps b{font-size:12px;width:21px;height:21px}
+ .feature-grid p,.final-cta p{font-size:18px}.footer__link-item{font-size:17px}
+}
+
+@media(max-width:760px){.apple-store-badge{width:clamp(120px,36vw,150px);height:auto}.google-store-badge{width:clamp(150px,46vw,190px);height:auto}}
+/* Keep all four progress labels visible on narrow phones and in every locale. */
+@media(max-width:760px){
+ .continuous-progress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:calc(100% - 24px);max-width:440px}
+ .continuous-progress span{flex-direction:column;gap:4px;padding:6px 2px;text-align:center;overflow-wrap:anywhere}
+}

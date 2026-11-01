@@ -2,7 +2,7 @@ import React,{useEffect,useRef,useState,useId} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useText from '../i18n/useText';
 import {iphone, androidPhone, desktop as desktopDisplay} from './deviceGeometry';
-import {sceneAt,cardGeometry,clamp} from './scrollScene.mjs';
+import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderShift} from './scrollScene.mjs';
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
@@ -10,6 +10,7 @@ export default function SigningStory(){
  const [viewport,setViewport]=useState({width:1440,height:960}),[reduced,setReduced]=useState(false);
  const assets={macos:useBaseUrl('/img/macos.png'),iphone:useBaseUrl('/img/iphone.png'),android:useBaseUrl('/img/android.png'),windows:useBaseUrl('/img/windows.png'),linux:useBaseUrl('/img/linux.png')};
  const disconnected={macos:useBaseUrl('/img/macos-disconnected.png'),windows:useBaseUrl('/img/windows-disconnected.png'),linux:useBaseUrl('/img/linux-disconnected.png'),android:useBaseUrl('/img/android-disconnected.png'),iphone:useBaseUrl('/img/iphone-disconnected.png')};
+ const readerScreens={macos:useBaseUrl('/img/macos-reader.png'),iphone:useBaseUrl('/img/iphone-reader.png'),android:useBaseUrl('/img/android-reader.png'),windows:useBaseUrl('/img/windows-reader.png'),linux:useBaseUrl('/img/linux-reader.png')};
  const readerImage=useBaseUrl('/img/reader.png'),cardImage=useBaseUrl('/img/card.png');
  useEffect(()=>{
   const ua=navigator.userAgent;setOs(/Android/i.test(ua)?'android':/Windows/i.test(ua)?'windows':/Linux/i.test(ua)?'linux':'macos');
@@ -22,20 +23,23 @@ export default function SigningStory(){
   return()=>{cancelAnimationFrame(raf);window.removeEventListener('scroll',scroll);window.removeEventListener('resize',resize);motion.removeEventListener('change',resize);};
  },[]);
  const state=sceneAt(reduced?1:progress);
- const step=progress<.24?0:progress<.4?1:progress<.82?2:3;
+ const step=progress<.24?0:progress<.4?1:progress<.84?2:3;
  const geometry=mobile?(os==='android'?androidPhone:iphone):desktopDisplay;
  const {frame,screen,port}=geometry;
  const platform=mobile?(os==='android'?'android':'iphone'):os;
- const reader=mobile?{x:200,y:650,width:380,height:253.333}:{x:600,y:520,width:330,height:220};
+ const readerShift=mobile?mobileReaderShift(state):0;
+ const reader=mobile?{x:200+readerShift,y:650,width:380,height:253.333}:{x:600,y:520,width:330,height:220};
  const card=cardGeometry(reader);
- // The desktop screen starts at 100vw, reaches exactly 75vw at .24, then keeps
- // that width. Translate the scene up later to reveal the connected hardware.
- const screenFraction=1-.25*state.shrink;
- const svgWidth=mobile?Math.min(viewport.width,560):viewport.width*screenFraction*1100/screen.width;
+ // The desktop screen reaches 75vw at .24, then shrinks further during
+ // connection so the complete rig remains visible.
+ const screenFraction=desktopScreenFraction(state,viewport,reader,frame,screen);
+ const mobileStart=viewport.width*1.4*650/screen.width;
+ const mobileEnd=Math.min(viewport.width*1.35,650,Math.max(300,viewport.height-190)*650/(reader.y+977*reader.width/1536-frame.y));
+ const svgWidth=mobile?mobileStart+(mobileEnd-mobileStart)*state.shrink:viewport.width*screenFraction*1100/screen.width;
  const unit=svgWidth/(mobile?650:1100);
  const screenCenter=screen.y+screen.height/2;
- const firstY=viewport.height*.62;
- const centerY=viewport.height*.5;
+ const firstY=viewport.height*.95;
+ const centerY=mobile?88+screen.height*unit/2:viewport.height*.5;
  const readerBottom=reader.y+977*reader.width/1536;
  const hardwareLift=Math.max(0,centerY+(readerBottom-screenCenter)*unit-(viewport.height-110));
  const sceneY=firstY+(centerY-firstY)*state.shrink-hardwareLift*state.connect;
@@ -54,17 +58,18 @@ export default function SigningStory(){
     </g>
     <rect {...screen} fill="#e1e6e9"/>
     <image href={disconnected[platform]} {...screen} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
+    <image href={readerScreens[platform]} {...screen} opacity={state.reader} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
     <image href={assets[platform]} {...screen} opacity={state.app} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
     {mobile&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
     <g opacity={clamp(state.connect*4)}>
-     <path className="connection-cable" pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V850 Q${port.x} 890 ${port.x+40} 890 H570 Q600 890 600 860 V804 Q600 774 570 774 H525`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>
+     <path className="connection-cable" pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V850 Q${port.x} 890 ${port.x+40} 890 H600 Q630 890 630 860 V804 Q630 774 610 774 H${525+readerShift}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>
      <rect x={port.x-(mobile?11:12)} y={port.y-11} width={mobile?22:25} height={mobile?35:22} rx="4" fill="#303533"/>
     </g>
     {/* Card is painted behind the reader; its chip disappears into the body. */}
-    <image href={cardImage} x={card.x-(1-state.insert)*220} y={card.y} width={card.width} height={card.height} opacity={clamp(state.insert*5)} preserveAspectRatio="xMidYMid meet"/>
+    <image href={cardImage} x={card.x-(1-state.insert)*(mobile?90:220)} y={card.y} width={card.width} height={card.height} opacity={clamp(state.insert*5)} preserveAspectRatio="xMidYMid meet"/>
     <g opacity={clamp(state.connect*3)} transform={`translate(${(1-state.connect)*110} ${(1-state.connect)*45})`}>
      <image href={readerImage} {...reader}/>
-     <rect x={mobile?519:875} y={mobile?763:616} width="23" height="23" rx="4" fill="#303533"/>
+     <rect x={mobile?519+readerShift:875} y={mobile?763:616} width="23" height="23" rx="4" fill="#303533"/>
     </g>
     <g opacity={state.signed} transform={`translate(${mobile?35:190} ${660+(1-state.signed)*20})`}>
      <rect width="285" height="77" rx="12" fill="white" stroke="#d3ded7"/><circle cx="32" cy="38" r="13" fill="#e2efe6"/><path d="M25 38 l5 5 10-12" fill="none" stroke="#307253" strokeWidth="3"/>
