@@ -32,7 +32,7 @@ def main():
             commands.append([sys.executable, str(TOOLS / drivers[platform]), '--output', str(output)])
     if 'apple' in platforms:
         commands += [[sys.executable, str(TOOLS / 'apple_render.py'), '--raw', str(output / 'apple/raw'), '--output', str(output / 'apple/screenshots'), '--supplemental-output', str(output / 'apple/supplemental')],
-                     [sys.executable, str(TOOLS / 'apple_validate.py'), str(output / 'apple/screenshots')]]
+                     [sys.executable, str(TOOLS / 'apple_validate.py'), str(output / 'apple/screenshots')] + (['--duo-directory', str(output / 'apple/supplemental')] if (output / 'apple/raw/en/duo-compact').exists() else [])]
     if any(p in platforms for p in ('windows', 'android')):
         commands.append([sys.executable, str(TOOLS / 'render-crossplatform-promos.py'), '--output', str(output / 'promotional'), '--android-raw', str(output / 'google/assets/android'), '--windows-raw', str(output / 'microsoft/assets'), '--stores', ','.join(p for p in ('android','windows') if p in platforms)])
     commands += [[sys.executable, str(ROOT / 'scripts/prepare-store-metadata.py'), '--check'],

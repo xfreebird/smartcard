@@ -5,7 +5,8 @@ require 'deliver'
 require 'tmpdir'
 require 'fileutils'
 require 'json'
-platform, pack = ARGV
+platform, pack, *flags = ARGV
+abort "Unknown options: #{flags.join(' ')}" unless (flags - %w[--screenshots-only --replace-screenshots]).empty?
 abort 'Usage: bundle exec ruby distribution/tools/upload-apple-draft.rb ios|macos PACK' unless %w[ios macos].include?(platform) && pack
 root = File.expand_path('..', __dir__)
 key = { key_id: ENV.fetch('ASC_KEY_ID'), issuer_id: ENV.fetch('ASC_ISSUER_ID'), key: File.read(ENV.fetch('ASC_KEY_PATH')), in_house: false }
@@ -30,9 +31,10 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
   %w[ro en ru].each do |locale|
     target = File.join(screenshots, locale == 'en' ? 'en-US' : locale)
     FileUtils.mkdir_p(target)
-    families = platform == 'ios' ? %w[iphone ipad] : %w[macos]
+    families = platform == 'ios' ? %w[iphone ipad duo-compact duo-expanded] : %w[macos]
     families.each do |family|
-      Dir.glob(File.join(File.expand_path(pack), 'apple/screenshots', locale, family, '*.png')).sort.each do |file|
+      folder = family.start_with?('duo-') ? 'apple/supplemental' : 'apple/screenshots'
+      Dir.glob(File.join(File.expand_path(pack), folder, locale, family, '*.png')).sort.each do |file|
         FileUtils.cp(file, File.join(target, "#{family}-#{File.basename(file)}"))
       end
     end
@@ -44,7 +46,8 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
     platform: platform == 'ios' ? 'ios' : 'osx',
     metadata_path: metadata, screenshots_path: screenshots, copyright: '2026 Nicolae Ghimbovschi',
     skip_binary_upload: true, submit_for_review: false, automatic_release: false,
-    force: true, overwrite_screenshots: false, run_precheck_before_submit: false,
+    skip_metadata: flags.include?('--screenshots-only'),
+    force: true, overwrite_screenshots: flags.include?('--replace-screenshots'), run_precheck_before_submit: false,
     screenshot_processing_timeout: 600
   })
   if ENV['REVIEW_CONTACT_PHONE']

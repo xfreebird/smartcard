@@ -1,12 +1,12 @@
 # Store draft uploads — 1 November 2026
 
-No store certification submission, public release or test rollout has been performed.
+No store certification submission or public release has been performed in this work.
 
 ## Apple
 
 - iOS/iPadOS app: 6826865290 (`md.esemnbun.ios`), version 0.2.0, build 100 VALID and attached to draft. Release workflow 41315196812.
 - macOS app: 6829451042 (`md.esemnbun.mac`), version 0.2.0, sandboxed build 100 VALID and attached. Store package workflow 41315203394, delivery 31be9092-fc37-4188-bdfa-bf32e17d03da.
-- iOS screenshot sets: 30 processed images, RO/EN/RU, five iPhone plus five iPad per locale.
+- iOS screenshot sets: 60 COMPLETE and ordered images, RO/EN/RU: five framed iPhone, five iPad, five compact Duo and five expanded Duo per locale. Duo uses the dedicated APP_IPHONE_DUO slot; its earlier supplemental-only classification was incorrect.
 - Mac screenshot sets: 18 processed RO/EN/RU images plus six English copies for the record's primary en-GB locale. The separate Mac record requires distinct localized names, `eSemnBun for Mac`.
 - Metadata, privacy/support/marketing URLs and copyright uploaded. Owner-provided review contact uploaded to both drafts; the phone number is not stored in the repository.
 - Apple's initial release does not display release notes; the localized first-release texts are retained in the repository for stores that support them.
@@ -43,3 +43,11 @@ macOS was unset and was updated to false. Future Mac and iOS/share-extension bun
 carry `ITSAppUsesNonExemptEncryption=false`; macOS distribution validation enforces it.
 Plist lint and shell syntax pass, and the uploaded iOS IPA confirms the Boolean flag.
 The existing Mac binary was not replaced; its server-side build declaration is saved.
+
+## Framed screenshots and reader artwork refresh
+
+All 78 Apple exports pass RGB/PNG and exact-dimension validation, including Duo compact 1398×2034 and expanded 2853×2007. The upload script includes both Duo folders and has explicit screenshot-only/replacement switches. Read-back verifies all nine iOS screenshot sets COMPLETE and ordered (60 images); Mac screenshots retain the previous verified upload. Native captures remain unchanged.
+
+Header/Search Results artwork uses fictional identity details and the actual slim white reader form, with the physical chip covered by the sleeve and a continuous USB-C connection. The three opaque 5244×2950 localized exports are separate promotional illustrations. All three Asset Library images reached PREPARE_FOR_SUBMISSION and all six localized Header/Search Results placements read back ACTIVE, linked to the expected artwork. Rerunning the uploader reused the same assets and placements. Receipts are in the local pack's upload folder. No assets or app version have been submitted for review by this refresh.
+
+Subsequent portal observation: Google internal testing showed 0.2.0 (100) available to internal testers, released on 1 November at 17:34. This artwork refresh did not initiate that rollout.
