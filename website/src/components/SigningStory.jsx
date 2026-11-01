@@ -2,7 +2,7 @@ import React,{useEffect,useRef,useState,useId} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useText from '../i18n/useText';
 import {iphone, androidPhone, desktop as desktopDisplay} from './deviceGeometry';
-import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderShift} from './scrollScene.mjs';
+import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mobileSceneWidth,mobileStoryProgress} from './scrollScene.mjs';
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
@@ -15,11 +15,16 @@ export default function SigningStory(){
  useEffect(()=>{
   const ua=navigator.userAgent;setOs(/Android/i.test(ua)?'android':/Windows/i.test(ua)?'windows':/Linux/i.test(ua)?'linux':'macos');
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const resize=()=>{setMobile(window.innerWidth<=760);setViewport({width:window.innerWidth,height:window.innerHeight});setReduced(motion.matches);};
+  const mobileScreen=/Android/i.test(ua)?androidPhone.screen:iphone.screen;
   let raf=0;
-  const update=()=>{raf=0;const r=root.current?.getBoundingClientRect();if(r)setProgress(clamp(-r.top/Math.max(1,r.height-window.innerHeight)));};
+  const update=()=>{
+   raf=0;const r=root.current?.getBoundingClientRect();if(!r)return;
+   const viewport={width:window.innerWidth,height:window.innerHeight};
+   setProgress(viewport.width<=760?mobileStoryProgress(r,viewport,mobileScreen):clamp(-r.top/Math.max(1,r.height-viewport.height)));
+  };
+  const resize=()=>{setMobile(window.innerWidth<=760);setViewport({width:window.innerWidth,height:window.innerHeight});setReduced(motion.matches);update();};
   const scroll=()=>{if(!raf)raf=requestAnimationFrame(update);};
-  resize();update();window.addEventListener('scroll',scroll,{passive:true});window.addEventListener('resize',resize);motion.addEventListener('change',resize);
+  resize();window.addEventListener('scroll',scroll,{passive:true});window.addEventListener('resize',resize);motion.addEventListener('change',resize);
   return()=>{cancelAnimationFrame(raf);window.removeEventListener('scroll',scroll);window.removeEventListener('resize',resize);motion.removeEventListener('change',resize);};
  },[]);
  const state=sceneAt(reduced?1:progress);
@@ -27,21 +32,22 @@ export default function SigningStory(){
  const geometry=mobile?(os==='android'?androidPhone:iphone):desktopDisplay;
  const {frame,screen,port}=geometry;
  const platform=mobile?(os==='android'?'android':'iphone'):os;
- const readerShift=mobile?mobileReaderShift(state):0;
- const reader=mobile?{x:200+readerShift,y:650,width:380,height:253.333}:{x:600,y:520,width:330,height:220};
+ const reader=mobile?mobileReaderGeometry(state):{x:600,y:520,width:330,height:220};
+ const cableX=mobile?reader.x+325*reader.width/380:882;
+ const cableY=mobile?reader.y+124*reader.width/380:627;
  const card=cardGeometry(reader);
  // The desktop screen reaches 75vw at .24, then shrinks further during
  // connection so the complete rig remains visible.
  const screenFraction=desktopScreenFraction(state,viewport,reader,frame,screen);
  const mobileStart=viewport.width*1.4*650/screen.width;
- const mobileEnd=Math.min(viewport.width*1.35,650,Math.max(300,viewport.height-190)*650/(reader.y+977*reader.width/1536-frame.y));
+ const mobileEnd=mobileSceneWidth(viewport,screen);
  const svgWidth=mobile?mobileStart+(mobileEnd-mobileStart)*state.shrink:viewport.width*screenFraction*1100/screen.width;
  const unit=svgWidth/(mobile?650:1100);
  const screenCenter=screen.y+screen.height/2;
  const firstY=viewport.height*.95;
- const centerY=mobile?88+screen.height*unit/2:viewport.height*.5;
+ const centerY=mobile?Math.max(76,(viewport.height-screen.height*unit)/2)+screen.height*unit/2:viewport.height*.5;
  const readerBottom=reader.y+977*reader.width/1536;
- const hardwareLift=Math.max(0,centerY+(readerBottom-screenCenter)*unit-(viewport.height-110));
+ const hardwareLift=mobile?0:Math.max(0,centerY+(readerBottom-screenCenter)*unit-(viewport.height-110));
  const sceneY=firstY+(centerY-firstY)*state.shrink-hardwareLift*state.connect;
  const left=mobile?(viewport.width/2-(frame.x+frame.width/2)*unit):(viewport.width/2-(screen.x+screen.width/2)*unit);
  const top=sceneY-screenCenter*unit;
@@ -62,16 +68,16 @@ export default function SigningStory(){
     <image href={assets[platform]} {...screen} opacity={state.app} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
     {mobile&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
     <g opacity={clamp(state.connect*4)}>
-     <path className="connection-cable" pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V850 Q${port.x} 890 ${port.x+40} 890 H600 Q630 890 630 860 V804 Q630 774 610 774 H${525+readerShift}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>
+     <path className="connection-cable" style={{strokeWidth:mobile?6:10}} pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V640 Q${port.x} 660 ${port.x+25} 660 H480 Q500 660 500 640 V${cableY+20} Q500 ${cableY} 480 ${cableY} H${cableX}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>
      <rect x={port.x-(mobile?11:12)} y={port.y-11} width={mobile?22:25} height={mobile?35:22} rx="4" fill="#303533"/>
     </g>
     {/* Card is painted behind the reader; its chip disappears into the body. */}
-    <image href={cardImage} x={card.x-(1-state.insert)*(mobile?90:220)} y={card.y} width={card.width} height={card.height} opacity={clamp(state.insert*5)} preserveAspectRatio="xMidYMid meet"/>
+    <image href={cardImage} x={card.x-(1-state.insert)*(mobile?25:220)} y={card.y} width={card.width} height={card.height} opacity={clamp(state.insert*5)} preserveAspectRatio="xMidYMid meet"/>
     <g opacity={clamp(state.connect*3)} transform={`translate(${(1-state.connect)*110} ${(1-state.connect)*45})`}>
      <image href={readerImage} {...reader}/>
-     <rect x={mobile?519+readerShift:875} y={mobile?763:616} width="23" height="23" rx="4" fill="#303533"/>
+     <rect x={mobile?reader.x+319*reader.width/380:875} y={mobile?reader.y+113*reader.width/380:616} width={mobile?12:23} height={mobile?12:23} rx="4" fill="#303533"/>
     </g>
-    <g opacity={state.signed} transform={`translate(${mobile?35:190} ${660+(1-state.signed)*20})`}>
+    <g opacity={state.signed} transform={`translate(${mobile?175:190} ${(mobile?550:660)+(1-state.signed)*20})`}>
      <rect width="285" height="77" rx="12" fill="white" stroke="#d3ded7"/><circle cx="32" cy="38" r="13" fill="#e2efe6"/><path d="M25 38 l5 5 10-12" fill="none" stroke="#307253" strokeWidth="3"/>
      <text x="57" y="32" fontSize="15" fill="#23392d">Contract-signed.pdf</text><text x="57" y="54" fontSize="12" fill="#567260">{t('ready')}</text>
     </g>

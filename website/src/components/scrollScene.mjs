@@ -30,4 +30,22 @@ export function desktopScreenFraction(state,viewport,reader,frame,screen){
 
 // Shift the reader before the card enters, keeping the complete approaching ID
 // inside the phone scene. The cable endpoint follows the reader connector.
-export function mobileReaderShift(state){return 100*state.spread;}
+export function mobileReaderShift(state){return 60*state.spread;}
+
+// Begin the mobile timeline during entrance, after 10% of the enlarged screen
+// is visible. Waiting for the section to reach the top compresses the zoom-out.
+export function mobileStoryProgress(bounds,viewport,screen){
+ const openingHeight=viewport.width*1.4*screen.height/screen.width;
+ const openingTop=Math.max(0,viewport.height*.95-openingHeight/2);
+ const startTop=Math.max(0,viewport.height-openingTop-openingHeight*.1);
+ return clamp((startTop-bounds.top)/Math.max(1,bounds.height-viewport.height+startTop));
+}
+
+// Keep the phone prominent; only short viewports constrain the 85vw target.
+export function mobileSceneWidth(viewport,screen){
+ const screenWidth=Math.min(viewport.width*.85,Math.max(300,viewport.height-100)*screen.width/screen.height);
+ return screenWidth*650/screen.width;
+}
+export function mobileReaderGeometry(state){
+ return {x:235+mobileReaderShift(state),y:420,width:200,height:200*1024/1536};
+}
