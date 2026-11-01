@@ -173,6 +173,7 @@ public sealed class AppState : INotifyPropertyChanged
     public string BridgeStatus { get => _bridgeStatus; set => Set(ref _bridgeStatus, value); }
 
     public bool IsDemo => _isDemo;
+    public bool DemoBannerVisible => _isDemo && !DemoMode.ScreenshotCapture;
     public string DemoDisclaimer => Loc.Get("demo_mode_disclaimer");
     public Visibility DemoVisibility => _isDemo ? Visibility.Visible : Visibility.Collapsed;
     public void ResetSession(bool demo)
@@ -180,7 +181,7 @@ public sealed class AppState : INotifyPropertyChanged
         _wallet.Apply([]); _busy = false; _step = null; _isDemo = demo;
         Activity.Clear(); RecentDocuments.Clear(); _recentsClearedAt = DateTimeOffset.MinValue;
         BridgeEnabled = false; BridgeStatus = "";
-        Refresh(); Raise(nameof(IsDemo)); Raise(nameof(DemoVisibility));
+        Refresh(); Raise(nameof(IsDemo)); Raise(nameof(DemoBannerVisible)); Raise(nameof(DemoVisibility));
     }
 
     // MARK: - Mutations (UI thread)

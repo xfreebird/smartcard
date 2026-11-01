@@ -46,6 +46,17 @@ public sealed class DemoReaderSource(string scenario) : IReaderSource
 internal static class DemoMode
 {
     private static bool _enabled;
+    public static bool ScreenshotCapture
+    {
+        get
+        {
+#if DEBUG
+            return PreviewScenario is not null && Environment.GetEnvironmentVariable("MSIGN_SCREENSHOT_CAPTURE") == "1";
+#else
+            return false;
+#endif
+        }
+    }
     public static void Configure(bool enabled) => _enabled = enabled;
     public static string? PreviewScenario
     {

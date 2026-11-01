@@ -95,7 +95,7 @@
                 </Grid.RowDefinitions>
                 <InfoBar Grid.Row="0" Margin="32,12,32,0" IsClosable="False"
                     AutomationProperties.AutomationId="DemoModeBanner"
-                    IsOpen="{x:Bind State.IsDemo, Mode=OneWay}"
+                    IsOpen="{x:Bind State.DemoBannerVisible, Mode=OneWay}"
                     Message="{x:Bind State.DemoDisclaimer, Mode=OneWay}" Severity="Informational" />
                 <!-- Status / errors (docs/10 §0.3: InfoBar), driven by the status light. -->
                 <InfoBar Grid.Row="1"
