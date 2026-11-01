@@ -4,8 +4,7 @@
 <component type="desktop-application">
   <id>md.moldsign.MoldSign</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <!-- TODO(LNX-14): set the real project license (no LICENSE file in the repo yet). -->
-  <project_license>LicenseRef-proprietary</project_license>
+  <project_license>MIT</project_license>
   <name>eSemnBun</name>
   <name xml:lang="ro">eSemnBun</name>
   <summary>Sign and verify documents with the Moldovan eID card</summary>
