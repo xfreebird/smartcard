@@ -171,8 +171,8 @@ lane :mac_store_certificates do |options|
         additional_cert_types: ["mac_installer_distribution"])
 end
 
-desc "Archive and export sandboxed macOS App Store package using read-only match; never uploads"
-lane :mac_store_release do
+desc "Archive sandboxed macOS App Store package; upload to TestFlight in CI"
+lane :mac_store_release do |options|
   setup_ci if is_ci
   match(type: "appstore", platform: "macos", app_identifier: MAC_ID, api_key: asc_key,
         readonly: true, additional_cert_types: ["mac_installer_distribution"])
@@ -196,6 +196,11 @@ lane :mac_store_release do
     sh(File.expand_path("../apple/scripts/verify-macos-distribution.sh", __dir__), "store",
        File.join(out, "eSemnBun.xcarchive", "Products", "Applications", "eSemnBun.app"))
     sh("pkgutil", "--check-signature", File.join(out, "eSemnBun-AppStore.pkg"))
+    upload = options.key?(:upload) ? options[:upload].to_s != "false" : is_ci
+    if upload
+      upload_to_testflight(api_key: asc_key, pkg: File.join(out, "eSemnBun-AppStore.pkg"),
+        app_platform: "osx", skip_waiting_for_build_processing: true, skip_submission: true)
+    end
   ensure
     File.write(pbxproj, original)
   end

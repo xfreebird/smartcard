@@ -1,0 +1,45 @@
+name: Apple TestFlight
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Apple platforms to upload
+        type: choice
+        options: [both, ios, macos]
+        default: both
+      build_number:
+        description: Positive integer higher than the existing store build
+        type: string
+        required: true
+permissions:
+  contents: read
+jobs:
+  upload:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ios, macos]
+    runs-on: macos-26
+    env:
+      ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+      ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+      ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      BUILD_NUMBER: ${{ inputs.build_number }}
+      FASTLANE_OPT_OUT_USAGE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        if: inputs.platform == 'both' || inputs.platform == matrix.platform
+      - uses: ruby/setup-ruby@v1
+        if: inputs.platform == 'both' || inputs.platform == matrix.platform
+        with: { ruby-version: '3.3', bundler-cache: true }
+      - name: Build and upload
+        if: inputs.platform == 'both' || inputs.platform == matrix.platform
+        env:
+          PLATFORM: ${{ matrix.platform }}
+        run: |
+          if [[ "$PLATFORM" == ios ]]; then
+            bundle exec fastlane ios_release upload:true
+          else
+            bundle exec fastlane mac_store_release upload:true
+          fi

@@ -746,3 +746,4 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-01: Replaced README pointer-highlight capture with the cursor-free native macOS store capture (English sign screen), visually checked for no cursor or demo banner.
 
 - 2026-11-01: Fixed tray-only Settings presentation by activating the app before requesting the SwiftUI scene and deferring the request until the activation-policy transition completes. Both desktop Debug and isolated QA builds passed; diff whitespace check passed. Exact tray-only runtime validation remains pending because the UI automation attachment reopens the main window.
+- 2026-11-01: Added macOS TestFlight upload to the store packaging lane and a dedicated Apple TestFlight workflow for iOS/macOS/both. Restricted public releases to DMG/APK/MSI and Linux packages; obsolete store-upload assets are removed before checksums. Building macOS Settings fix for store and desktop distribution.
