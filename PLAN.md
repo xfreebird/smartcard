@@ -743,3 +743,4 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-01: Release refresh complete. All six platform jobs and publisher passed in run 41329713694 (source 4c77c10, build 101); separate Mac App Store package run 41329717584 passed and its package was added to v0.2.0. All 15 installer hashes match GitHub asset digests and SHA256SUMS.txt. Subsequent source changes contain README/media/progress only. README animation verified as four 980×752 frames at 3 seconds each, captured from freshly compiled source with banner-free isolated fixtures.
 
 - 2026-11-01: Replaced the README animation with a static banner-free macOS screenshot from the same freshly compiled capture; removed the unused GIF.
+- 2026-11-01: Replaced README pointer-highlight capture with the cursor-free native macOS store capture (English sign screen), visually checked for no cursor or demo banner.
