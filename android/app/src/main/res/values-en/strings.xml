@@ -212,4 +212,12 @@
   <string name="browser_download_started">Download started</string>
   <string name="browser_download_failed">Could not download this file.</string>
   <string name="browser_download_signin">For signed-in downloads, open the site in your external browser.</string>
+  <string name="browser_services">Services</string>
+  <string name="browser_public_services">Public services</string>
+  <string name="browser_clear_data">Clear browsing data…</string>
+  <string name="browser_cache">Cache</string>
+  <string name="browser_cookies">Cookies and site data</string>
+  <string name="browser_history">Browsing history</string>
+  <string name="browser_clear_selected">Clear selected data</string>
+  <string name="browser_data_reset_note">Clearing cookies signs you out of websites. Clearing cookies or history closes the current page. App PINs and documents are kept.</string>
 </resources>

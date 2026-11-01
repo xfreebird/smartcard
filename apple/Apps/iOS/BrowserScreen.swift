@@ -8,6 +8,12 @@ struct BrowserScreen: View {
     @State private var editingAddress = false
     @State private var address = "https://msign.gov.md/#/"
     @State private var addressError = false
+    @State private var showingDataReset = false
+    @State private var clearCache = true
+    @State private var clearCookies = true
+    @State private var clearHistory = true
+    @State private var clearingData = false
+    @State private var initialPageRequested = false
 
     var body: some View {
         Group {
@@ -15,7 +21,7 @@ struct BrowserScreen: View {
                 ContentUnavailableView(L10n.text(.demo_banner), systemImage: "sparkles",
                                        description: Text(L10n.text(.demo_settings_description)))
             } else {
-                PortalWebView(browser: browser)
+                PortalWebView(browser: browser).id(browser.id)
             }
         }
             .safeAreaInset(edge: .top) {
@@ -41,6 +47,26 @@ struct BrowserScreen: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        Button { showingDataReset = true } label: {
+                            Label(L10n.text(.browser_clear_data), systemImage: "trash")
+                        }
+                        Divider()
+                        ForEach(PortalService.all) { service in
+                            Button { browser.open(service.url) } label: {
+                                Label {
+                                Text(service.title)
+                            } icon: {
+                                Image(service.imageName).resizable().renderingMode(.original)
+                                    .scaledToFit().frame(width: 18, height: 18)
+                            }
+                            }
+                        }
+                    } label: {
+                        Label(L10n.text(.browser_services), systemImage: "bookmark")
+                    }.disabled(model.demoMode)
+                }
+                ToolbarItem(placement: .primaryAction) {
                     Button { address = browser.url?.absoluteString ?? address; editingAddress = true } label: {
                         Label(L10n.text(.ui_open_an_address), systemImage: "link")
                     }.disabled(model.demoMode)
@@ -57,6 +83,30 @@ struct BrowserScreen: View {
                         ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
                     }
                 }
+            }
+            .sheet(isPresented: $showingDataReset) {
+                NavigationStack {
+                    Form {
+                        Section {
+                            Toggle(L10n.text(.browser_cache), isOn: $clearCache)
+                            Toggle(L10n.text(.browser_cookies), isOn: $clearCookies)
+                            Toggle(L10n.text(.browser_history), isOn: $clearHistory)
+                        } footer: { Text(L10n.text(.browser_data_reset_note)) }
+                        if clearingData { ProgressView() }
+                    }
+                    .navigationTitle(L10n.text(.browser_clear_data))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(L10n.text(.ui_cancel)) { showingDataReset = false }.disabled(clearingData)
+                        }
+                        ToolbarItem(placement: .confirmationAction) {
+                            Button(L10n.text(.ui_clear)) { Task { await resetBrowserData() } }
+                                .disabled(clearingData || !(clearCache || clearCookies || clearHistory))
+                        }
+                    }
+                    .disabled(clearingData)
+                }.interactiveDismissDisabled(clearingData)
             }
             .sheet(isPresented: $editingAddress) {
                 NavigationStack {
@@ -80,8 +130,43 @@ struct BrowserScreen: View {
                 else if browser.url == nil { browser.open(URL(string: "https://msign.gov.md/#/")!) }
             }
             .onAppear {
-                if !model.demoMode, browser.url == nil { browser.open(model.browserURL ?? URL(string: "https://msign.gov.md/#/")!) }
+                if !model.demoMode, !initialPageRequested {
+                    initialPageRequested = true
+                    browser.open(model.browserURL ?? URL(string: "https://msign.gov.md/#/")!)
+                }
             }
+    }
+
+    @MainActor
+    private func resetBrowserData() async {
+        clearingData = true
+        browser.webView.stopLoading()
+        // Stop the current page from recreating session storage while cookies are removed.
+        if clearCookies || clearHistory {
+            initialPageRequested = true
+            browser.webView.loadHTMLString("", baseURL: nil)
+            browser.webView.navigationDelegate = nil
+            browser.webView.uiDelegate = nil
+            browser = PortalBrowser(configuration: browser.webView.configuration)
+            address = ""
+        }
+        var types = Set<String>()
+        if clearCache {
+            types.formUnion([WKWebsiteDataTypeDiskCache, WKWebsiteDataTypeMemoryCache,
+                             WKWebsiteDataTypeFetchCache, WKWebsiteDataTypeServiceWorkerRegistrations])
+        }
+        if clearCookies {
+            types.formUnion([WKWebsiteDataTypeCookies, WKWebsiteDataTypeLocalStorage,
+                             WKWebsiteDataTypeSessionStorage, WKWebsiteDataTypeIndexedDBDatabases,
+                             WKWebsiteDataTypeWebSQLDatabases])
+        }
+        if !types.isEmpty {
+            await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                WKWebsiteDataStore.default().removeData(ofTypes: types, modifiedSince: .distantPast) { continuation.resume() }
+            }
+        }
+        clearingData = false
+        showingDataReset = false
     }
 
     private func openAddress() {
@@ -98,7 +183,8 @@ struct BrowserScreen: View {
 
 @MainActor @Observable
 private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate {
-    let webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+    let id = UUID()
+    let webView: WKWebView
     var url: URL?
     var canGoBack = false
     var canGoForward = false
@@ -106,7 +192,8 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     var error: String?
     private let mpassHosts: Set<String> = ["mpass.gov.md", "testmpass.gov.md", "mpass.staging.egov.md"]
 
-    override init() {
+    init(configuration: WKWebViewConfiguration = WKWebViewConfiguration()) {
+        webView = WKWebView(frame: .zero, configuration: configuration)
         super.init()
         // A redirect or POST may reach MPass before navigation preferences are applied.
         // Set a desktop user agent from the first request so its login preserves SSO state.

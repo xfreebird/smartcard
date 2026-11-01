@@ -11,15 +11,29 @@ Last updated: **2026-11-01**
 
 ---
 
+## Browser usability — 1 November 2026
+
+- [x] WEB-UX-01 Shared official service shortcuts including EVO, per-service icons, compact native navigation controls.
+- [x] WEB-UX-02 Confirmed browsing-data reset for cache, cookies and history on macOS, iOS and Android; warn about signout and reset back/forward state.
+- [x] WEB-UX-03 Fix real MSign download callback gap with explicit WebKit download API, native attached Save panel and download lifetime management. Live saved PDF matches independently verified portal output.
+
+Validation: official website artwork is bundled locally from recorded source URLs/hashes. Store, Desktop, iOS Simulator and Android Debug builds pass. Native macOS toolbar/service navigation and intrinsic icon sizing passed. Isolated macOS/iOS/Android reset tests confirm Cancel preserves history, history-only preserves cookies/site storage and clears Back/Forward, and full reset removes cookies/site data without reopening MSign. Android cookie counts were 10→10→0. Actual portal Download opened the attached Save sheet; saved PDF matched the independently verified portal output. Final signed Store package and boundary checks passed. Evidence is under Desktop/esemnbun-screenshots/{macos,ios,android}/2026-11-01 and docs/reports/macos-store-live-card-2026-11-01.md.
+
+## Live Store signing acceptance — 1 November 2026
+
+- [x] MAC-LIVE-01 Owner authorized connected-card and known session PIN testing. One worker owns all physical card operations; identify holder before choosing PIN, use stdin/UI only, never retry a failed PIN. Use synthetic documents and validate output; record exact direct/browser and authentication coverage without PINs.
+
+Live results: sandboxed CTK signing with explicitly selected certificate and native consent produced VALID PAdES-B-T with trusted chain. A fresh isolated MSign session uploaded the harmless PDF, signed through the real card and saved the valid result through the app UI. eVMS SAML redirect, MPass ID-card choice and authentication return passed; testing stopped at login and signed out. No PIN errors occurred. No PIN or personal account details are recorded in source or evidence reports.
+
 ## macOS Store embedded browser — 1 November 2026
 
 - [x] MAC-WEB-01 Native WKWebView browser with address/history/reload, native uploads/downloads and normal TLS, available in both macOS distributions.
 - [x] MAC-WEB-02 Store loopback HTTPS with bundled identity and network server entitlement; data-only route policy preserves origin/consent/PIN checks and rejects filesystem endpoints. Vendor process control and reader helper remain excluded.
 - [x] MAC-WEB-03 Sandbox runtime, live portal/localhost WebView requests, both builds and signed Store package validation.
 
-This revision supersedes MAC-DIST-02's initial bridge disablement below: the Store build now intentionally includes the TLS identity and server entitlement, while omitting external helper/process control. Six core tests pass, including simulated data signing, blocked path routes before card/consent IO and denied foreign origins without CORS. Portal signing with a physical card remains separate from mock/no-PIN validation.
+This revision supersedes MAC-DIST-02's initial bridge disablement below: the Store build now intentionally includes the TLS identity and server entitlement, while omitting external helper/process control. Six core tests pass, including simulated data signing, blocked path routes before card/consent IO and denied foreign origins without CORS. Subsequent serialized live-card validation passed as documented under MAC-LIVE-01.
 
-Validation: both Desktop and Store Debug builds pass. The actual sandboxed Store Browser screen loads live MSign and reports bridge enabled. A sandboxed WKWebView loaded the live site and fetched localhost certificates using default TLS/CORS (200); unknown Origin and filesystem signing routes returned 403. Six core tests include simulated authorized data signing and route/origin denials before card IO. The updated universal signed Store package at `dist/macos-app-store/eSemnBun-AppStore.pkg` passes strict codesign, installer signature and revised distribution audit (TLS identity/server entitlement included, watcher absent). Screenshot: Desktop/esemnbun-screenshots/macos/2026-11-01/store-browser/browser.png. Installed app and keychain state restored. Physical-card portal signing and complete eVMS authentication return remain unverified; no submission/upload occurred.
+Validation: both Desktop and Store Debug builds pass. The actual sandboxed Store Browser screen loads live MSign and reports bridge enabled. A sandboxed WKWebView loaded the live site and fetched localhost certificates using default TLS/CORS (200); unknown Origin and filesystem signing routes returned 403. Six core tests include simulated authorized data signing and route/origin denials before card IO. The updated universal signed Store package at `dist/macos-app-store/eSemnBun-AppStore.pkg` passes strict codesign, installer signature and revised distribution audit (TLS identity/server entitlement included, watcher absent). Screenshot: Desktop/esemnbun-screenshots/macos/2026-11-01/store-browser/browser.png. Installed app and keychain state restored. Subsequent physical-card MSign signing/download and full eVMS→MPass→authenticated eVMS return passed, followed by signout. Only a synthetic document was signed; no financial action or store upload occurred. See the live-card report.
 
 ## macOS distribution variants — 1 November 2026
 

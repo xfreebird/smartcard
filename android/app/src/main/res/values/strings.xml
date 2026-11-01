@@ -215,4 +215,12 @@
   <string name="browser_download_started">Descărcarea a început</string>
   <string name="browser_download_failed">Fișierul nu a putut fi descărcat.</string>
   <string name="browser_download_signin">Pentru descărcări care necesită autentificare, deschide site-ul în browserul extern.</string>
+  <string name="browser_services">Servicii</string>
+  <string name="browser_public_services">Servicii publice</string>
+  <string name="browser_clear_data">Șterge datele de navigare…</string>
+  <string name="browser_cache">Cache</string>
+  <string name="browser_cookies">Cookie-uri și datele site-urilor</string>
+  <string name="browser_history">Istoricul navigării</string>
+  <string name="browser_clear_selected">Șterge datele selectate</string>
+  <string name="browser_data_reset_note">Ștergerea cookie-urilor te deconectează de la site-uri. Ștergerea cookie-urilor sau a istoricului închide pagina curentă. PIN-urile și documentele aplicației sunt păstrate.</string>
 </resources>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "msign",
+    "title": "MSign",
+    "url": "https://msign.gov.md/#/",
+    "icon": "msign"
+  },
+  {
+    "id": "evo",
+    "title": "EVO",
+    "url": "https://evo.gov.md/",
+    "icon": "evo"
+  },
+  {
+    "id": "evms",
+    "title": "eVMS",
+    "url": "https://evms.md/",
+    "icon": "evms"
+  },
+  {
+    "id": "mcabinet",
+    "title": "MCabinet",
+    "url": "https://mcabinet.gov.md/",
+    "icon": "evo"
+  },
+  {
+    "id": "services",
+    "titleKey": "browser_public_services",
+    "url": "https://servicii.gov.md/",
+    "icon": "evo"
+  },
+  {
+    "id": "mpay",
+    "title": "MPay",
+    "url": "https://mpay.gov.md/",
+    "icon": "mpay"
+  }
+]

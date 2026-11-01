@@ -1,0 +1,40 @@
+{
+  "msign": {
+    "url": "https://msign.gov.md/favicon-96x96.png",
+    "sha256": "101560189fd99f57a8d8bb720f7a419c8e1f99f15420649eec522f77e7c4229a",
+    "pngSha256": "101560189fd99f57a8d8bb720f7a419c8e1f99f15420649eec522f77e7c4229a",
+    "dimensions": [
+      96,
+      96
+    ]
+  },
+  "evo": {
+    "url": "https://evo.gov.md/acasa/Icons/mainLogo.svg",
+    "sha256": "45f38de8e22fc307461134bd3265ec4f16869db2eb5720e39965ea588022a38b",
+    "pngSha256": "b8265f8819fb19277dd8a4fd88b626b3c2a6ad09a8bb3d526670e82ae8ec1416",
+    "dimensions": [
+      192,
+      192
+    ],
+    "conversion": "rsvg-convert -w 192 -h 192 source.svg -o icon.png"
+  },
+  "evms": {
+    "url": "https://evms.md/content/favicon/apple-touch-icon.png",
+    "sha256": "c50004d7a1bb2c674c7bd04659c90cafc8e5e78ab7271d7de8ac441ed9ff377d",
+    "pngSha256": "c50004d7a1bb2c674c7bd04659c90cafc8e5e78ab7271d7de8ac441ed9ff377d",
+    "dimensions": [
+      180,
+      180
+    ]
+  },
+  "mpay": {
+    "url": "https://mpay.gov.md/favicon.svg",
+    "sha256": "af9a063d60c729723dc6bc964cb65c230251197913d2cd929e433ac77798b126",
+    "pngSha256": "cb0bc1946fefb91c3f32c618e78e37f15d0fe6d1d277efd2e8955d2dd884abae",
+    "dimensions": [
+      192,
+      192
+    ],
+    "conversion": "rsvg-convert -w 192 -h 192 source.svg -o icon.png"
+  }
+}

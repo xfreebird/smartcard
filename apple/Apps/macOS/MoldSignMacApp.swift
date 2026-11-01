@@ -7,10 +7,17 @@ struct MoldSignMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @AppStorage("appLanguage", store: AppPreferencesStore.defaults) private var language = "system"
 
+    private var showsMenuBarItem: Bool {
+        #if DEBUG
+        ProcessInfo.processInfo.environment["MSIGN_QA_HIDE_TRAY"] != "1"
+        #else
+        true
+        #endif
+    }
 
     var body: some Scene {
         let _ = language // Recompute scene titles and the status item's accessibility label.
-        MenuBarExtra {
+        MenuBarExtra(isInserted: .constant(showsMenuBarItem)) {
             MenuBarPopover()
                 .environment(appDelegate.model)
                 .appPreferences()

@@ -14,11 +14,17 @@ import android.webkit.WebChromeClient
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.webkit.WebStorage
+import androidx.compose.material.icons.outlined.Delete
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.selection.toggleable
+import androidx.compose.ui.semantics.Role
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.automirrored.outlined.ArrowForward
+import androidx.compose.material.icons.outlined.Bookmarks
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.*
@@ -26,6 +32,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
@@ -52,6 +59,13 @@ private fun browserUrl(input: String): String? {
 fun InAppBrowser(onClose: () -> Unit) {
     val context = LocalContext.current
     var address by remember { mutableStateOf("https://msign.gov.md/#/") }
+    var servicesExpanded by remember { mutableStateOf(false) }
+    var showingDataReset by remember { mutableStateOf(false) }
+    var clearCache by remember { mutableStateOf(true) }
+    var clearCookies by remember { mutableStateOf(true) }
+    var clearHistory by remember { mutableStateOf(true) }
+    var clearingData by remember { mutableStateOf(false) }
+    var browserGeneration by remember { mutableIntStateOf(0) }
     var invalidAddress by remember { mutableStateOf(false) }
     var canBack by remember { mutableStateOf(false) }
     var canForward by remember { mutableStateOf(false) }
@@ -82,7 +96,7 @@ fun InAppBrowser(onClose: () -> Unit) {
         uploadGeneration[0] = if (accepted != null) pageGeneration[0] else -1
         callback?.onReceiveValue(accepted)
     }
-    val webView = remember {
+    val webView = remember(browserGeneration) {
         WebView(context).apply {
             // WebView has no pre-request callback for POST navigation. Set this before the first
             // request so MPASS receives it on redirects and form submissions without replaying POSTs.
@@ -141,6 +155,7 @@ fun InAppBrowser(onClose: () -> Unit) {
                     return true
                 }
                 override fun onPageStarted(view: WebView, url: String, favicon: android.graphics.Bitmap?) {
+                    if (uploadView[0] !== view) return
                     pageGeneration[0]++
                     desktopLogin = needsDesktopLogin(url)
                     loadFailed = false
@@ -160,6 +175,7 @@ fun InAppBrowser(onClose: () -> Unit) {
                     handler.cancel()
                 }
                 override fun onPageFinished(view: WebView, url: String) {
+                    if (uploadView[0] !== view) return
                     if (uploadGeneration[0] >= 0 && pageGeneration[0] > uploadGeneration[0]) {
                         view.settings.allowContentAccess = false
                         uploadGeneration[0] = -1
@@ -170,7 +186,7 @@ fun InAppBrowser(onClose: () -> Unit) {
                 }
             }
             uploadView[0] = this
-            loadUrl(address)
+            if (address.isNotBlank()) loadUrl(address)
         }
     }
     DisposableEffect(webView) {
@@ -178,7 +194,7 @@ fun InAppBrowser(onClose: () -> Unit) {
             fileCallback?.onReceiveValue(null)
             fileCallback = null
             webView.stopLoading()
-            uploadView[0] = null
+            if (uploadView[0] === webView) uploadView[0] = null
             webView.destroy()
         }
     }
@@ -190,11 +206,103 @@ fun InAppBrowser(onClose: () -> Unit) {
             webView.loadUrl(url)
         }
     }
+    fun resetBrowsingData() {
+        clearingData = true
+        webView.stopLoading()
+        fileCallback?.onReceiveValue(null)
+        fileCallback = null
+        webView.settings.allowContentAccess = false
+        if (clearCache) webView.clearCache(true)
+        if (clearCookies || clearHistory) {
+            // A fresh WebView clears its navigation list and removes live page authentication state.
+            webView.loadUrl("about:blank")
+        }
+        fun finishReset() {
+            if (clearCookies || clearHistory) {
+                address = ""
+                canBack = false
+                canForward = false
+                desktopLogin = false
+                invalidAddress = false
+                loadFailed = false
+                browserGeneration++
+            }
+            clearingData = false
+            showingDataReset = false
+        }
+        if (clearCookies) {
+            CookieManager.getInstance().removeAllCookies {
+                CookieManager.getInstance().flush()
+                WebStorage.getInstance().deleteAllData()
+                finishReset()
+            }
+        } else finishReset()
+    }
+    if (showingDataReset) {
+        AlertDialog(
+            onDismissRequest = { if (!clearingData) showingDataReset = false },
+            title = { Text(stringResource(R.string.browser_clear_data)) },
+            text = {
+                Column {
+                    Text(stringResource(R.string.browser_data_reset_note))
+                    Row(Modifier.fillMaxWidth().toggleable(value = clearCache, enabled = !clearingData, role = Role.Checkbox,
+                        onValueChange = { clearCache = it }), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Checkbox(checked = clearCache, onCheckedChange = null, enabled = !clearingData)
+                        Text(stringResource(R.string.browser_cache))
+                    }
+                    Row(Modifier.fillMaxWidth().toggleable(value = clearCookies, enabled = !clearingData, role = Role.Checkbox,
+                        onValueChange = { clearCookies = it }), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Checkbox(checked = clearCookies, onCheckedChange = null, enabled = !clearingData)
+                        Text(stringResource(R.string.browser_cookies))
+                    }
+                    Row(Modifier.fillMaxWidth().toggleable(value = clearHistory, enabled = !clearingData, role = Role.Checkbox,
+                        onValueChange = { clearHistory = it }), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Checkbox(checked = clearHistory, onCheckedChange = null, enabled = !clearingData)
+                        Text(stringResource(R.string.browser_history))
+                    }
+                    if (clearingData) LinearProgressIndicator(Modifier.fillMaxWidth())
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { resetBrowsingData() }, enabled = !clearingData && (clearCache || clearCookies || clearHistory)) {
+                    Text(stringResource(R.string.browser_clear_selected))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showingDataReset = false }, enabled = !clearingData) { Text(stringResource(R.string.action_cancel)) }
+            },
+        )
+    }
     Column(Modifier.fillMaxSize().padding(horizontal = 12.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             IconButton(onClick = { webView.goBack() }, enabled = canBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(R.string.browser_back)) }
             IconButton(onClick = { webView.goForward() }, enabled = canForward) { Icon(Icons.AutoMirrored.Outlined.ArrowForward, stringResource(R.string.browser_forward)) }
             IconButton(onClick = { webView.reload() }) { Icon(Icons.Outlined.Refresh, stringResource(R.string.browser_reload)) }
+            Box {
+                IconButton(onClick = { servicesExpanded = true }) {
+                    Icon(Icons.Outlined.Bookmarks, stringResource(R.string.browser_services))
+                }
+                DropdownMenu(expanded = servicesExpanded, onDismissRequest = { servicesExpanded = false }) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.browser_clear_data)) },
+                        leadingIcon = { Icon(Icons.Outlined.Delete, contentDescription = null) },
+                        onClick = { servicesExpanded = false; showingDataReset = true },
+                    )
+                    HorizontalDivider()
+                    PortalService.all.forEach { service ->
+                        DropdownMenuItem(
+                            text = { Text(service.name ?: stringResource(service.titleResource!!)) },
+                            leadingIcon = { Image(painterResource(service.imageResource), contentDescription = null, modifier = Modifier.size(20.dp)) },
+                            onClick = {
+                                servicesExpanded = false
+                                invalidAddress = false
+                                address = service.url
+                                webView.loadUrl(service.url)
+                            },
+                        )
+                    }
+                }
+            }
             Spacer(Modifier.weight(1f))
             IconButton(onClick = onClose) { Icon(Icons.Outlined.Close, stringResource(R.string.browser_close)) }
         }
@@ -211,6 +319,8 @@ fun InAppBrowser(onClose: () -> Unit) {
         if (desktopLogin) Text(stringResource(R.string.browser_login_desktop), style = MaterialTheme.typography.labelSmall)
         if (loadFailed) Text(stringResource(R.string.browser_load_error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         Spacer(Modifier.height(8.dp))
-        AndroidView(factory = { webView }, modifier = Modifier.fillMaxWidth().weight(1f))
+        key(browserGeneration) {
+            AndroidView(factory = { webView }, modifier = Modifier.fillMaxWidth().weight(1f))
+        }
     }
 }

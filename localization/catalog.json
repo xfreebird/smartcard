@@ -8384,6 +8384,150 @@
         "en": "The App Store version includes in-app browsing and document signing. MoldSign app control and the separate insertion helper are available in the desktop version from esemnbun.md.",
         "ru": "Версия App Store включает встроенный браузер и подписание документов. Управление MoldSign и отдельный помощник запуска доступны в настольной версии с esemnbun.md."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_services",
+      "translations": {
+        "ro": "Servicii",
+        "en": "Services",
+        "ru": "Сервисы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_public_services",
+      "translations": {
+        "ro": "Servicii publice",
+        "en": "Public services",
+        "ru": "Государственные услуги"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_services",
+      "translations": {
+        "ro": "Servicii",
+        "en": "Services",
+        "ru": "Сервисы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_public_services",
+      "translations": {
+        "ro": "Servicii publice",
+        "en": "Public services",
+        "ru": "Государственные услуги"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_clear_data",
+      "translations": {
+        "ro": "Șterge datele de navigare…",
+        "en": "Clear browsing data…",
+        "ru": "Очистить данные браузера…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_cache",
+      "translations": {
+        "ro": "Cache",
+        "en": "Cache",
+        "ru": "Кэш"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_cookies",
+      "translations": {
+        "ro": "Cookie-uri și datele site-urilor",
+        "en": "Cookies and site data",
+        "ru": "Файлы cookie и данные сайтов"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_history",
+      "translations": {
+        "ro": "Istoricul navigării",
+        "en": "Browsing history",
+        "ru": "История просмотра"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_clear_selected",
+      "translations": {
+        "ro": "Șterge datele selectate",
+        "en": "Clear selected data",
+        "ru": "Очистить выбранные данные"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_data_reset_note",
+      "translations": {
+        "ro": "Ștergerea cookie-urilor te deconectează de la site-uri. Ștergerea cookie-urilor sau a istoricului închide pagina curentă. PIN-urile și documentele aplicației sunt păstrate.",
+        "en": "Clearing cookies signs you out of websites. Clearing cookies or history closes the current page. App PINs and documents are kept.",
+        "ru": "Очистка cookie завершает сеансы на сайтах. Очистка cookie или истории закрывает текущую страницу. PIN-коды и документы приложения сохраняются."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_clear_data",
+      "translations": {
+        "ro": "Șterge datele de navigare…",
+        "en": "Clear browsing data…",
+        "ru": "Очистить данные браузера…"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_cache",
+      "translations": {
+        "ro": "Cache",
+        "en": "Cache",
+        "ru": "Кэш"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_cookies",
+      "translations": {
+        "ro": "Cookie-uri și datele site-urilor",
+        "en": "Cookies and site data",
+        "ru": "Файлы cookie и данные сайтов"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_history",
+      "translations": {
+        "ro": "Istoricul navigării",
+        "en": "Browsing history",
+        "ru": "История просмотра"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_clear_selected",
+      "translations": {
+        "ro": "Șterge datele selectate",
+        "en": "Clear selected data",
+        "ru": "Очистить выбранные данные"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_data_reset_note",
+      "translations": {
+        "ro": "Ștergerea cookie-urilor te deconectează de la site-uri. Ștergerea cookie-urilor sau a istoricului închide pagina curentă. PIN-urile și documentele aplicației sunt păstrate.",
+        "en": "Clearing cookies signs you out of websites. Clearing cookies or history closes the current page. App PINs and documents are kept.",
+        "ru": "Очистка cookie завершает сеансы на сайтах. Очистка cookie или истории закрывает текущую страницу. PIN-коды и документы приложения сохраняются."
+      }
     }
   ],
   "storeMetadata": {

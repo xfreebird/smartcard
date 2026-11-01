@@ -13,6 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 scripts/localize.py --check --require-complete
+      - run: python3 scripts/export-browser-services.py --check
       - run: python3 scripts/prepare-store-metadata.py --check
 
   swift-macos:

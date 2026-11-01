@@ -218,4 +218,12 @@
   <string name="browser_download_started">Загрузка началась</string>
   <string name="browser_download_failed">Не удалось загрузить файл.</string>
   <string name="browser_download_signin">Для загрузки с авторизацией откройте сайт во внешнем браузере.</string>
+  <string name="browser_services">Сервисы</string>
+  <string name="browser_public_services">Государственные услуги</string>
+  <string name="browser_clear_data">Очистить данные браузера…</string>
+  <string name="browser_cache">Кэш</string>
+  <string name="browser_cookies">Файлы cookie и данные сайтов</string>
+  <string name="browser_history">История просмотра</string>
+  <string name="browser_clear_selected">Очистить выбранные данные</string>
+  <string name="browser_data_reset_note">Очистка cookie завершает сеансы на сайтах. Очистка cookie или истории закрывает текущую страницу. PIN-коды и документы приложения сохраняются.</string>
 </resources>
