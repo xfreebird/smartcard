@@ -1,11 +1,12 @@
 import React from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useColorMode} from '@docusaurus/theme-common';
 
-/** A paired, real-app capture from the same mock scenario in both supported themes. */
-export default function PlatformScreenshots({platform, scenario = 'ready', alt}) {
-  const source = theme => useBaseUrl(`/img/docs/v0.2.0/${platform}/${scenario}-${theme}.png`);
+/** Show the native capture matching the documentation's current appearance. */
+export default function PlatformScreenshots({platform, scenario = 'ready', alt, caption}) {
+  const {colorMode} = useColorMode();
+  const root = useBaseUrl(`/img/docs/v0.2.0/${platform}/`);
   return <div className="platform-screenshots" aria-label={`${alt} screenshots`}>
-    <figure><img src={source('light')} alt={`${alt}, light appearance`} /><figcaption>Light appearance</figcaption></figure>
-    <figure><img src={source('dark')} alt={`${alt}, dark appearance`} /><figcaption>Dark appearance</figcaption></figure>
+    <figure><img src={`${root}${scenario}-${colorMode === 'dark' ? 'dark' : 'light'}.png`} alt={alt} loading="lazy" />{caption && <figcaption>{caption}</figcaption>}</figure>
   </div>;
 }

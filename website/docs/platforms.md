@@ -9,11 +9,11 @@ These guides document the current **0.2.0** release line. Each platform has its 
 
 | Platform | Documentation version | Application guide | Command-line guide |
 | --- | --- | --- | --- |
-| macOS | 0.2.0 | [Mac App Store and GitHub desktop app](./platforms/macos.md) | [macOS CLI](./platforms/macos.md#command-line) |
+| macOS | 0.2.0 | [Mac App Store and GitHub desktop app](./platforms/macos.md) | [macOS CLI](./platforms/macos-cli.md) |
 | iOS and iPadOS | 0.2.0 | [iPhone and iPad](./platforms/ios.md) | — |
 | Android | 0.2.0 | [Phone and tablet](./platforms/android.md) | — |
-| Linux | 0.2.0 | [GNOME desktop app](./platforms/linux.md) | [Linux CLI](./platforms/linux.md#command-line) |
-| Windows | 0.2.0 | [Desktop app](./platforms/windows.md) | [Windows CLI](./platforms/windows.md#command-line) |
+| Linux | 0.2.0 | [GNOME desktop app](./platforms/linux.md) | [Linux CLI](./platforms/linux-cli.md) |
+| Windows | 0.2.0 | [Desktop app](./platforms/windows.md) | [Windows CLI](./platforms/windows-cli.md) |
 
 Every screenshot in these guides is captured from the native app using isolated mock data. Capture mode prevents reader, card, bridge, PIN, and signing I/O; it is used only to make documentation repeatable and is never enabled for ordinary users.
 

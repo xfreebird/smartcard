@@ -7,7 +7,9 @@
 
 Status legend: `[x]` done · `[~]` in progress / partial (implemented, not yet verified on device) · `[ ]` todo · `[-]` dropped (say why)
 
-Last updated: **2026-11-01**
+Last updated: **2026-11-02**
+
+Documentation refinement (2026-11-02): expanded all five 0.2.0 platform guides with installation, reader setup, signing/output, verification, settings, browser integration, updates, and recovery. Added separate macOS/Linux/Windows CLI guides with reader selection, PIN input, format examples, exit codes, and service setup. Documentation now renders one native screenshot that changes immediately with the site's theme, rather than displaying both themes together. Verified the rendered macOS guide has one image and changes its source light→dark using the appearance control. Production builds for en/ro/ru pass without broken links or anchors; diff whitespace checks pass.
 
 ---
 

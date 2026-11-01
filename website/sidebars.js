@@ -9,10 +9,13 @@ export default {
       items: [
         'platforms',
         'platforms/macos',
+        'platforms/macos-cli',
         'platforms/ios',
         'platforms/android',
         'platforms/linux',
+        'platforms/linux-cli',
         'platforms/windows',
+        'platforms/windows-cli',
       ],
     },
     'troubleshooting',

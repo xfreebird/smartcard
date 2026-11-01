@@ -34,6 +34,8 @@ Mobile download widgets use unmodified official Apple App Store and localized Go
 
 The public documentation is split by delivery target under `docs/platforms/`. Each guide names the current marketing version and distinguishes the desktop, store, and CLI distributions where they differ. Do not state a feature as available in a store build unless that guide explicitly lists it.
 
+Desktop and CLI guides have separate sidebar entries. Each desktop guide covers installation, reader setup, signing and output, verification, preferences, browser integration, updates, and platform-specific recovery. CLI guides include reader selection, formats, secure PIN input, verification, exit codes, and service setup. `PlatformScreenshots` renders one native image selected by Docusaurus `colorMode`; theme changes update it immediately. Documentation never displays light and dark captures side by side.
+
 Capture native documentation artwork into `~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/` with mock-only capture mode, then copy the curated `ready`, `reading`, and `no-reader` pairs into `static/img/landing/<platform>/`. The landing scene uses the light pair when the website is light and the dark pair when it is dark; it never recolours a screenshot with CSS.
 
 ```sh
