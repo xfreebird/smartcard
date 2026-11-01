@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/xfreebird/smartcard/actions/workflows/ci.yml/badge.svg)](https://github.com/xfreebird/smartcard/actions/workflows/ci.yml)
 [![Release](https://github.com/xfreebird/smartcard/actions/workflows/release.yml/badge.svg)](https://github.com/xfreebird/smartcard/actions/workflows/release.yml)
+[![Android build](https://github.com/xfreebird/smartcard/actions/workflows/android-build.yml/badge.svg)](https://github.com/xfreebird/smartcard/actions/workflows/android-build.yml)
+[![Windows build](https://github.com/xfreebird/smartcard/actions/workflows/windows-build.yml/badge.svg)](https://github.com/xfreebird/smartcard/actions/workflows/windows-build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Sign and verify documents with a Moldovan electronic identity card. eSemnBun supports macOS, iOS, Android, Windows and Linux, with a command-line interface for desktop systems.
@@ -21,7 +23,7 @@ The native macOS app, ready to sign a document with the selected identity card.
 
 Download an installer from [GitHub Releases](https://github.com/xfreebird/smartcard/releases). Connect a compatible identity card and reader, open eSemnBun, and choose the documents to sign. A PIN is required to authorize signing.
 
-Build instructions and platform requirements are in the [documentation](docs/README.md). The [development plan](PLAN.md) tracks platform support and outstanding work.
+Build instructions and platform requirements are in the [documentation](docs/README.md). See [build automation](distribution/BUILD-AUTOMATION.md) for installer and store-upload actions. The [development plan](PLAN.md) tracks platform support and outstanding work.
 
 ## Feedback
 
