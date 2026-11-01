@@ -8,6 +8,8 @@ final class MoldSignApp {
     let app: UnsafeMutablePointer<AdwApplication>
     let controller = AppController()
     private var window: MainWindow?
+    private let updates = UpdateChecker()
+    private var updateTimer: Task<Void, Never>?
     /// Status light → Quick Settings "Background Apps" (UX-01); created at startup (needs the D-Bus connection).
     private var portal: BackgroundPortal?
     private var held = false
@@ -46,6 +48,7 @@ final class MoldSignApp {
         addAction("preferences", accels: ["<Control>comma"]) { [unowned self] in
             presentPreferences(parent: mainWindow.window.widget, controller: controller)
         }
+        addAction("check-updates") { [unowned self] in checkUpdates(automatic: false) }
         addAction("about") { [unowned self] in presentAbout(parent: mainWindow.window.widget) }
         addAction("quit", accels: ["<Control>q"]) { [unowned self] in quit() }
         addAction("open", accels: ["<Control>o"]) { [unowned self] in
@@ -102,6 +105,36 @@ final class MoldSignApp {
         }
         #endif
         controller.start()
+        if !controller.isDemo {
+            checkUpdates(automatic: true)
+            updateTimer = Task { [weak self] in
+                while !Task.isCancelled {
+                    do { try await Task.sleep(nanoseconds: 24 * 3600 * 1_000_000_000) } catch { return }
+                    onMain { self?.checkUpdates(automatic: true) }
+                }
+            }
+        }
+    }
+
+    private func checkUpdates(automatic: Bool) {
+        guard !controller.isDemo else { return }
+        Task { [weak self] in
+            guard let self else { return }
+            let result = await updates.check(automatic: automatic)
+            onMain { [weak self] in
+                guard let self else { return }
+                switch result {
+                case .available(let url):
+                    let launcher = gtk_uri_launcher_new(url.absoluteString)
+                    gtk_uri_launcher_launch(launcher, self.mainWindow.window, nil, nil, nil)
+                    g_object_unref(launcher?.raw)
+                    if !automatic { self.mainWindow.toast(L10n.text(.update_available)) }
+                case .current: if !automatic { self.mainWindow.toast(L10n.text(.update_current)) }
+                case .failed: if !automatic { self.mainWindow.toast(L10n.text(.update_failed)) }
+                case .skipped: break
+                }
+            }
+        }
     }
 
     private func activate() {

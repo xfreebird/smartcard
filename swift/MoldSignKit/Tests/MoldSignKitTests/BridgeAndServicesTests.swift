@@ -191,7 +191,8 @@ final class BridgeConsentTests: XCTestCase {
 
         // the poll now returns the error payload to the browser
         let location = try XCTUnwrap(created.components(separatedBy: "\r\n").first { $0.hasPrefix("Location:") })
-        let path = try XCTUnwrap(location.components(separatedBy: "127.0.0.1").last)
+        let target = location.dropFirst("Location:".count).trimmingCharacters(in: .whitespaces)
+        let path = try XCTUnwrap(URLComponents(string: target)?.path)
         let polled = try request("GET", path, body: nil)
         XCTAssertTrue(polled.hasPrefix("HTTP/1.1 400"), polled)                      // vendor-style failure
         XCTAssertTrue(polled.contains("error: user denied the signing request"), polled)
@@ -214,7 +215,8 @@ final class BridgeConsentTests: XCTestCase {
         let body = Data(#"{"data":"PGEvPg==","contentType":"xml","signFormat":"XAdES-BES"}"#.utf8)
         let created = try request("POST", "/sign/data", body: body, port: 28492)
         let location = try XCTUnwrap(created.components(separatedBy: "\r\n").first { $0.hasPrefix("Location:") })
-        let path = try XCTUnwrap(location.components(separatedBy: "127.0.0.1").last)
+        let target = location.dropFirst("Location:".count).trimmingCharacters(in: .whitespaces)
+        let path = try XCTUnwrap(URLComponents(string: target)?.path)
         let started = Date()
         let polled = try request("GET", path, body: nil, port: 28492)
         XCTAssertGreaterThanOrEqual(Date().timeIntervalSince(started), 2.5, "the poll must wait for the decision")

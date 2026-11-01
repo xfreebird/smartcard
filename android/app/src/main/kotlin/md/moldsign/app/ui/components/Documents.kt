@@ -33,6 +33,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import md.moldsign.app.application.PickedDocument
 import md.moldsign.app.R
 import md.moldsign.app.application.SignItem
+import md.moldsign.app.presentation.errorText
 import md.moldsign.app.ui.theme.Tokens
 import md.moldsign.core.SignFormat
 
@@ -155,7 +157,13 @@ fun DocumentAddTile(onPick: () -> Unit, modifier: Modifier = Modifier) {
 
 /** FileRows (docs/10 §3) as M3 list items: doc icon, name, size, format chip, remove. */
 @Composable
-fun DocumentList(items: List<SignItem>, onFormat: (SignItem, SignFormat) -> Unit, onRemove: (SignItem) -> Unit) {
+fun DocumentList(
+    items: List<SignItem>,
+    onFormat: (SignItem, SignFormat) -> Unit,
+    onRemove: (SignItem) -> Unit,
+    onRetry: (SignItem) -> Unit,
+    retryEnabled: Boolean,
+) {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         shape = RoundedCornerShape(Tokens.RadiusCard),
@@ -164,6 +172,14 @@ fun DocumentList(items: List<SignItem>, onFormat: (SignItem, SignFormat) -> Unit
         items.forEachIndexed { i, item ->
             if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
             DocumentRow(item.doc, item.format, { onFormat(item, it) }, { onRemove(item) })
+            item.error?.let { error ->
+                Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp)) {
+                    Text(errorText(error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
+                    TextButton(onClick = { onRetry(item) }, enabled = retryEnabled) {
+                        Text(stringResource(R.string.action_retry))
+                    }
+                }
+            }
         }
     }
 }

@@ -183,6 +183,7 @@ final class AppController {
             case .pin, .pinError:
                 lastAttemptsLeft = scenario == .pinError ? 2 : nil
             case .signingError:
+                signItems[0].error = L10n.text(.ui_the_card_does_not_respond)
                 lastError = (L10n.text(.ui_the_card_does_not_respond), L10n.text(.ui_remove_and_re_insert_the_card))
             case .success:
                 lastSigned = [files.result]
@@ -265,7 +266,14 @@ final class AppController {
     var canSign: Bool { status.canSign && !signItems.isEmpty && !isSigning }
 
     /// Signs every queued file with one PIN entry. Wrong PIN: stop, drop the stored PIN, never retry (MAC-05).
-    func signAll() {
+    func signAll() { signBatch(signItems) }
+
+    func retry(_ id: UUID) {
+        guard let item = signItems.first(where: { $0.id == id }) else { return }
+        signBatch([item])
+    }
+
+    private func signBatch(_ items: [SignItem]) {
         guard canSign, let card = selectedCard, let cert = card.certificate else { return }
         if isDemo {
             toast?(L10n.text(.ui_demo_mode_signing_is_disabled))
@@ -275,7 +283,7 @@ final class AppController {
         lastError = nil
         lastSigned = []
         changed()
-        let items = signItems
+        for index in signItems.indices where items.contains(where: { $0.id == signItems[index].id }) { signItems[index].error = nil }
         let what = items.count == 1 ? items[0].url.lastPathComponent : localized(.ui_value_documents, String(items.count))
         obtainPIN(certID: cert.sha1Hex, holder: cert.holder,
                   purpose: cert.holder + "\n" + items.map { "\($0.url.lastPathComponent) → \($0.format.label)" }.joined(separator: "\n"),
@@ -314,6 +322,9 @@ final class AppController {
                             self.log(ActivityItem(kind: .signed, title: output.lastPathComponent,
                                 subtitle: localized(.ui_signed_value, item.format.label), ok: true, filePath: output.path))
                         case .failure(let error):
+                            if let index = self.signItems.firstIndex(where: { $0.id == item.id }) {
+                                self.signItems[index].error = Self.describe(error).message
+                            }
                             self.log(ActivityItem(kind: .failed, title: item.url.lastPathComponent,
                                 subtitle: Self.describe(error).message, ok: false, filePath: item.url.path))
                         }
@@ -515,6 +526,12 @@ final class AppController {
         settings.runInBackground && (settings.launchAtLogin || settings.showOnCardInsertion || (settings.bridgeEnabled && bridgeState == .running))
     }
 
+    func setLegacyDesktopClientEnabled(_ enabled: Bool) {
+        preferences.update { $0.legacyDesktopClientEnabled = enabled }
+        if settings.bridgeEnabled { restartBridge() }
+        changed()
+    }
+
     func restartBridge() {
         stopBridge()
         startBridge()
@@ -541,6 +558,7 @@ final class AppController {
 
     private func startBridge() {
         guard !isDemo else { return }
+        bridge.allowsLegacyDesktopClient = settings.legacyDesktopClientEnabled
         bridge.onStateChange = { [weak self] in self?.changed() }
         bridge.authorize = { [weak self] request, completion in
             guard let self else { return completion(.deny) }

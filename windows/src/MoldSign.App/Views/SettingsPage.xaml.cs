@@ -29,6 +29,13 @@ public sealed partial class SettingsPage : Page
         RememberPinToggle.IsOn = settings.RememberPin;
         LanguagePicker.SelectedIndex = settings.Language switch { "ro-RO" => 1, "en-US" => 2, "ru-RU" => 3, _ => 0 };
         ThemePicker.SelectedItem = ThemePicker.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == settings.Theme);
+        LegacyClientToggle.Header = Loc.Get("Legacy_ClientTitle");
+        LegacyClientDescription.Text = Loc.Get("Legacy_ClientDescription");
+        LegacyClientToggle.IsOn = settings.LegacyDesktopClientEnabled && !StartupRegistration.IsPackaged;
+        LegacyClientToggle.Visibility = StartupRegistration.IsPackaged ? Visibility.Collapsed : Visibility.Visible;
+        LegacyClientDescription.Visibility = LegacyClientToggle.Visibility;
+        CheckUpdatesButton.Content = Loc.Get("Update_Check");
+        CheckUpdatesButton.Visibility = App.Current.Services.Updates.Available ? Visibility.Visible : Visibility.Collapsed;
         _loadingPreferences = false;
         ShowSavedPins();
         Loaded += async (_, _) => ShowStartup(await StartupRegistration.GetAsync());
@@ -37,6 +44,22 @@ public sealed partial class SettingsPage : Page
         AboutTitle.Text = Loc.Get("about_app_title");
         AboutDeveloper.Text = $"{Loc.Get("about_developer")}: Nicolae Ghimbovschi";
         ResolveBridgeButton.Content = Loc.Get("Bridge_Resolve");
+    }
+
+    private async void OnCheckUpdatesClick(object sender, RoutedEventArgs e)
+    {
+        CheckUpdatesButton.IsEnabled = false;
+        try { UpdateStatus.Text = await App.Current.Services.Updates.CheckAsync(automatic: false) ?? ""; }
+        finally { CheckUpdatesButton.IsEnabled = true; }
+    }
+
+    private void OnLegacyClientToggled(object sender, RoutedEventArgs e)
+    {
+        if (_loadingPreferences || StartupRegistration.IsPackaged) return;
+        var services = App.Current.Services;
+        services.Settings.LegacyDesktopClientEnabled = LegacyClientToggle.IsOn;
+        services.Settings.Save();
+        services.Bridge.AllowsLegacyDesktopClient = LegacyClientToggle.IsOn;
     }
 
     public AppState State => AppState.Current;
@@ -99,10 +122,12 @@ public sealed partial class SettingsPage : Page
             var owners = await PortConflictProcesses.FindAsync();
             if (owners.Count == 0)
             {
-                State.BridgeStatus = Loc.Get("Bridge_ResolveNone");
+                await App.Current.Services.SetBridgeEnabledAsync(true);
                 return;
             }
-            var details = string.Join("\n", owners.Select(owner => $"{owner.Path} (PID {owner.Id})"));
+            var vendorOwners = owners.Where(PortConflictProcesses.IsVendor).ToArray();
+            if (vendorOwners.Length == 0) { State.BridgeStatus = Loc.Get("Bridge_ResolveNone"); return; }
+            var details = string.Join("\n", vendorOwners.Select(owner => $"{owner.Path} (PID {owner.Id})"));
             var dialog = new ContentDialog
             {
                 XamlRoot = XamlRoot, Title = Loc.Get("Bridge_ResolveTitle"),
@@ -111,7 +136,7 @@ public sealed partial class SettingsPage : Page
                 DefaultButton = ContentDialogButton.Close,
             };
             if (await dialog.ShowAsync() != ContentDialogResult.Primary) return;
-            if (!await PortConflictProcesses.StopAsync(owners)) { State.BridgeStatus = Loc.Get("Bridge_ResolveFailed"); return; }
+            if (!await PortConflictProcesses.StopAsync(vendorOwners)) { State.BridgeStatus = Loc.Get("Bridge_ResolveFailed"); return; }
             await App.Current.Services.SetBridgeEnabledAsync(true);
         }
         catch (Exception error) { AppLog.Error(error); State.BridgeStatus = Loc.Get("Bridge_ResolveFailed"); }

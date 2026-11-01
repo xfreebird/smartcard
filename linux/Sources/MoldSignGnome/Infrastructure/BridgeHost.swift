@@ -10,13 +10,18 @@ final class BridgeHost: BridgeHosting {
     var onSignResult: ((BridgeRequest, Error?) -> Void)?
     var onStateChange: (() -> Void)?
     private var server: MoldSignServer?
-    private let makeServer: () -> MoldSignServer
+    var allowsLegacyDesktopClient = false
+    private let makeServer: (() -> MoldSignServer)?
+    private var recovery: DispatchWorkItem?
+    private var enabled = false
 
-    init(makeServer: @escaping () -> MoldSignServer = { MoldSignServer() }) { self.makeServer = makeServer }
+    init(makeServer: (() -> MoldSignServer)? = nil) { self.makeServer = makeServer }
 
     func start() {
+        enabled = true
+        recovery?.cancel(); recovery = nil
         guard server == nil else { return }
-        let server = makeServer()
+        let server = makeServer?() ?? MoldSignServer(allowsLegacyDesktopClient: allowsLegacyDesktopClient)
         server.authorize = { [weak self] request in
             // Only the server worker waits; the GTK main loop continues handling the consent/PIN dialog.
             let answer = DecisionBox()
@@ -34,7 +39,10 @@ final class BridgeHost: BridgeHosting {
         server.onListenerError = { [weak self, weak server] _, error in
             onMain {
                 guard let self, let server, self.server === server else { return }
+                self.server = nil
+                server.stop()
                 self.state = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")
+                self.scheduleRecovery()
             }
         }
         do {
@@ -47,10 +55,25 @@ final class BridgeHost: BridgeHosting {
         } catch {
             server.stop()
             state = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")
+            scheduleRecovery()
         }
     }
 
+    private func scheduleRecovery() {
+        guard enabled, state == .portBusy else { return }
+        let work = DispatchWorkItem { [weak self] in
+            onMain {
+                guard let self, self.enabled, self.state == .portBusy else { return }
+                self.start()
+            }
+        }
+        recovery?.cancel(); recovery = work
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 5, execute: work)
+    }
+
     func stop() {
+        enabled = false
+        recovery?.cancel(); recovery = nil
         server?.stop()
         server = nil
         state = .stopped

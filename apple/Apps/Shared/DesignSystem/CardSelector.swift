@@ -345,16 +345,16 @@ struct IDCardFace: View {
     @ViewBuilder private func fields(w: CGFloat, h: CGFloat) -> some View {
         let cert = card.certificate
         let nameWidth = w * 0.50
-        field("Numele/Surname", cert?.surname, w: w)
+        field(L10n.text(.ui_surname), cert?.surname, w: w)
             .frame(width: nameWidth, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.29)
-        field("Prenumele/Given name(s)", cert?.givenNames, w: w)
+        field(L10n.text(.ui_given_names), cert?.givenNames, w: w)
             .frame(width: nameWidth, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.46)
         field(L10n.text(.ui_valid_until_2), cert.map { $0.notAfter.map(Self.cardDate) ?? "—" }, w: w)
             .frame(width: w * 0.32, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.63)
-        field("Emitent/Issuer", cert?.issuerName, w: w)
+        field(L10n.text(.ui_issuer), cert?.issuerName, w: w)
             .frame(width: w * 0.29, alignment: .leading)
             .offset(x: w * 0.665, y: h * 0.63)
     }

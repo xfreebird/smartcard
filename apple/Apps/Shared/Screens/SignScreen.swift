@@ -230,6 +230,14 @@ private struct DocumentRow: View {
             VStack(alignment: .leading, spacing: 1) {
                 Text(item.url.lastPathComponent).fixedSize(horizontal: false, vertical: true)
                 Text(item.sizeText).font(.caption).foregroundStyle(.secondary)
+                if let error = item.signingError {
+                    Label(error, systemImage: "exclamationmark.triangle.fill")
+                        .font(.callout).foregroundStyle(.red)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Button(L10n.text(.ui_try_again)) { Task { await model.signAll(only: item.id) } }
+                        .buttonStyle(.bordered)
+                        .disabled(!model.status.canSign || model.currentStep != nil || model.pinRequest != nil)
+                }
             }
             Spacer()
             Picker(L10n.text(.ui_format), selection: format) {

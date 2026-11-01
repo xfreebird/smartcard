@@ -177,6 +177,11 @@ func presentPreferences(parent: Widget, controller: AppController) {
     gtk_widget_set_valign(retry, GTK_ALIGN_CENTER)
     adw_action_row_add_suffix(bridgeRow.cast(), retry)
 
+    let legacy = adw_switch_row_new()!
+    adw_preferences_row_set_title(legacy.cast(), L10n.text(.legacy_client_title))
+    adw_action_row_set_subtitle(legacy.cast(), L10n.text(.legacy_client_description))
+    groupAdd(bridge, legacy)
+
     let identityRow = actionRow(title: L10n.text(.ui_moldsign_https_identity),
         subtitle: L10n.text(.ui_the_bundled_identity_is_used_automatically_import_only_to_replace_it),
         icon: "network-server-symbolic")
@@ -251,7 +256,7 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let appIcon = image("md.moldsign.MoldSign", size: 64)
     gtk_widget_set_halign(appIcon, GTK_ALIGN_CENTER)
     groupAdd(about, appIcon)
-    groupAdd(about, label("0.2.0", xalign: 0.5))
+    groupAdd(about, label(UpdateChecker.currentVersion, xalign: 0.5))
     groupAdd(about, label("Nicolae Ghimbovschi", xalign: 0.5))
     let website = gtk_link_button_new_with_label("https://esemnbun.md", "esemnbun.md")!
     gtk_widget_set_halign(website, GTK_ALIGN_CENTER)
@@ -263,6 +268,7 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let token = controller.observe {
         updating = true
         adw_switch_row_set_active(bridgeRow.opaque, controller.settings.bridgeEnabled ? 1 : 0)
+        adw_switch_row_set_active(legacy.opaque, controller.settings.legacyDesktopClientEnabled ? 1 : 0)
         adw_action_row_set_subtitle(bridgeRow.cast(), escapeMarkup(controller.bridgeState.description))
         setVisible(retry, controller.settings.bridgeEnabled && controller.bridgeState != .running)
         adw_switch_row_set_active(backgroundRow.opaque, controller.settings.runInBackground ? 1 : 0)
@@ -273,6 +279,10 @@ func presentPreferences(parent: Widget, controller: AppController) {
     onSignal(bridgeRow, "notify::active") { _ in
         guard !updating else { return }
         controller.setBridgeEnabled(adw_switch_row_get_active(bridgeRow.opaque) != 0)
+    }
+    onSignal(legacy, "notify::active") { _ in
+        guard !updating else { return }
+        controller.setLegacyDesktopClientEnabled(adw_switch_row_get_active(legacy.opaque) != 0)
     }
     onSignal(login, "notify::active") { _ in
         guard !updating else { return }
@@ -299,7 +309,7 @@ func presentAbout(parent: Widget) {
     let about = adw_about_dialog_new()!
     adw_about_dialog_set_application_name(about.opaque, "eSemnBun")
     adw_about_dialog_set_application_icon(about.opaque, "md.moldsign.MoldSign")
-    adw_about_dialog_set_version(about.opaque, "0.2.0")
+    adw_about_dialog_set_version(about.opaque, UpdateChecker.currentVersion)
     adw_about_dialog_set_developer_name(about.opaque, "Nicolae Ghimbovschi")
     adw_about_dialog_set_website(about.opaque, "https://esemnbun.md")
     adw_about_dialog_set_comments(about.opaque,

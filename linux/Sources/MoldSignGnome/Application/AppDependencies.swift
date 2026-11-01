@@ -20,6 +20,7 @@ protocol PINStoring: AnyObject {
 }
 
 protocol BridgeHosting: AnyObject {
+    var allowsLegacyDesktopClient: Bool { get set }
     var state: BridgeState { get }
     var authorize: ((BridgeRequest, @escaping (BridgeDecision) -> Void) -> Void)? { get set }
     var onSignResult: ((BridgeRequest, Error?) -> Void)? { get set }
@@ -30,4 +31,9 @@ protocol BridgeHosting: AnyObject {
 
 protocol DocumentVerifying {
     func verify(_ url: URL) -> [SignatureReport]
+}
+
+// Test bridges can ignore the legacy-client capability; production BridgeHost owns it.
+extension BridgeHosting {
+    var allowsLegacyDesktopClient: Bool { get { false } set {} }
 }

@@ -3,11 +3,12 @@ import AppKit
 /// Completes explicit menu actions after the popover has closed and SwiftUI has supplied the target window.
 @MainActor
 final class WindowPresentation {
-    enum Destination { case main, settings }
+    enum Destination { case main, settings, about }
     static let shared = WindowPresentation()
 
     private weak var mainWindow: NSWindow?
     private weak var settingsWindow: NSWindow?
+    private weak var aboutWindow: NSWindow?
     private var pending: Destination?
 
     var hasPendingRequest: Bool { pending != nil }
@@ -29,6 +30,7 @@ final class WindowPresentation {
         switch destination {
         case .main: mainWindow = window
         case .settings: settingsWindow = window
+        case .about: aboutWindow = window
         }
         guard pending == destination else { return }
         DispatchQueue.main.async { [weak self] in self?.finishPendingRequest() }
@@ -37,18 +39,32 @@ final class WindowPresentation {
     func unregister(_ window: NSWindow) {
         if mainWindow === window { mainWindow = nil }
         if settingsWindow === window { settingsWindow = nil }
+        if aboutWindow === window { aboutWindow = nil }
     }
 
     static func bringForward(_ window: NSWindow) {
+        NSApp.unhide(nil)
         if window.isMiniaturized { window.deminiaturize(nil) }
         window.orderFrontRegardless()
+        NSRunningApplication.current.activate(options: [.activateAllWindows])
         NSApp.activate(ignoringOtherApps: true)
         window.makeKeyAndOrderFront(nil)
+        // A menu-bar popover can briefly remain key during its close animation.
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak window] in
+            guard let window, window.isVisible else { return }
+            NSRunningApplication.current.activate(options: [.activateAllWindows])
+            window.makeKeyAndOrderFront(nil)
+        }
     }
 
     private func finishPendingRequest() {
         guard let pending else { return }
-        let window = pending == .main ? mainWindow : settingsWindow
+        let window: NSWindow?
+        switch pending {
+        case .main: window = mainWindow
+        case .settings: window = settingsWindow
+        case .about: window = aboutWindow
+        }
         guard let window else { return }
         NSApp.setActivationPolicy(.regular)
         Self.bringForward(window)

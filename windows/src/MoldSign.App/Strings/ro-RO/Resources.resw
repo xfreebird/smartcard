@@ -246,4 +246,11 @@
   <data name="about_app_title" xml:space="preserve"><value>Despre eSemnBun</value></data>
   <data name="Settings_General" xml:space="preserve"><value>General</value></data>
   <data name="Explorer_Sign" xml:space="preserve"><value>Semnează cu eSemnBun</value></data>
+  <data name="Update_Check" xml:space="preserve"><value>Caută actualizări…</value></data>
+  <data name="Update_Current" xml:space="preserve"><value>Ai cea mai recentă versiune.</value></data>
+  <data name="Update_Failed" xml:space="preserve"><value>Nu s-au putut verifica actualizările. Încearcă din nou.</value></data>
+  <data name="File_Retry" xml:space="preserve"><value>Reîncearcă</value></data>
+  <data name="Legacy_ClientTitle" xml:space="preserve"><value>Permite conectarea MoldSign Desktop</value></data>
+  <data name="Legacy_ClientDescription" xml:space="preserve"><value>Cererile locale de semnare necesită aprobarea ta.</value></data>
+  <data name="Update_Available" xml:space="preserve"><value>Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.</value></data>
 </root>

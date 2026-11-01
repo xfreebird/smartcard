@@ -26,20 +26,24 @@ public sealed class BridgeHost(
     SigningService signing,
     ConsentProvider consent,
     int httpPort = BridgeProtocol.HttpPort,
-    int httpsPort = BridgeProtocol.HttpsPort) : IAsyncDisposable
+    int httpsPort = BridgeProtocol.HttpsPort,
+    bool allowsLegacyDesktopClient = false,
+    IBridgeFileSigner? fileSigner = null) : IAsyncDisposable
 {
-    private sealed record Result(string? Base64, string? Error);
+    private sealed record Result(string? Base64, string? Error, string? Payload = null, string ContentType = "application/json");
     private sealed record Document(byte[] Bytes, string ContentType, string Format, string Packaging,
-        string Algorithm, string? Certificate);
+        string Algorithm, string? Certificate, BridgeFileSigningRequest? FileRequest = null);
     private sealed record Job(string Id, string Origin, Document Document, CardEntry Card, string? Batch);
     private sealed record PinSession(string Origin, string Certificate, ConsentResult Consent, DateTimeOffset LastUse);
-    private sealed class Session(string origin)
+    private sealed class Session(string origin, bool fileRequest = false)
     {
         public string Origin { get; } = origin;
+        public bool FileRequest { get; } = fileRequest;
         public DateTimeOffset Created { get; } = DateTimeOffset.UtcNow;
         public TaskCompletionSource<Result> Completion { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
     }
 
+    private readonly IBridgeFileSigner _fileSigner = fileSigner ?? new BridgeFileSigner(signing);
     private readonly ConcurrentDictionary<string, Session> _sessions = new();
     private readonly ConcurrentDictionary<string, PinSession> _pins = new();
     private readonly SemaphoreSlim _lifecycle = new(1);
@@ -50,6 +54,7 @@ public sealed class BridgeHost(
 
     public event EventHandler<BridgeOutcome>? Completed;
     public event EventHandler? SigningStarted;
+    public bool AllowsLegacyDesktopClient { get; set; } = allowsLegacyDesktopClient;
     public bool IsRunning => _app is not null;
     public bool HasTls => _identity is not null && IsRunning;
 
@@ -82,7 +87,15 @@ public sealed class BridgeHost(
                 app.MapGet("/certificates", CertificatesAsync);
                 app.MapPost("/sign/data", CreateAsync);
                 app.MapGet("/sign/data/PKCS11/{id}/Any", PollAsync);
-                foreach (var path in new[] { "/sign/pdf", "/sign/file", "/sign/file/verify", "/verify/pdf" })
+                app.MapGet("/hello", (HttpContext context) => NativeControlResult(context, hello: true));
+                // The wallet is continuously refreshed by the host's reader monitor.
+                app.MapPost("/certificates/refresh", (HttpContext context) => NativeControlResult(context, hello: false));
+                app.MapPost("/sign/pdf", CreateFileAsync);
+                app.MapPost("/sign/file", CreateFileAsync);
+                app.MapGet("/sign/pdf/PKCS11/{id}", PollAsync);
+                app.MapGet("/sign/file/PKCS11/{id}", PollAsync);
+                // Verification needs a consent-only dialog: never ask for a card PIN just to verify.
+                foreach (var path in new[] { "/sign/file/verify", "/verify/pdf", "/sign/pdf/verify" })
                     app.MapPost(path, () => Results.StatusCode(StatusCodes.Status501NotImplemented));
                 var jobs = Channel.CreateBounded<Job>(new BoundedChannelOptions(32)
                 {
@@ -186,12 +199,97 @@ public sealed class BridgeHost(
         return string.Join(",", attributes);
     }
 
+    private IResult NativeControlResult(HttpContext context, bool hello)
+    {
+        if (!AllowsLegacyDesktopClient || !IsNativeRequest(context.Request)) return Results.StatusCode(StatusCodes.Status403Forbidden);
+        return hello ? Results.Text("Hello world") : Results.Ok();
+    }
+
+    private Task CreateFileAsync(HttpContext context)
+    {
+        // File paths are never accepted from a browser, even an allowed government origin.
+        if (!AllowsLegacyDesktopClient || !IsNativeRequest(context.Request))
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return Task.CompletedTask;
+        }
+        return CreateAsync(context);
+    }
+
+    private static bool IsNativeRequest(HttpRequest request) =>
+        !request.Headers.ContainsKey("Origin") &&
+        !request.Headers.Keys.Any(key => key.StartsWith("Sec-Fetch-", StringComparison.OrdinalIgnoreCase));
+
+    private static bool IsLegacyRoute(HttpRequest request)
+    {
+        var path = request.Path.Value ?? "";
+        if (HttpMethods.IsGet(request.Method))
+        {
+            if (path is "/hello" or "/certificates" or "/certificates/") return true;
+            var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+            return segments.Length == 4 && segments[0] == "sign" && (segments[1] is "pdf" or "file") &&
+                segments[2] == "PKCS11" && Guid.TryParseExact(segments[3], "D", out _);
+        }
+        return HttpMethods.IsPost(request.Method) && (path is "/certificates/refresh" or "/sign/pdf" or "/sign/file");
+    }
+
+    private static async Task<Document> ParseFileAsync(HttpContext context)
+    {
+        var xmlResponse = context.Request.ContentType?.Contains("xml", StringComparison.OrdinalIgnoreCase) == true;
+        Dictionary<string, string?> fields;
+        List<string> files;
+        if (xmlResponse)
+        {
+            using var reader = XmlReader.Create(context.Request.Body, new XmlReaderSettings
+            {
+                Async = true, DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null,
+                MaxCharactersInDocument = BridgeProtocol.MaxRequestBodyBytes,
+            });
+            var xml = await XDocument.LoadAsync(reader, LoadOptions.None, context.RequestAborted);
+            fields = xml.Descendants().Where(e => !e.HasElements).GroupBy(e => e.Name.LocalName)
+                .ToDictionary(g => g.Key, g => (string?)g.First().Value);
+            files = xml.Descendants().Where(e => e.Name.LocalName == "filesToSign" && !e.HasElements).Select(e => e.Value).ToList();
+        }
+        else
+        {
+            using var json = await JsonDocument.ParseAsync(context.Request.Body,
+                new JsonDocumentOptions { MaxDepth = 16 }, context.RequestAborted);
+            fields = json.RootElement.EnumerateObject().Where(p => p.Value.ValueKind is JsonValueKind.String or JsonValueKind.Null)
+                .ToDictionary(p => p.Name, p => p.Value.GetString());
+            if (json.RootElement.TryGetProperty("certificate", out var cert) && cert.ValueKind == JsonValueKind.Object &&
+                cert.TryGetProperty("certificateBase64", out var value)) fields["certificateBase64"] = value.GetString();
+            files = json.RootElement.TryGetProperty("filesToSign", out var list) && list.ValueKind == JsonValueKind.Array
+                ? list.EnumerateArray().Select(e => e.GetString() ?? "").ToList() : [];
+            if (fields.TryGetValue("signatureFile", out var signature) && !string.IsNullOrEmpty(signature))
+                throw new InvalidDataException("Adding a signature to an existing XAdES is not supported");
+        }
+        string? Field(string name) => fields.GetValueOrDefault(name);
+        var pdf = context.Request.Path == "/sign/pdf";
+        if (pdf) files = [Field("originalFile") ?? ""];
+        if (files.Count is 0 or > 64 || files.Any(string.IsNullOrWhiteSpace)) throw new InvalidDataException("Missing input files");
+        var destination = pdf ? Field("signedFile") : Field("destinationFile");
+        if (string.IsNullOrWhiteSpace(destination)) destination = pdf
+            ? Path.Combine(Path.GetDirectoryName(files[0]) ?? "", Path.GetFileNameWithoutExtension(files[0]) + "-signed.pdf")
+            : files[0] + ".xades";
+        foreach (var path in files.Append(destination))
+            if (!Path.IsPathFullyQualified(path) || path.StartsWith(@"\\", StringComparison.Ordinal) || path.StartsWith("//", StringComparison.Ordinal))
+                throw new InvalidDataException("Only absolute local file paths are supported");
+        if (files.Contains(destination, StringComparer.OrdinalIgnoreCase)) throw new InvalidDataException("The output must differ from the input");
+        var format = pdf ? "PAdES-T" : Field("signFormat") ?? "XAdES-T";
+        if (format is not ("PAdES-T" or "XAdES-BES" or "XAdES-T" or "XAdES-C")) throw new InvalidDataException("Unsupported signature format");
+        var algorithm = Field("signAlgorithm") ?? Field("algorithm") ?? "SHA-256";
+        if (algorithm is not ("SHA-1" or "SHA-256")) throw new InvalidDataException("Unsupported digest algorithm");
+        var packaging = string.Equals(Field("type"), "Embedded", StringComparison.OrdinalIgnoreCase) ? XadesPackaging.Enveloping : XadesPackaging.Detached;
+        var fileRequest = new BridgeFileSigningRequest(files, destination, format, packaging, algorithm, Field("certificateBase64"), pdf, xmlResponse);
+        return new Document([], pdf ? "Pdf" : "Xml", format, "", algorithm, fileRequest.CertificateBase64, fileRequest);
+    }
+
     private async Task CreateAsync(HttpContext context)
     {
         Prune();
         try
         {
-            var document = await ParseAsync(context);
+            var document = context.Request.Path == "/sign/data" ? await ParseAsync(context) : await ParseFileAsync(context);
             var available = cards();
             var sha1 = string.IsNullOrWhiteSpace(document.Certificate) ? null :
                 Convert.ToHexString(SHA1.HashData(Convert.FromBase64String(document.Certificate)));
@@ -202,7 +300,7 @@ public sealed class BridgeHost(
             if (_sessions.Count >= 128) { context.Response.StatusCode = 429; return; }
             var id = Guid.NewGuid().ToString();
             var origin = context.Request.Headers.Origin.ToString();
-            var session = new Session(origin);
+            var session = new Session(origin, document.FileRequest is not null);
             _sessions[id] = session;
             var batch = context.Request.Query["use_pin_session"].FirstOrDefault();
             if (_jobs is null || !_jobs.Writer.TryWrite(new Job(id, origin, document, card, batch)))
@@ -212,11 +310,13 @@ public sealed class BridgeHost(
                 return;
             }
             context.Response.StatusCode = StatusCodes.Status201Created;
-            context.Response.Headers.Location =
-                $"{context.Request.Scheme}://{context.Request.Host}/sign/data/PKCS11/{id}/Any";
+            var pollPath = document.FileRequest is null ? $"/sign/data/PKCS11/{id}/Any" : $"{context.Request.Path}/PKCS11/{id}";
+            // Never reflect a caller-controlled Host header into an actionable result URL.
+            var resultHost = context.Request.IsHttps ? "localhost.cts.md" : "127.0.0.1";
+            context.Response.Headers.Location = $"{context.Request.Scheme}://{resultHost}:{context.Connection.LocalPort}{pollPath}";
             context.Response.Headers["sessionId"] = id;
         }
-        catch (Exception error) when (error is JsonException or XmlException or FormatException or InvalidDataException or InvalidOperationException)
+        catch (Exception error) when (error is JsonException or XmlException or FormatException or InvalidDataException or InvalidOperationException or ArgumentException)
         {
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             context.Response.Headers["error"] = SafeHeader(error.Message);
@@ -232,6 +332,11 @@ public sealed class BridgeHost(
             context.Response.StatusCode = 404;
             return;
         }
+        if (session.FileRequest && (!AllowsLegacyDesktopClient || !IsNativeRequest(context.Request)))
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return;
+        }
         try
         {
             var result = await session.Completion.Task.WaitAsync(TimeSpan.FromMinutes(10), context.RequestAborted);
@@ -239,6 +344,11 @@ public sealed class BridgeHost(
             {
                 context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 context.Response.Headers["error"] = SafeHeader(error);
+            }
+            else if (result.Payload is { } payload)
+            {
+                context.Response.ContentType = result.ContentType;
+                await context.Response.WriteAsync(payload, context.RequestAborted);
             }
             else
             {
@@ -284,10 +394,36 @@ public sealed class BridgeHost(
                         else accepted = consent(request);
                         return accepted;
                     }
-                    var data = Sign(job, Authorize);
+                    Result result;
+                    if (job.Document.FileRequest is { } fileRequest)
+                    {
+                        // Consent happens before reading any requested path. Ignore a submitted PIN:
+                        // a local client must not bypass the app's explicit authorization UI.
+                        var decision = Authorize(new ConsentRequest
+                        {
+                            Requester = "MoldSign Desktop Suite",
+                            Documents = fileRequest.Files.Append(fileRequest.Destination).ToArray(),
+                            Format = fileRequest.Format,
+                            Certificate = job.Card.Certificate,
+                        });
+                        if (decision.IsCancelled) throw new OperationCanceledException("Signing cancelled");
+                        ConsentResult Approved(ConsentRequest request)
+                        {
+                            if (!request.Certificate.Sha1.Equals(job.Card.Certificate.Sha1, StringComparison.OrdinalIgnoreCase))
+                                return ConsentResult.Cancelled;
+                            return decision;
+                        }
+                        var path = _fileSigner.Sign(fileRequest, job.Card, Approved);
+                        var payload = fileRequest.Pdf ? JsonSerializer.Serialize(new { path }) :
+                            JsonSerializer.Serialize(new { fileLocation = path, signatures = Array.Empty<object>() });
+                        if (!fileRequest.Pdf && fileRequest.XmlResponse)
+                            payload = new XElement("XadesSignatureModelContainer", new XElement("fileLocation", path), new XElement("signatures")).ToString(SaveOptions.DisableFormatting);
+                        result = new Result(null, null, payload, fileRequest.XmlResponse && !fileRequest.Pdf ? "application/xml" : "application/json");
+                    }
+                    else result = new Result(Convert.ToBase64String(Sign(job, Authorize)), null);
                     if (!token.IsCancellationRequested && accepted is { IsCancelled: false })
                         _pins[job.Id] = new PinSession(job.Origin, job.Card.Certificate.Sha1, accepted, DateTimeOffset.UtcNow);
-                    session.Completion.TrySetResult(new Result(Convert.ToBase64String(data), null));
+                    session.Completion.TrySetResult(result);
                 }
                 catch (Exception error)
                 {
@@ -396,12 +532,21 @@ public sealed class BridgeHost(
         var remote = context.Connection.RemoteIpAddress;
         string? origin = context.Request.Headers.Origin.Count > 0 ? context.Request.Headers.Origin.ToString() : null;
         string? desktop = context.Request.Headers[BridgeOriginPolicy.DesktopClientHeaderName].FirstOrDefault();
-        if (remote is null || !IPAddress.IsLoopback(remote) || !policy.IsAllowed(origin, desktop))
+        var path = context.Request.Path.Value ?? "";
+        var fileRoute = path.StartsWith("/sign/pdf", StringComparison.Ordinal) || path.StartsWith("/sign/file", StringComparison.Ordinal);
+        if ((fileRoute || path is "/hello" or "/certificates/refresh") &&
+            (!AllowsLegacyDesktopClient || !IsNativeRequest(context.Request)))
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            return;
+        }
+        var legacy = AllowsLegacyDesktopClient && IsNativeRequest(context.Request) && IsLegacyRoute(context.Request);
+        if (remote is null || !IPAddress.IsLoopback(remote) || !(policy.IsAllowed(origin, desktop) || legacy))
         {
             context.Response.StatusCode = 403;
             return;
         }
-        context.Response.Headers.AccessControlAllowOrigin = origin ?? "*";
+        if (origin is not null) context.Response.Headers.AccessControlAllowOrigin = origin;
         context.Response.Headers.AccessControlAllowMethods = BridgeProtocol.AllowMethods;
         context.Response.Headers.AccessControlAllowHeaders = BridgeProtocol.AllowHeaders;
         context.Response.Headers.AccessControlExposeHeaders = BridgeProtocol.AllowHeaders + ", sessionId";

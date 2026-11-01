@@ -84,8 +84,6 @@ private const val HEAD_RO = "REPUBLICA MOLDOVA"
 private const val HEAD_EN = "REPUBLIC OF MOLDOVA"
 private const val DOC_RO = "CARTE DE IDENTITATE"
 private const val DOC_EN = "IDENTITY CARD"
-private const val L_SURNAME = "Numele/Surname"
-private const val L_GIVEN = "Prenumele/Given name(s)"
 private const val L_VALID = "Valabil până la/Valid until"
 private const val L_ISSUER = "Emitent/Issuer"
 
@@ -127,6 +125,8 @@ fun IdCardFace(
         Strip.Problem -> errorText(problem!!)
     }
     val (surname, given) = cert?.nameParts ?: ("" to "")
+    val surnameLabel = stringResource(R.string.card_surname)
+    val givenNamesLabel = stringResource(R.string.card_given_names)
     val validUntil = cert?.let { SimpleDateFormat("dd MM yyyy", Locale.ROOT).format(it.notAfter) }.orEmpty()
     val issuer = cert?.issuerCommonName ?: "MDQSign"
     val hueShift = guillocheShift(cert?.sha1Hex)
@@ -149,7 +149,7 @@ fun IdCardFace(
             .drawWithCache {
                 val face = layoutFace(
                     measurer, surname.uppercase(), given.uppercase(), validUntil, issuer.uppercase(), statusText,
-                    card.readerName.takeIf { showReader }, reserveDisclosure, hueShift,
+                    card.readerName.takeIf { showReader }, reserveDisclosure, hueShift, surnameLabel, givenNamesLabel,
                 )
                 onDrawBehind { drawFace(face, strip, cert == null, pulse) }
             },
@@ -206,6 +206,8 @@ private fun CacheDrawScope.layoutFace(
     reader: String?,
     reserveDisclosure: Boolean,
     hueShift: Float,
+    surnameLabel: String,
+    givenNamesLabel: String,
 ): FaceLayout {
     val w = size.width
     val h = size.height
@@ -284,8 +286,8 @@ private fun CacheDrawScope.layoutFace(
     val valueRight = 0.825f * w
     val fullW = valueRight - x0
     val reading = surname.isEmpty() && given.isEmpty()
-    field(L_SURNAME, if (reading) "" else surname.ifEmpty { "—" }, x0, rows[0], fullW, 0.36f * w)
-    field(L_GIVEN, if (reading) "" else given.ifEmpty { "—" }, x0, rows[1], fullW, 0.28f * w)
+    field(surnameLabel, if (reading) "" else surname.ifEmpty { "—" }, x0, rows[0], fullW, 0.36f * w)
+    field(givenNamesLabel, if (reading) "" else given.ifEmpty { "—" }, x0, rows[1], fullW, 0.28f * w)
     field(L_VALID, validUntil, x0, rows[2], x1 - x0 - gap, 0.22f * w)
     // The chip is above this row; use the remaining right margin for the issuer.
     field(L_ISSUER, if (reading) "" else issuer, x1, rows[2], w - margin - x1, 0.18f * w)

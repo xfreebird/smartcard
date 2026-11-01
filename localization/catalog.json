@@ -8528,6 +8528,222 @@
         "en": "Clearing cookies signs you out of websites. Clearing cookies or history closes the current page. App PINs and documents are kept.",
         "ru": "Очистка cookie завершает сеансы на сайтах. Очистка cookie или истории закрывает текущую страницу. PIN-коды и документы приложения сохраняются."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_surname",
+      "translations": {
+        "ro": "Numele/Surname",
+        "en": "Surname",
+        "ru": "Фамилия"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_given_names",
+      "translations": {
+        "ro": "Prenumele/Given name(s)",
+        "en": "Given names",
+        "ru": "Имя"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "update_check",
+      "translations": {
+        "ro": "Caută actualizări…",
+        "en": "Check for Updates…",
+        "ru": "Проверить обновления…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "update_current",
+      "translations": {
+        "ro": "Ai cea mai recentă versiune.",
+        "en": "You have the latest version.",
+        "ru": "У вас последняя версия."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "update_failed",
+      "translations": {
+        "ro": "Nu s-au putut verifica actualizările. Încearcă din nou.",
+        "en": "Could not check for updates. Try again.",
+        "ru": "Не удалось проверить обновления. Повторите попытку."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_desktop_access",
+      "translations": {
+        "ro": "Permite aplicației MoldSign Desktop să se conecteze",
+        "en": "Allow MoldSign Desktop to connect",
+        "ru": "Разрешить подключение MoldSign Desktop"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_desktop_access_detail",
+      "translations": {
+        "ro": "Cererile locale de semnare necesită aprobarea ta. Disponibil numai în versiunea desktop independentă.",
+        "en": "Local signing requests require your approval. Available only in the standalone desktop edition.",
+        "ru": "Локальные запросы подписи требуют вашего подтверждения. Доступно только в отдельной настольной версии."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Update_Check",
+      "translations": {
+        "ro": "Caută actualizări…",
+        "en": "Check for Updates…",
+        "ru": "Проверить обновления…"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Update_Current",
+      "translations": {
+        "ro": "Ai cea mai recentă versiune.",
+        "en": "You have the latest version.",
+        "ru": "У вас последняя версия."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Update_Failed",
+      "translations": {
+        "ro": "Nu s-au putut verifica actualizările. Încearcă din nou.",
+        "en": "Could not check for updates. Try again.",
+        "ru": "Не удалось проверить обновления. Повторите попытку."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "File_Retry",
+      "translations": {
+        "ro": "Reîncearcă",
+        "en": "Retry",
+        "ru": "Повторить"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "update_check",
+      "translations": {
+        "ro": "Caută actualizări…",
+        "en": "Check for Updates…",
+        "ru": "Проверить обновления…"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "update_current",
+      "translations": {
+        "ro": "Ai cea mai recentă versiune.",
+        "en": "You have the latest version.",
+        "ru": "У вас последняя версия."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "update_failed",
+      "translations": {
+        "ro": "Nu s-au putut verifica actualizările. Încearcă din nou.",
+        "en": "Could not check for updates. Try again.",
+        "ru": "Не удалось проверить обновления. Повторите попытку."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_retry",
+      "translations": {
+        "ro": "Reîncearcă",
+        "en": "Retry",
+        "ru": "Повторить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "action_retry",
+      "translations": {
+        "ro": "Reîncearcă",
+        "en": "Retry",
+        "ru": "Повторить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "card_surname",
+      "translations": {
+        "ro": "Numele/Surname",
+        "en": "Surname",
+        "ru": "Фамилия"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "card_given_names",
+      "translations": {
+        "ro": "Prenumele/Given name(s)",
+        "en": "Given names",
+        "ru": "Имя"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "legacy_client_title",
+      "translations": {
+        "ro": "Permite conectarea MoldSign Desktop",
+        "en": "Allow MoldSign Desktop to connect",
+        "ru": "Разрешить подключение MoldSign Desktop"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "legacy_client_description",
+      "translations": {
+        "ro": "Cererile locale de semnare necesită aprobarea ta.",
+        "en": "Local signing requests require your approval.",
+        "ru": "Локальные запросы подписи требуют вашего подтверждения."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Legacy_ClientTitle",
+      "translations": {
+        "ro": "Permite conectarea MoldSign Desktop",
+        "en": "Allow MoldSign Desktop to connect",
+        "ru": "Разрешить подключение MoldSign Desktop"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Legacy_ClientDescription",
+      "translations": {
+        "ro": "Cererile locale de semnare necesită aprobarea ta.",
+        "en": "Local signing requests require your approval.",
+        "ru": "Локальные запросы подписи требуют вашего подтверждения."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Update_Available",
+      "translations": {
+        "ro": "Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.",
+        "en": "An update is available. The download page has been opened.",
+        "ru": "Доступно обновление. Открыта страница загрузки."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "update_available",
+      "translations": {
+        "ro": "Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.",
+        "en": "An update is available. The download page has been opened.",
+        "ru": "Доступно обновление. Открыта страница загрузки."
+      }
     }
   ],
   "storeMetadata": {

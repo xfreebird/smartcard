@@ -246,4 +246,11 @@
   <data name="about_app_title" xml:space="preserve"><value>О eSemnBun</value></data>
   <data name="Settings_General" xml:space="preserve"><value>Общие</value></data>
   <data name="Explorer_Sign" xml:space="preserve"><value>Подписать в eSemnBun</value></data>
+  <data name="Update_Check" xml:space="preserve"><value>Проверить обновления…</value></data>
+  <data name="Update_Current" xml:space="preserve"><value>У вас последняя версия.</value></data>
+  <data name="Update_Failed" xml:space="preserve"><value>Не удалось проверить обновления. Повторите попытку.</value></data>
+  <data name="File_Retry" xml:space="preserve"><value>Повторить</value></data>
+  <data name="Legacy_ClientTitle" xml:space="preserve"><value>Разрешить подключение MoldSign Desktop</value></data>
+  <data name="Legacy_ClientDescription" xml:space="preserve"><value>Локальные запросы подписи требуют вашего подтверждения.</value></data>
+  <data name="Update_Available" xml:space="preserve"><value>Доступно обновление. Открыта страница загрузки.</value></data>
 </root>

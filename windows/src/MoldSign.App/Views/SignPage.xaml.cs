@@ -59,11 +59,26 @@ public sealed partial class SignPage : Page
 
     private async void OnSignClick(object sender, RoutedEventArgs e)
     {
-        if (Files.Count == 0 || !State.CanSign) return;
+        await SignRowsAsync(Files.ToArray());
+    }
+
+    private async void OnRetryClick(object sender, RoutedEventArgs e)
+    {
+        if ((sender as FrameworkElement)?.Tag is string path && Files.FirstOrDefault(row => row.Path == path) is { } row)
+            await SignRowsAsync([row]);
+    }
+
+    private async Task SignRowsAsync(IReadOnlyList<FileRow> rows)
+    {
+        if (rows.Count == 0 || !State.CanSign) return;
+        foreach (var row in rows) row.Error = "";
         var packaging = PackagingButtons.SelectedIndex == 1 ? XadesPackaging.Enveloping : XadesPackaging.Detached;
         var outcome = await App.Current.Services.SignDocumentsAsync(
-            [.. Files.Select(f => new DocumentJob(f.Path, f.Format))], packaging);
-        if (outcome.Success) Files.Clear();
+            [.. rows.Select(f => new DocumentJob(f.Path, f.Format))], packaging);
+        foreach (var completed in outcome.CompletedInputs)
+            if (Files.FirstOrDefault(row => row.Path == completed) is { } row) Files.Remove(row);
+        if (outcome.FailedInput is { } failed && Files.FirstOrDefault(row => row.Path == failed) is { } failedRow)
+            failedRow.Error = outcome.Message;
         if (!string.IsNullOrEmpty(outcome.Message))
         {
             Result.Severity = outcome.Success ? InfoBarSeverity.Success : InfoBarSeverity.Warning;

@@ -24,7 +24,7 @@ struct AboutContent: View {
         .padding(24)
         .navigationTitle(L10n.text(.about_app_title))
         #if os(macOS)
-        .frame(minWidth: 360, minHeight: 280)
+        .frame(minWidth: 420, minHeight: 340)
         #endif
     }
 }

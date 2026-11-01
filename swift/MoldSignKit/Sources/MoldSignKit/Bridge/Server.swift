@@ -76,6 +76,7 @@ public final class MoldSignServer {
 
     private let policy: BridgeOriginPolicy
     private let allowsFileSystemRoutes: Bool
+    private let allowsLegacyDesktopClient: Bool
     private let tlsP12: Data?
     private let httpPort: UInt16
     private let httpsPort: UInt16
@@ -91,8 +92,10 @@ public final class MoldSignServer {
                 tlsP12: Data? = MoldSignServer.defaultTLSP12(),
                 httpPort: UInt16 = MoldSignServer.defaultHTTPPort,
                 httpsPort: UInt16 = MoldSignServer.defaultHTTPSPort,
-                allowsFileSystemRoutes: Bool = true) {
+                allowsFileSystemRoutes: Bool = true,
+                allowsLegacyDesktopClient: Bool = false) {
         self.allowsFileSystemRoutes = allowsFileSystemRoutes
+        self.allowsLegacyDesktopClient = allowsLegacyDesktopClient
         self.policy = policy
         self.tlsP12 = tlsP12
         self.httpPort = httpPort
@@ -176,7 +179,7 @@ public final class MoldSignServer {
         }
         #if canImport(Network) && !MOLDSIGN_PORTABLE
         let plain = NWParameters.tcp
-        try listen(plain, port: httpPort)
+        try listen(plain, port: httpPort, isTLS: false)
         MSLog.info("MoldSign server replica (http) on http://127.0.0.1:\(httpPort)")
 
         // HTTPS with the localhost.cts.md identity (same cert the Java suite uses)
@@ -185,7 +188,7 @@ public final class MoldSignServer {
             sec_protocol_options_set_min_tls_protocol_version(tlsOpts.securityProtocolOptions, .TLSv12)
             sec_protocol_options_set_local_identity(tlsOpts.securityProtocolOptions, identity)
             do {
-                try listen(NWParameters(tls: tlsOpts), port: httpsPort)
+                try listen(NWParameters(tls: tlsOpts), port: httpsPort, isTLS: true)
                 MSLog.info("MoldSign server replica (https) on https://localhost.cts.md:\(httpsPort)")
             } catch {
                 MSLog.info("WARNING: https listener failed: \(error)")
@@ -221,11 +224,11 @@ public final class MoldSignServer {
     }
 
     #if canImport(Network) && !MOLDSIGN_PORTABLE
-    private func listen(_ params: NWParameters, port: UInt16) throws {
+    private func listen(_ params: NWParameters, port: UInt16, isTLS: Bool) throws {
         params.allowLocalEndpointReuse = true
         params.requiredLocalEndpoint = .hostPort(host: "127.0.0.1", port: NWEndpoint.Port(rawValue: port)!)
         let listener = try NWListener(using: params)
-        listener.newConnectionHandler = { [weak self] conn in self?.handle(conn) }
+        listener.newConnectionHandler = { [weak self] conn in self?.handle(conn, isTLS: isTLS) }
         listener.stateUpdateHandler = { [weak self] state in
             if case .failed(let error) = state {
                 MSLog.info("[ERR] listener :\(port) failed: \(error)")
@@ -238,11 +241,11 @@ public final class MoldSignServer {
 
     // MARK: - Connection handling
 
-    private func handle(_ conn: NWConnection) {
+    private func handle(_ conn: NWConnection, isTLS: Bool) {
         conn.start(queue: queue)
         receiveFull(conn, into: Data()) { [weak self] (req: Data?) in
             guard let self = self, let req = req else { conn.cancel(); return }
-            self.route(req) { resp in
+            self.route(req, isTLS: isTLS) { resp in
                 conn.send(content: resp, completion: .contentProcessed { _ in conn.cancel() })
             }
         }
@@ -267,12 +270,14 @@ public final class MoldSignServer {
     #if !(canImport(Network) && !MOLDSIGN_PORTABLE)
     /// Linux / portable: POSIX sockets on 127.0.0.1, TLS via OpenSSL with the same p12 (LNX-05).
     private func startPOSIX(requireHTTPS: Bool) throws {
-        let handler: (Data, @escaping (Data) -> Void) -> Void = { [weak self] raw, reply in
-            guard let self else { return }
-            self.queue.async { self.route(raw, reply: reply) }
+        func handler(isTLS: Bool) -> (Data, @escaping (Data) -> Void) -> Void {
+            { [weak self] raw, reply in
+                guard let self else { return }
+                self.queue.async { self.route(raw, isTLS: isTLS, reply: reply) }
+            }
         }
         do {
-            let http = try POSIXHTTPListener(port: httpPort, tls: nil, maxRequestBytes: Self.maxRequestBytes, handler: handler)
+            let http = try POSIXHTTPListener(port: httpPort, tls: nil, maxRequestBytes: Self.maxRequestBytes, handler: handler(isTLS: false))
             stopListeners.append { http.stop() }
             MSLog.info("MoldSign server replica (http) on http://127.0.0.1:\(httpPort)")
         } catch {
@@ -291,7 +296,7 @@ public final class MoldSignServer {
             return
         }
         do {
-            let https = try POSIXHTTPListener(port: httpsPort, tls: ctx, maxRequestBytes: Self.maxRequestBytes, handler: handler)
+            let https = try POSIXHTTPListener(port: httpsPort, tls: ctx, maxRequestBytes: Self.maxRequestBytes, handler: handler(isTLS: true))
             stopListeners.append { https.stop() }
             MSLog.info("MoldSign server replica (https) on https://localhost.cts.md:\(httpsPort)")
         } catch {
@@ -316,7 +321,7 @@ public final class MoldSignServer {
 
     // MARK: - Routing
 
-    private func route(_ raw: Data, reply: @escaping (Data) -> Void) {
+    private func route(_ raw: Data, isTLS: Bool, reply: @escaping (Data) -> Void) {
         guard let headEnd = raw.range(of: Data("\r\n\r\n".utf8)) else {
             reply(respond(400, "", contentType: "text/plain", origin: nil)); return
         }
@@ -328,13 +333,12 @@ public final class MoldSignServer {
         let method = String(parts[0])
         let fullPath = String(parts[1])
         MSLog.info("[REQ] \(method) \(fullPath) body=\(body.count)B")
-        if body.count > 0, body.count < 4000 {
-            MSLog.debug("[BODY] " + String(decoding: body, as: UTF8.self).prefix(800))
-        }
+        // Request bodies may carry PINs or document content; never emit them to diagnostics.
         let path = fullPath.split(separator: "?")[0].description
         let query = Self.queryItems(fullPath)
         let caller = headerValue(head, "Origin")
-        let host = headerValue(head, "Host") ?? "localhost.cts.md:\(httpsPort)"
+        // Never reflect a caller-controlled authority into the async result Location.
+        let host = isTLS ? "https://localhost.cts.md:\(httpsPort)" : "http://localhost.cts.md:\(httpPort)"
         let reply: (Data) -> Void = { [weak self] resp in
             let status = Int(String(decoding: resp.prefix(12).dropFirst(9), as: UTF8.self)) ?? 0
             self?.onEvent?(BridgeEvent(origin: caller, method: method, path: path, status: status))
@@ -342,7 +346,10 @@ public final class MoldSignServer {
         }
 
         // SEC-01: vendor allow-list on Origin; header-only auth for non-browser clients
-        guard policy.allows(origin: caller, moldSignHeader: headerValue(head, "moldSign")) else {
+        let legacyDesktop = allowsLegacyDesktopClient && allowsFileSystemRoutes && authorize != nil
+            && caller == nil && headerValue(head, "Sec-Fetch-Site") == nil
+            && Self.isLegacyDesktopRoute(method: method, path: path)
+        guard policy.allows(origin: caller, moldSignHeader: headerValue(head, "moldSign")) || legacyDesktop else {
             MSLog.info("[DENY] origin=\(caller ?? "-")")
             reply(respondJSON(403, #"{"error":"origin not allowed"}"#, origin: nil))
             return
@@ -365,6 +372,11 @@ public final class MoldSignServer {
         }
 
         switch (method, path) {
+        case ("GET", "/hello"):
+            reply(respond(200, "Hello world", contentType: "text/plain", origin: origin))
+        case ("POST", "/certificates/refresh"):
+            // listCards reads inserted certificates on every request; there is no stale provider cache.
+            reply(respond(200, "", contentType: "application/json", origin: origin))
         case ("GET", "/certificates"), ("GET", "/certificates/"):
             workQueue.async { [weak self] in
                 guard let self else { return }
@@ -377,11 +389,11 @@ public final class MoldSignServer {
         case ("GET", _) where path.hasPrefix("/sign/data/PKCS11/"):
             poll(path: path, origin: origin, keepPinSession: query["keep_pin_session"] == "1", reply: reply)
         case ("POST", "/sign/pdf"):
-            reply(startSignPDF(body: body, caller: caller, origin: origin, host: host))
+            reply(startSignPDF(body: body, caller: caller, origin: origin, host: host, usePinSession: query["use_pin_session"]))
         case ("GET", _) where path.hasPrefix("/sign/pdf/PKCS11/"):
             poll(path: path, origin: origin, keepPinSession: query["keep_pin_session"] == "1", reply: reply)
         case ("POST", "/sign/file"):
-            reply(startSignFile(body: body, caller: caller, origin: origin, host: host))
+            reply(startSignFile(body: body, caller: caller, origin: origin, host: host, usePinSession: query["use_pin_session"]))
         case ("GET", _) where path.hasPrefix("/sign/file/PKCS11/"):
             poll(path: path, origin: origin, keepPinSession: query["keep_pin_session"] == "1", reply: reply)
         case ("POST", "/sign/file/verify"):
@@ -395,6 +407,20 @@ public final class MoldSignServer {
         default:
             reply(respondJSON(404, #"{"error":"not found"}"#, origin: origin))
         }
+    }
+
+    /// The legacy Java desktop client omits the bridge header for these routes. Support is
+    /// opt-in, unavailable to sandboxed hosts and CLI servers without a consent callback.
+    /// Browser Origins (including null) still use the original allow-list without exceptions.
+    static func isLegacyDesktopRoute(method: String, path: String) -> Bool {
+        if method == "GET" {
+            if path == "/hello" { return true }
+            let components = path.split(separator: "/", omittingEmptySubsequences: false)
+            return components.count == 5 && components[0].isEmpty && components[1] == "sign"
+                && ["pdf", "file"].contains(components[2]) && components[3] == "PKCS11"
+                && components[4].count == 24 && components[4].allSatisfy { $0.isHexDigit }
+        }
+        return method == "POST" && ["/certificates/refresh", "/sign/pdf", "/sign/file"].contains(path)
     }
 
     private func headerValue(_ head: String, _ name: String) -> String? {
@@ -722,10 +748,10 @@ public final class MoldSignServer {
             }
         }
         return respondCreated(sessionId: sessionId, origin: origin,
-                           location: "https://\(host)/sign/data/PKCS11/\(sessionId)/Any")
+                           location: "\(host)/sign/data/PKCS11/\(sessionId)/Any")
     }
 
-    private func startSignPDF(body: Data, caller: String?, origin: String, host: String) -> Data {
+    private func startSignPDF(body: Data, caller: String?, origin: String, host: String, usePinSession: String?) -> Data {
         var m = parseJSON(body)
         if m.isEmpty, body.contains("originalFile".data(using: .utf8)!) {
             m = ["originalFile": xmlField(body, "originalFile") ?? "",
@@ -743,12 +769,15 @@ public final class MoldSignServer {
                                                     documentName: URL(fileURLWithPath: origPath).lastPathComponent,
                                                     format: "PAdES-T", pinIncluded: !((m["pin"] as? String) ?? "").isEmpty),
                                       certModel(fromJSON: m))
-        let sessionId = newSession { [weak self] _, s in
+        let sessionId = newSession { [weak self] id, s in
             guard let self = self else { return }
             do {
-                let auth = try self.authorizedPIN(request, requestPIN: m["pin"] as? String)
-                _ = try self.signPDFFile(URL(fileURLWithPath: origPath), URL(fileURLWithPath: outPath),
+                var auth = try usePinSession.flatMap { self.reusablePIN(session: $0, origin: caller) }
+                    ?? self.authorizedPIN(request, requestPIN: m["pin"] as? String)
+                let output = try self.signPDFFile(URL(fileURLWithPath: origPath), URL(fileURLWithPath: outPath),
                                          certJSON: certModel(fromJSON: m), auth: auth, reader: try self.reader(for: auth, request))
+                auth = Authorization(pin: auth.pin, certificateSHA1: output.certificateSHA1)
+                self.rememberPIN(auth, session: id, origin: caller)
                 s.payload = #"{"path":""# + self.jsonEsc(outPath) + "\"}"
                 self.onSignResult?(request, nil)
             } catch {
@@ -759,25 +788,28 @@ public final class MoldSignServer {
             }
         }
         return respondCreated(sessionId: sessionId, origin: origin,
-                           location: "https://\(host)/sign/pdf/PKCS11/\(sessionId)")
+                           location: "\(host)/sign/pdf/PKCS11/\(sessionId)")
     }
 
-    private func startSignFile(body: Data, caller: String?, origin: String, host: String) -> Data {
-        let files = xmlFields(body, "filesToSign")
-        let signFormat = xmlField(body, "signFormat") ?? "XAdES-T"
-        let sigType = (xmlField(body, "type") ?? "Detached").lowercased() == "embedded" ? XAdESSigner.SigType.enveloping : .detached
-        let certB64 = xmlField(body, "certificateBase64")
-        let pinField = xmlField(body, "pin") ?? ""
-        let dest = xmlField(body, "destinationFile") ?? ""
-        let signAlgorithm = xmlField(body, "signAlgorithm")
+    private func startSignFile(body: Data, caller: String?, origin: String, host: String, usePinSession: String?) -> Data {
+        let json = parseJSON(body)
+        let wantsJSON = !json.isEmpty
+        let files = json["filesToSign"] as? [String] ?? xmlFields(body, "filesToSign")
+        guard !files.isEmpty else { return respondJSON(400, #"{"error":"missing filesToSign"}"#, origin: origin) }
+        let signFormat = json["signFormat"] as? String ?? xmlField(body, "signFormat") ?? "XAdES-T"
+        let sigType = (json["type"] as? String ?? xmlField(body, "type") ?? "Detached").lowercased() == "embedded" ? XAdESSigner.SigType.enveloping : .detached
+        let certB64 = (json["certificate"] as? [String: Any])?["certificateBase64"] as? String ?? xmlField(body, "certificateBase64")
+        let pinField = json["pin"] as? String ?? xmlField(body, "pin") ?? ""
+        let dest = json["destinationFile"] as? String ?? xmlField(body, "destinationFile") ?? ""
+        let signAlgorithm = json["signAlgorithm"] as? String ?? xmlField(body, "signAlgorithm")
         let digest = XAdESSigner.DigestAlgorithm(requested: signAlgorithm)
         let request = withCertificate(BridgeRequest(origin: caller, operation: .signFile,
                                                     documentName: files.map { URL(fileURLWithPath: $0).lastPathComponent }.joined(separator: ", "),
                                                     format: signFormat, pinIncluded: !pinField.isEmpty, algorithm: signAlgorithm),
                                       certB64.flatMap { $0.isEmpty ? nil : Data(base64Encoded: $0) })
-        let sessionId = newSession { [weak self] _, s in
+        let sessionId = newSession { [weak self] id, s in
             guard let self = self else { return }
-            s.contentType = "application/xml"
+            s.contentType = wantsJSON ? "application/json" : "application/xml"
             do {
                 let format: XAdESSigner.Format
                 switch signFormat {
@@ -785,32 +817,40 @@ public final class MoldSignServer {
                 case "XAdES-C": format = .c
                 default: format = .t
                 }
-                let auth = try self.authorizedPIN(request, requestPIN: pinField)
+                var auth = try usePinSession.flatMap { self.reusablePIN(session: $0, origin: caller) }
+                    ?? self.authorizedPIN(request, requestPIN: pinField)
                 let outPath = dest.isEmpty ? ((files.first.map { $0 + ".xades" }) ?? dest) : dest
-                let out = try SigningService.shared.withCard(reader: try self.reader(for: auth, request)) { card -> Data in
+                let signed = try SigningService.shared.withCard(reader: try self.reader(for: auth, request)) { card -> SignedOutput in
                     let cardCert = try card.prepareForSigning(pin: auth.pin,
                                                               expectedCertificateSHA1: auth.certificateSHA1 ?? request.certificateSHA1)
                     let cert: Data
                     if let b64 = certB64, !b64.isEmpty, let c = Data(base64Encoded: b64) { cert = c } else { cert = cardCert }
                     let signer = XAdESSigner()
-                    return try signer.sign(files: files.map { URL(fileURLWithPath: $0) }, format: format,
+                    let output = try signer.sign(files: files.map { URL(fileURLWithPath: $0) }, format: format,
                                            type: sigType, digest: digest, certDER: cert, chainDER: [ChainCerts.mdQSign],
                                            signBlock: { bytes in try card.sign(digestInfo: digest.digestInfo(of: bytes)) },
                                            tsaBlock: { data in try PAdESSigner.fetchTimestampToken(data: data) },
                                            ocspDerBlock: { issuer, c in try XAdESSigner.fetchOCSPResponse(issuerDER: issuer, certDER: c) })
+                    return SignedOutput(data: output, certificateSHA1: cardCert.sha1().hexString.lowercased())
                 }
-                try out.write(to: URL(fileURLWithPath: outPath))
-                s.payload = "<XadesSignatureModelContainer><fileLocation>\(self.xmlEsc(outPath))</fileLocation><signatures/></XadesSignatureModelContainer>"
+                try signed.data.write(to: URL(fileURLWithPath: outPath))
+                auth = Authorization(pin: auth.pin, certificateSHA1: signed.certificateSHA1)
+                self.rememberPIN(auth, session: id, origin: caller)
+                if wantsJSON {
+                    s.payload = "{\"fileLocation\":\"\(self.jsonEsc(outPath))\",\"signatures\":[]}"
+                } else {
+                    s.payload = "<XadesSignatureModelContainer><fileLocation>\(self.xmlEsc(outPath))</fileLocation><signatures/></XadesSignatureModelContainer>"
+                }
                 self.onSignResult?(request, nil)
             } catch {
                 MSLog.info("[ERR] \(error)")
                 s.error = Self.message(for: error)
-                s.payload = "<error>\(self.xmlEsc(s.error!))</error>"
+                s.payload = wantsJSON ? "{\"error\":\"\(self.jsonEsc(s.error!))\"}" : "<error>\(self.xmlEsc(s.error!))</error>"
                 self.onSignResult?(request, error)
             }
         }
         return respondCreated(sessionId: sessionId, origin: origin,
-                           location: "https://\(host)/sign/file/PKCS11/\(sessionId)")
+                           location: "\(host)/sign/file/PKCS11/\(sessionId)")
     }
 
     private func startVerifyFile(body: Data, origin: String, host: String) -> Data {
@@ -833,7 +873,7 @@ public final class MoldSignServer {
             s.payload = "<verifySignedFileResponseModel><valid>\(valid)</valid></verifySignedFileResponseModel>"
         }
         return respondCreated(sessionId: sessionId, origin: origin,
-                           location: "https://\(host)/sign/file/verify/\(sessionId)")
+                           location: "\(host)/sign/file/verify/\(sessionId)")
     }
 
     private func startVerifyPDF(body: Data, origin: String, host: String) -> Data {
@@ -848,7 +888,7 @@ public final class MoldSignServer {
             s.payload = "<verifyPdfResponseModel><valid>\(valid)</valid></verifyPdfResponseModel>"
         }
         return respondCreated(sessionId: sessionId, origin: origin,
-                           location: "https://\(host)/sign/pdf/verify/\(sessionId)")
+                           location: "\(host)/sign/pdf/verify/\(sessionId)")
     }
 
     private func xmlEsc(_ s: String) -> String {
@@ -871,6 +911,10 @@ public final class MoldSignServer {
     /// Reader holding the card the PIN/selection is for; nil → the host's default reader.
     /// A requested card that is in no reader fails here, before any PIN is sent.
     private func reader(for auth: Authorization, _ request: BridgeRequest) throws -> String? {
+        if let credentialCard = auth.certificateSHA1, let requestedCard = request.certificateSHA1,
+           credentialCard.caseInsensitiveCompare(requestedCard) != .orderedSame {
+            throw CardError.cardChanged
+        }
         guard let target = auth.certificateSHA1 ?? request.certificateSHA1 else { return nil }
         guard let reader = SigningService.shared.reader(forCertificateSHA1: target) else { throw CardError.noCard }
         return reader

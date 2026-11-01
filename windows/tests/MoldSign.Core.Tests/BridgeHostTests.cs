@@ -57,6 +57,130 @@ public sealed class BridgeHostTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task LegacyDesktopAccessIsOptInAndNeverAcceptsBrowserRequests()
+    {
+        _client.DefaultRequestHeaders.Remove("Origin");
+        using var disabled = await _client.GetAsync("/hello");
+        Assert.Equal(HttpStatusCode.Forbidden, disabled.StatusCode);
+        _server.AllowsLegacyDesktopClient = true;
+        Assert.Equal("Hello world", await _client.GetStringAsync("/hello"));
+        using var refresh = await _client.PostAsync("/certificates/refresh", new StringContent(""));
+        Assert.True(refresh.IsSuccessStatusCode);
+        using var browser = new HttpRequestMessage(HttpMethod.Post, "/sign/pdf")
+        {
+            Content = new StringContent("{}", Encoding.UTF8, "application/json"),
+        };
+        browser.Headers.Add("Origin", "https://msign.gov.md");
+        using var rejectedBrowser = await _client.SendAsync(browser);
+        Assert.Equal(HttpStatusCode.Forbidden, rejectedBrowser.StatusCode);
+        using var fetch = new HttpRequestMessage(HttpMethod.Get, "/hello");
+        fetch.Headers.Add("Sec-Fetch-Mode", "no-cors");
+        using var rejectedFetch = await _client.SendAsync(fetch);
+        Assert.Equal(HttpStatusCode.Forbidden, rejectedFetch.StatusCode);
+        using var unrelated = await _client.PostAsync("/encrypt", new StringContent("{}"));
+        Assert.Equal(HttpStatusCode.Forbidden, unrelated.StatusCode);
+        _server.AllowsLegacyDesktopClient = false;
+        using var revoked = await _client.GetAsync("/hello");
+        Assert.Equal(HttpStatusCode.Forbidden, revoked.StatusCode);
+    }
+
+    [Fact]
+    public async Task NativeFileSigningRequiresConsentAndReturnsVendorPathContract()
+    {
+        var signer = new RecordingFileSigner();
+        await RestartWithFileSignerAsync(signer);
+        _client.DefaultRequestHeaders.Remove("Origin");
+        var input = Path.Combine(Path.GetTempPath(), "input.pdf");
+        var output = Path.Combine(Path.GetTempPath(), "signed.pdf");
+        var body = JsonSerializer.Serialize(new { originalFile = input, signedFile = output, pin = "untrusted-client-pin" });
+        // A submitted PIN cannot bypass consent; no file adapter is called when the user cancels.
+        using var cancelled = await _client.PostAsync("/sign/pdf", new StringContent(body, Encoding.UTF8, "application/json"));
+        Assert.Equal(HttpStatusCode.Created, cancelled.StatusCode);
+        using var cancelledResult = await _client.GetAsync(cancelled.Headers.Location);
+        Assert.Equal(HttpStatusCode.BadRequest, cancelledResult.StatusCode);
+        Assert.Equal(0, signer.Calls);
+        Assert.Equal(1, _consents);
+        _consent = _ => ConsentResult.WithPin("fixture-pin");
+        using var created = await _client.PostAsync("/sign/pdf", new StringContent(body, Encoding.UTF8, "application/json"));
+        Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+        Assert.Empty(await created.Content.ReadAsByteArrayAsync());
+        Assert.StartsWith("/sign/pdf/PKCS11/", created.Headers.Location!.AbsolutePath);
+        using var result = JsonDocument.Parse(await _client.GetStringAsync(created.Headers.Location));
+        Assert.Equal(output, result.RootElement.GetProperty("path").GetString());
+        Assert.Equal(1, signer.Calls);
+        Assert.Equal(2, _consents);
+        Assert.True(signer.ConsentAccepted);
+    }
+
+    [Fact]
+    public async Task NativeXadesPreservesDigestPackagingAndActualHttpLocation()
+    {
+        var signer = new RecordingFileSigner();
+        await RestartWithFileSignerAsync(signer);
+        _consent = _ => ConsentResult.WithPin("fixture-pin");
+        using var client = new HttpClient(new HttpClientHandler { UseProxy = false })
+        { BaseAddress = new Uri($"http://127.0.0.1:{_httpPort}") };
+        var input = Path.Combine(Path.GetTempPath(), "source.txt");
+        var output = Path.Combine(Path.GetTempPath(), "signature.xml");
+        var body = JsonSerializer.Serialize(new { filesToSign = new[] { input }, destinationFile = output,
+            signFormat = "XAdES-BES", signAlgorithm = "SHA-1", type = "Embedded", eachFileSeparately = true });
+        using var request = new HttpRequestMessage(HttpMethod.Post, "/sign/file")
+        { Content = new StringContent(body, Encoding.UTF8, "application/json") };
+        request.Headers.Host = "attacker.example:1234";
+        using var created = await client.SendAsync(request);
+        Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+        Assert.Equal("http", created.Headers.Location!.Scheme);
+        Assert.Equal("127.0.0.1", created.Headers.Location.Host);
+        Assert.Equal(_httpPort, created.Headers.Location.Port);
+        using var result = JsonDocument.Parse(await client.GetStringAsync(created.Headers.Location));
+        Assert.Equal(output, result.RootElement.GetProperty("fileLocation").GetString());
+        Assert.Equal("SHA-1", signer.LastRequest!.Algorithm);
+        Assert.Equal(XadesPackaging.Enveloping, signer.LastRequest.Packaging);
+        Assert.Equal("XAdES-BES", signer.LastRequest.Format);
+    }
+
+    [Fact]
+    public async Task FilePathsCannotOverwriteInputsOrReachNetworkShares()
+    {
+        var signer = new RecordingFileSigner();
+        await RestartWithFileSignerAsync(signer);
+        _client.DefaultRequestHeaders.Remove("Origin");
+        var local = Path.Combine(Path.GetTempPath(), "input.pdf");
+        foreach (var (input, output) in new[] { (local, local), ("relative.pdf", local), (@"\\server\share\input.pdf", local) })
+        {
+            var body = JsonSerializer.Serialize(new { originalFile = input, signedFile = output });
+            using var created = await _client.PostAsync("/sign/pdf", new StringContent(body, Encoding.UTF8, "application/json"));
+            Assert.Equal(HttpStatusCode.BadRequest, created.StatusCode);
+        }
+        Assert.Equal(0, signer.Calls);
+        Assert.Equal(0, _consents);
+    }
+
+    private async Task RestartWithFileSignerAsync(IBridgeFileSigner signer)
+    {
+        await _server.DisposeAsync();
+        _server = new BridgeHost(BridgeOriginPolicy.Default, () => _identity, () => _cards,
+            new SigningService(() => _connect()), request => { Interlocked.Increment(ref _consents); return _consent(request); },
+            _httpPort, _client.BaseAddress!.Port, allowsLegacyDesktopClient: true, fileSigner: signer);
+        await _server.StartAsync();
+    }
+
+    private sealed class RecordingFileSigner : IBridgeFileSigner
+    {
+        public int Calls { get; private set; }
+        public bool ConsentAccepted { get; private set; }
+        public BridgeFileSigningRequest? LastRequest { get; private set; }
+        public string Sign(BridgeFileSigningRequest request, CardEntry card, ConsentProvider consent)
+        {
+            Calls++;
+            LastRequest = request;
+            ConsentAccepted = !consent(new ConsentRequest { Requester = "MoldSign Desktop Suite", Documents = request.Files,
+                Format = request.Format, Certificate = card.Certificate }).IsCancelled;
+            return request.Destination;
+        }
+    }
+
+    [Fact]
     public async Task HttpsListsTheActualWalletCertificates()
     {
         Assert.True(_server.HasTls);

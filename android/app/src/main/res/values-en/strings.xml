@@ -220,4 +220,7 @@
   <string name="browser_history">Browsing history</string>
   <string name="browser_clear_selected">Clear selected data</string>
   <string name="browser_data_reset_note">Clearing cookies signs you out of websites. Clearing cookies or history closes the current page. App PINs and documents are kept.</string>
+  <string name="action_retry">Retry</string>
+  <string name="card_surname">Surname</string>
+  <string name="card_given_names">Given names</string>
 </resources>

@@ -43,8 +43,25 @@ struct MoldSignMacApp: App {
 
         Window(L10n.text(.about_app_title), id: "about") {
             AboutContent().appPreferences()
+                .background(WindowReader { WindowPresentation.shared.register($0, for: .about) })
         }
         .defaultLaunchBehavior(.suppressed)
+        .commands {
+            CommandGroup(replacing: .appInfo) { AboutMenuCommand() }
+            CommandGroup(replacing: .appSettings) { SettingsMenuCommand() }
+            #if !APP_STORE
+            CommandGroup(after: .appInfo) { UpdateMenuCommand() }
+            #endif
+        }
+    }
+}
+
+private struct AboutMenuCommand: View {
+    @Environment(\.openWindow) private var openWindow
+    var body: some View {
+        Button(L10n.text(.about_app_title)) {
+            WindowPresentation.shared.present(.about) { openWindow(id: "about") }
+        }
     }
 }
 
@@ -60,6 +77,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             NotificationCenter.default.post(name: .showInsertedCard, object: nil)
         }
         model.start()
+        #if !APP_STORE
+        AppUpdateChecker.shared.start()
+        #endif
         observeWindows()
         let firstLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow")
         if firstLaunch || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
@@ -173,5 +193,14 @@ private struct MenuBarIcon: View {
             .onReceive(NotificationCenter.default.publisher(for: .showInsertedCard)) { _ in
                 WindowPresentation.shared.present(.main) { openWindow(id: "main") }
             }
+    }
+}
+
+private struct SettingsMenuCommand: View {
+    @Environment(\.openSettings) private var openSettings
+    var body: some View {
+        Button(L10n.text(.ui_settings)) {
+            WindowPresentation.shared.present(.settings) { openSettings() }
+        }.keyboardShortcut(",", modifiers: .command)
     }
 }

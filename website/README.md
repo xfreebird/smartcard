@@ -41,3 +41,19 @@ The landing page shows a **Preview platform** selector in development (`npm star
 ## Appearance
 
 The website follows the browser/system colour scheme on first visit. The navigation theme button cycles through light, dark and system; on mobile it is inside the navigation drawer. Explicit preferences persist across reloads, documentation routes and locale changes. Shared tokens in `src/css/palette.css` style the landing page, download menu, signing progress/result, cable and debug controls alongside Docusaurus documentation. Native app captures retain their original colours.
+
+### Standalone app update channel
+
+The website publishes `/updates/macos.json`, `/updates/windows.json`, and `/updates/linux.json`.
+Each contains the stable marketing `version` and an HTTPS `downloadURL` on `esemnbun.md`.
+The Website workflow regenerates them from the latest published GitHub release before building,
+and runs again after the Release workflow completes. Local regeneration:
+
+```sh
+python3 website/scripts/generate-update-manifests.py --version 0.2.0
+```
+
+Standalone desktop apps check at most weekly after the last check, or on demand. Store builds
+use their store's updates. No binaries are installed by this mechanism. The production domain must
+serve these files before automatic checks can succeed; the private repository's Pages plan gate
+remains unchanged.

@@ -6,6 +6,9 @@ on:
   pull_request:
     paths: ['website/**', '.github/workflows/website.yml']
   workflow_dispatch:
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
 permissions:
   contents: read
 concurrency:
@@ -21,6 +24,13 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: website/package-lock.json
+      - name: Generate stable desktop update manifests
+        if: github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)
+          python3 website/scripts/generate-update-manifests.py --version "$version"
       - run: npm ci
         working-directory: website
       - run: node --test tests/*.test.mjs

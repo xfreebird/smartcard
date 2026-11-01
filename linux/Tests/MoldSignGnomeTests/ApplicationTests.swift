@@ -102,6 +102,22 @@ final class ApplicationTests: XCTestCase {
         XCTAssertEqual(rendered.count, 3)
     }
 
+    func testUpdateVersionComparisonIsNumericAndRejectsMalformedVersions() {
+        XCTAssertTrue(UpdateChecker.isNewer("0.10.0", than: "0.2.0"))
+        XCTAssertTrue(UpdateChecker.isNewer("1.0.0", than: "0.99.99"))
+        XCTAssertFalse(UpdateChecker.isNewer("0.2.0", than: "0.2.0"))
+        XCTAssertFalse(UpdateChecker.isNewer("0.1.9", than: "0.2.0"))
+        XCTAssertFalse(UpdateChecker.isNewer("1..0", than: "0.2.0"))
+        XCTAssertFalse(UpdateChecker.isNewer("1.0.0-beta", than: "0.2.0"))
+    }
+
+    func testLegacyClientCompatibilityDefaultsOffAndSurvivesSettingsRoundtrip() throws {
+        var settings = try JSONDecoder().decode(AppSettings.self, from: Data("{}".utf8))
+        XCTAssertFalse(settings.legacyDesktopClientEnabled)
+        settings.legacyDesktopClientEnabled = true
+        XCTAssertTrue(try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(settings)).legacyDesktopClientEnabled)
+    }
+
     private var items: [SignItem] { (1...3).map { SignItem(url: URL(fileURLWithPath: "/tmp/test-\($0).pdf")) } }
     private var certificate: SigningService.CertificateSummary {
         .init(der: Data(), holder: "TEST", subjectDN: "", issuer: "", issuerName: "", serialDecimal: "", sha1Hex: "test-certificate", notAfter: nil)

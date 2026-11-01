@@ -49,8 +49,18 @@ internal static partial class PortConflictProcesses
         return result;
     }
 
+    // Restrict the quit action to executables shipped inside the named vendor installation.
+    internal static bool IsVendor(Owner owner)
+    {
+        var name = System.IO.Path.GetFileName(owner.Path);
+        return owner.Path.Replace('/', '\\').Contains("\\MoldSign\\", StringComparison.OrdinalIgnoreCase)
+            && (name.Equals("java.exe", StringComparison.OrdinalIgnoreCase) || name.Equals("javaw.exe", StringComparison.OrdinalIgnoreCase)
+                || name.StartsWith("MoldSign", StringComparison.OrdinalIgnoreCase));
+    }
+
     internal static async Task<bool> StopAsync(IReadOnlyList<Owner> approved)
     {
+        if (approved.Count == 0 || approved.Any(owner => !IsVendor(owner))) return false;
         var current = await FindAsync();
         foreach (var owner in approved)
         {

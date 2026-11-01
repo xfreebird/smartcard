@@ -168,7 +168,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                 if (items.isEmpty()) {
                     DocumentPickZone(onPick = pick)
                 } else {
-                    DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove)
+                    DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove, onRetry = vm::retry, retryEnabled = canSign)
                     if (!canSign && !working) SignBlockedHint(statusLabel(LocalContext.current, status))
                     DocumentAddTile(onPick = pick)
                 }

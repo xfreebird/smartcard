@@ -100,6 +100,7 @@ private struct GeneralSettings: View {
 }
 
 private struct BridgeSettings: View {
+    @AppStorage("legacyDesktopClientEnabled", store: AppPreferencesStore.defaults) private var legacyDesktop = false
     @Environment(AppModel.self) private var model
     #if !APP_STORE
     @State private var vendorListening = false
@@ -111,6 +112,11 @@ private struct BridgeSettings: View {
         @Bindable var model = model
         Form {
             Toggle(L10n.text(.ui_respond_to_signing_requests_from_the_browser), isOn: $model.bridgeEnabled)
+            #if !APP_STORE
+            Toggle(L10n.text(.vendor_desktop_access), isOn: $legacyDesktop)
+                .onChange(of: legacyDesktop) { _, _ in retryBridge() }
+            Text(L10n.text(.vendor_desktop_access_detail)).font(.callout).foregroundStyle(.secondary)
+            #endif
             LabeledContent(L10n.text(.ui_addresses), value: "127.0.0.1:18480 · localhost.cts.md:18443")
             if model.bridgeState == .portBusy {
                 #if !APP_STORE

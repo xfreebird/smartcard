@@ -67,6 +67,7 @@ final class MainWindow {
         let section = g_menu_new()
         g_menu_append(section, L10n.text(.ui_preferences), "app.preferences")
         g_menu_append(section, L10n.text(.ui_about_esemnbun), "app.about")
+        g_menu_append(section, L10n.text(.update_check), "app.check-updates")
         g_menu_append_section(menu, nil, section?.cast())
         let quitSection = g_menu_new()
         g_menu_append(quitSection, L10n.text(.ui_quit), "app.quit")

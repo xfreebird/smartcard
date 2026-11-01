@@ -74,6 +74,7 @@ final class AppModel {
     @ObservationIgnored private let transportFactory: (String?) throws -> CardTransport
     @ObservationIgnored private let selectedReader = SelectedReader()
     @ObservationIgnored private var server: MoldSignServer?
+    @ObservationIgnored private var bridgeRecovery: Task<Void, Never>?
     @ObservationIgnored private var pinContinuation: CheckedContinuation<(pin: String, remember: Bool)?, Never>?
     @ObservationIgnored private var consentContinuation: CheckedContinuation<(approved: Bool, trust: Bool), Never>?
     @ObservationIgnored private var trustedUntil: [String: Date] = [:]
@@ -400,6 +401,8 @@ final class AppModel {
                 cards[0].problemText = .localized(.ui_the_card_does_not_respond)
                 recomputeStatus()
             }
+        case "sign-failure":
+            if !signItems.isEmpty { signItems[0].signingError = L10n.text(.ui_failed_value_value, "PAdES-T", "No /Root in trailer") }
         case "signing": currentStep = .timestamping
         case "success":
             lastSigned = signItems.map(\.url)
@@ -460,14 +463,18 @@ final class AppModel {
 
     /// Freezes the selected files/card before authorization. One credential is scoped to this batch;
     /// completed files leave the queue, additions remain queued, and any failure stops without retry.
-    func signAll() async {
-        if demoMode { await signDemoBatch(); return }
+    func signAll(only itemID: UUID? = nil) async {
+        if demoMode { await signDemoBatch(only: itemID); return }
         guard !signing, !batchRunner.isRunning, let card = selectedCard, let cert = card.certificate,
               status.canSign, !signItems.isEmpty else { return }
-        let items = signItems
+        let items = signItems.filter { itemID == nil || $0.id == itemID }
+        guard !items.isEmpty else { return }
+        for index in signItems.indices where items.contains(where: { $0.id == signItems[index].id }) {
+            signItems[index].signingError = nil
+        }
         let context = BatchContext(reader: card.reader, certificate: cert)
         lastError = nil
-        lastSigned = []
+        if itemID == nil { lastSigned = [] }
         signing = true
         status = .busy(reader: context.reader, holder: cert.holder)
         defer {
@@ -499,17 +506,21 @@ final class AppModel {
             },
             didFail: { item, error in
                 self.handleCardError(error, certID: context.certificate.sha1Hex)
+                if let index = self.signItems.firstIndex(where: { $0.id == item.id }) {
+                    self.signItems[index].signingError = self.lastError?.message
+                }
                 self.log(ActivityItem(title: item.url.lastPathComponent, subtitle: self.lastError?.message ?? L10n.text(.ui_), ok: false))
                 if case CardError.cardChanged = error { self.rereadCards() }
             }
         )
     }
 
-    private func signDemoBatch() async {
+    private func signDemoBatch(only itemID: UUID? = nil) async {
         guard !signing, status.canSign, !signItems.isEmpty else { return }
         signing = true
-        lastError = nil; lastSigned = []
-        let batch = signItems
+        lastError = nil
+        if itemID == nil { lastSigned = [] }
+        let batch = signItems.filter { itemID == nil || $0.id == itemID }
         let signer = DemoDocumentSigner(files: demoFiles)
         defer { signing = false; currentStep = nil; recomputeStatus() }
         for item in batch {
@@ -633,7 +644,13 @@ final class AppModel {
             .flatMap { try? Data(contentsOf: $0) }
         let server = MoldSignServer(tlsP12: identity, allowsFileSystemRoutes: AppDistribution.bridgeFileAccess)
         #else
-        let server = MoldSignServer(allowsFileSystemRoutes: AppDistribution.bridgeFileAccess)
+        #if os(macOS)
+        let legacyDesktop = AppPreferencesStore.defaults.bool(forKey: "legacyDesktopClientEnabled")
+        #else
+        let legacyDesktop = false
+        #endif
+        let server = MoldSignServer(allowsFileSystemRoutes: AppDistribution.bridgeFileAccess,
+                                    allowsLegacyDesktopClient: legacyDesktop)
         #endif
         server.authorize = { [weak self] request in
             let box = DecisionBox()
@@ -657,10 +674,11 @@ final class AppModel {
                 }
             }
         }
-        server.onListenerError = { [weak self] _, error in
+        server.onListenerError = { [weak self, weak server] _, error in
             Task { @MainActor in
-                guard let self, !self.demoMode else { return }
+                guard let self, let server, self.server === server, !self.demoMode else { return }
                 self.bridgeState = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")
+                if self.bridgeState == .portBusy { self.scheduleBridgeRecovery() }
             }
         }
         do {
@@ -670,11 +688,28 @@ final class AppModel {
             bridgeState = .running
             self.server = server
         } catch {
-            bridgeState = .failed(error.localizedDescription)
+            bridgeState = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed(error.localizedDescription)
+            if bridgeState == .portBusy { scheduleBridgeRecovery() }
+        }
+    }
+
+    private func scheduleBridgeRecovery() {
+        guard bridgeRecovery == nil else { return }
+        bridgeRecovery = Task { [weak self] in
+            while !Task.isCancelled {
+                do { try await Task.sleep(for: .seconds(3)) } catch { return }
+                guard let self, self.bridgeEnabled, !self.demoMode, self.bridgeState == .portBusy else { break }
+                self.server?.stop()
+                self.server = nil
+                self.startBridge()
+            }
+            self?.bridgeRecovery = nil
         }
     }
 
     func stopBridge() {
+        bridgeRecovery?.cancel()
+        bridgeRecovery = nil
         server?.stop()
         server = nil
         bridgeState = .stopped

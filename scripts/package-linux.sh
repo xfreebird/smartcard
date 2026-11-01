@@ -33,6 +33,7 @@ fi
 
 VERSION="${MOLDSIGN_VERSION:-$(sed -n 's/.*<release version="\([^"]*\)".*/\1/p' "$METAINFO" | head -1)}"
 [[ -n "$VERSION" ]] || { echo "Cannot read the version from $METAINFO (set MOLDSIGN_VERSION)." >&2; exit 1; }
+[[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "MOLDSIGN_VERSION must use x.y.z." >&2; exit 1; }
 ARCH="$(uname -m)"
 
 wants() { [[ " $PACKAGES " == *" $1 "* ]]; }
@@ -62,6 +63,17 @@ if have objcopy; then
 fi
 echo "▸ Staging into $STAGE"
 "$ROOT/linux/packaging/install.sh" "$STAGE" /usr all
+# About and the standalone updater read this installed marketing version.
+python3 - "$STAGE/usr/share/metainfo/md.moldsign.MoldSign.metainfo.xml" "$VERSION" <<'PYMETA'
+from pathlib import Path
+import re
+import sys
+path = Path(sys.argv[1])
+source, count = re.subn(r'(<release\s+version=")[^"]+', lambda match: match[1] + sys.argv[2], path.read_text(), count=1)
+if count != 1:
+    raise SystemExit('Missing release version in staged AppStream metadata')
+path.write_text(source)
+PYMETA
 if [[ "${MOLDSIGN_NO_STRIP:-0}" != 1 ]] && have strip; then
   strip --strip-unneeded "$STAGE/usr/bin/esemnbun" "$STAGE/usr/bin/esemnbun-gnome"
 fi

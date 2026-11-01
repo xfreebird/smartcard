@@ -81,6 +81,8 @@
                 IsOn="{x:Bind State.BridgeEnabled, Mode=OneWay}"
                 Toggled="OnBridgeToggled" />
             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.BridgeStatus, Mode=OneWay}" />
+            <ToggleSwitch x:Name="LegacyClientToggle" Toggled="OnLegacyClientToggled" />
+            <TextBlock x:Name="LegacyClientDescription" TextWrapping="Wrap" />
             <Button x:Name="ResolveBridgeButton" Click="OnResolveBridgeClick" />
             <TextBlock
                 Style="{StaticResource MsCaptionTextStyle}"
@@ -104,6 +106,8 @@
                 HorizontalAlignment="Left" Spacing="16" Visibility="Collapsed">
                 <TextBlock x:Name="AboutTitle" Style="{StaticResource MsTitleTextStyle}" />
                 <Image Source="ms-appx:///Assets/StoreLogo.png" Width="96" Height="96" Stretch="Uniform" />
+                <Button x:Name="CheckUpdatesButton" Click="OnCheckUpdatesClick" />
+                <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" />
                 <TextBlock x:Name="VersionText" Style="{StaticResource MsCaptionTextStyle}" IsTextSelectionEnabled="True" />
                 <TextBlock x:Name="AboutDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
                 <HyperlinkButton Content="esemnbun.md" NavigateUri="https://esemnbun.md" />

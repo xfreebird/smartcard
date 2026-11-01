@@ -232,6 +232,13 @@ enum L10n {
         case browser_history
         case browser_clear_selected
         case browser_data_reset_note
+        case ui_surname
+        case ui_given_names
+        case update_check
+        case update_current
+        case update_failed
+        case vendor_desktop_access
+        case vendor_desktop_access_detail
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

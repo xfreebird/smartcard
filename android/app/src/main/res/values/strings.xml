@@ -223,4 +223,7 @@
   <string name="browser_history">Istoricul navigării</string>
   <string name="browser_clear_selected">Șterge datele selectate</string>
   <string name="browser_data_reset_note">Ștergerea cookie-urilor te deconectează de la site-uri. Ștergerea cookie-urilor sau a istoricului închide pagina curentă. PIN-urile și documentele aplicației sunt păstrate.</string>
+  <string name="action_retry">Reîncearcă</string>
+  <string name="card_surname">Numele/Surname</string>
+  <string name="card_given_names">Prenumele/Given name(s)</string>
 </resources>

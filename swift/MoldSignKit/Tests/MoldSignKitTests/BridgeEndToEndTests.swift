@@ -128,6 +128,192 @@ final class BridgeEndToEndTests: XCTestCase {
         XCTAssertEqual(card.verifyAttempts, 1)
     }
 
+    func testLegacyDesktopIsOptInAndNeverBypassesBrowserPolicyOrConsent() throws {
+        let port = 28650
+        func request(_ path: String, method: String = "GET", headers: [String] = [], body: Data? = nil) throws -> String {
+            String(decoding: try PlainHTTP.sendReturningRaw(method: method, url: "http://127.0.0.1:\(port)\(path)",
+                body: body, contentType: body == nil ? nil : "application/json", extraHeaders: headers, timeout: 10), as: UTF8.self)
+        }
+        let disabled = MoldSignServer(tlsP12: nil, httpPort: 28658, httpsPort: 28659)
+        disabled.authorize = { _ in .deny }
+        try disabled.start()
+        let disabledResult = String(decoding: try PlainHTTP.sendReturningRaw(method: "GET",
+            url: "http://127.0.0.1:28658/hello", body: nil, contentType: nil, extraHeaders: [], timeout: 10), as: UTF8.self)
+        XCTAssertTrue(disabledResult.hasPrefix("HTTP/1.1 403"))
+        disabled.stop()
+
+        let server = MoldSignServer(tlsP12: nil, httpPort: UInt16(port), httpsPort: 28651,
+                                    allowsLegacyDesktopClient: true)
+        var consents = 0
+        server.authorize = { _ in consents += 1; return .deny }
+        try server.start()
+        defer { server.stop() }
+        XCTAssertTrue(try request("/hello").hasSuffix("Hello world"))
+        for headers in [["Origin: https://evil.example"], ["Origin: null"], ["Origin:"], ["Sec-Fetch-Site: cross-site"]] {
+            let response = try request("/hello", headers: headers)
+            XCTAssertTrue(response.hasPrefix("HTTP/1.1 403"), response)
+        }
+        XCTAssertTrue(try request("/sign/data", method: "POST", body: Data("{}".utf8)).hasPrefix("HTTP/1.1 403"))
+        let body = Data(#"{"originalFile":"/does/not/exist.pdf","signedFile":"/must/not/write.pdf","pin":"1234"}"#.utf8)
+        let created = try request("/sign/pdf", method: "POST", body: body)
+        let resultURL = try location(created)
+        XCTAssertTrue(resultURL.hasPrefix("http://localhost.cts.md:\(port)/"), resultURL)
+        let result = try request(URLComponents(string: resultURL)!.path)
+        XCTAssertTrue(result.hasPrefix("HTTP/1.1 400"), result)
+        XCTAssertTrue(result.contains("user denied"))
+        XCTAssertEqual(consents, 1, "supplied PIN must not bypass host consent")
+        XCTAssertEqual(card.verifyAttempts, 0)
+    }
+
+    func testLegacyDesktopJSONXAdESBatchUsesOneConsentAndProducesValidSignature() throws {
+        let port = 28652
+        let server = MoldSignServer(tlsP12: nil, httpPort: UInt16(port), httpsPort: 28653,
+                                    allowsLegacyDesktopClient: true)
+        var consents = 0
+        server.authorize = { _ in consents += 1; return .allow(pin: "1234") }
+        try server.start()
+        defer { server.stop() }
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let input = directory.appendingPathComponent("contract.txt")
+        try Data("Signing from MoldSign desktop".utf8).write(to: input)
+        var session: String?
+        for index in 0..<2 {
+            let output = directory.appendingPathComponent("signed-\(index).xml")
+            let body = try JSONSerialization.data(withJSONObject: ["filesToSign": [input.path],
+                "destinationFile": output.path, "signFormat": "XAdES-BES", "type": "Detached", "signAlgorithm": "SHA-256"])
+            let suffix = session.map { "?use_pin_session=\($0)" } ?? ""
+            let created = String(decoding: try PlainHTTP.sendReturningRaw(method: "POST",
+                url: "http://127.0.0.1:\(port)/sign/file\(suffix)", body: body, contentType: "application/json",
+                extraHeaders: [], timeout: 10), as: UTF8.self)
+            let target = try XCTUnwrap(URLComponents(string: location(created)))
+            session = target.path.split(separator: "/").last.map(String.init)
+            let result = String(decoding: try PlainHTTP.sendReturningRaw(method: "GET",
+                url: "http://127.0.0.1:\(port)\(target.path)?keep_pin_session=1", body: nil,
+                contentType: nil, extraHeaders: [], timeout: 30), as: UTF8.self)
+            XCTAssertTrue(result.hasPrefix("HTTP/1.1 200"), result)
+            XCTAssertTrue(result.contains("Content-Type: application/json"), result)
+            let resultJSON = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(result.components(separatedBy: "\r\n\r\n").last!.utf8)) as? [String: Any])
+            XCTAssertEqual(resultJSON["fileLocation"] as? String, output.path)
+            let reports = Validator.validateXAdES(try Data(contentsOf: output), referencedFiles: [input.lastPathComponent: try Data(contentsOf: input)])
+            let report = try XCTUnwrap(reports.first)
+            XCTAssertTrue(report.signatureValid && report.contentIntact, report.summary)
+        }
+        // The approved credential cannot be moved to another requested certificate.
+        let changed = try JSONSerialization.data(withJSONObject: ["filesToSign": [input.path],
+            "destinationFile": directory.appendingPathComponent("must-not-exist.xml").path,
+            "signFormat": "XAdES-BES", "certificate": ["certificateBase64": ChainCerts.mdQSign.base64EncodedString()]])
+        let created = String(decoding: try PlainHTTP.sendReturningRaw(method: "POST",
+            url: "http://127.0.0.1:\(port)/sign/file?use_pin_session=\(session!)", body: changed,
+            contentType: "application/json", extraHeaders: [], timeout: 10), as: UTF8.self)
+        let target = try XCTUnwrap(URLComponents(string: location(created)))
+        let refused = String(decoding: try PlainHTTP.sendReturningRaw(method: "GET",
+            url: "http://127.0.0.1:\(port)\(target.path)", body: nil, contentType: nil, extraHeaders: [], timeout: 10), as: UTF8.self)
+        XCTAssertTrue(refused.hasPrefix("HTTP/1.1 400"), refused)
+        XCTAssertFalse(FileManager.default.fileExists(atPath: directory.appendingPathComponent("must-not-exist.xml").path))
+        XCTAssertEqual(consents, 1)
+        XCTAssertEqual(card.verifyAttempts, 2, "never send a batch PIN to a different certificate")
+    }
+
+    /// Optional integration probe uses the installed, unmodified vendor Java clients rather
+    /// than a handwritten wire client. It never opens a physical reader or submits a real PIN.
+    func testInstalledVendorJavaClientListsAndSignsWithSimulatedCard() throws {
+        let vendorLib = "/Applications/STISC/MoldSign/lib"
+        try XCTSkipUnless(FileManager.default.fileExists(atPath: vendorLib + "/MoldSignClientCardManagement-2.0.jar"),
+                          "vendor Java client is not installed")
+        let port = 28660
+        let server = MoldSignServer(tlsP12: nil, httpPort: UInt16(port), httpsPort: 28661,
+                                    allowsLegacyDesktopClient: true)
+        var consents = 0
+        server.authorize = { _ in consents += 1; return .allow(pin: "1234") }
+        try server.start()
+        defer { server.stop() }
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: directory) }
+        let source = directory.appendingPathComponent("VendorProbe.java")
+        let input = directory.appendingPathComponent("contract.txt")
+        let output = directory.appendingPathComponent("contract-signed.xml")
+        try Data("A document for the installed vendor Java client".utf8).write(to: input)
+        try #"""
+        import jakarta.ws.rs.client.*;
+        import java.lang.reflect.*;
+        import java.util.*;
+        import md.cts.moldsign.msccm.rest.clients.*;
+        import md.cts.moldsign.transferobjects.models.*;
+        public class VendorProbe {
+            static void pointToTestServer(Object object, String base) throws Exception {
+                Field clientField = object.getClass().getDeclaredField("client");
+                clientField.setAccessible(true);
+                Client client = (Client) clientField.get(object);
+                client.property("jersey.config.client.connectTimeout", 5000);
+                client.property("jersey.config.client.readTimeout", 15000);
+                Field target = object.getClass().getDeclaredField("baseTarget");
+                target.setAccessible(true);
+                target.set(object, client.target(base));
+            }
+            public static void main(String[] args) throws Exception {
+                String base = "http://127.0.0.1:" + args[0];
+                CertificatesClient certificates = new CertificatesClient();
+                pointToTestServer(certificates, base);
+                CertificateListModel listed = certificates.getListOfCertificatesPrivateOnly();
+                if (listed.getCertificateModel().size() != 1) throw new AssertionError("certificate list");
+                if (!certificates.refreshCertificates()) throw new AssertionError("refresh");
+                SignFileClient signing = new SignFileClient();
+                pointToTestServer(signing, base);
+                SignFileInputModel request = new SignFileInputModel();
+                request.setCertificate(listed.getCertificateModel().get(0));
+                request.setFilesToSign(Arrays.asList(args[1]));
+                request.setDestinationFile(args[2]);
+                request.setSignFormat("XAdES-BES");
+                request.setSignAlgorithm("SHA-256");
+                request.setType("Detached");
+                SignFileClient.Inter created = signing.signFilePost(request, null);
+                if (created == null) throw new AssertionError("POST did not create session");
+                if (!"http".equals(created.location().getScheme())) throw new AssertionError("HTTP result URL");
+                var result = signing.signFileGet(created.location(), false);
+                if (result == null || !args[2].equals(result.getFileLocation())) throw new AssertionError("result model");
+                System.out.println("Vendor Java certificate, refresh, JSON signing and poll passed");
+                System.exit(0);
+            }
+        }
+        """#.write(to: source, atomically: true, encoding: .utf8)
+        let log = directory.appendingPathComponent("probe.log")
+        FileManager.default.createFile(atPath: log.path, contents: nil)
+        let handle = try FileHandle(forWritingTo: log)
+        defer { try? handle.close() }
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/java")
+        process.arguments = ["-cp", vendorLib + "/*", source.path, String(port), input.path, output.path]
+        process.standardOutput = handle
+        process.standardError = handle
+        try process.run()
+        let timeout = DispatchWorkItem { if process.isRunning { process.terminate() } }
+        DispatchQueue.global().asyncAfter(deadline: .now() + 40, execute: timeout)
+        process.waitUntilExit()
+        timeout.cancel()
+        let diagnostics = try String(contentsOf: log, encoding: .utf8)
+        XCTAssertEqual(process.terminationStatus, 0, diagnostics)
+        let report = try XCTUnwrap(Validator.validateXAdES(try Data(contentsOf: output), referencedFiles: [input.lastPathComponent: try Data(contentsOf: input)]).first)
+        XCTAssertTrue(report.signatureValid && report.contentIntact, report.summary)
+        XCTAssertEqual(consents, 1)
+        XCTAssertEqual(card.verifyAttempts, 1)
+    }
+
+    func testLegacyDesktopRequiresFullFilesystemHostAndConsentCallback() throws {
+        for (port, filesystem, callback) in [(28654, false, true), (28656, true, false)] {
+            let server = MoldSignServer(tlsP12: nil, httpPort: UInt16(port), httpsPort: UInt16(port + 1),
+                                        allowsFileSystemRoutes: filesystem, allowsLegacyDesktopClient: true)
+            if callback { server.authorize = { _ in .deny } }
+            try server.start()
+            defer { server.stop() }
+            let response = String(decoding: try PlainHTTP.sendReturningRaw(method: "GET",
+                url: "http://127.0.0.1:\(port)/hello", body: nil, contentType: nil, extraHeaders: [], timeout: 10), as: UTF8.self)
+            XCTAssertTrue(response.hasPrefix("HTTP/1.1 403"), response)
+        }
+    }
+
     // MARK: - HTTP helpers (core plain-HTTP client: no proxy, no HSTS)
 
     private func post(_ path: String, _ body: Data, port: Int, origin: String = "https://msign.gov.md") throws -> String {

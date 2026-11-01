@@ -153,7 +153,7 @@ final class SignPage {
 
     private func renderFiles() {
         let c = controller
-        let key = c.signItems.map { "\($0.id)\($0.format.rawValue)" }.joined() + "\(c.isSigning)"
+        let key = c.signItems.map { "\($0.id)\($0.format.rawValue)\($0.error ?? "")" }.joined() + "\(c.isSigning)"
         setVisible(filesGroup, !c.signItems.isEmpty)
         guard key != filesKey else { return }
         filesKey = key
@@ -180,8 +180,15 @@ final class SignPage {
                 self?.controller.remove(id)
             }
             setSensitive(remove, !c.isSigning)
-            let row = actionRow(title: item.url.lastPathComponent, subtitle: item.sizeText,
-                                icon: "x-office-document-symbolic", suffix: [chip, remove])
+            var suffix = [chip, remove]
+            if item.error != nil {
+                let retry = button(L10n.text(.file_retry)) { [weak self] in self?.controller.retry(id) }
+                setSensitive(retry, c.canSign)
+                suffix.insert(retry, at: 0)
+            }
+            let row = actionRow(title: item.url.lastPathComponent, subtitle: item.error ?? item.sizeText,
+                                icon: item.error == nil ? "x-office-document-symbolic" : "dialog-error-symbolic", suffix: suffix)
+            if item.error != nil { addClasses(row, ["error"]) }
             gtk_list_box_append(filesList.opaque, row)
         }
     }

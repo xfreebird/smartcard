@@ -157,6 +157,7 @@ struct SignItem: Identifiable, Equatable {
     let id = UUID()
     let url: URL
     var format: SignFormat
+    var signingError: String?
 
     init(url: URL) {
         self.url = url

@@ -27,6 +27,7 @@ import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -179,14 +180,23 @@ documents.copy(source, target)
      * The result is saved by `SignedFileStore` and the activity entry points at it; "Salvează ca…" in Activity copies it elsewhere.
      * TODO(AND-06): load the stored PIN (BiometricPrompt) before the sheet; delete it on CardError.WrongPin.
      */
-    fun sign() {
+    fun sign() = signItems(_signItems.value)
+
+    /** Retry only the failed document, with a fresh explicit consent/PIN session. */
+    fun retry(item: SignItem) {
+        val current = _signItems.value.firstOrNull { it.doc.uri == item.doc.uri && it.error != null } ?: return
+        signItems(listOf(current))
+    }
+
+    private fun signItems(items: List<SignItem>) {
+        if (items.isEmpty() || _working.value) return
         if (demoMode) {
             if (_signItems.value.isEmpty()) return
             runJob(busyLight = true) {
                 // Input comes from a fixed fixture, never from a picked/shared real document or the vault.
                 val card = container.wallet.value.selectedCard
                 var lastPreview: Uri? = null
-                _signItems.value.forEach { item ->
+                items.forEach { item ->
                     container.signingService.sign(
                         Document(item.doc.name, DemoFixtures.samplePdf), item.format,
                         Consent { ConsentResult.Cancelled }, reader = card?.readerId,
@@ -196,15 +206,13 @@ documents.copy(source, target)
                     val saved = container.signedFiles.save(outputName, "application/pdf", DemoOutputRenderer.render())
                     container.activity.document(outputName, saved, ok = true, text(R.string.demo_mode_result))
                     lastPreview = saved
+                    _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
                 }
-                _signItems.value = emptyList()
                 lastPreview?.let { _message.value = UiMessage.Saved(R.string.demo_mode_result, it) }
             }
             return
         }
         if (container.isDemo) return
-        val items = _signItems.value
-        if (items.isEmpty() || _working.value) return
         val status = container.status.value
         val card = status.wallet.selectedCard
         val certificate = card?.certificate
@@ -223,6 +231,7 @@ documents.copy(source, target)
                 allowedFormats = items.map { it.format.label }.toSet(),
             ).use { consent ->
                 for (item in items) {
+                    _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = null) else it } }
                     try {
                         val input = Document(item.doc.name, documents.readBytes(item.doc.uri))
                         val result = service.sign(input, item.format, consent, reader = card.readerId, expectedCertificateSha1 = certificate.sha1Hex)
@@ -230,13 +239,16 @@ documents.copy(source, target)
                         val saved = container.signedFiles.save(outputName, if (item.format.xadesLevel == null) "application/pdf" else "application/xml", result.output)
                         container.activity.document(outputName, saved, ok = true, text(R.string.activity_signed, item.format.label))
                         lastSaved = saved
+                    } catch (e: CancellationException) {
+                        throw e
                     } catch (e: CardError.Cancelled) {
                         throw e
                     } catch (e: Throwable) {
+                        _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = e) else it } }
                         log(item.doc, ok = false, text(R.string.activity_failed, item.format.label, errorText(getApplication(), e)))
                         throw e
                     }
-                    _signItems.update { list -> list.filterNot { it == item } }
+                    _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
                 }
             }
             lastSaved?.let { _message.value = UiMessage.Saved(if (SignedFileStore.inDownloads) R.string.signed_saved else R.string.signed_saved_app, it) }
@@ -361,6 +373,8 @@ documents.copy(source, target)
                 withContext(Dispatchers.IO) {
                     if (busyLight) container.whileBusy { block() } else block()
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: CardError.Cancelled) {
                 // silent (docs/09 §3.3)
             } catch (e: CardError.CardChanged) {

@@ -262,6 +262,13 @@ enum L10n {
         case linux_summary
         case linux_correct
         case linux_saving
+        case update_check
+        case update_current
+        case update_failed
+        case file_retry
+        case legacy_client_title
+        case legacy_client_description
+        case update_available
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -1565,6 +1572,41 @@ enum L10n {
     "ro": "Salvare",
     "en": "Saving",
     "ru": "Сохранение"
+  },
+  "update_check": {
+    "ro": "Caută actualizări…",
+    "en": "Check for Updates…",
+    "ru": "Проверить обновления…"
+  },
+  "update_current": {
+    "ro": "Ai cea mai recentă versiune.",
+    "en": "You have the latest version.",
+    "ru": "У вас последняя версия."
+  },
+  "update_failed": {
+    "ro": "Nu s-au putut verifica actualizările. Încearcă din nou.",
+    "en": "Could not check for updates. Try again.",
+    "ru": "Не удалось проверить обновления. Повторите попытку."
+  },
+  "file_retry": {
+    "ro": "Reîncearcă",
+    "en": "Retry",
+    "ru": "Повторить"
+  },
+  "legacy_client_title": {
+    "ro": "Permite conectarea MoldSign Desktop",
+    "en": "Allow MoldSign Desktop to connect",
+    "ru": "Разрешить подключение MoldSign Desktop"
+  },
+  "legacy_client_description": {
+    "ro": "Cererile locale de semnare necesită aprobarea ta.",
+    "en": "Local signing requests require your approval.",
+    "ru": "Локальные запросы подписи требуют вашего подтверждения."
+  },
+  "update_available": {
+    "ro": "Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.",
+    "en": "An update is available. The download page has been opened.",
+    "ru": "Доступно обновление. Открыта страница загрузки."
   }
 }
 """#.utf8)

@@ -8,6 +8,11 @@ struct MenuBarPopover: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(\.openSettings) private var openSettings
     @State private var hostWindow: NSWindow?
+    #if !APP_STORE
+    @State private var vendorListening = false
+    @State private var confirmQuitVendor = false
+    @State private var vendorQuitFailed = false
+    #endif
 
     var body: some View {
         @Bindable var model = model
@@ -80,14 +85,21 @@ struct MenuBarPopover: View {
                     .controlSize(.small)
             }
 
+            if model.bridgeState == .portBusy {
+                if vendorListening {
+                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }
+                } else {
+                    Button(L10n.text(.vendor_retry)) { restartBridge() }
+                }
+                if vendorQuitFailed { Text(L10n.text(.vendor_quit_failed)).font(.callout).foregroundStyle(.red) }
+            }
             #endif
             Divider()
             VStack(spacing: 0) {
                 MenuRow(title: L10n.text(.ui_open_esemnbun)) { showMain(.sign) }
                 MenuRow(title: L10n.text(.about_app_title)) {
                     dismissThen {
-                        NSApp.activate(ignoringOtherApps: true)
-                        openWindow(id: "about")
+                        WindowPresentation.shared.present(.about) { openWindow(id: "about") }
                     }
                 }
                 Divider().padding(.vertical, 4)
@@ -100,12 +112,34 @@ struct MenuBarPopover: View {
         .frame(width: 320)
         .background(WindowReader { hostWindow = $0 })
         .onAppear { model.pruneMissingFiles() }
+        #if !APP_STORE
+        .task(id: model.bridgeState == .portBusy) {
+            vendorListening = model.bridgeState == .portBusy
+                ? await Task.detached { !VendorPortConflict.listeners().isEmpty }.value : false
+        }
+        .alert(L10n.text(.vendor_quit_confirmation), isPresented: $confirmQuitVendor) {
+            Button(L10n.text(.vendor_quit_action), role: .destructive) {
+                Task { @MainActor in
+                    await Task.detached { VendorPortConflict.terminateListeners() }.value
+                    try? await Task.sleep(for: .seconds(1))
+                    vendorQuitFailed = await Task.detached { !VendorPortConflict.listeners().isEmpty }.value
+                    restartBridge()
+                }
+            }
+            Button(L10n.text(.ui_cancel), role: .cancel) { }
+        } message: { Text(L10n.text(.vendor_quit_explanation)) }
+        #endif
     }
 
     /// MenuBarExtra has no dismiss API: close its window first so the popover doesn't hang over what opens next.
     private func dismissThen(_ action: @escaping () -> Void) {
         hostWindow?.close()
         DispatchQueue.main.async(execute: action)
+    }
+
+    private func restartBridge() {
+        model.stopBridge()
+        if model.bridgeEnabled { model.startBridge() }
     }
 
     private var bridgeLight: StatusLight {

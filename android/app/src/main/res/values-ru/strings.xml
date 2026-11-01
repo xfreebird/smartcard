@@ -226,4 +226,7 @@
   <string name="browser_history">История просмотра</string>
   <string name="browser_clear_selected">Очистить выбранные данные</string>
   <string name="browser_data_reset_note">Очистка cookie завершает сеансы на сайтах. Очистка cookie или истории закрывает текущую страницу. PIN-коды и документы приложения сохраняются.</string>
+  <string name="action_retry">Повторить</string>
+  <string name="card_surname">Фамилия</string>
+  <string name="card_given_names">Имя</string>
 </resources>

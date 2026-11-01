@@ -10,6 +10,8 @@ namespace MoldSign.App.Services;
 public sealed record OperationOutcome(bool Success, string Message, IReadOnlyList<string> Outputs)
 {
     public IReadOnlyList<VerificationReport>? Reports { get; init; }
+    public IReadOnlyList<string> CompletedInputs { get; init; } = [];
+    public string? FailedInput { get; init; }
 }
 
 /// <summary>One document to sign and the format chosen for it on the Sign page (PDF: PAdES-T or XAdES; others: XAdES).</summary>
@@ -63,9 +65,11 @@ public sealed class AppServices : IAsyncDisposable
             : request => _disposed ? ConsentResult.Cancelled : authorization(request);
         _batches = new DocumentBatchSigner(_documentSigner);
         Bridge = new BridgeHost(BridgeOriginPolicy.Default, BridgeTls.ResolvePath,
-            () => Volatile.Read(ref _bridgeCards), Signing, _authorize);
+            () => Volatile.Read(ref _bridgeCards), Signing, _authorize,
+            allowsLegacyDesktopClient: Settings.LegacyDesktopClientEnabled && !StartupRegistration.IsPackaged);
         BrowserConnection = IsDemo || dependencies.BrowserConnection is null ? new BrowserConnectionController(Bridge, Settings, (enabled, status) =>
         {
+            if (_disposed) return;
             State.BridgeEnabled = enabled;
             State.BridgeStatus = status;
         }, IsDemo) : dependencies.BrowserConnection;
@@ -99,6 +103,7 @@ public sealed class AppServices : IAsyncDisposable
     private readonly MoldSign.Desktop.InsertionActivationPolicy _activationPolicy = new();
 
     public AppSettings Settings { get; }
+    internal UpdateChecker Updates { get; } = new();
     public IPinVault Pins { get; }
     public IReaderSource Readers { get; }
     public bool IsDemo => Readers is DemoReaderSource;
@@ -118,6 +123,7 @@ public sealed class AppServices : IAsyncDisposable
         State.ResetSession(IsDemo);
         if (!IsDemo) State.LoadActivity(); // demo does not expose real document history
         Readers.Start();
+        if (!IsDemo) Updates.Start();
         if (!IsDemo) _ = SetBridgeEnabledAsync(Settings.BridgeEnabled);
     }
 
@@ -214,6 +220,12 @@ public sealed class AppServices : IAsyncDisposable
             return new OperationOutcome(false, State.LightLabel, []);
 
         var outputs = new List<string>();
+        var completedInputs = new List<string>();
+        OperationOutcome Outcome(bool success, string message, bool failed = true) => new(success, message, outputs)
+        {
+            CompletedInputs = completedInputs.ToArray(),
+            FailedInput = !success && failed ? frozenJobs.FirstOrDefault(job => !completedInputs.Contains(job.Path))?.Path : null,
+        };
         try
         {
             SetBusy(true);
@@ -223,38 +235,39 @@ public sealed class AppServices : IAsyncDisposable
                     reader, certificate.Sha1, packaging, _authorize, (job, signed) =>
                     {
                         outputs.AddRange(signed.OutputFiles);
+                        completedInputs.Add(job.Path);
                         Record(Path.GetFileName(job.Path), IsDemo ? Loc.Get("demo_sign_success") : $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
                             true, signed.OutputFiles.FirstOrDefault());
                     });
                 if (result.Error is { } failure) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
             });
             Consent.LastRemainingAttempts = null;
-            return new OperationOutcome(true, IsDemo ? Loc.Get("demo_sign_success") : Loc.Format("Sign_Done", outputs.Count), outputs);
+            return Outcome(true, IsDemo ? Loc.Get("demo_sign_success") : Loc.Format("Sign_Done", outputs.Count));
         }
         catch (CardException e) when (e.Kind == CardErrorKind.Cancelled)
         {
-            return new OperationOutcome(false, "", outputs);
+            return Outcome(false, "", failed: false);
         }
         catch (CardException e)
         {
-            return new OperationOutcome(false, HandleCardError(e, reader, certificate.Sha1), outputs);
+            return Outcome(false, HandleCardError(e, reader, certificate.Sha1));
         }
         catch (DocumentBatchBusyException)
         {
-            return new OperationOutcome(false, Loc.Get("Light_Busy"), outputs);
+            return Outcome(false, Loc.Get("Light_Busy"), failed: false);
         }
         catch (NotImplementedException)
         {
-            return new OperationOutcome(false, Loc.Get("Error_NotImplemented"), outputs);
+            return Outcome(false, Loc.Get("Error_NotImplemented"));
         }
         catch (IOException e)
         {
-            return new OperationOutcome(false, e.Message, outputs);
+            return Outcome(false, e.Message);
         }
         catch (Exception e)
         {
             AppLog.Error(e);
-            return new OperationOutcome(false, Loc.Get("Error_Generic"), outputs);
+            return Outcome(false, Loc.Get("Error_Generic"));
         }
         finally
         {
@@ -304,9 +317,11 @@ public sealed class AppServices : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
+        Updates.Stop();
         State.WalletChanged -= OnWalletChanged;
         Readers.Dispose();
         Consent.CancelPending();
+        (BrowserConnection as IDisposable)?.Dispose();
         await Bridge.DisposeAsync();
         // Old in-flight reads / browser work must finish before a new service generation is visible.
         while (Volatile.Read(ref _activeOperations) > 0) await Task.Delay(25);
