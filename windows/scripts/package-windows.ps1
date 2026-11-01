@@ -64,6 +64,7 @@ SIGNING
 [CmdletBinding()]
 param(
     [string] $Version,
+    [string] $StorePackageVersion,
     [ValidateSet('x64', 'arm64')]
     [string[]] $Platforms = @('x64'),
     [string] $Configuration = 'Release',
@@ -212,7 +213,16 @@ function Set-MsixIdentity([string] $Name, [string] $Publisher, [string] $Package
 
 if (-not $Version) { $Version = Get-ProjectVersion }
 if ($Version -notmatch '^\d+\.\d+\.\d+$') { throw "Version must be major.minor.patch, got '$Version'" }
-$MsixVersion = "$Version.0"
+if (-not $StorePackageVersion -and $env:BUILD_NUMBER) {
+    if ($env:BUILD_NUMBER -notmatch '^[1-9][0-9]*$' -or [long]$env:BUILD_NUMBER -gt 65535) { throw 'BUILD_NUMBER must be an integer from 1 to 65535 for MSIX' }
+    $marketingParts = $Version.Split('.')
+    $StorePackageVersion = "$([Math]::Max(1, [int]$marketingParts[0])).$($marketingParts[1]).$($env:BUILD_NUMBER).0"
+}
+$MsixVersion = if ($StorePackageVersion) { $StorePackageVersion } else { "$Version.0" }
+if ($MsixVersion -notmatch '^\d+\.\d+\.\d+\.0$') { throw 'Store package version must contain four numeric parts and end in zero' }
+foreach ($part in $MsixVersion.Split('.')) {
+    if ([int]$part -gt 65535) { throw 'MSIX version components must not exceed 65535' }
+}
 
 New-Item -ItemType Directory -Force -Path $Dist | Out-Null
 Get-ChildItem $Dist -Force | Remove-Item -Recurse -Force
