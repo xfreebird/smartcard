@@ -6,9 +6,9 @@
 
 Sign and verify documents with a Moldovan electronic identity card. eSemnBun supports macOS, iOS, Android, Windows and Linux, with a command-line interface for desktop systems.
 
-![macOS app walkthrough](docs/media/macos-walkthrough.gif)
+![eSemnBun on macOS](docs/media/macos-desktop.png)
 
-A short capture of the native macOS app: documents, card selection, verification and certificate details.
+The native macOS app, ready to sign a document with the selected identity card.
 
 ## What you can do
 
