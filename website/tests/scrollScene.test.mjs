@@ -1,8 +1,8 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {sceneAt,cardGeometry,mobileReaderShift,mobileStoryProgress,mobileReaderGeometry,mobileSceneWidth} from '../src/components/scrollScene.mjs';
+import {sceneAt,cardGeometry,mobileStoryProgress,mobileReaderGeometry,mobileSceneWidth,mobileSceneTop,readerConnectionOffset} from '../src/components/scrollScene.mjs';
 test('scroll timeline continuously moves and reveals the card only after insertion',()=>{
- const keys=['shrink','frame','connect','reader','spread','insert','app','signed'];
+ const keys=['shrink','frame','connect','reader','insert','app','signed'];
  for(let p=0;p<.999;p+=.001){
   const a=sceneAt(p),b=sceneAt(p+.001);
   assert.ok(keys.some(k=>Math.abs(a[k]-b[k])>0),`Idle interval at ${p}`);
@@ -36,9 +36,12 @@ test('connected desktop rig fits the available vertical space',async()=>{
  }
 });
 
-test('mobile reader moves aside before insertion and keeps the approaching ID visible',()=>{
- assert.equal(mobileReaderShift(sceneAt(.54)),0);
- assert.equal(mobileReaderShift(sceneAt(.64)),60);
+test('mobile reader remains fixed during connection and card insertion',()=>{
+ for(let p=.38;p<=1;p+=.01){
+  const state=sceneAt(p);
+  assert.deepEqual(mobileReaderGeometry(state),mobileReaderGeometry(sceneAt(1)));
+  assert.deepEqual(readerConnectionOffset(state,true),{x:0,y:0});
+ }
  for(let p=.64;p<=1;p+=.01){
   const state=sceneAt(p),reader=mobileReaderGeometry(state);
   const card=cardGeometry(reader);
@@ -76,5 +79,16 @@ test('final portrait phone screen is 85vw with the ID and reader over its lower 
   assert.ok(cardLeft+card.width*unit<=viewport.width-10);
   assert.ok(reader.y>screen.y+screen.height*.6);
   assert.ok(reader.y+reader.height<630);
+ }
+});
+
+test('mobile phone uses the available height with room for compact progress',()=>{
+ const screen={width:264,height:573.6},frame={y:30,height:600};
+ for(const viewport of [{width:320,height:568},{width:390,height:844},{width:430,height:932}]){
+  const unit=mobileSceneWidth(viewport,screen,frame)/650;
+  const top=mobileSceneTop(viewport,frame,unit)+frame.y*unit;
+  const bottom=top+frame.height*unit;
+  assert.ok(top>=8 && top<85);
+  assert.ok(bottom<=viewport.height-56);
  }
 });

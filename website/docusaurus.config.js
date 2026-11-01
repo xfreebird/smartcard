@@ -8,7 +8,7 @@ const config = {
     theme: {customCss: './src/css/custom.css'}}]],
   themeConfig: {
     colorMode: {defaultMode: 'light', disableSwitch: true},
-    navbar: {title: 'eSemnBun', logo: {alt: 'eSemnBun', src: 'img/icon.png'}, items: [
+    navbar: {hideOnScroll: true, title: 'eSemnBun', logo: {alt: 'eSemnBun', src: 'img/icon.png'}, items: [
       {type:'localeDropdown', position:'right'},
       {to: '/docs/start', label: 'How it works', position: 'right'},
       {to: '/support', label: 'Support', position: 'right'},

@@ -4,8 +4,8 @@ export function sceneAt(progress){
  const p=clamp(progress);
  return {
   shrink:segment(p,0,.24), frame:segment(p,.24,.4),
-  connect:segment(p,.38,.54), reader:segment(p,.50,.56),
-  spread:segment(p,.54,.64), insert:segment(p,.64,.84),
+  connect:segment(p,.38,.54), reader:segment(p,.50,.60),
+  insert:segment(p,.60,.84),
   app:segment(p,.84,.94), signed:segment(p,.92,1),
   progress:p,
  };
@@ -28,10 +28,6 @@ export function desktopScreenFraction(state,viewport,reader,frame,screen){
  return 1.4-.65*state.shrink+(fitFraction-.75)*state.connect;
 }
 
-// Shift the reader before the card enters, keeping the complete approaching ID
-// inside the phone scene. The cable endpoint follows the reader connector.
-export function mobileReaderShift(state){return 60*state.spread;}
-
 // Begin the mobile timeline during entrance, after 10% of the enlarged screen
 // is visible. Waiting for the section to reach the top compresses the zoom-out.
 export function mobileStoryProgress(bounds,viewport,screen){
@@ -42,10 +38,17 @@ export function mobileStoryProgress(bounds,viewport,screen){
 }
 
 // Keep the phone prominent; only short viewports constrain the 85vw target.
-export function mobileSceneWidth(viewport,screen){
- const screenWidth=Math.min(viewport.width*.85,Math.max(300,viewport.height-100)*screen.width/screen.height);
+export function mobileSceneWidth(viewport,screen,frame={height:600}){
+ const screenWidth=Math.min(viewport.width*.85,Math.max(240,viewport.height-76)*screen.width/frame.height);
  return screenWidth*650/screen.width;
 }
-export function mobileReaderGeometry(state){
- return {x:235+mobileReaderShift(state),y:420,width:200,height:200*1024/1536};
+export function mobileReaderGeometry(){
+ return {x:295,y:420,width:200,height:200*1024/1536};
+}
+export function mobileSceneTop(viewport,frame,unit){
+ const frameTop=Math.max(8,(viewport.height-64-frame.height*unit)/2);
+ return frameTop-frame.y*unit;
+}
+export function readerConnectionOffset(state,mobile){
+ return mobile?{x:0,y:0}:{x:(1-state.connect)*110,y:(1-state.connect)*45};
 }
