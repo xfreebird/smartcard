@@ -790,7 +790,6 @@
 				CODE_SIGN_ENTITLEMENTS = Configuration/AppStore.entitlements;
 				ENABLE_APP_SANDBOX = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APP_STORE";
-				EXCLUDED_SOURCE_FILE_NAMES = "$(inherited) localhost.p12";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -814,7 +813,6 @@
 				CODE_SIGN_ENTITLEMENTS = Configuration/AppStore.entitlements;
 				ENABLE_APP_SANDBOX = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APP_STORE";
-				EXCLUDED_SOURCE_FILE_NAMES = "$(inherited) localhost.p12";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				CODE_SIGN_IDENTITY = "Apple Distribution";
 				CODE_SIGN_STYLE = Manual;

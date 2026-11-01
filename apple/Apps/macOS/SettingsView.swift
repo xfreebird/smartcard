@@ -8,9 +8,7 @@ struct SettingsView: View {
         TabView {
             GeneralSettings().tabItem { Label(L10n.text(.ui_general), systemImage: "gearshape") }
             SavedPINSettings().tabItem { Label(L10n.text(.ui_saved_pins), systemImage: "key") }
-            #if !APP_STORE
             BridgeSettings().tabItem { Label(L10n.text(.ui_browser_connection), systemImage: "globe") }
-            #endif
             AboutContent().tabItem { Label(L10n.text(.about_app_title), systemImage: "info.circle") }
         }
         .frame(width: 560, height: 480)
@@ -101,12 +99,13 @@ private struct GeneralSettings: View {
     }
 }
 
-#if !APP_STORE
 private struct BridgeSettings: View {
     @Environment(AppModel.self) private var model
+    #if !APP_STORE
     @State private var vendorListening = false
     @State private var confirmQuitVendor = false
     @State private var quitFailed = false
+    #endif
 
     var body: some View {
         @Bindable var model = model
@@ -114,6 +113,7 @@ private struct BridgeSettings: View {
             Toggle(L10n.text(.ui_respond_to_signing_requests_from_the_browser), isOn: $model.bridgeEnabled)
             LabeledContent(L10n.text(.ui_addresses), value: "127.0.0.1:18480 · localhost.cts.md:18443")
             if model.bridgeState == .portBusy {
+                #if !APP_STORE
                 Text(L10n.text(vendorListening ? .ui_the_ports_are_in_use_by_moldsign_desktop_suite_java_quit_it_to_use_this_application : .vendor_other_conflict))
                     .font(.caption).foregroundStyle(Theme.warning)
                 if vendorListening {
@@ -122,6 +122,10 @@ private struct BridgeSettings: View {
                     Button(L10n.text(.vendor_retry)) { retryBridge() }
                 }
                 if quitFailed { Text(L10n.text(.vendor_quit_failed)).font(.caption).foregroundStyle(Theme.warning) }
+                #else
+                Text(L10n.text(.vendor_other_conflict)).font(.caption).foregroundStyle(Theme.warning)
+                Button(L10n.text(.vendor_retry)) { retryBridge() }
+                #endif
             }
             Section(L10n.text(.ui_allowed_sites)) {
                 Text(BridgeOriginPolicy.vendorDefault.patterns.prefix(12).joined(separator: "\n") + "\n…")
@@ -130,6 +134,7 @@ private struct BridgeSettings: View {
             }
         }
         .formStyle(.grouped)
+        #if !APP_STORE
         .task(id: model.bridgeState == .portBusy) {
             guard model.bridgeState == .portBusy else { return }
             vendorListening = await Task.detached { !VendorPortConflict.listeners().isEmpty }.value
@@ -147,6 +152,7 @@ private struct BridgeSettings: View {
         } message: {
             Text(L10n.text(.vendor_quit_explanation))
         }
+        #endif
     }
 
     private func retryBridge() {
@@ -154,8 +160,6 @@ private struct BridgeSettings: View {
         if model.bridgeEnabled { model.startBridge() }
     }
 }
-
-#endif
 
 /// Lists only keychain account metadata; PIN values are never read for management.
 private struct SavedPINSettings: View {

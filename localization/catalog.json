@@ -8380,9 +8380,9 @@
       "platform": "apple",
       "key": "store_features_explanation",
       "translations": {
-        "ro": "Versiunea App Store semnează și verifică documente. Conexiunea browser și pornirea aplicației prin utilitarul separat sunt disponibile în versiunea desktop de pe esemnbun.md.",
-        "en": "The App Store version signs and verifies documents. Browser connection and the separate insertion helper are available in the desktop version from esemnbun.md.",
-        "ru": "Версия App Store подписывает и проверяет документы. Подключение браузера и отдельный помощник запуска доступны в настольной версии с esemnbun.md."
+        "ro": "Versiunea App Store include browserul integrat și semnarea documentelor. Controlul aplicației MoldSign și utilitarul separat de pornire sunt disponibile în versiunea desktop de pe esemnbun.md.",
+        "en": "The App Store version includes in-app browsing and document signing. MoldSign app control and the separate insertion helper are available in the desktop version from esemnbun.md.",
+        "ru": "Версия App Store включает встроенный браузер и подписание документов. Управление MoldSign и отдельный помощник запуска доступны в настольной версии с esemnbun.md."
       }
     }
   ],

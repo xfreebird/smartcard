@@ -100,6 +100,34 @@ final class BridgeEndToEndTests: XCTestCase {
         XCTAssertTrue(card.signedDigestInfos.isEmpty)
     }
 
+    func testSandboxBridgeRejectsPathsButSignsDataWithConsent() throws {
+        let server = MoldSignServer(tlsP12: nil, httpPort: 28642, httpsPort: 28643,
+                                    allowsFileSystemRoutes: false)
+        var consents = 0
+        server.authorize = { _ in consents += 1; return .allow(pin: "1234") }
+        try server.start()
+        defer { server.stop() }
+        for route in ["/sign/pdf", "/sign/file", "/sign/file/verify", "/verify/pdf", "/sign/pdf/verify"] {
+            let denied = try post(route, Data(#"{"path":"/etc/hosts"}"#.utf8), port: 28642)
+            XCTAssertTrue(denied.hasPrefix("HTTP/1.1 403"), denied)
+            XCTAssertTrue(denied.contains("filesystem routes disabled"))
+        }
+        XCTAssertEqual(consents, 0)
+        XCTAssertEqual(card.verifyAttempts, 0)
+        let body = Data(#"{"data":"PGRvYz4xPC9kb2M+","contentType":"Xml","signFormat":"XAdES-BES","signatureType":"Embedded"}"#.utf8)
+        let deniedOrigin = try post("/sign/data", body, port: 28642, origin: "https://evil.example")
+        XCTAssertTrue(deniedOrigin.hasPrefix("HTTP/1.1 403"))
+        XCTAssertFalse(deniedOrigin.contains("Access-Control-Allow-Origin"))
+        XCTAssertEqual(consents, 0)
+        let created = try post("/sign/data", body, port: 28642)
+        let result = try get(location(created), port: 28642)
+        XCTAssertTrue(result.hasPrefix("HTTP/1.1 200"), result)
+        let report = try XCTUnwrap(Validator.validateXAdES(try signedXML(result), referencedFiles: [:]).first)
+        XCTAssertTrue(report.signatureValid && report.contentIntact)
+        XCTAssertEqual(consents, 1)
+        XCTAssertEqual(card.verifyAttempts, 1)
+    }
+
     // MARK: - HTTP helpers (core plain-HTTP client: no proxy, no HSTS)
 
     private func post(_ path: String, _ body: Data, port: Int, origin: String = "https://msign.gov.md") throws -> String {

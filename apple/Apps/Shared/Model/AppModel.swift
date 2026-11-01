@@ -614,7 +614,14 @@ final class AppModel {
     func startBridge() {
         guard AppDistribution.browserBridge, !demoMode else { return }
         guard server == nil else { return }
-        let server = MoldSignServer()
+        #if os(macOS) && APP_STORE
+        // Store uses the packaged identity only, without probing vendor or development paths.
+        let identity = Bundle.main.url(forResource: "localhost", withExtension: "p12")
+            .flatMap { try? Data(contentsOf: $0) }
+        let server = MoldSignServer(tlsP12: identity, allowsFileSystemRoutes: AppDistribution.bridgeFileAccess)
+        #else
+        let server = MoldSignServer(allowsFileSystemRoutes: AppDistribution.bridgeFileAccess)
+        #endif
         server.authorize = { [weak self] request in
             let box = DecisionBox()
             let done = DispatchSemaphore(value: 0)

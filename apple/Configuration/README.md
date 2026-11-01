@@ -9,7 +9,9 @@ Two shared schemes use the same macOS target and source:
 
 The original `eSemnBun-macOS` scheme remains a compatible alias for the desktop build. Both variants use the existing `md.esemnbun.mac` identifier and therefore share the application identity; install one distribution at a time.
 
-The Store configurations define `APP_STORE`, use CryptoTokenKit for smart-card access and use `Configuration/AppStore.entitlements`. The direct-distribution reader watcher, launch agent and localhost TLS identity are excluded from the Store bundle, including stale outputs when reusing build directories. Store signing results stay inside its container and use a native Export action to save to a chosen location. The desktop configuration keeps the reader watcher, browser connection and normal file-output behavior.
+The Store configurations define `APP_STORE`, use CryptoTokenKit for smart-card access and use `Configuration/AppStore.entitlements`. The direct-distribution reader watcher and launch agent are excluded from the Store bundle, including stale outputs when reusing build directories. Store signing results stay inside its container and use a native Export action to save to a chosen location. The desktop configuration keeps the reader watcher, browser connection and normal file-output behavior.
+
+The Store bridge retains normal TLS validation, allowed-origin checks and consent/PIN authorization. Arbitrary filesystem bridge routes are disabled. The bundled vendor localhost identity remains a distribution/review consideration; network entitlements permit the listener but do not imply Store approval.
 
 Feature availability:
 
@@ -17,7 +19,7 @@ Feature availability:
 | --- | --- | --- |
 | Sign and verify documents, activity, language/theme, demo mode, saved PINs | Yes | Yes |
 | Smart-card transport | PC/SC | CryptoTokenKit |
-| Browser signing bridge and bundled localhost identity | Yes | Disabled and identity omitted |
+| Embedded browser, loopback HTTPS bridge and bundled localhost identity | Yes | Yes, data-only signing routes |
 | Separate reader-insertion watcher | Yes | Omitted |
 | Reader detection while app is running | Yes | Yes |
 | Output beside original file | Yes | Container output plus Save As export |

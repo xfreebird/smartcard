@@ -198,12 +198,13 @@ struct StatusLightView: View {
 /// Sidebar window (docs/10 §4.2, UX-03).
 struct MainWindowView: View {
     enum Section: String, CaseIterable, Identifiable {
-        case sign, verify, card, activity
+        case sign, verify, browser, card, activity
         var id: String { rawValue }
         var title: String {
             switch self {
             case .sign: return L10n.text(.ui_sign)
             case .verify: return L10n.text(.ui_verify)
+            case .browser: return L10n.text(.ui_browser)
             case .card: return L10n.text(.ui_card)
             case .activity: return L10n.text(.ui_activity)
             }
@@ -212,6 +213,7 @@ struct MainWindowView: View {
             switch self {
             case .sign: return "signature"
             case .verify: return "checkmark.seal"
+            case .browser: return "globe"
             case .card: return "person.text.rectangle"
             case .activity: return "clock"
             }
@@ -219,6 +221,7 @@ struct MainWindowView: View {
     }
 
     @Environment(AppModel.self) private var model
+    @State private var portalBrowser = MacPortalBrowser()
     @AppStorage("mainSection", store: AppPreferencesStore.defaults) private var stored = Section.sign.rawValue
 
     var body: some View {
@@ -226,7 +229,7 @@ struct MainWindowView: View {
         NavigationSplitView {
             List(selection: selection) {
                 SwiftUI.Section(L10n.text(.ui_documents)) {
-                    ForEach([Section.sign, .verify]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
+                    ForEach([Section.sign, .verify, .browser]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
                 }
                 SwiftUI.Section(L10n.text(.ui_account)) {
                     ForEach([Section.card, .activity]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
@@ -248,12 +251,16 @@ struct MainWindowView: View {
                     switch Section(rawValue: stored) ?? .sign {
                     case .sign: SignScreen()
                     case .verify: VerifyScreen()
+                    case .browser: MacBrowserScreen(browser: portalBrowser)
                     case .card: CardScreen()
                     case .activity: ActivityScreen()
                     }
                 }
             }
             .background(WindowReader { WindowPresentation.shared.register($0, for: .main) })
+        }
+        .onChange(of: model.browserURL) { _, url in
+            if url != nil { stored = Section.browser.rawValue }
         }
     }
 }

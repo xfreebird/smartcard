@@ -75,6 +75,7 @@ public final class MoldSignServer {
     public private(set) var isRunning = false
 
     private let policy: BridgeOriginPolicy
+    private let allowsFileSystemRoutes: Bool
     private let tlsP12: Data?
     private let httpPort: UInt16
     private let httpsPort: UInt16
@@ -89,7 +90,9 @@ public final class MoldSignServer {
     public init(policy: BridgeOriginPolicy = .vendorDefault,
                 tlsP12: Data? = MoldSignServer.defaultTLSP12(),
                 httpPort: UInt16 = MoldSignServer.defaultHTTPPort,
-                httpsPort: UInt16 = MoldSignServer.defaultHTTPSPort) {
+                httpsPort: UInt16 = MoldSignServer.defaultHTTPSPort,
+                allowsFileSystemRoutes: Bool = true) {
+        self.allowsFileSystemRoutes = allowsFileSystemRoutes
         self.policy = policy
         self.tlsP12 = tlsP12
         self.httpPort = httpPort
@@ -350,6 +353,14 @@ public final class MoldSignServer {
             reply(respond(200, "", contentType: "text/plain", origin: origin,
                           extra: ["Access-Control-Allow-Methods: GET, POST, OPTIONS",
                                   "Access-Control-Allow-Private-Network: true"]))
+            return
+        }
+
+        // Sandboxed hosts accept document bytes, never filesystem paths supplied by a website.
+        // Check before parsing payloads, creating sessions, or reaching consent/card operations.
+        if !allowsFileSystemRoutes && !(path == "/certificates" || path == "/certificates/"
+            || path == "/sign/data" || path.hasPrefix("/sign/data/PKCS11/")) {
+            reply(respondJSON(403, #"{"error":"filesystem routes disabled"}"#, origin: origin))
             return
         }
 

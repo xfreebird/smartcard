@@ -11,10 +11,20 @@ Last updated: **2026-11-01**
 
 ---
 
+## macOS Store embedded browser — 1 November 2026
+
+- [x] MAC-WEB-01 Native WKWebView browser with address/history/reload, native uploads/downloads and normal TLS, available in both macOS distributions.
+- [x] MAC-WEB-02 Store loopback HTTPS with bundled identity and network server entitlement; data-only route policy preserves origin/consent/PIN checks and rejects filesystem endpoints. Vendor process control and reader helper remain excluded.
+- [x] MAC-WEB-03 Sandbox runtime, live portal/localhost WebView requests, both builds and signed Store package validation.
+
+This revision supersedes MAC-DIST-02's initial bridge disablement below: the Store build now intentionally includes the TLS identity and server entitlement, while omitting external helper/process control. Six core tests pass, including simulated data signing, blocked path routes before card/consent IO and denied foreign origins without CORS. Portal signing with a physical card remains separate from mock/no-PIN validation.
+
+Validation: both Desktop and Store Debug builds pass. The actual sandboxed Store Browser screen loads live MSign and reports bridge enabled. A sandboxed WKWebView loaded the live site and fetched localhost certificates using default TLS/CORS (200); unknown Origin and filesystem signing routes returned 403. Six core tests include simulated authorized data signing and route/origin denials before card IO. The updated universal signed Store package at `dist/macos-app-store/eSemnBun-AppStore.pkg` passes strict codesign, installer signature and revised distribution audit (TLS identity/server entitlement included, watcher absent). Screenshot: Desktop/esemnbun-screenshots/macos/2026-11-01/store-browser/browser.png. Installed app and keychain state restored. Physical-card portal signing and complete eVMS authentication return remain unverified; no submission/upload occurred.
+
 ## macOS distribution variants — 1 November 2026
 
 - [x] MAC-DIST-01 Explicit Desktop and App Store schemes/configurations, preserving the original desktop scheme and its full functionality.
-- [x] MAC-DIST-02 Store capability policy disables browser bridge, vendor process control and external watcher; excludes bundled localhost identity; retains CTK signing/verification, PIN management and container output with native export.
+- [x] MAC-DIST-02 Store capability policy retains a data-only browser bridge and CTK signing/verification, PIN management and native export; disables vendor process control and external watcher. See MAC-WEB for the browser revision.
 - [x] MAC-DIST-03 Read-only match signing and local Store archive/package export, separate manual CI artifact workflow; no store upload.
 - [x] MAC-DIST-04 Validate both variants, Store bundle contents/entitlements and isolated runtime; document supported features and commands.
 
