@@ -205,3 +205,17 @@ lane :mac_store_release do |options|
     File.write(pbxproj, original)
   end
 end
+
+desc "Upload an Android bundle as a Google Play internal draft; never roll out automatically"
+lane :android_internal do
+  integer_build_number
+  bundle = Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |p| p.include?('-unsigned') }
+  UI.user_error!('Expected exactly one signed AAB') unless bundle.length == 1
+  upload_to_play_store(
+    package_name: 'md.esemnbun.app',
+    json_key_data: ENV.fetch('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'),
+    aab: bundle.first, track: 'internal', release_status: 'draft',
+    skip_upload_metadata: true, skip_upload_images: true,
+    skip_upload_screenshots: true, skip_upload_changelogs: true
+  )
+end

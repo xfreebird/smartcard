@@ -1,0 +1,55 @@
+name: Windows build
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: Positive integer higher than the previous store build
+        type: string
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: windows-build
+  cancel-in-progress: false
+env:
+  BUILD_NUMBER: ${{ inputs.build_number }}
+jobs:
+  windows:
+    name: Windows (MSI, MSIX, winget manifests)
+    runs-on: windows-latest
+    env:
+      # Optional code signing (windows/README.md "Signing"): unset = unsigned artifacts.
+      MOLDSIGN_TS_ENDPOINT: ${{ secrets.MOLDSIGN_TS_ENDPOINT }}
+      MOLDSIGN_TS_ACCOUNT: ${{ secrets.MOLDSIGN_TS_ACCOUNT }}
+      MOLDSIGN_TS_PROFILE: ${{ secrets.MOLDSIGN_TS_PROFILE }}
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
+      MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
+      MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
+      MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with: { global-json-file: windows/global.json }
+      - name: Azure Trusted Signing client (only when configured)
+        if: env.MOLDSIGN_TS_ENDPOINT != ''
+        shell: pwsh
+        run: |
+          nuget install Microsoft.Trusted.Signing.Client -OutputDirectory "$env:RUNNER_TEMP\ts" -ExcludeVersion -NonInteractive
+          "MOLDSIGN_TS_DLIB=$env:RUNNER_TEMP\ts\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll" >> $env:GITHUB_ENV
+      - name: Package
+        shell: pwsh
+        run: windows/scripts/package-windows.ps1 -Platforms x64
+      # The existing Partner Center submission is in certification. Building never changes it.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-windows
+          path: |
+            dist/windows/*.msi
+            dist/windows/*.msix
+            dist/windows/SHA256SUMS.txt
+            dist/windows/winget/
+          if-no-files-found: error
+
