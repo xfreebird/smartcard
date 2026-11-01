@@ -228,5 +228,10 @@
     "en": "App Store availability depends on review. Google Play may require testing access.",
     "ro": "Disponibilitatea în App Store depinde de aprobare. Google Play poate necesita acces la testare.",
     "ru": "Доступность в App Store зависит от проверки. Для Google Play может потребоваться доступ к тестированию."
+  },
+  "whyBody": {
+    "en": "The eSemnBun mobile app lets you sign documents directly on iPhone, iPad and Android using your electronic ID and a compatible USB reader.",
+    "ro": "Cu aplicația mobilă eSemnBun poți semna documente direct pe iPhone, iPad și Android, folosind cartea de identitate electronică și un cititor USB compatibil.",
+    "ru": "В мобильном приложении eSemnBun можно подписывать документы прямо на iPhone, iPad и Android с электронной ID-картой и совместимым USB-считывателем."
   }
 }

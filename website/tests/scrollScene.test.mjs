@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {sceneAt,cardGeometry,mobileStoryProgress,mobileReaderGeometry,mobileSceneWidth,mobileSceneTop,readerConnectionOffset} from '../src/components/scrollScene.mjs';
+import {sceneAt,cardGeometry,storyScrollProgress,mobileReaderGeometry,mobileSceneWidth,mobileSceneTop,readerConnectionOffset} from '../src/components/scrollScene.mjs';
 test('scroll timeline continuously moves and reveals the card only after insertion',()=>{
  const keys=['shrink','frame','connect','reader','insert','app','signed'];
  for(let p=0;p<.999;p+=.001){
@@ -57,12 +57,12 @@ test('mobile zoom starts during entrance after ten percent is visible',()=>{
    const openingHeight=viewport.width*1.4*screen.height/screen.width;
    const imageTop=viewport.height*.95-openingHeight/2;
    const bounds={height:viewport.height*2.3,top:viewport.height-imageTop-openingHeight*.1};
-   assert.ok(Math.abs(mobileStoryProgress(bounds,viewport,screen))<1e-9);
-   assert.equal(mobileStoryProgress({...bounds,top:bounds.top+1},viewport,screen),0);
-   const entering=mobileStoryProgress({...bounds,top:bounds.top-20},viewport,screen);
+   assert.ok(Math.abs(storyScrollProgress(bounds,viewport,screen))<1e-9);
+   assert.equal(storyScrollProgress({...bounds,top:bounds.top+1},viewport,screen),0);
+   const entering=storyScrollProgress({...bounds,top:bounds.top-20},viewport,screen);
    assert.ok(entering>0 && sceneAt(entering).shrink>0);
-   assert.ok(sceneAt(mobileStoryProgress({...bounds,top:0},viewport,screen)).shrink>.9);
-   assert.equal(mobileStoryProgress({...bounds,top:viewport.height-bounds.height},viewport,screen),1);
+   assert.ok(sceneAt(storyScrollProgress({...bounds,top:0},viewport,screen)).shrink>.9);
+   assert.equal(storyScrollProgress({...bounds,top:viewport.height-bounds.height},viewport,screen),1);
   }
  }
 });
@@ -90,5 +90,21 @@ test('mobile phone uses the available height with room for compact progress',()=
   const bottom=top+frame.height*unit;
   assert.ok(top>=8 && top<85);
   assert.ok(bottom<=viewport.height-56);
+ }
+});
+
+test('desktop zoom also begins while the enlarged screenshot enters',()=>{
+ const screen={width:840,height:472.5};
+ for(const viewport of [{width:1024,height:768},{width:1440,height:900},{width:1920,height:1080}]){
+  const openingHeight=viewport.width*1.4*screen.height/screen.width;
+  const imageTop=Math.max(0,viewport.height*.95-openingHeight/2);
+  const bounds={height:viewport.height*3,top:viewport.height-imageTop-openingHeight*.1};
+  assert.ok(bounds.top>0, 'entrance starts before section reaches the top');
+  assert.ok(Math.abs(storyScrollProgress(bounds,viewport,screen))<1e-9);
+  assert.equal(storyScrollProgress({...bounds,top:bounds.top+1},viewport,screen),0);
+  const entering=storyScrollProgress({...bounds,top:bounds.top-20},viewport,screen);
+  assert.ok(sceneAt(entering).shrink>0);
+  assert.ok(storyScrollProgress({...bounds,top:0},viewport,screen)>entering);
+  assert.equal(storyScrollProgress({...bounds,top:viewport.height-bounds.height},viewport,screen),1);
  }
 });

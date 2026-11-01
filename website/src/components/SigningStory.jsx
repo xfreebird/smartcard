@@ -3,7 +3,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import useText from '../i18n/useText';
 import StoryProgress from './StoryProgress';
 import {iphone, androidPhone, desktop as desktopDisplay} from './deviceGeometry';
-import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mobileSceneWidth,mobileStoryProgress,mobileSceneTop,readerConnectionOffset} from './scrollScene.mjs';
+import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mobileSceneWidth,storyScrollProgress,mobileSceneTop,readerConnectionOffset} from './scrollScene.mjs';
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
@@ -22,7 +22,7 @@ export default function SigningStory(){
   const update=()=>{
    raf=0;const r=root.current?.getBoundingClientRect();if(!r)return;
    const viewport=readViewport();
-   setProgress(viewport.width<=760?mobileStoryProgress(r,viewport,mobileScreen):clamp(-r.top/Math.max(1,r.height-viewport.height)));
+   setProgress(storyScrollProgress(r,viewport,viewport.width<=760?mobileScreen:desktopDisplay.screen));
    document.documentElement.classList.toggle('story-active',!motion.matches && r.top<=1 && r.bottom>=viewport.height-1);
   };
   const resize=()=>{setMobile(window.innerWidth<=760);setViewport(readViewport());setReduced(motion.matches);update();};

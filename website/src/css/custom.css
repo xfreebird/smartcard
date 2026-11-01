@@ -64,7 +64,7 @@
 }
 /* Use the live mobile viewport when browser chrome expands or collapses. */
 .continuous-sticky{height:100vh;height:100dvh}
-.story-active .navbar:not(:focus-within){transform:translateY(-110%);pointer-events:none}
+.story-active .navbar:not(:has(:focus-visible)){transform:translateY(-110%);pointer-events:none}
 /* One current label and four continuous segments keep the scene unobstructed. */
 .story-progress{position:absolute;left:50%;bottom:max(12px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:4;display:flex;align-items:center;gap:12px;width:min(340px,calc(100% - 32px));padding:12px 17px;border:1px solid #ffffffb8;border-radius:999px;background:#ffffffd9;backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);box-shadow:0 5px 24px #23344718,0 1px 3px #2334470d;color:#263a4a}
 .story-progress-icon{flex:none;width:22px;height:22px;fill:none;stroke:#3159df;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
@@ -77,5 +77,11 @@
 .continuous-story>.continuous-sticky{height:100vh;height:100dvh;min-height:0;padding:0}
 @media(prefers-reduced-motion:reduce){.continuous-story>.continuous-sticky{height:auto;min-height:780px}}
 
-.navbar:focus-within{transform:translateY(0)}
+.navbar:has(:focus-visible){transform:translateY(0)}
 @media(prefers-reduced-motion:reduce){.navbar{transform:none!important;transition:none}}
+
+/* Docusaurus adds a second brand to the desktop docs sidebar with hideOnScroll.
+   Preserve its header spacing while keeping a single visible navigation brand. */
+.theme-doc-sidebar-container a[tabindex="-1"]{visibility:hidden}
+.features h2{margin-bottom:18px}
+.feature-intro{max-width:800px;margin:0 0 40px;font-size:18px;line-height:1.75;color:#5d676f}

@@ -28,9 +28,9 @@ export function desktopScreenFraction(state,viewport,reader,frame,screen){
  return 1.4-.65*state.shrink+(fitFraction-.75)*state.connect;
 }
 
-// Begin the mobile timeline during entrance, after 10% of the enlarged screen
+// Begin every layout during entrance, after 10% of the enlarged screen
 // is visible. Waiting for the section to reach the top compresses the zoom-out.
-export function mobileStoryProgress(bounds,viewport,screen){
+export function storyScrollProgress(bounds,viewport,screen){
  const openingHeight=viewport.width*1.4*screen.height/screen.width;
  const openingTop=Math.max(0,viewport.height*.95-openingHeight/2);
  const startTop=Math.max(0,viewport.height-openingTop-openingHeight*.1);
