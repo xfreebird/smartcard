@@ -37,7 +37,7 @@ struct CardSelector: View {
     }
     private var selectorMaxWidth: CGFloat? {
         #if os(macOS)
-        return size.maxWidth.map { $0 + (model.cards.count > 1 ? 88 : 0) }
+        return size == .compact ? size.maxWidth.map { $0 + (model.cards.count > 1 ? 88 : 0) } : nil
         #else
         return size.maxWidth
         #endif
@@ -70,15 +70,17 @@ struct CardSelector: View {
                 #else
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal) {
-                    LazyHStack(spacing: 12) {
+                    LazyHStack(spacing: 0) {
                         ForEach(model.cards) { card in
-                            cardFace(card).id(card.reader)
+                            cardFace(card)
+                                .frame(width: width)
+                                .id(card.reader)
                         }
                     }
                     .scrollTargetLayout()
                     .padding(.vertical, 4)
                 }
-                .contentMargins(.horizontal, sideInset, for: .scrollContent)
+                .contentMargins(.horizontal, 0, for: .scrollContent)
                 .scrollIndicators(.hidden)
                 .modifier(CardPaging(interactionChanged: interactionChanged))
                 .scrollPosition(id: $visibleReader, anchor: .center)
@@ -99,7 +101,7 @@ struct CardSelector: View {
                 }
                 .onHover { hoveringCard = $0 }
                 .onAppear { visibleReader = model.selectedCard?.reader }
-                .task(id: cardWidth) {
+                .task(id: width) {
                     // Content margins and card width are measured after the first layout. Restore the
                     // selected item with the native proxy once that geometry is available.
                     let target = model.selectedCard?.reader

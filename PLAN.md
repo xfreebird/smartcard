@@ -11,6 +11,20 @@ Last updated: **2026-11-01**
 
 ---
 
+## Screenshot/carousel corrective pass — 1 November 2026
+
+The owner rejected earlier clipped carousel/presentation and old-iOS captures. Previous image counts are historical; acceptance requires new current-source evidence.
+
+- [x] SHOT-FIX-01 Desktop carousel uses available content width with margins, selected card centered, no narrow clipped neighbor fragments on macOS/Windows; native wide/narrow interaction checks.
+- [x] SHOT-FIX-02 Recapture actual modern iOS Liquid Glass tab bar with current SDK/runtime; add localized compact/expanded iPhone Duo captures with runtime provenance.
+- [x] SHOT-FIX-03 Consistent rounded inset UI/logo promotional presentation across Apple/Android/Windows while retaining store-compliant native upload sets and opaque canvases.
+- [~] SHOT-FIX-04 Automated capture/build/render/validate entry point, fixtures isolated/no banners, manifests and Desktop delivery regenerated. Windows/Android end-to-end and Apple capture stages pass; unattended Duo Device Hub orientation remains unproven and requires native manual controls. Incorrect orientation is rejected. See docs/reports/store-screenshot-corrections-2026-11-01.md.
+
+Native carousel validation: macOS Sign/Card with the second card selected at requested widths 860/1280 (actual maximum 1126 on the test display) is fully visible and exactly centered in four cases. Windows Sign/Card at widths 900/1382 centers within 0.5 px in four cases, with zero neighboring-card intersection; the viewport grows with window width. Builds pass. Both remote Windows and Android capture drivers completed end-to-end with 48 current-source native images, isolated mock sessions, task cleanup and SHA provenance. The 48 rounded cross-platform promotional images remain separate from native store-upload sets.
+
+Apple sources were recaptured using SDK 27.1: standard iPhone/iPad run iOS 26.5 with actual system Liquid Glass; Duo compact/expanded run iOS 27.1 through the native Device Hub compositor. The revised Apple pack contains 48 official-sized compositions plus 30 supplemental Duo compositions. Rounded inset UI/icons and a three-document Mac batch story replace the rejected artwork. Duo is kept outside official upload slots. Evidence and delivery: Desktop/esemnbun-store-submission/2026-11-01/revision2; desktop geometry evidence: Desktop/esemnbun-screenshots/{macos,windows}/2026-11-01/carousel-width.
+
+
 ## Store submission preparation — 1 November 2026
 
 - [x] STORE-01 Localized RO/EN/RU store metadata, accurate platform features and esemnbun.md support/privacy/terms paths, validated against store field limits.

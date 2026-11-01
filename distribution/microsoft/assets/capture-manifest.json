@@ -1,158 +1,122 @@
 [
   {
-    "file": "distribution/microsoft/assets/ro/01-sign.png",
-    "sourceCapture": "ro-RO/sign.png",
-    "locale": "ro-RO",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ro/01-sign.png",
+    "locale": "ro",
     "page": "sign",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "9f5f451054e4cd0c1ad0f6d459595ee7ceeff7d09cd4fd35c0fdc9d79e767a9d"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "cf003425e808be3546033f6698d5883a17960f827956200cd7439d2a0b7cbe92",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ro/02-card.png",
-    "sourceCapture": "ro-RO/card.png",
-    "locale": "ro-RO",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ro/02-card.png",
+    "locale": "ro",
     "page": "card",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "1efcec632036f10e42d3ce14828649621b5c13b8125329d6295a5a39c0d036d2"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "aad8d6e0288f0b3ea8d5ba29374d184adc6c93dc17da044aa1807bfca98a1f8d",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ro/03-verify.png",
-    "sourceCapture": "ro-RO/verify.png",
-    "locale": "ro-RO",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ro/03-verify.png",
+    "locale": "ro",
     "page": "verify",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "34daaec4c9a0af5d8ec68bdb0dbdea9fdd49f54eeb6b65a59d94d01dab696b61"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "024e3bd7342464032f3a5b3c84c49172f8d43c1fcbc082043deec6e0b610cb9c",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ro/04-settings.png",
-    "sourceCapture": "ro-RO/settings.png",
-    "locale": "ro-RO",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ro/04-settings.png",
+    "locale": "ro",
     "page": "settings",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "f6d8f84a77105c18038738604e6c52d88323b11be62905da7971814d73250a8a"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "f7ec5b56c8a2e3b6b871391af5f6ef7a687004fb76c5b94bb419cd0222457bb7",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/en/01-sign.png",
-    "sourceCapture": "en-US/sign.png",
-    "locale": "en-US",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/en/01-sign.png",
+    "locale": "en",
     "page": "sign",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "84ca2e3f03b87994d4f7e5aca889edbb2a152c9283d5efeb9f2756e39bdda15f"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "c474377d884c077d2aeafefff27a8ab95f67b09baf152acb0a14a4745517a30a",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/en/02-card.png",
-    "sourceCapture": "en-US/card.png",
-    "locale": "en-US",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/en/02-card.png",
+    "locale": "en",
     "page": "card",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "a2faf1a961346c2d39abd910f741a6623c66441a361760cd6adcc8532c0e3093"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "73c92581b953e65a6517400ad37dacc9c5aa3aad6092f2c945695e3d3fc17f8e",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/en/03-verify.png",
-    "sourceCapture": "en-US/verify.png",
-    "locale": "en-US",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/en/03-verify.png",
+    "locale": "en",
     "page": "verify",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "fe845cd613d76f52dac32778eeb91f191bcf36e664ea2c99e46d9215a2961034"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "da695087b5ebd0313bae5194400e3366897c50df3355d07aeb001457918d50b0",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/en/04-settings.png",
-    "sourceCapture": "en-US/settings.png",
-    "locale": "en-US",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/en/04-settings.png",
+    "locale": "en",
     "page": "settings",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "1317b19cf799c30927fa9024fa84cadc01c9426524280174bb9bcd5a84fe7906"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "5f5ced1a153ae5c349b867b1f32f41853384721b83a027a60eea52546a1c4af6",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ru/01-sign.png",
-    "sourceCapture": "ru-RU/sign.png",
-    "locale": "ru-RU",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ru/01-sign.png",
+    "locale": "ru",
     "page": "sign",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "fe24ce0be7bc0fe577a8a7340042728142454374cc79138bdac437e78869d30b"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "e98ee4e9edeb0230709d177c3206892be52d43e3b892dd61c12245c462bff61d",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ru/02-card.png",
-    "sourceCapture": "ru-RU/card.png",
-    "locale": "ru-RU",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ru/02-card.png",
+    "locale": "ru",
     "page": "card",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "7182555cf408c8b14e15ce0d3e3d81ec34bd17ed9f0c10ffc526363478a64610"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "93393360f78a535b79e86818005ab5b8b5994005982962e5913b6580cb93ae72",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ru/03-verify.png",
-    "sourceCapture": "ru-RU/verify.png",
-    "locale": "ru-RU",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ru/03-verify.png",
+    "locale": "ru",
     "page": "verify",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "a36f3e827a9bfc8f9c74d10d80d01a7b9d7889bad51223181e41f992492970e9"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "16d03ab5178cbf9000f45480463532e7721ca1e53028a25fee3628d3621c0718",
+    "fixture": "two fictional cards",
+    "hardware": false
   },
   {
-    "file": "distribution/microsoft/assets/ru/04-settings.png",
-    "sourceCapture": "ru-RU/settings.png",
-    "locale": "ru-RU",
+    "file": "/Users/nghimbovschi/Desktop/esemnbun-store-submission/2026-11-01/revision2/microsoft/assets/ru/04-settings.png",
+    "locale": "ru",
     "page": "settings",
-    "dimensions": [
-      1368,
-      909
-    ],
-    "captureOnlyDemoBannerSuppression": true,
-    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
-    "sha256": "6b82a6d1275e3d7dc03646a3ef7d48ab7f3266d3b00afee1e7d3a4d10379030a"
+    "sourceBuild": "C:/Users/user/store-screenshot-refresh/publish/eSemnBun.exe",
+    "sourceArchiveSha256": "60843acea06f5c1ea05b4a73ab2d797e6725cbfcb50ee6e0871ad31e41cb19ab",
+    "sha256": "b290c91f01a51e898af0f54b6c72dea7f762f84fd4a5119d89d1e79b2130fe87",
+    "fixture": "two fictional cards",
+    "hardware": false
   }
 ]

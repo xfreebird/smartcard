@@ -28,8 +28,8 @@
             Text="Semnează" />
 
         <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
-            <StackPanel MaxWidth="680" HorizontalAlignment="Center" Padding="8" Spacing="20">
-                <controls:CardWallet HorizontalAlignment="Center" IsCompact="True" />
+            <StackPanel HorizontalAlignment="Stretch" Padding="8" Spacing="20">
+                <controls:CardWallet HorizontalAlignment="Stretch" IsCompact="True" />
 
             <!-- Documents follow the selected card, in one vertical reading order. -->
             <Grid RowSpacing="12">

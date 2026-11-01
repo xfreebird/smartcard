@@ -8,7 +8,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "f7c2fdf70b7a7aa2da87de9be4754747ef31929b556f549846957c8e9c439d13"
+      "sha256": "957077f7895bf845383ea725ec0dee603e0eb835bfe63d9ba7b3db458861dd12"
     },
     {
       "path": "ro/iphone/02-batch.png",
@@ -16,7 +16,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "1645e5af839130939958fb7933d75ef7aa802dfce929f9fccfb3c708a8b75cff"
+      "sha256": "f1f71ec13afe44a55aabd6bd1f03c4405e9f06845149e4609f197a0442f6a67b"
     },
     {
       "path": "ro/iphone/03-consent.png",
@@ -24,7 +24,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "5e40fe70eb5d7481f95e7536e90a969cb6bb90bb035336f84e57bdce84ee80ec"
+      "sha256": "f30d3e0743385d1cb1cc5ae130eaebc9d476d3d8f5198922aab4c3d8993406ba"
     },
     {
       "path": "ro/iphone/04-verify.png",
@@ -32,7 +32,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "170e5325e645b0e3cb9379782eabfaa8d8394c4333121a612d899f6b7988d2db"
+      "sha256": "19ce343e9a84f979f778770eabec378404cb5836c7d04107442b8da3537337f3"
     },
     {
       "path": "ro/iphone/05-card.png",
@@ -40,7 +40,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "f7d7e7f341c17c620e9030a8278bda4627cdab0f08a5ab3c91a997a0fd9342ab"
+      "sha256": "6546551ddbceb22ccb4cd16f709a47f0121ee7547cdd42c700796663256834b8"
     },
     {
       "path": "ro/ipad/01-sign.png",
@@ -48,7 +48,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "19655e51224cfb358a51cbe2c576226d0c14e34b78556f313fe916aadf9f0356"
+      "sha256": "905c7e3e606cb492e696a62c678bcd9609a63f663aff7655889ab80120be52ce"
     },
     {
       "path": "ro/ipad/02-batch.png",
@@ -56,7 +56,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "bdd6a5b371dc7dbf5060188dbcb579dbe71f6d273b4588d85d32083d9c4c272d"
+      "sha256": "8a056d17b8f5f9d049493df9252e87e41fd071af9c19d2fe61e2091f966891a9"
     },
     {
       "path": "ro/ipad/03-consent.png",
@@ -64,7 +64,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "527b36666460b40e77327f5617631aba8d5a852ba2001df34b485716035bba83"
+      "sha256": "f1cb0c9b9743c064e6ebe2f9187fbad2daee618097a7c8e52b04915c331dde72"
     },
     {
       "path": "ro/ipad/04-verify.png",
@@ -72,7 +72,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "3da806a16d58aa356248b9383a74860db671aaf84f9208559191da674a8d03b1"
+      "sha256": "c5c80eacbd2be6d395e64a4905f67cdf72059c088f6b781a64870857b7992dc9"
     },
     {
       "path": "ro/ipad/05-card.png",
@@ -80,7 +80,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "34161ffbc26d91e788e3bdf194ba3f52865008d935f6001680da75e50f93edb3"
+      "sha256": "0b1398b18ac100364ddf084b1a54497b929e38939c2d6737e05693904e225763"
     },
     {
       "path": "ro/macos/01-sign.png",
@@ -88,7 +88,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "e91eed940ab2820972f65e8544f62b9c80615ef0f1af779c16545d736ded1395"
+      "sha256": "f52616e6612429411a46beda89ef39f5bcf575a038c59cdd010e7e13dca73a32"
     },
     {
       "path": "ro/macos/02-batch.png",
@@ -96,7 +96,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "b377f3ad9d5c407d449103d67d8cbdedb51af0818733c7d34db61244adc133f2"
+      "sha256": "72dd1fa8735af3edb0e80576074a6ab63c954b398b8d8cf51f0878bb0059fde1"
     },
     {
       "path": "ro/macos/03-consent.png",
@@ -104,7 +104,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "35d4b1babc0075f5c518a1c3ba6a0b29b90b813146cfe11d81fa57eb6e6715c0"
+      "sha256": "f3fcb7a524ec69ecb33d449fbd109e9661d905a2e596afac9048b217d48d04a9"
     },
     {
       "path": "ro/macos/04-verify.png",
@@ -112,7 +112,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "6c27871344caa52bf052c6a52c89818ef47aca4da2caabbc98f1b012d36d40c4"
+      "sha256": "0586cd357db53ff2e924390ced82c9abf153196a3a3e685b8318a5a8e80a4970"
     },
     {
       "path": "ro/macos/05-card.png",
@@ -120,7 +120,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "a9f666125688e60e6ed03541cd43234d14b0d5824f1f599d72407435b405249f"
+      "sha256": "62670854c407f9eecd571454796c0222db618393a11b5fe8e7464d41de577ec5"
     },
     {
       "path": "ro/macos/06-browser.png",
@@ -128,7 +128,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "0a5585cded1ded8bbea6821cfad3ac3daafb810300a45ebef6439516934b39e6"
+      "sha256": "d29368cee26e224fc7083604cb8b1085a6c07121bdee7a51379d93e6401c4fcd"
     },
     {
       "path": "en/iphone/01-sign.png",
@@ -136,7 +136,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "9beec72f19325a49795bfbd21e5607d19e33a317dd3f32f75ed76035c012a8eb"
+      "sha256": "a22cf951944f75a426a41562c5344a92c3dd0d6acc709d75abf5786040983d14"
     },
     {
       "path": "en/iphone/02-batch.png",
@@ -144,7 +144,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "c034648ec4e936419a9146a83ce96b343c0c3091d4f7e57810879abc4c033d96"
+      "sha256": "56a232e8a9acafc47b84c032ccf5aeb76bc1bd9ea528a1bc58e8eab0ece3ae33"
     },
     {
       "path": "en/iphone/03-consent.png",
@@ -152,7 +152,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "0ba2155ab9fcb59511bff9c5076a15816b9df3efcfb1a8d65039306e2b843020"
+      "sha256": "0fa3ddba11635bb2f315ba1313e7ae75a6e4efe260baaf189f5ac2cc158a3766"
     },
     {
       "path": "en/iphone/04-verify.png",
@@ -160,7 +160,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "e04f67c175d68837823bdd81e28a5e1b96f551816517a304d9a6ae715c879a19"
+      "sha256": "6e970e9da3fc6766f35d943254a4468f2d875f617a9c5c1244633d26fe26185f"
     },
     {
       "path": "en/iphone/05-card.png",
@@ -168,7 +168,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "c49d3920fb5607fc39f0e5e90c6df936b74a50a9b7f047fba750fa660ed59551"
+      "sha256": "51b74188a1100672caa73484fdd9a495e10dc0a1e367369ef0a5caf284d2c826"
     },
     {
       "path": "en/ipad/01-sign.png",
@@ -176,7 +176,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "43c2d2cf66ae954929703e2e18f00e55c2c2e682c77ad0a9126f95b4543cf50c"
+      "sha256": "51832e8555b80bbfdcc6524a45cff7a07980420dc7ad3d11852ef812104e5cb9"
     },
     {
       "path": "en/ipad/02-batch.png",
@@ -184,7 +184,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "6a192edc86870b70e14820e3e983091ce8c2b09cbc9618c60d6d59860ad75267"
+      "sha256": "c09c4cc76301374770630a476ebc40ffe288d0c6fcf834cd60ef70b70f3b47dc"
     },
     {
       "path": "en/ipad/03-consent.png",
@@ -192,7 +192,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "8284ec83261469ed4260f3d4ff69c8e2c505952c76c78283d06717c513b91819"
+      "sha256": "3b165914b251abf5204db0a94bf41347476c0c56ca205df9862e8511a57991ad"
     },
     {
       "path": "en/ipad/04-verify.png",
@@ -200,7 +200,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "7a762162bfdb5f79c57c696a613ea544e834f2533af9356e9c6abf740fd7e053"
+      "sha256": "363c374ca82faa37902b64de78393e77ea5abbe7e3318b8e98f1cd646449203d"
     },
     {
       "path": "en/ipad/05-card.png",
@@ -208,7 +208,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "3b29fcc8365d8867a4c4d1e3cf32b56a876b5377658263d8d4d01e9b9fe47fda"
+      "sha256": "e3eeb0c28ce32619ba16489144ad8aed4c48789af8d92691a0e7460cb7e4fe7d"
     },
     {
       "path": "en/macos/01-sign.png",
@@ -216,7 +216,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "21d9e766d7e6c98833b49e74e6613165ffe61505df2bf75c057827b1d46cf51b"
+      "sha256": "912c7a382ef1d5134a2768e47ad915b138ae49e4a721389ce52d40436e80a2ab"
     },
     {
       "path": "en/macos/02-batch.png",
@@ -224,7 +224,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "5d3a4f41d9b9fecdaa51420646761ecb44faab618088cea7f07962939d1f4c77"
+      "sha256": "35d174e47c934a0953bc74af8750a3a9482fbc9577175b7f87b7b760da356a86"
     },
     {
       "path": "en/macos/03-consent.png",
@@ -232,7 +232,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "e1a23c6b77a64a14e9953e549c18c8fae665a02ad9f9a3c4f358cc823add3bac"
+      "sha256": "f39ab7c0b9c3430e2ced8ecc833262b1bbdc1e13404f900867a1ebbb9aa2c55e"
     },
     {
       "path": "en/macos/04-verify.png",
@@ -240,7 +240,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "84bcbe1d7a87e174e289ba8b75dc31c09f64842e2db3ae5b68cdd93d69ec01f7"
+      "sha256": "3be9c468841d13a94ab9532d061f9ed345c4e458fefdbf86950d46fd3499ef4b"
     },
     {
       "path": "en/macos/05-card.png",
@@ -248,7 +248,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "f5b023bf3e39dcffb02f3b03c94cef1d25a3883792273fe11dafaf9ac8534a08"
+      "sha256": "dc7ac1025422972a7e7ef874f8098783e98d7eb2329531962960292517fa8a4d"
     },
     {
       "path": "en/macos/06-browser.png",
@@ -256,7 +256,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "0e34de6c886f4867fd1253b81e04b0ede61902207f72c8f84c414408165f83dd"
+      "sha256": "83afdab15ceddde325ca5e552d6aadffc8ae9437991d455dc9e161bc1edf0cb0"
     },
     {
       "path": "ru/iphone/01-sign.png",
@@ -264,7 +264,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "0f2d9e2833854ab30dc9ba630b586ea2326684b388f0e4e72bc4b56ef47030b6"
+      "sha256": "ad1906aa750ed3a02e6d3dc0af159fadb4ed44713c4ca950e23392c024350a00"
     },
     {
       "path": "ru/iphone/02-batch.png",
@@ -272,7 +272,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "d674ee0f91883443a4342e48527799db01729ded4a0778448404fdd483aedc2c"
+      "sha256": "f7b727feeae818e3db6711886bad21481b2a48ad1c9566db1b58185a553be71c"
     },
     {
       "path": "ru/iphone/03-consent.png",
@@ -280,7 +280,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "20432db50bce52cca368a51a4d7da43730075b736132d7646863bfd1c958c2b6"
+      "sha256": "41ea202e66866dd0e983d0d6ebed36c4771c67ccb501fd41b9696490e4a0d395"
     },
     {
       "path": "ru/iphone/04-verify.png",
@@ -288,7 +288,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "d8895f33c176b1effdd63231ba26c350c5bf4b16aaee989aedfaa157cc353a93"
+      "sha256": "d404dd488e879c0f66e5d6161a0c74d30596154b75a1c0b1a7461059b640829b"
     },
     {
       "path": "ru/iphone/05-card.png",
@@ -296,7 +296,7 @@
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "af2e776a89d8d64bbe655fac0dea2d6e85389033bd8638e9fd71efa77767a26f"
+      "sha256": "e499e1941b59912e71418784664839f898a3cb490cb5f5c5f495d2f48caa76a4"
     },
     {
       "path": "ru/ipad/01-sign.png",
@@ -304,7 +304,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "61d39ec1aaf38d6a6c3c84265e353ffc1bd89d0e4fa328cbfe72625073ea8747"
+      "sha256": "b7e487ddf61847243dcf027007d5f5347dfd9a53a548d97939ab73a49498f857"
     },
     {
       "path": "ru/ipad/02-batch.png",
@@ -312,7 +312,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "be1ec19fa8ab68df8cb9beeb96d2fb406a96ba959d03ec7a21e2ceb32cfc0bdd"
+      "sha256": "13de9aa4f76b3a901dd76a129e4a1f349108e72599d8c9ece041ba52d600b2d1"
     },
     {
       "path": "ru/ipad/03-consent.png",
@@ -320,7 +320,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "3229e4511f1346c1ea8871b506b30d72e64d9b287484b1f07dfa8eddb694ceb2"
+      "sha256": "d2b83a0e343c5cd756772b7e1c13e6136f14826d0c3c60602384f9a4377f446a"
     },
     {
       "path": "ru/ipad/04-verify.png",
@@ -328,7 +328,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "d6b15a488d485d3bc54197c73386f415f5ae5e88739d0b424ddae9d91cbe5437"
+      "sha256": "75889ff67d93874a1678604e2f34af063015e75a6fa102262c31a00cd0699039"
     },
     {
       "path": "ru/ipad/05-card.png",
@@ -336,7 +336,7 @@
       "family": "ipad",
       "width": 2064,
       "height": 2752,
-      "sha256": "2b5cef8b7199747bb76872262c1002a82c8549556405ec325a2c47d0a9c28650"
+      "sha256": "e82b0ed77f0e28ba498966f6eff1cf4abc65994894e95472f53f50bca7581c20"
     },
     {
       "path": "ru/macos/01-sign.png",
@@ -344,7 +344,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "af9e5200571dd4447a650d57a3f40efb197287655f4e8b9713ad0a90627a1a3e"
+      "sha256": "f0ae0cacdc3f634ba001152db7fdc030dfbdd85f17626fec1e640a28b8e82200"
     },
     {
       "path": "ru/macos/02-batch.png",
@@ -352,7 +352,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "413fbd731f3bfa9601ff6466ca2279791bad26571270ab3acb41bab187eade40"
+      "sha256": "30215355a5f9e62b300bf028f6bd9386312b52990d1a8f3d7d32474181fcc5ab"
     },
     {
       "path": "ru/macos/03-consent.png",
@@ -360,7 +360,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "e5bca4b45f588ba0257ede9568dfcff51f0e32f708cff26bea829ca80901cb07"
+      "sha256": "dbffa0907d129130d81c7245ab4ba842c2710612292157c97d99cf1f04415747"
     },
     {
       "path": "ru/macos/04-verify.png",
@@ -368,7 +368,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "46875cf098b1f267cf2d28efb553933e073ae7185d3cf40f3ab75630f42a49e3"
+      "sha256": "dc5fac811a0e9e0dd39df629acff2b175cd515880d2411f7993c5379fa880a70"
     },
     {
       "path": "ru/macos/05-card.png",
@@ -376,7 +376,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "f4f0aa3dfdcb2e283d7351514adc8ae570373414af331af37668d98be80ac870"
+      "sha256": "195943e07499080e57e15fd49536850ac7130682f8882b44093e0744735b40dd"
     },
     {
       "path": "ru/macos/06-browser.png",
@@ -384,7 +384,7 @@
       "family": "macos",
       "width": 2880,
       "height": 1800,
-      "sha256": "c1ef4907b62646d65c3f8178bb3dd91c131f8b77f10ff65c393a4e92c7775f56"
+      "sha256": "08d9f2f34660e8d30ef59ee699c0efc52d2091ab56019c96a3d03db4096a14c5"
     }
   ]
 }

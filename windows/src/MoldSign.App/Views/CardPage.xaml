@@ -15,9 +15,8 @@
                   VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto"
                   HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
         <StackPanel
-            MaxWidth="760"
             Padding="{StaticResource PagePadding}"
-            HorizontalAlignment="Left"
+            HorizontalAlignment="Stretch"
             Spacing="16">
             <Grid ColumnSpacing="12">
                 <Grid.ColumnDefinitions>

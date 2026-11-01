@@ -28,20 +28,21 @@ public sealed partial class CardWallet : UserControl
         IsVerticalScrollChainingEnabled = true,
         HorizontalSnapPointsAlignment = SnapPointsAlignment.Center,
     };
-    private readonly StackPanel _cards = new() { Orientation = Orientation.Horizontal, Spacing = 16 };
+    private readonly StackPanel _cards = new() { Orientation = Orientation.Horizontal, Spacing = 0 };
     private readonly StackPanel _navigation = new() { Orientation = Orientation.Horizontal, Spacing = 2, Margin = new Thickness(0, 4, 0, 4), HorizontalAlignment = HorizontalAlignment.Center };
-    private readonly Grid _viewport = new() { HorizontalAlignment = HorizontalAlignment.Center,
+    private readonly Grid _viewport = new() { HorizontalAlignment = HorizontalAlignment.Stretch,
         Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent) };
     private readonly Button _previous;
     private readonly Button _next;
     private double _width;
+    private double _pageWidth;
     private bool _rendering;
     private bool _alignSelection;
     private bool _pointerOverCard;
 
     public CardWallet()
     {
-        HorizontalAlignment = HorizontalAlignment.Center;
+        HorizontalAlignment = HorizontalAlignment.Stretch;
         var panel = new StackPanel { Spacing = 4 };
         _scroller.Content = _cards;
         AutomationProperties.SetAutomationId(_scroller, "CardCarouselViewport");
@@ -63,7 +64,7 @@ public sealed partial class CardWallet : UserControl
             if (e.IsIntermediate || _rendering || _width <= 0 || _alignSelection) return;
             var cards = State.WalletItems.Where(c => c.Kind == WalletItemKind.Card).ToList();
             if (cards.Count < 2) return;
-            var index = Math.Clamp((int)Math.Round(_scroller.HorizontalOffset / (_width + 2 * Pad + 16)), 0, cards.Count - 1);
+            var index = Math.Clamp((int)Math.Round(_scroller.HorizontalOffset / _pageWidth), 0, cards.Count - 1);
             Select(cards[index]);
             AlignSelection();
         };
@@ -83,7 +84,7 @@ public sealed partial class CardWallet : UserControl
     public double MaxExpandedHeight { get; set; } = double.PositiveInfinity;
     public bool IsExpanded => false;
     public bool IsSelectionCentered => State.CardCount < 2 || Math.Abs(_scroller.HorizontalOffset - TargetOffset) < 1;
-    private double TargetOffset => Math.Max(0, State.SelectedIndex) * (_width + 2 * Pad + 16);
+    private double TargetOffset => Math.Max(0, State.SelectedIndex) * _pageWidth;
     public double CollapsedHeight => _width / IdCardFace.AspectRatio + 2 * Pad + (State.CardCount > 1 ? 34 : 0);
     public double ExpandedExtraHeight => 0;
     public event EventHandler? ExpandedChanged;
@@ -92,23 +93,21 @@ public sealed partial class CardWallet : UserControl
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        var max = IsCompact ? CompactMaxWidth : LargeMaxWidth;
-        var outer = double.IsInfinity(availableSize.Width) ? max : Math.Min(availableSize.Width, max);
-        // Show one complete card per page; selection is available through swiping or the dots.
-        // Fit the gutters inside the available width, including when the window narrows.
-        var gutter = !IsCompact && State.CardCount > 1 ? Math.Min(88, Math.Max(0, outer - 220)) : 0;
-        var slotWidth = Math.Min(IsCompact ? 288 : 328, Math.Max(1, outer - gutter));
-        var viewport = slotWidth + gutter;
-        var width = Math.Max(1, Math.Floor(slotWidth - 2 * Pad));
-        _cards.Padding = new Thickness(Math.Max(0, (viewport - width - 2 * Pad) / 2), 0,
-            Math.Max(0, (viewport - width - 2 * Pad) / 2), 0);
-        if (Math.Abs(width - _width) > 0.5)
+        var fallback = IsCompact ? CompactMaxWidth : LargeMaxWidth;
+        var outer = double.IsInfinity(availableSize.Width) ? fallback : Math.Max(1, availableSize.Width);
+        // Each card occupies a full viewport page. Neighbours are never clipped into decorative slivers.
+        // The card itself stays readable and centered; hover arrows live in the surrounding gutters.
+        var gutter = State.CardCount > 1 ? Math.Min(88, Math.Max(0, outer - 120)) : 8;
+        var width = Math.Max(1, Math.Floor(Math.Min(IsCompact ? 328 : 400, outer - gutter) - 2 * Pad));
+        _cards.Padding = new Thickness(0);
+        if (Math.Abs(width - _width) > 0.5 || Math.Abs(outer - _pageWidth) > 0.5)
         {
             _width = width;
+            _pageWidth = outer;
             DispatcherQueue.TryEnqueue(Render);
         }
-        _scroller.Width = viewport;
-        _viewport.Width = viewport;
+        _scroller.Width = outer;
+        _viewport.Width = outer;
         return base.MeasureOverride(new Size(outer, availableSize.Height));
     }
 
@@ -125,10 +124,10 @@ public sealed partial class CardWallet : UserControl
             if (item.Kind != WalletItemKind.Card)
             {
                 // Reader instructions are a static dotted rectangle, not another button/group box.
-                var empty = new IdCardFace(item, _width, false, false, false) { Margin = new Thickness(Pad) };
+                var empty = new IdCardFace(item, _width, false, false, false) { Margin = new Thickness(Pad), HorizontalAlignment = HorizontalAlignment.Center };
                 _cards.Children.Add(new Grid
                 {
-                    Width = _width + 2 * Pad, Height = _width / IdCardFace.AspectRatio + 2 * Pad,
+                    Width = _pageWidth, Height = _width / IdCardFace.AspectRatio + 2 * Pad,
                     Children = { empty },
                 });
                 continue;
@@ -136,6 +135,7 @@ public sealed partial class CardWallet : UserControl
             var button = new Button
             {
                 Width = _width + 2 * Pad,
+                HorizontalAlignment = HorizontalAlignment.Center,
                 Height = _width / IdCardFace.AspectRatio + 2 * Pad,
                 Padding = new Thickness(item.IsSelected && State.CardCount > 1 ? Pad - 2 : Pad),
                 Opacity = item.IsSelected || State.CardCount < 2 ? 1 : 0.65,
@@ -156,7 +156,11 @@ public sealed partial class CardWallet : UserControl
                 if (item.IsSelected || item.Kind != WalletItemKind.Card) CardActivated?.Invoke(this, EventArgs.Empty);
                 else Select(item);
             };
-            _cards.Children.Add(button);
+            _cards.Children.Add(new Grid
+            {
+                Width = _pageWidth,
+                Children = { button },
+            });
         }
         _navigation.Visibility = State.CardCount > 1 ? Visibility.Visible : Visibility.Collapsed;
         _navigation.Children.Clear();
