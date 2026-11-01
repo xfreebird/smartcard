@@ -44,7 +44,7 @@ for store,raw in [('android',a.android_raw),('windows',a.windows_raw)]:
    for source in sorted(folder.glob('*.png')):
     story=source.stem.split('-',1)[-1]
     if story not in COPY[lang]['steps']:continue
-    portrait=family in ('phone','seven-inch');W,H=(1320,2868) if portrait else (2880,1800)
+    portrait=family in ('phone','seven-inch');W,H=((1440,2560) if portrait else (2560,1440)) if store=='android' else (2880,1800)
     canvas=Image.new('RGBA',(W,H),'#e8edf9');d=ImageDraw.Draw(canvas);outer=int(W*.012);d.rounded_rectangle((outer,outer,W-outer,H-outer),radius=int(W*.035),fill='#f3f6fd');m=int(W*.065)
     icon=Image.open(ROOT/'android/design/play-store-icon-512.png').convert('RGBA');s=int(W*(.045 if portrait else .028));icon=icon.resize((s,s),Image.Resampling.LANCZOS);mask=Image.new('L',icon.size);ImageDraw.Draw(mask).rounded_rectangle((0,0,s-1,s-1),radius=int(s*.22),fill=255);canvas.paste(icon,(m,int(H*.035)),mask)
     d=ImageDraw.Draw(canvas);block(d,'eSemnBun',m+s+20,int(H*.038),int(W*.026),W*.6,True)

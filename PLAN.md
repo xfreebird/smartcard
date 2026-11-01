@@ -716,8 +716,12 @@ Newest first. One line per meaningful step; link IDs.
 
 ## Store draft uploads — 1 November 2026
 
-- [~] STORE-UPLOAD-01 Upload current-source iOS/iPadOS and sandboxed macOS builds, localized metadata and official screenshot sets to App Store Connect drafts. Build 100 workflows dispatched; iPhone/iPad share the iOS binary. No review submission or release requested.
-- [~] STORE-UPLOAD-02 Refresh Windows Store draft package and RO/EN/RU listings/screenshots; separate compliant MSIX package version from marketing version and integer build identity.
-- [~] STORE-UPLOAD-03 Upload signed Android AAB and localized listing assets in Play Console; check first-app setup and declarations without accepting agreements.
+- [x] STORE-UPLOAD-01 Apple build 100 VALID and attached to iOS/iPadOS and sandboxed macOS 0.2.0 drafts. RO/EN/RU metadata and 30 iPhone/iPad screenshots plus 24 Mac screenshots (including primary en-GB copies) processed COMPLETE. Owner-provided review contact saved; no review submission or release.
+- [x] STORE-UPLOAD-02 Updated Windows x64 MSIX 1.2.100.0 marked Validated; marketing 0.2.0 retained. Listing import Complete, saved export verifies three localized descriptions, first-release notes and 12 screenshot URLs. Restricted runFullTrust still requires review approval; no certification submission.
+- [x] STORE-UPLOAD-03 Google app 4973211912255144827 created after explicit owner approval of the three required declarations. Signed AAB 100 accepted; internal draft and RO/EN/RU first-release notes saved. All three localized listings saved with icon, localized feature graphics and 36 phone/tablet screenshots. No rollout. Production requires the account’s 12-tester/14-day closed-test gate.
 
 Current source CI passed before dispatch. New iOS and Android Release workflows and the macOS Store package workflow use integer build 100. Reserved esemnbun.md pages remain placeholders until published; actual portal processing and outstanding declarations will be recorded after uploads.
+
+- [x] STORE-NOTES-01 First-release notes authored in the shared RO/EN/RU catalog and exported for every store. Google internal draft uses compact first-release summaries; Apple omits What’s New for initial releases.
+
+Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esemnbun-store-submission/2026-11-01/upload. All upload build workflows and the initial upload-tooling CI passed. The package-version upgrade mapping was subsequently corrected for future marketing 1.x releases; CI for that follow-up is checked separately. Submission gates remain: publish reserved website pages, complete privacy/content/review questionnaires, and meet Google closed-testing requirements. No public release or certification submission performed.

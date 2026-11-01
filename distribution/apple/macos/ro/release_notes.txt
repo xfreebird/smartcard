@@ -1,1 +1,7 @@
-Browser integrat cu scurtături către servicii publice, descărcări cu dialog nativ, ștergere selectivă a datelor de navigare și selectare centrată a cardului.
+Prima versiune eSemnBun.
+• Semnează PDF-uri și alte documente cu buletinul electronic moldovenesc și un cititor compatibil.
+• Autorizează un lot o singură dată și verifică semnături.
+• Alege cardul conectat și consultă certificatul.
+• Accesează servicii publice compatibile în browserul integrat.
+• Salvează și distribuie fișiere, gestionează PIN-urile salvate și alege tema deschisă sau întunecată.
+• Disponibil în română, engleză și rusă.

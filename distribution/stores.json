@@ -15,26 +15,32 @@
     "teamID": "H86U5Z8HYB",
     "iosBundleID": "md.esemnbun.ios",
     "macosBundleID": "md.esemnbun.mac",
-    "status": "Signing and local exports configured; live submission state must be rechecked in App Store Connect.",
+    "status": "2026-11-01: iOS/iPadOS and sandboxed macOS build 100 VALID, selected in 0.2.0 drafts; localized metadata and processed screenshots uploaded. Not submitted.",
     "credentialsEnvironment": [
       "ASC_KEY_ID",
       "ASC_ISSUER_ID",
       "ASC_KEY_PATH"
-    ]
+    ],
+    "iosAppID": "6826865290",
+    "macosAppID": "6829451042",
+    "uploadedBuild": 100
   },
   "google": {
     "packageName": "md.esemnbun.app",
     "developerID": "8344963402071617946",
-    "status": "Local listing prepared; developer verification and app-record state must be checked in Play Console.",
-    "artifact": "dist/android/*.aab"
+    "status": "2026-11-01: app created, signed AAB 100 accepted and internal release draft saved with RO/EN/RU first-release notes; localized listings and 36 screenshots saved. No rollout; production closed-test access pending.",
+    "artifact": "dist/android/*.aab",
+    "appID": "4973211912255144827",
+    "uploadedBuild": 100
   },
   "microsoft": {
     "productID": "9PDPR6RNT42S",
     "identityName": "NicolaeGhimbovschi.eSemnBun",
     "publisher": "CN=3AAF334E-BE21-4B3F-8FDE-FBEDDF7498EE",
     "publisherDisplayName": "Nicolae Ghimbovschi",
-    "status": "Local listing prepared for existing product; current submission state must be checked in Partner Center.",
-    "artifact": "dist/windows/*.msix"
+    "status": "2026-11-01: updated x64 MSIX marked Validated in draft 1152921505702227810; listing import Complete. Export verified RO/EN/RU first-release notes and 12 screenshot URLs. Not submitted.",
+    "artifact": "dist/windows/*.msix",
+    "packageVersion": "1.2.100.0"
   },
   "huawei": {
     "packageName": "md.esemnbun.app",

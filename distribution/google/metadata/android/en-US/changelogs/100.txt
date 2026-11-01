@@ -1,0 +1,7 @@
+First release of eSemnBun.
+• Sign PDFs and other documents with your Moldovan electronic ID and a compatible reader.
+• Authorize a document batch once and verify signatures.
+• Choose between connected cards and inspect certificate details.
+• Access compatible public services in the built-in browser.
+• Save and share signed files, manage saved PINs, and choose light or dark appearance.
+• Available in Romanian, English and Russian.

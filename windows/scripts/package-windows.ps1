@@ -38,6 +38,10 @@ SIGNING
                                  Subject, else the verified Partner Center publisher
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME   the publisher's own display name (default Nicolae Ghimbovschi)
 
+.PARAMETER StorePackageVersion
+    Optional four-part Store identity version. With BUILD_NUMBER, defaults to
+    (marketing major + 1).minor.build.0, keeping pre-1.0 releases Store-compliant
+    and ensuring the later 1.0 marketing release remains a package upgrade.
 .PARAMETER Version
     Product version (major.minor.patch). Default: <Version> of windows/Directory.Build.props (0.2.0).
 
@@ -216,7 +220,7 @@ if ($Version -notmatch '^\d+\.\d+\.\d+$') { throw "Version must be major.minor.p
 if (-not $StorePackageVersion -and $env:BUILD_NUMBER) {
     if ($env:BUILD_NUMBER -notmatch '^[1-9][0-9]*$' -or [long]$env:BUILD_NUMBER -gt 65535) { throw 'BUILD_NUMBER must be an integer from 1 to 65535 for MSIX' }
     $marketingParts = $Version.Split('.')
-    $StorePackageVersion = "$([Math]::Max(1, [int]$marketingParts[0])).$($marketingParts[1]).$($env:BUILD_NUMBER).0"
+    $StorePackageVersion = "$([int]$marketingParts[0] + 1).$($marketingParts[1]).$($env:BUILD_NUMBER).0"
 }
 $MsixVersion = if ($StorePackageVersion) { $StorePackageVersion } else { "$Version.0" }
 if ($MsixVersion -notmatch '^\d+\.\d+\.\d+\.0$') { throw 'Store package version must contain four numeric parts and end in zero' }
