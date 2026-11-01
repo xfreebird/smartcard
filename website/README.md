@@ -30,6 +30,31 @@ The signing illustration is continuously driven by normalized scroll progress (`
 
 Mobile download widgets use unmodified official Apple App Store and localized Google Play badge assets. Apple source: https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg . Google source: https://play.google.com/intl/en_us/badges/ .
 
+## Versioned platform documentation and screenshots
+
+The public documentation is split by delivery target under `docs/platforms/`. Each guide names the current marketing version and distinguishes the desktop, store, and CLI distributions where they differ. Do not state a feature as available in a store build unless that guide explicitly lists it.
+
+Capture native documentation artwork into `~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/` with mock-only capture mode, then copy the curated `ready`, `reading`, and `no-reader` pairs into `static/img/landing/<platform>/`. The landing scene uses the light pair when the website is light and the dark pair when it is dark; it never recolours a screenshot with CSS.
+
+```sh
+# macOS and iOS (Debug app only)
+MSIGN_CAPTURE_SCENARIOS='no-reader reading ready' \
+  scripts/capture-screenshots.sh macos /path/to/eSemnBun.app ~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/macos
+MSIGN_CAPTURE_SCENARIOS='no-reader reading ready' \
+  scripts/capture-screenshots.sh ios /path/to/eSemnBun.app ~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/ios <simulator-udid>
+
+# Android emulator (Debug APK only)
+MSIGN_CAPTURE_SCENARIOS='no-reader reading ready' MSIGN_CAPTURE_PAGES=sign \
+  scripts/capture-screenshots.sh android android/app/build/outputs/apk/debug/app-debug.apk ~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/android emulator-5554
+
+# Linux and Windows: use the Air's running Fedora and Windows VMs.
+# The dedicated VM drivers validate a mock-ready marker before each capture.
+scripts/capture-screenshots.sh linux
+pwsh windows/scripts/capture-scenarios.ps1 -App <debug-eSemnBun.exe> -Scenarios none,reading,1 -Pages sign -Themes light,dark
+```
+
+The capture-only `MSIGN_SCREENSHOT_CAPTURE=1` path suppresses the demo notice, disables reader, bridge, PIN, and signing I/O, and is not included in release behaviour. Keep normal interactive demo mode visibly labelled.
+
 To replace the macOS story, build a Debug app from current source and run `website/scripts/capture-macos-story.sh APP OUTPUT_DIR en` from the repository root. It uses the normal app window, isolated mock preferences, light appearance and the same Contract.pdf in every state. It rejects preview windows or changed title/dimensions. Copy the three PNGs and macos-story.json together into static/img; CI verifies native dimensions and hashes so mixed capture sessions cannot slip back in.
 
 The story uses the live dynamic viewport (including browser-chrome changes), with no inherited mobile minimum height. Its compact progress capsule keeps the current localized label and four continuous segments visible. Site navigation hides during scrolling and the pinned story; keyboard focus can reveal it, and reduced-motion mode keeps static navigation.

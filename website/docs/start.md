@@ -20,4 +20,4 @@ On macOS, open the DMG and copy eSemnBun to Applications. On Windows, run the MS
 
 Connect the reader and insert your card. Check that the app shows the expected cardholder. If multiple cards are present, select the intended card before signing.
 
-Continue with [signing documents](./signing.md). Never send your PIN to support or include it in an issue.
+Continue with [signing documents](./signing.md), then read the guide for your [platform](./platforms.md). Never send your PIN to support or include it in an issue.

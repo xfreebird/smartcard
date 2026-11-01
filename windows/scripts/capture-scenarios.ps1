@@ -9,6 +9,9 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.Drawing
+$Scenarios = @($Scenarios | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
+$Pages = @($Pages | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
+$Themes = @($Themes | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 if (-not ('CaptureWindow' -as [type])) {
 Add-Type @'
 using System;
@@ -26,12 +29,13 @@ public static class CaptureWindow {
 New-Item -ItemType Directory -Path $Output -Force | Out-Null
 if ($PinOnly) { $Scenarios = @('batch-pin'); $Pages = @('pin') }
 $original = @{}
-foreach ($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_DARK','MSIGN_DEMO_PAGE','MSIGN_DEMO_READY_FILE','MSIGN_DEMO_PIN_ONLY') { $original[$name] = [Environment]::GetEnvironmentVariable($name) }
+foreach ($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_DARK','MSIGN_DEMO_PAGE','MSIGN_DEMO_READY_FILE','MSIGN_DEMO_PIN_ONLY','MSIGN_SCREENSHOT_CAPTURE') { $original[$name] = [Environment]::GetEnvironmentVariable($name) }
 try {
     foreach ($theme in $Themes) {
         foreach ($scenario in $Scenarios) {
             foreach ($page in $Pages) {
                 $env:MSIGN_DEMO_CARDS = $scenario
+                $env:MSIGN_SCREENSHOT_CAPTURE = '1'
                 $env:MSIGN_DEMO_PIN_ONLY = if ($PinOnly) { '1' } else { $null }
                 $env:MSIGN_DEMO_DARK = if ($theme -eq 'dark') { '1' } else { '0' }
                 $env:MSIGN_DEMO_PAGE = $page

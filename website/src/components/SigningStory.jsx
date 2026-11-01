@@ -1,5 +1,6 @@
 import React,{useEffect,useRef,useState,useId} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import {useColorMode} from '@docusaurus/theme-common';
 import useText from '../i18n/useText';
 import StoryProgress from './StoryProgress';
 import PlatformPreview from './PlatformPreview';
@@ -9,13 +10,14 @@ import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mo
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
+ const {colorMode}=useColorMode();
  const [progress,setProgress]=useState(0),[platform,setPlatform]=useState('macos');
  const [debug,setDebug]=useState(false),[preview,setPreview]=useState('auto');
  const mobile=platform==='iphone' || platform==='android';
  const [viewport,setViewport]=useState({width:1440,height:960}),[reduced,setReduced]=useState(false);
- const assets={macos:useBaseUrl('/img/macos.png'),iphone:useBaseUrl('/img/iphone.png'),android:useBaseUrl('/img/android.png'),windows:useBaseUrl('/img/windows.png'),linux:useBaseUrl('/img/linux.png')};
- const disconnected={macos:useBaseUrl('/img/macos-disconnected.png'),windows:useBaseUrl('/img/windows-disconnected.png'),linux:useBaseUrl('/img/linux-disconnected.png'),android:useBaseUrl('/img/android-disconnected.png'),iphone:useBaseUrl('/img/iphone-disconnected.png')};
- const readerScreens={macos:useBaseUrl('/img/macos-reader.png'),iphone:useBaseUrl('/img/iphone-reader.png'),android:useBaseUrl('/img/android-reader.png'),windows:useBaseUrl('/img/windows-reader.png'),linux:useBaseUrl('/img/linux-reader.png')};
+ const landingRoot=useBaseUrl('/img/landing/');
+ const appearance=colorMode==='dark'?'dark':'light';
+ const landingAsset=(target,state)=>`${landingRoot}${target}/${state}-${appearance}.png`;
  const readerImage=useBaseUrl('/img/reader.png'),cardImage=useBaseUrl('/img/card.png');
  useEffect(()=>{
   const enabled=debugPreviewEnabled(window.location.hostname,process.env.NODE_ENV==='development');
@@ -83,9 +85,9 @@ export default function SigningStory(){
      {!mobile&&<><path d="M500 525 H600 L615 580 H485Z" fill="#bac0bd"/><rect x="450" y="576" width="200" height="10" rx="5" fill="#adb5b0"/></>}
     </g>
     <rect {...screen} fill="#e1e6e9"/>
-    <image href={disconnected[platform]} {...screen} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
-    <image href={readerScreens[platform]} {...screen} opacity={state.reader} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
-    <image href={assets[platform]} {...screen} opacity={state.app} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
+    <image href={landingAsset(platform,'disconnected')} {...screen} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
+    <image href={landingAsset(platform,'reader')} {...screen} opacity={state.reader} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
+    <image href={landingAsset(platform,'ready')} {...screen} opacity={state.app} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
     {mobile&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
     <g opacity={clamp(state.connect*4)}>
      <path className="connection-cable" style={{strokeWidth:mobile?6:10}} pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V635 Q${port.x} 646 ${port.x+20} 646 H445 Q467 646 467 624 V${cableY+14} Q467 ${cableY} ${cableX} ${cableY}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>

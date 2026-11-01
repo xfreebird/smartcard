@@ -32,7 +32,7 @@ if [[ "$platform" == ios ]]; then
         for scenario in "${scenarios[@]}"; do
             count=1; [[ "$scenario" == multiple ]] && count=3
             xcrun simctl terminate "$device" md.esemnbun.ios >/dev/null 2>&1 || true
-            SIMCTL_CHILD_MSIGN_DEMO_CARDS="$count" SIMCTL_CHILD_MSIGN_DEMO_SCENARIO="$scenario" \
+            SIMCTL_CHILD_MSIGN_DEMO_CARDS="$count" SIMCTL_CHILD_MSIGN_SCREENSHOT_CAPTURE=1 SIMCTL_CHILD_MSIGN_QA_NO_HARDWARE=1 SIMCTL_CHILD_MSIGN_DEMO_SCENARIO="$scenario" \
             SIMCTL_CHILD_MSIGN_DEMO_PREFERENCES_SUITE="md.esemnbun.qa.capture" \
             SIMCTL_CHILD_MSIGN_DEMO_TAB="${MSIGN_CAPTURE_TAB:-sign}" \
             SIMCTL_CHILD_MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" \
@@ -77,10 +77,10 @@ SWIFT
             count=1; [[ "$scenario" == multiple ]] && count=3
             dark=; [[ "$theme" == dark ]] && dark=1
             if [[ -n "$dark" ]]; then
-                MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.capture MSIGN_DEMO_DARK=1 MSIGN_DEMO_CARDS="$count" MSIGN_DEMO_SCENARIO="$scenario" \
+                MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.capture MSIGN_SCREENSHOT_CAPTURE=1 MSIGN_QA_NO_HARDWARE=1 MSIGN_DEMO_DARK=1 MSIGN_DEMO_CARDS="$count" MSIGN_DEMO_SCENARIO="$scenario" \
                 MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" MSIGN_DEMO_FILES="$files" "$app/Contents/MacOS/eSemnBun" -mainSection "${MSIGN_CAPTURE_TAB:-sign}" -appTheme "$theme" -appLanguage ro -AppleLanguages "(ro)" &
             else
-                MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.capture MSIGN_DEMO_CARDS="$count" MSIGN_DEMO_SCENARIO="$scenario" \
+                MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.capture MSIGN_SCREENSHOT_CAPTURE=1 MSIGN_QA_NO_HARDWARE=1 MSIGN_DEMO_CARDS="$count" MSIGN_DEMO_SCENARIO="$scenario" \
                 MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" MSIGN_DEMO_FILES="$files" "$app/Contents/MacOS/eSemnBun" -mainSection "${MSIGN_CAPTURE_TAB:-sign}" -appTheme "$theme" -appLanguage ro -AppleLanguages "(ro)" &
             fi
             app_pid=$!
