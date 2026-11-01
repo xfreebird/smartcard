@@ -222,6 +222,8 @@ enum L10n {
         case share_done
         case share_saved_open_app
         case share_failed
+        case store_output_location
+        case store_features_explanation
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

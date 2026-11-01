@@ -4818,6 +4818,50 @@
           }
         }
       }
+    },
+    "store_output_location": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "În aplicație; exportă rezultatele cu Salvează ca…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "In the app; export results with Save As…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "В приложении; экспортируйте результат через «Сохранить как…»"
+          }
+        }
+      }
+    },
+    "store_features_explanation": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versiunea App Store semnează și verifică documente. Conexiunea browser și pornirea aplicației prin utilitarul separat sunt disponibile în versiunea desktop de pe esemnbun.md."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The App Store version signs and verifies documents. Browser connection and the separate insertion helper are available in the desktop version from esemnbun.md."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Версия App Store подписывает и проверяет документы. Подключение браузера и отдельный помощник запуска доступны в настольной версии с esemnbun.md."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

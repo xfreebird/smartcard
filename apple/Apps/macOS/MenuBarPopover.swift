@@ -68,6 +68,7 @@ struct MenuBarPopover: View {
                 }
             }
 
+            #if !APP_STORE
             Divider()
             HStack(spacing: 8) {
                 StatusLightView(light: bridgeLight)
@@ -79,6 +80,7 @@ struct MenuBarPopover: View {
                     .controlSize(.small)
             }
 
+            #endif
             Divider()
             VStack(spacing: 0) {
                 MenuRow(title: L10n.text(.ui_open_esemnbun)) { showMain(.sign) }

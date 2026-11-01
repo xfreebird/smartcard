@@ -153,3 +153,43 @@ lane :ios_release do |options|
                          skip_waiting_for_build_processing: true, skip_submission: true)
   end
 end
+
+# Store and Developer ID signing remain separate: the Store requires a sandbox profile and installer identity.
+desc "Create/update macOS App Store application and installer signing assets in match (owner only)"
+lane :mac_store_certificates do |options|
+  UI.user_error!("mac_store_certificates writes match; run locally") if is_ci
+  register_ids
+  match(type: "appstore", platform: "macos", app_identifier: MAC_ID, api_key: asc_key,
+        readonly: false, force: options[:force].to_s == "true",
+        additional_cert_types: ["mac_installer_distribution"])
+end
+
+desc "Archive and export sandboxed macOS App Store package using read-only match; never uploads"
+lane :mac_store_release do
+  setup_ci if is_ci
+  match(type: "appstore", platform: "macos", app_identifier: MAC_ID, api_key: asc_key,
+        readonly: true, additional_cert_types: ["mac_installer_distribution"])
+  profile = ENV.fetch("sigh_#{MAC_ID}_appstore_macos_profile-name")
+  team = ENV.fetch("sigh_#{MAC_ID}_appstore_macos_team-id")
+  out = File.expand_path("../dist/macos-app-store", __dir__)
+  pbxproj = File.join(PROJECT, "project.pbxproj")
+  original = File.read(pbxproj)
+  begin
+    update_code_signing_settings(path: PROJECT, use_automatic_signing: false,
+      targets: ["eSemnBun-macOS"], build_configurations: ["AppStore Release"],
+      team_id: team, profile_name: profile, code_sign_identity: "Apple Distribution")
+    signing_args = ENV["ESEMNBUN_SIGNING_KEYCHAIN"].to_s.empty? ? "" : " OTHER_CODE_SIGN_FLAGS=\"--keychain #{ENV.fetch('ESEMNBUN_SIGNING_KEYCHAIN')}\""
+    build_mac_app(project: PROJECT, scheme: "eSemnBun-macOS-AppStore", configuration: "AppStore Release",
+      destination: "generic/platform=macOS", output_directory: out,
+      archive_path: File.join(out, "eSemnBun.xcarchive"), output_name: "eSemnBun-AppStore",
+      export_method: "app-store", export_team_id: team,
+      export_options: { signingStyle: "manual", provisioningProfiles: { MAC_ID => profile },
+        signingCertificate: "Apple Distribution", installerSigningCertificate: "3rd Party Mac Developer Installer" },
+      xcargs: "CURRENT_PROJECT_VERSION=#{ENV.fetch('BUILD_NUMBER','1')}#{signing_args}")
+    sh(File.expand_path("../apple/scripts/verify-macos-distribution.sh", __dir__), "store",
+       File.join(out, "eSemnBun.xcarchive", "Products", "Applications", "eSemnBun.app"))
+    sh("pkgutil", "--check-signature", File.join(out, "eSemnBun-AppStore.pkg"))
+  ensure
+    File.write(pbxproj, original)
+  end
+end

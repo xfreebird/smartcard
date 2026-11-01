@@ -5,6 +5,7 @@ agent_dir="$TARGET_BUILD_DIR/$CONTENTS_FOLDER_PATH/Library/LaunchAgents"
 # Remove stale direct-distribution outputs when reusing a build folder for the App Store configuration.
 case " ${SWIFT_ACTIVE_COMPILATION_CONDITIONS:-} " in
   *" APP_STORE "*)
+    rm -f "$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/localhost.p12"
     rm -f "$helper_dir/esemnbun-reader-watcher" "$agent_dir/md.esemnbun.reader-watcher.plist"
     exit 0 ;;
 esac

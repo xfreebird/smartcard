@@ -1,3 +1,4 @@
+#if !APP_STORE
 import AppKit
 import Darwin
 import Foundation
@@ -40,3 +41,5 @@ enum VendorPortConflict {
         return path.hasPrefix(vendorRoot)
     }
 }
+
+#endif

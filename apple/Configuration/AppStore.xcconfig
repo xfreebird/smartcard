@@ -1,4 +1,4 @@
-// Pass with -xcconfig for the eSemnBun-macOS Release archive.
+// Compatibility override; prefer the eSemnBun-macOS-AppStore shared scheme.
 CODE_SIGN_ENTITLEMENTS = Configuration/AppStore.entitlements
 CODE_SIGN_IDENTITY = Apple Distribution
 CODE_SIGN_STYLE = Manual

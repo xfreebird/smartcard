@@ -46,6 +46,11 @@ final class AppModel {
     var bridgeState: BridgeState = .stopped
     var bridgeEnabled: Bool {
         didSet {
+            guard AppDistribution.browserBridge else {
+                if bridgeEnabled { bridgeEnabled = false }
+                stopBridge()
+                return
+            }
             AppPreferencesStore.defaults.set(bridgeEnabled, forKey: "bridgeEnabled")
             bridgeEnabled ? startBridge() : stopBridge()
         }
@@ -175,7 +180,7 @@ final class AppModel {
         #else
         self.transportFactory = transportFactory
         #endif
-        bridgeEnabled = AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true
+        bridgeEnabled = AppDistribution.browserBridge && (AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true)
         activity = self.activityStore.load()
         recentsClearedAt = self.activityStore.recentsClearedAt
         pruneMissingFiles()
@@ -332,7 +337,7 @@ final class AppModel {
         }
         let selected = ProcessInfo.processInfo.environment["MSIGN_DEMO_SELECTED"].flatMap(Int.init) ?? 0
         selectedReaderName = cards.isEmpty ? nil : cards[min(max(selected, 0), cards.count - 1)].reader
-        bridgeState = fixtureMode ? .running : .stopped
+        bridgeState = fixtureMode && AppDistribution.browserBridge ? .running : .stopped
         recomputeStatus()
         applyDemoScenario(ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "ready")
         FileHandle.standardOutput.write(Data("MSIGN_DEMO_READY\n".utf8))
@@ -607,7 +612,7 @@ final class AppModel {
     // MARK: - Bridge (MAC-07, IOS-06)
 
     func startBridge() {
-        guard !demoMode else { return }
+        guard AppDistribution.browserBridge, !demoMode else { return }
         guard server == nil else { return }
         let server = MoldSignServer()
         server.authorize = { [weak self] request in

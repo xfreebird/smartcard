@@ -11,6 +11,15 @@ Last updated: **2026-11-01**
 
 ---
 
+## macOS distribution variants — 1 November 2026
+
+- [x] MAC-DIST-01 Explicit Desktop and App Store schemes/configurations, preserving the original desktop scheme and its full functionality.
+- [x] MAC-DIST-02 Store capability policy disables browser bridge, vendor process control and external watcher; excludes bundled localhost identity; retains CTK signing/verification, PIN management and container output with native export.
+- [x] MAC-DIST-03 Read-only match signing and local Store archive/package export, separate manual CI artifact workflow; no store upload.
+- [x] MAC-DIST-04 Validate both variants, Store bundle contents/entitlements and isolated runtime; document supported features and commands.
+
+Validation: both explicit Debug schemes build. The Desktop payload retains localhost.p12 and the reader watcher; Store omits both and the launch agent. An isolated sandboxed Store launch showed only supported settings and no TCP listeners. A universal Apple Distribution archive and signed App Store installer were exported to `dist/macos-app-store/eSemnBun-AppStore.pkg`; strict codesign, sandbox/payload audit and pkg installer-signature checks passed. Match master `eddbafe5f551611b8f039b9c7ee869fa421e1d68` contains the required Store profile and installer signing assets; read-only retrieval passed. New manual workflow packages without upload. No store submission occurred. Physical-card signing and installed Store receipt behavior remain separate device/review acceptance checks.
+
 ## Priority: vendor conflicts and sharing — 1 November 2026
 
 - [x] PRIORITY-01 Offer to quit the identified MoldSign vendor application when it occupies the browser bridge ports on macOS, Windows and Linux; retry the bridge after it exits. Do not terminate unrelated port owners.

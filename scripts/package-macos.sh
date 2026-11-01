@@ -14,7 +14,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/dist/macos"
 DD="$ROOT/dist/.derived-macos"
 IDENTITY="${MACOS_SIGN_IDENTITY:--}"
-VERSION="$(xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS -showBuildSettings 2>/dev/null | awk '/ MARKETING_VERSION =/{print $3; exit}')"
+VERSION="$(xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS-Desktop -showBuildSettings 2>/dev/null | awk '/ MARKETING_VERSION =/{print $3; exit}')"
 rm -rf "$OUT" && mkdir -p "$OUT"
 
 notary=()
@@ -59,11 +59,11 @@ sign_args=(CODE_SIGN_IDENTITY="$IDENTITY" CODE_SIGN_STYLE=Manual)
 [[ "$IDENTITY" != "-" ]] && sign_args+=(OTHER_CODE_SIGN_FLAGS=--timestamp)
 
 echo "▸ Archiving eSemnBun-macOS (identity: $IDENTITY)"
-xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS -configuration Release \
+xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS-Desktop -configuration Release \
   -derivedDataPath "$DD" -archivePath "$OUT/eSemnBun.xcarchive" "${sign_args[@]}" archive -quiet
 
 APP="$OUT/eSemnBun.xcarchive/Products/Applications/eSemnBun.app"
-codesign --verify --deep --strict "$APP"
+"$ROOT/apple/scripts/verify-macos-distribution.sh" desktop "$APP"
 
 echo "▸ Building DMG"
 STAGE="$OUT/dmg-stage"

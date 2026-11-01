@@ -20,10 +20,11 @@ settings=[f'#include "{base}"',f'DEVELOPMENT_TEAM = {team}','CODE_SIGN_STYLE = M
 if profile: settings.append(f'PROVISIONING_PROFILE_SPECIFIER = {profile}')
 pathlib.Path(output).write_text('\n'.join(settings)+'\n')
 PYTHON
-xcodebuild -project "$root/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS \
-    -configuration Release -destination 'generic/platform=macOS' \
+xcodebuild -project "$root/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS-AppStore \
+    -configuration "AppStore Release" -destination 'generic/platform=macOS' \
     -xcconfig "$overrides" \
     -archivePath "$archive" archive
+"$root/apple/scripts/verify-macos-distribution.sh" store "$archive/Products/Applications/eSemnBun.app"
 python3 - "$out/ExportOptions.plist" "$team" "${MAC_APP_STORE_PROFILE:-}" <<'PYTHON'
 import plistlib,sys
 options={'method':'app-store-connect','destination':'export','teamID':sys.argv[2],

@@ -8366,6 +8366,24 @@
         "en": "Sign with eSemnBun",
         "ru": "Подписать в eSemnBun"
       }
+    },
+    {
+      "platform": "apple",
+      "key": "store_output_location",
+      "translations": {
+        "ro": "În aplicație; exportă rezultatele cu Salvează ca…",
+        "en": "In the app; export results with Save As…",
+        "ru": "В приложении; экспортируйте результат через «Сохранить как…»"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "store_features_explanation",
+      "translations": {
+        "ro": "Versiunea App Store semnează și verifică documente. Conexiunea browser și pornirea aplicației prin utilitarul separat sunt disponibile în versiunea desktop de pe esemnbun.md.",
+        "en": "The App Store version signs and verifies documents. Browser connection and the separate insertion helper are available in the desktop version from esemnbun.md.",
+        "ru": "Версия App Store подписывает и проверяет документы. Подключение браузера и отдельный помощник запуска доступны в настольной версии с esemnbun.md."
+      }
     }
   ],
   "storeMetadata": {

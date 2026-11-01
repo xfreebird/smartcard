@@ -32,6 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS CODE_SIGN_IDENTITY=- build
+      - name: macOS App Store variant (unsigned sandbox build)
+        run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS-AppStore CODE_SIGNING_ALLOWED=NO build
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -destination 'generic/platform=iOS Simulator' build
 

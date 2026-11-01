@@ -1,18 +1,53 @@
-# Mac App Store candidate
+# macOS distribution variants
 
-`AppStore.xcconfig` enables the sandbox and switches the app's card transport to CryptoTokenKit, using the smart-card entitlement. The normal desktop build keeps its existing transport. Archive with:
+Two shared schemes use the same macOS target and source:
+
+| Scheme | Run configuration | Archive configuration | Distribution |
+| --- | --- | --- | --- |
+| `eSemnBun-macOS-Desktop` | `Debug` | `Release` | Full desktop app, Developer ID signing and notarized DMG |
+| `eSemnBun-macOS-AppStore` | `AppStore Debug` | `AppStore Release` | Sandboxed app, Apple Distribution signing and App Store package |
+
+The original `eSemnBun-macOS` scheme remains a compatible alias for the desktop build. Both variants use the existing `md.esemnbun.mac` identifier and therefore share the application identity; install one distribution at a time.
+
+The Store configurations define `APP_STORE`, use CryptoTokenKit for smart-card access and use `Configuration/AppStore.entitlements`. The direct-distribution reader watcher, launch agent and localhost TLS identity are excluded from the Store bundle, including stale outputs when reusing build directories. Store signing results stay inside its container and use a native Export action to save to a chosen location. The desktop configuration keeps the reader watcher, browser connection and normal file-output behavior.
+
+Feature availability:
+
+| Feature | Desktop | App Store |
+| --- | --- | --- |
+| Sign and verify documents, activity, language/theme, demo mode, saved PINs | Yes | Yes |
+| Smart-card transport | PC/SC | CryptoTokenKit |
+| Browser signing bridge and bundled localhost identity | Yes | Disabled and identity omitted |
+| Separate reader-insertion watcher | Yes | Omitted |
+| Reader detection while app is running | Yes | Yes |
+| Output beside original file | Yes | Container output plus Save As export |
+| Direct-distribution vendor termination | Yes | Disabled |
+
+Build locally without distribution credentials:
 
 ```sh
-xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Release -xcconfig apple/Configuration/AppStore.xcconfig -archivePath dist/eSemnBun-AppStore.xcarchive archive
+xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS-Desktop -configuration Debug build
+xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS-AppStore -configuration 'AppStore Debug' build
 ```
 
-Signing uses the owner's installed Apple Distribution identity with manual archive signing and any provisioning profile required by its enabled capabilities. This is a candidate configuration, not an approved or submission-ready binary. Verify smart-card access, loopback HTTPS, PIN keychain access and output export in a signed sandboxed build. The sandboxed variant stores results in its container and offers a native Export action instead of writing next to an arbitrary imported file. No account secrets belong in this directory.
+Package the full desktop version:
 
-`apple/scripts/package-app-store.sh` archives and exports locally using installed distribution signing assets.
-Set `APPLE_TEAM_ID` to override the configured team, and optionally `MAC_APP_STORE_PROFILE` for an existing manual
-profile. It does not create/revoke profiles or upload the result. `MAC_APP_STORE_OUTPUT` selects the local output
-folder (default `dist/macos-app-store`). A local universal archive attempt on 31 October compiled and reached codesign, which requested the owner’s login-keychain password for private-key access. No password was supplied. Distribution-signed archive/export remain pending that approval. An isolated ad-hoc signed Store Release copy launched successfully with the configured sandbox entitlements and a separate QA bundle identifier/container; actual process sandbox status was verified. Hardware signing, keychain, export and loopback HTTPS still require signed release acceptance.
+```sh
+MACOS_SIGN_IDENTITY='Developer ID Application' scripts/package-macos.sh
+```
 
-The macOS target bundles its own `Apps/macOS/PrivacyInfo.xcprivacy` declaring app-owned UserDefaults use
-(CA92.1), separately from the iOS target’s manifest. The direct-distribution watcher is excluded from the
-Store product.
+Package the Store version using match signing assets:
+
+```sh
+bundle exec fastlane mac_store_release
+```
+
+Or use installed signing assets directly:
+
+```sh
+MAC_APP_STORE_PROFILE='match AppStore md.esemnbun.mac' apple/scripts/package-app-store.sh
+```
+
+The Store script archives `AppStore Release` and exports locally; it does not upload. `APPLE_TEAM_ID` overrides the configured team, `MAC_APP_STORE_PROFILE` selects the provisioning profile, and `MAC_APP_STORE_OUTPUT` selects the output directory (default `dist/macos-app-store`). `AppStore.xcconfig` remains available as a compatibility override for external archive tooling; the shared Store scheme does not require it.
+
+The macOS target bundles `Apps/macOS/PrivacyInfo.xcprivacy` declaring app-owned UserDefaults use (CA92.1). A successfully signed export is a build artifact, not App Store approval. Hardware signing, keychain access and export should also be checked on installed signed builds before submission.

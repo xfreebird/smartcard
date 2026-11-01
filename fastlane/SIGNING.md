@@ -58,3 +58,14 @@ read-only from match, archived successfully, and exported both App Store and ad 
 The main app and embedded extension in both exports passed strict signature checks;
 each embedded provisioning profile and signed entitlement contains the shared App Group.
 The exports are under `dist/ios/`; no build was uploaded.
+
+macOS has separate distribution lanes. `bundle exec fastlane mac_signing` fetches the
+Developer ID identity for the full Desktop DMG. `bundle exec fastlane mac_store_certificates`
+creates the sandboxed app's Mac App Store profile and installer identity in encrypted match
+storage (owner only; `force:true` refreshes the profile). CI runs
+`bundle exec fastlane mac_store_release`, which reads match without changing it, archives
+`eSemnBun-macOS-AppStore` / `AppStore Release`, and exports
+`dist/macos-app-store/eSemnBun-AppStore.pkg`. It never uploads or submits the package.
+For an isolated local signing keychain set the match `MATCH_KEYCHAIN_NAME` and
+`MATCH_KEYCHAIN_PASSWORD` variables, plus `ESEMNBUN_SIGNING_KEYCHAIN` for codesign.
+The existing Developer ID lane and desktop packaging remain independent.

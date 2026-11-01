@@ -8,7 +8,9 @@ struct SettingsView: View {
         TabView {
             GeneralSettings().tabItem { Label(L10n.text(.ui_general), systemImage: "gearshape") }
             SavedPINSettings().tabItem { Label(L10n.text(.ui_saved_pins), systemImage: "key") }
+            #if !APP_STORE
             BridgeSettings().tabItem { Label(L10n.text(.ui_browser_connection), systemImage: "globe") }
+            #endif
             AboutContent().tabItem { Label(L10n.text(.about_app_title), systemImage: "info.circle") }
         }
         .frame(width: 560, height: 480)
@@ -89,12 +91,17 @@ private struct GeneralSettings: View {
             if let launchError { Text(launchError).font(.caption).foregroundStyle(Theme.danger) }
             LabeledContent(L10n.text(.ui_pdf_format), value: "PAdES-T")
             LabeledContent(L10n.text(.ui_other_files), value: L10n.text(.ui_xades_t_detached))
-            LabeledContent(L10n.text(.ui_saving), value: L10n.text(.ui_beside_the_original_semnat_without_overwriting))
+            LabeledContent(L10n.text(.ui_saving), value: L10n.text(AppDistribution.writesBesideInput
+                ? .ui_beside_the_original_semnat_without_overwriting : .store_output_location))
+            #if APP_STORE
+            Text(L10n.text(.store_features_explanation)).font(.caption).foregroundStyle(.secondary)
+            #endif
         }
         .formStyle(.grouped)
     }
 }
 
+#if !APP_STORE
 private struct BridgeSettings: View {
     @Environment(AppModel.self) private var model
     @State private var vendorListening = false
@@ -147,6 +154,8 @@ private struct BridgeSettings: View {
         if model.bridgeEnabled { model.startBridge() }
     }
 }
+
+#endif
 
 /// Lists only keychain account metadata; PIN values are never read for management.
 private struct SavedPINSettings: View {
