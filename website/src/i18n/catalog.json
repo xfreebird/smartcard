@@ -155,9 +155,9 @@
     "ru": "Выберите документ."
   },
   "stage2": {
-    "en": "Switch to Verify.",
-    "ro": "Deschide Verifică.",
-    "ru": "Откройте «Проверить»."
+    "en": "The app, on your device.",
+    "ro": "Aplicația, pe dispozitivul tău.",
+    "ru": "Приложение на вашем устройстве."
   },
   "stage3": {
     "en": "Connect the reader and card.",
@@ -175,9 +175,9 @@
     "ru": "Добавьте документ. Данные карты появятся только после её подключения."
   },
   "stageBody2": {
-    "en": "Use the sidebar to switch between signing and verification, without leaving the app.",
-    "ro": "Comută între semnare și verificare din meniul lateral, fără să părăsești aplicația.",
-    "ru": "Переключайтесь между подписью и проверкой в боковом меню приложения."
+    "en": "A native app with a straightforward setup.",
+    "ro": "O aplicație nativă, cu o configurare simplă.",
+    "ru": "Нативное приложение с простой настройкой."
   },
   "stageBody3": {
     "en": "The reader connects through USB, with an adapter when needed.",
@@ -205,9 +205,9 @@
     "ru": "Документ"
   },
   "device": {
-    "en": "Verify",
-    "ro": "Verifică",
-    "ru": "Проверка"
+    "en": "Device",
+    "ro": "Dispozitiv",
+    "ru": "Устройство"
   },
   "reader": {
     "en": "Reader",
