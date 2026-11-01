@@ -80,6 +80,8 @@ public class CardWalletTests
 
         Assert.Equal("A", wallet.Selected?.Reader);
         Assert.Equal(["A", "B"], wallet.Readers);
+        wallet.Apply([new("A", SlotState.Card, 1), new("B", SlotState.Card, 2)]);
+        Assert.Equal("B", wallet.Selected?.Reader);
     }
 
     [Fact]

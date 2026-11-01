@@ -238,4 +238,5 @@
   <data name="demo_mode_confirm" xml:space="preserve"><value>Activezi modul demonstrativ? Cititoarele reale și conexiunea browser vor fi oprite. Vor fi utilizate numai date și documente fictive.</value></data>
   <data name="about_developer" xml:space="preserve"><value>Dezvoltator</value></data>
   <data name="about_app_title" xml:space="preserve"><value>Despre eSemnBun</value></data>
+  <data name="Settings_General" xml:space="preserve"><value>General</value></data>
 </root>

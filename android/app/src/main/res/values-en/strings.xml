@@ -197,4 +197,5 @@
   <string name="demo_enable_action">Use demo mode</string>
   <string name="demo_mode_enable">Enable demo mode</string>
   <string name="demo_mode_confirm">Enter demo mode? Real readers and the browser connection will stop. Only fictional cards and sample documents will be used.</string>
+  <string name="settings_general">General</string>
 </resources>

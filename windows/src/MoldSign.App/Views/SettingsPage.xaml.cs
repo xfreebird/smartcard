@@ -13,6 +13,9 @@ public sealed partial class SettingsPage : Page
     public SettingsPage()
     {
         InitializeComponent();
+        GeneralTab.Content = Loc.Get("Settings_General");
+        AboutTab.Content = Loc.Get("about_app_title");
+        ShowTab(about: false);
         var settings = App.Current.Services.Settings;
         DemoModeToggle.Header = Loc.Get("demo_mode_title");
         DemoModeToggle.IsOn = App.Current.Services.IsDemo;
@@ -36,6 +39,18 @@ public sealed partial class SettingsPage : Page
     }
 
     public AppState State => AppState.Current;
+
+    private void OnGeneralTabClick(object sender, RoutedEventArgs e) => ShowTab(about: false);
+
+    private void OnAboutTabClick(object sender, RoutedEventArgs e) => ShowTab(about: true);
+
+    private void ShowTab(bool about)
+    {
+        GeneralContent.Visibility = about ? Visibility.Collapsed : Visibility.Visible;
+        AboutContent.Visibility = about ? Visibility.Visible : Visibility.Collapsed;
+        GeneralTab.IsEnabled = about;
+        AboutTab.IsEnabled = !about;
+    }
 
     private async void OnDemoModeToggled(object sender, RoutedEventArgs args)
     {

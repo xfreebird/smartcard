@@ -244,6 +244,21 @@ func presentPreferences(parent: Widget, controller: AppController) {
     adw_preferences_page_add(page.cast(), background.cast())
     adw_preferences_dialog_add(dialog.cast(), page.cast())
 
+    let aboutPage = adw_preferences_page_new()!
+    adw_preferences_page_set_title(aboutPage.cast(), L10n.text(.ui_about_esemnbun))
+    adw_preferences_page_set_icon_name(aboutPage.cast(), "help-about-symbolic")
+    let about = preferencesGroup(title: "eSemnBun")
+    let appIcon = image("md.moldsign.MoldSign", size: 64)
+    gtk_widget_set_halign(appIcon, GTK_ALIGN_CENTER)
+    groupAdd(about, appIcon)
+    groupAdd(about, label("0.2.0", xalign: 0.5))
+    groupAdd(about, label("Nicolae Ghimbovschi", xalign: 0.5))
+    let website = gtk_link_button_new_with_label("https://esemnbun.md", "esemnbun.md")!
+    gtk_widget_set_halign(website, GTK_ALIGN_CENTER)
+    groupAdd(about, website)
+    adw_preferences_page_add(aboutPage.cast(), about.cast())
+    adw_preferences_dialog_add(dialog.cast(), aboutPage.cast())
+
     var updating = false
     let token = controller.observe {
         updating = true

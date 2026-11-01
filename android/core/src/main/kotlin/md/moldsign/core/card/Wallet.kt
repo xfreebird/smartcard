@@ -133,8 +133,9 @@ data class WalletState(
                 toRead += fresh
             }
         }
-        val selected = selectedReaderId?.takeIf { id -> next.any { it.readerId == id } } ?: next.firstOrNull()?.readerId
-        return Update(WalletState(snapshot, next, selected), toRead)
+        // Keep the user's selection while its reader is temporarily absent. selectedCard falls back
+        // to the first available card, and the preferred reader becomes selected again on return.
+        return Update(WalletState(snapshot, next, selectedReaderId ?: next.firstOrNull()?.readerId), toRead)
     }
 
     /** Stores a certificate read; ignored when that card was removed or replaced meanwhile. */

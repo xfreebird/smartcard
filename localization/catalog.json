@@ -3968,15 +3968,6 @@
     },
     {
       "platform": "apple",
-      "key": "ui_restart_the_app_to_update_all_messages",
-      "translations": {
-        "ro": "Repornește aplicația pentru a actualiza toate mesajele.",
-        "en": "Restart the app to update all messages.",
-        "ru": "Перезапустите приложение, чтобы обновить все сообщения."
-      }
-    },
-    {
-      "platform": "apple",
       "key": "ui_reload",
       "translations": {
         "ro": "Reîncarcă",
@@ -8025,6 +8016,16 @@
         "en": "About eSemnBun",
         "ru": "О eSemnBun"
       }
+    },
+    {
+      "platform": "android",
+      "key": "settings_general",
+      "translations": {"ro": "General", "en": "General", "ru": "Общие"}
+    },
+    {
+      "platform": "windows",
+      "key": "Settings_General",
+      "translations": {"ro": "General", "en": "General", "ru": "Общие"}
     }
   ],
   "storeMetadata": {

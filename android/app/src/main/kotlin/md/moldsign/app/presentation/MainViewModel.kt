@@ -262,6 +262,20 @@ documents.copy(source, target)
         }
     }
 
+    /** Android drag grants last only while the drop is active, so copy the URI before releasing the grant. */
+    fun receiveDroppedForVerify(uri: Uri, releasePermission: () -> Unit = {}) {
+        if (demoMode) { releasePermission(); pickForVerify(uri); return }
+        viewModelScope.launch {
+            val cached = try { withContext(Dispatchers.IO) { documents.copyToCache(uri) } }
+            finally { releasePermission() }
+            if (cached == null) {
+                _message.value = UiMessage.Text(R.string.share_unreadable)
+            } else {
+                pickForVerify(cached)
+            }
+        }
+    }
+
     fun clearVerifyDoc() {
         _verifyDoc.value = null
         _verifyDetached.value = emptyList()

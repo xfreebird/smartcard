@@ -62,6 +62,8 @@ class WalletStateTest {
         assertSame("unknown reader: unchanged", s2, s2.select("zzz"))
         val (s3, _) = s2.reconcile(listOf(card("a", 1), empty("b")))
         assertEquals("a", s3.selectedCard?.readerId)
+        val (s4, _) = s3.reconcile(listOf(card("a", 1), card("b", 3)))
+        assertEquals("b", s4.selectedCard?.readerId)
     }
 
     @Test

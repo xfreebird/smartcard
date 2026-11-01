@@ -7,9 +7,26 @@
 
 Status legend: `[x]` done · `[~]` in progress / partial (implemented, not yet verified on device) · `[ ]` todo · `[-]` dropped (say why)
 
-Last updated: **2026-10-31**
+Last updated: **2026-11-01**
 
 ---
+
+## Settings, verification and card selection — 1 November 2026
+
+- [~] UI-23 Apply Apple language and theme changes immediately, remove the restart message and the
+  redundant General PIN action, and provide a dedicated About surface. The macOS and iOS Debug
+  builds pass on the MacBook Air. Known card and signing errors retain localization keys and update
+  when displayed; historic activity entries and unexpected system error descriptions remain verbatim.
+  Recreating the SwiftUI presentation on language changes needs additional interaction testing.
+- [~] UI-24 Show app identity, author, version and website in platform About surfaces; ensure Verify
+  offers a document drop target where the platform supports it. Linux About was visually checked;
+  Android core tests and Debug app build pass on the Air; tablet drag/drop and the remaining About
+  surfaces still need native interaction checks.
+- [~] UI-25 Preserve the preferred reader through transient disappearance and place desktop carousel
+  arrows outside the selected card at large sizes. Apple policy tests pass on the Air; native UI,
+  Windows VM: 193 core tests and WinUI Debug build passed; mock selection and scrolling passed at
+  two window sizes in both themes. Fedora: 9 app tests and release build passed; 38 core tests ran
+  with 7 network/reference skips. Real-card signing remains to be verified.
 
 ## Desktop carousel, browser and insertion helper — 31 October 2026
 
@@ -524,6 +541,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ---
 
 ## Progress log
+
+- 2026-11-01: Settings, About, Verify, reader selection and desktop carousel follow-up (UI-23–25); Apple builds and policy tests passed on the MacBook Air.
 
 Newest first. One line per meaningful step; link IDs.
 

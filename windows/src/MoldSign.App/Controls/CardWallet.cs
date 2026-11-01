@@ -95,8 +95,10 @@ public sealed partial class CardWallet : UserControl
         var max = IsCompact ? CompactMaxWidth : LargeMaxWidth;
         var outer = double.IsInfinity(availableSize.Width) ? max : Math.Min(availableSize.Width, max);
         // Show one complete card per page; selection is available through swiping or the dots.
-        var slotWidth = Math.Min(IsCompact ? 288 : 328, outer);
-        var viewport = slotWidth;
+        // Fit the gutters inside the available width, including when the window narrows.
+        var gutter = !IsCompact && State.CardCount > 1 ? Math.Min(88, Math.Max(0, outer - 220)) : 0;
+        var slotWidth = Math.Min(IsCompact ? 288 : 328, Math.Max(1, outer - gutter));
+        var viewport = slotWidth + gutter;
         var width = Math.Max(1, Math.Floor(slotWidth - 2 * Pad));
         _cards.Padding = new Thickness(Math.Max(0, (viewport - width - 2 * Pad) / 2), 0,
             Math.Max(0, (viewport - width - 2 * Pad) / 2), 0);

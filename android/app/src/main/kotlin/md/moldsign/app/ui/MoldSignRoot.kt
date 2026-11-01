@@ -37,6 +37,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
 import md.moldsign.app.MainActivity
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -81,6 +82,7 @@ import md.moldsign.app.presentation.messageText
 import md.moldsign.app.ui.components.PinSheet
 import md.moldsign.app.ui.components.StatusLightChip
 import md.moldsign.app.ui.screens.ActivityScreen
+import md.moldsign.app.ui.screens.AboutContent
 import md.moldsign.app.ui.screens.BrowserScreen
 import md.moldsign.app.ui.screens.CardScreen
 import md.moldsign.app.ui.screens.SignScreen
@@ -111,6 +113,7 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
 @Composable
 fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
     var settingsOpen by remember { mutableStateOf(false) }
+    var settingsTab by remember { mutableIntStateOf(0) }
     var confirmDemoEnable by remember { mutableStateOf(false) }
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
@@ -262,16 +265,25 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         title = { Text(stringResource(R.string.demo_mode_settings)) },
         text = {
             Column {
-                Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                    Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
-                    Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null,
-                        onCheckedChange = { enabled ->
-                            settingsOpen = false
-                            if (enabled) confirmDemoEnable = true
-                            else (context as? MainActivity)?.changeDemoMode(false)
-                        })
+                androidx.compose.material3.TabRow(selectedTabIndex = settingsTab) {
+                    androidx.compose.material3.Tab(selected = settingsTab == 0, onClick = { settingsTab = 0 }, text = { Text(stringResource(R.string.settings_general)) })
+                    androidx.compose.material3.Tab(selected = settingsTab == 1, onClick = { settingsTab = 1 }, text = { Text(stringResource(R.string.about_title)) })
                 }
-                Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
+                Spacer(Modifier.size(12.dp))
+                if (settingsTab == 0) {
+                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                        Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
+                        Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null,
+                            onCheckedChange = { enabled ->
+                                settingsOpen = false
+                                if (enabled) confirmDemoEnable = true
+                                else (context as? MainActivity)?.changeDemoMode(false)
+                            })
+                    }
+                    Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
+                } else {
+                    AboutContent()
+                }
             }
         },
         confirmButton = { TextButton(onClick = { settingsOpen = false }) { Text(stringResource(R.string.action_close)) } },

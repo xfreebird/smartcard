@@ -5,9 +5,11 @@ import MoldSignKit
 @main
 struct MoldSignMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    @AppStorage("appLanguage", store: AppPreferencesStore.defaults) private var language = "system"
 
 
     var body: some Scene {
+        let _ = language // Recompute scene titles and the status item's accessibility label.
         MenuBarExtra {
             MenuBarPopover()
                 .environment(appDelegate.model)
@@ -31,6 +33,11 @@ struct MoldSignMacApp: App {
                 .environment(appDelegate.model)
                 .appPreferences()
         }
+
+        Window(L10n.text(.about_app_title), id: "about") {
+            AboutContent().appPreferences()
+        }
+        .defaultLaunchBehavior(.suppressed)
     }
 }
 

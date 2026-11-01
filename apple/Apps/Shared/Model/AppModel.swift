@@ -17,14 +17,18 @@ final class AppModel {
     var lastAttemptsLeft: Int?
 
     /// The card the UI signs with: the user's pick, else the first inserted one.
-    var selectedCard: CardSlot? { cards.first { $0.reader == selectedReaderName } ?? cards.first }
+    var selectedCard: CardSlot? {
+        guard let reader = ReaderSelectionPolicy.activeReader(preferred: selectedReaderName,
+                                                               available: cards.map(\.reader)) else { return nil }
+        return cards.first { $0.reader == reader }
+    }
     var certificate: SigningService.CertificateSummary? { selectedCard?.certificate }
 
     // Sign
     var signItems: [SignItem] = []
     var currentStep: SigningService.Step?
     var lastSigned: [URL] = []
-    var lastError: (message: String, recovery: String)?
+    var lastError: PresentedError?
 
     /// Web links opened with the app are routed to the foreground iOS browser.
     var browserURL: URL?
@@ -235,7 +239,7 @@ final class AppModel {
     func setDemoMode(_ enabled: Bool) -> Bool {
         guard enabled != demoMode else { return true }
         guard canChangeDemoMode, hardwareGate.changeMode(demo: enabled) else {
-            lastError = (L10n.text(.ui_demo_mode), L10n.text(.demo_switch_unavailable))
+            lastError = PresentedError(messageText: .localized(.ui_demo_mode), recoveryText: .localized(.demo_switch_unavailable))
             return false
         }
         monitor.stop()
@@ -281,9 +285,10 @@ final class AppModel {
             }
         }
         cards = next
-        if selectedReaderName.map({ name in !next.contains { $0.reader == name } }) ?? true {
-            selectedReaderName = next.first?.reader
-        }
+        // Reader state can briefly become probing or empty during a signing session. Keep the
+        // user's preference through that transient absence; selectedCard supplies a safe fallback.
+        selectedReaderName = ReaderSelectionPolicy.preferredReader(previous: selectedReaderName,
+                                                                    available: next.map(\.reader))
         selectedReader.name = selectedCard?.reader
         recomputeStatus()
         for card in toRead { Task { await readCertificate(of: card) } }
@@ -302,8 +307,8 @@ final class AppModel {
         catch { result = .failure(error) }
         guard let index = cards.firstIndex(where: { $0.reader == reader && $0.generation == card.generation }) else { return }
         switch result {
-        case .success(let summary): cards[index].certificate = summary; cards[index].problem = nil
-        case .failure(let error): cards[index].problem = Self.describe(error).message
+        case .success(let summary): cards[index].certificate = summary; cards[index].problemText = nil
+        case .failure(let error): cards[index].problemText = Self.describe(error).messageText
         }
         recomputeStatus()
     }
@@ -354,9 +359,9 @@ final class AppModel {
                 guard self.demoMode else { return }
                 self.cards = Array(initialCards.prefix(count))
                 self.readers = self.cards.map(\.reader)
-                if !self.cards.contains(where: { $0.reader == self.selectedReaderName }) {
-                    self.selectedReaderName = self.cards.first?.reader
-                }
+                self.selectedReaderName = ReaderSelectionPolicy.preferredReader(
+                    previous: self.selectedReaderName, available: self.cards.map(\.reader))
+                self.selectedReader.name = self.selectedCard?.reader
                 self.recomputeStatus()
                 FileHandle.standardOutput.write(Data("MSIGN_QA_CARD_COUNT=\(count)\n".utf8))
             }
@@ -374,7 +379,7 @@ final class AppModel {
         case "error":
             if !cards.isEmpty {
                 cards[0].certificate = nil
-                cards[0].problem = L10n.text(.ui_the_card_does_not_respond)
+                cards[0].problemText = .localized(.ui_the_card_does_not_respond)
                 recomputeStatus()
             }
         case "signing": currentStep = .timestamping
@@ -395,7 +400,7 @@ final class AppModel {
         guard !demoMode else { return }
         for index in cards.indices {
             cards[index].certificate = nil
-            cards[index].problem = nil
+            cards[index].problemText = nil
         }
         recomputeStatus()
         for card in cards { Task { await readCertificate(of: card) } }
@@ -411,14 +416,14 @@ final class AppModel {
         guard let firstReader = readers.first else { status = .noReader; return }
         guard let card = selectedCard else {
             status = muteCard
-                ? .error(message: L10n.text(.ui_the_card_does_not_respond), recovery: L10n.text(.ui_remove_and_re_insert_the_card))
+                ? .error(message: .localized(.ui_the_card_does_not_respond), recovery: .localized(.ui_remove_and_re_insert_the_card))
                 : .empty(reader: firstReader)
             return
         }
         if let cert = card.certificate {
             status = .ready(reader: card.reader, holder: cert.holder, validUntil: cert.notAfter)
-        } else if let problem = card.problem {
-            status = .error(message: problem, recovery: L10n.text(.ui_remove_and_re_insert_the_card))
+        } else if let problem = card.problemText {
+            status = .error(message: problem, recovery: .localized(.ui_remove_and_re_insert_the_card))
         } else {
             status = .reading(reader: card.reader)
         }
@@ -498,7 +503,7 @@ final class AppModel {
                 remove(item)
                 log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(.demo_simulation_complete), ok: true, fileURL: output))
             } catch {
-                lastError = (L10n.text(.ui_demo_mode), L10n.text(.demo_output_notice))
+                lastError = PresentedError(messageText: .localized(.ui_demo_mode), recoveryText: .localized(.demo_output_notice))
                 break
             }
         }
@@ -740,28 +745,28 @@ final class AppModel {
 
     // MARK: - Errors (docs/09 §3.3)
 
-    static func describe(_ error: Error) -> (message: String, recovery: String) {
+    static func describe(_ error: Error) -> PresentedError {
         switch error {
         case CardError.wrongPIN(let remaining):
-            return (L10n.text(.ui_incorrect_pin), L10n.text(.ui_attempts_left_count, remaining))
+            return PresentedError(messageText: .localized(.ui_incorrect_pin), recoveryText: .count(.ui_attempts_left_count, remaining))
         case CardError.pinBlocked:
-            return (L10n.text(.ui_pin_blocked), L10n.text(.ui_unblock_it_at_cev))
+            return PresentedError(messageText: .localized(.ui_pin_blocked), recoveryText: .localized(.ui_unblock_it_at_cev))
         case CardError.noReader:
-            return (L10n.text(.ui_connect_the_reader), L10n.text(.ui_))
+            return PresentedError(messageText: .localized(.ui_connect_the_reader), recoveryText: .localized(.ui_))
         case CardError.noCard:
-            return (L10n.text(.ui_insert_the_card), L10n.text(.ui_))
+            return PresentedError(messageText: .localized(.ui_insert_the_card), recoveryText: .localized(.ui_))
         case CardError.cardChanged:
-            return (L10n.text(.ui_the_card_in_the_reader_changed), L10n.text(.ui_check_the_holder_and_sign_again))
+            return PresentedError(messageText: .localized(.ui_the_card_in_the_reader_changed), recoveryText: .localized(.ui_check_the_holder_and_sign_again))
         case CardError.apduError(0x6985):
-            return (L10n.text(.ui_the_card_is_in_an_invalid_state), L10n.text(.ui_remove_and_re_insert_the_card))
+            return PresentedError(messageText: .localized(.ui_the_card_is_in_an_invalid_state), recoveryText: .localized(.ui_remove_and_re_insert_the_card))
         case CardError.apduError(0x6988), CardError.macVerificationFailed:
-            return (L10n.text(.ui_the_secure_session_was_interrupted), L10n.text(.ui_try_again))
+            return PresentedError(messageText: .localized(.ui_the_secure_session_was_interrupted), recoveryText: .localized(.ui_try_again))
         case CardError.signFailed(let message) where message.hasPrefix("TSA"):
-            return (L10n.text(.ui_the_timestamp_service_is_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
+            return PresentedError(messageText: .localized(.ui_the_timestamp_service_is_not_responding), recoveryText: .localized(.ui_check_the_connection_and_try_again))
         case is TrustServices.NetworkError:
-            return (L10n.text(.ui_pki_services_are_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
+            return PresentedError(messageText: .localized(.ui_pki_services_are_not_responding), recoveryText: .localized(.ui_check_the_connection_and_try_again))
         default:
-            return (error.localizedDescription, L10n.text(.ui_try_again))
+            return PresentedError(messageText: .verbatim(error.localizedDescription), recoveryText: .localized(.ui_try_again))
         }
     }
 }

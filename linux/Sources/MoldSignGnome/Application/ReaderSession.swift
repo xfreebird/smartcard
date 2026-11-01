@@ -61,7 +61,9 @@ final class ReaderSession {
         let inserted = hasReceivedSnapshot && !toRead.isEmpty
         hasReceivedSnapshot = true
         cards = next
-        if selectedReaderName.map({ name in !next.contains { $0.reader == name } }) ?? true {
+        // Preserve the user's pick across a temporary reader disappearance (for example, while
+        // signing). selectedCard still falls back to an available card until the pick returns.
+        if selectedReaderName == nil {
             selectedReaderName = next.first?.reader
         }
         selectedReader.name = selectedCard?.reader

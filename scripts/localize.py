@@ -56,8 +56,9 @@ enum L10n {
 '''+cases+'''
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
-        let languages = UserDefaults.standard.stringArray(forKey: "AppleLanguages") ?? Locale.preferredLanguages
-        let code = languages.first.map { String($0.prefix(2)) } ?? "ro"
+        let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"
+        let language = preference == "system" ? Locale.preferredLanguages.first : preference
+        let code = language.map { String($0.prefix(2)) } ?? "ro"
         let bundle = Bundle.main.path(forResource: code, ofType: "lproj").flatMap(Bundle.init(path:)) ?? .main
         let template = bundle.localizedString(forKey: key.rawValue, value: nil, table: nil)
         return arguments.isEmpty ? template : String(format: template, locale: Locale(identifier: code), arguments: arguments)

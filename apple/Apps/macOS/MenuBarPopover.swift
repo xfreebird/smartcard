@@ -84,12 +84,8 @@ struct MenuBarPopover: View {
                 MenuRow(title: L10n.text(.ui_open_esemnbun)) { showMain(.sign) }
                 MenuRow(title: L10n.text(.about_app_title)) {
                     dismissThen {
-                        let credits = NSMutableAttributedString(string: "Nicolae Ghimbovschi\n")
-                        credits.append(NSAttributedString(string: "esemnbun.md", attributes: [
-                            .link: URL(string: "https://esemnbun.md")!
-                        ]))
                         NSApp.activate(ignoringOtherApps: true)
-                        NSApp.orderFrontStandardAboutPanel(options: [.credits: credits])
+                        openWindow(id: "about")
                     }
                 }
                 Divider().padding(.vertical, 4)

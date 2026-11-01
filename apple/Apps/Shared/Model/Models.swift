@@ -1,6 +1,28 @@
 import SwiftUI
 import MoldSignKit
 
+/// Keep error meaning until presentation so switching language does not retain translated text.
+enum PresentationText: Equatable {
+    case localized(L10n.Key)
+    case count(L10n.Key, Int)
+    case verbatim(String)
+
+    var text: String {
+        switch self {
+        case .localized(let key): return L10n.text(key)
+        case .count(let key, let count): return L10n.text(key, count)
+        case .verbatim(let value): return value
+        }
+    }
+}
+
+struct PresentedError: Equatable {
+    let messageText: PresentationText
+    let recoveryText: PresentationText
+    var message: String { messageText.text }
+    var recovery: String { recoveryText.text }
+}
+
 /// StatusCard states (docs/10 §3).
 enum ReaderStatus: Equatable {
     case unavailable                       // no smart-card access (entitlement missing)
@@ -9,7 +31,7 @@ enum ReaderStatus: Equatable {
     case reading(reader: String)
     case ready(reader: String, holder: String, validUntil: Date?)
     case busy(reader: String, holder: String)
-    case error(message: String, recovery: String)
+    case error(message: PresentationText, recovery: PresentationText)
 
     var cardPresent: Bool {
         switch self {
@@ -30,7 +52,7 @@ enum ReaderStatus: Equatable {
         case .empty: return L10n.text(.ui_insert_the_card)
         case .reading: return L10n.text(.ui_reading_the_card)
         case .ready(_, let holder, _), .busy(_, let holder): return holder
-        case .error(let message, _): return message
+        case .error(let message, _): return message.text
         }
     }
 
@@ -46,7 +68,7 @@ enum ReaderStatus: Equatable {
         case .empty(let reader), .reading(let reader): return reader
         case .ready(let reader, _, _): return L10n.text(.ui_card_ready_value, reader)
         case .busy: return L10n.text(.ui_signing)
-        case .error(_, let recovery): return recovery
+        case .error(_, let recovery): return recovery.text
         }
     }
 
@@ -93,7 +115,8 @@ struct CardSlot: Identifiable, Equatable {
     let reader: String
     let generation: Int
     var certificate: SigningService.CertificateSummary?
-    var problem: String?
+    var problemText: PresentationText?
+    var problem: String? { problemText?.text }
     var id: String { reader }
 }
 

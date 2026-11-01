@@ -238,4 +238,5 @@
   <data name="demo_mode_confirm" xml:space="preserve"><value>Включить деморежим? Реальные считыватели и соединение с браузером будут остановлены. Будут использоваться только вымышленные карты и документы.</value></data>
   <data name="about_developer" xml:space="preserve"><value>Разработчик</value></data>
   <data name="about_app_title" xml:space="preserve"><value>О eSemnBun</value></data>
+  <data name="Settings_General" xml:space="preserve"><value>Общие</value></data>
 </root>

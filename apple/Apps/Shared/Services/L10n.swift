@@ -76,7 +76,6 @@ enum L10n {
         case ui_card_problems
         case ui_read_the_card_again
         case ui_refuse
-        case ui_restart_the_app_to_update_all_messages
         case ui_reload
         case ui_romanian
         case ui_respond_to_signing_requests_from_the_browser
@@ -215,8 +214,9 @@ enum L10n {
         case about_app_title
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
-        let languages = UserDefaults.standard.stringArray(forKey: "AppleLanguages") ?? Locale.preferredLanguages
-        let code = languages.first.map { String($0.prefix(2)) } ?? "ro"
+        let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"
+        let language = preference == "system" ? Locale.preferredLanguages.first : preference
+        let code = language.map { String($0.prefix(2)) } ?? "ro"
         let bundle = Bundle.main.path(forResource: code, ofType: "lproj").flatMap(Bundle.init(path:)) ?? .main
         let template = bundle.localizedString(forKey: key.rawValue, value: nil, table: nil)
         return arguments.isEmpty ? template : String(format: template, locale: Locale(identifier: code), arguments: arguments)

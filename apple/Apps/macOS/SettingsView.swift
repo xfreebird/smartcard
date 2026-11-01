@@ -9,6 +9,7 @@ struct SettingsView: View {
             GeneralSettings().tabItem { Label(L10n.text(.ui_general), systemImage: "gearshape") }
             SavedPINSettings().tabItem { Label(L10n.text(.ui_saved_pins), systemImage: "key") }
             BridgeSettings().tabItem { Label(L10n.text(.ui_browser_connection), systemImage: "globe") }
+            AboutContent().tabItem { Label(L10n.text(.about_app_title), systemImage: "info.circle") }
         }
         .frame(width: 560, height: 480)
         .background(WindowReader { WindowPresentation.shared.register($0, for: .settings) })
@@ -16,7 +17,6 @@ struct SettingsView: View {
 }
 
 private struct GeneralSettings: View {
-    @Environment(AppModel.self) private var model
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var launchError: String?
     #if !APP_STORE
@@ -28,20 +28,22 @@ private struct GeneralSettings: View {
     @AppStorage("appTheme", store: AppPreferencesStore.defaults) private var theme = "system"
     @AppStorage("openOnCardInsertion", store: AppPreferencesStore.defaults) private var openOnInsertion = false
 
+    private var languageChoice: Binding<String> {
+        Binding(get: { language }, set: { value in
+            if value == "system" { AppPreferencesStore.defaults.removeObject(forKey: "AppleLanguages") }
+            language = value
+        })
+    }
+
     var body: some View {
         Form {
             Section(L10n.text(.ui_appearance_and_language)) {
-                Picker(L10n.text(.ui_language), selection: $language) {
+                Picker(L10n.text(.ui_language), selection: languageChoice) {
                     Text(L10n.text(.ui_system)).tag("system")
                     Text(verbatim: L10n.text(.ui_romanian)).tag("ro")
                     Text(verbatim: "English").tag("en")
                     Text(verbatim: "Русский").tag("ru")
                 }
-                .onChange(of: language) { _, value in
-                    if value == "system" { AppPreferencesStore.defaults.removeObject(forKey: "AppleLanguages") }
-                    else { AppPreferencesStore.defaults.set([value], forKey: "AppleLanguages") }
-                }
-                Text(L10n.text(.ui_restart_the_app_to_update_all_messages)).font(.caption).foregroundStyle(.secondary)
                 Picker(L10n.text(.ui_theme), selection: $theme) {
                     Text(L10n.text(.ui_system)).tag("system")
                     Text(L10n.text(.ui_light)).tag("light")
@@ -85,17 +87,9 @@ private struct GeneralSettings: View {
                     }
                 }
             if let launchError { Text(launchError).font(.caption).foregroundStyle(Theme.danger) }
-            Section(L10n.text(.about_app_title)) {
-                LabeledContent(L10n.text(.about_developer), value: "Nicolae Ghimbovschi")
-                Link("esemnbun.md", destination: URL(string: "https://esemnbun.md")!)
-            }
             LabeledContent(L10n.text(.ui_pdf_format), value: "PAdES-T")
             LabeledContent(L10n.text(.ui_other_files), value: L10n.text(.ui_xades_t_detached))
             LabeledContent(L10n.text(.ui_saving), value: L10n.text(.ui_beside_the_original_semnat_without_overwriting))
-            Section {
-                Button(L10n.text(.ui_delete_the_saved_pin), role: .destructive) { model.forgetPIN() }
-                    .disabled(!model.hasStoredPIN)
-            }
         }
         .formStyle(.grouped)
     }

@@ -27,7 +27,20 @@ struct CardSelector: View {
     @State private var hoveringCard = false
     #endif
     private var cardWidth: CGFloat {
+        #if os(macOS)
+        // Reserve space for hover controls outside the card when several readers exist.
+        let gutters: CGFloat = model.cards.count > 1 ? 88 : 8
+        return max(120, min(size.maxWidth ?? .infinity, width - gutters))
+        #else
         return max(120, width - 8)
+        #endif
+    }
+    private var selectorMaxWidth: CGFloat? {
+        #if os(macOS)
+        return size.maxWidth.map { $0 + (model.cards.count > 1 ? 88 : 0) }
+        #else
+        return size.maxWidth
+        #endif
     }
     private var sideInset: CGFloat { max(4, (width - cardWidth) / 2) }
     private var cardHeight: CGFloat { cardWidth / IDCardFace.ratio }
@@ -40,7 +53,10 @@ struct CardSelector: View {
                     .frame(height: cardHeight)
             } else {
                 #if os(iOS)
-                TabView(selection: Binding(get: { model.selectedCard?.reader ?? "" }, set: { model.selectCard($0) })) {
+                TabView(selection: Binding(get: { model.selectedCard?.reader ?? "" }, set: { reader in
+                    // TabView may write back the temporary fallback after a reader disappears.
+                    if reader != model.selectedCard?.reader { model.selectCard(reader) }
+                })) {
                     ForEach(model.cards) { card in
                         cardFace(card)
                             .padding(.bottom, model.cards.count > 1 ? 32 : 0)
@@ -75,7 +91,7 @@ struct CardSelector: View {
                             Spacer()
                             carouselArrow(1)
                         }
-                        .padding(.horizontal, 12)
+                        .padding(.horizontal, 4)
                         .opacity(hoveringCard ? 1 : 0)
                         .allowsHitTesting(hoveringCard)
                         .accessibilityHidden(!hoveringCard)
@@ -133,7 +149,7 @@ struct CardSelector: View {
                 #endif
             }
         }
-        .frame(maxWidth: size.maxWidth ?? .infinity)
+        .frame(maxWidth: selectorMaxWidth ?? .infinity)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width = $0 }
         .frame(maxWidth: .infinity)
         .onDisappear { selectionCommit?.cancel(); userIsScrolling = false; selectionPending = false }

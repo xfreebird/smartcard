@@ -1607,28 +1607,6 @@
         }
       }
     },
-    "ui_restart_the_app_to_update_all_messages": {
-      "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Repornește aplicația pentru a actualiza toate mesajele."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Restart the app to update all messages."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Перезапустите приложение, чтобы обновить все сообщения."
-          }
-        }
-      }
-    },
     "ui_reload": {
       "localizations": {
         "ro": {

@@ -139,7 +139,10 @@ public sealed class CardWallet
             toRead.Add(fresh);
         }
         _cards = next;
-        if (SelectedReader is null || _cards.All(c => c.Reader != SelectedReader))
+        // Keep the user's preference while a reader is temporarily absent. Selected still falls
+        // back to the first available card for current UI and signing operations; if the preferred
+        // reader returns, it becomes selected again.
+        if (SelectedReader is null)
             SelectedReader = _cards.FirstOrDefault()?.Reader;
         return toRead;
     }

@@ -11,15 +11,31 @@ struct VerifyScreen: View {
     var body: some View {
         Form {
             Section {
-                Button { importing = true } label: {
-                    Label {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(model.verifyFile == nil ? L10n.text(.ui_choose_the_signed_document) : L10n.text(.ui_choose_another_document))
-                            Text(L10n.text(.ui_or_drop_it_here_signed_pdf_or_xades_signature_xml)).font(.caption).foregroundStyle(Color.secondary)
-                        }
-                    } icon: { Image(systemName: "checkmark.seal") }
+                VStack(spacing: Theme.Space.s) {
+                    Image(systemName: "checkmark.seal")
+                        .font(.system(size: 34, weight: .light))
+                        .foregroundStyle(dropTargeted ? Color.accentColor : .secondary)
+                    Text(dropTargeted ? L10n.text(.ui_release_to_add) : L10n.text(.ui_drop_documents_here))
+                        .font(.headline)
+                    Text(L10n.text(.ui_or_drop_it_here_signed_pdf_or_xades_signature_xml))
+                        .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                    Button(model.verifyFile == nil ? L10n.text(.ui_choose_the_signed_document) : L10n.text(.ui_choose_another_document)) {
+                        importing = true
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    .padding(.top, Theme.Space.xs)
                 }
-                .buttonStyle(.borderless)
+                .padding(Theme.Space.l)
+                .frame(maxWidth: .infinity, minHeight: 190)
+                .background(dropTargeted ? Color.accentColor.opacity(0.10) : Color.secondary.opacity(0.05),
+                            in: RoundedRectangle(cornerRadius: 14))
+                .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(
+                    dropTargeted ? Color.accentColor : Color.secondary.opacity(0.45),
+                    style: StrokeStyle(lineWidth: dropTargeted ? 2 : 1.5, dash: dropTargeted ? [] : [7, 5])))
+                .accessibilityIdentifier("verify.dropZone")
+                .listRowInsets(EdgeInsets())
+                .listRowBackground(Color.clear)
             }
 
             if let file = model.verifyFile {

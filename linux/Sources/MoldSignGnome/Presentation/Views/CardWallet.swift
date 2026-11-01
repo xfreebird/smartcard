@@ -57,8 +57,8 @@ final class CardWallet {
         gtk_widget_set_halign(carousel, GTK_ALIGN_CENTER)
         gtk_scrolled_window_set_policy(carousel.opaque, GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER)
         gtk_scrolled_window_set_propagate_natural_width(carousel.opaque, 1)
-        gtk_scrolled_window_set_max_content_width(carousel.opaque, CardArt.large.width + 2 * CardItem.margin.start)
-        gtk_scrolled_window_set_min_content_width(carousel.opaque, CardArt.large.width + 2 * CardItem.margin.start)
+        gtk_scrolled_window_set_max_content_width(carousel.opaque, 444)
+        gtk_scrolled_window_set_min_content_width(carousel.opaque, 444)
         gtk_scrolled_window_set_propagate_natural_height(carousel.opaque, 1)
         gtk_scrolled_window_set_child(carousel.opaque, list)
         let cardOverlay = gtk_overlay_new()!
@@ -71,8 +71,8 @@ final class CardWallet {
             addClasses(button, ["circular", "card-disclosure"])
             gtk_widget_set_halign(button, alignment)
             gtk_widget_set_valign(button, GTK_ALIGN_CENTER)
-            gtk_widget_set_margin_start(button, 36)
-            gtk_widget_set_margin_end(button, 36)
+            gtk_widget_set_margin_start(button, 20)
+            gtk_widget_set_margin_end(button, 20)
             gtk_widget_set_size_request(button, 32, 32)
             setAccessibleLabel(button, title)
             setVisible(button, false)
@@ -140,7 +140,9 @@ final class CardWallet {
         guard on != compact else { return }
         compact = on
         viewportWidth = 0
-        let width = (on ? CardArt.compact.width : CardArt.large.width) + 2 * CardItem.margin.start
+        let width = on
+            ? CardArt.compact.width + 2 * CardItem.margin.start
+            : 444
         // Clear the old minimum before lowering the maximum when the window narrows.
         gtk_scrolled_window_set_min_content_width(carousel.opaque, -1)
         gtk_scrolled_window_set_max_content_width(carousel.opaque, width)

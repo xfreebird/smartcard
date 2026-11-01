@@ -3,11 +3,14 @@ package md.moldsign.app.ui.screens
 import android.Manifest
 import android.content.Intent
 import android.net.Uri
+import android.app.Activity
 import androidx.annotation.StringRes
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.heightIn
@@ -73,7 +76,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.draganddrop.DragAndDropEvent
+import androidx.compose.ui.draganddrop.DragAndDropTarget
+import androidx.compose.foundation.draganddrop.dragAndDropTarget
+import androidx.compose.ui.draganddrop.toAndroidDragEvent
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -230,13 +238,27 @@ private fun StepCard(step: SigningStep, modifier: Modifier = Gutter) {
 /** Verifică: pick a signed PDF / XAdES and validate (the validator is AND-01). */
 @Composable
 fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
+    val context = LocalContext.current
     val doc by vm.verifyDoc.collectAsStateWithLifecycle()
     val outcome by vm.verifyOutcome.collectAsStateWithLifecycle()
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { vm.pickForVerify(it) }
     val attach = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addVerifyDocuments(it) }
+    val dropTarget = remember(vm) {
+        object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val androidEvent = event.toAndroidDragEvent()
+                val uri = androidEvent.clipData?.let { clip ->
+                    (0 until clip.itemCount).firstNotNullOfOrNull { index -> clip.getItemAt(index).uri }
+                } ?: return false
+                val permission = (context as? Activity)?.requestDragAndDropPermissions(androidEvent)
+                vm.receiveDroppedForVerify(uri) { permission?.release() }
+                return true
+            }
+        }
+    }
 
     ScreenColumn(padding) {
-        Column(Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
+        Column(Gutter.dragAndDropTarget(shouldStartDragAndDrop = { true }, target = dropTarget), verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
             val current = doc
             if (current == null) {
                 DocumentPickZone(
@@ -587,42 +609,27 @@ fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
                 Spacer(Modifier.height(Tokens.S2))
                 ConnectionGuide()
             }
-            AboutRow()
         }
     }
 }
 
-/** "Despre eSemnBun" (UX-12): the public name and version; the codename stays in code. */
+/** Shared About content for the dedicated Settings tab. */
 @Composable
-private fun AboutRow() {
+fun AboutContent() {
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
-    var open by remember { mutableStateOf(false) }
     val version = remember {
         runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull().orEmpty()
     }
-    ListItem(
-        leadingContent = { Icon(Icons.Outlined.Info, contentDescription = null) },
-        headlineContent = { Text(stringResource(R.string.about_title)) },
-        supportingContent = { Text(stringResource(R.string.about_version, version)) },
-        colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = Modifier.clickable { open = true },
-    )
-    if (open) {
-        AlertDialog(
-            onDismissRequest = { open = false },
-            icon = { Icon(Icons.Outlined.Info, contentDescription = null) },
-            title = { Text(stringResource(R.string.app_name)) },
-            text = {
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    Text(stringResource(R.string.about_version, version))
-                    Text(stringResource(R.string.about_body))
-                    Text("Nicolae Ghimbovschi")
-                    TextButton(onClick = { uriHandler.openUri("https://esemnbun.md") }) { Text("esemnbun.md") }
-                }
-            },
-            confirmButton = { TextButton(onClick = { open = false }) { Text(stringResource(R.string.action_close)) } },
-        )
+    Column(verticalArrangement = Arrangement.spacedBy(12.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(Modifier.size(72.dp).background(Color(0xFF3F6EF5))) {
+            Image(painterResource(R.drawable.ic_launcher_foreground), contentDescription = null, modifier = Modifier.fillMaxSize())
+        }
+        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.about_version, version))
+        Text(stringResource(R.string.about_body), textAlign = TextAlign.Center)
+        Text("Nicolae Ghimbovschi")
+        TextButton(onClick = { uriHandler.openUri("https://esemnbun.md") }) { Text("esemnbun.md") }
     }
 }
 
