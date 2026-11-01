@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "eSemnBun",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "eSemnBun",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.How it works": {
+    "message": "Как это работает",
+    "description": "Navbar item with label How it works"
+  },
+  "item.label.Support": {
+    "message": "Поддержка",
+    "description": "Navbar item with label Support"
+  },
+  "item.label.Source": {
+    "message": "Исходный код",
+    "description": "Navbar item with label Source"
+  }
+}

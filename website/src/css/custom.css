@@ -9,3 +9,11 @@
 .story-steps b{display:grid;place-items:center;font-size:11px;width:22px;height:22px;border-radius:50%;background:#e8edf1;color:#536472}
 .story-steps .current{background:#3159df;color:white}.story-steps .current b{background:#ffffff30;color:white}.story-steps .complete b{background:#e2eee7;color:#32604a}
 @media(max-width:760px){.story-steps{gap:3px;padding:5px;font-size:11px;max-width:100%}.story-steps span{gap:5px;padding:7px}.story-steps b{width:18px;height:18px;font-size:10px}}
+
+/* The opening app window fills the stage; the scene gains room for hardware later. */
+.connection-scene.desktop{width:min(100%,1400px);max-height:68vh}
+.step-0 .connection-scene.desktop,.step-1 .connection-scene.desktop{max-height:72vh}
+.tab-interaction{animation:tabClick .45s ease-out both}@keyframes tabClick{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.tab-interaction{animation:none}}
+
+.step-1 .hardware-frame{opacity:0}.step-2 .hardware-frame,.step-3 .hardware-frame{opacity:1}

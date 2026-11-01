@@ -1,0 +1,227 @@
+{
+  "title": {
+    "en": "Sign with your Moldovan ID card",
+    "ro": "Semnează cu cartea de identitate",
+    "ru": "Подписывайте с ID-картой"
+  },
+  "project": {
+    "en": "eSemnBun · Free and open source",
+    "ro": "eSemnBun · Gratuit și cu sursă deschisă",
+    "ru": "eSemnBun · Бесплатно и с открытым кодом"
+  },
+  "hero1": {
+    "en": "Sign with your ID card.",
+    "ro": "Semnează cu cartea de identitate.",
+    "ru": "Подписывайте с ID-картой."
+  },
+  "hero2": {
+    "en": "On your computer.",
+    "ro": "La calculator.",
+    "ru": "На компьютере."
+  },
+  "hero3": {
+    "en": "Or your phone.",
+    "ro": "Sau de pe telefon.",
+    "ru": "Или с телефона."
+  },
+  "intro1": {
+    "en": "A native alternative for Moldova’s electronic ID.",
+    "ro": "O alternativă nativă pentru identitatea electronică din Moldova.",
+    "ru": "Нативная альтернатива для электронной ID-карты Молдовы."
+  },
+  "intro2": {
+    "en": "A notarized macOS app, without security workarounds.",
+    "ro": "O aplicație macOS notarizată, fără ocolirea măsurilor de securitate.",
+    "ru": "Нотаризованное приложение macOS без обхода защиты."
+  },
+  "intro3": {
+    "en": "And a way to sign when your phone is all you have.",
+    "ro": "Și posibilitatea de a semna când ai la îndemână doar telefonul.",
+    "ru": "И возможность подписать документ, когда под рукой только телефон."
+  },
+  "download": {
+    "en": "Download eSemnBun",
+    "ro": "Descarcă eSemnBun",
+    "ru": "Скачать eSemnBun"
+  },
+  "source": {
+    "en": "View source on GitHub",
+    "ro": "Vezi sursa pe GitHub",
+    "ru": "Исходный код на GitHub"
+  },
+  "how": {
+    "en": "How it works",
+    "ro": "Cum funcționează",
+    "ru": "Как это работает"
+  },
+  "why": {
+    "en": "WHY THIS EXISTS",
+    "ro": "DE CE EXISTĂ",
+    "ru": "ЗАЧЕМ ЭТО НУЖНО"
+  },
+  "whyTitle": {
+    "en": "Signing shouldn’t need a workaround.",
+    "ro": "Semnarea nu ar trebui să necesite improvizații.",
+    "ru": "Для подписи не должны требоваться обходные решения."
+  },
+  "feature1": {
+    "en": "A normal macOS installation",
+    "ro": "Instalare obișnuită pe macOS",
+    "ru": "Обычная установка на macOS"
+  },
+  "feature1Body": {
+    "en": "Download the signed, notarized DMG and move the app to Applications. No commands to bypass Gatekeeper or disable security checks.",
+    "ro": "Descarcă DMG-ul semnat și notarizat, apoi mută aplicația în Applications. Fără comenzi pentru ocolirea Gatekeeper sau dezactivarea securității.",
+    "ru": "Загрузите подписанный и нотаризованный DMG и перенесите приложение в Applications. Не нужны команды для обхода Gatekeeper или отключения защиты."
+  },
+  "feature2": {
+    "en": "A signature away from your desk",
+    "ro": "Semnează și departe de birou",
+    "ru": "Подпись вдали от рабочего места"
+  },
+  "feature2Body": {
+    "en": "Connect a compatible reader to your phone with a suitable adapter. Choose a document, enter your card PIN and share the signed file.",
+    "ro": "Conectează un cititor compatibil la telefon cu adaptorul potrivit. Alege documentul, introdu PIN-ul cardului și distribuie fișierul semnat.",
+    "ru": "Подключите совместимый считыватель к телефону через подходящий адаптер. Выберите документ, введите PIN-код карты и отправьте подписанный файл."
+  },
+  "feature3": {
+    "en": "A small, native tool",
+    "ro": "Un instrument simplu și nativ",
+    "ru": "Простой нативный инструмент"
+  },
+  "feature3Body": {
+    "en": "Choose your card, add files and sign. Verify a document or use supported government websites. The source is available under the MIT license.",
+    "ro": "Alege cardul, adaugă fișierele și semnează. Verifică documente sau folosește serviciile publice compatibile. Codul este disponibil sub licența MIT.",
+    "ru": "Выберите карту, добавьте файлы и подпишите. Проверяйте документы и пользуйтесь поддерживаемыми государственными сайтами. Код доступен по лицензии MIT."
+  },
+  "trustLabel": {
+    "en": "THE SAME CARD. THE SAME SIGNING KEY.",
+    "ro": "ACELAȘI CARD. ACEEAȘI CHEIE DE SEMNARE.",
+    "ru": "ТА ЖЕ КАРТА. ТОТ ЖЕ КЛЮЧ ПОДПИСИ."
+  },
+  "trustTitle": {
+    "en": "Your key stays on the card.",
+    "ro": "Cheia ta rămâne pe card.",
+    "ru": "Ваш ключ остаётся на карте."
+  },
+  "trustBody": {
+    "en": "The app prepares the document. Your card creates the signature after you authorize it with your PIN. Timestamping and certificate checks use public trust services.",
+    "ro": "Aplicația pregătește documentul. Cardul creează semnătura după autorizarea cu PIN-ul. Marcarea temporală și verificarea certificatelor folosesc servicii publice de încredere.",
+    "ru": "Приложение подготавливает документ. Карта создаёт подпись после подтверждения PIN-кодом. Метки времени и проверка сертификатов используют публичные доверенные службы."
+  },
+  "privacyLink": {
+    "en": "How your data is handled",
+    "ro": "Cum sunt prelucrate datele tale",
+    "ru": "Как обрабатываются ваши данные"
+  },
+  "cta": {
+    "en": "Get the app for your device.",
+    "ro": "Descarcă aplicația pentru dispozitivul tău.",
+    "ru": "Скачайте приложение для своего устройства."
+  },
+  "requirements": {
+    "en": "You’ll need an active electronic ID card, its PIN, and a compatible USB reader.",
+    "ro": "Ai nevoie de o carte de identitate electronică activă, PIN-ul ei și un cititor USB compatibil.",
+    "ru": "Понадобятся действующая электронная ID-карта, её PIN-код и совместимый USB-считыватель."
+  },
+  "adapters": {
+    "en": "USB-C and Lightning adapters are supported. NFC is not supported.",
+    "ro": "Sunt acceptate adaptoare USB-C și Lightning. NFC nu este acceptat.",
+    "ru": "Поддерживаются адаптеры USB-C и Lightning. NFC не поддерживается."
+  },
+  "guide": {
+    "en": "Read the setup guide",
+    "ro": "Citește ghidul de configurare",
+    "ru": "Прочитать руководство по настройке"
+  },
+  "review": {
+    "en": "Listing availability depends on review",
+    "ro": "Disponibilitatea depinde de aprobare",
+    "ru": "Доступность зависит от проверки"
+  },
+  "testing": {
+    "en": "Testing access may be required",
+    "ro": "Poate fi necesar accesul la testare",
+    "ru": "Может потребоваться доступ к тестированию"
+  },
+  "certification": {
+    "en": "Currently in certification",
+    "ro": "În curs de certificare",
+    "ru": "Сейчас проходит сертификацию"
+  },
+  "stage1": {
+    "en": "Choose the document.",
+    "ro": "Alege documentul.",
+    "ru": "Выберите документ."
+  },
+  "stage2": {
+    "en": "Switch to Verify.",
+    "ro": "Deschide Verifică.",
+    "ru": "Откройте «Проверить»."
+  },
+  "stage3": {
+    "en": "Connect the reader and card.",
+    "ro": "Conectează cititorul și cardul.",
+    "ru": "Подключите считыватель и карту."
+  },
+  "stage4": {
+    "en": "Approve. Sign. Save.",
+    "ro": "Aprobă. Semnează. Salvează.",
+    "ru": "Подтвердите. Подпишите. Сохраните."
+  },
+  "stageBody1": {
+    "en": "Add your document. Card details stay hidden until a card is connected.",
+    "ro": "Adaugă documentul. Datele cardului apar doar după conectarea lui.",
+    "ru": "Добавьте документ. Данные карты появятся только после её подключения."
+  },
+  "stageBody2": {
+    "en": "Use the sidebar to switch between signing and verification, without leaving the app.",
+    "ro": "Comută între semnare și verificare din meniul lateral, fără să părăsești aplicația.",
+    "ru": "Переключайтесь между подписью и проверкой в боковом меню приложения."
+  },
+  "stageBody3": {
+    "en": "The reader connects through USB, with an adapter when needed.",
+    "ro": "Cititorul se conectează prin USB, cu un adaptor dacă este necesar.",
+    "ru": "Считыватель подключается по USB, при необходимости через адаптер."
+  },
+  "stageBody4": {
+    "en": "Review the request and enter your PIN. Save or share the signed result.",
+    "ro": "Verifică cererea și introdu PIN-ul. Salvează sau distribuie rezultatul semnat.",
+    "ru": "Проверьте запрос и введите PIN-код. Сохраните или отправьте подписанный файл."
+  },
+  "step": {
+    "en": "Step",
+    "ro": "Pasul",
+    "ru": "Шаг"
+  },
+  "of": {
+    "en": "of",
+    "ro": "din",
+    "ru": "из"
+  },
+  "document": {
+    "en": "Document",
+    "ro": "Document",
+    "ru": "Документ"
+  },
+  "device": {
+    "en": "Verify",
+    "ro": "Verifică",
+    "ru": "Проверка"
+  },
+  "reader": {
+    "en": "Reader",
+    "ro": "Cititor",
+    "ru": "Считыватель"
+  },
+  "signature": {
+    "en": "Signature",
+    "ro": "Semnătură",
+    "ru": "Подпись"
+  },
+  "ready": {
+    "en": "Ready to save or share",
+    "ro": "Gata de salvat sau distribuit",
+    "ru": "Можно сохранить или отправить"
+  }
+}

@@ -3,11 +3,13 @@ const config = {
   favicon: 'img/icon.png', url: process.env.SITE_URL || 'https://xfreebird.github.io',
   baseUrl: process.env.BASE_URL || '/smartcard/', trailingSlash: true,
   organizationName: 'xfreebird', projectName: 'smartcard', onBrokenLinks: 'throw',
+  i18n: {defaultLocale: 'en', locales: ['en','ro','ru'], localeConfigs: {en:{label:'English'},ro:{label:'Română'},ru:{label:'Русский'}}},
   presets: [['classic', {docs: {sidebarPath: './sidebars.js'}, blog: false,
     theme: {customCss: './src/css/custom.css'}}]],
   themeConfig: {
     colorMode: {defaultMode: 'light', disableSwitch: true},
     navbar: {title: 'eSemnBun', logo: {alt: 'eSemnBun', src: 'img/icon.png'}, items: [
+      {type:'localeDropdown', position:'right'},
       {to: '/docs/start', label: 'How it works', position: 'right'},
       {to: '/support', label: 'Support', position: 'right'},
       {href: 'https://github.com/xfreebird/smartcard', label: 'Source', position: 'right'}]},

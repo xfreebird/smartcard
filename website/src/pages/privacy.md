@@ -1,0 +1,102 @@
+---
+title: Privacy policy
+---
+# Privacy policy
+
+
+Effective: 1 November 2026.
+Developer: Nicolae Ghimbovschi, Republic of Moldova
+Contact: nicolae.ghimbovschi@gmail.com
+
+eSemnBun lets you sign and verify documents with the signing certificate on your Moldovan electronic identity card,
+on macOS, Windows, Linux, iOS and Android. This policy explains what information the app handles and where it goes.
+
+
+SUMMARY
+
+- eSemnBun has no user accounts, advertising or cross-app tracking.
+- Files selected for local signing and verification are processed on your device and ID card. If you upload a file to a website in the embedded browser, that website receives it. Browser signing also returns the requested result to the requesting website after authorization.
+- For timestamped signatures and online certificate-status checks, the app contacts public trust services. These requests contain cryptographic hashes and certificate identifiers rather than the document contents. This does not guarantee that a document or signature will be accepted for every legal or administrative use.
+
+
+INFORMATION THE APP PROCESSES ON YOUR DEVICE
+
+- The certificate on your ID card (your name, certificate number, issuer, validity): read from the card to show which
+  card is inserted and to create signatures. It is not sent to the developer.
+- Your PIN: sent only to your ID card, over the card's encrypted channel, to unlock the signing key. If you choose
+  "remember PIN", it is kept in your operating system's secure credential store (Apple Keychain, Android Keystore,
+  Windows credential storage or GNOME Keyring), using platform-specific protection where supported and tied to that card. Saved-PIN use may ask for device authentication or confirmation; behavior differs across platforms. You can delete it at any time in the app.
+- Documents you sign or verify: processed locally to compute and check signatures. Signed copies are saved next to the
+  original where allowed, or in the app's storage for sandboxed/mobile workflows. Save As, export and sharing may place copies in locations you choose.
+- Activity list (file names, dates, results): stored only on your device so you can find recent documents. You can
+  clear it at any time.
+- Settings: stored only on your device.
+- Embedded-browser data: website cookies, caches, local site storage and session navigation are managed by the platform WebView. They may retain website login state. The browser offers controls to clear cache, cookies/site data and history separately; clearing cookies can sign you out. Downloaded files and separately saved documents are not removed by clearing browser data.
+
+Biometric checks (Face ID, Touch ID, Windows Hello) are performed by your operating system; the app never receives
+biometric data.
+
+
+INFORMATION SENT OVER THE NETWORK
+
+The app connects to the following services:
+
+- Timestamp authority (tsp.pki.gov.md, Moldovan public-key infrastructure): when a signature includes a timestamp,
+  the app sends a cryptographic hash (SHA-256) of the signature value. The document and its contents are not sent.
+- Certificate status (OCSP) and revocation lists (CRL) (mdqsign.ocsp.pki.md, pki.md): for signature formats that embed
+  validation data, the app asks whether a certificate is still valid. The OCSP request contains the certificate's
+  serial number and identifiers of its issuer. Revocation lists are public files that are downloaded.
+- Browser connection (optional): the app can run a local service on your own device (127.0.0.1, not reachable from
+  other devices) so that government e-signature websites such as msign.gov.md can ask for a signature. Only websites
+  on the official MoldSign allow-list are accepted. The app requests authorization for the signing operation or a scoped batch and shows which website is asking and
+  what will be signed. The resulting signature is returned only to that website, after your confirmation. You can
+  switch this feature off in the app.
+- In-app browser (macOS, iOS/iPadOS and Android): opens user-selected websites, including the available Moldovan service shortcuts. Each website's own
+  privacy policy applies to what you do there.
+
+The public trust services are operated by Moldovan public institutions. Their privacy policies apply to their processing.
+
+
+WHAT WE DO NOT DO
+
+- We do not sell personal information or use advertising identifiers.
+- We do not record screens, document interactions or PIN entry.
+  Your operating system may separately send crash reports to Apple, Google or Microsoft under its own policies.
+- The app does not scan your contacts, photos or location in the background or request camera/microphone access. A file you explicitly select for import, sharing or website upload is processed for that operation.
+
+
+PERMISSIONS
+
+- USB / smart-card access: to talk to your card reader.
+- Network: for timestamping, certificate-status checks, websites opened in the embedded browser and the optional loopback browser connection. Website requests reveal ordinary connection data such as IP address to the receiving service. Uploads, login assertions and downloads are processed by the selected service under its own policy.
+- Notifications (Android): to show the status of the browser connection.
+- Face ID / Touch ID / Windows Hello: only if you choose to remember your PIN, to unlock it.
+
+
+DATA RETENTION AND DELETION
+
+PINs, settings and the activity list are stored on your device. Use saved-PIN management to delete a remembered PIN, activity controls to clear the list, and browser controls to clear website data. Operating-system credential stores, backups and uninstall behavior differ; do not assume uninstalling an app removes every saved credential or external file. Signed documents remain wherever you saved or shared them.
+Reports sent with your consent by earlier versions may remain with the former diagnostics provider;
+contact the developer to request access or deletion.
+
+
+CHILDREN
+
+eSemnBun is a tool for adults who hold a Moldovan electronic identity card and is not directed at children.
+
+
+YOUR RIGHTS
+
+Contact nicolae.ghimbovschi@gmail.com about privacy questions or requests.
+Questions about how public trust services or third-party websites process requests should go to their operator. Contact the developer to ask about information handled by eSemnBun. Applicable rights depend on your location and circumstances.
+
+
+CHANGES
+
+If the app's handling of information changes, we will update this policy and its effective date before releasing that
+version.
+
+
+## This website
+
+This static website is hosted by GitHub Pages. GitHub processes connection information, such as IP addresses, to operate its hosting service under its own [privacy statement](https://docs.github.com/en/site-policy/privacy-policies/github-privacy-statement). We do not add analytics or advertising cookies. External downloads and store links take you to services with their own privacy policies.

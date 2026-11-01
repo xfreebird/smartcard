@@ -19,3 +19,9 @@ GH_HOST=github.com gh workflow run website.yml -R xfreebird/smartcard
 Until then the action builds and saves the Pages artifact; deployment is skipped. Do not change live store URLs to the GitHub address until hosting is enabled and those routes are reachable.
 
 Device illustration geometry lives in `src/components/deviceGeometry.js`: the phone outline uses the official iPhone product-resource proportions and the Android screenshot keeps its 9:20 ratio. Desktop app windows are contained inside a generic 16:9 display. SVG images use `preserveAspectRatio`; the reader, cable and ports share the same coordinate system.
+
+## Languages
+
+English uses the root route; Romanian uses `/ro/` and Russian `/ru/`. All three are emitted into `pages/` by one build. The language menu is available in the navigation bar. On a first unlocalized visit in a tab, the browser's language list selects Romanian, English or Russian (regional variants supported; English fallback). Explicit localized links and subsequent manual language switches are respected. No locale redirect is performed without browser storage access.
+
+Landing-page UI strings use stable keys in `src/i18n/catalog.json`; Docusaurus navigation/theme translations and translated Markdown live in `i18n/ro` and `i18n/ru`.
