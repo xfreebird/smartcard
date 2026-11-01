@@ -12,6 +12,7 @@ struct MenuBarPopover: View {
     @State private var vendorListening = false
     @State private var confirmQuitVendor = false
     @State private var vendorQuitFailed = false
+    @State private var quittingVendor = false
     #endif
 
     var body: some View {
@@ -87,10 +88,11 @@ struct MenuBarPopover: View {
 
             if model.bridgeState == .portBusy {
                 if vendorListening {
-                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }
+                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }.disabled(quittingVendor)
                 } else {
                     Button(L10n.text(.vendor_retry)) { restartBridge() }
                 }
+                if quittingVendor { ProgressView().controlSize(.small) }
                 if vendorQuitFailed { Text(L10n.text(.vendor_quit_failed)).font(.callout).foregroundStyle(.red) }
             }
             #endif
@@ -119,11 +121,12 @@ struct MenuBarPopover: View {
         }
         .alert(L10n.text(.vendor_quit_confirmation), isPresented: $confirmQuitVendor) {
             Button(L10n.text(.vendor_quit_action), role: .destructive) {
+                quittingVendor = true
                 Task { @MainActor in
-                    await Task.detached { VendorPortConflict.terminateListeners() }.value
-                    try? await Task.sleep(for: .seconds(1))
-                    vendorQuitFailed = await Task.detached { !VendorPortConflict.listeners().isEmpty }.value
-                    restartBridge()
+                    defer { quittingVendor = false }
+                    let stopped = await Task.detached { VendorPortConflict.terminateListeners() }.value
+                    vendorQuitFailed = !stopped
+                    if stopped { restartBridge() }
                 }
             }
             Button(L10n.text(.ui_cancel), role: .cancel) { }

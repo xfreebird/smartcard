@@ -106,6 +106,7 @@ private struct BridgeSettings: View {
     @State private var vendorListening = false
     @State private var confirmQuitVendor = false
     @State private var quitFailed = false
+    @State private var quittingVendor = false
     #endif
 
     var body: some View {
@@ -123,10 +124,11 @@ private struct BridgeSettings: View {
                 Text(L10n.text(vendorListening ? .ui_the_ports_are_in_use_by_moldsign_desktop_suite_java_quit_it_to_use_this_application : .vendor_other_conflict))
                     .font(.caption).foregroundStyle(Theme.warning)
                 if vendorListening {
-                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }
+                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }.disabled(quittingVendor)
                 } else {
                     Button(L10n.text(.vendor_retry)) { retryBridge() }
                 }
+                if quittingVendor { ProgressView().controlSize(.small) }
                 if quitFailed { Text(L10n.text(.vendor_quit_failed)).font(.caption).foregroundStyle(Theme.warning) }
                 #else
                 Text(L10n.text(.vendor_other_conflict)).font(.caption).foregroundStyle(Theme.warning)
@@ -147,11 +149,12 @@ private struct BridgeSettings: View {
         }
         .alert(L10n.text(.vendor_quit_confirmation), isPresented: $confirmQuitVendor) {
             Button(L10n.text(.vendor_quit_action), role: .destructive) {
-                VendorPortConflict.terminateListeners()
+                quittingVendor = true
                 Task { @MainActor in
-                    try? await Task.sleep(for: .seconds(1))
-                    quitFailed = await Task.detached { !VendorPortConflict.listeners().isEmpty }.value
-                    retryBridge()
+                    defer { quittingVendor = false }
+                    let stopped = await Task.detached { VendorPortConflict.terminateListeners() }.value
+                    quitFailed = !stopped
+                    if stopped { retryBridge() }
                 }
             }
             Button(L10n.text(.ui_cancel), role: .cancel) { }

@@ -8,7 +8,7 @@ let package = Package(
     targets: [
         .target(name: "AppBatch", path: "Apps/Shared/Services",
                 exclude: ["PinVault.swift", "ReaderMonitor.swift", "MockAppServices.swift", "Activity", "Documents", "L10n.swift", "AppPreferencesStore.swift", "Demo"],
-                sources: ["SigningBatchRunner.swift", "ReaderSelectionPolicy.swift", "UpdateManifest.swift", "BrowserBookmark.swift"]),
+                sources: ["SigningBatchRunner.swift", "ReaderSelectionPolicy.swift", "UpdateManifest.swift", "BrowserBookmark.swift", "ProcessShutdown.swift"]),
         .target(name: "DemoModePolicy", path: "Apps/Shared/Services/Demo",
                 exclude: ["DemoAppServices.swift"], sources: ["DemoHardwareGate.swift", "DemoDocumentFiles.swift"]),
         .testTarget(name: "DemoModePolicyTests", dependencies: ["DemoModePolicy"], path: "Tests/DemoModePolicyTests"),
