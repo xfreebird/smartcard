@@ -10,6 +10,8 @@ struct MacBrowserScreen: View {
     @State private var address = "https://msign.gov.md/#/"
     @State private var invalidAddress = false
     @State private var showBrowserData = false
+    @State private var bookmarks = BrowserBookmarks()
+    @State private var showBookmarks = false
     @State private var clearCache = true
     @State private var clearCookies = true
     @State private var clearHistory = true
@@ -57,15 +59,14 @@ struct MacBrowserScreen: View {
                     .help(L10n.text(.ui_reload)).accessibilityLabel(L10n.text(.ui_reload))
                     .disabled(model.showsDemoNotice)
                 Menu {
-                    ForEach(PortalService.all) { service in
-                        Button { browser.open(service.url) } label: {
-                            Label {
-                                Text(service.title)
-                            } icon: {
-                                Image(nsImage: serviceMenuImage(service)).renderingMode(.original)
-                            }
+                    ForEach(bookmarks.items) { item in
+                        Button { browser.open(item.url) } label: {
+                            Label { Text(item.title) } icon: { BookmarkIcon(bookmark: item) }
                         }
                     }
+                    Divider()
+                    Button(L10n.text(.browser_bookmark_add)) { showBookmarks = true }
+                    Button(L10n.text(.browser_bookmark_manage)) { showBookmarks = true }
                     Divider()
                     Button(L10n.text(.browser_clear_data)) { showBrowserData = true }
                 } label: { Image(systemName: "bookmark") }
@@ -86,6 +87,10 @@ struct MacBrowserScreen: View {
         }
 
         .disabled(clearingData)
+        .sheet(isPresented: $showBookmarks) {
+            BookmarkManager(bookmarks: bookmarks, currentURL: browser.url, currentTitle: browser.webView.title)
+                .appPreferences()
+        }
         .sheet(isPresented: $showBrowserData) {
             VStack(alignment: .leading, spacing: 18) {
                 Text(L10n.text(.browser_clear_data)).font(.headline)
@@ -118,15 +123,16 @@ struct MacBrowserScreen: View {
             browser.clearSessionNavigation()
             if !demo { openInitialPage() }
         }
-        .onAppear { openInitialPage() }
-    }
-
-    /// AppKit menus use NSImage's natural size, ignoring SwiftUI resizable/frame modifiers.
-    private func serviceMenuImage(_ service: PortalService) -> NSImage {
-        let image = (NSImage(named: service.imageName)?.copy() as? NSImage) ?? NSImage(size: NSSize(width: 16, height: 16))
-        image.size = NSSize(width: 16, height: 16)
-        image.isTemplate = false
-        return image
+        .onAppear {
+            openInitialPage()
+            #if DEBUG
+            let env = ProcessInfo.processInfo.environment
+            if env["MSIGN_QA_BOOKMARKS"] == "1", env["MSIGN_QA_NO_HARDWARE"] == "1",
+               env["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true {
+                showBookmarks = true
+            }
+            #endif
+        }
     }
 
     private func openInitialPage() {

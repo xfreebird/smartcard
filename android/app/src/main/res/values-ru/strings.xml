@@ -229,4 +229,18 @@
   <string name="action_retry">Повторить</string>
   <string name="card_surname">Фамилия</string>
   <string name="card_given_names">Имя</string>
+  <string name="browser_bookmark_add">Добавить закладку</string>
+  <string name="browser_bookmark_manage">Управление закладками</string>
+  <string name="browser_bookmark_title">Название</string>
+  <string name="browser_bookmark_icon">Значок</string>
+  <string name="browser_bookmark_invalid">Укажите название и корректный адрес HTTP или HTTPS.</string>
+  <string name="browser_bookmark_empty">Нет сохранённых закладок.</string>
+  <string name="browser_bookmark_save">Сохранить</string>
+  <string name="browser_bookmark_icon_globe">Глобус</string>
+  <string name="browser_bookmark_icon_bookmark">Закладка</string>
+  <string name="browser_bookmark_icon_document">Документ</string>
+  <string name="browser_bookmark_icon_person">Человек</string>
+  <string name="browser_bookmark_icon_building">Здание</string>
+  <string name="browser_bookmark_icon_star">Звезда</string>
+  <string name="browser_bookmark_edit">Изменить закладку</string>
 </resources>

@@ -15,10 +15,11 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.webkit.WebStorage
+import androidx.compose.material.icons.outlined.Add
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Delete
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.ui.semantics.Role
 import androidx.compose.material.icons.Icons
@@ -32,12 +33,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import md.moldsign.app.R
+import md.moldsign.app.application.BookmarkUrl
+import md.moldsign.app.application.BrowserBookmark
+import md.moldsign.app.infrastructure.BrowserBookmarksStore
 import java.util.Locale
 
 private const val DESKTOP_USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
@@ -47,19 +50,24 @@ private val desktopLoginHosts = setOf("mpass.gov.md", "testmpass.gov.md", "mpass
 private fun needsDesktopLogin(url: String): Boolean =
     Uri.parse(url).host?.lowercase(Locale.ROOT) in desktopLoginHosts
 
-private fun browserUrl(input: String): String? {
-    val value = input.trim()
-    if (value.isEmpty() || value.any { it.isWhitespace() }) return null
-    val withScheme = if (value.contains("://")) value else "https://$value"
-    val uri = Uri.parse(withScheme)
-    return withScheme.takeIf { uri.scheme?.lowercase(Locale.ROOT) in setOf("https", "http") && !uri.host.isNullOrBlank() && uri.userInfo == null }
-}
+private fun browserUrl(input: String): String? = BookmarkUrl.normalize(input)
 
 @Composable
 fun InAppBrowser(onClose: () -> Unit) {
     val context = LocalContext.current
     var address by remember { mutableStateOf("https://msign.gov.md/#/") }
     var servicesExpanded by remember { mutableStateOf(false) }
+    val defaultBookmarks = PortalService.all.map { service ->
+        BrowserBookmark("builtin:${service.url}", service.name ?: stringResource(service.titleResource!!),
+            service.url, builtinImage = service.imageResource)
+    }
+    val bookmarkStore = remember(context.applicationContext, defaultBookmarks) {
+        BrowserBookmarksStore(context, defaultBookmarks)
+    }
+    var bookmarks by remember(bookmarkStore) { mutableStateOf(bookmarkStore.load()) }
+    var showingBookmarkManager by remember { mutableStateOf(false) }
+    var showingBookmarkEditor by remember { mutableStateOf(false) }
+    var editingBookmark by remember { mutableStateOf<BrowserBookmark?>(null) }
     var showingDataReset by remember { mutableStateOf(false) }
     var clearCache by remember { mutableStateOf(true) }
     var clearCookies by remember { mutableStateOf(true) }
@@ -238,6 +246,27 @@ fun InAppBrowser(onClose: () -> Unit) {
             }
         } else finishReset()
     }
+    if (showingBookmarkManager && !showingBookmarkEditor) {
+        ManageBookmarksDialog(
+            bookmarks = bookmarks,
+            onDismiss = { showingBookmarkManager = false },
+            onEdit = { bookmark -> editingBookmark = bookmark; showingBookmarkEditor = true },
+            onRemove = { bookmark -> bookmarkStore.remove(bookmark); bookmarks = bookmarkStore.load() },
+        )
+    }
+    if (showingBookmarkEditor) {
+        EditBookmarkDialog(
+            existing = editingBookmark,
+            initialUrl = address,
+            onDismiss = { showingBookmarkEditor = false },
+            onSave = { title, url, icon, keepWebsiteImage ->
+                if (bookmarkStore.addOrUpdate(editingBookmark, title, url, icon, keepWebsiteImage)) {
+                    bookmarks = bookmarkStore.load()
+                    showingBookmarkEditor = false
+                }
+            },
+        )
+    }
     if (showingDataReset) {
         AlertDialog(
             onDismissRequest = { if (!clearingData) showingDataReset = false },
@@ -288,16 +317,26 @@ fun InAppBrowser(onClose: () -> Unit) {
                         leadingIcon = { Icon(Icons.Outlined.Delete, contentDescription = null) },
                         onClick = { servicesExpanded = false; showingDataReset = true },
                     )
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.browser_bookmark_add)) },
+                        leadingIcon = { Icon(Icons.Outlined.Add, contentDescription = null) },
+                        onClick = { servicesExpanded = false; editingBookmark = null; showingBookmarkEditor = true },
+                    )
+                    DropdownMenuItem(
+                        text = { Text(stringResource(R.string.browser_bookmark_manage)) },
+                        leadingIcon = { Icon(Icons.Outlined.Edit, contentDescription = null) },
+                        onClick = { servicesExpanded = false; showingBookmarkManager = true },
+                    )
                     HorizontalDivider()
-                    PortalService.all.forEach { service ->
+                    bookmarks.forEach { bookmark ->
                         DropdownMenuItem(
-                            text = { Text(service.name ?: stringResource(service.titleResource!!)) },
-                            leadingIcon = { Image(painterResource(service.imageResource), contentDescription = null, modifier = Modifier.size(20.dp)) },
+                            text = { Text(bookmark.title) },
+                            leadingIcon = { BookmarkImage(bookmark, Modifier.size(20.dp)) },
                             onClick = {
                                 servicesExpanded = false
                                 invalidAddress = false
-                                address = service.url
-                                webView.loadUrl(service.url)
+                                address = bookmark.url
+                                webView.loadUrl(bookmark.url)
                             },
                         )
                     }

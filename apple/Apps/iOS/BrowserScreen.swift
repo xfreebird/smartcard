@@ -9,6 +9,8 @@ struct BrowserScreen: View {
     @State private var address = "https://msign.gov.md/#/"
     @State private var addressError = false
     @State private var showingDataReset = false
+    @State private var bookmarks = BrowserBookmarks()
+    @State private var showingBookmarks = false
     @State private var clearCache = true
     @State private var clearCookies = true
     @State private var clearHistory = true
@@ -52,16 +54,14 @@ struct BrowserScreen: View {
                             Label(L10n.text(.browser_clear_data), systemImage: "trash")
                         }
                         Divider()
-                        ForEach(PortalService.all) { service in
-                            Button { browser.open(service.url) } label: {
-                                Label {
-                                Text(service.title)
-                            } icon: {
-                                Image(service.imageName).resizable().renderingMode(.original)
-                                    .scaledToFit().frame(width: 18, height: 18)
-                            }
+                        ForEach(bookmarks.items) { item in
+                            Button { browser.open(item.url) } label: {
+                                Label { Text(item.title) } icon: { BookmarkIcon(bookmark: item) }
                             }
                         }
+                        Divider()
+                        Button(L10n.text(.browser_bookmark_add)) { showingBookmarks = true }
+                        Button(L10n.text(.browser_bookmark_manage)) { showingBookmarks = true }
                     } label: {
                         Label(L10n.text(.browser_services), systemImage: "bookmark")
                     }.disabled(model.demoMode)
@@ -83,6 +83,10 @@ struct BrowserScreen: View {
                         ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
                     }
                 }
+            }
+            .sheet(isPresented: $showingBookmarks) {
+                BookmarkManager(bookmarks: bookmarks, currentURL: browser.url, currentTitle: browser.webView.title)
+                    .appPreferences()
             }
             .sheet(isPresented: $showingDataReset) {
                 NavigationStack {

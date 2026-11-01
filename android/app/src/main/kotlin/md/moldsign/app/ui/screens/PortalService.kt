@@ -9,8 +9,6 @@ internal data class PortalService(val name: String?, val titleResource: Int?, va
             PortalService("MSign", null, "https://msign.gov.md/#/", R.drawable.portal_service_msign),
             PortalService("EVO", null, "https://evo.gov.md/", R.drawable.portal_service_evo),
             PortalService("eVMS", null, "https://evms.md/", R.drawable.portal_service_evms),
-            PortalService("MCabinet", null, "https://mcabinet.gov.md/", R.drawable.portal_service_evo),
-            PortalService(null, R.string.browser_public_services, "https://servicii.gov.md/", R.drawable.portal_service_evo),
             PortalService("MPay", null, "https://mpay.gov.md/", R.drawable.portal_service_mpay),
         )
     }

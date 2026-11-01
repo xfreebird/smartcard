@@ -8744,6 +8744,258 @@
         "en": "An update is available. The download page has been opened.",
         "ru": "Доступно обновление. Открыта страница загрузки."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_add",
+      "translations": {
+        "ro": "Adaugă marcaj",
+        "en": "Add bookmark",
+        "ru": "Добавить закладку"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_manage",
+      "translations": {
+        "ro": "Gestionează marcajele",
+        "en": "Manage bookmarks",
+        "ru": "Управление закладками"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_title",
+      "translations": {
+        "ro": "Titlu",
+        "en": "Title",
+        "ru": "Название"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon",
+      "translations": {
+        "ro": "Pictogramă",
+        "en": "Icon",
+        "ru": "Значок"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_invalid",
+      "translations": {
+        "ro": "Introdu un titlu și o adresă HTTP sau HTTPS validă.",
+        "en": "Enter a title and a valid HTTP or HTTPS address.",
+        "ru": "Укажите название и корректный адрес HTTP или HTTPS."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_empty",
+      "translations": {
+        "ro": "Nu ai marcaje salvate.",
+        "en": "No saved bookmarks.",
+        "ru": "Нет сохранённых закладок."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_save",
+      "translations": {
+        "ro": "Salvează",
+        "en": "Save",
+        "ru": "Сохранить"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon_globe",
+      "translations": {
+        "ro": "Glob",
+        "en": "Globe",
+        "ru": "Глобус"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon_bookmark",
+      "translations": {
+        "ro": "Marcaj",
+        "en": "Bookmark",
+        "ru": "Закладка"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon_document",
+      "translations": {
+        "ro": "Document",
+        "en": "Document",
+        "ru": "Документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon_person",
+      "translations": {
+        "ro": "Persoană",
+        "en": "Person",
+        "ru": "Человек"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon_building",
+      "translations": {
+        "ro": "Instituție",
+        "en": "Building",
+        "ru": "Здание"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_icon_star",
+      "translations": {
+        "ro": "Stea",
+        "en": "Star",
+        "ru": "Звезда"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_add",
+      "translations": {
+        "ro": "Adaugă marcaj",
+        "en": "Add bookmark",
+        "ru": "Добавить закладку"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_manage",
+      "translations": {
+        "ro": "Gestionează marcajele",
+        "en": "Manage bookmarks",
+        "ru": "Управление закладками"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_title",
+      "translations": {
+        "ro": "Titlu",
+        "en": "Title",
+        "ru": "Название"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon",
+      "translations": {
+        "ro": "Pictogramă",
+        "en": "Icon",
+        "ru": "Значок"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_invalid",
+      "translations": {
+        "ro": "Introdu un titlu și o adresă HTTP sau HTTPS validă.",
+        "en": "Enter a title and a valid HTTP or HTTPS address.",
+        "ru": "Укажите название и корректный адрес HTTP или HTTPS."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_empty",
+      "translations": {
+        "ro": "Nu ai marcaje salvate.",
+        "en": "No saved bookmarks.",
+        "ru": "Нет сохранённых закладок."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_save",
+      "translations": {
+        "ro": "Salvează",
+        "en": "Save",
+        "ru": "Сохранить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon_globe",
+      "translations": {
+        "ro": "Glob",
+        "en": "Globe",
+        "ru": "Глобус"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon_bookmark",
+      "translations": {
+        "ro": "Marcaj",
+        "en": "Bookmark",
+        "ru": "Закладка"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon_document",
+      "translations": {
+        "ro": "Document",
+        "en": "Document",
+        "ru": "Документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon_person",
+      "translations": {
+        "ro": "Persoană",
+        "en": "Person",
+        "ru": "Человек"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon_building",
+      "translations": {
+        "ro": "Instituție",
+        "en": "Building",
+        "ru": "Здание"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_icon_star",
+      "translations": {
+        "ro": "Stea",
+        "en": "Star",
+        "ru": "Звезда"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_bookmark_edit",
+      "translations": {
+        "ro": "Editează marcajul",
+        "en": "Edit bookmark",
+        "ru": "Изменить закладку"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bookmark_edit",
+      "translations": {
+        "ro": "Editează marcajul",
+        "en": "Edit bookmark",
+        "ru": "Изменить закладку"
+      }
     }
   ],
   "storeMetadata": {

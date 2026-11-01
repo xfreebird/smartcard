@@ -223,4 +223,18 @@
   <string name="action_retry">Retry</string>
   <string name="card_surname">Surname</string>
   <string name="card_given_names">Given names</string>
+  <string name="browser_bookmark_add">Add bookmark</string>
+  <string name="browser_bookmark_manage">Manage bookmarks</string>
+  <string name="browser_bookmark_title">Title</string>
+  <string name="browser_bookmark_icon">Icon</string>
+  <string name="browser_bookmark_invalid">Enter a title and a valid HTTP or HTTPS address.</string>
+  <string name="browser_bookmark_empty">No saved bookmarks.</string>
+  <string name="browser_bookmark_save">Save</string>
+  <string name="browser_bookmark_icon_globe">Globe</string>
+  <string name="browser_bookmark_icon_bookmark">Bookmark</string>
+  <string name="browser_bookmark_icon_document">Document</string>
+  <string name="browser_bookmark_icon_person">Person</string>
+  <string name="browser_bookmark_icon_building">Building</string>
+  <string name="browser_bookmark_icon_star">Star</string>
+  <string name="browser_bookmark_edit">Edit bookmark</string>
 </resources>

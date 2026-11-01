@@ -12,8 +12,6 @@ struct PortalService: Identifiable {
         .init(id: "msign", name: "MSign", titleKey: nil, url: URL(string: "https://msign.gov.md/#/")!, imageName: "PortalService_msign"),
         .init(id: "evo", name: "EVO", titleKey: nil, url: URL(string: "https://evo.gov.md/")!, imageName: "PortalService_evo"),
         .init(id: "evms", name: "eVMS", titleKey: nil, url: URL(string: "https://evms.md/")!, imageName: "PortalService_evms"),
-        .init(id: "mcabinet", name: "MCabinet", titleKey: nil, url: URL(string: "https://mcabinet.gov.md/")!, imageName: "PortalService_evo"),
-        .init(id: "services", name: nil, titleKey: .browser_public_services, url: URL(string: "https://servicii.gov.md/")!, imageName: "PortalService_evo"),
         .init(id: "mpay", name: "MPay", titleKey: nil, url: URL(string: "https://mpay.gov.md/")!, imageName: "PortalService_mpay"),
     ]
 }

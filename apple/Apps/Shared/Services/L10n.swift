@@ -239,6 +239,20 @@ enum L10n {
         case update_failed
         case vendor_desktop_access
         case vendor_desktop_access_detail
+        case browser_bookmark_add
+        case browser_bookmark_manage
+        case browser_bookmark_title
+        case browser_bookmark_icon
+        case browser_bookmark_invalid
+        case browser_bookmark_empty
+        case browser_bookmark_save
+        case browser_bookmark_icon_globe
+        case browser_bookmark_icon_bookmark
+        case browser_bookmark_icon_document
+        case browser_bookmark_icon_person
+        case browser_bookmark_icon_building
+        case browser_bookmark_icon_star
+        case browser_bookmark_edit
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

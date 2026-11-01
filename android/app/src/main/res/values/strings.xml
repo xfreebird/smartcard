@@ -226,4 +226,18 @@
   <string name="action_retry">Reîncearcă</string>
   <string name="card_surname">Numele/Surname</string>
   <string name="card_given_names">Prenumele/Given name(s)</string>
+  <string name="browser_bookmark_add">Adaugă marcaj</string>
+  <string name="browser_bookmark_manage">Gestionează marcajele</string>
+  <string name="browser_bookmark_title">Titlu</string>
+  <string name="browser_bookmark_icon">Pictogramă</string>
+  <string name="browser_bookmark_invalid">Introdu un titlu și o adresă HTTP sau HTTPS validă.</string>
+  <string name="browser_bookmark_empty">Nu ai marcaje salvate.</string>
+  <string name="browser_bookmark_save">Salvează</string>
+  <string name="browser_bookmark_icon_globe">Glob</string>
+  <string name="browser_bookmark_icon_bookmark">Marcaj</string>
+  <string name="browser_bookmark_icon_document">Document</string>
+  <string name="browser_bookmark_icon_person">Persoană</string>
+  <string name="browser_bookmark_icon_building">Instituție</string>
+  <string name="browser_bookmark_icon_star">Stea</string>
+  <string name="browser_bookmark_edit">Editează marcajul</string>
 </resources>
