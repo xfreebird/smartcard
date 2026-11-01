@@ -14,6 +14,8 @@ variant,app,entitlements=sys.argv[1:]
 app=pathlib.Path(app)
 values=plistlib.loads(pathlib.Path(entitlements).read_bytes())
 store=variant=='store'
+info=plistlib.loads((app/'Contents/Info.plist').read_bytes())
+assert info.get('ITSAppUsesNonExemptEncryption') is False, 'Missing owner-declared exempt-encryption default'
 assert bool(values.get('com.apple.security.app-sandbox')) == store, 'Wrong sandbox entitlement for distribution'
 assert (app/'Contents/Resources/localhost.p12').exists(), 'Missing loopback TLS identity'
 for resource in ('Contents/Helpers/esemnbun-reader-watcher','Contents/Library/LaunchAgents/md.esemnbun.reader-watcher.plist'):

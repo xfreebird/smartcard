@@ -69,3 +69,12 @@ storage (owner only; `force:true` refreshes the profile). CI runs
 For an isolated local signing keychain set the match `MATCH_KEYCHAIN_NAME` and
 `MATCH_KEYCHAIN_PASSWORD` variables, plus `ESEMNBUN_SIGNING_KEYCHAIN` for codesign.
 The existing Developer ID lane and desktop packaging remain independent.
+
+Export-compliance default (1 November 2026): the owner selected the exempt response,
+“None of the algorithms mentioned above.” Both iOS/iPadOS and macOS app plists, plus
+the iOS share extension, declare `ITSAppUsesNonExemptEncryption = NO`. This means
+no **non-exempt** encryption; it does not mean the app has no cryptographic functions.
+The macOS distribution verifier checks that the processed bundle retains this Boolean.
+App Store Connect build 100 was read back for both apps: `usesNonExemptEncryption=false`.
+The iOS build already declared it; the existing macOS build's unset value was updated
+through Apple's API. Future uploads carry the declaration in their binaries.

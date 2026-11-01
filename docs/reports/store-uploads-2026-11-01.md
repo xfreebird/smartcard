@@ -34,3 +34,12 @@ Reserved esemnbun.md support/privacy/terms pages need published content before r
 ## Target-platform description audit
 
 The public Apple and Windows descriptions were read back after upload: seven Apple locale/platform combinations and all three Windows descriptions contain no other OS names. Android's saved descriptions use the target-specific Android exports. The exporter now rejects foreign platform names in generated descriptions and removes all other-platform notes from Microsoft/Huawei JSON payloads. The shared localization source intentionally retains the source notes needed to generate each separate platform.
+
+## Export compliance default
+
+Following the owner's explicit exemption selection, both App Store Connect build 100
+records were read back with `usesNonExemptEncryption=false`. iOS was already false;
+macOS was unset and was updated to false. Future Mac and iOS/share-extension bundles
+carry `ITSAppUsesNonExemptEncryption=false`; macOS distribution validation enforces it.
+Plist lint and shell syntax pass, and the uploaded iOS IPA confirms the Boolean flag.
+The existing Mac binary was not replaced; its server-side build declaration is saved.
