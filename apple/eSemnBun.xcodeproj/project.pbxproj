@@ -11,6 +11,7 @@
 		74A873709C5AAAA449081549 /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 396DE1DA3F8E87AE2E83E516 /* MoldSignKit */; };
 		7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE1540A69DD726BA154AB629 /* MoldSignKit */; };
 		5E1B0C7A2D4F4E8A9B3C6D11 /* localhost.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */; };
+		5E1B0C7A2D4F4E8A9B3C6D12 /* localhost.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -298,6 +299,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E1B0C7A2D4F4E8A9B3C6D12 /* localhost.p12 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

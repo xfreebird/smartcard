@@ -65,6 +65,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -522,10 +523,17 @@ private fun activityTime(millis: Long): String {
 @Composable
 fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit) {
     val running by vm.bridgeRunning.collectAsStateWithLifecycle()
+    val startupFailed by vm.bridgeStartupFailed.collectAsStateWithLifecycle()
     val wallet by vm.status.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val status = LocalStatusColors.current
     val notifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.setBridge(true) }
+    var inAppBrowser by remember { mutableStateOf(false) }
+    LaunchedEffect(vm.demoMode) { if (vm.demoMode) inAppBrowser = false }
+    if (inAppBrowser && !vm.demoMode) {
+        InAppBrowser(onClose = { inAppBrowser = false })
+        return
+    }
 
     ScreenColumn(padding, fullWidth = true) {
         CardWallet(
@@ -547,8 +555,8 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                     headlineContent = { Text(stringResource(R.string.bridge_toggle)) },
                     supportingContent = {
                         Text(
-                            stringResource(if (running) R.string.bridge_on else R.string.bridge_off),
-                            color = if (running) status.success else MaterialTheme.colorScheme.onSurfaceVariant,
+                            stringResource(if (startupFailed) R.string.browser_bridge_failed else if (running) R.string.bridge_on else R.string.bridge_off),
+                            color = if (startupFailed) MaterialTheme.colorScheme.error else if (running) status.success else MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     },
                     trailingContent = {
@@ -573,8 +581,12 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                     modifier = Modifier.padding(start = Tokens.S4, end = Tokens.S4, bottom = Tokens.S4),
                 )
             }
+            Button(onClick = { inAppBrowser = true }, enabled = !vm.demoMode, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.browser_open_in_app))
+            }
             FilledTonalButton(
                 onClick = { context.startActivity(Intent(Intent.ACTION_VIEW, "https://msign.gov.md".toUri())) },
+                enabled = !vm.demoMode,
                 modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(stringResource(R.string.action_open_portal))

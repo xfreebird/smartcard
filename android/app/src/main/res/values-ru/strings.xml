@@ -204,4 +204,18 @@
   <string name="demo_mode_enable">Включить деморежим</string>
   <string name="demo_mode_confirm">Включить деморежим? Реальные считыватели и соединение с браузером будут остановлены. Будут использоваться только вымышленные карты и документы.</string>
   <string name="settings_general">Общие</string>
+  <string name="browser_address">Адрес сайта</string>
+  <string name="browser_go">Перейти</string>
+  <string name="browser_back">Назад</string>
+  <string name="browser_forward">Вперёд</string>
+  <string name="browser_reload">Обновить</string>
+  <string name="browser_open_in_app">Открыть в браузере приложения</string>
+  <string name="browser_invalid_address">Введите корректный адрес HTTP или HTTPS</string>
+  <string name="browser_close">Закрыть браузер</string>
+  <string name="browser_login_desktop">Версия для компьютера для входа по удостоверению</string>
+  <string name="browser_bridge_failed">Не удалось запустить защищённое соединение браузера. Проверьте сертификат localhost и порт.</string>
+  <string name="browser_load_error">Не удалось загрузить страницу. Проверьте адрес и подключение.</string>
+  <string name="browser_download_started">Загрузка началась</string>
+  <string name="browser_download_failed">Не удалось загрузить файл.</string>
+  <string name="browser_download_signin">Для загрузки с авторизацией откройте сайт во внешнем браузере.</string>
 </resources>

@@ -66,6 +66,8 @@ import kotlin.concurrent.thread
  */
 class BridgeService : Service() {
     private var servers: List<BridgeServer> = emptyList()
+    private val lifecycleLock = Any()
+    private var destroyed = false
     private var routes: SigningBridgeRoutes? = null
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var statusJob: Job? = null
@@ -92,22 +94,36 @@ class BridgeService : Service() {
             val tls = runCatching { BridgeTls.vendorContext() }
                 .onFailure { Log.w(TAG, "TLS identity not loaded: ${it.javaClass.simpleName}: ${it.message}") }
                 .getOrNull()
+            if (tls == null) {
+                _startupFailed.value = true
+                stopSelf()
+                return START_NOT_STICKY
+            }
             val http = BridgeServer(policy, routes, BridgeServer.DEFAULT_HTTP_PORT, log = { Log.i(TAG, it) })
-            val https = tls?.let { BridgeServer(policy, routes, BridgeServer.DEFAULT_TLS_PORT, tls = it, log = { m -> Log.i(TAG, m) }) }
-            servers = listOfNotNull(http, https)
+            val https = BridgeServer(policy, routes, BridgeServer.DEFAULT_TLS_PORT, tls = tls, log = { Log.i(TAG, it) })
+            servers = listOf(https, http)
+            _startupFailed.value = false
             thread(name = "bridge-start", isDaemon = true) {
-                // Each listener on its own: a port taken by another bridge must not stop the other one.
-                val started = servers.count { server ->
+                // The portals require HTTPS; an HTTP-only listener must never appear usable.
+                // Serializing start and destruction prevents a stopped service reopening a port.
+                synchronized(lifecycleLock) {
+                    if (destroyed) return@synchronized
                     try {
-                        server.start()
-                        true
+                        https.start()
                     } catch (e: Exception) {
-                        Log.w(TAG, "bridge listener failed to start: ${e.message}")
-                        false
+                        Log.w(TAG, "secure bridge listener failed to start: ${e.message}")
+                        _startupFailed.value = true
+                        _running.value = false
+                        stopSelf()
+                        return@synchronized
                     }
+                    try {
+                        http.start()
+                    } catch (e: Exception) {
+                        Log.w(TAG, "optional HTTP bridge listener failed to start: ${e.message}")
+                    }
+                    _running.value = https.isRunning
                 }
-                _running.value = started > 0
-                if (started == 0) stopSelf()
             }
         }
         return START_STICKY
@@ -115,8 +131,12 @@ class BridgeService : Service() {
 
     override fun onDestroy() {
         serviceScope.cancel()
-        servers.forEach { it.close() }
-        servers = emptyList()
+        synchronized(lifecycleLock) {
+            destroyed = true
+            servers.forEach { it.close() }
+            servers = emptyList()
+            _running.value = false
+        }
         routes?.close()
         routes = null
         cancelConsentNotification()
@@ -238,14 +258,18 @@ class BridgeService : Service() {
 
         private val _running = MutableStateFlow(false)
         val running: StateFlow<Boolean> = _running.asStateFlow()
+        private val _startupFailed = MutableStateFlow(false)
+        val startupFailed: StateFlow<Boolean> = _startupFailed.asStateFlow()
 
         fun start(context: Context) {
+            _startupFailed.value = false
             ContextCompat.startForegroundService(context, Intent(context, BridgeService::class.java))
         }
 
         // Lint's ImplicitSamInstance fires here by mistake: stopService matches the component, not the instance.
         @SuppressLint("ImplicitSamInstance")
         fun stop(context: Context) {
+            _startupFailed.value = false
             context.stopService(Intent(context, BridgeService::class.java))
         }
     }

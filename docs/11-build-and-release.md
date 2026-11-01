@@ -4,6 +4,8 @@ Per-platform commands, what each package script produces, and how signing is wir
 `dist/` (git-ignored). Signing material is **never** in the repo: scripts read it from the environment.
 Plan items: MAC-15, IOS-10, AND-10, WIN-08, CLI-04, LNX-07, LNX-13.
 
+Both Apple app targets copy the existing vendor `swift/MoldSignKit/Resources/localhost.p12` into the app bundle (D-03). The iOS in-app browser needs the same HTTPS bridge as desktop portals; startup fails visibly if the identity is absent or invalid. This is the vendor localhost identity already distributed with the other platforms, not a user signing key. Keep the identity out of public repositories; bundling intentionally makes it available to app recipients. WebViews use normal system TLS validation, with no certificate-error bypass.
+
 | Platform | Build / test | Package | Output (`dist/…`) | Signing inputs |
 |---|---|---|---|---|
 | Swift core + CLI (macOS) | `cd swift/MoldSignKit && swift test` (`MSIGN_NETWORK_TESTS=1` for live PKI) | part of `scripts/package-macos.sh` | `macos/esemnbun-<ver>-macos-universal.tar.gz` | `MACOS_SIGN_IDENTITY` |

@@ -201,4 +201,18 @@
   <string name="demo_mode_enable">Activează modul demonstrativ</string>
   <string name="demo_mode_confirm">Activezi modul demonstrativ? Cititoarele reale și conexiunea browser vor fi oprite. Vor fi utilizate numai date și documente fictive.</string>
   <string name="settings_general">General</string>
+  <string name="browser_address">Adresa site-ului</string>
+  <string name="browser_go">Accesează</string>
+  <string name="browser_back">Înapoi</string>
+  <string name="browser_forward">Înainte</string>
+  <string name="browser_reload">Reîncarcă</string>
+  <string name="browser_open_in_app">Deschide în browserul aplicației</string>
+  <string name="browser_invalid_address">Introdu o adresă HTTP sau HTTPS validă</string>
+  <string name="browser_close">Închide browserul</string>
+  <string name="browser_login_desktop">Vizualizare desktop pentru autentificarea cu buletinul</string>
+  <string name="browser_bridge_failed">Conexiunea securizată pentru browser nu a putut fi pornită. Verifică certificatul localhost și portul.</string>
+  <string name="browser_load_error">Pagina nu a putut fi încărcată. Verifică adresa și conexiunea.</string>
+  <string name="browser_download_started">Descărcarea a început</string>
+  <string name="browser_download_failed">Fișierul nu a putut fi descărcat.</string>
+  <string name="browser_download_signin">Pentru descărcări care necesită autentificare, deschide site-ul în browserul extern.</string>
 </resources>

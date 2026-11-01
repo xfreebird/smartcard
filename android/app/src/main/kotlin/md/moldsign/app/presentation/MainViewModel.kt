@@ -69,6 +69,7 @@ class MainViewModel @JvmOverloads constructor(
     val progress = container.signingService.progress
     val pendingConsent = container.consentBroker.pending
     val bridgeRunning = BridgeService.running
+    val bridgeStartupFailed = BridgeService.startupFailed
     val pinVaultAvailable: Boolean get() = !demoMode && container.pinVault.isAvailable()
     val activity: StateFlow<List<ActivityEntry>> = container.activity.entries
 

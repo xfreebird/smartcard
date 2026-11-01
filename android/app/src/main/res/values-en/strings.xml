@@ -198,4 +198,18 @@
   <string name="demo_mode_enable">Enable demo mode</string>
   <string name="demo_mode_confirm">Enter demo mode? Real readers and the browser connection will stop. Only fictional cards and sample documents will be used.</string>
   <string name="settings_general">General</string>
+  <string name="browser_address">Website address</string>
+  <string name="browser_go">Go</string>
+  <string name="browser_back">Back</string>
+  <string name="browser_forward">Forward</string>
+  <string name="browser_reload">Reload</string>
+  <string name="browser_open_in_app">Open in app browser</string>
+  <string name="browser_invalid_address">Enter a valid HTTP or HTTPS address</string>
+  <string name="browser_close">Close browser</string>
+  <string name="browser_login_desktop">Desktop view for ID login</string>
+  <string name="browser_bridge_failed">Could not start the secure browser connection. Check the localhost certificate and port.</string>
+  <string name="browser_load_error">Could not load this page. Check the address and connection.</string>
+  <string name="browser_download_started">Download started</string>
+  <string name="browser_download_failed">Could not download this file.</string>
+  <string name="browser_download_signin">For signed-in downloads, open the site in your external browser.</string>
 </resources>

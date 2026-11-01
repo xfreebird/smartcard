@@ -99,8 +99,13 @@ class BridgeServer(
     fun start(): Int {
         serverSocket?.let { if (!it.isClosed) return it.localPort }
         val ss = tls?.serverSocketFactory?.createServerSocket() ?: ServerSocket()
-        ss.reuseAddress = true
-        ss.bind(InetSocketAddress(bindAddress, port), 16)
+        try {
+            ss.reuseAddress = true
+            ss.bind(InetSocketAddress(bindAddress, port), 16)
+        } catch (error: Exception) {
+            ss.close()
+            throw error
+        }
         val pool = ThreadPoolExecutor(
             WORKER_THREADS, WORKER_THREADS, 30, TimeUnit.SECONDS, LinkedBlockingQueue(),
         ) { r -> Thread(r, "bridge-http").apply { isDaemon = true } }

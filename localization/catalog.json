@@ -8026,6 +8026,132 @@
       "platform": "windows",
       "key": "Settings_General",
       "translations": {"ro": "General", "en": "General", "ru": "Общие"}
+    },
+    {
+      "platform": "android",
+      "key": "browser_address",
+      "translations": {
+        "ro": "Adresa site-ului",
+        "en": "Website address",
+        "ru": "Адрес сайта"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_go",
+      "translations": {
+        "ro": "Accesează",
+        "en": "Go",
+        "ru": "Перейти"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_back",
+      "translations": {
+        "ro": "Înapoi",
+        "en": "Back",
+        "ru": "Назад"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_forward",
+      "translations": {
+        "ro": "Înainte",
+        "en": "Forward",
+        "ru": "Вперёд"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_reload",
+      "translations": {
+        "ro": "Reîncarcă",
+        "en": "Reload",
+        "ru": "Обновить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_open_in_app",
+      "translations": {
+        "ro": "Deschide în browserul aplicației",
+        "en": "Open in app browser",
+        "ru": "Открыть в браузере приложения"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_invalid_address",
+      "translations": {
+        "ro": "Introdu o adresă HTTP sau HTTPS validă",
+        "en": "Enter a valid HTTP or HTTPS address",
+        "ru": "Введите корректный адрес HTTP или HTTPS"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_close",
+      "translations": {
+        "ro": "Închide browserul",
+        "en": "Close browser",
+        "ru": "Закрыть браузер"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_login_desktop",
+      "translations": {
+        "ro": "Vizualizare desktop pentru autentificarea cu buletinul",
+        "en": "Desktop view for ID login",
+        "ru": "Версия для компьютера для входа по удостоверению"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_bridge_failed",
+      "translations": {
+        "ro": "Conexiunea securizată pentru browser nu a putut fi pornită. Verifică certificatul localhost și portul.",
+        "en": "Could not start the secure browser connection. Check the localhost certificate and port.",
+        "ru": "Не удалось запустить защищённое соединение браузера. Проверьте сертификат localhost и порт."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_load_error",
+      "translations": {
+        "ro": "Pagina nu a putut fi încărcată. Verifică adresa și conexiunea.",
+        "en": "Could not load this page. Check the address and connection.",
+        "ru": "Не удалось загрузить страницу. Проверьте адрес и подключение."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_download_started",
+      "translations": {
+        "ro": "Descărcarea a început",
+        "en": "Download started",
+        "ru": "Загрузка началась"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_download_failed",
+      "translations": {
+        "ro": "Fișierul nu a putut fi descărcat.",
+        "en": "Could not download this file.",
+        "ru": "Не удалось загрузить файл."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_download_signin",
+      "translations": {
+        "ro": "Pentru descărcări care necesită autentificare, deschide site-ul în browserul extern.",
+        "en": "For signed-in downloads, open the site in your external browser.",
+        "ru": "Для загрузки с авторизацией откройте сайт во внешнем браузере."
+      }
     }
   ],
   "storeMetadata": {

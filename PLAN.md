@@ -11,6 +11,20 @@ Last updated: **2026-11-01**
 
 ---
 
+## Mobile browser and MPass — 1 November 2026
+
+- [~] MOB-01 Preserve external-browser signing for split-screen use and offer an in-app browser on
+  Android and iOS with address and history controls. Request the desktop MPass login so the identity
+  card option is available, while retaining the bridge's origin checks and TLS validation. Both
+  in-app browsers send a desktop user agent from their first request to preserve SAML POSTs; Android
+  signed-in downloads currently direct users to an external browser.
+- [~] IOS-06 Bundle the existing localhost TLS identity in iOS and require the HTTPS listener before
+  reporting the bridge as ready. iOS Simulator build includes the identity; real-reader signing
+  and localhost requests from the embedded WebView remain unverified.
+- [~] MOB-02 iPhone simulator redirect to the live MPass login showed the ID-card choice; Android
+  core tests and Debug build pass on the Air. Android WebView interaction, actual eVMS SAML return,
+  browser signing and physical reader/PIN tests remain unverified.
+
 ## Settings, verification and card selection — 1 November 2026
 
 - [~] UI-23 Apply Apple language and theme changes immediately, remove the restart message and the
@@ -374,7 +388,7 @@ Exit criteria: sign a PDF on iPhone over USB-C **and** Lightning adapters; msign
 - [~] IOS-03 Connection guide with adapter tiles + live status banner
 - [~] IOS-04 Document flow: Files picker, "Open in" (`onOpenURL`), results in Documents (visible in Files) + Share
 - [~] IOS-05 Keychain PIN + Face ID (`NSFaceIDUsageDescription` set)
-- [~] IOS-06 In-app browser (WKWebView) on msign.gov.md with the bridge in-process. http :18480 only until the TLS identity question (D-03) is settled
+- [~] IOS-06 In-app browser (WKWebView) and bundled HTTPS bridge for MPass and msign.gov.md; device and real-reader verification pending
 - [ ] IOS-07 Bridge in Split View / Stage Manager (both apps foreground), documented limits (R-01)
 - [ ] IOS-08 Share extension "Semnează" (memory cap, R-06)
 - [ ] IOS-09 NFC research: CosmoX IAS/ECC over contactless? iOS 26 `createNFCSlot` + `iso7816.select-identifiers` (R-03)
@@ -541,6 +555,8 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 ---
 
 ## Progress log
+
+- 2026-11-01: Mobile browser and MPass desktop login follow-up (MOB-01–02, IOS-06).
 
 - 2026-11-01: Settings, About, Verify, reader selection and desktop carousel follow-up (UI-23–25); Apple builds and policy tests passed on the MacBook Air.
 

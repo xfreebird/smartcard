@@ -104,9 +104,13 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     var canGoForward = false
     var loading = false
     var error: String?
+    private let mpassHosts: Set<String> = ["mpass.gov.md", "testmpass.gov.md", "mpass.staging.egov.md"]
 
     override init() {
         super.init()
+        // A redirect or POST may reach MPass before navigation preferences are applied.
+        // Set a desktop user agent from the first request so its login preserves SSO state.
+        webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15"
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.allowsBackForwardNavigationGestures = true
@@ -116,6 +120,16 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
         guard ["https", "http"].contains(url.scheme?.lowercased() ?? L10n.text(.ui_)), webView.url != url else { return }
         self.url = url
         webView.load(URLRequest(url: url))
+    }
+
+    /// MPass's server omits the identity-card option for mobile user agents. Request its
+    /// desktop page before navigation; unrelated sites retain WebKit's recommended mobile mode.
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction,
+                 preferences: WKWebpagePreferences,
+                 decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
+        let host = navigationAction.request.url?.host?.lowercased()
+        preferences.preferredContentMode = host.map(mpassHosts.contains) == true ? .desktop : .recommended
+        decisionHandler(.allow, preferences)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -142,7 +156,7 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     /// A portal's target=_blank links stay inside the foreground app.
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil, let url = navigationAction.request.url { open(url) }
+        if navigationAction.targetFrame == nil { webView.load(navigationAction.request) }
         return nil
     }
 }
