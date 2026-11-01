@@ -20,7 +20,12 @@ android {
         targetSdk = 36
         // ADJ-13: universal APK and Play ABI splits cover ARM and Intel phones/tablets.
         ndk { abiFilters += listOf("armeabi-v7a", "arm64-v8a", "x86", "x86_64") }
-        versionCode = 2
+        val buildNumber = providers.environmentVariable("BUILD_NUMBER").orNull
+        require(buildNumber == null || (buildNumber.matches(Regex("[1-9][0-9]*")) &&
+            buildNumber.toLongOrNull()?.let { it <= 2_100_000_000L } == true)) {
+            "BUILD_NUMBER must be a positive whole number no greater than 2100000000"
+        }
+        versionCode = buildNumber?.toInt() ?: 2
         versionName = "0.2.0"
     }
 

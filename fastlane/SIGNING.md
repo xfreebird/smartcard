@@ -13,7 +13,7 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 | `MATCH_GIT_BASIC_AUTHORIZATION` | base64 `user:token` with **write** access to fastlanecerts (local `certs` / imports only; reading is anonymous) |
 | `MATCH_KEYCHAIN_NAME`, `MATCH_KEYCHAIN_PASSWORD` | optional local keychain for the identities (CI uses `setup_ci`) |
 | `ESEMNBUN_SIGNING_KEYCHAIN` | optional existing isolated keychain path passed explicitly to archive signing |
-| `BUILD_NUMBER` | `CFBundleVersion` of the IPA (CI: `<run number>.<attempt>`, unique for TestFlight) |
+| `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer; CI uses the workflow run number). Retries reuse it; start a new run or supply a higher integer `build_number` workflow input before uploading another build. Marketing versions stay `x.y.z`. |
 
 ```bash
 bundle install

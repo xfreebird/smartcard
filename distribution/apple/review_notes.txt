@@ -1,0 +1,13 @@
+eSemnBun is an independent document-signing utility for the Moldovan electronic identity card. It is not a government app. No app account is required for local signing/verification; third-party websites have their own authentication and terms.
+
+Real signing requires a compatible physical card reader, a Moldovan electronic identity card with an active signing certificate, and the card owner's consent/PIN. NFC is not supported. The developer cannot supply a reusable test PIN or a shared identity account. Please contact the review contact if physical hardware is required for review.
+
+Without hardware: open Settings, enable Demo mode and confirm. The app shows fictional cards and synthetic sample documents. Demo results are previews, not cryptographic signatures. Disable Demo mode to return to real hardware. This mode is also available in production, visibly labelled.
+
+Basic real flow: connect reader, insert card, choose Sign, select files and approve the native consent/PIN request. Use Verify to inspect an existing signed document. Browser opens compatible public-service sites and keeps local bridge authorization explicit. It uses standard TLS verification and origin restrictions.
+
+macOS Store build: sandboxed CryptoTokenKit access, user-selected imports and Save As export; loopback HTTP/HTTPS listeners support browser requests. The bundled localhost.cts.md TLS identity enables the protocol used by compatible public-service sites. The Store build rejects arbitrary filesystem bridge routes and contains no external insertion watcher or vendor process-control feature. The direct-download build has additional desktop integration.
+
+iOS/iPadOS: use USB-C or a supported Lightning reader adapter. The share extension imports documents; reopen the app to sign. Browser signing should run within the embedded browser or with both apps foreground in a supported multitasking layout, because iOS can suspend background apps.
+
+No Sentry SDK, advertising or developer-operated analytics is included. The owner must verify all privacy/export-compliance declarations before submission. Do not copy any personal card details or PIN into review metadata.

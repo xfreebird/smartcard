@@ -1,0 +1,7 @@
+eSemnBun is an independent utility for signing and verifying documents with a compatible USB card reader and Moldovan electronic ID card. It does not represent a government service and has no NFC path.
+
+The packaged desktop process needs full trust for native smart-card access, tray/background behavior, user-selected document processing and the loopback browser-signing service. Requests are origin-restricted and require consent; a wrong PIN is not automatically retried. The Explorer extension passes selected file paths to the app; it does not sign silently. Optional reader-insertion activation is user-configurable.
+
+No card is required to inspect the interface: enable the labelled Demo mode in Settings. This uses fictional cards and simulated results only. Real signing requires the owner's hardware and authorization. No shared government account or reusable card PIN is supplied.
+
+Local signing/verification needs no app account. Public-service browser login is operated by third parties. Timestamp and certificate-status requests need internet access. Store privacy, content rating and runFullTrust declarations must be confirmed by the owner for the submitted binary.

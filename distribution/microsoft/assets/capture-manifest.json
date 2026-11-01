@@ -1,0 +1,158 @@
+[
+  {
+    "file": "distribution/microsoft/assets/ro/01-sign.png",
+    "sourceCapture": "ro-RO/sign.png",
+    "locale": "ro-RO",
+    "page": "sign",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "9f5f451054e4cd0c1ad0f6d459595ee7ceeff7d09cd4fd35c0fdc9d79e767a9d"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/02-card.png",
+    "sourceCapture": "ro-RO/card.png",
+    "locale": "ro-RO",
+    "page": "card",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "1efcec632036f10e42d3ce14828649621b5c13b8125329d6295a5a39c0d036d2"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/03-verify.png",
+    "sourceCapture": "ro-RO/verify.png",
+    "locale": "ro-RO",
+    "page": "verify",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "34daaec4c9a0af5d8ec68bdb0dbdea9fdd49f54eeb6b65a59d94d01dab696b61"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/04-settings.png",
+    "sourceCapture": "ro-RO/settings.png",
+    "locale": "ro-RO",
+    "page": "settings",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "f6d8f84a77105c18038738604e6c52d88323b11be62905da7971814d73250a8a"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/01-sign.png",
+    "sourceCapture": "en-US/sign.png",
+    "locale": "en-US",
+    "page": "sign",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "84ca2e3f03b87994d4f7e5aca889edbb2a152c9283d5efeb9f2756e39bdda15f"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/02-card.png",
+    "sourceCapture": "en-US/card.png",
+    "locale": "en-US",
+    "page": "card",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "a2faf1a961346c2d39abd910f741a6623c66441a361760cd6adcc8532c0e3093"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/03-verify.png",
+    "sourceCapture": "en-US/verify.png",
+    "locale": "en-US",
+    "page": "verify",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "fe845cd613d76f52dac32778eeb91f191bcf36e664ea2c99e46d9215a2961034"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/04-settings.png",
+    "sourceCapture": "en-US/settings.png",
+    "locale": "en-US",
+    "page": "settings",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "1317b19cf799c30927fa9024fa84cadc01c9426524280174bb9bcd5a84fe7906"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/01-sign.png",
+    "sourceCapture": "ru-RU/sign.png",
+    "locale": "ru-RU",
+    "page": "sign",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "fe24ce0be7bc0fe577a8a7340042728142454374cc79138bdac437e78869d30b"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/02-card.png",
+    "sourceCapture": "ru-RU/card.png",
+    "locale": "ru-RU",
+    "page": "card",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "7182555cf408c8b14e15ce0d3e3d81ec34bd17ed9f0c10ffc526363478a64610"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/03-verify.png",
+    "sourceCapture": "ru-RU/verify.png",
+    "locale": "ru-RU",
+    "page": "verify",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "a36f3e827a9bfc8f9c74d10d80d01a7b9d7889bad51223181e41f992492970e9"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/04-settings.png",
+    "sourceCapture": "ru-RU/settings.png",
+    "locale": "ru-RU",
+    "page": "settings",
+    "dimensions": [
+      1368,
+      909
+    ],
+    "captureOnlyDemoBannerSuppression": true,
+    "executableSha256": "93D13C5233CC1538A601C343C8146DFB435EC50522ADD67541D9FBF1E26E0252",
+    "sha256": "6b82a6d1275e3d7dc03646a3ef7d48ab7f3266d3b00afee1e7d3a4d10379030a"
+  }
+]

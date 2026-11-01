@@ -21,7 +21,7 @@ struct MacBrowserScreen: View {
                 Text(L10n.text(.ui_enter_a_valid_web_address_https))
                     .foregroundStyle(Theme.warning).font(.caption).padding(8)
             }
-            if model.demoMode {
+            if model.showsDemoNotice {
                 ContentUnavailableView(L10n.text(.demo_banner), systemImage: "sparkles",
                                        description: Text(L10n.text(.demo_settings_description)))
             } else {
@@ -37,25 +37,25 @@ struct MacBrowserScreen: View {
             ToolbarItemGroup(placement: .navigation) {
                 Button { browser.webView.goBack() } label: { Image(systemName: "chevron.left") }
                     .help(L10n.text(.ui_back)).accessibilityLabel(L10n.text(.ui_back))
-                    .disabled(model.demoMode || !browser.canGoBack)
+                    .disabled(model.showsDemoNotice || !browser.canGoBack)
                 Button { browser.webView.goForward() } label: { Image(systemName: "chevron.right") }
                     .help(L10n.text(.ui_forward)).accessibilityLabel(L10n.text(.ui_forward))
-                    .disabled(model.demoMode || !browser.canGoForward)
+                    .disabled(model.showsDemoNotice || !browser.canGoForward)
             }
             ToolbarItem(placement: .principal) {
                 TextField(L10n.text(.ui_https_example_md), text: $address)
                     .textFieldStyle(.roundedBorder).onSubmit(openAddress)
                     .frame(minWidth: 160, idealWidth: 300, maxWidth: 440)
                     .accessibilityLabel(L10n.text(.ui_open_an_address))
-                    .disabled(model.demoMode)
+                    .disabled(model.showsDemoNotice)
             }
             ToolbarItemGroup(placement: .primaryAction) {
                 Button(action: openAddress) { Image(systemName: "arrow.right") }
                     .help(L10n.text(.ui_open)).accessibilityLabel(L10n.text(.ui_open))
-                    .disabled(model.demoMode)
+                    .disabled(model.showsDemoNotice)
                 Button { browser.webView.reload() } label: { Image(systemName: "arrow.clockwise") }
                     .help(L10n.text(.ui_reload)).accessibilityLabel(L10n.text(.ui_reload))
-                    .disabled(model.demoMode)
+                    .disabled(model.showsDemoNotice)
                 Menu {
                     ForEach(PortalService.all) { service in
                         Button { browser.open(service.url) } label: {
@@ -70,7 +70,7 @@ struct MacBrowserScreen: View {
                     Button(L10n.text(.browser_clear_data)) { showBrowserData = true }
                 } label: { Image(systemName: "bookmark") }
                     .help(L10n.text(.browser_services)).accessibilityLabel(L10n.text(.browser_services))
-                    .disabled(model.demoMode)
+                    .disabled(model.showsDemoNotice)
                 if browser.loading || clearingData { ProgressView().controlSize(.small) }
                 Button {
                     if !model.demoMode && !model.bridgeEnabled { model.bridgeEnabled = true }
@@ -81,7 +81,7 @@ struct MacBrowserScreen: View {
                 }
                 .help(L10n.text(model.bridgeState == .running ? .ui_browser_connection_on : .ui_browser_connection_off))
                 .accessibilityLabel(L10n.text(model.bridgeState == .running ? .ui_browser_connection_on : .ui_browser_connection_off))
-                .disabled(model.demoMode || model.bridgeState == .running)
+                .disabled(model.showsDemoNotice || model.bridgeState == .running)
             }
         }
 
@@ -130,7 +130,7 @@ struct MacBrowserScreen: View {
     }
 
     private func openInitialPage() {
-        guard !model.demoMode else { return }
+        guard !model.demoMode || model.isScreenshotCapture else { return }
         if model.bridgeEnabled { model.startBridge() }
         if browser.url == nil && !browser.initialPageRequested {
             browser.initialPageRequested = true
@@ -144,7 +144,7 @@ struct MacBrowserScreen: View {
     }
 
     private func openAddress() {
-        guard !model.demoMode else { return }
+        guard !model.demoMode || model.isScreenshotCapture else { return }
         let raw = address.trimmingCharacters(in: .whitespacesAndNewlines)
         let candidate = raw.contains("://") ? raw : "https://" + raw
         guard let url = URL(string: candidate), MacPortalBrowser.isWebURL(url),

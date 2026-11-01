@@ -111,8 +111,21 @@ final class AppModel {
     /// Menu-bar dot (docs/10 §0.2b, UX-11): green while a card is inserted (reading, ready or signing), gray otherwise.
     var cardConnected: Bool { cards.contains { $0.problem == nil } }
 
+    /// Only isolated Debug screenshot fixtures may hide the UI notice; real demo mode stays labelled.
+    var isScreenshotCapture: Bool {
+        #if DEBUG
+        let env = ProcessInfo.processInfo.environment
+        if fixtureMode && env["MSIGN_SCREENSHOT_CAPTURE"] == "1" &&
+            env["MSIGN_QA_NO_HARDWARE"] == "1" &&
+            env["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true { return true }
+        #endif
+        return false
+    }
+
+    var showsDemoNotice: Bool { demoMode && !isScreenshotCapture }
+
     var trayLabel: String {
-        if demoMode { return "eSemnBun · \(L10n.text(.demo_banner))" }
+        if showsDemoNotice { return "eSemnBun · \(L10n.text(.demo_banner))" }
         if cardConnected {
             let holder = certificate?.holder ?? cards.compactMap(\.certificate).first?.holder
             return holder.map { L10n.text(.ui_esemnbun_card_connected_value, $0) } ?? L10n.text(.ui_esemnbun_card_connected)
@@ -125,7 +138,7 @@ final class AppModel {
 
     /// Text twin of `light` (tooltip, VoiceOver).
     var lightLabel: String {
-        if demoMode { return L10n.text(.demo_banner) }
+        if showsDemoNotice { return L10n.text(.demo_banner) }
         switch light {
         case .ready:
             let ready = cards.compactMap(\.certificate)

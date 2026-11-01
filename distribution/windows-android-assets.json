@@ -1,0 +1,434 @@
+[
+  {
+    "file": "distribution/google/assets/android/app-icon-512.png",
+    "width": 512,
+    "height": 512,
+    "mode": "RGB",
+    "bytes": 21466,
+    "sha256": "f2072118f20905f52801649825b181e849eb7000ed7738eccb0dbd4ef180826d"
+  },
+  {
+    "file": "distribution/google/assets/android/en/feature-graphic.png",
+    "width": 1024,
+    "height": 500,
+    "mode": "RGB",
+    "bytes": 161074,
+    "sha256": "a226840dfc23ddd08d5351cfa2af00796acb05eb756d100998c662115996ef83"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/01-sign.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 392387,
+    "sha256": "6b32a641c2ea3fc21c9bbc9335b083ce46f2081a985a2f7538e6185fe1e72215"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/02-card.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 425728,
+    "sha256": "c842582bb244bf21959beef845ac64291b8c0876d3df195a135df8377f199bfb"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/03-verify.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 70488,
+    "sha256": "580a8169687af7f3edbf20f5b72256ea1e08caeebbaf4055c8488f269917ba70"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/04-browser.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 424755,
+    "sha256": "f93d6bbedbdbeb482634e3fa30120c94cf0f1bfba85bd7a8faccf9e837a823c8"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/01-sign.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 237530,
+    "sha256": "243c12166a8005885c80aabb0185f7738586bfac63b210f099e2431d78a9ee43"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/02-card.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 289836,
+    "sha256": "554246c24e17556022575704518d19cb318171aa0f8966d90b17ba94aa4a51d6"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/03-verify.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 46055,
+    "sha256": "5a18f3d7d162d4dbcb1f9c4f0b745d09935d94c6c0e83cde97808dc176eadd06"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/04-browser.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 245344,
+    "sha256": "52a0d482a07b8631ff495111f084f9ac07059eda7e6f34fae05fe415d975f320"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/01-sign.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 244408,
+    "sha256": "03fa0438b36aaa7a2708f3495b3283af685deea9d61a1044472edb47353dba51"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/02-card.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 272751,
+    "sha256": "a080cd7b5ab3a47581327495b589d4655c6764fc23292b39f767e99c54e2a904"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/03-verify.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 45119,
+    "sha256": "805454ed810d5192f6721d0f8cf9e5772f4c989cda66a775456bf9fd0e05e6e3"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/04-browser.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 253363,
+    "sha256": "36e15bb77afc2a250a67e1db3bad905ece5f1d6ac27e00ccac221d903a999b93"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/feature-graphic.png",
+    "width": 1024,
+    "height": 500,
+    "mode": "RGB",
+    "bytes": 165043,
+    "sha256": "2b301bc3f46685641f12cccef04947e052f6018c985ffca10097e06e414b45a3"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/01-sign.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 395752,
+    "sha256": "6e6a2d1ac62bfc8792f6cebcd2976d872fcfa617828f3bacb8128fdcdfc43cd8"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/02-card.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 428988,
+    "sha256": "092ca313e1345836bdde3169319553f0e0f126f24fc7b4dec6b95588a69ece38"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/03-verify.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 72560,
+    "sha256": "d702a264ab9a0b977bf4b52e36f17fff77d2608d1ec0bed9db2654c8138f3c23"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/04-browser.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 434859,
+    "sha256": "675997dc9e5d4f3a609691edde8d2af6230ff4ac0a456dc352972c57b1719836"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/01-sign.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 241072,
+    "sha256": "be9fe0bb77a338f5b1deb5260c3160e5ccad2888dbdf08bd40447a2ff8258cf5"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/02-card.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 292766,
+    "sha256": "d460f1aed03b2deb6773fbed52b29208395e38e090af620ae7e9797ce9bfb516"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/03-verify.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 48118,
+    "sha256": "fca4a467f4e7a7a939b00aeca471efa93c06ba130187eab2386dfddc54171c5b"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/04-browser.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 251703,
+    "sha256": "e29a79963c7d2b97ce42e8a3165530a25f33fd00da61dc750e372c23bcc33203"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/01-sign.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 247272,
+    "sha256": "06f533f16b824b65568d93046fcbd813e3c69802feb75d1049bd1968499cb688"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/02-card.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 275331,
+    "sha256": "47a0b3af801b44b61b7cbf22a2aed0e62747ec3392961c98497f0610e20db2b7"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/03-verify.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 47090,
+    "sha256": "ec7478cf216bb1ab986acb1a10703db40ca555b06ca624bcb43109ecee29cc63"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/04-browser.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 258931,
+    "sha256": "5f9bd923dfeed348ae8b7aeff8ee9bdacc84ee66d036de5ebf05f2241a7c7756"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/feature-graphic.png",
+    "width": 1024,
+    "height": 500,
+    "mode": "RGB",
+    "bytes": 159218,
+    "sha256": "cab4d85ed46d33724155cd89363fe6d0e7f53f77b9cd4f0e1c68cf94cfe4f7cd"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/01-sign.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 397498,
+    "sha256": "224365af432a1261dc39ec031a0cb2c29ce34f56a718ab5e967295689f2f4924"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/02-card.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 433160,
+    "sha256": "d5bfbcf655cecb75654e86300c603aa597b1d2762ea7b7416928b02064ac45a9"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/03-verify.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 72758,
+    "sha256": "3d353be3af53fa82a080ab66028536b91ca94d79a62aec8f440ebbd17560124d"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/04-browser.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 445156,
+    "sha256": "d486bbaa4bf776d7f4cb87ca8bd41efe5a6f8815cd494affa4b4b27b23e2f16c"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/01-sign.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 243213,
+    "sha256": "d19b761ef902f31500d99768147ca707c2a2a105b03ffe5032456e6c47f70a02"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/02-card.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 298305,
+    "sha256": "b7a5b20ef1f913ce468a3dd11bbe2185b9d750317ed744f7e09f00be973846f8"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/03-verify.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 48763,
+    "sha256": "c061e983623584fed146e2fce0ff73a45d333e751564b0bda8f2eeab15587c69"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/04-browser.png",
+    "width": 1080,
+    "height": 1920,
+    "mode": "RGB",
+    "bytes": 258387,
+    "sha256": "f416d92e6dd85d222c1e017d1faa7a0c024a0360786d1aa6cf54bb5dc46fb4ae"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/01-sign.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 249683,
+    "sha256": "3a4a96db2a981bc8bb0c611c95d8cfe51229b50c53111cc10637ef06605faaad"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/02-card.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 278503,
+    "sha256": "63a94a277c928bd3295b2254974792c3cc4c78d649f2d0720ae503b98ab8f992"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/03-verify.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 48174,
+    "sha256": "b0c4f5a7ddaf74500a4e0e4fa2315216894dbb06c28bb4a0075e4640953503c6"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/04-browser.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 265237,
+    "sha256": "f871115f6fc71fdd8bbb1fdbeb85655a5d9970c993350104dad63d8cbfe12018"
+  },
+  {
+    "file": "distribution/microsoft/assets/app-tile-300.png",
+    "width": 300,
+    "height": 300,
+    "mode": "RGB",
+    "bytes": 9352,
+    "sha256": "9af6b4183137ef646f85be2157f53b2617224ed79d627f3baa7b972b1ba606ba"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/01-sign.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 84545,
+    "sha256": "84ca2e3f03b87994d4f7e5aca889edbb2a152c9283d5efeb9f2756e39bdda15f"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/02-card.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 100783,
+    "sha256": "a2faf1a961346c2d39abd910f741a6623c66441a361760cd6adcc8532c0e3093"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/03-verify.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 37828,
+    "sha256": "fe845cd613d76f52dac32778eeb91f191bcf36e664ea2c99e46d9215a2961034"
+  },
+  {
+    "file": "distribution/microsoft/assets/en/04-settings.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 54758,
+    "sha256": "1317b19cf799c30927fa9024fa84cadc01c9426524280174bb9bcd5a84fe7906"
+  },
+  {
+    "file": "distribution/microsoft/assets/hero-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGB",
+    "bytes": 61624,
+    "sha256": "c19a698507f1f49f487cd60937216a0b566bd1653611703015612e5326c8b7c7"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/01-sign.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 86190,
+    "sha256": "9f5f451054e4cd0c1ad0f6d459595ee7ceeff7d09cd4fd35c0fdc9d79e767a9d"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/02-card.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 100658,
+    "sha256": "1efcec632036f10e42d3ce14828649621b5c13b8125329d6295a5a39c0d036d2"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/03-verify.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 38336,
+    "sha256": "34daaec4c9a0af5d8ec68bdb0dbdea9fdd49f54eeb6b65a59d94d01dab696b61"
+  },
+  {
+    "file": "distribution/microsoft/assets/ro/04-settings.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 55456,
+    "sha256": "f6d8f84a77105c18038738604e6c52d88323b11be62905da7971814d73250a8a"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/01-sign.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 85798,
+    "sha256": "fe24ce0be7bc0fe577a8a7340042728142454374cc79138bdac437e78869d30b"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/02-card.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 103969,
+    "sha256": "7182555cf408c8b14e15ce0d3e3d81ec34bd17ed9f0c10ffc526363478a64610"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/03-verify.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 38981,
+    "sha256": "a36f3e827a9bfc8f9c74d10d80d01a7b9d7889bad51223181e41f992492970e9"
+  },
+  {
+    "file": "distribution/microsoft/assets/ru/04-settings.png",
+    "width": 1368,
+    "height": 909,
+    "mode": "RGB",
+    "bytes": 57767,
+    "sha256": "6b82a6d1275e3d7dc03646a3ef7d48ab7f3266d3b00afee1e7d3a4d10379030a"
+  }
+]

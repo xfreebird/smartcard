@@ -1,1 +1,27 @@
-Sign PDF documents and files with the certificate on your Moldovan electronic identity card. Connect a compatible reader, choose the card and documents, then approve each signing request. Verify PAdES and XAdES signatures and share signed documents. Your private key stays on the card; a failed PIN is never retried automatically. Public timestamp and certificate-status services require an internet connection. Available features depend on the platform and reader.
+Your electronic ID. Your documents. A straightforward signing workflow.
+
+eSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.
+
+GET STARTED
+1. Connect a compatible reader and insert your card.
+2. Choose your card and add documents.
+3. Approve the signing request and authorize PIN use.
+4. Verify the result, then save or share your signed files.
+
+WHAT YOU CAN DO
+• Sign PDFs with PAdES and other files with XAdES.
+• Prepare a batch of documents and authorize that batch once.
+• Verify signatures and inspect certificate details.
+• Use the built-in browser for card signing and login on compatible services.
+• Open MSign, EVO, eVMS, MCabinet, Public Services and MPay from service shortcuts.
+• Choose Romanian, English or Russian and a light or dark appearance.
+• Manage saved PINs and separately clear browser cache, cookies or history.
+
+REQUIREMENTS
+You need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.
+
+Your private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.
+
+eSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.
+
+For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.

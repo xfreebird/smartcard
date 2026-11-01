@@ -9,6 +9,13 @@ IOS_IDS = [IOS_ID, IOS_SHARE_ID]
 MAC_ID = "md.esemnbun.mac"
 PROJECT = File.expand_path("../apple/eSemnBun.xcodeproj", __dir__)
 
+# Build identity is a whole number; marketing versions remain x.y.z.
+def integer_build_number
+  value = ENV.fetch("BUILD_NUMBER", "1")
+  UI.user_error!("BUILD_NUMBER must be a positive whole number") unless value.match?(/\A[1-9][0-9]*\z/)
+  value
+end
+
 # App Store Connect API key: ASC_KEY_ID + ASC_ISSUER_ID + (ASC_KEY_P8 content | ASC_KEY_PATH file).
 def asc_key
   app_store_connect_api_key(
@@ -138,7 +145,7 @@ lane :ios_release do |options|
     version = get_version_number(xcodeproj: PROJECT, target: "eSemnBun-iOS", configuration: "Release")
     build_app(**common, export_method: "app-store", export_options: { provisioningProfiles: { IOS_ID => appstore_profile, IOS_SHARE_ID => share_appstore_profile } },
               output_name: "eSemnBun-#{version}-appstore.ipa", clean: true,
-              xcargs: "CURRENT_PROJECT_VERSION=#{ENV.fetch('BUILD_NUMBER', '1')}#{signing_args}")
+              xcargs: "CURRENT_PROJECT_VERSION=#{integer_build_number}#{signing_args}")
     # same archive, re-signed with the ad hoc profile: installs on the team's registered devices
     build_app(**common, skip_build_archive: true, export_method: "ad-hoc",
               export_options: { provisioningProfiles: { IOS_ID => adhoc_profile, IOS_SHARE_ID => share_adhoc_profile } },
@@ -185,7 +192,7 @@ lane :mac_store_release do
       export_method: "app-store", export_team_id: team,
       export_options: { signingStyle: "manual", provisioningProfiles: { MAC_ID => profile },
         signingCertificate: "Apple Distribution", installerSigningCertificate: "3rd Party Mac Developer Installer" },
-      xcargs: "CURRENT_PROJECT_VERSION=#{ENV.fetch('BUILD_NUMBER','1')}#{signing_args}")
+      xcargs: "CURRENT_PROJECT_VERSION=#{integer_build_number}#{signing_args}")
     sh(File.expand_path("../apple/scripts/verify-macos-distribution.sh", __dir__), "store",
        File.join(out, "eSemnBun.xcarchive", "Products", "Applications", "eSemnBun.app"))
     sh("pkgutil", "--check-signature", File.join(out, "eSemnBun-AppStore.pkg"))

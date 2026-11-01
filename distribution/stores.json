@@ -8,14 +8,14 @@
     "ru"
   ],
   "privacyPolicySource": "docs/privacy-policy.txt",
-  "privacyPolicyURL": "https://example.invalid/esemnbun/privacy",
-  "supportURL": "https://example.invalid/esemnbun/support",
+  "privacyPolicyURL": "https://esemnbun.md/privacy",
+  "supportURL": "https://esemnbun.md/support",
   "supportEmail": "nicolae.ghimbovschi@gmail.com",
   "apple": {
     "teamID": "H86U5Z8HYB",
     "iosBundleID": "md.esemnbun.ios",
     "macosBundleID": "md.esemnbun.mac",
-    "status": "Existing Apple Developer team verified in Firefox; App Store app records need verification",
+    "status": "Signing and local exports configured; live submission state must be rechecked in App Store Connect.",
     "credentialsEnvironment": [
       "ASC_KEY_ID",
       "ASC_ISSUER_ID",
@@ -25,7 +25,7 @@
   "google": {
     "packageName": "md.esemnbun.app",
     "developerID": "8344963402071617946",
-    "status": "Firefox console shows no apps; app record not created",
+    "status": "Local listing prepared; developer verification and app-record state must be checked in Play Console.",
     "artifact": "dist/android/*.aab"
   },
   "microsoft": {
@@ -33,7 +33,7 @@
     "identityName": "NicolaeGhimbovschi.eSemnBun",
     "publisher": "CN=3AAF334E-BE21-4B3F-8FDE-FBEDDF7498EE",
     "publisherDisplayName": "Nicolae Ghimbovschi",
-    "status": "Existing draft Submission 1; prior MSIX validated; store listings incomplete",
+    "status": "Local listing prepared for existing product; current submission state must be checked in Partner Center.",
     "artifact": "dist/windows/*.msix"
   },
   "huawei": {
@@ -41,5 +41,27 @@
     "status": "Developer identity verification required in AppGallery Connect before distribution access",
     "artifact": "dist/android/*.apk"
   },
-  "usesPlaceholderURLs": true
+  "usesPlaceholderURLs": true,
+  "marketingURL": "https://esemnbun.md/",
+  "termsURL": "https://esemnbun.md/terms",
+  "urlStatus": "Reserved production-domain paths. Content and public reachability must be verified before submission.",
+  "storeLocales": {
+    "apple": {
+      "ro": "ro",
+      "en": "en-US",
+      "ru": "ru"
+    },
+    "google": {
+      "ro": "ro",
+      "en": "en-US",
+      "ru": "ru"
+    },
+    "microsoft": {
+      "ro": "ro-RO",
+      "en": "en-US",
+      "ru": "ru-RU"
+    }
+  },
+  "copyright": "2026 Nicolae Ghimbovschi",
+  "suggestedCategory": "Productivity"
 }

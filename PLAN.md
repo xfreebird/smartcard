@@ -11,6 +11,15 @@ Last updated: **2026-11-01**
 
 ---
 
+## Store submission preparation — 1 November 2026
+
+- [x] STORE-01 Localized RO/EN/RU store metadata, accurate platform features and esemnbun.md support/privacy/terms paths, validated against store field limits.
+- [x] STORE-02 Localized store-specific screenshots/promotional packs from fictional actual UI, capture-only demo-banner suppression, validated sizes and source provenance. Normal user demo notices remain.
+- [x] STORE-03 Read-only Firefox portal inspection and local submission guide; no agreement acceptance, listing publication or store submission.
+- [x] CI-BUILD-01 CI build identity is a positive integer workflow run number; Apple CFBundleVersion and Android versionCode consume it. Marketing version remains x.y.z; MSIX retains mandatory four-part package format. Retries reuse the build number; use a new workflow run before uploading another build.
+
+Delivery: Desktop/esemnbun-store-submission/2026-11-01 includes 96 submission screenshots (48 Apple,12Windows,36Android), localized promotional art/icons, raw provenance and listing metadata. Screenshot dimensions/formats/hash validation, Apple48 slot validation, metadata/localization export checks pass. App Debug builds and Android Release compile pass with capture-only notice suppression; ordinary demo notices retained. Android APK BUILD_NUMBER=731 reported versionCode731; Apple integer validator accepts731/rejects731.2; workflow YAML and shell/Ruby syntax pass. No store upload or agreement acceptance. esemnbun.md paths remain unpublished per owner; Google first-app setup, owner declarations and Microsoft nonzero-first-component package version remain pre-submission gates. See distribution/SUBMISSION-PACK.md and SUBMISSION-METADATA.md.
+
 ## Browser usability — 1 November 2026
 
 - [x] WEB-UX-01 Shared official service shortcuts including EVO, per-service icons, compact native navigation controls.

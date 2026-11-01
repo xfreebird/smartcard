@@ -1,1 +1,1 @@
-semnătură,eID,PDF,PAdES,XAdES,Moldova
+semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin

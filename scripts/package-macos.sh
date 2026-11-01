@@ -54,9 +54,14 @@ notarize() {
   fi
 }
 
+if [[ -n "${BUILD_NUMBER:-}" && ! "$BUILD_NUMBER" =~ ^[1-9][0-9]*$ ]]; then
+  echo 'BUILD_NUMBER must be a positive whole number' >&2
+  exit 1
+fi
 sign_args=(CODE_SIGN_IDENTITY="$IDENTITY" CODE_SIGN_STYLE=Manual)
 [[ -n "${MACOS_TEAM_ID:-}" ]] && sign_args+=(DEVELOPMENT_TEAM="$MACOS_TEAM_ID") || sign_args+=(DEVELOPMENT_TEAM=)
 [[ "$IDENTITY" != "-" ]] && sign_args+=(OTHER_CODE_SIGN_FLAGS=--timestamp)
+[[ -n "${BUILD_NUMBER:-}" ]] && sign_args+=(CURRENT_PROJECT_VERSION="$BUILD_NUMBER")
 
 echo "▸ Archiving eSemnBun-macOS (identity: $IDENTITY)"
 xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS-Desktop -configuration Release \

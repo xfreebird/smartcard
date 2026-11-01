@@ -1,0 +1,290 @@
+[
+  {
+    "file": "distribution/google/assets/android/ro/phone/01-sign.png",
+    "locale": "ro",
+    "layout": "phone",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/02-card.png",
+    "locale": "ro",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/03-verify.png",
+    "locale": "ro",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/phone/04-browser.png",
+    "locale": "ro",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/01-sign.png",
+    "locale": "en",
+    "layout": "phone",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/02-card.png",
+    "locale": "en",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/03-verify.png",
+    "locale": "en",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/phone/04-browser.png",
+    "locale": "en",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/01-sign.png",
+    "locale": "ru",
+    "layout": "phone",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/02-card.png",
+    "locale": "ru",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/03-verify.png",
+    "locale": "ru",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/phone/04-browser.png",
+    "locale": "ru",
+    "layout": "phone",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/01-sign.png",
+    "locale": "ro",
+    "layout": "seven-inch",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/02-card.png",
+    "locale": "ro",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/03-verify.png",
+    "locale": "ro",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/seven-inch/04-browser.png",
+    "locale": "ro",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/01-sign.png",
+    "locale": "en",
+    "layout": "seven-inch",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/02-card.png",
+    "locale": "en",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/03-verify.png",
+    "locale": "en",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/seven-inch/04-browser.png",
+    "locale": "en",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/01-sign.png",
+    "locale": "ru",
+    "layout": "seven-inch",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/02-card.png",
+    "locale": "ru",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/03-verify.png",
+    "locale": "ru",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/seven-inch/04-browser.png",
+    "locale": "ru",
+    "layout": "seven-inch",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/01-sign.png",
+    "locale": "ro",
+    "layout": "ten-inch",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/02-card.png",
+    "locale": "ro",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/03-verify.png",
+    "locale": "ro",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ro/ten-inch/04-browser.png",
+    "locale": "ro",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/01-sign.png",
+    "locale": "en",
+    "layout": "ten-inch",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/02-card.png",
+    "locale": "en",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/03-verify.png",
+    "locale": "en",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/en/ten-inch/04-browser.png",
+    "locale": "en",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/01-sign.png",
+    "locale": "ru",
+    "layout": "ten-inch",
+    "scenario": "documents",
+    "page": "sign",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/02-card.png",
+    "locale": "ru",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "card",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/03-verify.png",
+    "locale": "ru",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "verify",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  },
+  {
+    "file": "distribution/google/assets/android/ru/ten-inch/04-browser.png",
+    "locale": "ru",
+    "layout": "ten-inch",
+    "scenario": "cards",
+    "page": "browser",
+    "apkSha256": "7df92d83b0fb8fd65465bb8ab16efc8416041aa5066da9be05514473e7a1e522"
+  }
+]

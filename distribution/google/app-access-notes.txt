@@ -1,0 +1,5 @@
+Local signing and verification do not require an eSemnBun account. Real signing requires a compatible USB reader via OTG, an active Moldovan electronic identity card and the card owner's authorization. NFC is not supported.
+
+For hardware-free interface review, open Settings, enable Demo mode and confirm. Fictional cards and synthetic documents are visibly labelled; demo outputs are not real signatures. Disable Demo mode before connecting real hardware.
+
+The embedded browser opens third-party public-service websites that have their own login requirements. No shared identity account or card PIN is provided. Background signing requests use a foreground notification to request user interaction. The owner must finalize app-access, Data Safety, government-app and content-rating declarations for the submitted release.

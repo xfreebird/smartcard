@@ -23,7 +23,7 @@ struct MenuBarPopover: View {
                     .accessibilityLabel(L10n.text(.ui_settings))
             }
 
-            if model.demoMode { DemoModeBanner() }
+            if model.showsDemoNotice { DemoModeBanner() }
             CardSelector(size: .compact)
 
             if let step = model.currentStep {
@@ -247,7 +247,7 @@ struct MainWindowView: View {
         } detail: {
             NavigationStack {
                 VStack(spacing: 0) {
-                    if model.demoMode { DemoModeBanner() }
+                    if model.showsDemoNotice { DemoModeBanner() }
                     switch Section(rawValue: stored) ?? .sign {
                     case .sign: SignScreen()
                     case .verify: VerifyScreen()

@@ -1,1 +1,1 @@
-Horizontal card selection, adaptive layouts and native preferences.
+Built-in browser with public-service shortcuts, native download dialogs, selective browsing-data clearing and centered card selection.

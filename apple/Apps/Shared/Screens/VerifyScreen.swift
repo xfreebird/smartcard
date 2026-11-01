@@ -60,7 +60,7 @@ struct VerifyScreen: View {
         }
         .formStyle(.grouped)
         #if os(iOS)
-        .safeAreaInset(edge: .top, spacing: 0) { if model.demoMode { DemoModeBanner() } }
+        .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_verify))
         .overlay {
@@ -215,7 +215,7 @@ struct CardScreen: View {
         }
         .formStyle(.grouped)
         #if os(iOS)
-        .safeAreaInset(edge: .top, spacing: 0) { if model.demoMode { DemoModeBanner() } }
+        .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_card))
         #if os(iOS)

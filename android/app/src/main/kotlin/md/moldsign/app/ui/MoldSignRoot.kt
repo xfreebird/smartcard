@@ -2,6 +2,7 @@ package md.moldsign.app.ui
 
 import androidx.annotation.StringRes
 import android.content.Intent
+import md.moldsign.app.DemoMode
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -192,7 +193,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     },
                     scrollBehavior = scrollBehavior,
                 )
-                if (vm.demoMode) Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+                if (vm.demoMode && !DemoMode.screenshotCapture((context as? android.app.Activity)?.intent)) Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
                     Text(stringResource(R.string.demo_mode_disclaimer),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
                         style = MaterialTheme.typography.labelLarge)

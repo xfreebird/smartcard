@@ -21,6 +21,10 @@ on:
         type: choice
         options: [all, macos, ios, android, linux, flatpak, windows]
         default: all
+      build_number:
+        description: Optional positive integer override (must exceed the last uploaded build)
+        type: string
+        required: false
       tag:
         description: Release tag (default v<MARKETING_VERSION> from the Xcode project)
         type: string
@@ -34,6 +38,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
+  BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
   FASTLANE_SKIP_UPDATE_CHECK: "1"
   FASTLANE_HIDE_CHANGELOG: "1"
   FASTLANE_OPT_OUT_USAGE: "1"
@@ -76,8 +81,8 @@ jobs:
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      # unique and increasing for TestFlight, also across re-runs of the same run
-      BUILD_NUMBER: ${{ github.run_number }}.${{ github.run_attempt }}
+      # Integer build identity; a new workflow run increments it (retries keep the same build).
+      BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1

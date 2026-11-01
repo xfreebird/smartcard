@@ -63,7 +63,7 @@ struct SignScreen: View {
         .listSectionSpacing(16)
         #endif
         #if os(iOS)
-        .safeAreaInset(edge: .top, spacing: 0) { if model.demoMode { DemoModeBanner() } }
+        .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_sign))
         .dropDestination(for: URL.self) { urls, _ in

@@ -1,1 +1,1 @@
-подпись,eID,PDF,PAdES,XAdES,Молдова
+подпись,документы,PDF,PAdES,XAdES,Молдова

@@ -6,6 +6,9 @@ on:
   push:
   pull_request:
 
+env:
+  BUILD_NUMBER: ${{ github.run_number }}
+
 jobs:
   localization:
     name: Shared localization exports

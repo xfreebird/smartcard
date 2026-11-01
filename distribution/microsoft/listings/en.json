@@ -2,7 +2,35 @@
   "name": "eSemnBun",
   "subtitle": "Sign with your electronic ID",
   "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
-  "description": "Sign PDF documents and files with the certificate on your Moldovan electronic identity card. Connect a compatible reader, choose the card and documents, then approve each signing request. Verify PAdES and XAdES signatures and share signed documents. Your private key stays on the card; a failed PIN is never retried automatically. Public timestamp and certificate-status services require an internet connection. Available features depend on the platform and reader.",
-  "keywords": "signature,eID,PDF,PAdES,XAdES,Moldova",
-  "releaseNotes": "Horizontal card selection, adaptive layouts and native preferences."
+  "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS, MCabinet, Public Services and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.\n\nFor Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package.",
+  "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
+  "releaseNotes": "Built-in browser with public-service shortcuts, native download dialogs, selective browsing-data clearing and centered card selection.",
+  "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
+  "features": [
+    "PDF and XAdES signing",
+    "Document-batch authorization",
+    "Signature verification",
+    "Built-in browser for compatible portals",
+    "Romanian, English and Russian"
+  ],
+  "platformNotes": {
+    "ios": "For iPhone and iPad: connect a compatible reader over USB-C or a supported Lightning adapter. Import from Files or the share extension. The built-in browser keeps the app active while signing.",
+    "macos": "The Mac App Store version uses CryptoTokenKit and App Sandbox. Export results to a chosen location. The external card-insertion helper, vendor-app process control and browser routes accepting arbitrary filesystem paths are not included.",
+    "android": "For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.",
+    "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
+  },
+  "languageCode": "en-US",
+  "website": "https://esemnbun.md/",
+  "supportURL": "https://esemnbun.md/support",
+  "privacyPolicyURL": "https://esemnbun.md/privacy",
+  "termsURL": "https://esemnbun.md/terms",
+  "searchTerms": [
+    "signature",
+    "documents",
+    "PDF",
+    "PAdES",
+    "XAdES",
+    "Moldova",
+    "electronic ID"
+  ]
 }

@@ -36,6 +36,8 @@ import java.util.TimeZone
 internal object DemoMode {
     const val EXTRA = "demo"
     private const val TAG = "MoldSignDemo"
+    fun screenshotCapture(intent: Intent?): Boolean =
+        intent?.hasExtra(EXTRA) == true && intent.getBooleanExtra("store_capture", false)
 
     // Fictional holders (no real person, no real certificate): SN / GN set like a real MDQSign certificate.
     private val ionPopescu = certificate("ION POPESCU", "POPESCU", "ION", "1A4C9E21B07D33F0A1C2E5D6B7F8091A2B3C4D5E", notAfterYear = 2030, month = 3)

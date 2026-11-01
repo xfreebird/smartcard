@@ -1,1 +1,1 @@
-Selectare orizontală a cardurilor, aspect adaptiv și setări native.
+Browser integrat cu scurtături către servicii publice, descărcări cu dialog nativ, ștergere selectivă a datelor de navigare și selectare centrată a cardului.

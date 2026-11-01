@@ -26,7 +26,7 @@ struct BrowserScreen: View {
         }
             .safeAreaInset(edge: .top) {
                 VStack(spacing: 0) {
-                if model.demoMode { DemoModeBanner() }
+                if model.showsDemoNotice { DemoModeBanner() }
                 HStack(spacing: 8) {
                     Circle().fill(model.bridgeState == .running ? Theme.success : Theme.warning).frame(width: 8, height: 8)
                     Text(model.bridgeState == .running ? L10n.text(.ui_browser_connection_on) : L10n.text(.ui_browser_connection_off))
