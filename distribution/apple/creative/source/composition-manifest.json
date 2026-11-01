@@ -1,0 +1,107 @@
+[
+  {
+    "locale": "en",
+    "path": "en.png",
+    "dimensions": [
+      5244,
+      2950
+    ],
+    "phoneScreenshot": "en/iphone/02-batch.png",
+    "phoneScreenshotSha256": "deb8806893ae9282f64b15cf6e00976d6d78b8e3cacb17ae9a24ad6ef90e335a",
+    "cardScreenshot": "en/iphone/01-sign.png",
+    "cardCrop": [
+      120,
+      540,
+      1200,
+      1207
+    ],
+    "cardScreenshotSha256": "6e09d6269b7238e40fc4752d72fa374e9872ba2764e7d510d922052faae0987b",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "cable": "orthographic: vertical USB-C exit, straight down segment, then rightward curve",
+    "sha256": "0fedd0e13efb4509184898aa2f16a453095e49549a9c57698b7402e3ef700752"
+  },
+  {
+    "locale": "ro",
+    "path": "ro.png",
+    "dimensions": [
+      5244,
+      2950
+    ],
+    "phoneScreenshot": "ro/iphone/02-batch.png",
+    "phoneScreenshotSha256": "d65fec8c46e6386d0651b27a58404d8f043a644515a983855b8a339e29a196d6",
+    "cardScreenshot": "ro/iphone/01-sign.png",
+    "cardCrop": [
+      120,
+      540,
+      1200,
+      1207
+    ],
+    "cardScreenshotSha256": "e0a0098c569e3afe052abe62c86815baacded6a1be8499e5c1702ed3e826aa95",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "cable": "orthographic: vertical USB-C exit, straight down segment, then rightward curve",
+    "sha256": "5e9738da899780d423a78874858e82edc57c11e5bdb09d0c053425e2afe68458"
+  },
+  {
+    "locale": "ru",
+    "path": "ru.png",
+    "dimensions": [
+      5244,
+      2950
+    ],
+    "phoneScreenshot": "ru/iphone/02-batch.png",
+    "phoneScreenshotSha256": "e5ac394898ffe6aa849fd862fe9d49fae62e03cd1356ed092c180b0b11ff9da8",
+    "cardScreenshot": "ru/iphone/01-sign.png",
+    "cardCrop": [
+      120,
+      540,
+      1200,
+      1207
+    ],
+    "cardScreenshotSha256": "74da6f6cb108e53fd5dc3d0f4cadfb2a6f7cb479c26c1c521c3db07b40db560a",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "cable": "orthographic: vertical USB-C exit, straight down segment, then rightward curve",
+    "sha256": "672cf53a8ca94a20255749f1b042f9c4e154496016a844e9d230445e9599bcd9"
+  }
+]

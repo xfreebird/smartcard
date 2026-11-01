@@ -33,6 +33,9 @@ def main():
     if 'apple' in platforms:
         commands += [[sys.executable, str(TOOLS / 'apple_render.py'), '--raw', str(output / 'apple/raw'), '--output', str(output / 'apple/screenshots'), '--supplemental-output', str(output / 'apple/supplemental')],
                      [sys.executable, str(TOOLS / 'apple_validate.py'), str(output / 'apple/screenshots')] + (['--duo-directory', str(output / 'apple/supplemental')] if (output / 'apple/raw/en/duo-compact').exists() else [])]
+    if 'apple' in platforms:
+        commands += [[sys.executable, str(TOOLS / 'compose-apple-creative.py'), '--raw', str(output / 'apple/raw'), '--output', str(output / 'apple/creative-source')],
+                     [sys.executable, str(TOOLS / 'export-apple-creative.py'), '--source', str(output / 'apple/creative-source'), '--output', str(output / 'apple/creative')]]
     if any(p in platforms for p in ('windows', 'android')):
         commands.append([sys.executable, str(TOOLS / 'render-crossplatform-promos.py'), '--output', str(output / 'promotional'), '--android-raw', str(output / 'google/assets/android'), '--windows-raw', str(output / 'microsoft/assets'), '--stores', ','.join(p for p in ('android','windows') if p in platforms)])
     commands += [[sys.executable, str(ROOT / 'scripts/prepare-store-metadata.py'), '--check'],
@@ -49,7 +52,7 @@ def main():
         if platform == 'google' and 'android' not in platforms: continue
         if platform == 'microsoft' and 'windows' not in platforms: continue
         shutil.copytree(ROOT / 'distribution' / platform, output / 'metadata' / platform,
-                        dirs_exist_ok=True, ignore=shutil.ignore_patterns('assets', 'screenshots'))
+                        dirs_exist_ok=True, ignore=shutil.ignore_patterns('assets', 'screenshots', 'creative'))
     # Carry optional store artwork/captions without replacing fresh native screenshots.
     extras = []
     if 'android' in platforms:

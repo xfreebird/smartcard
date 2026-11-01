@@ -55,3 +55,11 @@ Subsequent portal observation: Google internal testing showed 0.2.0 (100) availa
 ## Official product frame correction
 
 The generic drawn hardware outlines were removed. Standard iPhone uses Apple's original iPhone 17 Pro Max Deep Blue portrait PNG; Duo uses Night Sky outer closed portrait and inner open landscape PNGs. The owner explicitly authorized the Design Resources License. Licensed originals stay in the local cache and are not redistributed in source control. Native screen dimensions match each display opening exactly; the complete device is scaled uniformly, retaining Apple's camera, corners, controls and hinge. All 78 Apple exports pass format/dimension validation; 45 iPhone/Duo replacements are uploaded with selective set refresh. The existing 15 iPad screenshots were skipped by checksum comparison. Final API read-back passes for all nine iOS sets: 60 COMPLETE images, correct story order and exact local/server source-file checksum matches. Receipts are in the refreshed pack. No review submission was made.
+
+## Native usage illustration with localized marketing
+
+Header/Search Results creative now combines the app's actual batch-screen capture and actual IDCardFace image with an official Apple product frame, an empty reader/adapter cutout and a deterministic cable path. The cable leaves the phone vertically downward in the flat image plane before turning right; the reader fully occludes the physical contact chip. App/card text and avatar pixels are retained from native captures.
+
+The RO/EN/RU headline, feature summary, three usage steps and key-privacy line live under stable keys in `localization/catalog.json/storeCreative`. The generator records source hashes, crop coordinates and frame provenance, validates input dimensions and chip occlusion, and exports opaque 5244×2950 PNGs. The default Apple screenshot pipeline includes composition and export.
+
+All three marketing images are saved in Asset Library with six ACTIVE Header/Search Results draft placements linked to the new image IDs. The replacement uploader retains prior images, supports explicit placement replacement with rollback, uses content-versioned reference names, follows collection pagination and handles HTTP 204 empty bodies. It does not submit assets or the app for review.

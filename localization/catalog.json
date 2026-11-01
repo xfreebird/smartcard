@@ -8597,5 +8597,37 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       }
     }
+  },
+  "storeCreative": {
+    "headline": {
+      "ro": "Semnează cu\nID-ul tău.",
+      "en": "Sign with\nyour ID card.",
+      "ru": "Подписывайте\nс ID-картой."
+    },
+    "featureSummary": {
+      "ro": "PDF • XAdES • Semnare în lot • Verificare",
+      "en": "PDF • XAdES • Batch signing • Verification",
+      "ru": "PDF • XAdES • Пакетная подпись • Проверка"
+    },
+    "stepConnect": {
+      "ro": "Conectează un cititor compatibil",
+      "en": "Connect a compatible reader",
+      "ru": "Подключите совместимый считыватель"
+    },
+    "stepChoose": {
+      "ro": "Alege documentele",
+      "en": "Choose your documents",
+      "ru": "Выберите документы"
+    },
+    "stepConfirm": {
+      "ro": "Confirmă semnarea cu PIN-ul",
+      "en": "Confirm signing with your PIN",
+      "ru": "Подтвердите подпись PIN-кодом"
+    },
+    "keyPrivacy": {
+      "ro": "Cheia privată rămâne pe card.",
+      "en": "Your private key stays on your card.",
+      "ru": "Закрытый ключ остаётся на карте."
+    }
   }
 }
