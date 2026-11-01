@@ -2179,9 +2179,63 @@
       "platform": "windows",
       "key": "Bridge_PortBusy",
       "translations": {
-        "ro": "Portul {0} este ocupat (probabil de MoldSign (Java)). Închide-l și repornește conexiunea.",
-        "en": "Port {0} is in use (probably by MoldSign (Java)). Close it and restart the connection.",
-        "ru": "Порт {0} занят (вероятно, MoldSign (Java)). Закройте эту программу и перезапустите подключение."
+        "ro": "Portul {0} este ocupat. Identifică aplicația care îl folosește și încearcă din nou.",
+        "en": "Port {0} is in use. Identify the application using it and retry.",
+        "ru": "Порт {0} занят. Определите приложение, использующее его, и повторите попытку."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Bridge_Resolve",
+      "translations": {
+        "ro": "Identifică aplicația și reconectează",
+        "en": "Identify app and reconnect",
+        "ru": "Определить приложение и подключиться"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Bridge_ResolveTitle",
+      "translations": {
+        "ro": "Închizi aplicația care folosește portul?",
+        "en": "Close the app using the port?",
+        "ru": "Закрыть приложение, использующее порт?"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Bridge_ResolveBody",
+      "translations": {
+        "ro": "Verifică dacă aplicația de mai jos este MoldSign. Închiderea ei poate întrerupe operațiile în curs:",
+        "en": "Check that the app below is MoldSign. Closing it may interrupt operations in progress:",
+        "ru": "Убедитесь, что это приложение MoldSign. Его закрытие может прервать текущие операции:"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Bridge_CloseAndRetry",
+      "translations": {
+        "ro": "Închide și reconectează",
+        "en": "Close and reconnect",
+        "ru": "Закрыть и подключиться"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Bridge_ResolveNone",
+      "translations": {
+        "ro": "Nu a putut fi identificată o aplicație accesibilă. Închide manual aplicația care folosește portul și încearcă din nou.",
+        "en": "An accessible application could not be identified. Close the app using the port manually and try again.",
+        "ru": "Не удалось определить доступное приложение. Закройте приложение, использующее порт, вручную и повторите попытку."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Bridge_ResolveFailed",
+      "translations": {
+        "ro": "Aplicația nu a putut fi închisă sau conexiunea s-a schimbat. Încearcă din nou.",
+        "en": "The app could not be closed or the listener changed. Try again.",
+        "ru": "Не удалось закрыть приложение или процесс изменился. Повторите попытку."
       }
     },
     {
@@ -4383,12 +4437,20 @@
     {
       "platform": "linux",
       "key": "ui_previous_card",
-      "translations": {"ro": "Cardul anterior", "en": "Previous card", "ru": "Предыдущая карта"}
+      "translations": {
+        "ro": "Cardul anterior",
+        "en": "Previous card",
+        "ru": "Предыдущая карта"
+      }
     },
     {
       "platform": "linux",
       "key": "ui_next_card",
-      "translations": {"ro": "Cardul următor", "en": "Next card", "ru": "Следующая карта"}
+      "translations": {
+        "ro": "Cardul următor",
+        "en": "Next card",
+        "ru": "Следующая карта"
+      }
     },
     {
       "platform": "linux",
@@ -7011,6 +7073,51 @@
     },
     {
       "platform": "linux",
+      "key": "linux_vendor_resolve",
+      "translations": {
+        "ro": "Rezolvă",
+        "en": "Resolve",
+        "ru": "Решить"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "linux_vendor_quit_title",
+      "translations": {
+        "ro": "Închizi MoldSign Server?",
+        "en": "Quit MoldSign Server?",
+        "ru": "Закрыть MoldSign Server?"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "linux_vendor_quit_body",
+      "translations": {
+        "ro": "MoldSign Server folosește portul necesar. Închide-l pentru a porni conexiunea browserului.",
+        "en": "MoldSign Server is using a required port. Quit it to start the browser connection.",
+        "ru": "MoldSign Server использует необходимый порт. Закройте его, чтобы включить соединение с браузером."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "linux_vendor_quit_action",
+      "translations": {
+        "ro": "Închide MoldSign",
+        "en": "Quit MoldSign",
+        "ru": "Закрыть MoldSign"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "linux_vendor_unknown",
+      "translations": {
+        "ro": "Nu s-a putut identifica MoldSign Server. Închide aplicația care folosește porturile și încearcă din nou.",
+        "en": "MoldSign Server could not be identified. Close the app using the ports and try again.",
+        "ru": "Не удалось определить MoldSign Server. Закройте приложение, использующее порты, и повторите попытку."
+      }
+    },
+    {
+      "platform": "linux",
       "key": "linux_bridge_ports_banner",
       "translations": {
         "ro": "Conexiunea browser nu a pornit: porturile %1$s/%2$s sunt ocupate de altă aplicație",
@@ -8020,12 +8127,20 @@
     {
       "platform": "android",
       "key": "settings_general",
-      "translations": {"ro": "General", "en": "General", "ru": "Общие"}
+      "translations": {
+        "ro": "General",
+        "en": "General",
+        "ru": "Общие"
+      }
     },
     {
       "platform": "windows",
       "key": "Settings_General",
-      "translations": {"ro": "General", "en": "General", "ru": "Общие"}
+      "translations": {
+        "ro": "General",
+        "en": "General",
+        "ru": "Общие"
+      }
     },
     {
       "platform": "android",
@@ -8151,6 +8266,105 @@
         "ro": "Pentru descărcări care necesită autentificare, deschide site-ul în browserul extern.",
         "en": "For signed-in downloads, open the site in your external browser.",
         "ru": "Для загрузки с авторизацией откройте сайт во внешнем браузере."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_quit_action",
+      "translations": {
+        "ro": "Închide MoldSign și reconectează",
+        "en": "Quit MoldSign and reconnect",
+        "ru": "Закрыть MoldSign и подключиться"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_quit_confirmation",
+      "translations": {
+        "ro": "Închizi MoldSign pentru a elibera porturile?",
+        "en": "Quit MoldSign to free the ports?",
+        "ru": "Закрыть MoldSign, чтобы освободить порты?"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_quit_explanation",
+      "translations": {
+        "ro": "Conexiunile MoldSign active vor fi întrerupte.",
+        "en": "Active MoldSign connections will be interrupted.",
+        "ru": "Активные соединения MoldSign будут прерваны."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_quit_failed",
+      "translations": {
+        "ro": "MoldSign nu a putut fi închis sau porturile sunt încă ocupate.",
+        "en": "MoldSign could not be closed or the ports are still in use.",
+        "ru": "Не удалось закрыть MoldSign или порты всё ещё заняты."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_other_conflict",
+      "translations": {
+        "ro": "Porturile sunt ocupate de o altă aplicație. Închide aplicația care le folosește și reîncearcă.",
+        "en": "The ports are in use by another application. Close the application using them and try again.",
+        "ru": "Порты заняты другим приложением. Закройте его и повторите попытку."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "vendor_retry",
+      "translations": {
+        "ro": "Reîncearcă conexiunea",
+        "en": "Retry connection",
+        "ru": "Повторить подключение"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_preparing",
+      "translations": {
+        "ro": "Se pregătesc documentele…",
+        "en": "Preparing documents…",
+        "ru": "Подготовка документов…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_done",
+      "translations": {
+        "ro": "Gata",
+        "en": "Done",
+        "ru": "Готово"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_saved_open_app",
+      "translations": {
+        "ro": "Documentele au fost salvate. Deschide eSemnBun pentru a le semna.",
+        "en": "Documents saved. Open eSemnBun to sign them.",
+        "ru": "Документы сохранены. Откройте eSemnBun, чтобы подписать их."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_failed",
+      "translations": {
+        "ro": "Documentele nu au putut fi salvate. Încearcă din nou.",
+        "en": "Could not save the documents. Please try again.",
+        "ru": "Не удалось сохранить документы. Попробуйте ещё раз."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Explorer_Sign",
+      "translations": {
+        "ro": "Semnează cu eSemnBun",
+        "en": "Sign with eSemnBun",
+        "ru": "Подписать в eSemnBun"
       }
     }
   ],

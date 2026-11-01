@@ -47,6 +47,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let authPanel = AuthPanelController()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApp.servicesProvider = self
         authPanel.attach(model)
         model.presentInsertedCard = {
             NotificationCenter.default.post(name: .showInsertedCard, object: nil)
@@ -127,7 +128,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Files dropped on the Dock icon / "Open With" go to the signing queue (MAC-03).
     func application(_ application: NSApplication, open urls: [URL]) {
+        queueForSigning(urls)
+    }
+
+    /// Finder Quick Actions / Services pass file URLs without starting a signing operation.
+    @objc func signDocuments(_ pasteboard: NSPasteboard, userData: String?,
+                             error: AutoreleasingUnsafeMutablePointer<NSString?>) {
+        let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL] ?? []
+        guard !urls.isEmpty else { return }
+        queueForSigning(urls)
+    }
+
+    private func queueForSigning(_ urls: [URL]) {
         model.addFiles(urls)
+        AppPreferencesStore.defaults.set(MainWindowView.Section.sign.rawValue, forKey: "mainSection")
+        // Allow the menu-bar scene to install its notification receiver on a cold launch.
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(250))
+            NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+        }
     }
 }
 

@@ -72,7 +72,13 @@
   <data name="SettingsImportIdentity.Content" xml:space="preserve"><value>Import HTTPS identity (localhost.p12)…</value></data>
   <data name="Error_FileSelection" xml:space="preserve"><value>Could not open files: {0}</value></data>
   <data name="Error_PickerWindow" xml:space="preserve"><value>Open the app window and try again.</value></data>
-  <data name="Bridge_PortBusy" xml:space="preserve"><value>Port {0} is in use (probably by MoldSign (Java)). Close it and restart the connection.</value></data>
+  <data name="Bridge_PortBusy" xml:space="preserve"><value>Port {0} is in use. Identify the application using it and retry.</value></data>
+  <data name="Bridge_Resolve" xml:space="preserve"><value>Identify app and reconnect</value></data>
+  <data name="Bridge_ResolveTitle" xml:space="preserve"><value>Close the app using the port?</value></data>
+  <data name="Bridge_ResolveBody" xml:space="preserve"><value>Check that the app below is MoldSign. Closing it may interrupt operations in progress:</value></data>
+  <data name="Bridge_CloseAndRetry" xml:space="preserve"><value>Close and reconnect</value></data>
+  <data name="Bridge_ResolveNone" xml:space="preserve"><value>An accessible application could not be identified. Close the app using the port manually and try again.</value></data>
+  <data name="Bridge_ResolveFailed" xml:space="preserve"><value>The app could not be closed or the listener changed. Try again.</value></data>
   <data name="Activity_Signed" xml:space="preserve"><value>Signed</value></data>
   <data name="Activity_Verified" xml:space="preserve"><value>Verified</value></data>
   <data name="Activity_BridgeRequest" xml:space="preserve"><value>Request from {0}</value></data>
@@ -239,4 +245,5 @@
   <data name="about_developer" xml:space="preserve"><value>Developer</value></data>
   <data name="about_app_title" xml:space="preserve"><value>About eSemnBun</value></data>
   <data name="Settings_General" xml:space="preserve"><value>General</value></data>
+  <data name="Explorer_Sign" xml:space="preserve"><value>Sign with eSemnBun</value></data>
 </root>

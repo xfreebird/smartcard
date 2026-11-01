@@ -15,8 +15,11 @@
     xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
     xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
     xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5"
+    xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+    xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4"
+    xmlns:desktop5="http://schemas.microsoft.com/appx/manifest/desktop/windows10/5"
     xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-    IgnorableNamespaces="uap uap5 rescap">
+    IgnorableNamespaces="uap uap5 rescap com desktop4 desktop5">
 
     <Identity
         Name="NicolaeGhimbovschi.eSemnBun"
@@ -50,6 +53,16 @@
             </uap:VisualElements>
 
             <Extensions>
+                <com:Extension Category="windows.comServer">
+                    <com:ComServer><com:SurrogateServer DisplayName="eSemnBun">
+                        <com:Class Id="8FCF322A-7A44-4EC5-A493-0F84E76521B2" Path="eSemnBun.Explorer.dll" ThreadingModel="STA" />
+                    </com:SurrogateServer></com:ComServer>
+                </com:Extension>
+                <desktop4:Extension Category="windows.fileExplorerContextMenus">
+                    <desktop4:FileExplorerContextMenus><desktop5:ItemType Type="*">
+                        <desktop5:Verb Id="Sign" Clsid="8FCF322A-7A44-4EC5-A493-0F84E76521B2" />
+                    </desktop5:ItemType></desktop4:FileExplorerContextMenus>
+                </desktop4:Extension>
                 <!--
                   Start at sign-in (Settings › General). Off until the user turns it on in the app
                   (StartupRegistration.TaskId); Windows lists it under Settings › Apps › Startup.

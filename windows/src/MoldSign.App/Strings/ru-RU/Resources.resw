@@ -72,7 +72,13 @@
   <data name="SettingsImportIdentity.Content" xml:space="preserve"><value>Импортировать удостоверение HTTPS (localhost.p12)…</value></data>
   <data name="Error_FileSelection" xml:space="preserve"><value>Не удалось открыть файлы: {0}</value></data>
   <data name="Error_PickerWindow" xml:space="preserve"><value>Откройте окно приложения и попробуйте ещё раз.</value></data>
-  <data name="Bridge_PortBusy" xml:space="preserve"><value>Порт {0} занят (вероятно, MoldSign (Java)). Закройте эту программу и перезапустите подключение.</value></data>
+  <data name="Bridge_PortBusy" xml:space="preserve"><value>Порт {0} занят. Определите приложение, использующее его, и повторите попытку.</value></data>
+  <data name="Bridge_Resolve" xml:space="preserve"><value>Определить приложение и подключиться</value></data>
+  <data name="Bridge_ResolveTitle" xml:space="preserve"><value>Закрыть приложение, использующее порт?</value></data>
+  <data name="Bridge_ResolveBody" xml:space="preserve"><value>Убедитесь, что это приложение MoldSign. Его закрытие может прервать текущие операции:</value></data>
+  <data name="Bridge_CloseAndRetry" xml:space="preserve"><value>Закрыть и подключиться</value></data>
+  <data name="Bridge_ResolveNone" xml:space="preserve"><value>Не удалось определить доступное приложение. Закройте приложение, использующее порт, вручную и повторите попытку.</value></data>
+  <data name="Bridge_ResolveFailed" xml:space="preserve"><value>Не удалось закрыть приложение или процесс изменился. Повторите попытку.</value></data>
   <data name="Activity_Signed" xml:space="preserve"><value>Подписано</value></data>
   <data name="Activity_Verified" xml:space="preserve"><value>Проверено</value></data>
   <data name="Activity_BridgeRequest" xml:space="preserve"><value>Запрос от {0}</value></data>
@@ -239,4 +245,5 @@
   <data name="about_developer" xml:space="preserve"><value>Разработчик</value></data>
   <data name="about_app_title" xml:space="preserve"><value>О eSemnBun</value></data>
   <data name="Settings_General" xml:space="preserve"><value>Общие</value></data>
+  <data name="Explorer_Sign" xml:space="preserve"><value>Подписать в eSemnBun</value></data>
 </root>

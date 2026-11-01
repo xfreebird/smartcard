@@ -36,6 +36,7 @@ public sealed partial class SettingsPage : Page
         VersionText.Text = $"{AppInfo.ProductName} {typeof(App).Assembly.GetName().Version} · .NET {Environment.Version}";
         AboutTitle.Text = Loc.Get("about_app_title");
         AboutDeveloper.Text = $"{Loc.Get("about_developer")}: Nicolae Ghimbovschi";
+        ResolveBridgeButton.Content = Loc.Get("Bridge_Resolve");
     }
 
     public AppState State => AppState.Current;
@@ -87,6 +88,34 @@ public sealed partial class SettingsPage : Page
     {
         if (BridgeToggle.IsOn == State.BridgeEnabled) return; // echo of the OneWay binding
         await App.Current.Services.SetBridgeEnabledAsync(BridgeToggle.IsOn);
+    }
+
+    private async void OnResolveBridgeClick(object sender, RoutedEventArgs e)
+    {
+        if (App.Current.Services.IsDemo || XamlRoot is null) return;
+        ResolveBridgeButton.IsEnabled = false;
+        try
+        {
+            var owners = await PortConflictProcesses.FindAsync();
+            if (owners.Count == 0)
+            {
+                State.BridgeStatus = Loc.Get("Bridge_ResolveNone");
+                return;
+            }
+            var details = string.Join("\n", owners.Select(owner => $"{owner.Path} (PID {owner.Id})"));
+            var dialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot, Title = Loc.Get("Bridge_ResolveTitle"),
+                Content = new TextBlock { Text = $"{Loc.Get("Bridge_ResolveBody")}\n\n{details}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true },
+                PrimaryButtonText = Loc.Get("Bridge_CloseAndRetry"), CloseButtonText = Loc.Get("Action_Cancel"),
+                DefaultButton = ContentDialogButton.Close,
+            };
+            if (await dialog.ShowAsync() != ContentDialogResult.Primary) return;
+            if (!await PortConflictProcesses.StopAsync(owners)) { State.BridgeStatus = Loc.Get("Bridge_ResolveFailed"); return; }
+            await App.Current.Services.SetBridgeEnabledAsync(true);
+        }
+        catch (Exception error) { AppLog.Error(error); State.BridgeStatus = Loc.Get("Bridge_ResolveFailed"); }
+        finally { ResolveBridgeButton.IsEnabled = true; }
     }
 
     private async void OnImportIdentityClick(object sender, RoutedEventArgs e)

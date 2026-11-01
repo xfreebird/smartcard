@@ -64,6 +64,7 @@
       <ComponentGroupRef Id="Cli" />
       <ComponentGroupRef Id="Shortcuts" />
       <ComponentGroupRef Id="StartAtLogin" />
+      <ComponentGroupRef Id="ExplorerContextMenu" />
     </Feature>
   </Package>
 
@@ -73,6 +74,22 @@
       <Files Include="$(var.AppDir)\**">
         <Exclude Files="$(var.AppDir)\**\*.pdb" />
       </Files>
+    </ComponentGroup>
+  </Fragment>
+
+  <!-- Classic Explorer context menu; Windows 11 exposes this under Show more options. -->
+  <Fragment>
+    <ComponentGroup Id="ExplorerContextMenu" Directory="INSTALLFOLDER">
+      <Component Id="ExplorerSignVerb">
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun" Type="string"
+                       Value="Sign with eSemnBun" KeyPath="yes" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun" Name="MUIVerb" Type="string"
+                       Value="@[INSTALLFOLDER]eSemnBun.Explorer.dll,-101" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun" Name="Icon" Type="string"
+                       Value="[INSTALLFOLDER]eSemnBun.exe" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun\command" Type="string"
+                       Value="&quot;[INSTALLFOLDER]eSemnBun.exe&quot; --sign &quot;%1&quot;" />
+      </Component>
     </ComponentGroup>
   </Fragment>
 

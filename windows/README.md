@@ -181,6 +181,15 @@ Nothing in the repository holds a certificate, key or password; the script reads
 | `MOLDSIGN_MSIX_PUBLISHER` | MSIX `Identity/@Publisher`, must equal the signing certificate's Subject (defaults to the thumbprint certificate's Subject) |
 | `MOLDSIGN_MSIX_IDENTITY`, `MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME` | MSIX identity name (Store: from Partner Center) and the publisher's display name |
 
+The MSI registers **Sign with eSemnBun** in Explorer's classic context menu for files. On Windows 11,
+choose **Show more options** to see it. The selected document is added to the signing screen of the
+running app (or opens the app); signing still requires the normal user action and card authorization.
+This registration is not yet available in the MSIX installer.
+
+If the browser bridge ports are occupied, Settings offers **Identify app and reconnect**. It shows
+the executable paths and process IDs owning those ports and asks the user to confirm before closing
+them. Windows may deny access to a process; in that case close the identified app manually and retry.
+
 The script signs `eSemnBun.exe`, `eSemnBun.dll`, `MoldSign.Core.dll` and `esemnbun.exe` before they go into the MSI,
 then the `.msi` and the `.msix`. Without any variable the artifacts are unsigned: the MSI still installs (SmartScreen
 warns), but an unsigned MSIX does not install (use `-SelfSignForTesting` and trust the exported `.cer` on the test machine).
@@ -359,8 +368,8 @@ saved-PIN action/help at 1100 × 720 and 900 × 580, with the second card fully 
 centered input. Portraits use the shared circular-head/short-shoulder geometry; chips contain exactly eight contact regions.
 
 Ordinary launches show the main window, including later manual launches after setup. `--autostart` keeps subsequent
-login launches in the tray. A current-user/session named-pipe broker forwards additional launches as `open` only; it never
-accepts documents, signing requests or PINs. Package builds publish and include the independent helper in MSI/MSIX.
+login launches in the tray. A current-user/session named-pipe broker forwards window activation and selected document paths; it never
+accepts PINs or performs signing. Document launches pass only selected file paths into the signing queue. Package builds publish and include the independent helper in MSI/MSIX.
 
 `test-insertion-helper.ps1` drives the Debug helper through an injected reader snapshot source and isolated preference file:
 it waits for the helper's baseline-ready marker, inserts a synthetic reader, closes the resulting mock app, inserts a card,
@@ -381,3 +390,15 @@ untouched. Leaving demo restores normal services.
 
 `windows/scripts/test-demo-mode.ps1` exercises this through native controls in an isolated test guest,
 restoring its preferences/history afterward. It does not require a card or a Debug fixture environment.
+
+## Explorer commands
+
+The MSI classic verb uses resource 101 in `eSemnBun.Explorer.dll`, with Romanian, English and Russian exported from
+`localization/catalog.json`. The MSIX registers the native `IExplorerCommand` with a COM surrogate and
+`windows.fileExplorerContextMenus`; it appears directly in the Windows 11 menu. Selecting files opens the signing
+queue and does not authorize a signature. The DLL architecture must match Explorer: use the ARM64 package on ARM64.
+
+`package-windows.ps1` builds the shell DLL before publishing. `scripts/build-explorer-command.ps1` downloads a pinned,
+SHA-256-verified portable llvm-mingw compiler into the user's local build cache and embeds the localized resource.
+No compiler registration or system-wide installation is required. To build an MSIX directly, first build the DLL into
+`src/MoldSign.App/ShellPayload` for the selected target architecture.

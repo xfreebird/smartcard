@@ -4598,6 +4598,226 @@
           }
         }
       }
+    },
+    "vendor_quit_action": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Închide MoldSign și reconectează"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit MoldSign and reconnect"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть MoldSign и подключиться"
+          }
+        }
+      }
+    },
+    "vendor_quit_confirmation": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Închizi MoldSign pentru a elibera porturile?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit MoldSign to free the ports?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Закрыть MoldSign, чтобы освободить порты?"
+          }
+        }
+      }
+    },
+    "vendor_quit_explanation": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conexiunile MoldSign active vor fi întrerupte."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Active MoldSign connections will be interrupted."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Активные соединения MoldSign будут прерваны."
+          }
+        }
+      }
+    },
+    "vendor_quit_failed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MoldSign nu a putut fi închis sau porturile sunt încă ocupate."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "MoldSign could not be closed or the ports are still in use."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось закрыть MoldSign или порты всё ещё заняты."
+          }
+        }
+      }
+    },
+    "vendor_other_conflict": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Porturile sunt ocupate de o altă aplicație. Închide aplicația care le folosește și reîncearcă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The ports are in use by another application. Close the application using them and try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Порты заняты другим приложением. Закройте его и повторите попытку."
+          }
+        }
+      }
+    },
+    "vendor_retry": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reîncearcă conexiunea"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry connection"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторить подключение"
+          }
+        }
+      }
+    },
+    "share_preparing": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se pregătesc documentele…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing documents…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовка документов…"
+          }
+        }
+      }
+    },
+    "share_done": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gata"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово"
+          }
+        }
+      }
+    },
+    "share_saved_open_app": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentele au fost salvate. Deschide eSemnBun pentru a le semna."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documents saved. Open eSemnBun to sign them."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документы сохранены. Откройте eSemnBun, чтобы подписать их."
+          }
+        }
+      }
+    },
+    "share_failed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentele nu au putut fi salvate. Încearcă din nou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not save the documents. Please try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить документы. Попробуйте ещё раз."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

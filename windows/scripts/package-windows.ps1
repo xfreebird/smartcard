@@ -251,6 +251,7 @@ foreach ($platform in $Platforms) {
     Get-ChildItem $HelperPayload -Recurse -Filter *.pdb | Remove-Item -Force
 
     Write-Host "`n== ${rid}: app eSemnBun.exe (self-contained, unpackaged)" -ForegroundColor Cyan
+    & (Join-Path $PSScriptRoot 'build-explorer-command.ps1') -Platform $platform -OutputDirectory (Join-Path (Split-Path $AppProject) 'ShellPayload')
     Invoke-Tool dotnet @('publish', $AppProject, '-c', $Configuration, '-r', $rid, "-p:Platform=$msbuildPlatform",
         '--self-contained', '-p:WindowsPackageType=None', "-p:Version=$Version", '-o', $appOut)
     Get-ChildItem $appOut, $cliOut -Recurse -Filter *.pdb | Remove-Item -Force
@@ -258,6 +259,7 @@ foreach ($platform in $Platforms) {
         throw "The tray icons are missing from $appOut (Content items of MoldSign.App)"
     }
     Invoke-Sign @((Join-Path $appOut 'eSemnBun.exe'), (Join-Path $appOut 'eSemnBun.dll'),
+        (Join-Path $appOut 'eSemnBun.Explorer.dll'),
         (Join-Path $appOut 'MoldSign.Core.dll'), (Join-Path $cliOut 'esemnbun.exe'), (Join-Path $appOut 'helper/eSemnBun.Watcher.exe'))
 
     if (-not $SkipMsi) {

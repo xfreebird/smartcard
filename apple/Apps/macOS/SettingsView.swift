@@ -97,6 +97,9 @@ private struct GeneralSettings: View {
 
 private struct BridgeSettings: View {
     @Environment(AppModel.self) private var model
+    @State private var vendorListening = false
+    @State private var confirmQuitVendor = false
+    @State private var quitFailed = false
 
     var body: some View {
         @Bindable var model = model
@@ -104,9 +107,14 @@ private struct BridgeSettings: View {
             Toggle(L10n.text(.ui_respond_to_signing_requests_from_the_browser), isOn: $model.bridgeEnabled)
             LabeledContent(L10n.text(.ui_addresses), value: "127.0.0.1:18480 · localhost.cts.md:18443")
             if model.bridgeState == .portBusy {
-                Text(L10n.text(.ui_the_ports_are_in_use_by_moldsign_desktop_suite_java_quit_it_to_use_this_application))
+                Text(L10n.text(vendorListening ? .ui_the_ports_are_in_use_by_moldsign_desktop_suite_java_quit_it_to_use_this_application : .vendor_other_conflict))
                     .font(.caption).foregroundStyle(Theme.warning)
-                // TODO(MAC-08): offer to quit the vendor server
+                if vendorListening {
+                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }
+                } else {
+                    Button(L10n.text(.vendor_retry)) { retryBridge() }
+                }
+                if quitFailed { Text(L10n.text(.vendor_quit_failed)).font(.caption).foregroundStyle(Theme.warning) }
             }
             Section(L10n.text(.ui_allowed_sites)) {
                 Text(BridgeOriginPolicy.vendorDefault.patterns.prefix(12).joined(separator: "\n") + "\n…")
@@ -115,6 +123,28 @@ private struct BridgeSettings: View {
             }
         }
         .formStyle(.grouped)
+        .task(id: model.bridgeState == .portBusy) {
+            guard model.bridgeState == .portBusy else { return }
+            vendorListening = await Task.detached { !VendorPortConflict.listeners().isEmpty }.value
+        }
+        .alert(L10n.text(.vendor_quit_confirmation), isPresented: $confirmQuitVendor) {
+            Button(L10n.text(.vendor_quit_action), role: .destructive) {
+                VendorPortConflict.terminateListeners()
+                Task { @MainActor in
+                    try? await Task.sleep(for: .seconds(1))
+                    quitFailed = await Task.detached { !VendorPortConflict.listeners().isEmpty }.value
+                    retryBridge()
+                }
+            }
+            Button(L10n.text(.ui_cancel), role: .cancel) { }
+        } message: {
+            Text(L10n.text(.vendor_quit_explanation))
+        }
+    }
+
+    private func retryBridge() {
+        model.stopBridge()
+        if model.bridgeEnabled { model.startBridge() }
     }
 }
 

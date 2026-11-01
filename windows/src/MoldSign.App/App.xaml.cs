@@ -55,6 +55,9 @@ public partial class App : Application
 
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
+        var launchArguments = Environment.GetCommandLineArgs();
+        var documentPaths = launchArguments.Length > 2 && launchArguments[1] == "--sign"
+            ? launchArguments.Skip(2).Where(File.Exists).ToArray() : Array.Empty<string>();
 #if DEBUG
         if (Environment.GetEnvironmentVariable("MSIGN_DEMO_PIN_ONLY") == "1")
         {
@@ -67,7 +70,11 @@ public partial class App : Application
             _activation = new DesktopActivationBroker();
             if (!_activation.IsPrimary)
             {
-                try { await _activation.OpenExistingAsync(CancellationToken.None); }
+                try
+                {
+                    if (documentPaths.Length > 0) await _activation.OpenFilesAsync(documentPaths, CancellationToken.None);
+                    else await _activation.OpenExistingAsync(CancellationToken.None);
+                }
                 catch (IOException error) { AppLog.Error(error); }
                 catch (TimeoutException error) { AppLog.Error(error); }
                 _activation.Dispose();
@@ -75,9 +82,12 @@ public partial class App : Application
                 return;
             }
             var activationUi = DispatcherQueue.GetForCurrentThread();
-            _activation.Listen(() => activationUi.TryEnqueue(() => EnsureMainWindow(activate: true)));
+            _activation.ListenFiles(paths => activationUi.TryEnqueue(() =>
+            {
+                var window = EnsureMainWindow(activate: true);
+                if (paths.Count > 0) window.QueueSignFiles(paths.Where(File.Exists).ToArray());
+            }));
         }
-        // TODO(WIN-07): files passed by the Explorer verb "Semnează cu MoldSign" arrive here as arguments.
         AppLog.Stage("OnLaunched");
         var dispatcher = DispatcherQueue.GetForCurrentThread();
         Services = new AppServices(
@@ -111,6 +121,7 @@ public partial class App : Application
         {
             // TODO(WIN-04): three-step first run (docs/10 §4.7); for now open the main window once.
             EnsureMainWindow(activate: true);
+            if (documentPaths.Length > 0) _main?.QueueSignFiles(documentPaths);
             if (Services.IsDemo)
             {
                 if (Environment.GetEnvironmentVariable("MSIGN_DEMO_DARK") is "1" && _main?.Content is FrameworkElement root)

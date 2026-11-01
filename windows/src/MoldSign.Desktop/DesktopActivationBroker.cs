@@ -3,10 +3,11 @@ using System.IO.Pipes;
 using System.Security.Cryptography;
 using System.Text;
 using System.Runtime.Versioning;
+using System.Text.Json;
 
 namespace MoldSign.Desktop;
 
-/// <summary>Per-user/session activation only. It accepts no document, PIN or signing instruction.</summary>
+/// <summary>Per-user/session window activation and document selection; never accepts a PIN or signs.</summary>
 [SupportedOSPlatform("windows")]
 public sealed class DesktopActivationBroker : IDisposable
 {
@@ -26,7 +27,9 @@ public sealed class DesktopActivationBroker : IDisposable
 
     public bool IsPrimary { get; }
 
-    public void Listen(Action open)
+    public void Listen(Action open) => ListenFiles(_ => open());
+
+    public void ListenFiles(Action<IReadOnlyList<string>> open)
     {
         if (!IsPrimary || _listener is not null) return;
         // Create the first pipe before returning so a secondary process can connect
@@ -34,7 +37,7 @@ public sealed class DesktopActivationBroker : IDisposable
         _listener = ListenAsync(open);
     }
 
-    private async Task ListenAsync(Action open)
+    private async Task ListenAsync(Action<IReadOnlyList<string>> open)
     {
         while (!_shutdown.IsCancellationRequested)
         {
@@ -43,9 +46,25 @@ public sealed class DesktopActivationBroker : IDisposable
                 using var server = new NamedPipeServerStream(_pipe, PipeDirection.In, 1,
                     PipeTransmissionMode.Byte, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
                 await server.WaitForConnectionAsync(_shutdown.Token).ConfigureAwait(false);
-                var buffer = new byte[16];
-                var count = await server.ReadAsync(buffer, _shutdown.Token).ConfigureAwait(false);
-                if (Encoding.UTF8.GetString(buffer, 0, count) == "open") open();
+                using var message = new MemoryStream();
+                var buffer = new byte[1024];
+                var complete = false;
+                while (!complete && message.Length <= 32768)
+                {
+                    var count = await server.ReadAsync(buffer, _shutdown.Token).ConfigureAwait(false);
+                    if (count == 0) break;
+                    var end = Array.IndexOf(buffer, (byte)'\n', 0, count);
+                    message.Write(buffer, 0, end < 0 ? count : end);
+                    complete = end >= 0;
+                }
+                if (message.Length > 32768) continue;
+                var line = Encoding.UTF8.GetString(message.ToArray());
+                if (line == "open") open(Array.Empty<string>());
+                else if (line is { Length: <= 32768 } && line.StartsWith("files:", StringComparison.Ordinal))
+                {
+                    try { open(JsonSerializer.Deserialize<string[]>(line[6..]) ?? []); }
+                    catch (JsonException) { }
+                }
             }
             catch (OperationCanceledException) { break; }
             catch (IOException) { /* A failed client cannot end activation listening. */ }
@@ -56,7 +75,17 @@ public sealed class DesktopActivationBroker : IDisposable
     {
         using var client = new NamedPipeClientStream(".", _pipe, PipeDirection.Out, PipeOptions.Asynchronous);
         await client.ConnectAsync(3000, cancellationToken);
-        await client.WriteAsync("open"u8.ToArray(), cancellationToken);
+        await client.WriteAsync("open\n"u8.ToArray(), cancellationToken);
+        await client.FlushAsync(cancellationToken);
+    }
+
+    public async Task OpenFilesAsync(IReadOnlyList<string> paths, CancellationToken cancellationToken)
+    {
+        var command = "files:" + JsonSerializer.Serialize(paths) + "\n";
+        if (command.Length > 32768) throw new ArgumentException("Too many document paths.", nameof(paths));
+        using var client = new NamedPipeClientStream(".", _pipe, PipeDirection.Out, PipeOptions.Asynchronous);
+        await client.ConnectAsync(3000, cancellationToken);
+        await client.WriteAsync(Encoding.UTF8.GetBytes(command), cancellationToken);
         await client.FlushAsync(cancellationToken);
     }
 

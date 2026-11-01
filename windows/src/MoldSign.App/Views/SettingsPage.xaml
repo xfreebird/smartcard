@@ -81,6 +81,7 @@
                 IsOn="{x:Bind State.BridgeEnabled, Mode=OneWay}"
                 Toggled="OnBridgeToggled" />
             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.BridgeStatus, Mode=OneWay}" />
+            <Button x:Name="ResolveBridgeButton" Click="OnResolveBridgeClick" />
             <TextBlock
                 Style="{StaticResource MsCaptionTextStyle}"
                 Text="http://127.0.0.1:18480 · https://localhost.cts.md:18443"

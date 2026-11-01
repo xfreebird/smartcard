@@ -159,8 +159,8 @@ final class MainWindow {
             #endif
         } else if controller.settings.bridgeEnabled, controller.bridgeState == .portBusy {
             title = localized(.linux_bridge_ports_banner, String(MoldSignServer.defaultHTTPPort), String(MoldSignServer.defaultHTTPSPort))
-            buttonLabel = L10n.text(.ui_retry)
-            bannerAction = { [weak self] in self?.controller.restartBridge() }
+            buttonLabel = L10n.text(.linux_vendor_resolve)
+            bannerAction = { [weak self] in self?.resolveBridgeConflict() }
         } else if controller.settings.bridgeEnabled, controller.bridgeState == .identityRequired {
             title = controller.bridgeState.description
             buttonLabel = L10n.text(.ui_import)
@@ -172,6 +172,30 @@ final class MainWindow {
         adw_banner_set_title(banner, escapeMarkup(title ?? ""))
         adw_banner_set_button_label(banner, buttonLabel)
         adw_banner_set_revealed(banner, title == nil ? 0 : 1)
+    }
+
+    private func resolveBridgeConflict() {
+        // /proc may be unavailable inside a sandbox; absence of a match must never kill an unknown process.
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let listeners = VendorPortConflict.listeners()
+            onMain {
+                guard let self, self.controller.bridgeState == .portBusy else { return }
+                guard !listeners.isEmpty else {
+                    self.toast(L10n.text(.linux_vendor_unknown))
+                    self.controller.restartBridge()
+                    return
+                }
+                presentConfirmDialog(parent: self.window.cast(), heading: L10n.text(.linux_vendor_quit_title),
+                                     body: L10n.text(.linux_vendor_quit_body), action: L10n.text(.linux_vendor_quit_action)) { approved in
+                    guard approved else { return }
+                    DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                        VendorPortConflict.requestQuit(listeners)
+                        Thread.sleep(forTimeInterval: 1)
+                        onMain { self?.controller.restartBridge() }
+                    }
+                }
+            }
+        }
     }
 }
 

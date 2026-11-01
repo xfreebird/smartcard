@@ -37,6 +37,12 @@ public sealed partial class MainWindow : Window
 
     public AppState State => AppState.Current;
 
+    public void QueueSignFiles(IReadOnlyList<string> paths)
+    {
+        ShowSection("sign");
+        if (ContentFrame.Content is SignPage page) page.QueueFiles(paths);
+    }
+
     public async Task VerifyFilesAsync(IReadOnlyList<string> paths)
     {
         ShowSection("verify");

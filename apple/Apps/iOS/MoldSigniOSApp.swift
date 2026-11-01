@@ -12,7 +12,10 @@ struct MoldSigniOSApp: App {
             RootTabView()
                 .environment(model)
                 .appPreferences()
-                .task { model.start() }
+                .task {
+                    model.start()
+                    model.addFiles(SharedDocumentInbox.takeDocuments())
+                }
                 .onOpenURL { url in
                     if ["https", "http"].contains(url.scheme?.lowercased() ?? L10n.text(.ui_)) { model.browserURL = url }
                     else if url.scheme == "esemnbun", url.host == "browser",
@@ -24,7 +27,12 @@ struct MoldSigniOSApp: App {
         }
         .onChange(of: scenePhase) { _, phase in
             // R-01: iOS suspends us in the background; the bridge only serves while we are foreground
-            if phase == .active, model.bridgeEnabled { model.startBridge() }
+            if phase == .active {
+                let shared = SharedDocumentInbox.takeDocuments()
+                model.addFiles(shared)
+                if !shared.isEmpty { NotificationCenter.default.post(name: .sharedDocumentsImported, object: nil) }
+                if model.bridgeEnabled { model.startBridge() }
+            }
             if phase == .background { model.stopBridge() }
         }
     }
@@ -59,6 +67,7 @@ struct RootTabView: View {
                 .tag(TabID.card)
         }
         .onChange(of: model.browserURL) { _, url in if url != nil { tab = .browser } }
+        .onReceive(NotificationCenter.default.publisher(for: .sharedDocumentsImported)) { _ in tab = .sign }
         .tint(Theme.brand)
         .sheet(item: $model.pinRequest) { request in
             PinEntryView(request: request,

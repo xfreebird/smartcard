@@ -229,6 +229,11 @@ enum L10n {
         case linux_bridge_active
         case linux_bridge_ports_busy
         case linux_bridge_failed
+        case linux_vendor_resolve
+        case linux_vendor_quit_title
+        case linux_vendor_quit_body
+        case linux_vendor_quit_action
+        case linux_vendor_unknown
         case linux_bridge_ports_banner
         case linux_drop_more_documents
         case linux_format_for_file
@@ -1395,6 +1400,31 @@ enum L10n {
     "ro": "Nu a pornit: %1$s",
     "en": "Could not start: %1$s",
     "ru": "Не удалось запустить: %1$s"
+  },
+  "linux_vendor_resolve": {
+    "ro": "Rezolvă",
+    "en": "Resolve",
+    "ru": "Решить"
+  },
+  "linux_vendor_quit_title": {
+    "ro": "Închizi MoldSign Server?",
+    "en": "Quit MoldSign Server?",
+    "ru": "Закрыть MoldSign Server?"
+  },
+  "linux_vendor_quit_body": {
+    "ro": "MoldSign Server folosește portul necesar. Închide-l pentru a porni conexiunea browserului.",
+    "en": "MoldSign Server is using a required port. Quit it to start the browser connection.",
+    "ru": "MoldSign Server использует необходимый порт. Закройте его, чтобы включить соединение с браузером."
+  },
+  "linux_vendor_quit_action": {
+    "ro": "Închide MoldSign",
+    "en": "Quit MoldSign",
+    "ru": "Закрыть MoldSign"
+  },
+  "linux_vendor_unknown": {
+    "ro": "Nu s-a putut identifica MoldSign Server. Închide aplicația care folosește porturile și încearcă din nou.",
+    "en": "MoldSign Server could not be identified. Close the app using the ports and try again.",
+    "ru": "Не удалось определить MoldSign Server. Закройте приложение, использующее порты, и повторите попытку."
   },
   "linux_bridge_ports_banner": {
     "ro": "Conexiunea browser nu a pornit: porturile %1$s/%2$s sunt ocupate de altă aplicație",

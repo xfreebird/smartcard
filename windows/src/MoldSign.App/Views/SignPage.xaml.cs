@@ -37,6 +37,9 @@ public sealed partial class SignPage : Page
     private void OnStateChanged(object? sender, PropertyChangedEventArgs e) => UpdateSignButton();
 
     private void OnFilesChosen(object? sender, IReadOnlyList<string> paths)
+        => QueueFiles(paths);
+
+    public void QueueFiles(IReadOnlyList<string> paths)
     {
         if (App.Current.Services.IsDemo && paths.Any(path => !App.Current.Services.IsDemoDocument(path)))
         {

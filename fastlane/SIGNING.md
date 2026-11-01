@@ -12,6 +12,7 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 | `MATCH_PASSWORD` | decrypts the match storage |
 | `MATCH_GIT_BASIC_AUTHORIZATION` | base64 `user:token` with **write** access to fastlanecerts (local `certs` / imports only; reading is anonymous) |
 | `MATCH_KEYCHAIN_NAME`, `MATCH_KEYCHAIN_PASSWORD` | optional local keychain for the identities (CI uses `setup_ci`) |
+| `ESEMNBUN_SIGNING_KEYCHAIN` | optional existing isolated keychain path passed explicitly to archive signing |
 | `BUILD_NUMBER` | `CFBundleVersion` of the IPA (CI: `<run number>.<attempt>`, unique for TestFlight) |
 
 ```bash
@@ -41,3 +42,19 @@ Notes from setting it up (2026-10-25):
   `apple/Apps/iOS/PrivacyInfo.xcprivacy` (UserDefaults, reason CA92.1).
 * Ad hoc: the same archive re-signed with "match AdHoc md.esemnbun.ios". A new device needs registering in the
   portal, then `bundle exec fastlane new_devices` locally (API key, writes to match), then a new build.
+
+The iOS share extension uses `md.esemnbun.ios.share` and the shared App Group
+`group.md.esemnbun.shared`. Before producing signed builds, enable App Groups for
+both iOS identifiers in the Apple Developer portal, associate this group with
+both identifiers, and regenerate their development, App Store and ad hoc profiles
+with `fastlane certs force:true`. The release lane reads and exports profiles for both targets.
+
+Configured on 1 November 2026: both identifiers have App Groups enabled and are
+associated with `group.md.esemnbun.shared`. App Store, development and ad hoc profiles
+for both targets were regenerated and synchronized to the encrypted match repository.
+
+Validation on 1 November 2026: `ios_release upload:false` fetched the profiles
+read-only from match, archived successfully, and exported both App Store and ad hoc IPAs.
+The main app and embedded extension in both exports passed strict signature checks;
+each embedded provisioning profile and signed entitlement contains the shared App Group.
+The exports are under `dist/ios/`; no build was uploaded.

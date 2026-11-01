@@ -72,7 +72,13 @@
   <data name="SettingsImportIdentity.Content" xml:space="preserve"><value>Importă identitatea HTTPS (localhost.p12)…</value></data>
   <data name="Error_FileSelection" xml:space="preserve"><value>Fișierele nu au putut fi deschise: {0}</value></data>
   <data name="Error_PickerWindow" xml:space="preserve"><value>Deschide fereastra aplicației și încearcă din nou.</value></data>
-  <data name="Bridge_PortBusy" xml:space="preserve"><value>Portul {0} este ocupat (probabil de MoldSign (Java)). Închide-l și repornește conexiunea.</value></data>
+  <data name="Bridge_PortBusy" xml:space="preserve"><value>Portul {0} este ocupat. Identifică aplicația care îl folosește și încearcă din nou.</value></data>
+  <data name="Bridge_Resolve" xml:space="preserve"><value>Identifică aplicația și reconectează</value></data>
+  <data name="Bridge_ResolveTitle" xml:space="preserve"><value>Închizi aplicația care folosește portul?</value></data>
+  <data name="Bridge_ResolveBody" xml:space="preserve"><value>Verifică dacă aplicația de mai jos este MoldSign. Închiderea ei poate întrerupe operațiile în curs:</value></data>
+  <data name="Bridge_CloseAndRetry" xml:space="preserve"><value>Închide și reconectează</value></data>
+  <data name="Bridge_ResolveNone" xml:space="preserve"><value>Nu a putut fi identificată o aplicație accesibilă. Închide manual aplicația care folosește portul și încearcă din nou.</value></data>
+  <data name="Bridge_ResolveFailed" xml:space="preserve"><value>Aplicația nu a putut fi închisă sau conexiunea s-a schimbat. Încearcă din nou.</value></data>
   <data name="Activity_Signed" xml:space="preserve"><value>Semnat</value></data>
   <data name="Activity_Verified" xml:space="preserve"><value>Verificat</value></data>
   <data name="Activity_BridgeRequest" xml:space="preserve"><value>Cerere {0}</value></data>
@@ -239,4 +245,5 @@
   <data name="about_developer" xml:space="preserve"><value>Dezvoltator</value></data>
   <data name="about_app_title" xml:space="preserve"><value>Despre eSemnBun</value></data>
   <data name="Settings_General" xml:space="preserve"><value>General</value></data>
+  <data name="Explorer_Sign" xml:space="preserve"><value>Semnează cu eSemnBun</value></data>
 </root>

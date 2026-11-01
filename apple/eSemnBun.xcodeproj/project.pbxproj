@@ -12,14 +12,27 @@
 		7AC6BBB63E4379BDDF7505BA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = FE1540A69DD726BA154AB629 /* MoldSignKit */; };
 		5E1B0C7A2D4F4E8A9B3C6D11 /* localhost.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */; };
 		5E1B0C7A2D4F4E8A9B3C6D12 /* localhost.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */; };
+		A10000000000000000000001 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* ShareViewController.swift */; };
+		A10000000000000000000003 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* Localizable.xcstrings */; };
+		A10000000000000000000005 /* eSemnBunShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A10000000000000000000006 /* eSemnBunShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A10000000000000000000007 /* PBXContainerItemProxy */ = {isa = PBXContainerItemProxy; containerPortal = BE9061C6BB0447C32441F63C /* Project object */; proxyType = 1; remoteGlobalIDString = A10000000000000000000008; remoteInfo = eSemnBunShare; };
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A10000000000000000000009 /* Embed App Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (A10000000000000000000005 /* eSemnBunShare.appex in Embed App Extensions */, ); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+/* End PBXCopyFilesBuildPhase section */
 /* Begin PBXFileReference section */
 		9D3A4354BB64867F51E37837 /* MoldSignKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MoldSignKit; path = ../swift/MoldSignKit; sourceTree = SOURCE_ROOT; };
 		C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "eSemnBun-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "eSemnBun-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49893864352DC4EBBCD6042 /* esemnbun-cli */ = {isa = PBXFileReference; includeInIndex = 0; path = "esemnbun-cli"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E1B0C7A2D4F4E8A9B3C6D10 /* localhost.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; name = localhost.p12; path = Resources/localhost.p12; sourceTree = "<group>"; };
+		A10000000000000000000002 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtension/ShareViewController.swift; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000004 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Apps/Shared/Resources/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
+		A10000000000000000000006 /* eSemnBunShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eSemnBunShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -120,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				F49893864352DC4EBBCD6042 /* esemnbun-cli */,
+				A10000000000000000000006 /* eSemnBunShare.appex */,
 				F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */,
 				C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */,
 			);
@@ -148,6 +162,8 @@
 			isa = PBXGroup;
 			children = (
 				1EF5874DE5B843B8DB3BB458 /* Apps */,
+				A10000000000000000000002 /* ShareViewController.swift */,
+				A10000000000000000000004 /* Localizable.xcstrings */,
 				D3BAA8E7F029DB79141EB1A5 /* MoldSignKit */,
 				A40AA187AECC19AD5E24C508 /* Packages */,
 				033BFFADBFCCC6BE9A02D653 /* Products */,
@@ -207,10 +223,12 @@
 				1403A2D6CD19CE561213CAF7 /* Sources */,
 				25B795AB9CEE9D371D47D46C /* Resources */,
 				4951CEED8B3DDAC0E3AB5210 /* Frameworks */,
+				A10000000000000000000009 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A1000000000000000000000A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				81B22A7491DCAC3D156E2714 /* Shared */,
@@ -246,6 +264,17 @@
 			productName = "esemnbun-cli";
 			productReference = F49893864352DC4EBBCD6042 /* esemnbun-cli */;
 			productType = "com.apple.product-type.tool";
+		};
+		A10000000000000000000008 /* eSemnBunShare */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1000000000000000000000B /* Build configuration list for PBXNativeTarget "eSemnBunShare" */;
+			buildPhases = (A1000000000000000000000C /* Sources */, A1000000000000000000000D /* Resources */, );
+			buildRules = ();
+			dependencies = ();
+			name = eSemnBunShare;
+			productName = eSemnBunShare;
+			productReference = A10000000000000000000006 /* eSemnBunShare.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -289,6 +318,7 @@
 			targets = (
 				17BEBCA95EA2E3B2714B9E43 /* eSemnBun-macOS */,
 				4D6FDB6F3A417301EBF98977 /* eSemnBun-iOS */,
+				A10000000000000000000008 /* eSemnBunShare */,
 				D8D5F2ABFCA3FB9FD890D10D /* esemnbun-cli */,
 			);
 		};
@@ -318,6 +348,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1000000000000000000000D /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003 /* Localizable.xcstrings in Resources */, ); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -356,8 +387,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A1000000000000000000000C /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* ShareViewController.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A1000000000000000000000A /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = A10000000000000000000008 /* eSemnBunShare */; targetProxy = A10000000000000000000007 /* PBXContainerItemProxy */; };
+/* End PBXTargetDependency section */
 /* Begin XCBuildConfiguration section */
 		4E3B0DFF0323B9D4D49F5F8A /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -385,6 +420,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = Apps/iOS/eSemnBun.entitlements;
 				INFOPLIST_FILE = Apps/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -424,6 +460,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_ENTITLEMENTS = Apps/iOS/eSemnBun.entitlements;
 				INFOPLIST_FILE = Apps/iOS/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -610,6 +647,8 @@
 			};
 			name = Release;
 		};
+		A1000000000000000000000E /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_FILE = ShareExtension/Info.plist; PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios.share; PRODUCT_NAME = eSemnBunShare; SDKROOT = iphoneos; SKIP_INSTALL = YES; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Debug; };
+		A1000000000000000000000F /* Release */ = {isa = XCBuildConfiguration; buildSettings = {APPLICATION_EXTENSION_API_ONLY = YES; CODE_SIGN_ENTITLEMENTS = ShareExtension/ShareExtension.entitlements; GENERATE_INFOPLIST_FILE = YES; INFOPLIST_FILE = ShareExtension/Info.plist; PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios.share; PRODUCT_NAME = eSemnBunShare; SDKROOT = iphoneos; SKIP_INSTALL = YES; TARGETED_DEVICE_FAMILY = "1,2"; }; name = Release; };
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -649,6 +688,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
+		A1000000000000000000000B /* Build configuration list for PBXNativeTarget "eSemnBunShare" */ = {isa = XCConfigurationList; buildConfigurations = (A1000000000000000000000E /* Debug */, A1000000000000000000000F /* Release */, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */

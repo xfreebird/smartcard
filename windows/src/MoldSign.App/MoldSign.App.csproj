@@ -50,6 +50,7 @@
       Assets\Tray\*.ico from the app folder); the MSIX packs them from the same items.
     -->
     <Content Update="Assets\**" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="ShellPayload\eSemnBun.Explorer.dll" Link="eSemnBun.Explorer.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('ShellPayload\eSemnBun.Explorer.dll')" />
     <!-- Packaging publishes the independent helper here before the MSIX build. -->
     <Content Include="HelperPayload\**" Link="helper\%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" Condition="Exists('HelperPayload')" />

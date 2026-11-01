@@ -11,6 +11,21 @@ Last updated: **2026-11-01**
 
 ---
 
+## Priority: vendor conflicts and sharing — 1 November 2026
+
+- [x] PRIORITY-01 Offer to quit the identified MoldSign vendor application when it occupies the browser bridge ports on macOS, Windows and Linux; retry the bridge after it exits. Do not terminate unrelated port owners.
+- [x] PRIORITY-02 Add a Finder Quick Action and Windows Explorer context-menu entry for sending selected documents to eSemnBun for signing.
+- [x] PRIORITY-03 Add an iOS/iPadOS share extension for sending documents to eSemnBun. Android already declares SEND and SEND_MULTIPLE; confirm its existing share target and document any remaining gaps.
+- [x] Device clarification: USB-C and Lightning adapter use has been tested by the owner. NFC is not supported and is out of scope.
+
+Completion pass: the iOS extension and App Group are registered and associated. All six development/App Store/ad hoc profiles for app and extension were regenerated and pushed encrypted to match master `61d16296cd9ac4c4d37f7d17ef14cee0c849f6de`; read-only match retrieval passed. `ios_release upload:false` produced signed App Store and ad hoc IPAs in dist/ios. Both app and embedded extension pass strict signature verification and contain the shared group in signed entitlements and embedded profiles. No upload occurred. MSIX Explorer is implemented: x64/ARM64 DLL builds, native COM, registered loose MSIX activation, actual modern menu visibility/invocation, manifest/payload inclusion and packaging-script syntax pass. The command and MSI label use the shared three-language catalog. Full release packaging was not repeated. Windows installer/UI validation passed: a test MSI built from production WiX sources installed its payload, localized MUIVerb and file command, then uninstalled cleanly. The test used separate product/upgrade/install/registry identities and disabled app-closing/PATH actions to preserve the existing installation. Actual Settings Cancel preserved a disposable listener; Close and reconnect stopped it and restored bridge HTTP 200 on isolated test ports. Existing app and VM state were preserved.
+
+These priorities supersede the older NFC research tasks and the untested-adapter statements below. Implementation and verification details will be recorded here as the work progresses.
+
+Current implementation and validation: macOS offers a confirmed quit/retry for port listeners under the installed MoldSign directory. With the real vendor server and an isolated Debug app, Cancel preserved the vendor listener, while confirmation stopped it and restored HTTPS bridge access; an unrelated listener was ignored. The Finder Services action queued a sample file. Sandboxed distribution remains to be tested. Linux identifies the same-user Java vendor server by JAR name and actual socket ownership; Fedora build, unit tests and GTK mock checks verified cancellation, termination/retry and unknown-listener safety. Real Linux vendor installations and Flatpak process visibility need checks. Windows shows port-owner paths and PIDs for explicit user confirmation and revalidates identity before closing. The final WinUI Debug x64 build passed on Windows ARM; a runtime harness detected the existing eSemnBun listener without stopping it, and the same helper on alternate test ports identified and terminated a disposable listener. Same-session activation IPC passed for two paths including spaces and Unicode. Windows confirmation/reconnect UI passed with isolated ports as recorded above. Windows MSI registers a classic Explorer verb; Windows 11 places it under Show more options. A temporary per-user verb and isolated self-contained publish queued one document on launch and a second in the running instance, confirmed in the UI Automation tree. MSIX support and shared-catalog localization are implemented and runtime-verified above; MSI installation/removal validation passed with an isolated package identity as recorded above. Android's system Files share sheet sent one and two sample PDFs to the signing queue on an emulator; a current-source Debug build passed. No physical card or PIN was used in these checks.
+
+iOS/iPadOS share-extension code copies shared files into an App Group inbox for the main app to add to its signing queue. It asks the user to open eSemnBun after sharing. The simulator Debug build passed; an iPhone Files share delivered a byte-identical document into Sign, and an iPad Files share delivered two distinct byte-identical documents into Sign. Signed archive and both distribution exports are verified as recorded above; physical-device installation remains a separate check. See fastlane/SIGNING.md.
+
 ## Mobile browser and MPass — 1 November 2026
 
 - [~] MOB-01 Preserve external-browser signing for split-screen use and offer an in-app browser on
@@ -383,7 +398,7 @@ msign.gov.md works through the bridge with consent, PIN in Keychain, starts at l
 
 Exit criteria: sign a PDF on iPhone over USB-C **and** Lightning adapters; msign.gov.md works in the in-app browser.
 
-- [ ] IOS-01 Spike: miniLector EVO as a `TKSmartCardSlot` over USB-C adapter and Lightning → USB 3 Camera Adapter (power draw)
+- [x] IOS-01 Owner confirms the reader has been tested with USB-C and Lightning adapters; power-budget measurements are not recorded here.
 - [ ] IOS-02 `TKSmartCardTransport` on device: full mutual auth + sign; does TK need an explicit reset?
 - [~] IOS-03 Connection guide with adapter tiles + live status banner
 - [~] IOS-04 Document flow: Files picker, "Open in" (`onOpenURL`), results in Documents (visible in Files) + Share
@@ -391,7 +406,7 @@ Exit criteria: sign a PDF on iPhone over USB-C **and** Lightning adapters; msign
 - [~] IOS-06 In-app browser (WKWebView) and bundled HTTPS bridge for MPass and msign.gov.md; device and real-reader verification pending
 - [ ] IOS-07 Bridge in Split View / Stage Manager (both apps foreground), documented limits (R-01)
 - [ ] IOS-08 Share extension "Semnează" (memory cap, R-06)
-- [ ] IOS-09 NFC research: CosmoX IAS/ECC over contactless? iOS 26 `createNFCSlot` + `iso7816.select-identifiers` (R-03)
+- [-] IOS-09 NFC is not supported; removed from scope by the owner.
 - [~] IOS-10 Packaging: `fastlane ios_release` → one archive, App Store IPA uploaded to TestFlight (no waiting for processing) + ad hoc IPA (match AdHoc), in the `release` workflow; App Store Connect app 6826865290; `scripts/package-ios.sh` stays for unsigned archives. Export compliance: `ITSAppUsesNonExemptEncryption = NO` (owner's call, exempt encryption only). App Store review strategy (vendor TLS key R-02, private API audit) todo
 
 ### Phase 3: Android
@@ -406,7 +421,7 @@ Exit criteria: sign on a USB-C Android phone; Chrome on the same phone signs thr
 - [~] AND-06 PinVault (Keystore AES-GCM + BiometricPrompt + DataStore) written, not yet wired into the sign flow
 - [x] AND-07 Save and share on Android: signed files go to Downloads/eSemnBun through MediaStore (never overwriting; D-06 "next to the original" is impossible with picker URIs); Activity rows have Open / Share / Save as… (system save dialog); share target "Semnează" accepts PDFs and other files from other apps (copied to the cache, cleared at start). Verified on a phone
 - [~] AND-08 Chrome Local Network Access prompt (R-05): signing from msign.gov.md in Chrome on the phone works (2026-10-25); `localhost.cts.md` resolves to 127.0.0.1 and the preflight answers `Access-Control-Allow-Private-Network`. Still to document what Chrome shows the first time
-- [ ] AND-09 NFC `IsoDep` path, if R-03 is positive
+- [-] AND-09 NFC is not supported; removed from scope by the owner.
 - [~] AND-10 Packaging: `scripts/package-android.sh` → APK + AAB signed with the upload key (`md.esemnbun.app`, keystore kept by the owner, CI secret `ANDROID_KEYSTORE_BASE64`). R8 shrinking (14 MB APK today), Play App Signing enrolment and listing todo
 
 ### Phase 4: Windows
@@ -542,7 +557,7 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 |---|---|---|
 | R-01 | iOS suspends background apps, so a localhost bridge can't serve Safari while our app is backgrounded | In-app browser (IOS-06), Split View (IOS-07); research a Safari Web Extension relaying to the app |
 | R-02 | App Store review of a bundled third-party TLS private key | D-03; the in-app browser could avoid TLS (custom scheme bridge) |
-| R-03 | Unknown whether the card supports contactless IAS/ECC (PACE may be required) | IOS-09 spike with the Android `IsoDep` + iOS 26 NFC slot |
+| R-03 | NFC is not supported | Out of scope per owner; use a supported reader and adapter. |
 | R-04 | Android blocks activity starts from the background (consent UI) | Notification-driven consent (AND-05) |
 | R-05 | Chrome/Edge Local Network Access permission for public → localhost requests | `Access-Control-Allow-Private-Network: true` (done); document the one-time browser prompt |
 | R-06 | iOS share-extension memory (~120 MB) vs large PDFs | Stream hashing; hand large files to the main app |
