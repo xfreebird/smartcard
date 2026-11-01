@@ -12,11 +12,16 @@ final class WindowPresentation {
 
     var hasPendingRequest: Bool { pending != nil }
 
-    func present(_ destination: Destination, open: () -> Void) {
+    func present(_ destination: Destination, open: @escaping () -> Void) {
         pending = destination
         NSApp.setActivationPolicy(.regular)
-        open()
-        DispatchQueue.main.async { [weak self] in self?.finishPendingRequest() }
+        // SwiftUI's Settings action needs an active application even when no app window
+        // exists yet. Let the accessory-to-regular transition complete before opening it.
+        NSApp.activate(ignoringOtherApps: true)
+        DispatchQueue.main.async { [weak self] in
+            open()
+            self?.finishPendingRequest()
+        }
     }
 
     func register(_ window: NSWindow?, for destination: Destination) {

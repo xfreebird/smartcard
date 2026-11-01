@@ -744,3 +744,5 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 
 - 2026-11-01: Replaced the README animation with a static banner-free macOS screenshot from the same freshly compiled capture; removed the unused GIF.
 - 2026-11-01: Replaced README pointer-highlight capture with the cursor-free native macOS store capture (English sign screen), visually checked for no cursor or demo banner.
+
+- 2026-11-01: Fixed tray-only Settings presentation by activating the app before requesting the SwiftUI scene and deferring the request until the activation-policy transition completes. Both desktop Debug and isolated QA builds passed; diff whitespace check passed. Exact tray-only runtime validation remains pending because the UI automation attachment reopens the main window.
