@@ -2,41 +2,54 @@ import React,{useEffect,useRef,useState,useId} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useText from '../i18n/useText';
 import StoryProgress from './StoryProgress';
+import PlatformPreview from './PlatformPreview';
+import {debugPreviewEnabled,previewChoice,storyPlatform} from './previewPlatformState.mjs';
 import {iphone, androidPhone, desktop as desktopDisplay} from './deviceGeometry';
 import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mobileSceneWidth,storyScrollProgress,mobileSceneTop,readerConnectionOffset} from './scrollScene.mjs';
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
- const [progress,setProgress]=useState(0),[mobile,setMobile]=useState(false),[os,setOs]=useState('macos');
+ const [progress,setProgress]=useState(0),[platform,setPlatform]=useState('macos');
+ const [debug,setDebug]=useState(false),[preview,setPreview]=useState('auto');
+ const mobile=platform==='iphone' || platform==='android';
  const [viewport,setViewport]=useState({width:1440,height:960}),[reduced,setReduced]=useState(false);
  const assets={macos:useBaseUrl('/img/macos.png'),iphone:useBaseUrl('/img/iphone.png'),android:useBaseUrl('/img/android.png'),windows:useBaseUrl('/img/windows.png'),linux:useBaseUrl('/img/linux.png')};
  const disconnected={macos:useBaseUrl('/img/macos-disconnected.png'),windows:useBaseUrl('/img/windows-disconnected.png'),linux:useBaseUrl('/img/linux-disconnected.png'),android:useBaseUrl('/img/android-disconnected.png'),iphone:useBaseUrl('/img/iphone-disconnected.png')};
  const readerScreens={macos:useBaseUrl('/img/macos-reader.png'),iphone:useBaseUrl('/img/iphone-reader.png'),android:useBaseUrl('/img/android-reader.png'),windows:useBaseUrl('/img/windows-reader.png'),linux:useBaseUrl('/img/linux-reader.png')};
  const readerImage=useBaseUrl('/img/reader.png'),cardImage=useBaseUrl('/img/card.png');
  useEffect(()=>{
-  const ua=navigator.userAgent;setOs(/Android/i.test(ua)?'android':/Windows/i.test(ua)?'windows':/Linux/i.test(ua)?'linux':'macos');
+  const enabled=debugPreviewEnabled(window.location.hostname,process.env.NODE_ENV==='development');
+  setDebug(enabled);
+  if(enabled){try{setPreview(previewChoice(sessionStorage.getItem('esemnbun.previewPlatform')));}catch{ /* Preview still works without storage. */ }}
+ },[]);
+ const changePreview=value=>{
+  const choice=previewChoice(value);setPreview(choice);
+  try{sessionStorage.setItem('esemnbun.previewPlatform',choice);}catch{ /* Optional per-tab persistence. */ }
+ };
+ useEffect(()=>{
+  const ua=navigator.userAgent;
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
-  const mobileScreen=/Android/i.test(ua)?androidPhone.screen:iphone.screen;
+  const selectedPlatform=()=>storyPlatform(debug?preview:'auto',ua,window.innerWidth);
+  const selectedScreen=()=>selectedPlatform()==='android'?androidPhone.screen:selectedPlatform()==='iphone'?iphone.screen:desktopDisplay.screen;
   let raf=0;
   const readViewport=()=>({width:window.innerWidth,height:root.current?.firstElementChild?.getBoundingClientRect().height || window.innerHeight});
   const update=()=>{
    raf=0;const r=root.current?.getBoundingClientRect();if(!r)return;
    const viewport=readViewport();
-   setProgress(storyScrollProgress(r,viewport,viewport.width<=760?mobileScreen:desktopDisplay.screen));
+   setProgress(storyScrollProgress(r,viewport,selectedScreen()));
    document.documentElement.classList.toggle('story-active',!motion.matches && r.top<=1 && r.bottom>=viewport.height-1);
   };
-  const resize=()=>{setMobile(window.innerWidth<=760);setViewport(readViewport());setReduced(motion.matches);update();};
+  const resize=()=>{setPlatform(selectedPlatform());setViewport(readViewport());setReduced(motion.matches);update();};
   const scroll=()=>{if(!raf)raf=requestAnimationFrame(update);};
   const observer=new ResizeObserver(resize);
   if(root.current?.firstElementChild)observer.observe(root.current.firstElementChild);
   resize();window.addEventListener('scroll',scroll,{passive:true});window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);motion.addEventListener('change',resize);
   return()=>{cancelAnimationFrame(raf);observer.disconnect();document.documentElement.classList.remove('story-active');window.removeEventListener('scroll',scroll);window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);motion.removeEventListener('change',resize);};
- },[]);
+ },[debug,preview]);
  const state=sceneAt(reduced?1:progress);
  const step=progress<.24?0:progress<.4?1:progress<.84?2:3;
- const geometry=mobile?(os==='android'?androidPhone:iphone):desktopDisplay;
+ const geometry=mobile?(platform==='android'?androidPhone:iphone):desktopDisplay;
  const {frame,screen,port}=geometry;
- const platform=mobile?(os==='android'?'android':'iphone'):os;
  const reader=mobile?mobileReaderGeometry(state):{x:600,y:520,width:330,height:220};
  const cableX=mobile?reader.x+325*reader.width/380:882;
  const cableY=mobile?reader.y+124*reader.width/380:627;
@@ -59,7 +72,8 @@ export default function SigningStory(){
  const top=sceneY-screenCenter*unit;
  const titles=[1,2,3,4].map(i=>t(`stage${i}`));
  const copy=[1,2,3,4].map(i=>t(`stageBody${i}`));
- return <section className={`signing-story continuous-story ${reduced?'reduced-story':''}`} ref={root} aria-label={t('how')}>
+ return <>{debug && <PlatformPreview value={preview} onChange={changePreview}/>}
+ <section className={`signing-story continuous-story ${reduced?'reduced-story':''}`} ref={root} aria-label={t('how')} data-platform={platform}>
   <div className="story-sticky continuous-sticky" data-progress={progress.toFixed(3)}>
    <div className="story-heading continuous-heading"><span className="stage-count">{t('step')} {step+1} {t('of')} 4</span><h2>{titles[step]}</h2><p>{copy[step]}</p></div>
    <svg className="continuous-scene" viewBox={mobile?'0 0 650 940':'0 0 1100 900'} style={{width:svgWidth,left,top}} role="img" aria-label={`${titles[step]} ${copy[step]}`}>
@@ -91,5 +105,5 @@ export default function SigningStory(){
    <StoryProgress mobile={mobile} progress={state.progress} step={step} label={t('how')}
     labels={['document','device','reader','signature'].map(key=>t(key))}/>
   </div>
- </section>;
+ </section></>;
 }

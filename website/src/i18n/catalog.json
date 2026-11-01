@@ -233,5 +233,15 @@
     "en": "The eSemnBun mobile app lets you sign documents directly on iPhone, iPad and Android using your electronic ID and a compatible USB reader.",
     "ro": "Cu aplicația mobilă eSemnBun poți semna documente direct pe iPhone, iPad și Android, folosind cartea de identitate electronică și un cititor USB compatibil.",
     "ru": "В мобильном приложении eSemnBun можно подписывать документы прямо на iPhone, iPad и Android с электронной ID-картой и совместимым USB-считывателем."
+  },
+  "debugPreview": {
+    "en": "Preview platform",
+    "ro": "Platformă previzualizată",
+    "ru": "Платформа предпросмотра"
+  },
+  "automaticPlatform": {
+    "en": "Automatic",
+    "ro": "Automat",
+    "ru": "Автоматически"
   }
 }

@@ -85,3 +85,8 @@
 .theme-doc-sidebar-container a[tabindex="-1"]{visibility:hidden}
 .features h2{margin-bottom:18px}
 .feature-intro{max-width:800px;margin:0 0 40px;font-size:18px;line-height:1.75;color:#5d676f}
+/* Local/development-only controls stay accessible while the story hides navigation. */
+.platform-preview{position:fixed;top:max(76px,env(safe-area-inset-top));right:16px;z-index:210;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:10px 14px;border:1px solid #cdd7e2;border-radius:14px;background:#fffffff2;box-shadow:0 3px 18px #23344718;color:#263a4a}
+.platform-preview label{min-width:0;overflow-wrap:anywhere;font-size:16px;font-weight:600;line-height:1.3}
+.platform-preview select{min-width:120px;min-height:38px;border:1px solid #b6c4d2;border-radius:8px;padding:5px 10px;background:white;color:#263a4a;font:inherit;font-size:16px}
+.platform-preview select:focus-visible{outline:3px solid #3159df;outline-offset:2px}
