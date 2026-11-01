@@ -37,3 +37,7 @@ The story uses the live dynamic viewport (including browser-chrome changes), wit
 ## Debug platform preview
 
 The landing page shows a **Preview platform** selector in development (`npm start`) and on loopback production previews (`npm run serve` at localhost/127.0.0.1/IPv6 loopback). Choose macOS, Windows, Linux, iPhone or Android to switch the complete signing illustration, including its native screenshots, device frame and scroll geometry. **Automatic** restores browser/device detection. The choice persists for the current tab, including language changes. The selector stays available during scrolling and is translated into all three languages. Public production hosts do not expose this control or apply saved overrides; no query parameter enables it.
+
+## Appearance
+
+The website follows the browser/system colour scheme on first visit. The navigation theme button cycles through light, dark and system; on mobile it is inside the navigation drawer. Explicit preferences persist across reloads, documentation routes and locale changes. Shared tokens in `src/css/palette.css` style the landing page, download menu, signing progress/result, cable and debug controls alongside Docusaurus documentation. Native app captures retain their original colours.

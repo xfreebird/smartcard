@@ -1,0 +1,60 @@
+:root {
+  color-scheme: light;
+  --ifm-color-primary: #3159df;
+  --ifm-background-color: #fafafa;
+  --ifm-background-surface-color: #ffffff;
+  --ifm-font-color-base: #252b30;
+  --ifm-navbar-background-color: #fafafaf2;
+  --site-muted: #5d676f;
+  --site-secondary: #53636d;
+  --site-border: #d7dde1;
+  --site-surface: #ffffff;
+  --site-hover: #eff4fa;
+  --site-stage: #f0f2f4;
+  --site-trust: #e8efeb;
+  --site-trust-text: #50655a;
+  --site-trust-link: #315f49;
+  --site-glass: #ffffffd9;
+  --site-glass-border: #ffffffb8;
+  --site-control: #fffffff2;
+  --site-track: #ccd6e0;
+  --site-success-bg: #e2efe6;
+  --site-success: #307253;
+  --site-cable: #303533;
+  --site-hardware-border: #303533;
+  --site-shadow: #1525361b;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --ifm-color-primary: #91a7ff;
+  --ifm-color-primary-dark: #7e97ff;
+  --ifm-color-primary-darker: #748fff;
+  --ifm-color-primary-darkest: #5677ff;
+  --ifm-color-primary-light: #a4b7ff;
+  --ifm-color-primary-lighter: #aec0ff;
+  --ifm-color-primary-lightest: #cbd6ff;
+  --ifm-background-color: #13171d;
+  --ifm-background-surface-color: #1c232c;
+  --ifm-font-color-base: #eef2f6;
+  --ifm-navbar-background-color: #13171df2;
+  --ifm-footer-background-color: #0e1217;
+  --site-muted: #b3bfca;
+  --site-secondary: #c5cfda;
+  --site-border: #3b4755;
+  --site-surface: #1c232c;
+  --site-hover: #2a3543;
+  --site-stage: #171d25;
+  --site-trust: #1b2b25;
+  --site-trust-text: #bccfc4;
+  --site-trust-link: #98d6b3;
+  --site-glass: #222c38ed;
+  --site-glass-border: #526174;
+  --site-control: #1c232cf2;
+  --site-track: #536174;
+  --site-success-bg: #203f32;
+  --site-success: #98d6b3;
+  --site-cable: #a2adb9;
+  --site-hardware-border: #758290;
+  --site-shadow: #00000066;
+}

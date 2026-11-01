@@ -7,7 +7,7 @@ const config = {
   presets: [['classic', {docs: {sidebarPath: './sidebars.js'}, blog: false,
     theme: {customCss: './src/css/custom.css'}}]],
   themeConfig: {
-    colorMode: {defaultMode: 'light', disableSwitch: true},
+    colorMode: {defaultMode: 'light', disableSwitch: false, respectPrefersColorScheme: true},
     navbar: {hideOnScroll: true, title: 'eSemnBun', logo: {alt: 'eSemnBun', src: 'img/icon.png'}, items: [
       {type:'localeDropdown', position:'right'},
       {to: '/docs/start', label: 'How it works', position: 'right'},

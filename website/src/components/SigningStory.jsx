@@ -79,7 +79,7 @@ export default function SigningStory(){
    <svg className="continuous-scene" viewBox={mobile?'0 0 650 940':'0 0 1100 900'} style={{width:svgWidth,left,top}} role="img" aria-label={`${titles[step]} ${copy[step]}`}>
     <defs><clipPath id={clip}><rect {...screen}/></clipPath></defs>
     <g opacity={state.frame}>
-     <rect {...frame} fill="#303533"/>
+     <rect {...frame} fill="#303533" stroke="var(--site-hardware-border)" strokeWidth="1"/>
      {!mobile&&<><path d="M500 525 H600 L615 580 H485Z" fill="#bac0bd"/><rect x="450" y="576" width="200" height="10" rx="5" fill="#adb5b0"/></>}
     </g>
     <rect {...screen} fill="#e1e6e9"/>
@@ -98,8 +98,8 @@ export default function SigningStory(){
      <rect x={mobile?reader.x+319*reader.width/380:875} y={mobile?reader.y+113*reader.width/380:616} width={mobile?12:23} height={mobile?12:23} rx="4" fill="#303533"/>
     </g>
     <g opacity={state.signed} transform={`translate(${mobile?175:190} ${(mobile?550:660)+(1-state.signed)*20})`}>
-     <rect width="285" height="77" rx="12" fill="white" stroke="#d3ded7"/><circle cx="32" cy="38" r="13" fill="#e2efe6"/><path d="M25 38 l5 5 10-12" fill="none" stroke="#307253" strokeWidth="3"/>
-     <text x="57" y="32" fontSize="15" fill="#23392d">Contract-signed.pdf</text><text x="57" y="54" fontSize="12" fill="#567260">{t('ready')}</text>
+     <rect width="285" height="77" rx="12" fill="var(--site-surface)" stroke="var(--site-border)"/><circle cx="32" cy="38" r="13" fill="var(--site-success-bg)"/><path d="M25 38 l5 5 10-12" fill="none" stroke="var(--site-success)" strokeWidth="3"/>
+     <text x="57" y="32" fontSize="15" fill="var(--ifm-font-color-base)">Contract-signed.pdf</text><text x="57" y="54" fontSize="12" fill="var(--site-muted)">{t('ready')}</text>
     </g>
    </svg>
    <StoryProgress mobile={mobile} progress={state.progress} step={step} label={t('how')}

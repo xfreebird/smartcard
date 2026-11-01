@@ -162,5 +162,17 @@
   "theme.common.skipToMainContent": {
     "message": "Sari la conținut",
     "description": "The skip to content label used for accessibility, allowing to rapidly navigate to main content with keyboard tab/enter navigation"
+  },
+  "theme.colorToggle.ariaLabel": {
+    "message": "Schimbă tema deschisă, întunecată sau de sistem (acum: {mode})"
+  },
+  "theme.colorToggle.ariaLabel.mode.dark": {
+    "message": "tema întunecată"
+  },
+  "theme.colorToggle.ariaLabel.mode.light": {
+    "message": "tema deschisă"
+  },
+  "theme.colorToggle.ariaLabel.mode.system": {
+    "message": "tema sistemului"
   }
 }

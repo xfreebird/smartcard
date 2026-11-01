@@ -30,5 +30,17 @@
   "theme.navbar.mobileDropdown.collapseButton.collapseAriaLabel": {
     "message": "Свернуть список",
     "description": "The ARIA label of the button to collapse the mobile dropdown navbar item"
+  },
+  "theme.colorToggle.ariaLabel": {
+    "message": "Выбрать светлую, тёмную или системную тему (сейчас: {mode})"
+  },
+  "theme.colorToggle.ariaLabel.mode.dark": {
+    "message": "тёмная тема"
+  },
+  "theme.colorToggle.ariaLabel.mode.light": {
+    "message": "светлая тема"
+  },
+  "theme.colorToggle.ariaLabel.mode.system": {
+    "message": "системная тема"
   }
 }
