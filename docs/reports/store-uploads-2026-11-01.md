@@ -30,3 +30,7 @@ No store certification submission, public release or test rollout has been perfo
 ## Submission prerequisites
 
 Reserved esemnbun.md support/privacy/terms pages need published content before review. Apple review-contact information and hardware-review notes are uploaded. Privacy/data-safety and content questionnaires still need final completeness checks; Microsoft runFullTrust capability needs Store approval. Local screenshot provenance remains in the Desktop submission pack; physical card data/PINs were not used in store materials.
+
+## Target-platform description audit
+
+The public Apple and Windows descriptions were read back after upload: seven Apple locale/platform combinations and all three Windows descriptions contain no other OS names. Android's saved descriptions use the target-specific Android exports. The exporter now rejects foreign platform names in generated descriptions and removes all other-platform notes from Microsoft/Huawei JSON payloads. The shared localization source intentionally retains the source notes needed to generate each separate platform.

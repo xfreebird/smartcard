@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render optional localized campaign art; keep native Microsoft/Google upload screenshots intact."""
+"""Render localized Google Play screenshots and optional Windows artwork from native captures."""
 import argparse, hashlib, json
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -52,7 +52,7 @@ for store,raw in [('android',a.android_raw),('windows',a.windows_raw)]:
     ui=Image.open(source).convert('RGBA');available=(W-2*m,H-y-int(H*.11));scale=min(available[0]/ui.width,available[1]/ui.height);ui=ui.resize((int(ui.width*scale),int(ui.height*scale)),Image.Resampling.LANCZOS);x=(W-ui.width)//2;top=y+int(H*.025);radius=int(min(ui.width,ui.height)*(.04 if portrait else .03));uiMask=Image.new('L',ui.size);ImageDraw.Draw(uiMask).rounded_rectangle((0,0,ui.width-1,ui.height-1),radius=radius,fill=255)
     shadow=Image.new('RGBA',canvas.size);ImageDraw.Draw(shadow).rounded_rectangle((x-6,top-6,x+ui.width+6,top+ui.height+6),radius=radius,fill=(30,50,100,65));canvas=Image.alpha_composite(canvas,shadow.filter(ImageFilter.GaussianBlur(22)));canvas.paste(ui,(x,top),uiMask);d=ImageDraw.Draw(canvas);block(d,COPY[lang]['foot'],m,H-int(H*.055),max(22,int(W*.015)),W-2*m,color='#4b5973')
     target=a.output/store/lang/family/source.name;target.parent.mkdir(parents=True,exist_ok=True);canvas.convert('RGB').save(target,optimize=True)
-    manifest.append({'file':str(target.relative_to(a.output)),'source':str(source),'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'locale':lang,'family':family,'dimensions':[W,H],'submissionScreenshot':False,'role':'optional campaign art; native screenshots remain separate','treatment':'rounded outer mask only; UI contents unaltered'})
+    manifest.append({'file':str(target.relative_to(a.output)),'source':str(source),'sourceSha256':hashlib.sha256(source.read_bytes()).hexdigest(),'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'locale':lang,'family':family,'dimensions':[W,H],'submissionScreenshot':store=='android','role':('localized Google Play screenshot; native capture retained separately' if store=='android' else 'optional Windows campaign art; native screenshots remain separate'),'treatment':'rounded outer mask only; UI contents unaltered'})
 expected=(36 if 'android' in selected else 0)+(12 if 'windows' in selected else 0)
 assert len(manifest)==expected, f'Expected {expected} campaign images, got {len(manifest)}'
 a.output.mkdir(parents=True,exist_ok=True);(a.output/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n');print(f'Rendered {len(manifest)} rounded promotional images')

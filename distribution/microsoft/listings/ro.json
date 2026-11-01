@@ -13,12 +13,7 @@
     "Browser integrat pentru portaluri compatibile",
     "Română, engleză și rusă"
   ],
-  "platformNotes": {
-    "ios": "Pentru iPhone și iPad: cititor conectat prin USB-C sau adaptor Lightning compatibil, import din Fișiere și extensie de partajare. Browserul integrat ține aplicația activă în timpul semnării.",
-    "macos": "Versiunea Mac App Store folosește CryptoTokenKit și sandbox. Rezultatele se exportă într-o locație aleasă. Helperul extern de pornire la inserarea cardului, controlul aplicației furnizorului și rutele web cu căi arbitrare de fișiere nu sunt incluse.",
-    "android": "Pentru telefoane și tablete Android: cititor USB compatibil prin OTG, import prin partajare și salvare sau distribuire prin opțiunile sistemului.",
-    "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
-  },
+  "platform": "windows",
   "languageCode": "ro-RO",
   "website": "https://esemnbun.md/",
   "supportURL": "https://esemnbun.md/support",

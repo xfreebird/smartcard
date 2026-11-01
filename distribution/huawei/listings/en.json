@@ -13,12 +13,7 @@
     "Built-in browser for compatible portals",
     "Romanian, English and Russian"
   ],
-  "platformNotes": {
-    "ios": "For iPhone and iPad: connect a compatible reader over USB-C or a supported Lightning adapter. Import from Files or the share extension. The built-in browser keeps the app active while signing.",
-    "macos": "The Mac App Store version uses CryptoTokenKit and App Sandbox. Export results to a chosen location. The external card-insertion helper, vendor-app process control and browser routes accepting arbitrary filesystem paths are not included.",
-    "android": "For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.",
-    "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
-  },
+  "platform": "android",
   "languageCode": "en-US",
   "website": "https://esemnbun.md/",
   "supportURL": "https://esemnbun.md/support",
