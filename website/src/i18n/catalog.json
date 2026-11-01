@@ -1,8 +1,8 @@
 {
   "title": {
-    "en": "Sign with your Moldovan ID card",
-    "ro": "Semnează cu cartea de identitate",
-    "ru": "Подписывайте с ID-картой"
+    "en": "MoldSign alternative for Moldova’s electronic ID",
+    "ro": "Semnătură electronică cu cartea de identitate",
+    "ru": "Электронная подпись с ID-картой — альтернатива MoldSign"
   },
   "project": {
     "en": "eSemnBun · Free and open source",
@@ -25,9 +25,9 @@
     "ru": "Или с телефона."
   },
   "intro1": {
-    "en": "A native alternative for Moldova’s electronic ID.",
-    "ro": "O alternativă nativă pentru identitatea electronică din Moldova.",
-    "ru": "Нативная альтернатива для электронной ID-карты Молдовы."
+    "en": "A free, open-source alternative to MoldSign for Moldova’s electronic ID.",
+    "ro": "O alternativă gratuită, cu sursă deschisă, la MoldSign pentru cartea de identitate electronică din Moldova.",
+    "ru": "Бесплатная альтернатива MoldSign с открытым кодом для электронной ID-карты Молдовы."
   },
   "intro2": {
     "en": "A notarized macOS app, without security workarounds.",
@@ -243,5 +243,60 @@
     "en": "Automatic",
     "ro": "Automat",
     "ru": "Автоматически"
+  },
+  "seoDescription": {
+    "en": "Sign PDFs with your Moldovan electronic ID card using eSemnBun, a free, open-source alternative to MoldSign for desktop and mobile. Setup and verification guides.",
+    "ro": "Semnează PDF-uri cu cartea de identitate electronică din Moldova. eSemnBun: alternativă gratuită la MoldSign, pe calculator și telefon. Ghiduri de instalare și verificare.",
+    "ru": "Подписывайте PDF электронной ID-картой Молдовы. eSemnBun — бесплатная альтернатива MoldSign для компьютера и телефона. Установка и проверка подписи."
+  },
+  "searchTitle": {
+    "en": "Electronic signatures with Moldova’s identity card",
+    "ro": "Semnătură electronică cu cartea de identitate din Moldova",
+    "ru": "Электронная подпись с ID-картой Молдовы"
+  },
+  "searchBody": {
+    "en": "Use eSemnBun to sign PDF documents, create XAdES signatures, and verify signed files with a compatible electronic identity card and USB reader. The same card can be used at your desk or on your phone.",
+    "ro": "Cu eSemnBun poți semna documente PDF, crea semnături XAdES și verifica fișiere semnate folosind o carte de identitate electronică compatibilă și un cititor USB. Folosești același card la calculator sau de pe telefon.",
+    "ru": "С eSemnBun можно подписывать PDF, создавать подписи XAdES и проверять подписанные файлы с совместимой электронной ID-картой и USB-считывателем. Одну карту можно использовать на компьютере и телефоне."
+  },
+  "moldsignQuestion": {
+    "en": "Is eSemnBun the official MoldSign app?",
+    "ro": "eSemnBun este aplicația oficială MoldSign?",
+    "ru": "eSemnBun — официальное приложение MoldSign?"
+  },
+  "moldsignAnswer": {
+    "en": "No. eSemnBun is an independent project by Nicolae Ghimbovschi. It provides a native alternative to the MoldSign desktop workflow and supports compatible MSign website requests. It is not affiliated with STISC.",
+    "ro": "Nu. eSemnBun este un proiect independent creat de Nicolae Ghimbovschi. Oferă o alternativă nativă la fluxul MoldSign pentru calculator și acceptă cereri compatibile de pe MSign. Nu este afiliat cu STISC.",
+    "ru": "Нет. eSemnBun — независимый проект Nicolae Ghimbovschi. Он предлагает нативную альтернативу работе с MoldSign на компьютере и поддерживает совместимые запросы MSign. Проект не связан со STISC."
+  },
+  "phoneQuestion": {
+    "en": "Can I sign with my identity card on a phone?",
+    "ro": "Pot semna cu cartea de identitate de pe telefon?",
+    "ru": "Можно подписывать ID-картой на телефоне?"
+  },
+  "phoneAnswer": {
+    "en": "Yes, using the iPhone, iPad or Android app with a compatible USB reader and the appropriate adapter. You need an active signing certificate and the correct card PIN. NFC is not supported.",
+    "ro": "Da, folosind aplicația pentru iPhone, iPad sau Android, un cititor USB compatibil și adaptorul potrivit. Ai nevoie de un certificat de semnare activ și de PIN-ul corect al cardului. NFC nu este acceptat.",
+    "ru": "Да, с приложением для iPhone, iPad или Android, совместимым USB-считывателем и подходящим адаптером. Нужны действующий сертификат подписи и правильный PIN-код карты. NFC не поддерживается."
+  },
+  "simQuestion": {
+    "en": "Is this the same as a mobile SIM signature?",
+    "ro": "Este același lucru cu semnătura mobilă prin SIM?",
+    "ru": "Это то же самое, что мобильная подпись через SIM?"
+  },
+  "simAnswer": {
+    "en": "No. eSemnBun uses the signing key on a supported electronic identity card. It does not issue certificates, activate a card or replace a mobile operator’s SIM signing service.",
+    "ro": "Nu. eSemnBun folosește cheia de semnare de pe o carte de identitate electronică acceptată. Nu emite certificate, nu activează cardul și nu înlocuiește serviciul de semnătură mobilă prin SIM al operatorului.",
+    "ru": "Нет. eSemnBun использует ключ подписи на поддерживаемой электронной ID-карте. Приложение не выдаёт сертификаты, не активирует карту и не заменяет услугу подписи через SIM оператора."
+  },
+  "searchGuide": {
+    "en": "MoldSign alternative: setup and signing guide",
+    "ro": "Alternativă la MoldSign: instalare și semnare",
+    "ru": "Альтернатива MoldSign: установка и подпись"
+  },
+  "verifyGuide": {
+    "en": "How to sign and verify a PDF",
+    "ro": "Cum semnezi și verifici un PDF",
+    "ru": "Как подписать и проверить PDF"
   }
 }

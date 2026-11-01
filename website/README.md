@@ -84,3 +84,13 @@ Standalone desktop apps check at most weekly after the last check, or on demand.
 use their store's updates. No binaries are installed by this mechanism. The production domain must
 serve these files before automatic checks can succeed; the private repository's Pages plan gate
 remains unchanged.
+
+## Search visibility
+
+Home-page titles/descriptions and visible copy are localized for Romanian, English and Russian. The linked `/docs/moldsign/` guide explains electronic-ID signing and eSemnBun's independent relationship to MoldSign/MSign. Use natural wording around semnătură electronică and carte de identitate; do not add repeated keyword lists or imply official affiliation. The homepage emits factual SoftwareApplication JSON-LD without invented reviews or ratings. This does not guarantee a rich result or ranking.
+
+Docusaurus generates canonical URLs, language alternates and a sitemap for every locale. The build plugin generates `robots.txt` with sitemap links using the actual `SITE_URL`/`BASE_URL`. On GitHub project Pages, `/smartcard/robots.txt` is not the host-root robots file; submit the sitemap URLs directly to Search Console. On a custom domain served at `/`, the generated robots file is at the correct root.
+
+After `npm run build`, run `npm run verify:seo` (also in Website CI). It inspects generated HTML for descriptions, canonical/language links, social images, app metadata, target-language content, and sitemap entries.
+
+Publishing is required before indexing: the GitHub Pages URL returned HTTP 404 on 2026-11-02, and `ENABLE_PAGES_DEPLOYMENT` was not enabled. After Pages hosting is available, verify the live URL returns 200, add the site in Google Search Console, verify ownership, and submit `/smartcard/sitemap.xml`, `/smartcard/ro/sitemap.xml`, and `/smartcard/ru/sitemap.xml`. For a custom domain build, set `SITE_URL=https://esemnbun.md` and `BASE_URL=/`, verify that domain, and submit the corresponding root/locale sitemaps. Do not change canonical URLs to a domain until that domain actually serves the site. Check indexing and query impressions for MoldSign, semnatura electronica, and carte de identitate after publishing; rankings are not immediate or guaranteed.

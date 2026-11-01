@@ -3,10 +3,13 @@ const config = {
   favicon: 'img/icon.png', url: process.env.SITE_URL || 'https://xfreebird.github.io',
   baseUrl: process.env.BASE_URL || '/smartcard/', trailingSlash: true,
   organizationName: 'xfreebird', projectName: 'smartcard', onBrokenLinks: 'throw',
+  plugins: ['./plugins/search-discovery.cjs'],
   i18n: {defaultLocale: 'en', locales: ['en','ro','ru'], localeConfigs: {en:{label:'English'},ro:{label:'Română'},ru:{label:'Русский'}}},
   presets: [['classic', {docs: {sidebarPath: './sidebars.js'}, blog: false,
+    sitemap: {changefreq: 'monthly', ignorePatterns: ['/**/404']},
     theme: {customCss: './src/css/custom.css'}}]],
   themeConfig: {
+    image: 'img/icon.png',
     colorMode: {defaultMode: 'light', disableSwitch: false, respectPrefersColorScheme: true},
     navbar: {hideOnScroll: true, title: 'eSemnBun', logo: {alt: 'eSemnBun', src: 'img/icon.png'}, items: [
       {type:'localeDropdown', position:'right'},

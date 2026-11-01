@@ -9,6 +9,8 @@ Status legend: `[x]` done · `[~]` in progress / partial (implemented, not yet v
 
 Last updated: **2026-11-02**
 
+Search visibility (2026-11-02): localized homepage titles, descriptions, visible electronic-ID/MoldSign context and signing questions; an English/Romanian/Russian MoldSign alternative guide linked from home and the docs sidebar; factual SoftwareApplication metadata and social image; generated sitemap discovery and CI verification of rendered SEO fields. All three locale builds and SEO checks pass for both GitHub project Pages and the future esemnbun.md root configuration; 13 existing website tests pass. Public indexing remains blocked by the current GitHub Pages 404 and disabled deployment gate; deployment/Search Console steps are documented in website/README.md.
+
 Documentation refinement (2026-11-02): expanded all five 0.2.0 platform guides with installation, reader setup, signing/output, verification, settings, browser integration, updates, and recovery. Added separate macOS/Linux/Windows CLI guides with reader selection, PIN input, format examples, exit codes, and service setup. Documentation now renders one native screenshot that changes immediately with the site's theme, rather than displaying both themes together. Verified the rendered macOS guide has one image and changes its source light→dark using the appearance control. Production builds for en/ro/ru pass without broken links or anchors; diff whitespace checks pass.
 
 ---

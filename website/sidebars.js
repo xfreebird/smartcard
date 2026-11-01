@@ -1,6 +1,7 @@
 export default {
   guide: [
     'start',
+    'moldsign',
     'signing',
     'browser',
     {
