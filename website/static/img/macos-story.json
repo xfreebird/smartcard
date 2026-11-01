@@ -1,0 +1,46 @@
+{
+  "locale": "en",
+  "theme": "light",
+  "document": "Contract.pdf",
+  "states": [
+    {
+      "file": "macos-disconnected.png",
+      "title": "Sign",
+      "dimensions": [
+        2704,
+        1696
+      ],
+      "windowSize": [
+        1352,
+        848
+      ],
+      "sha256": "fcd29696f80b8e90d4b4af58a9bd0b88d41b26969cfe9691aa055c45a26b9cde"
+    },
+    {
+      "file": "macos-reader.png",
+      "title": "Sign",
+      "dimensions": [
+        2704,
+        1696
+      ],
+      "windowSize": [
+        1352,
+        848
+      ],
+      "sha256": "1e2b530be74fcded53441e95cb29ab8495ab48c9a4762dd2171dc9ea72420c11"
+    },
+    {
+      "file": "macos.png",
+      "title": "Sign",
+      "dimensions": [
+        2704,
+        1696
+      ],
+      "windowSize": [
+        1352,
+        848
+      ],
+      "sha256": "c05d8c639fd4b9d278dae1c93a0d03ae04c7168d2c350e8a6e855dd29581d6cf"
+    }
+  ]
+}
