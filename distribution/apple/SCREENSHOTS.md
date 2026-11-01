@@ -1,6 +1,6 @@
 # Apple store screenshot package
 
-The generator produces five mobile feature stories and six Mac stories for each of Romanian, English and Russian, using fresh native fictional app captures. The UI pixels are captured from the actual app; the renderer scales and composites the entire screenshot with localized captions, rounded inset image corners, iPhone device bezels with a camera cutout, and rounded app icons. Upload canvases remain rectangular and opaque. It does not redraw app controls, hide labels in the final image, or include personal card data.
+The generator produces five mobile feature stories and six Mac stories for each of Romanian, English and Russian, using fresh native fictional app captures. The UI pixels are captured from the actual app; the renderer scales and composites the entire screenshot with localized captions, rounded inset image corners, unmodified official Apple iPhone product PNG frames and their real camera cutouts, and rounded app icons. Upload canvases remain rectangular and opaque. It does not redraw app controls, hide labels in the final image, or include personal card data.
 
 Stories: prepare documents; batch and card selection; consent/PIN; verification picker; card certificate details; Mac adds the embedded public-service browser. A compatible ID card and USB card reader requirement appears on every promotional screenshot. The screenshots make no NFC or hardware-free signing claim. No secure PIN is entered during capture.
 
@@ -51,3 +51,13 @@ The universal artwork is an opaque 5244 × 2950 PNG accepted in both placements.
 Export approved sources with `python3 distribution/tools/export-apple-creative.py --output /path/apple/creative`. Upload in each locale under Header and Search Results and preview both placements. See [Apple creative asset specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications).
 
 Refresh the framed iPhone and Duo screenshot sets with `bundle exec ruby distribution/tools/upload-apple-draft.rb ios PACK --screenshots-only --replace-screenshots`. Replacement explicitly refreshes existing screenshot sets; it does not submit the version.
+
+## Official Apple product frames
+
+Use Apple’s original iPhone 17 Pro Max Deep Blue portrait frame, iPhone Duo Night Sky outer closed portrait frame, and inner open landscape frame. Native display openings are exactly 1320×2868, 1398×2034 and 2853×2007. Screens are inserted at their native pixel coordinates before the entire device is scaled uniformly. Camera hardware, buttons, hinge, corners and metal edges come from Apple’s PNG; no synthetic bezel is drawn. The renderer checks asset hashes and refuses a mismatched capture size.
+
+Download [iPhone 17](https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg) and [iPhone Duo](https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg) from [Apple Design Resources](https://developer.apple.com/design/resources/#product-bezels). Accept Apple’s Design Resources License before mounting/using the files. The owner authorized acceptance for this work. With both volumes mounted, run `python3 distribution/tools/import-apple-product-bezels.py`. Assets and license copies are cached under `~/Library/Caches/esemnbun-apple-bezels`; licensed source PNGs are not redistributed in the repository. `ESN_APPLE_BEZEL_CACHE` selects a different renderer cache.
+
+Use `--screenshots-only --replace-changed-screenshot-sets` with the draft uploader to compare local and remote checksums and refresh only sets whose artwork changed. Unchanged sets and creative placements remain intact.
+
+After upload processing, run `bundle exec ruby distribution/tools/verify-apple-screenshot-upload.rb ios PACK` (or `macos`). This reads every target set back, requires COMPLETE processing and expected story order, and compares each server source-file checksum with its local PNG. JSON receipts are saved under `PACK/upload`; this verification does not change any Store data.

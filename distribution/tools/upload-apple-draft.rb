@@ -5,8 +5,9 @@ require 'deliver'
 require 'tmpdir'
 require 'fileutils'
 require 'json'
+require 'digest'
 platform, pack, *flags = ARGV
-abort "Unknown options: #{flags.join(' ')}" unless (flags - %w[--screenshots-only --replace-screenshots]).empty?
+abort "Unknown options: #{flags.join(' ')}" unless (flags - %w[--screenshots-only --replace-screenshots --replace-changed-screenshot-sets]).empty?
 abort 'Usage: bundle exec ruby distribution/tools/upload-apple-draft.rb ios|macos PACK' unless %w[ios macos].include?(platform) && pack
 root = File.expand_path('..', __dir__)
 key = { key_id: ENV.fetch('ASC_KEY_ID'), issuer_id: ENV.fetch('ASC_ISSUER_ID'), key: File.read(ENV.fetch('ASC_KEY_PATH')), in_house: false }
@@ -41,6 +42,24 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
   end
   FileUtils.cp_r(File.join(screenshots, 'en-US'), File.join(screenshots, 'en-GB')) if platform == 'macos'
   abort 'No screenshots found' if Dir.glob(File.join(screenshots, '**', '*.png')).empty?
+  if flags.include?('--replace-changed-screenshot-sets')
+    abort 'Choose either full or changed-set replacement' if flags.include?('--replace-screenshots')
+    version = app.get_app_store_versions.find { |v| v.version_string == '0.2.0' && v.app_store_state == 'PREPARE_FOR_SUBMISSION' }
+    abort 'No editable 0.2.0 draft' unless version
+    version.get_app_store_version_localizations.each do |translation|
+      files = Dir.glob(File.join(screenshots, translation.locale, '*.png'))
+      desired = files.group_by { |file| Deliver::AppScreenshot.calculate_display_type(file) }
+      translation.get_app_screenshot_sets.each do |set|
+        paths = desired[set.screenshot_display_type]
+        next unless paths
+        expected = paths.map { |file| Digest::MD5.file(file).hexdigest }.sort
+        current = set.app_screenshots.map { |image| image.source_file_checksum.to_s.downcase }.sort
+        next if current == expected
+        puts "Refreshing changed screenshot set: #{translation.locale}/#{set.screenshot_display_type}"
+        set.delete!
+      end
+    end
+  end
   options = FastlaneCore::Configuration.create(Deliver::Options.available_options, {
     api_key: key, app_identifier: identifier, app_version: '0.2.0',
     platform: platform == 'ios' ? 'ios' : 'osx',

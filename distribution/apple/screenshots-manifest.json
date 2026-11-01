@@ -1,49 +1,49 @@
 {
   "guidelinesChecked": "2026-11-01",
-  "status": "prepared-not-uploaded",
+  "status": "ios-60-uploaded-complete-checksums-verified; macos-previous-upload-retained",
   "assets": [
     {
-      "path": "ro/iphone/01-sign.png",
+      "path": "screenshots/ro/iphone/01-sign.png",
       "locale": "ro",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "957077f7895bf845383ea725ec0dee603e0eb835bfe63d9ba7b3db458861dd12"
+      "sha256": "fd3c30d4888e5ecbe9e778cacb4e2b9c0e197bd7fcf4cc5d882c7f58b87d70fb"
     },
     {
-      "path": "ro/iphone/02-batch.png",
+      "path": "screenshots/ro/iphone/02-batch.png",
       "locale": "ro",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "f1f71ec13afe44a55aabd6bd1f03c4405e9f06845149e4609f197a0442f6a67b"
+      "sha256": "f1b6c230148dcf14d2ba7d680079a4b84e73f78b72991a63b08a0286a15d1833"
     },
     {
-      "path": "ro/iphone/03-consent.png",
+      "path": "screenshots/ro/iphone/03-consent.png",
       "locale": "ro",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "f30d3e0743385d1cb1cc5ae130eaebc9d476d3d8f5198922aab4c3d8993406ba"
+      "sha256": "0bae0e1b6224a9d035c16422fa6b1525eb8628695aaae4d882972811df8118ba"
     },
     {
-      "path": "ro/iphone/04-verify.png",
+      "path": "screenshots/ro/iphone/04-verify.png",
       "locale": "ro",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "19ce343e9a84f979f778770eabec378404cb5836c7d04107442b8da3537337f3"
+      "sha256": "0cacd71b546f4baee76ee299434ec839654c5bd32d891fdbece94907a7acc1e6"
     },
     {
-      "path": "ro/iphone/05-card.png",
+      "path": "screenshots/ro/iphone/05-card.png",
       "locale": "ro",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "6546551ddbceb22ccb4cd16f709a47f0121ee7547cdd42c700796663256834b8"
+      "sha256": "13c04e7c6211cb1003c9d3bbb4cf666d3079498a705d6286ec9f956a833011ba"
     },
     {
-      "path": "ro/ipad/01-sign.png",
+      "path": "screenshots/ro/ipad/01-sign.png",
       "locale": "ro",
       "family": "ipad",
       "width": 2064,
@@ -51,7 +51,7 @@
       "sha256": "905c7e3e606cb492e696a62c678bcd9609a63f663aff7655889ab80120be52ce"
     },
     {
-      "path": "ro/ipad/02-batch.png",
+      "path": "screenshots/ro/ipad/02-batch.png",
       "locale": "ro",
       "family": "ipad",
       "width": 2064,
@@ -59,7 +59,7 @@
       "sha256": "8a056d17b8f5f9d049493df9252e87e41fd071af9c19d2fe61e2091f966891a9"
     },
     {
-      "path": "ro/ipad/03-consent.png",
+      "path": "screenshots/ro/ipad/03-consent.png",
       "locale": "ro",
       "family": "ipad",
       "width": 2064,
@@ -67,7 +67,7 @@
       "sha256": "f1cb0c9b9743c064e6ebe2f9187fbad2daee618097a7c8e52b04915c331dde72"
     },
     {
-      "path": "ro/ipad/04-verify.png",
+      "path": "screenshots/ro/ipad/04-verify.png",
       "locale": "ro",
       "family": "ipad",
       "width": 2064,
@@ -75,7 +75,7 @@
       "sha256": "c5c80eacbd2be6d395e64a4905f67cdf72059c088f6b781a64870857b7992dc9"
     },
     {
-      "path": "ro/ipad/05-card.png",
+      "path": "screenshots/ro/ipad/05-card.png",
       "locale": "ro",
       "family": "ipad",
       "width": 2064,
@@ -83,7 +83,7 @@
       "sha256": "0b1398b18ac100364ddf084b1a54497b929e38939c2d6737e05693904e225763"
     },
     {
-      "path": "ro/macos/01-sign.png",
+      "path": "screenshots/ro/macos/01-sign.png",
       "locale": "ro",
       "family": "macos",
       "width": 2880,
@@ -91,7 +91,7 @@
       "sha256": "f52616e6612429411a46beda89ef39f5bcf575a038c59cdd010e7e13dca73a32"
     },
     {
-      "path": "ro/macos/02-batch.png",
+      "path": "screenshots/ro/macos/02-batch.png",
       "locale": "ro",
       "family": "macos",
       "width": 2880,
@@ -99,7 +99,7 @@
       "sha256": "72dd1fa8735af3edb0e80576074a6ab63c954b398b8d8cf51f0878bb0059fde1"
     },
     {
-      "path": "ro/macos/03-consent.png",
+      "path": "screenshots/ro/macos/03-consent.png",
       "locale": "ro",
       "family": "macos",
       "width": 2880,
@@ -107,7 +107,7 @@
       "sha256": "f3fcb7a524ec69ecb33d449fbd109e9661d905a2e596afac9048b217d48d04a9"
     },
     {
-      "path": "ro/macos/04-verify.png",
+      "path": "screenshots/ro/macos/04-verify.png",
       "locale": "ro",
       "family": "macos",
       "width": 2880,
@@ -115,7 +115,7 @@
       "sha256": "0586cd357db53ff2e924390ced82c9abf153196a3a3e685b8318a5a8e80a4970"
     },
     {
-      "path": "ro/macos/05-card.png",
+      "path": "screenshots/ro/macos/05-card.png",
       "locale": "ro",
       "family": "macos",
       "width": 2880,
@@ -123,7 +123,7 @@
       "sha256": "62670854c407f9eecd571454796c0222db618393a11b5fe8e7464d41de577ec5"
     },
     {
-      "path": "ro/macos/06-browser.png",
+      "path": "screenshots/ro/macos/06-browser.png",
       "locale": "ro",
       "family": "macos",
       "width": 2880,
@@ -131,47 +131,47 @@
       "sha256": "d29368cee26e224fc7083604cb8b1085a6c07121bdee7a51379d93e6401c4fcd"
     },
     {
-      "path": "en/iphone/01-sign.png",
+      "path": "screenshots/en/iphone/01-sign.png",
       "locale": "en-US",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "a22cf951944f75a426a41562c5344a92c3dd0d6acc709d75abf5786040983d14"
+      "sha256": "9ecca698c527e022828ebfe63faa7707575f6685c3ae1b99fd904264293cf93c"
     },
     {
-      "path": "en/iphone/02-batch.png",
+      "path": "screenshots/en/iphone/02-batch.png",
       "locale": "en-US",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "56a232e8a9acafc47b84c032ccf5aeb76bc1bd9ea528a1bc58e8eab0ece3ae33"
+      "sha256": "124225306597f700e52c3d268813df04c90822d814db3db1670bce63c50070ba"
     },
     {
-      "path": "en/iphone/03-consent.png",
+      "path": "screenshots/en/iphone/03-consent.png",
       "locale": "en-US",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "0fa3ddba11635bb2f315ba1313e7ae75a6e4efe260baaf189f5ac2cc158a3766"
+      "sha256": "c297fe7177983dff7df2828d696cd8eabb0b527e6d39cabdbb58bbbe77a47f11"
     },
     {
-      "path": "en/iphone/04-verify.png",
+      "path": "screenshots/en/iphone/04-verify.png",
       "locale": "en-US",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "6e970e9da3fc6766f35d943254a4468f2d875f617a9c5c1244633d26fe26185f"
+      "sha256": "40455bb1cbf8f25190ceaf8cb50b0c0f60e7f9335b590aca19620974068de8a0"
     },
     {
-      "path": "en/iphone/05-card.png",
+      "path": "screenshots/en/iphone/05-card.png",
       "locale": "en-US",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "51b74188a1100672caa73484fdd9a495e10dc0a1e367369ef0a5caf284d2c826"
+      "sha256": "f160e1a00d52af2b7aa8103419705a57ae087ab57aa21982d50019dd3c6598a4"
     },
     {
-      "path": "en/ipad/01-sign.png",
+      "path": "screenshots/en/ipad/01-sign.png",
       "locale": "en-US",
       "family": "ipad",
       "width": 2064,
@@ -179,7 +179,7 @@
       "sha256": "51832e8555b80bbfdcc6524a45cff7a07980420dc7ad3d11852ef812104e5cb9"
     },
     {
-      "path": "en/ipad/02-batch.png",
+      "path": "screenshots/en/ipad/02-batch.png",
       "locale": "en-US",
       "family": "ipad",
       "width": 2064,
@@ -187,7 +187,7 @@
       "sha256": "c09c4cc76301374770630a476ebc40ffe288d0c6fcf834cd60ef70b70f3b47dc"
     },
     {
-      "path": "en/ipad/03-consent.png",
+      "path": "screenshots/en/ipad/03-consent.png",
       "locale": "en-US",
       "family": "ipad",
       "width": 2064,
@@ -195,7 +195,7 @@
       "sha256": "3b165914b251abf5204db0a94bf41347476c0c56ca205df9862e8511a57991ad"
     },
     {
-      "path": "en/ipad/04-verify.png",
+      "path": "screenshots/en/ipad/04-verify.png",
       "locale": "en-US",
       "family": "ipad",
       "width": 2064,
@@ -203,7 +203,7 @@
       "sha256": "363c374ca82faa37902b64de78393e77ea5abbe7e3318b8e98f1cd646449203d"
     },
     {
-      "path": "en/ipad/05-card.png",
+      "path": "screenshots/en/ipad/05-card.png",
       "locale": "en-US",
       "family": "ipad",
       "width": 2064,
@@ -211,7 +211,7 @@
       "sha256": "e3eeb0c28ce32619ba16489144ad8aed4c48789af8d92691a0e7460cb7e4fe7d"
     },
     {
-      "path": "en/macos/01-sign.png",
+      "path": "screenshots/en/macos/01-sign.png",
       "locale": "en-US",
       "family": "macos",
       "width": 2880,
@@ -219,7 +219,7 @@
       "sha256": "912c7a382ef1d5134a2768e47ad915b138ae49e4a721389ce52d40436e80a2ab"
     },
     {
-      "path": "en/macos/02-batch.png",
+      "path": "screenshots/en/macos/02-batch.png",
       "locale": "en-US",
       "family": "macos",
       "width": 2880,
@@ -227,7 +227,7 @@
       "sha256": "35d174e47c934a0953bc74af8750a3a9482fbc9577175b7f87b7b760da356a86"
     },
     {
-      "path": "en/macos/03-consent.png",
+      "path": "screenshots/en/macos/03-consent.png",
       "locale": "en-US",
       "family": "macos",
       "width": 2880,
@@ -235,7 +235,7 @@
       "sha256": "f39ab7c0b9c3430e2ced8ecc833262b1bbdc1e13404f900867a1ebbb9aa2c55e"
     },
     {
-      "path": "en/macos/04-verify.png",
+      "path": "screenshots/en/macos/04-verify.png",
       "locale": "en-US",
       "family": "macos",
       "width": 2880,
@@ -243,7 +243,7 @@
       "sha256": "3be9c468841d13a94ab9532d061f9ed345c4e458fefdbf86950d46fd3499ef4b"
     },
     {
-      "path": "en/macos/05-card.png",
+      "path": "screenshots/en/macos/05-card.png",
       "locale": "en-US",
       "family": "macos",
       "width": 2880,
@@ -251,7 +251,7 @@
       "sha256": "dc7ac1025422972a7e7ef874f8098783e98d7eb2329531962960292517fa8a4d"
     },
     {
-      "path": "en/macos/06-browser.png",
+      "path": "screenshots/en/macos/06-browser.png",
       "locale": "en-US",
       "family": "macos",
       "width": 2880,
@@ -259,47 +259,47 @@
       "sha256": "83afdab15ceddde325ca5e552d6aadffc8ae9437991d455dc9e161bc1edf0cb0"
     },
     {
-      "path": "ru/iphone/01-sign.png",
+      "path": "screenshots/ru/iphone/01-sign.png",
       "locale": "ru",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "ad1906aa750ed3a02e6d3dc0af159fadb4ed44713c4ca950e23392c024350a00"
+      "sha256": "f3a9c14d822ac3483ebb54b654a6fcd27ad326c3a756693d803ce01eb1b85b13"
     },
     {
-      "path": "ru/iphone/02-batch.png",
+      "path": "screenshots/ru/iphone/02-batch.png",
       "locale": "ru",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "f7b727feeae818e3db6711886bad21481b2a48ad1c9566db1b58185a553be71c"
+      "sha256": "d05524c08de1e468ca8bb767e04761ba25086b7a0019e6396081b9e70a7d660a"
     },
     {
-      "path": "ru/iphone/03-consent.png",
+      "path": "screenshots/ru/iphone/03-consent.png",
       "locale": "ru",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "41ea202e66866dd0e983d0d6ebed36c4771c67ccb501fd41b9696490e4a0d395"
+      "sha256": "2bb672e3c95385a08c565b9f02bbe1d07f82ca4eadfa508c7c67a0702a68ecab"
     },
     {
-      "path": "ru/iphone/04-verify.png",
+      "path": "screenshots/ru/iphone/04-verify.png",
       "locale": "ru",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "d404dd488e879c0f66e5d6161a0c74d30596154b75a1c0b1a7461059b640829b"
+      "sha256": "2bc552400b6b75c013ee81f9f247bab5d2df5fa08f67163f1b71e5438a05c834"
     },
     {
-      "path": "ru/iphone/05-card.png",
+      "path": "screenshots/ru/iphone/05-card.png",
       "locale": "ru",
       "family": "iphone",
       "width": 1320,
       "height": 2868,
-      "sha256": "e499e1941b59912e71418784664839f898a3cb490cb5f5c5f495d2f48caa76a4"
+      "sha256": "4ba311e0388881cd3c34fc36543ada9cdfd25ccddc76c001bfcdb28697091a6a"
     },
     {
-      "path": "ru/ipad/01-sign.png",
+      "path": "screenshots/ru/ipad/01-sign.png",
       "locale": "ru",
       "family": "ipad",
       "width": 2064,
@@ -307,7 +307,7 @@
       "sha256": "b7e487ddf61847243dcf027007d5f5347dfd9a53a548d97939ab73a49498f857"
     },
     {
-      "path": "ru/ipad/02-batch.png",
+      "path": "screenshots/ru/ipad/02-batch.png",
       "locale": "ru",
       "family": "ipad",
       "width": 2064,
@@ -315,7 +315,7 @@
       "sha256": "13de9aa4f76b3a901dd76a129e4a1f349108e72599d8c9ece041ba52d600b2d1"
     },
     {
-      "path": "ru/ipad/03-consent.png",
+      "path": "screenshots/ru/ipad/03-consent.png",
       "locale": "ru",
       "family": "ipad",
       "width": 2064,
@@ -323,7 +323,7 @@
       "sha256": "d2b83a0e343c5cd756772b7e1c13e6136f14826d0c3c60602384f9a4377f446a"
     },
     {
-      "path": "ru/ipad/04-verify.png",
+      "path": "screenshots/ru/ipad/04-verify.png",
       "locale": "ru",
       "family": "ipad",
       "width": 2064,
@@ -331,7 +331,7 @@
       "sha256": "75889ff67d93874a1678604e2f34af063015e75a6fa102262c31a00cd0699039"
     },
     {
-      "path": "ru/ipad/05-card.png",
+      "path": "screenshots/ru/ipad/05-card.png",
       "locale": "ru",
       "family": "ipad",
       "width": 2064,
@@ -339,7 +339,7 @@
       "sha256": "e82b0ed77f0e28ba498966f6eff1cf4abc65994894e95472f53f50bca7581c20"
     },
     {
-      "path": "ru/macos/01-sign.png",
+      "path": "screenshots/ru/macos/01-sign.png",
       "locale": "ru",
       "family": "macos",
       "width": 2880,
@@ -347,7 +347,7 @@
       "sha256": "f0ae0cacdc3f634ba001152db7fdc030dfbdd85f17626fec1e640a28b8e82200"
     },
     {
-      "path": "ru/macos/02-batch.png",
+      "path": "screenshots/ru/macos/02-batch.png",
       "locale": "ru",
       "family": "macos",
       "width": 2880,
@@ -355,7 +355,7 @@
       "sha256": "30215355a5f9e62b300bf028f6bd9386312b52990d1a8f3d7d32474181fcc5ab"
     },
     {
-      "path": "ru/macos/03-consent.png",
+      "path": "screenshots/ru/macos/03-consent.png",
       "locale": "ru",
       "family": "macos",
       "width": 2880,
@@ -363,7 +363,7 @@
       "sha256": "dbffa0907d129130d81c7245ab4ba842c2710612292157c97d99cf1f04415747"
     },
     {
-      "path": "ru/macos/04-verify.png",
+      "path": "screenshots/ru/macos/04-verify.png",
       "locale": "ru",
       "family": "macos",
       "width": 2880,
@@ -371,7 +371,7 @@
       "sha256": "dc5fac811a0e9e0dd39df629acff2b175cd515880d2411f7993c5379fa880a70"
     },
     {
-      "path": "ru/macos/05-card.png",
+      "path": "screenshots/ru/macos/05-card.png",
       "locale": "ru",
       "family": "macos",
       "width": 2880,
@@ -379,12 +379,291 @@
       "sha256": "195943e07499080e57e15fd49536850ac7130682f8882b44093e0744735b40dd"
     },
     {
-      "path": "ru/macos/06-browser.png",
+      "path": "screenshots/ru/macos/06-browser.png",
       "locale": "ru",
       "family": "macos",
       "width": 2880,
       "height": 1800,
       "sha256": "08d9f2f34660e8d30ef59ee699c0efc52d2091ab56019c96a3d03db4096a14c5"
+    },
+    {
+      "path": "supplemental/ro/duo-compact/01-sign.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "ca1b854cffde7ad1cd9bf12255bc0cc89dd61deeebd60778bf8db58d5ce71fa2"
+    },
+    {
+      "path": "supplemental/ro/duo-compact/02-batch.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "8ce40211eb338ae6490d172bf6b664840fb0ddd2ac0bd7fc2f06baeb86546683"
+    },
+    {
+      "path": "supplemental/ro/duo-compact/03-consent.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "96c945d2441f757b9600f7fddf161dbbf9fd53c81a5a019f89a911ac97a43713"
+    },
+    {
+      "path": "supplemental/ro/duo-compact/04-verify.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "abfc93670f760d2f2abce497b2d7d375f8608e0b95630a913fd57cda7cbc5f93"
+    },
+    {
+      "path": "supplemental/ro/duo-compact/05-card.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "209ae9720929ae134858f5578d8d082389308e723a30d12b9befde69eed438aa"
+    },
+    {
+      "path": "supplemental/ro/duo-expanded/01-sign.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "e0f2661bbfc436465b88dcf010bbf73599572071db9c7f13fd124506281f9379"
+    },
+    {
+      "path": "supplemental/ro/duo-expanded/02-batch.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "aba01a8d211ec4fe10bebbad911a42bf835597dcc3c5acce69290c20571d8317"
+    },
+    {
+      "path": "supplemental/ro/duo-expanded/03-consent.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "aa526432c80781d49855ee72d382901363fcc852807534733f466673923ea7aa"
+    },
+    {
+      "path": "supplemental/ro/duo-expanded/04-verify.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "9c0b85cceda87b035cce865c0ec559798bf64587318e4f6999c6c18fabe5ea9a"
+    },
+    {
+      "path": "supplemental/ro/duo-expanded/05-card.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "391c6fb3c15ac289cd69edc5b8fb497b2e517953b51a64a73ef71c20b75a6424"
+    },
+    {
+      "path": "supplemental/en/duo-compact/01-sign.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "d7f801abc10ec8f220b71efe0be585fcf4cd997d6b76875f73c1f2c494ab318f"
+    },
+    {
+      "path": "supplemental/en/duo-compact/02-batch.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "8a7f8397e2fd9df617e81cdd467afebf593c8371c58c83ffbe54a8e30f61974b"
+    },
+    {
+      "path": "supplemental/en/duo-compact/03-consent.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "d738746979dd6f2d856c9cc7bca49914c411737b96ffda36d5334064539ca3a7"
+    },
+    {
+      "path": "supplemental/en/duo-compact/04-verify.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "2ffd5504fa843bb3a77707332183fc1f703da453e587d31795595c9a5dce135e"
+    },
+    {
+      "path": "supplemental/en/duo-compact/05-card.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "886672c716e5d21c40560024431db43473557f94697cbce4f358e63e5b24596f"
+    },
+    {
+      "path": "supplemental/en/duo-expanded/01-sign.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "7430b856b81a2d30caacf20a0a12eb61be74e105d7a0e6786a2fb9e6a08363c8"
+    },
+    {
+      "path": "supplemental/en/duo-expanded/02-batch.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "0e61e6de1100c1d3bf59973e21881013232e2fe8c1b0be90019034571beefada"
+    },
+    {
+      "path": "supplemental/en/duo-expanded/03-consent.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "5a8fb165594e9b9f68650c506ceb6299615320016ba707024e5793367dbb045a"
+    },
+    {
+      "path": "supplemental/en/duo-expanded/04-verify.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "5dcb18944b9d8b0cd07de7ef35cdbc1912a0af09007382ccab7b5295ae0989da"
+    },
+    {
+      "path": "supplemental/en/duo-expanded/05-card.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "84dedcd89c4c4b06f7ee10408b19ca0993cd99396b0f0d1856a0c51520c9d422"
+    },
+    {
+      "path": "supplemental/ru/duo-compact/01-sign.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "20b4bc0f7944c7d45d18ce3e49dad119b8dc8e74641a0d6e68f46ab14e2aa3a7"
+    },
+    {
+      "path": "supplemental/ru/duo-compact/02-batch.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "6b1567576cb20bc6a8b8514e1f02018df5dde35ea16067f64d5c63fcee7c882b"
+    },
+    {
+      "path": "supplemental/ru/duo-compact/03-consent.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "0b092dd01d318ddbac56e8b81c21e1313d78a11cb140ec291ca9b64143b630ad"
+    },
+    {
+      "path": "supplemental/ru/duo-compact/04-verify.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "a09765362ff86852727184e819abd4f8e83f1ba662ddd361f8b623c136897a45"
+    },
+    {
+      "path": "supplemental/ru/duo-compact/05-card.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "1a6893f93e036ef2d0cff9589adaeb22325c640501250581458821cc2ad6a283"
+    },
+    {
+      "path": "supplemental/ru/duo-expanded/01-sign.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "cff81f4b839e37f77581554cd211e81d3f5e6550e5522425c1a107b906ca21b3"
+    },
+    {
+      "path": "supplemental/ru/duo-expanded/02-batch.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "b51a4dca225af265e087e5a8b49fa9861b37f0518b447007ab3a87c56477be1d"
+    },
+    {
+      "path": "supplemental/ru/duo-expanded/03-consent.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "f412e9e5aeec3814f7ad0e4d7d4f30e430e6e14e5e15afb5bc6712bf55ff9c82"
+    },
+    {
+      "path": "supplemental/ru/duo-expanded/04-verify.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "2875fb90883561815d9bcfcbba0195a0425dae9c68213b5910eb9ee47f9329d0"
+    },
+    {
+      "path": "supplemental/ru/duo-expanded/05-card.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "bca906761cc2734ad3ad9d04ba56698c599576cecf0284361e85e8c5d2c495b8"
     }
-  ]
+  ],
+  "pathBase": "PACK/apple",
+  "deviceFrames": {
+    "iphone": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "duo-compact": {
+      "file": "duo-compact.png",
+      "screen": [
+        88,
+        80,
+        1398,
+        2034
+      ],
+      "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+      "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+    },
+    "duo-expanded": {
+      "file": "duo-expanded.png",
+      "screen": [
+        120,
+        120,
+        2853,
+        2007
+      ],
+      "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+      "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+    }
+  }
 }
