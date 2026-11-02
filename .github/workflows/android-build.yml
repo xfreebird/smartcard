@@ -14,8 +14,7 @@ on:
         type: string
         required: false
 permissions:
-  contents: read
-  actions: write
+  contents: write
 concurrency:
   group: android-play-version-code
   cancel-in-progress: false
@@ -30,16 +29,24 @@ jobs:
       - name: Select Android build number
         env:
           BUILD_NUMBER_INPUT: ${{ inputs.build_number }}
-          GH_TOKEN: ${{ github.token }}
         run: |
-          next_build_number="$(gh variable get ANDROID_NEXT_VERSION_CODE --repo "$GITHUB_REPOSITORY")"
-          [[ "$next_build_number" =~ ^[1-9][0-9]*$ ]] || { echo '::error::ANDROID_NEXT_VERSION_CODE must be a positive integer'; exit 1; }
+          git fetch --force --tags origin
+          minimum_version_code=1793624666
+          last_reserved_code="$(git tag -l 'android-play-vc-*' | sed -n 's/^android-play-vc-//p' | sort -n | tail -1)"
+          if [[ -n "$last_reserved_code" && "$last_reserved_code" -gt "$minimum_version_code" ]]; then
+            next_build_number=$((last_reserved_code + 1))
+          else
+            next_build_number=$((minimum_version_code + 1))
+          fi
           build_number="${BUILD_NUMBER_INPUT:-$next_build_number}"
           [[ "$build_number" =~ ^[1-9][0-9]*$ ]] || { echo '::error::Invalid build number'; exit 1; }
           (( build_number >= next_build_number )) || { echo '::error::Build number must be at or above the next reserved Play version code'; exit 1; }
           (( build_number <= 2100000000 )) || { echo '::error::Build number exceeds Android versionCode limit'; exit 1; }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git tag -a "android-play-vc-$build_number" -m "Reserve Android Play version code $build_number"
+          git push origin "refs/tags/android-play-vc-$build_number"
           echo "BUILD_NUMBER=$build_number" >> "$GITHUB_ENV"
-          gh variable set ANDROID_NEXT_VERSION_CODE --repo "$GITHUB_REPOSITORY" --body "$((build_number + 1))"
       - name: Validate build number and Play credentials
         env:
           PLAY_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}

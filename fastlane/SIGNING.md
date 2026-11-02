@@ -13,11 +13,10 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 | `MATCH_GIT_BASIC_AUTHORIZATION` | base64 `user:token` with **write** access to fastlanecerts (local `certs` / imports only; reading is anonymous) |
 | `MATCH_KEYCHAIN_NAME`, `MATCH_KEYCHAIN_PASSWORD` | optional local keychain for the identities (CI uses `setup_ci`) |
 | `ESEMNBUN_SIGNING_KEYCHAIN` | optional existing isolated keychain path passed explicitly to archive signing |
-| `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer). Android publish CI obtains it from the shared `ANDROID_NEXT_VERSION_CODE` counter; an explicit higher `build_number` can override it. Marketing versions stay `x.y.z`. |
+| `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer). Android publish CI reserves it from the shared `android-play-vc-*` tag counter; an explicit higher `build_number` can override it. Marketing versions stay `x.y.z`. |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Android Publisher service account; required by Android release CI to publish a signed AAB to testing tracks |
 | `PLAY_CLOSED_TRACK` | optional GitHub Actions variable naming the closed-testing track; defaults to Play's standard `alpha` closed track |
 | `PLAY_CLOSED_RELEASE_STATUS` | optional GitHub Actions variable. Defaults to `draft` while the app remains a draft in Play Console; set to `completed` only after Play allows a closed release to be made available automatically. |
-| `ANDROID_NEXT_VERSION_CODE` | GitHub Actions variable used as the shared next Android Play version code. CI reserves it atomically and increments it by one before each build. |
 
 ```bash
 bundle install
@@ -36,9 +35,9 @@ staged on the configured closed-testing track. Google only accepts a draft close
 app itself is still a Play Console draft; configure `PLAY_CLOSED_RELEASE_STATUS=completed` after
 that restriction is lifted. Neither path publishes to production.
 
-`ANDROID_NEXT_VERSION_CODE` is shared by the regular Android and all-platform release workflows.
-CI reserves and increments it before building, so failed builds may leave harmless gaps but a
-published version can never be reused or downgraded.
+The regular Android and all-platform release workflows share a serialized, tag-backed Play counter.
+Before building, CI creates and pushes an `android-play-vc-<code>` reservation tag. Failed builds may
+leave harmless gaps, but a published version can never be reused or downgraded.
 
 Notes from setting it up (2026-10-25):
 
