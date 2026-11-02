@@ -85,6 +85,19 @@ use their store's updates. No binaries are installed by this mechanism. The prod
 serve these files before automatic checks can succeed; the private repository's Pages plan gate
 remains unchanged.
 
+## Downloads
+
+The localized `/downloads/` page groups release installers and store listings by platform, with setup guides and command-line documentation. The shared landing-page button opens this page; its adjacent control exposes the platform menu (hover, keyboard or touch). On phones the menu becomes a scrollable sheet with an explicit close action.
+
+`src/data/release.json` is a checked-in snapshot of the latest published GitHub release. Website CI regenerates it alongside the desktop update manifests, so installer names, URLs, versions and file sizes come from real release assets. To refresh it locally:
+
+```sh
+GH_HOST=github.com gh api repos/xfreebird/smartcard/releases/latest > /tmp/esemnbun-release.json
+python3 website/scripts/generate-downloads.py /tmp/esemnbun-release.json
+```
+
+Store links are kept separate from direct downloads; review or testing access can affect availability.
+
 ## Search visibility
 
 Home-page titles/descriptions and visible copy are localized for Romanian, English and Russian. The linked `/docs/moldsign/` guide explains electronic-ID signing and eSemnBun's independent relationship to MoldSign/MSign. Use natural wording around semnătură electronică and carte de identitate; do not add repeated keyword lists or imply official affiliation. The homepage emits factual SoftwareApplication JSON-LD without invented reviews or ratings. This does not guarantee a rich result or ranking.

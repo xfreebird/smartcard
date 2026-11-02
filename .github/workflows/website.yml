@@ -24,13 +24,15 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: website/package-lock.json
-      - name: Generate stable desktop update manifests
+      - name: Generate release downloads and desktop update manifests
         if: github.event_name != 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          version=$(gh api "repos/$GITHUB_REPOSITORY/releases/latest" --jq .tag_name)
+          gh api "repos/$GITHUB_REPOSITORY/releases/latest" > "$RUNNER_TEMP/esemnbun-release.json"
+          version=$(jq -r .tag_name "$RUNNER_TEMP/esemnbun-release.json")
           python3 website/scripts/generate-update-manifests.py --version "$version"
+          python3 website/scripts/generate-downloads.py "$RUNNER_TEMP/esemnbun-release.json"
       - run: npm ci
         working-directory: website
       - run: node --test tests/*.test.mjs

@@ -6,7 +6,7 @@ sidebar_label: Alternativă la MoldSign
 
 # Semnătură electronică cu cartea de identitate: alternativă la MoldSign
 
-**eSemnBun** este o aplicație gratuită, cu sursă deschisă, pentru semnarea documentelor cu o carte de identitate electronică acceptată din Republica Moldova. O poți folosi pe calculator sau de pe telefon, cu un cititor USB compatibil și adaptorul potrivit.
+**eSemnBun** este o aplicație gratuită, cu codul sursă deschis, pentru semnarea documentelor cu o carte de identitate electronică acceptată din Republica Moldova. O poți folosi pe calculator sau de pe telefon, cu un cititor USB compatibil și adaptorul potrivit.
 
 Semnătura este creată cu cheia de pe card după autorizarea cu PIN-ul. Cheia privată rămâne pe cartea de identitate.
 

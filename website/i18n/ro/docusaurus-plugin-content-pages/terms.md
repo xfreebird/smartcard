@@ -5,7 +5,7 @@ title: Utilizare și licență
 
 În vigoare: 1 noiembrie 2026. Dezvoltator: Nicolae Ghimbovschi, Republica Moldova.
 
-eSemnBun este software cu sursă deschisă sub [licența MIT](https://github.com/xfreebird/smartcard/blob/main/LICENSE). Îl poți folosi, studia, modifica și distribui conform licenței. Componentele și materialele terțe își păstrează propriile licențe. Licența MIT include limitările de garanție și răspundere aplicabile.
+eSemnBun este software cu codul sursă deschis sub [licența MIT](https://github.com/xfreebird/smartcard/blob/main/LICENSE). Îl poți folosi, studia, modifica și distribui conform licenței. Componentele și materialele terțe își păstrează propriile licențe. Licența MIT include limitările de garanție și răspundere aplicabile.
 
 Aplicația este independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor conectate. Acestea au propriile condiții, autentificare și disponibilitate.
 

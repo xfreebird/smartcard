@@ -1,4 +1,34 @@
 {
+  "downloadsTitle": {"en":"Get eSemnBun", "ro":"Descarcă eSemnBun", "ru":"Скачать eSemnBun"},
+  "downloadsDescription": {"en":"Choose your device. Download the installer or open its store listing, then follow the setup guide.", "ro":"Alege dispozitivul. Descarcă fișierul de instalare sau deschide pagina din magazin, apoi urmează ghidul de configurare.", "ru":"Выберите устройство. Скачайте установщик или откройте страницу в магазине, затем следуйте инструкции по настройке."},
+  "downloadOptions": {"en":"Show download options", "ro":"Arată opțiunile de descărcare", "ru":"Показать варианты загрузки"},
+  "closeDownloads": {"en":"Close download options", "ro":"Închide opțiunile de descărcare", "ru":"Закрыть варианты загрузки"},
+  "choosePlatform": {"en":"Choose your platform", "ro":"Alege platforma", "ru":"Выберите платформу"},
+  "allDownloads": {"en":"All downloads & installation guides", "ro":"Toate descărcările și ghidurile de instalare", "ru":"Все загрузки и инструкции"},
+  "platform_macos": {"en":"macOS", "ro":"macOS", "ru":"macOS"},
+  "platform_windows": {"en":"Windows", "ro":"Windows", "ru":"Windows"},
+  "platform_ios": {"en":"iPhone & iPad", "ro":"iPhone și iPad", "ru":"iPhone и iPad"},
+  "platform_android": {"en":"Android", "ro":"Android", "ru":"Android"},
+  "platform_linux": {"en":"Linux", "ro":"Linux", "ru":"Linux"},
+  "downloadHint_macos": {"en":"Universal DMG · Mac App Store", "ro":"DMG universal · Mac App Store", "ru":"Универсальный DMG · Mac App Store"},
+  "downloadHint_windows": {"en":"MSI installer · Microsoft Store", "ro":"Instalator MSI · Microsoft Store", "ru":"Установщик MSI · Microsoft Store"},
+  "downloadHint_ios": {"en":"App Store · Phone & tablet", "ro":"App Store · Telefon și tabletă", "ru":"App Store · Телефон и планшет"},
+  "downloadHint_android": {"en":"APK · Google Play", "ro":"APK · Google Play", "ru":"APK · Google Play"},
+  "downloadHint_linux": {"en":"DEB · RPM · Flatpak", "ro":"DEB · RPM · Flatpak", "ru":"DEB · RPM · Flatpak"},
+  "downloadBody_macos": {"en":"macOS 15 or later. One signed, notarized DMG for Intel and Apple Silicon. The Mac App Store edition uses an in-app browser and omits the background reader helper.", "ro":"macOS 15 sau mai nou. Un singur DMG semnat și notarizat pentru Intel și Apple Silicon. Ediția Mac App Store folosește browserul integrat și nu include utilitarul de pornire la conectarea cititorului.", "ru":"macOS 15 и новее. Один подписанный и нотаризованный DMG для Intel и Apple Silicon. Версия из Mac App Store использует встроенный браузер и не включает фоновый помощник считывателя."},
+  "downloadBody_windows": {"en":"Windows 10 (1809) or later. Use the x64 MSI for a direct installation, or open the Microsoft Store listing.", "ro":"Windows 10 (1809) sau mai nou. Folosește instalatorul MSI x64 pentru instalare directă sau deschide pagina din Microsoft Store.", "ru":"Windows 10 (1809) и новее. Используйте MSI для x64 для прямой установки или откройте страницу в Microsoft Store."},
+  "downloadBody_ios": {"en":"iOS 17 or later. Sign and share documents on your iPhone or iPad with a compatible reader and adapter.", "ro":"iOS 17 sau mai nou. Semnează și distribuie documente de pe iPhone sau iPad cu un cititor și un adaptor compatibil.", "ru":"iOS 17 и новее. Подписывайте и отправляйте документы с iPhone или iPad через совместимый считыватель и адаптер."},
+  "downloadBody_android": {"en":"Android 8 or later, with USB host/OTG support. The APK supports ARM and x86 devices, including tablets.", "ro":"Android 8 sau mai nou, cu suport USB host/OTG. APK-ul acceptă dispozitive ARM și x86, inclusiv tablete.", "ru":"Android 8 и новее с поддержкой USB host/OTG. APK поддерживает устройства ARM и x86, включая планшеты."},
+  "downloadBody_linux": {"en":"Choose DEB for Ubuntu or Debian, RPM for Fedora, or the Flatpak bundle. See the setup guide for reader access and required dependencies.", "ro":"Alege DEB pentru Ubuntu sau Debian, RPM pentru Fedora ori pachetul Flatpak. Consultă ghidul pentru accesul la cititor și dependențele necesare.", "ru":"Выберите DEB для Ubuntu или Debian, RPM для Fedora либо пакет Flatpak. Доступ к считывателю и зависимости описаны в инструкции."},
+  "downloadFormat": {"en":"Download {format}", "ro":"Descarcă {format}", "ru":"Скачать {format}"},
+  "viewStore": {"en":"View on {store}", "ro":"Vezi în {store}", "ru":"Открыть в {store}"},
+  "storeAvailability": {"en":"Store availability depends on review, testing access and region.", "ro":"Disponibilitatea în magazin depinde de aprobare, accesul la testare și regiune.", "ru":"Доступность в магазине зависит от проверки, доступа к тестированию и региона."},
+  "setupGuide": {"en":"Installation & setup guide", "ro":"Ghid de instalare și configurare", "ru":"Установка и настройка"},
+  "releaseTitle": {"en":"Release files & command line", "ro":"Fișierele versiunii și linia de comandă", "ru":"Файлы выпуска и командная строка"},
+  "releaseBody": {"en":"Find release notes, SHA-256 checksums, alternative packages and CLI downloads on GitHub.", "ro":"Găsești pe GitHub notele versiunii, sumele de control SHA-256, pachetele alternative și descărcările CLI.", "ru":"На GitHub доступны примечания к выпуску, контрольные суммы SHA-256, альтернативные пакеты и загрузки CLI."},
+  "releaseFiles": {"en":"Open GitHub release", "ro":"Deschide versiunea pe GitHub", "ru":"Открыть выпуск на GitHub"},
+  "cliGuides": {"en":"Command-line guides", "ro":"Ghiduri pentru linia de comandă", "ru":"Инструкции для командной строки"},
+  "beforeDownload": {"en":"Before you connect", "ro":"Înainte de conectare", "ru":"Перед подключением"},
   "title": {
     "en": "MoldSign alternative for Moldova’s electronic ID",
     "ro": "Semnătură electronică cu cartea de identitate",
@@ -6,7 +36,7 @@
   },
   "project": {
     "en": "eSemnBun · Free and open source",
-    "ro": "eSemnBun · Gratuit și cu sursă deschisă",
+    "ro": "eSemnBun · Gratuit și cu codul sursă deschis",
     "ru": "eSemnBun · Бесплатно и с открытым кодом"
   },
   "hero1": {
@@ -26,7 +56,7 @@
   },
   "intro1": {
     "en": "A free, open-source alternative to MoldSign for Moldova’s electronic ID.",
-    "ro": "O alternativă gratuită, cu sursă deschisă, la MoldSign pentru cartea de identitate electronică din Moldova.",
+    "ro": "O alternativă gratuită, cu codul sursă deschis, la MoldSign pentru cartea de identitate electronică din Moldova.",
     "ru": "Бесплатная альтернатива MoldSign с открытым кодом для электронной ID-карты Молдовы."
   },
   "intro2": {
