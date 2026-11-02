@@ -22,6 +22,9 @@ locales.each do |locale, language|
   families.each do |family, type|
     folder = family.start_with?('duo-') ? 'supplemental' : 'screenshots'
     files = pack.join('apple', folder, language, family).glob('*.png').sort
+    # Duo screenshots are an optional, separately captured Store slot. Standard iPhone and iPad
+    # sets remain mandatory for an iOS submission, but do not reject a standard-only refresh.
+    next if family.start_with?('duo-') && files.empty?
     abort "Incomplete local screenshots: #{language}/#{family}" unless files.size == (family == 'macos' ? 6 : 5)
     files.each { |file| expected[type]["#{family}-#{file.basename}"] = Digest::MD5.file(file).hexdigest }
   end
