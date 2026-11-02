@@ -21,7 +21,9 @@ GH_HOST=github.com gh workflow run website.yml -R xfreebird/smartcard
 
 Pages was enabled on 2 November 2026. The repository remains private; its Pages website is public. `ENABLE_PAGES_DEPLOYMENT=true` enables the existing deployment job. No `CNAME` file is needed for the custom Actions publishing source: the domain is configured in repository Pages settings.
 
-Cloudflare DNS uses four apex A records (`185.199.108.153` through `185.199.111.153`), four apex AAAA records (`2606:50c0:8000::153` through `2606:50c0:8003::153`), and `www` CNAME → `xfreebird.github.io`. Records are **DNS only**, with a five-minute TTL, so GitHub handles the HTTPS certificate and redirects. Configure the GitHub custom domain before pointing DNS at it. Enable GitHub's Enforce HTTPS after certificate issuance.
+Cloudflare DNS uses four apex A records (`185.199.108.153` through `185.199.111.153`), four apex AAAA records (`2606:50c0:8000::153` through `2606:50c0:8003::153`), and `www` CNAME → `xfreebird.github.io`. Records are **DNS only**, with a five-minute TTL, so GitHub handles the HTTPS certificate and redirects. Configure the GitHub custom domain before pointing DNS at it. The certificate for both names is issued and GitHub's Enforce HTTPS is enabled.
+
+The domain is verified in the owner's GitHub account. Keep the `_github-pages-challenge-xfreebird` TXT record in Cloudflare to retain ownership protection. Website workflow [41415337721](https://github.com/xfreebird/smartcard/actions/runs/41415337721) built and deployed successfully. HTTPS homepage, localized pages, downloads, policy pages, sitemap and update feed were checked from the MacBook Air; `www` redirects to the apex. A company web filter on the main Mac currently blocks this new domain as high-risk, independently of the successful public deployment.
 
 Direct installer URLs currently refer to this private repository's releases and require repository access. Publishing the website does not publish those releases. Public installer distribution must be arranged separately; do not change repository visibility as a workaround without auditing private/vendor material.
 
