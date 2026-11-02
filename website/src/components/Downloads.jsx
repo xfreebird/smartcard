@@ -3,7 +3,16 @@ import Link from '@docusaurus/Link';
 import useText from '../i18n/useText';
 import PlatformIcon from './PlatformIcon';
 
-export default function Downloads() {
+function primaryAction(platform, t) {
+ if (platform==='ios') return {href:'/downloads#ios', label:t('downloadOptions')};
+ if (platform==='android') return {href:'/downloads#android', label:t('downloadOptions')};
+ if (platform==='windows') return {href:'/downloads#windows', label:t('downloadOptions')};
+ if (platform==='macos') return {href:'/downloads#macos', label:t('downloadStandalone')};
+ if (platform==='linux') return {href:'/downloads#linux', label:t('downloadLinux')};
+ return {href:'/downloads', label:t('download')};
+}
+
+export default function Downloads({platform = 'other'}) {
  const t = useText();
  const [open, setOpen] = useState(false);
  const [placement, setPlacement] = useState({above: false, space: 460});
@@ -20,9 +29,10 @@ export default function Downloads() {
   document.addEventListener('pointerdown', dismiss);
   return () => document.removeEventListener('pointerdown', dismiss);
  }, [open]);
+ const primary = primaryAction(platform, t);
  return <div ref={control} className="download-control" onMouseEnter={() => {if (window.matchMedia('(hover: hover) and (min-width: 761px)').matches) setOpen(true);}} onMouseLeave={() => setOpen(false)} onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);}} onKeyDown={e => {if (e.key === 'Escape') {setOpen(false); e.currentTarget.querySelector('button').focus();}}}>
   <div className="download-button-group">
-   <Link className="download-button" to="/downloads"><PlatformIcon name="download"/>{t('download')}</Link>
+   <Link className="download-button" to={primary.href}><PlatformIcon name={platform==='other' ? 'download' : platform}/>{primary.label}</Link>
    <button className="download-toggle" type="button" aria-label={t('downloadOptions')} aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(true)}><PlatformIcon name="chevron"/></button>
   </div>
   {open && <div className={`download-options${placement.above ? ' download-options-above' : ''}`} style={{'--download-menu-space': `${placement.space}px`}} id={menuId}>

@@ -78,6 +78,36 @@
     "ro": "Descarcă eSemnBun",
     "ru": "Скачать eSemnBun"
   },
+  "downloadStandalone": {
+    "en": "Download standalone app",
+    "ro": "Descarcă aplicația independentă",
+    "ru": "Скачать отдельное приложение"
+  },
+  "downloadLinux": {
+    "en": "Download for Linux",
+    "ro": "Descarcă pentru Linux",
+    "ru": "Скачать для Linux"
+  },
+  "getMicrosoftStore": {
+    "en": "Get it from Microsoft Store",
+    "ro": "Deschide în Microsoft Store",
+    "ru": "Открыть в Microsoft Store"
+  },
+  "storeStatus_ios": {
+    "en": "Available on the App Store.",
+    "ro": "Disponibil în App Store.",
+    "ru": "Доступно в App Store."
+  },
+  "storeStatus_android": {
+    "en": "Google Play availability depends on testing access and region.",
+    "ro": "Disponibilitatea în Google Play depinde de accesul la testare și regiune.",
+    "ru": "Доступность в Google Play зависит от доступа к тестированию и региона."
+  },
+  "storeStatus_macos": {
+    "en": "Mac App Store availability depends on review and region.",
+    "ro": "Disponibilitatea în Mac App Store depinde de aprobare și regiune.",
+    "ru": "Доступность в Mac App Store зависит от проверки и региона."
+  },
   "source": {
     "en": "View source on GitHub",
     "ro": "Vezi sursa pe GitHub",

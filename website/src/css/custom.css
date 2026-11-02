@@ -43,16 +43,18 @@
 .feature-grid p,.trust-section p,.final-cta p{font-size:18px;line-height:1.75}.section-label{font-size:15px;letter-spacing:.04em}
 .footer__title{font-size:18px}.footer__link-item,.footer__copyright{font-size:16px;line-height:1.8}
 .story-steps{font-size:16px}.story-steps b{font-size:14px;width:26px;height:26px}
-.mobile-stores{display:none}
+.platform-store{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.platform-store>a{display:flex;align-items:center;justify-content:center;min-height:56px}
+.platform-store p{display:none}
+.platform-store-link{display:inline-flex!important;align-items:center;gap:12px;min-height:56px;padding:15px 22px;border:1px solid var(--site-border);border-radius:16px;background:var(--site-surface);box-shadow:0 4px 12px var(--site-shadow);color:var(--ifm-font-color-base);font-size:18px;font-weight:650;line-height:1.35;text-decoration:none}
+.platform-store-link:hover{background:var(--site-hover);color:var(--ifm-color-primary);text-decoration:none}
 @media(max-width:760px){
  .hero-intro{padding:24px 20px 20px}.hero-intro h1{font-size:34px;margin:18px 0}.hero-intro p{font-size:18px;line-height:1.5}
  .hero-actions{margin:22px 0 14px;gap:15px}.scroll-cue{margin-top:22px}.hero-intro>small{font-size:16px;display:block;margin-top:12px;line-height:1.6}
  .source-link,.guide-link{font-size:17px}.project-label{font-size:16px}
- .mobile-stores{display:block;margin:18px auto 10px;max-width:390px}
- .mobile-store-badges{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
- .mobile-store-badges a{display:flex;align-items:center;justify-content:center;min-height:64px}
+ .platform-store{margin:0;max-width:390px}
  .apple-store-badge{width:150px;height:50px}.google-store-badge{width:190px;height:74px;object-fit:contain}
- .mobile-stores p{font-size:16px;line-height:1.5;color:var(--site-muted);margin:8px 12px}
+ .platform-store p{display:block;font-size:14px;line-height:1.4;color:var(--site-muted);margin:3px 12px;text-align:center}
  .continuous-story{height:230svh}.continuous-progress{font-size:14px;max-width:calc(100% - 16px)}
  .story-steps span{padding:8px 6px;gap:5px}.story-steps b{font-size:12px;width:21px;height:21px}
  .feature-grid p,.final-cta p{font-size:18px}.footer__link-item{font-size:17px}
