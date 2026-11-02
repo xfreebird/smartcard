@@ -88,6 +88,11 @@
     "ro": "Descarcă pentru Linux",
     "ru": "Скачать для Linux"
   },
+  "otherDownloadOptions": {
+    "en": "Other download options",
+    "ro": "Alte opțiuni de descărcare",
+    "ru": "Другие варианты загрузки"
+  },
   "getMicrosoftStore": {
     "en": "Get it from Microsoft Store",
     "ro": "Deschide în Microsoft Store",
@@ -107,6 +112,11 @@
     "en": "Mac App Store availability depends on review and region.",
     "ro": "Disponibilitatea în Mac App Store depinde de aprobare și regiune.",
     "ru": "Доступность в Mac App Store зависит от проверки и региона."
+  },
+  "macAppStoreLimitations": {
+    "en": "The Mac App Store edition uses an in-app browser and does not include the reader insertion helper or MoldSign process controls.",
+    "ro": "Ediția Mac App Store folosește browserul integrat și nu include utilitarul de pornire la conectarea cititorului sau controlul proceselor MoldSign.",
+    "ru": "Версия из Mac App Store использует встроенный браузер и не включает помощник запуска при подключении считывателя или управление процессами MoldSign."
   },
   "source": {
     "en": "View source on GitHub",

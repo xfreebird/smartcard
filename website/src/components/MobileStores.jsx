@@ -24,5 +24,6 @@ export default function MobileStores({platform}){
    <img className={appleStore ? 'apple-store-badge' : 'google-store-badge'} src={appleStore ? apple : google} alt={appleStore ? 'Download on the App Store' : 'Get it on Google Play'} width={appleStore ? 150 : 190} height={appleStore ? 50 : 74}/>
   </a>
   <p>{t(`storeStatus_${platform}`)}</p>
+  {platform==='macos' && <p className="store-version-limitations">{t('macAppStoreLimitations')}</p>}
  </div>;
 }

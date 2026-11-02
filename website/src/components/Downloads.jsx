@@ -12,7 +12,7 @@ function primaryAction(platform, t) {
  return {href:'/downloads', label:t('download')};
 }
 
-export default function Downloads({platform = 'other'}) {
+export default function Downloads({platform = 'other', directOnly = false, optionsOnly = false}) {
  const t = useText();
  const [open, setOpen] = useState(false);
  const [placement, setPlacement] = useState({above: false, space: 460});
@@ -30,11 +30,11 @@ export default function Downloads({platform = 'other'}) {
   return () => document.removeEventListener('pointerdown', dismiss);
  }, [open]);
  const primary = primaryAction(platform, t);
- return <div ref={control} className="download-control" onMouseEnter={() => {if (window.matchMedia('(hover: hover) and (min-width: 761px)').matches) setOpen(true);}} onMouseLeave={() => setOpen(false)} onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);}} onKeyDown={e => {if (e.key === 'Escape') {setOpen(false); e.currentTarget.querySelector('button').focus();}}}>
-  <div className="download-button-group">
-   <Link className="download-button" to={primary.href}><PlatformIcon name={platform==='other' ? 'download' : platform}/>{primary.label}</Link>
-   <button className="download-toggle" type="button" aria-label={t('downloadOptions')} aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(true)}><PlatformIcon name="chevron"/></button>
-  </div>
+ return <div ref={control} className="download-control" onMouseEnter={() => {if (!directOnly && window.matchMedia('(hover: hover) and (min-width: 761px)').matches) setOpen(true);}} onMouseLeave={() => setOpen(false)} onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);}} onKeyDown={e => {if (e.key === 'Escape') {setOpen(false); e.currentTarget.querySelector('button').focus();}}}>
+  {optionsOnly ? <button className="download-options-primary" type="button" aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(true)}><PlatformIcon name="download"/>{t('otherDownloadOptions')}</button> : <div className="download-button-group">
+   <Link className={`download-button${directOnly ? ' download-button-single' : ''}`} to={primary.href}><PlatformIcon name={platform==='other' ? 'download' : platform}/>{primary.label}</Link>
+   {!directOnly && <button className="download-toggle" type="button" aria-label={t('downloadOptions')} aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(true)}><PlatformIcon name="chevron"/></button>}
+  </div>}
   {open && <div className={`download-options${placement.above ? ' download-options-above' : ''}`} style={{'--download-menu-space': `${placement.space}px`}} id={menuId}>
    <div className="download-menu-surface">
     <div className="download-menu-heading"><span>{t('choosePlatform')}</span><button type="button" aria-label={t('closeDownloads')} onClick={() => setOpen(false)}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div>
