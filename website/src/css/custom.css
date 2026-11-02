@@ -138,6 +138,13 @@ body:has(.downloads-page) .navbar{transform:none!important}
 .download-setup-link{align-self:flex-start;margin-top:auto;padding-top:24px;font-size:16px;font-weight:600}
 .download-release-card{background:var(--site-stage)}.download-release-card h2{margin:22px 0 0;font-size:26px;letter-spacing:-.03em}.download-release-link{display:inline-flex;align-items:center;gap:12px;font-size:17px;font-weight:600}.download-release-link svg{width:18px;height:18px}
 .download-cli-links{display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;margin-top:auto;padding-top:30px;font-size:16px}.download-cli-links>span{flex-basis:100%;color:var(--site-muted)}
+.download-platform-linux,.download-release-card{grid-column:1/-1}
+.linux-download-editions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}
+.linux-download-edition{display:flex;flex-direction:column;min-width:0;padding-top:24px;border-top:1px solid var(--site-border)}
+.linux-download-edition h3{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:22px;line-height:1.4;letter-spacing:-.02em}
+.linux-download-edition h3 svg{color:var(--ifm-color-primary)}
+.linux-download-edition>p{flex:1;margin:0 0 22px;font-size:17px;line-height:1.7;color:var(--site-muted)}
+@media(max-width:760px){.linux-download-editions{grid-template-columns:1fr;gap:28px}}
 .downloads-requirements{max-width:800px;margin:48px auto 0;padding:30px;text-align:center}.downloads-requirements h2{font-size:24px}.downloads-requirements p{font-size:17px;line-height:1.7;color:var(--site-muted)}.downloads-requirements a{font-size:17px;font-weight:600}
 @media(max-width:760px){.downloads-page{padding:40px 20px 48px}.downloads-header>p{font-size:18px}.download-platform-grid{grid-template-columns:1fr;gap:18px}.download-platform-card{padding:24px;border-radius:20px}.download-platform-heading{gap:12px}.download-platform-heading h2{font-size:24px}.download-platform-symbol{width:46px;height:46px;border-radius:14px}.downloads-requirements{padding:18px 0}.download-platform-nav{gap:8px}.download-platform-nav a{font-size:15px;padding:9px 12px}}
 @media(prefers-reduced-motion:reduce){.download-button-group,.download-toggle svg{transition:none}}

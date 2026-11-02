@@ -10,8 +10,22 @@ const platforms = [
  {id: 'windows', assets: [/\.msi$/], store: ['Microsoft Store', 'https://apps.microsoft.com/detail/9PDPR6RNT42S']},
  {id: 'ios', assets: [], store: ['App Store', 'https://apps.apple.com/app/id6826865290']},
  {id: 'android', assets: [/\.apk$/], store: ['Google Play', 'https://play.google.com/store/apps/details?id=md.esemnbun.app']},
- {id: 'linux', assets: [/^esemnbun_.*\.deb$/, /^esemnbun-[\d.]+-.*\.rpm$/, /\.flatpak$/]},
+ {id: 'linux', assets: []},
 ];
+
+const linuxEditions = [
+ {id: 'desktop', icon: 'linux', patterns: [/^esemnbun_.*\.deb$/, /^esemnbun-[\d.]+-.*\.rpm$/, /\.flatpak$/], guide: '/docs/platforms/linux'},
+ {id: 'cli', icon: 'cli', patterns: [/^esemnbun-cli_.*\.deb$/, /^esemnbun-cli-.*\.rpm$/, /^esemnbun-.*-linux-.*\.tar\.gz$/], guide: '/docs/platforms/linux-cli'},
+];
+
+function InstallerLinks({assets}) {
+ const t = useText();
+ return <div className="download-installers">{assets.map(asset => {
+  const format = asset.name.endsWith('.tar.gz') ? 'TAR.GZ' : asset.name.split('.').pop().toUpperCase();
+  const architecture = /(?:amd64|x86_64|x64)/.test(asset.name) ? 'x86_64' : /(?:aarch64|arm64)/.test(asset.name) ? 'ARM64' : null;
+  return <a className="download-installer" href={asset.url} key={asset.name} title={asset.name}><PlatformIcon name="download"/><span><b>{t('downloadFormat').replace('{format}', format)}</b><small>{architecture && `${architecture} · `}{(asset.size / 1_000_000).toFixed(1)} MB</small></span><span className="download-file-type">.{format.toLowerCase()}</span></a>;
+ })}</div>;
+}
 
 export default function DownloadsPage() {
  const t = useText();
@@ -34,12 +48,14 @@ export default function DownloadsPage() {
      return <section className={`download-platform-card download-platform-${id}`} id={id} key={id}>
       <div className="download-platform-heading"><span className="download-platform-symbol"><PlatformIcon name={id}/></span><div><h2>{t(`platform_${id}`)}</h2><p>{t(`downloadHint_${id}`)}</p></div></div>
       <p className="download-platform-description">{t(`downloadBody_${id}`)}</p>
-      <div className="download-installers">{installers.map(asset => {
-       const format = asset.name.split('.').pop().toUpperCase();
-       return <a className="download-installer" href={asset.url} key={asset.name}><PlatformIcon name="download"/><span><b>{t('downloadFormat').replace('{format}', format)}</b><small>{id === 'linux' && format !== 'FLATPAK' ? 'x86_64 · ' : ''}{(asset.size / 1_000_000).toFixed(1)} MB</small></span><span className="download-file-type">.{format.toLowerCase()}</span></a>;
-      })}</div>
+      {id === 'linux' ? <div className="linux-download-editions">{linuxEditions.map(edition => <section className="linux-download-edition" key={edition.id} aria-labelledby={`linux-${edition.id}-title`}>
+       <h3 id={`linux-${edition.id}-title`}><PlatformIcon name={edition.icon}/>{t(`linuxEdition_${edition.id}`)}</h3>
+       <p>{t(`linuxEditionBody_${edition.id}`)}</p>
+       <InstallerLinks assets={edition.patterns.flatMap(pattern => release.assets.filter(asset => pattern.test(asset.name)))}/>
+       <Link className="download-setup-link" to={edition.guide}>{t('setupGuide')}</Link>
+      </section>)}</div> : <InstallerLinks assets={installers}/>}
       {store && <div className="download-store"><a href={store[1]}><PlatformIcon name={id}/><span>{t('viewStore').replace('{store}', store[0])}</span><PlatformIcon name="external"/></a><p>{t('storeAvailability')}</p></div>}
-      <Link className="download-setup-link" to={`/docs/platforms/${id}`}>{t('setupGuide')}</Link>
+      {id !== 'linux' && <Link className="download-setup-link" to={`/docs/platforms/${id}`}>{t('setupGuide')}</Link>}
      </section>;
     })}
     <section className="download-platform-card download-release-card"><span className="download-platform-symbol"><PlatformIcon name="github"/></span><h2>{t('releaseTitle')}</h2><p>{t('releaseBody')}</p><a className="download-release-link" href={release.url}>{t('releaseFiles')}<PlatformIcon name="external"/></a><div className="download-cli-links"><span>{t('cliGuides')}</span>{['macos', 'windows', 'linux'].map(id => <Link key={id} to={`/docs/platforms/${id}-cli`}>{t(`platform_${id}`)}</Link>)}</div></section>
