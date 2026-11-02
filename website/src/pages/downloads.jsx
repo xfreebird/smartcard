@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import PlatformIcon from '../components/PlatformIcon';
@@ -15,9 +15,19 @@ const platforms = [
 
 export default function DownloadsPage() {
  const t = useText();
+ const page = useRef(null);
+ const platformNav = useRef(null);
+ useEffect(() => {
+  const measure = () => page.current?.style.setProperty('--download-nav-height', `${platformNav.current.getBoundingClientRect().height}px`);
+  measure();
+  const observer = new ResizeObserver(measure);
+  observer.observe(platformNav.current);
+  return () => observer.disconnect();
+ }, []);
  return <Layout title={t('downloadsTitle')} description={t('downloadsDescription')}>
-  <main className="downloads-page">
-   <header className="downloads-header"><span className="downloads-eyebrow">eSemnBun <span aria-hidden="true">/</span> {release.version}</span><h1>{t('downloadsTitle')}</h1><p>{t('downloadsDescription')}</p><nav className="download-platform-nav" aria-label={t('choosePlatform')}>{platforms.map(({id}) => <a href={`#${id}`} key={id}><PlatformIcon name={id}/>{t(`platform_${id}`)}</a>)}</nav></header>
+  <main className="downloads-page" ref={page}>
+   <header className="downloads-header"><span className="downloads-eyebrow">eSemnBun <span aria-hidden="true">/</span> {release.version}</span><h1>{t('downloadsTitle')}</h1><p>{t('downloadsDescription')}</p></header>
+   <nav className="download-platform-nav" ref={platformNav} aria-label={t('choosePlatform')}>{platforms.map(({id}) => <a href={`#${id}`} key={id}><PlatformIcon name={id}/>{t(`platform_${id}`)}</a>)}</nav>
    <div className="download-platform-grid">
     {platforms.map(({id, assets, store}) => {
      const installers = release.assets.filter(asset => assets.some(pattern => pattern.test(asset.name)));
