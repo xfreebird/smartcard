@@ -13,7 +13,7 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 | `MATCH_GIT_BASIC_AUTHORIZATION` | base64 `user:token` with **write** access to fastlanecerts (local `certs` / imports only; reading is anonymous) |
 | `MATCH_KEYCHAIN_NAME`, `MATCH_KEYCHAIN_PASSWORD` | optional local keychain for the identities (CI uses `setup_ci`) |
 | `ESEMNBUN_SIGNING_KEYCHAIN` | optional existing isolated keychain path passed explicitly to archive signing |
-| `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer; CI uses the workflow run number). Retries reuse it; start a new run or supply a higher integer `build_number` workflow input before uploading another build. Marketing versions stay `x.y.z`. |
+| `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer). Android publish CI uses UTC epoch seconds by default so the value remains above previously published builds; an explicit higher `build_number` can override it. Marketing versions stay `x.y.z`. |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Android Publisher service account; required by Android release CI to publish a signed AAB to testing tracks |
 | `PLAY_CLOSED_TRACK` | optional GitHub Actions variable naming the closed-testing track; defaults to Play's standard `alpha` closed track |
 
