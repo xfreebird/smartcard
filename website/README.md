@@ -2,7 +2,7 @@
 
 Docusaurus source lives here. `npm ci && npm run build` compiles it into **website/pages/** (generated output, not committed). `npm start` develops locally; `npm run serve` previews the production build.
 
-GitHub Actions builds and deploys that directory through GitHub Pages. The initial address is https://xfreebird.github.io/smartcard/ . The public store URLs are `/smartcard/`, `/smartcard/support/`, `/smartcard/privacy/` and `/smartcard/terms/` on that host. After acquiring the domain, set `SITE_URL=https://esemnbun.md` and `BASE_URL=/` in the build configuration, and configure its DNS/Pages custom domain.
+GitHub Actions builds and deploys that directory through GitHub Pages at **https://esemnbun.md/**. Website CI sets `SITE_URL=https://esemnbun.md` and `BASE_URL=/`; local builds retain the GitHub project-path defaults unless those variables are supplied. Store links use `/`, `/support/`, `/privacy/` and `/terms/` on the custom domain.
 
 App Store / Play / Microsoft listing links are included with availability labels while review/testing is pending. Direct installer downloads lead to the latest GitHub Release. Store listing URL updates are separate from website deployment.
 
@@ -10,15 +10,20 @@ The landing sequence uses native app captures and the existing reader illustrati
 
 The Linux platform icon uses Tux by Larry Ewing, created with The GIMP, traced by Kjoonlee. The SVG is hosted locally and keeps its original proportions. Source and attribution terms are included in `static/img/platforms/TUX-NOTICE.txt`; it retains its own license rather than the repository's MIT license.
 
-## Enable hosting after the plan upgrade
+## Hosting and domain configuration
 
 ```sh
 GH_HOST=github.com gh api repos/xfreebird/smartcard/pages -X POST -f build_type=workflow
+GH_HOST=github.com gh api repos/xfreebird/smartcard/pages -X PUT -f cname=esemnbun.md -f build_type=workflow
 GH_HOST=github.com gh variable set ENABLE_PAGES_DEPLOYMENT -R xfreebird/smartcard -b true
 GH_HOST=github.com gh workflow run website.yml -R xfreebird/smartcard
 ```
 
-Until then the action builds and saves the Pages artifact; deployment is skipped. Do not change live store URLs to the GitHub address until hosting is enabled and those routes are reachable.
+Pages was enabled on 2 November 2026. The repository remains private; its Pages website is public. `ENABLE_PAGES_DEPLOYMENT=true` enables the existing deployment job. No `CNAME` file is needed for the custom Actions publishing source: the domain is configured in repository Pages settings.
+
+Cloudflare DNS uses four apex A records (`185.199.108.153` through `185.199.111.153`), four apex AAAA records (`2606:50c0:8000::153` through `2606:50c0:8003::153`), and `www` CNAME → `xfreebird.github.io`. Records are **DNS only**, with a five-minute TTL, so GitHub handles the HTTPS certificate and redirects. Configure the GitHub custom domain before pointing DNS at it. Enable GitHub's Enforce HTTPS after certificate issuance.
+
+Direct installer URLs currently refer to this private repository's releases and require repository access. Publishing the website does not publish those releases. Public installer distribution must be arranged separately; do not change repository visibility as a workaround without auditing private/vendor material.
 
 Device illustration geometry lives in `src/components/deviceGeometry.js`: the phone outline uses the official iPhone product-resource proportions and the Android screenshot keeps its 9:20 ratio. Desktop app windows are contained inside a generic 16:9 display. SVG images use `preserveAspectRatio`; the reader, cable and ports share the same coordinate system.
 
@@ -84,8 +89,8 @@ python3 website/scripts/generate-update-manifests.py --version 0.2.0
 
 Standalone desktop apps check at most weekly after the last check, or on demand. Store builds
 use their store's updates. No binaries are installed by this mechanism. The production domain must
-serve these files before automatic checks can succeed; the private repository's Pages plan gate
-remains unchanged.
+serve these files before automatic checks can succeed. The deployment gate is controlled by
+the `ENABLE_PAGES_DEPLOYMENT` repository variable.
 
 ## Downloads
 
@@ -108,4 +113,4 @@ Docusaurus generates canonical URLs, language alternates and a sitemap for every
 
 After `npm run build`, run `npm run verify:seo` (also in Website CI). It inspects generated HTML for descriptions, canonical/language links, social images, app metadata, target-language content, and sitemap entries.
 
-Publishing is required before indexing: the GitHub Pages URL returned HTTP 404 on 2026-11-02, and `ENABLE_PAGES_DEPLOYMENT` was not enabled. After Pages hosting is available, verify the live URL returns 200, add the site in Google Search Console, verify ownership, and submit `/smartcard/sitemap.xml`, `/smartcard/ro/sitemap.xml`, and `/smartcard/ru/sitemap.xml`. For a custom domain build, set `SITE_URL=https://esemnbun.md` and `BASE_URL=/`, verify that domain, and submit the corresponding root/locale sitemaps. Do not change canonical URLs to a domain until that domain actually serves the site. Check indexing and query impressions for MoldSign, semnatura electronica, and carte de identitate after publishing; rankings are not immediate or guaranteed.
+After deployment and HTTPS issuance, verify the live domain returns 200, add `esemnbun.md` in Google Search Console, verify ownership, and submit `https://esemnbun.md/sitemap.xml`, `https://esemnbun.md/ro/sitemap.xml`, and `https://esemnbun.md/ru/sitemap.xml`. Check indexing and query impressions for MoldSign, semnatura electronica, and carte de identitate after publishing; rankings are not immediate or guaranteed.

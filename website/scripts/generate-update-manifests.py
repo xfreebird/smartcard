@@ -16,5 +16,5 @@ args.out.mkdir(parents=True, exist_ok=True)
 for platform in ('macos', 'windows', 'linux'):
     (args.out / f'{platform}.json').write_text(json.dumps({
         'version': version,
-        'downloadURL': 'https://esemnbun.md/#downloads',
+        'downloadURL': 'https://esemnbun.md/downloads/',
     }, indent=2) + '\n')
