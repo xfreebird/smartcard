@@ -9,8 +9,8 @@ abort 'Usage: bundle exec ruby distribution/tools/verify-apple-screenshot-upload
 pack = Pathname(directory)
 Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.create(key_id: ENV.fetch('ASC_KEY_ID'), issuer_id: ENV.fetch('ASC_ISSUER_ID'), filepath: ENV.fetch('ASC_KEY_PATH'))
 app = Spaceship::ConnectAPI::App.find(platform == 'ios' ? 'md.esemnbun.ios' : 'md.esemnbun.mac')
-version = app.get_app_store_versions.find { |v| v.version_string == '0.2.0' }
-abort 'No 0.2.0 version' unless version
+version = app.get_edit_app_store_version(platform: platform == 'ios' ? 'IOS' : 'MAC_OS')
+abort "No editable #{platform} App Store version" unless version
 locales = { 'ro' => 'ro', 'en-US' => 'en', 'ru' => 'ru' }
 locales['en-GB'] = 'en' if platform == 'macos'
 translations = version.get_app_store_version_localizations

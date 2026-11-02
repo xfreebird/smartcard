@@ -266,11 +266,6 @@ struct ConnectionGuideView: View {
     var body: some View {
         NavigationStack {
             List {
-                Section {
-                    CardSelector(size: .phone)
-                        .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                        .listRowBackground(Color.clear)
-                }
                 Section(L10n.text(.ui_how_to_connect_the_reader)) {
                     tile("cable.connector", L10n.text(.ui_usb_c_usb_a),
                          L10n.text(.ui_iphone_15_or_later_ipad_with_usb_c_usb_c_to_usb_a_adapter))

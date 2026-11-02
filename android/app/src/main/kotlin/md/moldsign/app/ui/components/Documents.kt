@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.InsertDriveFile
@@ -116,6 +117,7 @@ fun DocumentPickZone(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Tokens.RadiusCard),
         colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.50f)),
     ) {
         Column(Modifier.fillMaxWidth().padding(Tokens.S6), horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(32.dp))
@@ -138,7 +140,8 @@ fun DocumentAddTile(onPick: () -> Unit, modifier: Modifier = Modifier) {
         onClick = onPick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Tokens.RadiusCard),
-        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.38f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.58f)),
     ) {
         Row(Modifier.fillMaxWidth().padding(horizontal = Tokens.S4, vertical = Tokens.S3), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))

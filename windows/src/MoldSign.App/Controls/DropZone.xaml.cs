@@ -94,8 +94,7 @@ public sealed partial class DropZone : UserControl
     private void SetHover(bool hover)
     {
         _idleStroke ??= Outline.Stroke;
-        Outline.Fill = hover ? WindowHelpers.ThemeBrush("BrandSoftBrush") : new SolidColorBrush(Microsoft.UI.Colors.Transparent);
+        Outline.Fill = hover ? WindowHelpers.ThemeBrush("BrandSoftBrush") : WindowHelpers.ThemeBrush("SubtleFillColorSecondaryBrush");
         Outline.Stroke = hover ? WindowHelpers.ThemeBrush("BrandBrush") : _idleStroke;
-        Outline.StrokeDashArray = hover ? null : new DoubleCollection { 4, 3 };
     }
 }

@@ -574,8 +574,8 @@ struct EmptyCardFace: View {
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(isError ? Color.red.opacity(0.08) : Color.secondary.opacity(0.06), in: shape)
-        .overlay(shape.strokeBorder(isError ? Color.red.opacity(0.5) : Color.secondary.opacity(0.45),
-                                    style: StrokeStyle(lineWidth: 1.5, dash: isError ? [] : [7, 5])))
+        .overlay(shape.strokeBorder(isError ? Color.red.opacity(0.5) : Color.secondary.opacity(0.40),
+                                    lineWidth: 1))
         .accessibilityElement(children: .contain)
     }
 

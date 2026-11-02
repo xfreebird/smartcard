@@ -28,11 +28,11 @@ struct VerifyScreen: View {
                 }
                 .padding(Theme.Space.l)
                 .frame(maxWidth: .infinity, minHeight: 190)
-                .background(dropTargeted ? Color.accentColor.opacity(0.10) : Color.secondary.opacity(0.05),
+                .background(dropTargeted ? Color.accentColor.opacity(0.12) : Color.secondary.opacity(0.05),
                             in: RoundedRectangle(cornerRadius: 14))
                 .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(
                     dropTargeted ? Color.accentColor : Color.secondary.opacity(0.45),
-                    style: StrokeStyle(lineWidth: dropTargeted ? 2 : 1.5, dash: dropTargeted ? [] : [7, 5])))
+                    lineWidth: dropTargeted ? 2 : 1))
                 .accessibilityIdentifier("verify.dropZone")
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)

@@ -46,7 +46,7 @@ Outputs are `apple/raw` (unaltered captures and runtime/SDK provenance), `apple/
 
 ## Header and Search Results
 
-The universal artwork is an opaque 5244 × 2950 PNG accepted in both placements. It depicts the signing flow with a connected slim white reader, USB-C adapter and a fictional ID card. Original owner photos are hardware references only and must never be committed or uploaded.
+Header and Search Results use two deliberately different opaque RGB compositions, rather than one image that App Store Connect crops differently: Header is 3840 × 1646 (21:9) and Search Results is 3840 × 2560 (3:2). Both depict the same signing flow with a connected slim white reader, USB-C adapter and a fictional ID card, but keep the headline, phone and hardware inside that placement's safe composition. Original owner photos are hardware references only and must never be committed or uploaded.
 
 Export approved sources with `python3 distribution/tools/export-apple-creative.py --output /path/apple/creative`. Upload in each locale under Header and Search Results and preview both placements. See [Apple creative asset specifications](https://developer.apple.com/help/app-store-connect/reference/app-information/creative-assets-specifications).
 

@@ -5,13 +5,14 @@
 /// disclosure are styled here.
 enum Style {
     static let css = """
-    /* DropZone (docs/10 §3): dashed border, radius 14; brand-soft fill + solid border while dragging */
+    /* DropZone (docs/10 §3): an always-active solid border; drag-over makes the action stronger. */
     .dropzone {
-        border: 2px dashed alpha(currentColor, 0.25);
+        border: 1px solid alpha(@accent_color, 0.42);
         border-radius: 14px;
         padding: 24px;
+        background-color: alpha(@accent_bg_color, 0.06);
     }
-    .dropzone.compact { padding: 12px 16px; }
+    .dropzone.compact { padding: 12px 16px; background-color: alpha(@accent_bg_color, 0.10); }
     .drop-page:drop(active) .dropzone {
         border-style: solid;
         border-color: @accent_bg_color;

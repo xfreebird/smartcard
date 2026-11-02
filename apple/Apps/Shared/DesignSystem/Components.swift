@@ -4,7 +4,7 @@ import MoldSignKit
 
 // Components from docs/10-design-system.md §3.
 
-/// docs/10 §3 DropZone: dashed area that takes dropped files and has its own "choose" button. Large while the list
+/// docs/10 §3 DropZone: a clear, solid file action with its own "choose" button. Large while the list
 /// is empty, one compact line once documents are queued. On iPhone it's simply a big tile (drag works on iPad).
 struct DropZone: View {
     var compact = false
@@ -19,17 +19,17 @@ struct DropZone: View {
                     HStack(spacing: Theme.Space.s) {
                         Image(systemName: "arrow.down.doc")
                         Text(L10n.text(.ui_drop_more_documents_here_or)).fixedSize()
-                        Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.borderless).fixedSize()
+                        Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.bordered).fixedSize()
                     }
                     VStack(spacing: Theme.Space.s) {
                         Label(L10n.text(.ui_drop_more_documents_here_or), systemImage: "arrow.down.doc")
                             .multilineTextAlignment(.center)
-                        Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.borderless)
+                        Button(L10n.text(.ui_choose_files), action: choose).buttonStyle(.bordered)
                     }
                     .padding(.vertical, Theme.Space.s)
                 }
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(.primary)
                 .padding(.horizontal, Theme.Space.s)
                 .frame(maxWidth: .infinity, minHeight: 48)
             } else {
@@ -50,9 +50,9 @@ struct DropZone: View {
                 .frame(maxWidth: .infinity, minHeight: 190)
             }
         }
-        .background(targeted ? Color.accentColor.opacity(0.10) : Color.secondary.opacity(0.05), in: shape)
-        .overlay(shape.strokeBorder(targeted ? Color.accentColor : Color.secondary.opacity(0.45),
-                                    style: StrokeStyle(lineWidth: targeted ? 2 : 1.5, dash: targeted ? [] : [7, 5])))
+        .background(targeted ? Color.accentColor.opacity(0.12) : (compact ? Color.accentColor.opacity(0.07) : Color.secondary.opacity(0.05)), in: shape)
+        .overlay(shape.strokeBorder(targeted ? Color.accentColor : Color.secondary.opacity(compact ? 0.58 : 0.40),
+                                    lineWidth: targeted ? 2 : 1))
         .contentShape(shape)
         .animation(.easeOut(duration: 0.15), value: targeted)
     }

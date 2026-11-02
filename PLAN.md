@@ -738,6 +738,8 @@ Newest first. One line per meaningful step; link IDs.
 
 ## Store draft uploads — 1 November 2026
 
+- [~] IOS-STORE-REFRESH-01: Replace the cropped shared Header/Search Results artwork with six placement-specific localized compositions (21:9 Header, 3:2 Search Results), remove recursive reader-help content, and keep queued-document add/drop actions visibly active. Add iCloud key-value bookmark synchronization between the iPhone/iPad and Mac apps, then upload and submit the next iOS Store build after validation.
+
 - [x] STORE-UPLOAD-01 Apple build 100 VALID and attached to iOS/iPadOS and sandboxed macOS 0.2.0 drafts. RO/EN/RU metadata and 30 iPhone/iPad screenshots plus 24 Mac screenshots (including primary en-GB copies) processed COMPLETE. Owner-provided review contact saved; no review submission or release.
 - [x] STORE-UPLOAD-02 Updated Windows x64 MSIX 1.2.100.0 marked Validated; marketing 0.2.0 retained. Listing import Complete, saved export verifies three localized descriptions, first-release notes and 12 screenshot URLs. Restricted runFullTrust still requires review approval; no certification submission.
 - [x] STORE-UPLOAD-03 Google app 4973211912255144827 created after explicit owner approval of the three required declarations. Signed AAB 100 accepted; internal draft and RO/EN/RU first-release notes saved. All three localized listings saved with icon, localized feature graphics and 36 phone/tablet screenshots. No rollout. Production requires the account’s 12-tester/14-day closed-test gate.

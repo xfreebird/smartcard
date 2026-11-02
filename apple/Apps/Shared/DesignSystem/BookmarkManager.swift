@@ -3,13 +3,22 @@ import SwiftUI
 @MainActor @Observable
 final class BrowserBookmarks {
     private let repository = BookmarkRepository(preferences: AppPreferencesStore.defaults)
+    private var applyingCloudChange = false
     var items: [BrowserBookmark] {
-        didSet { repository.save(items) }
+        didSet {
+            if !applyingCloudChange { repository.save(items) }
+        }
     }
     init() {
         items = repository.load(defaults: PortalService.all.map {
             BrowserBookmark(id: $0.id, title: $0.title, url: $0.url, icon: "globe", assetName: $0.imageName)
         })
+        repository.observeChanges { [weak self] synced in
+            guard let self, self.items != synced else { return }
+            self.applyingCloudChange = true
+            self.items = synced
+            self.applyingCloudChange = false
+        }
     }
     func save(_ item: BrowserBookmark) {
         if let index = items.firstIndex(where: { $0.id == item.id }) { items[index] = item }

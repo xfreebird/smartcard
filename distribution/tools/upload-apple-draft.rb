@@ -15,6 +15,8 @@ Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.create(key_id: key[:k
 identifier = platform == 'ios' ? 'md.esemnbun.ios' : 'md.esemnbun.mac'
 app = Spaceship::ConnectAPI::App.find(identifier)
 abort "Create #{identifier} in App Store Connect first; Apple's public API cannot create app records" unless app
+version = app.get_edit_app_store_version(platform: platform == 'ios' ? 'IOS' : 'MAC_OS')
+abort "No editable #{platform} App Store version" unless version
 if platform == 'macos'
   # Separate bundle IDs need distinct localized Store names within this team.
   app.fetch_edit_app_info.get_app_info_localizations.each do |locale|
@@ -44,8 +46,6 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
   abort 'No screenshots found' if Dir.glob(File.join(screenshots, '**', '*.png')).empty?
   if flags.include?('--replace-changed-screenshot-sets')
     abort 'Choose either full or changed-set replacement' if flags.include?('--replace-screenshots')
-    version = app.get_app_store_versions.find { |v| v.version_string == '0.2.0' && v.app_store_state == 'PREPARE_FOR_SUBMISSION' }
-    abort 'No editable 0.2.0 draft' unless version
     version.get_app_store_version_localizations.each do |translation|
       files = Dir.glob(File.join(screenshots, translation.locale, '*.png'))
       desired = files.group_by { |file| Deliver::AppScreenshot.calculate_display_type(file) }
@@ -61,7 +61,7 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
     end
   end
   options = FastlaneCore::Configuration.create(Deliver::Options.available_options, {
-    api_key: key, app_identifier: identifier, app_version: '0.2.0',
+    api_key: key, app_identifier: identifier, app_version: version.version_string,
     platform: platform == 'ios' ? 'ios' : 'osx',
     metadata_path: metadata, screenshots_path: screenshots, copyright: '2026 Nicolae Ghimbovschi',
     skip_binary_upload: true, submit_for_review: false, automatic_release: false,
