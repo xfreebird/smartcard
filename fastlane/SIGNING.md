@@ -14,6 +14,8 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 | `MATCH_KEYCHAIN_NAME`, `MATCH_KEYCHAIN_PASSWORD` | optional local keychain for the identities (CI uses `setup_ci`) |
 | `ESEMNBUN_SIGNING_KEYCHAIN` | optional existing isolated keychain path passed explicitly to archive signing |
 | `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer; CI uses the workflow run number). Retries reuse it; start a new run or supply a higher integer `build_number` workflow input before uploading another build. Marketing versions stay `x.y.z`. |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Android Publisher service account; required by Android release CI to publish a signed AAB to testing tracks |
+| `PLAY_CLOSED_TRACK` | optional GitHub Actions variable naming the closed-testing track; defaults to Play's standard `alpha` closed track |
 
 ```bash
 bundle install
@@ -22,8 +24,13 @@ bundle exec fastlane import_developer_id cer:~/Downloads/developerID_application
 bundle exec fastlane mac_signing      # installs the Developer ID identity (CI: temporary keychain)
 bundle exec fastlane ios_release      # dist/ios: -appstore.ipa (+ TestFlight upload in CI) and -adhoc.ipa
 bundle exec fastlane ios_release upload:false   # local: both IPAs, no upload
+bundle exec fastlane android_testing             # signed AAB → internal, then closed testing (requires Play credentials)
 bundle exec fastlane nuke_all         # DESTRUCTIVE, local only: revoke all certificates, delete all profiles
 ```
+
+Android CI runs for Android/release automation changes merged to `main`, and on explicit Android release
+workflows. Each newly built AAB first becomes available to internal testers, then the same version code is
+promoted to the configured closed-testing track. Neither path publishes to production.
 
 Notes from setting it up (2026-10-25):
 

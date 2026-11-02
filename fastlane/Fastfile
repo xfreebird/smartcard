@@ -206,16 +206,28 @@ lane :mac_store_release do |options|
   end
 end
 
-desc "Upload an Android bundle as a Google Play internal draft; never roll out automatically"
-lane :android_internal do
-  integer_build_number
+desc "Upload an Android bundle to Google Play internal and closed testing"
+lane :android_testing do
+  build_number = integer_build_number
   bundle = Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |p| p.include?('-unsigned') }
   UI.user_error!('Expected exactly one signed AAB') unless bundle.length == 1
-  upload_to_play_store(
+
+  common = {
     package_name: 'md.esemnbun.app',
     json_key_data: ENV.fetch('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'),
-    aab: bundle.first, track: 'internal', release_status: 'draft',
     skip_upload_metadata: true, skip_upload_images: true,
     skip_upload_screenshots: true, skip_upload_changelogs: true
+  }
+
+  # Internal is the immediate install path for the team. A second edit promotes the exact
+  # same version code to the configurable closed-testing track without removing internal.
+  upload_to_play_store(
+    **common, aab: bundle.first, track: 'internal', release_status: 'completed'
+  )
+  upload_to_play_store(
+    **common,
+    track: 'internal', track_promote_to: ENV.fetch('PLAY_CLOSED_TRACK', 'alpha'),
+    track_promote_release_status: 'completed', version_code: build_number,
+    skip_upload_apk: true, skip_upload_aab: true
   )
 end
