@@ -27,9 +27,9 @@
     "message": "Confidențialitate",
     "description": "The label of footer link with label=Privacy linking to /privacy"
   },
-  "link.item.label.Usage & license": {
-    "message": "Utilizare și licență",
-    "description": "The label of footer link with label=Usage & license linking to /terms"
+  "link.item.label.Terms & conditions": {
+    "message": "Termeni și condiții",
+    "description": "The label of footer link with label=Terms & conditions linking to /terms"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",

@@ -27,9 +27,9 @@
     "message": "Конфиденциальность",
     "description": "The label of footer link with label=Privacy linking to /privacy"
   },
-  "link.item.label.Usage & license": {
-    "message": "Использование и лицензия",
-    "description": "The label of footer link with label=Usage & license linking to /terms"
+  "link.item.label.Terms & conditions": {
+    "message": "Условия использования",
+    "description": "The label of footer link with label=Terms & conditions linking to /terms"
   },
   "link.item.label.GitHub": {
     "message": "GitHub",
