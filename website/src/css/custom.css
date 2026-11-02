@@ -102,6 +102,8 @@
 
 /* Download controls share the page's quiet, native-app styling. */
 .platform-icon{flex:none;width:24px;height:24px}
+.platform-icon-tux{object-fit:contain}
+:root[data-theme='dark'] .platform-icon-tux{filter:drop-shadow(0 0 1px #ffffff90)}
 .download-button-group{display:inline-flex;align-items:stretch;border-radius:16px;background:#3159df;box-shadow:0 4px 12px #3159df25,inset 0 1px 0 #ffffff30;transition:box-shadow .18s,background .18s}
 .download-button-group:hover{background:#2447bd;box-shadow:0 6px 18px #3159df30}
 .download-button-group .download-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:15px 22px;border:0;border-radius:16px 0 0 16px;background:transparent;color:#fff;font-size:18px;font-weight:650;line-height:1.35;text-decoration:none}
@@ -130,7 +132,7 @@
 body:has(.downloads-page) .navbar{transform:none!important}
 .download-platform-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
 .download-platform-card{display:flex;flex-direction:column;min-width:0;padding:30px;border:1px solid var(--site-border);border-radius:24px;background:var(--site-surface);scroll-margin-top:calc(var(--ifm-navbar-height) + var(--download-nav-height,180px) + 28px)}
-.download-platform-heading{display:flex;align-items:center;gap:16px}.download-platform-heading>div{min-width:0}.download-platform-symbol{display:inline-flex;align-items:center;justify-content:center;flex:none;width:52px;height:52px;border-radius:16px;background:var(--site-hover);color:var(--ifm-color-primary)}.download-platform-symbol svg{width:28px;height:28px}
+.download-platform-heading{display:flex;align-items:center;gap:16px}.download-platform-heading>div{min-width:0}.download-platform-symbol{display:inline-flex;align-items:center;justify-content:center;flex:none;width:52px;height:52px;border-radius:16px;background:var(--site-hover);color:var(--ifm-color-primary)}.download-platform-symbol .platform-icon{width:28px;height:28px}
 .download-platform-heading h2{font-size:26px;letter-spacing:-.03em;margin:0 0 5px}.download-platform-heading p{margin:0;color:var(--site-muted);font-size:15px;line-height:1.5}
 .download-platform-description,.download-release-card>p{font-size:17px;line-height:1.7;color:var(--site-muted);margin:24px 0}
 .download-installers{display:grid;gap:10px}.download-installer{display:flex;align-items:center;gap:12px;min-height:72px;padding:14px 16px;border:1px solid var(--site-border);border-radius:14px;background:var(--site-hover);color:var(--ifm-font-color-base)}.download-installer:hover{text-decoration:none;border-color:var(--ifm-color-primary);color:var(--ifm-color-primary)}.download-installer>span:first-of-type{flex:1;min-width:0}.download-installer b{display:block;font-size:17px;font-weight:600}.download-installer small{display:block;font-size:14px;color:var(--site-muted);margin-top:3px}.download-file-type{font-size:14px;color:var(--site-muted)}

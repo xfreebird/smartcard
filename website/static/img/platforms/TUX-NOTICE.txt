@@ -1,0 +1,12 @@
+Tux, the Linux penguin
+
+Copyright Larry Ewing (lewing@isc.tamu.edu), created with The GIMP.
+Original design: 1996. Vector tracing by Kjoonlee using Inkscape: 2006.
+
+Source: https://commons.wikimedia.org/wiki/File:Tux-simple.svg
+Asset: https://upload.wikimedia.org/wikipedia/commons/2/2b/Tux-simple.svg
+The source SVG is used without artwork modifications.
+
+The copyright holder permits use for any purpose, including redistribution,
+derivative works and commercial use, provided the copyright holder is
+properly attributed. This artwork is not covered by the repository's MIT license.

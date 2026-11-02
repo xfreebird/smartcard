@@ -1,11 +1,13 @@
 import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 // Local vectors keep platform choices clear without loading an icon font.
 export default function PlatformIcon({name, className = ''}) {
+ const tux = useBaseUrl('/img/platforms/tux.svg');
+ if (name === 'linux') return <img className={`platform-icon platform-icon-tux ${className}`} src={tux} width="24" height="24" alt="" aria-hidden="true" title="Tux by Larry Ewing, created with The GIMP"/>;
  const paths = {
   macos: <path d="M16.8 12.8c0-2 1.6-3 1.7-3.1-1-1.4-2.4-1.6-3-1.6-1.3-.1-2.5.8-3.2.8-.7 0-1.8-.8-2.9-.8-1.5 0-2.9.9-3.7 2.2-1.6 2.7-.4 6.8 1.1 9 .7 1.1 1.6 2.2 2.7 2.2 1.1-.1 1.5-.7 2.9-.7s1.8.7 2.9.7c1.2 0 1.9-1.1 2.6-2.1.9-1.3 1.2-2.6 1.3-2.7-.1 0-2.4-.9-2.4-3.9ZM14.7 6.5c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.7 1.4-.6.7-1.2 1.9-1 3 1 .1 2.1-.5 2.7-1.4Z" fill="currentColor" stroke="none"/>,
   windows: <g fill="currentColor" stroke="none"><path d="M3 4h8v8H3zM13 4h8v8h-8zM3 14h8v8H3zM13 14h8v8h-8z"/></g>,
-  linux: <><rect x="3" y="3" width="18" height="13" rx="2"/><path d="M8 21h8m-4-5v5"/></>,
   cli: <><rect x="3" y="4" width="18" height="16" rx="3"/><path d="m7 9 3 3-3 3m6 0h4"/></>,
   ios: <><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4m-3 14h2"/></>,
   android: <><path d="m7 7-2-3m12 3 2-3M4 13a8 8 0 0 1 16 0v4H4Z"/><path d="M7 20v-3m10 3v-3"/><circle cx="8.5" cy="12" r=".8" fill="currentColor" stroke="none"/><circle cx="15.5" cy="12" r=".8" fill="currentColor" stroke="none"/></>,

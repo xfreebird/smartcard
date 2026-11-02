@@ -8,6 +8,8 @@ App Store / Play / Microsoft listing links are included with availability labels
 
 The landing sequence uses native app captures and the existing reader illustration. Reduced-motion users receive a static layout. No analytics scripts or app credentials are included. Typography uses system fonts; no third-party font requests are made.
 
+The Linux platform icon uses Tux by Larry Ewing, created with The GIMP, traced by Kjoonlee. The SVG is hosted locally and keeps its original proportions. Source and attribution terms are included in `static/img/platforms/TUX-NOTICE.txt`; it retains its own license rather than the repository's MIT license.
+
 ## Enable hosting after the plan upgrade
 
 ```sh
