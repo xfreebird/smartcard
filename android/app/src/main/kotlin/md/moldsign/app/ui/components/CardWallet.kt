@@ -77,7 +77,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.key.Key
@@ -403,7 +402,7 @@ private fun ChipGraphic(modifier: Modifier = Modifier, outline: Color? = null) {
     Canvas(modifier) {
         val r = CornerRadius(size.height * 0.18f)
         if (outline != null) {
-            drawRoundRect(outline, cornerRadius = r, style = Stroke(1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f, 5f))))
+            drawRoundRect(outline, cornerRadius = r, style = Stroke(1.5.dp.toPx()))
             return@Canvas
         }
         drawRoundRect(Brush.linearGradient(CHIP_GOLD, Offset.Zero, Offset(size.width, size.height)), cornerRadius = r)
@@ -427,7 +426,7 @@ private fun EmptyWalletCard(wallet: WalletState, onAllowUsb: (String?) -> Unit) 
     val broken = wallet.readers.firstOrNull { it.state == ReaderSlot.State.Error }
     when {
         wallet.readers.isEmpty() -> ConnectReaderCard()
-        permission != null -> DashedCard {
+        permission != null -> PlaceholderCard {
             ChipGraphic(Modifier.size(width = 42.dp, height = 32.dp), outline = MaterialTheme.colorScheme.outline)
             Spacer(Modifier.weight(1f))
             Text(stringResource(R.string.usb_permission_title), style = MaterialTheme.typography.titleMedium)
@@ -435,7 +434,7 @@ private fun EmptyWalletCard(wallet: WalletState, onAllowUsb: (String?) -> Unit) 
             Spacer(Modifier.height(Tokens.S2))
             Button(onClick = { onAllowUsb(permission.id) }) { Text(stringResource(R.string.action_allow)) }
         }
-        empty != null -> DashedCard {
+        empty != null -> PlaceholderCard {
             ChipGraphic(Modifier.size(width = 42.dp, height = 32.dp), outline = MaterialTheme.colorScheme.outline)
             Spacer(Modifier.weight(1f))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -458,9 +457,9 @@ private fun EmptyWalletCard(wallet: WalletState, onAllowUsb: (String?) -> Unit) 
     }
 }
 
-/** Reader attached, no card: dashed outline in the card's shape. */
+/** Reader attached, no card: a solid placeholder in the card's shape. */
 @Composable
-private fun DashedCard(content: @Composable ColumnScope.() -> Unit) {
+private fun PlaceholderCard(content: @Composable ColumnScope.() -> Unit) {
     val outline = MaterialTheme.colorScheme.outline
     val fill = MaterialTheme.colorScheme.surfaceContainerLow
     Column(
@@ -469,7 +468,7 @@ private fun DashedCard(content: @Composable ColumnScope.() -> Unit) {
             .aspectRatio(Tokens.IdCardRatio)
             .drawWithCache {
                 val corner = CornerRadius(Tokens.RadiusCard.toPx())
-                val stroke = Stroke(width = 1.5.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 9f)))
+                val stroke = Stroke(width = 1.5.dp.toPx())
                 onDrawBehind {
                     drawRoundRect(fill, cornerRadius = corner)
                     drawRoundRect(outline, cornerRadius = corner, style = stroke)
@@ -519,7 +518,6 @@ private fun Connector(color: Color, modifier: Modifier) {
         val y = size.height / 2
         drawLine(
             color.copy(alpha = 0.7f), Offset(4.dp.toPx(), y), Offset(size.width - 4.dp.toPx(), y), 2.dp.toPx(),
-            pathEffect = PathEffect.dashPathEffect(floatArrayOf(6f, 6f)),
         )
     }
 }

@@ -140,8 +140,10 @@ fun DocumentAddTile(onPick: () -> Unit, modifier: Modifier = Modifier) {
         onClick = onPick,
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(Tokens.RadiusCard),
-        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.38f)),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.58f)),
+        // This remains a live document-picker action after the queue is populated. A full
+        // container color makes that affordance distinct from disabled list content.
+        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
+        border = BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary),
     ) {
         Row(Modifier.fillMaxWidth().padding(horizontal = Tokens.S4, vertical = Tokens.S3), verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
