@@ -16,6 +16,7 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 | `BUILD_NUMBER` | `CFBundleVersion` / Android `versionCode` (positive integer). Android publish CI uses UTC epoch seconds by default so the value remains above previously published builds; an explicit higher `build_number` can override it. Marketing versions stay `x.y.z`. |
 | `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Android Publisher service account; required by Android release CI to publish a signed AAB to testing tracks |
 | `PLAY_CLOSED_TRACK` | optional GitHub Actions variable naming the closed-testing track; defaults to Play's standard `alpha` closed track |
+| `PLAY_CLOSED_RELEASE_STATUS` | optional GitHub Actions variable. Defaults to `draft` while the app remains a draft in Play Console; set to `completed` only after Play allows a closed release to be made available automatically. |
 
 ```bash
 bundle install
@@ -24,13 +25,15 @@ bundle exec fastlane import_developer_id cer:~/Downloads/developerID_application
 bundle exec fastlane mac_signing      # installs the Developer ID identity (CI: temporary keychain)
 bundle exec fastlane ios_release      # dist/ios: -appstore.ipa (+ TestFlight upload in CI) and -adhoc.ipa
 bundle exec fastlane ios_release upload:false   # local: both IPAs, no upload
-bundle exec fastlane android_testing             # signed AAB → internal, then closed testing (requires Play credentials)
+bundle exec fastlane android_testing             # signed AAB → internal, then stage the closed-testing release (requires Play credentials)
 bundle exec fastlane nuke_all         # DESTRUCTIVE, local only: revoke all certificates, delete all profiles
 ```
 
 Android CI runs for Android/release automation changes merged to `main`, and on explicit Android release
 workflows. Each newly built AAB first becomes available to internal testers, then the same version code is
-promoted to the configured closed-testing track. Neither path publishes to production.
+staged on the configured closed-testing track. Google only accepts a draft closed release while the
+app itself is still a Play Console draft; configure `PLAY_CLOSED_RELEASE_STATUS=completed` after
+that restriction is lifted. Neither path publishes to production.
 
 Notes from setting it up (2026-10-25):
 

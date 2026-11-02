@@ -206,7 +206,7 @@ lane :mac_store_release do |options|
   end
 end
 
-desc "Upload an Android bundle to Google Play internal and closed testing"
+desc "Upload an Android bundle to Google Play internal testing and stage closed testing"
 lane :android_testing do
   build_number = integer_build_number
   bundle = Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |p| p.include?('-unsigned') }
@@ -219,15 +219,18 @@ lane :android_testing do
     skip_upload_screenshots: true, skip_upload_changelogs: true
   }
 
-  # Internal is the immediate install path for the team. A second edit promotes the exact
-  # same version code to the configurable closed-testing track without removing internal.
+  # Internal is the immediate install path for the team. Until the Play app is published,
+  # Google only permits draft releases on closed tracks; stage the same version code there
+  # and retain the completed internal release. Once Play permits it, set
+  # PLAY_CLOSED_RELEASE_STATUS=completed to make the closed release immediately available.
   upload_to_play_store(
     **common, aab: bundle.first, track: 'internal', release_status: 'completed'
   )
   upload_to_play_store(
     **common,
     track: 'internal', track_promote_to: ENV.fetch('PLAY_CLOSED_TRACK', 'alpha'),
-    track_promote_release_status: 'completed', version_code: build_number,
+    track_promote_release_status: ENV.fetch('PLAY_CLOSED_RELEASE_STATUS', 'draft'),
+    version_code: build_number,
     skip_upload_apk: true, skip_upload_aab: true
   )
 end
