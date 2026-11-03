@@ -11,7 +11,7 @@ Applies to **eSemnBun 0.2.0**, Windows 10 **1809 or later**, and Windows 11. See
 
 ## Install the appropriate edition
 
-Use the **MSI** from [GitHub Releases](https://github.com/xfreebird/smartcard/releases/latest) for standalone installation, or Microsoft Store when the app is available there. Choose the architecture listed for your machine in the release assets. An unsigned development MSIX can require a signing certificate and is not a substitute for the public MSI.
+Use the **MSI** from [GitHub Releases](https://github.com/xfreebird/smartcard/releases/latest) for standalone installation, or install [eSemnBun from Microsoft Store](https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD). Choose the architecture listed for your machine in the release assets. An unsigned development MSIX can require a signing certificate and is not a substitute for the public MSI.
 
 1. Run the MSI and complete the installation, or install from the store.
 2. Open **eSemnBun** from Start. The main window appears on the first launch.

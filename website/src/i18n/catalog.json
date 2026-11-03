@@ -98,6 +98,11 @@
     "ro": "Deschide în Microsoft Store",
     "ru": "Открыть в Microsoft Store"
   },
+  "storeStatus_windows": {
+    "en": "Available in Microsoft Store.",
+    "ro": "Disponibil în Microsoft Store.",
+    "ru": "Доступно в Microsoft Store."
+  },
   "storeStatus_ios": {
     "en": "Available on the App Store.",
     "ro": "Disponibil în App Store.",

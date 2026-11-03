@@ -7,7 +7,7 @@ import release from '../data/release.json';
 
 const platforms = [
  {id: 'macos', assets: [/\.dmg$/], store: ['Mac App Store', 'https://apps.apple.com/app/id6829451042']},
- {id: 'windows', assets: [/\.msi$/], store: ['Microsoft Store', 'https://apps.microsoft.com/detail/9PDPR6RNT42S']},
+ {id: 'windows', assets: [/\.msi$/], store: ['Microsoft Store', 'https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD']},
  {id: 'ios', assets: [], store: ['App Store', 'https://apps.apple.com/app/id6826865290']},
  {id: 'android', assets: [/\.apk$/], store: ['Google Play', 'https://play.google.com/store/apps/details?id=md.esemnbun.app']},
  {id: 'linux', assets: []},
@@ -54,7 +54,7 @@ export default function DownloadsPage() {
        <InstallerLinks assets={edition.patterns.flatMap(pattern => release.assets.filter(asset => pattern.test(asset.name)))}/>
        <Link className="download-setup-link" to={edition.guide}>{t('setupGuide')}</Link>
       </section>)}</div> : <InstallerLinks assets={installers}/>}
-      {store && <div className="download-store"><a href={store[1]}><PlatformIcon name={id}/><span>{t('viewStore').replace('{store}', store[0])}</span><PlatformIcon name="external"/></a><p>{t('storeAvailability')}</p></div>}
+      {store && <div className="download-store"><a href={store[1]}><PlatformIcon name={id}/><span>{t('viewStore').replace('{store}', store[0])}</span><PlatformIcon name="external"/></a><p>{id === 'windows' ? t('storeStatus_windows') : t('storeAvailability')}</p></div>}
       {id !== 'linux' && <Link className="download-setup-link" to={`/docs/platforms/${id}`}>{t('setupGuide')}</Link>}
      </section>;
     })}

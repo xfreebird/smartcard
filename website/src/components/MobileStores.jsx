@@ -7,7 +7,7 @@ const links={
  ios:'https://apps.apple.com/app/id6826865290',
  android:'https://play.google.com/store/apps/details?id=md.esemnbun.app',
  macos:'https://apps.apple.com/app/id6829451042',
- windows:'https://apps.microsoft.com/detail/9PDPR6RNT42S',
+ windows:'https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD',
 };
 
 export default function MobileStores({platform}){
@@ -17,6 +17,7 @@ export default function MobileStores({platform}){
  if (!links[platform]) return null;
  if (platform==='windows') return <div className="platform-store platform-store-windows">
   <a className="platform-store-link" href={links.windows}><PlatformIcon name="windows"/>{t('getMicrosoftStore')}</a>
+  <p>{t('storeStatus_windows')}</p>
  </div>;
  const appleStore=platform==='ios' || platform==='macos';
  return <div className={`platform-store platform-store-${platform}`}>

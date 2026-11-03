@@ -1,5 +1,7 @@
 # eSemnBun (codename MoldSign) — Cross-Platform Development Plan
 
+2026-11-03 — Windows Store listing: eSemnBun is now live in Microsoft Store (`9PDPR6RNT42S`). Updated every website Windows Store call to action and the Windows installation guide to use the live Moldova storefront URL; landing and downloads now state that the Store edition is available rather than presenting it as pending review/testing.
+
 2026-11-03 — IOS-STORE-REFRESH-01 composition revision: replaced the over-shrunk whole-scene layout with independently positioned, larger phone/reader artwork and central localized headlines and summaries. Supporting artwork extends beyond the template safe region over a full-bleed tonal background. Preserved the inserted card geometry and sleeved USB connector. Regenerated RO/EN/RU header and search assets. The six localized Header/Search Results assets were uploaded to App Store Connect and each slot reports `1 of 1`; final App Review submission is pending.
 
 2026-11-03 — IOS-STORE-REFRESH-01 typography: refreshed RO/EN/RU creative copy with a two-line benefit headline, larger supporting sentence, short Connect/Choose/Sign steps and signing-key reassurance. Localized headlines fit their deliberate line breaks.
