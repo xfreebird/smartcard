@@ -1,5 +1,7 @@
 # eSemnBun (codename MoldSign) — Cross-Platform Development Plan
 
+2026-11-03 — Huawei Android submission complete: uploaded the newest successful Android GitHub Actions APK from run `41547950405`, commit `15adce05d40d6b31dda5548616e810adfdc5bd02`, version `0.2.0` (`1793624669`). Saved the English listing, icon, four screenshots, phone/tablet support, privacy links and hardware-free demo review instructions. Owner approved the calculated 16+ browser rating and submission. AppGallery Connect app `119651007`, version `2075889243518969152`, visibly confirms **Reviewing** and “Your app is submitted and pending review”; release is set to immediately once approved. API credentials/CI automation remain unprovisioned; this submission used the portal.
+
 2026-11-03 — Windows Store listing: eSemnBun is now live in Microsoft Store (`9PDPR6RNT42S`). Updated every website Windows Store call to action and the Windows installation guide to use the live Moldova storefront URL; landing and downloads now state that the Store edition is available rather than presenting it as pending review/testing.
 
 2026-11-03 — Windows download calls to action: made the Windows-specific homepage actions a vertical stack in the preferred order (Microsoft Store, download options, source) and aligned the Windows download card to lead with the live Store listing before the MSI installer and source link.

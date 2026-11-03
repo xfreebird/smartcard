@@ -1,5 +1,13 @@
 # AppGallery Connect delivery
 
+On 3 November 2026, Android version `0.2.0` (`1793624669`) was submitted and
+the portal confirmed **Reviewing**. The APK comes from successful GitHub Actions
+run `41547950405`, commit `15adce05d40d6b31dda5548616e810adfdc5bd02`.
+SHA-256: `e3eb8ba6696b9977e8ad8c08c55050bf26e44c7261d632c25fb99c5f1e506276`.
+The submitted English listing includes the icon and four phone screenshots,
+phone/tablet support, privacy links, demo-mode review instructions, and Huawei's
+16+ rating for unrestricted browser access. Release is immediate upon approval.
+
 The AppGallery Connect Android record is `119651007` for package
 `md.esemnbun.app`. The iOS record is `101653523127320907` for bundle ID
 `md.esemnbun.ios`; it is a Huawei developer-services record, not an iOS
