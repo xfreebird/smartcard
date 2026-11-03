@@ -13,7 +13,7 @@ CE POȚI FACE
 • Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.
 • Verifică semnături și consultă detaliile certificatului.
 • Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.
-• Deschide rapid MSign, EVO, eVMS, MCabinet, Servicii publice și MPay.
+• Deschide rapid MSign, EVO, eVMS și MPay.
 • Alege româna, engleza sau rusa și o temă deschisă ori întunecată.
 • Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.
 

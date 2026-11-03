@@ -12,8 +12,8 @@ copied from the owner's Desktop secret folder into this repository.
 The screenshot source is `~/Desktop/esemnbun-screenshots/`; only fictional data captures may be used for listings.
 Review every screenshot and release note against the actual release binary before an upload.
 
-Remaining store prerequisites are explicit: replace the owner-requested example.invalid support/privacy placeholders; Apple signed sandbox runtime and
-App Store record verification; Google app record/declarations; Huawei identity verification; Microsoft refreshed
+Remaining store prerequisites are explicit: verify the public support/privacy URLs; Apple signed sandbox runtime and
+App Store record verification; Google release-track eligibility; Huawei Android package/listing/release configuration; Microsoft refreshed
 package upload/listings. Owner-provided legal declarations must be reviewed in each portal; no agreement or
 certification submission is performed by these scripts. Store assets must meet the target portal's current
 requirements at upload time. The same Android package and upload certificate are used for Play and Huawei;

@@ -13,7 +13,7 @@ WHAT YOU CAN DO
 • Prepare a batch of documents and authorize that batch once.
 • Verify signatures and inspect certificate details.
 • Use the built-in browser for card signing and login on compatible services.
-• Open MSign, EVO, eVMS, MCabinet, Public Services and MPay from service shortcuts.
+• Open MSign, EVO, eVMS and MPay from service shortcuts.
 • Choose Romanian, English or Russian and a light or dark appearance.
 • Manage saved PINs and separately clear browser cache, cookies or history.
 

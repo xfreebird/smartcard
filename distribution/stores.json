@@ -44,8 +44,11 @@
   },
   "huawei": {
     "packageName": "md.esemnbun.app",
-    "status": "Developer identity verification required in AppGallery Connect before distribution access",
-    "artifact": "dist/android/*.apk"
+    "appID": "119651007",
+    "iosBundleID": "md.esemnbun.ios",
+    "iosAppID": "101653523127320907",
+    "status": "2026-11-03: Android and iOS AppGallery Connect records created. Android listing assets and signed AAB are prepared locally; no package, release, or review submission has been made.",
+    "artifact": "dist/android/*.aab"
   },
   "usesPlaceholderURLs": true,
   "marketingURL": "https://esemnbun.md/",
