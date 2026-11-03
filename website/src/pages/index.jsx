@@ -25,7 +25,7 @@ export default function Home(){
   sameAs:'https://github.com/xfreebird/smartcard',
   image:new URL('img/icon.png',siteRoot).href
  };
- const actionClass=platform==='macos' ? 'hero-actions stacked-download-actions' : 'hero-actions';
+ const actionClass=['macos','windows'].includes(platform) ? 'hero-actions stacked-download-actions' : 'hero-actions';
  return <Layout title={t('title')} description={t('seoDescription')}>
  <Head><script type="application/ld+json">{JSON.stringify(structuredData).replace(/</g,'\\u003c')}</script></Head>
  <main className="landing">

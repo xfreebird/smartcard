@@ -48,13 +48,15 @@ export default function DownloadsPage() {
      return <section className={`download-platform-card download-platform-${id}`} id={id} key={id}>
       <div className="download-platform-heading"><span className="download-platform-symbol"><PlatformIcon name={id}/></span><div><h2>{t(`platform_${id}`)}</h2><p>{t(`downloadHint_${id}`)}</p></div></div>
       <p className="download-platform-description">{t(`downloadBody_${id}`)}</p>
+      {id === 'windows' && <div className="download-store"><a href={store[1]}><PlatformIcon name={id}/><span>{t('viewStore').replace('{store}', store[0])}</span><PlatformIcon name="external"/></a><p>{t('storeStatus_windows')}</p></div>}
       {id === 'linux' ? <div className="linux-download-editions">{linuxEditions.map(edition => <section className="linux-download-edition" key={edition.id} aria-labelledby={`linux-${edition.id}-title`}>
        <h3 id={`linux-${edition.id}-title`}><PlatformIcon name={edition.icon}/>{t(`linuxEdition_${edition.id}`)}</h3>
        <p>{t(`linuxEditionBody_${edition.id}`)}</p>
        <InstallerLinks assets={edition.patterns.flatMap(pattern => release.assets.filter(asset => pattern.test(asset.name)))}/>
        <Link className="download-setup-link" to={edition.guide}>{t('setupGuide')}</Link>
       </section>)}</div> : <InstallerLinks assets={installers}/>}
-      {store && <div className="download-store"><a href={store[1]}><PlatformIcon name={id}/><span>{t('viewStore').replace('{store}', store[0])}</span><PlatformIcon name="external"/></a><p>{id === 'windows' ? t('storeStatus_windows') : t('storeAvailability')}</p></div>}
+      {store && id !== 'windows' && <div className="download-store"><a href={store[1]}><PlatformIcon name={id}/><span>{t('viewStore').replace('{store}', store[0])}</span><PlatformIcon name="external"/></a><p>{t('storeAvailability')}</p></div>}
+      {id === 'windows' && <a className="download-source-link" href="https://github.com/xfreebird/smartcard"><PlatformIcon name="github"/><span>{t('source')}</span><PlatformIcon name="external"/></a>}
       {id !== 'linux' && <Link className="download-setup-link" to={`/docs/platforms/${id}`}>{t('setupGuide')}</Link>}
      </section>;
     })}
