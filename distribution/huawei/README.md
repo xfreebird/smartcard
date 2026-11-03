@@ -15,34 +15,29 @@ marketplace listing.
 
 `listings/{ro,en,ru}.json` is generated from `localization/catalog.json` by
 `scripts/prepare-store-metadata.py`. The Android release input is the signed
-`dist/android/*.aab` output. Do not use the direct-download publishing mode:
+APK from the latest successful main Android workflow. Do not use the direct-download publishing mode:
 it requires a publicly accessible package URL and has an additional mainland
 China distribution constraint for developers outside mainland China.
 
 ## CI route
 
-AppGallery Connect provides an API-client flow for Android package upload and
-formal release. Once credentials are provisioned, the release workflow should:
+`.github/workflows/huawei-appgallery.yml` is separate from Android compilation.
+It runs after a successful main `Android build + Play testing` workflow and can
+also be dispatched manually. It downloads the newest successful main Android
+artifact, validates its package/version, uploads the APK, waits for parsing and
+submits the existing listing for review. The app's listing and release settings
+are retained. It never cancels an active review. An already uploaded or newer
+version is a no-op; a newer build during active review requires retrying the
+workflow when that review ends.
 
-1. Build the signed AAB using the existing Android release job.
-2. Obtain a short-lived AppGallery access token with an app-scoped API client.
-3. Upload the AAB through the Upload Management API, wait for parsing (and AAB
-   compilation if App Signing is enabled), then attach the returned package to
-   the version.
-4. Update localized basic information and visual assets from this directory.
-5. Create a formal release only from an explicit `workflow_dispatch` input;
-   automated builds must stop after upload and validation.
-
-The implementation must use these repository secrets only in GitHub Actions:
-
-- `HUAWEI_APPGALLERY_CLIENT_ID`
-- `HUAWEI_APPGALLERY_CLIENT_SECRET`
-- `HUAWEI_APPGALLERY_ANDROID_APP_ID` (value `119651007`)
-
-Create a least-privilege API client with access only to this Android app. Do
-not commit credentials, `agconnect-services.json`, or downloaded configuration
-files. Provisioning the client and creating its secret are deliberately outside
-this repository step because they create persistent third-party access.
+`scripts/appgallery.py --check` verifies authentication without mutations.
+Publishing requires `--apk PATH --version-code INTEGER`. The app ID is fixed to
+`119651007`. Credentials are supplied through the repository secret
+`HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON`; a protected offline copy lives in
+`Desktop/eSemnBun-secrets/huawei/HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON.json`.
+Huawei publishing endpoints require a developer-level service account: the
+project-level account was rejected with HTTP 403 during live validation.
+Never commit the private key or log signed JWTs and upload authorization URLs.
 
 Official references: [AppGallery release workflow](https://developer.huawei.com/consumer/en/appgallery),
 [Android package upload](https://developer.huawei.com/consumer/en/doc/appgallery-connect-Guides/agcapi-circleci-uploadfile-0000001262051553),
