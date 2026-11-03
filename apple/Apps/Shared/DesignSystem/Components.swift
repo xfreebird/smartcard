@@ -51,6 +51,10 @@ struct DropZone: View {
             }
         }
         .background(targeted ? Color.accentColor.opacity(0.12) : (compact ? Color.accentColor.opacity(0.07) : Color.secondary.opacity(0.05)), in: shape)
+        // `ViewThatFits` may choose a child wider than its proposal (notably when a
+        // long localized filename is queued).  Clip the fill as well as the child so
+        // the compact add-document action always retains its continuous corners.
+        .clipShape(shape)
         .overlay(shape.strokeBorder(targeted ? Color.accentColor : Color.secondary.opacity(compact ? 0.58 : 0.40),
                                     lineWidth: targeted ? 2 : 1))
         .contentShape(shape)

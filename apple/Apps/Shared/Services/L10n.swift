@@ -35,6 +35,9 @@ enum L10n {
         case ui_open
         case ui_open_an_address
         case ui_documents
+        case ui_pin_documents_selected_count
+        case ui_consent_content_count_size
+        case ui_content_size_unknown
         case ui_recent_documents
         case ui_signed_documents_remain_on_disk_only_the_history_is_cleared
         case ui_signed_and_verified_documents_appear_here

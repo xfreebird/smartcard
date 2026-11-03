@@ -11,6 +11,12 @@ public struct BridgeRequest: Sendable {
     public let origin: String?
     public let operation: Operation
     public let documentName: String?
+    /// Individual names are retained for the host consent sheet.  Older callers
+    /// which only supplied `documentName` remain source-compatible.
+    public let documentNames: [String]
+    /// Exact request content size, when the bridge receives bytes or can inspect a
+    /// local file.  The authorization UI must not claim a size it cannot establish.
+    public let contentBytes: Int?
     public let format: String?
     /// The caller already sent a PIN (typed into the web page); the host should not ask for one.
     public let pinIncluded: Bool
@@ -22,6 +28,23 @@ public struct BridgeRequest: Sendable {
     /// Consent and PIN must be for this card; the server signs with the reader that holds it.
     public internal(set) var certificateSHA1: String? = nil
     public internal(set) var certificateHolder: String? = nil
+
+    public var documentCount: Int { max(1, documentNames.count) }
+
+    public init(origin: String?, operation: Operation, documentName: String?,
+                documentNames: [String] = [], contentBytes: Int? = nil,
+                format: String?, pinIncluded: Bool, algorithm: String? = nil,
+                batchSession: String? = nil) {
+        self.origin = origin
+        self.operation = operation
+        self.documentName = documentName
+        self.documentNames = documentNames
+        self.contentBytes = contentBytes
+        self.format = format
+        self.pinIncluded = pinIncluded
+        self.algorithm = algorithm
+        self.batchSession = batchSession
+    }
 }
 
 public enum BridgeDecision: Sendable {
@@ -701,8 +724,9 @@ public final class MoldSignServer {
         let contentType = (m["contentType"] as? String) ?? ""
         let signFormat = (m["signFormat"] as? String) ?? "XAdES-T"
         let algorithm = m["algorithm"] as? String
+        let documentName = contentType.lowercased() == "pdf" ? "document.pdf" : nil
         let request = withCertificate(BridgeRequest(origin: caller, operation: .signData,
-                                                    documentName: contentType.lowercased() == "pdf" ? "document.pdf" : nil,
+                                                    documentName: documentName, documentNames: documentName.map { [$0] } ?? [], contentBytes: raw.count,
                                                     format: contentType.lowercased() == "pdf" ? "PAdES-T" : signFormat,
                                                     pinIncluded: !((m["pin"] as? String) ?? "").isEmpty,
                                                     algorithm: algorithm, batchSession: usePinSession),
@@ -765,8 +789,10 @@ public final class MoldSignServer {
         let outPath: String
         if let sp = m["signedFile"] as? String, !sp.isEmpty { outPath = sp }
         else { outPath = origPath.replacingOccurrences(of: ".pdf", with: "-signed.pdf") }
+        let documentName = URL(fileURLWithPath: origPath).lastPathComponent
+        let contentBytes = (try? FileManager.default.attributesOfItem(atPath: origPath)[.size] as? NSNumber)?.intValue
         let request = withCertificate(BridgeRequest(origin: caller, operation: .signPDF,
-                                                    documentName: URL(fileURLWithPath: origPath).lastPathComponent,
+                                                    documentName: documentName, documentNames: [documentName], contentBytes: contentBytes,
                                                     format: "PAdES-T", pinIncluded: !((m["pin"] as? String) ?? "").isEmpty),
                                       certModel(fromJSON: m))
         let sessionId = newSession { [weak self] id, s in
@@ -803,8 +829,16 @@ public final class MoldSignServer {
         let dest = json["destinationFile"] as? String ?? xmlField(body, "destinationFile") ?? ""
         let signAlgorithm = json["signAlgorithm"] as? String ?? xmlField(body, "signAlgorithm")
         let digest = XAdESSigner.DigestAlgorithm(requested: signAlgorithm)
+        let documentNames = files.map { URL(fileURLWithPath: $0).lastPathComponent }
+        let sizes: [Int?] = files.map { path in
+            (try? FileManager.default.attributesOfItem(atPath: path)[.size] as? NSNumber)?.intValue
+        }
+        // Do not display a misleading partial total in the consent sheet.  The
+        // app shows an explicit unavailable size if one caller-supplied path is
+        // not inspectable by this process.
+        let contentBytes = sizes.contains(where: { $0 == nil }) ? nil : sizes.compactMap { $0 }.reduce(0, +)
         let request = withCertificate(BridgeRequest(origin: caller, operation: .signFile,
-                                                    documentName: files.map { URL(fileURLWithPath: $0).lastPathComponent }.joined(separator: ", "),
+                                                    documentName: documentNames.joined(separator: ", "), documentNames: documentNames, contentBytes: contentBytes,
                                                     format: signFormat, pinIncluded: !pinField.isEmpty, algorithm: signAlgorithm),
                                       certB64.flatMap { $0.isEmpty ? nil : Data(base64Encoded: $0) })
         let sessionId = newSession { [weak self] id, s in

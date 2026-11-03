@@ -30,11 +30,23 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
-    "safeForPlacementAspect": "dedicated artwork; no placement crop required",
+    "appleTemplateSafeArea": [
+      1097,
+      493,
+      2743,
+      1154
+    ],
+    "contentBounds": [
+      1129,
+      80,
+      2890,
+      1515
+    ],
+    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
     "path": "en-header.png",
     "phoneScreenshotSha256": "d6d3c6746b2564da3c42447124741c5064344624045d2962d2d3a2febf6b2df5",
     "cardScreenshotSha256": "25f7db2591f7ac9073867964f8089dbcc4a0dd3eb86210ea62cbe657a719894c",
-    "sha256": "8aa7c9a3a3d256cc66bb3ded608a9f90af8ce3fe3c57ac55705c6117f45dbd47"
+    "sha256": "52e203bfd4de16f45abd563dfb530158d6a85cf36ea7e9b39f979871b073d921"
   },
   {
     "locale": "en",
@@ -67,11 +79,23 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
-    "safeForPlacementAspect": "dedicated artwork; no placement crop required",
+    "appleTemplateSafeArea": [
+      836,
+      765,
+      3004,
+      1795
+    ],
+    "contentBounds": [
+      889,
+      313,
+      3247,
+      2189
+    ],
+    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
     "path": "en-search-results.png",
     "phoneScreenshotSha256": "d6d3c6746b2564da3c42447124741c5064344624045d2962d2d3a2febf6b2df5",
     "cardScreenshotSha256": "25f7db2591f7ac9073867964f8089dbcc4a0dd3eb86210ea62cbe657a719894c",
-    "sha256": "213bc32f5a88e65e4c3556a9a9e3ff55078a5342b4283023143e3f3d126d58e2"
+    "sha256": "d58ab75d7f2ba4b13ab42d50c841ed0dda9a0604aba5582fc2a62c3747d901af"
   },
   {
     "locale": "ro",
@@ -104,11 +128,23 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
-    "safeForPlacementAspect": "dedicated artwork; no placement crop required",
+    "appleTemplateSafeArea": [
+      1097,
+      493,
+      2743,
+      1154
+    ],
+    "contentBounds": [
+      1130,
+      80,
+      2890,
+      1515
+    ],
+    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
     "path": "ro-header.png",
     "phoneScreenshotSha256": "bcbb6a6854a8417daf710cd40aba5d2d05769d11a45606953953f09424bd3aef",
     "cardScreenshotSha256": "dd58b75d399767ac03c49f4b74748996ce25248780c63096166527a25d24d54a",
-    "sha256": "6e18295946cada6495d341f19e51c246591124a5d6f3feae56af3d907a67d404"
+    "sha256": "6730acf08cae69c9913bc8265e81547fe9a5274d14860c608e7ac8f1150f80f1"
   },
   {
     "locale": "ro",
@@ -141,11 +177,23 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
-    "safeForPlacementAspect": "dedicated artwork; no placement crop required",
+    "appleTemplateSafeArea": [
+      836,
+      765,
+      3004,
+      1795
+    ],
+    "contentBounds": [
+      890,
+      313,
+      3247,
+      2189
+    ],
+    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
     "path": "ro-search-results.png",
     "phoneScreenshotSha256": "bcbb6a6854a8417daf710cd40aba5d2d05769d11a45606953953f09424bd3aef",
     "cardScreenshotSha256": "dd58b75d399767ac03c49f4b74748996ce25248780c63096166527a25d24d54a",
-    "sha256": "840f25c20b5e7567970a235b9a3e80abb60902047b45995cea2b57a8b02ea4f4"
+    "sha256": "a7e7fa13f64275bddc91a5d5b676921528f61c94080b69ee769de8b0362f379f"
   },
   {
     "locale": "ru",
@@ -178,11 +226,23 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
-    "safeForPlacementAspect": "dedicated artwork; no placement crop required",
+    "appleTemplateSafeArea": [
+      1097,
+      493,
+      2743,
+      1154
+    ],
+    "contentBounds": [
+      1130,
+      80,
+      2890,
+      1515
+    ],
+    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
     "path": "ru-header.png",
     "phoneScreenshotSha256": "70a4c5437ff1e42065aad8ceaf255748de0c9e8e8622f722f4a62342ea510db2",
     "cardScreenshotSha256": "0add79a3934d5aa27e02ed2678f2156c6aa83374bdaa44f2421b3a2a5a2a1fad",
-    "sha256": "a750ce7d83b26ae32d0ef4e309f9d32132cda070155746d4d15d7160d714ac41"
+    "sha256": "43a93ebcc050987bb05e8c4f415f1bd492428ad4939a4c5c5374a3af9ea97bea"
   },
   {
     "locale": "ru",
@@ -215,10 +275,22 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
-    "safeForPlacementAspect": "dedicated artwork; no placement crop required",
+    "appleTemplateSafeArea": [
+      836,
+      765,
+      3004,
+      1795
+    ],
+    "contentBounds": [
+      890,
+      313,
+      3247,
+      2189
+    ],
+    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
     "path": "ru-search-results.png",
     "phoneScreenshotSha256": "70a4c5437ff1e42065aad8ceaf255748de0c9e8e8622f722f4a62342ea510db2",
     "cardScreenshotSha256": "0add79a3934d5aa27e02ed2678f2156c6aa83374bdaa44f2421b3a2a5a2a1fad",
-    "sha256": "e9cea91cfa1922e12c291e5571460148207babf936683ed01c6e593873dea593"
+    "sha256": "831c9baf50908f26601ae3a283241b5520c0c79a334fdb9688d424883c83cc83"
   }
 ]

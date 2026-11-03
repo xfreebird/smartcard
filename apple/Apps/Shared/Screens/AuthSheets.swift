@@ -21,9 +21,8 @@ struct PinEntryView: View {
             }
             if !request.documentNames.isEmpty {
                 VStack(alignment: .center, spacing: 6) {
-                    if request.documentNames.count > 1 {
-                        Text(L10n.text(.ui_sign_count_documents, request.documentNames.count)).font(.subheadline.weight(.semibold))
-                    }
+                    Text(L10n.text(.ui_pin_documents_selected_count, request.documentNames.count))
+                        .font(.subheadline.weight(.semibold))
                     ScrollView {
                         VStack(alignment: .center, spacing: 4) {
                             ForEach(Array(request.documentNames.enumerated()), id: \.offset) { _, name in
@@ -32,7 +31,10 @@ struct PinEntryView: View {
                         }
                         .frame(maxWidth: .infinity, alignment: .center)
                     }
-                    .frame(maxHeight: min(88, CGFloat(request.documentNames.count) * 28))
+                    // A batch can contain more rows than fit in the sheet.  The count
+                    // remains visible and the scroll indicator makes the rest explicit.
+                    .frame(maxHeight: min(132, CGFloat(request.documentNames.count) * 32))
+                    .scrollIndicators(.visible)
                 }
                 .font(.caption)
             }
@@ -108,7 +110,23 @@ struct ConsentView: View {
             }
             CardSurface(padding: Theme.Space.m) {
                 VStack(alignment: .leading, spacing: Theme.Space.s) {
-                    Label(consent.request.documentName ?? L10n.text(.ui_data_to_sign), systemImage: "doc.richtext")
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(Array(consent.documentNames.enumerated()), id: \.offset) { _, name in
+                                Label(name, systemImage: "doc.richtext")
+                                    .lineLimit(2)
+                                    .truncationMode(.middle)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                    // Keep the sheet usable for large portal batches: the visible
+                    // count/size establishes the whole request, while this list can
+                    // expose every selected document without overflowing its corners.
+                    .frame(maxHeight: min(132, CGFloat(consent.documentNames.count) * 34))
+                    .scrollIndicators(.visible)
+                    Label(consent.contentSummary, systemImage: "doc.on.doc")
+                        .foregroundStyle(.secondary)
                     if let format = consent.request.format {
                         Label(format, systemImage: "signature")
                     }

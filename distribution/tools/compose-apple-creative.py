@@ -16,6 +16,12 @@ SPECS = {
     'header': (3840, 1646, 'PRODUCT_PAGE_HEADER_ASSET'),
     'search-results': (3840, 2560, 'APP_STORE_SEARCH_RESULTS_ASSET'),
 }
+# Bounds of Apple's named `Art Safe Area` layers in the official static PSDs.
+# https://developer.apple.com/app-store/asset-best-practices/
+SAFE_AREAS = {
+    'header': (1097, 493, 2743, 1154),
+    'search-results': (836, 765, 3004, 1795),
+}
 FONT_REGULAR = '/System/Library/Fonts/Supplemental/Arial.ttf'
 FONT_BOLD = '/System/Library/Fonts/Supplemental/Arial Bold.ttf'
 
@@ -81,81 +87,127 @@ def phone_asset(screen, width):
     return device_frame(screen, 'iphone').resize((width, round(3000 * width / 1470)), Image.Resampling.LANCZOS)
 
 
-def draw_cable(canvas, phone_xy, phone_size, reader_xy, layout):
+def draw_connection(canvas, phone_xy, phone_size, reader_xy, reader_size):
+    """Draw one physically coherent USB-C extension between reader and phone.
+
+    The photographed reader's male USB-C plug faces right.  A small female
+    extension attaches directly to that tip; the short lead sweeps into the
+    phone's bottom port.  The part that passes under the phone is correctly
+    occluded by the device frame when the final layer is drawn.
+    """
     axis = phone_xy[0] + phone_size[0] / 2
     port = phone_xy[1] + round(phone_size[1] * 2970 / 3000)
-    plug_bottom = port + 76
-    if layout == 'header':
-        points = [(axis, plug_bottom), (axis, 1560)]
-        curve(points, points[-1], (axis, 1610), (1840, 1604), (2000, 1580))
-        points.append((reader_xy[0] - 80, 1580))
-        curve(points, points[-1], (reader_xy[0] - 25, 1580), (reader_xy[0] - 15, 1320), (reader_xy[0] + 70, 1250))
-    else:
-        points = [(axis, plug_bottom), (axis, 2390)]
-        curve(points, points[-1], (axis, 2480), (1500, 2480), (1660, 2410))
-        points.append((reader_xy[0] - 100, 2410))
-        curve(points, points[-1], (reader_xy[0] - 20, 2410), (reader_xy[0] - 20, 1850), (reader_xy[0] + 65, 1740))
+    plug_bottom = port + 62
+    # Measured from the reader source crop: the male plug reaches the right edge
+    # at 48.9% of its height.  Keeping that anchor explicit prevents a cable that
+    # appears to enter the reader shell or float above it.
+    reader_tip = (reader_xy[0] + reader_size[0] - 5, reader_xy[1] + round(reader_size[1] * .489))
+    socket_start = reader_xy[0] + reader_size[0] - round(reader_size[1] * .115)
+    socket_end = (reader_tip[0] + 72, reader_tip[1])
+    lane_x = phone_xy[0] - 90
+    lane_y = plug_bottom + 95
+    bend = 70
+    points = [socket_end]
+    points.append((lane_x - bend, socket_end[1]))
+    curve(points, points[-1], (lane_x - 30, socket_end[1]),
+          (lane_x, socket_end[1] + 30), (lane_x, socket_end[1] + bend))
+    points.append((lane_x, lane_y - bend))
+    curve(points, points[-1], (lane_x, lane_y - 30),
+          (lane_x + 30, lane_y), (lane_x + bend, lane_y))
+    points.append((axis - bend, lane_y))
+    curve(points, points[-1], (axis - 30, lane_y),
+          (axis, lane_y - 30), (axis, lane_y - bend))
+    points.append((axis, plug_bottom))
     shadow = Image.new('RGBA', canvas.size)
-    stroke(shadow, [(x, y + 9) for x, y in points], (20, 30, 55, 65), 40)
+    stroke(shadow, [(x, y + 7) for x, y in points], (20, 30, 55, 65), 36)
     canvas.alpha_composite(shadow.filter(ImageFilter.GaussianBlur(9)))
-    stroke(canvas, points, '#101217', 32); stroke(canvas, points, '#292c33', 21); stroke(canvas, [(x - 2, y - 3) for x, y in points], '#555964', 5)
+    stroke(canvas, points, '#101217', 28); stroke(canvas, points, '#292c33', 18); stroke(canvas, [(x - 2, y - 3) for x, y in points], '#555964', 4)
     draw = ImageDraw.Draw(canvas)
-    draw.rounded_rectangle((axis - 40, port - 7, axis + 40, plug_bottom), radius=11, fill='#171a20', outline='#444852', width=2)
-    draw.rectangle((axis - 28, port - 8, axis + 28, port + 8), fill='#969ba4')
-    draw.rounded_rectangle((axis - 21, plug_bottom - 7, axis + 21, plug_bottom + 22), radius=8, fill='#22262d')
+    # Female extension collar over the photographed reader's USB-C male tip.
+    socket_half_height = round(reader_size[1] * .088)
+    draw.rounded_rectangle((socket_start, reader_tip[1] - socket_half_height, socket_end[0], reader_tip[1] + socket_half_height), radius=12, fill='#171a20', outline='#4b515c', width=2)
+    draw.rounded_rectangle((axis - 36, port - 7, axis + 36, plug_bottom), radius=10, fill='#171a20', outline='#444852', width=2)
+    draw.rectangle((axis - 25, port - 8, axis + 25, port + 8), fill='#969ba4')
 
 
 def compose(locale, layout, screen, card, catalog):
     width, height, placement = SPECS[layout]
-    canvas = background(width, height); draw = ImageDraw.Draw(canvas)
+    canvas = Image.new('RGBA', (width, height)); draw = ImageDraw.Draw(canvas)
     icon = Image.open(ROOT / 'apple/Apps/iOS/Assets.xcassets/AppIcon.appiconset/AppIcon-1024.png').convert('RGBA')
     icon = icon.resize((88, 88), Image.Resampling.LANCZOS)
     icon_mask = Image.new('L', icon.size); ImageDraw.Draw(icon_mask).rounded_rectangle((0, 0, 87, 87), radius=21, fill=255); icon.putalpha(icon_mask)
 
+    # Text stays within Apple's central art-safe region. The larger phone and
+    # background may bleed beyond it; never shrink the whole scene to a thumbnail.
     if layout == 'header':
-        phone_xy, phone_width = (175, 88), 690
-        card_xy, card_width = (1730, 835), 900
-        reader_xy, reader_height = (2390, 725), 670
-        copy_xy, copy_width = (1100, 172), 1220
-        headline_size, summary_size, icon_xy = 96, 40, (1100, 62)
+        phone_xy, phone_width = (2260, 100), 600
+        reader_xy, reader_height = (1740, 930), 310
+        copy_xy, copy_width = (1130, 545), 1050
+        headline_size, summary_size, icon_xy = 76, 38, (1130, 410)
+        trust_y = 860
     else:
-        phone_xy, phone_width = (170, 700), 810
-        card_xy, card_width = (1360, 1260), 1170
-        reader_xy, reader_height = (2290, 1130), 870
-        copy_xy, copy_width = (1180, 180), 2250
-        headline_size, summary_size, icon_xy = 128, 52, (1180, 60)
+        phone_xy, phone_width = (2400, 330), 820
+        reader_xy, reader_height = (1710, 1460), 480
+        copy_xy, copy_width = (890, 820), 1430
+        headline_size, summary_size, icon_xy = 100, 48, (890, 680)
+        trust_y = 1310
 
     phone = phone_asset(screen, phone_width)
-    physical_card = card.resize((card_width, round(card.height * card_width / card.width)), Image.Resampling.LANCZOS)
     reader = reader_asset(reader_height)
+    # The reader grips the card's short edge. Its exposed card height matches
+    # the reader, and the entering edge terminates inside the white housing.
+    card_height = round(reader_height * .98)
+    card_width = round(card_height * card.width / card.height)
+    card_xy = (reader_xy[0] - card_width + round(reader_height * .24), reader_xy[1] + round(reader_height * .01))
+    physical_card = card.resize((card_width, card_height), Image.Resampling.LANCZOS)
     place(canvas, physical_card, card_xy, blur=10, opacity=42, offset=(0, 8))
     place(canvas, reader, reader_xy, blur=11, opacity=38, offset=(0, 8))
     place(canvas, phone, phone_xy, blur=18, opacity=42, offset=(0, 10))
-    draw_cable(canvas, phone_xy, phone.size, reader_xy, layout)
-    # Hardware sits above the cable; the reader therefore fully hides the printed contact chip.
+    # Hardware sits above the card's entering edge.  Only the leading portion is
+    # occluded, leaving the identity card visible as an inserted physical object.
     place(canvas, physical_card, card_xy, opacity=0)
     place(canvas, reader, reader_xy, opacity=0)
+    place(canvas, phone, phone_xy, opacity=0)
+    # Draw the socket last so it sleeves the entire male metal connector.
+    draw_connection(canvas, phone_xy, phone.size, reader_xy, reader.size)
     canvas.alpha_composite(icon, icon_xy)
     textblock(draw, catalog['storeMetadata'][locale]['name'], (icon_xy[0] + 110, icon_xy[1] + 8), 64, 580, '#243a62', True)
-    y = textblock(draw, catalog['storeCreative']['headline'][locale], copy_xy, headline_size, copy_width, '#1c3055', True)
+    # Preserve two deliberate lines in every language while fitting the longest
+    # localized line. Supporting copy remains independently large and readable.
+    headline = catalog['storeCreative']['headline'][locale]
+    while max(draw.textlength(line, font=ImageFont.truetype(FONT_BOLD, headline_size)) for line in headline.split('\n')) > copy_width:
+        headline_size -= 1
+    y = textblock(draw, headline, copy_xy, headline_size, copy_width, '#1c3055', True)
     textblock(draw, catalog['storeCreative']['featureSummary'][locale], (copy_xy[0], y + 30), summary_size, copy_width, '#405775')
     if layout == 'header':
-        textblock(draw, catalog['storeCreative']['keyPrivacy'][locale], (copy_xy[0], 590), 34, copy_width, '#526582')
+        textblock(draw, catalog['storeCreative']['keyPrivacy'][locale], (copy_xy[0], trust_y), 30, copy_width, '#526582')
     else:
-        for index, key in enumerate(('stepConnect', 'stepChoose', 'stepConfirm')):
-            row_y = 725 + index * 115
-            draw.ellipse((copy_xy[0], row_y, copy_xy[0] + 54, row_y + 54), fill='#3157db')
-            font = ImageFont.truetype(FONT_BOLD, 30); label = str(index + 1); box = draw.textbbox((0, 0), label, font=font)
-            draw.text((copy_xy[0] + 27 - (box[2] - box[0]) / 2, row_y + 9), label, font=font, fill='white')
-            textblock(draw, catalog['storeCreative'][key][locale], (copy_xy[0] + 78, row_y + 7), 40, 1760, '#263d61')
-        textblock(draw, catalog['storeCreative']['keyPrivacy'][locale], (copy_xy[0], 2390), 38, 2000, '#526582')
-    return canvas.convert('RGB'), {
+        # A compact process line supports the illustration without competing
+        # with the two-line headline or adding small peripheral labels.
+        steps = '  ·  '.join(catalog['storeCreative'][key][locale]
+                            for key in ('stepConnect', 'stepChoose', 'stepConfirm'))
+        textblock(draw, steps, (copy_xy[0], 1230), 38, copy_width, '#3157db', True)
+        textblock(draw, catalog['storeCreative']['keyPrivacy'][locale],
+                  (copy_xy[0], trust_y), 32, copy_width, '#526582')
+    content_bounds = list(canvas.getbbox())
+    final = background(width, height)
+    # Broad tonal panels make the artwork full-bleed without adding information
+    # at the edges that would be lost in the Store's adaptive crops.
+    backdrop = Image.new('RGBA', final.size)
+    bd = ImageDraw.Draw(backdrop)
+    bd.ellipse((width * .43, -height * .55, width * 1.28, height * 1.55), fill=(89, 123, 225, 24))
+    bd.ellipse((width * .62, -height * .2, width * 1.2, height * 1.2), fill=(255, 255, 255, 42))
+    final.alpha_composite(backdrop)
+    final.alpha_composite(canvas)
+    return final.convert('RGB'), {
         'locale': locale, 'layout': layout, 'placement': placement, 'dimensions': [width, height],
         'phoneScreenshot': 'iphone/02-batch.png', 'cardScreenshot': 'iphone/01-sign.png',
         'cardCrop': [120, 540, 1200, 1207], 'deviceFrame': frame_resource('iphone')[2],
         'readerAssetSha256': hashlib.sha256((ROOT / 'distribution/apple/creative/assets/reader.png').read_bytes()).hexdigest(),
         'marketingCopySource': 'localization/catalog.json/storeCreative', 'physicalChipCovered': True,
-        'safeForPlacementAspect': 'dedicated artwork; no placement crop required',
+        'appleTemplateSafeArea': list(SAFE_AREAS[layout]),
+        'contentBounds': content_bounds,
+        'safeForPlacementAspect': 'central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect',
     }
 
 

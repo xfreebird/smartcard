@@ -3653,6 +3653,33 @@
     },
     {
       "platform": "apple",
+      "key": "ui_pin_documents_selected_count",
+      "translations": {
+        "ro": "Documente selectate: %lld",
+        "en": "Documents selected: %lld",
+        "ru": "Выбрано документов: %lld"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_consent_content_count_size",
+      "translations": {
+        "ro": "Conținut de semnat: %lld document(e) · %@",
+        "en": "Content to sign: %lld document(s) · %@",
+        "ru": "Содержимое для подписи: документов %lld · %@"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_content_size_unknown",
+      "translations": {
+        "ro": "dimensiune indisponibilă",
+        "en": "size unavailable",
+        "ru": "размер недоступен"
+      }
+    },
+    {
+      "platform": "apple",
       "key": "ui_recent_documents",
       "translations": {
         "ro": "Documente recente",
@@ -9068,34 +9095,34 @@
   },
   "storeCreative": {
     "headline": {
-      "ro": "Semnează cu\nID-ul tău.",
-      "en": "Sign with\nyour ID card.",
-      "ru": "Подписывайте\nс ID-картой."
+      "ro": "Actul tău. Semnătura ta.\nOriunde te afli.",
+      "en": "Your ID. Your signature.\nWherever you are.",
+      "ru": "Ваше удостоверение. Ваша подпись.\nГде бы вы ни были."
     },
     "featureSummary": {
-      "ro": "PDF • XAdES • Semnare în lot • Verificare",
-      "en": "PDF • XAdES • Batch signing • Verification",
-      "ru": "PDF • XAdES • Пакетная подпись • Проверка"
+      "ro": "Semnează documente de pe iPhone cu actul de identitate electronic.",
+      "en": "Sign documents on your iPhone with your electronic ID.",
+      "ru": "Подписывайте документы на iPhone с электронным удостоверением личности."
     },
     "stepConnect": {
-      "ro": "Conectează un cititor compatibil",
-      "en": "Connect a compatible reader",
-      "ru": "Подключите совместимый считыватель"
+      "ro": "Conectează",
+      "en": "Connect",
+      "ru": "Подключите"
     },
     "stepChoose": {
-      "ro": "Alege documentele",
-      "en": "Choose your documents",
-      "ru": "Выберите документы"
+      "ro": "Alege",
+      "en": "Choose",
+      "ru": "Выберите"
     },
     "stepConfirm": {
-      "ro": "Confirmă semnarea cu PIN-ul",
-      "en": "Confirm signing with your PIN",
-      "ru": "Подтвердите подпись PIN-кодом"
+      "ro": "Semnează",
+      "en": "Sign",
+      "ru": "Подпишите"
     },
     "keyPrivacy": {
-      "ro": "Cheia privată rămâne pe card.",
-      "en": "Your private key stays on your card.",
-      "ru": "Закрытый ключ остаётся на карте."
+      "ro": "Cheia de semnare rămâne pe cardul tău.",
+      "en": "Your signing key stays on your card.",
+      "ru": "Ключ подписи остаётся на вашей карте."
     }
   }
 }

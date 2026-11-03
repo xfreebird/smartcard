@@ -705,6 +705,72 @@
         }
       }
     },
+    "ui_pin_documents_selected_count": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documente selectate: %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documents selected: %lld"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрано документов: %lld"
+          }
+        }
+      }
+    },
+    "ui_consent_content_count_size": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conținut de semnat: %lld document(e) · %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Content to sign: %lld document(s) · %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Содержимое для подписи: документов %lld · %@"
+          }
+        }
+      }
+    },
+    "ui_content_size_unknown": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "dimensiune indisponibilă"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "size unavailable"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "размер недоступен"
+          }
+        }
+      }
+    },
     "ui_recent_documents": {
       "localizations": {
         "ro": {
