@@ -67,12 +67,18 @@ def main():
     if not args.apk or not args.version_code or args.apk.suffix != '.apk':
         parser.error('--apk and --version-code are required for publishing')
     current = int(app.get('versionCode') or 0)
-    if current >= args.version_code:
+    state = str(app.get('releaseState'))
+    on_shelf = int(app.get('onShelfVersionCode') or 0)
+    if current > args.version_code or on_shelf >= args.version_code or (current == args.version_code and state == '4'):
         print(f'Build {args.version_code} already uploaded or superseded; no submission needed.')
         return
     # Never cancel an active review to replace its binary.
-    if str(app.get('releaseState')) == '4':
+    if state == '4':
         raise RuntimeError('Huawei has an active review. Retry after the current review finishes.')
+    if current == args.version_code:
+        gallery.call('POST', 'app-submit', body={'releaseType': 1})
+        print(f'Resubmitted existing draft build {args.version_code}.')
+        return
     upload = gallery.call('GET', 'upload-url', suffix='apk')
     with args.apk.open('rb') as binary:
         response = requests.post(upload['uploadUrl'], data={'authCode': upload['authCode']},
