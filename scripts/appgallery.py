@@ -71,7 +71,7 @@ def main():
         print(f'Build {args.version_code} already uploaded or superseded; no submission needed.')
         return
     # Never cancel an active review to replace its binary.
-    if str(app.get('releaseState')) in ('4', '5'):
+    if str(app.get('releaseState')) == '4':
         raise RuntimeError('Huawei has an active review. Retry after the current review finishes.')
     upload = gallery.call('GET', 'upload-url', suffix='apk')
     with args.apk.open('rb') as binary:
