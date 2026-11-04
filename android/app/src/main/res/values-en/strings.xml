@@ -237,4 +237,9 @@
   <string name="browser_bookmark_icon_building">Building</string>
   <string name="browser_bookmark_icon_star">Star</string>
   <string name="browser_bookmark_edit">Edit bookmark</string>
+  <string name="government_independence_title">Independent app · official sources</string>
+  <string name="government_independence_notice">eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.</string>
+  <string name="government_sources_explanation">Official sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.</string>
+  <string name="government_notice_continue">Continue</string>
+  <string name="government_sources_action">Non-government app · Official sources</string>
 </resources>

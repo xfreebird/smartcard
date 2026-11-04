@@ -9050,6 +9050,51 @@
         "en": "Edit bookmark",
         "ru": "Изменить закладку"
       }
+    },
+    {
+      "platform": "android",
+      "key": "government_independence_title",
+      "translations": {
+        "en": "Independent app · official sources",
+        "ro": "Aplicație independentă · surse oficiale",
+        "ru": "Независимое приложение · официальные источники"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "government_independence_notice",
+      "translations": {
+        "en": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.",
+        "ro": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.",
+        "ru": "eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "government_sources_explanation",
+      "translations": {
+        "en": "Official sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.",
+        "ro": "Sursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.",
+        "ru": "Ниже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "government_notice_continue",
+      "translations": {
+        "en": "Continue",
+        "ro": "Continuă",
+        "ru": "Продолжить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "government_sources_action",
+      "translations": {
+        "en": "Non-government app · Official sources",
+        "ro": "Aplicație neguvernamentală · Surse oficiale",
+        "ru": "Негосударственное приложение · Официальные источники"
+      }
     }
   ],
   "storeMetadata": {
@@ -9071,7 +9116,7 @@
       "platformNotes": {
         "ios": "Pentru iPhone și iPad: cititor conectat prin USB-C sau adaptor Lightning compatibil, import din Fișiere și extensie de partajare. Browserul integrat ține aplicația activă în timpul semnării.",
         "macos": "Versiunea Mac App Store folosește CryptoTokenKit și sandbox. Rezultatele se exportă într-o locație aleasă. Helperul extern de pornire la inserarea cardului, controlul aplicației furnizorului și rutele web cu căi arbitrare de fișiere nu sunt incluse.",
-        "android": "Pentru telefoane și tablete Android: cititor USB compatibil prin OTG, import prin partajare și salvare sau distribuire prin opțiunile sistemului.",
+        "android": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.\n\nSURSE OFICIALE\nSursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nPentru telefoane și tablete Android: cititor USB compatibil prin OTG, import prin partajare și salvare sau distribuire prin opțiunile sistemului.",
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       }
     },
@@ -9093,7 +9138,7 @@
       "platformNotes": {
         "ios": "For iPhone and iPad: connect a compatible reader over USB-C or a supported Lightning adapter. Import from Files or the share extension. The built-in browser keeps the app active while signing.",
         "macos": "The Mac App Store version uses CryptoTokenKit and App Sandbox. Export results to a chosen location. The external card-insertion helper, vendor-app process control and browser routes accepting arbitrary filesystem paths are not included.",
-        "android": "For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.",
+        "android": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.\n\nOFFICIAL SOURCES\nOfficial sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nFor Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.",
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       }
     },
@@ -9115,7 +9160,7 @@
       "platformNotes": {
         "ios": "Для iPhone и iPad: подключите совместимый считыватель через USB-C или поддерживаемый адаптер Lightning. Импортируйте из «Файлов» или расширения общего доступа. Встроенный браузер сохраняет приложение активным при подписании.",
         "macos": "Версия Mac App Store использует CryptoTokenKit и App Sandbox. Экспортируйте результаты в выбранную папку. Внешний помощник запуска при вставке карты, управление процессом приложения поставщика и веб-маршруты с произвольными путями файлов не включены.",
-        "android": "Для телефонов и планшетов Android: подключите совместимый USB-считыватель через OTG, импортируйте файлы из меню общего доступа и используйте системное сохранение или отправку.",
+        "android": "eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис.\n\nОФИЦИАЛЬНЫЕ ИСТОЧНИКИ\nНиже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nДля телефонов и планшетов Android: подключите совместимый USB-считыватель через OTG, импортируйте файлы из меню общего доступа и используйте системное сохранение или отправку.",
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       }
     }

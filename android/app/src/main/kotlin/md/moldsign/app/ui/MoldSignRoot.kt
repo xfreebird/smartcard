@@ -113,6 +113,7 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
+    md.moldsign.app.ui.components.GovernmentDisclosure()
     var settingsOpen by remember { mutableStateOf(false) }
     var settingsTab by remember { mutableIntStateOf(0) }
     var confirmDemoEnable by remember { mutableStateOf(false) }

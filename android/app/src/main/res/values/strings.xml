@@ -240,4 +240,9 @@
   <string name="browser_bookmark_icon_building">Instituție</string>
   <string name="browser_bookmark_icon_star">Stea</string>
   <string name="browser_bookmark_edit">Editează marcajul</string>
+  <string name="government_independence_title">Aplicație independentă · surse oficiale</string>
+  <string name="government_independence_notice">eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.</string>
+  <string name="government_sources_explanation">Sursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.</string>
+  <string name="government_notice_continue">Continuă</string>
+  <string name="government_sources_action">Aplicație neguvernamentală · Surse oficiale</string>
 </resources>

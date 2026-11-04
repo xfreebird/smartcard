@@ -26,7 +26,7 @@ def validate_platform_text(text, platform, label):
         raise SystemExit(f'{label}: mentions another platform ({match.group(0)})')
 
 def platform_copy(m, platform):
-    text = m['description'] + '\n\n' + m['platformNotes'][platform]
+    text = (m['platformNotes'][platform] + '\n\n' + m['description']) if platform == 'android' else (m['description'] + '\n\n' + m['platformNotes'][platform])
     validate_platform_text(text, platform, f'{platform}/description')
     return text
 
@@ -50,7 +50,8 @@ for lang in config['locales']:
         for field, target in {'supportURL': 'support_url', 'privacyPolicyURL': 'privacy_url', 'marketingURL': 'marketing_url'}.items():
             if config[field]:
                 outputs[f'{folder}/{target}.txt'] = config[field] + '\n'
-    folder = f'distribution/google/metadata/android/{locales[lang]}'
+    google_locale = config.get('storeLocales', {}).get('google', {}).get(lang, locales[lang])
+    folder = f'distribution/google/metadata/android/{google_locale}'
     for key, source in {'title': 'name', 'short_description': 'shortDescription', 'full_description': 'description'}.items():
         outputs[f'{folder}/{key}.txt'] = (platform_copy(m, 'android') if source == 'description' else m[source]) + '\n'
     for store in ['microsoft', 'huawei']:

@@ -243,4 +243,9 @@
   <string name="browser_bookmark_icon_building">Здание</string>
   <string name="browser_bookmark_icon_star">Звезда</string>
   <string name="browser_bookmark_edit">Изменить закладку</string>
+  <string name="government_independence_title">Независимое приложение · официальные источники</string>
+  <string name="government_independence_notice">eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис.</string>
+  <string name="government_sources_explanation">Ниже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах.</string>
+  <string name="government_notice_continue">Продолжить</string>
+  <string name="government_sources_action">Негосударственное приложение · Официальные источники</string>
 </resources>

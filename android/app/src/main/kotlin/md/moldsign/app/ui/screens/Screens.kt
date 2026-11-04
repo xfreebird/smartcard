@@ -581,6 +581,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                     modifier = Modifier.padding(start = Tokens.S4, end = Tokens.S4, bottom = Tokens.S4),
                 )
             }
+            md.moldsign.app.ui.components.GovernmentDisclosureLink()
             Button(onClick = { inAppBrowser = true }, enabled = !vm.demoMode, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.browser_open_in_app))
             }
@@ -640,6 +641,7 @@ fun AboutContent() {
         Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge)
         Text(stringResource(R.string.about_version, version))
         Text(stringResource(R.string.about_body), textAlign = TextAlign.Center)
+        md.moldsign.app.ui.components.GovernmentSources()
         Text("Nicolae Ghimbovschi")
         TextButton(onClick = { uriHandler.openUri("https://esemnbun.md") }) { Text("esemnbun.md") }
     }

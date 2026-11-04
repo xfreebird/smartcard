@@ -1,3 +1,15 @@
+eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.
+
+OFFICIAL SOURCES
+Official sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.
+MSign — https://msign.gov.md/
+MPass — https://mpass.gov.md/
+EVO — https://evo.gov.md/
+eVMS — https://evms.md/
+MPay — https://mpay.gov.md/
+
+For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.
+
 Your electronic ID. Your documents. A straightforward signing workflow.
 
 eSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.
@@ -23,5 +35,3 @@ You need an active Moldovan electronic identity card, a valid signing certificat
 Your private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.
 
 eSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.
-
-For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.
