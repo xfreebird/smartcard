@@ -23,6 +23,11 @@
       "size": 14610661
     },
     {
+      "name": "eSemnBun-0.2.1.dmg",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/eSemnBun-0.2.1.dmg",
+      "size": 2405794
+    },
+    {
       "name": "eSemnBun-0.2.1.flatpak",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/eSemnBun-0.2.1.flatpak",
       "size": 15030952
@@ -45,12 +50,7 @@
     {
       "name": "SHA256SUMS.txt",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/SHA256SUMS.txt",
-      "size": 746
-    },
-    {
-      "name": "eSemnBun-0.2.0.dmg",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.0/eSemnBun-0.2.0.dmg",
-      "size": 2227705
+      "size": 831
     }
   ]
 }
