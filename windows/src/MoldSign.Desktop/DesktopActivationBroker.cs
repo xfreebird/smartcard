@@ -30,6 +30,9 @@ public sealed class DesktopActivationBroker : IDisposable
     public void Listen(Action open) => ListenFiles(_ => open());
 
     public void ListenFiles(Action<IReadOnlyList<string>> open)
+        => ListenCommands((_, paths) => open(paths));
+
+    public void ListenCommands(Action<string, IReadOnlyList<string>> open)
     {
         if (!IsPrimary || _listener is not null) return;
         // Create the first pipe before returning so a secondary process can connect
@@ -37,7 +40,7 @@ public sealed class DesktopActivationBroker : IDisposable
         _listener = ListenAsync(open);
     }
 
-    private async Task ListenAsync(Action<IReadOnlyList<string>> open)
+    private async Task ListenAsync(Action<string, IReadOnlyList<string>> open)
     {
         while (!_shutdown.IsCancellationRequested)
         {
@@ -59,10 +62,15 @@ public sealed class DesktopActivationBroker : IDisposable
                 }
                 if (message.Length > 32768) continue;
                 var line = Encoding.UTF8.GetString(message.ToArray());
-                if (line == "open") open(Array.Empty<string>());
+                if (line == "open") open("open", Array.Empty<string>());
                 else if (line is { Length: <= 32768 } && line.StartsWith("files:", StringComparison.Ordinal))
                 {
-                    try { open(JsonSerializer.Deserialize<string[]>(line[6..]) ?? []); }
+                    try { open("sign", JsonSerializer.Deserialize<string[]>(line[6..]) ?? []); }
+                    catch (JsonException) { }
+                }
+                else if (line.StartsWith("verify:", StringComparison.Ordinal))
+                {
+                    try { open("verify", JsonSerializer.Deserialize<string[]>(line[7..]) ?? []); }
                     catch (JsonException) { }
                 }
             }
@@ -80,8 +88,12 @@ public sealed class DesktopActivationBroker : IDisposable
     }
 
     public async Task OpenFilesAsync(IReadOnlyList<string> paths, CancellationToken cancellationToken)
+        => await OpenCommandAsync("sign", paths, cancellationToken);
+
+    public async Task OpenCommandAsync(string action, IReadOnlyList<string> paths, CancellationToken cancellationToken)
     {
-        var command = "files:" + JsonSerializer.Serialize(paths) + "\n";
+        var prefix = action == "verify" ? "verify:" : "files:";
+        var command = prefix + JsonSerializer.Serialize(paths) + "\n";
         if (command.Length > 32768) throw new ArgumentException("Too many document paths.", nameof(paths));
         using var client = new NamedPipeClientStream(".", _pipe, PipeDirection.Out, PipeOptions.Asynchronous);
         await client.ConnectAsync(3000, cancellationToken);

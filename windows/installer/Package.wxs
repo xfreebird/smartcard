@@ -86,9 +86,19 @@
         <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun" Name="MUIVerb" Type="string"
                        Value="@[INSTALLFOLDER]eSemnBun.Explorer.dll,-101" />
         <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun" Name="Icon" Type="string"
-                       Value="[INSTALLFOLDER]eSemnBun.exe" />
+                       Value="[INSTALLFOLDER]eSemnBun.Explorer.dll,-201" />
         <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBun\command" Type="string"
                        Value="&quot;[INSTALLFOLDER]eSemnBun.exe&quot; --sign &quot;%1&quot;" />
+      </Component>
+      <Component Id="ExplorerVerifyVerb">
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBunVerify" Type="string"
+                       Value="Verify with eSemnBun" KeyPath="yes" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBunVerify" Name="MUIVerb" Type="string"
+                       Value="@[INSTALLFOLDER]eSemnBun.Explorer.dll,-102" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBunVerify" Name="Icon" Type="string"
+                       Value="[INSTALLFOLDER]eSemnBun.Explorer.dll,-202" />
+        <RegistryValue Root="HKLM" Key="Software\Classes\*\shell\eSemnBunVerify\command" Type="string"
+                       Value="&quot;[INSTALLFOLDER]eSemnBun.exe&quot; --verify &quot;%1&quot;" />
       </Component>
     </ComponentGroup>
   </Fragment>
@@ -110,7 +120,9 @@
       <Component Id="StartMenuShortcut" Directory="ProgramMenuFolder">
         <Shortcut Id="StartMenuEntry" Name="eSemnBun"
                   Description="Qualified e-signatures with the Moldovan eID card"
-                  Target="[INSTALLFOLDER]eSemnBun.exe" WorkingDirectory="INSTALLFOLDER" />
+                  Target="[INSTALLFOLDER]eSemnBun.exe" WorkingDirectory="INSTALLFOLDER">
+          <ShortcutProperty Key="System.AppUserModel.ID" Value="md.esemnbun.desktop" />
+        </Shortcut>
         <RegistryValue Root="HKCU" Key="Software\MoldSign" Name="StartMenuShortcut" Type="integer" Value="1"
                        KeyPath="yes" />
       </Component>

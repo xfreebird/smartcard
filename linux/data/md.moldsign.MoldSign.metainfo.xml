@@ -59,6 +59,7 @@
   <!-- TODO(LNX-14): screenshots (Sign, Verify, Card pages) hosted at a stable URL. -->
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.1" date="2026-11-04"><description><p>Desktop integration and interface improvements.</p></description></release>
     <release version="0.2.0" date="2026-10-25">
       <description>
         <p>New name: eSemnBun. The card in the reader is drawn as an identity card, and with several cards you

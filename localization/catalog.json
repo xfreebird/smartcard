@@ -1664,6 +1664,24 @@
     },
     {
       "platform": "windows",
+      "key": "Sign_SignedFiles",
+      "translations": {
+        "ro": "Documente semnate",
+        "en": "Signed documents",
+        "ru": "Подписанные документы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Jump_RecentSigned",
+      "translations": {
+        "ro": "Documente semnate recent",
+        "en": "Recently signed documents",
+        "ru": "Недавно подписанные документы"
+      }
+    },
+    {
+      "platform": "windows",
       "key": "Pin_Title",
       "translations": {
         "ro": "PIN QSCD",
@@ -8383,6 +8401,15 @@
         "ro": "Documentele nu au putut fi salvate. Încearcă din nou.",
         "en": "Could not save the documents. Please try again.",
         "ru": "Не удалось сохранить документы. Попробуйте ещё раз."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Explorer_Verify",
+      "translations": {
+        "ro": "Verifică cu eSemnBun",
+        "en": "Verify with eSemnBun",
+        "ru": "Проверить в eSemnBun"
       }
     },
     {

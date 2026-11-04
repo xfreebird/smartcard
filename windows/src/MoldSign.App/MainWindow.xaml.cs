@@ -74,7 +74,7 @@ public sealed partial class MainWindow : Window
     private void OnClosing(AppWindow sender, AppWindowClosingEventArgs args)
     {
         // Tray-first: closing hides; "Ieșire" in the tray quits.
-        if (App.Current.IsQuitting) return;
+        if (App.Current.IsQuitting || App.Current.IsRebuildingWindows) return;
         args.Cancel = true;
         sender.Hide();
     }

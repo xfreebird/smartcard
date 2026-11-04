@@ -271,6 +271,7 @@ public sealed class AppServices : IAsyncDisposable
         }
         finally
         {
+            if (!IsDemo && outputs.Count > 0) _ = TaskbarActions.RefreshAsync(outputs.ToArray());
             SetBusy(false);
         }
     }

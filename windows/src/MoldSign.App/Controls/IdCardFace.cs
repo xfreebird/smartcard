@@ -276,7 +276,10 @@ internal sealed class IdCardFace : Grid
             : item.Certificate is null ? (CardArt.StatusReading, Loc.Get("Light_Reading"), CardArt.Value)
             : (CardArt.StatusReady, Loc.Get(usedForSigning ? "Wallet_UsedForSigning" : "Wallet_StatusReady"), CardArt.Value);
 
-        var top = 0.80 * h;
+        // The selected-card caption uses the full bottom edge, below the portrait.
+        // This keeps longer translations readable in the compact tray card.
+        if (ready && usedForSigning) x = 0.045 * w;
+        var top = (ready && usedForSigning ? 0.86 : 0.84) * h;
         var textSize = Math.Max(0.034 * w, 10);
         var dotSize = Math.Max(0.022 * w, 7);
         var textX = x + dotSize + 0.015 * w;
@@ -310,7 +313,7 @@ internal sealed class IdCardFace : Grid
             MaxWidth = right - textX,
             TextTrimming = TextTrimming.CharacterEllipsis,
         }, textX, top);
-        if (w >= 360 && item.Reader is { } reader)
+        if (w >= 360 && !usedForSigning && item.Reader is { } reader)
         {
             Place(canvas, new TextBlock
             {

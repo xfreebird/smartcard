@@ -74,6 +74,8 @@ public sealed partial class SettingsPage : Page
         AboutContent.Visibility = about ? Visibility.Visible : Visibility.Collapsed;
         GeneralTab.IsEnabled = about;
         AboutTab.IsEnabled = !about;
+        SettingsScroll.UpdateLayout();
+        SettingsScroll.ChangeView(null, 0, null, disableAnimation: true);
     }
 
     private async void OnDemoModeToggled(object sender, RoutedEventArgs args)
@@ -217,6 +219,7 @@ public sealed partial class SettingsPage : Page
         if (_loadingPreferences || LanguagePicker.SelectedItem is not ComboBoxItem item) return;
         App.Current.Services.Settings.Language = item.Tag as string ?? "";
         App.Current.Services.Settings.Save();
+        DispatcherQueue.TryEnqueue(() => App.Current.ApplyLanguage());
     }
 
     private void OnThemeChanged(object sender, SelectionChangedEventArgs e)

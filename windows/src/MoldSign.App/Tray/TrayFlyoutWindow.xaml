@@ -13,6 +13,7 @@
     xmlns:services="using:MoldSign.App.Services"
     Title="eSemnBun">
 
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
     <Grid Padding="16,12,16,12" RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -20,7 +21,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
@@ -105,7 +106,7 @@
                 Visibility="{x:Bind State.RecentClearVisibility, Mode=OneWay}" />
         </Grid>
 
-        <Grid Grid.Row="5">
+        <Grid Grid.Row="5" MinHeight="40" MaxHeight="160">
             <ListView
                 x:Uid="RecentList"
                 AutomationProperties.Name="Recente"
@@ -189,4 +190,5 @@
                 Style="{StaticResource MsMenuRowButtonStyle}" />
         </StackPanel>
     </Grid>
+    </ScrollViewer>
 </Window>

@@ -317,6 +317,8 @@ public sealed class AppState : INotifyPropertyChanged
     // MARK: - Internals
 
     /// <summary>Reconciles <see cref="WalletItems"/> with the model (in place, so selection and animations survive).</summary>
+    public void RefreshLanguage() => Refresh();
+
     private void Refresh()
     {
         var desired = new List<(WalletItemKind Kind, string? Reader, WalletCard? Card)>();

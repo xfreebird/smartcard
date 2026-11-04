@@ -16,10 +16,14 @@ New-Item -ItemType Directory -Force $OutputDirectory | Out-Null
 $target = if ($Platform -eq 'arm64') { 'aarch64' } else { 'x86_64' }
 $catalog = Get-Content (Join-Path $PSScriptRoot '../../localization/catalog.json') -Raw -Encoding UTF8 | ConvertFrom-Json
 $title = $catalog.entries | Where-Object { $_.platform -eq 'windows' -and $_.key -eq 'Explorer_Sign' }
-$rc = '#pragma code_page(65001)' + "`n"
+$verifyTitle = $catalog.entries | Where-Object { $_.platform -eq 'windows' -and $_.key -eq 'Explorer_Verify' }
+$signIcon = (Join-Path $PSScriptRoot '../shell/sign.ico').Replace('\','/')
+$verifyIcon = (Join-Path $PSScriptRoot '../shell/verify.ico').Replace('\','/')
+$rc = '#pragma code_page(65001)' + "`n201 ICON `"$signIcon`"`n202 ICON `"$verifyIcon`"`n"
 foreach ($language in @(@('en',9,1),@('ro',24,1),@('ru',25,1))) {
     $value = $title.translations.($language[0]).Replace('"','""')
-    $rc += "LANGUAGE $($language[1]), $($language[2])`nSTRINGTABLE`nBEGIN`n101 `"$value`"`nEND`n"
+    $verifyValue = $verifyTitle.translations.($language[0]).Replace('"','""')
+    $rc += "LANGUAGE $($language[1]), $($language[2])`nSTRINGTABLE`nBEGIN`n101 `"$value`"`n102 `"$verifyValue`"`nEND`n"
 }
 $resource = Join-Path $OutputDirectory 'ExplorerStrings.rc'
 [IO.File]::WriteAllText($resource, $rc, [Text.UTF8Encoding]::new($false))

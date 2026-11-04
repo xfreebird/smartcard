@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  DropZone (docs/10 §3): solid active border, radius 14; drag-over = brandSoft fill + brand border.
+  DropZone (docs/10 §3): dashed active border, radius 14; drag-over = brandSoft fill + brand border.
   Large (default, ~170 epx): icon, "Trage documentele aici", the "Alege fișiere…" button, the format hint.
   Compact (IsCompact, under the document list once files were added): one row with the same button.
 -->
@@ -21,7 +21,8 @@
             RadiusX="14"
             RadiusY="14"
             Stroke="{ThemeResource ControlStrongStrokeColorDefaultBrush}"
-            StrokeThickness="1" />
+            StrokeThickness="1"
+            StrokeDashArray="5,4" />
 
         <StackPanel
             x:Name="LargeContent"

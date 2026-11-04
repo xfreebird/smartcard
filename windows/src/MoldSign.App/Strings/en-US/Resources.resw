@@ -15,6 +15,8 @@
   <data name="Action_Cancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="Sign_ButtonCount" xml:space="preserve"><value>Sign {0} documents</value></data>
   <data name="Sign_Done" xml:space="preserve"><value>Documents signed: {0}</value></data>
+  <data name="Sign_SignedFiles" xml:space="preserve"><value>Signed documents</value></data>
+  <data name="Jump_RecentSigned" xml:space="preserve"><value>Recently signed documents</value></data>
   <data name="Pin_Title" xml:space="preserve"><value>QSCD PIN</value></data>
   <data name="Pin_For" xml:space="preserve"><value>for {0}</value></data>
   <data name="Pin_Remember" xml:space="preserve"><value>Remember PIN (Windows Hello)</value></data>
@@ -245,6 +247,7 @@
   <data name="about_developer" xml:space="preserve"><value>Developer</value></data>
   <data name="about_app_title" xml:space="preserve"><value>About eSemnBun</value></data>
   <data name="Settings_General" xml:space="preserve"><value>General</value></data>
+  <data name="Explorer_Verify" xml:space="preserve"><value>Verify with eSemnBun</value></data>
   <data name="Explorer_Sign" xml:space="preserve"><value>Sign with eSemnBun</value></data>
   <data name="Update_Check" xml:space="preserve"><value>Check for Updates…</value></data>
   <data name="Update_Current" xml:space="preserve"><value>You have the latest version.</value></data>

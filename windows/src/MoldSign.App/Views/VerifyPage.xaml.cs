@@ -108,13 +108,13 @@ public sealed partial class VerifyPage : Page
                 VerdictKind.Indeterminate => "\uE7BA",
                 _ => "\uE946",
             };
-            VerdictIcon.Foreground = WindowHelpers.ThemeBrush(verdict switch
+            VerdictIcon.Style = (Style)Resources[verdict switch
             {
-                VerdictKind.Valid => "SuccessBrush",
-                VerdictKind.Invalid => "DangerBrush",
-                VerdictKind.Indeterminate => "WarningBrush",
-                _ => "TextFillColorSecondaryBrush",
-            });
+                VerdictKind.Valid => "VerifySuccessIconStyle",
+                VerdictKind.Invalid => "VerifyDangerIconStyle",
+                VerdictKind.Indeterminate => "VerifyWarningIconStyle",
+                _ => "VerifySecondaryIconStyle",
+            }];
             Verdict.Visibility = Visibility.Visible;
             SignatureCount.Text = Loc.Format("Verify_SignatureCount", reports.Count);
             SignatureCount.Visibility = Visibility.Visible;
@@ -135,7 +135,7 @@ public sealed partial class VerifyPage : Page
         }
     }
 
-    private static Border SignatureCard(VerificationReport report, int index)
+    private Border SignatureCard(VerificationReport report, int index)
     {
         var content = new StackPanel { Spacing = 12 };
         content.Children.Add(new TextBlock
@@ -183,8 +183,7 @@ public sealed partial class VerifyPage : Page
         return new Border
         {
             Child = content, Padding = new Thickness(16), CornerRadius = new CornerRadius(14),
-            Background = WindowHelpers.ThemeBrush("SurfaceRaisedBrush"),
-            BorderBrush = WindowHelpers.ThemeBrush("CardStrokeColorDefaultBrush"), BorderThickness = new Thickness(1),
+            Style = (Style)Resources["VerificationCardStyle"], BorderThickness = new Thickness(1),
         };
     }
 
@@ -194,7 +193,7 @@ public sealed partial class VerifyPage : Page
         panel.Children.Add(new TextBlock
         {
             Text = Loc.Get(label), FontSize = 12, TextWrapping = TextWrapping.Wrap,
-            Foreground = WindowHelpers.ThemeBrush("TextFillColorSecondaryBrush"),
+            Style = (Style)Application.Current.Resources["MsCaptionTextStyle"],
         });
         panel.Children.Add(new TextBlock
         {
@@ -204,7 +203,7 @@ public sealed partial class VerifyPage : Page
         return panel;
     }
 
-    private static Grid Check(string label, bool ok, string good, string bad, bool warnOnly = false)
+    private Grid Check(string label, bool ok, string good, string bad, bool warnOnly = false)
     {
         var row = new Grid { ColumnSpacing = 12 };
         row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -212,7 +211,7 @@ public sealed partial class VerifyPage : Page
         row.Children.Add(new FontIcon
         {
             Glyph = ok ? "\uE73E" : warnOnly ? "\uE7BA" : "\uE783", FontSize = 18,
-            Foreground = WindowHelpers.ThemeBrush(ok ? "SuccessBrush" : warnOnly ? "WarningBrush" : "DangerBrush"),
+            Style = (Style)Resources[ok ? "VerifySuccessIconStyle" : warnOnly ? "VerifyWarningIconStyle" : "VerifyDangerIconStyle"],
         });
         var text = Field(label, Loc.Get(ok ? good : bad));
         Grid.SetColumn(text, 1);

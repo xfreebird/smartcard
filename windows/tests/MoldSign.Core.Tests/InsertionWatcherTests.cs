@@ -89,6 +89,24 @@ public sealed class InsertionWatcherTests
         await opened.Task.WaitAsync(TimeSpan.FromSeconds(5));
     }
 
+    [Theory]
+    [InlineData("sign")]
+    [InlineData("verify")]
+    public async Task ActivationForwardsActionAndDocumentPaths(string action)
+    {
+        if (!OperatingSystem.IsWindows()) return;
+        var key = "MoldSign-Test-" + Guid.NewGuid().ToString("N");
+        using var first = new DesktopActivationBroker(key);
+        var received = new TaskCompletionSource<(string Action, IReadOnlyList<string> Paths)>(TaskCreationOptions.RunContinuationsAsynchronously);
+        first.ListenCommands((command, paths) => received.TrySetResult((command, paths)));
+        using var second = new DesktopActivationBroker(key);
+        string[] expected = [@"C:\Documents\contract with spaces.pdf", @"C:\Documents\cerere.xml"];
+        await second.OpenCommandAsync(action, expected, default);
+        var result = await received.Task.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Equal(action, result.Action);
+        Assert.Equal(expected, result.Paths);
+    }
+
     private sealed class Snapshots : IReaderSnapshotSource
     {
         public IReadOnlyList<ReaderStatus> Readers { get; set; } = [];

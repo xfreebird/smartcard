@@ -26,6 +26,7 @@ public partial class App : Application
             AppLog.Error(e.Exception);
         };
         var settings = AppSettings.Load();
+        if (!StartupRegistration.IsPackaged) DesktopJumpList.Initialize();
         DemoMode.Configure(settings.DemoModeEnabled);
         // MSIX persists overrides. Resolve System explicitly so a previous choice cannot remain active;
         // Windows App SDK versions that reject an empty override still receive a supported BCP-47 tag.
@@ -52,11 +53,57 @@ public partial class App : Application
     public AppServices Services { get; private set; } = null!;
 
     public bool IsQuitting { get; private set; }
+    internal bool IsRebuildingWindows { get; private set; }
+
+    public void ApplyLanguage()
+    {
+        var selected = Services.Settings.Language;
+        var system = Windows.System.UserProfile.GlobalizationPreferences.Languages
+            .FirstOrDefault(tag => tag.StartsWith("ro", StringComparison.OrdinalIgnoreCase) ||
+                tag.StartsWith("en", StringComparison.OrdinalIgnoreCase) || tag.StartsWith("ru", StringComparison.OrdinalIgnoreCase));
+        var language = selected is "ro-RO" or "en-US" or "ru-RU" ? selected
+            : system?.StartsWith("en", StringComparison.OrdinalIgnoreCase) == true ? "en-US"
+            : system?.StartsWith("ru", StringComparison.OrdinalIgnoreCase) == true ? "ru-RU" : "ro-RO";
+        Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride = language;
+        Loc.Reload();
+        AppState.Current.RefreshLanguage();
+        _ = TaskbarActions.RefreshAsync();
+        IsRebuildingWindows = true;
+        try
+        {
+            var position = _main?.AppWindow.Position;
+            var size = _main?.AppWindow.Size;
+            _flyout?.Close();
+            _main?.Close();
+            _flyout = new TrayFlyoutWindow();
+            _main = new MainWindow();
+            ApplyTheme();
+            if (position is { } oldPosition) _main.AppWindow.Move(oldPosition);
+            if (size is { } oldSize) _main.AppWindow.Resize(oldSize);
+            if (_main.Content is FrameworkElement root)
+                root.Loaded += (_, _) => _main?.ShowSection("settings");
+            _main.AppWindow.Show();
+            _main.Activate();
+        }
+        finally { IsRebuildingWindows = false; }
+    }
 
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
         var launchArguments = Environment.GetCommandLineArgs();
-        var documentPaths = launchArguments.Length > 2 && launchArguments[1] == "--sign"
+        if (launchArguments.Length > 2 && launchArguments[1] == "--open-document")
+        {
+            try
+            {
+                if (File.Exists(launchArguments[2]))
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(launchArguments[2]) { UseShellExecute = true });
+            }
+            catch (Exception error) { AppLog.Error(error); }
+            Exit();
+            return;
+        }
+        var action = launchArguments.Length > 1 && launchArguments[1] == "--verify" ? "verify" : "sign";
+        var documentPaths = launchArguments.Length > 2 && launchArguments[1] is "--sign" or "--verify"
             ? launchArguments.Skip(2).Where(File.Exists).ToArray() : Array.Empty<string>();
 #if DEBUG
         if (Environment.GetEnvironmentVariable("MSIGN_DEMO_PIN_ONLY") == "1")
@@ -72,7 +119,8 @@ public partial class App : Application
             {
                 try
                 {
-                    if (documentPaths.Length > 0) await _activation.OpenFilesAsync(documentPaths, CancellationToken.None);
+                    if (documentPaths.Length > 0 || launchArguments.Skip(1).Any(a => a is "--sign" or "--verify"))
+                        await _activation.OpenCommandAsync(action, documentPaths, CancellationToken.None);
                     else await _activation.OpenExistingAsync(CancellationToken.None);
                 }
                 catch (IOException error) { AppLog.Error(error); }
@@ -82,10 +130,16 @@ public partial class App : Application
                 return;
             }
             var activationUi = DispatcherQueue.GetForCurrentThread();
-            _activation.ListenFiles(paths => activationUi.TryEnqueue(() =>
+            _activation.ListenCommands((command, paths) => activationUi.TryEnqueue(async () =>
             {
                 var window = EnsureMainWindow(activate: true);
-                if (paths.Count > 0) window.QueueSignFiles(paths.Where(File.Exists).ToArray());
+                if (command == "verify")
+                {
+                    if (paths.Count > 0) await window.VerifyFilesAsync(paths.Where(File.Exists).ToArray());
+                    else window.ShowSection("verify");
+                }
+                else if (paths.Count > 0) window.QueueSignFiles(paths.Where(File.Exists).ToArray());
+                else if (command == "sign") window.ShowSection("sign");
             }));
         }
         AppLog.Stage("OnLaunched");
@@ -115,18 +169,24 @@ public partial class App : Application
 
         Services.CardInserted += (_, _) => EnsureMainWindow(activate: true);
         Services.Start();
+        _ = TaskbarActions.RefreshAsync();
         if (!Services.IsDemo && Services.Settings.InsertionHelperEnabled) InsertionHelperRegistration.Start();
 
         if (Services.IsDemo || !Services.Settings.FirstRunDone || !StartupRegistration.LaunchedAtSignIn(args.Arguments))
         {
             // TODO(WIN-04): three-step first run (docs/10 §4.7); for now open the main window once.
             EnsureMainWindow(activate: true);
-            if (documentPaths.Length > 0) _main?.QueueSignFiles(documentPaths);
+            if (action == "verify")
+            {
+                if (documentPaths.Length > 0 && _main is not null) await _main.VerifyFilesAsync(documentPaths);
+                else _main?.ShowSection("verify");
+            }
+            else if (documentPaths.Length > 0) _main?.QueueSignFiles(documentPaths);
             if (Services.IsDemo)
             {
                 if (Environment.GetEnvironmentVariable("MSIGN_DEMO_DARK") is "1" && _main?.Content is FrameworkElement root)
                     root.RequestedTheme = ElementTheme.Dark;
-                var page = Environment.GetEnvironmentVariable("MSIGN_DEMO_PAGE") ?? "sign";
+                var page = Environment.GetEnvironmentVariable("MSIGN_DEMO_PAGE") ?? action;
                 void Prepare() => dispatcher.TryEnqueue(DispatcherQueuePriority.Low,
                     () => { _main?.ShowSection(page); _main?.PrepareDemoCapture(page); });
                 if (_main?.Content is FrameworkElement content)

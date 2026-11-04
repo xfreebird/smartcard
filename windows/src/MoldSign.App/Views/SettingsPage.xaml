@@ -11,7 +11,7 @@
             <Button x:Name="GeneralTab" Click="OnGeneralTabClick" />
             <Button x:Name="AboutTab" Content="About" Click="OnAboutTabClick" />
         </StackPanel>
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer x:Name="SettingsScroll" Grid.Row="1">
         <Grid>
             <StackPanel x:Name="GeneralContent" MaxWidth="720" Padding="{StaticResource PagePadding}"
                 HorizontalAlignment="Left" Spacing="16">
@@ -56,8 +56,6 @@
                 <ComboBoxItem Content="English" Tag="en-US" />
                 <ComboBoxItem Content="Русский" Tag="ru-RU" />
             </ComboBox>
-            <TextBlock x:Uid="SettingsLanguageRestart" Style="{StaticResource MsCaptionTextStyle}"
-                Text="Limba se aplică după repornirea aplicației." TextWrapping="Wrap" />
             <ComboBox x:Name="ThemePicker" x:Uid="SettingsTheme" Header="Aspect" SelectionChanged="OnThemeChanged">
                 <ComboBoxItem x:Uid="SettingsThemeSystem" Content="Sistem" Tag="system" />
                 <ComboBoxItem x:Uid="SettingsThemeLight" Content="Luminos" Tag="light" />
@@ -103,14 +101,14 @@
             <!-- TODO(WIN-04): diagnostics export (no PIN, no session keys: SEC-04) and reset. -->
             </StackPanel>
             <StackPanel x:Name="AboutContent" MaxWidth="720" Padding="{StaticResource PagePadding}"
-                HorizontalAlignment="Left" Spacing="16" Visibility="Collapsed">
-                <TextBlock x:Name="AboutTitle" Style="{StaticResource MsTitleTextStyle}" />
-                <Image Source="ms-appx:///Assets/StoreLogo.png" Width="96" Height="96" Stretch="Uniform" />
-                <Button x:Name="CheckUpdatesButton" Click="OnCheckUpdatesClick" />
-                <TextBlock x:Name="UpdateStatus" TextWrapping="Wrap" />
-                <TextBlock x:Name="VersionText" Style="{StaticResource MsCaptionTextStyle}" IsTextSelectionEnabled="True" />
-                <TextBlock x:Name="AboutDeveloper" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
-                <HyperlinkButton Content="esemnbun.md" NavigateUri="https://esemnbun.md" />
+                HorizontalAlignment="Center" Spacing="16" Visibility="Collapsed">
+                <TextBlock x:Name="AboutTitle" HorizontalAlignment="Center" Style="{StaticResource MsTitleTextStyle}" />
+                <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" Width="96" Height="96" Stretch="Uniform" />
+                <TextBlock x:Name="VersionText" HorizontalAlignment="Center" Style="{StaticResource MsCaptionTextStyle}" IsTextSelectionEnabled="True" />
+                <TextBlock x:Name="AboutDeveloper" HorizontalAlignment="Center" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                <HyperlinkButton HorizontalAlignment="Center" Content="esemnbun.md" NavigateUri="https://esemnbun.md" />
+                <Button x:Name="CheckUpdatesButton" HorizontalAlignment="Center" Visibility="Collapsed" Click="OnCheckUpdatesClick" />
+                <TextBlock x:Name="UpdateStatus" TextAlignment="Center" TextWrapping="Wrap" />
             </StackPanel>
         </Grid>
         </ScrollViewer>

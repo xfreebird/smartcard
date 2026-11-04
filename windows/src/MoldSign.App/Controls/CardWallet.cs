@@ -98,7 +98,7 @@ public sealed partial class CardWallet : UserControl
         // Each card occupies a full viewport page. Neighbours are never clipped into decorative slivers.
         // The card itself stays readable and centered; hover arrows live in the surrounding gutters.
         var gutter = State.CardCount > 1 ? Math.Min(88, Math.Max(0, outer - 120)) : 8;
-        var width = Math.Max(1, Math.Floor(Math.Min(IsCompact ? 328 : 400, outer - gutter) - 2 * Pad));
+        var width = Math.Max(1, Math.Floor(Math.Min(IsCompact ? 288 : 360, outer - gutter) - 2 * Pad));
         _cards.Padding = new Thickness(0);
         if (Math.Abs(width - _width) > 0.5 || Math.Abs(outer - _pageWidth) > 0.5)
         {

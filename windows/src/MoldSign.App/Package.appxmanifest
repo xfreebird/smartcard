@@ -56,11 +56,13 @@
                 <com:Extension Category="windows.comServer">
                     <com:ComServer><com:SurrogateServer DisplayName="eSemnBun">
                         <com:Class Id="8FCF322A-7A44-4EC5-A493-0F84E76521B2" Path="eSemnBun.Explorer.dll" ThreadingModel="STA" />
+                        <com:Class Id="C87D3A25-7E1E-4510-B366-5E87A839AC01" Path="eSemnBun.Explorer.dll" ThreadingModel="STA" />
                     </com:SurrogateServer></com:ComServer>
                 </com:Extension>
                 <desktop4:Extension Category="windows.fileExplorerContextMenus">
                     <desktop4:FileExplorerContextMenus><desktop5:ItemType Type="*">
                         <desktop5:Verb Id="Sign" Clsid="8FCF322A-7A44-4EC5-A493-0F84E76521B2" />
+                        <desktop5:Verb Id="Verify" Clsid="C87D3A25-7E1E-4510-B366-5E87A839AC01" />
                     </desktop5:ItemType></desktop4:FileExplorerContextMenus>
                 </desktop4:Extension>
                 <!--

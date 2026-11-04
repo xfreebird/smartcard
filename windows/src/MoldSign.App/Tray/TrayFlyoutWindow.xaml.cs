@@ -31,11 +31,14 @@ public sealed partial class TrayFlyoutWindow : Window
         {
             if (AppWindow.IsVisible) WindowHelpers.PlaceNearTray(this, Wallet.ExpandedExtraHeight);
         };
-        State.PropertyChanged += (_, _) => UpdateSignButton();
+        State.PropertyChanged += OnStatePropertyChanged;
+        Closed += (_, _) => State.PropertyChanged -= OnStatePropertyChanged;
         UpdateSignButton();
     }
 
     public AppState State => AppState.Current;
+
+    private void OnStatePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateSignButton();
 
     public void Toggle()
     {
@@ -70,7 +73,7 @@ public sealed partial class TrayFlyoutWindow : Window
 
     private void OnClosing(AppWindow sender, AppWindowClosingEventArgs args)
     {
-        if (App.Current.IsQuitting) return;
+        if (App.Current.IsQuitting || App.Current.IsRebuildingWindows) return;
         args.Cancel = true;
         sender.Hide();
     }

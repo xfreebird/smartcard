@@ -88,11 +88,15 @@ internal static partial class WindowHelpers
     public static void ResizeMain(Window window)
     {
         var scale = Scale(window);
-        window.AppWindow.Resize(new SizeInt32((int)(1100 * scale), (int)(720 * scale)));
+        var work = DisplayArea.GetFromWindowId(window.AppWindow.Id, DisplayAreaFallback.Nearest).WorkArea;
+        var width = Math.Min((int)(1100 * scale), work.Width);
+        var height = Math.Min((int)(720 * scale), work.Height);
+        window.AppWindow.Resize(new SizeInt32(width, height));
+        window.AppWindow.Move(new PointInt32(work.X + (work.Width - width) / 2, work.Y + (work.Height - height) / 2));
         if (window.AppWindow.Presenter is OverlappedPresenter presenter)
         {
-            presenter.PreferredMinimumWidth = (int)(MainMinWidth * scale);
-            presenter.PreferredMinimumHeight = (int)(MainMinHeight * scale);
+            presenter.PreferredMinimumWidth = Math.Min((int)(MainMinWidth * scale), work.Width);
+            presenter.PreferredMinimumHeight = Math.Min((int)(MainMinHeight * scale), work.Height);
         }
     }
 

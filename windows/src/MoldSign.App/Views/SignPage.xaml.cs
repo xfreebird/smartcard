@@ -15,6 +15,7 @@ public sealed partial class SignPage : Page
         InitializeComponent();
         DetachedOption.Content = Loc.Get("Packaging_Detached");
         EnvelopingOption.Content = Loc.Get("Packaging_Enveloping");
+        SignedResultsTitle.Text = Loc.Get("Sign_SignedFiles");
         DocumentDrop.FilesChosen += OnFilesChosen;
         Files.CollectionChanged += (_, _) =>
         {
@@ -75,6 +76,19 @@ public sealed partial class SignPage : Page
         var packaging = PackagingButtons.SelectedIndex == 1 ? XadesPackaging.Enveloping : XadesPackaging.Detached;
         var outcome = await App.Current.Services.SignDocumentsAsync(
             [.. rows.Select(f => new DocumentJob(f.Path, f.Format))], packaging);
+        foreach (var path in outcome.Outputs)
+        {
+            var button = new Button
+            {
+                Content = new TextBlock { Text = System.IO.Path.GetFileName(path), TextWrapping = TextWrapping.Wrap },
+                Tag = path, HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Left,
+            };
+            ToolTipService.SetToolTip(button, path);
+            button.Click += OnSignedFileClick;
+            SignedFiles.Children.Insert(0, button);
+        }
+        SignedResults.Visibility = SignedFiles.Children.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         foreach (var completed in outcome.CompletedInputs)
             if (Files.FirstOrDefault(row => row.Path == completed) is { } row) Files.Remove(row);
         if (outcome.FailedInput is { } failed && Files.FirstOrDefault(row => row.Path == failed) is { } failedRow)
@@ -86,6 +100,12 @@ public sealed partial class SignPage : Page
             Result.IsOpen = true;
         }
         UpdateSignButton();
+    }
+
+    private void OnSignedFileClick(object sender, RoutedEventArgs e)
+    {
+        if ((sender as FrameworkElement)?.Tag is string path && File.Exists(path))
+            WindowHelpers.RevealInExplorer(path);
     }
 
     /// <summary>No files: the large drop zone alone. Files: their list, then the drop zone, compact, under it.</summary>

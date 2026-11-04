@@ -312,11 +312,11 @@ the GitHub release**. The postponed test reminder was cancelled after testing re
 ## Card carousel, preferences and reproducible UI scenarios
 
 The card selector is a horizontal carousel with touch scrolling, left/right keys, previous/next buttons and a
-visible position counter. The card face uses the golden ratio, the portrait frame is 3:5 with an unstretched circular-head silhouette, and the contact chip sits
+compact position dots. The selected card is centered on a full-width page; adjacent cards do not appear as clipped slivers. Hover arrows sit in the side gutters. The card face uses the golden ratio, the portrait frame is 3:5 with an unstretched circular-head silhouette, and the contact chip sits
 at the centre of the right margin. The neutral shield has explicit geometry bounds to prevent WinUI from
 stretching its outline.
 
-Settings offer a persisted Romanian/English/Russian language override (applies at the next app launch), system/light/dark
+Settings offer a persisted Romanian/English/Russian language override (updates the open windows immediately), system/light/dark
 appearance (applies immediately), saved-PIN permission and deletion, and **Open app when a card is inserted**.
 The independent `eSemnBun.Watcher.exe` process can open a closed app on reader or card insertion. The two options are
 independent. Unpackaged installations register a per-user Run entry; MSIX declares a separate, user-controlled helper
@@ -393,12 +393,17 @@ restoring its preferences/history afterward. It does not require a card or a Deb
 
 ## Explorer commands
 
-The MSI classic verb uses resource 101 in `eSemnBun.Explorer.dll`, with Romanian, English and Russian exported from
+Sign and Verify are available from Explorer. The MSI classic verbs use resources 101 and 102 in `eSemnBun.Explorer.dll`, with Romanian, English and Russian exported from
 `localization/catalog.json`. The MSIX registers the native `IExplorerCommand` with a COM surrogate and
-`windows.fileExplorerContextMenus`; it appears directly in the Windows 11 menu. Selecting files opens the signing
-queue and does not authorize a signature. The DLL architecture must match Explorer: use the ARM64 package on ARM64.
+`windows.fileExplorerContextMenus`; they appear directly in the Windows 11 menu. Sign queues selected files and does not authorize a signature; Verify opens verification. Both forward to an existing application instance. The DLL architecture must match Explorer: use the ARM64 package on ARM64.
 
 `package-windows.ps1` builds the shell DLL before publishing. `scripts/build-explorer-command.ps1` downloads a pinned,
 SHA-256-verified portable llvm-mingw compiler into the user's local build cache and embeds the localized resource.
 No compiler registration or system-wide installation is required. To build an MSIX directly, first build the DLL into
 `src/MoldSign.App/ShellPayload` for the selected target architecture.
+
+## Taskbar actions and signing results
+
+The taskbar jump list offers Sign and Verify, plus up to eight existing signed documents. Store installations use the packaged jump-list API; standalone installations use the Windows Shell API and the MSI shortcut's `md.esemnbun.desktop` identity. Removed entries are respected, and Windows may hide recent documents when document history is disabled. Standalone history stores paths in `%LOCALAPPDATA%\MoldSign\taskbar.json`; demo outputs never enter the real taskbar history.
+
+Completed outputs remain on the Sign page as links that reveal the file in Explorer. Partial success keeps completed outputs while leaving the failed input queued with its error and retry action. The page uses one vertical scroll area so documents and controls remain reachable in shorter windows.

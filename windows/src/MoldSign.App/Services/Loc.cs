@@ -6,7 +6,9 @@ namespace MoldSign.App.Services;
 /// <summary>Strings from Strings/&lt;lang&gt;/Resources.resw (MRT Core; ro-RO default, en-US fallback).</summary>
 internal static class Loc
 {
-    private static readonly Lazy<ResourceLoader?> s_loader = new(() =>
+    private static Lazy<ResourceLoader?> s_loader = NewLoader();
+
+    private static Lazy<ResourceLoader?> NewLoader() => new(() =>
     {
         try
         {
@@ -17,6 +19,8 @@ internal static class Loc
             return null; // resources.pri missing (e.g. a design-time host): fall back to keys
         }
     });
+
+    public static void Reload() => s_loader = NewLoader();
 
     public static string Get(string key)
     {
