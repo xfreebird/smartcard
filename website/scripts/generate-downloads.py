@@ -13,6 +13,15 @@ release = json.loads(args.release.read_text())
 version = release['tag_name'].removeprefix('v')
 if not re.fullmatch(r'\d+\.\d+\.\d+', version) or release.get('draft') or release.get('prerelease'):
     parser.error('Expected a published stable x.y.z release')
+def family(name):
+    if name.endswith('.dmg'): return 'macos'
+    if name.endswith('.msi'): return 'windows'
+    if name.endswith('.apk'): return 'android'
+    if name.endswith('.flatpak'): return 'flatpak'
+    if name.endswith(('.deb', '.rpm', '.tar.gz')): return 'linux'
+    return None
+
+previous = json.loads(args.out.read_text()) if args.out.exists() else {'assets': []}
 assets = []
 prefix = f'https://github.com/xfreebird/smartcard/releases/download/{release["tag_name"]}/'
 for asset in release['assets']:
@@ -20,5 +29,9 @@ for asset in release['assets']:
     if not url.startswith(prefix):
         parser.error('Unexpected release asset host or tag')
     assets.append({'name': asset['name'], 'url': url, 'size': asset['size']})
+# Keep a working previous installer when a platform did not build in this release.
+current_families = {family(asset['name']) for asset in assets}
+assets.extend(asset for asset in previous['assets']
+              if family(asset['name']) and family(asset['name']) not in current_families)
 args.out.parent.mkdir(parents=True, exist_ok=True)
 args.out.write_text(json.dumps({'version': version, 'url': release['html_url'], 'assets': assets}, indent=2) + '\n')

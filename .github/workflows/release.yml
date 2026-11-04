@@ -238,7 +238,11 @@ jobs:
           "MOLDSIGN_TS_DLIB=$env:RUNNER_TEMP\ts\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll" >> $env:GITHUB_ENV
       - name: Package
         shell: pwsh
-        run: windows/scripts/package-windows.ps1 -Platforms x64
+        run: |
+          if ('${{ inputs.build_number }}' -eq '') {
+            $env:BUILD_NUMBER = [string](100 + [int]$env:GITHUB_RUN_NUMBER)
+          }
+          windows/scripts/package-windows.ps1 -Platforms x64
       # Microsoft Store: upload the MSIX as a new submission (tags only: each upload needs a higher version).
       # Needs the Partner Center Entra app secrets (docs/11); skipped while they are missing.
       - name: Publish to the Microsoft Store
