@@ -15,3 +15,7 @@ Android signing uses the existing `ANDROID_KEYSTORE_*`, `ANDROID_KEY_ALIAS` and 
 The Windows submission is currently in certification. The build action deliberately has no Partner Center mutation or submission step. MSIX remains a CI artifact for later Store submissions; users download MSI. Automatic Partner Center uploads require its API credentials and a separate implementation that checks submission state before creating or modifying a draft; neither is currently configured.
 
 Artifacts are downloadable from the completed action's summary. Dedicated build actions do not replace public release files; use Release with the appropriate `only` platform when ready to publish installers.
+
+### Play listing permission
+
+The current service account can upload testing builds but cannot commit store listing changes (HTTP 403). The Android lane therefore keeps metadata uploads off by default. Update listings in Play Console using the generated `distribution/google/metadata/android` copy. Only set `PLAY_UPLOAD_METADATA=true` for a credential already authorized to manage store presence. This does not change credential permissions.
