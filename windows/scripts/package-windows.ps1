@@ -284,6 +284,9 @@ foreach ($platform in $Platforms) {
         $msi = Join-Path $Dist "eSemnBun-$Version-$platform.msi"
         Copy-Item (Join-Path $msiOut "eSemnBun-$Version-$platform.msi") $msi
         Invoke-Sign @($msi)
+        if ($script:SigningMode -eq 'none' -and $env:WINDOWS_MSI_CERTIFICATE_PFX_BASE64) {
+            & (Join-Path $PSScriptRoot 'sign-standalone-msi.ps1') -Path $msi -SignTool (Find-SignTool)
+        }
         $built["msi-$platform"] = $msi
     }
 

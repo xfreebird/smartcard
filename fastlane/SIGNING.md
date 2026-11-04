@@ -22,7 +22,8 @@ environment, and the owner's copies live outside git (see docs/11 "Signing secre
 bundle install
 bundle exec fastlane certs            # owner, local: App IDs + iOS App Store/development/ad hoc certs and profiles
 bundle exec fastlane import_developer_id cer:~/Downloads/developerID_application.cer key:<developer-id.key>
-bundle exec fastlane mac_signing      # installs the Developer ID identity (CI: temporary keychain)
+bundle exec fastlane mac_certificates force:true  # refresh Developer ID profile using the imported certificate
+bundle exec fastlane mac_signing      # installs Developer ID identity + iCloud profile (CI: temporary keychain)
 bundle exec fastlane ios_release      # dist/ios: -appstore.ipa (+ TestFlight upload in CI) and -adhoc.ipa
 bundle exec fastlane ios_release upload:false   # local: both IPAs, no upload
 bundle exec fastlane android_testing             # signed AAB → internal, then stage the closed-testing release (requires Play credentials)
@@ -43,7 +44,9 @@ Notes from setting it up (2026-10-25):
 
 * **Developer ID can't be created with an API key** ("This operation can only be performed by the Account Holder").
   Make it in the portal from a CSR (Certificates → + → Developer ID Application, G2 Sub-CA) and import it with
-  `import_developer_id`; macOS signing needs no provisioning profile (unsandboxed, smart-card entitlement only).
+  `import_developer_id`. The desktop app's iCloud key-value entitlement requires a Developer ID provisioning
+  profile even though the app is unsandboxed. `mac_certificates force:true` refreshes that profile;
+  `mac_signing` installs it read-only. Enable iCloud on both main App IDs before regenerating profiles.
 * `match_nuke` 2.241 fails on `developer_id` ("Unknown cert type"), so `nuke_all` leaves that type out.
 * The project also has macOS targets and only shared schemes are visible to gym: `ios_release` pins
   `generic/platform=iOS` and the `eSemnBun-iOS` scheme is shared.
@@ -74,12 +77,17 @@ each embedded provisioning profile and signed entitlement contains the shared Ap
 The exports are under `dist/ios/`; no build was uploaded.
 
 macOS has separate distribution lanes. `bundle exec fastlane mac_signing` fetches the
-Developer ID identity for the full Desktop DMG. `bundle exec fastlane mac_store_certificates`
+Developer ID identity and profile for the full Desktop DMG. The packaging script selects
+`match Direct md.esemnbun.mac macos` for signed builds; `MACOS_PROVISIONING_PROFILE` can override
+the profile name. This selection applies only to the macOS app target, leaving SwiftPM targets
+without an app provisioning profile. `bundle exec fastlane mac_store_certificates`
 creates the sandboxed app's Mac App Store profile and installer identity in encrypted match
 storage (owner only; `force:true` refreshes the profile). CI runs
 `bundle exec fastlane mac_store_release`, which reads match without changing it, archives
 `eSemnBun-macOS-AppStore` / `AppStore Release`, and exports
-`dist/macos-app-store/eSemnBun-AppStore.pkg`. It never uploads or submits the package.
+`dist/macos-app-store/eSemnBun-AppStore.pkg`. Local runs default to no upload;
+`mac_store_release upload:true` uploads to TestFlight, as does CI. The lane never submits
+an App Store version for review or changes its selected build.
 For an isolated local signing keychain set the match `MATCH_KEYCHAIN_NAME` and
 `MATCH_KEYCHAIN_PASSWORD` variables, plus `ESEMNBUN_SIGNING_KEYCHAIN` for codesign.
 The existing Developer ID lane and desktop packaging remain independent.
@@ -92,3 +100,13 @@ The macOS distribution verifier checks that the processed bundle retains this Bo
 App Store Connect build 100 was read back for both apps: `usesNonExemptEncryption=false`.
 The iOS build already declared it; the existing macOS build's unset value was updated
 through Apple's API. Future uploads carry the declaration in their binaries.
+
+Refresh on 4 November 2026: the main iOS and macOS identifiers already had iCloud enabled.
+All eight matching distribution/development profiles are active after regeneration. Main-app
+profiles allow `H86U5Z8HYB.*` for key-value storage, covering the shared bookmarks identifier;
+both iOS targets retain `group.md.esemnbun.shared`. Existing certificates were retained.
+The Developer ID and Mac App Store signed universal 0.2.1 build 114 archives passed strict
+signature and entitlement/profile checks. The standalone DMG was notarized and stapled.
+Mac TestFlight 0.2.1 build 114 completed processing as `VALID` on the same date;
+the existing 0.2.0 review submission kept build 102. The upload lane explicitly selects
+`md.esemnbun.mac`, preventing inheritance of the iOS identifier from `Appfile`.

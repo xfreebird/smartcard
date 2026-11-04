@@ -407,3 +407,7 @@ No compiler registration or system-wide installation is required. To build an MS
 The taskbar jump list offers Sign and Verify, plus up to eight existing signed documents. Store installations use the packaged jump-list API; standalone installations use the Windows Shell API and the MSI shortcut's `md.esemnbun.desktop` identity. Removed entries are respected, and Windows may hide recent documents when document history is disabled. Standalone history stores paths in `%LOCALAPPDATA%\MoldSign\taskbar.json`; demo outputs never enter the real taskbar history.
 
 Completed outputs remain on the Sign page as links that reveal the file in Explorer. Partial success keeps completed outputs while leaving the failed input queued with its error and retry action. The page uses one vertical scroll area so documents and controls remain reachable in shorter windows.
+
+### Temporary standalone MSI certificate
+
+GitHub Actions can sign only the standalone MSI using `WINDOWS_MSI_CERTIFICATE_PFX_BASE64` and `WINDOWS_MSI_CERTIFICATE_PASSWORD`. The public `eSemnBun-self-signed.cer` is exported beside the installer. This does not change the Store MSIX publisher or signing. The certificate is self-signed and does not establish public Windows trust; recipients must explicitly trust it. Keep the private PFX/password only in GitHub Actions secrets and the owner's offline secrets folder.

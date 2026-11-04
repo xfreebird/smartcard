@@ -4,6 +4,7 @@
 # Signing (all optional):
 #   MACOS_SIGN_IDENTITY  "Developer ID Application" (or the full name)   default "-" (ad-hoc: runs on this Mac only)
 #   MACOS_TEAM_ID        team for the identity
+#   MACOS_PROVISIONING_PROFILE  Developer ID profile name (defaults to the match profile)
 # Notarization (with a real identity), either:
 #   NOTARY_PROFILE       `xcrun notarytool store-credentials` profile, or
 #   ASC_KEY_ID + ASC_ISSUER_ID + ASC_KEY_PATH (file) | ASC_KEY_P8 (content): App Store Connect API key (CI)
@@ -61,6 +62,7 @@ fi
 sign_args=(CODE_SIGN_IDENTITY="$IDENTITY" CODE_SIGN_STYLE=Manual)
 [[ -n "${MACOS_TEAM_ID:-}" ]] && sign_args+=(DEVELOPMENT_TEAM="$MACOS_TEAM_ID") || sign_args+=(DEVELOPMENT_TEAM=)
 [[ "$IDENTITY" != "-" ]] && sign_args+=(OTHER_CODE_SIGN_FLAGS=--timestamp)
+[[ "$IDENTITY" != "-" ]] && sign_args+=(ESEMNBUN_MACOS_PROVISIONING_PROFILE="${MACOS_PROVISIONING_PROFILE:-match Direct md.esemnbun.mac macos}")
 [[ -n "${BUILD_NUMBER:-}" ]] && sign_args+=(CURRENT_PROJECT_VERSION="$BUILD_NUMBER")
 
 echo "▸ Archiving eSemnBun-macOS (identity: $IDENTITY)"

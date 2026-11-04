@@ -25,6 +25,8 @@ jobs:
       AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
       AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
       AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      WINDOWS_MSI_CERTIFICATE_PFX_BASE64: ${{ secrets.WINDOWS_MSI_CERTIFICATE_PFX_BASE64 }}
+      WINDOWS_MSI_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_MSI_CERTIFICATE_PASSWORD }}
       MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
       MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
@@ -47,7 +49,9 @@ jobs:
         with:
           name: esemnbun-windows
           path: |
+            dist/windows/*.cer
             dist/windows/*.msi
+            dist/windows/*.cer
             dist/windows/*.msix
             dist/windows/SHA256SUMS.txt
             dist/windows/winget/

@@ -107,12 +107,18 @@ lane :import_developer_id do |options|
   Match::Importer.new.import_cert(params, cert_path: cer, p12_path: p12, profile_path: "")
 end
 
-desc "Install the Developer ID identity (CI: temporary keychain) for scripts/package-macos.sh"
+desc "Refresh Developer ID profiles using the existing imported certificate (owner only)"
+lane :mac_certificates do |options|
+  UI.user_error!("mac_certificates writes match; run locally") if is_ci
+  register_ids
+  match(type: "developer_id", platform: "macos", app_identifier: MAC_ID, api_key: asc_key,
+        readonly: false, force: options[:force].to_s == "true")
+end
+
+desc "Install the Developer ID identity and iCloud profile (CI: temporary keychain)"
 lane :mac_signing do
   setup_ci if is_ci
-  # no provisioning profile: the unsandboxed app only uses the smart-card entitlement
-  match(type: "developer_id", platform: "macos", app_identifier: MAC_ID, api_key: asc_key, readonly: true,
-        skip_provisioning_profiles: true)
+  match(type: "developer_id", platform: "macos", app_identifier: MAC_ID, api_key: asc_key, readonly: true)
 end
 
 desc "iOS: one archive → App Store IPA (uploaded to TestFlight, not waiting for processing) + ad hoc IPA in dist/ios"
@@ -199,7 +205,8 @@ lane :mac_store_release do |options|
     upload = options.key?(:upload) ? options[:upload].to_s != "false" : is_ci
     if upload
       upload_to_testflight(api_key: asc_key, pkg: File.join(out, "eSemnBun-AppStore.pkg"),
-        app_platform: "osx", skip_waiting_for_build_processing: true, skip_submission: true)
+        app_identifier: MAC_ID, app_platform: "osx",
+        skip_waiting_for_build_processing: true, skip_submission: true)
     end
   ensure
     File.write(pbxproj, original)
