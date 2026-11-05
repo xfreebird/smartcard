@@ -33,7 +33,7 @@ struct MoldSignMacApp: App {
                 .frame(minWidth: 860, minHeight: 580)
                 .onAppear { AppPreferencesStore.defaults.set(true, forKey: "didPresentMainWindow") }
         }
-        .defaultLaunchBehavior(.suppressed)
+        .defaultLaunchBehavior(AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow") ? .suppressed : .presented)
 
         Settings {
             SettingsView()
