@@ -932,3 +932,5 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-05: Reconciled shared localization catalog with current native strings, localized remaining Apple verification/help labels, and preserved platform-specific Apple release notes in catalog-backed exports. All three shared-localization CI checks pass locally; application builds not run.
 
 - 2026-11-05: Updated Website actions to Node 24-based releases (checkout/setup-node v6, Pages upload/deploy v5), resolving action-runtime deprecation warnings while retaining website Node 22.
+
+- 2026-11-05: Localized Apple/Microsoft badges with official Romanian/Russian artwork and shared manifest selection on homepage/downloads; Google Play already has localized images. Romanian macOS uses the Romanian App Store badge because the Mac-specific endpoint returns English.

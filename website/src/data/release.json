@@ -113,7 +113,9 @@
         "name": "Mac App Store",
         "url": "https://apps.apple.com/app/id6829451042",
         "badges": {
-          "en": "/img/badges/app-store.svg"
+          "en": "/img/badges/mac-app-store-en.svg",
+          "ro": "/img/badges/mac-app-store-ro.svg",
+          "ru": "/img/badges/mac-app-store-ru.svg"
         }
       },
       "noteKey": "macAppStoreLimitations"
@@ -136,7 +138,9 @@
         "name": "Microsoft Store",
         "url": "https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD",
         "badges": {
-          "en": "/img/badges/microsoft-store.svg"
+          "en": "/img/badges/microsoft-store.svg",
+          "ro": "/img/badges/microsoft-store-ro.svg",
+          "ru": "/img/badges/microsoft-store-ru.svg"
         }
       },
       "installerNote": {
@@ -163,7 +167,9 @@
         "name": "App Store",
         "url": "https://apps.apple.com/app/id6826865290",
         "badges": {
-          "en": "/img/badges/app-store.svg"
+          "en": "/img/badges/app-store-en.svg",
+          "ro": "/img/badges/app-store-ro.svg",
+          "ru": "/img/badges/app-store-ru.svg"
         }
       },
       "alternatives": [
