@@ -21,7 +21,26 @@ def family(name):
     if name.endswith(('.deb', '.rpm', '.tar.gz')): return 'linux'
     return None
 
-previous = json.loads(args.out.read_text()) if args.out.exists() else {'assets': []}
+manifest = Path(__file__).resolve().parents[1] / 'src/data/release.json'
+previous = json.loads((args.out if args.out.exists() else manifest).read_text())
+
+def describe(asset):
+    name = asset['name']
+    kind = family(name)
+    if not kind:
+        return asset
+    platform = 'linux' if kind in ('flatpak', 'linux') else kind
+    if name.startswith('esemnbun-cli') or name.endswith('.tar.gz'):
+        platform = 'linux-cli'
+    version_match = re.search(r'/download/v([^/]+)/', asset['url'])
+    return {**asset, 'platform': platform,
+            'version': version_match.group(1) if version_match else version,
+            'format': 'TAR.GZ' if name.endswith('.tar.gz') else name.rsplit('.', 1)[1].upper(),
+            'architecture': 'x64' if re.search(r'amd64|x86_64|x64', name) else
+                            'ARM64' if re.search(r'aarch64|arm64', name) else
+                            'Apple silicon / Intel' if kind == 'macos' else None}
+
+
 assets = []
 prefix = f'https://github.com/xfreebird/smartcard/releases/download/{release["tag_name"]}/'
 for asset in release['assets']:
@@ -29,9 +48,14 @@ for asset in release['assets']:
     if not url.startswith(prefix):
         parser.error('Unexpected release asset host or tag')
     assets.append({'name': asset['name'], 'url': url, 'size': asset['size']})
-# Keep a working previous installer when a platform did not build in this release.
-current_families = {family(asset['name']) for asset in assets}
+# Preserve each missing package/architecture independently (including desktop vs CLI).
+def package_key(asset):
+    info = describe(asset)
+    return (info.get('platform'), info.get('format'), info.get('architecture'))
+
+current_packages = {package_key(asset) for asset in assets}
 assets.extend(asset for asset in previous['assets']
-              if family(asset['name']) and family(asset['name']) not in current_families)
+              if family(asset['name']) and package_key(asset) not in current_packages)
 args.out.parent.mkdir(parents=True, exist_ok=True)
-args.out.write_text(json.dumps({'version': version, 'url': release['html_url'], 'assets': assets}, indent=2) + '\n')
+args.out.write_text(json.dumps({**previous, 'version': version, 'url': release['html_url'],
+                               'assets': [describe(asset) for asset in assets]}, ensure_ascii=False, indent=2) + '\n')

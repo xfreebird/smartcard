@@ -5,42 +5,74 @@
     {
       "name": "esemnbun-0.2.2-1.x86_64.rpm",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-0.2.2-1.x86_64.rpm",
-      "size": 22449770
+      "size": 22449770,
+      "platform": "linux",
+      "version": "0.2.2",
+      "format": "RPM",
+      "architecture": "x64"
     },
     {
       "name": "esemnbun-0.2.2-linux-x86_64.tar.gz",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-0.2.2-linux-x86_64.tar.gz",
-      "size": 22019837
+      "size": 22019837,
+      "platform": "linux-cli",
+      "version": "0.2.2",
+      "format": "TAR.GZ",
+      "architecture": "x64"
     },
     {
       "name": "eSemnBun-0.2.2-x64.msi",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2-x64.msi",
-      "size": 114470912
+      "size": 114470912,
+      "platform": "windows",
+      "version": "0.2.2",
+      "format": "MSI",
+      "architecture": "x64"
     },
     {
       "name": "eSemnBun-0.2.2.apk",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2.apk",
-      "size": 14631141
+      "size": 14631141,
+      "platform": "android",
+      "version": "0.2.2",
+      "format": "APK",
+      "architecture": null
     },
     {
       "name": "eSemnBun-0.2.2.dmg",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2.dmg",
-      "size": 2483819
+      "size": 2483819,
+      "platform": "macos",
+      "version": "0.2.2",
+      "format": "DMG",
+      "architecture": "Apple silicon / Intel"
     },
     {
       "name": "eSemnBun-0.2.2.flatpak",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2.flatpak",
-      "size": 15037520
+      "size": 15037520,
+      "platform": "linux",
+      "version": "0.2.2",
+      "format": "FLATPAK",
+      "architecture": null
     },
     {
       "name": "esemnbun-cli-0.2.2-1.x86_64.rpm",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-cli-0.2.2-1.x86_64.rpm",
-      "size": 21904474
+      "size": 21904474,
+      "platform": "linux-cli",
+      "version": "0.2.2",
+      "format": "RPM",
+      "architecture": "x64"
     },
     {
       "name": "esemnbun-cli_0.2.2-1_amd64.deb",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-cli_0.2.2-1_amd64.deb",
-      "size": 16493696
+      "size": 16493696,
+      "platform": "linux-cli",
+      "version": "0.2.2",
+      "format": "DEB",
+      "architecture": "x64"
     },
     {
       "name": "eSemnBun-self-signed.cer",
@@ -50,12 +82,159 @@
     {
       "name": "esemnbun_0.2.2-1_amd64.deb",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun_0.2.2-1_amd64.deb",
-      "size": 16907020
+      "size": 16907020,
+      "platform": "linux",
+      "version": "0.2.2",
+      "format": "DEB",
+      "architecture": "x64"
     },
     {
       "name": "SHA256SUMS.txt",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/SHA256SUMS.txt",
       "size": 922
+    }
+  ],
+  "platforms": [
+    {
+      "id": "macos",
+      "icon": "macos",
+      "name": {
+        "en": "macOS",
+        "ro": "macOS",
+        "ru": "macOS"
+      },
+      "requirements": {
+        "en": "macOS 15+ · Apple silicon & Intel",
+        "ro": "macOS 15+ · Apple silicon & Intel",
+        "ru": "macOS 15+ · Apple silicon & Intel"
+      },
+      "guide": "/docs/platforms/macos",
+      "store": {
+        "name": "Mac App Store",
+        "url": "https://apps.apple.com/app/id6829451042",
+        "badges": {
+          "en": "/img/badges/app-store.svg"
+        }
+      },
+      "noteKey": "macAppStoreLimitations"
+    },
+    {
+      "id": "windows",
+      "icon": "windows",
+      "name": {
+        "en": "Windows",
+        "ro": "Windows",
+        "ru": "Windows"
+      },
+      "requirements": {
+        "en": "Windows 10 (1809)+ · x64 / ARM64",
+        "ro": "Windows 10 (1809)+ · x64 / ARM64",
+        "ru": "Windows 10 (1809)+ · x64 / ARM64"
+      },
+      "guide": "/docs/platforms/windows",
+      "store": {
+        "name": "Microsoft Store",
+        "url": "https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD",
+        "badges": {
+          "en": "/img/badges/microsoft-store.svg"
+        }
+      },
+      "installerNote": {
+        "en": "The MSI installer is self-signed. Windows may show a security warning and ask for permission to install.",
+        "ro": "Instalatorul MSI este semnat cu un certificat autosemnat. Windows poate afișa un avertisment de securitate și poate cere permisiunea de instalare.",
+        "ru": "Установщик MSI подписан самоподписанным сертификатом. Windows может показать предупреждение безопасности и запросить разрешение на установку."
+      }
+    },
+    {
+      "id": "ios",
+      "icon": "ios",
+      "name": {
+        "en": "iPhone & iPad",
+        "ro": "iPhone & iPad",
+        "ru": "iPhone & iPad"
+      },
+      "requirements": {
+        "en": "iOS / iPadOS 17+",
+        "ro": "iOS / iPadOS 17+",
+        "ru": "iOS / iPadOS 17+"
+      },
+      "guide": "/docs/platforms/ios",
+      "store": {
+        "name": "App Store",
+        "url": "https://apps.apple.com/app/id6826865290",
+        "badges": {
+          "en": "/img/badges/app-store.svg"
+        }
+      },
+      "alternatives": [
+        {
+          "url": "https://github.com/xfreebird/smartcard/tree/main/apple",
+          "label": {
+            "en": "Compile from source",
+            "ro": "Compilează din codul sursă",
+            "ru": "Собрать из исходного кода"
+          },
+          "hint": {
+            "en": "Requires a Mac and Xcode",
+            "ro": "Necesită un Mac și Xcode",
+            "ru": "Нужны Mac и Xcode"
+          }
+        }
+      ]
+    },
+    {
+      "id": "android",
+      "icon": "android",
+      "name": {
+        "en": "Android",
+        "ro": "Android",
+        "ru": "Android"
+      },
+      "requirements": {
+        "en": "Android 8+ · USB OTG",
+        "ro": "Android 8+ · USB OTG",
+        "ru": "Android 8+ · USB OTG"
+      },
+      "guide": "/docs/platforms/android",
+      "store": {
+        "name": "Google Play",
+        "url": "https://play.google.com/store/apps/details?id=md.esemnbun.app",
+        "badges": {
+          "en": "/img/badges/google-play-en.png",
+          "ro": "/img/badges/google-play-ro.png",
+          "ru": "/img/badges/google-play-ru.png"
+        }
+      }
+    },
+    {
+      "id": "linux",
+      "icon": "linux",
+      "name": {
+        "en": "Linux",
+        "ro": "Linux",
+        "ru": "Linux"
+      },
+      "requirements": {
+        "en": "GNOME · x86_64",
+        "ro": "GNOME · x86_64",
+        "ru": "GNOME · x86_64"
+      },
+      "guide": "/docs/platforms/linux"
+    },
+    {
+      "id": "linux-cli",
+      "icon": "cli",
+      "name": {
+        "en": "Linux CLI",
+        "ro": "Linux CLI",
+        "ru": "Linux CLI"
+      },
+      "requirements": {
+        "en": "Terminal · x86_64",
+        "ro": "Terminal · x86_64",
+        "ru": "Терминал · x86_64"
+      },
+      "guide": "/docs/platforms/linux-cli"
     }
   ]
 }

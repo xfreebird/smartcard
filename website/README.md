@@ -116,3 +116,11 @@ Docusaurus generates canonical URLs, language alternates and a sitemap for every
 After `npm run build`, run `npm run verify:seo` (also in Website CI). It inspects generated HTML for descriptions, canonical/language links, social images, app metadata, target-language content, and sitemap entries.
 
 After deployment and HTTPS issuance, verify the live domain returns 200, add `esemnbun.md` in Google Search Console, verify ownership, and submit `https://esemnbun.md/sitemap.xml`, `https://esemnbun.md/ro/sitemap.xml`, and `https://esemnbun.md/ru/sitemap.xml`. Check indexing and query impressions for MoldSign, semnatura electronica, and carte de identitate after publishing; rankings are not immediate or guaranteed.
+
+## Download catalog
+
+`src/data/release.json` is the download page's single manifest. `platforms` defines card order, IDs/anchors, icons, localized names and short requirements, guide routes, optional store URL/badge paths and optional explanatory translation key. `assets` defines installer URLs, exact versions, formats, architectures, sizes and the owning platform ID. Assets without a platform (checksums/certificates) are not shown as installers. Adding or rearranging cards does not require editing the page component.
+
+`python3 scripts/generate-downloads.py <github-release-response.json>` refreshes release assets while retaining the platform configuration. Missing package/architecture combinations retain the previous working download and its actual version. Website CI already invokes this generator before building. Store URLs also feed the landing-page store widgets. Store versions are not assumed to match the standalone release; availability depends on review and region.
+
+The download page uses official App Store, Google Play and Microsoft Store badges. Microsoft artwork source: https://get.microsoft.com/images/en-us%20dark.svg (usage: https://github.com/microsoft/app-store-badge). Tux is displayed in grayscale in both themes, preserving the artwork and attribution.

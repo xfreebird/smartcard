@@ -42,5 +42,8 @@
   "copyright": {
     "message": "© 2026 Nicolae Ghimbovschi. Software independent, creat în Moldova.",
     "description": "The footer copyright"
+  },
+  "link.item.label.Devices": {
+    "message": "Dispozitive"
   }
 }

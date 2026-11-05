@@ -3,12 +3,8 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useText from '../i18n/useText';
 import PlatformIcon from './PlatformIcon';
-const links={
- ios:'https://apps.apple.com/app/id6826865290',
- android:'https://play.google.com/store/apps/details?id=md.esemnbun.app',
- macos:'https://apps.apple.com/app/id6829451042',
- windows:'https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD',
-};
+import release from '../data/release.json';
+const links = Object.fromEntries(release.platforms.filter(platform => platform.store).map(platform => [platform.id, platform.store.url]));
 
 export default function MobileStores({platform}){
  const {i18n:{currentLocale}}=useDocusaurusContext();const t=useText();

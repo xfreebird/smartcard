@@ -1,4 +1,6 @@
 {
+  "recommendedDevices": {"en":"Recommended devices & adapters","ro":"Dispozitive și adaptoare recomandate","ru":"Рекомендуемые устройства и адаптеры"},
+  "downloadRequirementsBrief": {"en":"For signing: electronic ID, signing PIN and a compatible USB card reader.","ro":"Pentru semnare: carte de identitate electronică, PIN de semnare și cititor USB compatibil.","ru":"Для подписи: электронное удостоверение личности, PIN подписи и совместимый USB-считыватель."},
   "downloadsTitle": {"en":"Get eSemnBun", "ro":"Descarcă eSemnBun", "ru":"Скачать eSemnBun"},
   "downloadsDescription": {"en":"Choose your device. Download the installer or open its store listing, then follow the setup guide.", "ro":"Alege dispozitivul. Descarcă fișierul de instalare sau deschide pagina din magazin, apoi urmează ghidul de configurare.", "ru":"Выберите устройство. Скачайте установщик или откройте страницу в магазине, затем следуйте инструкции по настройке."},
   "downloadOptions": {"en":"Show download options", "ro":"Arată opțiunile de descărcare", "ru":"Показать варианты загрузки"},

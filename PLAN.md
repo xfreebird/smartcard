@@ -902,3 +902,29 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-05: Preparing iOS 0.2.2 build 202 resubmission and Android artifact-only upload for the corrected gradient/logo launch screens; includes developer onboarding and repo skills.
 
 - 2026-11-05: Pushed launch-screen/onboarding changes as 79d27e5 (xfreebird@gmail.com). iOS 0.2.2 build 202 VALID and resubmitted, WAITING_FOR_REVIEW (daf81477-5574-4798-9054-61821652cfdd), Apple run 42054163277 succeeded. Android run 42054171484 built signed artifacts but API commit failed with HALTED release must have fraction; uploaded its AAB via Play Console, versionCode 1793624675 confirmed Inactive, old 0.2.1 review preserved.
+
+- 2026-11-05: Refactored downloads into a JSON-driven six-card grid with localized platform requirements, official store badges, explicit per-installer versions/architecture/size and guide links. Removed source/release download cards; made Tux monochrome. Release generation preserves platform configuration and missing package/architecture downloads. Static JSON/resource/JSX checks performed; website build and browser visual validation left for developer verification.
+
+- 2026-11-05: Restored the JSON-driven download platform selector with persistent selected/hash highlighting. Platform sections now span the content width, with store badges and installers in horizontal rows that wrap on narrow screens.
+
+- 2026-11-05: Restored two-column download platform grid with equal-width option cells, including store badges. Download-page navigation scrolls away so the platform selector sticks flush to the viewport top without the hidden-navbar gap.
+
+- 2026-11-05: Moved store badges into the platform heading row; standalone installers now stack vertically at full card width, retaining the two-column platform grid and flush-top selector.
+
+- 2026-11-05: Highlighted the selected download platform card with an accent border and subtle theme-aware tint, synchronized with selector clicks and URL hashes.
+
+- 2026-11-05: Added localized recommended-device pages with Apple and Amazon adapter links, connection paths and conditional power guidance. Clarified the incompatible connector direction of Apple USB-C-to-Lightning plus USB-C-to-USB-A adapters; no unverified chain advertised as supported. Linked from navigation, footer, downloads and setup.
+
+- 2026-11-05: Redesigned device recommendations with locally hosted Apple/Anker product photos, responsive product cards, connector paths and a labelled native demo screenshot. Added the requested iPhone/iPad compile-from-source alternative to the JSON download catalog.
+
+- 2026-11-05: Added localized Windows MSI self-signing and installation-permission notice to the JSON-driven downloads card.
+
+- 2026-11-05: Platform card clicks and keyboard activation now synchronize the floating selector, card highlight and URL hash without interrupting nested download/store links.
+
+- 2026-11-05: Added verified Moldovan retailer listings for Apple USB-C adapter and alternative USB-C OTG adapters. No local Lightning camera adapter listing was verified.
+
+- 2026-11-05: Added Romanian retailer links for Apple USB-C and Lightning camera adapters and a UGREEN USB-C OTG option; availability remains subject to retailer stock.
+
+- 2026-11-05: Removed duplicate selected-card border and kept a single accessible focus outline.
+
+- 2026-11-05: Kept selected-card border dimensions stable, expanded badge links across their heading area, and made card text show the selection cursor.

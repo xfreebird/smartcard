@@ -1,5 +1,8 @@
 {
-  "item.label.Downloads": {"message":"Descărcări", "description":"Navbar link to downloads"},
+  "item.label.Downloads": {
+    "message": "Descărcări",
+    "description": "Navbar link to downloads"
+  },
   "title": {
     "message": "eSemnBun",
     "description": "The title in the navbar"
@@ -19,5 +22,8 @@
   "item.label.Source": {
     "message": "Sursă",
     "description": "Navbar item with label Source"
+  },
+  "item.label.Devices": {
+    "message": "Dispozitive"
   }
 }

@@ -2,6 +2,7 @@ import React, {useState, useId, useRef, useEffect} from 'react';
 import Link from '@docusaurus/Link';
 import useText from '../i18n/useText';
 import PlatformIcon from './PlatformIcon';
+import release from '../data/release.json';
 
 function primaryAction(platform, t) {
  if (platform==='ios') return {href:'/downloads#ios', label:t('downloadOptions')};
@@ -38,7 +39,7 @@ export default function Downloads({platform = 'other', directOnly = false, optio
   {open && <div className={`download-options${placement.above ? ' download-options-above' : ''}`} style={{'--download-menu-space': `${placement.space}px`}} id={menuId}>
    <div className="download-menu-surface">
     <div className="download-menu-heading"><span>{t('choosePlatform')}</span><button type="button" aria-label={t('closeDownloads')} onClick={() => setOpen(false)}><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button></div>
-    {['macos', 'windows', 'ios', 'android', 'linux'].map(platform => <Link key={platform} to={`/downloads#${platform}`} onClick={() => setOpen(false)}><PlatformIcon name={platform}/><span><b>{t(`platform_${platform}`)}</b><small>{t(`downloadHint_${platform}`)}</small></span><PlatformIcon name="external" className="download-menu-trailing"/></Link>)}
+    {release.platforms.filter(platform => platform.icon !== 'cli').map(({id: platform}) => <Link key={platform} to={`/downloads#${platform}`} onClick={() => setOpen(false)}><PlatformIcon name={platform}/><span><b>{t(`platform_${platform}`)}</b><small>{t(`downloadHint_${platform}`)}</small></span><PlatformIcon name="external" className="download-menu-trailing"/></Link>)}
     <Link className="download-menu-all" to="/downloads" onClick={() => setOpen(false)}>{t('allDownloads')}</Link>
    </div>
   </div>}

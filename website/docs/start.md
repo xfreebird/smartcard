@@ -11,7 +11,7 @@ eSemnBun is free, open-source software by Nicolae Ghimbovschi. It works with sup
 
 - An active electronic ID card with a valid signing certificate and its correct PIN.
 - A compatible reader, such as the bit4id miniLector POCKET EVO.
-- A suitable USB-C, Lightning or Android OTG adapter when required. NFC is not supported.
+- A suitable [USB-C, Lightning or Android OTG adapter](/devices) when required. NFC is not supported.
 - The app for your device, available from [GitHub Releases](https://github.com/xfreebird/smartcard/releases) or the store links on the homepage when available.
 
 ## Install and connect
