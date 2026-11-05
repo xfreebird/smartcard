@@ -247,7 +247,8 @@ end
 desc "Upload an Android bundle artifact without changing tracks or submitting for review"
 lane :android_artifact do
   require 'supply'
-  bundles = Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |path| path.include?('-unsigned') }
+  require 'digest'
+  bundles = ENV['AAB_PATH'] ? [File.expand_path(ENV.fetch('AAB_PATH'))] : Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |path| path.include?('-unsigned') }
   UI.user_error!('Expected exactly one signed AAB') unless bundles.length == 1
   Supply.config = FastlaneCore::Configuration.create(Supply::Options.available_options, {
     package_name: 'md.esemnbun.app', json_key_data: ENV.fetch('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'),
@@ -257,10 +258,27 @@ lane :android_artifact do
   client.begin_edit(package_name: 'md.esemnbun.app')
   begin
     tracks_before = client.tracks.map(&:to_h)
-    code = client.upload_bundle(bundles.first)
-    UI.user_error!('Track state changed during artifact upload') unless client.tracks.map(&:to_h) == tracks_before
-    client.commit_current_edit!
-    UI.success("Uploaded bundle artifact #{code}; tracks unchanged and not submitted for review")
+    uploaded = Array(client.client.list_edit_bundles(client.current_package_name, client.current_edit.id).bundles)
+    existing = uploaded.find { |bundle| bundle.sha256.to_s.downcase == Digest::SHA256.file(bundles.first).hexdigest }
+    if existing
+      client.abort_current_edit
+      UI.success("Bundle artifact #{existing.version_code} already uploaded; tracks unchanged")
+    else
+      code = client.upload_bundle(bundles.first)
+      UI.user_error!('Track state changed during artifact upload') unless client.tracks.map(&:to_h) == tracks_before
+      begin
+        client.client.commit_edit(client.current_package_name, client.current_edit.id,
+                                  changes_not_sent_for_review: true, changes_in_review_behavior: 'ERROR_IF_IN_REVIEW')
+      rescue Google::Apis::ClientError => error
+        # Some apps reject this parameter. Never use Google's default, which cancels an active review.
+        raise unless error.message.include?('The query parameter changesNotSentForReview must not be set')
+        client.client.commit_edit(client.current_package_name, client.current_edit.id,
+                                  changes_in_review_behavior: 'ERROR_IF_IN_REVIEW')
+      end
+      client.current_edit = nil
+      client.current_package_name = nil
+      UI.success("Uploaded bundle artifact #{code}; tracks unchanged")
+    end
   rescue
     client.abort_current_edit if client.current_edit
     raise

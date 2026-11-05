@@ -1,56 +1,61 @@
 {
-  "version": "0.2.1",
-  "url": "https://github.com/xfreebird/smartcard/releases/tag/v0.2.1",
+  "version": "0.2.2",
+  "url": "https://github.com/xfreebird/smartcard/releases/tag/v0.2.2",
   "assets": [
     {
-      "name": "esemnbun-0.2.1-1.x86_64.rpm",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/esemnbun-0.2.1-1.x86_64.rpm",
-      "size": 22420767
+      "name": "esemnbun-0.2.2-1.x86_64.rpm",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-0.2.2-1.x86_64.rpm",
+      "size": 22449770
     },
     {
-      "name": "esemnbun-0.2.1-linux-x86_64.tar.gz",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/esemnbun-0.2.1-linux-x86_64.tar.gz",
-      "size": 21995263
+      "name": "esemnbun-0.2.2-linux-x86_64.tar.gz",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-0.2.2-linux-x86_64.tar.gz",
+      "size": 22019837
     },
     {
-      "name": "eSemnBun-0.2.1-x64.msi",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/eSemnBun-0.2.1-x64.msi",
-      "size": 114470069
+      "name": "eSemnBun-0.2.2-x64.msi",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2-x64.msi",
+      "size": 114470912
     },
     {
-      "name": "eSemnBun-0.2.1.apk",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/eSemnBun-0.2.1.apk",
-      "size": 14610661
+      "name": "eSemnBun-0.2.2.apk",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2.apk",
+      "size": 14631141
     },
     {
-      "name": "eSemnBun-0.2.1.dmg",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/eSemnBun-0.2.1.dmg",
-      "size": 2405794
+      "name": "eSemnBun-0.2.2.dmg",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2.dmg",
+      "size": 2483860
     },
     {
-      "name": "eSemnBun-0.2.1.flatpak",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/eSemnBun-0.2.1.flatpak",
-      "size": 15030952
+      "name": "eSemnBun-0.2.2.flatpak",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-0.2.2.flatpak",
+      "size": 15037520
     },
     {
-      "name": "esemnbun-cli-0.2.1-1.x86_64.rpm",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/esemnbun-cli-0.2.1-1.x86_64.rpm",
-      "size": 21885653
+      "name": "esemnbun-cli-0.2.2-1.x86_64.rpm",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-cli-0.2.2-1.x86_64.rpm",
+      "size": 21904474
     },
     {
-      "name": "esemnbun-cli_0.2.1-1_amd64.deb",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/esemnbun-cli_0.2.1-1_amd64.deb",
-      "size": 16517394
+      "name": "esemnbun-cli_0.2.2-1_amd64.deb",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun-cli_0.2.2-1_amd64.deb",
+      "size": 16493696
     },
     {
-      "name": "esemnbun_0.2.1-1_amd64.deb",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/esemnbun_0.2.1-1_amd64.deb",
-      "size": 16889618
+      "name": "eSemnBun-self-signed.cer",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/eSemnBun-self-signed.cer",
+      "size": 1060
+    },
+    {
+      "name": "esemnbun_0.2.2-1_amd64.deb",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/esemnbun_0.2.2-1_amd64.deb",
+      "size": 16907020
     },
     {
       "name": "SHA256SUMS.txt",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.1/SHA256SUMS.txt",
-      "size": 831
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.2/SHA256SUMS.txt",
+      "size": 922
     }
   ]
 }
