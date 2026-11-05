@@ -13,6 +13,10 @@
     "Browser integrat pentru portaluri compatibile",
     "Română, engleză și rusă"
   ],
+  "releaseNotesByPlatform": {
+    "ios": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete.",
+    "macos": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete."
+  },
   "platform": "android",
   "languageCode": "ro",
   "website": "https://esemnbun.md/",

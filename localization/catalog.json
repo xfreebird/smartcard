@@ -11,8 +11,8 @@
       "key": "app_name",
       "translations": {
         "ro": "eSemnBun",
-        "ru": "eSemnBun",
-        "en": "eSemnBun"
+        "en": "eSemnBun",
+        "ru": "eSemnBun"
       }
     },
     {
@@ -1079,8 +1079,8 @@
       "key": "qs_tile_label",
       "translations": {
         "ro": "eSemnBun",
-        "ru": "eSemnBun",
-        "en": "eSemnBun"
+        "en": "eSemnBun",
+        "ru": "eSemnBun"
       }
     },
     {
@@ -1253,7 +1253,7 @@
       "key": "signed_saved_app",
       "translations": {
         "ro": "Documentul semnat a fost salvat în folderul Documente al aplicației.",
-        "en": "The signed document was saved to the app\\'s Documents folder.",
+        "en": "The signed document was saved to the app's Documents folder.",
         "ru": "Подписанный документ сохранён в папке документов приложения."
       }
     },
@@ -3851,15 +3851,6 @@
     },
     {
       "platform": "apple",
-      "key": "ui_lightning_to_usb_3_camera_adapter",
-      "translations": {
-        "ro": "Lightning → USB 3 pentru cameră",
-        "en": "Lightning to USB 3 Camera Adapter",
-        "ru": "Адаптер Lightning/USB 3 для подключения камеры"
-      }
-    },
-    {
-      "platform": "apple",
       "key": "ui_language",
       "translations": {
         "ro": "Limbă",
@@ -4369,15 +4360,6 @@
         "ro": "eSemnBun",
         "en": "eSemnBun",
         "ru": "eSemnBun"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "ui_iphone_14_or_earlier_an_adapter_with_additional_power_is_recommended",
-      "translations": {
-        "ro": "iPhone 14 sau mai vechi. Recomandat adaptorul cu alimentare suplimentară.",
-        "en": "iPhone 14 or earlier. An adapter with additional power is recommended.",
-        "ru": "iPhone 14 или более ранняя модель. Рекомендуется адаптер с дополнительным питанием."
       }
     },
     {
@@ -6259,15 +6241,6 @@
         "ro": "https://exemplu.md",
         "en": "https://example.md",
         "ru": "https://example.md"
-      }
-    },
-    {
-      "platform": "apple",
-      "key": "ui_iphone_15_or_later_ipad_with_usb_c_usb_c_to_usb_a_adapter",
-      "translations": {
-        "ro": "iPhone 15 sau mai nou, iPad cu USB-C. Adaptor USB-C la USB-A.",
-        "en": "iPhone 15 or later, iPad with USB-C. USB-C to USB-A adapter.",
-        "ru": "iPhone 15 и новее, iPad с USB-C. Адаптер USB-C — USB-A."
       }
     },
     {
@@ -9055,8 +9028,8 @@
       "platform": "android",
       "key": "government_independence_title",
       "translations": {
-        "en": "Independent app · official sources",
         "ro": "Aplicație independentă · surse oficiale",
+        "en": "Independent app · official sources",
         "ru": "Независимое приложение · официальные источники"
       }
     },
@@ -9064,8 +9037,8 @@
       "platform": "android",
       "key": "government_independence_notice",
       "translations": {
-        "en": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.",
         "ro": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.",
+        "en": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.",
         "ru": "eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис."
       }
     },
@@ -9073,8 +9046,8 @@
       "platform": "android",
       "key": "government_sources_explanation",
       "translations": {
-        "en": "Official sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.",
         "ro": "Sursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.",
+        "en": "Official sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.",
         "ru": "Ниже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах."
       }
     },
@@ -9082,8 +9055,8 @@
       "platform": "android",
       "key": "government_notice_continue",
       "translations": {
-        "en": "Continue",
         "ro": "Continuă",
+        "en": "Continue",
         "ru": "Продолжить"
       }
     },
@@ -9091,9 +9064,126 @@
       "platform": "android",
       "key": "government_sources_action",
       "translations": {
-        "en": "Non-government app · Official sources",
         "ro": "Aplicație neguvernamentală · Surse oficiale",
+        "en": "Non-government app · Official sources",
         "ru": "Негосударственное приложение · Официальные источники"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_clear_results",
+      "translations": {
+        "ro": "Șterge rezultatele",
+        "en": "Clear results",
+        "ru": "Очистить результаты"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_iphone_ipad_os_17_or_later",
+      "translations": {
+        "ro": "Funcționează cu orice iPhone cu iOS 17 sau o versiune ulterioară și cu orice iPad cu iPadOS 17 sau o versiune ulterioară. Alege adaptorul potrivit pentru portul dispozitivului. De regulă, nu este necesară o sursă de alimentare externă.",
+        "en": "Works with any iPhone running iOS 17 or later and any iPad running iPadOS 17 or later. Choose the adapter that matches your device’s port. External power is generally not needed.",
+        "ru": "Работает с любым iPhone под управлением iOS 17 или новее и любым iPad с iPadOS 17 или новее. Выберите адаптер для разъёма вашего устройства. Внешнее питание обычно не требуется."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_lightning_to_usb_a_adapter",
+      "translations": {
+        "ro": "Lightning → USB-A",
+        "en": "Lightning to USB-A",
+        "ru": "Lightning → USB-A"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_lightning_reader_connection",
+      "translations": {
+        "ro": "Pentru iPhone sau iPad cu port Lightning, folosește un adaptor Lightning la USB-A.",
+        "en": "For iPhone or iPad with a Lightning port, use a Lightning to USB-A adapter.",
+        "ru": "Для iPhone или iPad с разъёмом Lightning используйте адаптер Lightning — USB-A."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_usb_c_reader_connection",
+      "translations": {
+        "ro": "Pentru iPhone și iPad cu port USB-C, conectează cititorul printr-un adaptor USB-C la USB-A.",
+        "en": "For iPhone and iPad with a USB-C port, connect the reader using a USB-C to USB-A adapter.",
+        "ru": "Для iPhone и iPad с портом USB-C подключите считыватель через адаптер USB-C — USB-A."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signed_results",
+      "translations": {
+        "ro": "Semnate cu succes",
+        "en": "Signed successfully",
+        "ru": "Успешно подписано"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "clear_results",
+      "translations": {
+        "ro": "Șterge rezultatele",
+        "en": "Clear results",
+        "ru": "Очистить результаты"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "File_ShowInFolder",
+      "translations": {
+        "ro": "Arată în Explorer",
+        "en": "Show in Explorer",
+        "ru": "Показать в Проводнике"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "VerifyClearResults.Content",
+      "translations": {
+        "ro": "Șterge rezultatele",
+        "en": "Clear results",
+        "ru": "Очистить результаты"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_help_menu",
+      "translations": {
+        "ro": "Ajutor eSemnBun",
+        "en": "eSemnBun Help",
+        "ru": "Справка eSemnBun"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_author_value",
+      "translations": {
+        "ro": "Autor: %@",
+        "en": "Author: %@",
+        "ru": "Автор: %@"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_idnp_value",
+      "translations": {
+        "ro": "IDNP: %@",
+        "en": "IDNP: %@",
+        "ru": "IDNP: %@"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "ui_certificate_details",
+      "translations": {
+        "ro": "Detaliile certificatului",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
       }
     }
   ],
@@ -9118,6 +9208,10 @@
         "macos": "Versiunea Mac App Store folosește CryptoTokenKit și sandbox. Rezultatele se exportă într-o locație aleasă. Helperul extern de pornire la inserarea cardului, controlul aplicației furnizorului și rutele web cu căi arbitrare de fișiere nu sunt incluse.",
         "android": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.\n\nSURSE OFICIALE\nSursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nPentru telefoane și tablete Android: cititor USB compatibil prin OTG, import prin partajare și salvare sau distribuire prin opțiunile sistemului.",
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
+      },
+      "releaseNotesByPlatform": {
+        "ios": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete.",
+        "macos": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete."
       }
     },
     "en": {
@@ -9140,6 +9234,10 @@
         "macos": "The Mac App Store version uses CryptoTokenKit and App Sandbox. Export results to a chosen location. The external card-insertion helper, vendor-app process control and browser routes accepting arbitrary filesystem paths are not included.",
         "android": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.\n\nOFFICIAL SOURCES\nOfficial sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nFor Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.",
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
+      },
+      "releaseNotesByPlatform": {
+        "ios": "View signature authors and certificate details, verify several documents, and clear verification results. Improved batch signing, file drag and drop, and tablet layouts.",
+        "macos": "View signature authors and certificate details, verify several documents, and clear verification results. Improved batch signing, file drag and drop, and tablet layouts."
       }
     },
     "ru": {
@@ -9162,6 +9260,10 @@
         "macos": "Версия Mac App Store использует CryptoTokenKit и App Sandbox. Экспортируйте результаты в выбранную папку. Внешний помощник запуска при вставке карты, управление процессом приложения поставщика и веб-маршруты с произвольными путями файлов не включены.",
         "android": "eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис.\n\nОФИЦИАЛЬНЫЕ ИСТОЧНИКИ\nНиже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nДля телефонов и планшетов Android: подключите совместимый USB-считыватель через OTG, импортируйте файлы из меню общего доступа и используйте системное сохранение или отправку.",
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
+      },
+      "releaseNotesByPlatform": {
+        "ios": "Просмотр авторов подписей и сведений о сертификатах, проверка нескольких документов и очистка результатов проверки. Улучшены пакетное подписание, перетаскивание файлов и интерфейс планшетов.",
+        "macos": "Просмотр авторов подписей и сведений о сертификатах, проверка нескольких документов и очистка результатов проверки. Улучшены пакетное подписание, перетаскивание файлов и интерфейс планшетов."
       }
     }
   },

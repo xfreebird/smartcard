@@ -1,50 +1,6 @@
 {
   "sourceLanguage": "ro",
   "strings": {
-    "ui_clear_results": {
-      "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Șterge rezultatele"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clear results"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Очистить результаты"
-          }
-        }
-      }
-    },
-    "ui_iphone_ipad_os_17_or_later": {
-      "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Funcționează cu orice iPhone cu iOS 17 sau o versiune ulterioară și cu orice iPad cu iPadOS 17 sau o versiune ulterioară. Alege adaptorul potrivit pentru portul dispozitivului. De regulă, nu este necesară o sursă de alimentare externă."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Works with any iPhone running iOS 17 or later and any iPad running iPadOS 17 or later. Choose the adapter that matches your device’s port. External power is generally not needed."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Работает с любым iPhone под управлением iOS 17 или новее и любым iPad с iPadOS 17 или новее. Выберите адаптер для разъёма вашего устройства. Внешнее питание обычно не требуется."
-          }
-        }
-      }
-    },
     "ui_trust_this_site_for_10_minutes": {
       "localizations": {
         "ro": {
@@ -1185,28 +1141,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Цепочка доверия (MDQSign → mdtrustca)"
-          }
-        }
-      }
-    },
-    "ui_lightning_to_usb_a_adapter": {
-      "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lightning → USB-A"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lightning to USB-A"
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Lightning → USB-A"
           }
         }
       }
@@ -2461,28 +2395,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "eSemnBun"
-          }
-        }
-      }
-    },
-    "ui_lightning_reader_connection": {
-      "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pentru iPhone sau iPad cu port Lightning, folosește un adaptor Lightning la USB-A."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "For iPhone or iPad with a Lightning port, use a Lightning to USB-A adapter."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для iPhone или iPad с разъёмом Lightning используйте адаптер Lightning — USB-A."
           }
         }
       }
@@ -3847,28 +3759,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "https://example.md"
-          }
-        }
-      }
-    },
-    "ui_usb_c_reader_connection": {
-      "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pentru iPhone și iPad cu port USB-C, conectează cititorul printr-un adaptor USB-C la USB-A."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "For iPhone and iPad with a USB-C port, connect the reader using a USB-C to USB-A adapter."
-          }
-        },
-        "ru": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Для iPhone и iPad с портом USB-C подключите считыватель через адаптер USB-C — USB-A."
           }
         }
       }
@@ -5607,6 +5497,204 @@
           "stringUnit": {
             "state": "translated",
             "value": "Изменить закладку"
+          }
+        }
+      }
+    },
+    "ui_clear_results": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Șterge rezultatele"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear results"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить результаты"
+          }
+        }
+      }
+    },
+    "ui_iphone_ipad_os_17_or_later": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funcționează cu orice iPhone cu iOS 17 sau o versiune ulterioară și cu orice iPad cu iPadOS 17 sau o versiune ulterioară. Alege adaptorul potrivit pentru portul dispozitivului. De regulă, nu este necesară o sursă de alimentare externă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Works with any iPhone running iOS 17 or later and any iPad running iPadOS 17 or later. Choose the adapter that matches your device’s port. External power is generally not needed."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работает с любым iPhone под управлением iOS 17 или новее и любым iPad с iPadOS 17 или новее. Выберите адаптер для разъёма вашего устройства. Внешнее питание обычно не требуется."
+          }
+        }
+      }
+    },
+    "ui_lightning_to_usb_a_adapter": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lightning → USB-A"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lightning to USB-A"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lightning → USB-A"
+          }
+        }
+      }
+    },
+    "ui_lightning_reader_connection": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pentru iPhone sau iPad cu port Lightning, folosește un adaptor Lightning la USB-A."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For iPhone or iPad with a Lightning port, use a Lightning to USB-A adapter."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для iPhone или iPad с разъёмом Lightning используйте адаптер Lightning — USB-A."
+          }
+        }
+      }
+    },
+    "ui_usb_c_reader_connection": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pentru iPhone și iPad cu port USB-C, conectează cititorul printr-un adaptor USB-C la USB-A."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For iPhone and iPad with a USB-C port, connect the reader using a USB-C to USB-A adapter."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для iPhone и iPad с портом USB-C подключите считыватель через адаптер USB-C — USB-A."
+          }
+        }
+      }
+    },
+    "ui_help_menu": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajutor eSemnBun"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "eSemnBun Help"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Справка eSemnBun"
+          }
+        }
+      }
+    },
+    "ui_author_value": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autor: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Author: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автор: %@"
+          }
+        }
+      }
+    },
+    "ui_idnp_value": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IDNP: %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IDNP: %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "IDNP: %@"
+          }
+        }
+      }
+    },
+    "ui_certificate_details": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detaliile certificatului"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certificate details"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сведения о сертификате"
           }
         }
       }

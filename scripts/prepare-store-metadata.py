@@ -46,7 +46,9 @@ for lang in config['locales']:
     for platform in ['ios', 'macos']:
         folder = f'distribution/apple/{platform}/{locales[lang]}'
         for key, source in {'name': 'name', 'subtitle': 'subtitle', 'description': 'description', 'keywords': 'keywords', 'release_notes': 'releaseNotes', 'promotional_text': 'promotionalText'}.items():
-            outputs[f'{folder}/{key}.txt'] = (platform_copy(m, platform) if source == 'description' else m[source]) + '\n'
+            value = platform_copy(m, platform) if source == 'description' else m.get('releaseNotesByPlatform', {}).get(platform, m[source]) if source == 'releaseNotes' else m[source]
+            validate_text(value, 4000, f'{lang}/{platform}/{source}') if source == 'releaseNotes' else None
+            outputs[f'{folder}/{key}.txt'] = value + '\n'
         for field, target in {'supportURL': 'support_url', 'privacyPolicyURL': 'privacy_url', 'marketingURL': 'marketing_url'}.items():
             if config[field]:
                 outputs[f'{folder}/{target}.txt'] = config[field] + '\n'

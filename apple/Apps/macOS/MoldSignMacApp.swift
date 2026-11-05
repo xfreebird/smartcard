@@ -49,7 +49,7 @@ struct MoldSignMacApp: App {
         .windowResizability(.contentSize)
         .commands {
             CommandGroup(replacing: .help) {
-                Button("eSemnBun Help") {
+                Button(L10n.text(.ui_help_menu)) {
                     NSWorkspace.shared.open(URL(string: "https://esemnbun.md/docs/start/")!)
                 }
             }

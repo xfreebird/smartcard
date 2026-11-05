@@ -13,6 +13,10 @@
     "Built-in browser for compatible portals",
     "Romanian, English and Russian"
   ],
+  "releaseNotesByPlatform": {
+    "ios": "View signature authors and certificate details, verify several documents, and clear verification results. Improved batch signing, file drag and drop, and tablet layouts.",
+    "macos": "View signature authors and certificate details, verify several documents, and clear verification results. Improved batch signing, file drag and drop, and tablet layouts."
+  },
   "platform": "android",
   "languageCode": "en-US",
   "website": "https://esemnbun.md/",

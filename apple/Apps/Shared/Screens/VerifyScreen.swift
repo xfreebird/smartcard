@@ -40,9 +40,9 @@ struct VerifyScreen: View {
                         ForEach(Array(document.reports.enumerated()), id: \.offset) { index, report in
                             FullWidthDisclosure {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("Author: " + report.signer).font(.headline)
+                                    Text(L10n.text(.ui_author_value, report.signer)).font(.headline)
                                     Text(L10n.text(.ui_signature_count, index + 1)).font(.subheadline)
-                                    if let idnp = report.signerIDNP { Text("IDNP: " + idnp) }
+                                    if let idnp = report.signerIDNP { Text(L10n.text(.ui_idnp_value, idnp)) }
                                     Text(Validator.readableDate(report.signingTime)).foregroundStyle(.secondary)
                                 }
                             } content: {
@@ -116,7 +116,7 @@ private struct SignatureSection: View {
             check(L10n.text(.ui_document_integrity), report.contentIntact)
             check(L10n.text(.ui_cryptographic_signature), report.signatureValid)
             check(L10n.text(.ui_trust_chain_mdqsign_mdtrustca), report.chainTrusted)
-            FullWidthDisclosure { Text("Certificate details").fontWeight(.medium) } content: {
+            FullWidthDisclosure { Text(L10n.text(.ui_certificate_details)).fontWeight(.medium) } content: {
                 ForEach(["Subject", "Issuer", "Certificate"], id: \.self) { group in
                     VStack(alignment: .leading, spacing: 8) {
                         Text(group).font(.headline)

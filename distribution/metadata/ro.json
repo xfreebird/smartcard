@@ -18,5 +18,9 @@
     "macos": "Versiunea Mac App Store folosește CryptoTokenKit și sandbox. Rezultatele se exportă într-o locație aleasă. Helperul extern de pornire la inserarea cardului, controlul aplicației furnizorului și rutele web cu căi arbitrare de fișiere nu sunt incluse.",
     "android": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.\n\nSURSE OFICIALE\nSursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nPentru telefoane și tablete Android: cititor USB compatibil prin OTG, import prin partajare și salvare sau distribuire prin opțiunile sistemului.",
     "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
+  },
+  "releaseNotesByPlatform": {
+    "ios": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete.",
+    "macos": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete."
   }
 }

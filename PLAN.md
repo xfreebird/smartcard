@@ -928,3 +928,7 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-05: Removed duplicate selected-card border and kept a single accessible focus outline.
 
 - 2026-11-05: Kept selected-card border dimensions stable, expanded badge links across their heading area, and made card text show the selection cursor.
+
+- 2026-11-05: Reconciled shared localization catalog with current native strings, localized remaining Apple verification/help labels, and preserved platform-specific Apple release notes in catalog-backed exports. All three shared-localization CI checks pass locally; application builds not run.
+
+- 2026-11-05: Updated Website actions to Node 24-based releases (checkout/setup-node v6, Pages upload/deploy v5), resolving action-runtime deprecation warnings while retaining website Node 22.
