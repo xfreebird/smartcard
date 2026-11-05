@@ -900,3 +900,5 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - Android launch validation: `:app:assembleDebug` passed. Runtime visual check not completed: mock AVD lacks config.ini; validation AVD startup fails its host free-disk-space check. Existing emulator data preserved. Launch assets regenerate with `python3 scripts/make-launch-assets.py`.
 
 - 2026-11-05: Preparing iOS 0.2.2 build 202 resubmission and Android artifact-only upload for the corrected gradient/logo launch screens; includes developer onboarding and repo skills.
+
+- 2026-11-05: Pushed launch-screen/onboarding changes as 79d27e5 (xfreebird@gmail.com). iOS 0.2.2 build 202 VALID and resubmitted, WAITING_FOR_REVIEW (daf81477-5574-4798-9054-61821652cfdd), Apple run 42054163277 succeeded. Android run 42054171484 built signed artifacts but API commit failed with HALTED release must have fraction; uploaded its AAB via Play Console, versionCode 1793624675 confirmed Inactive, old 0.2.1 review preserved.
