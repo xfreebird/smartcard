@@ -6,11 +6,16 @@
         <viewController id="launch" sceneMemberID="viewController"><view key="view" contentMode="scaleToFill" id="background">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="AboutIcon" translatesAutoresizingMaskIntoConstraints="NO" id="logo"><rect key="frame" x="136.5" y="354" width="120" height="120"/></imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="eSemnBun" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="name"><rect key="frame" x="116.5" y="494" width="160" height="34"/><fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/><color key="textColor" systemColor="labelColor"/></label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="LaunchBackground.png" translatesAutoresizingMaskIntoConstraints="NO" id="gradient"><rect key="frame" x="0" y="0" width="393" height="852"/></imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="LaunchMark.png" translatesAutoresizingMaskIntoConstraints="NO" id="logo"><rect key="frame" x="136.5" y="354" width="120" height="120"/></imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="eSemnBun" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="name"><rect key="frame" x="116.5" y="494" width="160" height="34"/><fontDescription key="fontDescription" type="system" weight="semibold" pointSize="28"/><color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></label>
             </subviews>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" red="0.102" green="0.224" blue="0.651" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="gradient" firstAttribute="top" secondItem="background" secondAttribute="top" id="gt"/>
+                <constraint firstItem="gradient" firstAttribute="bottom" secondItem="background" secondAttribute="bottom" id="gb"/>
+                <constraint firstItem="gradient" firstAttribute="leading" secondItem="background" secondAttribute="leading" id="gl"/>
+                <constraint firstItem="gradient" firstAttribute="trailing" secondItem="background" secondAttribute="trailing" id="gr"/>
                 <constraint firstItem="logo" firstAttribute="centerX" secondItem="background" secondAttribute="centerX" id="cx"/>
                 <constraint firstItem="logo" firstAttribute="centerY" secondItem="background" secondAttribute="centerY" constant="-12" id="cy"/>
                 <constraint firstItem="logo" firstAttribute="width" constant="120" id="w"/>
@@ -20,5 +25,5 @@
             </constraints>
         </view></viewController><placeholder placeholderIdentifier="IBFirstResponder" id="responder" sceneMemberID="firstResponder"/>
     </objects></scene></scenes>
-    <resources><image name="AboutIcon" width="128" height="128"/><systemColor name="labelColor"><color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor><systemColor name="systemBackgroundColor"><color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor></resources>
+    <resources><image name="LaunchMark.png" width="128" height="128"/><image name="LaunchBackground.png" width="512" height="512"/><systemColor name="labelColor"><color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor><systemColor name="systemBackgroundColor"><color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/></systemColor></resources>
 </document>

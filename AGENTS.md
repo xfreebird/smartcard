@@ -285,3 +285,15 @@ Moved to [`PLAN.md`](PLAN.md) (phases, IDs, decisions) and [`docs/09-architectur
 * **Screenshots** of every app state (light + dark) were taken on 2026-10-27 with the real card and the debug demo
   modes; the tooling and per-platform tricks are in the same skill. Real-card PINs come from the owner per session,
   are typed via stdin only, and never land in files, logs or commits.
+
+## Developer workflows and repo skills
+
+New contributors start with [developer onboarding](docs/13-developer-onboarding.md). Use the skills in `.agents/skills/` when relevant:
+
+- `esemnbun-dev-environment`: discover each developer’s own hosts, VM access and device IDs; owner-specific addresses are optional examples.
+- `esemnbun-build-sign`: platform builds, signing/entitlements, packaging and validation.
+- `esemnbun-ui-validation`: UI automation, isolated demo screenshots and real interaction evidence.
+- `esemnbun-release-stores`: GitHub Actions, releases, store APIs/review boundaries and website feeds.
+- `esemnbun-test-vms`: owner-specific Air/QEMU profile, after environment discovery.
+
+Developer inventory belongs in ignored `.local/developer-environment.json`, based on `docs/developer-environment.example.json`; never store credentials there.

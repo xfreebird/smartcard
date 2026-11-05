@@ -888,3 +888,15 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 
 - 2026-11-05: Added branded adaptive iPhone/iPad launch storyboard. macOS explicitly presents the main scene on first launch; Windows and Linux already override background startup on first run.
 - 2026-11-05: Published rebuilt 0.2.2 macOS DMG (build 201); refreshed website release metadata. iOS 0.2.2 build 201 validated and resubmitted, WAITING_FOR_REVIEW (fe81fcd7-e479-4c10-8b1a-cbabddf24e6b). Apple upload run 42041104516 also builds macOS TestFlight 201.
+
+- 2026-11-05: Added repo skills for developer environment discovery, platform builds/signing, UI automation/screenshots, and release/store/website operations; added developer onboarding and ignored per-developer host/device inventory example. Scoped Air/QEMU recipes to the owner profile and corrected stale Windows Store automation guidance. Documentation/skill validation only; no production operations or application builds required.
+
+- 2026-11-05: Updated iOS launch screen to full-bleed brand-blue gradient with unplated signature mark and white title, removing the rounded icon tile; reproducible assets use the shared brand generator.
+
+- 2026-11-05: Fixed missing launch images by packaging explicit PNG launch resources; recorded simulator cold launch and visually confirmed the signature logo, white title and full-bleed gradient.
+
+- 2026-11-05: Matched Android launch artwork to iOS (blue gradient, white unplated logo/title). Android 12+ retains the required solid system starting window and renders matching artwork in its exit transition; older versions use the gradient launch drawable.
+
+- Android launch validation: `:app:assembleDebug` passed. Runtime visual check not completed: mock AVD lacks config.ini; validation AVD startup fails its host free-disk-space check. Existing emulator data preserved. Launch assets regenerate with `python3 scripts/make-launch-assets.py`.
+
+- 2026-11-05: Preparing iOS 0.2.2 build 202 resubmission and Android artifact-only upload for the corrected gradient/logo launch screens; includes developer onboarding and repo skills.

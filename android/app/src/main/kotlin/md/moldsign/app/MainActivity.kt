@@ -37,12 +37,37 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
+        // The launch window is cosmetic; the running activity keeps its regular theme.
+        setTheme(R.style.Theme_MoldSign)
+        if (savedInstanceState == null && android.os.Build.VERSION.SDK_INT >= 31) {
+            configureLaunchTransition()
+        }
         // A recreated activity (rotation, dark mode, locale) must not replay the launch intent.
         if (savedInstanceState == null) handleIntent(intent)
         setContent {
             MoldSignTheme {
                 MoldSignRoot(demoPage = demoPage, demoGeneration = demoGeneration)
             }
+        }
+    }
+
+    @androidx.annotation.RequiresApi(31)
+    private fun configureLaunchTransition() {
+        splashScreen.setOnExitAnimationListener { splash ->
+            // Reuse the system splash surface: no second activity or startup timer.
+            splash.removeAllViews()
+            splash.setBackgroundResource(R.drawable.launch_gradient)
+            val artwork = android.widget.ImageView(this).apply {
+                setImageResource(R.drawable.launch_branding)
+                scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
+                importantForAccessibility = android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
+            }
+            val density = resources.displayMetrics.density
+            splash.addView(artwork, android.widget.FrameLayout.LayoutParams(
+                (160 * density).toInt(), (220 * density).toInt(), android.view.Gravity.CENTER))
+            splash.animate().alpha(0f)
+                .setDuration(if (android.animation.ValueAnimator.areAnimatorsEnabled()) 350 else 0)
+                .withEndAction { splash.remove() }.start()
         }
     }
 

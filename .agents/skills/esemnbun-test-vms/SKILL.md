@@ -1,9 +1,14 @@
 ---
 name: esemnbun-test-vms
-description: Start, stop, snapshot and drive the eSemnBun (smartcard repo) test VMs on the MacBook Air — Fedora 44 GNOME and Windows 11 ARM64 under QEMU+HVF — hand the bit4id miniLector card reader to a VM, ssh/VNC into the guests from the main Mac, build and test the Linux/Windows apps inside them, and rebuild a VM from scratch. Use whenever a Linux or Windows behaviour of eSemnBun must be checked on a real OS with the real card, or the VMs need maintenance.
+description: Operate the owner-specific eSemnBun QEMU test VMs on the MacBook Air — Fedora 44 GNOME and Windows 11 ARM64 under QEMU+HVF — hand the bit4id miniLector card reader to a VM, ssh/VNC into the guests from the main Mac, build and test the Linux/Windows apps inside them, and rebuild a VM from scratch. Use whenever a Linux or Windows behaviour of eSemnBun must be checked on a real OS with the real card, or the VMs need maintenance.
 ---
 
 # eSemnBun test VMs on the MacBook Air
+
+## Environment scope
+
+This is the owner’s tested machine profile, not a required developer topology. Before using any address, account, forwarded port, path or hypervisor command below, resolve the current developer environment with [esemnbun-dev-environment](../esemnbun-dev-environment/SKILL.md). Use this profile only when the owner’s Air is the selected target. For other developers, adapt the build/UI workflow to their own SSH aliases, VM manager and desktop session; do not provision or reset machines just to match these recipes. Passwords and PINs never belong in the local environment inventory. Historical UTM failures below describe that specific macOS/version combination, not all UTM installations.
+
 
 Built 2026-10-27. The VMs live on the **MacBook Air** (`ssh user@192.168.50.126`, home `/Users/user`, Apple M2, 24 GB,
 macOS 27). The card reader (bit4id miniLector POCKET EVO, USB `25dd:3111`) is plugged into the Air.

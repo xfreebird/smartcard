@@ -32,6 +32,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:theme="@style/Theme.MoldSign.Launch"
             android:exported="true"
             android:launchMode="singleTop"
             android:resizeableActivity="true"

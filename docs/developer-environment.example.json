@@ -1,0 +1,37 @@
+{
+  "description": "Copy to .local/developer-environment.json; replace example values. No secrets.",
+  "publishing": {
+    "repository": "xfreebird/smartcard",
+    "githubHost": "github.com",
+    "authorizedHost": "your-authorized-release-machine",
+    "commitName": "Your Name",
+    "commitEmail": "your-development-email@example.org"
+  },
+  "hosts": {
+    "windows": {
+      "transport": "ssh",
+      "sshAlias": "esemnbun-windows",
+      "repositoryPath": "C:/src/smartcard",
+      "architecture": "x64",
+      "interactiveSession": "Describe your RDP/console or existing interactive scheduled-task method",
+      "readerPassthrough": "Describe your hypervisor USB assignment; optional for mock tests"
+    },
+    "linux": {
+      "transport": "ssh",
+      "sshAlias": "esemnbun-linux",
+      "repositoryPath": "/home/developer/src/smartcard",
+      "architecture": "aarch64",
+      "interactiveSession": "Describe Wayland/X11 session and DBus access"
+    }
+  },
+  "devices": {
+    "iosPhoneUDID": "replace-with-simctl-device-uuid",
+    "iosTabletUDID": "replace-with-simctl-device-uuid",
+    "androidPhoneSerial": "replace-with-adb-serial",
+    "androidTabletSerial": "replace-with-adb-serial"
+  },
+  "paths": {
+    "sampleDocuments": "your-synthetic-fixtures-directory",
+    "evidence": "your-local-output-directory"
+  }
+}

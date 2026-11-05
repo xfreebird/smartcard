@@ -36,3 +36,6 @@ vendor/bundle/
 fastlane/report.xml
 fastlane/README.md
 fastlane/Preview.html
+
+# Developer-specific VM/device inventory and local evidence (no credentials)
+.local/
