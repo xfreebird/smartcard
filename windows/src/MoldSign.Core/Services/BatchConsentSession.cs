@@ -78,6 +78,15 @@ public sealed class BatchConsentSession : IDisposable
         }
     }
 
+    internal void SkipFailedDocument(string path)
+    {
+        lock (_gate)
+        {
+            // Failure can occur before or after Request consumed this document.
+            if (!_ended && _next < _documents.Length && string.Equals(_documents[_next].Path, path, StringComparison.Ordinal)) _next++;
+        }
+    }
+
     public void Dispose()
     {
         lock (_gate) End();

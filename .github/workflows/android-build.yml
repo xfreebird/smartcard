@@ -77,8 +77,8 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: '3.3', bundler-cache: true }
-      - name: Publish to Google Play internal and closed testing
+      - name: Upload Google Play artifact only
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           PLAY_CLOSED_TRACK: ${{ vars.PLAY_CLOSED_TRACK || 'alpha' }}
-        run: bundle exec fastlane android_testing
+        run: bundle exec fastlane android_artifact

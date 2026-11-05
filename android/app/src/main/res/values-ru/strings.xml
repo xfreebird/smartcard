@@ -248,4 +248,6 @@
   <string name="government_sources_explanation">Ниже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах.</string>
   <string name="government_notice_continue">Продолжить</string>
   <string name="government_sources_action">Негосударственное приложение · Официальные источники</string>
+  <string name="signed_results">Успешно подписано</string>
+  <string name="clear_results">Очистить результаты</string>
 </resources>

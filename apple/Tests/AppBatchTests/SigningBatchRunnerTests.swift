@@ -6,6 +6,24 @@ final class SigningBatchRunnerTests: XCTestCase {
     struct Context: Equatable { let reader: String; let certificate: String }
     enum Failure: Error { case rejectedPIN, disconnected }
 
+    func testDocumentFailureContinuesWithoutRepeatingAuthorization() async {
+        let runner = SigningBatchRunner()
+        var prompts = 0
+        var completed: [Int] = []
+        var failures: [Int] = []
+        _ = await runner.run(items: [1, 2, 3], context: (), authorize: { _, _ in
+            prompts += 1
+            return "mock-credential"
+        }, sign: { item, _, _ in
+            if item == 2 { throw Failure.disconnected }
+            return item
+        }, didSign: { item, _, _ in completed.append(item) },
+        didFail: { item, _ in failures.append(item) }, shouldContinue: { _ in true })
+        XCTAssertEqual(prompts, 1)
+        XCTAssertEqual(completed, [1, 3])
+        XCTAssertEqual(failures, [2])
+    }
+
     func testSuspendedAuthorizationFreezesFilesAndCardAndRejectsSecondStart() async {
         let runner = SigningBatchRunner()
         var queue = [1, 2]

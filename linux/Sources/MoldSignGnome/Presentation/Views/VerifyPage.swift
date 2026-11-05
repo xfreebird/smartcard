@@ -40,7 +40,8 @@ final class VerifyPage {
         reportsBox = vbox(spacing: 18)
         let again = button(L10n.text(.ui_verify_another_file), classes: ["pill"]) {}
         gtk_widget_set_halign(again, GTK_ALIGN_CENTER)
-        let resultContent = vbox(spacing: 18, [verdict.root, reportsBox, again])
+        let clear = button("Clear results", classes: ["pill"]) { [weak controller] in controller?.resetVerify() }
+        let resultContent = vbox(spacing: 18, [verdict.root, reportsBox, again, clear])
         gtk_widget_set_margin_bottom(resultContent, 24)
         gtk_widget_set_margin_start(resultContent, 24)
         gtk_widget_set_margin_end(resultContent, 24)
@@ -57,16 +58,16 @@ final class VerifyPage {
         onSignal(choose, "clicked") { [weak self] in self?.pickFile() }
         onSignal(again, "clicked") { [weak self] in self?.pickFile() }
         addFileDropTarget(root) { paths in
-            if let first = paths.first { controller.verify(path: first) }
+            controller.verify(paths: paths)
         }
         controller.observe { [weak self] in self?.render() }
     }
 
     /// "Alege fișierul" / Ctrl+O on this page.
     func pickFile() {
-        chooseFiles(parent: window(), title: L10n.text(.ui_choose_the_signed_document), multiple: false,
+        chooseFiles(parent: window(), title: L10n.text(.ui_choose_the_signed_document), multiple: true,
                     filters: [(L10n.text(.linux_signed_documents_filter), ["pdf", "xml"]), (L10n.text(.ui_all_files), ["*"])]) { [weak self] paths in
-            if let first = paths.first { self?.controller.verify(path: first) }
+            self?.controller.verify(paths: paths)
         }
     }
 
@@ -82,7 +83,7 @@ final class VerifyPage {
             renderedKey = ""
             return
         }
-        let key = file.path + "\(reports.count)"
+        let key = file.path + "\(reports.count)-\(controller.verifiedDocuments.count)"
         guard key != renderedKey else { return }
         renderedKey = key
 
@@ -97,18 +98,25 @@ final class VerifyPage {
         }
 
         clearBox(reportsBox)
-        for (index, report) in reports.enumerated() {
-            append(reportsBox, signatureGroup(report, index: index + 1, file: file))
+        let documents = controller.verifiedDocuments.isEmpty ? [(url: file, reports: reports)] : controller.verifiedDocuments
+        for document in documents {
+            append(reportsBox, label(document.url.lastPathComponent))
+            for (index, report) in document.reports.enumerated() {
+                append(reportsBox, signatureGroup(report, index: index + 1, file: document.url))
+            }
         }
         gtk_stack_set_visible_child_name(stack, "result")
     }
 
     /// SignatureCard: signer, times, level, three checks, technical details.
     private func signatureGroup(_ report: SignatureReport, index: Int, file: URL) -> Widget {
-        let group = preferencesGroup(title: report.signer, description: localized(.ui_signature_value_value, String(index), report.kind))
+        let group = preferencesGroup(title: "Author: " + report.signer, description: localized(.ui_signature_value_value, String(index), report.kind))
         let list = boxedList()
-        gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_signed_at), subtitle: report.signingTime, icon: "document-edit-symbolic"))
-        gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_timestamp), subtitle: report.timestampTime ?? L10n.text(.ui_no_timestamp),
+        if let idnp = report.certificateDetails["Subject · Personal identifier"], idnp.count == 13, idnp.allSatisfy({ $0.isASCII && $0.isNumber }) {
+            gtk_list_box_append(list.opaque, actionRow(title: "IDNP", subtitle: idnp, subtitleSelectable: true))
+        }
+        gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_signed_at), subtitle: Validator.readableDate(report.signingTime), icon: "document-edit-symbolic"))
+        gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_timestamp), subtitle: report.timestampTime.map(Validator.readableDate) ?? L10n.text(.ui_no_timestamp),
                                                    icon: "document-open-recent-symbolic"))
         gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_level), subtitle: report.level, icon: "security-high-symbolic"))
         gtk_list_box_append(list.opaque, check(L10n.text(.linux_integrity), ok: report.contentIntact,
@@ -121,6 +129,12 @@ final class VerifyPage {
                                                okText: L10n.text(.ui_issued_by_mdqsign_anchored_in_mdtrustca),
                                                badText: L10n.text(.ui_unknown_or_incomplete_chain), warnOnly: true))
 
+        let certificate = adw_expander_row_new()!
+        adw_preferences_row_set_title(certificate.cast(), "Certificate details")
+        for key in report.certificateDetails.keys.sorted() {
+            adw_expander_row_add_row(certificate.cast(), actionRow(title: key, subtitle: report.certificateDetails[key] ?? "", subtitleSelectable: true))
+        }
+        gtk_list_box_append(list.opaque, certificate)
         let details = adw_expander_row_new()!
         adw_preferences_row_set_title(details.cast(), L10n.text(.ui_technical_details))
         let detailRows: [(String, String)] = [

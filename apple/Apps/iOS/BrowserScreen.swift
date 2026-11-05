@@ -266,11 +266,14 @@ struct ConnectionGuideView: View {
     var body: some View {
         NavigationStack {
             List {
+                Section {
+                    Text(L10n.text(.ui_iphone_ipad_os_17_or_later))
+                }
                 Section(L10n.text(.ui_how_to_connect_the_reader)) {
                     tile("cable.connector", L10n.text(.ui_usb_c_usb_a),
-                         L10n.text(.ui_iphone_15_or_later_ipad_with_usb_c_usb_c_to_usb_a_adapter))
-                    tile("bolt.horizontal", L10n.text(.ui_lightning_to_usb_3_camera_adapter),
-                         L10n.text(.ui_iphone_14_or_earlier_an_adapter_with_additional_power_is_recommended))
+                         L10n.text(.ui_usb_c_reader_connection))
+                    tile("bolt.horizontal", L10n.text(.ui_lightning_to_usb_a_adapter),
+                         L10n.text(.ui_lightning_reader_connection))
                 }
                 Section {
                     Text(L10n.text(.ui_the_bit4id_minilector_reader_is_detected_automatically_insert_the_card_with_the_chip_fac))

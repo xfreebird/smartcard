@@ -13,7 +13,7 @@ protocol BatchSigning {
               completed: (SignItem, Result<URL, Error>, Bool) -> Void) -> Error?
 }
 
-/// One frozen card identity and PIN for the entire batch. Stops at the first error, without retry.
+/// One frozen card identity and PIN for the entire batch. Continues after document failures; card and credential failures stop without retry.
 final class BatchSigningService: BatchSigning {
     private let signer: any DocumentSigning
     private let vault: any PINStoring
@@ -43,6 +43,8 @@ final class BatchSigningService: BatchSigning {
                 default: break
                 }
                 completed(item, .failure(error), false)
+                if case CardError.signFailed = error { continue }
+                if error is CocoaError || error is TrustServices.NetworkError { continue }
                 return error
             }
         }

@@ -9,56 +9,56 @@ struct VerifyScreen: View {
     @State private var dropTargeted = false
 
     var body: some View {
-        Form {
-            Section {
-                VStack(spacing: Theme.Space.s) {
-                    Image(systemName: "checkmark.seal")
-                        .font(.system(size: 34, weight: .light))
-                        .foregroundStyle(dropTargeted ? Color.accentColor : .secondary)
-                    Text(dropTargeted ? L10n.text(.ui_release_to_add) : L10n.text(.ui_drop_documents_here))
-                        .font(.headline)
-                    Text(L10n.text(.ui_or_drop_it_here_signed_pdf_or_xades_signature_xml))
-                        .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
-                    Button(model.verifyFile == nil ? L10n.text(.ui_choose_the_signed_document) : L10n.text(.ui_choose_another_document)) {
-                        importing = true
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.large)
-                    .padding(.top, Theme.Space.xs)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                DropZone(verification: true, targeted: dropTargeted) { importing = true }
+                    .accessibilityIdentifier("verify.dropZone")
+                if let file = model.verifyFile, model.verifyReports == nil {
+                    ProgressView(L10n.text(.ui_verifying) + " · " + file.lastPathComponent)
                 }
-                .padding(Theme.Space.l)
-                .frame(maxWidth: .infinity, minHeight: 190)
-                .background(dropTargeted ? Color.accentColor.opacity(0.12) : Color.secondary.opacity(0.05),
-                            in: RoundedRectangle(cornerRadius: 14))
-                .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(
-                    dropTargeted ? Color.accentColor : Color.secondary.opacity(0.45),
-                    lineWidth: dropTargeted ? 2 : 1))
-                .accessibilityIdentifier("verify.dropZone")
-                .listRowInsets(EdgeInsets())
-                .listRowBackground(Color.clear)
-            }
-
-            if let file = model.verifyFile {
-                if let reports = model.verifyReports {
-                    Section {
-                        if model.demoMode {
-                            Label(L10n.text(.demo_simulation_complete), systemImage: "sparkles")
-                            Text(L10n.text(.demo_output_notice)).foregroundStyle(.secondary)
-                        } else {
-                        VerdictBadge(verdict: Verdict(reports))
-                            .padding(.vertical, 4)
-                        LabeledContent(L10n.text(.ui_document), value: file.lastPathComponent)
+                if !model.verifiedDocuments.isEmpty || model.verifyFile != nil {
+                    Button(L10n.text(.ui_clear_results), role: .destructive) { model.clearVerification() }
+                        .accessibilityIdentifier("verify.clearResults")
+                }
+                ForEach(model.verifiedDocuments, id: \.url) { document in
+                    VStack(alignment: .leading, spacing: 16) {
+                        let verdict = Verdict(document.reports)
+                        HStack(alignment: .top, spacing: 12) {
+                            Image(systemName: verdict.symbol)
+                                .font(.system(size: 26, weight: .semibold))
+                                .foregroundStyle(verdict.tint)
+                                .accessibilityLabel(verdict.title)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(document.url.lastPathComponent)
+                                    .font(.headline).textSelection(.enabled)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(verdict.title).font(.subheadline.weight(.medium))
+                                Text(verdict.subtitle).font(.caption).foregroundStyle(.secondary)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        }
+                        ForEach(Array(document.reports.enumerated()), id: \.offset) { index, report in
+                            FullWidthDisclosure {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Author: " + report.signer).font(.headline)
+                                    Text(L10n.text(.ui_signature_count, index + 1)).font(.subheadline)
+                                    if let idnp = report.signerIDNP { Text("IDNP: " + idnp) }
+                                    Text(Validator.readableDate(report.signingTime)).foregroundStyle(.secondary)
+                                }
+                            } content: {
+                                SignatureSection(report: report, index: index + 1)
+                            }
                         }
                     }
-                    ForEach(Array(reports.enumerated()), id: \.offset) { index, report in
-                        SignatureSection(report: report, index: index + 1)
-                    }
-                } else {
-                    Section { ProgressView(L10n.text(.ui_verifying)) }
+                    .padding(20)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 16))
                 }
             }
+            .frame(maxWidth: 680)
+            .padding(24)
+            .frame(maxWidth: .infinity)
         }
-        .formStyle(.grouped)
         #if os(iOS)
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
@@ -68,12 +68,37 @@ struct VerifyScreen: View {
                 RoundedRectangle(cornerRadius: 12).strokeBorder(Color.accentColor, lineWidth: 2).padding(4).allowsHitTesting(false)
             }
         }
-        .dropDestination(for: URL.self) { urls, _ in
-            if let url = urls.first { Task { await model.verify(url) } }
-            return !urls.isEmpty
-        } isTargeted: { dropTargeted = $0 }
-        .fileImporter(isPresented: $importing, allowedContentTypes: [.pdf, .xml, .item]) { result in
-            if case .success(let url) = result { Task { await model.verify(url) } }
+        .onDrop(of: [.fileURL, .pdf, .xml, .data, .item], isTargeted: $dropTargeted) { providers in
+            Task {
+                let urls = await DroppedDocumentLoader.load(providers)
+                if !urls.isEmpty { await model.verifyFiles(urls) }
+            }
+            return !providers.isEmpty
+        }
+        .fileImporter(isPresented: $importing, allowedContentTypes: [.pdf, .xml, .item], allowsMultipleSelection: true) { result in
+            if case .success(let urls) = result { Task { await model.verifyFiles(urls) } }
+        }
+    }
+}
+
+private struct FullWidthDisclosure<Title: View, Content: View>: View {
+    @State private var expanded = false
+    @ViewBuilder var title: () -> Title
+    @ViewBuilder var content: () -> Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Button { expanded.toggle() } label: {
+                HStack(alignment: .top, spacing: 10) {
+                    Image(systemName: expanded ? "chevron.down" : "chevron.right").frame(width: 14).padding(.top, 3)
+                    title().frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .padding(.vertical, 8)
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+            .accessibilityValue(expanded ? "Expanded" : "Collapsed")
+            if expanded { content().padding(.leading, 24) }
         }
     }
 }
@@ -83,19 +108,33 @@ private struct SignatureSection: View {
     let index: Int
 
     var body: some View {
-        Section {
+        VStack(alignment: .leading, spacing: 12) {
             LabeledContent(L10n.text(.ui_signer), value: report.signer)
-            LabeledContent(L10n.text(.ui_signed_at), value: report.signingTime)
-            if let tst = report.timestampTime { LabeledContent(L10n.text(.ui_timestamp), value: tst) }
+            LabeledContent(L10n.text(.ui_signed_at), value: Validator.readableDate(report.signingTime))
+            if let tst = report.timestampTime { LabeledContent(L10n.text(.ui_timestamp), value: Validator.readableDate(tst)) }
             LabeledContent(L10n.text(.ui_level), value: report.level)
             check(L10n.text(.ui_document_integrity), report.contentIntact)
             check(L10n.text(.ui_cryptographic_signature), report.signatureValid)
             check(L10n.text(.ui_trust_chain_mdqsign_mdtrustca), report.chainTrusted)
-            DisclosureGroup(L10n.text(.ui_technical_details)) {
+            FullWidthDisclosure { Text("Certificate details").fontWeight(.medium) } content: {
+                ForEach(["Subject", "Issuer", "Certificate"], id: \.self) { group in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(group).font(.headline)
+                        ForEach(report.certificateDetails.keys.sorted().filter { key in
+                            group == "Certificate" ? !key.contains(" · ") : key.hasPrefix(group + " · ")
+                        }, id: \.self) { key in
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(key.components(separatedBy: " · ").last ?? key).font(.caption).foregroundStyle(.secondary)
+                                Text(report.certificateDetails[key] ?? "—").textSelection(.enabled)
+                                    .fixedSize(horizontal: false, vertical: true)
+                            }
+                        }
+                    }
+                }
+            }
+            FullWidthDisclosure { Text(L10n.text(.ui_technical_details)).fontWeight(.medium) } content: {
                 Text(report.summary).font(.caption.monospaced()).textSelection(.enabled)
             }
-        } header: {
-            Text(L10n.text(.ui_signature_count, index))
         }
     }
 

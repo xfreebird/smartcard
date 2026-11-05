@@ -10,14 +10,35 @@ import appgallery
 
 
 class PublishingTests(unittest.TestCase):
-    def run_publish(self, api):
+    def run_publish(self, api, draft=False):
         with tempfile.TemporaryDirectory() as folder:
             apk = Path(folder) / 'app.apk'
             apk.write_bytes(b'fixture')
             with patch.dict(os.environ, {'HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON': '{}'}), \
-                 patch('sys.argv', ['appgallery.py', '--apk', str(apk), '--version-code', '112']), \
+                 patch('sys.argv', ['appgallery.py', '--apk', str(apk), '--version-code', '112'] + (['--draft'] if draft else [])), \
                  patch.object(appgallery, 'Gallery', return_value=api):
                 appgallery.main()
+
+    def test_draft_upload_never_submits(self):
+        api = Mock()
+        api.call.side_effect = [
+            {'appInfo': {'versionCode': 111, 'releaseState': 1}},
+            {'uploadUrl': 'https://example.invalid/upload', 'authCode': 'fixture'},
+            {'ret': {'code': 0}},
+            {'appInfo': {'versionCode': 112}},
+        ]
+        response = Mock()
+        response.json.return_value = {'result': {'UploadFileRsp': {'fileInfoList': [
+            {'fileName': 'app.apk', 'fileDestUlr': 'fixture'}]}}}
+        with patch.object(appgallery.requests, 'post', return_value=response), patch.object(appgallery.time, 'sleep'):
+            self.run_publish(api, draft=True)
+        self.assertFalse(any(call.args[1] == 'app-submit' for call in api.call.call_args_list))
+
+    def test_existing_draft_is_not_submitted(self):
+        api = Mock()
+        api.call.return_value = {'appInfo': {'versionCode': 112, 'releaseState': 1}}
+        self.run_publish(api, draft=True)
+        self.assertEqual(api.call.call_count, 1)
 
     def test_already_submitted_version_does_not_upload(self):
         api = Mock()

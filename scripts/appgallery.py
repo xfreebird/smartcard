@@ -53,6 +53,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--apk', type=Path)
     parser.add_argument('--version-code', type=int)
+    parser.add_argument('--draft', action='store_true', help='Upload and attach the APK without submitting for review')
     parser.add_argument('--check', action='store_true', help='Read-only API authentication check')
     args = parser.parse_args()
     credential = os.environ['HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON']
@@ -75,6 +76,9 @@ def main():
     # Never cancel an active review to replace its binary.
     if state == '4':
         raise RuntimeError('Huawei has an active review. Retry after the current review finishes.')
+    if current == args.version_code and args.draft:
+        print(f'Draft build {args.version_code} is already attached; not submitted.')
+        return
     if current == args.version_code:
         gallery.call('POST', 'app-submit', body={'releaseType': 1})
         print(f'Resubmitted existing draft build {args.version_code}.')
@@ -94,6 +98,9 @@ def main():
     parsed = gallery.call('GET', 'app-info', lang='en-US')['appInfo']
     if int(parsed.get('versionCode') or 0) != args.version_code:
         raise RuntimeError('Huawei has not attached the expected version code; refusing to submit another binary.')
+    if args.draft:
+        print(f'Draft build {args.version_code} attached; not submitted. SHA256={hashlib.sha256(args.apk.read_bytes()).hexdigest()}')
+        return
     gallery.call('POST', 'app-submit', body={'releaseType': 1})
     for _ in range(12):
         state = gallery.call('GET', 'app-info', lang='en-US')['appInfo']

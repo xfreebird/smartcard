@@ -100,7 +100,9 @@ class AppContainer(
      * its certificate; a new card or generation is read once, PIN-less, so the UI greets the holder (docs/09 §3.7).
      * Never retried in a loop (6985 trap, R-07): only a new generation or "Recitește cardul" reads again.
      */
+    private var pendingSnapshot: List<ReaderSlot>? = null
     private fun apply(snapshot: List<ReaderSlot>) {
+        if (_busy.value) { pendingSnapshot = snapshot; return }
         var toRead = emptyList<WalletCard>()
         _wallet.update { w -> w.reconcile(snapshot).also { toRead = it.toRead }.state }
         toRead.forEach(::readCertificate)
@@ -141,6 +143,7 @@ class AppContainer(
 
     fun endBusy() {
         _busy.value = busyJobs.decrementAndGet() > 0
+        if (!_busy.value) pendingSnapshot?.let { pendingSnapshot = null; apply(it) }
     }
 
     /** The cards a browser may sign with: every ready card whose certificate DER is known (not the demo cards). */

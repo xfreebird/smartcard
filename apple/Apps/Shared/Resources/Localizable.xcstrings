@@ -1,6 +1,50 @@
 {
   "sourceLanguage": "ro",
   "strings": {
+    "ui_clear_results": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Șterge rezultatele"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear results"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Очистить результаты"
+          }
+        }
+      }
+    },
+    "ui_iphone_ipad_os_17_or_later": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Funcționează cu orice iPhone cu iOS 17 sau o versiune ulterioară și cu orice iPad cu iPadOS 17 sau o versiune ulterioară. Alege adaptorul potrivit pentru portul dispozitivului. De regulă, nu este necesară o sursă de alimentare externă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Works with any iPhone running iOS 17 or later and any iPad running iPadOS 17 or later. Choose the adapter that matches your device’s port. External power is generally not needed."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Работает с любым iPhone под управлением iOS 17 или новее и любым iPad с iPadOS 17 или новее. Выберите адаптер для разъёма вашего устройства. Внешнее питание обычно не требуется."
+          }
+        }
+      }
+    },
     "ui_trust_this_site_for_10_minutes": {
       "localizations": {
         "ro": {
@@ -1145,24 +1189,24 @@
         }
       }
     },
-    "ui_lightning_to_usb_3_camera_adapter": {
+    "ui_lightning_to_usb_a_adapter": {
       "localizations": {
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lightning → USB 3 pentru cameră"
+            "value": "Lightning → USB-A"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Lightning to USB 3 Camera Adapter"
+            "value": "Lightning to USB-A"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Адаптер Lightning/USB 3 для подключения камеры"
+            "value": "Lightning → USB-A"
           }
         }
       }
@@ -2421,24 +2465,24 @@
         }
       }
     },
-    "ui_iphone_14_or_earlier_an_adapter_with_additional_power_is_recommended": {
+    "ui_lightning_reader_connection": {
       "localizations": {
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "iPhone 14 sau mai vechi. Recomandat adaptorul cu alimentare suplimentară."
+            "value": "Pentru iPhone sau iPad cu port Lightning, folosește un adaptor Lightning la USB-A."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "iPhone 14 or earlier. An adapter with additional power is recommended."
+            "value": "For iPhone or iPad with a Lightning port, use a Lightning to USB-A adapter."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "iPhone 14 или более ранняя модель. Рекомендуется адаптер с дополнительным питанием."
+            "value": "Для iPhone или iPad с разъёмом Lightning используйте адаптер Lightning — USB-A."
           }
         }
       }
@@ -3807,24 +3851,24 @@
         }
       }
     },
-    "ui_iphone_15_or_later_ipad_with_usb_c_usb_c_to_usb_a_adapter": {
+    "ui_usb_c_reader_connection": {
       "localizations": {
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "iPhone 15 sau mai nou, iPad cu USB-C. Adaptor USB-C la USB-A."
+            "value": "Pentru iPhone și iPad cu port USB-C, conectează cititorul printr-un adaptor USB-C la USB-A."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "iPhone 15 or later, iPad with USB-C. USB-C to USB-A adapter."
+            "value": "For iPhone and iPad with a USB-C port, connect the reader using a USB-C to USB-A adapter."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "iPhone 15 и новее, iPad с USB-C. Адаптер USB-C — USB-A."
+            "value": "Для iPhone и iPad с портом USB-C подключите считыватель через адаптер USB-C — USB-A."
           }
         }
       }

@@ -30,7 +30,14 @@ final class WindowPresentation {
         switch destination {
         case .main: mainWindow = window
         case .settings: settingsWindow = window
-        case .about: aboutWindow = window
+        case .about:
+            aboutWindow = window
+            window.styleMask.remove([.resizable, .miniaturizable])
+            window.standardWindowButton(.zoomButton)?.isEnabled = false
+            window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
+            window.standardWindowButton(.closeButton)?.isEnabled = true
+            window.collectionBehavior.remove(.fullScreenPrimary)
+            window.collectionBehavior.insert(.fullScreenNone)
         }
         guard pending == destination else { return }
         DispatchQueue.main.async { [weak self] in self?.finishPendingRequest() }

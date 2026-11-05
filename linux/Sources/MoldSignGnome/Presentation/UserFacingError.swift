@@ -24,6 +24,8 @@ enum UserFacingError {
             return (L10n.text(.ui_the_secure_session_was_interrupted), L10n.text(.ui_try_again))
         case CardError.signFailed(let message) where message.hasPrefix("TSA"):
             return (L10n.text(.ui_the_timestamp_service_is_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
+        case CardError.signFailed:
+            return ("This document could not be signed. It may be damaged or use an unsupported format.", "")
         case is TrustServices.NetworkError:
             return (L10n.text(.ui_pki_services_are_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
         case let error as CocoaError where error.code == .fileWriteNoPermission || error.code == .fileWriteFileExists:

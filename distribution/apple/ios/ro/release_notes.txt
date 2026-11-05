@@ -1,7 +1,1 @@
-Prima versiune eSemnBun.
-• Semnează PDF-uri și alte documente cu buletinul electronic moldovenesc și un cititor compatibil.
-• Autorizează un lot o singură dată și verifică semnături.
-• Alege cardul conectat și consultă certificatul.
-• Accesează servicii publice compatibile în browserul integrat.
-• Salvează și distribuie fișiere, gestionează PIN-urile salvate și alege tema deschisă sau întunecată.
-• Disponibil în română, engleză și rusă.
+Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete.

@@ -5,6 +5,11 @@ import Foundation
 public enum Validator {
 
     public struct Report {
+        public var certificateDetails: [String: String] = [:]
+        public var signerIDNP: String? {
+            guard let value = certificateDetails["Subject · Personal identifier"], value.count == 13, value.allSatisfy({ $0.isASCII && $0.isNumber }) else { return nil }
+            return value
+        }
         public var kind: String              // "PAdES" / "XAdES"
         public var name: String              // signature field name or Signature Id
         public var signer: String            // CN from signing cert
@@ -23,6 +28,142 @@ public enum Validator {
                    (contentIntact ? "" : ", content modified!") +
                    (signatureValid ? "" : ", bad signature!")
         }
+    }
+
+    public static func readableDate(_ value: String) -> String {
+        let parser = DateFormatter()
+        parser.locale = Locale(identifier: "en_US_POSIX")
+        parser.timeZone = TimeZone(secondsFromGMT: 0)
+        for format in ["yyMMddHHmmss'Z'", "yyyyMMddHHmmss'Z'", "yyyy-MM-dd'T'HH:mm:ssXXXXX"] {
+            parser.dateFormat = format
+            if let date = parser.date(from: value) {
+                return date.formatted(date: .abbreviated, time: .standard)
+            }
+        }
+        return value
+    }
+
+    static func certificateDetails(_ rawDER: Data) -> [String: String] {
+        guard let (header, length) = try? DER.header(rawDER, at: 0), header + length <= rawDER.count else { return [:] }
+        let der = Data(rawDER.prefix(header + length))
+        let cert = SigningService.CertificateSummary(der: der)
+        var details = ["Serial number": cert.serialDecimal, "SHA-256 fingerprint": der.sha256().hexString]
+        let labels = ["CN": "Name", "SN": "Surname", "GN": "Given names", "serialNumber": "Personal identifier",
+                      "C": "Country", "L": "City", "ST": "Region", "O": "Organization", "OU": "Department",
+                      "organizationIdentifier": "Organization identifier", "2.5.4.20": "Telephone", "T": "Title"]
+        for (group, subject) in [("Subject", true), ("Issuer", false)] {
+            if let name = try? XAdESSigner.nameDER(der, subject: subject) {
+                for attribute in X509Name.attributes(name) {
+                    let key = group + " · " + (labels[attribute.type] ?? attribute.type)
+                    details[key] = details[key].map { $0 + "; " + attribute.value } ?? attribute.value
+                }
+            }
+        }
+        if let date = (try? X509Validity(der))?.notBefore { details["Valid from"] = date.formatted(date: .abbreviated, time: .standard) }
+        if let date = cert.notAfter { details["Valid until"] = date.formatted(date: .abbreviated, time: .standard) }
+        func children(_ data: Data) -> [(UInt8, Data)] {
+            guard let (header, length) = try? DER.header(data, at: 0), header + length <= data.count else { return [] }
+            var result: [(UInt8, Data)] = [], position = header
+            while position < header + length {
+                guard let (h, n) = try? DER.header(data, at: position), position + h + n <= data.count else { break }
+                result.append((data[position], Data(data[(position + h)..<(position + h + n)])))
+                position += h + n
+            }
+            return result
+        }
+        // Inspect SubjectPublicKeyInfo without relying on a platform trust service.
+        let outerHeader = (try? DER.header(der, at: 0))?.0 ?? 0
+        if outerHeader < der.count, let (h, n) = try? DER.header(der, at: outerHeader), outerHeader + h + n <= der.count {
+            let tbs = Data(der[outerHeader..<(outerHeader + h + n)])
+            let fields = children(tbs)
+            let keyIndex = fields.first?.0 == 0xA0 ? 6 : 5
+            if fields.indices.contains(keyIndex) {
+                let spki = children(Data([0x30]) + lengthBytes(fields[keyIndex].1.count) + fields[keyIndex].1)
+                if spki.count > 1, spki[1].1.count > 1 {
+                    let rsa = children(Data(spki[1].1.dropFirst()))
+                    if let modulus = rsa.first, modulus.0 == 0x02 {
+                        let bytes = modulus.1.drop(while: { $0 == 0 })
+                        details["Public key"] = "RSA \(bytes.count * 8) bits"
+                    }
+                }
+            }
+        }
+        func sequence(_ content: Data) -> Data { Data([0x30]) + lengthBytes(content.count) + content }
+        func dotted(_ bytes: Data) -> String {
+            guard let first = bytes.first else { return "" }
+            var parts = [Int(first) / 40, Int(first) % 40], value = 0
+            for byte in bytes.dropFirst() {
+                value = (value << 7) | Int(byte & 0x7f)
+                if byte & 0x80 == 0 { parts.append(value); value = 0 }
+            }
+            return parts.map(String.init).joined(separator: ".")
+        }
+        func strings(_ data: Data, depth: Int = 0) -> [String] {
+            guard depth < 20, let tag = data.first, let (h, n) = try? DER.header(data, at: 0), h + n <= data.count else { return [] }
+            let content = Data(data[h..<(h + n)])
+            if tag == 0x86 || tag == 0x81 || tag == 0x82 || tag == 0x16 { return [String(decoding: content, as: UTF8.self)] }
+            if tag & 0x20 != 0 { return children(data).flatMap { strings(Data([$0.0]) + lengthBytes($0.1.count) + $0.1, depth: depth + 1) } }
+            return []
+        }
+        let certificate = children(der)
+        if let tbs = certificate.first {
+            let fields = children(sequence(tbs.1))
+            if let extensions = fields.first(where: { $0.0 == 0xA3 }) {
+                for entry in children(extensions.1) {
+                    let fields = children(sequence(entry.1))
+                    guard let oid = fields.first, let value = fields.last, value.0 == 0x04 else { continue }
+                    let id = dotted(oid.1)
+                    let names = ["2.5.29.31": "Revocation lists", "1.3.6.1.5.5.7.1.1": "Authority information",
+                                 "2.5.29.17": "Alternative names", "2.5.29.32": "Certificate policies"]
+                    if id == "1.3.6.1.5.5.7.1.1" {
+                        for access in children(value.1) {
+                            let fields = children(sequence(access.1))
+                            guard fields.count > 1, fields[1].0 == 0x86 else { continue }
+                            let method = dotted(fields[0].1)
+                            let name = method == "1.3.6.1.5.5.7.48.1" ? "OCSP responder" : method == "1.3.6.1.5.5.7.48.2" ? "Issuer certificate URL" : "Authority " + method
+                            details[name] = String(decoding: fields[1].1, as: UTF8.self)
+                        }
+                        continue
+                    }
+                    if id == "2.5.29.32" {
+                        for policy in children(value.1) {
+                            let fields = children(sequence(policy.1))
+                            guard let oid = fields.first else { continue }
+                            let policyID = dotted(oid.1)
+                            let qualifiers = strings(sequence(policy.1))
+                            details["Certificate policy " + policyID] = qualifiers.isEmpty ? policyID : qualifiers.joined(separator: "\n")
+                        }
+                        continue
+                    }
+                    if id == "1.3.6.1.5.5.7.1.3" {
+                        details["Qualified certificate statements"] = children(value.1).compactMap { statement in
+                            guard let oid = children(sequence(statement.1)).first else { return nil }
+                            let statementID = dotted(oid.1)
+                            return statementID == "0.4.0.1862.1.1" ? "QC compliance declaration (" + statementID + ")" : statementID
+                        }.joined(separator: "\n")
+                        continue
+                    }
+                    let decoded = strings(value.1)
+                    if !decoded.isEmpty { details[names[id] ?? "Extension " + id] = decoded.joined(separator: "\n") }
+                    else if id == "2.5.29.14", let (h, n) = try? DER.header(value.1, at: 0), h + n <= value.1.count {
+                        details["Subject key identifier"] = Data(value.1[h..<(h+n)]).hexString
+                    } else if id == "2.5.29.35", let key = children(value.1).first(where: { $0.0 == 0x80 }) {
+                        details["Authority key identifier"] = key.1.hexString
+                    } else if id == "2.5.29.15", let (h, n) = try? DER.header(value.1, at: 0), n > 1, h + n <= value.1.count {
+                        let bits = Array(value.1[(h+1)..<(h+n)])
+                        let names = ["Digital signature", "Content commitment", "Key encipherment", "Data encipherment", "Key agreement", "Certificate signing", "CRL signing", "Encipher only", "Decipher only"]
+                        details["Key usage"] = names.enumerated().compactMap { index, name in
+                            index / 8 < bits.count && bits[index / 8] & (0x80 >> (index % 8)) != 0 ? name : nil
+                        }.joined(separator: ", ")
+                    } else { details["Extension " + id] = value.1.hexString }
+                }
+            }
+            if certificate.count > 1 {
+                let algorithm = children(sequence(certificate[1].1)).first.map { dotted($0.1) } ?? ""
+                details["Certificate signature algorithm"] = algorithm == "1.2.840.113549.1.1.11" ? "SHA-256 with RSA" : algorithm
+            }
+        }
+        return details
     }
 
     // MARK: - PAdES
@@ -96,12 +237,13 @@ public enum Validator {
         if let c = parts.cert {
             let subj = subjectCN(c)
             r.signer = subj ?? "?"
+            r.certificateDetails = certificateDetails(c)
         }
-        r.signingTime = parts.signingTime ?? "-"
+        r.signingTime = readableDate(parts.signingTime ?? "-")
         r.contentIntact = (parts.messageDigest == content.sha256())
         if parts.hasTimestamp {
             r.level = kind + "-B-T"
-            r.timestampTime = parts.tstGenTime
+            r.timestampTime = parts.tstGenTime.map(readableDate)
         }
 
         // RSA verify: signature over sha256(SET(attrs)) with signer cert key
@@ -406,10 +548,11 @@ private struct XMLSig {
                 r.signatureValid = RSAVerifier.verify(certDER: certDER, digest: method.hash(siC14n), signature: sig, algorithm: method)
                 r.chainTrusted = Validator.verifiesOfflineChain(leafDER: certDER)
                 r.signer = Validator.subjectCN(certDER) ?? "?"
+                r.certificateDetails = Validator.certificateDetails(certDER)
             }
         }
         if let t = doc.range(of: "<xades:SigningTime>"), let te = doc.range(of: "</xades:SigningTime>") {
-            r.signingTime = String(doc[t.upperBound..<te.lowerBound])
+            r.signingTime = Validator.readableDate(String(doc[t.upperBound..<te.lowerBound]))
         }
         if doc.contains("<xades:SignatureTimeStamp") {
             r.level = "XAdES-T"

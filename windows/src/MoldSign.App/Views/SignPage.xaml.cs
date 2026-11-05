@@ -78,11 +78,21 @@ public sealed partial class SignPage : Page
             [.. rows.Select(f => new DocumentJob(f.Path, f.Format))], packaging);
         foreach (var path in outcome.Outputs)
         {
+            var rowContent = new Grid { ColumnSpacing = 12, MinHeight = 32 };
+            rowContent.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            rowContent.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            rowContent.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+            var icon = new FontIcon { Glyph = "\uE73E", FontSize = 18, VerticalAlignment = VerticalAlignment.Center };
+            var name = new TextBlock { Text = System.IO.Path.GetFileName(path), TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center };
+            var action = new TextBlock { Text = Loc.Get("File_ShowInFolder"), VerticalAlignment = VerticalAlignment.Center };
+            Grid.SetColumn(name, 1); Grid.SetColumn(action, 2);
+            rowContent.Children.Add(icon); rowContent.Children.Add(name); rowContent.Children.Add(action);
             var button = new Button
             {
-                Content = new TextBlock { Text = System.IO.Path.GetFileName(path), TextWrapping = TextWrapping.Wrap },
+                Content = rowContent,
+                Padding = new Thickness(12),
+                HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 Tag = path, HorizontalAlignment = HorizontalAlignment.Stretch,
-                HorizontalContentAlignment = HorizontalAlignment.Left,
             };
             ToolTipService.SetToolTip(button, path);
             button.Click += OnSignedFileClick;
@@ -91,9 +101,12 @@ public sealed partial class SignPage : Page
         SignedResults.Visibility = SignedFiles.Children.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         foreach (var completed in outcome.CompletedInputs)
             if (Files.FirstOrDefault(row => row.Path == completed) is { } row) Files.Remove(row);
+        foreach (var failure in outcome.FailedInputs)
+            if (Files.FirstOrDefault(row => row.Path == failure.Key) is { } row) row.Error = failure.Value;
         if (outcome.FailedInput is { } failed && Files.FirstOrDefault(row => row.Path == failed) is { } failedRow)
             failedRow.Error = outcome.Message;
-        if (!string.IsNullOrEmpty(outcome.Message))
+        Result.IsOpen = false;
+        if (!string.IsNullOrEmpty(outcome.Message) && outcome.FailedInput is null && outcome.FailedInputs.Count == 0)
         {
             Result.Severity = outcome.Success ? InfoBarSeverity.Success : InfoBarSeverity.Warning;
             Result.Message = outcome.Message;

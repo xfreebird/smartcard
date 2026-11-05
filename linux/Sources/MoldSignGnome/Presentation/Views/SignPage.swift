@@ -120,7 +120,7 @@ final class SignPage {
         renderFiles()
         renderSteps()
 
-        setVisible(errorGroup, c.lastError != nil && !c.isSigning)
+        setVisible(errorGroup, c.lastError != nil && !c.isSigning && !c.signItems.contains { $0.error != nil })
         if let error = c.lastError {
             adw_preferences_row_set_title(errorRow.cast(), escapeMarkup(error.message))
             adw_action_row_set_subtitle(errorRow.cast(), escapeMarkup(error.recovery))
@@ -181,11 +181,6 @@ final class SignPage {
             }
             setSensitive(remove, !c.isSigning)
             var suffix = [chip, remove]
-            if item.error != nil {
-                let retry = button(L10n.text(.file_retry)) { [weak self] in self?.controller.retry(id) }
-                setSensitive(retry, c.canSign)
-                suffix.insert(retry, at: 0)
-            }
             let row = actionRow(title: item.url.lastPathComponent, subtitle: item.error ?? item.sizeText,
                                 icon: item.error == nil ? "x-office-document-symbolic" : "dialog-error-symbolic", suffix: suffix)
             if item.error != nil { addClasses(row, ["error"]) }
@@ -235,6 +230,8 @@ final class SignPage {
             }
             let row = actionRow(title: url.lastPathComponent, subtitle: url.deletingLastPathComponent().path,
                                 icon: "object-select-symbolic", suffix: [open, openWith])
+            adw_action_row_set_activatable_widget(row.cast(), open)
+            gtk_list_box_row_set_activatable(row.cast(), 1)
             gtk_list_box_append(resultList.opaque, row)
         }
     }

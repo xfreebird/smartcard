@@ -42,11 +42,17 @@ struct MoldSignMacApp: App {
         }
 
         Window(L10n.text(.about_app_title), id: "about") {
-            AboutContent().appPreferences()
+            AboutContent().frame(width: 420, height: 340).appPreferences()
                 .background(WindowReader { WindowPresentation.shared.register($0, for: .about) })
         }
         .defaultLaunchBehavior(.suppressed)
+        .windowResizability(.contentSize)
         .commands {
+            CommandGroup(replacing: .help) {
+                Button("eSemnBun Help") {
+                    NSWorkspace.shared.open(URL(string: "https://esemnbun.md/docs/start/")!)
+                }
+            }
             CommandGroup(replacing: .appInfo) { AboutMenuCommand() }
             CommandGroup(replacing: .appSettings) { SettingsMenuCommand() }
             #if !APP_STORE

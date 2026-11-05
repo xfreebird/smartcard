@@ -57,6 +57,21 @@ public sealed class DocumentBatchSignerTests
         Assert.Empty(signer.Identities);
     }
 
+    [Fact]
+    public void Document_failure_is_reported_and_later_documents_continue()
+    {
+        var signer = new FakeSigner { BeforeSign = count => { if (count == 2) throw new CardException(CardErrorKind.Format, "Unsupported PDF"); } };
+        var failures = new List<string>();
+        var result = new DocumentBatchSigner(signer).Sign(
+            [new("a.pdf", SignatureFormat.PadesT), new("bad.pdf", SignatureFormat.PadesT), new("c.pdf", SignatureFormat.PadesT)],
+            "fixture", Certificate.Sha1, XadesPackaging.Detached, _ => ConsentResult.WithPin("0000"),
+            failed: (job, _) => failures.Add(job.Path));
+        Assert.Null(result.Error);
+        Assert.Equal(2, result.Completed.Count);
+        Assert.Equal(["bad.pdf"], failures);
+        Assert.Equal(3, signer.Identities.Count);
+    }
+
     private static ConsentRequest Request(string file) => new()
     { Certificate = Certificate, Documents = [file], Format = "PAdES-T", Requester = "Tu" };
 

@@ -25,6 +25,10 @@ on:
         description: Optional positive integer override (must exceed the last uploaded build)
         type: string
         required: false
+      android_build_number:
+        description: Optional Android version code override (independent of the Apple and Windows build number)
+        type: string
+        required: false
       tag:
         description: Release tag (default v<MARKETING_VERSION> from the Xcode project)
         type: string
@@ -110,7 +114,7 @@ jobs:
         with: { distribution: temurin, java-version: 17 }
       - name: Select Android build number
         env:
-          BUILD_NUMBER_INPUT: ${{ inputs.build_number }}
+          BUILD_NUMBER_INPUT: ${{ inputs.android_build_number }}
         run: |
           git fetch --force --tags origin
           minimum_version_code=1793624666
@@ -152,11 +156,11 @@ jobs:
           if-no-files-found: error
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: '3.3', bundler-cache: true }
-      - name: Publish to Google Play internal and closed testing
+      - name: Upload Google Play artifact only
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           PLAY_CLOSED_TRACK: ${{ vars.PLAY_CLOSED_TRACK || 'alpha' }}
-        run: bundle exec fastlane android_testing
+        run: bundle exec fastlane android_artifact
 
   linux:
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'linux' }}

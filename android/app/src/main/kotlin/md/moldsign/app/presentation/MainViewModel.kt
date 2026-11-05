@@ -74,8 +74,32 @@ class MainViewModel @JvmOverloads constructor(
     val pinVaultAvailable: Boolean get() = !demoMode && container.pinVault.isAvailable()
     val activity: StateFlow<List<ActivityEntry>> = container.activity.entries
 
+    private val _signedResults = MutableStateFlow<List<Pair<String, Uri>>>(emptyList())
+    val signedResults = _signedResults.asStateFlow()
+
     private val _signItems = MutableStateFlow<List<SignItem>>(emptyList())
     val signItems: StateFlow<List<SignItem>> = _signItems.asStateFlow()
+
+    private var verifyJob: kotlinx.coroutines.Job? = null
+    private val _verifiedDocuments = MutableStateFlow<List<Pair<PickedDocument, VerifyOutcome>>>(emptyList())
+    val verifiedDocuments = _verifiedDocuments.asStateFlow()
+
+    fun pickMultipleForVerify(uris: List<Uri>) {
+        if (demoMode) { pickForVerify(uris.firstOrNull()); return }
+        verifyJob?.cancel()
+        verifyJob = viewModelScope.launch {
+            _verifiedDocuments.value = emptyList()
+            _verifyDoc.value = null
+            _verifyOutcome.value = null
+            for (uri in uris) {
+                documents.keepAccess(uri)
+                _verifyDoc.value = documents.describe(uri)
+                _verifyDetached.value = emptyList()
+                _verifyOutcome.value = null
+                runVerify(firstRun = true)
+            }
+        }
+    }
 
     private val _verifyDoc = MutableStateFlow<PickedDocument?>(null)
     val verifyDoc: StateFlow<PickedDocument?> = _verifyDoc.asStateFlow()
@@ -120,6 +144,16 @@ class MainViewModel @JvmOverloads constructor(
     fun requestUsbPermission(readerId: String?) = container.readerMonitor.requestPermission(readerId)
 
     // ---------------------------------------------------------------- Semnează
+
+    fun receiveDroppedForSigning(uris: List<Uri>, releasePermission: () -> Unit = {}) {
+        if (demoMode) { releasePermission(); seedPreviewDocuments(); return }
+        viewModelScope.launch {
+            val copies = try { withContext(Dispatchers.IO) { uris.mapNotNull(documents::copyToCache) } }
+            finally { releasePermission() }
+            if (copies.isEmpty()) _message.value = UiMessage.Text(R.string.share_unreadable)
+            else addForSigning(copies)
+        }
+    }
 
     fun addForSigning(uris: List<Uri>) {
         if (demoMode) { seedPreviewDocuments(); return }
@@ -190,6 +224,7 @@ documents.copy(source, target)
 
     private fun signItems(items: List<SignItem>) {
         if (items.isEmpty() || _working.value) return
+        _signedResults.value = emptyList()
         if (demoMode) {
             if (_signItems.value.isEmpty()) return
             runJob(busyLight = true) {
@@ -205,6 +240,7 @@ documents.copy(source, target)
                     val outputName = "DEMO-$fixtureName-NOT-SIGNED.pdf"
                     val saved = container.signedFiles.save(outputName, "application/pdf", DemoOutputRenderer.render())
                     container.activity.document(outputName, saved, ok = true, text(R.string.demo_mode_result))
+                    _signedResults.update { it + (outputName to saved) }
                     lastPreview = saved
                     _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
                 }
@@ -238,6 +274,7 @@ documents.copy(source, target)
                         val outputName = SignFormat.outputName(item.doc.name, item.format)
                         val saved = container.signedFiles.save(outputName, if (item.format.xadesLevel == null) "application/pdf" else "application/xml", result.output)
                         container.activity.document(outputName, saved, ok = true, text(R.string.activity_signed, item.format.label))
+                        _signedResults.update { it + (outputName to saved) }
                         lastSaved = saved
                     } catch (e: CancellationException) {
                         throw e
@@ -246,6 +283,7 @@ documents.copy(source, target)
                     } catch (e: Throwable) {
                         _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = e) else it } }
                         log(item.doc, ok = false, text(R.string.activity_failed, item.format.label, errorText(getApplication(), e)))
+                        if (e is CardError.Format || e is CardError.Network || e is java.io.IOException) continue
                         throw e
                     }
                     _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
@@ -267,7 +305,8 @@ documents.copy(source, target)
             return
         }
         documents.keepAccess(uri)
-        viewModelScope.launch {
+        verifyJob?.cancel()
+        verifyJob = viewModelScope.launch {
             _verifyDoc.value = documents.describe(uri)
             _verifyDetached.value = emptyList()
             _verifyOutcome.value = null
@@ -276,30 +315,45 @@ documents.copy(source, target)
     }
 
     /** Android drag grants last only while the drop is active, so copy the URI before releasing the grant. */
-    fun receiveDroppedForVerify(uri: Uri, releasePermission: () -> Unit = {}) {
-        if (demoMode) { releasePermission(); pickForVerify(uri); return }
-        viewModelScope.launch {
-            val cached = try { withContext(Dispatchers.IO) { documents.copyToCache(uri) } }
+    fun receiveDroppedForVerify(uri: Uri, releasePermission: () -> Unit = {}) = receiveDroppedForVerify(listOf(uri), releasePermission)
+
+    fun receiveDroppedForVerify(uris: List<Uri>, releasePermission: () -> Unit = {}) {
+        if (demoMode) { releasePermission(); pickForVerify(uris.firstOrNull()); return }
+        verifyJob?.cancel()
+        verifyJob = viewModelScope.launch {
+            val cached = try { withContext(Dispatchers.IO) { uris.mapNotNull { documents.copyToCache(it) } } }
             finally { releasePermission() }
-            if (cached == null) {
-                _message.value = UiMessage.Text(R.string.share_unreadable)
-            } else {
-                pickForVerify(cached)
-            }
+            if (cached.isEmpty()) _message.value = UiMessage.Text(R.string.share_unreadable)
+            else pickMultipleForVerify(cached)
         }
     }
 
-    fun clearVerifyDoc() {
+    fun clearVerifyResults() {
+        verifyJob?.cancel()
+        _verifiedDocuments.value = emptyList()
         _verifyDoc.value = null
         _verifyDetached.value = emptyList()
         _verifyOutcome.value = null
     }
 
+    fun removeVerifiedDocument(uri: Uri) {
+        _verifiedDocuments.update { entries -> entries.filterNot { it.first.uri == uri } }
+        if (_verifyDoc.value?.uri == uri) {
+            verifyJob?.cancel()
+            _verifyDoc.value = null
+            _verifyDetached.value = emptyList()
+            _verifyOutcome.value = null
+        }
+    }
+
+    fun clearVerifyDoc() { _verifyDoc.value?.uri?.let(::removeVerifiedDocument) }
+
     /** The signed documents a detached XAdES signature refers to (matched by file name); verifies again. */
     fun addVerifyDocuments(uris: List<Uri>) {
         if (demoMode) return
         if (uris.isEmpty() || _verifyDoc.value == null) return
-        viewModelScope.launch {
+        verifyJob?.cancel()
+        verifyJob = viewModelScope.launch {
             uris.forEach(documents::keepAccess)
             val docs = uris.map { documents.describe(it) }
             _verifyDetached.update { list -> list + docs.filter { d -> list.none { it.name == d.name } } }
@@ -316,14 +370,17 @@ documents.copy(source, target)
                 VerifyOutcome(container.signingService.verify(Document(doc.name, documents.readBytes(doc.uri)), attached))
             }
             _verifyOutcome.value = outcome
+            _verifiedDocuments.update { entries -> entries.filterNot { it.first.uri == doc.uri } + (doc to outcome) }
             // one activity entry per file: the first result, or the final one once the missing documents were added
             if (firstRun || (before?.missingDocuments?.isNotEmpty() == true && outcome.missingDocuments.isEmpty())) {
                 log(doc, ok = outcome.verdict == Verdict.Valid, text(verifiedActivity(outcome.verdict)))
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Throwable) {
             _verifyOutcome.value = null
             log(doc, ok = false, text(R.string.activity_verify_failed, errorText(getApplication(), e)))
-            _message.value = UiMessage.Error(e)
+            if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
         }
     }
 
@@ -379,16 +436,16 @@ documents.copy(source, target)
                 // silent (docs/09 §3.3)
             } catch (e: CardError.CardChanged) {
                 // Another card is in the reader now: nothing was sent to it; show who is there and let the user retry.
-                _message.value = UiMessage.Error(e)
+                if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
                 container.rereadCards()
             } catch (e: CardError) {
                 Log.w(TAG, "card operation failed: ${e.javaClass.simpleName}")
-                _message.value = UiMessage.Error(e)
+                if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
             } catch (e: NotImplementedError) {
-                _message.value = UiMessage.Error(e)
+                if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
             } catch (e: Exception) {
                 Log.w(TAG, "operation failed", e)
-                _message.value = UiMessage.Error(e)
+                if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
             } finally {
                 _working.value = false
             }

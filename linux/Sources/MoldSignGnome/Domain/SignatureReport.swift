@@ -13,9 +13,11 @@ struct SignatureReport {
     var timestampTime: String?
     var level = ""
     var summary = ""
+    var certificateDetails: [String: String] = [:]
 
     init() {}
     init(_ report: Validator.Report) {
+        certificateDetails = report.certificateDetails
         kind = report.kind
         name = report.name
         signer = report.signer

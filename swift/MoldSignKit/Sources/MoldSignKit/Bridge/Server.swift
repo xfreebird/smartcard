@@ -97,6 +97,7 @@ public final class MoldSignServer {
     public var onListenerError: ((_ port: UInt16, _ error: Error) -> Void)?
     public private(set) var isRunning = false
 
+    private let previewCertificates: [SigningService.CertificateSummary]?
     private let policy: BridgeOriginPolicy
     private let allowsFileSystemRoutes: Bool
     private let allowsLegacyDesktopClient: Bool
@@ -116,7 +117,9 @@ public final class MoldSignServer {
                 httpPort: UInt16 = MoldSignServer.defaultHTTPPort,
                 httpsPort: UInt16 = MoldSignServer.defaultHTTPSPort,
                 allowsFileSystemRoutes: Bool = true,
-                allowsLegacyDesktopClient: Bool = false) {
+                allowsLegacyDesktopClient: Bool = false,
+                previewCertificates: [SigningService.CertificateSummary]? = nil) {
+        self.previewCertificates = previewCertificates
         self.allowsFileSystemRoutes = allowsFileSystemRoutes
         self.allowsLegacyDesktopClient = allowsLegacyDesktopClient
         self.policy = policy
@@ -386,9 +389,16 @@ public final class MoldSignServer {
             return
         }
 
+        // Explicit certificate previews are enumeration-only and never touch a card or sign data.
+        if previewCertificates != nil && !((method == "GET" && ["/hello", "/certificates", "/certificates/"].contains(path))
+            || (method == "POST" && path == "/certificates/refresh")) {
+            reply(respondJSON(403, #"{"error":"Demo identities: signing is disabled"}"#, origin: origin))
+            return
+        }
+
         // Sandboxed hosts accept document bytes, never filesystem paths supplied by a website.
         // Check before parsing payloads, creating sessions, or reaching consent/card operations.
-        if !allowsFileSystemRoutes && !(path == "/certificates" || path == "/certificates/"
+        if previewCertificates == nil && !allowsFileSystemRoutes && !(path == "/certificates" || path == "/certificates/"
             || path == "/sign/data" || path.hasPrefix("/sign/data/PKCS11/")) {
             reply(respondJSON(403, #"{"error":"filesystem routes disabled"}"#, origin: origin))
             return
@@ -493,18 +503,19 @@ public final class MoldSignServer {
     /// Built with JSONSerialization: any holder name (diacritics, quotes, control bytes) stays valid JSON;
     /// the portal shows "no available signatures" for an empty list OR for a body it can't parse.
     private func certificatesJSON() -> String {
-        let models: [[String: Any]] = SigningService.shared.listCards().enumerated().map { index, entry in
-            let cert = entry.certificate.der
-            let cn = entry.certificate.holder
+        let certificates = previewCertificates ?? SigningService.shared.listCards().map(\.certificate)
+        let models: [[String: Any]] = certificates.enumerated().map { index, entry in
+            let cert = entry.der
+            let cn = entry.holder
             return [
-                "certificateId": entry.certificate.sha1Hex,
+                "certificateId": entry.sha1Hex,
                 "label": cn + UUID().uuidString.prefix(4).lowercased(),
                 "providerId": "libbit4xpki.dylib-\(index)",
                 "policy": "1.2.498.3.32.1.1",
                 "certificateName": "\(cn) (null) (1.2.498.3.32.1.1)",
                 // decoded names (Java's X500Principal gives Unicode too), not the XAdES \XX escapes
-                "subjectDN": entry.certificate.subjectDN,
-                "issuerDN": entry.certificate.issuer,
+                "subjectDN": entry.subjectDN,
+                "issuerDN": entry.issuer,
                 "authority": false, "trusted": true, "verified": 0, "privateKeyPresent": true,
                 "certificateBase64": cert.base64EncodedString(),
             ]

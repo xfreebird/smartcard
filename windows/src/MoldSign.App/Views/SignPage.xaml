@@ -58,7 +58,6 @@
                                 <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Spacing="8"
                                     Visibility="{x:Bind ErrorVisibility, Mode=OneWay}">
                                     <TextBlock Text="{x:Bind Error, Mode=OneWay}" TextWrapping="Wrap" Foreground="{ThemeResource DangerBrush}" />
-                                    <Button Content="{x:Bind RetryLabel}" Tag="{x:Bind Path}" Click="OnRetryClick" HorizontalAlignment="Left" />
                                 </StackPanel>
                                 <FontIcon VerticalAlignment="Center" Glyph="&#xE8A5;" />
                                 <TextBlock

@@ -39,7 +39,10 @@ public sealed record VerificationReport
     public bool TimestampSignatureValidated { get; init; }
     /// <summary>False: embedded/referenced CRL and OCSP evidence is not authenticated offline.</summary>
     public bool RevocationValidated { get; init; }
+    public string? SignerIDNP => CertificateDetails.TryGetValue("Subject · Personal identifier", out var value) &&
+        value.Length == 13 && value.All(c => c >= '0' && c <= '9') ? value : null;
     public string Notes { get; init; } = "";
+    public IReadOnlyDictionary<string, string> CertificateDetails { get; init; } = new Dictionary<string, string>();
 
     public Verdict Verdict => !(ContentIntact && SignatureValid) || TimestampImprintValid == false
         ? Verdict.Invalid
@@ -146,7 +149,7 @@ public sealed class Validator
                     if (obj == signatures[^1] && text[(int)end..].Any(c => !char.IsWhiteSpace(c))) intact = false;
                     reports.Add(new VerificationReport
                     {
-                        Kind = "PAdES", Name = name, Signer = certificate.GetNameInfo(X509NameType.SimpleName, false),
+                        Kind = "PAdES", Name = name, Signer = certificate.GetNameInfo(X509NameType.SimpleName, false), CertificateDetails = DescribeCertificate(certificate),
                         ContentIntact = intact, SignatureValid = valid, ChainTrusted = Trusted(certificate, cms.Certificates),
                         SigningTime = attrs.TryGetValue("1.2.840.113549.1.9.5", out var signingTime) ? signingTime.Time().ToString("O", CultureInfo.InvariantCulture) : "",
                         TimestampTime = timestampTime, TimestampImprintValid = timestampValid,
@@ -286,7 +289,7 @@ public sealed class Validator
                     unsigned.GetElementsByTagName("CompleteCertificateRefs", XadesXml.Xades).Count > 0;
                 reports.Add(new VerificationReport
                 {
-                    Kind = "XAdES", Name = name, Signer = cert.GetNameInfo(X509NameType.SimpleName, false),
+                    Kind = "XAdES", Name = name, Signer = cert.GetNameInfo(X509NameType.SimpleName, false), CertificateDetails = DescribeCertificate(cert),
                     ContentIntact = intact, SignatureValid = valid, ChainTrusted = Trusted(cert, new X509Certificate2Collection()),
                     SigningTime = XadesXml.Child(signedSignature, "SigningTime", XadesXml.Xades).InnerText,
                     TimestampTime = timestampTime, TimestampImprintValid = timestampValid,
@@ -301,6 +304,43 @@ public sealed class Validator
 
     private const string OfflineLimits = "Offline integrity/RSA and current-time pinned CA path only. " +
         "Timestamp imprint checked when present; TSA signature/path and revocation evidence are not validated.";
+
+    private static IReadOnlyDictionary<string, string> DescribeCertificate(X509Certificate2 cert)
+    {
+        using var key = cert.GetRSAPublicKey();
+        var result = new Dictionary<string, string> {
+            ["Serial number"] = cert.SerialNumber,
+            ["Valid from"] = cert.NotBefore.ToString("f"), ["Valid until"] = cert.NotAfter.ToString("f"),
+            ["SHA-256 fingerprint"] = Convert.ToHexString(SHA256.HashData(cert.RawData)),
+            ["Public key"] = key is null ? cert.PublicKey.Oid.FriendlyName ?? cert.PublicKey.Oid.Value ?? "" : $"RSA {key.KeySize} bits",
+            ["Certificate signature algorithm"] = cert.SignatureAlgorithm.FriendlyName ?? cert.SignatureAlgorithm.Value ?? ""
+        };
+        var labels = new Dictionary<string, string> { ["2.5.4.3"] = "Name", ["2.5.4.5"] = "Personal identifier",
+            ["2.5.4.6"] = "Country", ["2.5.4.7"] = "City", ["2.5.4.8"] = "Region", ["2.5.4.10"] = "Organization",
+            ["2.5.4.11"] = "Department", ["2.5.4.20"] = "Telephone", ["2.5.4.97"] = "Organization identifier" };
+        foreach (var (group, name) in new[] { ("Subject", cert.SubjectName), ("Issuer", cert.IssuerName) })
+        {
+            var sequence = new AsnReader(name.RawData, AsnEncodingRules.DER).ReadSequence();
+            while (sequence.HasData)
+            {
+                var set = sequence.ReadSetOf();
+                while (set.HasData)
+                {
+                    var attribute = set.ReadSequence();
+                    var oid = attribute.ReadObjectIdentifier();
+                    var tag = attribute.PeekTag();
+                    string value;
+                    try { value = attribute.ReadCharacterString((UniversalTagNumber)tag.TagValue); }
+                    catch (AsnContentException) { value = "#" + Convert.ToHexString(attribute.ReadEncodedValue().Span); }
+                    var attributeKey = group + " · " + (labels.TryGetValue(oid, out var label) ? label : oid);
+                    result[attributeKey] = result.TryGetValue(attributeKey, out var previous) ? previous + "; " + value : value;
+                }
+            }
+        }
+        foreach (var extension in cert.Extensions)
+            result[extension.Oid?.FriendlyName ?? extension.Oid?.Value ?? "Extension"] = extension.Format(true);
+        return result;
+    }
 
     private static bool Trusted(X509Certificate2 leaf, X509Certificate2Collection certificates)
     {

@@ -12,7 +12,8 @@ final class SigningBatchRunner {
         authorize: (Context, [Item]) async -> Credential?,
         sign: (Item, Context, Credential) async throws -> Output,
         didSign: (Item, Output, Credential) -> Void,
-        didFail: (Item, Error) -> Void
+        didFail: (Item, Error) -> Void,
+        shouldContinue: (Error) -> Bool = { _ in false }
     ) async -> Outcome {
         guard !isRunning else { return .alreadyRunning }
         isRunning = true
@@ -24,6 +25,7 @@ final class SigningBatchRunner {
                 didSign(item, output, credential)
             } catch {
                 didFail(item, error)
+                if shouldContinue(error) { continue }
                 return .failed
             }
         }

@@ -7,6 +7,7 @@ import MoldSignKit
 /// docs/10 §3 DropZone: a clear, solid file action with its own "choose" button. Large while the list
 /// is empty, one compact line once documents are queued. On iPhone it's simply a big tile (drag works on iPad).
 struct DropZone: View {
+    var verification = false
     var compact = false
     var targeted = false
     let choose: () -> Void
@@ -34,12 +35,12 @@ struct DropZone: View {
                 .frame(maxWidth: .infinity, minHeight: 48)
             } else {
                 VStack(spacing: Theme.Space.s) {
-                    Image(systemName: "arrow.down.doc")
+                    Image(systemName: verification ? "checkmark.seal" : "arrow.down.doc")
                         .font(.system(size: 34, weight: .light))
                         .foregroundStyle(targeted ? Color.accentColor : .secondary)
                         .symbolEffect(.bounce, value: targeted)
                     Text(targeted ? L10n.text(.ui_release_to_add) : L10n.text(.ui_drop_documents_here)).font(.headline)
-                    Text(L10n.text(.ui_pdf_pades_t_within_the_pdf_other_files_separate_xades_t_the_format_can_be_changed))
+                    Text(L10n.text(verification ? .ui_or_drop_it_here_signed_pdf_or_xades_signature_xml : .ui_pdf_pades_t_within_the_pdf_other_files_separate_xades_t_the_format_can_be_changed))
                         .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
                     Button(L10n.text(.ui_choose_files), action: choose)
                         .buttonStyle(.bordered)
@@ -55,8 +56,8 @@ struct DropZone: View {
         // long localized filename is queued).  Clip the fill as well as the child so
         // the compact add-document action always retains its continuous corners.
         .clipShape(shape)
-        .overlay(shape.strokeBorder(targeted ? Color.accentColor : Color.secondary.opacity(compact ? 0.58 : 0.40),
-                                    lineWidth: targeted ? 2 : 1))
+        .overlay(shape.strokeBorder(targeted ? Color.accentColor : Color.secondary.opacity(0.58),
+                                    style: StrokeStyle(lineWidth: targeted ? 2 : 1, dash: [6, 4])))
         .contentShape(shape)
         .animation(.easeOut(duration: 0.15), value: targeted)
     }

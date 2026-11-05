@@ -242,3 +242,27 @@ lane :android_testing do
     skip_upload_apk: true, skip_upload_aab: true
   )
 end
+
+
+desc "Upload an Android bundle artifact without changing tracks or submitting for review"
+lane :android_artifact do
+  require 'supply'
+  bundles = Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |path| path.include?('-unsigned') }
+  UI.user_error!('Expected exactly one signed AAB') unless bundles.length == 1
+  Supply.config = FastlaneCore::Configuration.create(Supply::Options.available_options, {
+    package_name: 'md.esemnbun.app', json_key_data: ENV.fetch('GOOGLE_PLAY_SERVICE_ACCOUNT_JSON'),
+    changes_not_sent_for_review: true, rescue_changes_not_sent_for_review: false
+  })
+  client = Supply::Client.make_from_config
+  client.begin_edit(package_name: 'md.esemnbun.app')
+  begin
+    tracks_before = client.tracks.map(&:to_h)
+    code = client.upload_bundle(bundles.first)
+    UI.user_error!('Track state changed during artifact upload') unless client.tracks.map(&:to_h) == tracks_before
+    client.commit_current_edit!
+    UI.success("Uploaded bundle artifact #{code}; tracks unchanged and not submitted for review")
+  rescue
+    client.abort_current_edit if client.current_edit
+    raise
+  end
+end

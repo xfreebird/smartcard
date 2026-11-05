@@ -256,4 +256,6 @@
   <data name="Legacy_ClientTitle" xml:space="preserve"><value>Allow MoldSign Desktop to connect</value></data>
   <data name="Legacy_ClientDescription" xml:space="preserve"><value>Local signing requests require your approval.</value></data>
   <data name="Update_Available" xml:space="preserve"><value>An update is available. The download page has been opened.</value></data>
+  <data name="File_ShowInFolder" xml:space="preserve"><value>Show in Explorer</value></data>
+  <data name="VerifyClearResults.Content" xml:space="preserve"><value>Clear results</value></data>
 </root>

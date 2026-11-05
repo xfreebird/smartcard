@@ -46,6 +46,7 @@ final class ReaderSession {
 
     func apply(_ snapshot: ReaderSnapshot) {
         lastSnapshot = snapshot
+        if isSigning { return }
         var next: [CardSlot] = []
         var toRead: [CardSlot] = []
         for slot in snapshot.slots where slot.state == .card {

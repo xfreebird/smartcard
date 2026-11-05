@@ -256,4 +256,6 @@
   <data name="Legacy_ClientTitle" xml:space="preserve"><value>Разрешить подключение MoldSign Desktop</value></data>
   <data name="Legacy_ClientDescription" xml:space="preserve"><value>Локальные запросы подписи требуют вашего подтверждения.</value></data>
   <data name="Update_Available" xml:space="preserve"><value>Доступно обновление. Открыта страница загрузки.</value></data>
+  <data name="File_ShowInFolder" xml:space="preserve"><value>Показать в Проводнике</value></data>
+  <data name="VerifyClearResults.Content" xml:space="preserve"><value>Очистить результаты</value></data>
 </root>

@@ -11,7 +11,7 @@ public sealed record SigningDocumentJob(string Path, SignatureFormat Format);
 public sealed record DocumentBatchResult(IReadOnlyList<SignResult> Completed, Exception? Error);
 public sealed class DocumentBatchBusyException() : InvalidOperationException("A document batch is already running.");
 
-/// <summary>One frozen local batch: concurrency, scoped authorization, partial results and stop-on-first-failure.</summary>
+/// <summary>One frozen local batch: concurrency, scoped authorization, partial results and per-document failure reporting.</summary>
 public sealed class DocumentBatchSigner(IDocumentSigner signer)
 {
     private int _active;
@@ -19,7 +19,8 @@ public sealed class DocumentBatchSigner(IDocumentSigner signer)
     public DocumentBatchResult Sign(IReadOnlyList<SigningDocumentJob> jobs, string reader, string certificateSha1,
                                     XadesPackaging packaging, ConsentProvider authorize,
                                     Action<SigningDocumentJob, SignResult>? completed = null,
-                                    CancellationToken cancellationToken = default)
+                                    CancellationToken cancellationToken = default,
+                                    Action<SigningDocumentJob, Exception>? failed = null)
     {
         var snapshot = jobs.ToArray();
         if (Interlocked.CompareExchange(ref _active, 1, 0) != 0) throw new DocumentBatchBusyException();
@@ -32,10 +33,19 @@ public sealed class DocumentBatchSigner(IDocumentSigner signer)
             foreach (var job in snapshot)
             {
                 cancellationToken.ThrowIfCancellationRequested();
+                try
+                {
                 var result = signer.Sign(job.Path, job.Format, packaging, consent.Request,
                     reader: reader, expectedCertificateSha1: certificateSha1);
                 results.Add(result);
                 completed?.Invoke(job, result);
+                }
+                catch (Exception error) when (error is IOException || error is FormatException || error is CardException { Kind: CardErrorKind.Format or CardErrorKind.Network })
+                {
+                    if (failed is null) return new DocumentBatchResult(results.AsReadOnly(), error);
+                    consent.SkipFailedDocument(job.Path);
+                    failed(job, error);
+                }
             }
             return new DocumentBatchResult(results.AsReadOnly(), null);
         }

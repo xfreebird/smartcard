@@ -29,7 +29,7 @@ struct CardSelector: View {
     private var cardWidth: CGFloat {
         #if os(macOS)
         // Reserve space for hover controls outside the card when several readers exist.
-        let gutters: CGFloat = model.cards.count > 1 ? 88 : 8
+        let gutters: CGFloat = model.displayedCards.count > 1 ? 88 : 8
         return max(120, min(size.maxWidth ?? .infinity, width - gutters))
         #else
         return max(120, width - 8)
@@ -37,18 +37,18 @@ struct CardSelector: View {
     }
     private var selectorMaxWidth: CGFloat? {
         #if os(macOS)
-        return size == .compact ? size.maxWidth.map { $0 + (model.cards.count > 1 ? 88 : 0) } : nil
+        return size == .compact ? size.maxWidth.map { $0 + (model.displayedCards.count > 1 ? 88 : 0) } : nil
         #else
         return size.maxWidth
         #endif
     }
     private var sideInset: CGFloat { max(4, (width - cardWidth) / 2) }
     private var cardHeight: CGFloat { cardWidth / IDCardFace.ratio }
-    private var selectedIndex: Int { model.cards.firstIndex { $0.reader == model.selectedCard?.reader } ?? 0 }
+    private var selectedIndex: Int { model.displayedCards.firstIndex { $0.reader == model.selectedCard?.reader } ?? 0 }
 
     var body: some View {
         VStack(spacing: 10) {
-            if model.cards.isEmpty {
+            if model.displayedCards.isEmpty {
                 EmptyCardFace(status: model.status, size: size)
                     .frame(height: cardHeight)
             } else {
@@ -57,21 +57,21 @@ struct CardSelector: View {
                     // TabView may write back the temporary fallback after a reader disappears.
                     if reader != model.selectedCard?.reader { model.selectCard(reader) }
                 })) {
-                    ForEach(model.cards) { card in
+                    ForEach(model.displayedCards) { card in
                         cardFace(card)
-                            .padding(.bottom, model.cards.count > 1 ? 32 : 0)
+                            .padding(.bottom, model.displayedCards.count > 1 ? 32 : 0)
                             .tag(card.reader)
                     }
                 }
-                .tabViewStyle(.page(indexDisplayMode: model.cards.count > 1 ? .always : .never))
+                .tabViewStyle(.page(indexDisplayMode: model.displayedCards.count > 1 ? .always : .never))
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
-                .frame(height: cardHeight + (model.cards.count > 1 ? 36 : 8))
+                .frame(height: cardHeight + (model.displayedCards.count > 1 ? 36 : 8))
                 .allowsHitTesting(model.currentStep == nil)
                 #else
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal) {
                     LazyHStack(spacing: 0) {
-                        ForEach(model.cards) { card in
+                        ForEach(model.displayedCards) { card in
                             cardFace(card)
                                 .frame(width: width)
                                 .id(card.reader)
@@ -87,7 +87,7 @@ struct CardSelector: View {
                 .scrollDisabled(model.currentStep != nil)
                 .frame(height: cardHeight + 8)
                 .overlay {
-                    if model.cards.count > 1 {
+                    if model.displayedCards.count > 1 {
                         HStack {
                             carouselArrow(-1)
                             Spacer()
@@ -124,14 +124,14 @@ struct CardSelector: View {
                 }
                 #endif
                 #if os(macOS)
-                if model.cards.count > 1 {
+                if model.displayedCards.count > 1 {
                     HStack(spacing: 0) {
                         // A reader may disappear while SwiftUI is still updating its old
                         // children. Capture each card's value rather than a live array index.
-                        ForEach(model.cards) { card in
+                        ForEach(model.displayedCards) { card in
                             Button {
                                 guard model.currentStep == nil,
-                                      model.cards.contains(where: { $0.reader == card.reader }) else { return }
+                                      model.displayedCards.contains(where: { $0.reader == card.reader }) else { return }
                                 model.selectCard(card.reader)
                             } label: {
                                 Circle()
@@ -171,7 +171,7 @@ struct CardSelector: View {
 
     private func cardFace(_ card: CardSlot) -> some View {
         IDCardFace(card: card, busy: model.currentStep != nil && card.reader == model.selectedCard?.reader,
-                   inUse: model.cards.count > 1 && card.reader == model.selectedCard?.reader)
+                   inUse: model.displayedCards.count > 1 && card.reader == model.selectedCard?.reader)
             .frame(width: cardWidth, height: cardHeight)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(IDCardFace.accessibilityLabel(card))
@@ -194,7 +194,7 @@ struct CardSelector: View {
                 .contentShape(Circle())
         }
         .buttonStyle(.plain)
-        .disabled(model.currentStep != nil || (direction < 0 ? selectedIndex == 0 : selectedIndex >= model.cards.count - 1))
+        .disabled(model.currentStep != nil || (direction < 0 ? selectedIndex == 0 : selectedIndex >= model.displayedCards.count - 1))
         .accessibilityLabel(title)
         .help(title)
     }
@@ -222,16 +222,16 @@ struct CardSelector: View {
             }
             guard !Task.isCancelled, !userIsScrolling else { return }
             if let reader = visibleReader, model.currentStep == nil,
-               model.cards.contains(where: { $0.reader == reader }) { model.selectCard(reader) }
+               model.displayedCards.contains(where: { $0.reader == reader }) { model.selectCard(reader) }
             selectionPending = false
         }
     }
 
     private func move(_ delta: Int) {
-        guard !model.cards.isEmpty, model.currentStep == nil else { return }
-        let next = min(max(selectedIndex + delta, 0), model.cards.count - 1)
+        guard !model.displayedCards.isEmpty, model.currentStep == nil else { return }
+        let next = min(max(selectedIndex + delta, 0), model.displayedCards.count - 1)
         withAnimation(reduceMotion ? nil : .snappy(duration: 0.25)) {
-            model.selectCard(model.cards[next].reader)
+            model.selectCard(model.displayedCards[next].reader)
         }
     }
 }

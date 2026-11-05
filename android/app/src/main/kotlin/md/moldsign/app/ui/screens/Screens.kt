@@ -143,7 +143,21 @@ private fun SectionHeader(title: String, modifier: Modifier = Gutter, action: (@
 /** Desktop hierarchy on tablets: centered card, documents, then a compact primary action. */
 @Composable
 fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit, expanded: Boolean = false) {
+    val context = LocalContext.current
+    val signDropTarget = remember(vm) {
+        object : DragAndDropTarget {
+            override fun onDrop(event: DragAndDropEvent): Boolean {
+                val native = event.toAndroidDragEvent()
+                val uris = native.clipData?.let { clip -> (0 until clip.itemCount).mapNotNull { clip.getItemAt(it).uri } }.orEmpty()
+                if (uris.isEmpty()) return false
+                val permission = (context as? Activity)?.requestDragAndDropPermissions(native)
+                vm.receiveDroppedForSigning(uris) { permission?.release() }
+                return true
+            }
+        }
+    }
     val status by vm.status.collectAsStateWithLifecycle()
+    val signedResults by vm.signedResults.collectAsStateWithLifecycle()
     val items by vm.signItems.collectAsStateWithLifecycle()
     val progress by vm.progress.collectAsStateWithLifecycle()
     val working by vm.working.collectAsStateWithLifecycle()
@@ -176,6 +190,31 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
         }
     }
 
+    val resultContent: @Composable () -> Unit = {
+        val context = LocalContext.current
+        if (signedResults.isNotEmpty()) {
+            Column(if (expanded) Modifier.widthIn(max = 680.dp).fillMaxWidth() else Gutter,
+                verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
+                Text(stringResource(R.string.signed_results), style = MaterialTheme.typography.titleMedium)
+                signedResults.forEach { (name, uri) ->
+                    Card(onClick = {
+                        runCatching { context.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, mimeOf(name))
+                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)) }
+                    }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(Tokens.RadiusCard)) {
+                        Row(Modifier.fillMaxWidth().padding(Tokens.S4), verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(Tokens.S3)) {
+                            Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
+                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
+                            Text(stringResource(R.string.action_open), style = MaterialTheme.typography.labelLarge)
+                            Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Box(Modifier.fillMaxSize().dragAndDropTarget(shouldStartDragAndDrop = { true }, target = signDropTarget)) {
     if (expanded) {
         Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
             Column(
@@ -187,6 +226,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                 walletContent()
                 if (working) StepCard(progress, modifier = Modifier)
                 Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) { documentContent() }
+                resultContent()
                 if (items.isNotEmpty()) {
                     Button(
                         onClick = vm::sign,
@@ -205,8 +245,10 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             walletContent()
             if (working) StepCard(progress)
             documentContent()
+            resultContent()
             Spacer(Modifier.height(72.dp)) // keep the phone's floating action clear of the final document
         }
+    }
     }
 }
 
@@ -240,19 +282,21 @@ private fun StepCard(step: SigningStep, modifier: Modifier = Gutter) {
 @Composable
 fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
     val context = LocalContext.current
+    val verifiedDocuments by vm.verifiedDocuments.collectAsStateWithLifecycle()
     val doc by vm.verifyDoc.collectAsStateWithLifecycle()
     val outcome by vm.verifyOutcome.collectAsStateWithLifecycle()
-    val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { vm.pickForVerify(it) }
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.pickMultipleForVerify(it) }
     val attach = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addVerifyDocuments(it) }
     val dropTarget = remember(vm) {
         object : DragAndDropTarget {
             override fun onDrop(event: DragAndDropEvent): Boolean {
                 val androidEvent = event.toAndroidDragEvent()
-                val uri = androidEvent.clipData?.let { clip ->
-                    (0 until clip.itemCount).firstNotNullOfOrNull { index -> clip.getItemAt(index).uri }
-                } ?: return false
+                val uris = androidEvent.clipData?.let { clip ->
+                    (0 until clip.itemCount).mapNotNull { index -> clip.getItemAt(index).uri }
+                }.orEmpty()
+                if (uris.isEmpty()) return false
                 val permission = (context as? Activity)?.requestDragAndDropPermissions(androidEvent)
-                vm.receiveDroppedForVerify(uri) { permission?.release() }
+                vm.receiveDroppedForVerify(uris) { permission?.release() }
                 return true
             }
         }
@@ -260,14 +304,20 @@ fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
 
     ScreenColumn(padding) {
         Column(Gutter.dragAndDropTarget(shouldStartDragAndDrop = { true }, target = dropTarget), verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
+            if (verifiedDocuments.isNotEmpty() || doc != null) {
+                TextButton(onClick = vm::clearVerifyResults) { Text(stringResource(R.string.clear_results)) }
+            }
+            verifiedDocuments.filter { it.first.uri != doc?.uri }.forEach { (document, result) ->
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(document.name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+                    TextButton(onClick = { vm.removeVerifiedDocument(document.uri) }) { Text(stringResource(R.string.action_remove)) }
+                }
+                VerdictBadge(result)
+                result.reports.forEach { SignatureCard(it) }
+            }
             val current = doc
-            if (current == null) {
-                DocumentPickZone(
-                    onPick = { picker.launch(arrayOf("application/pdf", "text/xml", "application/xml", "*/*")) },
-                    title = stringResource(R.string.action_choose_document),
-                    body = stringResource(R.string.verify_hint),
-                )
-            } else {
+            DocumentPickZone(onPick = { picker.launch(arrayOf("application/pdf", "text/xml", "application/xml")) }, title = stringResource(R.string.action_choose_document), body = stringResource(R.string.verify_hint))
+            if (current != null) {
                 Card(
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
                     shape = RoundedCornerShape(Tokens.RadiusCard),
@@ -333,6 +383,7 @@ private fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SignatureCard(report: ValidationReport) {
+    var certificateExpanded by remember { mutableStateOf(false) }
     var details by remember { mutableStateOf(false) }
     val dateTime = remember { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT) }
     Card(
@@ -341,7 +392,9 @@ private fun SignatureCard(report: ValidationReport) {
         modifier = Modifier.fillMaxWidth(),
     ) {
         Column(Modifier.padding(Tokens.S4), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
-            Text(report.signerName ?: stringResource(R.string.sig_unknown_signer), style = MaterialTheme.typography.titleMedium)
+            Text("Author: " + (report.signerName ?: stringResource(R.string.sig_unknown_signer)), style = MaterialTheme.typography.titleMedium)
+            Text("Signature", style = MaterialTheme.typography.labelLarge)
+            report.signerIdnp?.let { Text("IDNP: $it") }
             report.level?.let { Text(it, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             report.signingTime?.let { Text(stringResource(R.string.sig_signed_at, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
             report.timestampTime?.let { Text(stringResource(R.string.sig_timestamp, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
@@ -350,8 +403,14 @@ private fun SignatureCard(report: ValidationReport) {
                 CheckChip(R.string.sig_signature, report.signatureOk)
                 CheckChip(R.string.sig_chain, report.chainOk)
             }
+            if (report.certificateDetails.isNotEmpty()) {
+                TextButton(onClick = { certificateExpanded = !certificateExpanded }, modifier = Modifier.fillMaxWidth()) { Text("Certificate details") }
+                if (certificateExpanded) report.certificateDetails.forEach { (key, value) ->
+                    Text("$key: $value", style = MaterialTheme.typography.bodySmall)
+                }
+            }
             if (report.details.isNotEmpty()) {
-                TextButton(onClick = { details = !details }, contentPadding = PaddingValues(horizontal = 0.dp)) {
+                TextButton(onClick = { details = !details }, modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = 0.dp)) {
                     Text(stringResource(R.string.sig_details))
                     Icon(if (details) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, contentDescription = null)
                 }

@@ -13,6 +13,7 @@ public sealed partial class VerifyPage : Page
     private string? _signature;
     private readonly List<string> _documents = [];
     private int _version;
+    private int _selectionVersion;
 
     public VerifyPage()
     {
@@ -22,18 +23,38 @@ public sealed partial class VerifyPage : Page
         FileDrop.FilesChosen += OnFilesChosen;
     }
 
+    private void OnClearResultsClick(object sender, RoutedEventArgs e)
+    {
+        ++_version;
+        ++_selectionVersion;
+        _signature = null;
+        _documents.Clear();
+        SignatureCards.Children.Clear();
+        DocumentInfo.Visibility = Verdict.Visibility = SignatureCount.Visibility = ReferencedDocuments.Visibility = Checking.Visibility = ClearResults.Visibility = Visibility.Collapsed;
+        Spinner.IsActive = false;
+        Result.IsOpen = false;
+        FileDrop.IsCompact = false;
+    }
+
     private async void OnFilesChosen(object? sender, IReadOnlyList<string> paths) => await VerifyFilesAsync(paths);
 
     public async Task VerifyFilesAsync(IReadOnlyList<string> paths)
     {
         if (paths.Count == 0) return;
+        var selection = ++_selectionVersion;
         if (App.Current.Services.IsDemo && paths.Any(path => !App.Current.Services.IsDemoDocument(path)))
         { ShowError(Loc.Get("demo_fixture_only")); return; }
         _signature = paths.FirstOrDefault(p => p.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
             ?? paths.FirstOrDefault(p => p.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)) ?? paths[0];
         _documents.Clear();
         AddDocuments(paths);
-        await VerifyCurrentAsync();
+        SignatureCards.Children.Clear();
+        foreach (var path in paths.Where(path => path.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase) || path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase)))
+        {
+            if (selection != _selectionVersion) break;
+            _signature = path;
+            await VerifyCurrentAsync();
+        }
     }
 
     private async void OnAddDocumentsClick(object sender, RoutedEventArgs e)
@@ -81,12 +102,13 @@ public sealed partial class VerifyPage : Page
     {
         if (_signature is not { } path) return;
         var version = ++_version;
+        ClearResults.Visibility = Visibility.Visible;
         DocumentName.Text = Path.GetFileName(path);
         DocumentInfo.Visibility = Visibility.Visible;
         FileDrop.IsCompact = true;
         Verdict.Visibility = Visibility.Collapsed;
         SignatureCount.Visibility = Visibility.Collapsed;
-        SignatureCards.Children.Clear();
+        SignatureCards.Children.Add(new TextBlock { Text = Path.GetFileName(path), FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
         Result.IsOpen = false;
         Checking.Visibility = Visibility.Visible;
         Spinner.IsActive = true;
@@ -144,6 +166,8 @@ public sealed partial class VerifyPage : Page
             FontWeight = FontWeights.SemiBold,
             TextWrapping = TextWrapping.Wrap,
         });
+        content.Children.Add(new TextBlock { Text = "Author: " + report.Signer, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
+        if (report.SignerIDNP is { } idnp) content.Children.Add(new TextBlock { Text = "IDNP: " + idnp, IsTextSelectionEnabled = true });
         content.Children.Add(Field("Verify_Signer", report.Signer));
         content.Children.Add(Field("Verify_SigningTime", FormatTime(report.SigningTime)));
         content.Children.Add(Field("Verify_Timestamp", report.TimestampTime is { } time
@@ -166,6 +190,10 @@ public sealed partial class VerifyPage : Page
                 Title = Loc.Get("Verify_Limits"), Message = string.Join(" ", limitations),
             });
 
+        var certificate = new StackPanel { Spacing = 8 };
+        foreach (var field in report.CertificateDetails)
+            certificate.Children.Add(new TextBlock { Text = $"{field.Key}: {field.Value}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true });
+        content.Children.Add(new Expander { Header = "Certificate details", Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch });
         var details = new StackPanel { Spacing = 12 };
         details.Children.Add(Field("Verify_Format", report.Kind));
         details.Children.Add(Field("Verify_Identifier", report.Name));

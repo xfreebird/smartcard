@@ -154,7 +154,12 @@ data class ValidationReport(
     val details: List<String> = emptyList(),
     /** Names of the signed documents a detached XAdES refers to and that were not supplied (integrity cannot be checked). */
     val missingDocuments: List<String> = emptyList(),
-)
+    val certificateDetails: Map<String, String> = emptyMap(),
+) {
+    val signerIdnp: String? get() = certificateDetails["Subject · Personal identifier"]?.takeIf { value ->
+        value.length == 13 && value.all { it in '0'..'9' }
+    }
+}
 
 /** docs/10 VerdictBadge: what the user is told about a verified file. */
 enum class Verdict {

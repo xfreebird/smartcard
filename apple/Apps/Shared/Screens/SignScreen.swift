@@ -31,7 +31,14 @@ struct SignScreen: View {
                     }
                     .accessibilityIdentifier("signing.wideWorkspace")
                 } else {
-                    Form { cardSection; documentSection; resultSections }
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 24) {
+                            CardSelector(size: .phone)
+                            documentContent
+                            resultContent
+                        }
+                        .padding(24)
+                    }
                         .toolbar {
                             if !model.signItems.isEmpty {
                                 ToolbarItem(placement: .primaryAction) { signButton }
@@ -66,10 +73,10 @@ struct SignScreen: View {
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_sign))
-        .dropDestination(for: URL.self) { urls, _ in
-            model.addFiles(urls)
-            return !urls.isEmpty
-        } isTargeted: { dropTargeted = $0 }
+        .onDrop(of: [.fileURL, .pdf, .xml, .data, .item], isTargeted: $dropTargeted) { providers in
+            Task { model.addFiles(await DroppedDocumentLoader.load(providers)) }
+            return !providers.isEmpty
+        }
         .fileImporter(isPresented: $importing, allowedContentTypes: [.item], allowsMultipleSelection: true) { result in
             if case .success(let urls) = result { model.addFiles(urls) }
         }
@@ -100,7 +107,7 @@ struct SignScreen: View {
 
     @ViewBuilder private var resultContent: some View {
         if let step = model.currentStep { StepProgressView(current: step).frame(maxWidth: .infinity) }
-        if let error = model.lastError {
+        if let error = model.lastError, !model.signItems.contains(where: { $0.signingError == error.message }) {
             Label {
                 VStack(alignment: .leading) {
                     Text(error.message).fontWeight(.semibold)
@@ -122,6 +129,7 @@ struct SignScreen: View {
             CardSelector(size: cardSize)
                 .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
                 .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
         }
     }
 
@@ -142,8 +150,10 @@ struct SignScreen: View {
         // Its native section inset aligns the drop area with the document card above it.
         Section {
             DropZone(compact: !model.signItems.isEmpty, targeted: dropTargeted) { importing = true }
+                .padding(12)
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
+                .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
         } header: {
             if model.signItems.isEmpty { Text(L10n.text(.ui_documents)) }
         } footer: {
@@ -157,7 +167,7 @@ struct SignScreen: View {
         if let step = model.currentStep {
             Section { StepProgressView(current: step).frame(maxWidth: .infinity) }
         }
-        if let error = model.lastError {
+        if let error = model.lastError, !model.signItems.contains(where: { $0.signingError == error.message }) {
             Section {
                 Label {
                     VStack(alignment: .leading) {
@@ -234,9 +244,6 @@ private struct DocumentRow: View {
                     Label(error, systemImage: "exclamationmark.triangle.fill")
                         .font(.callout).foregroundStyle(.red)
                         .fixedSize(horizontal: false, vertical: true)
-                    Button(L10n.text(.ui_try_again)) { Task { await model.signAll(only: item.id) } }
-                        .buttonStyle(.bordered)
-                        .disabled(!model.status.canSign || model.currentStep != nil || model.pinRequest != nil)
                 }
             }
             Spacer()
@@ -261,19 +268,17 @@ private struct DocumentRow: View {
 
 private struct SignedRow: View {
     let url: URL
+    @State private var hovered = false
     #if APP_STORE && os(macOS)
     @State private var exporting = false
     @State private var exportError: String?
     #endif
 
     var body: some View {
-        HStack {
-            Label(url.lastPathComponent, systemImage: "checkmark.seal.fill")
-                .labelStyle(SuccessLabelStyle())
-                .fixedSize(horizontal: false, vertical: true)
-            Spacer()
+        Group {
             #if APP_STORE && os(macOS)
-            Button(L10n.text(.ui_export)) { exporting = true }
+            Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
+                .contextMenu { Button(L10n.text(.ui_export)) { exporting = true } }
                 .fileExporter(isPresented: $exporting, document: SignedExport(url: url),
                               contentType: UTType(filenameExtension: url.pathExtension) ?? .data,
                               defaultFilename: url.lastPathComponent) { result in
@@ -283,12 +288,31 @@ private struct SignedRow: View {
                     Button(L10n.text(.ui_done)) { exportError = nil }
                 } message: { Text(exportError ?? L10n.text(.ui_)) }
             #elseif os(macOS)
-            Button(L10n.text(.ui_show_in_finder)) { NSWorkspace.shared.activateFileViewerSelecting([url]) }
-                .buttonStyle(.borderless)
+            Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
             #else
-            ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
+            ShareLink(item: url) { rowContents }
             #endif
         }
+        .buttonStyle(.plain)
+        .onHover { hovered = $0 }
+    }
+
+    private var rowContents: some View {
+        HStack(spacing: 12) {
+            Label(url.lastPathComponent, systemImage: "checkmark.seal.fill")
+                .labelStyle(SuccessLabelStyle())
+                .fixedSize(horizontal: false, vertical: true)
+            Spacer(minLength: 12)
+            #if os(macOS)
+            Text(L10n.text(.ui_show_in_finder)).foregroundStyle(.secondary)
+            #else
+            Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up").foregroundStyle(.secondary)
+            #endif
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+        .background(hovered ? Color.accentColor.opacity(0.10) : Color.clear, in: RoundedRectangle(cornerRadius: 12))
+        .contentShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 

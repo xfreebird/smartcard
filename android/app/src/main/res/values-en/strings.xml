@@ -242,4 +242,6 @@
   <string name="government_sources_explanation">Official sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.</string>
   <string name="government_notice_continue">Continue</string>
   <string name="government_sources_action">Non-government app · Official sources</string>
+  <string name="signed_results">Signed successfully</string>
+  <string name="clear_results">Clear results</string>
 </resources>

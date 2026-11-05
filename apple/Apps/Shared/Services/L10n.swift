@@ -28,6 +28,7 @@ enum L10n {
         case ui_account
         case ui_copy_sha_1
         case ui_how_do_i_connect_the_reader
+        case ui_iphone_ipad_os_17_or_later
         case ui_how_to_connect_the_reader
         case ui_if_signing_fails_repeatedly_remove_and_reinsert_the_card
         case ui_the_pin_can_be_unblocked_at_cev
@@ -55,7 +56,7 @@ enum L10n {
         case ui_insert_the_card
         case ui_enter_a_valid_web_address_https
         case ui_trust_chain_mdqsign_mdtrustca
-        case ui_lightning_to_usb_3_camera_adapter
+        case ui_lightning_to_usb_a_adapter
         case ui_language
         case ui_light
         case ui_beside_the_original_semnat_without_overwriting
@@ -106,6 +107,7 @@ enum L10n {
         case ui_drop_more_documents_here_or
         case ui_valid_until
         case ui_valid_until_2
+        case ui_clear_results
         case ui_verify
         case ui_check_the_connection_and_try_again
         case ui_check_the_app_permissions
@@ -113,7 +115,7 @@ enum L10n {
         case ui_verify_2
         case ui_xades_t_detached
         case ui_esemnbun
-        case ui_iphone_14_or_earlier_an_adapter_with_additional_power_is_recommended
+        case ui_lightning_reader_connection
         case ui_or_drop_it_here_signed_pdf_or_xades_signature_xml
         case ui_requests_a_signature
         case ui_forward
@@ -176,7 +178,7 @@ enum L10n {
         case ui_esemnbun_card_connected_value
         case ui_esemnbun_no_card_connected
         case ui_https_example_md
-        case ui_iphone_15_or_later_ipad_with_usb_c_usb_c_to_usb_a_adapter
+        case ui_usb_c_reader_connection
         case ui_for_value
         case ui_signing_with_certificate_value
         case ui_attempts_left_count

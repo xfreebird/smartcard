@@ -60,6 +60,7 @@ class OfflineValidator(
         if (parts.signer == null) details += "the signer certificate is not in the signature"
         val timestamp = parts.timestampToken?.let { timestamp(it, parts.signature, details) }
         return ValidationReport(
+            certificateDetails = parts.signer?.let(::certificateDetails).orEmpty(),
             signerName = parts.signer?.let(::commonName),
             signingTime = parts.signingTime,
             timestampTime = timestamp,
@@ -148,6 +149,7 @@ class OfflineValidator(
         }
         return listOf(
             ValidationReport(
+                certificateDetails = certificate?.let(::certificateDetails).orEmpty(),
                 signerName = certificate?.let(::commonName),
                 signingTime = between(doc, "<xades:SigningTime>", "</xades:SigningTime>")?.let(::isoDate),
                 timestampTime = timestamp,
@@ -250,6 +252,44 @@ class OfflineValidator(
 
     private fun x509(der: ByteArray): X509Certificate =
         CertificateFactory.getInstance("X.509").generateCertificate(ByteArrayInputStream(der)) as X509Certificate
+
+    private fun certificateDetails(der: ByteArray): Map<String, String> = runCatching {
+        val cert = x509(der)
+        val dates = java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT)
+        val fields = linkedMapOf(
+            "Serial number" to cert.serialNumber.toString(16), "Valid from" to dates.format(cert.notBefore),
+            "Valid until" to dates.format(cert.notAfter), "Public key" to (cert.publicKey.algorithm +
+                ((cert.publicKey as? java.security.interfaces.RSAPublicKey)?.let { " ${it.modulus.bitLength()} bits" } ?: "")),
+            "Certificate signature algorithm" to cert.sigAlgName,
+            "SHA-256 fingerprint" to MessageDigest.getInstance("SHA-256").digest(der).joinToString("") { "%02x".format(it) },
+            "Alternative names" to cert.subjectAlternativeNames.orEmpty().joinToString(),
+            "Extended key usage" to cert.extendedKeyUsage.orEmpty().joinToString(),
+            "Key usage" to cert.keyUsage?.toList()?.mapIndexedNotNull { i, enabled -> if (enabled) listOf("Digital signature", "Content commitment", "Key encipherment", "Data encipherment", "Key agreement", "Certificate signing", "CRL signing", "Encipher only", "Decipher only")[i] else null }.orEmpty().joinToString()
+        )
+        val labels = mapOf("2.5.4.3" to "Name", "2.5.4.5" to "Personal identifier", "2.5.4.6" to "Country",
+            "2.5.4.7" to "City", "2.5.4.8" to "Region", "2.5.4.10" to "Organization", "2.5.4.11" to "Department",
+            "2.5.4.20" to "Telephone", "2.5.4.97" to "Organization identifier")
+        listOf("Subject" to cert.subjectX500Principal, "Issuer" to cert.issuerX500Principal).forEach { (group, principal) ->
+            Der.read(principal.encoded).children().forEach { rdn ->
+                rdn.children().forEach { attribute ->
+                    val parts = attribute.children()
+                    if (parts.size >= 2) {
+                        val oid = VendorNames.dotted(parts[0].content)
+                        val key = "$group · ${labels[oid] ?: oid}"
+                        val charset = when (parts[1].tag) {
+                            0x1E -> Charsets.UTF_16BE
+                            0x1C -> java.nio.charset.Charset.forName("UTF-32BE")
+                            0x14 -> Charsets.ISO_8859_1
+                            else -> Charsets.UTF_8
+                        }
+                        val value = parts[1].content.toString(charset)
+                        fields[key] = fields[key]?.let { "$it; $value" } ?: value
+                    }
+                }
+            }
+        }
+        fields
+    }.getOrDefault(emptyMap())
 
     private fun commonName(certificateDer: ByteArray): String? =
         try {

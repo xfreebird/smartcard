@@ -26,6 +26,8 @@
 
             <controls:DropZone x:Name="FileDrop" Margin="8,0" />
 
+            <Button x:Name="ClearResults" x:Uid="VerifyClearResults" Click="OnClearResultsClick" Content="Clear results" Visibility="Collapsed" />
+
             <StackPanel x:Name="DocumentInfo" Spacing="8" Visibility="Collapsed">
                 <TextBlock x:Name="DocumentName" IsTextSelectionEnabled="True" TextWrapping="Wrap" />
                 <Button x:Uid="VerifyReveal" Click="OnRevealClick" Content="Arată în Explorer" />

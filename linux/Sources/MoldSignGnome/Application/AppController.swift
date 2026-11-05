@@ -28,6 +28,7 @@ final class AppController {
     private(set) var lastError: (message: String, recovery: String)?
 
     // Verify
+    private(set) var verifiedDocuments: [(url: URL, reports: [SignatureReport])] = []
     private(set) var verifyFile: URL?
     private(set) var verifyReports: [SignatureReport]?
 
@@ -439,7 +440,16 @@ final class AppController {
 
     // MARK: - Verify
 
-    func verify(path: String) {
+    private var verificationGeneration = UUID()
+    func verify(path: String) { verify(paths: [path]) }
+
+    func verify(paths: [String]) {
+        verificationGeneration = UUID()
+        verifiedDocuments = []
+        for path in paths { verifyDocument(path: path, generation: verificationGeneration) }
+    }
+
+    private func verifyDocument(path: String, generation: UUID) {
         let url = URL(fileURLWithPath: path)
         verifyFile = url
         verifyReports = nil
@@ -448,8 +458,10 @@ final class AppController {
         verifyQueue.async { [weak self] in
             let reports = verifier.verify(url)
             onMain { [weak self] in
-                guard let self, self.verifyFile == url else { return }
+                guard let self, self.verificationGeneration == generation else { return }
                 self.verifyReports = reports
+                self.verifiedDocuments.removeAll { $0.url == url }
+                self.verifiedDocuments.append((url, reports))
                 self.log(ActivityItem(kind: .verified, title: url.lastPathComponent, subtitle: localized(.linux_verified_result, Verdict(reports).title),
                                       ok: Verdict(reports).isValid, filePath: url.path))
                 self.changed()
@@ -458,6 +470,8 @@ final class AppController {
     }
 
     func resetVerify() {
+        verificationGeneration = UUID()
+        verifiedDocuments = []
         verifyFile = nil
         verifyReports = nil
         changed()

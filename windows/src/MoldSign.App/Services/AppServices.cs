@@ -9,6 +9,7 @@ namespace MoldSign.App.Services;
 /// <summary>Result of a UI-triggered operation, ready for an InfoBar.</summary>
 public sealed record OperationOutcome(bool Success, string Message, IReadOnlyList<string> Outputs)
 {
+    public IReadOnlyDictionary<string, string> FailedInputs { get; init; } = new Dictionary<string, string>();
     public IReadOnlyList<VerificationReport>? Reports { get; init; }
     public IReadOnlyList<string> CompletedInputs { get; init; } = [];
     public string? FailedInput { get; init; }
@@ -142,12 +143,15 @@ public sealed class AppServices : IAsyncDisposable
         Readers.Refresh();
     }
 
+    private IReadOnlyList<ReaderSlot>? _pendingSlots;
     private void OnReadersChanged(IReadOnlyList<ReaderSlot> slots)
     {
         try
         {
             var inserted = _activationPolicy.Update(slots.Select(slot =>
                 new ReaderStatus(slot.Name, slot.State != SlotState.Empty, slot.State == SlotState.Mute, slot.Generation)).ToArray(), Settings);
+            if (State.IsBusy) { _pendingSlots = slots; return; }
+            if (State.IsBusy) { _pendingSlots = slots; return; }
             foreach (var card in State.ApplySlots(slots)) _ = ReadCertificateAsync(card);
             if (IsDemo && !_demoSelectionApplied)
             {
@@ -221,9 +225,11 @@ public sealed class AppServices : IAsyncDisposable
 
         var outputs = new List<string>();
         var completedInputs = new List<string>();
+        var failures = new Dictionary<string, string>();
         OperationOutcome Outcome(bool success, string message, bool failed = true) => new(success, message, outputs)
         {
             CompletedInputs = completedInputs.ToArray(),
+            FailedInputs = failures,
             FailedInput = !success && failed ? frozenJobs.FirstOrDefault(job => !completedInputs.Contains(job.Path))?.Path : null,
         };
         try
@@ -238,11 +244,11 @@ public sealed class AppServices : IAsyncDisposable
                         completedInputs.Add(job.Path);
                         Record(Path.GetFileName(job.Path), IsDemo ? Loc.Get("demo_sign_success") : $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
                             true, signed.OutputFiles.FirstOrDefault());
-                    });
+                    }, failed: (job, error) => failures[job.Path] = error is CardException cardError ? (cardError.Kind == CardErrorKind.Format ? "This document could not be signed. It may be damaged or use an unsupported format." : AppState.ErrorText(cardError.Kind)) : "The signed document could not be saved. Check the destination folder and available disk space.");
                 if (result.Error is { } failure) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
             });
             Consent.LastRemainingAttempts = null;
-            return Outcome(true, IsDemo ? Loc.Get("demo_sign_success") : Loc.Format("Sign_Done", outputs.Count));
+            return Outcome(failures.Count == 0, failures.Count == 0 ? (IsDemo ? Loc.Get("demo_sign_success") : Loc.Format("Sign_Done", outputs.Count)) : "", failed: false);
         }
         catch (CardException e) when (e.Kind == CardErrorKind.Cancelled)
         {
@@ -361,5 +367,6 @@ public sealed class AppServices : IAsyncDisposable
     {
         _busyCount = Math.Max(0, _busyCount + (busy ? 1 : -1));
         State.SetBusy(_busyCount > 0);
+        if (_busyCount == 0 && _pendingSlots is { } pending) { _pendingSlots = null; OnReadersChanged(pending); }
     }
 }

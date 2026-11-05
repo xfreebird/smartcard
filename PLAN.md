@@ -689,6 +689,31 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 
 ## Progress log
 
+- 2026-11-05 release preparation: marketing version 0.2.2; build 200 for Apple/Windows. Release automation uploads Google Play bundles without changing tracks or submitting for review. Huawei workflow saves an APK draft without submission. Release/store publication and website feed updates requested; delivery outcomes will be recorded after read-back.
+
+- 2026-11-05 simulator Safari preview: added an opt-in, Debug/simulator-only fixture that shows two DEMO certificate identities and starts a real HTTPS bridge without physical reader monitoring. Server certificate-preview mode permits enumeration/hello/refresh only and rejects all signing routes before consent or hardware access. Preview test passed; iPad HTTPS certificates returned both demo identities with normal TLS verification. iPhone stopped to avoid host-port conflicts; iPad remains in its multitasking layout for Safari checks.
+
+- 2026-11-05 clear/drop follow-up: added clear-results controls on verification screens with stale-work invalidation. Android removal now removes its stored verification result and cancels pending work. Apple Sign/Verify accept file URL and concrete document drag representations, copying provider files before temporary URLs expire. Added Android signing drag reception. Apple policy suite: 24 passed, including two provider-lifetime/multiple-file drag tests. macOS clear verified live; all app builds passed. Launched Pixel Tablet API 36 emulator (esemnbun-tablet, emulator-5556) with current app and 24 files in Downloads/Mac Downloads; updated iPad app installed. Actual inter-app drag gestures remain to be checked.
+
+- 2026-11-05: Extended reader instructions to iPadOS 17+ alongside iOS 17+, with Lightning/USB-C adapter guidance and external power generally unnecessary, in Romanian, English and Russian. Prepared an iPad simulator with the app and Downloads sample documents.
+
+- 2026-11-05: Updated iOS reader guidance in Romanian, English and Russian: any iPhone running iOS 17+, Lightning-to-USB-A or USB-C-to-USB-A adapters, external power generally unnecessary. Removed the iPhone 15+ restriction and powered-camera-adapter recommendation.
+
+- 2026-11-05: Apple verification document headers place the validation icon beside the filename in one row, retaining the readable verdict and signature count underneath the filename.
+
+- 2026-11-05 signature author display: verification headings expose author, signature label, subject IDNP and formatted signing time. Distinguished-name attributes render individually rather than as an opaque issuer string; the issuer organization identifier is never used as personal IDNP. Apple disclosure headings are full-width buttons. Corrected metadata fingerprints to hash only the leaf DER and parsed extension URLs from ASN.1 boundaries. About is fixed-size with Close as its only enabled window control; Help opens https://esemnbun.md/docs/start/. Live macOS UI checks passed; signed macOS/iOS, Android, Windows and Fedora builds passed. Certificate metadata regression tests: 3 passed locally; Windows: 200 passed; Fedora: 41 executed, 7 skipped, no failures.
+
+- 2026-11-05 signed-result actions: successful signing rows are whole-row native actions. macOS groups filename and Show in Finder under one hoverable button (App Store export retained in the context menu); iOS shares from the whole row; Linux action rows reveal their file; Windows stretches filename and Show in Explorer across a single button; Android retains every completed output and opens it from a full-width card.
+
+- 2026-11-05 follow-up: Apple verification results now group filename, verdict and signatures in one document card; new verification selections replace the prior batch (also Android/Linux). Sign and Verify share the Apple drop-zone implementation and scroll layout, eliminating Form clipping of iOS dashed corners. CardSelector uses a fixed card snapshot throughout local signing. Signed macOS and iOS builds passed; live macOS verification checked two PDFs then replacement with one PDF, and iOS screenshot confirmed rounded dashed corners. Apple policy tests: 22 passed. Real-card multi-document signing has not been repeated.
+
+- 2026-11-05: Implemented certificate detail disclosures in Apple, Android, Windows and Linux verification screens (PDF and XAdES); readable verification dates; multiple-document verification; continuation after document failures with per-file errors and no retry buttons; card state preservation during signing; dashed signing/verification drop zones; content-sized Windows tray flyout. Added batch continuation regression coverage. Card/PIN failures still stop the batch. Validation: Android debug/core tests, Apple app policy tests, iOS/macOS builds, Fedora GNOME build/core tests and Windows build/core tests; real-card signing and full UI workflows remain unverified.
+
+- 2026-11-05 validation: current working tree builds on Windows 11 ARM64 VM (x64 WinUI), Fedora VM (Swift GNOME), local Android debug, and iOS simulator. Windows core: 199 passed; Fedora core: 38 executed, 7 skipped, 0 failures; Android core: 117 executed, 1 skipped, 0 failures. iOS verification view compilation was repaired. iOS and Android launch screenshots show remaining drop-zone inconsistencies; full document workflows and real-card batch signing are not yet validated.
+
+- 2026-11-05: Began cross-platform signing and verification improvements: Apple signing rows no longer offer per-file retry or duplicate their error in the result area; the shared Apple signing drop zone uses a dashed outline. Remaining cross-platform work is pending.
+
+
 - 2026-11-01: Mobile browser and MPass desktop login follow-up (MOB-01–02, IOS-06).
 
 - 2026-11-01: Settings, About, Verify, reader selection and desktop carousel follow-up (UI-23–25); Apple builds and policy tests passed on the MacBook Air.

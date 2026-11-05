@@ -256,4 +256,6 @@
   <data name="Legacy_ClientTitle" xml:space="preserve"><value>Permite conectarea MoldSign Desktop</value></data>
   <data name="Legacy_ClientDescription" xml:space="preserve"><value>Cererile locale de semnare necesită aprobarea ta.</value></data>
   <data name="Update_Available" xml:space="preserve"><value>Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.</value></data>
+  <data name="File_ShowInFolder" xml:space="preserve"><value>Arată în Explorer</value></data>
+  <data name="VerifyClearResults.Content" xml:space="preserve"><value>Șterge rezultatele</value></data>
 </root>

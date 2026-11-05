@@ -127,7 +127,13 @@ internal static partial class WindowHelpers
         var area = DisplayArea.Primary.WorkArea;
         var margin = (int)(12 * scale);
         var width = (int)(FlyoutWidth * scale);
-        var height = (int)Math.Min((FlyoutHeight + Math.Max(0, extraHeight)) * scale, area.Height - 2 * margin);
+        double measuredHeight = FlyoutHeight + Math.Max(0, extraHeight);
+        if (window.Content is FrameworkElement content)
+        {
+            content.Measure(new Windows.Foundation.Size(FlyoutWidth, double.PositiveInfinity));
+            if (content.DesiredSize.Height > 0) measuredHeight = content.DesiredSize.Height;
+        }
+        var height = (int)Math.Min(Math.Ceiling(measuredHeight * scale), area.Height - 2 * margin);
         window.AppWindow.MoveAndResize(new RectInt32(
             area.X + area.Width - width - margin,
             area.Y + area.Height - height - margin,

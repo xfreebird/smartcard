@@ -1,4 +1,4 @@
-name: Huawei AppGallery upload + submit
+name: Huawei AppGallery draft upload
 on:
   workflow_dispatch:
   workflow_run:
@@ -47,7 +47,7 @@ jobs:
           echo "APK_VERSION_CODE=$version_code" >> "$GITHUB_ENV"
           echo "Source Android run: $source_run; version code: $version_code" >> "$GITHUB_STEP_SUMMARY"
           sha256sum "${apks[0]}" >> "$GITHUB_STEP_SUMMARY"
-      - name: Upload latest APK and submit for review
+      - name: Upload latest APK as a draft
         env:
           HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON: ${{ secrets.HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON }}
-        run: python scripts/appgallery.py --apk "$APK_PATH" --version-code "$APK_VERSION_CODE"
+        run: python scripts/appgallery.py --apk "$APK_PATH" --version-code "$APK_VERSION_CODE" --draft

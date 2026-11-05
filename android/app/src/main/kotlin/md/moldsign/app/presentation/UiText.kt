@@ -25,6 +25,7 @@ fun errorText(context: Context, e: Throwable): String = when (e) {
     is CardError.CardStateStuck -> context.getString(R.string.error_card_stuck)
     is CardError.SmOutOfSync -> context.getString(R.string.error_sm_out_of_sync)
     is CardError.Network -> context.getString(R.string.error_network, e.service)
+    is CardError.Format -> "This document could not be signed. It may be damaged or use an unsupported format."
     is CardError.Cancelled -> ""
     is CardError.CardNotResponding, is CardError.UnexpectedStatus, is CardError.Protocol ->
         context.getString(R.string.error_card_stuck)

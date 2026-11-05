@@ -11,6 +11,8 @@ final class AppModel {
     // Readers / cards (several eID cards can be connected)
     var status: ReaderStatus = .noReader
     var cards: [CardSlot] = []
+    private var signingCards: [CardSlot]?
+    var displayedCards: [CardSlot] { signingCards ?? cards }
     var selectedReaderName: String? {
         didSet { selectedReader.name = selectedCard?.reader; recomputeStatus() }
     }
@@ -18,6 +20,7 @@ final class AppModel {
 
     /// The card the UI signs with: the user's pick, else the first inserted one.
     var selectedCard: CardSlot? {
+        if let frozen = signingCards?.first(where: { $0.reader == selectedReaderName }) ?? signingCards?.first { return frozen }
         guard let reader = ReaderSelectionPolicy.activeReader(preferred: selectedReaderName,
                                                                available: cards.map(\.reader)) else { return nil }
         return cards.first { $0.reader == reader }
@@ -35,6 +38,7 @@ final class AppModel {
 
     // Verify
     var verifyFile: URL?
+    var verifiedDocuments: [(url: URL, reports: [Validator.Report])] = []
     var verifyReports: [Validator.Report]?
 
     // Sheets
@@ -269,7 +273,7 @@ final class AppModel {
         AppPreferencesStore.defaults.set(enabled, forKey: "demoModeEnabled")
         cards = []; readers = []; selectedReaderName = nil
         signItems = []; lastSigned = []; lastError = nil
-        verifyFile = nil; verifyReports = nil; browserURL = nil
+        verifyFile = nil; verifyReports = nil; verifiedDocuments = []; browserURL = nil
         vaultRevision += 1
         activity = activityStore.load()
         recentsClearedAt = activityStore.recentsClearedAt
@@ -285,7 +289,9 @@ final class AppModel {
 
     // MARK: - Reader state
 
+    private var pendingReaderSnapshot: ReaderMonitor.Snapshot?
     private func apply(_ snapshot: ReaderMonitor.Snapshot) {
+        if signing { pendingReaderSnapshot = snapshot; return }
         guard !demoMode else { return }
         guard snapshot.available else { status = .unavailable; return }
         let previousReaders = Set(readers)
@@ -302,6 +308,10 @@ final class AppModel {
                 next.append(fresh)
                 toRead.append(fresh)
             }
+        }
+        if signing {
+            // PC/SC probes can temporarily lose the card while its exclusive signing session is active.
+            return
         }
         cards = next
         // Reader state can briefly become probing or empty during a signing session. Keep the
@@ -333,6 +343,25 @@ final class AppModel {
     }
 
     /// Fictional cards for the user-controlled demo and Debug screenshot scenarios.
+    /// Opt-in, isolated simulator fixture for Safari interoperability checks. No signing or hardware.
+    private var simulatorBridgeCertificates: [SigningService.CertificateSummary]? {
+        #if DEBUG && targetEnvironment(simulator)
+        let env = ProcessInfo.processInfo.environment
+        guard fixtureMode, demoMode, env["MSIGN_SIMULATOR_BRIDGE"] == "1",
+              env["MSIGN_QA_NO_HARDWARE"] == "1",
+              env["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true,
+              let encoded = env["MSIGN_SIMULATOR_CERTIFICATES"] else { return nil }
+        let certificates = encoded.split(separator: ":").compactMap { value -> SigningService.CertificateSummary? in
+            guard let der = Data(base64Encoded: String(value)), der.first == 0x30 else { return nil }
+            let certificate = SigningService.CertificateSummary(der: der)
+            return certificate.holder.hasPrefix("DEMO ") ? certificate : nil
+        }
+        return certificates.isEmpty ? nil : certificates
+        #else
+        return nil
+        #endif
+    }
+
     private func loadDemoCards(_ count: Int) {
         demoMode = true
         let holders = ["Popescu Ion", L10n.text(.ui_mindru_stefan), "Rusu Ana"]   // CN order on Moldovan certificates
@@ -343,7 +372,9 @@ final class AppModel {
                 der: Data(), holder: holders[index % holders.count], subjectDN: "CN=\(holders[index % holders.count]),C=MD",
                 issuer: "CN=MDQSign,C=MD", issuerName: "MDQSign", serialDecimal: "1298074214877499210738125554536943",
                 sha1Hex: sha, notAfter: Calendar.current.date(byAdding: .year, value: 4 - index, to: Date()))
-            return CardSlot(reader: reader, generation: 1, certificate: cert)
+            let preview = simulatorBridgeCertificates
+            return CardSlot(reader: reader, generation: 1,
+                            certificate: preview.flatMap { index < $0.count ? $0[index] : nil } ?? cert)
         }
         #if DEBUG
         if let files = ProcessInfo.processInfo.environment["MSIGN_DEMO_FILES"] {
@@ -354,6 +385,10 @@ final class AppModel {
         bridgeState = fixtureMode && AppDistribution.browserBridge ? .running : .stopped
         recomputeStatus()
         applyDemoScenario(ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "ready")
+        if simulatorBridgeCertificates != nil {
+            bridgeState = .stopped
+            if bridgeEnabled { startBridge() }
+        }
         FileHandle.standardOutput.write(Data("MSIGN_DEMO_READY\n".utf8))
         #else
         selectedReaderName = cards.first?.reader
@@ -418,7 +453,7 @@ final class AppModel {
 
     /// "Recitește cardul": forget what we know about the inserted cards and read them again.
     func rereadCards() {
-        guard !demoMode else { return }
+        guard !demoMode, !signing else { return }
         for index in cards.indices {
             cards[index].certificate = nil
             cards[index].problemText = nil
@@ -462,7 +497,7 @@ final class AppModel {
     }
 
     /// Freezes the selected files/card before authorization. One credential is scoped to this batch;
-    /// completed files leave the queue, additions remain queued, and any failure stops without retry.
+    /// completed files leave the queue, additions remain queued, and document failures continue without retry; card and credential failures stop.
     func signAll(only itemID: UUID? = nil) async {
         if demoMode { await signDemoBatch(only: itemID); return }
         guard !signing, !batchRunner.isRunning, let card = selectedCard, let cert = card.certificate,
@@ -475,11 +510,14 @@ final class AppModel {
         let context = BatchContext(reader: card.reader, certificate: cert)
         lastError = nil
         if itemID == nil { lastSigned = [] }
+        signingCards = cards
         signing = true
         status = .busy(reader: context.reader, holder: cert.holder)
         defer {
             currentStep = nil
             signing = false
+            if let snapshot = pendingReaderSnapshot { pendingReaderSnapshot = nil; apply(snapshot) }
+            signingCards = nil
             recomputeStatus()
         }
         var didAttemptPINStorage = false
@@ -511,6 +549,10 @@ final class AppModel {
                 }
                 self.log(ActivityItem(title: item.url.lastPathComponent, subtitle: self.lastError?.message ?? L10n.text(.ui_), ok: false))
                 if case CardError.cardChanged = error { self.rereadCards() }
+            },
+            shouldContinue: { error in
+                if case CardError.signFailed = error { return true }
+                return error is CocoaError || error is TrustServices.NetworkError
             }
         )
     }
@@ -615,28 +657,40 @@ final class AppModel {
 
     // MARK: - Verify
 
-    func verify(_ url: URL) async {
-        guard !verifying else { return }
-        verifying = true
-        defer { verifying = false }
-        if demoMode {
-            verifyFile = url
-            verifyReports = await DemoDocumentVerifier().verify(url)
-            return
-        }
-        verifyFile = url
+    private var verificationGeneration = UUID()
+    func clearVerification() {
+        verificationGeneration = UUID()
+        verifying = false
+        verifiedDocuments = []
+        verifyFile = nil
         verifyReports = nil
-        let reports = await documentVerifier.verify(url)
-        verifyReports = reports
-        let verdict = Verdict(reports)
-        log(ActivityItem(title: url.lastPathComponent, subtitle: L10n.text(.ui_verified),
-                         ok: { if case .valid = verdict { return true } else { return false } }(), fileURL: url))
     }
+
+    func verifyFiles(_ urls: [URL]) async {
+        clearVerification()
+        let generation = verificationGeneration
+        verifying = true
+        defer { if verificationGeneration == generation { verifying = false } }
+        for url in urls {
+            guard verificationGeneration == generation else { return }
+            verifyFile = url
+            verifyReports = nil
+            let reports = demoMode ? await DemoDocumentVerifier().verify(url) : await documentVerifier.verify(url)
+            guard verificationGeneration == generation else { return }
+            verifyReports = reports
+            verifiedDocuments.append((url, reports))
+            let verdict = Verdict(reports)
+            log(ActivityItem(title: url.lastPathComponent, subtitle: L10n.text(.ui_verified),
+                             ok: { if case .valid = verdict { return true } else { return false } }(), fileURL: url))
+        }
+    }
+
+    func verify(_ url: URL) async { await verifyFiles([url]) }
 
     // MARK: - Bridge (MAC-07, IOS-06)
 
     func startBridge() {
-        guard AppDistribution.browserBridge, !demoMode else { return }
+        guard AppDistribution.browserBridge, !demoMode || simulatorBridgeCertificates != nil else { return }
         guard server == nil else { return }
         #if os(macOS) && APP_STORE
         // Store uses the packaged identity only, without probing vendor or development paths.
@@ -649,8 +703,9 @@ final class AppModel {
         #else
         let legacyDesktop = false
         #endif
-        let server = MoldSignServer(allowsFileSystemRoutes: AppDistribution.bridgeFileAccess,
-                                    allowsLegacyDesktopClient: legacyDesktop)
+        let server = MoldSignServer(allowsFileSystemRoutes: simulatorBridgeCertificates == nil && AppDistribution.bridgeFileAccess,
+                                    allowsLegacyDesktopClient: legacyDesktop,
+                                    previewCertificates: simulatorBridgeCertificates)
         #endif
         server.authorize = { [weak self] request in
             let box = DecisionBox()
@@ -676,7 +731,7 @@ final class AppModel {
         }
         server.onListenerError = { [weak self, weak server] _, error in
             Task { @MainActor in
-                guard let self, let server, self.server === server, !self.demoMode else { return }
+                guard let self, let server, self.server === server, !self.demoMode || self.simulatorBridgeCertificates != nil else { return }
                 self.bridgeState = MoldSignServer.isAddressInUse(error) ? .portBusy : .failed("\(error)")
                 if self.bridgeState == .portBusy { self.scheduleBridgeRecovery() }
             }
@@ -820,6 +875,8 @@ final class AppModel {
             return PresentedError(messageText: .localized(.ui_the_secure_session_was_interrupted), recoveryText: .localized(.ui_try_again))
         case CardError.signFailed(let message) where message.hasPrefix("TSA"):
             return PresentedError(messageText: .localized(.ui_the_timestamp_service_is_not_responding), recoveryText: .localized(.ui_check_the_connection_and_try_again))
+        case CardError.signFailed:
+            return PresentedError(messageText: .verbatim("This document could not be signed. It may be damaged or use an unsupported format."), recoveryText: .verbatim(""))
         case is TrustServices.NetworkError:
             return PresentedError(messageText: .localized(.ui_pki_services_are_not_responding), recoveryText: .localized(.ui_check_the_connection_and_try_again))
         default:
