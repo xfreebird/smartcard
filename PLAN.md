@@ -940,3 +940,5 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-05: Matched Firefox installer dimensions (680×425, 128-point icons), reduced the arrow, added the app-label pill and blank Applications shortcut name, and created a branded card-reader volume icon. Mounted the revised local 0.2.2 DMG; confirmed the ICNS file survives compression.
 
 - 2026-11-05: Release CI now installs pinned dmgbuild tooling and writes the branded DMG layout without Finder automation. A local package using the same settings passed mounted-image checks for the volume icon, blank Applications symlink, icon size and positions. Full archive/sign/notarize CI has not been dispatched.
+
+- 2026-11-06: Published branded macOS 0.2.2 build 202 via Release run 42120435210. Developer ID signing, notarization and stapling succeeded; downloaded DMG matches SHA256SUMS (5e942ae70a01eae3ed87c121cb705233a3e2c7478d9015ee18c78a112be0266c), and stapler validation passed. Refreshed download metadata.
