@@ -67,7 +67,12 @@ jobs:
         with: { ruby-version: "3.3", bundler-cache: true }
       - name: Developer ID identity (match, read-only, temporary keychain)
         run: bundle exec fastlane mac_signing
-      - name: Build, sign, notarize
+      - name: Prepare branded DMG tooling
+        run: |
+          python3 -m venv "$RUNNER_TEMP/dmg-tools"
+          "$RUNNER_TEMP/dmg-tools/bin/pip" install -r distribution/apple/dmg/requirements.txt
+          echo "DMGBUILD=$RUNNER_TEMP/dmg-tools/bin/dmgbuild" >> "$GITHUB_ENV"
+      - name: Build, package branded DMG, sign and notarize
         env:
           MACOS_SIGN_IDENTITY: Developer ID Application
           MACOS_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}

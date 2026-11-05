@@ -73,10 +73,31 @@ APP="$OUT/eSemnBun.xcarchive/Products/Applications/eSemnBun.app"
 "$ROOT/apple/scripts/verify-macos-distribution.sh" desktop "$APP"
 
 echo "▸ Building DMG"
-STAGE="$OUT/dmg-stage"
-mkdir -p "$STAGE" && cp -R "$APP" "$STAGE/" && ln -s /Applications "$STAGE/Applications"
-hdiutil create -quiet -volname "eSemnBun $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$OUT/eSemnBun-$VERSION.dmg"
-rm -rf "$STAGE"
+DMG="$OUT/eSemnBun-$VERSION.dmg"
+ICONSET="$OUT/dmg-icon.iconset"
+mkdir -p "$ICONSET"
+# CI supplies its prepared tool; local packaging installs the same pinned dependencies.
+if [[ -z "${DMGBUILD:-}" ]]; then
+  python3 -m venv "$ROOT/dist/.dmg-tools"
+  "$ROOT/dist/.dmg-tools/bin/pip" install -r "$ROOT/distribution/apple/dmg/requirements.txt"
+  DMGBUILD="$ROOT/dist/.dmg-tools/bin/dmgbuild"
+fi
+
+# Finder volume icon: branded ID-card reader.
+APP_ICON="$ROOT/distribution/apple/dmg/volume-icon.png"
+for spec in '16 16x16' '32 16x16@2x' '32 32x32' '64 32x32@2x' '128 128x128' '256 128x128@2x' '256 256x256' '512 256x256@2x' '512 512x512' '1024 512x512@2x'; do
+  pixels="${spec%% *}"
+  name="${spec#* }"
+  sips -s format png -z "$pixels" "$pixels" "$APP_ICON" --out "$ICONSET/icon_$name.png" >/dev/null
+done
+iconutil -c icns "$ICONSET" -o "$OUT/volume-icon.icns"
+
+# Write Finder metadata directly, without a GUI session or Apple Events permission.
+"$DMGBUILD" -s "$ROOT/distribution/apple/dmg/settings.py" \
+  -D "app=$APP" -D "icon=$OUT/volume-icon.icns" \
+  -D "background=$ROOT/distribution/apple/dmg/dmg-background.png" \
+  "eSemnBun $VERSION" "$DMG"
+rm -rf "$ICONSET" "$OUT/volume-icon.icns"
 [[ "$IDENTITY" != "-" ]] && sign_ts --sign "$IDENTITY" --timestamp "$OUT/eSemnBun-$VERSION.dmg"
 
 if (( ${#notary[@]} )); then

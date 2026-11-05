@@ -1,0 +1,19 @@
+"""Finder presentation shared by local and CI macOS installers."""
+format = "UDZO"
+filesystem = "HFS+"
+files = [defines["app"]]
+symlinks = {" ": "/Applications"}
+icon = defines["icon"]
+background = defines["background"]
+window_rect = ((200, 200), (680, 425))
+icon_size = 128
+text_size = 12
+icon_locations = {"eSemnBun.app": (208, 190), " ": (472, 190)}
+hide_extensions = ["eSemnBun.app"]
+show_status_bar = False
+show_tab_view = False
+show_toolbar = False
+show_sidebar = False
+show_icon_preview = True
+include_icon_view_settings = True
+include_list_view_settings = False

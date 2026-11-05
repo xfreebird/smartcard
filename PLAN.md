@@ -934,3 +934,9 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-05: Updated Website actions to Node 24-based releases (checkout/setup-node v6, Pages upload/deploy v5), resolving action-runtime deprecation warnings while retaining website Node 22.
 
 - 2026-11-05: Localized Apple/Microsoft badges with official Romanian/Russian artwork and shared manifest selection on homepage/downloads; Google Play already has localized images. Romanian macOS uses the Romanian App Store badge because the Mac-specific endpoint returns English.
+
+- 2026-11-05: Styled the standalone macOS DMG with a Finder background and app-to-Applications arrow, Finder icon positions, and a mounted-volume icon matching the eSemnBun app icon. Created and mounted `dist/macos/eSemnBun-0.2.2-custom.dmg` from the installed signed 0.2.2 build; the package script syntax and whitespace checks pass. A full archive/release package build was not run.
+
+- 2026-11-05: Matched Firefox installer dimensions (680×425, 128-point icons), reduced the arrow, added the app-label pill and blank Applications shortcut name, and created a branded card-reader volume icon. Mounted the revised local 0.2.2 DMG; confirmed the ICNS file survives compression.
+
+- 2026-11-05: Release CI now installs pinned dmgbuild tooling and writes the branded DMG layout without Finder automation. A local package using the same settings passed mounted-image checks for the volume icon, blank Applications symlink, icon size and positions. Full archive/sign/notarize CI has not been dispatched.
