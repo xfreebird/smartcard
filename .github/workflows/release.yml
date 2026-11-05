@@ -29,6 +29,10 @@ on:
         description: Optional Android version code override (independent of the Apple and Windows build number)
         type: string
         required: false
+      submit_windows_store:
+        description: Submit the Windows MSIX to the Store (requires a new build number)
+        type: boolean
+        default: false
       tag:
         description: Release tag (default v<MARKETING_VERSION> from the Xcode project)
         type: string
@@ -229,6 +233,9 @@ jobs:
       WINDOWS_MSI_CERTIFICATE_PFX_BASE64: ${{ secrets.WINDOWS_MSI_CERTIFICATE_PFX_BASE64 }}
       WINDOWS_MSI_CERTIFICATE_PASSWORD: ${{ secrets.WINDOWS_MSI_CERTIFICATE_PASSWORD }}
       MSSTORE_CLIENT_ID: ${{ secrets.MSSTORE_CLIENT_ID }}
+      MSSTORE_TENANT_ID: ${{ secrets.MSSTORE_TENANT_ID }}
+      MSSTORE_SELLER_ID: ${{ secrets.MSSTORE_SELLER_ID }}
+      MSSTORE_CLIENT_SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
       MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
@@ -249,19 +256,16 @@ jobs:
             $env:BUILD_NUMBER = [string](100 + [int]$env:GITHUB_RUN_NUMBER)
           }
           windows/scripts/package-windows.ps1 -Platforms x64
-      # Microsoft Store: upload the MSIX as a new submission (tags only: each upload needs a higher version).
-      # Needs the Partner Center Entra app secrets (docs/11); skipped while they are missing.
-      - name: Publish to the Microsoft Store
-        if: false   # disabled until the first Store submission is done by hand and the MSSTORE_* secrets exist (PLAN WIN-10)
+      # Each Store upload requires a higher package version. Manual rebuilds opt in explicitly.
+      - name: Set up Microsoft Store CLI
+        if: ${{ (startsWith(github.ref, 'refs/tags/v') || inputs.submit_windows_store) && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
         uses: microsoft/setup-msstore-cli@v1
       - name: Submit the MSIX
-        if: false   # disabled until the first Store submission is done by hand and the MSSTORE_* secrets exist (PLAN WIN-10)
+        if: ${{ (startsWith(github.ref, 'refs/tags/v') || inputs.submit_windows_store) && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
         shell: pwsh
-        env:
-          MSSTORE_TENANT_ID: ${{ secrets.MSSTORE_TENANT_ID }}
-          MSSTORE_SELLER_ID: ${{ secrets.MSSTORE_SELLER_ID }}
-          MSSTORE_CLIENT_SECRET: ${{ secrets.MSSTORE_CLIENT_SECRET }}
         run: |
+          python scripts/check-msstore-credentials.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           msstore reconfigure --tenantId $env:MSSTORE_TENANT_ID --sellerId $env:MSSTORE_SELLER_ID `
             --clientId $env:MSSTORE_CLIENT_ID --clientSecret $env:MSSTORE_CLIENT_SECRET
           $msix = Get-ChildItem dist/windows/*.msix | Select-Object -First 1
