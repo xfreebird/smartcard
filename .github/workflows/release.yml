@@ -17,9 +17,9 @@ on:
   workflow_dispatch:
     inputs:
       only:
-        description: Build one platform only (tags always build everything)
+        description: Build all, desktop platforms, or one platform (tags always build everything)
         type: choice
-        options: [all, macos, ios, android, linux, flatpak, windows]
+        options: [all, desktop, macos, ios, android, linux, flatpak, windows]
         default: all
       build_number:
         description: Optional positive integer override (must exceed the last uploaded build)
@@ -53,7 +53,7 @@ env:
 
 jobs:
   macos:
-    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'macos' }}
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'macos' }}
     name: macOS app (DMG, Developer ID, notarized) + CLI
     runs-on: macos-26
     env:
@@ -172,7 +172,7 @@ jobs:
         run: bundle exec fastlane android_artifact
 
   linux:
-    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'linux' }}
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'linux' }}
     name: Linux (CLI tarball, .deb, .rpm)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
@@ -195,7 +195,7 @@ jobs:
           if-no-files-found: error
 
   flatpak:
-    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'flatpak' }}
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'flatpak' }}
     name: Linux (Flatpak bundle)
     runs-on: ubuntu-24.04
     steps:
@@ -224,7 +224,7 @@ jobs:
           if-no-files-found: error
 
   windows:
-    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'windows' }}
+    if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'windows' }}
     name: Windows (MSI, MSIX, winget manifests)
     runs-on: windows-latest
     env:
@@ -261,6 +261,18 @@ jobs:
             $env:BUILD_NUMBER = [string](100 + [int]$env:GITHUB_RUN_NUMBER)
           }
           windows/scripts/package-windows.ps1 -Platforms x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: esemnbun-windows
+          path: |
+            dist/windows/*.cer
+            dist/windows/*.msi
+            dist/windows/*.cer
+            dist/windows/*.msix
+            dist/windows/SHA256SUMS.txt
+            dist/windows/winget/
+          if-no-files-found: error
+
       # Each Store upload requires a higher package version. Manual rebuilds opt in explicitly.
       - name: Set up Microsoft Store CLI
         if: ${{ (startsWith(github.ref, 'refs/tags/v') || inputs.submit_windows_store) && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
@@ -275,17 +287,6 @@ jobs:
             --clientId $env:MSSTORE_CLIENT_ID --clientSecret $env:MSSTORE_CLIENT_SECRET
           $msix = Get-ChildItem dist/windows/*.msix | Select-Object -First 1
           msstore publish $msix.FullName --appId 9PDPR6RNT42S
-      - uses: actions/upload-artifact@v4
-        with:
-          name: esemnbun-windows
-          path: |
-            dist/windows/*.cer
-            dist/windows/*.msi
-            dist/windows/*.cer
-            dist/windows/*.msix
-            dist/windows/SHA256SUMS.txt
-            dist/windows/winget/
-          if-no-files-found: error
 
   release:
     name: GitHub Release
