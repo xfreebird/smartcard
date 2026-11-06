@@ -949,3 +949,5 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-06: Moved iOS browser navigation controls above the tab bar and kept WebKit URL/history state synchronized. iPhone simulator Debug build showed the controls unobstructed in portrait and landscape; Back and Forward moved between MSign and eSemnBun, and Share opened the system sheet for the current URL. No card, PIN, or real signing was used.
 
 - 2026-11-06: Prepared 0.2.3 for desktop distribution and store builds, with separate desktop release selection to avoid duplicate mobile uploads.
+
+- 2026-11-06: Released desktop 0.2.3 from 7a02b3a; Windows MSIX 1.2.203.0 entered certification, iOS build 203 was submitted for review, macOS build 203 uploaded to TestFlight, and Android bundle 1793624676 was uploaded to the Play library without changing tracks. Refreshed release downloads and update manifests.
