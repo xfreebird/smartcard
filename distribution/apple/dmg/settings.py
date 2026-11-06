@@ -1,4 +1,22 @@
 """Finder presentation shared by local and CI macOS installers."""
+import os
+import subprocess
+
+from mac_alias import Bookmark
+
+
+class NativeBookmark:
+    def __init__(self, path):
+        self.path = path
+
+    def to_bytes(self):
+        return subprocess.check_output([os.environ["ESEMNBUN_BOOKMARK_TOOL"], self.path])
+
+
+# Finder on current macOS does not display the background with mac-alias's
+# generated bookmark. Foundation produces the bookmark Finder expects.
+Bookmark.for_file = staticmethod(NativeBookmark)
+
 format = "UDZO"
 filesystem = "HFS+"
 files = [defines["app"]]

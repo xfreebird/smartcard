@@ -92,12 +92,17 @@ for spec in '16 16x16' '32 16x16@2x' '32 32x32' '64 32x32@2x' '128 128x128' '256
 done
 iconutil -c icns "$ICONSET" -o "$OUT/volume-icon.icns"
 
+# Finder requires a native Foundation bookmark for the background image.
+BOOKMARK_TOOL="$OUT/dmg-bookmark"
+xcrun swiftc "$ROOT/distribution/apple/dmg/bookmark.swift" -o "$BOOKMARK_TOOL"
+export ESEMNBUN_BOOKMARK_TOOL="$BOOKMARK_TOOL"
+
 # Write Finder metadata directly, without a GUI session or Apple Events permission.
 "$DMGBUILD" -s "$ROOT/distribution/apple/dmg/settings.py" \
   -D "app=$APP" -D "icon=$OUT/volume-icon.icns" \
   -D "background=$ROOT/distribution/apple/dmg/dmg-background.png" \
   "eSemnBun $VERSION" "$DMG"
-rm -rf "$ICONSET" "$OUT/volume-icon.icns"
+rm -rf "$ICONSET" "$OUT/volume-icon.icns" "$BOOKMARK_TOOL"
 [[ "$IDENTITY" != "-" ]] && sign_ts --sign "$IDENTITY" --timestamp "$OUT/eSemnBun-$VERSION.dmg"
 
 if (( ${#notary[@]} )); then
