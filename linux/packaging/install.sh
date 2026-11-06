@@ -31,6 +31,9 @@ need() {
 
 install_gui() {
   need "$gui_bin" "build it: cd linux && swift build -c release --static-swift-stdlib"
+  for font_file in "$repo/swift/MoldSignKit/Sources/MoldSignKit/Resources/PDFStamp/"*; do
+    install -Dm644 "$font_file" "$root/share/moldsign/PDFStamp/$(basename "$font_file")"
+  done
   install -Dm755 "$gui_bin" "$root/bin/esemnbun-gnome"
   install -Dm644 "$repo/linux/data/md.moldsign.MoldSign.desktop" "$root/share/applications/md.moldsign.MoldSign.desktop"
   install -Dm644 "$repo/linux/data/md.moldsign.MoldSign.metainfo.xml" "$root/share/metainfo/md.moldsign.MoldSign.metainfo.xml"

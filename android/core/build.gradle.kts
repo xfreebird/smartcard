@@ -27,6 +27,7 @@ dependencies {
 // Single source of truth for the bridge allow-list: package spec/bridge/allowed-origins.properties
 // into the jar as md/moldsign/core/allowed-origins.properties (BridgeOriginPolicy.bundled()).
 tasks.processResources {
+    from(rootProject.file("../swift/MoldSignKit/Sources/MoldSignKit/Resources/PDFStamp")) { into("md/moldsign/core/pdfstamp") }
     from(rootProject.file("../spec/bridge/allowed-origins.properties")) {
         into("md/moldsign/core")
     }

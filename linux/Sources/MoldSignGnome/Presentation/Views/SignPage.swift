@@ -70,10 +70,11 @@ final class SignPage {
         append(content, errorGroup)
 
         // Result
-        resultGroup = preferencesGroup(title: L10n.text(.ui_signed_successfully))
+        resultGroup = preferencesGroup(title: L10n.text(.saved_signed))
         resultList = boxedList()
         groupAdd(resultGroup, resultList)
         append(content, resultGroup)
+        gtk_box_reorder_child_after(content.cast(), resultGroup, nil)
 
         // Footer: status light + the one primary button (docs/10 §4.2, §0.1)
         statusDot = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0)!
@@ -153,37 +154,64 @@ final class SignPage {
 
     private func renderFiles() {
         let c = controller
-        let key = c.signItems.map { "\($0.id)\($0.format.rawValue)\($0.error ?? "")" }.joined() + "\(c.isSigning)"
+        let key = c.signItems.map { "\($0.id)\($0.format.rawValue)\($0.error ?? "")\(String(describing: $0.stamp))" }.joined() + "\(c.isSigning)"
         setVisible(filesGroup, !c.signItems.isEmpty)
         guard key != filesKey else { return }
         filesKey = key
         clearList(filesList)
         for item in c.signItems {
-            let chip: Widget
             let choices = SignFormat.choices(for: item.url)
-            if choices.count == 1 {
-                chip = label(item.format.label, classes: ["chip"])
-            } else {
-                chip = withCStringArray(choices.map(\.label)) { gtk_drop_down_new_from_strings($0)! }
-                addClasses(chip, ["chip"])
-                gtk_drop_down_set_selected(chip.opaque, guint(choices.firstIndex(of: item.format) ?? 0))
-                setAccessibleLabel(chip, localized(.linux_format_for_file, item.url.lastPathComponent))
-                let id = item.id
-                onSignal(chip, "notify::selected") { [weak self] _ in
-                    let index = Int(gtk_drop_down_get_selected(chip.opaque))
-                    if choices.indices.contains(index) { self?.controller.setFormat(choices[index], for: id) }
-                }
+            let menu = gtk_menu_button_new()!
+            gtk_menu_button_set_icon_name(menu.opaque, "view-more-symbolic")
+            setAccessibleLabel(menu, L10n.text(.file_options))
+            let popover = gtk_popover_new()!
+            let actions = vbox(spacing: 4); margins(actions, 8)
+            gtk_popover_set_child(popover.cast(), actions)
+            gtk_menu_button_set_popover(menu.opaque, popover.cast())
+            append(actions, label(L10n.text(.file_signing_type), classes: ["dim-label"]))
+            for choice in choices {
+                append(actions, button("\(choice == item.format ? "✓  " : "")\(choice.label)") { [weak self] in
+                    gtk_popover_popdown(popover.cast())
+                    self?.controller.setFormat(choice, for: item.id)
+                })
             }
-            setSensitive(chip, !c.isSigning)
+            setSensitive(menu, !c.isSigning)
             let id = item.id
             let remove = iconButton("window-close-symbolic", tooltip: localized(.linux_remove_file, item.url.lastPathComponent)) { [weak self] in
                 self?.controller.remove(id)
             }
             setSensitive(remove, !c.isSigning)
-            var suffix = [chip, remove]
-            let row = actionRow(title: item.url.lastPathComponent, subtitle: item.error ?? item.sizeText,
-                                icon: item.error == nil ? "x-office-document-symbolic" : "dialog-error-symbolic", suffix: suffix)
-            if item.error != nil { addClasses(row, ["error"]) }
+            let stampSummary = item.stamp.map { $0.allPages ? L10n.text(.file_stamp_all) : "\(L10n.text(.file_stamp_page)) \($0.page+1)" } ?? L10n.text(.file_stamp_off)
+            let formatTag = hbox(spacing: 4, [image("x-office-document-symbolic"), label(item.format.label)])
+            addClasses(formatTag, ["file-tag", "format-tag"])
+            let tags = hbox(spacing: 6, [formatTag]); gtk_widget_set_halign(tags, GTK_ALIGN_START)
+            if item.format == .padesT {
+                let stampTag = hbox(spacing: 4, [image("document-edit-symbolic"), label(stampSummary)])
+                addClasses(stampTag, ["file-tag", item.stamp == nil ? "stamp-off-tag" : "stamp-tag"])
+                append(tags, stampTag)
+            }
+            if item.format == .padesT {
+                let stamp = button(L10n.text(item.stamp == nil ? .stamp_add : .stamp_edit)) { [weak self] in
+                    guard let self else { return }
+                    gtk_popover_popdown(popover.cast())
+                    presentPDFStampEditor(parent: self.window(), item: item, holder: self.controller.certificate?.holder ?? "", applyQueue: { value in
+                        for queued in self.controller.signItems where queued.format == .padesT {
+                            var template = value
+                            if queued.id != item.id { template?.documentSHA256 = nil }
+                            self.controller.setStamp(template, for: queued.id)
+                        }
+                    }) { value in self.controller.setStamp(value, for: id) }
+                }
+                setSensitive(stamp, !c.isSigning)
+                append(actions, stamp)
+            }
+            append(actions, button(L10n.text(.file_remove)) { [weak self] in gtk_popover_popdown(popover.cast()); self?.controller.remove(id) })
+            let title = label(item.url.lastPathComponent, wrap: true)
+            let details = vbox(spacing: 4, [title, tags]); gtk_widget_set_hexpand(details, 1)
+            if let error = item.error { append(details, label(error, classes: ["error"], wrap: true)) }
+            let body = hbox(spacing: 12, [image("x-office-document-symbolic"), details, menu, remove]); margins(body, 12)
+            let row = gtk_list_box_row_new()!; gtk_list_box_row_set_child(row.cast(), body)
+            addClasses(row, ["file-row"])
             gtk_list_box_append(filesList.opaque, row)
         }
     }

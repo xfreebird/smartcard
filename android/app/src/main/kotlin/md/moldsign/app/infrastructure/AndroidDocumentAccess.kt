@@ -44,7 +44,11 @@ class AndroidDocumentAccess(private val app: Application) : DocumentAccess {
         val resolver = app.contentResolver
         var name = uri.lastPathSegment ?: "document"
         var size = -1L
-        resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE), null, null, null)?.use { c ->
+        val localFile = if (uri.scheme == "file") uri.path?.let(::File) else null
+        if (localFile != null) {
+            name = localFile.name
+            if (localFile.isFile) size = localFile.length()
+        } else resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE), null, null, null)?.use { c ->
             if (c.moveToFirst()) {
                 c.getColumnIndex(OpenableColumns.DISPLAY_NAME).takeIf { it >= 0 && !c.isNull(it) }?.let { name = c.getString(it) }
                 c.getColumnIndex(OpenableColumns.SIZE).takeIf { it >= 0 && !c.isNull(it) }?.let { size = c.getLong(it) }

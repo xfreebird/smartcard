@@ -80,10 +80,10 @@ Swift 6 toolchain from [swift.org](https://www.swift.org/install/linux/) or `swi
 
 ```bash
 # Debian / Ubuntu
-sudo apt install libadwaita-1-dev libsecret-1-dev libpcsclite-dev libssl-dev pkg-config \
+sudo apt install libpoppler-glib-dev libadwaita-1-dev libsecret-1-dev libpcsclite-dev libssl-dev pkg-config \
                  pcscd libccid gnome-keyring
 # Fedora
-sudo dnf install libadwaita-devel libsecret-devel pcsc-lite-devel openssl-devel pcsc-lite pcsc-lite-ccid
+sudo dnf install poppler-glib-devel libadwaita-devel libsecret-devel pcsc-lite-devel openssl-devel pcsc-lite pcsc-lite-ccid
 
 sudo systemctl enable --now pcscd.socket     # the reader is reached through pcscd
 

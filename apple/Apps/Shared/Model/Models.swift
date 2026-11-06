@@ -126,10 +126,10 @@ enum SignFormat: String, CaseIterable, Identifiable {
 
     var label: String {
         switch self {
-        case .padesT: return "PAdES-T"
-        case .xadesBES: return "XAdES-BES"
-        case .xadesT: return "XAdES-T"
-        case .xadesC: return "XAdES-C"
+        case .padesT: return L10n.text(.format_pdf)
+        case .xadesBES: return L10n.text(.format_xml)
+        case .xadesT: return L10n.text(.format_xml_time)
+        case .xadesC: return L10n.text(.format_xml_data)
         }
     }
 
@@ -157,6 +157,7 @@ struct SignItem: Identifiable, Equatable {
     let id = UUID()
     let url: URL
     var format: SignFormat
+    var stamp: PDFStampPlacement?
     var signingError: String?
 
     init(url: URL) {
@@ -223,6 +224,7 @@ struct ActivityItem: Identifiable, Codable, Equatable {
     var ok: Bool
     var date = Date()
     var fileURL: URL?
+    var signedOutput: Bool? = nil
 }
 
 /// What the PIN sheet shows. `attemptsLeft` comes from the last 63Cx.

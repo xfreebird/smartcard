@@ -2,6 +2,7 @@ import Foundation
 
 struct AppSettings: Codable, Equatable {
     /// MoldSign Server replica on 127.0.0.1:18480 / localhost.cts.md:18443 (LNX-11).
+    var browserStampsEnabled = false
     var bridgeEnabled = true
     var legacyDesktopClientEnabled = false
     /// Keep running (bridge on) after the window is closed (LNX-12).
@@ -14,13 +15,14 @@ struct AppSettings: Codable, Equatable {
     var language = "system"
 
     private enum CodingKeys: String, CodingKey {
-        case bridgeEnabled, legacyDesktopClientEnabled, runInBackground, showOnCardInsertion, launchAtLogin, onboardingCompleted, theme, language
+        case browserStampsEnabled, bridgeEnabled, legacyDesktopClientEnabled, runInBackground, showOnCardInsertion, launchAtLogin, onboardingCompleted, theme, language
     }
 
     init() {}
 
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        browserStampsEnabled = try values.decodeIfPresent(Bool.self, forKey: .browserStampsEnabled) ?? false
         bridgeEnabled = try values.decodeIfPresent(Bool.self, forKey: .bridgeEnabled) ?? true
         legacyDesktopClientEnabled = try values.decodeIfPresent(Bool.self, forKey: .legacyDesktopClientEnabled) ?? false
         runInBackground = try values.decodeIfPresent(Bool.self, forKey: .runInBackground) ?? true

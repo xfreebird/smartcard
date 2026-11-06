@@ -44,6 +44,14 @@ final class AppModel {
     // Sheets
     var pinRequest: PinRequest?
     var consentRequest: ConsentRequest?
+    struct BridgeStampRequest: Identifiable { let id = UUID(); let url: URL; let holder: String; let origin: String? }
+    var bridgeStampRequest: BridgeStampRequest?
+    @ObservationIgnored private var pendingStampDecision: PDFStampDecision?
+    @ObservationIgnored private var stampContinuation: CheckedContinuation<PDFStampDecision, Never>?
+    var browserStampsEnabled: Bool {
+        get { AppPreferencesStore.defaults.bool(forKey: "browserStampsEnabled") }
+        set { AppPreferencesStore.defaults.set(newValue, forKey: "browserStampsEnabled") }
+    }
 
     // Activity + bridge
     var activity: [ActivityItem] = []
@@ -98,13 +106,13 @@ final class AppModel {
 
     var canChangeDemoMode: Bool {
         !signing && !obtainingPIN && !verifying && readingCount == 0 &&
-        pinRequest == nil && consentRequest == nil && currentStep == nil && !fixtureMode
+        pinRequest == nil && consentRequest == nil && bridgeStampRequest == nil && currentStep == nil && !fixtureMode
     }
     private var vaultRevision = 0
 
     /// Tray / menu-bar light (UX-01).
     var light: StatusLight {
-        if signing || pinRequest != nil || consentRequest != nil { return .busy }
+        if signing || pinRequest != nil || consentRequest != nil || bridgeStampRequest != nil { return .busy }
         if cards.contains(where: { $0.certificate != nil }) { return .ready }
         switch status {
         case .error, .unavailable: return .error
@@ -437,7 +445,7 @@ final class AppModel {
                 recomputeStatus()
             }
         case "sign-failure":
-            if !signItems.isEmpty { signItems[0].signingError = L10n.text(.ui_failed_value_value, "PAdES-T", "No /Root in trailer") }
+            if !signItems.isEmpty { signItems[0].signingError = L10n.text(.ui_failed_value_value, L10n.text(.format_pdf), "No /Root in trailer") }
         case "signing": currentStep = .timestamping
         case "success":
             lastSigned = signItems.map(\.url)
@@ -500,7 +508,7 @@ final class AppModel {
     /// completed files leave the queue, additions remain queued, and document failures continue without retry; card and credential failures stop.
     func signAll(only itemID: UUID? = nil) async {
         if demoMode { await signDemoBatch(only: itemID); return }
-        guard !signing, !batchRunner.isRunning, let card = selectedCard, let cert = card.certificate,
+        guard bridgeStampRequest == nil, !signing, !batchRunner.isRunning, let card = selectedCard, let cert = card.certificate,
               status.canSign, !signItems.isEmpty else { return }
         let items = signItems.filter { itemID == nil || $0.id == itemID }
         guard !items.isEmpty else { return }
@@ -536,7 +544,7 @@ final class AppModel {
                 self.lastSigned.append(output)
                 self.remove(item)
                 self.log(ActivityItem(title: output.lastPathComponent,
-                                      subtitle: L10n.text(.ui_signed_value, item.format.label), ok: true, fileURL: output))
+                                      subtitle: L10n.text(.ui_signed_value, item.format.label), ok: true, fileURL: output, signedOutput: true))
                 if entry.remember && !didAttemptPINStorage {
                     didAttemptPINStorage = true
                     try? self.vault.save(entry.pin, certID: context.certificate.sha1Hex)
@@ -572,7 +580,7 @@ final class AppModel {
                 }
                 lastSigned.append(output)
                 remove(item)
-                log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(.demo_simulation_complete), ok: true, fileURL: output))
+                log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(.demo_simulation_complete), ok: true, fileURL: output, signedOutput: true))
             } catch {
                 lastError = PresentedError(messageText: .localized(.ui_demo_mode), recoveryText: .localized(.demo_output_notice))
                 break
@@ -707,6 +715,17 @@ final class AppModel {
                                     allowsLegacyDesktopClient: legacyDesktop,
                                     previewCertificates: simulatorBridgeCertificates)
         #endif
+        // UserDefaults reads are thread-safe; the setting must also apply to cached batches.
+        server.previewPDFEnabled = { AppPreferencesStore.defaults.bool(forKey: "browserStampsEnabled") }
+        server.previewPDF = { [weak self] request, data in
+            let answer = StampDecisionBox()
+            let done = DispatchSemaphore(value: 0)
+            Task { @MainActor in
+                answer.value = await self?.previewBridgePDF(request, data: data) ?? .cancel
+                done.signal()
+            }
+            done.wait(); return answer.value
+        }
         server.authorize = { [weak self] request in
             let box = DecisionBox()
             let done = DispatchSemaphore(value: 0)
@@ -763,6 +782,7 @@ final class AppModel {
     }
 
     func stopBridge() {
+        answerBridgeStamp(.cancel)
         bridgeRecovery?.cancel()
         bridgeRecovery = nil
         server?.stop()
@@ -771,6 +791,30 @@ final class AppModel {
     }
 
     /// Consent (unless the origin is trusted for 10 minutes), then the PIN unless the page sent one.
+    private func previewBridgePDF(_ request: BridgeRequest, data: Data) async -> PDFStampDecision {
+        guard browserStampsEnabled else { return .proceed(nil) }
+        guard !demoMode, !signing, stampContinuation == nil, pinRequest == nil, consentRequest == nil else { return .cancel }
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        do {
+            try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
+            defer { try? FileManager.default.removeItem(at: folder) }
+            let url = folder.appendingPathComponent("document.pdf")
+            try data.write(to: url)
+            try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
+            return await withCheckedContinuation { continuation in
+                stampContinuation = continuation
+                bridgeStampRequest = BridgeStampRequest(url: url, holder: request.certificateHolder ?? certificate?.holder ?? "", origin: request.origin)
+                presentAuthUI?()
+            }
+        } catch { return .cancel }
+    }
+
+    func answerBridgeStamp(_ decision: PDFStampDecision, afterDismissal: Bool = false) {
+        if afterDismissal { pendingStampDecision = decision; bridgeStampRequest = nil; return }
+        let continuation = stampContinuation; stampContinuation = nil; bridgeStampRequest = nil
+        continuation?.resume(returning: decision)
+    }
+
     private func authorize(_ request: BridgeRequest) async -> BridgeDecision {
         guard !demoMode else { return .deny }
         let origin = request.origin ?? "local"
@@ -791,6 +835,11 @@ final class AppModel {
         if request.pinIncluded { return .allow(pin: nil, certificateSHA1: certID) }
         guard let certID, let entry = await obtainPIN(certID: certID, holder: holder, allowRemember: false) else { return .deny }
         return .allow(pin: entry.pin, certificateSHA1: certID)
+    }
+
+    func finishBridgeStampDismissal() {
+        let decision = pendingStampDecision ?? .cancel; pendingStampDecision = nil
+        answerBridgeStamp(decision)
     }
 
     /// "msign.gov.md · Semnat · XAdES-T (SHA-1) · lot" or the failure reason.
@@ -898,3 +947,5 @@ private final class SelectedReader: @unchecked Sendable {
 private final class DecisionBox: @unchecked Sendable {
     var value: BridgeDecision = .deny
 }
+
+private final class StampDecisionBox: @unchecked Sendable { var value: PDFStampDecision = .cancel }

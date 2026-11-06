@@ -19,6 +19,7 @@ Summary:        Sign and verify documents with the Moldovan eID card (GNOME app)
 # TODO(LNX-14): the project has no LICENSE yet
 License:        LicenseRef-proprietary
 
+BuildRequires:  pkgconfig(poppler-glib)
 BuildRequires:  pkgconfig(libadwaita-1)
 BuildRequires:  pkgconfig(libsecret-1)
 BuildRequires:  cmake curl libcurl-devel
@@ -27,6 +28,7 @@ BuildRequires:  pkgconfig(openssl)
 Requires:       pcsc-lite
 Requires:       pcsc-lite-ccid
 Requires:       pcsc-lite-libs
+Requires:       poppler-glib
 Requires:       libadwaita
 Requires:       libsecret
 Requires:       openssl-libs
@@ -79,6 +81,7 @@ cp -a %{moldsign_stage}/. %{buildroot}/
 %{_datadir}/icons/hicolor/scalable/apps/md.moldsign.MoldSign.svg
 %{_datadir}/icons/hicolor/symbolic/apps/md.moldsign.MoldSign-symbolic.svg
 %{_datadir}/moldsign/localhost.p12
+%{_datadir}/moldsign/PDFStamp
 
 %files cli
 %{_bindir}/esemnbun

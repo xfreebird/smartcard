@@ -3,6 +3,7 @@ import SwiftUI
 struct MobileSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @AppStorage("appLanguage", store: AppPreferencesStore.defaults) private var language = "system"
+    @AppStorage("browserStampsEnabled", store: AppPreferencesStore.defaults) private var browserStamps = false
     @AppStorage("appTheme", store: AppPreferencesStore.defaults) private var theme = "system"
     private var languageChoice: Binding<String> {
         Binding(get: { language }, set: { value in
@@ -25,6 +26,10 @@ struct MobileSettingsView: View {
                         Text(L10n.text(.ui_light)).tag("light")
                         Text(L10n.text(.ui_dark)).tag("dark")
                     }
+                }
+                Section(L10n.text(.ui_browser)) {
+                    Toggle(L10n.text(.stamp_browser), isOn: $browserStamps)
+                    Text(L10n.text(.stamp_batch_hint)).font(.caption)
                 }
                 DemoModeSettings()
                 Section { NavigationLink(L10n.text(.about_app_title)) { AboutContent() } }

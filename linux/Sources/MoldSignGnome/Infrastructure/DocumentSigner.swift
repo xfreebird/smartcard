@@ -15,7 +15,7 @@ final class DocumentSigner: DocumentSigning {
                                            expectedCertificateSHA1: certificateSHA1, progress: progress)
         } else {
             signed = try service.signPDF(try Data(contentsOf: input), pin: pin, reader: reader,
-                                         expectedCertificateSHA1: certificateSHA1, progress: progress)
+                                         expectedCertificateSHA1: certificateSHA1, appearance: item.stamp, progress: progress)
         }
         progress(.writing)
         let preferred = SigningService.outputURL(for: input, pathExtension: item.format.outputExtension)

@@ -27,7 +27,11 @@
             Style="{StaticResource MsTitleTextStyle}"
             Text="Semnează" />
 
-            <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Padding="8" Spacing="20">
+            <StackPanel Grid.Row="1" HorizontalAlignment="Stretch" Padding="0,8" Spacing="20">
+            <StackPanel x:Name="SignedResults" Spacing="8" Visibility="Collapsed">
+                <TextBlock x:Name="SignedResultsTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
+                <StackPanel x:Name="SignedFiles" Spacing="4" />
+            </StackPanel>
                 <controls:CardWallet HorizontalAlignment="Stretch" IsCompact="True" />
 
             <!-- Documents follow the selected card, in one vertical reading order. -->
@@ -39,15 +43,24 @@
                 <ListView
                     x:Name="FileList"
                     MaxHeight="240"
+                    Padding="0"
+                    HorizontalContentAlignment="Stretch"
                     x:Uid="SignFileList"
                     AutomationProperties.Name="Documente de semnat"
                     ItemsSource="{x:Bind Files}"
                     SelectionMode="None"
                     Visibility="Collapsed">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="views:FileRow">
-                            <Grid Padding="0,6" ColumnSpacing="12" RowSpacing="8">
-                                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+                            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,4"><Grid ColumnSpacing="12" RowSpacing="6">
+                                <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="*" />
@@ -55,7 +68,7 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Spacing="8"
+                                <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Spacing="8"
                                     Visibility="{x:Bind ErrorVisibility, Mode=OneWay}">
                                     <TextBlock Text="{x:Bind Error, Mode=OneWay}" TextWrapping="Wrap" Foreground="{ThemeResource DangerBrush}" />
                                 </StackPanel>
@@ -71,25 +84,21 @@
                                     VerticalAlignment="Center"
                                     Style="{StaticResource MsCaptionTextStyle}"
                                     Text="{x:Bind SizeText}" />
-                                <!-- Format picker: PDF = PAdES-T (default) or XAdES-BES/T/C; other files = XAdES. -->
-                                <ComboBox
-                                    x:Uid="FileFormat"
-                                    Grid.Column="3"
-                                    MinWidth="120"
-                                    VerticalAlignment="Center"
-                                    AutomationProperties.Name="Format semnătură"
-                                    ItemsSource="{x:Bind FormatLabels}"
-                                    SelectedIndex="{x:Bind FormatIndex, Mode=TwoWay}" />
-                                <Button
-                                    x:Uid="FileRemove"
-                                    Grid.Column="4"
-                                    AutomationProperties.Name="Elimină"
-                                    Click="OnRemoveClick"
-                                    Style="{StaticResource MsIconButtonStyle}"
-                                    Tag="{x:Bind Path}">
-                                    <FontIcon FontSize="12" Glyph="&#xE711;" />
-                                </Button>
-                            </Grid>
+                                <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Orientation="Horizontal" Spacing="6" HorizontalAlignment="Left">
+                                    <Border CornerRadius="6" Padding="6,3" Background="{ThemeResource BrandSoftBrush}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4"><FontIcon Glyph="&#xE8A5;" FontSize="11" Foreground="{ThemeResource BrandBrush}" /><TextBlock Text="{x:Bind TypeLabel, Mode=OneWay}" FontSize="11" Foreground="{ThemeResource BrandBrush}" /></StackPanel>
+                                    </Border>
+                                    <Border CornerRadius="6" Padding="6,3" Background="{ThemeResource SystemFillColorNeutralBackgroundBrush}" Visibility="{x:Bind StampVisibility, Mode=OneWay}">
+                                        <StackPanel Orientation="Horizontal" Spacing="4"><FontIcon Glyph="&#xE70F;" FontSize="11" /><TextBlock Text="{x:Bind StampSummary, Mode=OneWay}" FontSize="11" /></StackPanel>
+                                    </Border>
+                                </StackPanel>
+                                <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button Click="OnFileOptionsClick" Tag="{x:Bind Path}" AutomationProperties.Name="{x:Bind OptionsLabel}">
+                                        <FontIcon Glyph="&#xE712;" FontSize="16" />
+                                    </Button>
+                                </StackPanel>
+
+                            </Grid></Border>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
@@ -100,10 +109,7 @@
                     VerticalAlignment="Top" />
             </Grid>
 
-            <StackPanel x:Name="SignedResults" Spacing="8" Visibility="Collapsed">
-                <TextBlock x:Name="SignedResultsTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
-                <StackPanel x:Name="SignedFiles" Spacing="4" />
-            </StackPanel>
+
 
             </StackPanel>
 
@@ -117,12 +123,12 @@
                 <TextBlock
                     x:Uid="SignPdfFormat"
                     Style="{StaticResource MsCaptionTextStyle}"
-                    Text="PDF → PAdES-T (cerut de msign.gov.md); XAdES produce un fișier .xml separat"
+                    Text="PDF → semnătură PDF (cerut de msign.gov.md); semnătură XML produce un fișier .xml separat"
                     TextWrapping="Wrap" />
                 <RadioButtons
                     x:Name="PackagingButtons"
                     x:Uid="SignPackaging"
-                    Header="XAdES"
+                    Header="semnătură XML"
                     SelectedIndex="0">
                     <RadioButton x:Name="DetachedOption" />
                     <RadioButton x:Name="EnvelopingOption" />

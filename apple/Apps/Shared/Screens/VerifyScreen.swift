@@ -112,7 +112,7 @@ private struct SignatureSection: View {
             LabeledContent(L10n.text(.ui_signer), value: report.signer)
             LabeledContent(L10n.text(.ui_signed_at), value: Validator.readableDate(report.signingTime))
             if let tst = report.timestampTime { LabeledContent(L10n.text(.ui_timestamp), value: Validator.readableDate(tst)) }
-            LabeledContent(L10n.text(.ui_level), value: report.level)
+            LabeledContent(L10n.text(.ui_level), value: signatureLabels(report.level))
             check(L10n.text(.ui_document_integrity), report.contentIntact)
             check(L10n.text(.ui_cryptographic_signature), report.signatureValid)
             check(L10n.text(.ui_trust_chain_mdqsign_mdtrustca), report.chainTrusted)
@@ -133,7 +133,7 @@ private struct SignatureSection: View {
                 }
             }
             FullWidthDisclosure { Text(L10n.text(.ui_technical_details)).fontWeight(.medium) } content: {
-                Text(report.summary).font(.caption.monospaced()).textSelection(.enabled)
+                Text(signatureLabels(report.summary)).font(.caption.monospaced()).textSelection(.enabled)
             }
         }
     }
@@ -149,13 +149,43 @@ private struct SignatureSection: View {
 }
 
 struct ActivityScreen: View {
+    var onVerifyDocument: (URL) -> Void = { _ in }
     @Environment(AppModel.self) private var model
     @State private var confirmClear = false
+    @State private var history = false
+    private var entries: [ActivityItem] {
+        history ? model.activity : model.activity.filter { $0.ok && $0.fileURL != nil && ($0.signedOutput == true || ($0.signedOutput == nil && $0.fileURL!.lastPathComponent.contains("-semnat"))) }
+    }
 
     var body: some View {
-        List {
-            ForEach(model.activity) { item in
-                ActivityRowView(item: item)
+        VStack(spacing: 0) {
+            HStack {
+            Picker(L10n.text(.saved_title), selection: $history) {
+                Text(L10n.text(.saved_signed)).tag(false)
+                Text(L10n.text(.saved_history)).tag(true)
+            }.pickerStyle(.segmented).labelsHidden()
+            #if os(macOS)
+            Button(role: .destructive) { confirmClear = true } label: {
+                Label(L10n.text(.ui_clear_list), systemImage: "trash")
+            }
+            .labelStyle(.iconOnly)
+            .disabled(!history || model.activity.isEmpty)
+            .opacity(history ? 1 : 0)
+            .accessibilityHidden(!history)
+            .help(L10n.text(.ui_clear_history_documents_remain_on_disk))
+            #endif
+            }.padding()
+            List {
+            ForEach(entries) { item in
+                if !history, let url = item.fileURL {
+                    VStack(alignment: .leading, spacing: 8) {
+                        SignedRow(url: url)
+                        Button { onVerifyDocument(url) } label: {
+                            Label(L10n.text(.ui_verify), systemImage: "checkmark.seal")
+                        }.buttonStyle(.borderless)
+                    }
+                }
+                else { ActivityRowView(item: item)
                     .contextMenu {
                         #if os(macOS)
                         if let url = item.fileURL {
@@ -163,23 +193,27 @@ struct ActivityScreen: View {
                         }
                         #endif
                     }
+                }
             }
         }
         .overlay {
-            if model.activity.isEmpty {
-                ContentUnavailableView(L10n.text(.ui_no_activity_yet), systemImage: "clock",
-                                       description: Text(L10n.text(.ui_signed_and_verified_documents_appear_here)))
+            if entries.isEmpty {
+                ContentUnavailableView(L10n.text(history ? .ui_no_activity_yet : .saved_empty), systemImage: "folder",
+                                       description: Text(L10n.text(history ? .ui_signed_and_verified_documents_appear_here : .saved_hint)))
             }
+        }
         }
         .navigationTitle(L10n.text(.ui_activity))
         .onAppear { model.pruneMissingFiles() }      // moved/deleted documents drop out of the list
+        #if !os(macOS)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(role: .destructive) { confirmClear = true } label: { Label(L10n.text(.ui_clear_list), systemImage: "trash") }
+                if history { Button(role: .destructive) { confirmClear = true } label: { Label(L10n.text(.ui_clear_list), systemImage: "trash") }
                     .disabled(model.activity.isEmpty)
-                    .help(L10n.text(.ui_clear_history_documents_remain_on_disk))
+                    .help(L10n.text(.ui_clear_history_documents_remain_on_disk)) }
             }
         }
+        #endif
         .confirmationDialog(L10n.text(.ui_clear_the_activity_list), isPresented: $confirmClear, titleVisibility: .visible) {
             Button(L10n.text(.ui_clear_list), role: .destructive) { model.clearActivity() }
         } message: {

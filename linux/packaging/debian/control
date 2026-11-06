@@ -6,7 +6,7 @@ Maintainer: eSemnBun maintainers <packaging@esemnbun.invalid>
 # `dpkg-buildpackage -b -d`, or let scripts/package-linux.sh build and stage first (MOLDSIGN_STAGE).
 Build-Depends: debhelper-compat (= 13),
                pkgconf | pkg-config,
-               libadwaita-1-dev (>= 1.5),
+               libpoppler-glib-dev, libadwaita-1-dev (>= 1.5),
                libgtk-4-dev (>= 4.14),
                libsecret-1-dev,
                libpcsclite-dev,

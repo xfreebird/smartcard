@@ -69,6 +69,10 @@ class MainViewModel @JvmOverloads constructor(
     val status: StateFlow<AppStatus> = container.status
     val progress = container.signingService.progress
     val pendingConsent = container.consentBroker.pending
+    val pendingStamp = container.stampBroker.pending
+    var browserStampsEnabled: Boolean
+        get() = container.stampBroker.enabled
+        set(value) { container.stampBroker.enabled = value }
     val bridgeRunning = BridgeService.running
     val bridgeStartupFailed = BridgeService.startupFailed
     val pinVaultAvailable: Boolean get() = !demoMode && container.pinVault.isAvailable()
@@ -76,6 +80,19 @@ class MainViewModel @JvmOverloads constructor(
 
     private val _signedResults = MutableStateFlow<List<Pair<String, Uri>>>(emptyList())
     val signedResults = _signedResults.asStateFlow()
+    fun clearSignedResults() { if (!working.value) _signedResults.value = emptyList() }
+
+    /** Screenshot fixture only; never invokes a card or signing service. */
+    internal fun previewCompletedResults() {
+        if (!md.moldsign.app.DemoMode.supportsResultPreview || !container.isDemo) return
+        runJob(busyLight = true) {
+            _signedResults.value = listOf("Application", "Invoice", "Agreement").map { name ->
+                val fileName = "DEMO-$name-NOT-SIGNED.pdf"
+                fileName to container.signedFiles.save(fileName, "application/pdf", DemoOutputRenderer.render())
+            }
+        }
+    }
+
 
     private val _signItems = MutableStateFlow<List<SignItem>>(emptyList())
     val signItems: StateFlow<List<SignItem>> = _signItems.asStateFlow()
@@ -201,6 +218,11 @@ documents.copy(source, target)
         _signItems.update { items -> items.map { if (it.doc.uri == item.doc.uri) it.copy(format = format) else it } }
     }
 
+    fun removeGroup() {
+        if (_working.value) return
+        _signItems.update { emptyList() }
+    }
+
     fun remove(item: SignItem) {
         _signItems.update { items -> items.filterNot { it.doc.uri == item.doc.uri } }
     }
@@ -214,6 +236,16 @@ documents.copy(source, target)
      * The result is saved by `SignedFileStore` and the activity entry points at it; "Salvează ca…" in Activity copies it elsewhere.
      * TODO(AND-06): load the stored PIN (BiometricPrompt) before the sheet; delete it on CardError.WrongPin.
      */
+    fun setBatchStamp(source: SignItem, stamp: md.moldsign.core.PdfStampPlacement?) {
+        if (_working.value) return
+        _signItems.update { list -> list.map { if (it.format == md.moldsign.core.SignFormat.PadesT) it.copy(stamp = if (it.doc.uri == source.doc.uri) stamp else stamp?.copy(documentSHA256 = null)) else it } }
+    }
+
+    fun setStamp(item: SignItem, stamp: md.moldsign.core.PdfStampPlacement?) {
+        if (_working.value) return
+        _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(stamp = stamp) else it } }
+    }
+
     fun sign() = signItems(_signItems.value)
 
     /** Retry only the failed document, with a fresh explicit consent/PIN session. */
@@ -239,7 +271,7 @@ documents.copy(source, target)
                     val fixtureName = item.doc.name.removePrefix("DEMO-").substringBeforeLast('.')
                     val outputName = "DEMO-$fixtureName-NOT-SIGNED.pdf"
                     val saved = container.signedFiles.save(outputName, "application/pdf", DemoOutputRenderer.render())
-                    container.activity.document(outputName, saved, ok = true, text(R.string.demo_mode_result))
+                    container.activity.document(outputName, saved, ok = true, text(R.string.demo_mode_result), signedOutput = true)
                     _signedResults.update { it + (outputName to saved) }
                     lastPreview = saved
                     _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
@@ -270,10 +302,10 @@ documents.copy(source, target)
                     _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = null) else it } }
                     try {
                         val input = Document(item.doc.name, documents.readBytes(item.doc.uri))
-                        val result = service.sign(input, item.format, consent, reader = card.readerId, expectedCertificateSha1 = certificate.sha1Hex)
+                        val result = service.sign(input, item.format, consent, reader = card.readerId, expectedCertificateSha1 = certificate.sha1Hex, placement = item.stamp)
                         val outputName = SignFormat.outputName(item.doc.name, item.format)
                         val saved = container.signedFiles.save(outputName, if (item.format.xadesLevel == null) "application/pdf" else "application/xml", result.output)
-                        container.activity.document(outputName, saved, ok = true, text(R.string.activity_signed, item.format.label))
+                        container.activity.document(outputName, saved, ok = true, text(R.string.activity_signed, item.format.label), signedOutput = true)
                         _signedResults.update { it + (outputName to saved) }
                         lastSaved = saved
                     } catch (e: CancellationException) {

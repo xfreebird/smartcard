@@ -252,7 +252,7 @@ struct MainWindowView: View {
             case .verify: return "checkmark.seal"
             case .browser: return "globe"
             case .card: return "person.text.rectangle"
-            case .activity: return "clock"
+            case .activity: return "folder"
             }
         }
     }
@@ -267,10 +267,10 @@ struct MainWindowView: View {
         NavigationSplitView {
             List(selection: selection) {
                 SwiftUI.Section(L10n.text(.ui_documents)) {
-                    ForEach([Section.sign, .verify, .browser]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
+                    ForEach([Section.sign, .verify, .activity, .browser]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
                 }
                 SwiftUI.Section(L10n.text(.ui_account)) {
-                    ForEach([Section.card, .activity]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
+                    ForEach([Section.card]) { item in Label(item.title, systemImage: item.symbol).tag(item) }
                 }
             }
             .navigationSplitViewColumnWidth(min: 190, ideal: 210)
@@ -291,7 +291,7 @@ struct MainWindowView: View {
                     case .verify: VerifyScreen()
                     case .browser: MacBrowserScreen(browser: portalBrowser)
                     case .card: CardScreen()
-                    case .activity: ActivityScreen()
+                    case .activity: ActivityScreen(onVerifyDocument: { url in stored = Section.verify.rawValue; Task { await model.verify(url) } })
                     }
                 }
             }

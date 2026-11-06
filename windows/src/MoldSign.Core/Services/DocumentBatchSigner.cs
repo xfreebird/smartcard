@@ -3,11 +3,14 @@ namespace MoldSign.Core;
 /// <summary>Document signing boundary for desktop orchestration and hardware-free scenarios.</summary>
 public interface IDocumentSigner
 {
+    SignResult SignVisible(string input, SignatureFormat format, XadesPackaging packaging, ConsentProvider consent,
+        PdfStampPlacement placement, string requester = "Tu", string? reader = null, string? expectedCertificateSha1 = null)
+        => throw new CardException(CardErrorKind.Format, "Visible signatures are not supported by this signer");
     SignResult Sign(string input, SignatureFormat format, XadesPackaging packaging, ConsentProvider consent,
                     string requester = "Tu", string? reader = null, string? expectedCertificateSha1 = null);
 }
 
-public sealed record SigningDocumentJob(string Path, SignatureFormat Format);
+public sealed record SigningDocumentJob(string Path, SignatureFormat Format, PdfStampPlacement? Stamp = null);
 public sealed record DocumentBatchResult(IReadOnlyList<SignResult> Completed, Exception? Error);
 public sealed class DocumentBatchBusyException() : InvalidOperationException("A document batch is already running.");
 
@@ -35,8 +38,9 @@ public sealed class DocumentBatchSigner(IDocumentSigner signer)
                 cancellationToken.ThrowIfCancellationRequested();
                 try
                 {
-                var result = signer.Sign(job.Path, job.Format, packaging, consent.Request,
-                    reader: reader, expectedCertificateSha1: certificateSha1);
+                var result = job.Stamp is not null && job.Format == SignatureFormat.PadesT
+                    ? signer.SignVisible(job.Path, job.Format, packaging, consent.Request, job.Stamp, reader: reader, expectedCertificateSha1: certificateSha1)
+                    : signer.Sign(job.Path, job.Format, packaging, consent.Request, reader: reader, expectedCertificateSha1: certificateSha1);
                 results.Add(result);
                 completed?.Invoke(job, result);
                 }

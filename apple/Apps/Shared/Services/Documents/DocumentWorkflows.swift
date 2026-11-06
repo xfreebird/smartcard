@@ -35,7 +35,7 @@ struct CoreDocumentSigner: DocumentSigning {
                                                expectedCertificateSHA1: certificateSHA1, progress: progress)
             } else {
                 signed = try service.signPDF(Data(contentsOf: item.url), pin: pin, reader: reader,
-                                             expectedCertificateSHA1: certificateSHA1, progress: progress)
+                                             expectedCertificateSHA1: certificateSHA1, appearance: item.stamp, progress: progress)
             }
             progress(.writing)
             try signed.write(to: output, options: .withoutOverwriting)

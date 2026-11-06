@@ -128,6 +128,15 @@ func onClickPressed(_ gesture: GPointer, _ handler: @escaping (_ x: Double, _ y:
     return connectRaw(gesture, "pressed", unsafeBitCast(thunk, to: GCallback.self), retained(handler))
 }
 
+/// GtkGestureDrag coordinates: absolute start, then offsets from the starting pointer.
+@discardableResult
+func onDragCoordinates(_ gesture: GPointer, _ signal: String, _ handler: @escaping (Double, Double) -> Void) -> gulong {
+    let thunk: @convention(c) (gpointer?, Double, Double, gpointer?) -> Void = { _, x, y, data in
+        unbox(data, as: ((Double, Double) -> Void).self)(x, y)
+    }
+    return connectRaw(gesture, signal, unsafeBitCast(thunk, to: GCallback.self), retained(handler))
+}
+
 /// GtkGestureLongPress `pressed` — `void (*)(GtkGestureLongPress *, gdouble x, gdouble y, gpointer)`.
 @discardableResult
 func onLongPressed(_ gesture: GPointer, _ handler: @escaping (_ x: Double, _ y: Double) -> Void) -> gulong {

@@ -124,7 +124,7 @@ struct ActivityRowView: View {
                 .foregroundStyle(item.ok ? Theme.success : Theme.warning)
             VStack(alignment: .leading, spacing: 1) {
                 Text(item.title).lineLimit(1).truncationMode(.middle)
-                Text(item.subtitle).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                Text(signatureLabels(item.subtitle)).font(.caption).foregroundStyle(.secondary).lineLimit(1)
             }
             Spacer()
             if showsDate {

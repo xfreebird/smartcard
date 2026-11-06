@@ -6,7 +6,7 @@ import AppKit
 /// A menu-bar agent has no window to attach sheets to, and bridge requests arrive while the browser
 /// is frontmost, so the panel activates the app and floats above everything (MAC-04, MAC-07).
 @MainActor
-final class AuthPanelController {
+final class AuthPanelController: NSObject, NSWindowDelegate {
     private var panel: NSPanel?
     private weak var model: AppModel?
 
@@ -38,6 +38,11 @@ final class AuthPanelController {
         window.setFrameOrigin(NSPoint(x: (area.midX - size.width / 2).rounded(), y: (area.midY - size.height / 2).rounded()))
     }
 
+    func windowShouldClose(_ sender: NSWindow) -> Bool {
+        if model?.bridgeStampRequest != nil { model?.answerBridgeStamp(.cancel); hide(); return false }
+        return true
+    }
+
     private func hide() {
         panel?.orderOut(nil)
     }
@@ -46,6 +51,7 @@ final class AuthPanelController {
         let panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 400, height: 320),
                             styleMask: [.titled, .closable, .fullSizeContentView],
                             backing: .buffered, defer: false)
+        panel.delegate = self
         panel.titlebarAppearsTransparent = true
         panel.titleVisibility = .hidden
         panel.level = .floating
@@ -61,7 +67,11 @@ private struct AuthPanelContent: View {
 
     var body: some View {
         Group {
-            if let consent = model.consentRequest {
+            if let stamp = model.bridgeStampRequest {
+                PDFStampEditor(url: stamp.url, initial: .init(), holder: stamp.holder,
+                    save: { model.answerBridgeStamp(.proceed($0)); onFinish() },
+                    onCancel: { model.answerBridgeStamp(.cancel); onFinish() }, requester: stamp.origin)
+            } else if let consent = model.consentRequest {
                 ConsentView(consent: consent) { approved, trust in
                     model.answerConsent(approved: approved, trust: trust)
                     if !approved { onFinish() }

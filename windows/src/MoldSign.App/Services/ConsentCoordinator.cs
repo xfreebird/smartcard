@@ -61,7 +61,7 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, IPinVault pins, AppSe
             var reason = request.Requester == "Tu"
                 ? Loc.Format("Consent_HelloReason", request.Certificate.CommonName)
                 : Loc.Format("Consent_HelloBrowser", request.Requester, request.Certificate.CommonName,
-                    string.Join(", ", request.Documents), request.Format);
+                    string.Join(", ", request.Documents), SignatureLabels.Human(request.Format));
             var stored = await pins.LoadAsync(sha1, reason);
             cancellationToken.ThrowIfCancellationRequested();
             if (stored is not null) return ConsentResult.WithPin(stored);

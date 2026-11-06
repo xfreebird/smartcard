@@ -30,6 +30,7 @@ let package = Package(
             name: "MoldSignKit",
             dependencies: ["CPCSC"],
             path: "Sources/MoldSignKit",
+            resources: [.copy("Resources/PDFStamp")],
             swiftSettings: [
                 // Linux implementations: OpenSSL crypto/RSA/TLS, POSIX sockets (also usable on macOS for tests,
                 // see scripts/test-portable-macos.sh)

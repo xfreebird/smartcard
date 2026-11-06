@@ -115,7 +115,7 @@ func presentConsentDialog(parent: Widget, consent: ConsentRequest, completion: @
 
     let list = boxedList()
     gtk_list_box_append(list.opaque, actionRow(title: request.documentName ?? L10n.text(.linux_data_to_sign),
-                                               subtitle: request.format ?? L10n.text(.ui_qualified_electronic_signature),
+                                               subtitle: signatureLabels(request.format ?? L10n.text(.ui_qualified_electronic_signature)),
                                                icon: "x-office-document-symbolic"))
     gtk_list_box_append(list.opaque, actionRow(title: consent.holder, subtitle: L10n.text(.ui_mdqsign_certificate),
                                                icon: "auth-smartcard-symbolic"))
@@ -227,6 +227,10 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let bridgeRow = adw_switch_row_new()!
     adw_preferences_row_set_title(bridgeRow.cast(), L10n.text(.ui_browser_connection))
     groupAdd(bridge, bridgeRow)
+    let stamps = adw_switch_row_new()!
+    adw_preferences_row_set_title(stamps.cast(), L10n.text(.stamp_browser))
+    adw_action_row_set_subtitle(stamps.cast(), L10n.text(.stamp_batch_hint))
+    groupAdd(bridge, stamps)
     let retry = button(L10n.text(.ui_restart), classes: ["flat"]) { controller.restartBridge() }
     gtk_widget_set_valign(retry, GTK_ALIGN_CENTER)
     adw_action_row_add_suffix(bridgeRow.cast(), retry)
@@ -321,6 +325,7 @@ func presentPreferences(parent: Widget, controller: AppController) {
     var updating = false
     let token = controller.observe {
         updating = true
+        adw_switch_row_set_active(stamps.opaque, controller.settings.browserStampsEnabled ? 1 : 0)
         adw_switch_row_set_active(bridgeRow.opaque, controller.settings.bridgeEnabled ? 1 : 0)
         adw_switch_row_set_active(legacy.opaque, controller.settings.legacyDesktopClientEnabled ? 1 : 0)
         adw_action_row_set_subtitle(bridgeRow.cast(), escapeMarkup(controller.bridgeState.description))
@@ -329,6 +334,10 @@ func presentPreferences(parent: Widget, controller: AppController) {
         adw_switch_row_set_active(login.opaque, controller.settings.launchAtLogin ? 1 : 0)
         gtk_widget_set_sensitive(login, controller.configuringLoginStartup || controller.isDemo ? 0 : 1)
         updating = false
+    }
+    onSignal(stamps, "notify::active") { _ in
+        guard !updating else { return }
+        controller.setBrowserStampsEnabled(adw_switch_row_get_active(stamps.opaque) != 0)
     }
     onSignal(bridgeRow, "notify::active") { _ in
         guard !updating else { return }

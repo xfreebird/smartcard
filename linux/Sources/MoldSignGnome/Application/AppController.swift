@@ -54,6 +54,8 @@ final class AppController {
 
     // UI hooks, installed by MainWindow (all called on the main thread).
     var askPIN: ((PinRequest, @escaping (PinEntry?) -> Void) -> Void)?
+    var askStamp: ((SignItem, String, String?, @escaping (PDFStampDecision) -> Void) -> (() -> Void))?
+    private var cancelStamp: (() -> Void)?
     var askConsent: ((ConsentRequest, @escaping (_ approved: Bool, _ trust: Bool) -> Void) -> Void)?
     var askConfirm: ((_ heading: String, _ body: String, _ action: String, @escaping (Bool) -> Void) -> Void)?
     var toast: ((String) -> Void)?
@@ -261,6 +263,12 @@ final class AppController {
     func setFormat(_ format: SignFormat, for id: UUID) {
         guard let index = signItems.firstIndex(where: { $0.id == id }) else { return }
         signItems[index].format = format
+        changed()
+    }
+
+    func setStamp(_ stamp: PDFStampPlacement?, for id: UUID) {
+        guard !isSigning, let index = signItems.firstIndex(where: { $0.id == id }) else { return }
+        signItems[index].stamp = stamp
         changed()
     }
 
@@ -479,6 +487,10 @@ final class AppController {
 
     // MARK: - Bridge (LNX-11)
 
+    func setBrowserStampsEnabled(_ on: Bool) {
+        preferences.update { $0.browserStampsEnabled = on }; changed()
+    }
+
     func setBridgeEnabled(_ on: Bool) {
         preferences.update { $0.bridgeEnabled = on }
         on ? startBridge() : stopBridge()
@@ -580,6 +592,26 @@ final class AppController {
         guard !isDemo else { return }
         bridge.allowsLegacyDesktopClient = settings.legacyDesktopClientEnabled
         bridge.onStateChange = { [weak self] in self?.changed() }
+        bridge.previewPDFEnabled = { [weak self] in self?.settings.browserStampsEnabled ?? false }
+        bridge.previewPDF = { [weak self] request, data, completion in
+            guard let self else { return completion(.cancel) }
+            guard self.settings.browserStampsEnabled else { return completion(.proceed(nil)) }
+            guard !self.isSigning, let ask = self.askStamp else { return completion(.cancel) }
+            let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+            do {
+                try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
+                let url = folder.appendingPathComponent("document.pdf")
+                try data.write(to: url)
+                try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
+                self.bridgeSigning = true; self.changed()
+                self.presentWindow?()
+                var item = SignItem(url: url); item.stamp = PDFStampPlacement()
+                self.cancelStamp = ask(item, request.certificateHolder ?? self.certificate?.holder ?? "", request.origin) { answer in
+                    self.cancelStamp = nil
+                    try? FileManager.default.removeItem(at: folder); completion(answer)
+                }
+            } catch { try? FileManager.default.removeItem(at: folder); completion(.cancel) }
+        }
         bridge.authorize = { [weak self] request, completion in
             guard let self else { return completion(.deny) }
             self.authorize(request, completion: completion)
@@ -599,7 +631,7 @@ final class AppController {
         bridge.start()
     }
 
-    private func stopBridge() { bridge.stop() }
+    private func stopBridge() { cancelStamp?(); cancelStamp = nil; bridge.stop() }
 
     /// `certID`: the card the page picked (nil → the selected card, the one the bridge signed with).
     private func forgetRejectedPIN(remaining: Int, certID: String?) {

@@ -50,6 +50,8 @@ class SigningBridgeRoutes(
     private val clock: () -> Long = System::currentTimeMillis,
     private val pollTimeoutMs: Long = POLL_TIMEOUT_MS,
     private val log: (String) -> Unit = {},
+    private val previewPdfEnabled: () -> Boolean = { true },
+    private val previewPdf: ((Document, CertificateSummary, String?) -> PdfStampDecision)? = null,
 ) : BridgeRoutes, Closeable {
     private class Outcome(val payload: String, val error: String?)
 
@@ -58,6 +60,22 @@ class SigningBridgeRoutes(
     }
 
     private class PinSession(val pin: CharArray, val certificateSha1: String, val origin: String?, var lastUse: Long)
+
+    private data class StampSession(val origin: String?, val certificate: String, val placement: PdfStampPlacement?, val created: Long)
+    private val stamps = HashMap<String, StampSession>()
+    private fun stamp(id: String, job: SignJob, certificate: CertificateSummary): PdfStampPlacement? {
+        val preview = previewPdf ?: return null
+        if (!previewPdfEnabled()) { stamps.remove(job.usePinSession ?: id); return null }
+        stamps.entries.removeIf { clock() - it.value.created > 300_000 }
+        val key = job.usePinSession ?: id
+        val cached = stamps[key]?.takeIf { it.origin == job.origin && it.certificate == certificate.sha1Hex && (it.placement == null || StampPdf.canApply(it.placement, job.data)) }
+        if (cached != null) stamps[key] = cached.copy(created = clock())
+        val placement = if (cached != null) cached.placement else when (val decision = preview(Document("document.pdf", job.data), certificate, job.origin)) {
+            PdfStampDecision.Cancel -> throw CardError.Cancelled()
+            is PdfStampDecision.Proceed -> decision.placement.also { stamps[key] = StampSession(job.origin, certificate.sha1Hex, it, clock()) }
+        }
+        return placement?.copy(documentSHA256 = Sha.sha256(job.data).toHex())
+    }
 
     private val sessions = ConcurrentHashMap<String, Session>()
     private val pinSessions = HashMap<String, PinSession>()
@@ -179,6 +197,7 @@ class SigningBridgeRoutes(
         var reused: CharArray? = null
         try {
             val card = pickCard(job.certificateSha1)
+            val placement = if (job.pdf) stamp(id, job, card.certificate) else null
             reused = job.usePinSession?.let { reusablePin(it, job.origin, card.certificate.sha1Hex) }
             val reusable = reused
             val sessionConsent = Consent { request ->
@@ -189,7 +208,8 @@ class SigningBridgeRoutes(
                 }
             }
             val result = if (job.pdf) {
-                service.signPdf(Document("document.pdf", job.data), sessionConsent, job.origin, card.readerId, card.certificate.sha1Hex)
+                if (placement == null) service.signPdf(Document("document.pdf", job.data), sessionConsent, job.origin, card.readerId, card.certificate.sha1Hex)
+                else service.signPdfVisible(Document("document.pdf", job.data), sessionConsent, placement, job.origin, card.readerId, card.certificate.sha1Hex)
             } else {
                 val level = when (job.signFormat) {
                     "XAdES-BES" -> XadesLevel.BES

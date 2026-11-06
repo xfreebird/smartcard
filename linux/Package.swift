@@ -37,10 +37,13 @@ let package = Package(
                 .brew(["libsecret"]),
             ]
         ),
+        .systemLibrary(name: "CPoppler", path: "Sources/CPoppler", pkgConfig: "poppler-glib",
+                       providers: [.apt(["libpoppler-glib-dev"]), .yum(["poppler-glib-devel"]), .brew(["poppler"])]),
         .executableTarget(
             name: "MoldSignGnome",
             dependencies: [
                 "CAdwaita",
+                "CPoppler",
                 "CLibSecret",
                 .product(name: "MoldSignKit", package: "MoldSignKit"),
             ],

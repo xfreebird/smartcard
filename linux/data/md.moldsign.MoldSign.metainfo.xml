@@ -59,6 +59,7 @@
   <!-- TODO(LNX-14): screenshots (Sign, Verify, Card pages) hosted at a stable URL. -->
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.4" date="2026-11-06"><description><p>Optional visible PDF stamps, clearer batch options, and signed documents with direct verification.</p></description></release>
     <release version="0.2.3" date="2026-11-06"><description><p>First-run introduction and options for startup and card detection.</p></description></release>
     <release version="0.2.2" date="2026-11-05"><description><p>Certificate details, multiple document verification, improved batch signing and tablet file handling.</p></description></release>
     <release version="0.2.1" date="2026-11-04"><description><p>Desktop integration and interface improvements.</p></description></release>

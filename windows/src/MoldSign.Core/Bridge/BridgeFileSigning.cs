@@ -3,7 +3,7 @@ namespace MoldSign.Core;
 /// <summary>Native Desktop Suite request; enabled explicitly by the installed desktop host only.</summary>
 public sealed record BridgeFileSigningRequest(
     IReadOnlyList<string> Files, string Destination, string Format, XadesPackaging Packaging,
-    string Algorithm, string? CertificateBase64, bool Pdf, bool XmlResponse = false);
+    string Algorithm, string? CertificateBase64, bool Pdf, bool XmlResponse = false, PdfStampPlacement? Stamp = null);
 
 /// <summary>Injectable file-signing boundary. The host obtains explicit consent before invoking it.</summary>
 public interface IBridgeFileSigner
@@ -17,7 +17,7 @@ public sealed class BridgeFileSigner(SigningService signing) : IBridgeFileSigner
     {
         if (request.Pdf)
             signing.SignPdf(request.Files.Single(), request.Destination, consent, "MoldSign Desktop Suite",
-                card.Reader, card.Certificate.Sha1);
+                card.Reader, card.Certificate.Sha1, request.Stamp);
         else
         {
             var format = request.Format switch

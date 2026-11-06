@@ -21,6 +21,12 @@ enum Style {
     .drop-page:drop(active) { box-shadow: none; }
 
     /* FormatChip: small capsule */
+    .file-row { border: 1px solid alpha(currentColor, 0.18); border-radius: 10px; margin: 3px; }
+    .file-tag { border-radius: 6px; padding: 2px 5px; font-size: 0.8em; }
+    .file-tag image { -gtk-icon-size: 12px; }
+    .format-tag { background: alpha(@accent_bg_color, 0.14); color: @accent_color; }
+    .stamp-tag { background: alpha(@success_color, 0.12); color: @success_color; }
+    .stamp-off-tag { background: alpha(currentColor, 0.08); }
     .chip {
         border-radius: 999px;
         padding: 2px 10px;

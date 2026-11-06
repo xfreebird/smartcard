@@ -110,7 +110,7 @@ final class VerifyPage {
 
     /// SignatureCard: signer, times, level, three checks, technical details.
     private func signatureGroup(_ report: SignatureReport, index: Int, file: URL) -> Widget {
-        let group = preferencesGroup(title: "Author: " + report.signer, description: localized(.ui_signature_value_value, String(index), report.kind))
+        let group = preferencesGroup(title: "Author: " + report.signer, description: localized(.ui_signature_value_value, String(index), signatureLabels(report.kind)))
         let list = boxedList()
         if let idnp = report.certificateDetails["Subject · Personal identifier"], idnp.count == 13, idnp.allSatisfy({ $0.isASCII && $0.isNumber }) {
             gtk_list_box_append(list.opaque, actionRow(title: "IDNP", subtitle: idnp, subtitleSelectable: true))
@@ -118,7 +118,7 @@ final class VerifyPage {
         gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_signed_at), subtitle: Validator.readableDate(report.signingTime), icon: "document-edit-symbolic"))
         gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_timestamp), subtitle: report.timestampTime.map(Validator.readableDate) ?? L10n.text(.ui_no_timestamp),
                                                    icon: "document-open-recent-symbolic"))
-        gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_level), subtitle: report.level, icon: "security-high-symbolic"))
+        gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_level), subtitle: signatureLabels(report.level), icon: "security-high-symbolic"))
         gtk_list_box_append(list.opaque, check(L10n.text(.linux_integrity), ok: report.contentIntact,
                                                okText: L10n.text(.ui_the_document_has_not_been_modified_since_signing),
                                                badText: L10n.text(.ui_the_content_differs_from_what_was_signed)))
@@ -138,7 +138,7 @@ final class VerifyPage {
         let details = adw_expander_row_new()!
         adw_preferences_row_set_title(details.cast(), L10n.text(.ui_technical_details))
         let detailRows: [(String, String)] = [
-            (L10n.text(.linux_format), report.kind),
+            (L10n.text(.linux_format), signatureLabels(report.kind)),
             (L10n.text(.linux_identifier), report.name),
             (L10n.text(.linux_summary), report.summary),
         ]

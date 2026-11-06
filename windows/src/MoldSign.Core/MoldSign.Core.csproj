@@ -21,6 +21,8 @@
     <PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.14" />
     <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.14" />
     <EmbeddedResource Include="Signing/Certificates/*.der" />
+    <EmbeddedResource Include="$(MoldSignRepoRoot)/swift/MoldSignKit/Sources/MoldSignKit/Resources/PDFStamp/*"
+                      LogicalName="MoldSign.Core.PDFStamp.%(Filename)%(Extension)" />
   </ItemGroup>
 
   <ItemGroup>

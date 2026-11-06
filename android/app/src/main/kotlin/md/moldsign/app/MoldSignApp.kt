@@ -14,7 +14,7 @@ class MoldSignApp : Application() {
     val demoModeEnabled: Boolean get() = getSharedPreferences("settings", Context.MODE_PRIVATE).getBoolean("demo_mode", false)
 
     fun changeDemoMode(enabled: Boolean): Boolean {
-        if (container.busy.value || container.consentBroker.pending.value != null) return false
+        if (container.busy.value || container.consentBroker.pending.value != null || container.stampBroker.pending.value != null) return false
         if (!getSharedPreferences("settings", Context.MODE_PRIVATE).edit().putBoolean("demo_mode", enabled).commit()) return false
         stopService(Intent(this, BridgeService::class.java))
         container.stop()

@@ -22,6 +22,8 @@ protocol PINStoring: AnyObject {
 protocol BridgeHosting: AnyObject {
     var allowsLegacyDesktopClient: Bool { get set }
     var state: BridgeState { get }
+    var previewPDFEnabled: (() -> Bool)? { get set }
+    var previewPDF: ((BridgeRequest, Data, @escaping (PDFStampDecision) -> Void) -> Void)? { get set }
     var authorize: ((BridgeRequest, @escaping (BridgeDecision) -> Void) -> Void)? { get set }
     var onSignResult: ((BridgeRequest, Error?) -> Void)? { get set }
     var onStateChange: (() -> Void)? { get set }
@@ -35,5 +37,10 @@ protocol DocumentVerifying {
 
 // Test bridges can ignore the legacy-client capability; production BridgeHost owns it.
 extension BridgeHosting {
+    var previewPDFEnabled: (() -> Bool)? { get { nil } set {} }
     var allowsLegacyDesktopClient: Bool { get { false } set {} }
+}
+
+extension BridgeHosting {
+    var previewPDF: ((BridgeRequest, Data, @escaping (PDFStampDecision) -> Void) -> Void)? { get { nil } set {} }
 }

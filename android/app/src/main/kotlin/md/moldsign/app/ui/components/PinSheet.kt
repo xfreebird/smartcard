@@ -98,7 +98,7 @@ fun PinSheet(
                             color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text(
                             stringResource(R.string.consent_title, request.requester ?: stringResource(R.string.consent_you)) +
-                                "\n" + request.documentNames.joinToString() + " · " + request.format,
+                                "\n" + request.documentNames.joinToString() + " · " + signatureLabels(request.format),
                             style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

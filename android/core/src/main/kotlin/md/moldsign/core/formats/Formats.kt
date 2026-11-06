@@ -13,6 +13,8 @@ fun interface RawSigner {
  * Port target: Swift `PAdESSigner` (Signing.swift).
  */
 interface PadesSigner {
+    fun signVisible(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner, placement: PdfStampPlacement): ByteArray =
+        throw CardError.Format("Visible signatures are not supported by this signer")
     fun sign(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner): ByteArray
 }
 

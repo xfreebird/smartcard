@@ -88,6 +88,13 @@ class BridgeService : Service() {
                 cards = container::bridgeCards,
                 consent = consentWithNotification(container),
                 observer = observer(container),
+                previewPdfEnabled = { container.stampBroker.enabled },
+                previewPdf = { document, certificate, origin ->
+                    if (container.stampBroker.enabled && !container.inForeground)
+                        postConsentNotification(md.moldsign.core.ConsentRequest(origin, listOf(document.name), "PAdES-T", certificate))
+                    try { container.stampBroker.obtain(document, certificate, origin) }
+                    finally { cancelConsentNotification() }
+                },
                 log = { Log.i(TAG, it) },
             ).also { this.routes = it }
             val policy = BridgeOriginPolicy.bundled()

@@ -39,7 +39,7 @@ struct MoldSigniOSApp: App {
 }
 
 struct RootTabView: View {
-    enum TabID: String { case sign, verify, browser, card }
+    enum TabID: String { case sign, verify, documents, browser, card }
 
     @Environment(AppModel.self) private var model
     @State private var tab: TabID = {
@@ -53,12 +53,15 @@ struct RootTabView: View {
     var body: some View {
         @Bindable var model = model
         TabView(selection: $tab) {
-            NavigationStack { SignScreen() }
+            NavigationStack { SignScreen(onOpenDocuments: { tab = .documents }) }
                 .tabItem { Label(L10n.text(.ui_sign), systemImage: "signature") }
                 .tag(TabID.sign)
             NavigationStack { VerifyScreen() }
                 .tabItem { Label(L10n.text(.ui_verify), systemImage: "checkmark.seal") }
                 .tag(TabID.verify)
+            NavigationStack { ActivityScreen(onVerifyDocument: { url in tab = .verify; Task { await model.verify(url) } }) }
+                .tabItem { Label(L10n.text(.saved_title), systemImage: "folder") }
+                .tag(TabID.documents)
             NavigationStack { BrowserScreen() }
                 .tabItem { Label(L10n.text(.ui_browser), systemImage: "globe") }
                 .tag(TabID.browser)
@@ -69,6 +72,12 @@ struct RootTabView: View {
         .onChange(of: model.browserURL) { _, url in if url != nil { tab = .browser } }
         .onReceive(NotificationCenter.default.publisher(for: .sharedDocumentsImported)) { _ in tab = .sign }
         .tint(Theme.brand)
+        .sheet(item: $model.bridgeStampRequest, onDismiss: { model.finishBridgeStampDismissal() }) { stamp in
+            PDFStampEditor(url: stamp.url, initial: .init(), holder: stamp.holder,
+                save: { model.answerBridgeStamp(.proceed($0), afterDismissal: true) },
+                onCancel: { model.answerBridgeStamp(.cancel, afterDismissal: true) }, requester: stamp.origin)
+                .interactiveDismissDisabled()
+        }
         .sheet(item: $model.pinRequest) { request in
             PinEntryView(request: request,
                          onSubmit: { model.submitPIN($0, remember: $1) },

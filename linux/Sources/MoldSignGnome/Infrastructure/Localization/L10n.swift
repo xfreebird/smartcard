@@ -273,6 +273,39 @@ enum L10n {
         case onboarding_welcome_body
         case onboarding_get_started
         case onboarding_change_anytime
+        case stamp_title
+        case stamp_visible
+        case stamp_all_pages
+        case stamp_move_hint
+        case stamp_size
+        case stamp_preview
+        case stamp_save
+        case stamp_unavailable
+        case stamp_queue
+        case stamp_browser
+        case stamp_batch_hint
+        case stamp_add
+        case stamp_edit
+        case stamp_options
+        case stamp_selected_page
+        case stamp_scope
+        case file_options
+        case file_signing_type
+        case file_stamp_off
+        case file_stamp_all
+        case file_stamp_page
+        case format_pdf
+        case format_xml
+        case format_xml_time
+        case format_xml_data
+        case file_remove
+        case format_pdf_time
+        case saved_title
+        case saved_signed
+        case saved_history
+        case saved_empty
+        case saved_hint
+        case saved_browse
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -558,14 +591,14 @@ enum L10n {
     "ru": "Отключено"
   },
   "ui_pades_and_xades_and_the_browser_connection_for_msign_gov_md": {
-    "ro": "PAdES și XAdES, și conexiunea browser pentru msign.gov.md.",
-    "en": "PAdES and XAdES, and the browser connection for msign.gov.md.",
-    "ru": "PAdES и XAdES, а также подключение к браузеру для msign.gov.md."
+    "ro": "semnătură PDF și semnătură XML, și conexiunea browser pentru msign.gov.md.",
+    "en": "PDF signature and XML signature, and the browser connection for msign.gov.md.",
+    "ru": "подпись PDF и подпись XML, а также подключение к браузеру для msign.gov.md."
   },
   "ui_pdf_pades_t_other_files_xades_t_change_the_format_on_each_row": {
-    "ro": "PDF → PAdES-T, alte fișiere → XAdES-T; formatul se poate schimba pe fiecare rând",
-    "en": "PDF → PAdES-T, other files → XAdES-T; change the format on each row",
-    "ru": "PDF → PAdES-T, другие файлы → XAdES-T; формат можно изменить для каждого файла"
+    "en": "PDF signature · XML signature for other files",
+    "ro": "Semnătură PDF · semnătură XML pentru alte fișiere",
+    "ru": "Подпись PDF · подпись XML для других файлов"
   },
   "ui_pin_blocked_unblock_it_at_cev": {
     "ro": "PIN blocat. Deblochează-l la CEV",
@@ -838,9 +871,9 @@ enum L10n {
     "ru": "Все файлы"
   },
   "ui_drop_a_signed_pdf_or_an_xades_signature_xml_here": {
-    "ro": "Trage aici un PDF semnat sau o semnătură XAdES (.xml). ",
-    "en": "Drop a signed PDF or an XAdES signature (.xml) here. ",
-    "ru": "Перетащите сюда подписанный PDF или подпись XAdES (.xml). "
+    "ro": "Trage aici un PDF semnat sau o semnătură XML (.xml). ",
+    "en": "Drop a signed PDF or an XML signature (.xml) here. ",
+    "ru": "Перетащите сюда подписанный PDF или подпись XML (.xml). "
   },
   "ui_drop_documents_here": {
     "ro": "Trage documentele aici",
@@ -1108,9 +1141,9 @@ enum L10n {
     "ru": "Для чтения сертификата PIN-код не нужен."
   },
   "ui_drop_a_signed_pdf_or_xades_signature_xml_here_verification_runs_on_this_computer": {
-    "ro": "Trage aici un PDF semnat sau o semnătură XAdES (.xml). Verificarea se face pe acest calculator.",
-    "en": "Drop a signed PDF or XAdES signature (.xml) here. Verification runs on this computer.",
-    "ru": "Перетащите подписанный PDF или подпись XAdES (.xml). Проверка выполняется на этом компьютере."
+    "ro": "Trage aici un PDF semnat sau o semnătură XML (.xml). Verificarea se face pe acest calculator.",
+    "en": "Drop a signed PDF or XML signature (.xml) here. Verification runs on this computer.",
+    "ru": "Перетащите подписанный PDF или подпись XML (.xml). Проверка выполняется на этом компьютере."
   },
   "ui_no_activity_yet": {
     "ro": "Nicio activitate",
@@ -1138,9 +1171,9 @@ enum L10n {
     "ru": "Технические сведения"
   },
   "ui_activity": {
-    "ro": "Activitate",
-    "en": "Activity",
-    "ru": "История"
+    "ro": "Documente",
+    "en": "Documents",
+    "ru": "Документы"
   },
   "ui_system": {
     "ro": "Sistem",
@@ -1631,6 +1664,171 @@ enum L10n {
     "ro": "Poți schimba oricând aceste opțiuni din Setări.",
     "en": "You can change these options any time in Settings.",
     "ru": "Эти параметры можно изменить в любой момент в настройках."
+  },
+  "stamp_title": {
+    "ro": "Ștampilă vizibilă",
+    "en": "Visible stamp",
+    "ru": "Видимый штамп"
+  },
+  "stamp_visible": {
+    "ro": "Arată ștampila în PDF",
+    "en": "Show stamp in PDF",
+    "ru": "Показать штамп в PDF"
+  },
+  "stamp_all_pages": {
+    "ro": "Toate paginile",
+    "en": "All pages",
+    "ru": "Все страницы"
+  },
+  "stamp_move_hint": {
+    "ro": "Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona.",
+    "en": "Drag the stamp to move it. Drag a corner to resize.",
+    "ru": "Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер."
+  },
+  "stamp_size": {
+    "ro": "Dimensiune",
+    "en": "Size",
+    "ru": "Размер"
+  },
+  "stamp_preview": {
+    "ro": "Semnătură digitală\neSemnBun",
+    "en": "Digital signature\neSemnBun",
+    "ru": "Цифровая подпись\neSemnBun"
+  },
+  "stamp_save": {
+    "ro": "Aplică",
+    "en": "Apply",
+    "ru": "Применить"
+  },
+  "stamp_unavailable": {
+    "ro": "Previzualizarea PDF nu este disponibilă.",
+    "en": "The PDF preview is unavailable.",
+    "ru": "Предпросмотр PDF недоступен."
+  },
+  "stamp_queue": {
+    "ro": "Aplică tuturor PDF-urilor din listă",
+    "en": "Apply to all queued PDFs",
+    "ru": "Применить ко всем PDF в списке"
+  },
+  "stamp_browser": {
+    "ro": "Ștampilă vizibilă la semnarea de pe site-uri",
+    "en": "Visible stamps for website signing",
+    "ru": "Видимый штамп при подписании с сайтов"
+  },
+  "stamp_batch_hint": {
+    "ro": "Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri.",
+    "en": "Optional. Choose a position once per batch; reuse it for the remaining PDFs.",
+    "ru": "Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF."
+  },
+  "stamp_add": {
+    "ro": "Adaugă ștampilă…",
+    "en": "Add stamp…",
+    "ru": "Добавить штамп…"
+  },
+  "stamp_edit": {
+    "ro": "Editează ștampila…",
+    "en": "Edit stamp…",
+    "ru": "Изменить штамп…"
+  },
+  "stamp_options": {
+    "ro": "Opțiuni ștampilă",
+    "en": "Stamp options",
+    "ru": "Параметры штампа"
+  },
+  "stamp_selected_page": {
+    "ro": "Doar pagina selectată",
+    "en": "Selected page only",
+    "ru": "Только выбранная страница"
+  },
+  "stamp_scope": {
+    "ro": "Aplică pe",
+    "en": "Apply to",
+    "ru": "Разместить на"
+  },
+  "file_options": {
+    "en": "File options",
+    "ro": "Opțiuni fișier",
+    "ru": "Параметры файла"
+  },
+  "file_signing_type": {
+    "en": "Signing type",
+    "ro": "Tipul semnăturii",
+    "ru": "Тип подписи"
+  },
+  "file_stamp_off": {
+    "en": "Stamp off",
+    "ro": "Fără ștampilă",
+    "ru": "Без штампа"
+  },
+  "file_stamp_all": {
+    "en": "Stamp: all pages",
+    "ro": "Ștampilă: toate paginile",
+    "ru": "Штамп: все страницы"
+  },
+  "file_stamp_page": {
+    "en": "Stamp: page",
+    "ro": "Ștampilă: pagina",
+    "ru": "Штамп: страница"
+  },
+  "format_pdf": {
+    "en": "PDF signature",
+    "ro": "Semnătură PDF",
+    "ru": "Подпись PDF"
+  },
+  "format_xml": {
+    "en": "XML signature",
+    "ro": "Semnătură XML",
+    "ru": "Подпись XML"
+  },
+  "format_xml_time": {
+    "en": "XML with timestamp",
+    "ro": "XML cu marcă temporală",
+    "ru": "XML с меткой времени"
+  },
+  "format_xml_data": {
+    "en": "XML with validation data",
+    "ro": "XML cu date de validare",
+    "ru": "XML с данными проверки"
+  },
+  "file_remove": {
+    "en": "Remove file",
+    "ro": "Elimină fișierul",
+    "ru": "Удалить файл"
+  },
+  "format_pdf_time": {
+    "ro": "PDF cu marcă temporală",
+    "en": "PDF with timestamp",
+    "ru": "PDF с отметкой времени"
+  },
+  "saved_title": {
+    "ro": "Documente",
+    "en": "Documents",
+    "ru": "Документы"
+  },
+  "saved_signed": {
+    "ro": "Documente semnate",
+    "en": "Signed documents",
+    "ru": "Подписанные документы"
+  },
+  "saved_history": {
+    "ro": "Istoric",
+    "en": "History",
+    "ru": "История"
+  },
+  "saved_empty": {
+    "ro": "Niciun document semnat încă",
+    "en": "No signed documents yet",
+    "ru": "Пока нет подписанных документов"
+  },
+  "saved_hint": {
+    "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
+    "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
+    "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+  },
+  "saved_browse": {
+    "ro": "Vezi documentele semnate",
+    "en": "View signed documents",
+    "ru": "Посмотреть подписанные документы"
   }
 }
 """#.utf8)

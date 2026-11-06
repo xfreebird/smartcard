@@ -1,1 +1,5 @@
-Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete.
+• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.
+• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.
+• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.
+• Ascunde rezultatele semnării fără a șterge fișierele.
+• Interfață și traduceri îmbunătățite în română, engleză și rusă.

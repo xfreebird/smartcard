@@ -16,7 +16,7 @@ public sealed record OperationOutcome(bool Success, string Message, IReadOnlyLis
 }
 
 /// <summary>One document to sign and the format chosen for it on the Sign page (PDF: PAdES-T or XAdES; others: XAdES).</summary>
-public sealed record DocumentJob(string Path, SignatureFormat Format);
+public sealed record DocumentJob(string Path, SignatureFormat Format, PdfStampPlacement? Stamp = null);
 
 /// <summary>
 /// Composition root of the tray app: SigningService (Core) + ReaderWatcher + PinVault + BridgeHost +
@@ -68,6 +68,34 @@ public sealed class AppServices : IAsyncDisposable
         Bridge = new BridgeHost(BridgeOriginPolicy.Default, BridgeTls.ResolvePath,
             () => Volatile.Read(ref _bridgeCards), Signing, _authorize,
             allowsLegacyDesktopClient: Settings.LegacyDesktopClientEnabled && !StartupRegistration.IsPackaged);
+        Bridge.PreviewPdfEnabled = () => Settings.BrowserStampsEnabled;
+        Bridge.PreviewPdf = async (bytes, card, origin, token) =>
+        {
+            if (!Settings.BrowserStampsEnabled) return null;
+            if (_disposed || IsDemo) throw new OperationCanceledException();
+            var folder = Directory.CreateTempSubdirectory("pdf-preview-");
+            try
+            {
+                var path = Path.Combine(folder.FullName, "document.pdf"); await File.WriteAllBytesAsync(path, bytes, token);
+                var answer = new TaskCompletionSource<PdfStampPlacement?>(TaskCreationOptions.RunContinuationsAsynchronously);
+                if (!_ui.TryEnqueue(async () =>
+                {
+                    try
+                    {
+                        token.ThrowIfCancellationRequested();
+                        var window = App.Current.EnsureMainWindow(activate: true);
+                        using var presentation = WindowHelpers.PresentConsent(window, aboveBrowser: true);
+                        var row = new MoldSign.App.Views.FileRow(path) { Stamp = new PdfStampPlacement() };
+                        if (!await MoldSign.App.Views.PdfStampEditor.ShowAsync(window.Content.XamlRoot, row, requester: origin, cancellationToken: token))
+                            throw new OperationCanceledException();
+                        answer.TrySetResult(row.Stamp);
+                    }
+                    catch (Exception e) { answer.TrySetException(e); }
+                })) throw new OperationCanceledException();
+                return await answer.Task;
+            }
+            finally { folder.Delete(true); }
+        };
         BrowserConnection = IsDemo || dependencies.BrowserConnection is null ? new BrowserConnectionController(Bridge, Settings, (enabled, status) =>
         {
             if (_disposed) return;
@@ -237,13 +265,13 @@ public sealed class AppServices : IAsyncDisposable
             SetBusy(true);
             await Task.Run(() =>
             {
-                var result = _batches.Sign(frozenJobs.Select(job => new SigningDocumentJob(job.Path, job.Format)).ToArray(),
+                var result = _batches.Sign(frozenJobs.Select(job => new SigningDocumentJob(job.Path, job.Format, job.Stamp)).ToArray(),
                     reader, certificate.Sha1, packaging, _authorize, (job, signed) =>
                     {
                         outputs.AddRange(signed.OutputFiles);
                         completedInputs.Add(job.Path);
-                        Record(Path.GetFileName(job.Path), IsDemo ? Loc.Get("demo_sign_success") : $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
-                            true, signed.OutputFiles.FirstOrDefault());
+                        Record(Path.GetFileName(signed.OutputFiles.FirstOrDefault() ?? job.Path), IsDemo ? Loc.Get("demo_sign_success") : $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
+                            true, signed.OutputFiles.FirstOrDefault(), signedOutput: true);
                     }, failed: (job, error) => failures[job.Path] = error is CardException cardError ? (cardError.Kind == CardErrorKind.Format ? "This document could not be signed. It may be damaged or use an unsupported format." : AppState.ErrorText(cardError.Kind)) : "The signed document could not be saved. Check the destination folder and available disk space.");
                 if (result.Error is { } failure) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
             });
@@ -360,8 +388,8 @@ public sealed class AppServices : IAsyncDisposable
         return AppState.ErrorText(e.Kind);
     }
 
-    private void Record(string file, string action, bool success, string? path) =>
-        _ui.TryEnqueue(() => { if (!_disposed) State.AddActivity(new ActivityItem(file, action, DateTimeOffset.Now, success, path)); });
+    private void Record(string file, string action, bool success, string? path, bool signedOutput = false) =>
+        _ui.TryEnqueue(() => { if (!_disposed) State.AddActivity(new ActivityItem(file, action, DateTimeOffset.Now, success, path, signedOutput)); });
 
     private void SetBusy(bool busy)
     {

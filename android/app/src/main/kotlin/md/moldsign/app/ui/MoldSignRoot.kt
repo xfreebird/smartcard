@@ -89,12 +89,13 @@ import md.moldsign.app.ui.screens.CardScreen
 import md.moldsign.app.ui.screens.SignScreen
 import md.moldsign.app.ui.screens.VerifyScreen
 import md.moldsign.app.ui.theme.Tokens
+import androidx.compose.material.icons.outlined.FolderOpen
 import md.moldsign.core.ConsentResult
 
 private enum class Dest(val route: String, @StringRes val label: Int, val icon: ImageVector) {
     Sign("sign", R.string.nav_sign, Icons.Outlined.Draw),
     Verify("verify", R.string.nav_verify, Icons.Outlined.VerifiedUser),
-    Activity("activity", R.string.nav_activity, Icons.Outlined.History),
+    Activity("activity", R.string.nav_activity, Icons.Outlined.FolderOpen),
     Browser("browser", R.string.nav_browser, Icons.Outlined.Language),
     Card("card", R.string.nav_card, Icons.Outlined.CreditCard),
 }
@@ -124,6 +125,12 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val items by vm.signItems.collectAsStateWithLifecycle()
     val working by vm.working.collectAsStateWithLifecycle()
     val pending by vm.pendingConsent.collectAsStateWithLifecycle()
+    val stamp by vm.pendingStamp.collectAsStateWithLifecycle()
+    stamp?.let { request ->
+        md.moldsign.app.ui.screens.PdfStampEditor(request.item, request.holder,
+            onDismiss = { request.answer(md.moldsign.core.PdfStampDecision.Cancel) },
+            onSave = { request.answer(md.moldsign.core.PdfStampDecision.Proceed(it)) }, requester = request.requester)
+    }
     val message by vm.message.collectAsStateWithLifecycle()
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
@@ -251,10 +258,10 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 // Scaffold insets are consumed once around the rail and destination, never once per pane.
                 NavHost(nav, startDestination = Dest.Sign.route, modifier = Modifier.weight(1f).fillMaxHeight()) {
                     composable(Dest.Sign.route) {
-                        SignScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }, expanded = expanded)
+                        SignScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }, onOpenDocuments = { nav.go(Dest.Activity) }, expanded = expanded)
                     }
                     composable(Dest.Verify.route) { VerifyScreen(vm, PaddingValues(0.dp)) }
-                    composable(Dest.Activity.route) { ActivityScreen(vm, PaddingValues(0.dp)) }
+                    composable(Dest.Activity.route) { ActivityScreen(vm, PaddingValues(0.dp), onVerify = { uri -> nav.go(Dest.Verify); vm.pickForVerify(uri) }) }
                     composable(Dest.Browser.route) { BrowserScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }) }
                     composable(Dest.Card.route) { CardScreen(vm, PaddingValues(0.dp)) }
                 }

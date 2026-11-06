@@ -87,6 +87,33 @@ public final class MoldSignServer {
 
     /// Consent hook, called on a background queue (block until the user decides). nil = allow (CLI).
     public var authorize: ((BridgeRequest) -> BridgeDecision)?
+    /// Optional host preview, before PIN authorization. Reused only within the same origin/card/batch for five minutes.
+    public var previewPDFEnabled: (() -> Bool)?
+    public var previewPDF: ((BridgeRequest, Data) -> PDFStampDecision)?
+    private let stampStateLock = NSLock()
+    private var stampEpoch = 0
+    private var stampSessions: [String: (String?, String?, PDFStampPlacement?, Date)] = [:]
+    func stampPlacement(_ request: BridgeRequest, _ data: Data, batch: String) throws -> PDFStampPlacement? {
+        guard let previewPDF else { return nil }
+        stampStateLock.lock(); let epoch = stampEpoch; stampStateLock.unlock()
+        guard previewPDFEnabled?() ?? true else { stampSessions[batch] = nil; return nil }
+        let now = Date()
+        stampSessions = stampSessions.filter { now.timeIntervalSince($0.value.3) < 300 }
+        if let cached = stampSessions[batch], cached.0 == request.origin, cached.1 == request.certificateSHA1,
+           cached.2 == nil || StampPDF.canApply(cached.2!, to: data) {
+            stampSessions[batch] = (cached.0, cached.1, cached.2, now)
+            return cached.2?.bound(to: data)
+        }
+        let decision = previewPDF(request, data)
+        stampStateLock.lock(); let current = stampEpoch; stampStateLock.unlock()
+        guard current == epoch else { throw Denied() }
+        switch decision {
+        case .cancel: throw Denied()
+        case .proceed(let placement):
+            stampSessions[batch] = (request.origin, request.certificateSHA1, placement, now)
+            return placement?.bound(to: data)
+        }
+    }
     /// Every answered request, for the activity log.
     public var onEvent: ((BridgeEvent) -> Void)?
     /// Outcome of each signing request (nil = signed), on the work queue. Hosts use it to drop a stored PIN
@@ -239,6 +266,8 @@ public final class MoldSignServer {
         stopListeners.forEach { $0() }
         stopListeners.removeAll()
         pinLock.lock(); pinSessions.removeAll(); pinLock.unlock()
+        stampStateLock.lock(); stampEpoch += 1; stampStateLock.unlock()
+        workQueue.async { [weak self] in self?.stampSessions.removeAll() }
         isRunning = false
     }
 
@@ -745,6 +774,7 @@ public final class MoldSignServer {
         let sessionId = newSession { [weak self] id, s in
             guard let self = self else { return }
             do {
+                let placement = contentType.lowercased() == "pdf" ? try self.stampPlacement(request, raw, batch: usePinSession ?? id) : nil
                 // later documents of a portal batch reuse the PIN the first one signed with (no new consent)
                 let reused = usePinSession.flatMap { self.reusablePIN(session: $0, origin: caller) }
                 var auth = try reused ?? self.authorizedPIN(request, requestPIN: m["pin"] as? String)
@@ -755,7 +785,7 @@ public final class MoldSignServer {
                     try raw.write(to: inURL)
                     defer { try? FileManager.default.removeItem(at: inURL); try? FileManager.default.removeItem(at: outURL) }
                     let out = try self.signPDFFile(inURL, outURL, certJSON: certModel(fromJSON: m), auth: auth,
-                                                   reader: try self.reader(for: auth, request))
+                                                   reader: try self.reader(for: auth, request), appearance: placement)
                     auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1)
                     s.payload = #"{"base64File":""# + out.data.base64EncodedString() + "\"}"
                 } else {
@@ -811,8 +841,10 @@ public final class MoldSignServer {
             do {
                 var auth = try usePinSession.flatMap { self.reusablePIN(session: $0, origin: caller) }
                     ?? self.authorizedPIN(request, requestPIN: m["pin"] as? String)
+                let bytes = try Data(contentsOf: URL(fileURLWithPath: origPath))
+                let placement = try self.stampPlacement(request, bytes, batch: usePinSession ?? id)
                 let output = try self.signPDFFile(URL(fileURLWithPath: origPath), URL(fileURLWithPath: outPath),
-                                         certJSON: certModel(fromJSON: m), auth: auth, reader: try self.reader(for: auth, request))
+                                         certJSON: certModel(fromJSON: m), auth: auth, reader: try self.reader(for: auth, request), appearance: placement)
                 auth = Authorization(pin: auth.pin, certificateSHA1: output.certificateSHA1)
                 self.rememberPIN(auth, session: id, origin: caller)
                 s.payload = #"{"path":""# + self.jsonEsc(outPath) + "\"}"
@@ -973,12 +1005,14 @@ public final class MoldSignServer {
 
     @discardableResult
     private func signPDFFile(_ inURL: URL, _ outURL: URL, certJSON: Data?, auth: Authorization,
-                             reader: String?) throws -> SignedOutput {
+                             reader: String?, appearance: PDFStampPlacement? = nil) throws -> SignedOutput {
         let pdf = try Data(contentsOf: inURL)
+        try appearance?.validate(document: pdf)
+        if let appearance, !StampPDF.canApply(appearance, to: pdf) { throw StampPDF.fail() }
         let expected = auth.certificateSHA1 ?? certJSON.map { $0.sha1().hexString.lowercased() }
         let out = try SigningService.shared.withCard(reader: reader) { card -> SignedOutput in
             let cardCert = try card.prepareForSigning(pin: auth.pin, expectedCertificateSHA1: expected)
-            let signed = try PAdESSigner().signPDF(pdf, certDER: certJSON ?? cardCert) { di in
+            let signed = try PAdESSigner().signPDF(pdf, certDER: certJSON ?? cardCert, appearance: appearance) { di in
                 try card.sign(digestInfo: di)
             }
             return SignedOutput(data: signed, certificateSHA1: cardCert.sha1().hexString.lowercased())

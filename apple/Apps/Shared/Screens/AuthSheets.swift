@@ -128,7 +128,7 @@ struct ConsentView: View {
                     Label(consent.contentSummary, systemImage: "doc.on.doc")
                         .foregroundStyle(.secondary)
                     if let format = consent.request.format {
-                        Label(format, systemImage: "signature")
+                        Label(signatureLabels(format), systemImage: "signature")
                     }
                     Label(L10n.text(.ui_value_mdqsign, consent.holder), systemImage: "person.text.rectangle")
                 }

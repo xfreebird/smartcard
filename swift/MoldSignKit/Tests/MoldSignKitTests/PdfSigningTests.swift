@@ -54,6 +54,26 @@ final class PdfSigningTests: XCTestCase {
         XCTAssertEqual(reports.first?.contentIntact, true)
     }
 
+    func testVisibleCounterSignatureCoversAppearanceAndPreservesPriorBytes() throws {
+        let first = try sign(Fixtures.data("unsigned.pdf"))
+        let stamped = try PAdESSigner().signPDF(first, certDER: Fixtures.dummySignerCert,
+            tsaUnsignedAttr: prebuiltTSAAttr(), appearance: .init()) { _ in Data(repeating: 0xAB, count: 512) }
+        XCTAssertEqual(stamped.prefix(first.count), first)
+        let reports = Validator.validatePDF(stamped)
+        XCTAssertEqual(reports.count, 2)
+        XCTAssertTrue(reports.allSatisfy { $0.contentIntact })
+        let text = String(data: stamped, encoding: .isoLatin1)!
+        let xref = text.range(of: "\nxref\n", options: .backwards)!
+        let tail = String(text[xref.upperBound...])
+        let entries = try NSRegularExpression(pattern: #"(\d+) 1\n(\d{10}) 00000 n"#)
+            .matches(in: tail, range: NSRange(tail.startIndex..., in: tail))
+        for entry in entries {
+            let n = String(tail[Range(entry.range(at: 1), in: tail)!])
+            let offset = Int(tail[Range(entry.range(at: 2), in: tail)!])!
+            XCTAssertTrue(String(decoding: stamped.dropFirst(offset).prefix(n.utf8.count + 6), as: UTF8.self).hasPrefix("\(n) 0 obj"))
+        }
+    }
+
     func testSecondSignaturePreservesFirst() throws {
         // signed by "someone else" (our dummy-signed output acts as the pre-signed document)
         let once = try sign(try Fixtures.data("unsigned.pdf"))

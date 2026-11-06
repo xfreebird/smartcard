@@ -266,6 +266,58 @@ enum L10n {
         case onboarding_welcome_body
         case onboarding_get_started
         case onboarding_change_anytime
+        case stamp_title
+        case stamp_visible
+        case stamp_all_pages
+        case stamp_move_hint
+        case stamp_size
+        case stamp_preview
+        case stamp_save
+        case stamp_unavailable
+        case stamp_queue
+        case stamp_browser
+        case stamp_batch_hint
+        case stamp_add
+        case stamp_edit
+        case stamp_options
+        case stamp_selected_page
+        case stamp_scope
+        case stamp_page_label
+        case stamp_one_page
+        case stamp_on_all_pages
+        case stamp_previous_page
+        case stamp_next_page
+        case stamp_off
+        case stamp_single
+        case stamp_every
+        case file_options
+        case file_signing_type
+        case file_stamp_off
+        case file_stamp_all
+        case file_stamp_page
+        case format_pdf
+        case format_xml
+        case format_xml_time
+        case format_xml_data
+        case file_remove
+        case format_pdf_time
+        case batch_files
+        case batch_expand
+        case batch_collapse
+        case batch_options
+        case batch_mixed
+        case batch_stamp
+        case batch_automatic
+        case batch_remove
+        case saved_title
+        case saved_signed
+        case saved_history
+        case saved_empty
+        case saved_hint
+        case saved_browse
+        case results_clear
+        case results_hint
+        case results_documents
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

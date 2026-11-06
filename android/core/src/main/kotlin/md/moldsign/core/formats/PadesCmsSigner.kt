@@ -19,7 +19,14 @@ class PadesCmsSigner(
     private val clock: Clock = Clock.systemDefaultZone(),
 ) : PadesSigner {
 
-    override fun sign(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner): ByteArray {
+    override fun sign(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner): ByteArray = signPdf(pdf, certificateDer, chainDer, signer, null)
+
+    override fun signVisible(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner, placement: PdfStampPlacement): ByteArray = signPdf(pdf, certificateDer, chainDer, signer, placement)
+
+    private fun signPdf(pdf: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner, placement: PdfStampPlacement?): ByteArray {
+        if (placement?.documentSHA256 != null && !placement.documentSHA256.equals(Sha.sha256(pdf).toHex(), ignoreCase = true))
+            throw CardError.Format("The PDF changed after stamp placement. Open the preview again")
+        val signingDate = ZonedDateTime.now(clock)
         val text = String(pdf, ISO_8859_1)
 
         // --- trailer info ---
@@ -39,7 +46,9 @@ class PadesCmsSigner(
         val existingAcro = Regex("""/AcroForm (\d+) 0 R""").find(catalog)?.groupValues?.get(1)?.toIntOrNull()
 
         // anchored with (?<!\d): a bare (\d+) is quadratic over the 37,960-zero /Contents of an earlier signature
-        val maxObj = Regex("""(?<!\d)(\d+) 0 obj""").findAll(text).maxOfOrNull { it.groupValues[1].toIntOrNull() ?: 0 } ?: 0
+        val scannedMax = Regex("""(?<!\d)(\d+) 0 obj""").findAll(text).maxOfOrNull { it.groupValues[1].toIntOrNull() ?: 0 } ?: 0
+        val declaredMax = Regex("""/Size\s+(\d+)\b""").findAll(text).maxOfOrNull { it.groupValues[1].toIntOrNull() ?: 1 } ?: 1
+        val maxObj = maxOf(scannedMax, declaredMax - 1)
         val sigNum = maxObj + 1
         val acroNum = maxObj + 2
         val fieldNum = maxObj + 3
@@ -49,7 +58,7 @@ class PadesCmsSigner(
         val byteRangeDummy = "/ByteRange [0 0000000000 0000000000 0000000000 ]"
         val contents = "/Contents<" + "0".repeat(PLACEHOLDER_HEX_LENGTH) + ">"
         val sigDict = "\n$sigNum 0 obj\n<</Type/Sig /Filter/Adobe.PPKLite /SubFilter/ETSI.CAdES.detached $byteRangeDummy " +
-            "$contents /M(${pdfDate()}) /Reason(MoldSign Signature) /Location(Moldova) /ContactInfo() " +
+            "$contents /M(${signingDate.format(PDF_DATE).replace(":00", "'00'")}) /Reason(MoldSign Signature) /Location(Moldova) /ContactInfo() " +
             "/Prop_Build<</App<</Name/>>>>>>\nendobj\n"
         val pageRef = pageNum?.let { "/P $it 0 R" } ?: ""
         // next free field name: highest existing "/T (SignatureN)" + 1 (iText writes a space after /T)
@@ -57,7 +66,7 @@ class PadesCmsSigner(
         val sigField = "$fieldNum 0 obj\n<</FT/Sig /T(Signature${lastSignature + 1}) /Type/Annot /Subtype/Widget " +
             "/Rect[0 0 0 0] /F 0 $pageRef /V $sigNum 0 R>>\nendobj\n"
 
-        val chunks: List<String>
+        var chunks: List<String>
         val acroDict = existingAcro?.let { findObjectDict(text, it) }
         if (existingAcro != null && acroDict != null) {
             val fields = Regex("""/Fields\s*\[([^\]]*)\]""").find(acroDict) ?: throw CardError.Format("AcroForm /Fields not found")
@@ -69,6 +78,14 @@ class PadesCmsSigner(
             val extensions = "/Extensions<</ESIC<</BaseVersion/1.7/ExtensionLevel 2>>>>"
             val catalogUpdated = "$rootNum 0 obj\n${dictInserting(catalog, "/AcroForm $acroNum 0 R $extensions")}\nendobj\n"
             chunks = listOf(sigDict, acroForm, sigField, catalogUpdated)
+        }
+
+        var nextObject = maxObj + 4
+        if (placement != null) {
+            val visible = StampPdf.appearance(text, catalog, fieldNum, sigNum, nextObject, "Signature${lastSignature + 1}",
+                placement, CertificateSummary.parse(certificateDer).commonName, signingDate)
+            chunks = chunks.map { if (it == sigField) visible.field else it } + visible.chunks
+            nextObject = visible.next
         }
 
         // --- xref (one subsection per object, iText style); offsets are absolute in the final file ---
@@ -84,7 +101,7 @@ class PadesCmsSigner(
         val xrefPosition = appendOffset + body.length
         val xref = StringBuilder("xref\n0 1\n0000000000 65535 f \n")
         for ((num, offset) in offsets.sortedBy { it.first }) xref.append("$num 1\n${pad10(offset)} 00000 n \n")
-        val trailer = StringBuilder("trailer\n<</Size ${maxObj + 4} /Root $rootNum 0 R /Prev $previousXref")
+        val trailer = StringBuilder("trailer\n<</Size ${nextObject} /Root $rootNum 0 R /Prev $previousXref")
         if (id != null) trailer.append(" /ID [<${id[1]}><${id[2]}>]")
         trailer.append(">>\nstartxref\n$xrefPosition\n%%EOF\n")
 
@@ -105,7 +122,7 @@ class PadesCmsSigner(
         val contentDigest = Sha.sha256(signed.copyOfRange(0, hexStart - 1), signed.copyOfRange(hexEnd + 1, total))
 
         // --- CMS, then hex into the placeholder ---
-        val cms = buildCms(contentDigest, certificateDer, chainDer, signer)
+        val cms = buildCms(contentDigest, certificateDer, chainDer, signer, signingDate)
         val cmsHex = cms.toHex().lowercase()
         if (cmsHex.length > PLACEHOLDER_HEX_LENGTH) throw CardError.Format("CMS does not fit the signature placeholder")
         System.arraycopy(cmsHex.toByteArray(ISO_8859_1), 0, signed, hexStart, cmsHex.length)
@@ -113,11 +130,11 @@ class PadesCmsSigner(
     }
 
     /** CAdES CMS: signed attributes, the card's RSA signature over them, the chain and the RFC 3161 token. */
-    internal fun buildCms(contentDigest: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner): ByteArray {
+    internal fun buildCms(contentDigest: ByteArray, certificateDer: ByteArray, chainDer: List<ByteArray>, signer: RawSigner, signingDate: ZonedDateTime = ZonedDateTime.now(clock)): ByteArray {
         val (issuer, serial) = issuerAndSerial(certificateDer)
         val signedAttributes = Der.concat(
             Der.seq(Der.oid(OID_CONTENT_TYPE), Der.set(Der.oid(OID_ID_DATA))),
-            Der.seq(Der.oid(OID_SIGNING_TIME), Der.set(Der.tlv(0x17, utcTime().toByteArray(ISO_8859_1)))),
+            Der.seq(Der.oid(OID_SIGNING_TIME), Der.set(Der.tlv(0x17, UTC_TIME.format(signingDate).toByteArray(ISO_8859_1)))),
             Der.seq(Der.oid(OID_MESSAGE_DIGEST), Der.set(Der.octetString(contentDigest))),
             // signingCertificateV2: SET { SEQ { SEQ { SEQ { OCTET STRING sha256(cert) } } } }
             Der.seq(Der.oid(OID_SIGNING_CERTIFICATE_V2), Der.set(Der.seq(Der.seq(Der.seq(Der.octetString(Sha.sha256(certificateDer))))))),

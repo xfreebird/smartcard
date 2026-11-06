@@ -120,6 +120,15 @@ public sealed partial class MainWindow : Window
             if (!WalletsCentered(page)) { frames = 0; return; }
             if (++frames < 3) return;
             CompositionTarget.Rendering -= rendered;
+            if (Environment.GetEnvironmentVariable("MSIGN_QA_STAMP_PREVIEW") == "1" && page is SignPage signPage) {
+                var sample=Environment.GetEnvironmentVariable("MSIGN_QA_STAMP_FILE");
+                var samples=App.Current.Services.DemoDocuments.Where(p => p.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)).ToArray();
+                if (!string.IsNullOrEmpty(sample) && samples.Length>0) File.Copy(sample,samples[0],true);
+                signPage.QueueFiles(samples);
+                if (Environment.GetEnvironmentVariable("MSIGN_QA_FILE_OPTIONS") != "1" && signPage.Files.FirstOrDefault() is { } row)
+                    _ = PdfStampEditor.ShowAsync(signPage.XamlRoot, row, _ => { });
+            }
+
             // The temporary marker contains only scenario metadata, never certificates, documents or PINs.
             File.WriteAllText(path, JsonSerializer.Serialize(new
             {

@@ -370,9 +370,9 @@
       "platform": "android",
       "key": "verify_hint",
       "translations": {
-        "ro": "Alege un PDF semnat sau o semnătură XAdES (.xml).",
-        "en": "Choose a signed PDF or an XAdES signature (.xml).",
-        "ru": "Выберите подписанный PDF или подпись XAdES (.xml)."
+        "ro": "Alege un PDF semnat sau o semnătură XML (.xml).",
+        "en": "Choose a signed PDF or an XML signature (.xml).",
+        "ru": "Выберите подписанный PDF или подпись XML (.xml)."
       }
     },
     {
@@ -886,9 +886,9 @@
       "platform": "android",
       "key": "sign_choose_body",
       "translations": {
-        "ro": "PDF → PAdES-T · altele → XAdES-T",
-        "en": "PDF → PAdES-T · others → XAdES-T",
-        "ru": "PDF → PAdES-T · другие → XAdES-T"
+        "en": "PDF signature · XML signature for other files",
+        "ro": "Semnătură PDF · semnătură XML pentru alte fișiere",
+        "ru": "Подпись PDF · подпись XML для других файлов"
       }
     },
     {
@@ -1225,9 +1225,9 @@
       "platform": "android",
       "key": "nav_activity",
       "translations": {
-        "ro": "Activitate",
-        "en": "Activity",
-        "ru": "Действия"
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
       }
     },
     {
@@ -2764,9 +2764,9 @@
       "platform": "windows",
       "key": "DropHint.Text",
       "translations": {
-        "ro": "PDF → PAdES · altele → XAdES",
-        "en": "PDF → PAdES · others → XAdES",
-        "ru": "PDF → PAdES · другие → XAdES"
+        "en": "PDF signature · XML signature for other files",
+        "ro": "Semnătură PDF · semnătură XML pentru alte fișiere",
+        "ru": "Подпись PDF · подпись XML для других файлов"
       }
     },
     {
@@ -2791,9 +2791,9 @@
       "platform": "windows",
       "key": "NavActivity.Content",
       "translations": {
-        "ro": "Activitate",
-        "en": "Activity",
-        "ru": "Действия"
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
       }
     },
     {
@@ -2890,18 +2890,18 @@
       "platform": "windows",
       "key": "SignPdfFormat.Text",
       "translations": {
-        "ro": "PDF → PAdES-T (cerut de msign.gov.md); XAdES produce un fișier .xml separat",
-        "en": "PDF → PAdES-T (required by msign.gov.md); XAdES writes a separate .xml file",
-        "ru": "PDF → PAdES-T (требуется для msign.gov.md); XAdES создаёт отдельный файл .xml"
+        "en": "PDF signature · XML signature for other files",
+        "ro": "Semnătură PDF · semnătură XML pentru alte fișiere",
+        "ru": "Подпись PDF · подпись XML для других файлов"
       }
     },
     {
       "platform": "windows",
       "key": "SignPackaging.Header",
       "translations": {
-        "ro": "Ambalare XAdES",
-        "en": "XAdES packaging",
-        "ru": "Упаковка XAdES"
+        "ro": "Fișier de semnătură XML",
+        "en": "XML signature file",
+        "ru": "Файл подписи XML"
       }
     },
     {
@@ -2926,18 +2926,18 @@
       "platform": "windows",
       "key": "VerifyHint.Text",
       "translations": {
-        "ro": "PDF semnat (PAdES) sau semnătură .xml (XAdES); pentru o semnătură detașată alege și fișierele semnate.",
-        "en": "Signed PDF (PAdES) or .xml signature (XAdES); for a detached signature, also choose the signed files.",
-        "ru": "Подписанный PDF (PAdES) или подпись .xml (XAdES); для отсоединённой подписи выберите также подписанные файлы."
+        "ro": "Alege un PDF semnat sau o semnătură XML. Pentru o semnătură separată, adaugă și documentele originale.",
+        "en": "Choose a signed PDF or an XML signature. For a separate signature, also add the original documents.",
+        "ru": "Выберите подписанный PDF или подпись XML. Для отдельной подписи добавьте исходные документы."
       }
     },
     {
       "platform": "windows",
       "key": "ActivityPageTitle.Text",
       "translations": {
-        "ro": "Activitate",
-        "en": "Activity",
-        "ru": "Действия"
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
       }
     },
     {
@@ -3925,18 +3925,18 @@
       "platform": "apple",
       "key": "ui_pades_signs_within_the_pdf_xades_creates_a_separate_xml_file",
       "translations": {
-        "ro": "PAdES semnează în PDF; XAdES creează un fișier .xml separat",
-        "en": "PAdES signs within the PDF; XAdES creates a separate .xml file",
-        "ru": "PAdES добавляет подпись в PDF; XAdES создаёт отдельный файл .xml"
+        "ro": "Semnătura PDF rămâne în document; semnătura XML creează un fișier .xml separat",
+        "en": "The PDF signature stays in the document; the XML signature creates a separate .xml file",
+        "ru": "Подпись PDF хранится в документе; подпись XML создаёт отдельный файл .xml"
       }
     },
     {
       "platform": "apple",
       "key": "ui_pdf_pades_t_within_the_pdf_other_files_separate_xades_t_the_format_can_be_changed",
       "translations": {
-        "ro": "PDF → PAdES-T în PDF · alte fișiere → XAdES-T separat. Formatul se poate schimba.",
-        "en": "PDF → PAdES-T within the PDF · other files → separate XAdES-T. The format can be changed.",
-        "ru": "PDF → PAdES-T внутри PDF · другие файлы → отдельная подпись XAdES-T. Формат можно изменить."
+        "en": "PDF signature · XML signature for other files",
+        "ro": "Semnătură PDF · semnătură XML pentru alte fișiere",
+        "ru": "Подпись PDF · подпись XML для других файлов"
       }
     },
     {
@@ -4105,9 +4105,9 @@
       "platform": "apple",
       "key": "ui_saved_beside_the_original_as_name_semnat_without_overwriting_pades_signs_within_the_pdf",
       "translations": {
-        "ro": "Se salvează lângă original, ca „nume-semnat”, fără a suprascrie. PAdES semnează în PDF; XAdES creează un fișier .xml separat. Algoritm SHA-256.",
-        "en": "Saved beside the original as “name-semnat”, without overwriting. PAdES signs within the PDF; XAdES creates a separate .xml file. SHA-256 algorithm.",
-        "ru": "Сохраняется рядом с оригиналом как «имя-semnat», без перезаписи. PAdES добавляет подпись в PDF; XAdES создаёт отдельный файл .xml. Алгоритм SHA-256."
+        "ro": "Se salvează lângă original, ca „nume-semnat”, fără a suprascrie. Semnătura PDF rămâne în document; semnătura XML creează un fișier .xml separat. Algoritm SHA-256.",
+        "en": "Saved beside the original as “name-semnat”, without overwriting. The PDF signature stays in the document; the XML signature creates a separate .xml file. SHA-256 algorithm.",
+        "ru": "Сохраняется рядом с оригиналом как «имя-semnat», без перезаписи. Подпись PDF хранится в документе; подпись XML создаёт отдельный файл .xml. Алгоритм SHA-256."
       }
     },
     {
@@ -4348,9 +4348,9 @@
       "platform": "apple",
       "key": "ui_xades_t_detached",
       "translations": {
-        "ro": "XAdES-T, detașat",
-        "en": "XAdES-T, detached",
-        "ru": "XAdES-T, отсоединённая подпись"
+        "ro": "XML cu marcă temporală, detașat",
+        "en": "XML with timestamp, detached",
+        "ru": "XML с отметкой времени, отсоединённая подпись"
       }
     },
     {
@@ -4366,9 +4366,9 @@
       "platform": "apple",
       "key": "ui_or_drop_it_here_signed_pdf_or_xades_signature_xml",
       "translations": {
-        "ro": "sau trage-l aici · PDF semnat sau semnătură XAdES (.xml)",
-        "en": "or drop it here · signed PDF or XAdES signature (.xml)",
-        "ru": "или перетащите сюда · подписанный PDF или подпись XAdES (.xml)"
+        "ro": "sau trage-l aici · PDF semnat sau semnătură XML (.xml)",
+        "en": "or drop it here · signed PDF or XML signature (.xml)",
+        "ru": "или перетащите сюда · подписанный PDF или подпись XML (.xml)"
       }
     },
     {
@@ -4960,18 +4960,18 @@
       "platform": "linux",
       "key": "ui_pades_and_xades_and_the_browser_connection_for_msign_gov_md",
       "translations": {
-        "ro": "PAdES și XAdES, și conexiunea browser pentru msign.gov.md.",
-        "en": "PAdES and XAdES, and the browser connection for msign.gov.md.",
-        "ru": "PAdES и XAdES, а также подключение к браузеру для msign.gov.md."
+        "ro": "semnătură PDF și semnătură XML, și conexiunea browser pentru msign.gov.md.",
+        "en": "PDF signature and XML signature, and the browser connection for msign.gov.md.",
+        "ru": "подпись PDF и подпись XML, а также подключение к браузеру для msign.gov.md."
       }
     },
     {
       "platform": "linux",
       "key": "ui_pdf_pades_t_other_files_xades_t_change_the_format_on_each_row",
       "translations": {
-        "ro": "PDF → PAdES-T, alte fișiere → XAdES-T; formatul se poate schimba pe fiecare rând",
-        "en": "PDF → PAdES-T, other files → XAdES-T; change the format on each row",
-        "ru": "PDF → PAdES-T, другие файлы → XAdES-T; формат можно изменить для каждого файла"
+        "en": "PDF signature · XML signature for other files",
+        "ro": "Semnătură PDF · semnătură XML pentru alte fișiere",
+        "ru": "Подпись PDF · подпись XML для других файлов"
       }
     },
     {
@@ -5464,9 +5464,9 @@
       "platform": "linux",
       "key": "ui_drop_a_signed_pdf_or_an_xades_signature_xml_here",
       "translations": {
-        "ro": "Trage aici un PDF semnat sau o semnătură XAdES (.xml). ",
-        "en": "Drop a signed PDF or an XAdES signature (.xml) here. ",
-        "ru": "Перетащите сюда подписанный PDF или подпись XAdES (.xml). "
+        "ro": "Trage aici un PDF semnat sau o semnătură XML (.xml). ",
+        "en": "Drop a signed PDF or an XML signature (.xml) here. ",
+        "ru": "Перетащите сюда подписанный PDF или подпись XML (.xml). "
       }
     },
     {
@@ -5797,9 +5797,9 @@
       "platform": "apple",
       "key": "ui_pades_signs_inside_the_pdf_xades_creates_a_separate_xml_file_sha_256_algorithm",
       "translations": {
-        "ro": "PAdES semnează în PDF; XAdES creează un fișier .xml separat. Algoritm SHA-256.",
-        "en": "PAdES signs inside the PDF; XAdES creates a separate .xml file. SHA-256 algorithm.",
-        "ru": "PAdES встраивает подпись в PDF; XAdES создаёт отдельный файл .xml. Алгоритм SHA-256."
+        "en": "PDF signatures stay inside the document. XML signatures create a separate file.",
+        "ro": "Semnăturile PDF rămân în document. Semnăturile XML creează un fișier separat.",
+        "ru": "Подпись PDF хранится в документе. Подпись XML создаётся в отдельном файле."
       }
     },
     {
@@ -5869,9 +5869,9 @@
       "platform": "apple",
       "key": "ui_activity",
       "translations": {
-        "ro": "Activitate",
-        "en": "Activity",
-        "ru": "История"
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
       }
     },
     {
@@ -6463,9 +6463,9 @@
       "platform": "linux",
       "key": "ui_drop_a_signed_pdf_or_xades_signature_xml_here_verification_runs_on_this_computer",
       "translations": {
-        "ro": "Trage aici un PDF semnat sau o semnătură XAdES (.xml). Verificarea se face pe acest calculator.",
-        "en": "Drop a signed PDF or XAdES signature (.xml) here. Verification runs on this computer.",
-        "ru": "Перетащите подписанный PDF или подпись XAdES (.xml). Проверка выполняется на этом компьютере."
+        "ro": "Trage aici un PDF semnat sau o semnătură XML (.xml). Verificarea se face pe acest calculator.",
+        "en": "Drop a signed PDF or XML signature (.xml) here. Verification runs on this computer.",
+        "ru": "Перетащите подписанный PDF или подпись XML (.xml). Проверка выполняется на этом компьютере."
       }
     },
     {
@@ -6517,9 +6517,9 @@
       "platform": "linux",
       "key": "ui_activity",
       "translations": {
-        "ro": "Activitate",
-        "en": "Activity",
-        "ru": "История"
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
       }
     },
     {
@@ -9356,6 +9356,1536 @@
         "ro": "Această opțiune de pornire este controlată de o politică Windows.",
         "ru": "Этот параметр запуска управляется политикой Windows."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_title",
+      "translations": {
+        "ro": "Ștampilă vizibilă",
+        "en": "Visible stamp",
+        "ru": "Видимый штамп"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_visible",
+      "translations": {
+        "ro": "Arată ștampila în PDF",
+        "en": "Show stamp in PDF",
+        "ru": "Показать штамп в PDF"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_all_pages",
+      "translations": {
+        "ro": "Toate paginile",
+        "en": "All pages",
+        "ru": "Все страницы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_move_hint",
+      "translations": {
+        "ro": "Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona.",
+        "en": "Drag the stamp to move it. Drag a corner to resize.",
+        "ru": "Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_size",
+      "translations": {
+        "ro": "Dimensiune",
+        "en": "Size",
+        "ru": "Размер"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_preview",
+      "translations": {
+        "ro": "Semnătură digitală\neSemnBun",
+        "en": "Digital signature\neSemnBun",
+        "ru": "Цифровая подпись\neSemnBun"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_save",
+      "translations": {
+        "ro": "Aplică",
+        "en": "Apply",
+        "ru": "Применить"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_unavailable",
+      "translations": {
+        "ro": "Previzualizarea PDF nu este disponibilă.",
+        "en": "The PDF preview is unavailable.",
+        "ru": "Предпросмотр PDF недоступен."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_title",
+      "translations": {
+        "ro": "Ștampilă vizibilă",
+        "en": "Visible stamp",
+        "ru": "Видимый штамп"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_visible",
+      "translations": {
+        "ro": "Arată ștampila în PDF",
+        "en": "Show stamp in PDF",
+        "ru": "Показать штамп в PDF"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_all_pages",
+      "translations": {
+        "ro": "Toate paginile",
+        "en": "All pages",
+        "ru": "Все страницы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_move_hint",
+      "translations": {
+        "ro": "Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona.",
+        "en": "Drag the stamp to move it. Drag a corner to resize.",
+        "ru": "Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_size",
+      "translations": {
+        "ro": "Dimensiune",
+        "en": "Size",
+        "ru": "Размер"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_preview",
+      "translations": {
+        "ro": "Semnătură digitală\neSemnBun",
+        "en": "Digital signature\neSemnBun",
+        "ru": "Цифровая подпись\neSemnBun"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_save",
+      "translations": {
+        "ro": "Aplică",
+        "en": "Apply",
+        "ru": "Применить"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_unavailable",
+      "translations": {
+        "ro": "Previzualizarea PDF nu este disponibilă.",
+        "en": "The PDF preview is unavailable.",
+        "ru": "Предпросмотр PDF недоступен."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_title",
+      "translations": {
+        "ro": "Ștampilă vizibilă",
+        "en": "Visible stamp",
+        "ru": "Видимый штамп"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_visible",
+      "translations": {
+        "ro": "Arată ștampila în PDF",
+        "en": "Show stamp in PDF",
+        "ru": "Показать штамп в PDF"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_all_pages",
+      "translations": {
+        "ro": "Toate paginile",
+        "en": "All pages",
+        "ru": "Все страницы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_move_hint",
+      "translations": {
+        "ro": "Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona.",
+        "en": "Drag the stamp to move it. Drag a corner to resize.",
+        "ru": "Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_size",
+      "translations": {
+        "ro": "Dimensiune",
+        "en": "Size",
+        "ru": "Размер"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_preview",
+      "translations": {
+        "ro": "Semnătură digitală\neSemnBun",
+        "en": "Digital signature\neSemnBun",
+        "ru": "Цифровая подпись\neSemnBun"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_save",
+      "translations": {
+        "ro": "Aplică",
+        "en": "Apply",
+        "ru": "Применить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_unavailable",
+      "translations": {
+        "ro": "Previzualizarea PDF nu este disponibilă.",
+        "en": "The PDF preview is unavailable.",
+        "ru": "Предпросмотр PDF недоступен."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Title",
+      "translations": {
+        "ro": "Ștampilă vizibilă",
+        "en": "Visible stamp",
+        "ru": "Видимый штамп"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Visible",
+      "translations": {
+        "ro": "Arată ștampila în PDF",
+        "en": "Show stamp in PDF",
+        "ru": "Показать штамп в PDF"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_AllPages",
+      "translations": {
+        "ro": "Toate paginile",
+        "en": "All pages",
+        "ru": "Все страницы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_MoveHint",
+      "translations": {
+        "ro": "Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona.",
+        "en": "Drag the stamp to move it. Drag a corner to resize.",
+        "ru": "Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Size",
+      "translations": {
+        "ro": "Dimensiune",
+        "en": "Size",
+        "ru": "Размер"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Preview",
+      "translations": {
+        "ro": "Semnătură digitală\neSemnBun",
+        "en": "Digital signature\neSemnBun",
+        "ru": "Цифровая подпись\neSemnBun"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Save",
+      "translations": {
+        "ro": "Aplică",
+        "en": "Apply",
+        "ru": "Применить"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Unavailable",
+      "translations": {
+        "ro": "Previzualizarea PDF nu este disponibilă.",
+        "en": "The PDF preview is unavailable.",
+        "ru": "Предпросмотр PDF недоступен."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_queue",
+      "translations": {
+        "ro": "Aplică tuturor PDF-urilor din listă",
+        "en": "Apply to all queued PDFs",
+        "ru": "Применить ко всем PDF в списке"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_browser",
+      "translations": {
+        "ro": "Ștampilă vizibilă la semnarea de pe site-uri",
+        "en": "Visible stamps for website signing",
+        "ru": "Видимый штамп при подписании с сайтов"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_batch_hint",
+      "translations": {
+        "ro": "Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri.",
+        "en": "Optional. Choose a position once per batch; reuse it for the remaining PDFs.",
+        "ru": "Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_queue",
+      "translations": {
+        "ro": "Aplică tuturor PDF-urilor din listă",
+        "en": "Apply to all queued PDFs",
+        "ru": "Применить ко всем PDF в списке"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_browser",
+      "translations": {
+        "ro": "Ștampilă vizibilă la semnarea de pe site-uri",
+        "en": "Visible stamps for website signing",
+        "ru": "Видимый штамп при подписании с сайтов"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_batch_hint",
+      "translations": {
+        "ro": "Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri.",
+        "en": "Optional. Choose a position once per batch; reuse it for the remaining PDFs.",
+        "ru": "Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_queue",
+      "translations": {
+        "ro": "Aplică tuturor PDF-urilor din listă",
+        "en": "Apply to all queued PDFs",
+        "ru": "Применить ко всем PDF в списке"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_browser",
+      "translations": {
+        "ro": "Ștampilă vizibilă la semnarea de pe site-uri",
+        "en": "Visible stamps for website signing",
+        "ru": "Видимый штамп при подписании с сайтов"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_batch_hint",
+      "translations": {
+        "ro": "Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri.",
+        "en": "Optional. Choose a position once per batch; reuse it for the remaining PDFs.",
+        "ru": "Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Queue",
+      "translations": {
+        "ro": "Aplică tuturor PDF-urilor din listă",
+        "en": "Apply to all queued PDFs",
+        "ru": "Применить ко всем PDF в списке"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Browser",
+      "translations": {
+        "ro": "Ștampilă vizibilă la semnarea de pe site-uri",
+        "en": "Visible stamps for website signing",
+        "ru": "Видимый штамп при подписании с сайтов"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_BatchHint",
+      "translations": {
+        "ro": "Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri.",
+        "en": "Optional. Choose a position once per batch; reuse it for the remaining PDFs.",
+        "ru": "Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_add",
+      "translations": {
+        "ro": "Adaugă ștampilă…",
+        "en": "Add stamp…",
+        "ru": "Добавить штамп…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_edit",
+      "translations": {
+        "ro": "Editează ștampila…",
+        "en": "Edit stamp…",
+        "ru": "Изменить штамп…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_options",
+      "translations": {
+        "ro": "Opțiuni ștampilă",
+        "en": "Stamp options",
+        "ru": "Параметры штампа"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_selected_page",
+      "translations": {
+        "ro": "Doar pagina selectată",
+        "en": "Selected page only",
+        "ru": "Только выбранная страница"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_scope",
+      "translations": {
+        "ro": "Aplică pe",
+        "en": "Apply to",
+        "ru": "Разместить на"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_add",
+      "translations": {
+        "ro": "Adaugă ștampilă…",
+        "en": "Add stamp…",
+        "ru": "Добавить штамп…"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_edit",
+      "translations": {
+        "ro": "Editează ștampila…",
+        "en": "Edit stamp…",
+        "ru": "Изменить штамп…"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_options",
+      "translations": {
+        "ro": "Opțiuni ștampilă",
+        "en": "Stamp options",
+        "ru": "Параметры штампа"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_selected_page",
+      "translations": {
+        "ro": "Doar pagina selectată",
+        "en": "Selected page only",
+        "ru": "Только выбранная страница"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "stamp_scope",
+      "translations": {
+        "ro": "Aplică pe",
+        "en": "Apply to",
+        "ru": "Разместить на"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_add",
+      "translations": {
+        "ro": "Adaugă ștampilă…",
+        "en": "Add stamp…",
+        "ru": "Добавить штамп…"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_edit",
+      "translations": {
+        "ro": "Editează ștampila…",
+        "en": "Edit stamp…",
+        "ru": "Изменить штамп…"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_options",
+      "translations": {
+        "ro": "Opțiuni ștampilă",
+        "en": "Stamp options",
+        "ru": "Параметры штампа"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_selected_page",
+      "translations": {
+        "ro": "Doar pagina selectată",
+        "en": "Selected page only",
+        "ru": "Только выбранная страница"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_scope",
+      "translations": {
+        "ro": "Aplică pe",
+        "en": "Apply to",
+        "ru": "Разместить на"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Add",
+      "translations": {
+        "ro": "Adaugă ștampilă…",
+        "en": "Add stamp…",
+        "ru": "Добавить штамп…"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Edit",
+      "translations": {
+        "ro": "Editează ștampila…",
+        "en": "Edit stamp…",
+        "ru": "Изменить штамп…"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Options",
+      "translations": {
+        "ro": "Opțiuni ștampilă",
+        "en": "Stamp options",
+        "ru": "Параметры штампа"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_SelectedPage",
+      "translations": {
+        "ro": "Doar pagina selectată",
+        "en": "Selected page only",
+        "ru": "Только выбранная страница"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Stamp_Scope",
+      "translations": {
+        "ro": "Aplică pe",
+        "en": "Apply to",
+        "ru": "Разместить на"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_page_label",
+      "translations": {
+        "en": "Page",
+        "ro": "Pagina",
+        "ru": "Страница"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_one_page",
+      "translations": {
+        "en": "On one page",
+        "ro": "Pe o pagină",
+        "ru": "На одной странице"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_on_all_pages",
+      "translations": {
+        "en": "On all pages",
+        "ro": "Pe toate paginile",
+        "ru": "На всех страницах"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_previous_page",
+      "translations": {
+        "en": "Previous page",
+        "ro": "Pagina precedentă",
+        "ru": "Предыдущая страница"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_next_page",
+      "translations": {
+        "en": "Next page",
+        "ro": "Pagina următoare",
+        "ru": "Следующая страница"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_page_label",
+      "translations": {
+        "en": "Page",
+        "ro": "Pagina",
+        "ru": "Страница"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_one_page",
+      "translations": {
+        "en": "On one page",
+        "ro": "Pe o pagină",
+        "ru": "На одной странице"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_on_all_pages",
+      "translations": {
+        "en": "On all pages",
+        "ro": "Pe toate paginile",
+        "ru": "На всех страницах"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_previous_page",
+      "translations": {
+        "en": "Previous page",
+        "ro": "Pagina precedentă",
+        "ru": "Предыдущая страница"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_next_page",
+      "translations": {
+        "en": "Next page",
+        "ro": "Pagina următoare",
+        "ru": "Следующая страница"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_off",
+      "translations": {
+        "en": "Off",
+        "ro": "Oprit",
+        "ru": "Выкл."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_single",
+      "translations": {
+        "en": "One page",
+        "ro": "O pagină",
+        "ru": "Одна"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "stamp_every",
+      "translations": {
+        "en": "All pages",
+        "ro": "Toate",
+        "ru": "Все"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_off",
+      "translations": {
+        "en": "Off",
+        "ro": "Oprit",
+        "ru": "Выкл."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_single",
+      "translations": {
+        "en": "One page",
+        "ro": "O pagină",
+        "ru": "Одна"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "stamp_every",
+      "translations": {
+        "en": "All pages",
+        "ro": "Toate",
+        "ru": "Все"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "file_options",
+      "translations": {
+        "en": "File options",
+        "ro": "Opțiuni fișier",
+        "ru": "Параметры файла"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "file_signing_type",
+      "translations": {
+        "en": "Signing type",
+        "ro": "Tipul semnăturii",
+        "ru": "Тип подписи"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "file_stamp_off",
+      "translations": {
+        "en": "Stamp off",
+        "ro": "Fără ștampilă",
+        "ru": "Без штампа"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "file_stamp_all",
+      "translations": {
+        "en": "Stamp: all pages",
+        "ro": "Ștampilă: toate paginile",
+        "ru": "Штамп: все страницы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "file_stamp_page",
+      "translations": {
+        "en": "Stamp: page",
+        "ro": "Ștampilă: pagina",
+        "ru": "Штамп: страница"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "file_options",
+      "translations": {
+        "en": "File options",
+        "ro": "Opțiuni fișier",
+        "ru": "Параметры файла"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "file_signing_type",
+      "translations": {
+        "en": "Signing type",
+        "ro": "Tipul semnăturii",
+        "ru": "Тип подписи"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "file_stamp_off",
+      "translations": {
+        "en": "Stamp off",
+        "ro": "Fără ștampilă",
+        "ru": "Без штампа"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "file_stamp_all",
+      "translations": {
+        "en": "Stamp: all pages",
+        "ro": "Ștampilă: toate paginile",
+        "ru": "Штамп: все страницы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "file_stamp_page",
+      "translations": {
+        "en": "Stamp: page",
+        "ro": "Ștampilă: pagina",
+        "ru": "Штамп: страница"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "file_options",
+      "translations": {
+        "en": "File options",
+        "ro": "Opțiuni fișier",
+        "ru": "Параметры файла"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "file_signing_type",
+      "translations": {
+        "en": "Signing type",
+        "ro": "Tipul semnăturii",
+        "ru": "Тип подписи"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "file_stamp_off",
+      "translations": {
+        "en": "Stamp off",
+        "ro": "Fără ștampilă",
+        "ru": "Без штампа"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "file_stamp_all",
+      "translations": {
+        "en": "Stamp: all pages",
+        "ro": "Ștampilă: toate paginile",
+        "ru": "Штамп: все страницы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "file_stamp_page",
+      "translations": {
+        "en": "Stamp: page",
+        "ro": "Ștampilă: pagina",
+        "ru": "Штамп: страница"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_options",
+      "translations": {
+        "en": "File options",
+        "ro": "Opțiuni fișier",
+        "ru": "Параметры файла"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_signing_type",
+      "translations": {
+        "en": "Signing type",
+        "ro": "Tipul semnăturii",
+        "ru": "Тип подписи"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_stamp_off",
+      "translations": {
+        "en": "Stamp off",
+        "ro": "Fără ștampilă",
+        "ru": "Без штампа"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_stamp_all",
+      "translations": {
+        "en": "Stamp: all pages",
+        "ro": "Ștampilă: toate paginile",
+        "ru": "Штамп: все страницы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_stamp_page",
+      "translations": {
+        "en": "Stamp: page",
+        "ro": "Ștampilă: pagina",
+        "ru": "Штамп: страница"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "format_pdf",
+      "translations": {
+        "en": "PDF signature",
+        "ro": "Semnătură PDF",
+        "ru": "Подпись PDF"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "format_xml",
+      "translations": {
+        "en": "XML signature",
+        "ro": "Semnătură XML",
+        "ru": "Подпись XML"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "format_xml_time",
+      "translations": {
+        "en": "XML with timestamp",
+        "ro": "XML cu marcă temporală",
+        "ru": "XML с меткой времени"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "format_xml_data",
+      "translations": {
+        "en": "XML with validation data",
+        "ro": "XML cu date de validare",
+        "ru": "XML с данными проверки"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "file_remove",
+      "translations": {
+        "en": "Remove file",
+        "ro": "Elimină fișierul",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "format_pdf",
+      "translations": {
+        "en": "PDF signature",
+        "ro": "Semnătură PDF",
+        "ru": "Подпись PDF"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "format_xml",
+      "translations": {
+        "en": "XML signature",
+        "ro": "Semnătură XML",
+        "ru": "Подпись XML"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "format_xml_time",
+      "translations": {
+        "en": "XML with timestamp",
+        "ro": "XML cu marcă temporală",
+        "ru": "XML с меткой времени"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "format_xml_data",
+      "translations": {
+        "en": "XML with validation data",
+        "ro": "XML cu date de validare",
+        "ru": "XML с данными проверки"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "file_remove",
+      "translations": {
+        "en": "Remove file",
+        "ro": "Elimină fișierul",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "format_pdf",
+      "translations": {
+        "en": "PDF signature",
+        "ro": "Semnătură PDF",
+        "ru": "Подпись PDF"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "format_xml",
+      "translations": {
+        "en": "XML signature",
+        "ro": "Semnătură XML",
+        "ru": "Подпись XML"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "format_xml_time",
+      "translations": {
+        "en": "XML with timestamp",
+        "ro": "XML cu marcă temporală",
+        "ru": "XML с меткой времени"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "format_xml_data",
+      "translations": {
+        "en": "XML with validation data",
+        "ro": "XML cu date de validare",
+        "ru": "XML с данными проверки"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "file_remove",
+      "translations": {
+        "en": "Remove file",
+        "ro": "Elimină fișierul",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "format_pdf",
+      "translations": {
+        "en": "PDF signature",
+        "ro": "Semnătură PDF",
+        "ru": "Подпись PDF"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "format_xml",
+      "translations": {
+        "en": "XML signature",
+        "ro": "Semnătură XML",
+        "ru": "Подпись XML"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "format_xml_time",
+      "translations": {
+        "en": "XML with timestamp",
+        "ro": "XML cu marcă temporală",
+        "ru": "XML с меткой времени"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "format_xml_data",
+      "translations": {
+        "en": "XML with validation data",
+        "ro": "XML cu date de validare",
+        "ru": "XML с данными проверки"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "file_remove",
+      "translations": {
+        "en": "Remove file",
+        "ro": "Elimină fișierul",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "format_pdf_time",
+      "translations": {
+        "ro": "PDF cu marcă temporală",
+        "en": "PDF with timestamp",
+        "ru": "PDF с отметкой времени"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "format_pdf_time",
+      "translations": {
+        "ro": "PDF cu marcă temporală",
+        "en": "PDF with timestamp",
+        "ru": "PDF с отметкой времени"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "format_pdf_time",
+      "translations": {
+        "ro": "PDF cu marcă temporală",
+        "en": "PDF with timestamp",
+        "ru": "PDF с отметкой времени"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "format_pdf_time",
+      "translations": {
+        "ro": "PDF cu marcă temporală",
+        "en": "PDF with timestamp",
+        "ru": "PDF с отметкой времени"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_files",
+      "translations": {
+        "ro": "fișiere",
+        "en": "files",
+        "ru": "файлов"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_expand",
+      "translations": {
+        "ro": "Arată fișierele",
+        "en": "Show files",
+        "ru": "Показать файлы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_collapse",
+      "translations": {
+        "ro": "Restrânge grupul",
+        "en": "Collapse stack",
+        "ru": "Свернуть группу"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_options",
+      "translations": {
+        "ro": "Setări pentru grup",
+        "en": "Group settings",
+        "ru": "Настройки группы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_mixed",
+      "translations": {
+        "ro": "Setări diferite",
+        "en": "Mixed settings",
+        "ru": "Разные настройки"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_stamp",
+      "translations": {
+        "ro": "Ștampilă pentru toate PDF-urile",
+        "en": "Stamp for all PDFs",
+        "ru": "Штамп для всех PDF"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_automatic",
+      "translations": {
+        "ro": "Format potrivit fiecărui fișier",
+        "en": "Best format for each file",
+        "ru": "Формат для каждого файла"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_files",
+      "translations": {
+        "ro": "fișiere",
+        "en": "files",
+        "ru": "файлов"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_expand",
+      "translations": {
+        "ro": "Arată fișierele",
+        "en": "Show files",
+        "ru": "Показать файлы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_collapse",
+      "translations": {
+        "ro": "Restrânge grupul",
+        "en": "Collapse stack",
+        "ru": "Свернуть группу"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_options",
+      "translations": {
+        "ro": "Setări pentru grup",
+        "en": "Group settings",
+        "ru": "Настройки группы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_mixed",
+      "translations": {
+        "ro": "Setări diferite",
+        "en": "Mixed settings",
+        "ru": "Разные настройки"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_stamp",
+      "translations": {
+        "ro": "Ștampilă pentru toate PDF-urile",
+        "en": "Stamp for all PDFs",
+        "ru": "Штамп для всех PDF"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_automatic",
+      "translations": {
+        "ro": "Format potrivit fiecărui fișier",
+        "en": "Best format for each file",
+        "ru": "Формат для каждого файла"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "batch_remove",
+      "translations": {
+        "ro": "Elimină grupul",
+        "en": "Remove group",
+        "ru": "Убрать группу"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "batch_remove",
+      "translations": {
+        "ro": "Elimină grupul",
+        "en": "Remove group",
+        "ru": "Убрать группу"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_title",
+      "translations": {
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_signed",
+      "translations": {
+        "ro": "Documente semnate",
+        "en": "Signed documents",
+        "ru": "Подписанные документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_history",
+      "translations": {
+        "ro": "Istoric",
+        "en": "History",
+        "ru": "История"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_empty",
+      "translations": {
+        "ro": "Niciun document semnat încă",
+        "en": "No signed documents yet",
+        "ru": "Пока нет подписанных документов"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_hint",
+      "translations": {
+        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
+        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
+        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_browse",
+      "translations": {
+        "ro": "Vezi documentele semnate",
+        "en": "View signed documents",
+        "ru": "Посмотреть подписанные документы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_title",
+      "translations": {
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_signed",
+      "translations": {
+        "ro": "Documente semnate",
+        "en": "Signed documents",
+        "ru": "Подписанные документы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_history",
+      "translations": {
+        "ro": "Istoric",
+        "en": "History",
+        "ru": "История"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_empty",
+      "translations": {
+        "ro": "Niciun document semnat încă",
+        "en": "No signed documents yet",
+        "ru": "Пока нет подписанных документов"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_hint",
+      "translations": {
+        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
+        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
+        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_browse",
+      "translations": {
+        "ro": "Vezi documentele semnate",
+        "en": "View signed documents",
+        "ru": "Посмотреть подписанные документы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_title",
+      "translations": {
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_signed",
+      "translations": {
+        "ro": "Documente semnate",
+        "en": "Signed documents",
+        "ru": "Подписанные документы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_history",
+      "translations": {
+        "ro": "Istoric",
+        "en": "History",
+        "ru": "История"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_empty",
+      "translations": {
+        "ro": "Niciun document semnat încă",
+        "en": "No signed documents yet",
+        "ru": "Пока нет подписанных документов"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_hint",
+      "translations": {
+        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
+        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
+        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_browse",
+      "translations": {
+        "ro": "Vezi documentele semnate",
+        "en": "View signed documents",
+        "ru": "Посмотреть подписанные документы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_title",
+      "translations": {
+        "ro": "Documente",
+        "en": "Documents",
+        "ru": "Документы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_signed",
+      "translations": {
+        "ro": "Documente semnate",
+        "en": "Signed documents",
+        "ru": "Подписанные документы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_history",
+      "translations": {
+        "ro": "Istoric",
+        "en": "History",
+        "ru": "История"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_empty",
+      "translations": {
+        "ro": "Niciun document semnat încă",
+        "en": "No signed documents yet",
+        "ru": "Пока нет подписанных документов"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_hint",
+      "translations": {
+        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
+        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
+        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_browse",
+      "translations": {
+        "ro": "Vezi documentele semnate",
+        "en": "View signed documents",
+        "ru": "Посмотреть подписанные документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "results_clear",
+      "translations": {
+        "ro": "Ascunde rezultatele",
+        "en": "Clear results",
+        "ru": "Скрыть результаты"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "results_hint",
+      "translations": {
+        "ro": "Fișierele rămân disponibile în Documente.",
+        "en": "Your files remain available in Documents.",
+        "ru": "Файлы остаются доступны в разделе «Документы»."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "results_documents",
+      "translations": {
+        "ro": "Vezi în Documente",
+        "en": "View in Documents",
+        "ru": "Открыть в «Документах»"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "results_clear",
+      "translations": {
+        "ro": "Ascunde rezultatele",
+        "en": "Clear results",
+        "ru": "Скрыть результаты"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "results_hint",
+      "translations": {
+        "ro": "Fișierele rămân disponibile în Documente.",
+        "en": "Your files remain available in Documents.",
+        "ru": "Файлы остаются доступны в разделе «Документы»."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "results_documents",
+      "translations": {
+        "ro": "Vezi în Documente",
+        "en": "View in Documents",
+        "ru": "Открыть в «Документах»"
+      }
     }
   ],
   "storeMetadata": {
@@ -9365,7 +10895,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "Prima versiune eSemnBun.\n• Semnează PDF-uri și alte documente cu buletinul electronic moldovenesc și un cititor compatibil.\n• Autorizează un lot o singură dată și verifică semnături.\n• Alege cardul conectat și consultă certificatul.\n• Accesează servicii publice compatibile în browserul integrat.\n• Salvează și distribuie fișiere, gestionează PIN-urile salvate și alege tema deschisă sau întunecată.\n• Disponibil în română, engleză și rusă.",
+      "releaseNotes": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -9381,8 +10911,10 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete.",
-        "macos": "Vezi autorii semnăturilor și detaliile certificatelor, verifică mai multe documente și șterge rezultatele verificării. Îmbunătățiri la semnarea în lot, glisarea fișierelor și interfața pentru tablete."
+        "ios": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
+        "macos": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
+        "android": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
+        "windows": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă."
       }
     },
     "en": {
@@ -9391,7 +10923,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "First release of eSemnBun.\n• Sign PDFs and other documents with your Moldovan electronic ID and a compatible reader.\n• Authorize a document batch once and verify signatures.\n• Choose between connected cards and inspect certificate details.\n• Access compatible public services in the built-in browser.\n• Save and share signed files, manage saved PINs, and choose light or dark appearance.\n• Available in Romanian, English and Russian.",
+      "releaseNotes": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -9407,8 +10939,10 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "View signature authors and certificate details, verify several documents, and clear verification results. Improved batch signing, file drag and drop, and tablet layouts.",
-        "macos": "View signature authors and certificate details, verify several documents, and clear verification results. Improved batch signing, file drag and drop, and tablet layouts."
+        "ios": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
+        "macos": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
+        "android": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
+        "windows": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations."
       }
     },
     "ru": {
@@ -9417,7 +10951,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "Первый выпуск eSemnBun.\n• Подписывайте PDF и другие документы с молдавским электронным удостоверением и совместимым считывателем.\n• Подтверждайте пакет документов один раз и проверяйте подписи.\n• Выбирайте подключённую карту и просматривайте сертификат.\n• Открывайте совместимые государственные сервисы во встроенном браузере.\n• Сохраняйте и отправляйте файлы, управляйте сохранёнными PIN и выбирайте светлую или тёмную тему.\n• Доступны румынский, английский и русский языки.",
+      "releaseNotes": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -9433,8 +10967,10 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "Просмотр авторов подписей и сведений о сертификатах, проверка нескольких документов и очистка результатов проверки. Улучшены пакетное подписание, перетаскивание файлов и интерфейс планшетов.",
-        "macos": "Просмотр авторов подписей и сведений о сертификатах, проверка нескольких документов и очистка результатов проверки. Улучшены пакетное подписание, перетаскивание файлов и интерфейс планшетов."
+        "ios": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
+        "macos": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
+        "android": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
+        "windows": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский."
       }
     }
   },

@@ -16,12 +16,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Grid>
+        <StackPanel Spacing="12"><Grid>
             <TextBlock
                 x:Uid="ActivityPageTitle"
                 VerticalAlignment="Center"
                 Style="{StaticResource MsTitleTextStyle}"
-                Text="Activitate" />
+                Text="Documente" />
             <Button
                 x:Name="ClearButton"
                 HorizontalAlignment="Right"
@@ -34,6 +34,11 @@
                 </StackPanel>
             </Button>
         </Grid>
+            <ComboBox x:Name="DocumentFilter" SelectionChanged="OnFilterChanged" SelectedIndex="0" HorizontalAlignment="Stretch">
+                <ComboBoxItem x:Name="SignedFilter" />
+                <ComboBoxItem x:Name="HistoryFilter" />
+            </ComboBox>
+        </StackPanel>
 
         <ListView
             x:Uid="ActivityList"
@@ -41,7 +46,7 @@
             AutomationProperties.Name="Activitate"
             IsItemClickEnabled="True"
             ItemClick="OnItemClick"
-            ItemsSource="{x:Bind State.Activity}"
+            x:Name="DocumentList"
             SelectionMode="None">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="services:ActivityItem">
@@ -54,7 +59,9 @@
                         <FontIcon VerticalAlignment="Center" Glyph="{x:Bind Glyph}" />
                         <StackPanel Grid.Column="1">
                             <TextBlock Text="{x:Bind FileName}" TextTrimming="CharacterEllipsis" />
-                            <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind Action}" />
+                            <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind ActionLabel}" />
+                            <Button Content="{x:Bind VerifyLabel}" IsEnabled="{x:Bind CanVerify}" Click="OnVerifyClick" Margin="0,4,0,0" />
+                            <TextBlock Text="{x:Bind OpenLabel}" Foreground="{ThemeResource BrandBrush}" FontSize="12" />
                         </StackPanel>
                         <TextBlock
                             Grid.Column="2"
@@ -67,12 +74,12 @@
         </ListView>
 
         <TextBlock
-            x:Uid="RecentEmpty"
+            x:Name="EmptyMessage"
             Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Style="{StaticResource MsCaptionTextStyle}"
             Text="Nicio activitate încă"
-            Visibility="{x:Bind State.ActivityEmptyVisibility, Mode=OneWay}" />
+            TextWrapping="Wrap" MaxWidth="480" />
     </Grid>
 </Page>

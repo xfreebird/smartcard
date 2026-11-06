@@ -52,6 +52,29 @@ public sealed class BridgeHost(
     private CancellationTokenSource? _shutdown;
     private X509Certificate2Collection? _identity;
 
+    public Func<bool>? PreviewPdfEnabled { get; set; }
+    public Func<byte[], CardEntry, string, CancellationToken, Task<PdfStampPlacement?>>? PreviewPdf { get; set; }
+    private sealed record StampSession(string Origin, string Certificate, PdfStampPlacement? Placement, DateTimeOffset Created);
+    private readonly ConcurrentDictionary<string, StampSession> _stamps = new();
+    private async Task<PdfStampPlacement?> StampAsync(Job job, byte[] data, CancellationToken token)
+    {
+        if (PreviewPdf is not { } preview) return null;
+        if (!(PreviewPdfEnabled?.Invoke() ?? true)) { _stamps.TryRemove(job.Batch ?? job.Id, out _); return null; }
+        foreach (var key in _stamps.Where(e => DateTimeOffset.UtcNow - e.Value.Created > TimeSpan.FromMinutes(5)).Select(e => e.Key).ToArray()) _stamps.TryRemove(key, out _);
+        var batch = job.Batch ?? job.Id;
+        PdfStampPlacement? placement;
+        if (_stamps.TryGetValue(batch, out var cached) && cached.Origin == job.Origin && cached.Certificate == job.Card.Certificate.Sha1 && (cached.Placement is null || cached.Placement.CanApplyTo(data)))
+        {
+            placement = cached.Placement; _stamps[batch] = cached with { Created = DateTimeOffset.UtcNow };
+        }
+        else
+        {
+            placement = await preview(data, job.Card, job.Origin, token);
+            _stamps[batch] = new StampSession(job.Origin, job.Card.Certificate.Sha1, placement, DateTimeOffset.UtcNow);
+        }
+        return placement is null ? null : placement with { DocumentSHA256 = Convert.ToHexString(SHA256.HashData(data)) };
+    }
+
     public event EventHandler<BridgeOutcome>? Completed;
     public event EventHandler? SigningStarted;
     public bool AllowsLegacyDesktopClient { get; set; } = allowsLegacyDesktopClient;
@@ -134,6 +157,7 @@ public sealed class BridgeHost(
                 session.Completion.TrySetResult(new Result(null, "Browser connection stopped"));
             _sessions.Clear();
             _pins.Clear();
+            _stamps.Clear();
             try { await app.StopAsync(TimeSpan.FromSeconds(5)); }
             finally
             {
@@ -261,7 +285,7 @@ public sealed class BridgeHost(
             files = json.RootElement.TryGetProperty("filesToSign", out var list) && list.ValueKind == JsonValueKind.Array
                 ? list.EnumerateArray().Select(e => e.GetString() ?? "").ToList() : [];
             if (fields.TryGetValue("signatureFile", out var signature) && !string.IsNullOrEmpty(signature))
-                throw new InvalidDataException("Adding a signature to an existing XAdES is not supported");
+                throw new InvalidDataException("Adding a signature to an existing XML signature is not supported");
         }
         string? Field(string name) => fields.GetValueOrDefault(name);
         var pdf = context.Request.Path == "/sign/pdf";
@@ -413,6 +437,8 @@ public sealed class BridgeHost(
                                 return ConsentResult.Cancelled;
                             return decision;
                         }
+                        if (fileRequest.Pdf && PreviewPdf is not null)
+                            fileRequest = fileRequest with { Stamp = await StampAsync(job, await File.ReadAllBytesAsync(fileRequest.Files.Single(), token), token) };
                         var path = _fileSigner.Sign(fileRequest, job.Card, Approved);
                         var payload = fileRequest.Pdf ? JsonSerializer.Serialize(new { path }) :
                             JsonSerializer.Serialize(new { fileLocation = path, signatures = Array.Empty<object>() });
@@ -420,7 +446,12 @@ public sealed class BridgeHost(
                             payload = new XElement("XadesSignatureModelContainer", new XElement("fileLocation", path), new XElement("signatures")).ToString(SaveOptions.DisableFormatting);
                         result = new Result(null, null, payload, fileRequest.XmlResponse && !fileRequest.Pdf ? "application/xml" : "application/json");
                     }
-                    else result = new Result(Convert.ToBase64String(Sign(job, Authorize)), null);
+                    else
+                    {
+                        var isPdf = job.Document.ContentType.Equals("Pdf", StringComparison.OrdinalIgnoreCase) || job.Document.ContentType.Equals("application/pdf", StringComparison.OrdinalIgnoreCase);
+                        var placement = isPdf ? await StampAsync(job, job.Document.Bytes, token) : null;
+                        result = new Result(Convert.ToBase64String(Sign(job, Authorize, placement)), null);
+                    }
                     if (!token.IsCancellationRequested && accepted is { IsCancelled: false })
                         _pins[job.Id] = new PinSession(job.Origin, job.Card.Certificate.Sha1, accepted, DateTimeOffset.UtcNow);
                     session.Completion.TrySetResult(result);
@@ -439,7 +470,7 @@ public sealed class BridgeHost(
         catch (OperationCanceledException) when (token.IsCancellationRequested) { }
     }
 
-    private byte[] Sign(Job job, ConsentProvider authorize)
+    private byte[] Sign(Job job, ConsentProvider authorize, PdfStampPlacement? placement = null)
     {
         var dir = Directory.CreateTempSubdirectory("MoldSign-");
         try
@@ -451,7 +482,7 @@ public sealed class BridgeHost(
             File.WriteAllBytes(input, job.Document.Bytes);
             var requester = Uri.TryCreate(job.Origin, UriKind.Absolute, out var uri) ? uri.Host : "localhost";
             if (pdf)
-                signing.SignPdf(input, output, authorize, requester, job.Card.Reader, job.Card.Certificate.Sha1);
+                signing.SignPdf(input, output, authorize, requester, job.Card.Reader, job.Card.Certificate.Sha1, placement);
             else
             {
                 var format = job.Document.Format switch

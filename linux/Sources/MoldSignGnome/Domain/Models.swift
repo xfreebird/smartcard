@@ -107,10 +107,10 @@ enum SignFormat: String, CaseIterable, Codable {
 
     var label: String {
         switch self {
-        case .padesT: return "PAdES-T"
-        case .xadesBES: return "XAdES-BES"
-        case .xadesT: return "XAdES-T"
-        case .xadesC: return "XAdES-C"
+        case .padesT: return L10n.text(.format_pdf)
+        case .xadesBES: return L10n.text(.format_xml)
+        case .xadesT: return L10n.text(.format_xml_time)
+        case .xadesC: return L10n.text(.format_xml_data)
         }
     }
 
@@ -141,6 +141,7 @@ struct SignItem: Equatable {
     let id = UUID()
     let url: URL
     var format: SignFormat
+    var stamp: PDFStampPlacement?
     var error: String?
 
     init(url: URL) {

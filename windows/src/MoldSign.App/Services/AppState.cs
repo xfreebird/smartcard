@@ -14,8 +14,12 @@ namespace MoldSign.App.Services;
 /// ActivityRow: status, file, action ("Semnat" / "Verificat" / "Cerere msign.gov.md"), time, path. File entries carry
 /// the document's <see cref="Path"/> (shown only while that file exists); browser requests have none.
 /// </summary>
-public sealed record ActivityItem(string FileName, string Action, DateTimeOffset When, bool Success, string? Path)
+public sealed record ActivityItem(string FileName, string Action, DateTimeOffset When, bool Success, string? Path, bool? SignedOutput = null)
 {
+    public string ActionLabel => SignatureLabels.Human(Action);
+    public bool CanVerify => Path is not null;
+    public string VerifyLabel => Loc.Get("NavVerify.Content");
+    public string OpenLabel => Path is null ? "" : Loc.Get("File_ShowInFolder");
     [JsonIgnore]
     public string Glyph => Success ? "\uE73E" : "\uE783"; // CheckMark / Error
 

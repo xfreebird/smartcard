@@ -137,10 +137,10 @@
   <data name="Step_Done" xml:space="preserve"><value>Done</value></data>
   <data name="DropTitle.Text" xml:space="preserve"><value>Drop documents here</value></data>
   <data name="DropBrowse.Content" xml:space="preserve"><value>Choose files…</value></data>
-  <data name="DropHint.Text" xml:space="preserve"><value>PDF → PAdES · others → XAdES</value></data>
+  <data name="DropHint.Text" xml:space="preserve"><value>PDF signature · XML signature for other files</value></data>
   <data name="NavSign.Content" xml:space="preserve"><value>Sign</value></data>
   <data name="NavVerify.Content" xml:space="preserve"><value>Verify</value></data>
-  <data name="NavActivity.Content" xml:space="preserve"><value>Activity</value></data>
+  <data name="NavActivity.Content" xml:space="preserve"><value>Documents</value></data>
   <data name="NavCard.Content" xml:space="preserve"><value>Card</value></data>
   <data name="FlyoutSign.Content" xml:space="preserve"><value>Sign…</value></data>
   <data name="FlyoutVerify.Content" xml:space="preserve"><value>Verify…</value></data>
@@ -151,12 +151,12 @@
   <data name="TrayQuit.Content" xml:space="preserve"><value>Quit</value></data>
   <data name="SignPageTitle.Text" xml:space="preserve"><value>Sign</value></data>
   <data name="SignAdvanced.Header" xml:space="preserve"><value>Advanced options</value></data>
-  <data name="SignPdfFormat.Text" xml:space="preserve"><value>PDF → PAdES-T (required by msign.gov.md); XAdES writes a separate .xml file</value></data>
-  <data name="SignPackaging.Header" xml:space="preserve"><value>XAdES packaging</value></data>
+  <data name="SignPdfFormat.Text" xml:space="preserve"><value>PDF signature · XML signature for other files</value></data>
+  <data name="SignPackaging.Header" xml:space="preserve"><value>XML signature file</value></data>
   <data name="SignAlgorithm.Text" xml:space="preserve"><value>Algorithm: SHA-256</value></data>
   <data name="VerifyPageTitle.Text" xml:space="preserve"><value>Verify</value></data>
-  <data name="VerifyHint.Text" xml:space="preserve"><value>Signed PDF (PAdES) or .xml signature (XAdES); for a detached signature, also choose the signed files.</value></data>
-  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Activity</value></data>
+  <data name="VerifyHint.Text" xml:space="preserve"><value>Choose a signed PDF or an XML signature. For a separate signature, also add the original documents.</value></data>
+  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Documents</value></data>
   <data name="CardPageTitle.Text" xml:space="preserve"><value>Card</value></data>
   <data name="CardIssuer.Text" xml:space="preserve"><value>Issuer</value></data>
   <data name="CardValidity.Text" xml:space="preserve"><value>Valid</value></data>
@@ -269,4 +269,38 @@
   <data name="Onboarding_Choices" xml:space="preserve"><value>Make it yours</value></data>
   <data name="Onboarding_StartupDetail" xml:space="preserve"><value>Start in the background when you sign in.</value></data>
   <data name="Settings_StartupPolicy" xml:space="preserve"><value>This startup option is controlled by Windows policy.</value></data>
+  <data name="Stamp_Title" xml:space="preserve"><value>Visible stamp</value></data>
+  <data name="Stamp_Visible" xml:space="preserve"><value>Show stamp in PDF</value></data>
+  <data name="Stamp_AllPages" xml:space="preserve"><value>All pages</value></data>
+  <data name="Stamp_MoveHint" xml:space="preserve"><value>Drag the stamp to move it. Drag a corner to resize.</value></data>
+  <data name="Stamp_Size" xml:space="preserve"><value>Size</value></data>
+  <data name="Stamp_Preview" xml:space="preserve"><value>Digital signature
+eSemnBun</value></data>
+  <data name="Stamp_Save" xml:space="preserve"><value>Apply</value></data>
+  <data name="Stamp_Unavailable" xml:space="preserve"><value>The PDF preview is unavailable.</value></data>
+  <data name="Stamp_Queue" xml:space="preserve"><value>Apply to all queued PDFs</value></data>
+  <data name="Stamp_Browser" xml:space="preserve"><value>Visible stamps for website signing</value></data>
+  <data name="Stamp_BatchHint" xml:space="preserve"><value>Optional. Choose a position once per batch; reuse it for the remaining PDFs.</value></data>
+  <data name="Stamp_Add" xml:space="preserve"><value>Add stamp…</value></data>
+  <data name="Stamp_Edit" xml:space="preserve"><value>Edit stamp…</value></data>
+  <data name="Stamp_Options" xml:space="preserve"><value>Stamp options</value></data>
+  <data name="Stamp_SelectedPage" xml:space="preserve"><value>Selected page only</value></data>
+  <data name="Stamp_Scope" xml:space="preserve"><value>Apply to</value></data>
+  <data name="file_options" xml:space="preserve"><value>File options</value></data>
+  <data name="file_signing_type" xml:space="preserve"><value>Signing type</value></data>
+  <data name="file_stamp_off" xml:space="preserve"><value>Stamp off</value></data>
+  <data name="file_stamp_all" xml:space="preserve"><value>Stamp: all pages</value></data>
+  <data name="file_stamp_page" xml:space="preserve"><value>Stamp: page</value></data>
+  <data name="format_pdf" xml:space="preserve"><value>PDF signature</value></data>
+  <data name="format_xml" xml:space="preserve"><value>XML signature</value></data>
+  <data name="format_xml_time" xml:space="preserve"><value>XML with timestamp</value></data>
+  <data name="format_xml_data" xml:space="preserve"><value>XML with validation data</value></data>
+  <data name="file_remove" xml:space="preserve"><value>Remove file</value></data>
+  <data name="format_pdf_time" xml:space="preserve"><value>PDF with timestamp</value></data>
+  <data name="saved_title" xml:space="preserve"><value>Documents</value></data>
+  <data name="saved_signed" xml:space="preserve"><value>Signed documents</value></data>
+  <data name="saved_history" xml:space="preserve"><value>History</value></data>
+  <data name="saved_empty" xml:space="preserve"><value>No signed documents yet</value></data>
+  <data name="saved_hint" xml:space="preserve"><value>Documents signed in the app appear here. For website requests, download the result from that website.</value></data>
+  <data name="saved_browse" xml:space="preserve"><value>View signed documents</value></data>
 </root>

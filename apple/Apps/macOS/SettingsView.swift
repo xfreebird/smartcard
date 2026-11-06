@@ -87,7 +87,7 @@ private struct GeneralSettings: View {
                     }
                 }
             if let launchError { Text(launchError).font(.caption).foregroundStyle(Theme.danger) }
-            LabeledContent(L10n.text(.ui_pdf_format), value: "PAdES-T")
+            LabeledContent(L10n.text(.ui_pdf_format), value: L10n.text(.format_pdf_time))
             LabeledContent(L10n.text(.ui_other_files), value: L10n.text(.ui_xades_t_detached))
             LabeledContent(L10n.text(.ui_saving), value: L10n.text(AppDistribution.writesBesideInput
                 ? .ui_beside_the_original_semnat_without_overwriting : .store_output_location))
@@ -100,6 +100,7 @@ private struct GeneralSettings: View {
 }
 
 private struct BridgeSettings: View {
+    @AppStorage("browserStampsEnabled", store: AppPreferencesStore.defaults) private var browserStamps = false
     @AppStorage("legacyDesktopClientEnabled", store: AppPreferencesStore.defaults) private var legacyDesktop = false
     @Environment(AppModel.self) private var model
     #if !APP_STORE
@@ -113,6 +114,8 @@ private struct BridgeSettings: View {
         @Bindable var model = model
         Form {
             Toggle(L10n.text(.ui_respond_to_signing_requests_from_the_browser), isOn: $model.bridgeEnabled)
+            Toggle(L10n.text(.stamp_browser), isOn: $browserStamps)
+            Text(L10n.text(.stamp_batch_hint)).font(.caption).foregroundStyle(.secondary)
             #if !APP_STORE
             Toggle(L10n.text(.vendor_desktop_access), isOn: $legacyDesktop)
                 .onChange(of: legacyDesktop) { _, _ in retryBridge() }

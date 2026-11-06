@@ -81,7 +81,7 @@ internal sealed partial class PinWindow : Window
         {
             documentDetails.Children.Add(new TextBlock
             {
-                Text = line, TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center,
+                Text = SignatureLabels.Human(line), TextWrapping = TextWrapping.Wrap, TextAlignment = TextAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center, Opacity = 0.75,
             });
         }

@@ -182,7 +182,7 @@ jobs:
         run: |
           apt-get update
           apt-get install -y --no-install-recommends pkg-config libpcsclite-dev libssl-dev \
-            libadwaita-1-dev libgtk-4-dev libsecret-1-dev \
+            libpoppler-glib-dev libadwaita-1-dev libgtk-4-dev libsecret-1-dev \
             dpkg-dev debhelper rpm binutils desktop-file-utils appstream cmake libcurl4-openssl-dev curl ca-certificates
       - name: Packages
         env:
@@ -286,7 +286,21 @@ jobs:
           msstore reconfigure --tenantId $env:MSSTORE_TENANT_ID --sellerId $env:MSSTORE_SELLER_ID `
             --clientId $env:MSSTORE_CLIENT_ID --clientSecret $env:MSSTORE_CLIENT_SECRET
           $msix = Get-ChildItem dist/windows/*.msix | Select-Object -First 1
-          msstore publish $msix.FullName --appId 9PDPR6RNT42S
+          msstore publish $msix.FullName --appId 9PDPR6RNT42S --noCommit
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $submissionJson = msstore submission get 9PDPR6RNT42S --output-stream stderr
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $submission = $submissionJson | ConvertFrom-Json
+          $catalog = Get-Content localization/catalog.json -Raw | ConvertFrom-Json
+          foreach ($listing in $submission.Listings.PSObject.Properties) {
+            $language = $listing.Name.Split('-')[0].ToLowerInvariant()
+            if ($language -eq 'en') { $language = 'en' }
+            $notes = $catalog.storeMetadata.$language.releaseNotesByPlatform.windows
+            if ($notes) { $listing.Value.BaseListing.ReleaseNotes = $notes }
+          }
+          msstore submission update 9PDPR6RNT42S ($submission | ConvertTo-Json -Depth 100 -Compress)
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          msstore submission publish 9PDPR6RNT42S
 
   release:
     name: GitHub Release

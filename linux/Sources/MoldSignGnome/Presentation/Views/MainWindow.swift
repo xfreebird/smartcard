@@ -49,11 +49,17 @@ final class MainWindow {
         let pages: [(Widget, String, String, String)] = [
             (signPage.root, "sign", L10n.text(.ui_sign), "document-edit-symbolic"),
             (verifyPage.root, "verify", L10n.text(.ui_verify), "security-high-symbolic"),
-            (activityPage.root, "activity", L10n.text(.ui_activity), "document-open-recent-symbolic"),
+            (activityPage.root, "activity", L10n.text(.ui_activity), "folder-documents-symbolic"),
             (cardPage.root, "card", L10n.text(.ui_card), "auth-smartcard-symbolic"),
         ]
         for (widget, name, title, icon) in pages {
             adw_view_stack_add_titled_with_icon(stack, widget, name, title, icon)
+        }
+
+        let documentStack = stack
+        activityPage.onVerify = { path in
+            adw_view_stack_set_visible_child_name(documentStack, "verify")
+            controller.verify(paths: [path])
         }
 
         // Header bar + switchers

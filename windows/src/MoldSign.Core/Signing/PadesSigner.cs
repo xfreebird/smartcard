@@ -24,10 +24,13 @@ public sealed class PadesSigner
     /// returns the card's 512-byte RSA signature; it is where consent + VERIFY happen.
     /// Mirrors Swift <c>PAdESSigner.signPDF(_:certDER:tsaUnsignedAttr:signBlock:)</c>.
     /// </summary>
-    public byte[] Sign(byte[] pdf, byte[] certificateDer, Func<byte[], byte[]> signDigestInfo)
+    public byte[] Sign(byte[] pdf, byte[] certificateDer, Func<byte[], byte[]> signDigestInfo, PdfStampPlacement? placement = null)
     {
         ArgumentNullException.ThrowIfNull(pdf);
         ArgumentNullException.ThrowIfNull(signDigestInfo);
+        if (placement?.DocumentSHA256 is { } expected && !string.Equals(expected, Convert.ToHexString(SHA256.HashData(pdf)), StringComparison.OrdinalIgnoreCase))
+            throw Format("The PDF changed after stamp placement. Open the preview again");
+        var signingDate = DateTimeOffset.Now;
         var text = Encoding.Latin1.GetString(pdf);
         if (!text.StartsWith("%PDF-", StringComparison.Ordinal)) throw Format("Not a PDF");
         if (Regex.IsMatch(text, @"/Encrypt\b")) throw Format("Encrypted PDFs are not supported");
@@ -53,7 +56,7 @@ public sealed class PadesSigner
         const int reserve = 37960;
         const string dummy = "/ByteRange [0 0000000000 0000000000 0000000000 ]";
         var chunks = new List<(int Number, string Body)>();
-        var date = DateTimeOffset.UtcNow.ToString("'D:'yyyyMMddHHmmss'Z'", CultureInfo.InvariantCulture);
+        var date = signingDate.UtcDateTime.ToString("'D:'yyyyMMddHHmmss'Z'", CultureInfo.InvariantCulture);
         chunks.Add((sig, $"<< /Type/Sig /Filter/Adobe.PPKLite /SubFilter/ETSI.CAdES.detached {dummy} " +
             $"/Contents<{new string('0', reserve)}> /M({date}) /Reason(MoldSign Signature) /Location(Moldova) " +
             "/ContactInfo() /Prop_Build<</App<</Name/>>>> >>"));
@@ -102,6 +105,14 @@ public sealed class PadesSigner
                 catalog = Insert(catalog, "/Extensions<</ESIC<</BaseVersion/1.7/ExtensionLevel 2>>>>");
             chunks.Add((root, catalog));
         }
+        var nextObject = max + 4;
+        if (placement is not null)
+        {
+            var visible = StampPdf.Create(text, catalog, field, sig, nextObject, $"Signature{next}", placement,
+                CertificateSummary.FromDer(certificateDer).CommonName, signingDate);
+            chunks.RemoveAll(c => c.Number == field);
+            chunks.Add((field, visible.Field)); chunks.AddRange(visible.Chunks); nextObject = visible.Next;
+        }
         var append = new StringBuilder("\n");
         var offsets = new List<(int Number, long Offset)>();
         foreach (var (number, body) in chunks)
@@ -115,7 +126,7 @@ public sealed class PadesSigner
             append.Append(CultureInfo.InvariantCulture, $"{number} 1\n{offset:D10} 00000 n \n");
         var ids = Regex.Matches(text, @"/ID\s*\[\s*<[0-9A-Fa-f]+>\s*<[0-9A-Fa-f]+>\s*\]");
         var infos = Regex.Matches(text, @"/Info\s+\d+\s+\d+\s+R\b");
-        append.Append(CultureInfo.InvariantCulture, $"trailer\n<</Size {max + 4} /Root {root} 0 R /Prev {previousXref} ");
+        append.Append(CultureInfo.InvariantCulture, $"trailer\n<</Size {nextObject} /Root {root} 0 R /Prev {previousXref} ");
         if (ids.Count > 0) append.Append(ids[^1].Value);
         if (infos.Count > 0) append.Append(' ').Append(infos[^1].Value);
         append.Append(CultureInfo.InvariantCulture, $">>\nstartxref\n{xref}\n%%EOF\n");
@@ -132,19 +143,19 @@ public sealed class PadesSigner
         using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
         hash.AppendData(result.AsSpan(0, hexStart - 1));
         hash.AppendData(result.AsSpan(hexEnd + 1));
-        var cms = BuildCms(hash.GetHashAndReset(), certificateDer, signDigestInfo);
+        var cms = BuildCms(hash.GetHashAndReset(), certificateDer, signDigestInfo, signingDate);
         var hex = Convert.ToHexString(cms).ToLowerInvariant();
         if (hex.Length > reserve) throw Format("CMS exceeds the reserved signature size");
         Encoding.ASCII.GetBytes(hex).CopyTo(result, hexStart);
         return result;
     }
 
-    internal byte[] BuildCms(byte[] contentDigest, byte[] certificateDer, Func<byte[], byte[]> signer)
+    internal byte[] BuildCms(byte[] contentDigest, byte[] certificateDer, Func<byte[], byte[]> signer, DateTimeOffset? signingDate = null)
     {
         var (issuer, serial) = SigningAsn.IssuerSerial(certificateDer);
         var attrs = SigningAsn.Set(
             SigningAsn.Attribute("1.2.840.113549.1.9.3", SigningAsn.Oid(SigningAsn.DataOid)),
-            SigningAsn.Attribute("1.2.840.113549.1.9.5", SigningAsn.Encode(w => w.WriteUtcTime(DateTimeOffset.UtcNow))),
+            SigningAsn.Attribute("1.2.840.113549.1.9.5", SigningAsn.Encode(w => w.WriteUtcTime(signingDate ?? DateTimeOffset.UtcNow))),
             SigningAsn.Attribute("1.2.840.113549.1.9.4", SigningAsn.Octet(contentDigest)),
             SigningAsn.Attribute("1.2.840.113549.1.9.16.2.47",
                 SigningAsn.Sequence(SigningAsn.Sequence(SigningAsn.Sequence(SigningAsn.Octet(SHA256.HashData(certificateDer)))))));

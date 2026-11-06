@@ -49,6 +49,7 @@ class AppContainer(
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     val readerMonitor: ReaderGateway = if (userDemoMode) DemoReaderGateway() else readerFactory(app, scope)
     val consentBroker = ConsentBroker()
+    val stampBroker = StampBroker(app)
     val pinVault = PinVault(app)
     val activity = ActivityLog(app, scope, if (userDemoMode) "demo-activity" else "activity")
     val signedFiles = SignedFileStore(app)

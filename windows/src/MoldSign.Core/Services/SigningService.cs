@@ -111,7 +111,7 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
     /// <param name="reader">Reader holding the card to sign with; null = the connect callback's default.</param>
     /// <param name="expectedCertificateSha1">Identity guard, see <see cref="SignDigestInfo"/>.</param>
     public SignResult SignPdf(string input, string output, ConsentProvider consent, string requester = "Tu",
-                              string? reader = null, string? expectedCertificateSha1 = null)
+                              string? reader = null, string? expectedCertificateSha1 = null, PdfStampPlacement? placement = null)
     {
         ArgumentNullException.ThrowIfNull(consent);
         var pdf = File.ReadAllBytes(input);
@@ -120,7 +120,7 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
             var der = ReadCertificate(card, expectedCertificateSha1);
             var summary = CertificateSummary.FromDer(der);
             var signed = _pades.Sign(pdf, der, digestInfo =>
-                SignWithConsent(card, summary, digestInfo, consent, requester, [Path.GetFileName(input)], "PAdES-T"));
+                SignWithConsent(card, summary, digestInfo, consent, requester, [Path.GetFileName(input)], "PAdES-T"), placement);
             Report(SigningStep.Writing);
             WriteNew(output, signed);
             Report(SigningStep.Done);
@@ -167,6 +167,13 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
         return SignatureFormats.ToXades(format) is { } xades
             ? SignXades([input], xades, packaging, output, consent, requester, reader, expectedCertificateSha1)
             : SignPdf(input, output, consent, requester, reader, expectedCertificateSha1);
+    }
+
+    public SignResult SignVisible(string input, SignatureFormat format, XadesPackaging packaging, ConsentProvider consent,
+        PdfStampPlacement placement, string requester = "Tu", string? reader = null, string? expectedCertificateSha1 = null)
+    {
+        if (format != SignatureFormat.PadesT) throw new ArgumentException("A visible stamp requires a PDF signature", nameof(format));
+        return SignPdf(input, SignatureFormats.OutputPath(input, format), consent, requester, reader, expectedCertificateSha1, placement);
     }
 
     /// <summary>Offline verification of a signed PDF, or of an XAdES file plus its detached documents.</summary>

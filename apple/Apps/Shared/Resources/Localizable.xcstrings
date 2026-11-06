@@ -1326,41 +1326,41 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "PAdES semnează în PDF; XAdES creează un fișier .xml separat"
+            "value": "Semnătura PDF rămâne în document; semnătura XML creează un fișier .xml separat"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "PAdES signs within the PDF; XAdES creates a separate .xml file"
+            "value": "The PDF signature stays in the document; the XML signature creates a separate .xml file"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "PAdES добавляет подпись в PDF; XAdES создаёт отдельный файл .xml"
+            "value": "Подпись PDF хранится в документе; подпись XML создаёт отдельный файл .xml"
           }
         }
       }
     },
     "ui_pdf_pades_t_within_the_pdf_other_files_separate_xades_t_the_format_can_be_changed": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PDF → PAdES-T în PDF · alte fișiere → XAdES-T separat. Formatul se poate schimba."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "PDF → PAdES-T within the PDF · other files → separate XAdES-T. The format can be changed."
+            "value": "PDF signature · XML signature for other files"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semnătură PDF · semnătură XML pentru alte fișiere"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "PDF → PAdES-T внутри PDF · другие файлы → отдельная подпись XAdES-T. Формат можно изменить."
+            "value": "Подпись PDF · подпись XML для других файлов"
           }
         }
       }
@@ -1766,19 +1766,19 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Se salvează lângă original, ca „nume-semnat”, fără a suprascrie. PAdES semnează în PDF; XAdES creează un fișier .xml separat. Algoritm SHA-256."
+            "value": "Se salvează lângă original, ca „nume-semnat”, fără a suprascrie. Semnătura PDF rămâne în document; semnătura XML creează un fișier .xml separat. Algoritm SHA-256."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Saved beside the original as “name-semnat”, without overwriting. PAdES signs within the PDF; XAdES creates a separate .xml file. SHA-256 algorithm."
+            "value": "Saved beside the original as “name-semnat”, without overwriting. The PDF signature stays in the document; the XML signature creates a separate .xml file. SHA-256 algorithm."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Сохраняется рядом с оригиналом как «имя-semnat», без перезаписи. PAdES добавляет подпись в PDF; XAdES создаёт отдельный файл .xml. Алгоритм SHA-256."
+            "value": "Сохраняется рядом с оригиналом как «имя-semnat», без перезаписи. Подпись PDF хранится в документе; подпись XML создаёт отдельный файл .xml. Алгоритм SHA-256."
           }
         }
       }
@@ -2360,19 +2360,19 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "XAdES-T, detașat"
+            "value": "XML cu marcă temporală, detașat"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "XAdES-T, detached"
+            "value": "XML with timestamp, detached"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "XAdES-T, отсоединённая подпись"
+            "value": "XML с отметкой времени, отсоединённая подпись"
           }
         }
       }
@@ -2404,19 +2404,19 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "sau trage-l aici · PDF semnat sau semnătură XAdES (.xml)"
+            "value": "sau trage-l aici · PDF semnat sau semnătură XML (.xml)"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "or drop it here · signed PDF or XAdES signature (.xml)"
+            "value": "or drop it here · signed PDF or XML signature (.xml)"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "или перетащите сюда · подписанный PDF или подпись XAdES (.xml)"
+            "value": "или перетащите сюда · подписанный PDF или подпись XML (.xml)"
           }
         }
       }
@@ -2687,22 +2687,22 @@
     },
     "ui_pades_signs_inside_the_pdf_xades_creates_a_separate_xml_file_sha_256_algorithm": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "PAdES semnează în PDF; XAdES creează un fișier .xml separat. Algoritm SHA-256."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "PAdES signs inside the PDF; XAdES creates a separate .xml file. SHA-256 algorithm."
+            "value": "PDF signatures stay inside the document. XML signatures create a separate file."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semnăturile PDF rămân în document. Semnăturile XML creează un fișier separat."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "PAdES встраивает подпись в PDF; XAdES создаёт отдельный файл .xml. Алгоритм SHA-256."
+            "value": "Подпись PDF хранится в документе. Подпись XML создаётся в отдельном файле."
           }
         }
       }
@@ -2844,19 +2844,19 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activitate"
+            "value": "Documente"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Activity"
+            "value": "Documents"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "История"
+            "value": "Документы"
           }
         }
       }
@@ -5783,6 +5783,1150 @@
           "stringUnit": {
             "state": "translated",
             "value": "Эти параметры можно изменить в любой момент в настройках."
+          }
+        }
+      }
+    },
+    "stamp_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ștampilă vizibilă"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visible stamp"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Видимый штамп"
+          }
+        }
+      }
+    },
+    "stamp_visible": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arată ștampila în PDF"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show stamp in PDF"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать штамп в PDF"
+          }
+        }
+      }
+    },
+    "stamp_all_pages": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toate paginile"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All pages"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все страницы"
+          }
+        }
+      }
+    },
+    "stamp_move_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Drag the stamp to move it. Drag a corner to resize."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер."
+          }
+        }
+      }
+    },
+    "stamp_size": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dimensiune"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Size"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер"
+          }
+        }
+      }
+    },
+    "stamp_preview": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semnătură digitală\neSemnBun"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Digital signature\neSemnBun"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Цифровая подпись\neSemnBun"
+          }
+        }
+      }
+    },
+    "stamp_save": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplică"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применить"
+          }
+        }
+      }
+    },
+    "stamp_unavailable": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previzualizarea PDF nu este disponibilă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The PDF preview is unavailable."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предпросмотр PDF недоступен."
+          }
+        }
+      }
+    },
+    "stamp_queue": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplică tuturor PDF-urilor din listă"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply to all queued PDFs"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Применить ко всем PDF в списке"
+          }
+        }
+      }
+    },
+    "stamp_browser": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ștampilă vizibilă la semnarea de pe site-uri"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Visible stamps for website signing"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Видимый штамп при подписании с сайтов"
+          }
+        }
+      }
+    },
+    "stamp_batch_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Optional. Choose a position once per batch; reuse it for the remaining PDFs."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF."
+          }
+        }
+      }
+    },
+    "stamp_add": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Adaugă ștampilă…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add stamp…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добавить штамп…"
+          }
+        }
+      }
+    },
+    "stamp_edit": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editează ștampila…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit stamp…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Изменить штамп…"
+          }
+        }
+      }
+    },
+    "stamp_options": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opțiuni ștampilă"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stamp options"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Параметры штампа"
+          }
+        }
+      }
+    },
+    "stamp_selected_page": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Doar pagina selectată"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected page only"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Только выбранная страница"
+          }
+        }
+      }
+    },
+    "stamp_scope": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aplică pe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apply to"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разместить на"
+          }
+        }
+      }
+    },
+    "stamp_page_label": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Page"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pagina"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Страница"
+          }
+        }
+      }
+    },
+    "stamp_one_page": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On one page"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pe o pagină"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На одной странице"
+          }
+        }
+      }
+    },
+    "stamp_on_all_pages": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "On all pages"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pe toate paginile"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "На всех страницах"
+          }
+        }
+      }
+    },
+    "stamp_previous_page": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previous page"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pagina precedentă"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Предыдущая страница"
+          }
+        }
+      }
+    },
+    "stamp_next_page": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Next page"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pagina următoare"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Следующая страница"
+          }
+        }
+      }
+    },
+    "stamp_off": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Off"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oprit"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выкл."
+          }
+        }
+      }
+    },
+    "stamp_single": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "One page"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O pagină"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Одна"
+          }
+        }
+      }
+    },
+    "stamp_every": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All pages"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toate"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Все"
+          }
+        }
+      }
+    },
+    "file_options": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File options"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opțiuni fișier"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Параметры файла"
+          }
+        }
+      }
+    },
+    "file_signing_type": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signing type"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tipul semnăturii"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Тип подписи"
+          }
+        }
+      }
+    },
+    "file_stamp_off": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stamp off"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fără ștampilă"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Без штампа"
+          }
+        }
+      }
+    },
+    "file_stamp_all": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stamp: all pages"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ștampilă: toate paginile"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Штамп: все страницы"
+          }
+        }
+      }
+    },
+    "file_stamp_page": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stamp: page"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ștampilă: pagina"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Штамп: страница"
+          }
+        }
+      }
+    },
+    "format_pdf": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF signature"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semnătură PDF"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подпись PDF"
+          }
+        }
+      }
+    },
+    "format_xml": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML signature"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semnătură XML"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подпись XML"
+          }
+        }
+      }
+    },
+    "format_xml_time": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML with timestamp"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML cu marcă temporală"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML с меткой времени"
+          }
+        }
+      }
+    },
+    "format_xml_data": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML with validation data"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML cu date de validare"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "XML с данными проверки"
+          }
+        }
+      }
+    },
+    "file_remove": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove file"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimină fișierul"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить файл"
+          }
+        }
+      }
+    },
+    "format_pdf_time": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF cu marcă temporală"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF with timestamp"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PDF с отметкой времени"
+          }
+        }
+      }
+    },
+    "batch_files": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "fișiere"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "files"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "файлов"
+          }
+        }
+      }
+    },
+    "batch_expand": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arată fișierele"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show files"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показать файлы"
+          }
+        }
+      }
+    },
+    "batch_collapse": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restrânge grupul"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapse stack"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свернуть группу"
+          }
+        }
+      }
+    },
+    "batch_options": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setări pentru grup"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Group settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Настройки группы"
+          }
+        }
+      }
+    },
+    "batch_mixed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Setări diferite"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mixed settings"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Разные настройки"
+          }
+        }
+      }
+    },
+    "batch_stamp": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ștampilă pentru toate PDF-urile"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stamp for all PDFs"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Штамп для всех PDF"
+          }
+        }
+      }
+    },
+    "batch_automatic": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Format potrivit fiecărui fișier"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Best format for each file"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Формат для каждого файла"
+          }
+        }
+      }
+    },
+    "batch_remove": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimină grupul"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove group"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Убрать группу"
+          }
+        }
+      }
+    },
+    "saved_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documente"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документы"
+          }
+        }
+      }
+    },
+    "saved_signed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documente semnate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Signed documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подписанные документы"
+          }
+        }
+      }
+    },
+    "saved_history": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Istoric"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "History"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "История"
+          }
+        }
+      }
+    },
+    "saved_empty": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niciun document semnat încă"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No signed documents yet"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока нет подписанных документов"
+          }
+        }
+      }
+    },
+    "saved_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documents signed in the app appear here. For website requests, download the result from that website."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+          }
+        }
+      }
+    },
+    "saved_browse": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vezi documentele semnate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View signed documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Посмотреть подписанные документы"
+          }
+        }
+      }
+    },
+    "results_clear": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ascunde rezultatele"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear results"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Скрыть результаты"
+          }
+        }
+      }
+    },
+    "results_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișierele rămân disponibile în Documente."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your files remain available in Documents."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файлы остаются доступны в разделе «Документы»."
+          }
+        }
+      }
+    },
+    "results_documents": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vezi în Documente"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View in Documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть в «Документах»"
           }
         }
       }

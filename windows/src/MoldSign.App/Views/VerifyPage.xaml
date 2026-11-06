@@ -72,7 +72,7 @@
             <TextBlock
                 x:Uid="VerifyHint"
                 Style="{StaticResource MsCaptionTextStyle}"
-                Text="PDF semnat (PAdES) sau semnătură .xml (XAdES); pentru o semnătură detașată alege și fișierele semnate."
+                Text="PDF semnat (semnătură PDF) sau semnătură .xml (semnătură XML); pentru o semnătură detașată alege și fișierele semnate."
                 TextWrapping="Wrap" />
         </StackPanel>
     </ScrollViewer>

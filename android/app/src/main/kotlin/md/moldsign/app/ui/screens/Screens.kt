@@ -1,6 +1,11 @@
 package md.moldsign.app.ui.screens
 
+import md.moldsign.app.ui.components.signatureLabels
+
 import android.Manifest
+import androidx.compose.material.icons.outlined.FolderOpen
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.FilterChip
 import android.content.Intent
 import android.net.Uri
 import android.app.Activity
@@ -142,7 +147,7 @@ private fun SectionHeader(title: String, modifier: Modifier = Gutter, action: (@
 
 /** Desktop hierarchy on tablets: centered card, documents, then a compact primary action. */
 @Composable
-fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit, expanded: Boolean = false) {
+fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit, onOpenDocuments: () -> Unit, expanded: Boolean = false) {
     val context = LocalContext.current
     val signDropTarget = remember(vm) {
         object : DragAndDropTarget {
@@ -164,6 +169,17 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addForSigning(it) }
     val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
     val pick = { picker.launch(arrayOf("*/*")) }
+    var editingStamp by remember { mutableStateOf<md.moldsign.app.application.SignItem?>(null) }
+    var editingBatchStamp by remember { mutableStateOf(false) }
+    var previewOpened by remember { mutableStateOf(false) }
+    LaunchedEffect(items) {
+        if (!previewOpened && md.moldsign.app.DemoMode.stampPreview && items.isNotEmpty()) {
+            previewOpened = true
+            editingStamp = items.first()
+        }
+    }
+    editingStamp?.let { item -> PdfStampEditor(item, holder = status.wallet.selectedCard?.certificate?.commonName ?: "", onDismiss = { editingStamp = null },
+        onSave = { stamp -> if (editingBatchStamp) vm.setBatchStamp(item, stamp) else vm.setStamp(item, stamp); editingStamp = null }, requester = if (editingBatchStamp) stringResource(R.string.batch_stamp) else null, onBatch = if (editingBatchStamp) null else { stamp -> vm.setBatchStamp(item, stamp) }) }
 
     val walletContent: @Composable () -> Unit = {
         CardWallet(
@@ -182,7 +198,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                 if (items.isEmpty()) {
                     DocumentPickZone(onPick = pick)
                 } else {
-                    DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove, onRetry = vm::retry, retryEnabled = canSign)
+                    DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove, onRetry = vm::retry, retryEnabled = !working, onStamp = { editingBatchStamp = false; editingStamp = it }, onBatchStamp = { editingBatchStamp = true; editingStamp = it }, onRemoveGroup = vm::removeGroup)
                     if (!canSign && !working) SignBlockedHint(statusLabel(LocalContext.current, status))
                     DocumentAddTile(onPick = pick)
                 }
@@ -193,9 +209,15 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
     val resultContent: @Composable () -> Unit = {
         val context = LocalContext.current
         if (signedResults.isNotEmpty()) {
-            Column(if (expanded) Modifier.widthIn(max = 680.dp).fillMaxWidth() else Gutter,
-                verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
-                Text(stringResource(R.string.signed_results), style = MaterialTheme.typography.titleMedium)
+            Column((if (expanded) Modifier.widthIn(max = 680.dp).fillMaxWidth() else Gutter)
+                .background(MaterialTheme.colorScheme.surfaceContainerLow, RoundedCornerShape(20.dp)).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.saved_signed), modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
+                    TextButton(onClick = vm::clearSignedResults, enabled = !working) { Text(stringResource(R.string.results_clear)) }
+                }
                 signedResults.forEach { (name, uri) ->
                     Card(onClick = {
                         runCatching { context.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, mimeOf(name))
@@ -209,6 +231,12 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                             Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null)
                         }
                     }
+                }
+                Text(stringResource(R.string.results_hint), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                OutlinedButton(onClick = onOpenDocuments, modifier = Modifier.fillMaxWidth()) {
+                    Icon(Icons.Outlined.FolderOpen, contentDescription = null)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.results_documents))
                 }
             }
         }
@@ -225,8 +253,8 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             ) {
                 walletContent()
                 if (working) StepCard(progress, modifier = Modifier)
-                Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) { documentContent() }
                 resultContent()
+                Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) { documentContent() }
                 if (items.isNotEmpty()) {
                     Button(
                         onClick = vm::sign,
@@ -244,8 +272,8 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
         ScreenColumn(padding) {
             walletContent()
             if (working) StepCard(progress)
-            documentContent()
             resultContent()
+            documentContent()
             Spacer(Modifier.height(72.dp)) // keep the phone's floating action clear of the final document
         }
     }
@@ -395,7 +423,7 @@ private fun SignatureCard(report: ValidationReport) {
             Text("Author: " + (report.signerName ?: stringResource(R.string.sig_unknown_signer)), style = MaterialTheme.typography.titleMedium)
             Text("Signature", style = MaterialTheme.typography.labelLarge)
             report.signerIdnp?.let { Text("IDNP: $it") }
-            report.level?.let { Text(it, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant) }
+            report.level?.let { Text(signatureLabels(it), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             report.signingTime?.let { Text(stringResource(R.string.sig_signed_at, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
             report.timestampTime?.let { Text(stringResource(R.string.sig_timestamp, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
             FlowRow(horizontalArrangement = Arrangement.spacedBy(Tokens.S2), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
@@ -415,7 +443,7 @@ private fun SignatureCard(report: ValidationReport) {
                     Icon(if (details) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, contentDescription = null)
                 }
                 if (details) {
-                    Text(report.details.joinToString("\n"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(signatureLabels(report.details.joinToString("\n")), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -443,8 +471,10 @@ private fun CheckChip(@StringRes label: Int, ok: Boolean?) {
  * shown) and browser requests (always kept), newest first; "Golește lista" asks first.
  */
 @Composable
-fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
-    val entries by vm.activity.collectAsStateWithLifecycle()
+fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) -> Unit) {
+    val allEntries by vm.activity.collectAsStateWithLifecycle()
+    var history by remember { mutableStateOf(false) }
+    val entries = if (history) allEntries else allEntries.filter { it.ok && it.signedOutput && it.documentUri != null }
     var confirm by remember { mutableStateOf(false) }
     // "Salvează ca…": the system save dialog, one launcher per file type so the picker proposes the right extension.
     var saveSource by remember { mutableStateOf<Uri?>(null) }
@@ -456,16 +486,20 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
         onPauseOrDispose { }
     }
     ScreenColumn(padding) {
+        Row(Gutter.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilterChip(selected = !history, onClick = { history = false }, label = { Text(stringResource(R.string.saved_signed)) })
+            FilterChip(selected = history, onClick = { history = true }, label = { Text(stringResource(R.string.saved_history)) })
+        }
         if (entries.isEmpty()) {
             Column(
                 Gutter.fillMaxWidth().padding(top = Tokens.S8),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Icon(Icons.Outlined.History, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(48.dp))
+                Icon(if (history) Icons.Outlined.History else Icons.Outlined.FolderOpen, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(48.dp))
                 Spacer(Modifier.height(Tokens.S3))
-                Text(stringResource(R.string.activity_empty_title), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(if (history) R.string.activity_empty_title else R.string.saved_empty), style = MaterialTheme.typography.titleMedium)
                 Text(
-                    stringResource(R.string.activity_empty_body),
+                    stringResource(if (history) R.string.activity_empty_body else R.string.saved_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     textAlign = TextAlign.Center,
@@ -473,7 +507,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
             }
         } else {
             Column {
-                SectionHeader(stringResource(R.string.activity_recent)) {
+                SectionHeader(stringResource(if (history) R.string.activity_recent else R.string.saved_signed)) {
                     TextButton(onClick = { confirm = true }) {
                         Icon(Icons.Outlined.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(Tokens.S2))
@@ -487,7 +521,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
                 ) {
                     entries.forEachIndexed { i, e ->
                         if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
-                        ActivityRow(e, onSaveAs = { source, name -> saveSource = source; saveAs(name) })
+                        ActivityRow(e, showOpen = !history, onVerify = onVerify, onSaveAs = { source, name -> saveSource = source; saveAs(name) })
                     }
                 }
             }
@@ -513,7 +547,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues) {
 private fun mimeOf(name: String) = if (name.endsWith(".xml", ignoreCase = true)) "application/xml" else "application/pdf"
 
 @Composable
-private fun ActivityRow(e: ActivityEntry, onSaveAs: (source: Uri, name: String) -> Unit) {
+private fun ActivityRow(e: ActivityEntry, showOpen: Boolean = false, onVerify: (Uri) -> Unit, onSaveAs: (source: Uri, name: String) -> Unit) {
     val context = LocalContext.current
     val colors = LocalStatusColors.current
     val uri = e.documentUri?.toUri()?.takeIf { it.scheme == "content" }
@@ -544,10 +578,11 @@ private fun ActivityRow(e: ActivityEntry, onSaveAs: (source: Uri, name: String) 
             }
         },
         headlineContent = { Text(e.title, maxLines = 1, overflow = TextOverflow.MiddleEllipsis) },
-        supportingContent = { Text(e.subtitle, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        supportingContent = { Text(signatureLabels(e.subtitle), maxLines = 2, overflow = TextOverflow.Ellipsis) },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
+                if (showOpen && open != null) TextButton(onClick = open) { Text(stringResource(R.string.action_open)) }
+                else Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
                 if (uri != null && open != null && share != null) {
                     Box {
                         IconButton(onClick = { menu = true }) {
@@ -555,6 +590,7 @@ private fun ActivityRow(e: ActivityEntry, onSaveAs: (source: Uri, name: String) 
                         }
                         DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; open() })
+                            DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; share() })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
                         }
@@ -609,6 +645,11 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                 shape = RoundedCornerShape(Tokens.RadiusCard),
             ) {
                 val itemColors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
+                var browserStamps by remember { mutableStateOf(vm.browserStampsEnabled) }
+                ListItem(headlineContent = { Text(stringResource(R.string.stamp_browser)) },
+                    supportingContent = { Text(stringResource(R.string.stamp_batch_hint)) },
+                    trailingContent = { Switch(checked = browserStamps, onCheckedChange = { browserStamps = it; vm.browserStampsEnabled = it }) },
+                    colors = itemColors)
                 ListItem(
                     leadingContent = { Icon(Icons.Outlined.Language, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
                     headlineContent = { Text(stringResource(R.string.bridge_toggle)) },

@@ -93,6 +93,22 @@ public sealed class SigningCoreTests
     }
 
     [Fact]
+    public void Visible_counter_signature_covers_the_stamp_and_preserves_the_prior_signature()
+    {
+        using var identity = new TestIdentity();
+        using var pki = new FakePki(identity);
+        var signer = new PadesSigner(pki.Trust);
+        var first = signer.Sign(MinimalPdf(), identity.Certificate, identity.Sign);
+        var second = signer.Sign(first, identity.Certificate, identity.Sign, new PdfStampPlacement());
+        Assert.Equal(first, second[..first.Length]);
+        Assert.All(new Validator().ValidatePdf(second), report => {
+            Assert.True(report.ContentIntact, report.Notes);
+            Assert.True(report.SignatureValid, report.Notes);
+        });
+        Assert.Contains("/AP << /N ", Encoding.Latin1.GetString(second));
+    }
+
+    [Fact]
     public void Pades_reuses_the_existing_acroform_and_preserves_field_and_catalog_entries()
     {
         using var identity = new TestIdentity();

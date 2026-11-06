@@ -60,6 +60,18 @@ class PadesCmsSignerTest {
     }
 
     @Test
+    fun visibleStampIsCoveredAndEarlierSignatureRemainsValid() {
+        val first = signer.sign(TestDocuments.samplePdf(), certificate, ChainCerts.chain, card)
+        val second = signer.signVisible(first, certificate, ChainCerts.chain, card, PdfStampPlacement())
+        assertArrayEquals(first, second.copyOf(first.size))
+        val signatures = signatures(second)
+        assertEquals(2, signatures.size)
+        verify(signatures[0], keys.public, first.size)
+        verify(signatures[1], keys.public, second.size)
+        assertTrue(String(second, ISO_8859_1).contains("/AP << /N "))
+    }
+
+    @Test
     fun embedsTheSignerAndTheCaChain() {
         val signed = signer.sign(TestDocuments.samplePdf(), certificate, ChainCerts.chain, card)
         val certs = signatures(signed)[0].signedData.children()[3].children().map { it.encoded }

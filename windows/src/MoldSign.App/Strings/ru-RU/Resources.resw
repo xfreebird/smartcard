@@ -137,10 +137,10 @@
   <data name="Step_Done" xml:space="preserve"><value>Готово</value></data>
   <data name="DropTitle.Text" xml:space="preserve"><value>Перетащите документы сюда</value></data>
   <data name="DropBrowse.Content" xml:space="preserve"><value>Выбрать файлы…</value></data>
-  <data name="DropHint.Text" xml:space="preserve"><value>PDF → PAdES · другие → XAdES</value></data>
+  <data name="DropHint.Text" xml:space="preserve"><value>Подпись PDF · подпись XML для других файлов</value></data>
   <data name="NavSign.Content" xml:space="preserve"><value>Подписать</value></data>
   <data name="NavVerify.Content" xml:space="preserve"><value>Проверить</value></data>
-  <data name="NavActivity.Content" xml:space="preserve"><value>Действия</value></data>
+  <data name="NavActivity.Content" xml:space="preserve"><value>Документы</value></data>
   <data name="NavCard.Content" xml:space="preserve"><value>Карта</value></data>
   <data name="FlyoutSign.Content" xml:space="preserve"><value>Подписать…</value></data>
   <data name="FlyoutVerify.Content" xml:space="preserve"><value>Проверить…</value></data>
@@ -151,12 +151,12 @@
   <data name="TrayQuit.Content" xml:space="preserve"><value>Выход</value></data>
   <data name="SignPageTitle.Text" xml:space="preserve"><value>Подписать</value></data>
   <data name="SignAdvanced.Header" xml:space="preserve"><value>Дополнительные параметры</value></data>
-  <data name="SignPdfFormat.Text" xml:space="preserve"><value>PDF → PAdES-T (требуется для msign.gov.md); XAdES создаёт отдельный файл .xml</value></data>
-  <data name="SignPackaging.Header" xml:space="preserve"><value>Упаковка XAdES</value></data>
+  <data name="SignPdfFormat.Text" xml:space="preserve"><value>Подпись PDF · подпись XML для других файлов</value></data>
+  <data name="SignPackaging.Header" xml:space="preserve"><value>Файл подписи XML</value></data>
   <data name="SignAlgorithm.Text" xml:space="preserve"><value>Алгоритм: SHA-256</value></data>
   <data name="VerifyPageTitle.Text" xml:space="preserve"><value>Проверить</value></data>
-  <data name="VerifyHint.Text" xml:space="preserve"><value>Подписанный PDF (PAdES) или подпись .xml (XAdES); для отсоединённой подписи выберите также подписанные файлы.</value></data>
-  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Действия</value></data>
+  <data name="VerifyHint.Text" xml:space="preserve"><value>Выберите подписанный PDF или подпись XML. Для отдельной подписи добавьте исходные документы.</value></data>
+  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Документы</value></data>
   <data name="CardPageTitle.Text" xml:space="preserve"><value>Карта</value></data>
   <data name="CardIssuer.Text" xml:space="preserve"><value>Издатель</value></data>
   <data name="CardValidity.Text" xml:space="preserve"><value>Действует</value></data>
@@ -269,4 +269,38 @@
   <data name="Onboarding_Choices" xml:space="preserve"><value>Настройте запуск</value></data>
   <data name="Onboarding_StartupDetail" xml:space="preserve"><value>Запускать в фоновом режиме при входе.</value></data>
   <data name="Settings_StartupPolicy" xml:space="preserve"><value>Этот параметр запуска управляется политикой Windows.</value></data>
+  <data name="Stamp_Title" xml:space="preserve"><value>Видимый штамп</value></data>
+  <data name="Stamp_Visible" xml:space="preserve"><value>Показать штамп в PDF</value></data>
+  <data name="Stamp_AllPages" xml:space="preserve"><value>Все страницы</value></data>
+  <data name="Stamp_MoveHint" xml:space="preserve"><value>Перетащите штамп, чтобы переместить. Потяните за угол, чтобы изменить размер.</value></data>
+  <data name="Stamp_Size" xml:space="preserve"><value>Размер</value></data>
+  <data name="Stamp_Preview" xml:space="preserve"><value>Цифровая подпись
+eSemnBun</value></data>
+  <data name="Stamp_Save" xml:space="preserve"><value>Применить</value></data>
+  <data name="Stamp_Unavailable" xml:space="preserve"><value>Предпросмотр PDF недоступен.</value></data>
+  <data name="Stamp_Queue" xml:space="preserve"><value>Применить ко всем PDF в списке</value></data>
+  <data name="Stamp_Browser" xml:space="preserve"><value>Видимый штамп при подписании с сайтов</value></data>
+  <data name="Stamp_BatchHint" xml:space="preserve"><value>Необязательно. Выберите положение один раз для пакета; оно применяется к остальным PDF.</value></data>
+  <data name="Stamp_Add" xml:space="preserve"><value>Добавить штамп…</value></data>
+  <data name="Stamp_Edit" xml:space="preserve"><value>Изменить штамп…</value></data>
+  <data name="Stamp_Options" xml:space="preserve"><value>Параметры штампа</value></data>
+  <data name="Stamp_SelectedPage" xml:space="preserve"><value>Только выбранная страница</value></data>
+  <data name="Stamp_Scope" xml:space="preserve"><value>Разместить на</value></data>
+  <data name="file_options" xml:space="preserve"><value>Параметры файла</value></data>
+  <data name="file_signing_type" xml:space="preserve"><value>Тип подписи</value></data>
+  <data name="file_stamp_off" xml:space="preserve"><value>Без штампа</value></data>
+  <data name="file_stamp_all" xml:space="preserve"><value>Штамп: все страницы</value></data>
+  <data name="file_stamp_page" xml:space="preserve"><value>Штамп: страница</value></data>
+  <data name="format_pdf" xml:space="preserve"><value>Подпись PDF</value></data>
+  <data name="format_xml" xml:space="preserve"><value>Подпись XML</value></data>
+  <data name="format_xml_time" xml:space="preserve"><value>XML с меткой времени</value></data>
+  <data name="format_xml_data" xml:space="preserve"><value>XML с данными проверки</value></data>
+  <data name="file_remove" xml:space="preserve"><value>Удалить файл</value></data>
+  <data name="format_pdf_time" xml:space="preserve"><value>PDF с отметкой времени</value></data>
+  <data name="saved_title" xml:space="preserve"><value>Документы</value></data>
+  <data name="saved_signed" xml:space="preserve"><value>Подписанные документы</value></data>
+  <data name="saved_history" xml:space="preserve"><value>История</value></data>
+  <data name="saved_empty" xml:space="preserve"><value>Пока нет подписанных документов</value></data>
+  <data name="saved_hint" xml:space="preserve"><value>Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте.</value></data>
+  <data name="saved_browse" xml:space="preserve"><value>Посмотреть подписанные документы</value></data>
 </root>

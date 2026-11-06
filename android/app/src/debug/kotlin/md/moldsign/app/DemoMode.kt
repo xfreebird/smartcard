@@ -34,7 +34,10 @@ import java.util.TimeZone
  * the process restarts. "Recitește cardul" re-reads the fake cards with a short delay.
  */
 internal object DemoMode {
+    const val supportsResultPreview = true
     const val EXTRA = "demo"
+    var stampPreview = false
+        private set
     private const val TAG = "MoldSignDemo"
     fun screenshotCapture(intent: Intent?): Boolean =
         intent?.hasExtra(EXTRA) == true && intent.getBooleanExtra("store_capture", false)
@@ -47,6 +50,7 @@ internal object DemoMode {
 
     fun apply(container: AppContainer, intent: Intent?, viewModel: MainViewModel) {
         val scenario = intent?.getStringExtra(EXTRA)
+        stampPreview = screenshotCapture(intent) && intent?.getBooleanExtra("stamp_preview", false) == true
         if (scenario == null) {
             cancelFakePin(container)
             return
@@ -73,6 +77,7 @@ internal object DemoMode {
         seedActivity(container)
         viewModel.signItems.value.toList().forEach(viewModel::remove)
         when (scenario) {
+            "results" -> viewModel.previewCompletedResults()
             "documents" -> seedSigningDocuments(container, viewModel, batch = false)
             "batch" -> seedSigningDocuments(container, viewModel, batch = true)
             "pin" -> {
@@ -128,6 +133,23 @@ internal object DemoMode {
             )
         } else {
             listOf(Uri.fromFile(file("demo-contract.pdf", "%PDF-1.7\n% fictional demo document\n%%EOF\n")))
+        }
+        // Renderable fictional pages exercise the native placement editor too.
+        uris.filter { it.path?.endsWith(".pdf") == true }.forEach { uri ->
+            val pdf = android.graphics.pdf.PdfDocument()
+            try {
+                repeat(3) { index ->
+                    val page = pdf.startPage(android.graphics.pdf.PdfDocument.PageInfo.Builder(595, 842, index + 1).create())
+                    val paint = android.graphics.Paint().apply { textSize = 22f; color = android.graphics.Color.BLACK }
+                    page.canvas.drawText("Sample agreement", 48f, 72f, paint)
+                    paint.textSize = 11f
+                    page.canvas.drawText("Fictional document for reviewing signature placement", 48f, 102f, paint)
+                    page.canvas.drawText("Choose a location, then apply it to one page or every page.", 48f, 170f, paint)
+                    page.canvas.drawText("Preview only - Page ${index + 1} of 3", 48f, 790f, paint)
+                    pdf.finishPage(page)
+                }
+                File(requireNotNull(uri.path)).outputStream().use { pdf.writeTo(it) }
+            } finally { pdf.close() }
         }
         viewModel.addForSigning(uris)
     }

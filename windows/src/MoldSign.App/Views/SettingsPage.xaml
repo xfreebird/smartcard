@@ -79,6 +79,8 @@
                 IsOn="{x:Bind State.BridgeEnabled, Mode=OneWay}"
                 Toggled="OnBridgeToggled" />
             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.BridgeStatus, Mode=OneWay}" />
+            <ToggleSwitch x:Name="BrowserStampsToggle" Toggled="OnBrowserStampsToggled" />
+            <TextBlock x:Name="StampBatchHint" TextWrapping="Wrap" />
             <ToggleSwitch x:Name="LegacyClientToggle" Toggled="OnLegacyClientToggled" />
             <TextBlock x:Name="LegacyClientDescription" TextWrapping="Wrap" />
             <Button x:Name="ResolveBridgeButton" Click="OnResolveBridgeClick" />

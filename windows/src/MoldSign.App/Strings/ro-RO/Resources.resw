@@ -137,10 +137,10 @@
   <data name="Step_Done" xml:space="preserve"><value>Gata</value></data>
   <data name="DropTitle.Text" xml:space="preserve"><value>Trage documentele aici</value></data>
   <data name="DropBrowse.Content" xml:space="preserve"><value>Alege fișiere…</value></data>
-  <data name="DropHint.Text" xml:space="preserve"><value>PDF → PAdES · altele → XAdES</value></data>
+  <data name="DropHint.Text" xml:space="preserve"><value>Semnătură PDF · semnătură XML pentru alte fișiere</value></data>
   <data name="NavSign.Content" xml:space="preserve"><value>Semnează</value></data>
   <data name="NavVerify.Content" xml:space="preserve"><value>Verifică</value></data>
-  <data name="NavActivity.Content" xml:space="preserve"><value>Activitate</value></data>
+  <data name="NavActivity.Content" xml:space="preserve"><value>Documente</value></data>
   <data name="NavCard.Content" xml:space="preserve"><value>Card</value></data>
   <data name="FlyoutSign.Content" xml:space="preserve"><value>Semnează…</value></data>
   <data name="FlyoutVerify.Content" xml:space="preserve"><value>Verifică…</value></data>
@@ -151,12 +151,12 @@
   <data name="TrayQuit.Content" xml:space="preserve"><value>Ieșire</value></data>
   <data name="SignPageTitle.Text" xml:space="preserve"><value>Semnează</value></data>
   <data name="SignAdvanced.Header" xml:space="preserve"><value>Opțiuni avansate</value></data>
-  <data name="SignPdfFormat.Text" xml:space="preserve"><value>PDF → PAdES-T (cerut de msign.gov.md); XAdES produce un fișier .xml separat</value></data>
-  <data name="SignPackaging.Header" xml:space="preserve"><value>Ambalare XAdES</value></data>
+  <data name="SignPdfFormat.Text" xml:space="preserve"><value>Semnătură PDF · semnătură XML pentru alte fișiere</value></data>
+  <data name="SignPackaging.Header" xml:space="preserve"><value>Fișier de semnătură XML</value></data>
   <data name="SignAlgorithm.Text" xml:space="preserve"><value>Algoritm: SHA-256</value></data>
   <data name="VerifyPageTitle.Text" xml:space="preserve"><value>Verifică</value></data>
-  <data name="VerifyHint.Text" xml:space="preserve"><value>PDF semnat (PAdES) sau semnătură .xml (XAdES); pentru o semnătură detașată alege și fișierele semnate.</value></data>
-  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Activitate</value></data>
+  <data name="VerifyHint.Text" xml:space="preserve"><value>Alege un PDF semnat sau o semnătură XML. Pentru o semnătură separată, adaugă și documentele originale.</value></data>
+  <data name="ActivityPageTitle.Text" xml:space="preserve"><value>Documente</value></data>
   <data name="CardPageTitle.Text" xml:space="preserve"><value>Card</value></data>
   <data name="CardIssuer.Text" xml:space="preserve"><value>Emitent</value></data>
   <data name="CardValidity.Text" xml:space="preserve"><value>Valabil</value></data>
@@ -269,4 +269,38 @@
   <data name="Onboarding_Choices" xml:space="preserve"><value>Alege cum pornește</value></data>
   <data name="Onboarding_StartupDetail" xml:space="preserve"><value>Pornește în fundal la autentificare.</value></data>
   <data name="Settings_StartupPolicy" xml:space="preserve"><value>Această opțiune de pornire este controlată de o politică Windows.</value></data>
+  <data name="Stamp_Title" xml:space="preserve"><value>Ștampilă vizibilă</value></data>
+  <data name="Stamp_Visible" xml:space="preserve"><value>Arată ștampila în PDF</value></data>
+  <data name="Stamp_AllPages" xml:space="preserve"><value>Toate paginile</value></data>
+  <data name="Stamp_MoveHint" xml:space="preserve"><value>Trage ștampila pentru a o muta. Trage de colțuri pentru a o redimensiona.</value></data>
+  <data name="Stamp_Size" xml:space="preserve"><value>Dimensiune</value></data>
+  <data name="Stamp_Preview" xml:space="preserve"><value>Semnătură digitală
+eSemnBun</value></data>
+  <data name="Stamp_Save" xml:space="preserve"><value>Aplică</value></data>
+  <data name="Stamp_Unavailable" xml:space="preserve"><value>Previzualizarea PDF nu este disponibilă.</value></data>
+  <data name="Stamp_Queue" xml:space="preserve"><value>Aplică tuturor PDF-urilor din listă</value></data>
+  <data name="Stamp_Browser" xml:space="preserve"><value>Ștampilă vizibilă la semnarea de pe site-uri</value></data>
+  <data name="Stamp_BatchHint" xml:space="preserve"><value>Opțional. Alegeți poziția o singură dată pentru fiecare lot; poziția este reutilizată pentru celelalte PDF-uri.</value></data>
+  <data name="Stamp_Add" xml:space="preserve"><value>Adaugă ștampilă…</value></data>
+  <data name="Stamp_Edit" xml:space="preserve"><value>Editează ștampila…</value></data>
+  <data name="Stamp_Options" xml:space="preserve"><value>Opțiuni ștampilă</value></data>
+  <data name="Stamp_SelectedPage" xml:space="preserve"><value>Doar pagina selectată</value></data>
+  <data name="Stamp_Scope" xml:space="preserve"><value>Aplică pe</value></data>
+  <data name="file_options" xml:space="preserve"><value>Opțiuni fișier</value></data>
+  <data name="file_signing_type" xml:space="preserve"><value>Tipul semnăturii</value></data>
+  <data name="file_stamp_off" xml:space="preserve"><value>Fără ștampilă</value></data>
+  <data name="file_stamp_all" xml:space="preserve"><value>Ștampilă: toate paginile</value></data>
+  <data name="file_stamp_page" xml:space="preserve"><value>Ștampilă: pagina</value></data>
+  <data name="format_pdf" xml:space="preserve"><value>Semnătură PDF</value></data>
+  <data name="format_xml" xml:space="preserve"><value>Semnătură XML</value></data>
+  <data name="format_xml_time" xml:space="preserve"><value>XML cu marcă temporală</value></data>
+  <data name="format_xml_data" xml:space="preserve"><value>XML cu date de validare</value></data>
+  <data name="file_remove" xml:space="preserve"><value>Elimină fișierul</value></data>
+  <data name="format_pdf_time" xml:space="preserve"><value>PDF cu marcă temporală</value></data>
+  <data name="saved_title" xml:space="preserve"><value>Documente</value></data>
+  <data name="saved_signed" xml:space="preserve"><value>Documente semnate</value></data>
+  <data name="saved_history" xml:space="preserve"><value>Istoric</value></data>
+  <data name="saved_empty" xml:space="preserve"><value>Niciun document semnat încă</value></data>
+  <data name="saved_hint" xml:space="preserve"><value>Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.</value></data>
+  <data name="saved_browse" xml:space="preserve"><value>Vezi documentele semnate</value></data>
 </root>

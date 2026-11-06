@@ -26,6 +26,7 @@ data class SignItem(
     val doc: PickedDocument,
     val format: SignFormat = doc.defaultFormat,
     val error: Throwable? = null,
+    val stamp: md.moldsign.core.PdfStampPlacement? = null,
 )
 
 

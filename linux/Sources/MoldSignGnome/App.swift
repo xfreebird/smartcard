@@ -33,7 +33,7 @@ final class MoldSignApp {
         // renames its constants in Swift; the raw value imports the same on every GLib version.
         // Allow isolated Debug onboarding previews alongside the installed instance.
         #if MOLDSIGN_DEMO
-        let preview = ProcessInfo.processInfo.environment["MSIGN_QA_ONBOARDING"] == "1" && DemoMode.current != nil
+        let preview = (ProcessInfo.processInfo.environment["MSIGN_QA_ONBOARDING"] == "1" || ProcessInfo.processInfo.environment["MSIGN_QA_STAMP_PREVIEW"] == "1") && DemoMode.current != nil
         #else
         let preview = false
         #endif
@@ -74,6 +74,11 @@ final class MoldSignApp {
         withCStringArray(["<Control>w"]) { gtk_application_set_accels_for_action(app.cast(), "window.close", $0) }
 
         let window = mainWindow
+        controller.askStamp = { item, holder, origin, done in
+            return presentPDFStampEditor(parent: window.window, item: item, holder: holder, requester: origin, cancelled: { done(.cancel) }) {
+                done(.proceed($0))
+            }
+        }
         controller.askPIN = { request, done in
             presentPINDialog(parent: window.window.widget, request: request, completion: done)
         }
@@ -112,6 +117,10 @@ final class MoldSignApp {
                     "language": L10n.language ?? "system",
                     "run": ProcessInfo.processInfo.environment["MSIGN_DEMO_RUN_ID"] ?? "",
                 ]
+                if ProcessInfo.processInfo.environment["MSIGN_QA_STAMP_PREVIEW"] == "1", ProcessInfo.processInfo.environment["MSIGN_QA_FILE_OPTIONS"] != "1", let item = model.signItems.first {
+                    let sample = ProcessInfo.processInfo.environment["MSIGN_QA_STAMP_FILE"].map { SignItem(url: URL(fileURLWithPath: $0)) } ?? item
+                    presentPDFStampEditor(parent: window.window, item: sample, holder: model.certificate?.holder ?? "", applyQueue: { _ in }) { _ in }
+                }
                 if let data = try? JSONSerialization.data(withJSONObject: marker, options: [.sortedKeys]) {
                     wroteReady = (try? data.write(to: URL(fileURLWithPath: path), options: .atomic)) != nil
                 }

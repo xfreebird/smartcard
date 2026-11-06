@@ -15,7 +15,7 @@ public sealed partial class SignPage : Page
         InitializeComponent();
         DetachedOption.Content = Loc.Get("Packaging_Detached");
         EnvelopingOption.Content = Loc.Get("Packaging_Enveloping");
-        SignedResultsTitle.Text = Loc.Get("Sign_SignedFiles");
+        SignedResultsTitle.Text = Loc.Get("saved_signed");
         DocumentDrop.FilesChosen += OnFilesChosen;
         Files.CollectionChanged += (_, _) =>
         {
@@ -58,6 +58,38 @@ public sealed partial class SignPage : Page
             Files.Remove(row);
     }
 
+    private void OnFileOptionsClick(object sender, RoutedEventArgs e)
+    {
+        if (State.IsBusy || sender is not FrameworkElement anchor || anchor.Tag is not string path || Files.FirstOrDefault(f => f.Path==path) is not { } row) return;
+        var menu=new MenuFlyout();
+        menu.Items.Add(new MenuFlyoutItem { Text=Loc.Get("file_signing_type"), IsEnabled=false });
+        for (var index=0;index<row.FormatLabels.Count;index++) {
+            var selection=index;
+            var option=new ToggleMenuFlyoutItem { Text=row.FormatLabels[index], IsChecked=row.FormatIndex==index };
+            option.Click += (_,_) => row.FormatIndex=selection;
+            menu.Items.Add(option);
+        }
+        menu.Items.Add(new MenuFlyoutSeparator());
+        if (row.Format==SignatureFormat.PadesT) {
+            var stamp=new MenuFlyoutItem { Text=row.StampLabel, Tag=row.Path };
+            stamp.Click += OnStampClick; menu.Items.Add(stamp);
+        }
+        menu.Items.Add(new MenuFlyoutSeparator());
+        var remove=new MenuFlyoutItem { Text=Loc.Get("file_remove"), Tag=row.Path, Icon=new SymbolIcon(Symbol.Delete) };
+        remove.Click += OnRemoveClick; menu.Items.Add(remove);
+        menu.ShowAt(anchor);
+    }
+
+    private async void OnStampClick(object sender, RoutedEventArgs e)
+    {
+        if (State.IsBusy || (sender as FrameworkElement)?.Tag is not string path) return;
+        if (Files.FirstOrDefault(f => f.Path == path && f.Format == SignatureFormat.PadesT) is { } row)
+            await PdfStampEditor.ShowAsync(XamlRoot, row, value => {
+                foreach (var queued in Files.Where(f => f.Format == SignatureFormat.PadesT))
+                    queued.Stamp = value is null ? null : queued.Path == row.Path ? value : value with { DocumentSHA256 = null };
+            });
+    }
+
     private async void OnSignClick(object sender, RoutedEventArgs e)
     {
         await SignRowsAsync(Files.ToArray());
@@ -75,7 +107,7 @@ public sealed partial class SignPage : Page
         foreach (var row in rows) row.Error = "";
         var packaging = PackagingButtons.SelectedIndex == 1 ? XadesPackaging.Enveloping : XadesPackaging.Detached;
         var outcome = await App.Current.Services.SignDocumentsAsync(
-            [.. rows.Select(f => new DocumentJob(f.Path, f.Format))], packaging);
+            [.. rows.Select(f => new DocumentJob(f.Path, f.Format, f.Stamp))], packaging);
         foreach (var path in outcome.Outputs)
         {
             var rowContent = new Grid { ColumnSpacing = 12, MinHeight = 32 };

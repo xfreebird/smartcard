@@ -13,6 +13,7 @@ data class ActivityEntry(
     val ok: Boolean,
     val timeMillis: Long,
     val documentUri: String? = null,
+    val signedOutput: Boolean = false,
 ) {
     enum class Kind { Document, Browser }
 }

@@ -6,6 +6,8 @@ import MoldSignKit
 /// Owns listener lifetime and the worker/main-loop boundary. Authorization policy stays in the application.
 final class BridgeHost: BridgeHosting {
     private(set) var state: BridgeState = .stopped { didSet { onStateChange?() } }
+    var previewPDFEnabled: (() -> Bool)?
+    var previewPDF: ((BridgeRequest, Data, @escaping (PDFStampDecision) -> Void) -> Void)?
     var authorize: ((BridgeRequest, @escaping (BridgeDecision) -> Void) -> Void)?
     var onSignResult: ((BridgeRequest, Error?) -> Void)?
     var onStateChange: (() -> Void)?
@@ -22,6 +24,21 @@ final class BridgeHost: BridgeHosting {
         recovery?.cancel(); recovery = nil
         guard server == nil else { return }
         let server = makeServer?() ?? MoldSignServer(allowsLegacyDesktopClient: allowsLegacyDesktopClient)
+        server.previewPDFEnabled = { [weak self] in
+            let done = DispatchSemaphore(value: 0)
+            // Read application settings on GTK's main loop, like the preview callback.
+            let answer = StampEnabledBox()
+            onMain { answer.value = self?.previewPDFEnabled?() ?? false; done.signal() }
+            done.wait(); return answer.value
+        }
+        server.previewPDF = { [weak self] request, bytes in
+            let answer = StampDecisionBox(); let done = DispatchSemaphore(value: 0)
+            onMain {
+                guard let preview = self?.previewPDF else { done.signal(); return }
+                preview(request, bytes) { answer.value = $0; done.signal() }
+            }
+            done.wait(); return answer.value
+        }
         server.authorize = { [weak self] request in
             // Only the server worker waits; the GTK main loop continues handling the consent/PIN dialog.
             let answer = DecisionBox()
@@ -83,3 +100,7 @@ final class BridgeHost: BridgeHosting {
 private final class DecisionBox: @unchecked Sendable {
     var value: BridgeDecision = .deny
 }
+
+private final class StampDecisionBox: @unchecked Sendable { var value: PDFStampDecision = .cancel }
+
+private final class StampEnabledBox: @unchecked Sendable { var value = false }

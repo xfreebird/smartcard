@@ -37,8 +37,8 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, preferenc
         save()
     }
 
-    fun document(name: String, uri: Uri, ok: Boolean, subtitle: String) = add(
-        ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Document, name, subtitle, ok, System.currentTimeMillis(), uri.toString()),
+    fun document(name: String, uri: Uri, ok: Boolean, subtitle: String, signedOutput: Boolean = false) = add(
+        ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Document, name, subtitle, ok, System.currentTimeMillis(), uri.toString(), signedOutput),
     )
 
     /** A signing request from a website: no file, the entry stays in the list. */
@@ -99,6 +99,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, preferenc
                 ok = o.optBoolean("ok", true),
                 timeMillis = o.optLong("time"),
                 documentUri = o.optString("uri").takeIf { it.isNotEmpty() },
+                signedOutput = o.optBoolean("signedOutput", o.optString("title").contains("-semnat")),
             )
         }
     }.getOrDefault(emptyList())
@@ -109,7 +110,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, preferenc
             array.put(
                 JSONObject()
                     .put("id", e.id).put("kind", e.kind.name).put("title", e.title).put("subtitle", e.subtitle)
-                    .put("ok", e.ok).put("time", e.timeMillis).put("uri", e.documentUri ?: ""),
+                    .put("signedOutput", e.signedOutput).put("ok", e.ok).put("time", e.timeMillis).put("uri", e.documentUri ?: ""),
             )
         }
         prefs.edit { putString(KEY, array.toString()) }

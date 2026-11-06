@@ -29,6 +29,9 @@ public sealed partial class SettingsPage : Page
         RememberPinToggle.IsOn = settings.RememberPin;
         LanguagePicker.SelectedIndex = settings.Language switch { "ro-RO" => 1, "en-US" => 2, "ru-RU" => 3, _ => 0 };
         ThemePicker.SelectedItem = ThemePicker.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == settings.Theme);
+        BrowserStampsToggle.Header = Loc.Get("Stamp_Browser");
+        StampBatchHint.Text = Loc.Get("Stamp_BatchHint");
+        BrowserStampsToggle.IsOn = settings.BrowserStampsEnabled;
         LegacyClientToggle.Header = Loc.Get("Legacy_ClientTitle");
         LegacyClientDescription.Text = Loc.Get("Legacy_ClientDescription");
         LegacyClientToggle.IsOn = settings.LegacyDesktopClientEnabled && !StartupRegistration.IsPackaged;
@@ -51,6 +54,13 @@ public sealed partial class SettingsPage : Page
         CheckUpdatesButton.IsEnabled = false;
         try { UpdateStatus.Text = await App.Current.Services.Updates.CheckAsync(automatic: false) ?? ""; }
         finally { CheckUpdatesButton.IsEnabled = true; }
+    }
+
+    private void OnBrowserStampsToggled(object sender, RoutedEventArgs e)
+    {
+        if (_loadingPreferences) return;
+        var settings = App.Current.Services.Settings;
+        settings.BrowserStampsEnabled = BrowserStampsToggle.IsOn; settings.Save();
     }
 
     private void OnLegacyClientToggled(object sender, RoutedEventArgs e)

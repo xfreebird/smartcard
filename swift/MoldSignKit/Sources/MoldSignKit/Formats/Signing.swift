@@ -45,16 +45,18 @@ public final class PAdESSigner {
 
     // MARK: - PDF signing (incremental update, iText/MoldSign style)
 
-    public func signPDF(_ pdfData: Data, certDER: Data, tsaUnsignedAttr: Data? = nil,
+    public func signPDF(_ pdfData: Data, certDER: Data, tsaUnsignedAttr: Data? = nil, appearance: PDFStampPlacement? = nil,
                  signBlock: (Data) throws -> Data) throws -> Data {
-        let text = String(decoding: pdfData, as: UTF8.self) // latin-1-ish view for regex scanning
+        guard let text = String(data: pdfData, encoding: .isoLatin1) else { throw CardError.signFailed("Cannot read PDF bytes") }
+        try appearance?.validate(document: pdfData)
+        let signingDate = Date()
         dbg("S1 text ok")
 
         // --- trailer info ---
-        guard let eofDRange = pdfData.range(of: Data("%%EOF".utf8), options: .backwards) else {
+        guard pdfData.range(of: Data("%%EOF".utf8), options: .backwards) != nil else {
             throw CardError.signFailed("Cannot find %%EOF")
         }
-        let appendOffset = pdfData.distance(from: pdfData.startIndex, to: eofDRange.lowerBound) + 5
+        let appendOffset = pdfData.count
         guard let startxrefRange = text.range(of: "startxref", options: .backwards),
               let eofRange = text.range(of: "%%EOF", options: .backwards) else {
             throw CardError.signFailed("Cannot find trailer")
@@ -80,10 +82,14 @@ public final class PAdESSigner {
 
         dbg("S4 catDict ok")
         // object numbers for the update
-        let maxObj = (try? NSRegularExpression(pattern: #"(?<!\d)(\d+) 0 obj"#)
+        let scannedMax = (try? NSRegularExpression(pattern: #"(?<!\d)(\d+) 0 obj"#)
             .matches(in: text, range: NSRange(text.startIndex..., in: text))
             .compactMap { Range($0.range(at: 1), in: text).map { Int(text[$0])! } }
             .max()) ?? 0
+        let declaredMax = (try? NSRegularExpression(pattern: #"/Size\s+(\d+)\b"#)
+            .matches(in: text, range: NSRange(text.startIndex..., in: text))
+            .compactMap { Range($0.range(at: 1), in: text).flatMap { Int(text[$0]) } }.max()) ?? 1
+        let maxObj = max(scannedMax, declaredMax - 1)
         let sigNum = maxObj + 1, acroNum = maxObj + 2, fieldNum = maxObj + 3
 
         dbg("S5 maxObj=\(maxObj)")
@@ -94,7 +100,7 @@ public final class PAdESSigner {
         // --- build appended objects (ByteRange + Contents use fixed-width placeholders) ---
         let brDummy = "/ByteRange [0 0000000000 0000000000 0000000000 ]"
         let contents = "/Contents<" + String(repeating: "0", count: Self.placeholderHexLen) + ">"
-        let sigDict = "\n\(sigNum) 0 obj\n<</Type/Sig /Filter/Adobe.PPKLite /SubFilter/ETSI.CAdES.detached \(brDummy) \(contents) /M(\(pdfDate())) /Reason(MoldSign Signature) /Location(Moldova) /ContactInfo() /Prop_Build<</App<</Name/>>>>>>\nendobj\n"
+        let sigDict = "\n\(sigNum) 0 obj\n<</Type/Sig /Filter/Adobe.PPKLite /SubFilter/ETSI.CAdES.detached \(brDummy) \(contents) /M(\(pdfDate(signingDate))) /Reason(MoldSign Signature) /Location(Moldova) /ContactInfo() /Prop_Build<</App<</Name/>>>>>>\nendobj\n"
         let acroForm = "\(acroNum) 0 obj\n<</Fields[\(fieldNum) 0 R]/SigFlags 3>>\nendobj\n"
         let pref = pageNum.map { "/P \($0) 0 R" } ?? ""
         // next unique field name: max existing "/T (SignatureN)" index (whitespace-tolerant)
@@ -106,7 +112,7 @@ public final class PAdESSigner {
         }
         let sigField = "\(fieldNum) 0 obj\n<</FT/Sig /T(Signature\(sigCount + 1)) /Type/Annot /Subtype/Widget /Rect[0 0 0 0] /F 0 \(pref) /V \(sigNum) 0 R>>\nendobj\n"
 
-        let chunks: [String]
+        var chunks: [String]
         if let acroRef = existingAcroNum, let acroDict = findObjectDict(text, num: acroRef) {
             // counter-sign: update the existing AcroForm's /Fields; catalog keeps pointing at it
             guard let fieldsRE = try? NSRegularExpression(pattern: #"/Fields\s*\[([^\]]*)\]"#),
@@ -127,8 +133,16 @@ public final class PAdESSigner {
             chunks = [sigDict, acroForm, sigField, catUpdated]
         }
 
+        var nextObject = maxObj + 4
+        if let appearance {
+            let (visibleField, extra, next) = try StampPDF.appearance(text: text, catalog: catDict,
+                field: fieldNum, signature: sigNum, first: nextObject, name: "Signature\(sigCount + 1)",
+                placement: appearance, holder: Validator.subjectCN(certDER) ?? "", date: signingDate)
+            chunks = chunks.map { $0 == sigField ? visibleField : $0 } + extra
+            nextObject = next
+        }
         dbg("S7 objs built")
-        var body = chunks.map { Data($0.utf8) }.reduce(Data(), +)
+        var body = chunks.map { $0.data(using: .isoLatin1)! }.reduce(Data(), +)
 
         // --- xref (per-object subsections, iText style) ---
         var offsets: [(Int, Int)] = [] // (objNum, offset)
@@ -136,7 +150,7 @@ public final class PAdESSigner {
         for chunk in chunks {
             let num = Int(chunk.drop(while: { !$0.isNumber }).prefix(while: { $0.isNumber })) ?? 0
             offsets.append((num, pos + (chunk.hasPrefix("\n") ? 1 : 0)))
-            pos += chunk.utf8.count
+            pos += chunk.data(using: .isoLatin1)!.count
         }
         dbg("S8 offsets ok")
         let xrefPos = appendOffset + body.count
@@ -144,7 +158,7 @@ public final class PAdESSigner {
         for (num, off) in offsets.sorted(by: { $0.0 < $1.0 }) {
             xref += "\(num) 1\n\(pad10(off)) 00000 n \n"
         }
-        var trailer = "trailer\n<</Size \(maxObj + 4) /Root \(rootNum) 0 R /Prev \(origXref)"
+        var trailer = "trailer\n<</Size \(nextObject) /Root \(rootNum) 0 R /Prev \(origXref)"
         if let idPair = idPair { trailer += " /ID [<\(idPair[1])><\(idPair[2])>]" }
         trailer += ">>\nstartxref\n\(xrefPos)\n%%EOF\n"
 
@@ -180,7 +194,7 @@ public final class PAdESSigner {
 
         // --- CMS ---
         dbg("S13 digest ok")
-        let cms = try buildFullCMS(contentDigest: contentDigest, certDER: certDER, tsaUnsignedAttr: tsaUnsignedAttr, signBlock: signBlock)
+        let cms = try buildFullCMS(contentDigest: contentDigest, certDER: certDER, tsaUnsignedAttr: tsaUnsignedAttr, signingDate: signingDate, signBlock: signBlock)
         let cmsHex = cms.hexString.lowercased()
         guard cmsHex.count <= Self.placeholderHexLen else {
             throw CardError.signFailed("CMS too large for placeholder")
@@ -201,10 +215,10 @@ public final class PAdESSigner {
     /// CA chain, and an RFC3161 timestamp unsignedAttr from MDQTSA.
     /// tsaUnsignedAttr: pre-built timestamp unsignedAttr (tests); nil = fetch live from MDQTSA.
     public func buildFullCMS(contentDigest: Data, certDER: Data,
-                      tsaUnsignedAttr: Data? = nil,
+                      tsaUnsignedAttr: Data? = nil, signingDate: Date = Date(),
                       signBlock: (Data) throws -> Data) throws -> Data {
         let certInfo = try parseCertInfo(certDER)
-        let signingTime = formatUTCTime()
+        let signingTime = formatUTCTime(signingDate)
         let rawAttrs = try buildSignedAttrs(digest: contentDigest, certDER: certDER, signingTime: signingTime)
         let attrsHash = set(rawAttrs).sha256()
         let digestInfo = seq(seq(oid(Self.oidSha256) + Data([0x05, 0x00])) + der(0x04, attrsHash))
@@ -342,17 +356,17 @@ public final class PAdESSigner {
 
     // MARK: - Helpers
 
-    private func formatUTCTime() -> String {
-        let f = DateFormatter()
+    private func formatUTCTime(_ date: Date) -> String {
+        let f = DateFormatter(); f.locale = Locale(identifier: "en_US_POSIX")
         f.dateFormat = "yyMMddHHmmss'Z'"
         f.timeZone = TimeZone(identifier: "UTC")
-        return f.string(from: Date())
+        return f.string(from: date)
     }
 
-    private func pdfDate() -> String {
-        let f = DateFormatter()
+    private func pdfDate(_ date: Date) -> String {
+        let f = DateFormatter(); f.locale = Locale(identifier: "en_US_POSIX")
         f.dateFormat = "'D:'yyyyMMddHHmmssXXX"
-        let s = f.string(from: Date()) // +03:00 -> +03'00'
+        let s = f.string(from: date) // +03:00 -> +03'00'
         return s.replacingOccurrences(of: ":00", with: "'00'")
     }
 

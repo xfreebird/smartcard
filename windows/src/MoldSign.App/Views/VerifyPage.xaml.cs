@@ -162,7 +162,7 @@ public sealed partial class VerifyPage : Page
         var content = new StackPanel { Spacing = 12 };
         content.Children.Add(new TextBlock
         {
-            Text = $"{Loc.Format("Verify_Signature", index)} · {report.Kind}",
+            Text = $"{Loc.Format("Verify_Signature", index)} · {SignatureLabels.Human(report.Kind)}",
             FontWeight = FontWeights.SemiBold,
             TextWrapping = TextWrapping.Wrap,
         });
@@ -172,7 +172,7 @@ public sealed partial class VerifyPage : Page
         content.Children.Add(Field("Verify_SigningTime", FormatTime(report.SigningTime)));
         content.Children.Add(Field("Verify_Timestamp", report.TimestampTime is { } time
             ? FormatTime(time) : Loc.Get("Verify_NoTimestamp")));
-        content.Children.Add(Field("Verify_Level", report.Level));
+        content.Children.Add(Field("Verify_Level", SignatureLabels.Human(report.Level)));
         content.Children.Add(Check("Verify_Integrity", report.ContentIntact, "Verify_IntegrityGood", "Verify_IntegrityBad"));
         content.Children.Add(Check("Verify_Crypto", report.SignatureValid, "Verify_CryptoGood", "Verify_CryptoBad"));
         content.Children.Add(Check("Verify_Chain", report.ChainTrusted, "Verify_ChainGood", "Verify_ChainBad", warnOnly: true));
@@ -195,7 +195,7 @@ public sealed partial class VerifyPage : Page
             certificate.Children.Add(new TextBlock { Text = $"{field.Key}: {field.Value}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true });
         content.Children.Add(new Expander { Header = "Certificate details", Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch });
         var details = new StackPanel { Spacing = 12 };
-        details.Children.Add(Field("Verify_Format", report.Kind));
+        details.Children.Add(Field("Verify_Format", SignatureLabels.Human(report.Kind)));
         details.Children.Add(Field("Verify_Identifier", report.Name));
         if (!string.IsNullOrWhiteSpace(report.SigningTime))
             details.Children.Add(Field("Verify_SigningTime", report.SigningTime));

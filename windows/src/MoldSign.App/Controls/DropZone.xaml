@@ -50,7 +50,7 @@
                 x:Uid="DropHint"
                 HorizontalAlignment="Center"
                 Style="{StaticResource MsCaptionTextStyle}"
-                Text="PDF → PAdES · altele → XAdES" />
+                Text="PDF → semnătură PDF · altele → semnătură XML" />
         </StackPanel>
 
         <Grid

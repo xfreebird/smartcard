@@ -41,6 +41,10 @@ interface SigningService {
         expectedCertificateSha1: String? = null,
     ): SignResult
 
+    fun signPdfVisible(input: Document, consent: Consent, placement: PdfStampPlacement,
+        requester: String? = null, reader: String? = null, expectedCertificateSha1: String? = null): SignResult =
+        throw CardError.Format("Visible signatures are not supported by this signer")
+
     fun signXades(
         files: List<Document>,
         level: XadesLevel,
@@ -63,10 +67,12 @@ interface SigningService {
         requester: String? = null,
         reader: String? = null,
         expectedCertificateSha1: String? = null,
+        placement: PdfStampPlacement? = null,
     ): SignResult = when (val level = format.xadesLevel) {
         null -> {
-            if (!input.isPdf()) throw CardError.Format("PAdES needs a PDF: ${input.name}")
-            signPdf(input, consent, requester, reader, expectedCertificateSha1)
+            if (!input.isPdf()) throw CardError.Format("A PDF signature needs a PDF: ${input.name}")
+            if (placement == null) signPdf(input, consent, requester, reader, expectedCertificateSha1)
+            else signPdfVisible(input, consent, placement, requester, reader, expectedCertificateSha1)
         }
         else -> signXades(listOf(input), level, XadesPackaging.Detached, consent, requester, reader, expectedCertificateSha1)
     }
@@ -110,11 +116,20 @@ class CardSigningService(
         requester: String?,
         reader: String?,
         expectedCertificateSha1: String?,
-    ): SignResult = withCard(reader) { card ->
+    ): SignResult = signPdfInternal(input, consent, requester, reader, expectedCertificateSha1, null)
+
+    override fun signPdfVisible(input: Document, consent: Consent, placement: PdfStampPlacement,
+        requester: String?, reader: String?, expectedCertificateSha1: String?): SignResult =
+        signPdfInternal(input, consent, requester, reader, expectedCertificateSha1, placement)
+
+    private fun signPdfInternal(input: Document, consent: Consent, requester: String?, reader: String?,
+        expectedCertificateSha1: String?, placement: PdfStampPlacement?): SignResult = withCard(reader) { card ->
         val certDer = readCertificate(card, expectedCertificateSha1)
         val summary = CertificateSummary.parse(certDer)
         val request = ConsentRequest(requester, listOf(input.name), FORMAT_PADES_T, summary)
-        val signed = pades.sign(input.bytes, certDer, chainDer, cardSigner(card, request, consent))
+        val raw = cardSigner(card, request, consent)
+        val signed = if (placement == null) pades.sign(input.bytes, certDer, chainDer, raw)
+            else pades.signVisible(input.bytes, certDer, chainDer, raw, placement)
         step(SigningStep.Done)
         SignResult(signed, summary, FORMAT_PADES_T)
     }
