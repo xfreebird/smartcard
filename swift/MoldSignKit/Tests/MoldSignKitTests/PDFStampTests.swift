@@ -38,7 +38,12 @@ final class PDFStampTests: XCTestCase {
         let (_, chunks, _) = try StampPDF.appearance(text: pdf, catalog: catalog, field: 12, signature: 10,
             first: 13, name: "Signature1", placement: .init(allPages: true, x: 0.1, y: 0.2, width: 0.4, height: 0.1),
             holder: "Ștefan Țurcanu Иванов", date: Date(timeIntervalSince1970: 0))
-        let forms = chunks.filter { $0.contains("/Subtype /Form") }.joined()
+        let forms = try chunks.filter { $0.contains("/Subtype /Form") }.map { chunk in
+            XCTAssertTrue(chunk.contains("/Filter /ASCIIHexDecode"))
+            let start = try XCTUnwrap(chunk.range(of: "stream\n")?.upperBound)
+            let end = try XCTUnwrap(chunk.range(of: ">\nendstream", range: start..<chunk.endIndex)?.lowerBound)
+            return String(decoding: Data(hex: String(chunk[start..<end])), as: UTF8.self)
+        }.joined()
         XCTAssertFalse(forms.contains(" re f"), "The stamp must not paint an opaque background")
         XCTAssertTrue(forms.contains("0.5 10 174 21 re S"))
         let update = chunks.joined()
