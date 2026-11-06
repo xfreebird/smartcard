@@ -27,7 +27,9 @@ window_rect = ((200, 200), (680, 425))
 icon_size = 128
 text_size = 12
 icon_locations = {"eSemnBun.app": (208, 190), " ": (472, 190)}
-hide_extensions = ["eSemnBun.app"]
+# Finder hide-extension flags add com.apple.FinderInfo to the signed bundle.
+# Keep the bundle untouched so strict code-signature verification succeeds.
+hide_extensions = []
 show_status_bar = False
 show_tab_view = False
 show_toolbar = False
