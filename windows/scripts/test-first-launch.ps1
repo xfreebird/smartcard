@@ -3,6 +3,21 @@ param([Parameter(Mandatory=$true)][string]$App,[Parameter(Mandatory=$true)][stri
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+Add-Type -AssemblyName System.Drawing
+if (-not ('CaptureWindow' -as [type])) {
+    Add-Type @'
+using System;
+using System.Runtime.InteropServices;
+public static class CaptureWindow {
+    [StructLayout(LayoutKind.Sequential)] public struct Rect { public int Left, Top, Right, Bottom; }
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hwnd, out Rect rect);
+    [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
+    [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+    [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+}
+'@
+}
+[CaptureWindow]::SetProcessDPIAware() | Out-Null
 $presentReaders=@(Get-PnpDevice -Class SmartCardReader -PresentOnly -ErrorAction SilentlyContinue)
 if($presentReaders.Count -gt 0) {throw 'Detach smart-card readers before the isolated ordinary-launch test.'}
 $labels=@()
@@ -35,6 +50,27 @@ try {
         }
         if($process.MainWindowHandle -eq 0) {throw 'Ordinary launch did not show a main window.'}
         $window=[System.Windows.Automation.AutomationElement]::FromHandle($process.MainWindowHandle)
+        if($launch -eq 0) {
+            # The first run shows the onboarding dialog; dismiss it so the page itself is checked.
+            $dismissed=$false
+            # ContentDialog is hosted in a popup and can take longer to initialize on ARM emulation.
+            # Search the process's desktop accessibility tree, not only the main window subtree.
+            for($i=0;$i -lt 150;$i++) {
+                $idCondition=[System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty,'PrimaryButton')
+                $processCondition=[System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$process.Id)
+                $condition=[System.Windows.Automation.AndCondition]::new($idCondition,$processCondition)
+                $button=[System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Descendants,$condition)
+                if($null -ne $button) {
+                    [void]$button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                    $dismissed=$true
+                    break
+                }
+                if($dismissed) {break}
+                Start-Sleep -Milliseconds 100
+            }
+            if(-not $dismissed) {throw 'First-run onboarding was not presented for dismissal.'}
+            Start-Sleep -Milliseconds 300
+        }
         $ready=$false
         for($i=0;$i -lt 50;$i++) {
             foreach($label in $labels) {
@@ -59,8 +95,14 @@ try {
                 $bitmap.Save((Join-Path $Output 'ordinary-first-launch.png'),[System.Drawing.Imaging.ImageFormat]::Png)
             } finally {$graphics.Dispose();$bitmap.Dispose()}
         }
-        $state=Get-Content $preferences -Raw | ConvertFrom-Json
-        if(-not $state.FirstRunDone) {throw 'First launch did not persist completion in the isolated profile.'}
+        $persisted=$false
+        for($i=0;$i -lt 30;$i++) {
+            # The onboarding persists completion asynchronously once dismissed; allow that save to land.
+            $state=Get-Content $preferences -Raw | ConvertFrom-Json
+            if($state.FirstRunDone) {$persisted=$true;break}
+            Start-Sleep -Milliseconds 100
+        }
+        if(-not $persisted) {throw 'First launch did not persist completion in the isolated profile.'}
         Stop-Process -Id $process.Id -Force
         $process.WaitForExit(3000) | Out-Null
     }

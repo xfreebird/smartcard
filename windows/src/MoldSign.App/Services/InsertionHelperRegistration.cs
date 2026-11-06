@@ -22,7 +22,7 @@ internal static class InsertionHelperRegistration
             if (!preferences.InsertionHelperEnabled) { task.Disable(); return ""; }
             var state = await task.RequestEnableAsync();
             if (state == StartupTaskState.DisabledByUser) return Loc.Get("Settings_StartupDisabledByUser");
-            if (state == StartupTaskState.DisabledByPolicy) return Loc.Get("Settings_StartupManaged");
+            if (state == StartupTaskState.DisabledByPolicy) return Loc.Get("Settings_StartupPolicy");
         }
         else
         {

@@ -262,6 +262,10 @@ enum L10n {
         case ui_author_value
         case ui_idnp_value
         case ui_certificate_details
+        case onboarding_welcome_title
+        case onboarding_welcome_body
+        case onboarding_get_started
+        case onboarding_change_anytime
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

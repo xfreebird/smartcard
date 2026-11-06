@@ -259,6 +259,7 @@ struct MainWindowView: View {
 
     @Environment(AppModel.self) private var model
     @State private var portalBrowser = MacPortalBrowser()
+    @State private var onboardingPresented = false
     @AppStorage("mainSection", store: AppPreferencesStore.defaults) private var stored = Section.sign.rawValue
 
     var body: some View {
@@ -299,5 +300,24 @@ struct MainWindowView: View {
         .onChange(of: model.browserURL) { _, url in
             if url != nil { stored = Section.browser.rawValue }
         }
+        .sheet(isPresented: $onboardingPresented, onDismiss: markOnboardingComplete) {
+            OnboardingView { onboardingPresented = false }
+        }
+        .onAppear { presentOnboardingIfNeeded() }
+    }
+
+    /// First-run onboarding (MAC-17, docs/10 §4.7): once, over the main window the first time it appears.
+    private func presentOnboardingIfNeeded() {
+        guard !AppPreferencesStore.defaults.bool(forKey: "didCompleteOnboarding") else { return }
+        if model.demoMode { return }   // demo previews and demo sessions stay unobstructed
+        #if DEBUG
+        if ProcessInfo.processInfo.environment["MSIGN_SCREENSHOT_CAPTURE"] == "1" { return }
+        #endif
+        onboardingPresented = true
+    }
+
+    /// Any dismissal (Get started or Escape) counts: the choices are already applied live.
+    private func markOnboardingComplete() {
+        AppPreferencesStore.defaults.set(true, forKey: "didCompleteOnboarding")
     }
 }

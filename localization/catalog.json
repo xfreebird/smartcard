@@ -2386,9 +2386,9 @@
       "platform": "windows",
       "key": "Settings_StartupManaged",
       "translations": {
-        "ro": "Setat de administrator pentru toți utilizatorii (instalarea MSI)",
-        "en": "Set by your administrator for all users (MSI install)",
-        "ru": "Настроено администратором для всех пользователей (установка MSI)"
+        "en": "Enabled for all users by the installer. This cannot be changed here.",
+        "ro": "Activat pentru toți utilizatorii de programul de instalare. Nu poate fi schimbat aici.",
+        "ru": "Включено для всех пользователей при установке. Здесь это изменить нельзя."
       }
     },
     {
@@ -9184,6 +9184,177 @@
         "ro": "Detaliile certificatului",
         "en": "Certificate details",
         "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "onboarding_welcome_title",
+      "translations": {
+        "ro": "Bine ai venit la eSemnBun",
+        "en": "Welcome to eSemnBun",
+        "ru": "Добро пожаловать в eSemnBun"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "onboarding_welcome_body",
+      "translations": {
+        "en": "Sign with your Moldovan ID, verify signatures, and use online signing services.",
+        "ro": "Semnează cu actul de identitate din Moldova, verifică semnături și folosește servicii de semnare online.",
+        "ru": "Подписывайте документы с удостоверением Молдовы, проверяйте подписи и пользуйтесь сервисами подписи онлайн."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "onboarding_get_started",
+      "translations": {
+        "ro": "Începe",
+        "en": "Get started",
+        "ru": "Начать"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "onboarding_change_anytime",
+      "translations": {
+        "ro": "Poți schimba oricând aceste opțiuni din Setări.",
+        "en": "You can change these options any time in Settings.",
+        "ru": "Эти параметры можно изменить в любой момент в настройках."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "onboarding_welcome_title",
+      "translations": {
+        "ro": "Bine ai venit la eSemnBun",
+        "en": "Welcome to eSemnBun",
+        "ru": "Добро пожаловать в eSemnBun"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "onboarding_welcome_body",
+      "translations": {
+        "en": "Sign with your Moldovan ID, verify signatures, and use online signing services.",
+        "ro": "Semnează cu actul de identitate din Moldova, verifică semnături și folosește servicii de semnare online.",
+        "ru": "Подписывайте документы с удостоверением Молдовы, проверяйте подписи и пользуйтесь сервисами подписи онлайн."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "onboarding_get_started",
+      "translations": {
+        "ro": "Începe",
+        "en": "Get started",
+        "ru": "Начать"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "onboarding_change_anytime",
+      "translations": {
+        "ro": "Poți schimba oricând aceste opțiuni din Setări.",
+        "en": "You can change these options any time in Settings.",
+        "ru": "Эти параметры можно изменить в любой момент в настройках."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_Title",
+      "translations": {
+        "ro": "Bine ai venit la eSemnBun",
+        "en": "Welcome to eSemnBun",
+        "ru": "Добро пожаловать в eSemnBun"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_Body",
+      "translations": {
+        "en": "Sign with your Moldovan ID, verify signatures, and use online signing services.",
+        "ro": "Semnează cu actul de identitate din Moldova, verifică semnături și folosește servicii de semnare online.",
+        "ru": "Подписывайте документы с удостоверением Молдовы, проверяйте подписи и пользуйтесь сервисами подписи онлайн."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_StartAtLogin",
+      "translations": {
+        "ro": "Pornește la autentificare",
+        "en": "Start at sign-in",
+        "ru": "Запускать при входе в систему"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_OpenOnInsertion",
+      "translations": {
+        "ro": "Deschide eSemnBun la conectarea cititorului sau introducerea cardului",
+        "en": "Open eSemnBun when a reader or card is connected",
+        "ru": "Открывать eSemnBun при подключении считывателя или вставке карты"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_HelperNote",
+      "translations": {
+        "ro": "Un utilitar separat detectează cititorul și cardul chiar dacă aplicația este închisă. Nu citește PIN-ul și nu semnează.",
+        "en": "A separate utility detects the reader and card while the app is closed. It does not read PINs or sign.",
+        "ru": "Отдельная утилита обнаруживает считыватель и карту, даже когда приложение закрыто. Она не считывает PIN и не подписывает."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_GetStarted",
+      "translations": {
+        "ro": "Începe",
+        "en": "Get started",
+        "ru": "Начать"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_Skip",
+      "translations": {
+        "ro": "Omite",
+        "en": "Skip",
+        "ru": "Пропустить"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_ChangeLater",
+      "translations": {
+        "en": "Manage available options later in Settings.",
+        "ro": "Gestionează opțiunile disponibile mai târziu în Setări.",
+        "ru": "Доступные параметры можно изменить позже в настройках."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_Choices",
+      "translations": {
+        "en": "Make it yours",
+        "ro": "Alege cum pornește",
+        "ru": "Настройте запуск"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Onboarding_StartupDetail",
+      "translations": {
+        "en": "Start in the background when you sign in.",
+        "ro": "Pornește în fundal la autentificare.",
+        "ru": "Запускать в фоновом режиме при входе."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Settings_StartupPolicy",
+      "translations": {
+        "en": "This startup option is controlled by Windows policy.",
+        "ro": "Această opțiune de pornire este controlată de o politică Windows.",
+        "ru": "Этот параметр запуска управляется политикой Windows."
       }
     }
   ],

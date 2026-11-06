@@ -95,7 +95,7 @@
   <data name="Tray_OpenWindow" xml:space="preserve"><value>Open window</value></data>
   <data name="Tray_Quit" xml:space="preserve"><value>Quit</value></data>
   <data name="Settings_AllowedSites" xml:space="preserve"><value>{0} allowed sites (vendor list)</value></data>
-  <data name="Settings_StartupManaged" xml:space="preserve"><value>Set by your administrator for all users (MSI install)</value></data>
+  <data name="Settings_StartupManaged" xml:space="preserve"><value>Enabled for all users by the installer. This cannot be changed here.</value></data>
   <data name="Settings_StartupDisabledByUser" xml:space="preserve"><value>Turned off in Settings › Apps › Startup; turn it on there</value></data>
   <data name="Light_Idle" xml:space="preserve"><value>Connect the reader</value></data>
   <data name="Light_Reader" xml:space="preserve"><value>Reader connected · insert the card</value></data>
@@ -258,4 +258,15 @@
   <data name="Update_Available" xml:space="preserve"><value>An update is available. The download page has been opened.</value></data>
   <data name="File_ShowInFolder" xml:space="preserve"><value>Show in Explorer</value></data>
   <data name="VerifyClearResults.Content" xml:space="preserve"><value>Clear results</value></data>
+  <data name="Onboarding_Title" xml:space="preserve"><value>Welcome to eSemnBun</value></data>
+  <data name="Onboarding_Body" xml:space="preserve"><value>Sign with your Moldovan ID, verify signatures, and use online signing services.</value></data>
+  <data name="Onboarding_StartAtLogin" xml:space="preserve"><value>Start at sign-in</value></data>
+  <data name="Onboarding_OpenOnInsertion" xml:space="preserve"><value>Open eSemnBun when a reader or card is connected</value></data>
+  <data name="Onboarding_HelperNote" xml:space="preserve"><value>A separate utility detects the reader and card while the app is closed. It does not read PINs or sign.</value></data>
+  <data name="Onboarding_GetStarted" xml:space="preserve"><value>Get started</value></data>
+  <data name="Onboarding_Skip" xml:space="preserve"><value>Skip</value></data>
+  <data name="Onboarding_ChangeLater" xml:space="preserve"><value>Manage available options later in Settings.</value></data>
+  <data name="Onboarding_Choices" xml:space="preserve"><value>Make it yours</value></data>
+  <data name="Onboarding_StartupDetail" xml:space="preserve"><value>Start in the background when you sign in.</value></data>
+  <data name="Settings_StartupPolicy" xml:space="preserve"><value>This startup option is controlled by Windows policy.</value></data>
 </root>

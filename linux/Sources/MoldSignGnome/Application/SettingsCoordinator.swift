@@ -27,4 +27,9 @@ final class SettingsCoordinator {
     func setShowOnCardInsertion(_ enabled: Bool) {
         update { $0.showOnCardInsertion = enabled; if enabled { $0.runInBackground = true } }
     }
+
+    /// First-run onboarding (docs/10 §4.7): any dismissal completes it; the choices apply live in the dialog.
+    func completeOnboarding() {
+        update { $0.onboardingCompleted = true }
+    }
 }

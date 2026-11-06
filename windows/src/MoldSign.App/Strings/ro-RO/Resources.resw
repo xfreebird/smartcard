@@ -95,7 +95,7 @@
   <data name="Tray_OpenWindow" xml:space="preserve"><value>Deschide fereastra</value></data>
   <data name="Tray_Quit" xml:space="preserve"><value>Ieșire</value></data>
   <data name="Settings_AllowedSites" xml:space="preserve"><value>{0} site-uri permise (lista furnizorului)</value></data>
-  <data name="Settings_StartupManaged" xml:space="preserve"><value>Setat de administrator pentru toți utilizatorii (instalarea MSI)</value></data>
+  <data name="Settings_StartupManaged" xml:space="preserve"><value>Activat pentru toți utilizatorii de programul de instalare. Nu poate fi schimbat aici.</value></data>
   <data name="Settings_StartupDisabledByUser" xml:space="preserve"><value>Oprit din Setări › Aplicații › Pornire; activează-l de acolo</value></data>
   <data name="Light_Idle" xml:space="preserve"><value>Conectează cititorul</value></data>
   <data name="Light_Reader" xml:space="preserve"><value>Cititor conectat · introdu cardul</value></data>
@@ -258,4 +258,15 @@
   <data name="Update_Available" xml:space="preserve"><value>Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.</value></data>
   <data name="File_ShowInFolder" xml:space="preserve"><value>Arată în Explorer</value></data>
   <data name="VerifyClearResults.Content" xml:space="preserve"><value>Șterge rezultatele</value></data>
+  <data name="Onboarding_Title" xml:space="preserve"><value>Bine ai venit la eSemnBun</value></data>
+  <data name="Onboarding_Body" xml:space="preserve"><value>Semnează cu actul de identitate din Moldova, verifică semnături și folosește servicii de semnare online.</value></data>
+  <data name="Onboarding_StartAtLogin" xml:space="preserve"><value>Pornește la autentificare</value></data>
+  <data name="Onboarding_OpenOnInsertion" xml:space="preserve"><value>Deschide eSemnBun la conectarea cititorului sau introducerea cardului</value></data>
+  <data name="Onboarding_HelperNote" xml:space="preserve"><value>Un utilitar separat detectează cititorul și cardul chiar dacă aplicația este închisă. Nu citește PIN-ul și nu semnează.</value></data>
+  <data name="Onboarding_GetStarted" xml:space="preserve"><value>Începe</value></data>
+  <data name="Onboarding_Skip" xml:space="preserve"><value>Omite</value></data>
+  <data name="Onboarding_ChangeLater" xml:space="preserve"><value>Gestionează opțiunile disponibile mai târziu în Setări.</value></data>
+  <data name="Onboarding_Choices" xml:space="preserve"><value>Alege cum pornește</value></data>
+  <data name="Onboarding_StartupDetail" xml:space="preserve"><value>Pornește în fundal la autentificare.</value></data>
+  <data name="Settings_StartupPolicy" xml:space="preserve"><value>Această opțiune de pornire este controlată de o politică Windows.</value></data>
 </root>

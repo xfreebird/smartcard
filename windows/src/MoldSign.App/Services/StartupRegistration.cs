@@ -9,8 +9,11 @@ public enum StartupMode
 {
     Off,
     On,
-    /// <summary>MSI <c>STARTATLOGIN=1</c> (HKLM Run, all users) or an MSIX policy: on, not changeable here.</summary>
+    /// <summary>MSI <c>STARTATLOGIN=1</c> (HKLM Run, all users): on, not changeable here.</summary>
     Managed,
+    /// <summary>A Windows startup policy forces this state.</summary>
+    PolicyOn,
+    PolicyOff,
     /// <summary>MSIX: the user turned it off in Settings › Apps › Startup / Task Manager; only they can turn it back on.</summary>
     DisabledByUser,
 }
@@ -79,7 +82,8 @@ internal static partial class StartupRegistration
     private static StartupMode Map(StartupTaskState state) => state switch
     {
         StartupTaskState.Enabled => StartupMode.On,
-        StartupTaskState.EnabledByPolicy or StartupTaskState.DisabledByPolicy => StartupMode.Managed,
+        StartupTaskState.EnabledByPolicy => StartupMode.PolicyOn,
+        StartupTaskState.DisabledByPolicy => StartupMode.PolicyOff,
         StartupTaskState.DisabledByUser => StartupMode.DisabledByUser,
         _ => StartupMode.Off,
     };

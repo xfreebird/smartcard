@@ -39,11 +39,42 @@ struct BrowserScreen: View {
                 .padding(.horizontal).padding(.vertical, 6).background(.bar)
                 }
             }
-            .safeAreaInset(edge: .bottom) {
-                if let error = browser.error {
-                    Label(error, systemImage: "exclamationmark.triangle")
-                        .font(.caption).padding(8).frame(maxWidth: .infinity).background(.bar)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                VStack(spacing: 0) {
+                    if let error = browser.error {
+                        Label(error, systemImage: "exclamationmark.triangle")
+                            .font(.caption).padding(8).frame(maxWidth: .infinity)
+                    }
+                    HStack {
+                        Button { browser.webView.goBack() } label: {
+                            Label(L10n.text(.ui_back), systemImage: "chevron.left")
+                                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                        }
+                        .disabled(model.demoMode || !browser.canGoBack)
+                        Button { browser.webView.goForward() } label: {
+                            Label(L10n.text(.ui_forward), systemImage: "chevron.right")
+                                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                        }
+                        .disabled(model.demoMode || !browser.canGoForward)
+                        Spacer()
+                        Button { browser.webView.reload() } label: {
+                            Label(L10n.text(.ui_reload), systemImage: "arrow.clockwise")
+                                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                        }
+                        .disabled(model.demoMode)
+                        if let url = browser.url {
+                            ShareLink(item: url) {
+                                Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up")
+                                    .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                            }
+                        }
+                    }
+                    .labelStyle(.iconOnly)
+                    .buttonStyle(.plain)
+                    .frame(minHeight: 50)
+                    .padding(.horizontal, 20)
                 }
+                .background(.bar)
             }
             .navigationTitle(browser.url?.host ?? L10n.text(.ui_browser))
             .navigationBarTitleDisplayMode(.inline)
@@ -70,18 +101,6 @@ struct BrowserScreen: View {
                     Button { address = browser.url?.absoluteString ?? address; editingAddress = true } label: {
                         Label(L10n.text(.ui_open_an_address), systemImage: "link")
                     }.disabled(model.demoMode)
-                }
-                ToolbarItemGroup(placement: .bottomBar) {
-                    Button { browser.webView.goBack() } label: { Label(L10n.text(.ui_back), systemImage: "chevron.left") }
-                        .disabled(model.demoMode || !browser.canGoBack)
-                    Button { browser.webView.goForward() } label: { Label(L10n.text(.ui_forward), systemImage: "chevron.right") }
-                        .disabled(model.demoMode || !browser.canGoForward)
-                    Spacer()
-                    Button { browser.webView.reload() } label: { Label(L10n.text(.ui_reload), systemImage: "arrow.clockwise") }
-                        .disabled(model.demoMode)
-                    if let url = browser.url {
-                        ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
-                    }
                 }
             }
             .sheet(isPresented: $showingBookmarks) {
@@ -194,6 +213,7 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     var canGoForward = false
     var loading = false
     var error: String?
+    @ObservationIgnored private var navigationObservations: [NSKeyValueObservation] = []
     private let mpassHosts: Set<String> = ["mpass.gov.md", "testmpass.gov.md", "mpass.staging.egov.md"]
 
     init(configuration: WKWebViewConfiguration = WKWebViewConfiguration()) {
@@ -205,6 +225,19 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
         webView.navigationDelegate = self
         webView.uiDelegate = self
         webView.allowsBackForwardNavigationGestures = true
+        // Portals can change history and URL through the History API without a navigation
+        // delegate callback. Keep the controls and share URL in sync with WebKit itself.
+        navigationObservations = [
+            webView.observe(\.canGoBack, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.updateNavigation() }
+            },
+            webView.observe(\.canGoForward, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.updateNavigation() }
+            },
+            webView.observe(\.url, options: [.new]) { [weak self] _, _ in
+                Task { @MainActor in self?.updateNavigation() }
+            },
+        ]
     }
 
     func open(_ url: URL) {

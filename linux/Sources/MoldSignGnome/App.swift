@@ -8,6 +8,14 @@ final class MoldSignApp {
     let app: UnsafeMutablePointer<AdwApplication>
     let controller = AppController()
     private var window: MainWindow?
+    private var onboardingPresented = false
+    private var onboardingPreview: Bool {
+        #if MOLDSIGN_DEMO
+        return controller.isDemo && ProcessInfo.processInfo.environment["MSIGN_QA_ONBOARDING"] == "1"
+        #else
+        return false
+        #endif
+    }
     private let updates = UpdateChecker()
     private var updateTimer: Task<Void, Never>?
     /// Status light → Quick Settings "Background Apps" (UX-01); created at startup (needs the D-Bus connection).
@@ -23,7 +31,13 @@ final class MoldSignApp {
         self.startHidden = startHidden
         // G_APPLICATION_HANDLES_OPEN (1 << 2). Recent GLib marks GApplicationFlags as a flag enum, which
         // renames its constants in Swift; the raw value imports the same on every GLib version.
-        app = adw_application_new(Self.id, GApplicationFlags(rawValue: 1 << 2))!
+        // Allow isolated Debug onboarding previews alongside the installed instance.
+        #if MOLDSIGN_DEMO
+        let preview = ProcessInfo.processInfo.environment["MSIGN_QA_ONBOARDING"] == "1" && DemoMode.current != nil
+        #else
+        let preview = false
+        #endif
+        app = adw_application_new(Self.id, GApplicationFlags(rawValue: (1 << 2) | (preview ? (1 << 5) : 0)))!
         onSignal(app, "startup") { [unowned self] in startup() }
         onSignal(app, "activate") { [unowned self] in activate() }
         onOpenFiles(app) { [unowned self] paths in open(paths) }
@@ -146,14 +160,25 @@ final class MoldSignApp {
             return
         }
         presentWindow()
+        // First-run onboarding (docs/10 §4.7): once, over the main window; demo sessions stay unobstructed.
+        presentOnboardingIfNeeded()
     }
 
     /// Files from the file manager ("Deschide cu eSemnBun") or the command line go to "Semnează".
     private func open(_ paths: [String]) {
         startHidden = false
         presentWindow()
+        presentOnboardingIfNeeded()
         mainWindow.show(page: "sign")
         controller.addFiles(paths)
+    }
+
+    private func presentOnboardingIfNeeded() {
+        guard !onboardingPresented, !controller.settings.onboardingCompleted, !controller.isDemo || onboardingPreview else { return }
+        onboardingPresented = true
+        presentOnboardingDialog(parent: mainWindow.window.widget, controller: controller) { [weak self] in
+            self?.onboardingPresented = false
+        }
     }
 
     private var mainWindow: MainWindow {

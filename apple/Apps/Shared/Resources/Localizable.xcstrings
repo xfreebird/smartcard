@@ -5698,6 +5698,94 @@
           }
         }
       }
+    },
+    "onboarding_welcome_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Bine ai venit la eSemnBun"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Welcome to eSemnBun"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Добро пожаловать в eSemnBun"
+          }
+        }
+      }
+    },
+    "onboarding_welcome_body": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sign with your Moldovan ID, verify signatures, and use online signing services."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Semnează cu actul de identitate din Moldova, verifică semnături și folosește servicii de semnare online."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подписывайте документы с удостоверением Молдовы, проверяйте подписи и пользуйтесь сервисами подписи онлайн."
+          }
+        }
+      }
+    },
+    "onboarding_get_started": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Începe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Get started"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Начать"
+          }
+        }
+      }
+    },
+    "onboarding_change_anytime": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Poți schimba oricând aceste opțiuni din Setări."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You can change these options any time in Settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Эти параметры можно изменить в любой момент в настройках."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

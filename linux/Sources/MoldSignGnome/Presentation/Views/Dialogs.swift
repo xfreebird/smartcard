@@ -157,6 +157,60 @@ func presentClearActivityDialog(parent: Widget, completion: @escaping (Bool) -> 
     adw_dialog_present(dialog, parent)
 }
 
+// MARK: - First-run onboarding (docs/10 §4.7)
+
+/// Welcome plus the two availability choices (start at sign-in, show on card insertion). The switches
+/// apply immediately, exactly like Preferences; any dismissal (Get started or Escape) completes it.
+func presentOnboardingDialog(parent: Widget, controller: AppController, onClose: @escaping () -> Void) {
+    let dialog = alert(heading: L10n.text(.onboarding_welcome_title), body: L10n.text(.onboarding_welcome_body))
+    addResponse(dialog, "start", L10n.text(.onboarding_get_started), ADW_RESPONSE_SUGGESTED)
+    adw_alert_dialog_set_default_response(dialog.cast(), "start")
+    adw_alert_dialog_set_close_response(dialog.cast(), "start")
+
+    let login = adw_switch_row_new()!
+    adw_preferences_row_set_title(login.cast(), L10n.text(.ui_start_at_sign_in))
+    adw_action_row_set_subtitle(login.cast(), L10n.text(.ui_start_in_the_background_to_detect_inserted_cards))
+    adw_switch_row_set_active(login.opaque, controller.settings.launchAtLogin ? 1 : 0)
+    var updating = false
+    onSignal(login, "notify::active") { _ in
+        guard !updating else { return }
+        controller.setLaunchAtLogin(adw_switch_row_get_active(login.opaque) != 0)
+    }
+
+    let insertion = adw_switch_row_new()!
+    adw_preferences_row_set_title(insertion.cast(), L10n.text(.ui_show_the_app_when_a_card_is_inserted))
+    adw_action_row_set_subtitle(insertion.cast(), L10n.text(.ui_works_while_the_app_runs_in_the_background))
+    adw_switch_row_set_active(insertion.opaque, controller.settings.showOnCardInsertion ? 1 : 0)
+    onSignal(insertion, "notify::active") { _ in
+        controller.setShowOnCardInsertion(adw_switch_row_get_active(insertion.opaque) != 0)
+    }
+
+    let list = boxedList()
+    gtk_list_box_append(list.opaque, login)
+    gtk_list_box_append(list.opaque, insertion)
+    // Keep both choices visible above the response on smaller screens and larger text scales.
+    let content = vbox(spacing: 0, [list])
+    gtk_widget_set_margin_top(content, 6)
+    gtk_widget_set_margin_bottom(content, 6)
+    adw_alert_dialog_set_extra_child(dialog.cast(), content)
+
+    let token = controller.observe {
+        updating = true
+        adw_switch_row_set_active(login.opaque, controller.settings.launchAtLogin ? 1 : 0)
+        gtk_widget_set_sensitive(login, controller.configuringLoginStartup ? 0 : 1)
+        updating = false
+    }
+
+    onResponse(dialog) { _ in
+        controller.completeOnboarding()
+    }
+    onSignal(dialog, "closed") {
+        controller.unobserve(token)
+        onClose()
+    }
+    adw_dialog_present(dialog, parent)
+}
+
 // MARK: - Preferences (AdwPreferencesDialog)
 
 func presentPreferences(parent: Widget, controller: AppController) {

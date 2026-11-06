@@ -511,6 +511,12 @@ final class AppController {
         changed()
     }
 
+    /// First-run onboarding (docs/10 §4.7): any dismissal completes it; the switches applied it live.
+    func completeOnboarding() {
+        preferences.completeOnboarding()
+        changed()
+    }
+
     func setTheme(_ value: String) {
         preferences.update { $0.theme = value }
         applyAppearance()

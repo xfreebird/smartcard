@@ -45,6 +45,16 @@ final class ApplicationTests: XCTestCase {
         XCTAssertTrue(store.value.runInBackground)
     }
 
+    func testOnboardingCompletionPersistsAndSurvivesRoundtrip() throws {
+        let store = SettingsMemory()
+        let settings = SettingsCoordinator(store: store)
+        XCTAssertFalse(settings.settings.onboardingCompleted)
+        settings.completeOnboarding()
+        XCTAssertTrue(store.value.onboardingCompleted)
+        XCTAssertTrue(try JSONDecoder().decode(AppSettings.self, from: JSONEncoder().encode(store.value)).onboardingCompleted)
+        XCTAssertFalse(try JSONDecoder().decode(AppSettings.self, from: Data("{}".utf8)).onboardingCompleted)
+    }
+
     func testBatchUsesFrozenIdentityAndStoresOnceAfterSuccess() {
         let signer = SignerSpy(); let vault = VaultSpy()
         let batch = BatchSigningService(signer: signer, vault: vault)

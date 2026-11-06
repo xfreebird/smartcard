@@ -269,6 +269,10 @@ enum L10n {
         case legacy_client_title
         case legacy_client_description
         case update_available
+        case onboarding_welcome_title
+        case onboarding_welcome_body
+        case onboarding_get_started
+        case onboarding_change_anytime
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -1607,6 +1611,26 @@ enum L10n {
     "ro": "Este disponibilă o actualizare. Pagina de descărcare a fost deschisă.",
     "en": "An update is available. The download page has been opened.",
     "ru": "Доступно обновление. Открыта страница загрузки."
+  },
+  "onboarding_welcome_title": {
+    "ro": "Bine ai venit la eSemnBun",
+    "en": "Welcome to eSemnBun",
+    "ru": "Добро пожаловать в eSemnBun"
+  },
+  "onboarding_welcome_body": {
+    "en": "Sign with your Moldovan ID, verify signatures, and use online signing services.",
+    "ro": "Semnează cu actul de identitate din Moldova, verifică semnături și folosește servicii de semnare online.",
+    "ru": "Подписывайте документы с удостоверением Молдовы, проверяйте подписи и пользуйтесь сервисами подписи онлайн."
+  },
+  "onboarding_get_started": {
+    "ro": "Începe",
+    "en": "Get started",
+    "ru": "Начать"
+  },
+  "onboarding_change_anytime": {
+    "ro": "Poți schimba oricând aceste opțiuni din Setări.",
+    "en": "You can change these options any time in Settings.",
+    "ru": "Эти параметры можно изменить в любой момент в настройках."
   }
 }
 """#.utf8)

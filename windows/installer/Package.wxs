@@ -7,8 +7,8 @@
       own folder because "esemnbun.exe" and "eSemnBun.exe" are the same file name on NTFS (case-insensitive), and so
       PATH never exposes the app's DLLs;
     * a Start menu shortcut;
-    * optional start at sign-in for every user: STARTATLOGIN=1 (default) writes HKLM\...\Run "MoldSign"
-      (the app shows that as "set by your administrator"); STARTATLOGIN=0 skips it. The choice is remembered
+    * optional start at sign-in for every user: STARTATLOGIN=1 writes HKLM\...\Run "MoldSign";
+      STARTATLOGIN=0 (default) leaves startup to each user's onboarding choice. The installer choice is remembered
       across upgrades and repairs (HKLM\Software\MoldSign\StartAtLogin);
     * the Add/Remove Programs entry, uninstaller included (Windows Installer).
   Upgrades: fixed UpgradeCode + MajorUpgrade, so installing a newer MSI replaces the older one in place; downgrades
@@ -36,7 +36,7 @@
     <Property Id="ARPNOMODIFY" Value="1" />
     <Property Id="ARPCOMMENTS" Value="Qualified electronic signatures (PAdES, XAdES) with the Moldovan eID card" />
 
-    <!-- STARTATLOGIN: command line wins, else the value remembered by a previous install, else 1. -->
+    <!-- STARTATLOGIN: command line wins, else the value remembered by a previous install, else off. -->
     <Property Id="STARTATLOGIN" Secure="yes" />
     <Property Id="REMEMBERED_STARTATLOGIN" Secure="yes">
       <RegistrySearch Id="RememberedStartAtLogin" Root="HKLM" Key="Software\MoldSign" Name="StartAtLogin"
@@ -44,7 +44,7 @@
     </Property>
     <SetProperty Action="SetStartAtLoginRemembered" Id="STARTATLOGIN" Value="[REMEMBERED_STARTATLOGIN]"
                  After="AppSearch" Sequence="first" Condition="NOT STARTATLOGIN AND REMEMBERED_STARTATLOGIN" />
-    <SetProperty Action="SetStartAtLoginDefault" Id="STARTATLOGIN" Value="1"
+    <SetProperty Action="SetStartAtLoginDefault" Id="STARTATLOGIN" Value="0"
                  After="SetStartAtLoginRemembered" Sequence="first" Condition="NOT STARTATLOGIN" />
 
     <!-- The tray app keeps running in the notification area: close it (or end it) before replacing files. -->

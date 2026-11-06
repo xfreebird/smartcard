@@ -143,8 +143,8 @@ python3 scripts/make-strings.py
   (Snap layouts keep working). The primary Sign button uses the accent style only while it is enabled (default style
   while disabled). Every flyout action that opens something (pickers, settings, the window, Explorer) hides the flyout
   first; a sign/verify result reopens it. The main window is a normal app window (taskbar, Alt+Tab).
-* **Start at sign-in** (Settings): StartupTask under MSIX; the HKCU Run key unpackaged; an HKLM value written by the MSI
-  shows as "set by your administrator".
+* **Start at sign-in** (Settings): StartupTask under MSIX; the HKCU Run key unpackaged. If the MSI was configured
+  to start for all users, the app explains that this installer setting cannot be changed there.
 
 ## Installers (WIN-08, WIN-09)
 
@@ -158,7 +158,7 @@ pwsh windows/scripts/package-windows.ps1 -SelfSignForTesting   # throwaway cert 
 
 | Output | What it is |
 |---|---|
-| `eSemnBun-0.2.0-x64.msi` | WiX v5, per machine: `Program Files\eSemnBun\eSemnBun.exe` (self-contained, no prerequisites), the CLI as `Program Files\eSemnBun\bin\esemnbun.exe` with `bin\` on the system PATH, Start menu entry "eSemnBun", optional start at sign-in for all users (`STARTATLOGIN=1` default, remembered across upgrades), Add/Remove Programs entry. Fixed UpgradeCode + MajorUpgrade: a newer MSI upgrades in place, downgrades are refused. Closes the running tray app before replacing files |
+| `eSemnBun-0.2.0-x64.msi` | WiX v5, per machine: `Program Files\eSemnBun\eSemnBun.exe` (self-contained, no prerequisites), the CLI as `Program Files\eSemnBun\bin\esemnbun.exe` with `bin\` on the system PATH, Start menu entry "eSemnBun", optional start at sign-in for all users (`STARTATLOGIN=1`; new installations default to `0` and remember the installer choice across upgrades), Add/Remove Programs entry. Fixed UpgradeCode + MajorUpgrade: a newer MSI upgrades in place, downgrades are refused. Closes the running tray app before replacing files |
 | `eSemnBun-0.2.0-x64.msix` | Single-project MSIX (`Package.appxmanifest`): DisplayName eSemnBun, startup task, `runFullTrust`, self-contained. Identity placeholders are replaced from environment variables during the build |
 | `winget/0.2.0/eSemnBun.eSemnBun*.yaml` | winget manifests (MSI installer, machine scope, command `esemnbun`) with the MSI's URL, SHA-256 and ProductCode filled in; `__LICENSE__` / `__HOMEPAGE__` stay to fill before submitting |
 | `SHA256SUMS.txt` | checksums of the MSI/MSIX files |
@@ -236,7 +236,7 @@ dotnet publish src/MoldSign.Cli -c Release -r win-x64 --self-contained -p:Publis
 | App: PinVault (Credential Locker, Windows Hello via `UserConsentVerifierInterop`) | real (WIN-05) |
 | App: BridgeHost (Kestrel 127.0.0.1:18480 + HTTPS 18443, origin gate, CORS/PNA, wallet certificates) | real sign/data, empty absolute 201, long-poll, consent, queued signing and origin/card-bound batch PIN sessions; live portal signing confirmed |
 | MSI (WiX v5), MSIX, winget manifests, packaging script, CI artifacts | written; first real build happens in CI (Windows only) |
-| Single instance, first-run TeachingTip, first-run onboarding, toasts, Explorer verb | TODO(WIN-04, WIN-03, WIN-07) |
+| Single instance, first-run onboarding, toasts, Explorer verb | implemented; first-run and subsequent launch checked with isolated settings; first-run TeachingTip remains TODO(WIN-04) |
 
 ## Deliberate deviations from the Swift reference (APDU bytes unchanged)
 

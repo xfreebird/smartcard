@@ -95,7 +95,7 @@
   <data name="Tray_OpenWindow" xml:space="preserve"><value>Открыть окно</value></data>
   <data name="Tray_Quit" xml:space="preserve"><value>Выход</value></data>
   <data name="Settings_AllowedSites" xml:space="preserve"><value>Разрешённых сайтов: {0} (список поставщика)</value></data>
-  <data name="Settings_StartupManaged" xml:space="preserve"><value>Настроено администратором для всех пользователей (установка MSI)</value></data>
+  <data name="Settings_StartupManaged" xml:space="preserve"><value>Включено для всех пользователей при установке. Здесь это изменить нельзя.</value></data>
   <data name="Settings_StartupDisabledByUser" xml:space="preserve"><value>Выключено в разделе Параметры › Приложения › Автозагрузка; включите там</value></data>
   <data name="Light_Idle" xml:space="preserve"><value>Подключите считыватель</value></data>
   <data name="Light_Reader" xml:space="preserve"><value>Считыватель подключён · вставьте карту</value></data>
@@ -258,4 +258,15 @@
   <data name="Update_Available" xml:space="preserve"><value>Доступно обновление. Открыта страница загрузки.</value></data>
   <data name="File_ShowInFolder" xml:space="preserve"><value>Показать в Проводнике</value></data>
   <data name="VerifyClearResults.Content" xml:space="preserve"><value>Очистить результаты</value></data>
+  <data name="Onboarding_Title" xml:space="preserve"><value>Добро пожаловать в eSemnBun</value></data>
+  <data name="Onboarding_Body" xml:space="preserve"><value>Подписывайте документы с удостоверением Молдовы, проверяйте подписи и пользуйтесь сервисами подписи онлайн.</value></data>
+  <data name="Onboarding_StartAtLogin" xml:space="preserve"><value>Запускать при входе в систему</value></data>
+  <data name="Onboarding_OpenOnInsertion" xml:space="preserve"><value>Открывать eSemnBun при подключении считывателя или вставке карты</value></data>
+  <data name="Onboarding_HelperNote" xml:space="preserve"><value>Отдельная утилита обнаруживает считыватель и карту, даже когда приложение закрыто. Она не считывает PIN и не подписывает.</value></data>
+  <data name="Onboarding_GetStarted" xml:space="preserve"><value>Начать</value></data>
+  <data name="Onboarding_Skip" xml:space="preserve"><value>Пропустить</value></data>
+  <data name="Onboarding_ChangeLater" xml:space="preserve"><value>Доступные параметры можно изменить позже в настройках.</value></data>
+  <data name="Onboarding_Choices" xml:space="preserve"><value>Настройте запуск</value></data>
+  <data name="Onboarding_StartupDetail" xml:space="preserve"><value>Запускать в фоновом режиме при входе.</value></data>
+  <data name="Settings_StartupPolicy" xml:space="preserve"><value>Этот параметр запуска управляется политикой Windows.</value></data>
 </root>

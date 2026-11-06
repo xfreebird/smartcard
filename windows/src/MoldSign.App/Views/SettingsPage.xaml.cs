@@ -165,7 +165,7 @@ public sealed partial class SettingsPage : Page
         if (_loadingStartup || _loadingPreferences || App.Current.Services.IsDemo) return;
         var mode = await StartupRegistration.SetAsync(StartAtLoginToggle.IsOn);
         var settings = App.Current.Services.Settings;
-        settings.StartAtLogin = mode is StartupMode.On or StartupMode.Managed;
+        settings.StartAtLogin = mode is StartupMode.On or StartupMode.Managed or StartupMode.PolicyOn;
         settings.Save();
         ShowStartup(mode);
     }
@@ -173,12 +173,13 @@ public sealed partial class SettingsPage : Page
     private void ShowStartup(StartupMode mode)
     {
         _loadingStartup = true;
-        StartAtLoginToggle.IsOn = mode is StartupMode.On or StartupMode.Managed;
+        StartAtLoginToggle.IsOn = mode is StartupMode.On or StartupMode.Managed or StartupMode.PolicyOn;
         StartAtLoginToggle.IsEnabled = mode is StartupMode.On or StartupMode.Off;
         _loadingStartup = false;
         StartAtLoginNote.Text = mode switch
         {
             StartupMode.Managed => Loc.Get("Settings_StartupManaged"),
+            StartupMode.PolicyOn or StartupMode.PolicyOff => Loc.Get("Settings_StartupPolicy"),
             StartupMode.DisabledByUser => Loc.Get("Settings_StartupDisabledByUser"),
             _ => "",
         };

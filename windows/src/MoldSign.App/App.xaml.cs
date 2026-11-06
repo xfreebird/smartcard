@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MoldSign.App.Services;
 using MoldSign.App.Tray;
+using MoldSign.App.Views;
 using MoldSign.Desktop;
 
 namespace MoldSign.App;
@@ -114,7 +115,8 @@ public partial class App : Application
 #endif
         if (DemoMode.PreviewScenario is null)
         {
-            _activation = new DesktopActivationBroker();
+            // An isolated Debug profile must not activate an already-running installed app.
+            _activation = new DesktopActivationBroker(AppSettings.IsolatedTestPreferences ? "MoldSign-QA" : "MoldSign");
             if (!_activation.IsPrimary)
             {
                 try
@@ -174,7 +176,7 @@ public partial class App : Application
 
         if (Services.IsDemo || !Services.Settings.FirstRunDone || !StartupRegistration.LaunchedAtSignIn(args.Arguments))
         {
-            // TODO(WIN-04): three-step first run (docs/10 §4.7); for now open the main window once.
+            // First run (WIN-04, docs/10 §4.7): open the main window once and show the onboarding.
             EnsureMainWindow(activate: true);
             if (action == "verify")
             {
@@ -197,8 +199,16 @@ public partial class App : Application
             }
             else
             {
-                Services.Settings.FirstRunDone = true;
-                Services.Settings.Save();
+                // First run (WIN-04, docs/10 §4.7): launch-preferences onboarding over the main window.
+                // The dialog applies the toggles live and persists FirstRunDone when it closes in any way.
+                if (!Services.Settings.FirstRunDone)
+                {
+                    if (_main is not null)
+                    {
+                        try { await OnboardingDialog.ShowAsync(_main); }
+                        catch (Exception error) { AppLog.Error(error); }
+                    }
+                }
             }
         }
     }
