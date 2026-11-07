@@ -1024,3 +1024,5 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 2026-11-07: Apple featured artwork v5 balances phone position and headline weight while preserving card-left alignment and hardware proportions; six localized exports and review PDF.
 
 - 2026-11-07: Preparing 0.2.5 release (Apple/Windows build 205) with adaptive UI, independent Documents history, PIN/bridge hardening, approved store artwork, and accessible scroll transitions. Website tests (15), three-locale build, SEO and metadata/localization checks passed. Store submissions tracked separately from public availability.
+
+- 2026-11-07 release follow-up: CI confirmed the older SDK toolbar fallback. Flatpak packaging now includes pinned Poppler GLib/data dependencies required by the PDF editor; focused packaging rerun pending.
