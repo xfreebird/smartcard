@@ -172,13 +172,17 @@ struct SignItem: Identifiable, Equatable {
 }
 
 enum Verdict {
-    case valid(count: Int), invalid, unknown
+    case valid(count: Int), invalid, unknown, incomplete, untrusted
 
     init(_ reports: [Validator.Report]) {
         if reports.isEmpty {
             self = .unknown
+        } else if reports.contains(where: { !$0.signatureValid || (!$0.contentIntact && $0.missingDetachedReferences.isEmpty) }) {
+            self = .invalid
+        } else if reports.contains(where: { !$0.missingDetachedReferences.isEmpty }) {
+            self = .incomplete
         } else if reports.allSatisfy({ $0.contentIntact && $0.signatureValid }) {
-            self = reports.allSatisfy(\.chainTrusted) ? .valid(count: reports.count) : .unknown
+            self = reports.allSatisfy(\.chainTrusted) ? .valid(count: reports.count) : .untrusted
         } else {
             self = .invalid
         }
@@ -188,7 +192,7 @@ enum Verdict {
         switch self {
         case .valid: return L10n.text(.ui_valid_signature)
         case .invalid: return L10n.text(.ui_invalid_signature)
-        case .unknown: return L10n.text(.ui_cannot_be_confirmed)
+        case .unknown, .incomplete, .untrusted: return L10n.text(.ui_cannot_be_confirmed)
         }
     }
 
@@ -196,7 +200,9 @@ enum Verdict {
         switch self {
         case .valid(let count): return L10n.text(.ui_verified_signatures_count, count)
         case .invalid: return L10n.text(.ui_the_document_has_been_modified_or_the_signature_does_not_match)
-        case .unknown: return L10n.text(.ui_no_signature_found_or_unknown_trust_chain)
+        case .unknown: return L10n.text(.verify_no_recognized_signature)
+        case .untrusted: return L10n.text(.verify_trust_unconfirmed)
+        case .incomplete: return L10n.text(.verify_original_missing)
         }
     }
 
@@ -204,7 +210,7 @@ enum Verdict {
         switch self {
         case .valid: return "checkmark.seal.fill"
         case .invalid: return "xmark.seal.fill"
-        case .unknown: return "exclamationmark.triangle.fill"
+        case .unknown, .incomplete, .untrusted: return "exclamationmark.triangle.fill"
         }
     }
 
@@ -212,20 +218,11 @@ enum Verdict {
         switch self {
         case .valid: return Theme.success
         case .invalid: return Theme.danger
-        case .unknown: return Theme.warning
+        case .unknown, .incomplete, .untrusted: return Theme.warning
         }
     }
 }
 
-struct ActivityItem: Identifiable, Codable, Equatable {
-    var id = UUID()
-    var title: String
-    var subtitle: String
-    var ok: Bool
-    var date = Date()
-    var fileURL: URL?
-    var signedOutput: Bool? = nil
-}
 
 /// What the PIN sheet shows. `attemptsLeft` comes from the last 63Cx.
 struct PinRequest: Identifiable {

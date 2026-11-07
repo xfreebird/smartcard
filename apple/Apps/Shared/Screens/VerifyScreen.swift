@@ -7,62 +7,56 @@ struct VerifyScreen: View {
     @Environment(AppModel.self) private var model
     @State private var importing = false
     @State private var dropTargeted = false
+    #if os(iOS)
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    #endif
+    private var shortViewport: Bool {
+        #if os(iOS)
+        verticalSizeClass == .compact
+        #else
+        false
+        #endif
+    }
+    private var compactChooser: Bool {
+        #if os(iOS)
+        verticalSizeClass == .compact || !model.verifiedDocuments.isEmpty
+        #else
+        !model.verifiedDocuments.isEmpty
+        #endif
+    }
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 24) {
-                DropZone(verification: true, targeted: dropTargeted) { importing = true }
+            VStack(alignment: .leading, spacing: shortViewport ? 12 : 24) {
+                DropZone(verification: true, compact: compactChooser, short: compactChooser, targeted: dropTargeted) { importing = true }
                     .accessibilityIdentifier("verify.dropZone")
                 if let file = model.verifyFile, model.verifyReports == nil {
                     ProgressView(L10n.text(.ui_verifying) + " · " + file.lastPathComponent)
                 }
-                if !model.verifiedDocuments.isEmpty || model.verifyFile != nil {
+                if !shortViewport && (!model.verifiedDocuments.isEmpty || model.verifyFile != nil) {
                     Button(L10n.text(.ui_clear_results), role: .destructive) { model.clearVerification() }
                         .accessibilityIdentifier("verify.clearResults")
                 }
                 ForEach(model.verifiedDocuments, id: \.url) { document in
-                    VStack(alignment: .leading, spacing: 16) {
-                        let verdict = Verdict(document.reports)
-                        HStack(alignment: .top, spacing: 12) {
-                            Image(systemName: verdict.symbol)
-                                .font(.system(size: 26, weight: .semibold))
-                                .foregroundStyle(verdict.tint)
-                                .accessibilityLabel(verdict.title)
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(document.url.lastPathComponent)
-                                    .font(.headline).textSelection(.enabled)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                Text(verdict.title).font(.subheadline.weight(.medium))
-                                Text(verdict.subtitle).font(.caption).foregroundStyle(.secondary)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        ForEach(Array(document.reports.enumerated()), id: \.offset) { index, report in
-                            FullWidthDisclosure {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(L10n.text(.ui_author_value, report.signer)).font(.headline)
-                                    Text(L10n.text(.ui_signature_count, index + 1)).font(.subheadline)
-                                    if let idnp = report.signerIDNP { Text(L10n.text(.ui_idnp_value, idnp)) }
-                                    Text(Validator.readableDate(report.signingTime)).foregroundStyle(.secondary)
-                                }
-                            } content: {
-                                SignatureSection(report: report, index: index + 1)
-                            }
-                        }
-                    }
-                    .padding(20)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 16))
+                    VerificationDocumentView(url: document.url, reports: document.reports)
+                        .id(model.verificationGeneration)
                 }
             }
             .frame(maxWidth: 680)
-            .padding(24)
+            .padding(shortViewport ? 12 : 24)
             .frame(maxWidth: .infinity)
         }
         #if os(iOS)
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_verify))
+        .toolbar {
+            if shortViewport && (!model.verifiedDocuments.isEmpty || model.verifyFile != nil) {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(L10n.text(.ui_clear_results), role: .destructive) { model.clearVerification() }
+                }
+            }
+        }
         .overlay {
             if dropTargeted {
                 RoundedRectangle(cornerRadius: 12).strokeBorder(Color.accentColor, lineWidth: 2).padding(4).allowsHitTesting(false)
@@ -81,8 +75,94 @@ struct VerifyScreen: View {
     }
 }
 
+/// Shared current-file verification presentation for Verify and saved-document details.
+struct VerificationDocumentView: View {
+    let url: URL
+    let reports: [Validator.Report]
+    @Environment(AppModel.self) private var model
+    @State private var importingOriginals = false
+    @State private var companions: [URL] = []
+    @State private var checkedReports: [Validator.Report]?
+    @State private var checking = false
+    @State private var unavailable = false
+    private var displayedReports: [Validator.Report] { checking || unavailable ? [] : (checkedReports ?? reports) }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            let verdict = Verdict(displayedReports)
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: verdict.symbol)
+                    .font(.system(size: 26, weight: .semibold))
+                    .foregroundStyle(verdict.tint)
+                    .accessibilityLabel(verdict.title)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(url.lastPathComponent)
+                        .font(.headline).textSelection(.enabled)
+                        .fixedSize(horizontal: false, vertical: true)
+                    Text(verdict.title).font(.subheadline.weight(.medium))
+                    Text(verdict.subtitle).font(.caption).foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            if url.pathExtension.lowercased() == "xml" {
+                if !displayedReports.flatMap(\.missingDetachedReferences).isEmpty {
+                    Text(displayedReports.flatMap(\.missingDetachedReferences).joined(separator: "\n"))
+                        .font(.caption).textSelection(.enabled)
+                }
+                Button { importingOriginals = true } label: {
+                    Label(L10n.text(.verify_choose_originals), systemImage: "doc.badge.plus")
+                }
+                .accessibilityIdentifier("verify.chooseOriginals")
+                if checking { ProgressView(L10n.text(.ui_verifying)).accessibilityIdentifier("verify.originalsLoading") }
+                if unavailable { Text(L10n.text(.saved_unavailable)).foregroundStyle(.secondary) }
+            }
+            ForEach(Array(displayedReports.enumerated()), id: \.offset) { index, report in
+                FullWidthDisclosure(captureKey: "signature") {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(L10n.text(.ui_author_value, report.signer)).font(.headline)
+                        Text(L10n.text(.ui_signature_count, index + 1)).font(.subheadline)
+                        if let idnp = report.signerIDNP { Text(L10n.text(.ui_idnp_value, idnp)) }
+                        Text(Validator.readableDate(report.signingTime)).foregroundStyle(.secondary)
+                    }
+                } content: {
+                    SignatureSection(report: report, index: index + 1)
+                }
+            }
+        }
+        .padding(20)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 16))
+        .fileImporter(isPresented: $importingOriginals, allowedContentTypes: [.item], allowsMultipleSelection: true) { result in
+            if case .success(let urls) = result, !urls.isEmpty {
+                // Start a fresh task identity even if the same originals are selected again.
+                companions = urls
+                selectionGeneration = UUID()
+                checking = true
+                unavailable = false
+                checkedReports = nil
+            }
+        }
+        .task(id: selectionGeneration) {
+            guard !companions.isEmpty else { return }
+            let generation = selectionGeneration
+            do {
+                let result = try await model.inspectDocument(url, companions: companions)
+                guard !Task.isCancelled, selectionGeneration == generation else { return }
+                checkedReports = result
+                checking = false
+            } catch {
+                guard !Task.isCancelled, selectionGeneration == generation else { return }
+                unavailable = true
+                checking = false
+            }
+        }
+    }
+    @State private var selectionGeneration = UUID()
+}
+
 private struct FullWidthDisclosure<Title: View, Content: View>: View {
     @State private var expanded = false
+    var captureKey: String? = nil
     @ViewBuilder var title: () -> Title
     @ViewBuilder var content: () -> Content
 
@@ -100,6 +180,16 @@ private struct FullWidthDisclosure<Title: View, Content: View>: View {
             .accessibilityValue(expanded ? "Expanded" : "Collapsed")
             if expanded { content().padding(.leading, 24) }
         }
+        .onAppear {
+            #if DEBUG
+            let env = ProcessInfo.processInfo.environment
+            if env["MSIGN_SCREENSHOT_CAPTURE"] == "1", env["MSIGN_QA_NO_HARDWARE"] == "1",
+               env["MSIGN_DEMO_CARDS"] != nil, env["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true,
+               let target = env["MSIGN_CAPTURE_EXPAND"], let captureKey {
+                expanded = target == "all" || target == captureKey || captureKey == "signature"
+            }
+            #endif
+        }
     }
 }
 
@@ -113,18 +203,24 @@ private struct SignatureSection: View {
             LabeledContent(L10n.text(.ui_signed_at), value: Validator.readableDate(report.signingTime))
             if let tst = report.timestampTime { LabeledContent(L10n.text(.ui_timestamp), value: Validator.readableDate(tst)) }
             LabeledContent(L10n.text(.ui_level), value: signatureLabels(report.level))
-            check(L10n.text(.ui_document_integrity), report.contentIntact)
+            if report.missingDetachedReferences.isEmpty {
+                check(L10n.text(.ui_document_integrity), report.contentIntact)
+            } else {
+                Label(L10n.text(.verify_original_missing), systemImage: "questionmark.circle")
+                    .foregroundStyle(Theme.warning)
+                    .accessibilityIdentifier("verify.missingOriginal")
+            }
             check(L10n.text(.ui_cryptographic_signature), report.signatureValid)
             check(L10n.text(.ui_trust_chain_mdqsign_mdtrustca), report.chainTrusted)
-            FullWidthDisclosure { Text(L10n.text(.ui_certificate_details)).fontWeight(.medium) } content: {
+            FullWidthDisclosure(captureKey: "certificate") { Text(L10n.text(.ui_certificate_details)).fontWeight(.medium) } content: {
                 ForEach(["Subject", "Issuer", "Certificate"], id: \.self) { group in
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(group).font(.headline)
+                        Text(CertificateLabels.label(group)).font(.headline)
                         ForEach(report.certificateDetails.keys.sorted().filter { key in
                             group == "Certificate" ? !key.contains(" · ") : key.hasPrefix(group + " · ")
                         }, id: \.self) { key in
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(key.components(separatedBy: " · ").last ?? key).font(.caption).foregroundStyle(.secondary)
+                                Text(CertificateLabels.label(key.components(separatedBy: " · ").last ?? key)).font(.caption).foregroundStyle(.secondary)
                                 Text(report.certificateDetails[key] ?? "—").textSelection(.enabled)
                                     .fixedSize(horizontal: false, vertical: true)
                             }
@@ -132,7 +228,7 @@ private struct SignatureSection: View {
                     }
                 }
             }
-            FullWidthDisclosure { Text(L10n.text(.ui_technical_details)).fontWeight(.medium) } content: {
+            FullWidthDisclosure(captureKey: "technical") { Text(L10n.text(.ui_technical_details)).fontWeight(.medium) } content: {
                 Text(signatureLabels(report.summary)).font(.caption.monospaced()).textSelection(.enabled)
             }
         }
@@ -149,12 +245,12 @@ private struct SignatureSection: View {
 }
 
 struct ActivityScreen: View {
-    var onVerifyDocument: (URL) -> Void = { _ in }
     @Environment(AppModel.self) private var model
     @State private var confirmClear = false
     @State private var history = false
+    @State private var selectedDocument: ActivityItem?
     private var entries: [ActivityItem] {
-        history ? model.activity : model.activity.filter { $0.ok && $0.fileURL != nil && ($0.signedOutput == true || ($0.signedOutput == nil && $0.fileURL!.lastPathComponent.contains("-semnat"))) }
+        history ? model.activity : model.savedDocuments
     }
 
     var body: some View {
@@ -178,12 +274,23 @@ struct ActivityScreen: View {
             List {
             ForEach(entries) { item in
                 if !history, let url = item.fileURL {
-                    VStack(alignment: .leading, spacing: 8) {
-                        SignedRow(url: url)
-                        Button { onVerifyDocument(url) } label: {
-                            Label(L10n.text(.ui_verify), systemImage: "checkmark.seal")
-                        }.buttonStyle(.borderless)
+                    Button { selectedDocument = item } label: {
+                        HStack(spacing: 12) {
+                            Image(systemName: "doc.text").foregroundStyle(Color.accentColor)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(url.lastPathComponent).font(.headline)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Text(item.date, style: .date).font(.caption).foregroundStyle(.secondary)
+                            }
+                            Spacer(minLength: 8)
+                            Image(systemName: "chevron.right").foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+                        .contentShape(Rectangle())
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityHint(L10n.text(.saved_details))
+                    .accessibilityIdentifier("documents.openDetails")
                 }
                 else { ActivityRowView(item: item)
                     .contextMenu {
@@ -203,8 +310,30 @@ struct ActivityScreen: View {
             }
         }
         }
-        .navigationTitle(L10n.text(.ui_activity))
-        .onAppear { model.pruneMissingFiles() }      // moved/deleted documents drop out of the list
+        .navigationTitle(L10n.text(.saved_title))
+        .sheet(item: $selectedDocument) { item in
+            if let url = item.fileURL {
+                SavedDocumentDetails(url: url).environment(model).appPreferences()
+            }
+        }
+        .onAppear {
+            model.pruneMissingFiles()
+            #if DEBUG
+            if model.isScreenshotCapture {
+                let scenario = ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? ""
+                history = scenario.hasPrefix("history-")
+                if scenario.hasPrefix("documents-details-") { selectedDocument = model.savedDocuments.first }
+            }
+            #endif
+        }      // moved/deleted documents drop out of the list
+        .onChange(of: model.savedDocuments.count) { _, _ in
+            #if DEBUG
+            if model.isScreenshotCapture,
+               ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"]?.hasPrefix("documents-details-") == true {
+                selectedDocument = model.savedDocuments.first
+            }
+            #endif
+        }
         #if !os(macOS)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -228,14 +357,23 @@ struct CardScreen: View {
     @State private var copied = false
     #if os(iOS)
     @State private var settingsPresented = false
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
     #endif
 
     var body: some View {
         Form {
             Section {
-                CardSelector(size: cardSize)
-                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                    .listRowBackground(Color.clear)
+                Group {
+                    #if os(iOS)
+                    if verticalSizeClass == .compact {
+                        DisclosureGroup(L10n.text(.ui_card)) { CardSelector(size: .compact) }
+                    } else { CardSelector(size: cardSize) }
+                    #else
+                    CardSelector(size: cardSize)
+                    #endif
+                }
+                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+                .listRowBackground(Color.clear)
             } footer: {
                 if model.cards.count > 1 {
                     #if os(macOS)
@@ -293,6 +431,13 @@ struct CardScreen: View {
         .navigationTitle(L10n.text(.ui_card))
         #if os(iOS)
         .sheet(isPresented: $settingsPresented) { MobileSettingsView().environment(model).appPreferences() }
+        .onAppear {
+            #if DEBUG
+            if model.isScreenshotCapture, ProcessInfo.processInfo.environment["MSIGN_CAPTURE_SHEET"] == "settings" {
+                settingsPresented = true
+            }
+            #endif
+        }
         #endif
         .toolbar {
             #if os(iOS)
@@ -313,7 +458,7 @@ struct CardScreen: View {
         #if os(macOS)
         return .large
         #else
-        return .phone
+        return verticalSizeClass == .compact ? .compact : .phone
         #endif
     }
 

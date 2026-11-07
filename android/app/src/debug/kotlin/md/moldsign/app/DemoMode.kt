@@ -55,7 +55,7 @@ internal object DemoMode {
             cancelFakePin(container)
             return
         }
-        if (scenario != "pin") cancelFakePin(container)
+        if (scenario != "pin" && scenario != "pin-warning") cancelFakePin(container)
         Log.i(TAG, "demo scenario: $scenario")
         val r1 = ReaderSlot("demo-1", "miniLector EVO", ReaderSlot.State.Card, generation = 1)
         val r2 = ReaderSlot("demo-2", "miniLector EVO #2", ReaderSlot.State.Card, generation = 2)
@@ -75,27 +75,48 @@ internal object DemoMode {
             if (card.readerId == r2.id) anaMindru else ionPopescu
         }
         seedActivity(container)
+        viewModel.clearVerifyResults()
+        viewModel.clearSignedResults()
         viewModel.signItems.value.toList().forEach(viewModel::remove)
         when (scenario) {
             "results" -> viewModel.previewCompletedResults()
+            "activity-empty" -> container.activity.replaceForDemo(emptyList())
+            "verify-valid", "verify-invalid", "verify-unconfirmed", "verify-none", "verify-xml-missing", "verify-xml-complete" -> {
+                val date = java.util.Date(1_793_081_400_000L)
+                val report = md.moldsign.core.ValidationReport(
+                    signerName = "ION POPESCU", signingTime = date, timestampTime = date,
+                    level = if (scenario.contains("xml")) "XAdES-T" else "PAdES-B-T",
+                    integrityOk = scenario != "verify-invalid" && scenario != "verify-xml-missing",
+                    signatureOk = true, chainOk = scenario != "verify-unconfirmed",
+                    missingDocuments = if (scenario == "verify-xml-missing") listOf("Contract.pdf") else emptyList(),
+                    certificateDetails = linkedMapOf("Subject · Name" to "ION POPESCU", "Issuer · Name" to "Example Signing CA", "Serial number" to "12345", "Public key" to "RSA 4096 bits", "SHA-256 fingerprint" to "A1B2C3D4 E5F60718 293A4B5C 6D7E8F90 A1B2C3D4 E5F60718 293A4B5C 6D7E8F90"),
+                    details = listOf("Offline verification", "Document digest checked", "Certificate chain checked"),
+                )
+                viewModel.previewVerification(if (scenario.contains("xml")) "Contract-semnat.xml" else "Contract-semnat.pdf", if (scenario == "verify-none") emptyList() else listOf(report))
+            }
             "documents" -> seedSigningDocuments(container, viewModel, batch = false)
             "batch" -> seedSigningDocuments(container, viewModel, batch = true)
-            "pin" -> {
+            "sign-failure" -> {
                 seedSigningDocuments(container, viewModel, batch = true)
-                showFakePin(container)
+                viewModel.previewSigningFailure()
+            }
+            "pin", "pin-warning" -> {
+                seedSigningDocuments(container, viewModel, batch = true)
+                showFakePin(container, if (scenario == "pin-warning") 2 else null)
             }
             else -> Unit
         }
     }
 
     /** Publishes a fictional consent request for UI evidence; no signing service or PIN vault is called. */
-    private fun showFakePin(container: AppContainer) {
+    private fun showFakePin(container: AppContainer, attemptsLeft: Int? = null) {
         val previous = cancelFakePin(container)
         val request = ConsentRequest(
             requester = null,
             documentNames = listOf("demo-contract.pdf", "demo-cerere.txt", "demo-invoice.pdf"),
             format = "PAdES-T / XAdES-T",
             certificate = ionPopescu,
+            attemptsLeft = attemptsLeft,
         )
         fakePinRequest = request
         val job = container.scope.launch(Dispatchers.IO) {
@@ -162,17 +183,18 @@ internal object DemoMode {
         val dir = File(container.app.cacheDir, "demo").apply { mkdirs() }
         fun file(name: String, body: String) = File(dir, name).apply { writeText(body) }
         val signed = file("contract-semnat.pdf", "%PDF-1.7\n% fictional demo document\n%%EOF\n")
+        File(container.app.cacheDir, "qa-capture/signed.pdf").takeIf { it.isFile }?.copyTo(signed, overwrite = true)
         val verified = file("cerere-angajare.pdf", "%PDF-1.7\n% fictional demo document\n%%EOF\n")
         val gone = File(dir, "act-vechi.pdf").apply { delete() }
         val now = System.currentTimeMillis()
-        fun entry(id: String, kind: ActivityEntry.Kind, title: String, subtitle: String, ok: Boolean, minutesAgo: Long, file: File? = null) =
-            ActivityEntry(id, kind, title, subtitle, ok, now - minutesAgo * 60_000, file?.let { Uri.fromFile(it).toString() })
+        fun entry(id: String, kind: ActivityEntry.Kind, title: String, subtitle: String, ok: Boolean, minutesAgo: Long, file: File? = null, signedOutput: Boolean = false) =
+            ActivityEntry(id, kind, title, subtitle, ok, now - minutesAgo * 60_000, file?.let { Uri.fromFile(it).toString() }, signedOutput = signedOutput)
         container.activity.replaceForDemo(
             listOf(
-                entry("d1", ActivityEntry.Kind.Document, "contract-semnat.pdf", "Semnat · PAdES-T", true, 2, signed),
+                entry("d1", ActivityEntry.Kind.Document, "contract-semnat.pdf", "Semnat · PAdES-T", true, 2, signed, signedOutput = true),
                 entry("b1", ActivityEntry.Kind.Browser, "msign.gov.md", "Semnat · XAdES-T (SHA-1) · cerere.xml · lot", true, 25),
                 entry("d2", ActivityEntry.Kind.Document, "cerere-angajare.pdf", "Verificat", true, 70, verified),
-                entry("d3", ActivityEntry.Kind.Document, "act-vechi.pdf", "Semnat · XAdES-C", true, 3_000, gone),
+                entry("d3", ActivityEntry.Kind.Document, "act-vechi.pdf", "Semnat · XAdES-C", true, 3_000, gone, signedOutput = true),
                 entry("b2", ActivityEntry.Kind.Browser, "msign.gov.md", "Eșuat · PAdES-T · PIN greșit. Încercări rămase: 2", false, 4_400),
             ),
         )

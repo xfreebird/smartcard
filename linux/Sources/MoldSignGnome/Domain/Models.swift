@@ -156,11 +156,15 @@ struct SignItem: Equatable {
 }
 
 enum Verdict {
-    case valid(count: Int), invalid, unknown
+    case valid(count: Int), invalid, unknown, incomplete
 
     init(_ reports: [SignatureReport]) {
         if reports.isEmpty {
             self = .unknown
+        } else if reports.contains(where: { !$0.signatureValid || (!$0.contentIntact && $0.missingDetachedReferences.isEmpty) }) {
+            self = .invalid
+        } else if reports.contains(where: { !$0.missingDetachedReferences.isEmpty }) {
+            self = .incomplete
         } else if reports.allSatisfy({ $0.contentIntact && $0.signatureValid }) {
             self = reports.allSatisfy(\.chainTrusted) ? .valid(count: reports.count) : .unknown
         } else {
@@ -177,7 +181,7 @@ enum Verdict {
         switch self {
         case .valid: return L10n.text(.ui_valid_signature)
         case .invalid: return L10n.text(.ui_invalid_signature)
-        case .unknown: return L10n.text(.ui_cannot_be_confirmed)
+        case .unknown, .incomplete: return L10n.text(.ui_cannot_be_confirmed)
         }
     }
 
@@ -186,6 +190,7 @@ enum Verdict {
         case .valid(let count): return localized(.ui_signatures_verified_value, String(count))
         case .invalid: return L10n.text(.ui_the_document_has_been_modified_or_the_signature_does_not_match)
         case .unknown: return L10n.text(.ui_no_signature_found_or_unknown_trust_chain)
+        case .incomplete: return L10n.text(.ui_signed_files_must_be_in_the_same_folder_as_the_xml_signature)
         }
     }
 
@@ -193,7 +198,7 @@ enum Verdict {
         switch self {
         case .valid: return "security-high-symbolic"
         case .invalid: return "dialog-error-symbolic"
-        case .unknown: return "dialog-warning-symbolic"
+        case .unknown, .incomplete: return "dialog-warning-symbolic"
         }
     }
 
@@ -202,7 +207,7 @@ enum Verdict {
         switch self {
         case .valid: return "success"
         case .invalid: return "error"
-        case .unknown: return "warning"
+        case .unknown, .incomplete: return "warning"
         }
     }
 }
@@ -216,6 +221,8 @@ struct ActivityItem: Codable, Equatable {
     var ok: Bool
     var date = Date()
     var filePath: String?
+
+    var isSignedDocument: Bool { kind == .signed && ok && filePath != nil }
 
     /// File entries are shown only while the file still exists; browser requests (no file) always are.
     var isShowable: Bool {

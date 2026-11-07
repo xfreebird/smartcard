@@ -74,6 +74,7 @@ public final class MoldSignServer {
     }
 
     struct Session {
+        let origin: String
         var ready = false
         var payload = ""       // JSON body for the poll response
         var contentType = "application/json"
@@ -433,6 +434,16 @@ public final class MoldSignServer {
             return
         }
 
+        // Path-based document access is native-only, even for allowlisted browser origins.
+        // Sec-Fetch-Site also rejects browser requests that omit Origin (e.g. same-origin GET).
+        let isFileSystemRoute = path == "/sign/pdf" || path.hasPrefix("/sign/pdf/")
+            || path == "/sign/file" || path.hasPrefix("/sign/file/")
+            || path == "/verify/pdf" || path.hasPrefix("/verify/pdf/")
+        if isFileSystemRoute && (caller != nil || headerValue(head, "Sec-Fetch-Site") != nil) {
+            reply(respondJSON(403, #"{"error":"filesystem routes require a native client"}"#, origin: origin))
+            return
+        }
+
         switch (method, path) {
         case ("GET", "/hello"):
             reply(respond(200, "Hello world", contentType: "text/plain", origin: origin))
@@ -580,11 +591,11 @@ public final class MoldSignServer {
     // MARK: - Signing sessions
 
     /// Registers a pending session (called on `queue` from `route`) and runs `work` on the card queue.
-    private func newSession(_ work: @escaping (_ id: String, _ session: inout Session) -> Void) -> String {
+    private func newSession(origin: String, _ work: @escaping (_ id: String, _ session: inout Session) -> Void) -> String {
         let id = String(UUID().uuidString.replacingOccurrences(of: "-", with: "").prefix(24))
-        sessions[id] = Session()
+        sessions[id] = Session(origin: origin)
         workQueue.async { [weak self] in
-            var s = Session()
+            var s = Session(origin: origin)
             work(id, &s)
             s.ready = true
             self?.queue.async { self?.complete(id, s) }
@@ -606,14 +617,14 @@ public final class MoldSignServer {
     /// take longer than that (the 0.5 s/303 variant made browser signing fail).
     private func poll(path: String, origin: String, keepPinSession: Bool, reply: @escaping (Data) -> Void) {
         let id = path.split(separator: "/").dropFirst(3).first.map(String.init) ?? ""
-        // vendor PinDistributor: the PIN session ends with the poll unless the batch asked to keep it
-        if !keepPinSession { forgetPIN(session: id) }
-        guard let session = sessions[id] else {
+        guard let session = sessions[id], session.origin == origin else {
             reply(respondJSON(404, #"{"error":"unknown session"}"#, origin: origin, extra: ["error: unknown session"]))
             return
         }
         let answer: (Session) -> Void = { [weak self] s in
             guard let self else { return }
+            // Clear after completion: an early long-poll must not leave a newly remembered PIN behind.
+            if !keepPinSession { self.forgetPIN(session: id) }
             reply(self.sessionResponse(s, origin: origin))
         }
         if session.ready {
@@ -771,7 +782,7 @@ public final class MoldSignServer {
                                                     pinIncluded: !((m["pin"] as? String) ?? "").isEmpty,
                                                     algorithm: algorithm, batchSession: usePinSession),
                                       certModel(fromJSON: m))
-        let sessionId = newSession { [weak self] id, s in
+        let sessionId = newSession(origin: origin) { [weak self] id, s in
             guard let self = self else { return }
             do {
                 let placement = contentType.lowercased() == "pdf" ? try self.stampPlacement(request, raw, batch: usePinSession ?? id) : nil
@@ -836,7 +847,7 @@ public final class MoldSignServer {
                                                     documentName: documentName, documentNames: [documentName], contentBytes: contentBytes,
                                                     format: "PAdES-T", pinIncluded: !((m["pin"] as? String) ?? "").isEmpty),
                                       certModel(fromJSON: m))
-        let sessionId = newSession { [weak self] id, s in
+        let sessionId = newSession(origin: origin) { [weak self] id, s in
             guard let self = self else { return }
             do {
                 var auth = try usePinSession.flatMap { self.reusablePIN(session: $0, origin: caller) }
@@ -884,7 +895,7 @@ public final class MoldSignServer {
                                                     documentName: documentNames.joined(separator: ", "), documentNames: documentNames, contentBytes: contentBytes,
                                                     format: signFormat, pinIncluded: !pinField.isEmpty, algorithm: signAlgorithm),
                                       certB64.flatMap { $0.isEmpty ? nil : Data(base64Encoded: $0) })
-        let sessionId = newSession { [weak self] id, s in
+        let sessionId = newSession(origin: origin) { [weak self] id, s in
             guard let self = self else { return }
             s.contentType = wantsJSON ? "application/json" : "application/xml"
             do {
@@ -934,7 +945,7 @@ public final class MoldSignServer {
         let files = xmlFields(body, "signedFiles")
         let sigPath = xmlField(body, "signature") ?? ""
         MSLog.debug("[VFY-REQ] signedFiles=\(files) sig=\(sigPath)")
-        let sessionId = newSession { _, s in
+        let sessionId = newSession(origin: origin) { _, s in
             var filesMap: [String: Data] = [:]
             for f in files {
                 filesMap[URL(fileURLWithPath: f).lastPathComponent] = try? Data(contentsOf: URL(fileURLWithPath: f))
@@ -955,7 +966,7 @@ public final class MoldSignServer {
 
     private func startVerifyPDF(body: Data, origin: String, host: String) -> Data {
         let pdfPath = xmlField(body, "signedFile") ?? xmlField(body, "originalFile") ?? ""
-        let sessionId = newSession { _, s in
+        let sessionId = newSession(origin: origin) { _, s in
             var valid = false
             if let d = try? Data(contentsOf: URL(fileURLWithPath: pdfPath)) {
                 let rep = Validator.validatePDF(d)

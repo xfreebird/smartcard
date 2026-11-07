@@ -5,9 +5,13 @@ param(
     [string[]]$Scenarios = @('none','empty','mute','reading','1','multiple','multiple-second','3','blocked','stuck','signing'),
     [string[]]$Pages = @('sign','card','settings','verify','activity'),
     [string[]]$Themes = @('light','dark'),
+    [ValidateRange(0,7680)][int]$Width = 0,
+    [ValidateRange(0,4320)][int]$Height = 0,
     [switch]$PinOnly
 )
 $ErrorActionPreference = 'Stop'
+if (($Width -eq 0) -ne ($Height -eq 0)) { throw 'Supply both Width and Height, or neither.' }
+$App = (Resolve-Path $App).Path
 Add-Type -AssemblyName System.Drawing
 $Scenarios = @($Scenarios | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
 $Pages = @($Pages | ForEach-Object { $_ -split ',' } | Where-Object { $_ })
@@ -19,6 +23,7 @@ using System.Runtime.InteropServices;
 public static class CaptureWindow {
     [StructLayout(LayoutKind.Sequential)] public struct Rect { public int Left, Top, Right, Bottom; }
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hwnd, out Rect rect);
+    [DllImport("user32.dll")] public static extern bool MoveWindow(IntPtr hwnd, int x, int y, int width, int height, bool repaint);
     [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
     [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
     [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
@@ -41,7 +46,7 @@ try {
                 $env:MSIGN_DEMO_PAGE = $page
                 $readyFile = Join-Path $env:TEMP ("esemnbun-ready-" + [Guid]::NewGuid().ToString('N') + '.json')
                 $env:MSIGN_DEMO_READY_FILE = $readyFile
-                $process = Start-Process -FilePath $App -PassThru
+                $process = Start-Process -FilePath $App -WorkingDirectory (Split-Path $App) -PassThru
                 try {
                     for ($i = 0; $i -lt 150; $i++) {
                         Start-Sleep -Milliseconds 200
@@ -59,6 +64,10 @@ try {
                     if ($PinOnly -and -not $ready.BlankPin) { throw 'PIN preview must remain empty.' }
                     $captureName = if ($PinOnly) { "batch-pin-$theme" } else { "$scenario-$page-$theme" }
                     $hwnd = [IntPtr]([long]$ready.Window)
+                    if ($Width -gt 0) {
+                        [CaptureWindow]::MoveWindow($hwnd,30,30,$Width,$Height,$true) | Out-Null
+                        Start-Sleep -Milliseconds 500
+                    }
                     [CaptureWindow]::SetForegroundWindow($hwnd) | Out-Null
                     Start-Sleep -Milliseconds 150
                     if ([CaptureWindow]::GetForegroundWindow() -ne $hwnd) { throw 'Demo window is not in the foreground; refusing an obscured screenshot.' }

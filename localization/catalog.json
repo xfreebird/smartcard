@@ -4366,9 +4366,9 @@
       "platform": "apple",
       "key": "ui_or_drop_it_here_signed_pdf_or_xades_signature_xml",
       "translations": {
-        "ro": "sau trage-l aici · PDF semnat sau semnătură XML (.xml)",
-        "en": "or drop it here · signed PDF or XML signature (.xml)",
-        "ru": "или перетащите сюда · подписанный PDF или подпись XML (.xml)"
+        "ro": "PDF semnat sau semnătură XAdES (XML)",
+        "en": "Signed PDF or XAdES signature (XML)",
+        "ru": "Подписанный PDF или подпись XAdES (XML)"
       }
     },
     {
@@ -10886,6 +10886,1734 @@
         "en": "View in Documents",
         "ru": "Открыть в «Документах»"
       }
+    },
+    {
+      "platform": "android",
+      "key": "nav_files",
+      "translations": {
+        "ro": "Fișiere",
+        "en": "Files",
+        "ru": "Файлы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nav_sign_short",
+      "translations": {
+        "ro": "Semnare",
+        "en": "Sign",
+        "ru": "Подпись"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nav_verify_short",
+      "translations": {
+        "ro": "Verifică",
+        "en": "Verify",
+        "ru": "Проверка"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "toggle_on",
+      "translations": {
+        "ro": "Pornit",
+        "en": "On",
+        "ru": "Вкл."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "toggle_off",
+      "translations": {
+        "ro": "Oprit",
+        "en": "Off",
+        "ru": "Выкл."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "verify_clear_results",
+      "translations": {
+        "ro": "Șterge rezultatele",
+        "en": "Clear results",
+        "ru": "Очистить результаты"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "verify_author",
+      "translations": {
+        "ro": "Autor:",
+        "en": "Author:",
+        "ru": "Автор:"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "verify_certificate_details",
+      "translations": {
+        "ro": "Detalii certificat",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_details",
+      "translations": {
+        "ro": "Detalii semnătură",
+        "en": "Signing details",
+        "ru": "Сведения о подписи"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_details",
+      "translations": {
+        "ro": "Detalii semnătură",
+        "en": "Signing details",
+        "ru": "Сведения о подписи"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_details",
+      "translations": {
+        "ro": "Detalii semnătură",
+        "en": "Signing details",
+        "ru": "Сведения о подписи"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_details",
+      "translations": {
+        "ro": "Detalii semnătură",
+        "en": "Signing details",
+        "ru": "Сведения о подписи"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_unavailable",
+      "translations": {
+        "ro": "Acest document nu mai este disponibil sau nu poate fi citit.",
+        "en": "This document is no longer available or cannot be read.",
+        "ru": "Этот документ больше недоступен или не может быть прочитан."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_unavailable",
+      "translations": {
+        "ro": "Acest document nu mai este disponibil sau nu poate fi citit.",
+        "en": "This document is no longer available or cannot be read.",
+        "ru": "Этот документ больше недоступен или не может быть прочитан."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_unavailable",
+      "translations": {
+        "ro": "Acest document nu mai este disponibil sau nu poate fi citit.",
+        "en": "This document is no longer available or cannot be read.",
+        "ru": "Этот документ больше недоступен или не может быть прочитан."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_close",
+      "translations": {
+        "ro": "Închide",
+        "en": "Close",
+        "ru": "Закрыть"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_library_save_failed",
+      "translations": {
+        "ro": "Lista de documente nu a putut fi salvată. Istoricul a fost păstrat. Încearcă din nou.",
+        "en": "The document list could not be saved. History was kept. Try again.",
+        "ru": "Не удалось сохранить список документов. История сохранена. Повторите попытку."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_close",
+      "translations": {
+        "ro": "Închide",
+        "en": "Close",
+        "ru": "Закрыть"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_library_save_failed",
+      "translations": {
+        "ro": "Lista de documente nu a putut fi salvată. Istoricul a fost păstrat. Încearcă din nou.",
+        "en": "The document list could not be saved. History was kept. Try again.",
+        "ru": "Не удалось сохранить список документов. История сохранена. Повторите попытку."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_unavailable_hint",
+      "translations": {
+        "ro": "Înregistrarea rămâne în Documente. Restabilește fișierul în locația inițială, apoi redeschide detaliile.",
+        "en": "The entry remains in Documents. Restore the file to its original location, then reopen the details.",
+        "ru": "Запись остаётся в Документах. Восстановите файл в исходном месте и снова откройте сведения."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_xml_hint",
+      "translations": {
+        "ro": "Pentru verificarea sau partajarea unei semnături XML detașate este necesar și documentul original. Un original lipsă nu dovedește modificarea documentului.",
+        "en": "A detached XML signature also needs its original document for verification or sharing. A missing original does not prove that the document was modified.",
+        "ru": "Для проверки или отправки отделённой XML-подписи нужен исходный документ. Отсутствие оригинала не доказывает изменение документа."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "startup_allow",
+      "translations": {
+        "ro": "Permite pornirea la autentificare în Configurări sistem",
+        "en": "Allow login startup in System Settings",
+        "ru": "Разрешить запуск при входе в Системных настройках"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_loading",
+      "translations": {
+        "ro": "Se verifică documentul…",
+        "en": "Checking document…",
+        "ru": "Проверка документа…"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "sig_author",
+      "translations": {
+        "ro": "Autor: %1$s",
+        "en": "Author: %1$s",
+        "ru": "Автор: %1$s"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "sig_certificate_details",
+      "translations": {
+        "ro": "Detalii certificat",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_open_documents",
+      "translations": {
+        "ro": "Deschide documentele",
+        "en": "Open Documents",
+        "ru": "Открыть документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_open_documents_description",
+      "translations": {
+        "ro": "Deschide documentele tale în eSemnBun.",
+        "en": "Open your documents in eSemnBun.",
+        "ru": "Открыть ваши документы в eSemnBun."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_verification_result",
+      "translations": {
+        "ro": "Rezultatul verificării offline",
+        "en": "Offline verification result",
+        "ru": "Результат автономной проверки"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_verified_offline",
+      "translations": {
+        "ro": "Semnături verificate offline",
+        "en": "Signatures verified offline",
+        "ru": "Подписи проверены автономно"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_invalid_signature",
+      "translations": {
+        "ro": "Semnătură nevalidă",
+        "en": "Invalid signature",
+        "ru": "Недействительная подпись"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_unconfirmed_trust",
+      "translations": {
+        "ro": "Încrederea nu a putut fi confirmată",
+        "en": "Trust could not be confirmed",
+        "ru": "Доверие не удалось подтвердить"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_no_signature",
+      "translations": {
+        "ro": "Nicio semnătură recunoscută",
+        "en": "No recognized signature",
+        "ru": "Распознанная подпись отсутствует"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_verify_pdf",
+      "translations": {
+        "ro": "Verifică PDF-ul",
+        "en": "Verify PDF",
+        "ru": "Проверить PDF"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_verify_pdf_description",
+      "translations": {
+        "ro": "Verifică semnăturile PDF offline și deschide rezultatele complete. Sunt acceptate fișiere PDF de până la 32 MiB. Starea actuală de revocare a certificatelor nu este verificată.",
+        "en": "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status.",
+        "ru": "Проверить подписи PDF автономно и открыть полные результаты. Поддерживаются PDF размером до 32 МиБ. Текущий статус отзыва сертификатов не проверяется."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_pdf_document",
+      "translations": {
+        "ro": "Document PDF",
+        "en": "PDF document",
+        "ru": "Документ PDF"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_error_pdf_required",
+      "translations": {
+        "ro": "Alege un document PDF. Verificarea XML este disponibilă în aplicație.",
+        "en": "Choose a PDF document. XML verification is available in the app.",
+        "ru": "Выберите документ PDF. Проверка XML доступна в приложении."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_error_too_large",
+      "translations": {
+        "ro": "Alege un PDF mai mic de 32 MiB.",
+        "en": "Choose a PDF smaller than 32 MiB.",
+        "ru": "Выберите PDF размером менее 32 МиБ."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_error_unreadable",
+      "translations": {
+        "ro": "Documentul nu a putut fi citit. Selectează-l din nou în Fișiere.",
+        "en": "The document could not be read. Select it again in Files.",
+        "ru": "Не удалось прочитать документ. Выберите его снова в приложении «Файлы»."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "verify_original_missing",
+      "translations": {
+        "en": "Verification is incomplete. Choose the original document with its original filename. A missing original does not prove modification.",
+        "ro": "Verificarea este incompletă. Alegeți documentul original cu numele său original. Lipsa originalului nu dovedește modificarea.",
+        "ru": "Проверка не завершена. Выберите исходный документ с исходным именем файла. Отсутствие оригинала не доказывает изменение."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "verify_choose_originals",
+      "translations": {
+        "en": "Choose original documents…",
+        "ro": "Alegeți documentele originale…",
+        "ru": "Выбрать исходные документы…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "document_preview",
+      "translations": {
+        "ro": "Previzualizare",
+        "en": "Preview",
+        "ru": "Просмотр"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_unavailable",
+      "translations": {
+        "ro": "Acest document nu mai este disponibil sau nu poate fi citit.",
+        "en": "This document is no longer available or cannot be read.",
+        "ru": "Этот документ больше недоступен или не может быть прочитан."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "verify_no_recognized_signature",
+      "translations": {
+        "ro": "Nu a fost recunoscută nicio semnătură acceptată.",
+        "en": "No supported signature was recognized.",
+        "ru": "Поддерживаемая подпись не распознана."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "verify_trust_unconfirmed",
+      "translations": {
+        "ro": "Integritatea și semnătura sunt corecte, dar lanțul de certificate nu a putut fi confirmat.",
+        "en": "Integrity and signature checks passed, but the certificate chain could not be confirmed.",
+        "ru": "Целостность и подпись проверены, но цепочка сертификатов не подтверждена."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_subject",
+      "translations": {
+        "ro": "Titular",
+        "en": "Subject",
+        "ru": "Владелец"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_issuer",
+      "translations": {
+        "ro": "Emitent",
+        "en": "Issuer",
+        "ru": "Издатель"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_certificate",
+      "translations": {
+        "ro": "Certificat",
+        "en": "Certificate",
+        "ru": "Сертификат"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_certificate_details",
+      "translations": {
+        "ro": "Detalii certificat",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_name",
+      "translations": {
+        "ro": "Nume",
+        "en": "Name",
+        "ru": "Имя"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_surname",
+      "translations": {
+        "ro": "Nume de familie",
+        "en": "Surname",
+        "ru": "Фамилия"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_given_names",
+      "translations": {
+        "ro": "Prenume",
+        "en": "Given names",
+        "ru": "Имена"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_personal_identifier",
+      "translations": {
+        "ro": "Identificator personal",
+        "en": "Personal identifier",
+        "ru": "Личный идентификатор"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_country",
+      "translations": {
+        "ro": "Țară",
+        "en": "Country",
+        "ru": "Страна"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_city",
+      "translations": {
+        "ro": "Localitate",
+        "en": "City",
+        "ru": "Город"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_region",
+      "translations": {
+        "ro": "Regiune",
+        "en": "Region",
+        "ru": "Регион"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_organization",
+      "translations": {
+        "ro": "Organizație",
+        "en": "Organization",
+        "ru": "Организация"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_department",
+      "translations": {
+        "ro": "Departament",
+        "en": "Department",
+        "ru": "Подразделение"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_organization_identifier",
+      "translations": {
+        "ro": "Identificator organizație",
+        "en": "Organization identifier",
+        "ru": "Идентификатор организации"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_telephone",
+      "translations": {
+        "ro": "Telefon",
+        "en": "Telephone",
+        "ru": "Телефон"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_title",
+      "translations": {
+        "ro": "Funcție",
+        "en": "Title",
+        "ru": "Должность"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_serial_number",
+      "translations": {
+        "ro": "Număr de serie",
+        "en": "Serial number",
+        "ru": "Серийный номер"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_sha_256_fingerprint",
+      "translations": {
+        "ro": "Amprentă SHA-256",
+        "en": "SHA-256 fingerprint",
+        "ru": "Отпечаток SHA-256"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_valid_from",
+      "translations": {
+        "ro": "Valabil de la",
+        "en": "Valid from",
+        "ru": "Действителен с"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_valid_until",
+      "translations": {
+        "ro": "Valabil până la",
+        "en": "Valid until",
+        "ru": "Действителен до"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_public_key",
+      "translations": {
+        "ro": "Cheie publică",
+        "en": "Public key",
+        "ru": "Открытый ключ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_certificate_signature_algorithm",
+      "translations": {
+        "ro": "Algoritmul semnăturii certificatului",
+        "en": "Certificate signature algorithm",
+        "ru": "Алгоритм подписи сертификата"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_revocation_lists",
+      "translations": {
+        "ro": "Liste de revocare",
+        "en": "Revocation lists",
+        "ru": "Списки отзыва"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_authority_information",
+      "translations": {
+        "ro": "Informații despre autoritate",
+        "en": "Authority information",
+        "ru": "Сведения о центре сертификации"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_alternative_names",
+      "translations": {
+        "ro": "Nume alternative",
+        "en": "Alternative names",
+        "ru": "Альтернативные имена"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_certificate_policies",
+      "translations": {
+        "ro": "Politici de certificare",
+        "en": "Certificate policies",
+        "ru": "Политики сертификата"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_ocsp_responder",
+      "translations": {
+        "ro": "Serviciu OCSP",
+        "en": "OCSP responder",
+        "ru": "Служба OCSP"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_issuer_certificate_url",
+      "translations": {
+        "ro": "Adresa certificatului emitentului",
+        "en": "Issuer certificate URL",
+        "ru": "Адрес сертификата издателя"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_qualified_certificate_statements",
+      "translations": {
+        "ro": "Declarații privind certificatul calificat",
+        "en": "Qualified certificate statements",
+        "ru": "Утверждения квалифицированного сертификата"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_subject_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii titularului",
+        "en": "Subject key identifier",
+        "ru": "Идентификатор ключа владельца"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_authority_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii autorității",
+        "en": "Authority key identifier",
+        "ru": "Идентификатор ключа центра сертификации"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_key_usage",
+      "translations": {
+        "ro": "Utilizarea cheii",
+        "en": "Key usage",
+        "ru": "Использование ключа"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_extended_key_usage",
+      "translations": {
+        "ro": "Utilizarea extinsă a cheii",
+        "en": "Extended key usage",
+        "ru": "Расширенное использование ключа"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_basic_constraints",
+      "translations": {
+        "ro": "Constrângeri de bază",
+        "en": "Basic constraints",
+        "ru": "Основные ограничения"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_authority",
+      "translations": {
+        "ro": "Autoritate",
+        "en": "Authority",
+        "ru": "Центр сертификации"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_certificate_policy",
+      "translations": {
+        "ro": "Politică de certificare",
+        "en": "Certificate policy",
+        "ru": "Политика сертификата"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "cert_label_extension",
+      "translations": {
+        "ro": "Extensie",
+        "en": "Extension",
+        "ru": "Расширение"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_subject",
+      "translations": {
+        "ro": "Titular",
+        "en": "Subject",
+        "ru": "Владелец"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_issuer",
+      "translations": {
+        "ro": "Emitent",
+        "en": "Issuer",
+        "ru": "Издатель"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_certificate",
+      "translations": {
+        "ro": "Certificat",
+        "en": "Certificate",
+        "ru": "Сертификат"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_certificate_details",
+      "translations": {
+        "ro": "Detalii certificat",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_name",
+      "translations": {
+        "ro": "Nume",
+        "en": "Name",
+        "ru": "Имя"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_surname",
+      "translations": {
+        "ro": "Nume de familie",
+        "en": "Surname",
+        "ru": "Фамилия"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_given_names",
+      "translations": {
+        "ro": "Prenume",
+        "en": "Given names",
+        "ru": "Имена"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_personal_identifier",
+      "translations": {
+        "ro": "Identificator personal",
+        "en": "Personal identifier",
+        "ru": "Личный идентификатор"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_country",
+      "translations": {
+        "ro": "Țară",
+        "en": "Country",
+        "ru": "Страна"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_city",
+      "translations": {
+        "ro": "Localitate",
+        "en": "City",
+        "ru": "Город"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_region",
+      "translations": {
+        "ro": "Regiune",
+        "en": "Region",
+        "ru": "Регион"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_organization",
+      "translations": {
+        "ro": "Organizație",
+        "en": "Organization",
+        "ru": "Организация"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_department",
+      "translations": {
+        "ro": "Departament",
+        "en": "Department",
+        "ru": "Подразделение"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_organization_identifier",
+      "translations": {
+        "ro": "Identificator organizație",
+        "en": "Organization identifier",
+        "ru": "Идентификатор организации"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_telephone",
+      "translations": {
+        "ro": "Telefon",
+        "en": "Telephone",
+        "ru": "Телефон"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_title",
+      "translations": {
+        "ro": "Funcție",
+        "en": "Title",
+        "ru": "Должность"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_serial_number",
+      "translations": {
+        "ro": "Număr de serie",
+        "en": "Serial number",
+        "ru": "Серийный номер"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_sha_256_fingerprint",
+      "translations": {
+        "ro": "Amprentă SHA-256",
+        "en": "SHA-256 fingerprint",
+        "ru": "Отпечаток SHA-256"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_valid_from",
+      "translations": {
+        "ro": "Valabil de la",
+        "en": "Valid from",
+        "ru": "Действителен с"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_valid_until",
+      "translations": {
+        "ro": "Valabil până la",
+        "en": "Valid until",
+        "ru": "Действителен до"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_public_key",
+      "translations": {
+        "ro": "Cheie publică",
+        "en": "Public key",
+        "ru": "Открытый ключ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_certificate_signature_algorithm",
+      "translations": {
+        "ro": "Algoritmul semnăturii certificatului",
+        "en": "Certificate signature algorithm",
+        "ru": "Алгоритм подписи сертификата"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_revocation_lists",
+      "translations": {
+        "ro": "Liste de revocare",
+        "en": "Revocation lists",
+        "ru": "Списки отзыва"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_authority_information",
+      "translations": {
+        "ro": "Informații despre autoritate",
+        "en": "Authority information",
+        "ru": "Сведения о центре сертификации"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_alternative_names",
+      "translations": {
+        "ro": "Nume alternative",
+        "en": "Alternative names",
+        "ru": "Альтернативные имена"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_certificate_policies",
+      "translations": {
+        "ro": "Politici de certificare",
+        "en": "Certificate policies",
+        "ru": "Политики сертификата"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_ocsp_responder",
+      "translations": {
+        "ro": "Serviciu OCSP",
+        "en": "OCSP responder",
+        "ru": "Служба OCSP"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_issuer_certificate_url",
+      "translations": {
+        "ro": "Adresa certificatului emitentului",
+        "en": "Issuer certificate URL",
+        "ru": "Адрес сертификата издателя"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_qualified_certificate_statements",
+      "translations": {
+        "ro": "Declarații privind certificatul calificat",
+        "en": "Qualified certificate statements",
+        "ru": "Утверждения квалифицированного сертификата"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_subject_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii titularului",
+        "en": "Subject key identifier",
+        "ru": "Идентификатор ключа владельца"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_authority_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii autorității",
+        "en": "Authority key identifier",
+        "ru": "Идентификатор ключа центра сертификации"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_key_usage",
+      "translations": {
+        "ro": "Utilizarea cheii",
+        "en": "Key usage",
+        "ru": "Использование ключа"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_extended_key_usage",
+      "translations": {
+        "ro": "Utilizarea extinsă a cheii",
+        "en": "Extended key usage",
+        "ru": "Расширенное использование ключа"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_basic_constraints",
+      "translations": {
+        "ro": "Constrângeri de bază",
+        "en": "Basic constraints",
+        "ru": "Основные ограничения"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_authority",
+      "translations": {
+        "ro": "Autoritate",
+        "en": "Authority",
+        "ru": "Центр сертификации"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_certificate_policy",
+      "translations": {
+        "ro": "Politică de certificare",
+        "en": "Certificate policy",
+        "ru": "Политика сертификата"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "cert_label_extension",
+      "translations": {
+        "ro": "Extensie",
+        "en": "Extension",
+        "ru": "Расширение"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_subject",
+      "translations": {
+        "ro": "Titular",
+        "en": "Subject",
+        "ru": "Владелец"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_issuer",
+      "translations": {
+        "ro": "Emitent",
+        "en": "Issuer",
+        "ru": "Издатель"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_certificate",
+      "translations": {
+        "ro": "Certificat",
+        "en": "Certificate",
+        "ru": "Сертификат"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_certificate_details",
+      "translations": {
+        "ro": "Detalii certificat",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_name",
+      "translations": {
+        "ro": "Nume",
+        "en": "Name",
+        "ru": "Имя"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_surname",
+      "translations": {
+        "ro": "Nume de familie",
+        "en": "Surname",
+        "ru": "Фамилия"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_given_names",
+      "translations": {
+        "ro": "Prenume",
+        "en": "Given names",
+        "ru": "Имена"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_personal_identifier",
+      "translations": {
+        "ro": "Identificator personal",
+        "en": "Personal identifier",
+        "ru": "Личный идентификатор"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_country",
+      "translations": {
+        "ro": "Țară",
+        "en": "Country",
+        "ru": "Страна"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_city",
+      "translations": {
+        "ro": "Localitate",
+        "en": "City",
+        "ru": "Город"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_region",
+      "translations": {
+        "ro": "Regiune",
+        "en": "Region",
+        "ru": "Регион"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_organization",
+      "translations": {
+        "ro": "Organizație",
+        "en": "Organization",
+        "ru": "Организация"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_department",
+      "translations": {
+        "ro": "Departament",
+        "en": "Department",
+        "ru": "Подразделение"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_organization_identifier",
+      "translations": {
+        "ro": "Identificator organizație",
+        "en": "Organization identifier",
+        "ru": "Идентификатор организации"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_telephone",
+      "translations": {
+        "ro": "Telefon",
+        "en": "Telephone",
+        "ru": "Телефон"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_title",
+      "translations": {
+        "ro": "Funcție",
+        "en": "Title",
+        "ru": "Должность"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_serial_number",
+      "translations": {
+        "ro": "Număr de serie",
+        "en": "Serial number",
+        "ru": "Серийный номер"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_sha_256_fingerprint",
+      "translations": {
+        "ro": "Amprentă SHA-256",
+        "en": "SHA-256 fingerprint",
+        "ru": "Отпечаток SHA-256"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_valid_from",
+      "translations": {
+        "ro": "Valabil de la",
+        "en": "Valid from",
+        "ru": "Действителен с"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_valid_until",
+      "translations": {
+        "ro": "Valabil până la",
+        "en": "Valid until",
+        "ru": "Действителен до"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_public_key",
+      "translations": {
+        "ro": "Cheie publică",
+        "en": "Public key",
+        "ru": "Открытый ключ"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_certificate_signature_algorithm",
+      "translations": {
+        "ro": "Algoritmul semnăturii certificatului",
+        "en": "Certificate signature algorithm",
+        "ru": "Алгоритм подписи сертификата"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_revocation_lists",
+      "translations": {
+        "ro": "Liste de revocare",
+        "en": "Revocation lists",
+        "ru": "Списки отзыва"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_authority_information",
+      "translations": {
+        "ro": "Informații despre autoritate",
+        "en": "Authority information",
+        "ru": "Сведения о центре сертификации"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_alternative_names",
+      "translations": {
+        "ro": "Nume alternative",
+        "en": "Alternative names",
+        "ru": "Альтернативные имена"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_certificate_policies",
+      "translations": {
+        "ro": "Politici de certificare",
+        "en": "Certificate policies",
+        "ru": "Политики сертификата"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_ocsp_responder",
+      "translations": {
+        "ro": "Serviciu OCSP",
+        "en": "OCSP responder",
+        "ru": "Служба OCSP"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_issuer_certificate_url",
+      "translations": {
+        "ro": "Adresa certificatului emitentului",
+        "en": "Issuer certificate URL",
+        "ru": "Адрес сертификата издателя"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_qualified_certificate_statements",
+      "translations": {
+        "ro": "Declarații privind certificatul calificat",
+        "en": "Qualified certificate statements",
+        "ru": "Утверждения квалифицированного сертификата"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_subject_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii titularului",
+        "en": "Subject key identifier",
+        "ru": "Идентификатор ключа владельца"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_authority_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii autorității",
+        "en": "Authority key identifier",
+        "ru": "Идентификатор ключа центра сертификации"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_key_usage",
+      "translations": {
+        "ro": "Utilizarea cheii",
+        "en": "Key usage",
+        "ru": "Использование ключа"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_extended_key_usage",
+      "translations": {
+        "ro": "Utilizarea extinsă a cheii",
+        "en": "Extended key usage",
+        "ru": "Расширенное использование ключа"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_basic_constraints",
+      "translations": {
+        "ro": "Constrângeri de bază",
+        "en": "Basic constraints",
+        "ru": "Основные ограничения"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_authority",
+      "translations": {
+        "ro": "Autoritate",
+        "en": "Authority",
+        "ru": "Центр сертификации"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_certificate_policy",
+      "translations": {
+        "ro": "Politică de certificare",
+        "en": "Certificate policy",
+        "ru": "Политика сертификата"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "cert_label_extension",
+      "translations": {
+        "ro": "Extensie",
+        "en": "Extension",
+        "ru": "Расширение"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_subject",
+      "translations": {
+        "ro": "Titular",
+        "en": "Subject",
+        "ru": "Владелец"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_issuer",
+      "translations": {
+        "ro": "Emitent",
+        "en": "Issuer",
+        "ru": "Издатель"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_certificate",
+      "translations": {
+        "ro": "Certificat",
+        "en": "Certificate",
+        "ru": "Сертификат"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_certificate_details",
+      "translations": {
+        "ro": "Detalii certificat",
+        "en": "Certificate details",
+        "ru": "Сведения о сертификате"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_name",
+      "translations": {
+        "ro": "Nume",
+        "en": "Name",
+        "ru": "Имя"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_surname",
+      "translations": {
+        "ro": "Nume de familie",
+        "en": "Surname",
+        "ru": "Фамилия"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_given_names",
+      "translations": {
+        "ro": "Prenume",
+        "en": "Given names",
+        "ru": "Имена"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_personal_identifier",
+      "translations": {
+        "ro": "Identificator personal",
+        "en": "Personal identifier",
+        "ru": "Личный идентификатор"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_country",
+      "translations": {
+        "ro": "Țară",
+        "en": "Country",
+        "ru": "Страна"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_city",
+      "translations": {
+        "ro": "Localitate",
+        "en": "City",
+        "ru": "Город"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_region",
+      "translations": {
+        "ro": "Regiune",
+        "en": "Region",
+        "ru": "Регион"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_organization",
+      "translations": {
+        "ro": "Organizație",
+        "en": "Organization",
+        "ru": "Организация"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_department",
+      "translations": {
+        "ro": "Departament",
+        "en": "Department",
+        "ru": "Подразделение"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_organization_identifier",
+      "translations": {
+        "ro": "Identificator organizație",
+        "en": "Organization identifier",
+        "ru": "Идентификатор организации"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_telephone",
+      "translations": {
+        "ro": "Telefon",
+        "en": "Telephone",
+        "ru": "Телефон"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_title",
+      "translations": {
+        "ro": "Funcție",
+        "en": "Title",
+        "ru": "Должность"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_serial_number",
+      "translations": {
+        "ro": "Număr de serie",
+        "en": "Serial number",
+        "ru": "Серийный номер"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_sha_256_fingerprint",
+      "translations": {
+        "ro": "Amprentă SHA-256",
+        "en": "SHA-256 fingerprint",
+        "ru": "Отпечаток SHA-256"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_valid_from",
+      "translations": {
+        "ro": "Valabil de la",
+        "en": "Valid from",
+        "ru": "Действителен с"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_valid_until",
+      "translations": {
+        "ro": "Valabil până la",
+        "en": "Valid until",
+        "ru": "Действителен до"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_public_key",
+      "translations": {
+        "ro": "Cheie publică",
+        "en": "Public key",
+        "ru": "Открытый ключ"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_certificate_signature_algorithm",
+      "translations": {
+        "ro": "Algoritmul semnăturii certificatului",
+        "en": "Certificate signature algorithm",
+        "ru": "Алгоритм подписи сертификата"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_revocation_lists",
+      "translations": {
+        "ro": "Liste de revocare",
+        "en": "Revocation lists",
+        "ru": "Списки отзыва"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_authority_information",
+      "translations": {
+        "ro": "Informații despre autoritate",
+        "en": "Authority information",
+        "ru": "Сведения о центре сертификации"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_alternative_names",
+      "translations": {
+        "ro": "Nume alternative",
+        "en": "Alternative names",
+        "ru": "Альтернативные имена"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_certificate_policies",
+      "translations": {
+        "ro": "Politici de certificare",
+        "en": "Certificate policies",
+        "ru": "Политики сертификата"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_ocsp_responder",
+      "translations": {
+        "ro": "Serviciu OCSP",
+        "en": "OCSP responder",
+        "ru": "Служба OCSP"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_issuer_certificate_url",
+      "translations": {
+        "ro": "Adresa certificatului emitentului",
+        "en": "Issuer certificate URL",
+        "ru": "Адрес сертификата издателя"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_qualified_certificate_statements",
+      "translations": {
+        "ro": "Declarații privind certificatul calificat",
+        "en": "Qualified certificate statements",
+        "ru": "Утверждения квалифицированного сертификата"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_subject_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii titularului",
+        "en": "Subject key identifier",
+        "ru": "Идентификатор ключа владельца"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_authority_key_identifier",
+      "translations": {
+        "ro": "Identificatorul cheii autorității",
+        "en": "Authority key identifier",
+        "ru": "Идентификатор ключа центра сертификации"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_key_usage",
+      "translations": {
+        "ro": "Utilizarea cheii",
+        "en": "Key usage",
+        "ru": "Использование ключа"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_extended_key_usage",
+      "translations": {
+        "ro": "Utilizarea extinsă a cheii",
+        "en": "Extended key usage",
+        "ru": "Расширенное использование ключа"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_basic_constraints",
+      "translations": {
+        "ro": "Constrângeri de bază",
+        "en": "Basic constraints",
+        "ru": "Основные ограничения"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_authority",
+      "translations": {
+        "ro": "Autoritate",
+        "en": "Authority",
+        "ru": "Центр сертификации"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_certificate_policy",
+      "translations": {
+        "ro": "Politică de certificare",
+        "en": "Certificate policy",
+        "ru": "Политика сертификата"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "cert_label_extension",
+      "translations": {
+        "ro": "Extensie",
+        "en": "Extension",
+        "ru": "Расширение"
+      }
     }
   ],
   "storeMetadata": {
@@ -10895,7 +12623,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
+      "releaseNotes": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -10911,10 +12639,10 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
-        "macos": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
-        "android": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă.",
-        "windows": "• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.\n• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.\n• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.\n• Ascunde rezultatele semnării fără a șterge fișierele.\n• Interfață și traduceri îmbunătățite în română, engleză și rusă."
+        "ios": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
+        "macos": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
+        "android": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
+        "windows": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite."
       }
     },
     "en": {
@@ -10923,7 +12651,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
+      "releaseNotes": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -10939,10 +12667,10 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
-        "macos": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
-        "android": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations.",
-        "windows": "• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.\n• Manage batches with clearer file options and compact mobile groups.\n• Find signed files in Documents, open or share them, and verify them directly.\n• Clear signing results without deleting files.\n• Improved layouts and Romanian, English and Russian translations."
+        "ios": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
+        "macos": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
+        "android": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
+        "windows": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text."
       }
     },
     "ru": {
@@ -10951,7 +12679,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
+      "releaseNotes": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -10967,10 +12695,10 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
-        "macos": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
-        "android": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский.",
-        "windows": "• Добавляйте видимый штамп в PDF: перемещайте, меняйте размер и применяйте к одной или всем страницам.\n• Управляйте пакетами с понятными настройками файлов и компактными группами на телефоне.\n• Находите подписанные файлы в разделе «Документы», открывайте, отправляйте и проверяйте их.\n• Скрывайте результаты подписания без удаления файлов.\n• Улучшены интерфейс и переводы на румынский, английский и русский."
+        "ios": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
+        "macos": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
+        "android": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
+        "windows": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса."
       }
     }
   },

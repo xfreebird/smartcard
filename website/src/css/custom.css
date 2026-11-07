@@ -24,7 +24,7 @@
 .continuous-sticky{padding:0;display:block;min-height:0;height:100svh;isolation:isolate}
 .continuous-heading{position:absolute;top:85px;left:50%;transform:translateX(-50%);width:calc(100% - 48px);max-width:800px;min-height:0;z-index:3;pointer-events:none;text-shadow:0 1px 6px var(--site-stage)}
 .continuous-heading h2{font-size:clamp(23px,2.5vw,34px);margin:8px 0}.continuous-heading p{font-size:13px}
-.continuous-scene{position:absolute;max-width:none;max-height:none;display:block;height:auto;overflow:visible;transition:none;will-change:top,left,width;z-index:1}
+.continuous-scene{position:absolute;max-width:none;max-height:none;display:block;height:auto;overflow:visible;transition:none;top:0;left:0;z-index:1}
 .continuous-scene *{transition:none;animation:none}
 .continuous-progress{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);margin:0;z-index:4;padding-top:14px}
 .scroll-progress-track{position:absolute;top:0;left:10px;right:10px;height:3px;overflow:hidden;background:var(--site-track);border-radius:3px}.scroll-progress-track>div{height:100%;background:#3159df;transform-origin:left;will-change:transform}
@@ -33,7 +33,7 @@
 /* The full-width opening is the content: captions stay available to assistive
    technology while the visible progress row labels the continuous illustration. */
 .continuous-heading{position:absolute;width:1px;height:1px;min-height:0;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;top:0;left:0;transform:none}
-@media(prefers-reduced-motion:reduce){.continuous-heading{position:relative;width:auto;height:auto;margin:0;padding:90px 24px 0;clip-path:none;white-space:normal;text-align:center}.continuous-scene{top:260px!important;left:5%!important;width:90%!important}}
+@media(prefers-reduced-motion:reduce){.continuous-heading{position:relative;width:auto;height:auto;margin:0;padding:90px 24px 0;clip-path:none;white-space:normal;text-align:center}.continuous-scene{top:260px!important;left:5%!important;width:90%!important;transform:none!important}}
 /* Comfortable reading sizes across the landing page, navigation and docs. */
 :root{--ifm-font-size-base:18px}
 .navbar__logo img{border-radius:23%;overflow:hidden}.navbar__link{font-size:17px}

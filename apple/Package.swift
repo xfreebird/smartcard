@@ -13,6 +13,8 @@ let package = Package(
                 exclude: ["DemoAppServices.swift"], sources: ["DemoHardwareGate.swift", "DemoDocumentFiles.swift"]),
         .testTarget(name: "DemoModePolicyTests", dependencies: ["DemoModePolicy"], path: "Tests/DemoModePolicyTests"),
         .testTarget(name: "AppBatchTests", dependencies: ["AppBatch"], path: "Tests/AppBatchTests"),
+        .target(name: "DocumentLibrary", path: "Apps/Shared/Services/Activity"),
+        .testTarget(name: "DocumentLibraryTests", dependencies: ["DocumentLibrary"], path: "Tests/DocumentLibraryTests"),
         .target(name: "ReaderInsertionPolicy", path: "Helpers/ReaderWatcher",
                 exclude: ["main.swift", "md.esemnbun.reader-watcher.plist", "README.md", "ReaderWatcher.entitlements"], sources: ["InsertionPolicy.swift"]),
         .testTarget(name: "ReaderInsertionPolicyTests", dependencies: ["ReaderInsertionPolicy"], path: "Tests/ReaderInsertionPolicyTests")

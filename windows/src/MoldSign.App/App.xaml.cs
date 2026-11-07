@@ -190,7 +190,21 @@ public partial class App : Application
                     root.RequestedTheme = ElementTheme.Dark;
                 var page = Environment.GetEnvironmentVariable("MSIGN_DEMO_PAGE") ?? action;
                 void Prepare() => dispatcher.TryEnqueue(DispatcherQueuePriority.Low,
-                    () => { _main?.ShowSection(page); _main?.PrepareDemoCapture(page); });
+                    () =>
+                    {
+                        _main?.ShowSection(page);
+                        _main?.PrepareDemoCapture(page);
+#if DEBUG
+                        if (DemoMode.ScreenshotCapture && AppSettings.IsolatedTestPreferences &&
+                            Environment.GetEnvironmentVariable("MSIGN_QA_ONBOARDING") == "1")
+                            dispatcher.TryEnqueue(async () =>
+                            {
+                                if (_main is null) return;
+                                try { await OnboardingDialog.ShowAsync(_main); }
+                                catch (Exception error) { AppLog.Error(error); }
+                            });
+#endif
+                    });
                 if (_main?.Content is FrameworkElement content)
                 {
                     if (content.IsLoaded) Prepare();

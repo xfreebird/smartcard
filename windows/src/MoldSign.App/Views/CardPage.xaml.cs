@@ -33,6 +33,7 @@ public sealed partial class CardPage : Page
     private void ShowSelectedCard()
     {
         CertificateSummary? certificate = State.Certificate;
+        CertificateProperties.Visibility = certificate is null ? Visibility.Collapsed : Visibility.Visible;
         HolderText.Text = certificate?.CommonName ?? "—";
         IssuerText.Text = certificate?.Issuer ?? "—";
         ValidityText.Text = certificate is null

@@ -19,7 +19,7 @@ struct BrowserScreen: View {
 
     var body: some View {
         Group {
-            if model.demoMode {
+            if model.demoMode && !model.isScreenshotCapture {
                 ContentUnavailableView(L10n.text(.demo_banner), systemImage: "sparkles",
                                        description: Text(L10n.text(.demo_settings_description)))
             } else {

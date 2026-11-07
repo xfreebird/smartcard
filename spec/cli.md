@@ -1,7 +1,7 @@
 # `esemnbun` CLI contract
 
 One command-line interface on every desktop OS, always a **native** build. The command is `esemnbun`
-(public name eSemnBun, docs/10 §0.2b); the code keeps the codename (`Sources/moldsign`, `MoldSign.Cli`). Two implementations follow this contract:
+(public name eSemnBun, docs/10 §0.2b); the code keeps the codename (`Sources/moldsign`, `MoldSign.Cli`). Two implementations follow this contract. Windows command coverage is currently partial; discover the installed implementation with `capabilities --json` rather than assuming parity:
 
 | OS | Implementation | Build |
 |---|---|---|
@@ -14,13 +14,14 @@ Plan items: CLI-01…CLI-06 in [`../PLAN.md`](../PLAN.md).
 ## Commands
 
 ```
+esemnbun capabilities [--json]                    Discover supported commands and formats without card/PIN access
 esemnbun readers                                   List PC/SC readers and card presence
 esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN); print holder, issuer, validity, SHA-1
 esemnbun sign <in.pdf> [<out.pdf>]                 PAdES-T (default output: <name>-semnat.pdf next to the input, never overwrite)
 esemnbun xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping] [--digest SHA-1|SHA-256]
                                                    XAdES signature (detached, SHA-256 by default; SHA-1 only where a
                                                    relying party asks for it, like the portal's Xml/Text contents)
-esemnbun verify <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
+esemnbun verify [--json] <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
 esemnbun server [<port> [<https_port>]]            Browser bridge (MoldSign Server protocol), defaults http 18480, https 18443
 esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
 esemnbun cms-for-hash <sha256_hex>                 Developer: detached CMS for an external content digest
@@ -31,6 +32,89 @@ Legacy form (kept for scripts): esemnbun <in.pdf> <out.pdf>   ==  esemnbun sign 
 Global options: `--reader <name>` (default: first reader with a card), `--quiet` (no protocol traces),
 `--pin-stdin` (read the PIN from the first line of stdin).
 
+## Capability discovery and structured output
+
+`capabilities` is read-only and does not enumerate readers, open a card, access saved credentials,
+read stdin, inspect `MSIGN_PIN`, or contact a network service. It reports support in the executable,
+not connected hardware, entitlement readiness, certificate availability, or a guarantee that a
+future operation succeeds. `--quiet` is also accepted; each flag may appear once. Other options
+or positional arguments are rejected.
+
+`capabilities --json` writes exactly one compact UTF-8 JSON object followed by a newline to stdout.
+Success exits 0 with no stderr output. Schema version 1 has this envelope and data shape:
+
+```json
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "data": {
+    "product": "eSemnBun",
+    "interface": "cli",
+    "platform": "windows",
+    "commands": ["capabilities", "help", "readers", "cert", "sign-hex"],
+    "structuredOutputCommands": ["capabilities"],
+    "documentSigning": {"available": false, "formats": []},
+    "verification": {"available": false, "formats": [], "requiresCard": false, "json": false},
+    "mcpServerAvailable": false,
+    "desktopApprovalBrokerAvailable": false
+  }
+}
+```
+
+`platform` is `macos`, `linux` or `windows`, identifying the implementation. The Swift macOS/Linux
+implementation additionally advertises `version`, `sign`, `xades`, `verify`, `server` and
+`cms-for-hash`. It advertises document-signing formats `PAdES-T`, `XAdES-BES`, `XAdES-T`,
+`XAdES-C`, and verification formats `PDF`, `XAdES`. Verification there is available without a
+card. Windows currently has neither document signing nor verification in its CLI, even though
+its desktop app implements those features. The Windows `sign-hex` card operation is not document
+signing. Unavailable features have empty format lists.
+
+The Swift macOS/Linux implementation also advertises `structuredOutputCommands:["capabilities","verify"]`
+and `verification.json:true`. Windows currently supports JSON for capability discovery only. An
+exact `--json` flag on another command is rejected before card/PIN access, with exit 1, one
+`UNSUPPORTED` failure envelope on stdout and a fixed diagnostic on stderr. Malformed discovery
+arguments use `INVALID_ARGUMENT`. Neither implementation echoes argument values or raw exception
+text. Without `--json`, existing text command behavior remains available.
+
+### Structured offline verification (Swift macOS/Linux)
+
+`verify --json <file.pdf|signature.xml> [documents_directory]` reads one explicit regular PDF/XML
+file. Symlink and special-file inputs are rejected; detached references are confined beneath the
+explicit documents directory (or the current working directory if omitted). Neither reader/card
+access nor PIN/environment lookup is needed. This operation is offline and does not check current
+certificate revocation status.
+
+A successful verification execution emits one object:
+
+```json
+{"schemaVersion":1,"ok":true,"data":{"status":"incomplete","mode":"offline","revocationChecked":false,"signatureCount":1,"signatures":[{"index":1,"kind":"XAdES","level":"XAdES-BES","contentIntact":false,"signatureValid":true,"chainTrusted":false,"missingDocumentCount":1}]}}
+```
+
+`ok:true` means verification executed, not that the signature is valid. Status values are:
+
+| Status | Meaning | Exit |
+| --- | --- | --- |
+| `valid` | Integrity, cryptographic signature and embedded chain checks pass | 0 |
+| `unconfirmed` | Integrity/signature pass but embedded trust is unconfirmed | 0 |
+| `incomplete` | Original document references are unavailable, without another established signature failure | 2 |
+| `invalid` | Cryptographic signature fails or supplied content does not match | 2 |
+| `no_recognized_signature` | No supported signature was recognized; this does not distinguish every unsupported representation from unsigned input | 2 |
+
+The existing vendor-oriented XML validator does not implement general XML canonicalization for
+every equivalent representation; unsupported spellings may fail verification. This interface
+does not expand the underlying validator's standards coverage.
+
+Signature data contains only index, kind, level, integrity/signature/chain booleans and missing
+reference count. It omits document paths/names, signer identity, certificate contents and PINs.
+Missing originals alone do not establish modification. An independent cryptographic failure takes
+priority over incomplete status. Revocation is always reported as unchecked.
+
+Input/usage failures emit `ok:false`, `schemaVersion:1` and `error:{code,retryable:false,message}`;
+fixed error codes are `INVALID_ARGUMENT`, `UNSUPPORTED` or `INPUT_UNREADABLE`, with exit 1.
+Diagnostics go to stderr. The verifier does not return raw filesystem errors or supplied paths.
+`--json` and `--quiet` may each appear once; reader/PIN options and extra positionals are rejected.
+No MCP server or foreground signing approval broker is implied by this CLI interface.
+
 ## PIN
 
 Order: `--pin-stdin` → `MSIGN_PIN` environment variable → interactive prompt **without echo**.
@@ -40,7 +124,7 @@ Never retry automatically after a wrong PIN.
 ## Output
 
 * Human-readable lines on stdout. Errors go to stderr, prefixed with `error:`.
-* `verify` prints one line per signature: `<name>: VALID|INVALID — <signer>, <level>, signed <time>[, tst <time>], chain trusted|untrusted`.
+* `verify` prints one line per signature: `<name>: VALID|INVALID|INCOMPLETE — <signer>, <level>, signed <time>[, tst <time>], chain trusted|untrusted`.
 * `sign-hex` prints the signature hex. `cms-for-hash` prints `CMS_CERT:<hex>` and `CMS_HEX:<hex>` (consumed by scripts).
 
 ## Exit codes
@@ -49,7 +133,7 @@ Never retry automatically after a wrong PIN.
 |---|---|
 | 0 | success (verify: every signature valid) |
 | 1 | usage or unexpected error |
-| 2 | verify: at least one signature invalid, or none found |
+| 2 | verify: at least one signature invalid/incomplete, or none recognized |
 | 3 | wrong PIN (stderr shows remaining attempts) |
 | 4 | PIN blocked |
 | 5 | no reader / no card |

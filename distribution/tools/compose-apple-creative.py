@@ -22,6 +22,9 @@ SAFE_AREAS = {
     'header': (1097, 493, 2743, 1154),
     'search-results': (836, 765, 3004, 1795),
 }
+CARD_CROP = (86, 434, 1234, 1140)
+CARD_SCALE = 2
+
 FONT_REGULAR = '/System/Library/Fonts/Supplemental/Arial.ttf'
 FONT_BOLD = '/System/Library/Fonts/Supplemental/Arial Bold.ttf'
 
@@ -104,7 +107,7 @@ def draw_connection(canvas, phone_xy, phone_size, reader_xy, reader_size):
     reader_tip = (reader_xy[0] + reader_size[0] - 5, reader_xy[1] + round(reader_size[1] * .489))
     socket_start = reader_xy[0] + reader_size[0] - round(reader_size[1] * .115)
     socket_end = (reader_tip[0] + 72, reader_tip[1])
-    lane_x = phone_xy[0] - 90
+    lane_x = max(phone_xy[0] - 90, socket_end[0] + 90)
     lane_y = plug_bottom + 95
     bend = 70
     points = [socket_end]
@@ -137,28 +140,28 @@ def compose(locale, layout, screen, card, catalog):
     icon = icon.resize((88, 88), Image.Resampling.LANCZOS)
     icon_mask = Image.new('L', icon.size); ImageDraw.Draw(icon_mask).rounded_rectangle((0, 0, 87, 87), radius=21, fill=255); icon.putalpha(icon_mask)
 
-    # Text stays within Apple's central art-safe region. The larger phone and
-    # background may bleed beyond it; never shrink the whole scene to a thumbnail.
+    # Preserve placement-specific composition; align the copy with the card below.
     if layout == 'header':
-        phone_xy, phone_width = (2260, 100), 600
-        reader_xy, reader_height = (1740, 930), 310
-        copy_xy, copy_width = (1130, 545), 1050
-        headline_size, summary_size, icon_xy = 76, 38, (1130, 410)
+        phone_xy, phone_width = (2400, 180), 600
+        reader_xy, reader_height = (1660, 925), 620
+        copy_xy, copy_width = (1130, 485), 1320
+        headline_size, summary_size, icon_xy = 88, 38, (1130, 350)
         trust_y = 860
     else:
-        phone_xy, phone_width = (2400, 330), 820
-        reader_xy, reader_height = (1710, 1460), 480
-        copy_xy, copy_width = (890, 820), 1430
-        headline_size, summary_size, icon_xy = 100, 48, (890, 680)
+        phone_xy, phone_width = (2700, 470), 820
+        reader_xy, reader_height = (1640, 1455), 960
+        copy_xy, copy_width = (890, 720), 1700
+        headline_size, summary_size, icon_xy = 112, 48, (890, 580)
         trust_y = 1310
 
     phone = phone_asset(screen, phone_width)
     reader = reader_asset(reader_height)
-    # The reader grips the card's short edge. Its exposed card height matches
-    # the reader, and the entering edge terminates inside the white housing.
-    card_height = round(reader_height * .98)
+    # Scale reader and card together, preserving the original insertion proportions.
+    card_height = CARD_SCALE * round(reader_height / CARD_SCALE * .98)
     card_width = round(card_height * card.width / card.height)
-    card_xy = (reader_xy[0] - card_width + round(reader_height * .24), reader_xy[1] + round(reader_height * .01))
+    card_xy = (reader_xy[0] - card_width + round(reader_height * .24), reader_xy[1] + round((reader_height - card_height) / 2))
+    copy_xy = (card_xy[0], copy_xy[1])
+    icon_xy = (card_xy[0], icon_xy[1])
     physical_card = card.resize((card_width, card_height), Image.Resampling.LANCZOS)
     place(canvas, physical_card, card_xy, blur=10, opacity=42, offset=(0, 8))
     place(canvas, reader, reader_xy, blur=11, opacity=38, offset=(0, 8))
@@ -202,12 +205,12 @@ def compose(locale, layout, screen, card, catalog):
     return final.convert('RGB'), {
         'locale': locale, 'layout': layout, 'placement': placement, 'dimensions': [width, height],
         'phoneScreenshot': 'iphone/02-batch.png', 'cardScreenshot': 'iphone/01-sign.png',
-        'cardCrop': [120, 540, 1200, 1207], 'deviceFrame': frame_resource('iphone')[2],
+        'copyLeft': copy_xy[0], 'cardLeft': card_xy[0], 'cardCrop': list(CARD_CROP), 'cardScale': CARD_SCALE, 'cardDimensions': list(physical_card.size), 'deviceFrame': frame_resource('iphone')[2],
         'readerAssetSha256': hashlib.sha256((ROOT / 'distribution/apple/creative/assets/reader.png').read_bytes()).hexdigest(),
-        'marketingCopySource': 'localization/catalog.json/storeCreative', 'physicalChipCovered': True,
+        'marketingCopySource': 'localization/catalog.json/storeCreative', 'physicalChipCovered': True, 'readerDimensions': list(reader.size),
         'appleTemplateSafeArea': list(SAFE_AREAS[layout]),
         'contentBounds': content_bounds,
-        'safeForPlacementAspect': 'central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect',
+        'safeForPlacementAspect': 'copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect',
     }
 
 
@@ -218,8 +221,8 @@ for locale in ('en', 'ro', 'ru'):
     card_path = args.raw / locale / 'iphone' / '01-sign.png'
     screen = Image.open(screen_path).convert('RGBA'); assert screen.size == (1320, 2868)
     capture = Image.open(card_path).convert('RGBA'); assert capture.size == (1320, 2868)
-    card = capture.crop((120, 540, 1200, 1207))
-    mask = Image.new('L', card.size); ImageDraw.Draw(mask).rounded_rectangle((0, 0, card.width - 1, card.height - 1), radius=49, fill=255); card.putalpha(mask)
+    card = capture.crop(CARD_CROP)
+    mask = Image.new('L', card.size); ImageDraw.Draw(mask).rounded_rectangle((0, 0, card.width - 1, card.height - 1), radius=52, fill=255); card.putalpha(mask)
     for layout in SPECS:
         image, entry = compose(locale, layout, screen, card, catalog)
         destination = args.output / f'{locale}-{layout}.png'; image.save(destination, optimize=True)

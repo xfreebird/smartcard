@@ -18,8 +18,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ios, macos]
-    runs-on: macos-26
+        include:
+          - platform: ios
+            runner: xcode-27
+          - platform: macos
+            runner: macos-26
+    runs-on: ${{ matrix.runner }}
     env:
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
@@ -30,6 +34,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         if: inputs.platform == 'both' || inputs.platform == matrix.platform
+      - name: Select iPhone Duo SDK
+        if: matrix.platform == 'ios' && (inputs.platform == 'both' || inputs.platform == 'ios')
+        env:
+          DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+        run: |
+          bash apple/scripts/require-ios-sdk.sh
+          echo "DEVELOPER_DIR=$DEVELOPER_DIR" >> "$GITHUB_ENV"
       - uses: ruby/setup-ruby@v1
         if: inputs.platform == 'both' || inputs.platform == matrix.platform
         with: { ruby-version: '3.3', bundler-cache: true }

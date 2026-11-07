@@ -40,7 +40,7 @@ final class VerifyPage {
         reportsBox = vbox(spacing: 18)
         let again = button(L10n.text(.ui_verify_another_file), classes: ["pill"]) {}
         gtk_widget_set_halign(again, GTK_ALIGN_CENTER)
-        let clear = button("Clear results", classes: ["pill"]) { [weak controller] in controller?.resetVerify() }
+        let clear = button(L10n.text(.verify_clear_results), classes: ["pill"]) { [weak controller] in controller?.resetVerify() }
         let resultContent = vbox(spacing: 18, [verdict.root, reportsBox, again, clear])
         gtk_widget_set_margin_bottom(resultContent, 24)
         gtk_widget_set_margin_start(resultContent, 24)
@@ -102,15 +102,15 @@ final class VerifyPage {
         for document in documents {
             append(reportsBox, label(document.url.lastPathComponent))
             for (index, report) in document.reports.enumerated() {
-                append(reportsBox, signatureGroup(report, index: index + 1, file: document.url))
+                append(reportsBox, Self.signatureGroup(report, index: index + 1, file: document.url))
             }
         }
         gtk_stack_set_visible_child_name(stack, "result")
     }
 
     /// SignatureCard: signer, times, level, three checks, technical details.
-    private func signatureGroup(_ report: SignatureReport, index: Int, file: URL) -> Widget {
-        let group = preferencesGroup(title: "Author: " + report.signer, description: localized(.ui_signature_value_value, String(index), signatureLabels(report.kind)))
+    static func signatureGroup(_ report: SignatureReport, index: Int, file: URL) -> Widget {
+        let group = preferencesGroup(title: L10n.text(.verify_author) + " " + report.signer, description: localized(.ui_signature_value_value, String(index), signatureLabels(report.kind)))
         let list = boxedList()
         if let idnp = report.certificateDetails["Subject · Personal identifier"], idnp.count == 13, idnp.allSatisfy({ $0.isASCII && $0.isNumber }) {
             gtk_list_box_append(list.opaque, actionRow(title: "IDNP", subtitle: idnp, subtitleSelectable: true))
@@ -119,9 +119,15 @@ final class VerifyPage {
         gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_timestamp), subtitle: report.timestampTime.map(Validator.readableDate) ?? L10n.text(.ui_no_timestamp),
                                                    icon: "document-open-recent-symbolic"))
         gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.ui_level), subtitle: signatureLabels(report.level), icon: "security-high-symbolic"))
+        if report.missingDetachedReferences.isEmpty {
         gtk_list_box_append(list.opaque, check(L10n.text(.linux_integrity), ok: report.contentIntact,
                                                okText: L10n.text(.ui_the_document_has_not_been_modified_since_signing),
                                                badText: L10n.text(.ui_the_content_differs_from_what_was_signed)))
+        } else {
+            gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.linux_integrity),
+                subtitle: L10n.text(.ui_signed_files_must_be_in_the_same_folder_as_the_xml_signature) + "\n" +
+                    report.missingDetachedReferences.joined(separator: "\n"), icon: "dialog-warning-symbolic"))
+        }
         gtk_list_box_append(list.opaque, check(L10n.text(.ui_signature), ok: report.signatureValid,
                                                okText: L10n.text(.ui_the_rsa_signature_matches_the_certificate),
                                                badText: L10n.text(.ui_the_signature_does_not_match)))
@@ -130,9 +136,9 @@ final class VerifyPage {
                                                badText: L10n.text(.ui_unknown_or_incomplete_chain), warnOnly: true))
 
         let certificate = adw_expander_row_new()!
-        adw_preferences_row_set_title(certificate.cast(), "Certificate details")
+        adw_preferences_row_set_title(certificate.cast(), L10n.text(.verify_certificate_details))
         for key in report.certificateDetails.keys.sorted() {
-            adw_expander_row_add_row(certificate.cast(), actionRow(title: key, subtitle: report.certificateDetails[key] ?? "", subtitleSelectable: true))
+            adw_expander_row_add_row(certificate.cast(), actionRow(title: CertificateLabels.label(key), subtitle: report.certificateDetails[key] ?? "", subtitleSelectable: true))
         }
         gtk_list_box_append(list.opaque, certificate)
         let details = adw_expander_row_new()!
@@ -158,7 +164,7 @@ final class VerifyPage {
         return group
     }
 
-    private func check(_ title: String, ok: Bool, okText: String, badText: String, warnOnly: Bool = false) -> Widget {
+    private static func check(_ title: String, ok: Bool, okText: String, badText: String, warnOnly: Bool = false) -> Widget {
         let icon = image(ok ? "object-select-symbolic" : (warnOnly ? "dialog-warning-symbolic" : "dialog-error-symbolic"),
                          classes: [ok ? "success" : (warnOnly ? "warning" : "error")])
         setAccessibleLabel(icon, ok ? L10n.text(.linux_correct) : L10n.text(.ui_problem))

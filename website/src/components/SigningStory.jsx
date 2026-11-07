@@ -35,13 +35,14 @@ export default function SigningStory(){
   const selectedScreen=()=>selectedPlatform()==='android'?androidPhone.screen:selectedPlatform()==='iphone'?iphone.screen:desktopDisplay.screen;
   let raf=0;
   const readViewport=()=>({width:window.innerWidth,height:root.current?.firstElementChild?.getBoundingClientRect().height || window.innerHeight});
+  let measuredViewport=readViewport();
   const update=()=>{
    raf=0;const r=root.current?.getBoundingClientRect();if(!r)return;
-   const viewport=readViewport();
+   const viewport=measuredViewport;
    setProgress(storyScrollProgress(r,viewport,selectedScreen()));
    document.documentElement.classList.toggle('story-active',!motion.matches && r.top<=1 && r.bottom>=viewport.height-1);
   };
-  const resize=()=>{setPlatform(selectedPlatform());setViewport(readViewport());setReduced(motion.matches);update();};
+  const resize=()=>{measuredViewport=readViewport();setPlatform(selectedPlatform());setViewport(measuredViewport);setReduced(motion.matches);update();};
   const scroll=()=>{if(!raf)raf=requestAnimationFrame(update);};
   const observer=new ResizeObserver(resize);
   if(root.current?.firstElementChild)observer.observe(root.current.firstElementChild);
@@ -49,7 +50,7 @@ export default function SigningStory(){
   return()=>{cancelAnimationFrame(raf);observer.disconnect();document.documentElement.classList.remove('story-active');window.removeEventListener('scroll',scroll);window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);motion.removeEventListener('change',resize);};
  },[debug,preview]);
  const state=sceneAt(reduced?1:progress);
- const step=progress<.24?0:progress<.4?1:progress<.84?2:3;
+ const step=reduced?3:progress<.24?0:progress<.4?1:progress<.84?2:3;
  const geometry=mobile?(platform==='android'?androidPhone:iphone):desktopDisplay;
  const {frame,screen,port}=geometry;
  const reader=mobile?mobileReaderGeometry(state):{x:600,y:520,width:330,height:220};
@@ -78,7 +79,7 @@ export default function SigningStory(){
  <section className={`signing-story continuous-story ${reduced?'reduced-story':''}`} ref={root} aria-label={t('how')} data-platform={platform}>
   <div className="story-sticky continuous-sticky" data-progress={progress.toFixed(3)}>
    <div className="story-heading continuous-heading"><span className="stage-count">{t('step')} {step+1} {t('of')} 4</span><h2>{titles[step]}</h2><p>{copy[step]}</p></div>
-   <svg className="continuous-scene" viewBox={mobile?'0 0 650 940':'0 0 1100 900'} style={{width:svgWidth,left,top}} role="img" aria-label={`${titles[step]} ${copy[step]}`}>
+   <svg className="continuous-scene" viewBox={mobile?'0 0 650 940':'0 0 1100 900'} style={{width:svgWidth,transform:`translate3d(${left}px, ${top}px, 0)`}} role="img" aria-label={`${titles[step]} ${copy[step]}`}>
     <defs><clipPath id={clip}><rect {...screen}/></clipPath></defs>
     <g opacity={state.frame}>
      <rect {...frame} fill="#303533" stroke="var(--site-hardware-border)" strokeWidth="1"/>

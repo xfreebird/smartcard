@@ -13,6 +13,8 @@ struct SignScreen: View {
     @State private var dropTargeted = false
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var stackExpanded = false
     @State private var batchStamp: SignItem?
     private var groupedFiles: Bool { sizeClass == .compact && model.signItems.count > 1 }
@@ -24,28 +26,37 @@ struct SignScreen: View {
         Group {
             #if os(iOS)
             GeometryReader { geometry in
-                if geometry.size.width >= 760 {
+                // Use the current window rather than a device model: expanded foldables
+                // and narrow tablet windows can provide two usable columns below 760pt.
+                if !dynamicTypeSize.isAccessibilitySize && geometry.size.width >= 560 {
                     HStack(alignment: .top, spacing: 0) {
                         ScrollView {
                             VStack(spacing: 24) {
                                 CardSelector(size: .phone)
-                                if !model.signItems.isEmpty { signButton.frame(maxWidth: .infinity, alignment: .center) }
+                                if verticalSizeClass != .compact && !model.signItems.isEmpty { signButton.frame(maxWidth: .infinity, alignment: .center) }
                                 resultContent
                             }
-                            .padding(24)
+                            .padding(verticalSizeClass == .compact ? 16 : 24)
                         }
-                        .frame(width: min(440, geometry.size.width * 0.382))
+                        .frame(width: min(440, max(240, geometry.size.width * 0.40)))
                         Divider()
                         ScrollView {
-                            documentContent.padding(24)
+                            documentContent.padding(verticalSizeClass == .compact ? 16 : 24)
+                                .padding(.bottom, verticalSizeClass == .compact ? 48 : 0)
                         }
                         .frame(maxWidth: .infinity)
+                    }
+                    .toolbar {
+                        if verticalSizeClass == .compact && !model.signItems.isEmpty {
+                            ToolbarItem(placement: .primaryAction) { signButton }
+                        }
                     }
                     .accessibilityIdentifier("signing.wideWorkspace")
                 } else {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 24) {
-                            CardSelector(size: .phone)
+                            CardSelector(size: sizeClass == .regular ? .large : .phone)
+                                .frame(maxWidth: .infinity)
                             resultContent
                             documentContent
                         }
@@ -85,6 +96,10 @@ struct SignScreen: View {
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_sign))
+        #if os(iOS)
+        // A compact title leaves room for the document action on shorter outer displays.
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
         .onDrop(of: [.fileURL, .pdf, .xml, .data, .item], isTargeted: $dropTargeted) { providers in
             Task { model.addFiles(await DroppedDocumentLoader.load(providers)) }
             return !providers.isEmpty
@@ -92,6 +107,14 @@ struct SignScreen: View {
         .fileImporter(isPresented: $importing, allowedContentTypes: [.item], allowsMultipleSelection: true) { result in
             if case .success(let urls) = result { model.addFiles(urls) }
         }
+    }
+
+    private var shortViewport: Bool {
+        #if os(iOS)
+        verticalSizeClass == .compact
+        #else
+        false
+        #endif
     }
 
     private var visibleFiles: [SignItem] {
@@ -177,9 +200,9 @@ struct SignScreen: View {
     /// Shared hierarchy for desktop and wide mobile: selected documents, then a standalone drop target.
     /// Explicit pane padding makes the divider gutter equal to the outer gutter on foldable displays.
     private var documentContent: some View {
-        return VStack(alignment: .leading, spacing: 16) {
+        return VStack(alignment: .leading, spacing: shortViewport ? 8 : 16) {
             if !model.signItems.isEmpty {
-                Text(L10n.text(.ui_documents)).font(.headline).foregroundStyle(.secondary)
+                if !shortViewport { Text(L10n.text(.ui_documents)).font(.headline).foregroundStyle(.secondary) }
                 #if os(iOS)
                 if groupedFiles { fileStackHeader }
                 #endif
@@ -198,7 +221,7 @@ struct SignScreen: View {
                     }
                 }
             }
-            DropZone(compact: !model.signItems.isEmpty, targeted: dropTargeted) { importing = true }
+            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { importing = true }
             if !model.signItems.isEmpty {
                 Text(L10n.text(.ui_pades_signs_inside_the_pdf_xades_creates_a_separate_xml_file_sha_256_algorithm))
                     .font(.caption).foregroundStyle(.secondary)
@@ -278,7 +301,7 @@ struct SignScreen: View {
         // An independent section keeps the last document's native bottom corners rounded.
         // Its native section inset aligns the drop area with the document card above it.
         Section {
-            DropZone(compact: !model.signItems.isEmpty, targeted: dropTargeted) { importing = true }
+            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { importing = true }
                 .padding(12)
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)
@@ -363,17 +386,41 @@ private struct DocumentRow: View {
 
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var sizeClass
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     #endif
 
     var body: some View {
         #if os(iOS)
-        if sizeClass == .compact { compactRow } else { standardRow }
+        if dynamicTypeSize.isAccessibilitySize { accessibilityRow }
+        else if sizeClass == .compact { compactRow }
+        else { standardRow }
         #else
         standardRow
         #endif
     }
 
     #if os(iOS)
+    private var accessibilityRow: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(item.url.lastPathComponent)
+                .font(.headline)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            HStack(alignment: .top, spacing: 12) {
+                Text(item.sizeText).font(.caption).foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
+                rowOptions
+            }
+            selectionTags
+            if let error = item.signingError {
+                Label(error, systemImage: "exclamationmark.triangle.fill")
+                    .font(.caption).foregroundStyle(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+    }
+
     private var compactRow: some View {
         VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 8) {
@@ -499,7 +546,10 @@ struct SignedRow: View {
     var body: some View {
         Group {
             #if APP_STORE && os(macOS)
-            Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
+            HStack(spacing: 12) {
+                Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
+                SignedDocumentActions(url: url)
+            }
                 .contextMenu { Button(L10n.text(.ui_export)) { exporting = true } }
                 .fileExporter(isPresented: $exporting, document: SignedExport(url: url),
                               contentType: UTType(filenameExtension: url.pathExtension) ?? .data,
@@ -510,7 +560,10 @@ struct SignedRow: View {
                     Button(L10n.text(.ui_done)) { exportError = nil }
                 } message: { Text(exportError ?? L10n.text(.ui_)) }
             #elseif os(macOS)
-            Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
+            HStack(spacing: 12) {
+                Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
+                SignedDocumentActions(url: url)
+            }
             #else
             HStack(spacing: 12) {
                 Button { previewURL = url } label: {

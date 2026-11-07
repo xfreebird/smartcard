@@ -1,11 +1,14 @@
 export const clamp = value => Math.max(0, Math.min(1, value));
 export const segment = (progress, start, end) => clamp((progress-start)/(end-start));
+// Ease the physical movement at each phase boundary without adding scroll lag.
+const ease = value => value * value * (3 - 2 * value);
+const easedSegment = (progress, start, end) => ease(segment(progress, start, end));
 export function sceneAt(progress){
  const p=clamp(progress);
  return {
-  shrink:segment(p,0,.24), frame:segment(p,.24,.4),
-  connect:segment(p,.38,.54), reader:segment(p,.50,.60),
-  insert:segment(p,.60,.84),
+  shrink:easedSegment(p,0,.24), frame:segment(p,.24,.4),
+  connect:easedSegment(p,.38,.54), reader:segment(p,.50,.60),
+  insert:easedSegment(p,.60,.84),
   app:segment(p,.84,.94), signed:segment(p,.92,1),
   progress:p,
  };

@@ -318,6 +318,66 @@ enum L10n {
         case results_clear
         case results_hint
         case results_documents
+        case saved_details
+        case saved_unavailable
+        case saved_unavailable_hint
+        case saved_xml_hint
+        case startup_allow
+        case shortcut_open_documents
+        case shortcut_open_documents_description
+        case shortcut_verification_result
+        case shortcut_verified_offline
+        case shortcut_invalid_signature
+        case shortcut_unconfirmed_trust
+        case shortcut_no_signature
+        case shortcut_verify_pdf
+        case shortcut_verify_pdf_description
+        case shortcut_pdf_document
+        case shortcut_error_pdf_required
+        case shortcut_error_too_large
+        case shortcut_error_unreadable
+        case verify_original_missing
+        case verify_choose_originals
+        case document_preview
+        case verify_no_recognized_signature
+        case verify_trust_unconfirmed
+        case cert_label_subject
+        case cert_label_issuer
+        case cert_label_certificate
+        case cert_label_certificate_details
+        case cert_label_name
+        case cert_label_surname
+        case cert_label_given_names
+        case cert_label_personal_identifier
+        case cert_label_country
+        case cert_label_city
+        case cert_label_region
+        case cert_label_organization
+        case cert_label_department
+        case cert_label_organization_identifier
+        case cert_label_telephone
+        case cert_label_title
+        case cert_label_serial_number
+        case cert_label_sha_256_fingerprint
+        case cert_label_valid_from
+        case cert_label_valid_until
+        case cert_label_public_key
+        case cert_label_certificate_signature_algorithm
+        case cert_label_revocation_lists
+        case cert_label_authority_information
+        case cert_label_alternative_names
+        case cert_label_certificate_policies
+        case cert_label_ocsp_responder
+        case cert_label_issuer_certificate_url
+        case cert_label_qualified_certificate_statements
+        case cert_label_subject_key_identifier
+        case cert_label_authority_key_identifier
+        case cert_label_key_usage
+        case cert_label_extended_key_usage
+        case cert_label_basic_constraints
+        case cert_label_authority
+        case cert_label_certificate_policy
+        case cert_label_extension
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

@@ -33,6 +33,7 @@ struct MoldSignMacApp: App {
                 .frame(minWidth: 860, minHeight: 580)
                 .onAppear { AppPreferencesStore.defaults.set(true, forKey: "didPresentMainWindow") }
         }
+        .windowToolbarStyle(.unifiedCompact)
         .defaultLaunchBehavior(AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow") ? .suppressed : .presented)
 
         Settings {
@@ -106,19 +107,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var previewWindows: [NSWindow] = []
 
     private func showDesignPreviews() {
-        if ProcessInfo.processInfo.environment["MSIGN_DEMO_DARK"] != nil { NSApp.appearance = NSAppearance(named: .darkAqua) }
+        let environment = ProcessInfo.processInfo.environment
+        if environment["MSIGN_DEMO_DARK"] != nil { NSApp.appearance = NSAppearance(named: .darkAqua) }
+        // Exercise the production minimum and larger layouts without changing normal window restoration.
+        let width = max(860, min(1920, Double(environment["MSIGN_DEMO_WIDTH"] ?? "") ?? 980))
+        let height = max(580, min(1200, Double(environment["MSIGN_DEMO_HEIGHT"] ?? "") ?? 700))
         let popover = NSHostingController(rootView: MenuBarPopover().environment(model).appPreferences())
-        let main = NSHostingController(rootView: MainWindowView().environment(model).appPreferences().frame(width: 980, height: 700))
+        let main = NSHostingController(rootView: MainWindowView().environment(model).appPreferences().frame(width: width, height: height))
         for (title, controller, origin) in [("Popover preview", popover as NSViewController, NSPoint(x: 60, y: 120)),
                                             ("eSemnBun preview", main as NSViewController, NSPoint(x: 420, y: 80))] {
             let window = NSWindow(contentViewController: controller)
             window.title = title
+            window.toolbarStyle = .unifiedCompact
             window.setFrameOrigin(origin)
+            if environment["MSIGN_SCREENSHOT_CAPTURE"] == "1",
+               let visibleFrame = NSScreen.main?.visibleFrame {
+                // Native sheets and WebKit render only on-screen; keep capture previews in view.
+                window.setFrameTopLeftPoint(NSPoint(x: visibleFrame.minX + 40, y: visibleFrame.maxY - 8))
+            }
             window.makeKeyAndOrderFront(nil)
             previewWindows.append(window)
         }
         NSApp.activate(ignoringOtherApps: true)
         if let main = previewWindows.last { WindowPresentation.bringForward(main) }
+        if environment["MSIGN_DEMO_SETTINGS"] == "1" {
+            let settings = NSWindow(contentViewController: NSHostingController(rootView: SettingsView().environment(model).appPreferences()))
+            settings.title = "Settings preview"
+            settings.center()
+            settings.makeKeyAndOrderFront(nil)
+            previewWindows.append(settings)
+        }
     }
     #endif
 
@@ -170,6 +188,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL] ?? []
         guard !urls.isEmpty else { return }
         queueForSigning(urls)
+    }
+
+    /// Verification is explicit and read-only; the signing queue and approval gate remain untouched.
+    @objc func verifyDocuments(_ pasteboard: NSPasteboard, userData: String?,
+                               error: AutoreleasingUnsafeMutablePointer<NSString?>) {
+        let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL] ?? []
+        guard !urls.isEmpty else { return }
+        AppPreferencesStore.defaults.set(MainWindowView.Section.verify.rawValue, forKey: "mainSection")
+        Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(250))
+            NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+            await model.verifyFiles(urls)
+        }
     }
 
     private func queueForSigning(_ urls: [URL]) {

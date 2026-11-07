@@ -1,6 +1,9 @@
 package md.moldsign.app.ui.components
 
 import android.text.format.Formatter
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.heightIn
@@ -87,7 +90,18 @@ import md.moldsign.core.SignFormat
  */
 @Composable
 fun FormatChip(doc: PickedDocument, format: SignFormat, onSelect: (SignFormat) -> Unit) {
-    var open by remember { mutableStateOf(false) }
+    val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+    val captureMenu = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("capture_dialog") == "format-menu"
+    var open by remember(captureMenu) { mutableStateOf(false) }
+    val capturePosition = remember { BringIntoViewRequester() }
+    LaunchedEffect(captureMenu) {
+        if (captureMenu) {
+            androidx.compose.runtime.withFrameNanos { }
+            capturePosition.bringIntoView()
+            open = true
+            android.util.Log.i("MoldSignDemo", "capture-menu-ready:sign")
+        }
+    }
     val description = stringResource(R.string.format_chip_description, format.displayLabel())
     Box {
         AssistChip(
@@ -100,7 +114,7 @@ fun FormatChip(doc: PickedDocument, format: SignFormat, onSelect: (SignFormat) -
                 trailingIconContentColor = MaterialTheme.colorScheme.onSecondaryContainer,
             ),
             border = null,
-            modifier = Modifier.semantics { contentDescription = description },
+            modifier = Modifier.bringIntoViewRequester(capturePosition).semantics { contentDescription = description },
         )
         DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
             SignFormat.options(doc.isPdf).forEach { option ->
@@ -136,6 +150,7 @@ fun DocumentPickZone(
     modifier: Modifier = Modifier,
     title: String = stringResource(R.string.sign_choose_title),
     body: String = stringResource(R.string.sign_choose_body),
+    compact: Boolean = false,
 ) {
     val outline = MaterialTheme.colorScheme.primary.copy(alpha = 0.58f)
     OutlinedCard(
@@ -148,16 +163,17 @@ fun DocumentPickZone(
         colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         border = BorderStroke(0.dp, androidx.compose.ui.graphics.Color.Transparent),
     ) {
-        Column(Modifier.fillMaxWidth().padding(Tokens.S6), horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(32.dp))
-            Spacer(Modifier.height(Tokens.S2))
-            Text(title, style = MaterialTheme.typography.titleMedium)
-            Text(
-                body,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
-            )
+        Row(Modifier.fillMaxWidth().padding(if (compact) Tokens.S3 else Tokens.S6), verticalAlignment = Alignment.CenterVertically) {
+            if (compact) Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = Tokens.S3).size(32.dp))
+            Column(Modifier.weight(1f), horizontalAlignment = if (compact) Alignment.Start else Alignment.CenterHorizontally) {
+                if (!compact) {
+                    Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(32.dp))
+                    Spacer(Modifier.height(Tokens.S2))
+                }
+                Text(title, style = MaterialTheme.typography.titleMedium)
+                Text(body, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = if (compact) TextAlign.Start else TextAlign.Center)
+            }
         }
     }
 }
@@ -208,7 +224,18 @@ fun DocumentList(
 ) {
     val grouped = LocalConfiguration.current.screenWidthDp < 600 && items.size > 1
     var stackExpanded by rememberSaveable { mutableStateOf(false) }
-    var groupMenu by remember { mutableStateOf(false) }
+    val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+    val captureMenu = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("capture_dialog") == "batch-menu"
+    var groupMenu by remember(captureMenu) { mutableStateOf(false) }
+    val captureGroupPosition = remember { BringIntoViewRequester() }
+    LaunchedEffect(captureMenu, grouped) {
+        if (captureMenu && grouped) {
+            androidx.compose.runtime.withFrameNanos { }
+            captureGroupPosition.bringIntoView()
+            groupMenu = true
+            android.util.Log.i("MoldSignDemo", "capture-menu-ready:sign")
+        }
+    }
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
     if (grouped) {
         val groupDismiss = rememberSwipeToDismissBoxState(confirmValueChange = { value ->
@@ -240,7 +267,7 @@ fun DocumentList(
                         Icon(if (stackExpanded) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, null)
                     }
                     Box {
-                        IconButton(onClick = { groupMenu = true }, enabled = retryEnabled) { Icon(Icons.Outlined.MoreVert, stringResource(R.string.batch_options)) }
+                        IconButton(onClick = { groupMenu = true }, enabled = retryEnabled, modifier = Modifier.bringIntoViewRequester(captureGroupPosition)) { Icon(Icons.Outlined.MoreVert, stringResource(R.string.batch_options)) }
                         DropdownMenu(expanded = groupMenu, onDismissRequest = { groupMenu = false }) {
                             DropdownMenuItem(text = { Text(stringResource(R.string.batch_options)) }, onClick = {}, enabled = false)
                             DropdownMenuItem(text = { Text(stringResource(R.string.batch_automatic)) }, onClick = {
@@ -293,7 +320,16 @@ fun DocumentList(
                 }
             }
             item.error?.let { error ->
-                Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, bottom = 12.dp)) {
+                val captureErrorPosition = remember { BringIntoViewRequester() }
+                val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+                LaunchedEffect(error) {
+                    if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("demo") == "sign-failure") {
+                        androidx.compose.runtime.withFrameNanos { }
+            captureErrorPosition.bringIntoView()
+                        android.util.Log.i("MoldSignDemo", "capture-scroll-ready:sign")
+                    }
+                }
+                Column(Modifier.fillMaxWidth().bringIntoViewRequester(captureErrorPosition).padding(start = 16.dp, end = 16.dp, bottom = 12.dp)) {
                     Text(errorText(error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodyMedium)
                 }
             }

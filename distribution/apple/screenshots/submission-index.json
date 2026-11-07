@@ -1,0 +1,630 @@
+{
+  "guidelinesChecked": "2026-11-01",
+  "status": "prepared-not-uploaded",
+  "assets": [
+    {
+      "path": "ro/iphone/01-sign.png",
+      "locale": "ro",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "304e64ee9ce6bcb5cbe969daad9ee1c36a5bf4d5843babf959fcdf077d9e6d87"
+    },
+    {
+      "path": "ro/iphone/02-batch.png",
+      "locale": "ro",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "9f867243cc9fcb25d7738a6b052eb122d4771bf449097766c394e1c8b8eb7953"
+    },
+    {
+      "path": "ro/iphone/03-consent.png",
+      "locale": "ro",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "5b469d76ff134a1f93aeeae4113d95790d49bc7c2c46eb45dd3a015eba90d7b4"
+    },
+    {
+      "path": "ro/iphone/04-verify.png",
+      "locale": "ro",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "0ec543a4cc4b0c9247a431a6b6dfba4ce41e92fa1d11e7a9a98c88f661b20252"
+    },
+    {
+      "path": "ro/iphone/05-card.png",
+      "locale": "ro",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "a11622d4c0dd88ebfc1c2437db2a4e9fdcf67de4c3aa8533da299ec4b646b386"
+    },
+    {
+      "path": "ro/ipad/01-sign.png",
+      "locale": "ro",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "7a7d559e66ef574e01dff7fe49dc3596ea802e42e5c61bc39dbcbcd3889b8bc0"
+    },
+    {
+      "path": "ro/ipad/02-batch.png",
+      "locale": "ro",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "56f95109aab45dd5c6f21bbace1b5031671557a70455a403c38e11dbebfc453f"
+    },
+    {
+      "path": "ro/ipad/03-consent.png",
+      "locale": "ro",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "c670be7188321a75f588928d9d5231d45b85ab912082053dffef0036b6c6f573"
+    },
+    {
+      "path": "ro/ipad/04-verify.png",
+      "locale": "ro",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "e44b3305da70197298c0e8903baf14b5a891494a2aefac5236d1e9b91ea36e6e"
+    },
+    {
+      "path": "ro/ipad/05-card.png",
+      "locale": "ro",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "e846350309c9d5d1f056c6432ef07b649932e21f0e994bf7540ad14c89187e7c"
+    },
+    {
+      "path": "ro/macos/01-sign.png",
+      "locale": "ro",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "ed0843e2de58798aa8048fa6277ad589c31aba5547ec68d6b526ef2afef646e0"
+    },
+    {
+      "path": "ro/macos/02-batch.png",
+      "locale": "ro",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "8af086756641c7e29ac448ff0e9801c452f5e2478c35c7230dfb149bc5109854"
+    },
+    {
+      "path": "ro/macos/03-consent.png",
+      "locale": "ro",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "b13f7f8318961d7a92e4d68c42757efd5c50e86f584cedd7ab9512267d17189d"
+    },
+    {
+      "path": "ro/macos/04-verify.png",
+      "locale": "ro",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "80d39ad88848db9d972fc54a54e887d319286819185672208fa1d9debc9d9eed"
+    },
+    {
+      "path": "ro/macos/05-card.png",
+      "locale": "ro",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "0b51f0ba9356ab4cf3118cb22559c0493e39a32b98f9b333ba7ff8f4caf45c17"
+    },
+    {
+      "path": "ro/macos/06-browser.png",
+      "locale": "ro",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "6c096ca8698e2aeaad2c2788cad37379b0d363c8c55ae60698d3b34891d44d9a"
+    },
+    {
+      "path": "en/iphone/01-sign.png",
+      "locale": "en-US",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "47b5698fbc0003a1e05614c58a3b6ff3e5448858eb401d2b6967d4ee2a6013db"
+    },
+    {
+      "path": "en/iphone/02-batch.png",
+      "locale": "en-US",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "4780f7563d62ff8546357c1ac8b9f5a79f4b9dbcb5b24a60065032af0d84458a"
+    },
+    {
+      "path": "en/iphone/03-consent.png",
+      "locale": "en-US",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "381a6d20d57fb078284b97c43e2bd7e0d86d1eec4dd4398cd45949ea014381ae"
+    },
+    {
+      "path": "en/iphone/04-verify.png",
+      "locale": "en-US",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "f8b4f499001457f61725e7647d445a086fa558ade1dffb91b6069476f57eb98b"
+    },
+    {
+      "path": "en/iphone/05-card.png",
+      "locale": "en-US",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "1910d344e8482141c8399d1d645bebd411613136627629b941ad7a8772a198e5"
+    },
+    {
+      "path": "en/ipad/01-sign.png",
+      "locale": "en-US",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "b34ef728a0d9d03a9143d3532a37c4665bfe02f35185068c0ba888a1199907c7"
+    },
+    {
+      "path": "en/ipad/02-batch.png",
+      "locale": "en-US",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "c4bdf1acf11b2deb59add50e66aa756cc58c26010255c7a85e3224aa244d22a4"
+    },
+    {
+      "path": "en/ipad/03-consent.png",
+      "locale": "en-US",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "d57ba9e863434325939b5bd4cbd6832c8039a01903aad5b9fcbc2339cff104ad"
+    },
+    {
+      "path": "en/ipad/04-verify.png",
+      "locale": "en-US",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "845021dab7f9f81aaf3d934ad5c70b94ef63d7f1b8efeef7b53eedf531b8380e"
+    },
+    {
+      "path": "en/ipad/05-card.png",
+      "locale": "en-US",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "03c774ae46f6d573a8410fd36949383e304f96210530d4dfde5f4a06eace15f1"
+    },
+    {
+      "path": "en/macos/01-sign.png",
+      "locale": "en-US",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "67a9bfbaed92e5a5e2353a95ccf54966955b7b2b2041e5f2ee5f9d019e7cbe27"
+    },
+    {
+      "path": "en/macos/02-batch.png",
+      "locale": "en-US",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "9d60834f879f1b5d07c1fa02504cb78c20d477dc458d7d0d16b846a45f777b9a"
+    },
+    {
+      "path": "en/macos/03-consent.png",
+      "locale": "en-US",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "f42a049a6de15c8e064f747f527c2ec2900e86d704501afe4bfd73a8253c5444"
+    },
+    {
+      "path": "en/macos/04-verify.png",
+      "locale": "en-US",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "019e37e7a9fb4840c6bd44ac3703eeb725542e1af886e534c9ebed1ac5786dc9"
+    },
+    {
+      "path": "en/macos/05-card.png",
+      "locale": "en-US",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "e111e62959392f657ccf5864c3c9d3a935c6b50dadf7ccf3b72cfab55e47681f"
+    },
+    {
+      "path": "en/macos/06-browser.png",
+      "locale": "en-US",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "61aa7974c40cc193b85b7b579191f50d5a06ff3f77efbfdfbf686660ef294d15"
+    },
+    {
+      "path": "ru/iphone/01-sign.png",
+      "locale": "ru",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "3778446307fde7addd871b810fbe28443270ad7f49ecbd85b32d566cc4e6e2b6"
+    },
+    {
+      "path": "ru/iphone/02-batch.png",
+      "locale": "ru",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "4c036d5a288c64beea6dcb6581831cc777b6253646d2280f45dd66393fa19a58"
+    },
+    {
+      "path": "ru/iphone/03-consent.png",
+      "locale": "ru",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "d9f4292d74741865887bd1b41c673494970ceb40a4a9509723371f28b4fa80d9"
+    },
+    {
+      "path": "ru/iphone/04-verify.png",
+      "locale": "ru",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "efdb439359bb5465612bcd31132e52de71fdd58d3352f89dd60bff39f4daaf1a"
+    },
+    {
+      "path": "ru/iphone/05-card.png",
+      "locale": "ru",
+      "family": "iphone",
+      "width": 1320,
+      "height": 2868,
+      "sha256": "9377af9f1410a62c024046e796e6ded7616487e723e55be16bd816dfc2701a03"
+    },
+    {
+      "path": "ru/ipad/01-sign.png",
+      "locale": "ru",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "a1482bbb9b56903f91642681d1df48b54c120170d8ba8e7f68ef36e578c292f0"
+    },
+    {
+      "path": "ru/ipad/02-batch.png",
+      "locale": "ru",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "65cbf11899ec1b5e907bf27063b60af75a55a90508b8c0eebaf6d2fa8d8dd62a"
+    },
+    {
+      "path": "ru/ipad/03-consent.png",
+      "locale": "ru",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "54657458d24f6fd84aae2682a06e98ac86202bfbc3c25d034232923575f1b885"
+    },
+    {
+      "path": "ru/ipad/04-verify.png",
+      "locale": "ru",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "32d85c89e49dc448479d49f541726282c1ec4b6b2e49e475546cc1a1815cabb2"
+    },
+    {
+      "path": "ru/ipad/05-card.png",
+      "locale": "ru",
+      "family": "ipad",
+      "width": 2064,
+      "height": 2752,
+      "sha256": "91387db2cd39dfbe588cbd51a4f69eb7ec41ade7a53708e0aacc28c7695d6025"
+    },
+    {
+      "path": "ru/macos/01-sign.png",
+      "locale": "ru",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "a3c5904ecaafd191ce98dc963d95b0273942637fb3501db8491c7c7821627dd2"
+    },
+    {
+      "path": "ru/macos/02-batch.png",
+      "locale": "ru",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "51b6b95d521cdde3164a18cddb420018b51d3f7fe87b64c76fb7f3b969ef8673"
+    },
+    {
+      "path": "ru/macos/03-consent.png",
+      "locale": "ru",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "2b48b4cc1f1014dc32f126db5f2ea10e53146b0e822f4db162f39e8570b4e26f"
+    },
+    {
+      "path": "ru/macos/04-verify.png",
+      "locale": "ru",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "ab7b24d1cacf29a66df8aba3cc34c7bc13045bbad602fa43180875d2b1583889"
+    },
+    {
+      "path": "ru/macos/05-card.png",
+      "locale": "ru",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "4cb5d6495a43ea57463e3f0a9ae765ab5b84e657062e0c0cc91029aa496dee03"
+    },
+    {
+      "path": "ru/macos/06-browser.png",
+      "locale": "ru",
+      "family": "macos",
+      "width": 2880,
+      "height": 1800,
+      "sha256": "1c7486037427b23ff4dbdb6a130f7094dc61833f074ab5d1a727163a0fd3abf3"
+    },
+    {
+      "path": "ro/duo-compact/01-sign.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "e964721af1afe5263c5acac650a51a0d7f426abd59bc9b042cc6e96abc307c0f"
+    },
+    {
+      "path": "ro/duo-compact/02-batch.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "be3a96dbfea4d52ac14be94a8be967f3a2098095f9a82a65b836c44051b7f537"
+    },
+    {
+      "path": "ro/duo-compact/03-consent.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "423b54da3450f8f51f1b234f826855b1c936f48f9a501d993b860c3351ce22e1"
+    },
+    {
+      "path": "ro/duo-compact/04-verify.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "6732dc5c82853dfc8c788ef9237af9a0ecb850404aeddc24c961a9806700ed85"
+    },
+    {
+      "path": "ro/duo-compact/05-card.png",
+      "locale": "ro",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "b4d79597872d07d9a8e4ac37d6d35ee3e9070260794e761cae27e29b25c5daa5"
+    },
+    {
+      "path": "ro/duo-expanded/01-sign.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "33abfd8549de1a14ac2d1a0750f22b95d2d624bd2e9a5403c46ee2aa63f0561b"
+    },
+    {
+      "path": "ro/duo-expanded/02-batch.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "95bd4031e1e590850e091279a00bc1d794f04bcf5ee888122ef2b7c405325cce"
+    },
+    {
+      "path": "ro/duo-expanded/03-consent.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "a699564203d0276e3397044b51e14e158974672e1fbcfa6863577ebcb4a9eac4"
+    },
+    {
+      "path": "ro/duo-expanded/04-verify.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "a4b3ba43b4fe271446314ee352dc0732d383b7459153db747617c035e72d399a"
+    },
+    {
+      "path": "ro/duo-expanded/05-card.png",
+      "locale": "ro",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "222a3af3e032f4a208a9603af9cc781f615c23ea81dfec5c4e7d82ade75e7a2c"
+    },
+    {
+      "path": "en/duo-compact/01-sign.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "12a1bae9a1ea0cb8458846959028d062f7886e339a2c4dea7a5cadd91fec6dfc"
+    },
+    {
+      "path": "en/duo-compact/02-batch.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "60a528771fd0faf068036afd9028ed4ceee66429d48b12a42434929198a0804d"
+    },
+    {
+      "path": "en/duo-compact/03-consent.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "d757895713bcd799bd53b957720a7bd3aa1b6094b23a3448ffad34a3d18e597c"
+    },
+    {
+      "path": "en/duo-compact/04-verify.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "032e27e086d41c3fb66243038e4e1e91f75ddace42df6855a9f364311b7fbd73"
+    },
+    {
+      "path": "en/duo-compact/05-card.png",
+      "locale": "en-US",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "db4aefdcaba856e96fb88d3e606e8e971aa9cb3f26c32cf467151e98699892ef"
+    },
+    {
+      "path": "en/duo-expanded/01-sign.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "55d0833767a613da74edb4cc408ddf72062d2ba83fe649181b13a1c465041d4b"
+    },
+    {
+      "path": "en/duo-expanded/02-batch.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "f69a995dfde4c757377496e20c7fd429268bad0d36c1625cf24aeadef3d5d435"
+    },
+    {
+      "path": "en/duo-expanded/03-consent.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "a5f346f3d64d596c1719281bd21ee50007d268530e523031101154386a369def"
+    },
+    {
+      "path": "en/duo-expanded/04-verify.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "fff3d6d22fd80408db09980b399248eacfcb0e7e347f74a35fb29aa09d53e23b"
+    },
+    {
+      "path": "en/duo-expanded/05-card.png",
+      "locale": "en-US",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "8561fc058482262c5b371e67000de1131c639a58679a3ca5698d0127791dd6e9"
+    },
+    {
+      "path": "ru/duo-compact/01-sign.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "6c5f35e9a1a60487d73b324a7947e77acd6ca81e8bf3401444e21185b2c89008"
+    },
+    {
+      "path": "ru/duo-compact/02-batch.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "30ae3359e07d3997a71447da0d0451c19af631e4d4a9b59ccf204a0327c75601"
+    },
+    {
+      "path": "ru/duo-compact/03-consent.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "70f612a294e9b36aec2d68f8026ea0063774742e4629d67d6bdf0218f02a6941"
+    },
+    {
+      "path": "ru/duo-compact/04-verify.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "5d3dd2981729f72542111cc353d1330e617775c055d8bc3e3949d1a9cb227c7c"
+    },
+    {
+      "path": "ru/duo-compact/05-card.png",
+      "locale": "ru",
+      "family": "duo-compact",
+      "width": 1398,
+      "height": 2034,
+      "sha256": "03fdebcb739a950370e56330ec94722f996bdbcd4f2af7cf69e60b25457a7a3e"
+    },
+    {
+      "path": "ru/duo-expanded/01-sign.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "95d0f284a8df8095ed9e58304cd78c87861715528001e0359da1a714809ecb71"
+    },
+    {
+      "path": "ru/duo-expanded/02-batch.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "38b8e49a30614ebe07d098fc28bedb6fc5bd7a4effa005b76bb7b1da733d7839"
+    },
+    {
+      "path": "ru/duo-expanded/03-consent.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "ab213715072edc7ce1dabf7e8c10126f16821064302364b5116748159cad4a6d"
+    },
+    {
+      "path": "ru/duo-expanded/04-verify.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "2ec2eba6739774398aa3ea4e6d2db3aeff30ba38372f6a1d9256583c28290426"
+    },
+    {
+      "path": "ru/duo-expanded/05-card.png",
+      "locale": "ru",
+      "family": "duo-expanded",
+      "width": 2853,
+      "height": 2007,
+      "sha256": "773938c125b1c49f7e87e099e3943b7608d34419df957d2c94c79fb6de20c02f"
+    }
+  ]
+}

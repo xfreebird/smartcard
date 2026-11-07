@@ -19,6 +19,7 @@ struct SettingsView: View {
 private struct GeneralSettings: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var launchError: String?
+    @State private var launchNeedsApproval = SMAppService.mainApp.status == .requiresApproval
     #if !APP_STORE
     @State private var watcherEnabled = ReaderActivationService().enabled
     @State private var watcherNeedsApproval = ReaderActivationService().requiresApproval
@@ -52,19 +53,8 @@ private struct GeneralSettings: View {
             }
             DemoModeSettings()
             #if !APP_STORE
-            Toggle(L10n.text(.ui_open_app_on_reader_or_card_insertion), isOn: $watcherEnabled)
-                .onChange(of: watcherEnabled) { _, enabled in
-                    let watcher = ReaderActivationService()
-                    do {
-                        try watcher.setEnabled(enabled)
-                        watcherEnabled = watcher.enabled
-                        watcherNeedsApproval = watcher.requiresApproval
-                        watcherError = nil
-                    } catch {
-                        watcherEnabled = watcher.enabled
-                        watcherError = error.localizedDescription
-                    }
-                }
+            Toggle(L10n.text(.ui_open_app_on_reader_or_card_insertion), isOn: Binding(
+                get: { watcherEnabled }, set: setWatcherEnabled))
             Text(L10n.text(.ui_insertion_helper_explanation))
                 .font(.caption).foregroundStyle(.secondary)
             if watcherNeedsApproval {
@@ -76,16 +66,11 @@ private struct GeneralSettings: View {
             Text(L10n.text(.ui_the_menu_bar_app_detects_your_card_enable_launch_at_login_to_keep_it_available))
                 .font(.caption).foregroundStyle(.secondary)
             #endif
-            Toggle(L10n.text(.ui_start_at_sign_in), isOn: $launchAtLogin)
-                .onChange(of: launchAtLogin) { _, enabled in
-                    do {
-                        if enabled { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
-                        launchError = nil
-                    } catch {
-                        launchError = error.localizedDescription
-                        launchAtLogin = SMAppService.mainApp.status == .enabled
-                    }
-                }
+            Toggle(L10n.text(.ui_start_at_sign_in), isOn: Binding(
+                get: { launchAtLogin }, set: setLaunchAtLogin))
+            if launchNeedsApproval {
+                Button(L10n.text(.startup_allow)) { SMAppService.openSystemSettingsLoginItems() }
+            }
             if let launchError { Text(launchError).font(.caption).foregroundStyle(Theme.danger) }
             LabeledContent(L10n.text(.ui_pdf_format), value: L10n.text(.format_pdf_time))
             LabeledContent(L10n.text(.ui_other_files), value: L10n.text(.ui_xades_t_detached))
@@ -96,7 +81,40 @@ private struct GeneralSettings: View {
             #endif
         }
         .formStyle(.grouped)
+        .onAppear(perform: refreshStartupStatus)
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            refreshStartupStatus()
+        }
     }
+
+    /// Reading OS state never re-registers an item disabled in System Settings.
+    private func refreshStartupStatus() {
+        launchAtLogin = SMAppService.mainApp.status == .enabled
+        launchNeedsApproval = SMAppService.mainApp.status == .requiresApproval
+        #if !APP_STORE
+        let watcher = ReaderActivationService()
+        watcherEnabled = watcher.enabled
+        watcherNeedsApproval = watcher.requiresApproval
+        #endif
+    }
+
+    private func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            if enabled { try SMAppService.mainApp.register() } else { try SMAppService.mainApp.unregister() }
+            launchError = nil
+        } catch { launchError = error.localizedDescription }
+        refreshStartupStatus()
+    }
+
+    #if !APP_STORE
+    private func setWatcherEnabled(_ enabled: Bool) {
+        do {
+            try ReaderActivationService().setEnabled(enabled)
+            watcherError = nil
+        } catch { watcherError = error.localizedDescription }
+        refreshStartupStatus()
+    }
+    #endif
 }
 
 private struct BridgeSettings: View {

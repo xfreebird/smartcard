@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Automation;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Markup;
 using Microsoft.UI.Xaml.Media.Imaging;
 using MoldSign.App.Services;
 using MoldSign.Core;
@@ -36,7 +37,13 @@ internal static class PdfStampEditor
         Border Group(params UIElement[] children) {
             var stack=new StackPanel { Spacing=16, Padding=new Thickness(16) };
             foreach (var child in children) stack.Children.Add(child);
-            return new Border { CornerRadius=new CornerRadius(8), Background=(Brush)Application.Current.Resources["LayerFillColorDefaultBrush"], Child=stack };
+            // Resolve theme resources in the editor's visual tree, not the application's default theme.
+            var border = (Border)XamlReader.Load("""
+                <Border xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        CornerRadius="8" Background="{ThemeResource LayerFillColorDefaultBrush}" />
+                """);
+            border.Child = stack;
+            return border;
         }
         options.Children.Add(Group(enabled,new TextBlock { Text=Path.GetFileName(row.Path), TextWrapping=TextWrapping.Wrap, Opacity=.65 }));
         var scope=new StackPanel { Spacing=12 };
@@ -53,7 +60,11 @@ internal static class PdfStampEditor
         var cancel = new Button { Content=Loc.Get("Action_Cancel"), MinWidth=100 };
         var footer = new StackPanel { Orientation=Orientation.Horizontal, Spacing=12, HorizontalAlignment=HorizontalAlignment.Right, Margin=new Thickness(24,16,24,20) };
         footer.Children.Add(cancel); footer.Children.Add(apply);
-        var chrome = new Grid { Background=(Brush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"], RequestedTheme=(root.Content as FrameworkElement)?.ActualTheme ?? ElementTheme.Default };
+        var chrome = (Grid)XamlReader.Load("""
+            <Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+            """);
+        chrome.RequestedTheme = (root.Content as FrameworkElement)?.ActualTheme ?? ElementTheme.Default;
         chrome.ColumnDefinitions.Add(new ColumnDefinition { Width=new GridLength(1,GridUnitType.Star) });
         chrome.ColumnDefinitions.Add(new ColumnDefinition { Width=new GridLength(380) });
         chrome.Children.Add(pageScroll);

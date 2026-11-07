@@ -1,5 +1,4 @@
-• Add an optional visible PDF stamp; drag to position and resize it, and apply it to one page or all pages.
-• Manage batches with clearer file options and compact mobile groups.
-• Find signed files in Documents, open or share them, and verify them directly.
-• Clear signing results without deleting files.
-• Improved layouts and Romanian, English and Russian translations.
+• Improved layouts across screen sizes, including landscape and foldable devices.
+• Open signature details directly from Documents. Clearing activity history keeps saved documents.
+• Clearer certificate information and improved PIN protection.
+• Refined navigation, dialogs, and localized interface text.

@@ -1,0 +1,1079 @@
+[
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/iphone/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/iphone/01-sign.png",
+    "sourceSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ro",
+    "family": "iphone",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/iphone/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/iphone/02-batch.png",
+    "sourceSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ro",
+    "family": "iphone",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/iphone/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/iphone/03-consent.png",
+    "sourceSha256": "919b0d0cce306806df745052fd8883e09fa772395d7ca184ad828fecdae9c136",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ro",
+    "family": "iphone",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/iphone/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/iphone/04-verify.png",
+    "sourceSha256": "fdf1345915df1f65069f11de9e4fdaa825ec5cb562a1a5a8e316ab9cc23b950c",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ro",
+    "family": "iphone",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/iphone/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/iphone/05-card.png",
+    "sourceSha256": "39ff00e7ee7f81a2e51c67bb89e6730646598330901dcb2e552af65ace0b9710",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ro",
+    "family": "iphone",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/ipad/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/ipad/01-sign.png",
+    "sourceSha256": "e4112c177f846d000ea425a1cc17ebe2802ff30ec79eea6b10afbc44d66e715c",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ro",
+    "family": "ipad",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/ipad/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/ipad/02-batch.png",
+    "sourceSha256": "7ffff660be6f4d520869141ba61f6dccbb474a963cc611ffdfb3d91ba9285b67",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ro",
+    "family": "ipad",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/ipad/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/ipad/03-consent.png",
+    "sourceSha256": "46e2ee60bdc0ce8acb04779bcb48e40d7672e11089d4c649fd8db28358802b52",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ro",
+    "family": "ipad",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/ipad/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/ipad/04-verify.png",
+    "sourceSha256": "cd908a35524cd25d9102e0ae2072829c36a238d99f77fed494773d5cb0060db5",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ro",
+    "family": "ipad",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ro/ipad/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/ipad/05-card.png",
+    "sourceSha256": "df6b0e5d5f809641232f7f0eb1cd4ef305933734caf6376157f2d4b931233e49",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ro",
+    "family": "ipad",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ro/macos/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/macos/01-sign.png",
+    "sourceSha256": "bb8bab424b98fdfaddda4536dec73e838b921abdbf3492fb5ccff3f77fa97c30",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ro",
+    "family": "macos",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ro/macos/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/macos/02-batch.png",
+    "sourceSha256": "b532c5551d9f475060697ab64b3420adcade75b97c215b6a8a09589d86ab4efd",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ro",
+    "family": "macos",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ro/macos/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/macos/03-consent.png",
+    "sourceSha256": "3bb88e841c3f71baee627c5a1d5dc1fff719b1fd16a430f079116add6ae89336",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ro",
+    "family": "macos",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ro/macos/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/macos/04-verify.png",
+    "sourceSha256": "c780994fece4f811610f0e964767fe6acfe6554df686112821fd848b087f5b7e",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ro",
+    "family": "macos",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ro/macos/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/macos/05-card.png",
+    "sourceSha256": "0e3980867454529b0fe846a0cb5fa814841a03e608fdb427ed2d29f1678e3e8c",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ro",
+    "family": "macos",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ro/macos/06-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/macos/06-browser.png",
+    "sourceSha256": "9bedffd9b40f1303d3f17cb495bcb7b79e5951ee4cb4888ecd555c64acb690b7",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ro",
+    "family": "macos",
+    "story": 6,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/iphone/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/iphone/01-sign.png",
+    "sourceSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "en",
+    "family": "iphone",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/iphone/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/iphone/02-batch.png",
+    "sourceSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "en",
+    "family": "iphone",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/iphone/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/iphone/03-consent.png",
+    "sourceSha256": "e65b39434c95b5b458fba8cb58ed2df9dbc1a4e523bee98c60f3c52bc0e5c98a",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "en",
+    "family": "iphone",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/iphone/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/iphone/04-verify.png",
+    "sourceSha256": "66a178d244a6f62aee3e9294ad66de4f1e779ca4c69a4b1bf6a383c34805fe45",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "en",
+    "family": "iphone",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/iphone/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/iphone/05-card.png",
+    "sourceSha256": "7391507c0a068f7643261b1f49ece40b1f6b865ecc35e91870df1e9bc8ea6896",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "en",
+    "family": "iphone",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/ipad/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/ipad/01-sign.png",
+    "sourceSha256": "1265a7f635f059fb6331d0caaa2e973cfab48a4e763064aac68553614b83841f",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "en",
+    "family": "ipad",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/ipad/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/ipad/02-batch.png",
+    "sourceSha256": "1a7021ba8bc9380741615d136b993106e64a8041dff06c8d9f56851612a2e7b5",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "en",
+    "family": "ipad",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/ipad/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/ipad/03-consent.png",
+    "sourceSha256": "20fd435d07ef41aef9010faf744bf77e5b87b7ade83682b59c8f7648c3d6869b",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "en",
+    "family": "ipad",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/ipad/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/ipad/04-verify.png",
+    "sourceSha256": "267cd03571a3adfcdf416b27d879bfa5f5e9cd26551b23d6c6fe0bdf0ad1544e",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "en",
+    "family": "ipad",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "en/ipad/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/ipad/05-card.png",
+    "sourceSha256": "98a7c28866a6588a575eb0b27c54d218cfc6eba1b015b326e3495e3f0dd22146",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "en",
+    "family": "ipad",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "en/macos/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/macos/01-sign.png",
+    "sourceSha256": "2d6ec10a433a37a9210d423aaa974a06fb015fc3a38020f83c96715bd7b43ed0",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "en",
+    "family": "macos",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "en/macos/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/macos/02-batch.png",
+    "sourceSha256": "013ddbcf0b63eecc9568a9dc3fef4d52b404007a37c1b727f0c665425f8c2341",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "en",
+    "family": "macos",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "en/macos/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/macos/03-consent.png",
+    "sourceSha256": "139f60a080d4896c79883b1bd7efeae6386c21e973cc2cd07583c9e140a0d869",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "en",
+    "family": "macos",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "en/macos/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/macos/04-verify.png",
+    "sourceSha256": "33cd441df32bcd95877803371f3d49eeb1e61696e87dcb6d29aa48d9dc7e0e3c",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "en",
+    "family": "macos",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "en/macos/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/macos/05-card.png",
+    "sourceSha256": "f8ac33e2ffb3e63c7a6d31fb7d9ba1b5b299638c518a774dab21bd2c82cfdf69",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "en",
+    "family": "macos",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "en/macos/06-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/macos/06-browser.png",
+    "sourceSha256": "2647c89d9f58cb154e2522d703b88c527bb646f7fff20530e64a83dc2e5788a6",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "en",
+    "family": "macos",
+    "story": 6,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/iphone/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/iphone/01-sign.png",
+    "sourceSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ru",
+    "family": "iphone",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/iphone/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/iphone/02-batch.png",
+    "sourceSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ru",
+    "family": "iphone",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/iphone/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/iphone/03-consent.png",
+    "sourceSha256": "1d6a3b0428066fd615c160c4b47689bc7783bf5c445cd45e7d61a05059dd9625",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ru",
+    "family": "iphone",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/iphone/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/iphone/04-verify.png",
+    "sourceSha256": "fabe02802f82b5293d48c605b5d4c7592bbcde9344969f79105a74b43b06e30d",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ru",
+    "family": "iphone",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/iphone/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/iphone/05-card.png",
+    "sourceSha256": "fc200c9c397beb22f7298bc3c84d74cefa51f605d7ffcb26394a10c905011117",
+    "dimensions": [
+      1320,
+      2868
+    ],
+    "locale": "ru",
+    "family": "iphone",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    }
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/ipad/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/ipad/01-sign.png",
+    "sourceSha256": "db042b7d3d884375e3f7cc57323e0620a1170f8484935782df1b147c70c5aacf",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ru",
+    "family": "ipad",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/ipad/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/ipad/02-batch.png",
+    "sourceSha256": "7f1ba7a3ff432489cf7fd8c043cdb7bf11e5cec2d0c14a9a1a26763c88c85e28",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ru",
+    "family": "ipad",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/ipad/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/ipad/03-consent.png",
+    "sourceSha256": "cfc1f516bc5755ea3ef3b34ce2bc8c22041a1a4d96e08a963c16ac16e83018e4",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ru",
+    "family": "ipad",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/ipad/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/ipad/04-verify.png",
+    "sourceSha256": "0d7d9d87ee7d98c795b7cf7df536391c6e31f0f505e6fd0dc1ef9e93d676c205",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ru",
+    "family": "ipad",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.5",
+    "sourceSDKVersion": "27.1",
+    "captureBackend": "simctl framebuffer",
+    "path": "ru/ipad/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/ipad/05-card.png",
+    "sourceSha256": "dace27813b1eeb90e6aeebb7e7179126b0e04798d504ef9302fe0b4d0d7b68cb",
+    "dimensions": [
+      2064,
+      2752
+    ],
+    "locale": "ru",
+    "family": "ipad",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ru/macos/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/macos/01-sign.png",
+    "sourceSha256": "720683fb6d7ac02ee34d18de5022ec1187130911809fb1f78e4120bc26564303",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ru",
+    "family": "macos",
+    "story": 1,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ru/macos/02-batch.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/macos/02-batch.png",
+    "sourceSha256": "2c9c6646941547dbae63ef17c315a738715eeb718723fb06f612ec065ea824c3",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ru",
+    "family": "macos",
+    "story": 2,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ru/macos/03-consent.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/macos/03-consent.png",
+    "sourceSha256": "ac54b7e3380ea9c579c0f9fbb3d25ad1e3a0de9ba0c9a307552e975d15cfc5d4",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ru",
+    "family": "macos",
+    "story": 3,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ru/macos/04-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/macos/04-verify.png",
+    "sourceSha256": "428a59c49b0541a52790b6198dc844e03796b0098f47fe7371292ceb0ecdb916",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ru",
+    "family": "macos",
+    "story": 4,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ru/macos/05-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/macos/05-card.png",
+    "sourceSha256": "5466164b296ad902785a0ca2e466ef573ac0a238d310997b8097fa511d6bfa69",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ru",
+    "family": "macos",
+    "story": 5,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  },
+  {
+    "sourceRuntime": "26.7.1",
+    "sourceSDKVersion": "26.5",
+    "captureBackend": "native window screencapture",
+    "path": "ru/macos/06-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/macos/06-browser.png",
+    "sourceSha256": "992bd6c838656a02f359d1ff470e273c613269ed2c0d94412829bf57953cc8ab",
+    "dimensions": [
+      2880,
+      1800
+    ],
+    "locale": "ru",
+    "family": "macos",
+    "story": 6,
+    "format": "RGB PNG",
+    "uiAltered": false,
+    "presentation": "rounded native screenshot; opaque rounded marketing panel",
+    "deviceFrame": null
+  }
+]

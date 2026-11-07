@@ -15,10 +15,10 @@ import md.moldsign.app.R
 
 /** Visible on first install/upgrade, and permanently accessible from Browser and About. */
 @Composable
-fun GovernmentDisclosure() {
+fun GovernmentDisclosure(forceVisible: Boolean = false) {
     val context = LocalContext.current
     val preferences = remember { context.getSharedPreferences("public_information", Context.MODE_PRIVATE) }
-    var visible by remember { mutableStateOf(!preferences.getBoolean("independence_notice_v1", false)) }
+    var visible by remember(forceVisible) { mutableStateOf(forceVisible || !preferences.getBoolean("independence_notice_v1", false)) }
     if (visible) GovernmentDisclosureDialog {
         preferences.edit().putBoolean("independence_notice_v1", true).apply()
         visible = false

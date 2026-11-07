@@ -55,6 +55,7 @@ final class AppModel {
 
     // Activity + bridge
     var activity: [ActivityItem] = []
+    private(set) var savedDocuments: [ActivityItem] = []
     var bridgeState: BridgeState = .stopped
     var bridgeEnabled: Bool {
         didSet {
@@ -199,7 +200,7 @@ final class AppModel {
         #else
         liveReaders = service.readersWithCards
         #endif
-        self.liveActivityStore = activityStore ?? PreferencesActivityStore()
+        self.liveActivityStore = activityStore ?? PreferencesActivityStore(defaults: AppPreferencesStore.defaults)
         self.liveVault = vault
         #if DEBUG
         self.transportFactory = offlineQA ? { _ in throw CardError.noCard } : transportFactory
@@ -208,6 +209,7 @@ final class AppModel {
         #endif
         bridgeEnabled = AppDistribution.browserBridge && (AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true)
         activity = self.activityStore.load()
+        loadDocumentLibrary()
         recentsClearedAt = self.activityStore.recentsClearedAt
         pruneMissingFiles()
     }
@@ -284,6 +286,7 @@ final class AppModel {
         verifyFile = nil; verifyReports = nil; verifiedDocuments = []; browserURL = nil
         vaultRevision += 1
         activity = activityStore.load()
+        loadDocumentLibrary()
         recentsClearedAt = activityStore.recentsClearedAt
         if enabled {
             loadDemoCards(2)
@@ -386,7 +389,12 @@ final class AppModel {
         }
         #if DEBUG
         if let files = ProcessInfo.processInfo.environment["MSIGN_DEMO_FILES"] {
-            addFiles(files.split(separator: ":").map { URL(filePath: String($0)) })
+            if ["fixture", "fixture-single"].contains(files), isScreenshotCapture {
+                let inputs = (try? demoFiles.inputs()) ?? []
+                addFiles(files == "fixture-single" ? Array(inputs.prefix(1)) : inputs)
+            } else {
+                addFiles(files.split(separator: ":").map { URL(filePath: String($0)) })
+            }
         }
         let selected = ProcessInfo.processInfo.environment["MSIGN_DEMO_SELECTED"].flatMap(Int.init) ?? 0
         selectedReaderName = cards.isEmpty ? nil : cards[min(max(selected, 0), cards.count - 1)].reader
@@ -432,6 +440,25 @@ final class AppModel {
 
     /// Presentation fixtures never connect a reader, start a listener, or submit a PIN.
     private func applyDemoScenario(_ scenario: String) {
+        if isScreenshotCapture {
+            if scenario.hasPrefix("verify-") && scenario != "verify-empty" {
+                let url = URL(fileURLWithPath: scenario.contains("incomplete") ? "/capture/Contract.xml" : "/capture/Contract-semnat.pdf")
+                let reports = ScreenshotFixtures.reports(scenario)
+                verifyFile = url
+                verifyReports = reports
+                verifiedDocuments = [(url, reports)]
+                if scenario == "verify-loading" { verifyReports = nil; verifiedDocuments = []; verifying = true }
+            }
+            if scenario.hasPrefix("documents-") && scenario != "documents-empty" || scenario == "history-populated" {
+                let urls = ScreenshotFixtures.documents(in: demoFiles.directory, unavailable: scenario.contains("unavailable"), xml: scenario.contains("incomplete"))
+                let records = urls.map { ActivityItem(title: $0.lastPathComponent, subtitle: L10n.text(.ui_verified), ok: true,
+                    fileURL: $0, signedOutput: true) }
+                savedDocuments = records
+                activity = records
+                demoActivityStore.save(records)
+                demoActivityStore.saveDocuments(records)
+            }
+        }
         switch scenario {
         case "no-reader": cards = []; readers = []; status = .noReader
         case "empty-reader": cards = []; readers = ["USB demo reader"]; status = .empty(reader: readers[0])
@@ -450,9 +477,17 @@ final class AppModel {
         case "success":
             lastSigned = signItems.map(\.url)
             signItems = []
-        case "pin":
-            pinRequest = PinRequest(holder: certificate?.holder ?? "Popescu Ion", attemptsLeft: 3, canRemember: true,
-                                    documentNames: signItems.map { $0.url.lastPathComponent })
+        case "consent", "consent-batch":
+            if isScreenshotCapture {
+                let names = scenario == "consent-batch" ? (1...8).map { "Document-\($0).pdf" } : ["Contract.pdf"]
+                consentRequest = ConsentRequest(request: BridgeRequest(origin: "https://msign.gov.md", operation: .signPDF,
+                    documentName: names.first, documentNames: names, contentBytes: 65536, format: "PAdES-T", pinIncluded: false),
+                    holder: "Popescu Ion", hasStoredPIN: false)
+                presentAuthUI?()
+            }
+        case "pin", "pin-warning", "pin-empty":
+            pinRequest = PinRequest(holder: certificate?.holder ?? "Popescu Ion", attemptsLeft: scenario == "pin-warning" ? 1 : 3, canRemember: true,
+                                    documentNames: scenario == "pin-empty" ? [] : signItems.map { $0.url.lastPathComponent })
             presentAuthUI?()
         default: break
         }
@@ -665,7 +700,7 @@ final class AppModel {
 
     // MARK: - Verify
 
-    private var verificationGeneration = UUID()
+    private(set) var verificationGeneration = UUID()
     func clearVerification() {
         verificationGeneration = UUID()
         verifying = false
@@ -689,7 +724,7 @@ final class AppModel {
             verifiedDocuments.append((url, reports))
             let verdict = Verdict(reports)
             log(ActivityItem(title: url.lastPathComponent, subtitle: L10n.text(.ui_verified),
-                             ok: { if case .valid = verdict { return true } else { return false } }(), fileURL: url))
+                             ok: { if case .valid = verdict { return true } else { return false } }(), fileURL: url, signedOutput: false))
         }
     }
 
@@ -862,7 +897,27 @@ final class AppModel {
 
     // MARK: - Activity
 
+    private func loadDocumentLibrary() {
+        savedDocuments = activityStore.loadOrMigrateDocuments()
+    }
+
+    /// Details are checked independently of the Verify workspace and do not create a history entry.
+    func inspectDocument(_ url: URL, companions: [URL] = []) async throws -> [Validator.Report] {
+        #if DEBUG
+        if isScreenshotCapture {
+            return ScreenshotFixtures.reports(ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "documents-valid")
+        }
+        #endif
+        if demoMode { return await DemoDocumentVerifier().verify(url) }
+        return try await documentVerifier.inspect(url, companions: companions)
+    }
+
     func log(_ item: ActivityItem) {
+        if item.isSignedDocument, let url = item.fileURL {
+            savedDocuments.removeAll { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }
+            savedDocuments.insert(item, at: 0)
+            activityStore.saveDocuments(savedDocuments)
+        }
         activity.insert(item, at: 0)
         if activity.count > 100 { activity.removeLast(activity.count - 100) }
         saveActivity()

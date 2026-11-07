@@ -9,11 +9,18 @@
     ],
     "phoneScreenshot": "iphone/02-batch.png",
     "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 820,
+    "cardLeft": 820,
     "cardCrop": [
-      120,
-      540,
-      1200,
-      1207
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      989,
+      608
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -30,6 +37,10 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
+    "readerDimensions": [
+      575,
+      620
+    ],
     "appleTemplateSafeArea": [
       1097,
       493,
@@ -37,16 +48,16 @@
       1154
     ],
     "contentBounds": [
-      1129,
-      80,
-      2890,
-      1515
+      798,
+      160,
+      3030,
+      1595
     ],
-    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
     "path": "en-header.png",
-    "phoneScreenshotSha256": "d6d3c6746b2564da3c42447124741c5064344624045d2962d2d3a2febf6b2df5",
-    "cardScreenshotSha256": "25f7db2591f7ac9073867964f8089dbcc4a0dd3eb86210ea62cbe657a719894c",
-    "sha256": "52e203bfd4de16f45abd563dfb530158d6a85cf36ea7e9b39f979871b073d921"
+    "phoneScreenshotSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
+    "cardScreenshotSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
+    "sha256": "64e0b7fa4a07dfa3a3116ae7ec2ee7dd98269bcf6407f103675c4ee7c1e2213e"
   },
   {
     "locale": "en",
@@ -58,11 +69,18 @@
     ],
     "phoneScreenshot": "iphone/02-batch.png",
     "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 342,
+    "cardLeft": 342,
     "cardCrop": [
-      120,
-      540,
-      1200,
-      1207
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      1528,
+      940
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -79,6 +97,10 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
+    "readerDimensions": [
+      890,
+      960
+    ],
     "appleTemplateSafeArea": [
       836,
       765,
@@ -86,16 +108,16 @@
       1795
     ],
     "contentBounds": [
-      889,
-      313,
-      3247,
-      2189
+      320,
+      453,
+      3547,
+      2446
     ],
-    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
     "path": "en-search-results.png",
-    "phoneScreenshotSha256": "d6d3c6746b2564da3c42447124741c5064344624045d2962d2d3a2febf6b2df5",
-    "cardScreenshotSha256": "25f7db2591f7ac9073867964f8089dbcc4a0dd3eb86210ea62cbe657a719894c",
-    "sha256": "d58ab75d7f2ba4b13ab42d50c841ed0dda9a0604aba5582fc2a62c3747d901af"
+    "phoneScreenshotSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
+    "cardScreenshotSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
+    "sha256": "bc91be6f01d2fb7689b65439a611ab50c66ae31d8a617b79f07a7e5087338dc7"
   },
   {
     "locale": "ro",
@@ -107,11 +129,18 @@
     ],
     "phoneScreenshot": "iphone/02-batch.png",
     "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 820,
+    "cardLeft": 820,
     "cardCrop": [
-      120,
-      540,
-      1200,
-      1207
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      989,
+      608
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -128,6 +157,10 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
+    "readerDimensions": [
+      575,
+      620
+    ],
     "appleTemplateSafeArea": [
       1097,
       493,
@@ -135,16 +168,16 @@
       1154
     ],
     "contentBounds": [
-      1130,
-      80,
-      2890,
-      1515
+      798,
+      160,
+      3030,
+      1595
     ],
-    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
     "path": "ro-header.png",
-    "phoneScreenshotSha256": "bcbb6a6854a8417daf710cd40aba5d2d05769d11a45606953953f09424bd3aef",
-    "cardScreenshotSha256": "dd58b75d399767ac03c49f4b74748996ce25248780c63096166527a25d24d54a",
-    "sha256": "6730acf08cae69c9913bc8265e81547fe9a5274d14860c608e7ac8f1150f80f1"
+    "phoneScreenshotSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
+    "cardScreenshotSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
+    "sha256": "c8a3900777d257d166b10e8772d46c64332e86685ba3bcd37c7e1a0cb67f257e"
   },
   {
     "locale": "ro",
@@ -156,11 +189,18 @@
     ],
     "phoneScreenshot": "iphone/02-batch.png",
     "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 342,
+    "cardLeft": 342,
     "cardCrop": [
-      120,
-      540,
-      1200,
-      1207
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      1528,
+      940
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -177,6 +217,10 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
+    "readerDimensions": [
+      890,
+      960
+    ],
     "appleTemplateSafeArea": [
       836,
       765,
@@ -184,16 +228,16 @@
       1795
     ],
     "contentBounds": [
-      890,
-      313,
-      3247,
-      2189
+      320,
+      453,
+      3547,
+      2446
     ],
-    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
     "path": "ro-search-results.png",
-    "phoneScreenshotSha256": "bcbb6a6854a8417daf710cd40aba5d2d05769d11a45606953953f09424bd3aef",
-    "cardScreenshotSha256": "dd58b75d399767ac03c49f4b74748996ce25248780c63096166527a25d24d54a",
-    "sha256": "a7e7fa13f64275bddc91a5d5b676921528f61c94080b69ee769de8b0362f379f"
+    "phoneScreenshotSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
+    "cardScreenshotSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
+    "sha256": "ec83bb6bf80f19b535091e99ac072393b10beb0fb91777e552d98dc7eb497713"
   },
   {
     "locale": "ru",
@@ -205,11 +249,18 @@
     ],
     "phoneScreenshot": "iphone/02-batch.png",
     "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 820,
+    "cardLeft": 820,
     "cardCrop": [
-      120,
-      540,
-      1200,
-      1207
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      989,
+      608
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -226,6 +277,10 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
+    "readerDimensions": [
+      575,
+      620
+    ],
     "appleTemplateSafeArea": [
       1097,
       493,
@@ -233,16 +288,16 @@
       1154
     ],
     "contentBounds": [
-      1130,
-      80,
-      2890,
-      1515
+      798,
+      160,
+      3030,
+      1595
     ],
-    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
     "path": "ru-header.png",
-    "phoneScreenshotSha256": "70a4c5437ff1e42065aad8ceaf255748de0c9e8e8622f722f4a62342ea510db2",
-    "cardScreenshotSha256": "0add79a3934d5aa27e02ed2678f2156c6aa83374bdaa44f2421b3a2a5a2a1fad",
-    "sha256": "43a93ebcc050987bb05e8c4f415f1bd492428ad4939a4c5c5374a3af9ea97bea"
+    "phoneScreenshotSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
+    "cardScreenshotSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
+    "sha256": "6ebfca1bd7b1866315ad8d0e485c7401514950dc028e99cedc02bc64f7da44de"
   },
   {
     "locale": "ru",
@@ -254,11 +309,18 @@
     ],
     "phoneScreenshot": "iphone/02-batch.png",
     "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 342,
+    "cardLeft": 342,
     "cardCrop": [
-      120,
-      540,
-      1200,
-      1207
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      1528,
+      940
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -275,6 +337,10 @@
     "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
     "physicalChipCovered": true,
+    "readerDimensions": [
+      890,
+      960
+    ],
     "appleTemplateSafeArea": [
       836,
       765,
@@ -282,15 +348,15 @@
       1795
     ],
     "contentBounds": [
-      890,
-      313,
-      3247,
-      2189
+      320,
+      453,
+      3547,
+      2446
     ],
-    "safeForPlacementAspect": "central headline and summary; supporting device artwork bleeds beyond safe area; verify in App Store Connect",
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
     "path": "ru-search-results.png",
-    "phoneScreenshotSha256": "70a4c5437ff1e42065aad8ceaf255748de0c9e8e8622f722f4a62342ea510db2",
-    "cardScreenshotSha256": "0add79a3934d5aa27e02ed2678f2156c6aa83374bdaa44f2421b3a2a5a2a1fad",
-    "sha256": "831c9baf50908f26601ae3a283241b5520c0c79a334fdb9688d424883c83cc83"
+    "phoneScreenshotSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
+    "cardScreenshotSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
+    "sha256": "2bd0a54fb68291a7462dd633b9f2f52f1122f4711836e61664900bd5bb1e3267"
   }
 ]

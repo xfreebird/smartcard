@@ -39,7 +39,7 @@
                 x:Uid="DropTitle"
                 HorizontalAlignment="Center"
                 Style="{StaticResource MsHeadlineTextStyle}"
-                Text="Trage documentele aici" />
+                Text="Trage documentele aici" TextWrapping="Wrap" TextAlignment="Center" />
             <Button
                 x:Uid="DropBrowse" AutomationProperties.AutomationId="ChooseDocuments"
                 HorizontalAlignment="Center"
@@ -50,7 +50,7 @@
                 x:Uid="DropHint"
                 HorizontalAlignment="Center"
                 Style="{StaticResource MsCaptionTextStyle}"
-                Text="PDF → semnătură PDF · altele → semnătură XML" />
+                Text="PDF → semnătură PDF · altele → semnătură XML" TextWrapping="Wrap" TextAlignment="Center" />
         </StackPanel>
 
         <Grid
@@ -73,7 +73,7 @@
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Style="{StaticResource MsCaptionTextStyle}"
-                Text="Trage aici alte documente" />
+                Text="Trage aici alte documente" TextWrapping="Wrap" />
             <Button
                 x:Uid="DropBrowseCompact" AutomationProperties.AutomationId="ChooseMoreDocuments"
                 Grid.Column="2"

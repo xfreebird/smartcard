@@ -1,5 +1,4 @@
-• Adaugă opțional o ștampilă vizibilă în PDF; mut-o, redimensioneaz-o și aplic-o pe o pagină sau pe toate paginile.
-• Gestionează loturile cu opțiuni mai clare și grupuri compacte pe mobil.
-• Găsește fișierele semnate în Documente, deschide-le, distribuie-le și verifică-le direct.
-• Ascunde rezultatele semnării fără a șterge fișierele.
-• Interfață și traduceri îmbunătățite în română, engleză și rusă.
+• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.
+• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.
+• Informații mai clare despre certificate și protecție PIN îmbunătățită.
+• Navigare, dialoguri și texte localizate îmbunătățite.

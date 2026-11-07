@@ -50,11 +50,15 @@ class PinVault(context: Context) {
     suspend fun save(activity: FragmentActivity, certId: String, pin: CharArray, title: String, subtitle: String): Boolean {
         val cipher = Cipher.getInstance(TRANSFORMATION).apply { init(Cipher.ENCRYPT_MODE, getOrCreateKey()) }
         val authed = authenticate(activity, cipher, title, subtitle) ?: return false
+        authed.updateAAD(pinRecordBinding(certId))
         val plain = encodeUtf8(pin)
         try {
             val ct = authed.doFinal(plain)
             val blob = authed.iv + ct
-            appContext.pinStore.edit { it[prefKey(certId)] = Base64.encodeToString(blob, Base64.NO_WRAP) }
+            appContext.pinStore.edit {
+                it[prefKey(certId)] = Base64.encodeToString(blob, Base64.NO_WRAP)
+                it.remove(stringPreferencesKey("pin_$certId"))
+            }
             return true
         } finally {
             plain.fill(0)
@@ -64,7 +68,14 @@ class PinVault(context: Context) {
     /** Decrypts the stored PIN after a biometric confirmation; null if none, cancelled, or the key was invalidated. */
     suspend fun load(activity: FragmentActivity, certId: String, title: String, subtitle: String): CharArray? {
         val stored = appContext.pinStore.data.first()[prefKey(certId)] ?: return null
-        val blob = Base64.decode(stored, Base64.NO_WRAP)
+        val blob = try { Base64.decode(stored, Base64.NO_WRAP) } catch (_: IllegalArgumentException) {
+            delete(certId)
+            return null
+        }
+        if (blob.size < IV_SIZE + 16) {
+            delete(certId)
+            return null
+        }
         val cipher = Cipher.getInstance(TRANSFORMATION)
         try {
             cipher.init(Cipher.DECRYPT_MODE, getOrCreateKey(), GCMParameterSpec(128, blob, 0, IV_SIZE))
@@ -74,7 +85,14 @@ class PinVault(context: Context) {
             return null
         }
         val authed = authenticate(activity, cipher, title, subtitle) ?: return null
-        val plain = authed.doFinal(blob, IV_SIZE, blob.size - IV_SIZE)
+        authed.updateAAD(pinRecordBinding(certId))
+        val plain = try {
+            authed.doFinal(blob, IV_SIZE, blob.size - IV_SIZE)
+        } catch (_: javax.crypto.AEADBadTagException) {
+            // Corrupted or moved records must never become a PIN attempt on another card.
+            delete(certId)
+            return null
+        }
         return try {
             decodeUtf8(plain)
         } finally {
@@ -83,7 +101,10 @@ class PinVault(context: Context) {
     }
 
     suspend fun delete(certId: String) {
-        appContext.pinStore.edit { it.remove(prefKey(certId)) }
+        appContext.pinStore.edit {
+            it.remove(prefKey(certId))
+            it.remove(stringPreferencesKey("pin_$certId"))
+        }
     }
 
     suspend fun deleteAll() {
@@ -132,7 +153,9 @@ class PinVault(context: Context) {
             cont.invokeOnCancellation { prompt.cancelAuthentication() }
         }
 
-    private fun prefKey(certId: String) = stringPreferencesKey("pin_$certId")
+    // v1 records had no certificate binding. Never decrypt them: manual PIN entry and a successful
+    // signing operation are required before saving a v2 record with a fresh biometric confirmation.
+    private fun prefKey(certId: String) = stringPreferencesKey("pin_v2_$certId")
 
     private fun encodeUtf8(chars: CharArray): ByteArray {
         val bb = Charsets.UTF_8.encode(CharBuffer.wrap(chars))
@@ -151,3 +174,6 @@ class PinVault(context: Context) {
         const val IV_SIZE = 12
     }
 }
+
+/** Authenticated context binds the ciphertext to both its format and target card. */
+internal fun pinRecordBinding(certId: String) = "moldsign.pinvault.v2:$certId".toByteArray(Charsets.UTF_8)

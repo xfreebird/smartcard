@@ -5,6 +5,9 @@ import Foundation
 public enum Validator {
 
     public struct Report {
+        /// Detached originals absent from the caller-provided bytes. False contentIntact is
+        /// inconclusive while this is nonempty, not evidence of document modification.
+        public var missingDetachedReferences: [String] = []
         public var certificateDetails: [String: String] = [:]
         public var signerIDNP: String? {
             guard let value = certificateDetails["Subject · Personal identifier"], value.count == 13, value.allSatisfy({ $0.isASCII && $0.isNumber }) else { return nil }
@@ -22,10 +25,11 @@ public enum Validator {
 
         public var summary: String {
             let ok = contentIntact && signatureValid
-            return "\(name): \(ok ? "VALID" : "INVALID") — \(signer), \(level)" +
+            let status = missingDetachedReferences.isEmpty ? (ok ? "VALID" : "INVALID") : "INCOMPLETE"
+            return "\(name): \(status) — \(signer), \(level)" +
                    ", signed \(signingTime)" + (timestampTime.map { ", tst \($0)" } ?? "") +
                    ", chain \(chainTrusted ? "trusted" : "untrusted")" +
-                   (contentIntact ? "" : ", content modified!") +
+                   (missingDetachedReferences.isEmpty ? (contentIntact ? "" : ", content modified!") : ", original document unavailable") +
                    (signatureValid ? "" : ", bad signature!")
         }
     }
@@ -526,8 +530,12 @@ private struct XMLSig {
         let fileRefs = refURIs(doc: signedInfo, prefix: "file:/")
         for uri in fileRefs {
             let fname = String(uri.dropFirst(6))
-            guard let bytes = files[fname],
-                  let dv = digestValue(of: uri, in: signedInfo) else { allRefsOk = false; continue }
+            guard let bytes = files[fname] else {
+                r.missingDetachedReferences.append(fname)
+                allRefsOk = false
+                continue
+            }
+            guard let dv = digestValue(of: uri, in: signedInfo) else { allRefsOk = false; continue }
             let comp = digestAlgorithm(of: uri, in: signedInfo).hash(bytes).base64EncodedString()
             allRefsOk = allRefsOk && (dv == comp)
         }

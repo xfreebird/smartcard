@@ -21,7 +21,7 @@ final class DocumentVerifier: DocumentVerifying {
         while let r = text.range(of: "URI=\"file:/", range: start..<text.endIndex),
               let e = text[r.upperBound...].firstIndex(of: "\"") {
             let name = String(text[r.upperBound..<e])
-            files[name] = try? Data(contentsOf: url.deletingLastPathComponent().appendingPathComponent(name))
+            files[name] = try? DetachedDocumentAccess.read(name, beneath: url.deletingLastPathComponent())
             start = e
         }
         return files

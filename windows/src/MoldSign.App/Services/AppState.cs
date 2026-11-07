@@ -18,8 +18,11 @@ public sealed record ActivityItem(string FileName, string Action, DateTimeOffset
 {
     public string ActionLabel => SignatureLabels.Human(Action);
     public bool CanVerify => Path is not null;
-    public string VerifyLabel => Loc.Get("NavVerify.Content");
-    public string OpenLabel => Path is null ? "" : Loc.Get("File_ShowInFolder");
+    public string VerifyLabel => Loc.Get("Action_Verify");
+    public string OpenLabel => Path is null ? "" : Loc.Get("saved_details");
+    [JsonIgnore]
+    public bool IsSignedDocument => Success && Path is not null &&
+        (SignedOutput == true || (SignedOutput is null && System.IO.Path.GetFileName(Path).Contains("-semnat", StringComparison.OrdinalIgnoreCase)));
     [JsonIgnore]
     public string Glyph => Success ? "\uE73E" : "\uE783"; // CheckMark / Error
 
@@ -159,6 +162,8 @@ public sealed class AppState : INotifyPropertyChanged
 
     /// <summary>Activity page: every entry, newest first (documents whose file is gone are pruned).</summary>
     public ObservableCollection<ActivityItem> Activity { get; } = [];
+    /// Persistent library; independent of the bounded operation history and tray recents.
+    public ObservableCollection<ActivityItem> SignedDocuments { get; } = [];
 
     /// <summary>
     /// Tray flyout "Recente": existing documents only (no browser requests, no missing files), newest first, one row
@@ -183,7 +188,7 @@ public sealed class AppState : INotifyPropertyChanged
     public void ResetSession(bool demo)
     {
         _wallet.Apply([]); _busy = false; _step = null; _isDemo = demo;
-        Activity.Clear(); RecentDocuments.Clear(); _recentsClearedAt = DateTimeOffset.MinValue;
+        Activity.Clear(); SignedDocuments.Clear(); RecentDocuments.Clear(); _recentsClearedAt = DateTimeOffset.MinValue;
         BridgeEnabled = false; BridgeStatus = "";
         Refresh(); Raise(nameof(IsDemo)); Raise(nameof(DemoBannerVisible)); Raise(nameof(DemoVisibility));
     }
@@ -243,10 +248,16 @@ public sealed class AppState : INotifyPropertyChanged
 
     public void AddActivity(ActivityItem item)
     {
+        if (item.IsSignedDocument)
+        {
+            for (var i = SignedDocuments.Count - 1; i >= 0; i--)
+                if (string.Equals(SignedDocuments[i].Path, item.Path, StringComparison.OrdinalIgnoreCase)) SignedDocuments.RemoveAt(i);
+            SignedDocuments.Insert(0, item);
+        }
         Activity.Insert(0, item);
         while (Activity.Count > ActivityLog.MaxItems) Activity.RemoveAt(Activity.Count - 1);
         RefreshRecents();
-        ActivityLog.Save(Activity, _recentsClearedAt);
+        ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
     }
 
     /// <summary>Loads the saved log (startup) and drops entries whose document no longer exists.</summary>
@@ -255,9 +266,13 @@ public sealed class AppState : INotifyPropertyChanged
         var snapshot = ActivityLog.Load();
         _recentsClearedAt = snapshot.RecentsClearedAt;
         Activity.Clear();
+        SignedDocuments.Clear();
+        foreach (var item in snapshot.SignedDocuments.Where(i => i.IsSignedDocument && !i.IsMissingFile)
+            .DistinctBy(i => i.Path, StringComparer.OrdinalIgnoreCase)) SignedDocuments.Add(item);
         foreach (var item in snapshot.Items.Where(i => !i.IsMissingFile).Take(ActivityLog.MaxItems)) Activity.Add(item);
         RefreshRecents();
-        if (Activity.Count != snapshot.Items.Count) ActivityLog.Save(Activity, _recentsClearedAt);
+        // Persist migration before a later history clear can remove its source records.
+        ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
     }
 
     /// <summary>Drops document entries whose file was moved or deleted (flyout open, Activity page shown).</summary>
@@ -270,8 +285,14 @@ public sealed class AppState : INotifyPropertyChanged
             Activity.RemoveAt(i);
             removed = true;
         }
+        for (var i = SignedDocuments.Count - 1; i >= 0; i--)
+        {
+            if (!SignedDocuments[i].IsMissingFile) continue;
+            SignedDocuments.RemoveAt(i);
+            removed = true;
+        }
         RefreshRecents();
-        if (removed) ActivityLog.Save(Activity, _recentsClearedAt);
+        if (removed) ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
     }
 
     /// <summary>Flyout "Golește lista": empties the recent documents; the Activity page keeps its history.</summary>
@@ -279,7 +300,7 @@ public sealed class AppState : INotifyPropertyChanged
     {
         _recentsClearedAt = DateTimeOffset.Now;
         RefreshRecents();
-        ActivityLog.Save(Activity, _recentsClearedAt);
+        ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
     }
 
     /// <summary>Activity page "Golește lista" (after confirmation): the whole log, recents included.</summary>
@@ -287,7 +308,7 @@ public sealed class AppState : INotifyPropertyChanged
     {
         Activity.Clear();
         RefreshRecents();
-        ActivityLog.Save(Activity, _recentsClearedAt);
+        ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
     }
 
     private void RefreshRecents()

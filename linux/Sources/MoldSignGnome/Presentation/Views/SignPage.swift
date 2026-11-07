@@ -22,6 +22,7 @@ final class SignPage {
     private let statusDot: Widget
     private let statusLabel: Widget
     private let signButton: Widget
+    private let footer: Widget
     let wallet: CardWallet
 
     private var filesKey = ""
@@ -46,7 +47,7 @@ final class SignPage {
         append(content, filesGroup)
 
         dropIcon = image("folder-documents-symbolic", size: 48, classes: ["dim-label"])
-        dropTitle = label(L10n.text(.ui_drop_documents_here), classes: ["title-3"], xalign: 0.5)
+        dropTitle = label(L10n.text(.ui_drop_documents_here), classes: ["title-3"], xalign: 0.5, wrap: true)
         dropHint = label(L10n.text(.ui_pdf_pades_t_other_files_xades_t_change_the_format_on_each_row),
                          classes: ["dim-label"], xalign: 0.5, wrap: true)
         gtk_label_set_justify(dropHint.opaque, GTK_JUSTIFY_CENTER)
@@ -83,22 +84,29 @@ final class SignPage {
         statusLabel = label("", xalign: 0)
         gtk_label_set_ellipsize(statusLabel.opaque, PANGO_ELLIPSIZE_END)
         signButton = button(L10n.text(.ui_sign), classes: ["suggested-action", "pill"]) { controller.signAll() }
-        let actionBar = gtk_action_bar_new()!
+        footer = hbox(spacing: 8)
+        let actionBar = footer
+        margins(actionBar, 8)
         let statusBox = hbox(spacing: 8, [statusDot, statusLabel])
+        gtk_widget_set_hexpand(statusBox, 1)
         gtk_widget_set_margin_start(statusBox, 6)
         gtk_widget_set_margin_end(signButton, 6)
         for w in [statusBox, signButton] {
             gtk_widget_set_margin_top(w, 6)
             gtk_widget_set_margin_bottom(w, 6)
         }
-        gtk_action_bar_pack_start(actionBar.opaque, statusBox)
-        gtk_action_bar_pack_end(actionBar.opaque, signButton)
+        append(actionBar, statusBox)
+        append(actionBar, signButton)
 
         root = vbox(spacing: 0, classes: ["drop-page"], [scrolledPage(content, top: wallet.root), actionBar])
 
         onSignal(choose, "clicked") { [weak self] in self?.pickFiles() }
         addFileDropTarget(root) { paths in controller.addFiles(paths) }
         controller.observe { [weak self] in self?.render() }
+    }
+
+    func setCompact(_ compact: Bool) {
+        gtk_orientable_set_orientation(footer.opaque, compact ? GTK_ORIENTATION_VERTICAL : GTK_ORIENTATION_HORIZONTAL)
     }
 
     /// "Alege fișiere" / Ctrl+O.
@@ -184,7 +192,7 @@ final class SignPage {
             let stampSummary = item.stamp.map { $0.allPages ? L10n.text(.file_stamp_all) : "\(L10n.text(.file_stamp_page)) \($0.page+1)" } ?? L10n.text(.file_stamp_off)
             let formatTag = hbox(spacing: 4, [image("x-office-document-symbolic"), label(item.format.label)])
             addClasses(formatTag, ["file-tag", "format-tag"])
-            let tags = hbox(spacing: 6, [formatTag]); gtk_widget_set_halign(tags, GTK_ALIGN_START)
+            let tags = vbox(spacing: 6, [formatTag]); gtk_widget_set_halign(tags, GTK_ALIGN_START)
             if item.format == .padesT {
                 let stampTag = hbox(spacing: 4, [image("document-edit-symbolic"), label(stampSummary)])
                 addClasses(stampTag, ["file-tag", item.stamp == nil ? "stamp-off-tag" : "stamp-tag"])
@@ -209,7 +217,7 @@ final class SignPage {
             let title = label(item.url.lastPathComponent, wrap: true)
             let details = vbox(spacing: 4, [title, tags]); gtk_widget_set_hexpand(details, 1)
             if let error = item.error { append(details, label(error, classes: ["error"], wrap: true)) }
-            let body = hbox(spacing: 12, [image("x-office-document-symbolic"), details, menu, remove]); margins(body, 12)
+            let body = hbox(spacing: 8, [details, menu, remove]); margins(body, 12)
             let row = gtk_list_box_row_new()!; gtk_list_box_row_set_child(row.cast(), body)
             addClasses(row, ["file-row"])
             gtk_list_box_append(filesList.opaque, row)
@@ -250,10 +258,10 @@ final class SignPage {
         resultKey = key
         clearList(resultList)
         for url in signed {
-            let open = button(L10n.text(.ui_open_folder), classes: ["flat"]) { [weak self] in
+            let open = iconButton("folder-open-symbolic", tooltip: L10n.text(.ui_open_folder)) { [weak self] in
                 revealInFolder(url.path, parent: self?.window())
             }
-            let openWith = button(L10n.text(.ui_open_with), classes: ["flat"]) { [weak self] in
+            let openWith = iconButton("application-x-executable-symbolic", tooltip: L10n.text(.ui_open_with)) { [weak self] in
                 openWithApplication(url.path, parent: self?.window())
             }
             let row = actionRow(title: url.lastPathComponent, subtitle: url.deletingLastPathComponent().path,

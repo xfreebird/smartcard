@@ -1,0 +1,362 @@
+[
+  {
+    "locale": "en",
+    "layout": "header",
+    "placement": "PRODUCT_PAGE_HEADER_ASSET",
+    "dimensions": [
+      3840,
+      1646
+    ],
+    "phoneScreenshot": "iphone/02-batch.png",
+    "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 820,
+    "cardLeft": 820,
+    "cardCrop": [
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      989,
+      608
+    ],
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "readerDimensions": [
+      575,
+      620
+    ],
+    "appleTemplateSafeArea": [
+      1097,
+      493,
+      2743,
+      1154
+    ],
+    "contentBounds": [
+      798,
+      160,
+      3030,
+      1595
+    ],
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "path": "en-header.png",
+    "phoneScreenshotSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
+    "cardScreenshotSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
+    "sha256": "64e0b7fa4a07dfa3a3116ae7ec2ee7dd98269bcf6407f103675c4ee7c1e2213e"
+  },
+  {
+    "locale": "en",
+    "layout": "search-results",
+    "placement": "APP_STORE_SEARCH_RESULTS_ASSET",
+    "dimensions": [
+      3840,
+      2560
+    ],
+    "phoneScreenshot": "iphone/02-batch.png",
+    "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 342,
+    "cardLeft": 342,
+    "cardCrop": [
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      1528,
+      940
+    ],
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "readerDimensions": [
+      890,
+      960
+    ],
+    "appleTemplateSafeArea": [
+      836,
+      765,
+      3004,
+      1795
+    ],
+    "contentBounds": [
+      320,
+      453,
+      3547,
+      2446
+    ],
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "path": "en-search-results.png",
+    "phoneScreenshotSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
+    "cardScreenshotSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
+    "sha256": "bc91be6f01d2fb7689b65439a611ab50c66ae31d8a617b79f07a7e5087338dc7"
+  },
+  {
+    "locale": "ro",
+    "layout": "header",
+    "placement": "PRODUCT_PAGE_HEADER_ASSET",
+    "dimensions": [
+      3840,
+      1646
+    ],
+    "phoneScreenshot": "iphone/02-batch.png",
+    "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 820,
+    "cardLeft": 820,
+    "cardCrop": [
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      989,
+      608
+    ],
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "readerDimensions": [
+      575,
+      620
+    ],
+    "appleTemplateSafeArea": [
+      1097,
+      493,
+      2743,
+      1154
+    ],
+    "contentBounds": [
+      798,
+      160,
+      3030,
+      1595
+    ],
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "path": "ro-header.png",
+    "phoneScreenshotSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
+    "cardScreenshotSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
+    "sha256": "c8a3900777d257d166b10e8772d46c64332e86685ba3bcd37c7e1a0cb67f257e"
+  },
+  {
+    "locale": "ro",
+    "layout": "search-results",
+    "placement": "APP_STORE_SEARCH_RESULTS_ASSET",
+    "dimensions": [
+      3840,
+      2560
+    ],
+    "phoneScreenshot": "iphone/02-batch.png",
+    "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 342,
+    "cardLeft": 342,
+    "cardCrop": [
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      1528,
+      940
+    ],
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "readerDimensions": [
+      890,
+      960
+    ],
+    "appleTemplateSafeArea": [
+      836,
+      765,
+      3004,
+      1795
+    ],
+    "contentBounds": [
+      320,
+      453,
+      3547,
+      2446
+    ],
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "path": "ro-search-results.png",
+    "phoneScreenshotSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
+    "cardScreenshotSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
+    "sha256": "ec83bb6bf80f19b535091e99ac072393b10beb0fb91777e552d98dc7eb497713"
+  },
+  {
+    "locale": "ru",
+    "layout": "header",
+    "placement": "PRODUCT_PAGE_HEADER_ASSET",
+    "dimensions": [
+      3840,
+      1646
+    ],
+    "phoneScreenshot": "iphone/02-batch.png",
+    "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 820,
+    "cardLeft": 820,
+    "cardCrop": [
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      989,
+      608
+    ],
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "readerDimensions": [
+      575,
+      620
+    ],
+    "appleTemplateSafeArea": [
+      1097,
+      493,
+      2743,
+      1154
+    ],
+    "contentBounds": [
+      798,
+      160,
+      3030,
+      1595
+    ],
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "path": "ru-header.png",
+    "phoneScreenshotSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
+    "cardScreenshotSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
+    "sha256": "6ebfca1bd7b1866315ad8d0e485c7401514950dc028e99cedc02bc64f7da44de"
+  },
+  {
+    "locale": "ru",
+    "layout": "search-results",
+    "placement": "APP_STORE_SEARCH_RESULTS_ASSET",
+    "dimensions": [
+      3840,
+      2560
+    ],
+    "phoneScreenshot": "iphone/02-batch.png",
+    "cardScreenshot": "iphone/01-sign.png",
+    "copyLeft": 342,
+    "cardLeft": 342,
+    "cardCrop": [
+      86,
+      434,
+      1234,
+      1140
+    ],
+    "cardScale": 2,
+    "cardDimensions": [
+      1528,
+      940
+    ],
+    "deviceFrame": {
+      "file": "iphone.png",
+      "screen": [
+        75,
+        66,
+        1320,
+        2868
+      ],
+      "model": "iPhone 17 Pro Max — Deep Blue",
+      "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
+      "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
+    },
+    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
+    "marketingCopySource": "localization/catalog.json/storeCreative",
+    "physicalChipCovered": true,
+    "readerDimensions": [
+      890,
+      960
+    ],
+    "appleTemplateSafeArea": [
+      836,
+      765,
+      3004,
+      1795
+    ],
+    "contentBounds": [
+      320,
+      453,
+      3547,
+      2446
+    ],
+    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "path": "ru-search-results.png",
+    "phoneScreenshotSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
+    "cardScreenshotSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
+    "sha256": "2bd0a54fb68291a7462dd633b9f2f52f1122f4711836e61664900bd5bb1e3267"
+  }
+]

@@ -158,6 +158,7 @@ public sealed partial class SignPage : Page
     {
         var hasFiles = Files.Count > 0;
         FileList.Visibility = hasFiles ? Visibility.Visible : Visibility.Collapsed;
+        SigningFooter.Visibility = hasFiles ? Visibility.Visible : Visibility.Collapsed;
         ListRow.Height = hasFiles ? new GridLength(1, GridUnitType.Star) : GridLength.Auto;
         DocumentDrop.IsCompact = hasFiles;
     }

@@ -35,6 +35,7 @@ final class AppController {
     // Activity, settings, bridge, PIN vault
     /// Pruned on load: entries whose file was deleted or moved are dropped (browser requests stay).
     private(set) var activity: [ActivityItem] = Store.loadActivity().filter(\.isShowable)
+    private(set) var signedDocuments: [ActivityItem] = Store.loadSignedDocuments().filter(\.isShowable)
     var settings: AppSettings { preferences.settings }
     private let preferences: SettingsCoordinator
     var bridgeState: BridgeState { bridge.state }
@@ -144,6 +145,7 @@ final class AppController {
         if let demo {
             vaultProblem = DemoMode.screenshotCapture ? nil : L10n.text(.linux_demo_mode)
             activity = []
+            signedDocuments = []
             preferences.update { $0.bridgeEnabled = false }
             readers.apply(demo.snapshot)
             after(milliseconds: 900) { [weak self] in self?.prepareDemoScenario() }
@@ -208,6 +210,7 @@ final class AppController {
                     ActivityItem(kind: .bridge, title: "msign.gov.md · DEMO",
                         subtitle: L10n.text(.ui_demo_request_cancelled), ok: false, date: now.addingTimeInterval(-600)),
                 ]
+                signedDocuments = activity.filter(\.isSignedDocument)
             case .settings, .documents: break
             }
             showDemoPage?(scenario.page)
@@ -457,6 +460,20 @@ final class AppController {
         for path in paths { verifyDocument(path: path, generation: verificationGeneration) }
     }
 
+    /// Inspect a saved document without replacing Verify's selection or creating history.
+    func inspectDocument(path: String, completion: @escaping ([SignatureReport]?) -> Void) {
+        let verifier = documentVerifier
+        let url = URL(fileURLWithPath: path)
+        verifyQueue.async {
+            guard FileManager.default.isReadableFile(atPath: path) else {
+                onMain { completion(nil) }
+                return
+            }
+            let reports = verifier.verify(url)
+            onMain { completion(FileManager.default.isReadableFile(atPath: path) ? reports : nil) }
+        }
+    }
+
     private func verifyDocument(path: String, generation: UUID) {
         let url = URL(fileURLWithPath: path)
         verifyFile = url
@@ -703,16 +720,33 @@ final class AppController {
         return ActivityItem(kind: .failed, title: host, subtitle: localized(.ui_failed_value_value, what, describe(error).message), ok: false)
     }
 
+    private var shouldPersistActivity: Bool {
+        #if MOLDSIGN_DEMO
+        if demo != nil { return false }
+        #endif
+        return true
+    }
+
     private func log(_ item: ActivityItem) {
+        if item.isSignedDocument {
+            signedDocuments.removeAll { $0.filePath == item.filePath }
+            signedDocuments.insert(item, at: 0)
+            if shouldPersistActivity { Store.saveSignedDocuments(signedDocuments) }
+        }
         activity.insert(item, at: 0)
         if activity.count > Store.activityLimit { activity.removeLast(activity.count - Store.activityLimit) }
-        Store.save(activity)
+        if shouldPersistActivity { Store.save(activity) }
         changed()
     }
 
     func clearActivity() {
+        // Do not discard migration sources if the independent library cannot be made durable.
+        guard !shouldPersistActivity || Store.saveSignedDocuments(signedDocuments) else {
+            toast?(L10n.text(.saved_library_save_failed))
+            return
+        }
         activity.removeAll()
-        Store.save(activity)
+        if shouldPersistActivity { Store.save(activity) }
         changed()
     }
 

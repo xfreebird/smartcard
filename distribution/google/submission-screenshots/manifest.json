@@ -1,0 +1,542 @@
+[
+  {
+    "file": "android/ro/phone/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/phone/01-sign.png",
+    "sourceSha256": "77779d872fa0d0fdc73fadfd4cde30b66e2db1732fc3cd8094972d1a95469133",
+    "sha256": "7c90fa4488548b03e43d00d7c479b56adf2bf6adc68186c2a99001001eed528b",
+    "locale": "ro",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/phone/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/phone/02-card.png",
+    "sourceSha256": "3d445a6953a6a72f6b14bb764407ca2b6ff5284187d8e0a079a4a804e8aca8d3",
+    "sha256": "f8fbc8fbe4a8dcf44a27a982a4ee575723f6b9015125b7b28c0fe4666a42e172",
+    "locale": "ro",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/phone/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/phone/03-verify.png",
+    "sourceSha256": "7e7957b7b10557960fc4dbff93cbb04c41753b3608f45d4f957f8274a0f3b3e9",
+    "sha256": "2a711debbbbf038c20219a69e49ea0a7fcdd6c414a5daf807708e7da003e89d8",
+    "locale": "ro",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/phone/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/phone/04-browser.png",
+    "sourceSha256": "4639c2ee3a3e653797f9a769a7f2d3a4777de4c3bbd3ba5557fd7a512ac5d56d",
+    "sha256": "3270a12cd8a26c8fed9a90884155112ab9188af0acefe9dbffeb58f6051366bb",
+    "locale": "ro",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/seven-inch/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/seven-inch/01-sign.png",
+    "sourceSha256": "719b86c9c1fd5f893384d9d90bbfff33f52cae39ae2bb6c5a62527f54ba32dbb",
+    "sha256": "8ded9e57708b40e593d340997c480d50db22906b4b401f5e511d3daaf80b15ef",
+    "locale": "ro",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/seven-inch/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/seven-inch/02-card.png",
+    "sourceSha256": "451ffb247c6e56986b5b1f5406d5facac10bfc2ac12570ecbbb56e235a74a5c9",
+    "sha256": "8be4a1f483c06b99e582d670e613d72310b3c6192b0c00b32eebda7e6d0ff919",
+    "locale": "ro",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/seven-inch/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/seven-inch/03-verify.png",
+    "sourceSha256": "6ca0f05c2a7e2e897652a61c6e121395cfd4bf0719d95065e75e4f8524fbbd21",
+    "sha256": "0991d20125439b83dc655fda2f26a16c9a6195db11830cc9aa8c9f58d4f41515",
+    "locale": "ro",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/seven-inch/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/seven-inch/04-browser.png",
+    "sourceSha256": "4aa9043bbea3e019fe0fa53371bb3562115018aa1c50f0e7e9eb7d915867eb0a",
+    "sha256": "bf0fc50d78c24b573a156455c7233c9885b50365f4c0034e3be5e9a1bb682c5f",
+    "locale": "ro",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/ten-inch/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/ten-inch/01-sign.png",
+    "sourceSha256": "0b5553f39807e334afac6fecacdc4362e053ebdefb5dc02d2d4d2355839049bf",
+    "sha256": "7dc29b49d4b8623d7fd9800cf84983bf8b7eaba3960d90deff6f08d915b9758f",
+    "locale": "ro",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/ten-inch/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/ten-inch/02-card.png",
+    "sourceSha256": "1407eac94f3c8790f2dff10291309c7849f974912100686493cb4a9916fe33b8",
+    "sha256": "ce5200664ee07a4509f63c1d1a8a425e8287f8db5bbace332a78543e593f6afa",
+    "locale": "ro",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/ten-inch/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/ten-inch/03-verify.png",
+    "sourceSha256": "c81e8c6f4b04c4b83a52efd74ad662b484d71a1b37290d38719862989f1a7367",
+    "sha256": "c8a99568cd2521247e92e80c2b27b0294e9d856287dcff50bd1c9e2dc7c54298",
+    "locale": "ro",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ro/ten-inch/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ro/ten-inch/04-browser.png",
+    "sourceSha256": "0aee8082bd85367c7ebe7d236de6cc352cd4cc46a9f9d0cc542f2a8f643c8b22",
+    "sha256": "42f1ac6940a640d6428a16f55a078fb0290e3a7b3120b5cbd11ab65cc87e785e",
+    "locale": "ro",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/phone/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/phone/01-sign.png",
+    "sourceSha256": "2c257e9414cb01d48caed7dd77b0d450ee7bf5d48f1648802b0c2bdefbefbb75",
+    "sha256": "aa7dc101378ae32b1b92222345956e324952c72b2167d78a057a7592d90c4704",
+    "locale": "en",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/phone/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/phone/02-card.png",
+    "sourceSha256": "3aea801c8bfb3a3f3ca8c781e5583ceed15c4a890b973195efd17a3dd4daec66",
+    "sha256": "5de3d7fb8c915d7c6091063d39b94238af657f8e1770ee8bcafa9e1f6f8d5526",
+    "locale": "en",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/phone/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/phone/03-verify.png",
+    "sourceSha256": "bc210165a5813c6408bf9307df35c0bf65a5dd2ba15e21af684929491161dca9",
+    "sha256": "466675140577f8eea0acb0f78a86ca493676ac9369dab4d66cd3a61194216221",
+    "locale": "en",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/phone/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/phone/04-browser.png",
+    "sourceSha256": "4df76a007b1b88ba9824c0222a57db5d19fb3c414ca2b48bcb8f2351d01fc567",
+    "sha256": "dceafd58da45039465b3398ad8b17ae92ca9e6ed54099e10aa83cffbabcdf349",
+    "locale": "en",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/seven-inch/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/seven-inch/01-sign.png",
+    "sourceSha256": "920ee88dbe1d1c75279cbbdafc0349745fbcd6bef9f622bb4c68de6f76b31346",
+    "sha256": "00cf6aadcc952e3184548446254aa44c4bbb6d8a2c598be2fcd2585e18d9042c",
+    "locale": "en",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/seven-inch/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/seven-inch/02-card.png",
+    "sourceSha256": "45b7b7c8efa47a77cea4b2625cfe5dc05131f25a2c324329cb3de305e96723c8",
+    "sha256": "04db25ccbc36208229bfc7bf29e9ad54f3c2f38e27a0a9ba69fdc63a0b710598",
+    "locale": "en",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/seven-inch/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/seven-inch/03-verify.png",
+    "sourceSha256": "6982f51f06a9764b96fa71871567d056eed67c56ecd26035ecef9accff1c8aed",
+    "sha256": "4db2ffe9a015d3459a4c529da0de24ae5a5975439f381e9d3e8f7e5131a358c5",
+    "locale": "en",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/seven-inch/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/seven-inch/04-browser.png",
+    "sourceSha256": "088e066b5dfdf038e69d092b71340deeaeb434d773503462a2fa143ee08569c5",
+    "sha256": "9fb2cc9d839bfe9af2563be85a2760b5775d4afcac24c24c8acbaa9493a7b7eb",
+    "locale": "en",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/ten-inch/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/ten-inch/01-sign.png",
+    "sourceSha256": "fcf7901a09fa4d7da10bc19cbff6b4bdc00b7a18dc42ca873d65d5f8225d28d0",
+    "sha256": "d12a210c4ffe80d95c9f932fea1609b33c54eb53b3ef07784c832b4545423ab6",
+    "locale": "en",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/ten-inch/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/ten-inch/02-card.png",
+    "sourceSha256": "e622202f542186924abd8ef7dfbacfc2aa9a3ef3e7c6a8a714e68efe83dd0e51",
+    "sha256": "e36f4ca204d59a2a7a6876861d0d7b4541b8b3814d66e45160445e35deda3fed",
+    "locale": "en",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/ten-inch/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/ten-inch/03-verify.png",
+    "sourceSha256": "b938431b45a10962507012101897d45e73847f04763704fc4241201c295aa609",
+    "sha256": "0b30a25ca6e21ff1fb23968041f20b334aa537aa87b613182273f68946a78643",
+    "locale": "en",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/en/ten-inch/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/en/ten-inch/04-browser.png",
+    "sourceSha256": "eb82933a2aee31967b4059430ba51134bc03436e706ed4aeb8100b382b1aaafb",
+    "sha256": "09555bc5c2e92fea4ba8f226320175b7fcaf69afa04c73f910812c138f820ddd",
+    "locale": "en",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/phone/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/phone/01-sign.png",
+    "sourceSha256": "f8a6c254a7ed9fbfe141117750bbcf76fcc99acbd8cc8f2f923462193a251237",
+    "sha256": "3abbe39ba83e467286d3ba616cbb1b999ba1e79edb4c80b020acad758c8a7305",
+    "locale": "ru",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/phone/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/phone/02-card.png",
+    "sourceSha256": "200a5ca64cd5803203adede4118bf75ac895d7e97276a503157dc025b1b3896a",
+    "sha256": "f2587d9b2d648c4c774b6ac86325288361e7fc3e4b81ef8abfa734818add5068",
+    "locale": "ru",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/phone/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/phone/03-verify.png",
+    "sourceSha256": "add45d49bae0fad5be97fd9c526462efa635939f42e1ff125111890c55a85fd6",
+    "sha256": "8c75a2687a3f46342b5debc8b306c4a2e731f2224ac62404826aecc8604a06b5",
+    "locale": "ru",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/phone/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/phone/04-browser.png",
+    "sourceSha256": "73c5a0903a680e808fa726f8305a61bc3dae42e0d003a4a3ee2f4ca647c32a88",
+    "sha256": "7b0430d8daf3814c7d2242add655e2ae77a21ddaea7402f1f9f3ae97842a2590",
+    "locale": "ru",
+    "family": "phone",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/seven-inch/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/seven-inch/01-sign.png",
+    "sourceSha256": "cb75de07d478d400179be921cdf7dd5b9b7359f9a0aead083339f74be6a75df2",
+    "sha256": "7a838c87cf2f0a98a6a9d69f1cb61d6221819f1553654a94fd90b2a0abbe10bb",
+    "locale": "ru",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/seven-inch/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/seven-inch/02-card.png",
+    "sourceSha256": "ef012eb0a3da7f64c44f1842c75daede4c95380e8d8281190b82f76328536f85",
+    "sha256": "ea53d50ff42ae785a3dfe0f58a5a12e2152bfa9f4e3dabaa18c927fb837070d4",
+    "locale": "ru",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/seven-inch/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/seven-inch/03-verify.png",
+    "sourceSha256": "a831e464c608fbd4b9d488d810043729a0a1dc645c3ef4e08add0b487250c158",
+    "sha256": "aa01e93ed2dd55eb89ca7c2c914d4a3fa333fceae20d7fdc80fb95744c31f4b8",
+    "locale": "ru",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/seven-inch/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/seven-inch/04-browser.png",
+    "sourceSha256": "0ee52826c57fbe625d08ff6a4083a97e8c3f3a41d615879db54624f845ec779c",
+    "sha256": "ad8b9406203b4a0b7702cb9b92cb8b4fabff1d16e80f0062bf97841fcbec90d7",
+    "locale": "ru",
+    "family": "seven-inch",
+    "dimensions": [
+      1440,
+      2560
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/ten-inch/01-sign.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/ten-inch/01-sign.png",
+    "sourceSha256": "926b5f662cb1cb811440443724a3b7e18472577b77769ce8aa1f11e8380dd594",
+    "sha256": "854cd6dd7fb1ffce05d49173ae67edefd76fe84548784e94685c3970cf095ec1",
+    "locale": "ru",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/ten-inch/02-card.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/ten-inch/02-card.png",
+    "sourceSha256": "e5933cf210551af513f0581729400763bef9a8b516431e071e9c6dec3c4208dc",
+    "sha256": "2a6fc63385730699cf2b96eb6620251ed8be78ce17127dc2a03cb0ed0cac8cb4",
+    "locale": "ru",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/ten-inch/03-verify.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/ten-inch/03-verify.png",
+    "sourceSha256": "86f628afbc1a70c468c862d1569eb9d5bc1cf7d24fa1373ef7dfded8caa28c66",
+    "sha256": "b92b7a9661fccc93a1fc520497ff290f811ac2dcf6116f22679a7fc8796fea33",
+    "locale": "ru",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  },
+  {
+    "file": "android/ru/ten-inch/04-browser.png",
+    "source": "docs/reports/store-refresh-2026-11-07/google/assets/android/ru/ten-inch/04-browser.png",
+    "sourceSha256": "2d4dcf7dc0662674f694db6c46664dae1654c2fc69c2b899908a0176ba7c6dff",
+    "sha256": "56e9abb8749ee823fdfb15942b84238e58199b39c3829999dac94a2237784b22",
+    "locale": "ru",
+    "family": "ten-inch",
+    "dimensions": [
+      2560,
+      1440
+    ],
+    "submissionScreenshot": true,
+    "role": "localized Google Play screenshot; native capture retained separately",
+    "treatment": "rounded outer mask only; UI contents unaltered"
+  }
+]

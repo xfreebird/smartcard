@@ -17,7 +17,7 @@ def ps(code,check=True):
  return r.stdout.strip()
 def scp(source,target):subprocess.run(['scp','-o',f'ProxyJump={a.air}','-P',a.port,str(source),target],check=True)
 task='eSemnBun-store-capture-refresh'
-ps(f"$existing=Get-ScheduledTask -TaskName '{task}' -ErrorAction SilentlyContinue; if($existing -and $existing.State -eq 'Running'){{ throw 'Another screenshot capture is already running' }}")
+ps(f"$existing=Get-ScheduledTask | Where-Object TaskName -eq '{task}'; if($existing -and $existing.State -eq 'Running'){{ throw 'Another screenshot capture is already running' }}")
 with tempfile.TemporaryDirectory(prefix='esemnbun-store-source-') as temp:
  archive=Path(temp)/'source.tgz'
  with tarfile.open(archive,'w:gz') as tar:

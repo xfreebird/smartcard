@@ -36,6 +36,30 @@ public sealed class DemoSession : IDocumentSigner, IDocumentVerifier, IDisposabl
     {
         if (!Owns(file) || detachedDocs?.Any(path => !Owns(path)) == true)
             throw new InvalidOperationException("Only demo fixtures are allowed.");
+#if DEBUG
+        // Explicit, sample-owned screenshot fixtures only. This branch is absent from Release.
+        if (Environment.GetEnvironmentVariable("MSIGN_SCREENSHOT_CAPTURE") == "1" &&
+            Environment.GetEnvironmentVariable("MSIGN_DEMO_CARDS") is not null &&
+            Environment.GetEnvironmentVariable("MSIGN_DEMO_VERIFY") is { } state)
+        {
+            if (state == "unsigned") return [];
+            if (state is not ("valid" or "invalid" or "unknown"))
+                throw new InvalidOperationException("Unknown verification screenshot fixture.");
+            return [new VerificationReport
+            {
+                Kind = "PAdES", Name = "Signature1", Signer = "POPESCU ION", Level = "PAdES-B-T",
+                ContentIntact = state != "invalid", SignatureValid = true, ChainTrusted = state != "unknown",
+                SigningTime = "2026-11-07T12:00:00+02:00", TimestampTime = "2026-11-07T12:00:02+02:00",
+                TimestampImprintValid = true, TimestampSignatureValidated = false, RevocationValidated = false,
+                CertificateDetails = new Dictionary<string, string>
+                {
+                    ["Subject · Name"] = "POPESCU ION", ["Issuer · Name"] = "Autoritate de test",
+                    ["Serial number"] = "01", ["Public key"] = "RSA 4096 bits",
+                    ["Valid from"] = "01.01.2025", ["Valid until"] = "01.01.2030",
+                },
+            }];
+        }
+#endif
         return [new VerificationReport
         {
             Kind = "DEMO", Name = "DEMO", Signer = "FICTIONAL DEMO", Level = "DEMO",

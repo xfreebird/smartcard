@@ -20,3 +20,14 @@ App translations and generated store metadata are synchronized in Romanian, Engl
 The first CI run exposed an assertion that searched an ASCII-hex encoded PDF appearance stream as plain text. The correction decodes the stream before checking transparency and border commands; release runtime code did not change.
 
 Final replacement DMG: 0.2.4 build 204; container signature, stapled notarization ticket, release checksum, and strict verification of the unmodified mounted app and desktop distribution boundaries passed.
+
+## Android closed testing follow-up
+
+At the owner's request after closed-testing approval, promoted the already uploaded,
+SHA-256 verified 0.2.4 bundle (1793624677) to the existing `alpha` closed-testing
+track with full rollout and current English, Romanian and Russian release notes
+from `localization/catalog.json`. The Play API commit succeeded. Console confirmed
+“Changes in review”, “Closed testing - Alpha”, “0.2.4”, “Start full rollout”, with
+quick checks running. Managed publishing is off, so the update is configured to
+publish after approval. This is not yet evidence of availability to testers.
+Production and internal testing were left unchanged.

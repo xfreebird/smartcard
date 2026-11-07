@@ -32,3 +32,13 @@ android.mkdir(parents=True, exist_ok=True)
 branding = masters / 'AndroidLaunchBranding.svg'
 branding.write_text(icons.svg(256, 352, icons.mark('android-launch') + '<text x="128" y="310" text-anchor="middle" font-family="sans-serif" font-size="28" font-weight="600" fill="white">eSemnBun</text>') + '\n')
 subprocess.run([converter, '-w', '768', '-h', '1056', '-o', str(android / 'launch_branding.png'), str(branding)], check=True)
+
+# Android 12+ draws its icon into a 288dp splash slot. The adaptive launcher
+# foreground is only 108dp; reusing that bitmap enlarges it by 2.67x and blurs
+# the signature. Rasterize the same vector master at native splash densities.
+foreground = ROOT / 'design/app-icon/android-foreground.svg'
+for density, pixels in [('mdpi', 288), ('hdpi', 432), ('xhdpi', 576), ('xxhdpi', 864), ('xxxhdpi', 1152)]:
+    folder = ROOT / f'android/app/src/main/res/drawable-{density}'
+    folder.mkdir(parents=True, exist_ok=True)
+    subprocess.run([converter, '-w', str(pixels), '-h', str(pixels),
+                    '-o', str(folder / 'launch_icon.png'), str(foreground)], check=True)

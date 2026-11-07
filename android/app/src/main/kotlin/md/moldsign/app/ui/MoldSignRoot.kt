@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.requiredWidth
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CreditCard
@@ -67,6 +70,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -114,14 +119,18 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
-    md.moldsign.app.ui.components.GovernmentDisclosure()
+    val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+    val captureDialog = if (DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
+    md.moldsign.app.ui.components.GovernmentDisclosure(forceVisible = captureDialog == "disclosure")
     var settingsOpen by remember { mutableStateOf(false) }
     var settingsTab by remember { mutableIntStateOf(0) }
     var confirmDemoEnable by remember { mutableStateOf(false) }
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val dest = Dest.entries.firstOrNull { it.route == backStack?.destination?.route } ?: Dest.Sign
-    val status by vm.status.collectAsStateWithLifecycle()
+    val liveStatus by vm.status.collectAsStateWithLifecycle()
+    val captureProgress = DemoMode.screenshotCapture(captureIntent) && captureIntent?.hasExtra("capture_step") == true
+    val status = if (captureProgress) liveStatus.copy(light = md.moldsign.core.StatusLight.Busy, busy = true) else liveStatus
     val items by vm.signItems.collectAsStateWithLifecycle()
     val working by vm.working.collectAsStateWithLifecycle()
     val pending by vm.pendingConsent.collectAsStateWithLifecycle()
@@ -137,6 +146,14 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val openLabel = stringResource(R.string.action_open)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    LaunchedEffect(demoGeneration, captureDialog) {
+        if (DemoMode.screenshotCapture(captureIntent)) {
+            settingsOpen = captureDialog == "settings" || captureDialog == "about"
+            settingsTab = if (captureDialog == "about") 1 else 0
+            confirmDemoEnable = captureDialog == "demo-confirm"
+        }
+    }
+
     LaunchedEffect(demoPage) {
         Dest.entries.firstOrNull { it.route == demoPage }?.let { nav.go(it) }
     }
@@ -144,7 +161,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     LaunchedEffect(dest.route, status.wallet, items, working, pending, demoGeneration) {
         val activity = context as? android.app.Activity
         val isDemo = activity?.intent?.hasExtra("demo") == true
-        val isPinDemo = activity?.intent?.getStringExtra("demo") == "pin"
+        val isPinDemo = activity?.intent?.getStringExtra("demo")?.startsWith("pin") == true
         val consentReady = if (isPinDemo) pending != null else pending == null
         if (isDemo && !working && consentReady) {
             androidx.compose.runtime.withFrameNanos { }
@@ -179,14 +196,17 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     }
 
     BoxWithConstraints(Modifier.fillMaxSize()) {
-        val expanded = maxWidth >= 600.dp
+        val expanded = maxWidth >= 600.dp || (maxWidth >= 480.dp && maxWidth > maxHeight)
+        val shortLandscape = maxHeight < 400.dp && maxWidth > maxHeight
+        val compactStatus = maxWidth < 400.dp
+        val navigationLabelWidth = maxWidth / Dest.entries.size - 4.dp
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
                 Column {
                 TopAppBar(
                     // Home shows the public name (UX-12); the other destinations their own title.
-                    title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label)) },
+                    title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     actions = {
                         IconButton(onClick = { settingsOpen = true }) {
                             Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.demo_mode_settings))
@@ -196,7 +216,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                                 Icon(Icons.Rounded.Refresh, contentDescription = stringResource(R.string.action_reread))
                             }
                         }
-                        StatusLightChip(status, onClick = { nav.go(Dest.Card) })
+                        StatusLightChip(status, onClick = { nav.go(Dest.Card) }, compact = compactStatus)
                         Spacer(Modifier.width(Tokens.S3))
                     },
                     scrollBehavior = scrollBehavior,
@@ -209,13 +229,14 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 }
             },
             bottomBar = {
-                if (!expanded) NavigationBar {
+                if (!expanded || shortLandscape) NavigationBar(modifier = if (shortLandscape) Modifier.navigationBarsPadding().height(56.dp) else Modifier, windowInsets = if (shortLandscape) WindowInsets(0, 0, 0, 0) else androidx.compose.material3.NavigationBarDefaults.windowInsets) {
                     Dest.entries.forEach { d ->
                         NavigationBarItem(
                             selected = dest == d,
                             onClick = { nav.go(d) },
-                            icon = { Icon(d.icon, contentDescription = null) },
-                            label = { Text(stringResource(d.label)) },
+                            icon = { Icon(d.icon, contentDescription = stringResource(d.label)) },
+                            alwaysShowLabel = !shortLandscape,
+                            label = if (shortLandscape) null else { { Text(stringResource(when (d) { Dest.Activity -> R.string.nav_files; Dest.Sign -> R.string.nav_sign_short; Dest.Verify -> R.string.nav_verify_short; else -> d.label }), modifier = Modifier.requiredWidth(navigationLabelWidth), textAlign = TextAlign.Center, maxLines = 1, softWrap = false, overflow = TextOverflow.Ellipsis) } },
                         )
                     }
                 }
@@ -239,7 +260,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
             snackbarHost = { SnackbarHost(snackbar) },
         ) { padding ->
             Row(Modifier.fillMaxSize().padding(padding)) {
-                if (expanded) {
+                if (expanded && !shortLandscape) {
                     NavigationRail(
                         modifier = Modifier.fillMaxHeight().width(96.dp)
                             .verticalScroll(rememberScrollState()).padding(vertical = 12.dp),
@@ -249,7 +270,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                             NavigationRailItem(
                                 selected = dest == d,
                                 onClick = { nav.go(d) },
-                                icon = { Icon(d.icon, contentDescription = null) },
+                                icon = { Icon(d.icon, contentDescription = stringResource(d.label)) },
                                 label = { Text(stringResource(d.label)) },
                             )
                         }

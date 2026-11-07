@@ -1,6 +1,7 @@
 package md.moldsign.app.ui.screens
 
 import md.moldsign.app.ui.components.signatureLabels
+import md.moldsign.app.ui.components.CertificateLabels
 
 import android.Manifest
 import androidx.compose.material.icons.outlined.FolderOpen
@@ -13,11 +14,15 @@ import androidx.annotation.StringRes
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.Column
@@ -67,6 +72,7 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -80,6 +86,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.draganddrop.DragAndDropEvent
@@ -92,6 +99,9 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import kotlinx.coroutines.CancellationException
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -145,7 +155,7 @@ private fun SectionHeader(title: String, modifier: Modifier = Gutter, action: (@
     }
 }
 
-/** Desktop hierarchy on tablets: centered card, documents, then a compact primary action. */
+/** Wide windows keep the identity and document workflow visible in independently scrolling panes. */
 @Composable
 fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit, onOpenDocuments: () -> Unit, expanded: Boolean = false) {
     val context = LocalContext.current
@@ -161,11 +171,17 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             }
         }
     }
-    val status by vm.status.collectAsStateWithLifecycle()
+    val liveStatus by vm.status.collectAsStateWithLifecycle()
+    val captureIntent = (context as? Activity)?.intent
+    val captureStep = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent))
+        SigningStep.entries.firstOrNull { it.name == captureIntent?.getStringExtra("capture_step") } else null
+    val status = if (captureStep != null) liveStatus.copy(light = md.moldsign.core.StatusLight.Busy, busy = true) else liveStatus
     val signedResults by vm.signedResults.collectAsStateWithLifecycle()
     val items by vm.signItems.collectAsStateWithLifecycle()
-    val progress by vm.progress.collectAsStateWithLifecycle()
-    val working by vm.working.collectAsStateWithLifecycle()
+    val liveProgress by vm.progress.collectAsStateWithLifecycle()
+    val liveWorking by vm.working.collectAsStateWithLifecycle()
+    val progress = captureStep ?: liveProgress
+    val working = liveWorking || captureStep != null
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addForSigning(it) }
     val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
     val pick = { picker.launch(arrayOf("*/*")) }
@@ -196,7 +212,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             SectionHeader(stringResource(R.string.sign_documents), modifier = if (expanded) Modifier else Gutter)
             Column(if (expanded) Modifier else Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
                 if (items.isEmpty()) {
-                    DocumentPickZone(onPick = pick)
+                    DocumentPickZone(onPick = pick, compact = LocalConfiguration.current.screenHeightDp < 400)
                 } else {
                     DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove, onRetry = vm::retry, retryEnabled = !working, onStamp = { editingBatchStamp = false; editingStamp = it }, onBatchStamp = { editingBatchStamp = true; editingStamp = it }, onRemoveGroup = vm::removeGroup)
                     if (!canSign && !working) SignBlockedHint(statusLabel(LocalContext.current, status))
@@ -212,11 +228,13 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             Column((if (expanded) Modifier.widthIn(max = 680.dp).fillMaxWidth() else Gutter)
                 .background(MaterialTheme.colorScheme.surfaceContainerLow, RoundedCornerShape(20.dp)).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.saved_signed), modifier = Modifier.weight(1f), style = MaterialTheme.typography.titleMedium)
-                    TextButton(onClick = vm::clearSignedResults, enabled = !working) { Text(stringResource(R.string.results_clear)) }
+                Column(Modifier.fillMaxWidth()) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
+                        Spacer(Modifier.width(8.dp))
+                        Text(stringResource(R.string.saved_signed), style = MaterialTheme.typography.titleMedium)
+                    }
+                    TextButton(onClick = vm::clearSignedResults, enabled = !working, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.results_clear)) }
                 }
                 signedResults.forEach { (name, uri) ->
                     Card(onClick = {
@@ -242,19 +260,45 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
         }
     }
 
-    Box(Modifier.fillMaxSize().dragAndDropTarget(shouldStartDragAndDrop = { true }, target = signDropTarget)) {
-    if (expanded) {
+    val signAction: @Composable () -> Unit = {
+        if (items.isNotEmpty()) {
+            Button(onClick = vm::sign, enabled = canSign, modifier = Modifier.heightIn(min = 48.dp)) {
+                Icon(Icons.Rounded.Draw, contentDescription = null, modifier = Modifier.size(20.dp))
+                Spacer(Modifier.width(Tokens.S2))
+                Text(pluralStringResource(R.plurals.sign_n, items.size, items.size))
+            }
+        }
+    }
+    BoxWithConstraints(Modifier.fillMaxSize().dragAndDropTarget(shouldStartDragAndDrop = { true }, target = signDropTarget)) {
+    val shortWindow = maxHeight < 360.dp
+    val sideBySide = expanded && maxWidth >= 700.dp && maxWidth > maxHeight
+    if (sideBySide) {
+        Row(Modifier.fillMaxSize().padding(padding).padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(Modifier.weight(0.42f).fillMaxHeight().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Tokens.S4), horizontalAlignment = Alignment.CenterHorizontally) {
+                walletContent()
+                if (working) StepCard(progress, modifier = Modifier)
+            }
+            Column(Modifier.weight(0.58f).fillMaxHeight().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(Tokens.S4), horizontalAlignment = Alignment.CenterHorizontally) {
+                resultContent()
+                documentContent()
+                signAction()
+            }
+        }
+    } else if (expanded) {
         Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
             Column(
                 Modifier.fillMaxWidth()
-                    .verticalScroll(rememberScrollState()).padding(24.dp),
+                    .verticalScroll(rememberScrollState()).padding(if (shortWindow) 8.dp else 24.dp),
                 verticalArrangement = Arrangement.spacedBy(Tokens.S4),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                walletContent()
+                if (!shortWindow) walletContent()
                 if (working) StepCard(progress, modifier = Modifier)
                 resultContent()
                 Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) { documentContent() }
+                if (shortWindow) walletContent()
                 if (items.isNotEmpty()) {
                     Button(
                         onClick = vm::sign,
@@ -293,10 +337,20 @@ private fun SignBlockedHint(text: String) {
 @Composable
 private fun StepCard(step: SigningStep, modifier: Modifier = Gutter) {
     val context = LocalContext.current
+    val captureIntent = (context as? Activity)?.intent
+    val captureProgress = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.hasExtra("capture_step") == true
+    val capturePosition = remember { BringIntoViewRequester() }
+    LaunchedEffect(captureProgress, step) {
+        if (captureProgress) {
+            androidx.compose.runtime.withFrameNanos { }
+            capturePosition.bringIntoView()
+            android.util.Log.i("MoldSignDemo", "capture-scroll-ready:sign")
+        }
+    }
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
         shape = RoundedCornerShape(Tokens.RadiusCard),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth().bringIntoViewRequester(capturePosition),
     ) {
         Row(Modifier.padding(Tokens.S4), verticalAlignment = Alignment.CenterVertically) {
             CircularProgressIndicator(Modifier.size(20.dp), strokeWidth = 2.5.dp)
@@ -365,6 +419,18 @@ fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
 /** docs/10 VerdictBadge: a large icon and the verdict in words (color is never the only signal). */
 @Composable
 private fun VerdictBadge(outcome: VerifyOutcome) {
+    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureTarget = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) &&
+        captureIntent?.getStringExtra("demo")?.startsWith("verify-") == true &&
+        captureIntent.getStringExtra("demo") != "verify-xml-missing" && captureIntent.getStringExtra("capture_expand") == null
+    val capturePosition = remember { BringIntoViewRequester() }
+    LaunchedEffect(captureTarget) {
+        if (captureTarget) {
+            androidx.compose.runtime.withFrameNanos { }
+            capturePosition.bringIntoView()
+            android.util.Log.i("MoldSignDemo", "capture-scroll-ready:verify")
+        }
+    }
     val colors = LocalStatusColors.current
     val (icon, tint, title, body) = when (outcome.verdict) {
         Verdict.Valid -> Verdict4(Icons.Outlined.CheckCircle, colors.success, R.string.verdict_valid, R.string.verdict_valid_body)
@@ -378,7 +444,7 @@ private fun VerdictBadge(outcome: VerifyOutcome) {
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         shape = RoundedCornerShape(Tokens.RadiusCard),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().bringIntoViewRequester(capturePosition),
     ) {
         Row(Modifier.padding(Tokens.S4), horizontalArrangement = Arrangement.spacedBy(Tokens.S3), verticalAlignment = Alignment.CenterVertically) {
             Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(40.dp))
@@ -395,10 +461,20 @@ private data class Verdict4(val icon: ImageVector, val tint: Color, @StringRes v
 /** A detached XAdES signature names the file it signed: the user picks it (the document is matched by file name). */
 @Composable
 private fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
+    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureTarget = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("demo") == "verify-xml-missing"
+    val capturePosition = remember { BringIntoViewRequester() }
+    LaunchedEffect(captureTarget) {
+        if (captureTarget) {
+            androidx.compose.runtime.withFrameNanos { }
+            capturePosition.bringIntoView()
+            android.util.Log.i("MoldSignDemo", "capture-scroll-ready:verify")
+        }
+    }
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         shape = RoundedCornerShape(Tokens.RadiusCard),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().bringIntoViewRequester(capturePosition),
     ) {
         Column(Modifier.padding(Tokens.S4), verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
             Text(stringResource(R.string.verify_needs_document, names.joinToString()), style = MaterialTheme.typography.bodyMedium)
@@ -411,8 +487,10 @@ private fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SignatureCard(report: ValidationReport) {
-    var certificateExpanded by remember { mutableStateOf(false) }
-    var details by remember { mutableStateOf(false) }
+    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureExpand = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_expand") else null
+    var certificateExpanded by remember(captureExpand) { mutableStateOf(captureExpand == "certificate") }
+    var details by remember(captureExpand) { mutableStateOf(captureExpand == "technical") }
     val dateTime = remember { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT) }
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
@@ -420,8 +498,8 @@ private fun SignatureCard(report: ValidationReport) {
         modifier = Modifier.fillMaxWidth(),
     ) {
         Column(Modifier.padding(Tokens.S4), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
-            Text("Author: " + (report.signerName ?: stringResource(R.string.sig_unknown_signer)), style = MaterialTheme.typography.titleMedium)
-            Text("Signature", style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.sig_author, report.signerName ?: stringResource(R.string.sig_unknown_signer)), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.sig_signature), style = MaterialTheme.typography.labelLarge)
             report.signerIdnp?.let { Text("IDNP: $it") }
             report.level?.let { Text(signatureLabels(it), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             report.signingTime?.let { Text(stringResource(R.string.sig_signed_at, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
@@ -432,9 +510,9 @@ private fun SignatureCard(report: ValidationReport) {
                 CheckChip(R.string.sig_chain, report.chainOk)
             }
             if (report.certificateDetails.isNotEmpty()) {
-                TextButton(onClick = { certificateExpanded = !certificateExpanded }, modifier = Modifier.fillMaxWidth()) { Text("Certificate details") }
+                TextButton(onClick = { certificateExpanded = !certificateExpanded }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sig_certificate_details)) }
                 if (certificateExpanded) report.certificateDetails.forEach { (key, value) ->
-                    Text("$key: $value", style = MaterialTheme.typography.bodySmall)
+                    Text("${CertificateLabels.label(key)}: $value", style = MaterialTheme.typography.bodySmall)
                 }
             }
             if (report.details.isNotEmpty()) {
@@ -467,15 +545,30 @@ private fun CheckChip(@StringRes label: Int, ok: Boolean?) {
 }
 
 /**
- * Activitate: signed / verified documents (only while the file is still reachable, re-checked whenever the screen is
- * shown) and browser requests (always kept), newest first; "Golește lista" asks first.
+ * Independent saved-output library and clearable activity history. Only history is pruned on resume;
+ * unavailable saved outputs remain visible and report the access error in their details sheet.
  */
 @Composable
 fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) -> Unit) {
     val allEntries by vm.activity.collectAsStateWithLifecycle()
+    val savedDocuments by vm.savedDocuments.collectAsStateWithLifecycle()
     var history by remember { mutableStateOf(false) }
-    val entries = if (history) allEntries else allEntries.filter { it.ok && it.signedOutput && it.documentUri != null }
+    val entries = if (history) allEntries else savedDocuments
     var confirm by remember { mutableStateOf(false) }
+    var detailsEntry by remember { mutableStateOf<ActivityEntry?>(null) }
+    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureDialog = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
+    LaunchedEffect(captureDialog, savedDocuments) {
+        if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) {
+            history = captureDialog == "history" || captureDialog == "history-clear"
+            confirm = captureDialog == "history-clear"
+            detailsEntry = when (captureDialog) {
+                "document-details" -> savedDocuments.firstOrNull { it.documentUri?.contains("contract-semnat.pdf") == true }
+                "document-missing" -> savedDocuments.firstOrNull { it.documentUri?.contains("act-vechi.pdf") == true }
+                else -> null
+            }
+        }
+    }
     // "Salvează ca…": the system save dialog, one launcher per file type so the picker proposes the right extension.
     var saveSource by remember { mutableStateOf<Uri?>(null) }
     val savePdf = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { vm.saveCopy(saveSource, it) }
@@ -508,7 +601,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
         } else {
             Column {
                 SectionHeader(stringResource(if (history) R.string.activity_recent else R.string.saved_signed)) {
-                    TextButton(onClick = { confirm = true }) {
+                    if (history) TextButton(onClick = { confirm = true }) {
                         Icon(Icons.Outlined.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(Tokens.S2))
                         Text(stringResource(R.string.activity_clear))
@@ -521,11 +614,14 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
                 ) {
                     entries.forEachIndexed { i, e ->
                         if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
-                        ActivityRow(e, showOpen = !history, onVerify = onVerify, onSaveAs = { source, name -> saveSource = source; saveAs(name) })
+                        ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onSaveAs = { source, name -> saveSource = source; saveAs(name) })
                     }
                 }
             }
         }
+    }
+    detailsEntry?.let { entry ->
+        SavedDocumentDetails(vm, entry, onDismiss = { detailsEntry = null })
     }
     if (confirm) {
         AlertDialog(
@@ -547,7 +643,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
 private fun mimeOf(name: String) = if (name.endsWith(".xml", ignoreCase = true)) "application/xml" else "application/pdf"
 
 @Composable
-private fun ActivityRow(e: ActivityEntry, showOpen: Boolean = false, onVerify: (Uri) -> Unit, onSaveAs: (source: Uri, name: String) -> Unit) {
+private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onSaveAs: (source: Uri, name: String) -> Unit) {
     val context = LocalContext.current
     val colors = LocalStatusColors.current
     val uri = e.documentUri?.toUri()?.takeIf { it.scheme == "content" }
@@ -581,8 +677,7 @@ private fun ActivityRow(e: ActivityEntry, showOpen: Boolean = false, onVerify: (
         supportingContent = { Text(signatureLabels(e.subtitle), maxLines = 2, overflow = TextOverflow.Ellipsis) },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                if (showOpen && open != null) TextButton(onClick = open) { Text(stringResource(R.string.action_open)) }
-                else Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
+                Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
                 if (uri != null && open != null && share != null) {
                     Box {
                         IconButton(onClick = { menu = true }) {
@@ -599,8 +694,84 @@ private fun ActivityRow(e: ActivityEntry, showOpen: Boolean = false, onVerify: (
             }
         },
         colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-        modifier = if (open != null) Modifier.clickable(onClick = open) else Modifier,
+        modifier = if (e.documentUri != null) Modifier.clickable(onClickLabel = stringResource(R.string.saved_details)) { onDetails(e) } else Modifier,
     )
+}
+
+/** Current verification details, not the historic signing outcome. Does not mutate the Verify tab. */
+@Composable
+private fun SavedDocumentDetails(vm: MainViewModel, entry: ActivityEntry, onDismiss: () -> Unit) {
+    val context = LocalContext.current
+    var detached by remember(entry.id) { mutableStateOf<List<Uri>>(emptyList()) }
+    var outcome by remember(entry.id) { mutableStateOf<VerifyOutcome?>(null) }
+    var error by remember(entry.id) { mutableStateOf<String?>(null) }
+    var loading by remember(entry.id) { mutableStateOf(true) }
+    val attach = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
+        val next = (detached + uris).distinct()
+        if (next != detached) {
+            // Stop showing the previous verdict immediately, before the new effect starts.
+            outcome = null
+            error = null
+            loading = true
+            detached = next
+        }
+    }
+    LaunchedEffect(entry.id, detached) {
+        loading = true
+        outcome = null
+        error = null
+        val companions = detached
+        try {
+            val checked = vm.inspectSavedDocument(requireNotNull(entry.documentUri).toUri(), companions)
+            if (detached == companions) outcome = checked
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            // Saved-file access failures must not expose internal paths or provider exception text.
+            if (detached == companions) error = context.getString(R.string.saved_unavailable)
+        }
+        // A cancelled/obsolete read must not turn off a newer request's loading indicator.
+        if (detached == companions) loading = false
+        if (md.moldsign.app.DemoMode.screenshotCapture((context as? Activity)?.intent)) {
+            android.util.Log.i("MoldSignDemo", "capture-ready:activity")
+        }
+    }
+    Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
+        Surface(
+            modifier = Modifier.padding(Tokens.S4).widthIn(max = 680.dp).fillMaxWidth()
+                .heightIn(max = LocalConfiguration.current.screenHeightDp.dp * 0.9f),
+            shape = RoundedCornerShape(Tokens.RadiusCard),
+            tonalElevation = 6.dp,
+        ) {
+            Column {
+                Row(Modifier.fillMaxWidth().padding(horizontal = Tokens.S4), verticalAlignment = Alignment.CenterVertically) {
+                    Text(stringResource(R.string.saved_details), style = MaterialTheme.typography.titleLarge, modifier = Modifier.weight(1f))
+                    TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) }
+                }
+                HorizontalDivider()
+                Column(
+                    Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState()).padding(Tokens.S4),
+                    verticalArrangement = Arrangement.spacedBy(Tokens.S3),
+                ) {
+                    Text(entry.title, style = MaterialTheme.typography.titleMedium)
+                    if (loading) {
+                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Tokens.S3)) {
+                            CircularProgressIndicator(Modifier.size(24.dp))
+                            Text(stringResource(R.string.saved_loading))
+                        }
+                    }
+                    error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
+                    outcome?.let { result ->
+                        VerdictBadge(result)
+                        if (result.missingDocuments.isNotEmpty()) {
+                            MissingDocuments(result.missingDocuments) { attach.launch(arrayOf("*/*")) }
+                        }
+                        result.reports.forEach { SignatureCard(it) }
+                    }
+                }
+            }
+        }
+    }
 }
 
 /** Today → 14:05, otherwise 25.10.2026. */
@@ -623,7 +794,9 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
     val context = LocalContext.current
     val status = LocalStatusColors.current
     val notifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.setBridge(true) }
-    var inAppBrowser by remember { mutableStateOf(false) }
+    val captureIntent = (context as? Activity)?.intent
+    val captureBrowser = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("capture_dialog") == "browser-window"
+    var inAppBrowser by remember(captureBrowser) { mutableStateOf(captureBrowser) }
     LaunchedEffect(vm.demoMode) { if (vm.demoMode) inAppBrowser = false }
     if (inAppBrowser && !vm.demoMode) {
         InAppBrowser(onClose = { inAppBrowser = false })
@@ -699,6 +872,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
 }
 
 /** Card: the large wallet, then the selected card's details as list items, "Recitește cardul", stored PIN. */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
     val status by vm.status.collectAsStateWithLifecycle()
@@ -708,7 +882,7 @@ fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
         Column(Modifier.widthIn(max = 680.dp).fillMaxWidth().then(Gutter), verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
             val card = wallet.selectedCard
             if (card != null) CardDetails(card)
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Tokens.S2), verticalAlignment = Alignment.CenterVertically) {
+            FlowRow(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Tokens.S2), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
                 FilledTonalButton(onClick = vm::rereadCards, enabled = wallet.cards.isNotEmpty() && !status.busy) {
                     Icon(Icons.Rounded.Refresh, contentDescription = null, modifier = Modifier.size(18.dp))
                     Spacer(Modifier.width(Tokens.S2))

@@ -1,4 +1,5 @@
 import SwiftUI
+import AppIntents
 import MoldSignKit
 
 /// iOS / iPadOS app: Semnează · Verifică · Browser · Card (docs/10 §4.4).
@@ -6,6 +7,8 @@ import MoldSignKit
 struct MoldSigniOSApp: App {
     @State private var model = AppModel()
     @Environment(\.scenePhase) private var scenePhase
+
+    init() { ESemnBunShortcuts.updateAppShortcutParameters() }
 
     var body: some Scene {
         WindowGroup {
@@ -42,6 +45,7 @@ struct RootTabView: View {
     enum TabID: String { case sign, verify, documents, browser, card }
 
     @Environment(AppModel.self) private var model
+    @State private var shortcutNavigation = ShortcutNavigation.shared
     @State private var tab: TabID = {
         #if DEBUG
         // design QA: MSIGN_DEMO_TAB=card opens on the Card tab (debug builds only)
@@ -59,7 +63,7 @@ struct RootTabView: View {
             NavigationStack { VerifyScreen() }
                 .tabItem { Label(L10n.text(.ui_verify), systemImage: "checkmark.seal") }
                 .tag(TabID.verify)
-            NavigationStack { ActivityScreen(onVerifyDocument: { url in tab = .verify; Task { await model.verify(url) } }) }
+            NavigationStack { ActivityScreen() }
                 .tabItem { Label(L10n.text(.saved_title), systemImage: "folder") }
                 .tag(TabID.documents)
             NavigationStack { BrowserScreen() }
@@ -71,6 +75,8 @@ struct RootTabView: View {
         }
         .onChange(of: model.browserURL) { _, url in if url != nil { tab = .browser } }
         .onReceive(NotificationCenter.default.publisher(for: .sharedDocumentsImported)) { _ in tab = .sign }
+        .task { consumeShortcutNavigation() }
+        .onChange(of: shortcutNavigation.request?.id) { _, _ in consumeShortcutNavigation() }
         .tint(Theme.brand)
         .sheet(item: $model.bridgeStampRequest, onDismiss: { model.finishBridgeStampDismissal() }) { stamp in
             PDFStampEditor(url: stamp.url, initial: .init(), holder: stamp.holder,
@@ -82,13 +88,30 @@ struct RootTabView: View {
             PinEntryView(request: request,
                          onSubmit: { model.submitPIN($0, remember: $1) },
                          onCancel: { model.cancelPIN() })
-                .presentationDetents(request.documentNames.isEmpty ? [.medium] : [.large])
+                .presentationDetents([.large])
                 .interactiveDismissDisabled()
         }
         .sheet(item: $model.consentRequest) { consent in
             ConsentView(consent: consent) { model.answerConsent(approved: $0, trust: $1) }
                 .presentationDetents([.medium])
                 .interactiveDismissDisabled()
+        }
+    }
+
+    private func consumeShortcutNavigation() {
+        guard let request = shortcutNavigation.request else { return }
+        shortcutNavigation.request = nil
+        if let reports = request.reports, let filename = request.filename {
+            model.clearVerification()
+            // Results contain metadata only. The shortcut's private input copy has been erased;
+            // this display URL is deliberately not a file URL or persistent document permission.
+            let displayURL = URL(string: "esemnbun-verification://result")!.appendingPathComponent(filename)
+            model.verifyFile = displayURL
+            model.verifyReports = reports
+            model.verifiedDocuments = [(displayURL, reports)]
+            tab = .verify
+        } else {
+            tab = .documents
         }
     }
 }

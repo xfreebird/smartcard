@@ -13,6 +13,30 @@ enum Store {
         URL(fileURLWithPath: userDataDir).appendingPathComponent("moldsign/activity.json")
     }
 
+    /// Independent library: clearing or truncating activity must not discard signed outputs.
+    static var signedDocumentsURL: URL {
+        URL(fileURLWithPath: userDataDir).appendingPathComponent("moldsign/signed-documents.json")
+    }
+
+    static func loadSignedDocuments(from libraryURL: URL = signedDocumentsURL, historyURL: URL = activityURL) -> [ActivityItem] {
+        if FileManager.default.fileExists(atPath: libraryURL.path) {
+            return load([ActivityItem].self, from: libraryURL) ?? []
+        }
+        // One-time migration while the original history still contains its signing records.
+        var seen = Set<String>()
+        let migrated = (load([ActivityItem].self, from: historyURL) ?? []).filter {
+            guard $0.isSignedDocument, $0.isShowable, let path = $0.filePath else { return false }
+            return seen.insert(path).inserted
+        }
+        saveSignedDocuments(migrated, to: libraryURL)
+        return migrated
+    }
+
+    @discardableResult
+    static func saveSignedDocuments(_ documents: [ActivityItem], to url: URL = signedDocumentsURL) -> Bool {
+        write(documents, to: url)
+    }
+
     static var bridgeIdentityURL: URL {
         URL(fileURLWithPath: userDataDir).appendingPathComponent("moldsign/localhost.p12")
     }
@@ -42,13 +66,17 @@ enum Store {
         return try? decoder.decode(type, from: data)
     }
 
-    private static func write<T: Encodable>(_ value: T, to url: URL) {
+    @discardableResult
+    private static func write<T: Encodable>(_ value: T, to url: URL) -> Bool {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
-        guard let data = try? encoder.encode(value) else { return }
-        try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true,
-                                                 attributes: [.posixPermissions: 0o700])
-        try? data.write(to: url, options: .atomic)
+        do {
+            let data = try encoder.encode(value)
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true,
+                                                     attributes: [.posixPermissions: 0o700])
+            try data.write(to: url, options: .atomic)
+            return true
+        } catch { return false }
     }
 }

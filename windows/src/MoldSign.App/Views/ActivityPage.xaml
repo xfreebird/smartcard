@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Activitate: every ActivityRow (status icon, file or site, action, date/time). Document rows are listed only while
-  the file exists (pruned when the page is shown) and reveal it in Explorer; browser requests have no file.
-  "Golește lista" clears the log after a confirmation (ContentDialog).
+  the file exists (pruned when the page is shown) and open signature details; browser requests have no file.
+  "Golește lista" clears only history after confirmation; the independent signed-document library stays.
 -->
 <Page
     x:Class="MoldSign.App.Views.ActivityPage"

@@ -6,8 +6,8 @@ import Security
 ///
 /// Every read is gated by the device owner (Touch ID / Face ID / password) through `LAContext`.
 /// Signed builds also get `SecAccessControl(.userPresence)` on a data-protection keychain item.
-/// Unsigned dev builds lack the keychain entitlement (-34018), so they fall back to a plain item, still gated by LAContext.
-/// On macOS a query only searches the store it names, so lookups try the data-protection store first, then the legacy one.
+/// DEBUG unsigned dev builds lack the keychain entitlement (-34018), so they fall back to a plain item, still gated by LAContext.
+/// Release reads only the protected store; legacy records require manual PIN entry and saving again.
 protocol PinStoring {
     func savedAccounts() -> [String]
     func hasPIN(certID: String) -> Bool
@@ -18,11 +18,19 @@ protocol PinStoring {
 
 struct PinVault: PinStoring {
     private let service = "md.moldsign.pin"
+    // Production must not discover or release legacy records without a Keychain presence ACL.
+    private var readableStores: [Bool] {
+        #if DEBUG
+        [true, false]
+        #else
+        [true]
+        #endif
+    }
 
     /// Metadata only, including cards that are currently disconnected.
     func savedAccounts() -> [String] {
         var accounts = Set<String>()
-        for dataProtection in [true, false] {
+        for dataProtection in readableStores {
             var query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
                 kSecAttrService as String: service, kSecReturnAttributes as String: true,
                 kSecMatchLimit as String: kSecMatchLimitAll]
@@ -44,7 +52,7 @@ struct PinVault: PinStoring {
     func hasPIN(certID: String) -> Bool {
         let silent = LAContext()
         silent.interactionNotAllowed = true
-        return [true, false].contains { dataProtection in
+        return readableStores.contains { dataProtection in
             var query = baseQuery(certID, dataProtection: dataProtection)
             query[kSecUseAuthenticationContext as String] = silent
             let status = SecItemCopyMatching(query as CFDictionary, nil)
@@ -60,13 +68,21 @@ struct PinVault: PinStoring {
             item[kSecAttrAccessControl as String] = access
             let status = SecItemAdd(item as CFDictionary, nil)
             if status == errSecSuccess { return }
+            #if DEBUG
             guard status == errSecMissingEntitlement else { throw VaultError.keychain(status) }
+            #else
+            throw VaultError.keychain(status)
+            #endif
         }
+        #if DEBUG
         var item = baseQuery(certID, dataProtection: false)
         item[kSecValueData as String] = Data(pin.utf8)
         item[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlockedThisDeviceOnly
         let status = SecItemAdd(item as CFDictionary, nil)
         guard status == errSecSuccess else { throw VaultError.keychain(status) }
+        #else
+        throw VaultError.keychain(errSecParam)
+        #endif
     }
 
     /// Asks for the device owner first, then reads the PIN. nil when none is stored or the user cancels.
@@ -77,7 +93,7 @@ struct PinVault: PinStoring {
         guard (try? await context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason)) == true else {
             return nil
         }
-        for dataProtection in [true, false] {
+        for dataProtection in readableStores {
             var query = baseQuery(certID, dataProtection: dataProtection)
             query[kSecReturnData as String] = true
             query[kSecUseAuthenticationContext as String] = context

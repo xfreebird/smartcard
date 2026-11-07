@@ -20,11 +20,11 @@
     <ScrollViewer>
         <StackPanel Padding="{StaticResource PagePadding}" Spacing="16" HorizontalAlignment="Stretch">
             <TextBlock
-                x:Uid="VerifyPageTitle" AutomationProperties.AutomationId="VerifyPageTitle"
+                x:Name="PageTitle" x:Uid="VerifyPageTitle" AutomationProperties.AutomationId="VerifyPageTitle"
                 Style="{StaticResource MsTitleTextStyle}"
                 Text="Verifică" />
 
-            <controls:DropZone x:Name="FileDrop" Margin="8,0" />
+            <controls:DropZone x:Name="FileDrop" />
 
             <Button x:Name="ClearResults" x:Uid="VerifyClearResults" Click="OnClearResultsClick" Content="Clear results" Visibility="Collapsed" />
 
@@ -70,7 +70,7 @@
                 IsOpen="False" />
 
             <TextBlock
-                x:Uid="VerifyHint"
+                x:Name="FormatHint" x:Uid="VerifyHint"
                 Style="{StaticResource MsCaptionTextStyle}"
                 Text="PDF semnat (semnătură PDF) sau semnătură .xml (semnătură XML); pentru o semnătură detașată alege și fișierele semnate."
                 TextWrapping="Wrap" />

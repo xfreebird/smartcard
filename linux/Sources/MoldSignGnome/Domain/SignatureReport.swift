@@ -6,6 +6,7 @@ struct SignatureReport {
     var kind = ""
     var name = ""
     var signer = ""
+    var missingDetachedReferences: [String] = []
     var contentIntact = false
     var signatureValid = false
     var chainTrusted = false
@@ -21,6 +22,7 @@ struct SignatureReport {
         kind = report.kind
         name = report.name
         signer = report.signer
+        missingDetachedReferences = report.missingDetachedReferences
         contentIntact = report.contentIntact
         signatureValid = report.signatureValid
         chainTrusted = report.chainTrusted

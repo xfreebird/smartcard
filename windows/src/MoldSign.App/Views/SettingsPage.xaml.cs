@@ -13,6 +13,14 @@ public sealed partial class SettingsPage : Page
     public SettingsPage()
     {
         InitializeComponent();
+        // WinUI's built-in state text follows the OS resources, which may differ from the app language.
+        foreach (var toggle in new[] { DemoModeToggle, StartAtLoginToggle, ToastsToggle,
+            OpenOnInsertionToggle, OpenOnReaderInsertionToggle, RememberPinToggle,
+            BridgeToggle, BrowserStampsToggle, LegacyClientToggle })
+        {
+            toggle.OnContent = Loc.Get("toggle_on");
+            toggle.OffContent = Loc.Get("toggle_off");
+        }
         GeneralTab.Content = Loc.Get("Settings_General");
         AboutTab.Content = Loc.Get("about_app_title");
         ShowTab(about: false);

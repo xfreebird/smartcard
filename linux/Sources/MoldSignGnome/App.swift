@@ -112,6 +112,8 @@ final class MoldSignApp {
                       let path = ProcessInfo.processInfo.environment["MSIGN_DEMO_READY_FILE"] else { return }
                 let marker: [String: Any] = [
                     "ready": true,
+                    "width": gtk_widget_get_width(window.window.widget),
+                    "height": gtk_widget_get_height(window.window.widget),
                     "scenario": DemoScenario.current?.rawValue ?? "baseline",
                     "page": window.visiblePage,
                     "language": L10n.language ?? "system",

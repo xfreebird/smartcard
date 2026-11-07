@@ -11,6 +11,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import kotlinx.coroutines.launch
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.shape.CircleShape
@@ -81,10 +83,10 @@ fun PdfStampEditor(item: SignItem, holder: String, onDismiss: () -> Unit, onSave
     }
     Dialog(onDismissRequest = onDismiss, properties = DialogProperties(usePlatformDefaultWidth = false)) {
         Surface(Modifier.fillMaxSize()) {
-            Column(Modifier.fillMaxSize().safeDrawingPadding().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                requester?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
-                Text(stringResource(R.string.stamp_title), style = MaterialTheme.typography.titleLarge)
-                VerticalPager(state = pager, modifier = Modifier.fillMaxWidth().weight(1f)) { pageIndex ->
+            BoxWithConstraints(Modifier.fillMaxSize().safeDrawingPadding().padding(16.dp)) {
+                val landscape = maxWidth > maxHeight && maxHeight < 480.dp
+                val preview: @Composable (Modifier) -> Unit = { modifier ->
+                VerticalPager(state = pager, modifier = modifier) { pageIndex ->
                     var bitmap by remember(file, pageIndex) { mutableStateOf<Bitmap?>(null) }
                     LaunchedEffect(file, pageIndex) {
         val source = file ?: return@LaunchedEffect
@@ -172,6 +174,12 @@ fun PdfStampEditor(item: SignItem, holder: String, onDismiss: () -> Unit, onSave
                     } ?: if (error == null) CircularProgressIndicator() else Text(error ?: "", color = MaterialTheme.colorScheme.error)
                 }
                 }
+                }
+                val controls: @Composable () -> Unit = {
+                if (landscape) {
+                    requester?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+                    Text(stringResource(R.string.stamp_title), style = MaterialTheme.typography.titleLarge)
+                }
                 Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surfaceContainerLow) {
                     Column(Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
                         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
@@ -206,6 +214,20 @@ fun PdfStampEditor(item: SignItem, holder: String, onDismiss: () -> Unit, onSave
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_cancel)) }
                     TextButton(onClick = { val value = if (enabled) placement else null; onSave(value); if (applyToQueue) onBatch?.invoke(value) }, enabled = !enabled || count > 0 && error == null) { Text(stringResource(R.string.stamp_save)) }
+                }
+                }
+                if (landscape) {
+                    Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        preview(Modifier.weight(1f).fillMaxHeight())
+                        Column(Modifier.width(280.dp).fillMaxHeight().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(8.dp)) { controls() }
+                    }
+                } else {
+                    Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        requester?.let { Text(it, style = MaterialTheme.typography.bodyMedium) }
+                        Text(stringResource(R.string.stamp_title), style = MaterialTheme.typography.titleLarge)
+                        preview(Modifier.fillMaxWidth().weight(1f))
+                        controls()
+                    }
                 }
             }
         }

@@ -303,4 +303,47 @@ eSemnBun</value></data>
   <data name="saved_empty" xml:space="preserve"><value>Niciun document semnat încă</value></data>
   <data name="saved_hint" xml:space="preserve"><value>Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.</value></data>
   <data name="saved_browse" xml:space="preserve"><value>Vezi documentele semnate</value></data>
+  <data name="toggle_on" xml:space="preserve"><value>Pornit</value></data>
+  <data name="toggle_off" xml:space="preserve"><value>Oprit</value></data>
+  <data name="saved_details" xml:space="preserve"><value>Detalii semnătură</value></data>
+  <data name="saved_unavailable" xml:space="preserve"><value>Acest document nu mai este disponibil sau nu poate fi citit.</value></data>
+  <data name="saved_close" xml:space="preserve"><value>Închide</value></data>
+  <data name="saved_library_save_failed" xml:space="preserve"><value>Lista de documente nu a putut fi salvată. Istoricul a fost păstrat. Încearcă din nou.</value></data>
+  <data name="cert_label_subject" xml:space="preserve"><value>Titular</value></data>
+  <data name="cert_label_issuer" xml:space="preserve"><value>Emitent</value></data>
+  <data name="cert_label_certificate" xml:space="preserve"><value>Certificat</value></data>
+  <data name="cert_label_certificate_details" xml:space="preserve"><value>Detalii certificat</value></data>
+  <data name="cert_label_name" xml:space="preserve"><value>Nume</value></data>
+  <data name="cert_label_surname" xml:space="preserve"><value>Nume de familie</value></data>
+  <data name="cert_label_given_names" xml:space="preserve"><value>Prenume</value></data>
+  <data name="cert_label_personal_identifier" xml:space="preserve"><value>Identificator personal</value></data>
+  <data name="cert_label_country" xml:space="preserve"><value>Țară</value></data>
+  <data name="cert_label_city" xml:space="preserve"><value>Localitate</value></data>
+  <data name="cert_label_region" xml:space="preserve"><value>Regiune</value></data>
+  <data name="cert_label_organization" xml:space="preserve"><value>Organizație</value></data>
+  <data name="cert_label_department" xml:space="preserve"><value>Departament</value></data>
+  <data name="cert_label_organization_identifier" xml:space="preserve"><value>Identificator organizație</value></data>
+  <data name="cert_label_telephone" xml:space="preserve"><value>Telefon</value></data>
+  <data name="cert_label_title" xml:space="preserve"><value>Funcție</value></data>
+  <data name="cert_label_serial_number" xml:space="preserve"><value>Număr de serie</value></data>
+  <data name="cert_label_sha_256_fingerprint" xml:space="preserve"><value>Amprentă SHA-256</value></data>
+  <data name="cert_label_valid_from" xml:space="preserve"><value>Valabil de la</value></data>
+  <data name="cert_label_valid_until" xml:space="preserve"><value>Valabil până la</value></data>
+  <data name="cert_label_public_key" xml:space="preserve"><value>Cheie publică</value></data>
+  <data name="cert_label_certificate_signature_algorithm" xml:space="preserve"><value>Algoritmul semnăturii certificatului</value></data>
+  <data name="cert_label_revocation_lists" xml:space="preserve"><value>Liste de revocare</value></data>
+  <data name="cert_label_authority_information" xml:space="preserve"><value>Informații despre autoritate</value></data>
+  <data name="cert_label_alternative_names" xml:space="preserve"><value>Nume alternative</value></data>
+  <data name="cert_label_certificate_policies" xml:space="preserve"><value>Politici de certificare</value></data>
+  <data name="cert_label_ocsp_responder" xml:space="preserve"><value>Serviciu OCSP</value></data>
+  <data name="cert_label_issuer_certificate_url" xml:space="preserve"><value>Adresa certificatului emitentului</value></data>
+  <data name="cert_label_qualified_certificate_statements" xml:space="preserve"><value>Declarații privind certificatul calificat</value></data>
+  <data name="cert_label_subject_key_identifier" xml:space="preserve"><value>Identificatorul cheii titularului</value></data>
+  <data name="cert_label_authority_key_identifier" xml:space="preserve"><value>Identificatorul cheii autorității</value></data>
+  <data name="cert_label_key_usage" xml:space="preserve"><value>Utilizarea cheii</value></data>
+  <data name="cert_label_extended_key_usage" xml:space="preserve"><value>Utilizarea extinsă a cheii</value></data>
+  <data name="cert_label_basic_constraints" xml:space="preserve"><value>Constrângeri de bază</value></data>
+  <data name="cert_label_authority" xml:space="preserve"><value>Autoritate</value></data>
+  <data name="cert_label_certificate_policy" xml:space="preserve"><value>Politică de certificare</value></data>
+  <data name="cert_label_extension" xml:space="preserve"><value>Extensie</value></data>
 </root>

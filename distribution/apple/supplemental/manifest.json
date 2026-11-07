@@ -1,0 +1,905 @@
+{
+  "classification": "iPhone-Duo-App-Store-device-slot-compact-and-expanded",
+  "assets": [
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-compact/01-sign.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-compact/01-sign.png",
+      "sourceSha256": "27dc759c16ebe7f3ed5b70be47b7315af60ef0f9e5aa6888385a12f555ae5585",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ro",
+      "family": "duo-compact",
+      "story": 1,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-compact/02-batch.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-compact/02-batch.png",
+      "sourceSha256": "57a5fc60e12e348539aadca79e9e8d24705c6edc67386c75e2486cc87d158b87",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ro",
+      "family": "duo-compact",
+      "story": 2,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-compact/03-consent.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-compact/03-consent.png",
+      "sourceSha256": "73e4f952c7b0e96eee0ca6f993a5e65388dec8f72773fb7508a119add52f5f09",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ro",
+      "family": "duo-compact",
+      "story": 3,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-compact/04-verify.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-compact/04-verify.png",
+      "sourceSha256": "a615fb7ebea7883b4394c470e438deaaeb1b1b210fdee978a22c552c89a11888",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ro",
+      "family": "duo-compact",
+      "story": 4,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-compact/05-card.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-compact/05-card.png",
+      "sourceSha256": "6ba0eede8d1c78a9ac7f5055f86f9c9a26ac952d137026f90707cf1a87a67460",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ro",
+      "family": "duo-compact",
+      "story": 5,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-expanded/01-sign.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-expanded/01-sign.png",
+      "sourceSha256": "8ddefb1158158b559271246ad4e0c6bfaac1e302179b6357c6bcadf8b59952ea",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ro",
+      "family": "duo-expanded",
+      "story": 1,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-expanded/02-batch.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-expanded/02-batch.png",
+      "sourceSha256": "680b6f805861fa84663f25396d2ce862561cae8c174a8ddca6b89caa7c0a6687",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ro",
+      "family": "duo-expanded",
+      "story": 2,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-expanded/03-consent.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-expanded/03-consent.png",
+      "sourceSha256": "1abda7d78fdd899670f4020fa74e3313ded651f9f87280e46036855a2512b4f0",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ro",
+      "family": "duo-expanded",
+      "story": 3,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-expanded/04-verify.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-expanded/04-verify.png",
+      "sourceSha256": "c9bc3126a929150da6e0efeabe84d0164b2049daa858ce12a4d32569923bfc3c",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ro",
+      "family": "duo-expanded",
+      "story": 4,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ro/duo-expanded/05-card.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ro/duo-expanded/05-card.png",
+      "sourceSha256": "ce93ccda4471880b8c52f6317de48b866abc97a0e344c73e324280562ad72402",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ro",
+      "family": "duo-expanded",
+      "story": 5,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-compact/01-sign.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-compact/01-sign.png",
+      "sourceSha256": "70938806fd5eac2c4a6f9d4ee6744b357aa84d525948c21c80427bdfed6a6e97",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "en",
+      "family": "duo-compact",
+      "story": 1,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-compact/02-batch.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-compact/02-batch.png",
+      "sourceSha256": "d78b5ee2c4eaaed76427069b16279583d882a014047acdb5f7c8fb3df9ce51b1",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "en",
+      "family": "duo-compact",
+      "story": 2,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-compact/03-consent.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-compact/03-consent.png",
+      "sourceSha256": "d24a91ad3eb1613ad450ab622924ffd69b877196fb48e6c4fb1e43bad0b2640f",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "en",
+      "family": "duo-compact",
+      "story": 3,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-compact/04-verify.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-compact/04-verify.png",
+      "sourceSha256": "ada6e25ba1f8a75f209421d996e457892c337ed7c937adece8d7062b914a34f6",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "en",
+      "family": "duo-compact",
+      "story": 4,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-compact/05-card.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-compact/05-card.png",
+      "sourceSha256": "e0c393a79ab35820ededcbcb4c91b04caf65691c15034634925366d523f7d948",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "en",
+      "family": "duo-compact",
+      "story": 5,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-expanded/01-sign.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-expanded/01-sign.png",
+      "sourceSha256": "20aa957f48ff74f87e2aa74c23cc2754f435e6bf0822a6bd7197b20bebc55bd1",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "en",
+      "family": "duo-expanded",
+      "story": 1,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-expanded/02-batch.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-expanded/02-batch.png",
+      "sourceSha256": "f7491c1719f00675d21aca7f5e5520e7a571683b217316ac3c8647cea0cccd07",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "en",
+      "family": "duo-expanded",
+      "story": 2,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-expanded/03-consent.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-expanded/03-consent.png",
+      "sourceSha256": "ff6d9c4748456e9a660c8cde91fad2c07e7a98071982ad5563e69bafc09793d0",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "en",
+      "family": "duo-expanded",
+      "story": 3,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-expanded/04-verify.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-expanded/04-verify.png",
+      "sourceSha256": "d32a2a218d1fa392f0e6eda0d53b834fe9d67ef7406d60810449743168b587f0",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "en",
+      "family": "duo-expanded",
+      "story": 4,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "en/duo-expanded/05-card.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/en/duo-expanded/05-card.png",
+      "sourceSha256": "ee8b43f88f340f40df74b56e8ecbe654b0650c108e78c99e415bb3d263e1836e",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "en",
+      "family": "duo-expanded",
+      "story": 5,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-compact/01-sign.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-compact/01-sign.png",
+      "sourceSha256": "d22c1754b0a14b139b7767d508ea2ed1e6c1bfd90da0d849c7649aef2d28911d",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ru",
+      "family": "duo-compact",
+      "story": 1,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-compact/02-batch.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-compact/02-batch.png",
+      "sourceSha256": "21bc256ac7e970a58d5d98d0517339acb8f31f6ea1b89294ba8ed741b2b71560",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ru",
+      "family": "duo-compact",
+      "story": 2,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-compact/03-consent.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-compact/03-consent.png",
+      "sourceSha256": "25915bd357c8dc669e01a2a5ce49a3ca66cf41682bf84324fca278212ef89e4b",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ru",
+      "family": "duo-compact",
+      "story": 3,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-compact/04-verify.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-compact/04-verify.png",
+      "sourceSha256": "4ced570970115e6ceb33bc71b576fa5e863fae19db20ac14ec39550247069e2e",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ru",
+      "family": "duo-compact",
+      "story": 4,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-compact/05-card.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-compact/05-card.png",
+      "sourceSha256": "27235f8a0205e16173efb018853a9066ee0d1871b5ba480d14be9542020b99da",
+      "dimensions": [
+        1398,
+        2034
+      ],
+      "locale": "ru",
+      "family": "duo-compact",
+      "story": 5,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-compact.png",
+        "screen": [
+          88,
+          80,
+          1398,
+          2034
+        ],
+        "model": "iPhone Duo — Night Sky — Outer Closed Portrait",
+        "sha256": "f972a6062a0ca2bef2186d61366beaf746a7725a34a4bfa1dabc4410d7c0dbdf",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-expanded/01-sign.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-expanded/01-sign.png",
+      "sourceSha256": "80d3cc28a24242c12c4d28e5fd83a111298e11953091b92c9cec2d21b079fe68",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ru",
+      "family": "duo-expanded",
+      "story": 1,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-expanded/02-batch.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-expanded/02-batch.png",
+      "sourceSha256": "7370b2d488187abd5c011a45a062cc7d5ac05e5a83376e364301322065c3b98d",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ru",
+      "family": "duo-expanded",
+      "story": 2,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-expanded/03-consent.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-expanded/03-consent.png",
+      "sourceSha256": "303f5620536b16525b01e5ace386c10cef00096d0882257b85c440cd8a40af8f",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ru",
+      "family": "duo-expanded",
+      "story": 3,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-expanded/04-verify.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-expanded/04-verify.png",
+      "sourceSha256": "510b8a417ae442a7707c13698178a80783bd104841cddf2596a0da51c4be06b2",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ru",
+      "family": "duo-expanded",
+      "story": 4,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    },
+    {
+      "sourceRuntime": "27.1",
+      "sourceSDKVersion": "27.1",
+      "captureBackend": "DeviceHub native compositor",
+      "path": "ru/duo-expanded/05-card.png",
+      "source": "docs/reports/store-refresh-2026-11-07/apple/raw/ru/duo-expanded/05-card.png",
+      "sourceSha256": "a1def3c903f6eb0c933fbefe1c87cf0d558ee3481f47d4c1f8eb3f81129b3b34",
+      "dimensions": [
+        2853,
+        2007
+      ],
+      "locale": "ru",
+      "family": "duo-expanded",
+      "story": 5,
+      "format": "RGB PNG",
+      "uiAltered": false,
+      "presentation": "unaltered official Apple product PNG frame with exact native display fit; opaque rounded marketing panel",
+      "deviceFrame": {
+        "file": "duo-expanded.png",
+        "screen": [
+          120,
+          120,
+          2853,
+          2007
+        ],
+        "model": "iPhone Duo — Night Sky — Inner Open Landscape",
+        "sha256": "bd684d4cd2b68756ca008c158b9c0cbfeeb134bf3b5e481b3d0dd02d783211f1",
+        "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-Duo.dmg"
+      }
+    }
+  ]
+}

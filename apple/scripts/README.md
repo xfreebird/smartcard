@@ -11,7 +11,7 @@ Captures no-reader, empty-reader, unavailable, reading, ready, multiple cards, e
 
 For iPhone Duo use Xcode 27 Device Hub (`Xcode.app/Contents/Applications/DeviceHub.app`), select the requested device, choose **Open**, wake with **Home**, then activate the app. For its expanded display set `MSIGN_CAPTURE_DISPLAY=3` (inspect `simctl io UDID enumerate` on other runtime versions). Closed display normally uses `1`. Incoming app links can use `esemnbun://show` (the system may ask to open the app); web links can use `esemnbun://browser?url=<percent-encoded-http-or-https-url>`.
 
-On iPad, rotate or resize the window to exercise compact and wide layouts. Widths of at least 760 points show signing/card controls left and file operations right. The threshold uses the current window width, independently of device model.
+On iPad or iPhone Duo, rotate or resize the window to exercise compact and wide layouts. Signing uses two columns from 560 usable points; accessibility text sizes retain one column. The threshold uses the current window width, independently of device model. For native Duo full-display and vertical-toolbar coverage build with the iOS 27.1 SDK: an SDK 26 build runs in a system compatibility window even when captured on the inner display.
 
 macOS capture needs the invoking process's existing Screen Recording permission. The script does not change permissions. It selects only windows belonging to the process it launched and terminates that process afterwards. iOS capture installs the specified Debug app and changes that simulator's appearance; use a dedicated simulator and retain any enrolled wallet sessions.
 

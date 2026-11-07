@@ -10,7 +10,7 @@ struct CardSelector: View {
             switch self {
             case .compact: return 288
             case .large: return 400
-            case .phone: return nil
+            case .phone: return 400
             }
         }
     }
@@ -32,7 +32,7 @@ struct CardSelector: View {
         let gutters: CGFloat = model.displayedCards.count > 1 ? 88 : 8
         return max(120, min(size.maxWidth ?? .infinity, width - gutters))
         #else
-        return max(120, width - 8)
+        return max(120, min(size.maxWidth ?? 400, width - 8))
         #endif
     }
     private var selectorMaxWidth: CGFloat? {
@@ -50,7 +50,7 @@ struct CardSelector: View {
         VStack(spacing: 10) {
             if model.displayedCards.isEmpty {
                 EmptyCardFace(status: model.status, size: size)
-                    .frame(height: cardHeight)
+                    .frame(width: cardWidth, height: cardHeight)
             } else {
                 #if os(iOS)
                 TabView(selection: Binding(get: { model.selectedCard?.reader ?? "" }, set: { reader in

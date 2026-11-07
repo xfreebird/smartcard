@@ -8,6 +8,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+bash "$ROOT/apple/scripts/require-ios-sdk.sh"
 OUT="$ROOT/dist/ios"
 DD="$ROOT/dist/.derived-ios"
 rm -rf "$OUT" && mkdir -p "$OUT"

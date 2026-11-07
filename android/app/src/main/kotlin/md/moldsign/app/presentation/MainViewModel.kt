@@ -30,6 +30,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -77,6 +78,7 @@ class MainViewModel @JvmOverloads constructor(
     val bridgeStartupFailed = BridgeService.startupFailed
     val pinVaultAvailable: Boolean get() = !demoMode && container.pinVault.isAvailable()
     val activity: StateFlow<List<ActivityEntry>> = container.activity.entries
+    val savedDocuments: StateFlow<List<ActivityEntry>> = container.activity.signedDocuments
 
     private val _signedResults = MutableStateFlow<List<Pair<String, Uri>>>(emptyList())
     val signedResults = _signedResults.asStateFlow()
@@ -93,6 +95,28 @@ class MainViewModel @JvmOverloads constructor(
         }
     }
 
+
+    /** Debug screenshot snapshot. The release source set disables the guard at compile time. */
+    internal fun previewVerification(name: String, reports: List<md.moldsign.core.ValidationReport>) {
+        if (!md.moldsign.app.DemoMode.supportsResultPreview || !container.isDemo) return
+        verifyJob?.cancel()
+        val doc = PickedDocument(Uri.parse("demo://capture/" + name), name, 39_142, if (name.endsWith(".xml")) "application/xml" else "application/pdf")
+        val outcome = VerifyOutcome(reports)
+        _verifyDoc.value = doc
+        _verifyDetached.value = emptyList()
+        _verifyOutcome.value = outcome
+        _verifiedDocuments.value = listOf(doc to outcome)
+    }
+
+    internal fun previewSigningFailure() {
+        if (!md.moldsign.app.DemoMode.supportsResultPreview || !container.isDemo) return
+        viewModelScope.launch {
+            _signItems.first { it.isNotEmpty() }
+            _signItems.update { items -> items.mapIndexed { index, item ->
+                if (index == 0) item.copy(error = md.moldsign.core.CardError.Network("TSA")) else item
+            } }
+        }
+    }
 
     private val _signItems = MutableStateFlow<List<SignItem>>(emptyList())
     val signItems: StateFlow<List<SignItem>> = _signItems.asStateFlow()
@@ -424,6 +448,17 @@ documents.copy(source, target)
     }
 
     // ---------------------------------------------------------------- Activitate
+
+    /** Re-read the current file for the details sheet, without changing Verify or appending history. */
+    suspend fun inspectSavedDocument(uri: Uri, detached: List<Uri> = emptyList()): VerifyOutcome =
+        withContext(Dispatchers.IO) {
+            val doc = documents.describe(uri)
+            val companions = detached.map { companion ->
+                val described = documents.describe(companion)
+                Document(described.name, documents.readBytes(companion))
+            }
+            VerifyOutcome(container.signingService.verify(Document(doc.name, documents.readBytes(uri)), companions))
+        }
 
     /** Re-checks that every document entry is still reachable (called when the list is shown). */
     fun pruneActivity() {

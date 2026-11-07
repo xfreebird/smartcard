@@ -7,6 +7,136 @@ import MoldSignKit
 // `esemnbun` (codename moldsign) — macOS and Linux implementation of spec/cli.md (CLI-02, LNX-*).
 setbuf(stdout, nil)
 
+/// Use the validator's own reference interpretation instead of a separate filesystem parser.
+/// Supported XML syntax remains defined by the existing vendor-oriented validator.
+func verifyDetached(_ xml: Data, directory: URL) -> [Validator.Report] {
+    let initial = Validator.validateXAdES(xml, referencedFiles: [:])
+    let names = Set(initial.flatMap(\.missingDetachedReferences))
+    guard !names.isEmpty else { return initial }
+    var files: [String: Data] = [:]
+    for name in names { files[name] = try? DetachedDocumentAccess.read(name, beneath: directory) }
+    return Validator.validateXAdES(xml, referencedFiles: files)
+}
+
+// MARK: - Read-only machine-readable capability discovery
+
+// This gate runs before option parsing, card discovery or PIN/environment access. JSON is
+// available for capabilities and offline verification; no other command may use this flag.
+let discoveryArguments = Array(CommandLine.arguments.dropFirst())
+let discoveryCommand = discoveryArguments.first { $0 != "--quiet" && $0 != "--json" }
+if discoveryCommand == "verify", discoveryArguments.contains("--json") {
+    MSLog.sink = nil
+    func jsonResult(_ body: [String: Any], exitCode: Int32) -> Never {
+        var envelope = body
+        envelope["schemaVersion"] = 1
+        do {
+            let encoded = try JSONSerialization.data(withJSONObject: envelope, options: [.sortedKeys])
+            FileHandle.standardOutput.write(encoded)
+            FileHandle.standardOutput.write(Data([10]))
+        } catch {
+            FileHandle.standardError.write(Data("error: verification output could not be encoded.\n".utf8))
+            exit(1)
+        }
+        exit(exitCode)
+    }
+    func jsonFailure(_ code: String, _ message: String) -> Never {
+        FileHandle.standardError.write(Data("error: \(message)\n".utf8))
+        jsonResult(["ok": false, "error": ["code": code, "retryable": false, "message": message]], exitCode: 1)
+    }
+    let words = discoveryArguments.filter { $0 != "--json" && $0 != "--quiet" }
+    guard (2...3).contains(words.count), words.first == "verify",
+          words.dropFirst().allSatisfy({ !$0.hasPrefix("-") }),
+          discoveryArguments.filter({ $0 == "--json" }).count == 1,
+          discoveryArguments.filter({ $0 == "--quiet" }).count <= 1 else {
+        jsonFailure("INVALID_ARGUMENT", "Use esemnbun verify --json <file.pdf|signature.xml> [documents_directory].")
+    }
+    let input = URL(fileURLWithPath: words[1])
+    guard ["pdf", "xml"].contains(input.pathExtension.lowercased()) else {
+        jsonFailure("UNSUPPORTED", "Structured verification accepts PDF and XML files.")
+    }
+    // The command only reads an explicit regular file; a pipe/device cannot hang automation.
+    let data: Data
+    do { data = try DetachedDocumentAccess.read(input.lastPathComponent, beneath: input.deletingLastPathComponent()) }
+    catch { jsonFailure("INPUT_UNREADABLE", "The input document could not be read as a regular file.") }
+    let reports: [Validator.Report]
+    if input.pathExtension.lowercased() == "pdf" {
+        guard words.count == 2 else { jsonFailure("INVALID_ARGUMENT", "A documents directory is only used with XML signatures.") }
+        reports = Validator.validatePDF(data)
+    } else {
+        let directory = URL(fileURLWithPath: words.count == 3 ? words[2] : FileManager.default.currentDirectoryPath,
+                            isDirectory: true)
+        reports = verifyDetached(data, directory: directory)
+    }
+    let incomplete = reports.contains { !$0.missingDetachedReferences.isEmpty }
+    let invalid = reports.contains { !$0.signatureValid || (!$0.contentIntact && $0.missingDetachedReferences.isEmpty) }
+    let status = invalid ? "invalid" : incomplete ? "incomplete" : reports.isEmpty ? "no_recognized_signature" :
+        reports.allSatisfy(\.chainTrusted) ? "valid" : "unconfirmed"
+    let signatures: [[String: Any]] = reports.enumerated().map { index, report in
+        ["index": index + 1, "kind": report.kind, "level": report.level,
+         "contentIntact": report.contentIntact, "signatureValid": report.signatureValid,
+         "chainTrusted": report.chainTrusted, "missingDocumentCount": report.missingDetachedReferences.count]
+    }
+    jsonResult(["ok": true, "data": ["status": status, "mode": "offline", "revocationChecked": false,
+                                     "signatureCount": reports.count, "signatures": signatures]],
+               exitCode: status == "valid" || status == "unconfirmed" ? 0 : 2)
+}
+if discoveryCommand == "capabilities" || discoveryArguments.contains("--json") {
+    MSLog.sink = nil
+    let json = discoveryArguments.contains("--json")
+    let words = discoveryArguments.filter { $0 != "--quiet" && $0 != "--json" }
+    let valid = words == ["capabilities"] &&
+        discoveryArguments.filter { $0 == "--json" }.count <= 1 &&
+        discoveryArguments.filter { $0 == "--quiet" }.count <= 1
+    if !valid {
+        let unsupported = discoveryCommand.map { $0 != "capabilities" && !$0.hasPrefix("-") } ?? false
+        let code = unsupported ? "UNSUPPORTED" : "INVALID_ARGUMENT"
+        let message = unsupported ? "JSON output is currently supported only for capabilities and verify." :
+            "Use esemnbun capabilities [--json] [--quiet]."
+        if json {
+            let envelope: [String: Any] = ["schemaVersion": 1, "ok": false,
+                "error": ["code": code, "retryable": false, "message": message]]
+            // The envelope contains fixed metadata only, never argument values or secret errors.
+            if let encoded = try? JSONSerialization.data(withJSONObject: envelope, options: [.sortedKeys]) {
+                FileHandle.standardOutput.write(encoded)
+                FileHandle.standardOutput.write(Data([10]))
+            }
+        }
+        FileHandle.standardError.write(Data("error: \(message)\n".utf8))
+        exit(1)
+    }
+    #if os(Linux)
+    let platform = "linux"
+    #else
+    let platform = "macos"
+    #endif
+    let commands = ["capabilities", "help", "version", "readers", "cert", "sign", "xades", "verify", "server", "sign-hex", "cms-for-hash"]
+    if json {
+        let envelope: [String: Any] = ["schemaVersion": 1, "ok": true, "data": [
+            "product": "eSemnBun", "interface": "cli", "platform": platform,
+            "commands": commands, "structuredOutputCommands": ["capabilities", "verify"],
+            "documentSigning": ["available": true, "formats": ["PAdES-T", "XAdES-BES", "XAdES-T", "XAdES-C"]],
+            "verification": ["available": true, "formats": ["PDF", "XAdES"], "requiresCard": false, "json": true],
+            "mcpServerAvailable": false, "desktopApprovalBrokerAvailable": false,
+        ]]
+        do {
+            let encoded = try JSONSerialization.data(withJSONObject: envelope, options: [.sortedKeys])
+            FileHandle.standardOutput.write(encoded)
+            FileHandle.standardOutput.write(Data([10]))
+        } catch {
+            FileHandle.standardError.write(Data("error: capability output could not be encoded.\n".utf8))
+            exit(1)
+        }
+    } else {
+        print("eSemnBun CLI capabilities (schema 1, \(platform))")
+        print("Commands: \(commands.joined(separator: ", "))")
+        print("Structured output: capabilities --json, verify --json")
+        print("Document signing: PAdES-T, XAdES-BES, XAdES-T, XAdES-C")
+        print("Verification: PDF, XAdES; offline, no card required; text and JSON output")
+        print("MCP server: unavailable; desktop approval broker: unavailable")
+    }
+    exit(0)
+}
+
 // MARK: - Global options
 
 var args = CommandLine.arguments
@@ -57,11 +187,12 @@ func fail(_ error: Error) -> Never {
 func usage() -> Never {
     print("""
     Usage: esemnbun <command> [options]
+      capabilities [--json]                   supported commands and formats; no card/PIN access
       readers                                  list readers and card presence
       cert [--out <file.der>]                  read the signing certificate (no PIN)
       sign <in.pdf> [<out.pdf>]                PAdES-T signature
       xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping] [--digest SHA-1|SHA-256]
-      verify <file.pdf|sig.xml> [<docs_dir>]   offline validation
+      verify [--json] <file.pdf|sig.xml> [<docs_dir>]   offline validation
       server [<port> [<https_port>]]           browser bridge (MoldSign Server protocol)
       sign-hex <digestinfo_hex>                raw card signature (developer)
       cms-for-hash <sha256_hex>                detached CMS for a content digest (developer)
@@ -256,18 +387,7 @@ case "verify":
     } else {
         // XAdES detached: resolve file:/ references relative to a docs dir (arg 3 or cwd)
         let docsDir = args.count >= 4 ? args[3] : FileManager.default.currentDirectoryPath
-        var files: [String: Data] = [:]
-        let text = String(data: data, encoding: .utf8) ?? ""
-        var start = text.startIndex
-        while let r = text.range(of: "URI=\"file:/", range: start..<text.endIndex),
-              let e = text[r.upperBound...].firstIndex(of: "\"") {
-            let name = String(text[r.upperBound..<e])
-            if let d = try? Data(contentsOf: URL(fileURLWithPath: docsDir + "/" + name)) {
-                files[name] = d
-            }
-            start = e
-        }
-        reports = Validator.validateXAdES(data, referencedFiles: files)
+        reports = verifyDetached(data, directory: URL(fileURLWithPath: docsDir, isDirectory: true))
     }
     if reports.isEmpty {
         print("No signatures found.")

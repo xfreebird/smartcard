@@ -3,6 +3,7 @@ import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import Downloads from '../components/Downloads';
 import SigningStory from '../components/SigningStory';
+import useScrollReveal from '../components/useScrollReveal';
 import useText from '../i18n/useText';
 import MobileStores from '../components/MobileStores';
 import useBrowserPlatform from '../components/useBrowserPlatform';
@@ -10,6 +11,7 @@ import Head from '@docusaurus/Head';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 export default function Home(){
  const t=useText();
+ const landing=useScrollReveal();
  const platform=useBrowserPlatform();
  const {siteConfig,i18n:{currentLocale}}=useDocusaurusContext();
  const siteRoot=new URL(siteConfig.baseUrl,siteConfig.url).href;
@@ -28,7 +30,7 @@ export default function Home(){
  const actionClass=['macos','windows'].includes(platform) ? 'hero-actions stacked-download-actions' : 'hero-actions';
  return <Layout title={t('title')} description={t('seoDescription')}>
  <Head><script type="application/ld+json">{JSON.stringify(structuredData).replace(/</g,'\\u003c')}</script></Head>
- <main className="landing">
+ <main className="landing" ref={landing}>
   <section className="hero-intro"><span className="project-label">{t('project')}</span><h1>{t('hero1')}<br/><span>{t('hero2')}<br className="mobile-break"/>{' '}{t('hero3')}</span></h1><p>{t('intro1')}<br/>{t('intro2')}<br/>{t('intro3')}</p><div className={actionClass}>{platform==='macos' ? <><Downloads platform={platform} directOnly/><MobileStores platform={platform}/><Downloads optionsOnly/></> : <><MobileStores platform={platform}/><Downloads platform={platform}/></>}<a className="source-link" href="https://github.com/xfreebird/smartcard">{t('source')}</a></div><small>macOS · Windows · Linux · iPhone & iPad · Android</small><a href="#story" className="scroll-cue">{t('how')}</a></section>
   <div id="story"><SigningStory/></div>
   <section className="features"><div className="section-label">{t('why')}</div><h2>{t('whyTitle')}</h2><p className="feature-intro">{t('whyBody')}</p><div className="feature-grid"><article><h3>{t('feature1')}</h3><p>{t('feature1Body')}</p></article><article><h3>{t('feature2')}</h3><p>{t('feature2Body')}</p></article><article><h3>{t('feature3')}</h3><p>{t('feature3Body')}</p></article></div></section>

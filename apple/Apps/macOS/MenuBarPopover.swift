@@ -291,11 +291,24 @@ struct MainWindowView: View {
                     case .verify: VerifyScreen()
                     case .browser: MacBrowserScreen(browser: portalBrowser)
                     case .card: CardScreen()
-                    case .activity: ActivityScreen(onVerifyDocument: { url in stored = Section.verify.rawValue; Task { await model.verify(url) } })
+                    case .activity: ActivityScreen()
                     }
                 }
             }
             .background(WindowReader { WindowPresentation.shared.register($0, for: .main) })
+        }
+        .toolbar {
+            // Keep native title/toolbar geometry when a section has no actions.
+            if #available(macOS 26.0, *) {
+                ToolbarItem(placement: .principal) {
+                    toolbarHeightReservation
+                }
+                .sharedBackgroundVisibility(.hidden)
+            } else {
+                ToolbarItem(placement: .principal) {
+                    toolbarHeightReservation
+                }
+            }
         }
         .onChange(of: model.browserURL) { _, url in
             if url != nil { stored = Section.browser.rawValue }
@@ -306,8 +319,25 @@ struct MainWindowView: View {
         .onAppear { presentOnboardingIfNeeded() }
     }
 
+    private var toolbarHeightReservation: some View {
+        Color.clear.frame(width: 1, height: 28)
+            .accessibilityHidden(true)
+            .allowsHitTesting(false)
+    }
+
     /// First-run onboarding (MAC-17, docs/10 §4.7): once, over the main window the first time it appears.
     private func presentOnboardingIfNeeded() {
+        #if DEBUG
+        let captureEnvironment = ProcessInfo.processInfo.environment
+        if model.demoMode,
+           captureEnvironment["MSIGN_SCREENSHOT_CAPTURE"] == "1",
+           captureEnvironment["MSIGN_QA_NO_HARDWARE"] == "1",
+           captureEnvironment["MSIGN_CAPTURE_SHEET"] == "onboarding",
+           captureEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true {
+            onboardingPresented = true
+            return
+        }
+        #endif
         guard !AppPreferencesStore.defaults.bool(forKey: "didCompleteOnboarding") else { return }
         if model.demoMode { return }   // demo previews and demo sessions stay unobstructed
         #if DEBUG

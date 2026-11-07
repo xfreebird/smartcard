@@ -20,96 +20,96 @@
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 393754,
-    "sha256": "c0c6d63f881dd798112be294fe5a0204644edc7a915ac8dfbe27a670a14f1580"
+    "bytes": 395059,
+    "sha256": "2c257e9414cb01d48caed7dd77b0d450ee7bf5d48f1648802b0c2bdefbefbb75"
   },
   {
     "file": "distribution/google/assets/android/en/phone/02-card.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 426472,
-    "sha256": "2d3cfda3d023a771e605e336acbe454a588ba5e115b1e12d00e9ab3c6d2e926b"
+    "bytes": 421208,
+    "sha256": "3aea801c8bfb3a3f3ca8c781e5583ceed15c4a890b973195efd17a3dd4daec66"
   },
   {
     "file": "distribution/google/assets/android/en/phone/03-verify.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 71749,
-    "sha256": "2584fde965cb5640e98626d8000dcb65db5e5dd4292ccd24544142a749948b60"
+    "bytes": 69722,
+    "sha256": "bc210165a5813c6408bf9307df35c0bf65a5dd2ba15e21af684929491161dca9"
   },
   {
     "file": "distribution/google/assets/android/en/phone/04-browser.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 425926,
-    "sha256": "481e0abc9619267ab9b8597566c1bec14d8bdd95d61dd915a40cc3677e07bd6b"
+    "bytes": 444181,
+    "sha256": "4df76a007b1b88ba9824c0222a57db5d19fb3c414ca2b48bcb8f2351d01fc567"
   },
   {
     "file": "distribution/google/assets/android/en/seven-inch/01-sign.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 238315,
-    "sha256": "776d3a9c555a04b372b4472226aa009817ca7ac3f8bd3ca9253ae06aa878b703"
+    "bytes": 240027,
+    "sha256": "920ee88dbe1d1c75279cbbdafc0349745fbcd6bef9f622bb4c68de6f76b31346"
   },
   {
     "file": "distribution/google/assets/android/en/seven-inch/02-card.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 290184,
-    "sha256": "24fb91c13719346e8a3020531bd5c58550114de482f178d9fbac3909d7491d60"
+    "bytes": 287628,
+    "sha256": "45b7b7c8efa47a77cea4b2625cfe5dc05131f25a2c324329cb3de305e96723c8"
   },
   {
     "file": "distribution/google/assets/android/en/seven-inch/03-verify.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 46656,
-    "sha256": "e741427b533ddd7ecd48ba3ac9449f6ceaea95ab574c3bea88a3cc8786a91623"
+    "bytes": 46523,
+    "sha256": "6982f51f06a9764b96fa71871567d056eed67c56ecd26035ecef9accff1c8aed"
   },
   {
     "file": "distribution/google/assets/android/en/seven-inch/04-browser.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 246127,
-    "sha256": "0472a2bc3bb2c9c26b192e69a674545697f4b51d087eb0f4a5c1853733c5ca8e"
+    "bytes": 281179,
+    "sha256": "088e066b5dfdf038e69d092b71340deeaeb434d773503462a2fa143ee08569c5"
   },
   {
     "file": "distribution/google/assets/android/en/ten-inch/01-sign.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 244908,
-    "sha256": "e4bed6e42c1ed2be7f7b22598b1b889c10475791116491c946d72e3daa3b0f3a"
+    "bytes": 248102,
+    "sha256": "fcf7901a09fa4d7da10bc19cbff6b4bdc00b7a18dc42ca873d65d5f8225d28d0"
   },
   {
     "file": "distribution/google/assets/android/en/ten-inch/02-card.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 273245,
-    "sha256": "ec2760397843971d1d923c52f4abf0c4201f3b07eb958a778cea12db7cc902fc"
+    "bytes": 270057,
+    "sha256": "e622202f542186924abd8ef7dfbacfc2aa9a3ef3e7c6a8a714e68efe83dd0e51"
   },
   {
     "file": "distribution/google/assets/android/en/ten-inch/03-verify.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 45712,
-    "sha256": "51d945e61e1331f5adf1fa79fc167419a56f1c4bdad316ca52d0c11090e19665"
+    "bytes": 45780,
+    "sha256": "b938431b45a10962507012101897d45e73847f04763704fc4241201c295aa609"
   },
   {
     "file": "distribution/google/assets/android/en/ten-inch/04-browser.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 253700,
-    "sha256": "2f02186a638a99689b2d9b4346b9cee5283d44c2cc4c39b1d2c65ef7b929260f"
+    "bytes": 260448,
+    "sha256": "eb82933a2aee31967b4059430ba51134bc03436e706ed4aeb8100b382b1aaafb"
   },
   {
     "file": "distribution/google/assets/android/ro/feature-graphic.png",
@@ -124,96 +124,96 @@
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 393730,
-    "sha256": "c9b5331325641504a24d71787011bd1d205e0aa3d3ff2276731d5e4a2d9c3ccf"
+    "bytes": 403555,
+    "sha256": "77779d872fa0d0fdc73fadfd4cde30b66e2db1732fc3cd8094972d1a95469133"
   },
   {
     "file": "distribution/google/assets/android/ro/phone/02-card.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 429907,
-    "sha256": "9f828a020505ea02f7c777a510c89de2416e58e89433a890dde5878db10254d6"
+    "bytes": 428638,
+    "sha256": "3d445a6953a6a72f6b14bb764407ca2b6ff5284187d8e0a079a4a804e8aca8d3"
   },
   {
     "file": "distribution/google/assets/android/ro/phone/03-verify.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 73444,
-    "sha256": "a9a6f51775ae7f1f14fbad727541b0d4b4a71e7acd60daa1f2f6a3e91807fdab"
+    "bytes": 71931,
+    "sha256": "7e7957b7b10557960fc4dbff93cbb04c41753b3608f45d4f957f8274a0f3b3e9"
   },
   {
     "file": "distribution/google/assets/android/ro/phone/04-browser.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 435585,
-    "sha256": "41efe0201643d4511798aa83fb0d3cedc8cc20e8778705af57b11312bff1b7fc"
+    "bytes": 460795,
+    "sha256": "4639c2ee3a3e653797f9a769a7f2d3a4777de4c3bbd3ba5557fd7a512ac5d56d"
   },
   {
     "file": "distribution/google/assets/android/ro/seven-inch/01-sign.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 241766,
-    "sha256": "ba805f9d2630bc810190436d816c4b5b5b553ac964e721aac40aaf0de5ca83ba"
+    "bytes": 246486,
+    "sha256": "719b86c9c1fd5f893384d9d90bbfff33f52cae39ae2bb6c5a62527f54ba32dbb"
   },
   {
     "file": "distribution/google/assets/android/ro/seven-inch/02-card.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 293608,
-    "sha256": "b01fb9a4a6fd3df4426e7dc279a88d46f4b1f7ba4a9beb201b002cc0f482a709"
+    "bytes": 292314,
+    "sha256": "451ffb247c6e56986b5b1f5406d5facac10bfc2ac12570ecbbb56e235a74a5c9"
   },
   {
     "file": "distribution/google/assets/android/ro/seven-inch/03-verify.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 48733,
-    "sha256": "5994248829d7b6329f7452807df3efef4d427f037812dad1bef2d7fe51c0da02"
+    "bytes": 48110,
+    "sha256": "6ca0f05c2a7e2e897652a61c6e121395cfd4bf0719d95065e75e4f8524fbbd21"
   },
   {
     "file": "distribution/google/assets/android/ro/seven-inch/04-browser.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 252493,
-    "sha256": "f4ae0a6620e7ee89969cc558d29280a24e0b01cd151de028322e2b236f14552b"
+    "bytes": 295219,
+    "sha256": "4aa9043bbea3e019fe0fa53371bb3562115018aa1c50f0e7e9eb7d915867eb0a"
   },
   {
     "file": "distribution/google/assets/android/ro/ten-inch/01-sign.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 247965,
-    "sha256": "4f36f31b4fde9fa4d5d308ab0343ce96df222fa46323d746de4bf52899ff2289"
+    "bytes": 254036,
+    "sha256": "0b5553f39807e334afac6fecacdc4362e053ebdefb5dc02d2d4d2355839049bf"
   },
   {
     "file": "distribution/google/assets/android/ro/ten-inch/02-card.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 276147,
-    "sha256": "4a9b7bc488bed3db2b429e9e071393189d08a1d8eefe913f47bf46d4e5932490"
+    "bytes": 274694,
+    "sha256": "1407eac94f3c8790f2dff10291309c7849f974912100686493cb4a9916fe33b8"
   },
   {
     "file": "distribution/google/assets/android/ro/ten-inch/03-verify.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 47974,
-    "sha256": "1c4a8b2e460a83df90f9f12a69a623acb35ec3817b4c2ebdc69c6a266cbde412"
+    "bytes": 47330,
+    "sha256": "c81e8c6f4b04c4b83a52efd74ad662b484d71a1b37290d38719862989f1a7367"
   },
   {
     "file": "distribution/google/assets/android/ro/ten-inch/04-browser.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 259448,
-    "sha256": "5e8280ca85b73dd4d1924c4e3f68bfdd37f787d5047bf69de5242d2f235604ff"
+    "bytes": 263740,
+    "sha256": "0aee8082bd85367c7ebe7d236de6cc352cd4cc46a9f9d0cc542f2a8f643c8b22"
   },
   {
     "file": "distribution/google/assets/android/ru/feature-graphic.png",
@@ -228,96 +228,96 @@
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 398776,
-    "sha256": "a6f54a8890614690f885e13ed8f3000cbe83c15a45e5b4a8e5c60caf1a40f5da"
+    "bytes": 399284,
+    "sha256": "f8a6c254a7ed9fbfe141117750bbcf76fcc99acbd8cc8f2f923462193a251237"
   },
   {
     "file": "distribution/google/assets/android/ru/phone/02-card.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 433974,
-    "sha256": "833611c83c11c59fa4f57f737be9cdc2d6337de17cc27ac22c18f09abe13ae25"
+    "bytes": 427036,
+    "sha256": "200a5ca64cd5803203adede4118bf75ac895d7e97276a503157dc025b1b3896a"
   },
   {
     "file": "distribution/google/assets/android/ru/phone/03-verify.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 73435,
-    "sha256": "4479b2e66a29d6981b4cac49b2dec6f3e02878997749b4a893d6ea8e705cd966"
+    "bytes": 72202,
+    "sha256": "add45d49bae0fad5be97fd9c526462efa635939f42e1ff125111890c55a85fd6"
   },
   {
     "file": "distribution/google/assets/android/ru/phone/04-browser.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 445780,
-    "sha256": "21bf3f3c6ae609fa67321c2a7cbcec4c7324cacbe0d9e6c3a96dbb147436aff5"
+    "bytes": 462059,
+    "sha256": "73c5a0903a680e808fa726f8305a61bc3dae42e0d003a4a3ee2f4ca647c32a88"
   },
   {
     "file": "distribution/google/assets/android/ru/seven-inch/01-sign.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 243931,
-    "sha256": "72c42dc44607ea6e5d53a932074550a9c851b96ef1e1df5ed37a331d196bd4d1"
+    "bytes": 244492,
+    "sha256": "cb75de07d478d400179be921cdf7dd5b9b7359f9a0aead083339f74be6a75df2"
   },
   {
     "file": "distribution/google/assets/android/ru/seven-inch/02-card.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 299290,
-    "sha256": "3d3324e9926344b4a1419e856e0c3dfba91e86ef915818546d8047513d868e45"
+    "bytes": 295667,
+    "sha256": "ef012eb0a3da7f64c44f1842c75daede4c95380e8d8281190b82f76328536f85"
   },
   {
     "file": "distribution/google/assets/android/ru/seven-inch/03-verify.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 49572,
-    "sha256": "53fd40ff119c3e899e11cc12fe08dc6312a1b0396f5294727b0e3eeca3c00ea6"
+    "bytes": 48867,
+    "sha256": "a831e464c608fbd4b9d488d810043729a0a1dc645c3ef4e08add0b487250c158"
   },
   {
     "file": "distribution/google/assets/android/ru/seven-inch/04-browser.png",
     "width": 1080,
     "height": 1920,
     "mode": "RGB",
-    "bytes": 259303,
-    "sha256": "9e444cc9ab5b76ef1b890e16e10d6fd0c217978318156c7602821bf5e3cbb6af"
+    "bytes": 300510,
+    "sha256": "0ee52826c57fbe625d08ff6a4083a97e8c3f3a41d615879db54624f845ec779c"
   },
   {
     "file": "distribution/google/assets/android/ru/ten-inch/01-sign.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 249961,
-    "sha256": "36c6a08eec79ff855c8cf8ce3bce8fce45a3b69af0755a665732056c4f480bd6"
+    "bytes": 252880,
+    "sha256": "926b5f662cb1cb811440443724a3b7e18472577b77769ce8aa1f11e8380dd594"
   },
   {
     "file": "distribution/google/assets/android/ru/ten-inch/02-card.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 278866,
-    "sha256": "6ce4c49eba69bd8b298e94b4e1311e46fd03f20b5541fdbf2be11e6c84a15f29"
+    "bytes": 274343,
+    "sha256": "e5933cf210551af513f0581729400763bef9a8b516431e071e9c6dec3c4208dc"
   },
   {
     "file": "distribution/google/assets/android/ru/ten-inch/03-verify.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 48532,
-    "sha256": "078937eb4ce49f6a1e3b32658bccc05bc737752084a289fa353e208139574dfe"
+    "bytes": 48036,
+    "sha256": "86f628afbc1a70c468c862d1569eb9d5bc1cf7d24fa1373ef7dfded8caa28c66"
   },
   {
     "file": "distribution/google/assets/android/ru/ten-inch/04-browser.png",
     "width": 1920,
     "height": 1080,
     "mode": "RGB",
-    "bytes": 265706,
-    "sha256": "c832153cb0b0d8bd38facfee670c08c1afe6811fc918fbca720594bf71eb61e1"
+    "bytes": 265815,
+    "sha256": "2d4dcf7dc0662674f694db6c46664dae1654c2fc69c2b899908a0176ba7c6dff"
   },
   {
     "file": "distribution/microsoft/assets/app-tile-300.png",
@@ -332,32 +332,32 @@
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 96820,
-    "sha256": "c474377d884c077d2aeafefff27a8ab95f67b09baf152acb0a14a4745517a30a"
+    "bytes": 89251,
+    "sha256": "7206a4a0931b113b5e142dcecbd435d93bc7eef6cb0678901fba11ffb10f3a66"
   },
   {
     "file": "distribution/microsoft/assets/en/02-card.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 117945,
-    "sha256": "73c92581b953e65a6517400ad37dacc9c5aa3aad6092f2c945695e3d3fc17f8e"
+    "bytes": 106139,
+    "sha256": "c0440aa6114eec71fabca953053ded784f588b907439327709ea4bfbc9b4cefb"
   },
   {
     "file": "distribution/microsoft/assets/en/03-verify.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 42030,
-    "sha256": "da695087b5ebd0313bae5194400e3366897c50df3355d07aeb001457918d50b0"
+    "bytes": 36975,
+    "sha256": "11f51d6e6335015413e22297f4221e96e2fea46ca9cf12f13f74c602a16da828"
   },
   {
     "file": "distribution/microsoft/assets/en/04-settings.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 53218,
-    "sha256": "5f5ced1a153ae5c349b867b1f32f41853384721b83a027a60eea52546a1c4af6"
+    "bytes": 47461,
+    "sha256": "2c3a063f19c5a528df1cf9e03b330987ae6fdfc9ab8fd53a07135f1fa5ebfdbb"
   },
   {
     "file": "distribution/microsoft/assets/hero-1920x1080.png",
@@ -372,63 +372,63 @@
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 98003,
-    "sha256": "cf003425e808be3546033f6698d5883a17960f827956200cd7439d2a0b7cbe92"
+    "bytes": 90553,
+    "sha256": "88bf8ca66a7859672a9a3f4b32a0ef6a5252c5094d668fb666ae3cbfaf56b6cd"
   },
   {
     "file": "distribution/microsoft/assets/ro/02-card.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 118232,
-    "sha256": "aad8d6e0288f0b3ea8d5ba29374d184adc6c93dc17da044aa1807bfca98a1f8d"
+    "bytes": 106155,
+    "sha256": "b2bc6fc349465cbb0bacdf3e617498d43e0aa8dd26ef0cfcf549bacdce207d33"
   },
   {
     "file": "distribution/microsoft/assets/ro/03-verify.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 42460,
-    "sha256": "024e3bd7342464032f3a5b3c84c49172f8d43c1fcbc082043deec6e0b610cb9c"
+    "bytes": 37916,
+    "sha256": "74f744a87331b2ca4bb96ee8bf14395df5e08371751abd958f7d7804ed8bf2bc"
   },
   {
     "file": "distribution/microsoft/assets/ro/04-settings.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 54250,
-    "sha256": "f7ec5b56c8a2e3b6b871391af5f6ef7a687004fb76c5b94bb419cd0222457bb7"
+    "bytes": 49215,
+    "sha256": "2841ea7e61dcb2e38fc63cd08d0e7f065c87bc031416865eca6309cf2b616fd8"
   },
   {
     "file": "distribution/microsoft/assets/ru/01-sign.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 98843,
-    "sha256": "e98ee4e9edeb0230709d177c3206892be52d43e3b892dd61c12245c462bff61d"
+    "bytes": 91010,
+    "sha256": "fdd3f2554d7944a9779250216eac386c712e5bb85a6ad3f40cf71126981e854c"
   },
   {
     "file": "distribution/microsoft/assets/ru/02-card.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 120884,
-    "sha256": "93393360f78a535b79e86818005ab5b8b5994005982962e5913b6580cb93ae72"
+    "bytes": 108991,
+    "sha256": "440b8080646dd23dce4b4059a7f767b576b84500fe2385cca60259468b970de2"
   },
   {
     "file": "distribution/microsoft/assets/ru/03-verify.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 43479,
-    "sha256": "16d03ab5178cbf9000f45480463532e7721ca1e53028a25fee3628d3621c0718"
+    "bytes": 38297,
+    "sha256": "eb149af03efcd22ae22d8916d1578aa5785d030f8da81c7d1220202d138817c0"
   },
   {
     "file": "distribution/microsoft/assets/ru/04-settings.png",
     "width": 1368,
     "height": 909,
     "mode": "RGBA",
-    "bytes": 56324,
-    "sha256": "b290c91f01a51e898af0f54b6c72dea7f762f84fd4a5119d89d1e79b2130fe87"
+    "bytes": 51117,
+    "sha256": "4e89f98155838f609cde2ff4e5f9d5f12e4b5205f2eb3249d0ce6ee29c5d5b2d"
   }
 ]

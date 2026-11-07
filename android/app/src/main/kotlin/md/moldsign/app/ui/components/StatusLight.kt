@@ -14,6 +14,7 @@ import androidx.compose.material.icons.outlined.UsbOff
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -41,9 +42,16 @@ import md.moldsign.core.StatusLight
  * glyph). The chip text is short; its accessibility label is the full status line, announced on change.
  */
 @Composable
-fun StatusLightChip(status: AppStatus, onClick: () -> Unit, modifier: Modifier = Modifier) {
+fun StatusLightChip(status: AppStatus, onClick: () -> Unit, modifier: Modifier = Modifier, compact: Boolean = false) {
     val context = LocalContext.current
     val full = statusLabel(context, status)
+    if (compact) {
+        IconButton(onClick = onClick, modifier = modifier.semantics(mergeDescendants = true) {
+            contentDescription = full
+            liveRegion = LiveRegionMode.Polite
+        }) { StatusDot(status.light, size = 14.dp) }
+        return
+    }
     AssistChip(
         onClick = onClick,
         label = { Text(statusChipText(context, status), maxLines = 1, overflow = TextOverflow.Ellipsis) },

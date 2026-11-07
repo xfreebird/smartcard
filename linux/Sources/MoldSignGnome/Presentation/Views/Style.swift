@@ -97,6 +97,8 @@ enum Style {
     .pin-entry text { font-size: 1.9em; letter-spacing: 0.3em; }
     .pin-entry { min-height: 64px; padding: 6px 18px; }
 
+    .compact-navigation viewswitcherbutton { padding-left: 4px; padding-right: 4px; min-width: 0; }
+
     .monospace-subtitle .subtitle { font-family: monospace; }
     """
 }

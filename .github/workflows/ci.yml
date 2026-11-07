@@ -31,7 +31,7 @@ jobs:
         run: scripts/test-portable-macos.sh
 
   apple-apps:
-    name: Xcode project (macOS app, iOS app, CLI)
+    name: Xcode project (macOS app, CLI)
     runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
@@ -39,7 +39,18 @@ jobs:
       - name: macOS App Store variant (unsigned sandbox build)
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS-AppStore CODE_SIGNING_ALLOWED=NO build
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
-      - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -destination 'generic/platform=iOS Simulator' build
+
+  ios-app:
+    name: iOS app (iPhone Duo SDK)
+    runs-on: xcode-27
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require iPhone Duo SDK
+        run: bash apple/scripts/require-ios-sdk.sh
+      - name: Build iOS and share extension
+        run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Release -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
 
   linux:
     name: Linux (Swift core, CLI, GNOME app, packages)

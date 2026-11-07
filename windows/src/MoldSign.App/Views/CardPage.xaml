@@ -43,7 +43,7 @@
 
             <controls:CardWallet IsCompact="False" />
 
-            <Border Style="{StaticResource MsCardBorderStyle}">
+            <Border x:Name="CertificateProperties" Visibility="Collapsed" Style="{StaticResource MsCardBorderStyle}">
                 <Grid ColumnSpacing="16" RowSpacing="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />

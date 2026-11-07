@@ -12,6 +12,8 @@
     xmlns:controls="using:MoldSign.App.Controls"
     xmlns:views="using:MoldSign.App.Views">
 
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="*" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
     <Grid Padding="{StaticResource PagePadding}" RowSpacing="16">
         <Grid.RowDefinitions>
@@ -147,14 +149,19 @@
             IsClosable="True"
             IsOpen="False" />
 
-        <Grid Grid.Row="4" ColumnSpacing="16">
+    </Grid>
+    </ScrollViewer>
+
+        <!-- Keep the signing action reachable while documents and options scroll. -->
+        <Grid x:Name="SigningFooter" Grid.Row="1" Padding="32,16" ColumnSpacing="16" Visibility="Collapsed"
+              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+              BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="0,1,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel
                 VerticalAlignment="Center"
-                Orientation="Horizontal"
                 Spacing="8"
                 Visibility="{x:Bind State.ProgressVisibility, Mode=OneWay}">
                 <ProgressRing
@@ -164,7 +171,7 @@
                 <TextBlock
                     VerticalAlignment="Center"
                     Style="{StaticResource MsCaptionTextStyle}"
-                    Text="{x:Bind State.ProgressText, Mode=OneWay}" />
+                    Text="{x:Bind State.ProgressText, Mode=OneWay}" TextWrapping="Wrap" />
             </StackPanel>
             <controls:StatusLightPill Visibility="{x:Bind State.NotBusyVisibility, Mode=OneWay}" />
             <!-- Style set from code: accent only while enabled (a disabled accent button reads as broken). -->
@@ -181,5 +188,4 @@
             </Button>
         </Grid>
     </Grid>
-    </ScrollViewer>
 </Page>

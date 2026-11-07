@@ -123,6 +123,7 @@ end
 
 desc "iOS: one archive → App Store IPA (uploaded to TestFlight, not waiting for processing) + ad hoc IPA in dist/ios"
 lane :ios_release do |options|
+  sh("bash", File.expand_path("../apple/scripts/require-ios-sdk.sh", __dir__))
   setup_ci if is_ci
   key = asc_key
   match(type: "appstore", platform: "ios", app_identifier: IOS_IDS, api_key: key, readonly: true)

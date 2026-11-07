@@ -1,0 +1,13 @@
+# Android splash and store refresh — 2026-11-07
+
+Android 12+ previously reused the 108dp adaptive launcher foreground in the system's 288dp splash icon area. This enlarged the bitmap by 2.67×. Android documents the [288dp icon canvas for an icon without a background](https://developer.android.com/develop/ui/views/launch/splash-screen). The launch theme now selects a dedicated splash asset rendered from the same brand SVG at 288, 432, 576, 864 and 1152 pixels for mdpi through xxxhdpi. `scripts/make-launch-assets.py` reproduces these assets. The 768×1056 exit-transition branding already has enough resolution for its 160×220dp view and remains unchanged.
+
+CardWallet already bounds the signing card to 420dp and the large card/details face to 480dp, centers the pager, and preserves the golden aspect ratio. No card-size source change was needed on Android.
+
+Validation: `:app:assembleDebug` passed on working tree based on `d0f4f13`; all five splash densities are packaged in the APK. APK SHA-256: `b944f2f29f0e3f55002863e0549bbcadaf1498eb67baf1fbfb004d9f651b7ac2`. `git diff --check` passed for the two modified source files. No core tests needed for this resource-only change.
+
+Store capture command: `python3 distribution/tools/capture-android-store-all.py --avd esb-stamp-review --port 5562 --output docs/reports/store-refresh-2026-11-07`. After reclaiming old task build caches, the existing AVD booted read-only. Initial System UI ANR frames were rejected and all 12 phone images were retaken using `capture-android-store.py --layouts phone` after dismissing the boot-time dialog.
+
+Final output: 36 native RGB screenshots under `docs/reports/store-refresh-2026-11-07/google/assets/android` (RO/EN/RU × phone/seven-inch/ten-inch × sign/card/verify/browser). Phone and seven-inch captures are 1080×1920; ten-inch captures are 1920×1080. All were visually inspected in contact sheets, with representative phone and tablet screens inspected at full resolution. Cards remain bounded on large displays, localized navigation and controls fit, and no demo banner or system dialog remains. The capture manifest records the APK hash for every screenshot.
+
+Cold-start proof: `docs/reports/store-refresh-2026-11-07/android-validation/cold-launch-tablet.png` is a 1920×1080 frame from the clean native recording, showing the sharp system splash mark. The recording is retained locally as `cold-launches.mp4`; only the clean PNG is needed in the review pack. These are Debug demo captures with fictional identities, not proof of hardware signing. Emulator was stopped after capture; existing AVD state was preserved.

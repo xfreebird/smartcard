@@ -11,6 +11,12 @@ protocol DocumentSigning: Sendable {
 }
 protocol DocumentVerifying: Sendable {
     func verify(_ url: URL) async -> [Validator.Report]
+    func inspect(_ url: URL) async throws -> [Validator.Report]
+    func inspect(_ url: URL, companions: [URL]) async throws -> [Validator.Report]
+}
+extension DocumentVerifying {
+    func inspect(_ url: URL, companions: [URL]) async throws -> [Validator.Report] { try await inspect(url) }
+    func inspect(_ url: URL) async throws -> [Validator.Report] { await verify(url) }
 }
 
 struct CoreCertificateReader: CertificateReading {
@@ -57,29 +63,28 @@ struct CoreDocumentSigner: DocumentSigning {
 struct CoreDocumentVerifier: DocumentVerifying {
     let service: SigningService
     func verify(_ url: URL) async -> [Validator.Report] {
-        let scoped = url.startAccessingSecurityScopedResource()
-        defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-        return await Task.detached {
-            guard let data = try? Data(contentsOf: url) else { return [] }
-            let isPDF = url.pathExtension.lowercased() == "pdf"
-            return service.verify(data, isPDF: isPDF,
-                                  detached: isPDF ? [:] : Self.detachedDocuments(for: data, near: url))
-        }.value
+        (try? await inspect(url)) ?? []
     }
 
-    private static func detachedDocuments(for xml: Data, near url: URL) -> [String: Data] {
-        var files: [String: Data] = [:]
-        let text = String(decoding: xml, as: UTF8.self)
-        var start = text.startIndex
-        while let range = text.range(of: "URI=\"file:/", range: start..<text.endIndex),
-              let end = text[range.upperBound...].firstIndex(of: "\"") {
-            let name = String(text[range.upperBound..<end])
-            // Detached signatures may only refer to neighbouring basenames, never arbitrary paths.
-            if URL(filePath: name).lastPathComponent == name {
-                files[name] = try? Data(contentsOf: url.deletingLastPathComponent().appendingPathComponent(name))
-            }
-            start = end
-        }
-        return files
+    func inspect(_ url: URL) async throws -> [Validator.Report] {
+        try await inspect(url, companions: [])
+    }
+
+    func inspect(_ url: URL, companions: [URL]) async throws -> [Validator.Report] {
+        let inputs = [url] + companions
+        let scopes = inputs.filter { $0.startAccessingSecurityScopedResource() }
+        defer { scopes.forEach { $0.stopAccessingSecurityScopedResource() } }
+        try Task.checkCancellation()
+        let reports = try await Task.detached {
+            let data = try Data(contentsOf: url)
+            let isPDF = url.pathExtension.lowercased() == "pdf"
+            let initial = service.verify(data, isPDF: isPDF, detached: [:])
+            guard !isPDF else { return initial }
+            let names = Set(initial.flatMap(\.missingDetachedReferences))
+            let files = DetachedDocumentAccess.companions(named: names, near: url, selected: companions)
+            return service.verify(data, isPDF: false, detached: files)
+        }.value
+        try Task.checkCancellation()
+        return reports
     }
 }

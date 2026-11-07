@@ -15,13 +15,25 @@ public sealed partial class VerifyPage : Page
     private int _version;
     private int _selectionVersion;
 
-    public VerifyPage()
+    private readonly bool _detailsMode;
+
+    public VerifyPage() : this(detailsMode: false) { }
+
+    internal VerifyPage(bool detailsMode)
     {
+        _detailsMode = detailsMode;
         InitializeComponent();
         FileDrop.Extensions.Add(".pdf");
         FileDrop.Extensions.Add(".xml");
         FileDrop.FilesChosen += OnFilesChosen;
+        if (detailsMode)
+        {
+            PageTitle.Visibility = FileDrop.Visibility = FormatHint.Visibility = Visibility.Collapsed;
+        }
     }
+
+    /// Invalidate only when the containing modal closes, not during WinUI popup reparenting.
+    internal void CancelInspection() { ++_version; ++_selectionVersion; }
 
     private void OnClearResultsClick(object sender, RoutedEventArgs e)
     {
@@ -102,7 +114,7 @@ public sealed partial class VerifyPage : Page
     {
         if (_signature is not { } path) return;
         var version = ++_version;
-        ClearResults.Visibility = Visibility.Visible;
+        ClearResults.Visibility = _detailsMode ? Visibility.Collapsed : Visibility.Visible;
         DocumentName.Text = Path.GetFileName(path);
         DocumentInfo.Visibility = Visibility.Visible;
         FileDrop.IsCompact = true;
@@ -117,7 +129,7 @@ public sealed partial class VerifyPage : Page
         ReferencedNames.Text = string.Join(Environment.NewLine, _documents.Select(Path.GetFileName));
         try
         {
-            var outcome = await App.Current.Services.VerifyAsync(path, _documents.ToArray());
+            var outcome = await App.Current.Services.VerifyAsync(path, _documents.ToArray(), recordActivity: !_detailsMode);
             if (version != _version) return;
             if (outcome.Reports is not { } reports) { ShowError(outcome.Message); return; }
 
@@ -192,8 +204,8 @@ public sealed partial class VerifyPage : Page
 
         var certificate = new StackPanel { Spacing = 8 };
         foreach (var field in report.CertificateDetails)
-            certificate.Children.Add(new TextBlock { Text = $"{field.Key}: {field.Value}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true });
-        content.Children.Add(new Expander { Header = "Certificate details", Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch });
+            certificate.Children.Add(new TextBlock { Text = $"{CertificateLabels.Label(field.Key)}: {field.Value}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true });
+        content.Children.Add(new Expander { Header = Loc.Get("cert_label_certificate_details"), Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch });
         var details = new StackPanel { Spacing = 12 };
         details.Children.Add(Field("Verify_Format", SignatureLabels.Human(report.Kind)));
         details.Children.Add(Field("Verify_Identifier", report.Name));

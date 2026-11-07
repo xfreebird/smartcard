@@ -8,11 +8,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <StackPanel
+    <Grid
         VerticalAlignment="Center"
-        Orientation="Horizontal"
-        Spacing="6"
+        ColumnSpacing="6"
         ToolTipService.ToolTip="{x:Bind State.LightLabel, Mode=OneWay}">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
         <Ellipse
             Width="8"
             Height="8"
@@ -20,9 +20,9 @@
             AutomationProperties.AccessibilityView="Raw"
             Fill="{x:Bind State.LightBrush, Mode=OneWay}"
             Visibility="{x:Bind State.LightDotVisibility, Mode=OneWay}" />
-        <TextBlock
+        <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis"
             VerticalAlignment="Center"
             Style="{StaticResource MsCaptionTextStyle}"
             Text="{x:Bind State.LightLabel, Mode=OneWay}" />
-    </StackPanel>
+    </Grid>
 </UserControl>

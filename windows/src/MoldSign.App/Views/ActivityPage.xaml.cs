@@ -19,9 +19,14 @@ public sealed partial class ActivityPage : Page
         {
             State.PruneMissingFiles(); // document rows only while the file exists
             State.Activity.CollectionChanged += OnActivityChanged;
+            State.SignedDocuments.CollectionChanged += OnActivityChanged;
             RefreshDocuments();
         };
-        Unloaded += (_, _) => State.Activity.CollectionChanged -= OnActivityChanged;
+        Unloaded += (_, _) =>
+        {
+            State.Activity.CollectionChanged -= OnActivityChanged;
+            State.SignedDocuments.CollectionChanged -= OnActivityChanged;
+        };
     }
 
     public AppState State => AppState.Current;
@@ -35,20 +40,44 @@ public sealed partial class ActivityPage : Page
         if (DocumentList is null || EmptyMessage is null) return;
         var history = DocumentFilter.SelectedIndex == 1;
         DisplayItems.Clear();
-        foreach (var item in State.Activity.Where(item => history || (item.Success && item.Path != null &&
-            (item.SignedOutput == true || (item.SignedOutput == null && System.IO.Path.GetFileName(item.Path).Contains("-semnat"))))))
+        foreach (var item in history ? State.Activity : State.SignedDocuments)
             DisplayItems.Add(item);
-        EmptyMessage.Text = history ? Loc.Get("RecentEmpty.Text") : Loc.Get("saved_empty") + "\n" + Loc.Get("saved_hint");
+        EmptyMessage.Text = history ? Loc.Get("RecentEmpty/Text") : Loc.Get("saved_empty") + "\n" + Loc.Get("saved_hint");
         EmptyMessage.Visibility = DisplayItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         ClearButton.IsEnabled = State.Activity.Count > 0;
         ClearButton.Visibility = history ? Visibility.Visible : Visibility.Collapsed;
     }
 
-    private void OnItemClick(object sender, ItemClickEventArgs e)
+    private bool _detailsOpen;
+
+    private async void OnItemClick(object sender, ItemClickEventArgs e)
     {
-        if (e.ClickedItem is not ActivityItem { Path: { } path }) return; // browser requests have no file
-        if (File.Exists(path)) WindowHelpers.RevealInExplorer(path);
-        else State.PruneMissingFiles();
+        if (_detailsOpen || XamlRoot is null || e.ClickedItem is not ActivityItem { Path: { } path }) return;
+        if (!File.Exists(path)) { State.PruneMissingFiles(); return; }
+        _detailsOpen = true;
+        try
+        {
+            // Use the same fresh verification and certificate renderer as Verify, without
+            // navigating away, replacing Verify's selected files, or adding another history row.
+            var details = new VerifyPage(detailsMode: true)
+            {
+                MaxHeight = Math.Max(200, XamlRoot.Size.Height - 180),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+            };
+            var dialog = new ContentDialog
+            {
+                XamlRoot = XamlRoot, RequestedTheme = ActualTheme, Title = Loc.Get("saved_details"), Content = details,
+                CloseButtonText = Loc.Get("saved_close"), DefaultButton = ContentDialogButton.Close,
+            };
+            dialog.Opened += async (_, _) => await details.VerifyFilesAsync(new[] { path });
+            dialog.Closed += (_, _) => details.CancelInspection();
+            await dialog.ShowAsync();
+        }
+        catch (Exception error)
+        {
+            AppLog.Error(error);
+        }
+        finally { _detailsOpen = false; }
     }
 
     private async void OnVerifyClick(object sender, RoutedEventArgs e)
@@ -58,12 +87,13 @@ public sealed partial class ActivityPage : Page
         await App.Current.EnsureMainWindow(activate: true).VerifyFilesAsync(new[] { path });
     }
 
-    /// <summary>"Golește lista" with a confirmation: the log goes, the signed documents stay on disk.</summary>
+    /// <summary>Clear operation history only; the saved document library and files are retained.</summary>
     private async void OnClearClick(object sender, RoutedEventArgs e)
     {
         var dialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
+            RequestedTheme = ActualTheme,
             Title = Loc.Get("Activity_ClearTitle"),
             Content = Loc.Get("Activity_ClearMessage"),
             PrimaryButtonText = Loc.Get("Activity_ClearConfirm"),

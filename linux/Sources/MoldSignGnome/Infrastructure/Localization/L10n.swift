@@ -306,6 +306,50 @@ enum L10n {
         case saved_empty
         case saved_hint
         case saved_browse
+        case verify_clear_results
+        case verify_author
+        case verify_certificate_details
+        case saved_details
+        case saved_unavailable
+        case saved_close
+        case saved_library_save_failed
+        case cert_label_subject
+        case cert_label_issuer
+        case cert_label_certificate
+        case cert_label_certificate_details
+        case cert_label_name
+        case cert_label_surname
+        case cert_label_given_names
+        case cert_label_personal_identifier
+        case cert_label_country
+        case cert_label_city
+        case cert_label_region
+        case cert_label_organization
+        case cert_label_department
+        case cert_label_organization_identifier
+        case cert_label_telephone
+        case cert_label_title
+        case cert_label_serial_number
+        case cert_label_sha_256_fingerprint
+        case cert_label_valid_from
+        case cert_label_valid_until
+        case cert_label_public_key
+        case cert_label_certificate_signature_algorithm
+        case cert_label_revocation_lists
+        case cert_label_authority_information
+        case cert_label_alternative_names
+        case cert_label_certificate_policies
+        case cert_label_ocsp_responder
+        case cert_label_issuer_certificate_url
+        case cert_label_qualified_certificate_statements
+        case cert_label_subject_key_identifier
+        case cert_label_authority_key_identifier
+        case cert_label_key_usage
+        case cert_label_extended_key_usage
+        case cert_label_basic_constraints
+        case cert_label_authority
+        case cert_label_certificate_policy
+        case cert_label_extension
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -1829,6 +1873,226 @@ enum L10n {
     "ro": "Vezi documentele semnate",
     "en": "View signed documents",
     "ru": "Посмотреть подписанные документы"
+  },
+  "verify_clear_results": {
+    "ro": "Șterge rezultatele",
+    "en": "Clear results",
+    "ru": "Очистить результаты"
+  },
+  "verify_author": {
+    "ro": "Autor:",
+    "en": "Author:",
+    "ru": "Автор:"
+  },
+  "verify_certificate_details": {
+    "ro": "Detalii certificat",
+    "en": "Certificate details",
+    "ru": "Сведения о сертификате"
+  },
+  "saved_details": {
+    "ro": "Detalii semnătură",
+    "en": "Signing details",
+    "ru": "Сведения о подписи"
+  },
+  "saved_unavailable": {
+    "ro": "Acest document nu mai este disponibil sau nu poate fi citit.",
+    "en": "This document is no longer available or cannot be read.",
+    "ru": "Этот документ больше недоступен или не может быть прочитан."
+  },
+  "saved_close": {
+    "ro": "Închide",
+    "en": "Close",
+    "ru": "Закрыть"
+  },
+  "saved_library_save_failed": {
+    "ro": "Lista de documente nu a putut fi salvată. Istoricul a fost păstrat. Încearcă din nou.",
+    "en": "The document list could not be saved. History was kept. Try again.",
+    "ru": "Не удалось сохранить список документов. История сохранена. Повторите попытку."
+  },
+  "cert_label_subject": {
+    "ro": "Titular",
+    "en": "Subject",
+    "ru": "Владелец"
+  },
+  "cert_label_issuer": {
+    "ro": "Emitent",
+    "en": "Issuer",
+    "ru": "Издатель"
+  },
+  "cert_label_certificate": {
+    "ro": "Certificat",
+    "en": "Certificate",
+    "ru": "Сертификат"
+  },
+  "cert_label_certificate_details": {
+    "ro": "Detalii certificat",
+    "en": "Certificate details",
+    "ru": "Сведения о сертификате"
+  },
+  "cert_label_name": {
+    "ro": "Nume",
+    "en": "Name",
+    "ru": "Имя"
+  },
+  "cert_label_surname": {
+    "ro": "Nume de familie",
+    "en": "Surname",
+    "ru": "Фамилия"
+  },
+  "cert_label_given_names": {
+    "ro": "Prenume",
+    "en": "Given names",
+    "ru": "Имена"
+  },
+  "cert_label_personal_identifier": {
+    "ro": "Identificator personal",
+    "en": "Personal identifier",
+    "ru": "Личный идентификатор"
+  },
+  "cert_label_country": {
+    "ro": "Țară",
+    "en": "Country",
+    "ru": "Страна"
+  },
+  "cert_label_city": {
+    "ro": "Localitate",
+    "en": "City",
+    "ru": "Город"
+  },
+  "cert_label_region": {
+    "ro": "Regiune",
+    "en": "Region",
+    "ru": "Регион"
+  },
+  "cert_label_organization": {
+    "ro": "Organizație",
+    "en": "Organization",
+    "ru": "Организация"
+  },
+  "cert_label_department": {
+    "ro": "Departament",
+    "en": "Department",
+    "ru": "Подразделение"
+  },
+  "cert_label_organization_identifier": {
+    "ro": "Identificator organizație",
+    "en": "Organization identifier",
+    "ru": "Идентификатор организации"
+  },
+  "cert_label_telephone": {
+    "ro": "Telefon",
+    "en": "Telephone",
+    "ru": "Телефон"
+  },
+  "cert_label_title": {
+    "ro": "Funcție",
+    "en": "Title",
+    "ru": "Должность"
+  },
+  "cert_label_serial_number": {
+    "ro": "Număr de serie",
+    "en": "Serial number",
+    "ru": "Серийный номер"
+  },
+  "cert_label_sha_256_fingerprint": {
+    "ro": "Amprentă SHA-256",
+    "en": "SHA-256 fingerprint",
+    "ru": "Отпечаток SHA-256"
+  },
+  "cert_label_valid_from": {
+    "ro": "Valabil de la",
+    "en": "Valid from",
+    "ru": "Действителен с"
+  },
+  "cert_label_valid_until": {
+    "ro": "Valabil până la",
+    "en": "Valid until",
+    "ru": "Действителен до"
+  },
+  "cert_label_public_key": {
+    "ro": "Cheie publică",
+    "en": "Public key",
+    "ru": "Открытый ключ"
+  },
+  "cert_label_certificate_signature_algorithm": {
+    "ro": "Algoritmul semnăturii certificatului",
+    "en": "Certificate signature algorithm",
+    "ru": "Алгоритм подписи сертификата"
+  },
+  "cert_label_revocation_lists": {
+    "ro": "Liste de revocare",
+    "en": "Revocation lists",
+    "ru": "Списки отзыва"
+  },
+  "cert_label_authority_information": {
+    "ro": "Informații despre autoritate",
+    "en": "Authority information",
+    "ru": "Сведения о центре сертификации"
+  },
+  "cert_label_alternative_names": {
+    "ro": "Nume alternative",
+    "en": "Alternative names",
+    "ru": "Альтернативные имена"
+  },
+  "cert_label_certificate_policies": {
+    "ro": "Politici de certificare",
+    "en": "Certificate policies",
+    "ru": "Политики сертификата"
+  },
+  "cert_label_ocsp_responder": {
+    "ro": "Serviciu OCSP",
+    "en": "OCSP responder",
+    "ru": "Служба OCSP"
+  },
+  "cert_label_issuer_certificate_url": {
+    "ro": "Adresa certificatului emitentului",
+    "en": "Issuer certificate URL",
+    "ru": "Адрес сертификата издателя"
+  },
+  "cert_label_qualified_certificate_statements": {
+    "ro": "Declarații privind certificatul calificat",
+    "en": "Qualified certificate statements",
+    "ru": "Утверждения квалифицированного сертификата"
+  },
+  "cert_label_subject_key_identifier": {
+    "ro": "Identificatorul cheii titularului",
+    "en": "Subject key identifier",
+    "ru": "Идентификатор ключа владельца"
+  },
+  "cert_label_authority_key_identifier": {
+    "ro": "Identificatorul cheii autorității",
+    "en": "Authority key identifier",
+    "ru": "Идентификатор ключа центра сертификации"
+  },
+  "cert_label_key_usage": {
+    "ro": "Utilizarea cheii",
+    "en": "Key usage",
+    "ru": "Использование ключа"
+  },
+  "cert_label_extended_key_usage": {
+    "ro": "Utilizarea extinsă a cheii",
+    "en": "Extended key usage",
+    "ru": "Расширенное использование ключа"
+  },
+  "cert_label_basic_constraints": {
+    "ro": "Constrângeri de bază",
+    "en": "Basic constraints",
+    "ru": "Основные ограничения"
+  },
+  "cert_label_authority": {
+    "ro": "Autoritate",
+    "en": "Authority",
+    "ru": "Центр сертификации"
+  },
+  "cert_label_certificate_policy": {
+    "ro": "Politică de certificare",
+    "en": "Certificate policy",
+    "ru": "Политика сертификата"
+  },
+  "cert_label_extension": {
+    "ro": "Extensie",
+    "en": "Extension",
+    "ru": "Расширение"
   }
 }
 """#.utf8)

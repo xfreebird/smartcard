@@ -127,6 +127,9 @@ class SigningBridgeRoutesTest {
         val id = sessionOf(created)
         assertEquals("https://localhost.cts.md:18443/sign/data/PKCS11/$id/Any", created.header("Location"))
 
+        // A second allowed origin cannot consume the result, even knowing its identifier.
+        assertEquals(404, r.handle(request("GET", "/sign/data/PKCS11/$id/Any", origin = "https://mpass.gov.md")).status)
+        assertEquals(404, r.handle(request("GET", "/sign/data/PKCS11/$id/Any", origin = null)).status)
         val done = r.handle(request("GET", "/sign/data/PKCS11/$id/Any"))
         assertEquals(200, done.status)
         assertArrayEquals("signed:".toByteArray() + pdf, done.signedBytes())

@@ -55,7 +55,7 @@ class SigningBridgeRoutes(
 ) : BridgeRoutes, Closeable {
     private class Outcome(val payload: String, val error: String?)
 
-    private class Session(val createdAt: Long) {
+    private class Session(val createdAt: Long, val origin: String?) {
         val outcome = CompletableFuture<Outcome>()
     }
 
@@ -162,7 +162,7 @@ class SigningBridgeRoutes(
 
         sweep()
         val id = ByteArray(12).also(random::nextBytes).toHex()
-        val session = Session(clock())
+        val session = Session(clock(), job.origin)
         sessions[id] = session
         try {
             jobs.execute { session.outcome.complete(run(id, job)) }
@@ -254,7 +254,7 @@ class SigningBridgeRoutes(
     private fun poll(request: BridgeRequest, path: String): BridgeResponse {
         val id = path.split('/').filter { it.isNotEmpty() }.getOrNull(3).orEmpty()
         val keepPin = queryItems(request.query)["keep_pin_session"] == "1"
-        val session = sessions[id]
+        val session = sessions[id]?.takeIf { it.origin == request.header("origin") }
             ?: return BridgeResponse.json(404, """{"error":"unknown session"}""", listOf("error" to "unknown session"))
         val outcome = try {
             session.outcome.get(pollTimeoutMs, TimeUnit.MILLISECONDS)

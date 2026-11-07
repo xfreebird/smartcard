@@ -9,13 +9,21 @@ import MoldSignKit
 struct DropZone: View {
     var verification = false
     var compact = false
+    var short = false
     var targeted = false
     let choose: () -> Void
 
     var body: some View {
         let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
         Group {
-            if compact {
+            if short {
+                Button(action: choose) {
+                    Label(L10n.text(.ui_choose_files), systemImage: verification ? "checkmark.seal" : "arrow.down.doc")
+                        .frame(maxWidth: .infinity, minHeight: 44)
+                }
+                .buttonStyle(.borderless)
+                .padding(.horizontal, Theme.Space.s)
+            } else if compact {
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: Theme.Space.s) {
                         Image(systemName: "arrow.down.doc")

@@ -46,7 +46,11 @@ class MainActivity : FragmentActivity() {
         if (savedInstanceState == null) handleIntent(intent)
         setContent {
             MoldSignTheme {
-                MoldSignRoot(demoPage = demoPage, demoGeneration = demoGeneration)
+                // Each screenshot intent gets fresh navigation/scroll/dialog state without a process restart.
+                // The release implementation never enables this isolated fixture key.
+                androidx.compose.runtime.key(if (DemoMode.screenshotCapture(intent)) demoGeneration else 0) {
+                    MoldSignRoot(demoPage = demoPage, demoGeneration = demoGeneration)
+                }
             }
         }
     }

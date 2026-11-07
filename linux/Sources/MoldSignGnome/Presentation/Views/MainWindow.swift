@@ -46,6 +46,7 @@ final class MainWindow {
         cardPage = CardPage(controller: controller)
 
         stack = OpaquePointer(adw_view_stack_new()!)
+        adw_view_stack_set_hhomogeneous(stack, 0)
         let pages: [(Widget, String, String, String)] = [
             (signPage.root, "sign", L10n.text(.ui_sign), "document-edit-symbolic"),
             (verifyPage.root, "verify", L10n.text(.ui_verify), "security-high-symbolic"),
@@ -99,6 +100,7 @@ final class MainWindow {
 
         let switcherBar = adw_view_switcher_bar_new()!
         adw_view_switcher_bar_set_stack(switcherBar.opaque, stack)
+        addClasses(switcherBar, ["compact-navigation"])
 
         let toolbar = adw_toolbar_view_new()!
         adw_toolbar_view_add_top_bar(toolbar.opaque, header)
@@ -113,11 +115,12 @@ final class MainWindow {
             guard let condition = adw_breakpoint_condition_parse(query) else { continue }
             let breakpoint = adw_breakpoint_new(condition)!
             setBreakpointBool(breakpoint, switcherBar, "reveal", true)
-            setBreakpointBool(breakpoint, header, "show-title", false)
+            setBreakpointBool(breakpoint, switcher, "visible", false)
             if compactCards {
                 let wallets = [signPage.wallet, cardPage.wallet]
-                onSignal(breakpoint, "apply") { wallets.forEach { $0.setCompact(true) } }
-                onSignal(breakpoint, "unapply") { wallets.forEach { $0.setCompact(false) } }
+                let signing = signPage
+                onSignal(breakpoint, "apply") { wallets.forEach { $0.setCompact(true) }; signing.setCompact(true) }
+                onSignal(breakpoint, "unapply") { wallets.forEach { $0.setCompact(false) }; signing.setCompact(false) }
             }
             adw_application_window_add_breakpoint(win.cast(), breakpoint)
         }

@@ -42,6 +42,13 @@ enum DemoScenario: String, CaseIterable {
         report.timestampTime = "2026-10-30T12:00:02Z"
         report.level = "PAdES-B-T"
         report.summary = DemoMode.screenshotCapture ? "" : L10n.text(.ui_demo_data_cryptographic_verification_was_not_performed)
+        if DemoMode.screenshotCapture {
+            report.certificateDetails = [
+                "Subject · Name": "POPESCU ION", "Issuer · Name": "Autoritate de test",
+                "Serial number": "01", "Public key": "RSA 4096 bits",
+                "Valid from": "01.01.2025", "Valid until": "01.01.2030",
+            ]
+        }
         return report
     }
 }

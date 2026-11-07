@@ -46,6 +46,35 @@ final class BridgeEndToEndTests: XCTestCase {
         XCTAssertEqual(card.verifyAttempts, 2)
     }
 
+    func testDetachedMissingOriginalIsIncompleteAndSelectedBytesResolveIt() throws {
+        let doc = FileManager.default.temporaryDirectory.appendingPathComponent("detached-\(UUID().uuidString).txt")
+        let content = Data("original content".utf8)
+        try content.write(to: doc)
+        defer { try? FileManager.default.removeItem(at: doc) }
+        let xml = try SigningService.shared.signXAdES(files: [doc], format: .bes, pin: "1234")
+        // Optional synthetic fixture handoff for native picker tests. Never exports a real card.
+        if let directory = ProcessInfo.processInfo.environment["MSIGN_TEST_EXPORT_DIRECTORY"] {
+            let output = URL(fileURLWithPath: directory, isDirectory: true)
+            try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
+            try xml.write(to: output.appendingPathComponent("detached-signature.xml"))
+            try content.write(to: output.appendingPathComponent(doc.lastPathComponent))
+        }
+        let missing = try XCTUnwrap(Validator.validateXAdES(xml, referencedFiles: [:]).first)
+        XCTAssertTrue(missing.signatureValid)
+        XCTAssertFalse(missing.contentIntact)
+        XCTAssertEqual(missing.missingDetachedReferences, [doc.lastPathComponent])
+        XCTAssertTrue(missing.summary.contains("INCOMPLETE"))
+        XCTAssertFalse(missing.summary.contains("modified"))
+        let resolved = try XCTUnwrap(Validator.validateXAdES(xml, referencedFiles: [doc.lastPathComponent: content]).first)
+        XCTAssertTrue(resolved.signatureValid)
+        XCTAssertTrue(resolved.contentIntact)
+        XCTAssertTrue(resolved.missingDetachedReferences.isEmpty)
+        let wrong = try XCTUnwrap(Validator.validateXAdES(xml, referencedFiles: [doc.lastPathComponent: Data("changed".utf8)]).first)
+        XCTAssertFalse(wrong.contentIntact)
+        XCTAssertTrue(wrong.missingDetachedReferences.isEmpty)
+        XCTAssertTrue(wrong.summary.contains("modified"))
+    }
+
     // MARK: - Bridge
 
     func testPortalBatchNeedsOneConsentAndHonoursSHA1() throws {
@@ -60,6 +89,9 @@ final class BridgeEndToEndTests: XCTestCase {
         let first = try post("/sign/data", body, port: 28494)
         let firstLocation = try location(first)
         let firstSession = firstLocation.components(separatedBy: "/PKCS11/")[1].components(separatedBy: "/")[0]
+        // A leaked session identifier is not authority for a different allowed origin.
+        let foreignPoll = try get(firstLocation, port: 28494, origin: "https://mpass.gov.md")
+        XCTAssertTrue(foreignPoll.hasPrefix("HTTP/1.1 404"), foreignPoll)
         let result1 = try get(firstLocation + "?keep_pin_session=1", port: 28494)
         XCTAssertTrue(result1.hasPrefix("HTTP/1.1 200"), result1)
         let xml1 = try signedXML(result1)
@@ -75,10 +107,17 @@ final class BridgeEndToEndTests: XCTestCase {
         XCTAssertEqual(consents, 1, "one consent for the whole batch")
         XCTAssertEqual(card.verifyAttempts, 2, "the card still verifies the (reused) PIN per document")
 
+        // A normal long-poll ends the new PIN session, including when it started before signing finished.
+        let secondLocation = try location(second)
+        let secondSession = secondLocation.components(separatedBy: "/PKCS11/")[1].components(separatedBy: "/")[0]
+        let afterEnd = try post("/sign/data?use_pin_session=\(secondSession)", body, port: 28494)
+        _ = try get(try location(afterEnd), port: 28494)
+        XCTAssertEqual(consents, 2, "a completed non-retained session needs fresh consent")
+
         // another origin can't ride on the batch's PIN session
         let foreign = try post("/sign/data?use_pin_session=\(firstSession)", body, port: 28494, origin: "https://mpass.gov.md")
         _ = try get(try location(foreign), port: 28494, origin: "https://mpass.gov.md")
-        XCTAssertEqual(consents, 2)
+        XCTAssertEqual(consents, 3)
     }
 
     func testWrongPINFromTheBrowserIsTriedOnceAndReported() throws {
@@ -155,6 +194,14 @@ final class BridgeEndToEndTests: XCTestCase {
         }
         XCTAssertTrue(try request("/sign/data", method: "POST", body: Data("{}".utf8)).hasPrefix("HTTP/1.1 403"))
         let body = Data(#"{"originalFile":"/does/not/exist.pdf","signedFile":"/must/not/write.pdf","pin":"1234"}"#.utf8)
+        for route in ["/sign/pdf", "/sign/file", "/sign/file/verify", "/sign/pdf/verify", "/verify/pdf"] {
+            for headers in [["Origin: https://msign.gov.md", "moldSign: DesktopSuiteClient"],
+                            ["moldSign: DesktopSuiteClient", "Sec-Fetch-Site: same-origin"]] {
+                let denied = try request(route, method: "POST", headers: headers, body: body)
+                XCTAssertTrue(denied.hasPrefix("HTTP/1.1 403"), denied)
+            }
+        }
+        XCTAssertEqual(consents, 0, "browser filesystem requests must fail before consent")
         let created = try request("/sign/pdf", method: "POST", body: body)
         let resultURL = try location(created)
         XCTAssertTrue(resultURL.hasPrefix("http://localhost.cts.md:\(port)/"), resultURL)

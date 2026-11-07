@@ -39,3 +39,15 @@ object ActivityHistory {
             }
         }
 }
+
+/** Saved outputs outlive activity cleanup and the history cap. A URI identifies one saved file. */
+object SignedDocumentLibrary {
+    fun add(documents: List<ActivityEntry>, entry: ActivityEntry): List<ActivityEntry> =
+        if (entry.kind == ActivityEntry.Kind.Document && entry.ok && entry.signedOutput && entry.documentUri != null)
+            listOf(entry) + documents.filterNot { it.documentUri == entry.documentUri }
+        else documents
+
+    /** Keeps the newest record for each output when upgrading from history-only storage. */
+    fun migrate(history: List<ActivityEntry>): List<ActivityEntry> =
+        history.asReversed().fold(emptyList<ActivityEntry>(), ::add)
+}

@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Text;
+using System.Text.Json;
 using MoldSign.Core;
 
 namespace MoldSign.Cli;
@@ -33,13 +35,16 @@ internal static class CliApp
         esemnbun: eSemnBun CLI for the Moldovan eID (IDEMIA CosmoX ID-A), Windows
 
         Usage:
+          esemnbun capabilities [--json]                    Supported commands and formats; no card/PIN access
           esemnbun readers                                   List PC/SC readers and card presence
           esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN)
+          esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
+
+        Not yet available in the Windows CLI (use the desktop app for document signing and verification):
           esemnbun sign <in.pdf> [<out.pdf>]                 PAdES-T (default output: <name>-semnat.pdf)
           esemnbun xades <XAdES-BES|XAdES-T|XAdES-C> <in> <out.xml> [--enveloping]
           esemnbun verify <file.pdf|sig.xml> [<docs_dir>]    Offline validation report
           esemnbun server [<port>]                           Browser bridge (http 18480, https 18443)
-          esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
           esemnbun cms-for-hash <sha256_hex>                 Developer: detached CMS for an external digest
           esemnbun <in.pdf> <out.pdf>                        Legacy form of 'sign'
 
@@ -57,6 +62,12 @@ internal static class CliApp
 
     public static int Run(IReadOnlyList<string> args, CliHost host)
     {
+        // Discover capabilities before the normal dispatcher can touch a card or obtain a PIN.
+        // Until structured verification ships, other --json commands fail closed here.
+        var discoveryCommand = args.FirstOrDefault(arg => arg is not "--quiet" and not "--json");
+        if (discoveryCommand == "capabilities" || args.Contains("--json", StringComparer.Ordinal))
+            return Capabilities(args, discoveryCommand, host);
+
         CliOptions options;
         try
         {
@@ -103,6 +114,90 @@ internal static class CliApp
             host.Error.WriteLine($"error: {e.Message}");
             return ExitCodes.UsageOrUnexpected;
         }
+    }
+
+    private static int Capabilities(IReadOnlyList<string> args, string? command, CliHost host)
+    {
+        var json = args.Contains("--json", StringComparer.Ordinal);
+        var words = args.Where(arg => arg is not "--quiet" and not "--json").ToArray();
+        var valid = words.SequenceEqual(new[] { "capabilities" }) &&
+            args.Count(arg => arg == "--json") <= 1 && args.Count(arg => arg == "--quiet") <= 1;
+        if (!valid)
+        {
+            var unsupported = command is not null && command != "capabilities" && !command.StartsWith('-');
+            var code = unsupported ? "UNSUPPORTED" : "INVALID_ARGUMENT";
+            var message = unsupported ? "JSON output is currently supported only for capabilities." :
+                "Use esemnbun capabilities [--json] [--quiet].";
+            if (json) WriteCapabilityJson(host, writer =>
+            {
+                writer.WriteBoolean("ok", false);
+                writer.WriteStartObject("error");
+                writer.WriteString("code", code);
+                writer.WriteBoolean("retryable", false);
+                writer.WriteString("message", message);
+                writer.WriteEndObject();
+            });
+            // Never echo argument values, paths, environment variables or authentication errors.
+            host.Error.WriteLine($"error: {message}");
+            return ExitCodes.UsageOrUnexpected;
+        }
+
+        string[] commands = ["capabilities", "help", "readers", "cert", "sign-hex"];
+        if (json) WriteCapabilityJson(host, writer =>
+        {
+            writer.WriteBoolean("ok", true);
+            writer.WriteStartObject("data");
+            writer.WriteString("product", "eSemnBun");
+            writer.WriteString("interface", "cli");
+            // This is the Windows implementation, even when its test assembly runs elsewhere.
+            writer.WriteString("platform", "windows");
+            WriteArray(writer, "commands", commands);
+            WriteArray(writer, "structuredOutputCommands", ["capabilities"]);
+            writer.WriteStartObject("documentSigning");
+            writer.WriteBoolean("available", false);
+            WriteArray(writer, "formats", []);
+            writer.WriteEndObject();
+            writer.WriteStartObject("verification");
+            writer.WriteBoolean("available", false);
+            WriteArray(writer, "formats", []);
+            writer.WriteBoolean("requiresCard", false);
+            writer.WriteBoolean("json", false);
+            writer.WriteEndObject();
+            writer.WriteBoolean("mcpServerAvailable", false);
+            writer.WriteBoolean("desktopApprovalBrokerAvailable", false);
+            writer.WriteEndObject();
+        });
+        else
+        {
+            host.Out.WriteLine("eSemnBun CLI capabilities (schema 1, windows)");
+            host.Out.WriteLine($"Commands: {string.Join(", ", commands)}");
+            host.Out.WriteLine("Structured output: capabilities --json");
+            host.Out.WriteLine("Document signing: unavailable in this CLI; use the desktop app");
+            host.Out.WriteLine("Verification: unavailable in this CLI; use the desktop app");
+            host.Out.WriteLine("MCP server: unavailable; desktop approval broker: unavailable");
+        }
+        return ExitCodes.Success;
+    }
+
+    // Explicit UTF-8 writer avoids reflection-based JSON serialization under NativeAOT.
+    private static void WriteCapabilityJson(CliHost host, Action<Utf8JsonWriter> body)
+    {
+        using var buffer = new MemoryStream();
+        using (var writer = new Utf8JsonWriter(buffer))
+        {
+            writer.WriteStartObject();
+            writer.WriteNumber("schemaVersion", 1);
+            body(writer);
+            writer.WriteEndObject();
+        }
+        host.Out.WriteLine(Encoding.UTF8.GetString(buffer.ToArray()));
+    }
+
+    private static void WriteArray(Utf8JsonWriter writer, string name, IEnumerable<string> values)
+    {
+        writer.WriteStartArray(name);
+        foreach (var value in values) writer.WriteStringValue(value);
+        writer.WriteEndArray();
     }
 
     public static string Describe(CardException e) => e.Kind switch

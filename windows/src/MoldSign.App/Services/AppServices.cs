@@ -310,7 +310,7 @@ public sealed class AppServices : IAsyncDisposable
         }
     }
 
-    public Task<OperationOutcome> VerifyAsync(string path, IReadOnlyList<string>? detachedDocs = null)
+    public Task<OperationOutcome> VerifyAsync(string path, IReadOnlyList<string>? detachedDocs = null, bool recordActivity = true)
     {
         if (IsDemo && (!IsDemoDocument(path) || detachedDocs?.Any(file => !IsDemoDocument(file)) == true))
             return Task.FromResult(new OperationOutcome(false, Loc.Get("demo_fixture_only"), []));
@@ -322,7 +322,7 @@ public sealed class AppServices : IAsyncDisposable
             var reports = _verifier.Verify(path, detachedDocs);
             var verdict = Validator.OverallVerdict(reports);
             var allValid = verdict == Verdict.Valid;
-            Record(Path.GetFileName(path), IsDemo ? Loc.Get("demo_verify_success") : Loc.Get("Activity_Verified"), allValid, path);
+            if (recordActivity) Record(Path.GetFileName(path), IsDemo ? Loc.Get("demo_verify_success") : Loc.Get("Activity_Verified"), allValid, path);
             var key = verdict switch
             {
                 Verdict.Valid => "Verdict_Valid",
@@ -330,7 +330,7 @@ public sealed class AppServices : IAsyncDisposable
                 Verdict.Indeterminate => "Verdict_Unknown",
                 _ => "Verdict_Unsigned",
             };
-            return new OperationOutcome(allValid, IsDemo ? Loc.Get("demo_verify_success") : Loc.Get(key), []) { Reports = reports };
+            return new OperationOutcome(allValid, IsDemo && !DemoMode.ScreenshotCapture ? Loc.Get("demo_verify_success") : Loc.Get(key), []) { Reports = reports };
         }
         catch (NotImplementedException)
         {
