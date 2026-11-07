@@ -299,6 +299,7 @@ struct MainWindowView: View {
         }
         .toolbar {
             // Keep native title/toolbar geometry when a section has no actions.
+            #if compiler(>=6.2)
             if #available(macOS 26.0, *) {
                 ToolbarItem(placement: .principal) {
                     toolbarHeightReservation
@@ -309,6 +310,11 @@ struct MainWindowView: View {
                     toolbarHeightReservation
                 }
             }
+            #else
+            ToolbarItem(placement: .principal) {
+                toolbarHeightReservation
+            }
+            #endif
         }
         .onChange(of: model.browserURL) { _, url in
             if url != nil { stored = Section.browser.rawValue }
