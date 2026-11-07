@@ -22,14 +22,13 @@ BASE = 'https://manage.devcenter.microsoft.com/v1.0/my/'
 
 
 def inspect_package(path, expected_version, expected_sha256):
-    """Validate identity and expected bytes; signature trust is checked by release CI."""
+    """Validate Store input identity and bytes; the Store signs MSIX on ingestion."""
     data = path.read_bytes()
     digest = hashlib.sha256(data).hexdigest()
     if digest.lower() != expected_sha256.lower():
         raise ValueError('MSIX checksum differs from expected release artifact')
     with zipfile.ZipFile(io.BytesIO(data)) as package:
-        if 'AppxSignature.p7x' not in package.namelist():
-            raise ValueError('MSIX has no signature file')
+        signature_present = 'AppxSignature.p7x' in package.namelist()
         root = ET.fromstring(package.read('AppxManifest.xml'))
     identity = root.find('{http://schemas.microsoft.com/appx/manifest/foundation/windows10}Identity')
     if identity is None:
@@ -42,7 +41,7 @@ def inspect_package(path, expected_version, expected_sha256):
     version = tuple(int(part) for part in expected_version.split('.'))
     if len(version) != 4 or any(part < 0 or part > 65535 for part in version):
         raise ValueError('Expected version must be four valid MSIX version components')
-    return data, info, digest
+    return data, info, digest, signature_present
 
 
 def main():
@@ -50,7 +49,7 @@ def main():
     parser.add_argument('--credentials', type=Path)
     parser.add_argument('--assets', type=Path, default=Path(__file__).resolve().parents[1] / 'microsoft/assets')
     parser.add_argument('--submission', help='Exact pending draft ID required for upload')
-    parser.add_argument('--package', type=Path, help='Signed MSIX to include with screenshots')
+    parser.add_argument('--package', type=Path, help='Store MSIX to include with screenshots; Store signs on ingestion')
     parser.add_argument('--expected-version', help='Exact MSIX identity version, for example 1.2.205.0')
     parser.add_argument('--expected-sha256', help='Expected release artifact SHA-256')
     parser.add_argument('--upload', action='store_true', help='Upload the prepared archive; leave draft uncommitted')
@@ -109,7 +108,7 @@ def main():
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as zip_file:
         package_name = None
         if package:
-            data, identity, digest = package
+            data, identity, digest, signature_present = package
             architecture = identity.get('ProcessorArchitecture', 'neutral').lower()
             old_packages = submission.get('applicationPackages', [])
             version = tuple(int(part) for part in identity['Version'].split('.'))
@@ -148,7 +147,9 @@ def main():
             listing['images'] = images
     summary = {'submission': submission_id, 'screenshots': 12,
         'package': package_name, 'packageVersion': args.expected_version,
-        'packageSha256': args.expected_sha256, 'archiveBytes': archive.tell()}
+        'packageSha256': args.expected_sha256,
+        'packageSignaturePresent': package[3] if package else None,
+        'archiveBytes': archive.tell()}
     if not args.upload:
         print(json.dumps(dict(summary, result='prepared in memory; no Store changes')))
         return
