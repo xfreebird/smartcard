@@ -54,6 +54,8 @@ def main():
     parser.add_argument('--apk', type=Path)
     parser.add_argument('--version-code', type=int)
     parser.add_argument('--draft', action='store_true', help='Upload and attach the APK without submitting for review')
+    parser.add_argument('--defer-if-reviewing', action='store_true',
+                        help='For draft automation, report an active review and exit without changing it')
     parser.add_argument('--check', action='store_true', help='Read-only API authentication check')
     args = parser.parse_args()
     credential = os.environ['HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON']
@@ -67,6 +69,8 @@ def main():
         return
     if not args.apk or not args.version_code or args.apk.suffix != '.apk':
         parser.error('--apk and --version-code are required for publishing')
+    if args.defer_if_reviewing and not args.draft:
+        parser.error('--defer-if-reviewing requires --draft')
     current = int(app.get('versionCode') or 0)
     state = str(app.get('releaseState'))
     on_shelf = int(app.get('onShelfVersionCode') or 0)
@@ -75,6 +79,9 @@ def main():
         return
     # Never cancel an active review to replace its binary.
     if state == '4':
+        if args.defer_if_reviewing:
+            print('::warning::AppGallery has an active review; draft upload deferred without changing it.')
+            return
         raise RuntimeError('Huawei has an active review. Retry after the current review finishes.')
     if current == args.version_code and args.draft:
         print(f'Draft build {args.version_code} is already attached; not submitted.')
@@ -90,13 +97,20 @@ def main():
                                  timeout=600)
     response.raise_for_status()
     uploaded = response.json()
-    file_info = uploaded['result']['UploadFileRsp']['fileInfoList'][0]
+    upload_result = uploaded['result']['UploadFileRsp']
+    if str(upload_result.get('ifSuccess')) not in ('1', 'True'):
+        raise RuntimeError('Huawei file server did not confirm the APK upload.')
+    file_info = upload_result['fileInfoList'][0]
     gallery.call('PUT', 'app-file-info', body={'fileType': 5, 'files': [
-        {'fileName': file_info['fileName'], 'fileDestUrl': file_info['fileDestUlr']} ]})
+        {'fileName': file_info.get('fileName') or args.apk.name,
+         'fileDestUrl': file_info['fileDestUlr']} ]})
     print('APK uploaded; waiting for Huawei package parsing.')
-    time.sleep(120)
-    parsed = gallery.call('GET', 'app-info', lang='en-US')['appInfo']
-    if int(parsed.get('versionCode') or 0) != args.version_code:
+    for _ in range(16):
+        time.sleep(15)
+        parsed = gallery.call('GET', 'app-info', lang='en-US')['appInfo']
+        if int(parsed.get('versionCode') or 0) == args.version_code:
+            break
+    else:
         raise RuntimeError('Huawei has not attached the expected version code; refusing to submit another binary.')
     if args.draft:
         print(f'Draft build {args.version_code} attached; not submitted. SHA256={hashlib.sha256(args.apk.read_bytes()).hexdigest()}')

@@ -29,6 +29,10 @@ on:
         description: Optional Android version code override (independent of the Apple and Windows build number)
         type: string
         required: false
+      upload_android_play:
+        description: Upload Android AAB artifact to Play without changing tracks
+        type: boolean
+        default: false
       submit_windows_store:
         description: Submit the Windows MSIX to the Store (requires a new build number)
         type: boolean
@@ -138,12 +142,20 @@ jobs:
           fi
           build_number="${BUILD_NUMBER_INPUT:-$next_build_number}"
           [[ "$build_number" =~ ^[1-9][0-9]*$ ]] || { echo '::error::Invalid build number'; exit 1; }
-          (( build_number >= next_build_number )) || { echo '::error::Build number must be at or above the next reserved Play version code'; exit 1; }
           (( build_number <= 2100000000 )) || { echo '::error::Build number exceeds Android versionCode limit'; exit 1; }
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git tag -a "android-play-vc-$build_number" -m "Reserve Android Play version code $build_number"
-          git push origin "refs/tags/android-play-vc-$build_number"
+          if (( build_number < next_build_number )); then
+            if [[ -n "$BUILD_NUMBER_INPUT" && "$(git rev-parse "refs/tags/android-play-vc-$build_number^{}" 2>/dev/null || true)" == "$GITHUB_SHA" ]]; then
+              echo "Reusing version code $build_number reserved for this source commit"
+            else
+              echo '::error::Build number belongs to another source commit or is below the next Play version code'
+              exit 1
+            fi
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git tag -a "android-play-vc-$build_number" -m "Reserve Android Play version code $build_number"
+            git push origin "refs/tags/android-play-vc-$build_number"
+          fi
           echo "BUILD_NUMBER=$build_number" >> "$GITHUB_ENV"
       - name: Upload key
         env:
@@ -167,8 +179,10 @@ jobs:
             dist/android/*.aab
           if-no-files-found: error
       - uses: ruby/setup-ruby@v1
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_android_play }}
         with: { ruby-version: '3.3', bundler-cache: true }
       - name: Upload Google Play artifact only
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_android_play }}
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           PLAY_CLOSED_TRACK: ${{ vars.PLAY_CLOSED_TRACK || 'alpha' }}
@@ -276,12 +290,12 @@ jobs:
             dist/windows/winget/
           if-no-files-found: error
 
-      # Each Store upload requires a higher package version. Manual rebuilds opt in explicitly.
+      # Store submission is explicit because a draft or certification can already be active.
       - name: Set up Microsoft Store CLI
-        if: ${{ (startsWith(github.ref, 'refs/tags/v') || inputs.submit_windows_store) && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
+        if: ${{ inputs.submit_windows_store && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
         uses: microsoft/setup-msstore-cli@v1
       - name: Submit the MSIX
-        if: ${{ (startsWith(github.ref, 'refs/tags/v') || inputs.submit_windows_store) && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
+        if: ${{ inputs.submit_windows_store && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
         shell: pwsh
         run: |
           python scripts/check-msstore-credentials.py

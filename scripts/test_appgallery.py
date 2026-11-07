@@ -10,12 +10,12 @@ import appgallery
 
 
 class PublishingTests(unittest.TestCase):
-    def run_publish(self, api, draft=False):
+    def run_publish(self, api, draft=False, defer=False):
         with tempfile.TemporaryDirectory() as folder:
             apk = Path(folder) / 'app.apk'
             apk.write_bytes(b'fixture')
             with patch.dict(os.environ, {'HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON': '{}'}), \
-                 patch('sys.argv', ['appgallery.py', '--apk', str(apk), '--version-code', '112'] + (['--draft'] if draft else [])), \
+                 patch('sys.argv', ['appgallery.py', '--apk', str(apk), '--version-code', '112'] + (['--draft'] if draft else []) + (['--defer-if-reviewing'] if defer else [])), \
                  patch.object(appgallery, 'Gallery', return_value=api):
                 appgallery.main()
 
@@ -29,10 +29,12 @@ class PublishingTests(unittest.TestCase):
         ]
         response = Mock()
         response.json.return_value = {'result': {'UploadFileRsp': {'fileInfoList': [
-            {'fileName': 'app.apk', 'fileDestUlr': 'fixture'}]}}}
+            {'fileDestUlr': 'fixture'}], 'ifSuccess': 1}}}
         with patch.object(appgallery.requests, 'post', return_value=response), patch.object(appgallery.time, 'sleep'):
             self.run_publish(api, draft=True)
         self.assertFalse(any(call.args[1] == 'app-submit' for call in api.call.call_args_list))
+        attached = [call.kwargs['body'] for call in api.call.call_args_list if call.args[1] == 'app-file-info']
+        self.assertEqual(attached[0]['files'][0]['fileName'], 'app.apk')
 
     def test_existing_draft_is_not_submitted(self):
         api = Mock()
@@ -53,6 +55,12 @@ class PublishingTests(unittest.TestCase):
             self.run_publish(api)
         self.assertEqual(api.call.call_count, 1)
 
+    def test_draft_automation_defers_during_active_review(self):
+        api = Mock()
+        api.call.return_value = {'appInfo': {'versionCode': 111, 'releaseState': 4}}
+        self.run_publish(api, draft=True, defer=True)
+        self.assertEqual(api.call.call_count, 1)
+
     def test_parsed_binary_must_match_before_submit(self):
         api = Mock()
         api.call.side_effect = [
@@ -63,7 +71,7 @@ class PublishingTests(unittest.TestCase):
         ]
         response = Mock()
         response.json.return_value = {'result': {'UploadFileRsp': {'fileInfoList': [
-            {'fileName': 'app.apk', 'fileDestUlr': 'fixture'}]}}}
+            {'fileDestUlr': 'fixture'}], 'ifSuccess': 1}}}
         with patch.object(appgallery.requests, 'post', return_value=response), \
              patch.object(appgallery.time, 'sleep'), \
              self.assertRaisesRegex(RuntimeError, 'expected version code'):

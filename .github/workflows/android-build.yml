@@ -13,6 +13,10 @@ on:
         description: Optional positive integer at or above the next reserved Play version code
         type: string
         required: false
+      upload_play:
+        description: Upload the AAB artifact to Play (may be blocked by an active review)
+        type: boolean
+        default: false
 permissions:
   contents: write
 concurrency:
@@ -40,18 +44,26 @@ jobs:
           fi
           build_number="${BUILD_NUMBER_INPUT:-$next_build_number}"
           [[ "$build_number" =~ ^[1-9][0-9]*$ ]] || { echo '::error::Invalid build number'; exit 1; }
-          (( build_number >= next_build_number )) || { echo '::error::Build number must be at or above the next reserved Play version code'; exit 1; }
           (( build_number <= 2100000000 )) || { echo '::error::Build number exceeds Android versionCode limit'; exit 1; }
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git tag -a "android-play-vc-$build_number" -m "Reserve Android Play version code $build_number"
-          git push origin "refs/tags/android-play-vc-$build_number"
+          if (( build_number < next_build_number )); then
+            if [[ -n "$BUILD_NUMBER_INPUT" && "$(git rev-parse "refs/tags/android-play-vc-$build_number^{}" 2>/dev/null || true)" == "$GITHUB_SHA" ]]; then
+              echo "Reusing version code $build_number reserved for this source commit"
+            else
+              echo '::error::Build number belongs to another source commit or is below the next Play version code'
+              exit 1
+            fi
+          else
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git tag -a "android-play-vc-$build_number" -m "Reserve Android Play version code $build_number"
+            git push origin "refs/tags/android-play-vc-$build_number"
+          fi
           echo "BUILD_NUMBER=$build_number" >> "$GITHUB_ENV"
-      - name: Validate build number and Play credentials
+      - name: Validate Play credentials when uploading
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_play }}
         env:
           PLAY_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
         run: |
-          [[ "$BUILD_NUMBER" =~ ^[1-9][0-9]*$ ]] || { echo '::error::Invalid build number'; exit 1; }
           [[ -n "$PLAY_JSON" ]] || { echo '::error::Configure GOOGLE_PLAY_SERVICE_ACCOUNT_JSON before running release CI'; exit 1; }
       - name: Upload key
         env:
@@ -76,8 +88,10 @@ jobs:
           if-no-files-found: error
 
       - uses: ruby/setup-ruby@v1
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_play }}
         with: { ruby-version: '3.3', bundler-cache: true }
       - name: Upload Google Play artifact only
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_play }}
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           PLAY_CLOSED_TRACK: ${{ vars.PLAY_CLOSED_TRACK || 'alpha' }}

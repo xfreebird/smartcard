@@ -8,6 +8,12 @@ The submitted English listing includes the icon and four phone screenshots,
 phone/tablet support, privacy links, demo-mode review instructions, and Huawei's
 16+ rating for unrestricted browser access. Release is immediate upon approval.
 
+On 7 November 2026, the owner requested replacement of that pending review.
+The 0.2.0 review was canceled in AppGallery Connect and signed 0.2.5 APK
+`1793624678` (SHA-256 `bdc18266b8f30f986dd5fff46bcbe5af65ec558c6499bfae2725c6bc19cd2311`)
+was attached and submitted. The read-only API confirms `releaseState=4` for the
+new build: reviewing, not yet publicly available.
+
 The AppGallery Connect Android record is `119651007` for package
 `md.esemnbun.app`. The iOS record is `101653523127320907` for bundle ID
 `md.esemnbun.ios`; it is a Huawei developer-services record, not an iOS
@@ -22,13 +28,14 @@ China distribution constraint for developers outside mainland China.
 ## CI route
 
 `.github/workflows/huawei-appgallery.yml` is separate from Android compilation.
-It runs after a successful main `Android build + Play testing` workflow and can
-also be dispatched manually. It downloads the newest successful main Android
-artifact, validates its package/version, uploads the APK, waits for parsing and
-submits the existing listing for review. The app's listing and release settings
-are retained. It never cancels an active review. An already uploaded or newer
-version is a no-op; a newer build during active review requires retrying the
-workflow when that review ends.
+Dispatch it with the exact completed main `Android build + Play testing` run ID
+that contains the packaged APK artifact. A later Play-upload failure does not
+invalidate that artifact.
+It validates the selected artifact's package/version, uploads the APK, waits for
+parsing and attaches a draft. It does not submit or cancel reviews. An active
+review defers the draft with a warning instead of failing the build. Review
+replacement and submission are deliberate separate steps; the app's listing
+and release settings are retained.
 
 `scripts/appgallery.py --check` verifies authentication without mutations.
 Publishing requires `--apk PATH --version-code INTEGER`. The app ID is fixed to
