@@ -14,7 +14,7 @@ You need a supported electronic ID and its correct signing PIN, a compatible USB
 
 Open [Downloads](/downloads/) and choose your platform. CLI archives contain terminal and MCP tools; the desktop application is a separate installation. Use the package-manager instructions there for the current version and signing-key fingerprint. Then locate the command and inspect capabilities before automating.
 
-<GuideScreenshot src="/img/guide/macos-cli/en/install.svg" alt="1. Install and discover what your executable supports" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Install through the selected platform channel."}, {"x": 3, "y": 71.5, "text": "Run capability discovery before using card commands."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/install.svg" alt="1. Install and discover what your executable supports" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Install through the selected platform channel."}, {"x": 3, "y": 83.2, "text": "Run capability discovery before using card commands."}]} />
 
 ```sh
 brew install xfreebird/utils/esemnbun-cli
@@ -34,18 +34,19 @@ The captured local build reports MCP unavailable from its ordinary CLI capabilit
 
 Connect the USB reader and insert your card. List readers, then inspect the signing certificate without entering a PIN. With several cards, use the exact reader name and check the holder before every signing request. These commands below are examples; a reader was not accessed to create this guide.
 
-<GuideScreenshot src="/img/guide/macos-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "List connected readers and card presence."}, {"x": 3, "y": 66.2, "text": "Read the intended certificate; replace the reader name."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "List connected readers and card presence."}, {"x": 3, "y": 53.5, "text": "Read the intended certificate; replace the reader name."}, {"x": 3, "y": 83.2, "text": "Calculate SHA-256 of the exported certificate. Use these 64 hexadecimal digits for unattended signing, not the SHA-1 shown by cert."}]} />
 
 ```sh
 esemnbun readers
 esemnbun cert --reader "miniLector EVO" --out leaf.der
+shasum -a 256 leaf.der
 ```
 
 ## 3. Sign PDF or create an XML signature
 
 PDF signing embeds a PAdES-T signature and timestamp. Omitting the output path creates a separate `-semnat.pdf` file; existing outputs are not overwritten. XAdES defaults to detached XML and SHA-256: retain the unchanged original with the XML. Choose BES without timestamp, T with timestamp, or C with certificate/revocation references. Use `--enveloping` only when the recipient wants the original inside XML. Timestamped formats need network access; C also obtains status references.
 
-<GuideScreenshot src="/img/guide/macos-cli/en/sign.svg" alt="3. Sign PDF or create an XML signature" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Start PDF signing and respond to the no-echo PIN prompt."}, {"x": 3, "y": 55.9, "text": "Create the XML level your recipient requires."}, {"x": 3, "y": 71.5, "text": "Use enveloping only when needed; keep originals for detached XML."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/sign.svg" alt="3. Sign PDF or create an XML signature" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Start PDF signing and respond to the no-echo PIN prompt."}, {"x": 3, "y": 53.5, "text": "Create the XML level your recipient requires."}, {"x": 3, "y": 83.2, "text": "Use enveloping only when needed; keep originals for detached XML."}]} />
 
 ```sh
 esemnbun sign Contract.pdf Contract-semnat.pdf
@@ -63,7 +64,7 @@ esemnbun sign Contract.pdf Contract-semnat.pdf --pin-stdin
 
 Choose the signed PDF or XML. For detached XML, provide the directory containing its unchanged originals. Verification is offline: integrity, signature and embedded trust results do not establish current revocation status. `ok:true` means execution succeeded, not that the signature is valid. No recognized signature is not a successful signed-document verification.
 
-<GuideScreenshot src="/img/guide/macos-cli/en/verify.svg" alt="4. Verify and interpret the result" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Verify a PDF or XML using the original-document directory."}, {"x": 3, "y": 71.5, "text": "Use JSON for automation and inspect status, not only ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/verify.svg" alt="4. Verify and interpret the result" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Verify a PDF or XML using the original-document directory."}, {"x": 3, "y": 83.2, "text": "Use JSON for automation and inspect status, not only ok."}]} />
 
 ```sh
 esemnbun verify Contract-semnat.pdf
@@ -109,7 +110,7 @@ Use `capabilities` and `verify_document` first. Tool input identifies `{rootId,r
 
 In the Mac app enable the agent approval broker in Settings and use its configured private spool directory. The app and helper must run as the same user. The directory and requests/responses/outputs subdirectories must already exist with mode 0700. Start the helper with that directory. In your host call prepare_signing for a PDF, review the native certificate/document request, approve with the card PIN, poll get_job and retrieve the completed output. cancel_job requests cancellation; it cannot undo a signature already in progress. Requests expire after five minutes and outputs are retained for 24 hours. Keep the app running. This is macOS-only and requires installed-build validation before relying on it.
 
-<GuideScreenshot src="/img/guide/macos-cli/en/broker.svg" alt="6. Request signing with foreground Mac approval" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "Enable the Mac app broker and use its displayed private directory."}, {"x": 3, "y": 66.2, "text": "Prepare a request in the host, then approve in the app."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/broker.svg" alt="6. Request signing with foreground Mac approval" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 33.8, "text": "Enable the Mac app broker and use its displayed private directory."}, {"x": 3, "y": 76.1, "text": "Prepare a request in the host, then approve in the app."}]} />
 
 ```sh
 esemnbun-mcp --root documents=/Users/me/Documents/Signing \
@@ -141,7 +142,7 @@ Before signing, the helper creates `.unattended-signing-lock` in the output dire
 
 Run the bridge in the foreground and keep it running while using the supported site on this computer. The defaults are loopback HTTP18480 and HTTPS18443. Do not run the GUI bridge or vendor MoldSign on the same ports. Stop with Ctrl+C. The package needs its localhost HTTPS identity. Prefer the desktop app when you need native consent/PIN dialogs; a terminal bridge is not that approval UI.
 
-<GuideScreenshot src="/img/guide/macos-cli/en/service.svg" alt="8. Run the local browser connection" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "Start the local browser bridge."}, {"x": 3, "y": 66.2, "text": "Stop with Ctrl+C when finished."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/service.svg" alt="8. Run the local browser connection" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 33.8, "text": "Start the local browser bridge."}, {"x": 3, "y": 76.1, "text": "Stop with Ctrl+C when finished."}]} />
 
 ```sh
 esemnbun server

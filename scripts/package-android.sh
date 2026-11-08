@@ -16,7 +16,7 @@ VER="$(sed -n 's/^ *versionName *= *"\(.*\)".*/\1/p' app/build.gradle.kts | head
 NAME="eSemnBun-${VER:?versionName not found in app/build.gradle.kts}"
 
 echo "▸ Gradle release build"
-./gradlew --quiet :app:assembleRelease :app:bundleRelease
+"$ROOT/scripts/gradle-ci.sh" --quiet :app:assembleRelease :app:bundleRelease
 
 APK_IN="$(ls app/build/outputs/apk/release/*.apk | head -1)"
 AAB_IN="$(ls app/build/outputs/bundle/release/*.aab | head -1)"

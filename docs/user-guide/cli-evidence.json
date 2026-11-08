@@ -1,6 +1,6 @@
 {
   "date": "2026-11-08",
-  "commit": "b60af1e59d1da8205bde4de20f2947ea9440090d",
+  "commit": "9a7dd551e69931fc962a6ad75a7fd8c18d698cc9",
   "binarySha256": "52b6f465c29f0c00cc3227d8ac6f7bdb0d70caca2e09e4c5ed97bc6277d196df",
   "mode": "read-only local CLI; no reader, card, PIN or credential access",
   "observations": [

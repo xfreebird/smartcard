@@ -37,11 +37,12 @@ choco install esemnbun-cli --source . --yes
 
 Conectează cititorul USB și introdu cardul. Listează cititoarele și citește certificatul fără PIN. Cu mai multe carduri, folosește numele exact al cititorului și verifică titularul înainte de semnare. Acestea sunt exemple; ghidul nu a accesat un cititor.
 
-<GuideScreenshot src="/img/guide/windows-cli/ro/reader.svg" alt="2. Găsește cititorul și verifică certificatul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 47.7, "text": "Listează cititoarele și prezența cardului."}, {"x": 3, "y": 66.2, "text": "Citește certificatul dorit; înlocuiește numele cititorului."}]} />
+<GuideScreenshot src="/img/guide/windows-cli/ro/reader.svg" alt="2. Găsește cititorul și verifică certificatul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 23.8, "text": "Listează cititoarele și prezența cardului."}, {"x": 3, "y": 53.5, "text": "Citește certificatul dorit; înlocuiește numele cititorului."}, {"x": 3, "y": 83.2, "text": "Calculează SHA-256 pentru certificatul exportat. Folosește cele 64 de cifre hexazecimale pentru semnarea nesupravegheată, nu SHA-1 afișat de cert."}]} />
 
 ```powershell
 esemnbun readers
 esemnbun cert --reader "miniLector EVO" --out leaf.der
+Get-FileHash leaf.der -Algorithm SHA256
 ```
 
 ## 3. Verifică și interpretează rezultatul

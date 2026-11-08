@@ -37,11 +37,12 @@ choco install esemnbun-cli --source . --yes
 
 Connect the USB reader and insert your card. List readers, then inspect the signing certificate without entering a PIN. With several cards, use the exact reader name and check the holder before every signing request. These commands below are examples; a reader was not accessed to create this guide.
 
-<GuideScreenshot src="/img/guide/windows-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "List connected readers and card presence."}, {"x": 3, "y": 66.2, "text": "Read the intended certificate; replace the reader name."}]} />
+<GuideScreenshot src="/img/guide/windows-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "List connected readers and card presence."}, {"x": 3, "y": 53.5, "text": "Read the intended certificate; replace the reader name."}, {"x": 3, "y": 83.2, "text": "Calculate SHA-256 of the exported certificate. Use these 64 hexadecimal digits for unattended signing, not the SHA-1 shown by cert."}]} />
 
 ```powershell
 esemnbun readers
 esemnbun cert --reader "miniLector EVO" --out leaf.der
+Get-FileHash leaf.der -Algorithm SHA256
 ```
 
 ## 3. Verify and interpret the result

@@ -10,6 +10,8 @@ Review date: 2026-11-08. This is a focused source and image review of the guides
 
 3. **Resolved — CLI marker gutter and blank-space targets.** Rechecked all 63 SVGs: every command/output text line starts at x=120 and is at most 68 characters. At a 320-pixel image width this puts command text at 40 pixels, clear of the 24-pixel marker centred at 16 pixels. The Windows MCP figure now leaves its follow-up discovery/verification step unpositioned because no corresponding command is shown. Root separately verified responsive and actual-size viewer behavior in the browser; this recheck verifies source geometry and content.
 
+Final CLI follow-up: verified the generator and all nine localized reader SVGs. Each now has three command rows at y=80/170/260 in a 960×303 panel, preserving the x=120 gutter. The corresponding markers are 90 source pixels apart, or 27 CSS pixels at a 288-pixel image width, so the 24-pixel circles remain separated. All nine guides include the correct platform command to hash the exported DER certificate with SHA-256 (`shasum -a 256`, `sha256sum`, or `Get-FileHash -Algorithm SHA256`), and distinguish its 64 hexadecimal digits from the certificate command’s SHA-1 display. This addresses both narrow-screen row overlap and unattended fingerprint selection.
+
 No new critical or major issue was found in this focused recheck.
 
 ## Reviewed samples and useful distinctions

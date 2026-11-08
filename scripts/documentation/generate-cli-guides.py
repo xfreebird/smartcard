@@ -101,24 +101,25 @@ def svg(platform,lang,name,lines,labels):
  for line in lines:
   # preserve readable commands without making mobile assets enormous
   wrapped.extend(textwrap.wrap(line,68,replace_whitespace=False,drop_whitespace=False) or [''])
- h=95+len(wrapped)*28
+ line_height=90 if len(wrapped)<=4 and len(labels)>1 else 28
+ h=123+max(0,len(wrapped)-1)*line_height
  title={'en':'Command example','ro':'Exemplu de comandă','ru':'Пример команды'}[lang]
  parts=[f'<svg xmlns="http://www.w3.org/2000/svg" width="960" height="{h}" viewBox="0 0 960 {h}">',f'<rect width="960" height="{h}" rx="18" fill="#101b2c"/>','<circle cx="26" cy="26" r="6" fill="#ef7878"/><circle cx="46" cy="26" r="6" fill="#edc56a"/><circle cx="66" cy="26" r="6" fill="#6bc999"/>',f'<text x="95" y="32" font-family="sans-serif" font-size="18" fill="#b9c7dc">{html.escape(platform+" · "+title)}</text>']
  for i,line in enumerate(wrapped):
   color='#9ce0bc' if line.startswith(('$','PS>')) else '#e3ebf8'
-  parts.append(f'<text x="120" y="{80+i*28}" xml:space="preserve" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="19" fill="{color}">{html.escape(line)}</text>')
+  parts.append(f'<text x="120" y="{80+i*line_height}" xml:space="preserve" font-family="DejaVu Sans Mono,Menlo,Consolas,monospace" font-size="19" fill="{color}">{html.escape(line)}</text>')
  parts.append('</svg>');(out/f'{name}.svg').write_text(''.join(parts))
- return f'/img/guide/{platform}/{lang}/{name}.svg',h,len(wrapped)
+ return f'/img/guide/{platform}/{lang}/{name}.svg',h,len(wrapped),line_height
 
 def panel(platform,lang,name,commands,steps,observed=False,display=None):
  lines=display or [(('  ' if c.startswith(' ') else '$ ') if platform!='windows-cli' else ('    ' if c.startswith(' ') else 'PS> '))+c for c in commands.splitlines()]
- src,h,n=svg(platform,lang,name,lines,steps)
+ src,h,n,line_height=svg(platform,lang,name,lines,steps)
  coords=[]
  for i,step in enumerate(steps):
   if i >= n:
    coords.append({'text':step})
    continue
-  y=(72+round(i*max(1,n-1)/max(1,len(steps)-1))*28)/h*100
+  y=(72+round(i*max(1,n-1)/max(1,len(steps)-1))*line_height)/h*100
   coords.append({'x':3,'y':round(y,1),'text':step})
  t=T[lang];mark=(t['observed'] if name=='unsigned' else {'en':'Captured local read-only capability output.','ro':'Rezultat local capturat: funcțiile disponibile, fără acces la card.','ru':'Локальный результат возможностей без доступа к карте.'}[lang]) if observed else t['example']
  block=f'<GuideScreenshot src="{src}" alt={json.dumps(t[name] if name in t else t["title"],ensure_ascii=False)} caption={json.dumps(mark,ensure_ascii=False)} steps={{{json.dumps(coords,ensure_ascii=False)}}} />\n\n'
@@ -142,7 +143,10 @@ for lang,t in T.items():
    doc+=('The captured local build reports MCP unavailable from its ordinary CLI capability envelope; the separate installed esemnbun-mcp helper has its own discovery. Always inspect your installed binaries.' if lang=='en' else 'Versiunea locală capturată raportează MCP indisponibil în CLI normal; helperul separat esemnbun-mcp are propria descoperire. Verifică executabilele instalate.' if lang=='ro' else 'Локальная сборка сообщает недоступность MCP в обычном CLI; отдельный esemnbun-mcp имеет собственное обнаружение. Проверяйте установленные программы.')+'\n\n'
   doc+='## '+t['reader']+'\n\n'+t['readertext']+'\n\n'
   reader='esemnbun readers\nesemnbun cert --reader "miniLector EVO" --out leaf.der'
-  doc+=panel(platform,lang,'reader',reader,t['readersteps'])
+  hash_command='Get-FileHash leaf.der -Algorithm SHA256' if win else 'shasum -a 256 leaf.der' if mac else 'sha256sum leaf.der'
+  fingerprint_step={'en':'Calculate SHA-256 of the exported certificate. Use these 64 hexadecimal digits for unattended signing, not the SHA-1 shown by cert.','ro':'Calculează SHA-256 pentru certificatul exportat. Folosește cele 64 de cifre hexazecimale pentru semnarea nesupravegheată, nu SHA-1 afișat de cert.','ru':'Вычислите SHA-256 экспортированного сертификата. Для подписи без присутствия используйте эти 64 шестнадцатеричные цифры, а не SHA-1 из cert.'}[lang]
+  reader+='\n'+hash_command
+  doc+=panel(platform,lang,'reader',reader,t['readersteps']+[fingerprint_step])
   if not win:
    doc+='## '+t['sign']+'\n\n'+t['signtext']+'\n\n'
    sign='esemnbun sign Contract.pdf Contract-semnat.pdf\nesemnbun xades XAdES-T Declaration.txt Declaration.xml\nesemnbun xades XAdES-BES Declaration.txt Embedded.xml --enveloping'

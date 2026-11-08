@@ -14,7 +14,7 @@ Pentru operațiuni cu cardul ai nevoie de un act electronic acceptat, PIN-ul cor
 
 Deschide [Descărcări](/downloads/) și alege platforma. Arhivele CLI conțin instrumentele de terminal și MCP; aplicația desktop se instalează separat. Folosește instrucțiunile pentru gestionarul de pachete, versiunea curentă și amprenta cheii. Localizează comanda și verifică funcțiile înainte de automatizare.
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/install.svg" alt="1. Instalează și descoperă funcțiile disponibile" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 40.2, "text": "Instalează prin canalul platformei ales."}, {"x": 3, "y": 71.5, "text": "Verifică funcțiile înainte de operațiuni cu cardul."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/install.svg" alt="1. Instalează și descoperă funcțiile disponibile" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 23.8, "text": "Instalează prin canalul platformei ales."}, {"x": 3, "y": 83.2, "text": "Verifică funcțiile înainte de operațiuni cu cardul."}]} />
 
 ```sh
 brew install xfreebird/utils/esemnbun-cli
@@ -34,18 +34,19 @@ Versiunea locală capturată raportează MCP indisponibil în CLI normal; helper
 
 Conectează cititorul USB și introdu cardul. Listează cititoarele și citește certificatul fără PIN. Cu mai multe carduri, folosește numele exact al cititorului și verifică titularul înainte de semnare. Acestea sunt exemple; ghidul nu a accesat un cititor.
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/reader.svg" alt="2. Găsește cititorul și verifică certificatul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 47.7, "text": "Listează cititoarele și prezența cardului."}, {"x": 3, "y": 66.2, "text": "Citește certificatul dorit; înlocuiește numele cititorului."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/reader.svg" alt="2. Găsește cititorul și verifică certificatul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 23.8, "text": "Listează cititoarele și prezența cardului."}, {"x": 3, "y": 53.5, "text": "Citește certificatul dorit; înlocuiește numele cititorului."}, {"x": 3, "y": 83.2, "text": "Calculează SHA-256 pentru certificatul exportat. Folosește cele 64 de cifre hexazecimale pentru semnarea nesupravegheată, nu SHA-1 afișat de cert."}]} />
 
 ```sh
 esemnbun readers
 esemnbun cert --reader "miniLector EVO" --out leaf.der
+shasum -a 256 leaf.der
 ```
 
 ## 3. Semnează PDF sau creează o semnătură XML
 
 PAdES-T include semnătura și marca temporală în PDF. Fără calea rezultatului se creează separat `-semnat.pdf`; rezultatele existente nu sunt suprascrise. XAdES folosește implicit XML detașat și SHA-256: păstrează originalul neschimbat împreună cu XML-ul. BES nu are marcă temporală, T are marcă temporală, C adaugă referințe de certificat/revocare. Folosește `--enveloping` doar dacă destinatarul cere originalul în XML. Formatele temporizate necesită rețea; C obține și referințe de stare.
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/sign.svg" alt="3. Semnează PDF sau creează o semnătură XML" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 40.2, "text": "Pornește semnarea PDF și răspunde la solicitarea PIN fără afișare."}, {"x": 3, "y": 55.9, "text": "Creează nivelul XML cerut de destinatar."}, {"x": 3, "y": 71.5, "text": "Include originalul în XML doar la nevoie; păstrează originalele detașate."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/sign.svg" alt="3. Semnează PDF sau creează o semnătură XML" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 23.8, "text": "Pornește semnarea PDF și răspunde la solicitarea PIN fără afișare."}, {"x": 3, "y": 53.5, "text": "Creează nivelul XML cerut de destinatar."}, {"x": 3, "y": 83.2, "text": "Include originalul în XML doar la nevoie; păstrează originalele detașate."}]} />
 
 ```sh
 esemnbun sign Contract.pdf Contract-semnat.pdf
@@ -63,7 +64,7 @@ esemnbun sign Contract.pdf Contract-semnat.pdf --pin-stdin
 
 Alege PDF-ul sau XML-ul semnat. Pentru XML detașat, indică dosarul cu originalele neschimbate. Verificarea este offline: integritatea, semnătura și lanțul încorporat nu stabilesc starea curentă de revocare. `ok:true` înseamnă executare reușită, nu semnătură validă. Lipsa semnăturilor recunoscute nu este o verificare reușită a unui document semnat.
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/verify.svg" alt="4. Verifică și interpretează rezultatul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 40.2, "text": "Verifică PDF sau XML cu dosarul originalelor."}, {"x": 3, "y": 71.5, "text": "Pentru automatizare citește status din JSON, nu doar ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/verify.svg" alt="4. Verifică și interpretează rezultatul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 23.8, "text": "Verifică PDF sau XML cu dosarul originalelor."}, {"x": 3, "y": 83.2, "text": "Pentru automatizare citește status din JSON, nu doar ok."}]} />
 
 ```sh
 esemnbun verify Contract-semnat.pdf
@@ -109,7 +110,7 @@ esemnbun-mcp --root documents=/Users/me/Documents/Signing
 
 Activează brokerul de aprobare în Configurări pe Mac și folosește dosarul privat configurat. Aplicația și helperul trebuie să ruleze pentru același utilizator. Dosarul și subdosarele requests/responses/outputs trebuie să existe cu permisiuni0700. Pornește helperul cu acel dosar. Din client cere prepare_signing pentru PDF, verifică certificatul/documentul în aplicație, aprobă cu PIN, urmărește get_job și preia rezultatul. cancel_job cere anulare, dar nu anulează o semnătură deja creată. Cererile expiră după5minute, rezultatele se păstrează24ore. Ține aplicația pornită. Funcția există doar pe macOS și necesită validarea versiunii instalate.
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/broker.svg" alt="6. Cere semnare cu aprobare pe Mac" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 47.7, "text": "Activează brokerul pe Mac și folosește dosarul privat afișat."}, {"x": 3, "y": 66.2, "text": "Pregătește cererea în client și aprobă în aplicație."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/broker.svg" alt="6. Cere semnare cu aprobare pe Mac" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 33.8, "text": "Activează brokerul pe Mac și folosește dosarul privat afișat."}, {"x": 3, "y": 76.1, "text": "Pregătește cererea în client și aprobă în aplicație."}]} />
 
 ```sh
 esemnbun-mcp --root documents=/Users/me/Documents/Signing \
@@ -141,7 +142,7 @@ macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` sau `onepasswor
 
 Rulează bridge-ul în prim-plan cât timp folosești site-ul pe același calculator. Implicit: HTTP18480 și HTTPS18443 pe loopback. Nu porni simultan bridge-ul GUI sau MoldSign pe aceleași porturi. Oprește cu Ctrl+C. Pachetul necesită identitatea HTTPS localhost. Pentru dialoguri native de acord/PIN folosește aplicația desktop.
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/service.svg" alt="8. Rulează conexiunea locală cu browserul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 47.7, "text": "Pornește bridge-ul local pentru browser."}, {"x": 3, "y": 66.2, "text": "Oprește cu Ctrl+C la final."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/service.svg" alt="8. Rulează conexiunea locală cu browserul" caption="Exemplu ilustrativ de comandă. Copiază comenzile de mai jos și înlocuiește căile și numele cititorului." steps={[{"x": 3, "y": 33.8, "text": "Pornește bridge-ul local pentru browser."}, {"x": 3, "y": 76.1, "text": "Oprește cu Ctrl+C la final."}]} />
 
 ```sh
 esemnbun server

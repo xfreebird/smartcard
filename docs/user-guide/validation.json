@@ -195,5 +195,16 @@
     "App screenshots use isolated fictional data, not real signing.",
     "CLI panels are labelled instructional examples except captured read-only outputs.",
     "Physical card, live Siri, Spotlight and cross-device Handoff were not exercised."
-  ]
+  ],
+  "networkRetryChecks": {
+    "casesPassed": 5,
+    "cases": [
+      "immediate success",
+      "transient recovery",
+      "compiler failure preserved",
+      "test failure preserved",
+      "retry exhaustion preserves exit status"
+    ],
+    "windowsPowerShellSyntax": "passed"
+  }
 }

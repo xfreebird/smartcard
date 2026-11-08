@@ -18,7 +18,7 @@ On Ubuntu install `pcscd libccid`; on Fedora use `pcsc-lite pcsc-lite-ccid`. Ena
 
 Configure the signed APT repository from Downloads before running apt install. On Fedora use dnf instead.
 
-<GuideScreenshot src="/img/guide/linux-cli/en/install.svg" alt="1. Install and discover what your executable supports" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Install through the selected platform channel."}, {"x": 3, "y": 71.5, "text": "Run capability discovery before using card commands."}]} />
+<GuideScreenshot src="/img/guide/linux-cli/en/install.svg" alt="1. Install and discover what your executable supports" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Install through the selected platform channel."}, {"x": 3, "y": 83.2, "text": "Run capability discovery before using card commands."}]} />
 
 ```sh
 sudo apt install esemnbun-cli
@@ -30,18 +30,19 @@ esemnbun capabilities --json
 
 Connect the USB reader and insert your card. List readers, then inspect the signing certificate without entering a PIN. With several cards, use the exact reader name and check the holder before every signing request. These commands below are examples; a reader was not accessed to create this guide.
 
-<GuideScreenshot src="/img/guide/linux-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "List connected readers and card presence."}, {"x": 3, "y": 66.2, "text": "Read the intended certificate; replace the reader name."}]} />
+<GuideScreenshot src="/img/guide/linux-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "List connected readers and card presence."}, {"x": 3, "y": 53.5, "text": "Read the intended certificate; replace the reader name."}, {"x": 3, "y": 83.2, "text": "Calculate SHA-256 of the exported certificate. Use these 64 hexadecimal digits for unattended signing, not the SHA-1 shown by cert."}]} />
 
 ```sh
 esemnbun readers
 esemnbun cert --reader "miniLector EVO" --out leaf.der
+sha256sum leaf.der
 ```
 
 ## 3. Sign PDF or create an XML signature
 
 PDF signing embeds a PAdES-T signature and timestamp. Omitting the output path creates a separate `-semnat.pdf` file; existing outputs are not overwritten. XAdES defaults to detached XML and SHA-256: retain the unchanged original with the XML. Choose BES without timestamp, T with timestamp, or C with certificate/revocation references. Use `--enveloping` only when the recipient wants the original inside XML. Timestamped formats need network access; C also obtains status references.
 
-<GuideScreenshot src="/img/guide/linux-cli/en/sign.svg" alt="3. Sign PDF or create an XML signature" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Start PDF signing and respond to the no-echo PIN prompt."}, {"x": 3, "y": 55.9, "text": "Create the XML level your recipient requires."}, {"x": 3, "y": 71.5, "text": "Use enveloping only when needed; keep originals for detached XML."}]} />
+<GuideScreenshot src="/img/guide/linux-cli/en/sign.svg" alt="3. Sign PDF or create an XML signature" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Start PDF signing and respond to the no-echo PIN prompt."}, {"x": 3, "y": 53.5, "text": "Create the XML level your recipient requires."}, {"x": 3, "y": 83.2, "text": "Use enveloping only when needed; keep originals for detached XML."}]} />
 
 ```sh
 esemnbun sign Contract.pdf Contract-semnat.pdf
@@ -59,7 +60,7 @@ esemnbun sign Contract.pdf Contract-semnat.pdf --pin-stdin
 
 Choose the signed PDF or XML. For detached XML, provide the directory containing its unchanged originals. Verification is offline: integrity, signature and embedded trust results do not establish current revocation status. `ok:true` means execution succeeded, not that the signature is valid. No recognized signature is not a successful signed-document verification.
 
-<GuideScreenshot src="/img/guide/linux-cli/en/verify.svg" alt="4. Verify and interpret the result" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Verify a PDF or XML using the original-document directory."}, {"x": 3, "y": 71.5, "text": "Use JSON for automation and inspect status, not only ok."}]} />
+<GuideScreenshot src="/img/guide/linux-cli/en/verify.svg" alt="4. Verify and interpret the result" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Verify a PDF or XML using the original-document directory."}, {"x": 3, "y": 83.2, "text": "Use JSON for automation and inspect status, not only ok."}]} />
 
 ```sh
 esemnbun verify Contract-semnat.pdf
@@ -120,7 +121,7 @@ Before signing, the helper creates `.unattended-signing-lock` in the output dire
 
 Run the bridge in the foreground and keep it running while using the supported site on this computer. The defaults are loopback HTTP18480 and HTTPS18443. Do not run the GUI bridge or vendor MoldSign on the same ports. Stop with Ctrl+C. The package needs its localhost HTTPS identity. Prefer the desktop app when you need native consent/PIN dialogs; a terminal bridge is not that approval UI.
 
-<GuideScreenshot src="/img/guide/linux-cli/en/service.svg" alt="8. Run the local browser connection" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Start the local browser bridge."}, {"x": 3, "y": 71.5, "text": "Stop with Ctrl+C when finished."}]} />
+<GuideScreenshot src="/img/guide/linux-cli/en/service.svg" alt="8. Run the local browser connection" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 23.8, "text": "Start the local browser bridge."}, {"x": 3, "y": 83.2, "text": "Stop with Ctrl+C when finished."}]} />
 
 ```sh
 sudo systemctl enable --now pcscd.socket
