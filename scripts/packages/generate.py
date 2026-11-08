@@ -11,7 +11,7 @@ assets={x['name']:x for x in r['assets']}
 def asset(name):
  x=assets[name];url=x['browser_download_url'];digest=x.get('digest','')
  if url!=f'https://github.com/xfreebird/smartcard/releases/download/v{v}/{name}' or not re.fullmatch(r'sha256:[0-9a-f]{64}',digest):raise ValueError('Untrusted asset URL or missing digest: '+name)
- return url,digest[7:]
+ return f'https://esemnbun.md/packages/downloads/v{v}/{name}',digest[7:]
 def write(name,s):
  f=a.out/name;f.parent.mkdir(parents=True,exist_ok=True);f.write_text(s)
 mac,mh=asset(f'esemnbun-{v}-macos-universal.tar.gz')
@@ -26,7 +26,9 @@ write('esemnbun-cli.rb',f'''class EsemnbunCli < Formula
   license "MIT"
 
   depends_on :macos
-  depends_on macos: :sequoia
+  on_macos do
+    depends_on macos: :sequoia
+  end
 
   def install
     bin.install "esemnbun", "esemnbun-mcp"
@@ -45,7 +47,7 @@ write('esemnbun-cli.rb',f'''class EsemnbunCli < Formula
   end
 end
 ''')
-write('bucket/esemnbun-cli.json',json.dumps({'version':v,'description':'eSemnBun signing CLI and local MCP server','homepage':'https://esemnbun.md','license':'MIT','architecture':{'64bit':{'url':win,'hash':wh}},'bin':'esemnbun.exe','checkver':{'github':'https://github.com/xfreebird/smartcard'},'autoupdate':{'architecture':{'64bit':{'url':'https://github.com/xfreebird/smartcard/releases/download/v$version/esemnbun-cli-$version-windows-x64.zip'}}}},indent=2)+'\n')
+write('bucket/esemnbun-cli.json',json.dumps({'version':v,'description':'eSemnBun signing CLI and local MCP server','homepage':'https://esemnbun.md','license':'MIT','architecture':{'64bit':{'url':win,'hash':wh}},'bin':'esemnbun.exe','checkver':{'url':'https://esemnbun.md/packages/version.json','jsonpath':'$.version'},'autoupdate':{'architecture':{'64bit':{'url':'https://esemnbun.md/packages/downloads/v$version/esemnbun-cli-$version-windows-x64.zip'}}}},indent=2)+'\n')
 write('chocolatey/esemnbun-cli.nuspec',f'''<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd"><metadata>
 <id>esemnbun-cli</id><version>{v}</version><title>eSemnBun CLI</title>
@@ -58,11 +60,6 @@ write('chocolatey/esemnbun-cli.nuspec',f'''<?xml version="1.0" encoding="utf-8"?
 <description>Sign and verify documents with the Moldovan electronic ID card. Includes a local stdio MCP interface. Card signing requires compatible hardware and explicit authorization. No service or unattended signing is enabled by installation. Windows x64 only.</description>
 <releaseNotes>https://github.com/xfreebird/smartcard/releases/tag/v{v}</releaseNotes>
 </metadata><files><file src="tools\\**" target="tools" /></files></package>
-''')
-write('chocolatey/tools/chocolateyinstall.ps1',f'''$ErrorActionPreference = 'Stop'
-if (-not [Environment]::Is64BitOperatingSystem) {{ throw 'eSemnBun CLI requires 64-bit Windows.' }}
-$toolsDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
-Install-ChocolateyZipPackage -PackageName 'esemnbun-cli' -Url64bit '{win}' -Checksum64 '{wh}' -ChecksumType64 'sha256' -UnzipLocation $toolsDir
 ''')
 license_path=Path(__file__).resolve().parents[2]/'LICENSE';license_hash=hashlib.sha256(license_path.read_bytes()).hexdigest()
 write('arch/PKGBUILD',f'''# Maintainer: Nicolae Ghimbovschi <xfreebird@gmail.com>
@@ -77,7 +74,7 @@ depends=('glibc>=2.39' 'openssl' 'pcsclite' 'curl')
 optdepends=('ccid: USB card reader driver')
 provides=('esemnbun-cli')
 conflicts=('esemnbun-cli')
-source=('{linux}' 'LICENSE::https://raw.githubusercontent.com/xfreebird/smartcard/v{v}/LICENSE')
+source=('{linux}' 'LICENSE::https://esemnbun.md/packages/downloads/v{v}/LICENSE')
 sha256sums=('{lh}' '{license_hash}')
 package() {{
   install -Dm755 "esemnbun-$pkgver/esemnbun" "$pkgdir/usr/bin/esemnbun"

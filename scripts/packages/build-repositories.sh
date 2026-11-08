@@ -7,7 +7,7 @@ repo_out="$2"
 : "${PACKAGE_SIGNING_FINGERPRINT:?Set the expected signing fingerprint}"
 mkdir -p "$repo_out/apt/pool/main/e/esemnbun-cli" "$repo_out/apt/dists/stable/main/binary-amd64" "$repo_out/rpm/x86_64"
 python3 - "$release_json" "$repo_out" <<'PY'
-import hashlib,json,re,sys,urllib.request
+import hashlib,json,re,sys,subprocess
 from pathlib import Path
 r=json.load(open(sys.argv[1]));v=r['tag_name'].removeprefix('v');out=Path(sys.argv[2])
 if not re.fullmatch(r'\d+\.\d+\.\d+',v) or r.get('draft') or r.get('prerelease'):raise SystemExit('Expected stable published release')
@@ -15,9 +15,17 @@ for name,folder in [(f'esemnbun-cli_{v}-1_amd64.deb','apt/pool/main/e/esemnbun-c
  a=next(x for x in r['assets'] if x['name']==name)
  url=f'https://github.com/xfreebird/smartcard/releases/download/v{v}/{name}'
  if a['browser_download_url']!=url or not re.fullmatch(r'sha256:[0-9a-f]{64}',a.get('digest','')):raise SystemExit('Invalid asset metadata')
- data=urllib.request.urlopen(url,timeout=180).read()
+ data=subprocess.check_output(['gh','api',a['url'],'-H','Accept: application/octet-stream'])
  if 'sha256:'+hashlib.sha256(data).hexdigest()!=a['digest']:raise SystemExit('Asset digest mismatch: '+name)
  (out/folder/name).write_bytes(data)
+downloads=out/'downloads'/r['tag_name'];downloads.mkdir(parents=True,exist_ok=True)
+for name in [f'esemnbun-{v}-macos-universal.tar.gz',f'esemnbun-{v}-linux-x86_64.tar.gz',f'esemnbun-cli-{v}-windows-x64.zip']:
+ a=next(x for x in r['assets'] if x['name']==name)
+ data=subprocess.check_output(['gh','api',a['url'],'-H','Accept: application/octet-stream'])
+ assert a.get('digest')=='sha256:'+hashlib.sha256(data).hexdigest()
+ (downloads/name).write_bytes(data)
+(downloads/'LICENSE').write_bytes(Path('LICENSE').read_bytes())
+(out/'version.json').write_text(json.dumps({'version':v}))
 PY
 gpg --batch --armor --export "$PACKAGE_SIGNING_FINGERPRINT" > "$repo_out/signing-key.asc"
 gpg --batch --export "$PACKAGE_SIGNING_FINGERPRINT" > "$repo_out/signing-key.gpg"

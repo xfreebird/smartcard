@@ -8,7 +8,7 @@ if a is None:
  print('Package feeds not published for this release yet.');raise SystemExit(0)
 url=f'https://github.com/xfreebird/smartcard/releases/download/{release["tag_name"]}/{name}'
 assert a['browser_download_url']==url
-body=urllib.request.urlopen(url,timeout=180).read()
+body=subprocess.check_output(['gh','api',a['url'],'-H','Accept: application/octet-stream'])
 assert a.get('digest')=='sha256:'+hashlib.sha256(body).hexdigest(),'Repository archive digest mismatch'
 root=Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory() as tmp:
@@ -27,3 +27,16 @@ with tempfile.TemporaryDirectory() as tmp:
  shutil.copytree(repo,destination)
  shutil.copyfile(root/'distribution/packages/index.html',destination/'index.html')
 print('Verified signed package repositories staged for Pages')
+
+for asset in release['assets']:
+ if asset['name'].endswith('.nupkg') or asset['name']=='esemnbun-package-definitions.zip':
+  data=subprocess.check_output(['gh','api',asset['url'],'-H','Accept: application/octet-stream'])
+  assert asset.get('digest')=='sha256:'+hashlib.sha256(data).hexdigest()
+  (destination/'downloads'/release['tag_name']/asset['name']).write_bytes(data)
+
+import zipfile
+with zipfile.ZipFile(destination/'downloads'/release['tag_name']/'esemnbun-package-definitions.zip') as z:
+ (destination/'PKGBUILD').write_bytes(z.read('arch/PKGBUILD'))
+shutil.copyfile(root/'spec/mcp.md',destination/'mcp.md')
+index=destination/'index.html'
+index.write_text(index.read_text().replace('@VERSION@',release['tag_name'].removeprefix('v')))

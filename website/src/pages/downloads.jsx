@@ -33,6 +33,7 @@ export default function DownloadsPage() {
    <header className="downloads-header">
     <span className="downloads-eyebrow">eSemnBun <span aria-hidden="true">/</span> {release.version}</span>
     <h1>{t('downloadsTitle')}</h1><p>{t('downloadsDescription')}</p>
+    <p><a href="/packages/">{text({en: 'Install CLI with Homebrew, Scoop, Chocolatey, APT or DNF', ro: 'Instalează CLI cu Homebrew, Scoop, Chocolatey, APT sau DNF', ru: 'Установить CLI через Homebrew, Scoop, Chocolatey, APT или DNF'})}</a></p>
    </header>
    <nav className="download-platform-nav" aria-label={t('choosePlatform')}>
     {release.platforms.map(platform => <a key={platform.id} href={`#${platform.id}`}

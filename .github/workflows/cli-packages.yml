@@ -42,6 +42,7 @@ jobs:
       - name: Import signing key and build repositories
         if: steps.release.outputs.ready == 'true'
         env:
+          GH_TOKEN: ${{ github.token }}
           PACKAGE_SIGNING_KEY: ${{ secrets.PACKAGE_SIGNING_KEY }}
           PACKAGE_SIGNING_FINGERPRINT: F8075499A4B311BA30E53156E5622B86C8280D0B
         run: |
@@ -53,8 +54,13 @@ jobs:
           gpg --batch --list-secret-keys "$PACKAGE_SIGNING_FINGERPRINT"
           scripts/packages/build-repositories.sh release.json "$RUNNER_TEMP/packages"
           python3 scripts/packages/generate.py release.json --out definitions
-          tar -C "$RUNNER_TEMP" -czf esemnbun-package-repositories.tar.gz packages
           (cd definitions && zip -qr ../esemnbun-package-definitions.zip .)
+          python3 - "$RUNNER_TEMP/packages/version.json" <<'PYCODE'
+          import hashlib,json,sys
+          p=sys.argv[1];v=json.load(open(p));v['definitions_sha256']=hashlib.sha256(open('esemnbun-package-definitions.zip','rb').read()).hexdigest()
+          open(p,'w').write(json.dumps(v))
+          PYCODE
+          tar -C "$RUNNER_TEMP" -czf esemnbun-package-repositories.tar.gz packages
       - name: Validate APT installation and RPM signatures
         if: steps.release.outputs.ready == 'true'
         run: |
@@ -88,6 +94,21 @@ jobs:
         with:
           name: cli-package-definitions
           path: definitions
+      - name: Embed verified Windows CLI payload
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.repositories.outputs.tag }}
+        run: |
+          $release = gh api "repos/$env:GITHUB_REPOSITORY/releases/tags/$env:RELEASE_TAG" | ConvertFrom-Json
+          $version = $env:RELEASE_TAG.TrimStart('v')
+          $name = "esemnbun-cli-$version-windows-x64.zip"
+          $asset = $release.assets | Where-Object name -eq $name
+          gh release download $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --pattern $name
+          if ($LASTEXITCODE -ne 0) { throw 'CLI download failed' }
+          $hash = (Get-FileHash $name -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($asset.digest -ne "sha256:$hash") { throw 'CLI digest mismatch' }
+          Expand-Archive $name definitions/chocolatey/tools
       - name: Pack and verify Chocolatey install and uninstall
         shell: pwsh
         run: |

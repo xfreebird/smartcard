@@ -4,7 +4,7 @@ User installation instructions: https://esemnbun.md/packages/
 
 - Homebrew: reuse `xfreebird/homebrew-utils`, formula `esemnbun-cli` (macOS 15+, ARM64 and Intel).
 - Scoop: `bucket/esemnbun-cli.json` in the same repository, standalone Windows x64 CLI.
-- Chocolatey: digest-pinned `esemnbun-cli` package published as a release `.nupkg`. Download into an empty directory and run `choco install esemnbun-cli --source . --yes`. No community-catalog account/key is configured; do not claim a default-source/community listing.
+- Chocolatey: `esemnbun-cli` package with the digest-verified executable embedded published as a release `.nupkg`. Download into an empty directory and run `choco install esemnbun-cli --source . --yes`. No community-catalog account/key is configured; do not claim a default-source/community listing.
 - APT: signed repository at `/packages/apt`, CLI packages for amd64. Use a dedicated `signed-by` keyring. Current binaries target Ubuntu 24.04 / compatible Debian 13 libraries.
 - DNF: signed RPMs and signed repository metadata at `/packages/rpm/x86_64`; both `gpgcheck` and `repo_gpgcheck` remain enabled. Compatible RPM systems can use the same repository if dependencies resolve.
 - Arch: generated `PKGBUILD` for x86-64; inspect and run `makepkg -si`. Not yet submitted to AUR.
@@ -13,6 +13,8 @@ User installation instructions: https://esemnbun.md/packages/
 ## Automation
 
 `CLI package repositories` runs after a successful Release workflow, weekly, or manually. It selects a complete stable release and verifies upstream asset SHA-256 digests. Missing platform assets defer publication without replacing existing package definitions. APT installs and executes the CLI on an Ubuntu runner; RPM signatures are checked against an isolated RPM database. A Windows job packs Chocolatey and checks installation, CLI execution and uninstallation. No test invokes card signing or configures unattended signing.
+
+Public binary URLs use `esemnbun.md/packages/downloads/vVERSION/` because the source repository is private. Authenticated CI downloads are digest verified before publication.
 
 The workflow publishes signed repository and definition archives, the Chocolatey `.nupkg`, and refreshed SHA256SUMS to the existing release. Website deployment verifies the repository archive digest and the pinned signing key before exposing the repositories. It does not hold the private signing key. The tap workflow checks for definitions every six hours, verifies the archive digest, and updates only the two eSemnBun package definitions. Manual tap workflow dispatch also exercises Homebrew install/test.
 
