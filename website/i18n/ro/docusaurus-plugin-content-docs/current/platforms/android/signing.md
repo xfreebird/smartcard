@@ -32,6 +32,8 @@ Semnătura PDF (PAdES-T) este inclusă în PDF. XAdES creează XML: păstrează 
 
 Editorul de poziționare se deschide înainte de solicitarea PIN-ului, când ștampila este activată. Nu acoperi textul important.
 
+Etichetele ștampilei urmează limba aplicației aleasă în setările General.
+
 <GuideScreenshot src="/img/guide/android-phone/ro/stamp.png" alt="Poziționează ștampila vizibilă" steps={[{"text": "Trage ștampila pe pagină; ajustează dimensiunea cu mânerele din colțuri.", "x": 38, "y": 58}, {"text": "Folosește săgețile paginii, apoi alege O pagină, Toate paginile sau Oprit.", "x": 41.3, "y": 80.6}, {"text": "Alege dacă poziția se aplică tuturor PDF-urilor din lot și atinge Aplică. Anulează revine fără aprobarea semnării.", "x": 81.7, "y": 93.0}]} />
 
 ## Verifică și autorizează

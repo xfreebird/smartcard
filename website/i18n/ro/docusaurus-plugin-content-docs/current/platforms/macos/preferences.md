@@ -22,7 +22,7 @@ Deschide eSemnBun → Configurări (⌘,). General oferă română, engleză, ru
 
 Pentru descoperirea Spotlight/Siri activează Găsește documentele semnate în Siri și Spotlight. Sunt expuse numai numele și datele PDF/XML-urilor semnate, lizibile și deținute de aplicație. Conținutul, identitatea din certificat și PIN-ul nu sunt indexate. În ediția independentă, fișierele arbitrare de lângă originale nu sunt eligibile; sunt eligibile numai importurile deținute de aplicație. Dezactivează opțiunea pentru eliminarea indexului.
 
-<GuideScreenshot src="/img/guide/macos/ro/settings.png" alt="Configurează limba, aspectul și descoperirea în sistem" steps={[{"x": 83, "y": 24, "text": "Alege limba interfeței."}, {"x": 83, "y": 32, "text": "Alege Luminos, Întunecat sau Sistem."}, {"x": 90, "y": 41, "text": "Activează descoperirea documentelor dacă dorești numele eligibile în Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Deschide PIN-uri salvate pentru a vedea sau șterge intrările fără afișarea valorilor PIN."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/settings.png" alt="Configurează limba, aspectul și descoperirea în sistem" steps={[{"x": 83, "y": 24, "text": "Alege limba interfeței."}, {"x": 83, "y": 32, "text": "Alege Luminos, Întunecat sau Sistem."}, {"x": 90, "y": 41, "text": "Activează descoperirea documentelor dacă dorești numele eligibile în Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Deschide PIN-uri salvate pentru a vedea sau șterge intrările fără afișarea valorilor PIN."}, {"x": 91, "y": 68, "text": "Activează cererile locale doar pentru conectarea unui client MCP; fiecare cerere necesită verificarea PDF și aprobare."}]} />
 
 ## Bara de meniu, pornirea, actualizările și ajutorul
 

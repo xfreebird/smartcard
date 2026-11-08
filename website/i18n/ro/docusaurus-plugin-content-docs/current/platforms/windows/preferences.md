@@ -30,9 +30,9 @@ Modul demonstrativ necesită acceptare, arată carduri fictive și documente de 
 
 <GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 7, "y": 96, "text": "Deschide Setări."}, {"x": 28, "y": 88, "text": "Alege limba și aspectul aplicației."}]} />
 
-### Gestionează PIN-urile salvate și conexiunea browserului
+### Conexiune browser și cereri locale
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Gestionează PIN-urile salvate și conexiunea browserului" steps={[{"x": 27, "y": 21, "text": "Verifică preferințele PIN salvate. Ștergerea unei intrări din aplicație nu schimbă PIN-ul cardului."}, {"x": 27, "y": 44, "text": "Activează Conexiune browser și deschide serviciul dorit în browser pe acest computer. Verifică fiecare cerere de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 24, "text": "Activează Conexiune browser pentru site-ul dorit pe acest computer."}, {"x": 25, "y": 36, "text": "Opțional, activează ștampilele vizibile pentru cererile din browser; alege poziția o dată pentru fiecare lot."}]} />
 
 ### Găsește versiunea instalată
 

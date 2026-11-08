@@ -336,27 +336,6 @@
     ]
   },
   {
-    "path": "website/static/img/guide/linux/en/settings.png",
-    "locale": "en",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "en",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "22d9fe99344d6d58cadb004582bc1df1c6374b6b99cdeb139f72c5dad83570c0",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
     "path": "website/static/img/guide/linux/ro/connect.png",
     "locale": "ro",
     "scenario": "baseline",
@@ -687,27 +666,6 @@
       "width": 1100
     },
     "sha256": "f5d9daf58c50bfa08de47b942aaa8dc116be5e1d205f6fd481b332d61e478b66",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/ro/settings.png",
-    "locale": "ro",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ro",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "b2bd9a918cca7dcccbbde5b73ede94a7000b972150af7eb517220bafc0c2394e",
     "dimensions": [
       1100,
       780
@@ -1050,48 +1008,6 @@
     ]
   },
   {
-    "path": "website/static/img/guide/linux/ru/settings.png",
-    "locale": "ru",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ru",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "a34d4385a9a2474ec89e6f038ba1c27cbb78dcbf856fd790cce47d2d3fc80303",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/en/stamp.png",
-    "locale": "en",
-    "scenario": "documents",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "en",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-3d6dcec291e94a32ba1c401afe563b9e",
-      "scenario": "documents",
-      "width": 1100
-    },
-    "sha256": "60dabb1dcaa25dffeed7e755aa104ede45fc7d79d43381a1090d0b60aa4b3347",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
     "path": "website/static/img/guide/linux/en/certificate.png",
     "locale": "en",
     "scenario": "verify-valid",
@@ -1128,27 +1044,6 @@
       "width": 1100
     },
     "sha256": "4967d39ea5ed8974418f879c50da8d9c6eb92ffcefea223b9e849ab036ce2bf8",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/ro/stamp.png",
-    "locale": "ro",
-    "scenario": "documents",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ro",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-3d6dcec291e94a32ba1c401afe563b9e",
-      "scenario": "documents",
-      "width": 1100
-    },
-    "sha256": "b8cb42cd015c8c1b9ed08be95b1a1294b0b14524726cb8ba746ef9f9de15a72f",
     "dimensions": [
       1100,
       780
@@ -1197,27 +1092,6 @@
     ]
   },
   {
-    "path": "website/static/img/guide/linux/ru/stamp.png",
-    "locale": "ru",
-    "scenario": "documents",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ru",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-3d6dcec291e94a32ba1c401afe563b9e",
-      "scenario": "documents",
-      "width": 1100
-    },
-    "sha256": "8be733d550dcf47bd1cb4a264adf9b46e1df1c2c49eefbf08fb9142bbb165f0e",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
     "path": "website/static/img/guide/linux/ru/certificate.png",
     "locale": "ru",
     "scenario": "verify-valid",
@@ -1254,132 +1128,6 @@
       "width": 1100
     },
     "sha256": "2dae783fae4d5130a1d8b9f0a119c054c7dbfd20405204c2ba8a4587153ba2da",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/en/background.png",
-    "locale": "en",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "en",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-c2a48cef036c4fd889a4a2255da93a6d",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "d6572a92d0c458a959d1cdfdd4fa6064a167d1f56523bd2be15e74ee3b34e33f",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/en/about.png",
-    "locale": "en",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "en",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-c2a48cef036c4fd889a4a2255da93a6d",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "99a0fbf40c2fccb62af90c76288d77fa07863e9c9ccf46ee6e76ceaa4186d53f",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/ro/background.png",
-    "locale": "ro",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ro",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-c2a48cef036c4fd889a4a2255da93a6d",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "8fc6adcd8b1ba1d6965d92e7ab65b39e4ba588368cdb2cbcfba1e8d1e376edba",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/ro/about.png",
-    "locale": "ro",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ro",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-c2a48cef036c4fd889a4a2255da93a6d",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "d18c8e62958864e3301586aab5a7bb304d62b292f6949af3237c0230ebb51108",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/ru/background.png",
-    "locale": "ru",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ru",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-c2a48cef036c4fd889a4a2255da93a6d",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "9375d58ec6cbdea6355e4f8bd8dbe35d660496cf31a9cbc76a9ee8ea25a83100",
-    "dimensions": [
-      1100,
-      780
-    ]
-  },
-  {
-    "path": "website/static/img/guide/linux/ru/about.png",
-    "locale": "ru",
-    "scenario": "settings",
-    "cards": "1",
-    "page": "sign",
-    "ready": {
-      "height": 780,
-      "language": "ru",
-      "page": "sign",
-      "ready": true,
-      "run": "guide-linux-20261108-c2a48cef036c4fd889a4a2255da93a6d",
-      "scenario": "settings",
-      "width": 1100
-    },
-    "sha256": "75f3b7bf2db706b6a6fcdcae4684f6ab0c612b4ba194ae71082a3ca99052c93e",
     "dimensions": [
       1100,
       780
@@ -1450,5 +1198,257 @@
       155
     ],
     "crop": "native overhanging app menu only"
+  },
+  {
+    "path": "website/static/img/guide/linux/en/stamp.png",
+    "locale": "en",
+    "scenario": "documents",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "en",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "documents",
+      "width": 1100
+    },
+    "sha256": "00b59d5aff1bcf4b03ece0aa772770bad1ddee9a7de9546b434b6fdfa5d9fceb",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/en/settings.png",
+    "locale": "en",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "en",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "cc98e8236497ecc7b93c12c46c3d214cb879041553d2e3f8df172fc0725abff1",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/en/background.png",
+    "locale": "en",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "en",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "d6572a92d0c458a959d1cdfdd4fa6064a167d1f56523bd2be15e74ee3b34e33f",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/en/about.png",
+    "locale": "en",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "en",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "99a0fbf40c2fccb62af90c76288d77fa07863e9c9ccf46ee6e76ceaa4186d53f",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ro/stamp.png",
+    "locale": "ro",
+    "scenario": "documents",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ro",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "documents",
+      "width": 1100
+    },
+    "sha256": "61d064849eb6e28a1566415c3f2ca85abede54ea666deff476a553fd96715f31",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ro/settings.png",
+    "locale": "ro",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ro",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "e9374a021bf3b8f25fd74af3b60158d2f463350bbfc9e517ef732ebfa38d1ba9",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ro/background.png",
+    "locale": "ro",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ro",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "8fc6adcd8b1ba1d6965d92e7ab65b39e4ba588368cdb2cbcfba1e8d1e376edba",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ro/about.png",
+    "locale": "ro",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ro",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "d18c8e62958864e3301586aab5a7bb304d62b292f6949af3237c0230ebb51108",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ru/stamp.png",
+    "locale": "ru",
+    "scenario": "documents",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ru",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "documents",
+      "width": 1100
+    },
+    "sha256": "66606307e0a7c4873830a2e272f6e04c5600c3d074d23a75676de5f7fc85ebc0",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ru/settings.png",
+    "locale": "ru",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ru",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "243e7d47e2411a8a05134fe18630cd8f86e1547a476afecf4f8a1ef9fc766dc3",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ru/background.png",
+    "locale": "ru",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ru",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "9375d58ec6cbdea6355e4f8bd8dbe35d660496cf31a9cbc76a9ee8ea25a83100",
+    "dimensions": [
+      1100,
+      780
+    ]
+  },
+  {
+    "path": "website/static/img/guide/linux/ru/about.png",
+    "locale": "ru",
+    "scenario": "settings",
+    "cards": "1",
+    "page": "sign",
+    "ready": {
+      "height": 780,
+      "language": "ru",
+      "page": "sign",
+      "ready": true,
+      "run": "guide-linux-20261108-a7cf7d8e17da47eb94189c76cf1205d4",
+      "scenario": "settings",
+      "width": 1100
+    },
+    "sha256": "75f3b7bf2db706b6a6fcdcae4684f6ab0c612b4ba194ae71082a3ca99052c93e",
+    "dimensions": [
+      1100,
+      780
+    ]
   }
 ]

@@ -2,7 +2,7 @@
 title: "Решите проблему — Linux"
 sidebar_label: "Решите проблему"
 description: "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
-pagination_prev: "platforms/linux/preferences"
+pagination_prev: "platforms/linux/approval"
 pagination_next: null
 ---
 

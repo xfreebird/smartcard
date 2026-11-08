@@ -33,7 +33,7 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Position a visible PDF stamp
 
-<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 19, "y": 85, "text": "Move and resize the stamp in the PDF preview."}, {"x": 93, "y": 95, "text": "Check the page options and apply the stamp before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 19, "y": 85, "text": "Drag the stamp to move it and a corner to resize it. Its text follows the application language."}, {"x": 69, "y": 34, "text": "Choose the selected page or all pages; optionally reuse the placement for all queued PDFs."}, {"x": 93, "y": 95, "text": "Choose Apply to save the placement before signing."}]} />
 
 ### Review signing authorization
 

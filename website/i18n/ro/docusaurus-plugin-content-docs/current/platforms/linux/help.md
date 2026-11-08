@@ -2,7 +2,7 @@
 title: "Rezolvă o problemă — Linux"
 sidebar_label: "Rezolvă o problemă"
 description: "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune."
-pagination_prev: "platforms/linux/preferences"
+pagination_prev: "platforms/linux/approval"
 pagination_next: null
 ---
 

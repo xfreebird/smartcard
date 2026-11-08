@@ -23,5 +23,5 @@ Urmează exemplele numerotate pentru a atinge un scop concret. Comenzile rămân
 Pentru operațiuni cu cardul ai nevoie de un act electronic acceptat, PIN-ul corect, un cititor USB compatibil și adaptorul necesar. NFC nu este acceptat. Verificarea nu necesită cititor sau PIN. Păstrează originalele. Cheia privată rămâne pe card.
 
 :::info
-CLI Windows acceptă momentan help, capabilities, readers, cert, sign-hex și mcp. Comenzile normale sign/xades/verify/server/cms-for-hash nu sunt implementate. Pentru documente folosește aplicația desktop sau instrumentele MCP configurate separat pentru verificare/semnare nesupravegheată. MCP Windows nu are broker desktop de aprobare. Nu presupune paritate cu macOS/Linux.
+CLI Windows acceptă momentan help, capabilities, readers, cert, sign-hex și mcp. Comenzile normale sign/xades/verify/server/cms-for-hash nu sunt implementate. Pentru documente folosește aplicația desktop sau instrumentele MCP configurate separat pentru verificare/semnare nesupravegheată. Activează cererile locale în Configurări Windows și configurează --broker-directory pentru aprobare. Nu presupune paritate cu macOS/Linux.
 :::

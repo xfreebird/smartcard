@@ -34,6 +34,8 @@ Open Sign and choose files from Files or a cloud provider. Download cloud-only d
 
 Open a queued PDF’s options and choose Add/Edit stamp. A visible stamp is optional artwork; the cryptographic signature remains the actual signing proof. Position the stamp away from existing text.
 
+Stamp text follows the selected app language (Romanian, English or Russian).
+
 <GuideScreenshot src="/img/guide/iphone/en/stamp.png" alt="Drag the stamp to move it; drag its corner handles to resize it." steps={[{"text": "Drag the stamp to move it; drag its corner handles to resize it.", "x": 30, "y": 61}, {"text": "Select the page and choose Off, One page or All pages.", "x": 25, "y": 86}, {"text": "Optionally apply the placement to all queued PDFs, then choose Apply.", "x": 87, "y": 12}]} />
 
 ## Review the request and authorize signing
@@ -102,7 +104,7 @@ To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title,
 
 Open Card, then Settings. Choose Romanian, English, Russian or System, and Light, Dark or System appearance. Enable browser PDF stamps only if you want a visible stamp for supported website requests. Normal Demo mode is intentionally labelled; it is for exploration and does not produce real signatures. About shows the installed version and help information. Updates come through the Apple channel used to install the app.
 
-<GuideScreenshot src="/img/guide/iphone/en/settings.png" alt="Choose the interface language and appearance." steps={[{"text": "Choose the interface language and appearance.", "x": 95, "y": 29}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 86, "y": 65}, {"text": "Use About for the app version; close Settings with Done.", "x": 68, "y": 12}]} />
+<GuideScreenshot src="/img/guide/iphone/en/settings.png" alt="Choose the interface language and appearance." steps={[{"text": "Choose the interface language and appearance.", "x": 95, "y": 29}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 86, "y": 65}, {"text": "Use About for the app version; close Settings with Done.", "x": 88, "y": 12}]} />
 
 To manage a saved PIN, open Card for that identity and use Delete saved PIN when available. Saving uses the platform’s protected vault and offered device authentication; deleting the saved copy does not change or unblock the physical card PIN. A different card needs its own PIN.
 

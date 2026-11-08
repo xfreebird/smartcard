@@ -33,7 +33,7 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Poziționează ștampila PDF vizibilă
 
-<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF."}, {"x": 93, "y": 95, "text": "Verifică opțiunile paginii și aplică ștampila înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF. Textul urmează limba aplicației."}, {"x": 69, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică poziția tuturor PDF-urilor din listă."}, {"x": 93, "y": 95, "text": "Alege Aplică pentru a salva poziția înainte de semnare."}]} />
 
 ### Verifică autorizarea semnării
 

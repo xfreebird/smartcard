@@ -8,6 +8,7 @@ SERIAL='emulator-5562'; APK=ROOT/'android/app/build/outputs/apk/debug/app-debug.
 OUT=ROOT/'website/static/img/guide'; XML=pathlib.Path('/tmp/esemnbun-android-guide-layouts'); XML.mkdir(exist_ok=True)
 STATES=[('connect','permission','sign',None,None,False),('sign','batch','sign',None,None,False),('format','documents','sign','format-menu',None,False),('stamp','documents','sign',None,None,True),('pin','pin','sign',None,None,False),('results','results','sign',None,None,False),('verify','verify-valid','verify',None,None,False),('certificate','verify-valid','verify',None,'certificate',False),('original','verify-xml-missing','verify',None,None,False),('documents','cards','activity',None,None,False),('details','cards','activity','document-details',None,False),('history','cards','activity','history',None,False),('browser','cards','browser',None,None,False),('card','cards','card',None,None,False),('about','cards','sign','about',None,False)]
 STATES += [('sign-failure','sign-failure','sign',None,None,False),('sign-progress','documents','sign',None,None,False),('verify-invalid','verify-invalid','verify',None,None,False),('verify-unconfirmed','verify-unconfirmed','verify',None,None,False),('verify-none','verify-none','verify',None,None,False)]
+STATES += [('settings','cards','sign','settings',None,False)]
 if os.environ.get('GUIDE_CAPTURE_STATES'):
     selected=set(os.environ['GUIDE_CAPTURE_STATES'].split(',')); STATES=[state for state in STATES if state[0] in selected]
 def run(*args,timeout=60):
@@ -15,6 +16,10 @@ def run(*args,timeout=60):
     return subprocess.check_output([ADB,'-s',SERIAL,*map(str,args)],stderr=subprocess.STDOUT,timeout=timeout)
 def sh(*args):return run('shell',*args)
 run('wait-for-device',timeout=120)
+for _ in range(120):
+    if sh('getprop','sys.boot_completed').strip()==b'1':break
+    time.sleep(1)
+else:raise RuntimeError('Android emulator boot did not complete')
 run('install','-r',APK,timeout=120)
 sh('am','force-stop','md.esemnbun.app')
 sh('run-as','md.esemnbun.app','mkdir','-p','cache/qa-capture','shared_prefs')
@@ -22,6 +27,11 @@ run('push',ROOT/'android/core/build/pades-test/sample-signed.pdf','/data/local/t
 sh('run-as','md.esemnbun.app','cp','/data/local/tmp/esb-guide-signed.pdf','cache/qa-capture/signed.pdf')
 notice=pathlib.Path('/tmp/esb-guide-notice.xml');notice.write_text('<?xml version="1.0" encoding="utf-8"?><map><boolean name="independence_notice_v1" value="true" /></map>')
 run('push',notice,'/data/local/tmp/esb-guide-notice.xml');sh('run-as','md.esemnbun.app','cp','/data/local/tmp/esb-guide-notice.xml','shared_prefs/public_information.xml')
+# Let AppCompat complete its one-time stored-language migration before choosing
+# the first capture locale; migration can otherwise overwrite that first choice.
+sh('am','start','-W','-n','md.esemnbun.app/md.moldsign.app.MainActivity','--es','demo','cards','--ez','store_capture','true')
+time.sleep(2)
+sh('am','force-stop','md.esemnbun.app')
 sh('settings','put','system','accelerometer_rotation','0');sh('wm','user-rotation','lock','0');sh('cmd','uimode','night','no')
 for key in ['window_animation_scale','transition_animation_scale','animator_duration_scale']:sh('settings','put','global',key,'0')
 records=[]
@@ -34,7 +44,7 @@ for platform,w,h,density in [('android-phone',1080,2400,420),('android-tablet',1
         folder=OUT/platform/lang;folder.mkdir(parents=True,exist_ok=True)
         for name,scenario,page,dialog,expand,stamp in STATES:
             path=folder/(name+'.png');xmlpath=XML/f'{platform}-{lang}-{name}.xml'
-            if path.exists() and xmlpath.exists():continue
+            if path.exists() and xmlpath.exists() and os.environ.get('GUIDE_CAPTURE_REFRESH') != '1':continue
             sh('am','force-stop','md.esemnbun.app');run('logcat','-c')
             args=['am','start','-W','-n','md.esemnbun.app/md.moldsign.app.MainActivity','--es','demo',scenario,'--es','demo_page',page,'--ez','store_capture','true']
             if dialog:args+=['--es','capture_dialog',dialog]
@@ -61,6 +71,9 @@ for platform,w,h,density in [('android-phone',1080,2400,420),('android-tablet',1
             if im.size!=(w,h):raise RuntimeError(f'Unexpected size {im.size}')
             path.write_bytes(data)
             rec={'staticSigningStep':'Signing' if name=='sign-progress' else None,'file':str(path.relative_to(ROOT)),'platform':platform,'language':lang,'pixels':list(im.size),'scenario':scenario,'page':page,'dialog':dialog,'expanded':expand,'theme':'light','synthetic':True,'bannerHidden':True,'serial':SERIAL,'apkSha256':hashlib.sha256(APK.read_bytes()).hexdigest(),'imageSha256':hashlib.sha256(data).hexdigest(),'capturedAt':time.time()}
+            if os.environ.get('GUIDE_CAPTURE_HOST'):rec['captureHost']=os.environ['GUIDE_CAPTURE_HOST']
+            rec['sourceCommit']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+            rec['sourceHasLocalChanges']=bool(subprocess.check_output(['git','status','--porcelain','--','android'],cwd=ROOT,text=True).strip())
             records=[r for r in records if r['file']!=rec['file']]+[rec]
             evidence.parent.mkdir(exist_ok=True,parents=True)
             summary=json.loads(evidence.read_text()) if evidence.exists() else {'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'build':'current source Debug APK','hardwareUsed':False,'realPinEntered':False,'validationLimits':['Mock presentation captures do not prove USB or physical card signing.','About may report Debug marketing version; use release availability from Downloads.','Certificate verification fixture details include deliberate example wording.']}

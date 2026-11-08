@@ -34,7 +34,9 @@ Open Sign and choose files from Files or a cloud provider. Download cloud-only d
 
 Open a queued PDF’s options and choose Add/Edit stamp. A visible stamp is optional artwork; the cryptographic signature remains the actual signing proof. Position the stamp away from existing text.
 
-<GuideScreenshot src="/img/guide/ipad/en/stamp.png" alt="Drag the stamp to move it; drag its corner handles to resize it." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Drag the stamp to move it; drag its corner handles to resize it.", "x": 38.6, "y": 56.1}, {"text": "Select the page and choose Off, One page or All pages.", "x": 14.3, "y": 82.5}, {"text": "Optionally apply the placement to all queued PDFs, then choose Apply.", "x": 91.4, "y": 5.3}]} />
+Stamp text follows the selected app language (Romanian, English or Russian).
+
+<GuideScreenshot src="/img/guide/ipad/en/stamp.png" alt="Drag the stamp to move it; drag its corner handles to resize it." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Drag the stamp to move it; drag its corner handles to resize it.", "x": 40, "y": 55}, {"text": "Select the page and choose Off, One page or All pages.", "x": 25, "y": 79}, {"text": "Optionally apply the placement to all queued PDFs, then choose Apply.", "x": 84, "y": 9}]} />
 
 ## Review the request and authorize signing
 
@@ -102,7 +104,7 @@ To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title,
 
 Open Card, then Settings. Choose Romanian, English, Russian or System, and Light, Dark or System appearance. Enable browser PDF stamps only if you want a visible stamp for supported website requests. Normal Demo mode is intentionally labelled; it is for exploration and does not produce real signatures. About shows the installed version and help information. Updates come through the Apple channel used to install the app.
 
-<GuideScreenshot src="/img/guide/ipad/en/settings.png" alt="Choose the interface language and appearance." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Choose the interface language and appearance.", "x": 5.7, "y": 26.3}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 90.0, "y": 70.2}, {"text": "Use About for the app version; close Settings with Done.", "x": 92.9, "y": 5.3}]} />
+<GuideScreenshot src="/img/guide/ipad/en/settings.png" alt="Choose the interface language and appearance." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Choose the interface language and appearance.", "x": 82, "y": 29}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 82, "y": 67}, {"text": "Use About for the app version; close Settings with Done.", "x": 84, "y": 9}]} />
 
 To manage a saved PIN, open Card for that identity and use Delete saved PIN when available. Saving uses the platform’s protected vault and offered device authentication; deleting the saved copy does not change or unblock the physical card PIN. A different card needs its own PIN.
 
@@ -116,7 +118,7 @@ In Apple Shortcuts, create a shortcut, add an action, search eSemnBun and choose
 3. Run the shortcut. Review the prepared queue or offline result in eSemnBun; signing still needs your approval.
 
 For document search, enable Find signed documents in Siri and Spotlight in Settings, complete a signed app-owned PDF/XML, then search its filename in Spotlight. The opt-in index exposes filenames and dates, not document bodies, PINs or certificate identity. Current system Open/Search schemas require supported OS/SDK features; suggestions depend on your device, language and system settings. With Handoff enabled on compatible Apple devices, open Documents on one device and use its continuation affordance on the other. Handoff resumes Documents navigation; it does not transfer a PDF, PIN or card session. Siri, Spotlight and Handoff availability should be checked on your installed build; these documentation captures demonstrate app controls rather than a live cross-device result.
-<GuideScreenshot src="/img/guide/ipad/en/settings.png" alt="Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight.", "x": 90.0, "y": 70.2}, {"text": "After creating a signed app-owned document, search its filename in Spotlight and open the result."}, {"text": "For Handoff, open Documents on one compatible device and choose its continuation affordance on the other."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/settings.png" alt="Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight.", "x": 82, "y": 67}, {"text": "After creating a signed app-owned document, search its filename in Spotlight and open the result."}, {"text": "For Handoff, open Documents on one compatible device and choose its continuation affordance on the other."}]} />
 
 ## Use iPad windows and Files alongside signing
 

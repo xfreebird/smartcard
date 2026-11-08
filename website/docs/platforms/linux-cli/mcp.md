@@ -41,3 +41,15 @@ Use `capabilities` and `verify_document` first. Tool input identifies `{rootId,r
 ```json
 {"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
 ```
+
+### Enable signing with desktop approval
+
+Enable local signing requests in the GNOME app and keep it running. Add the private broker directory shown in Preferences to the helper command below. Use your actual directory; the screenshot uses an isolated capture location. Call `prepare_signing`, inspect the PDF in the app, explicitly approve and enter the PIN there, then use `get_job` to retrieve the result. `cancel_job` requests cancellation; a cancellation or timeout does not prove no signature was created. PINs never belong in MCP arguments. This per-document workflow is separate from unattended signing below.
+
+```sh
+esemnbun-mcp \
+  --root documents=/home/me/Documents/Signing \
+  --broker-directory "$HOME/.local/share/eSemnBun/AgentBroker"
+```
+
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Enable signing with desktop approval" caption="Native Settings capture with fictional data. The opt-in is disabled in this isolated screenshot session; no live MCP approval or card signing was performed." steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />

@@ -30,9 +30,9 @@ Demo mode requires acceptance, shows fictional cards and sample documents, and r
 
 <GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 7, "y": 96, "text": "Open Settings."}, {"x": 28, "y": 88, "text": "Choose the application language and appearance."}]} />
 
-### Manage saved PINs and browser connection
+### Browser connection and local requests
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Manage saved PINs and browser connection" steps={[{"x": 27, "y": 21, "text": "Check saved-PIN preferences. Removing an app entry does not change the card PIN."}, {"x": 27, "y": 44, "text": "Enable Browser connection, then open the intended service in the browser on this computer. Review every signing request."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 24, "text": "Enable Browser connection for the intended website on this computer."}, {"x": 25, "y": 36, "text": "Optionally enable visible PDF stamps for website requests; choose placement once per batch."}]} />
 
 ### Find your installed version
 

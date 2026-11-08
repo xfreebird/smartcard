@@ -26,6 +26,8 @@ Un PDF folosește în mod normal PAdES-T: semnătura rămâne în PDF. Alte fiș
 
 Deschide controlul Ștampilă oprită/Editează ștampila al unui PDF din listă. Ștampila vizibilă este opțională și nu înlocuiește semnătura criptografică. Pentru un PDF cu mai multe pagini, selectează pagina în previzualizare.
 
+Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
+
 <GuideScreenshot src="/img/guide/macos/ro/stamp.png" alt="Aplică o ștampilă vizibilă pe PDF" steps={[{"x": 83, "y": 17, "text": "Activează Ștampilă vizibilă."}, {"x": 21, "y": 49, "text": "Trage ștampila pentru poziționare și un colț pentru redimensionare."}, {"x": 83, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică setarea tuturor PDF-urilor din lot."}, {"x": 81, "y": 84, "text": "Alege Aplică pentru a reveni la lista de semnare."}]} />
 
 ## Autorizează lotul afișat

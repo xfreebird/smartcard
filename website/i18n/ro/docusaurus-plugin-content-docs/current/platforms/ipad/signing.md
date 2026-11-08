@@ -26,7 +26,9 @@ Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. 
 
 Deschide opțiunile unui PDF și alege Adaugă/Editează ștampila. Ștampila vizibilă este opțională; dovada semnării rămâne semnătura criptografică. Evită acoperirea textului existent.
 
-<GuideScreenshot src="/img/guide/ipad/ro/stamp.png" alt="Trage ștampila pentru mutare și colțurile pentru redimensionare." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Trage ștampila pentru mutare și colțurile pentru redimensionare.", "x": 38.6, "y": 56.1}, {"text": "Alege pagina și modul Oprit, O pagină sau Toate paginile.", "x": 14.3, "y": 82.5}, {"text": "Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.", "x": 91.4, "y": 5.3}]} />
+Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
+
+<GuideScreenshot src="/img/guide/ipad/ro/stamp.png" alt="Trage ștampila pentru mutare și colțurile pentru redimensionare." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Trage ștampila pentru mutare și colțurile pentru redimensionare.", "x": 40, "y": 55}, {"text": "Alege pagina și modul Oprit, O pagină sau Toate paginile.", "x": 25, "y": 79}, {"text": "Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.", "x": 84, "y": 9}]} />
 
 ## Verifică cererea și autorizează semnarea
 

@@ -96,6 +96,18 @@ Use `capabilities` and `verify_document` first. Tool input identifies `{rootId,r
 {"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
 ```
 
+### Enable signing with desktop approval
+
+Enable local signing requests in the GNOME app and keep it running. Add the private broker directory shown in Preferences to the helper command below. Use your actual directory; the screenshot uses an isolated capture location. Call `prepare_signing`, inspect the PDF in the app, explicitly approve and enter the PIN there, then use `get_job` to retrieve the result. `cancel_job` requests cancellation; a cancellation or timeout does not prove no signature was created. PINs never belong in MCP arguments. This per-document workflow is separate from unattended signing below.
+
+```sh
+esemnbun-mcp \
+  --root documents=/home/me/Documents/Signing \
+  --broker-directory "$HOME/.local/share/eSemnBun/AgentBroker"
+```
+
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Enable signing with desktop approval" caption="Native Settings capture with fictional data. The opt-in is disabled in this isolated screenshot session; no live MCP approval or card signing was performed." steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
+
 ## 7. Configure explicit unattended signing
 
 This advanced opt-in signs without a per-document approval dialog. Provision credentials independently, pin the exact signing-certificate DER SHA-256, and create a dedicated private output directory. Use secret-provider references, never PIN values. The helper checks the card certificate before reading a secret or sending VERIFY. Physical-card/provider behavior needs validation for your installation before production use.
@@ -111,7 +123,7 @@ esemnbun-mcp \
   --pin-source env:ESEMNBUN_AUTOMATION_PIN
 ```
 
-macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN`, or `onepassword:op://Vault/Item/field`. Linux: environment or 1Password. Windows: `credential:eSemnBun-Automation`, environment or 1Password with an explicit absolute op.exe path. A separately provisioned Keychain/Credential Manager entry must allow the intended access; the app biometric vault is not weakened. Authenticate 1Password outside MCP.
+macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN`, or `onepassword:op://Vault/Item/field`. Linux: `secret-service:service:account`, environment or 1Password. Windows: `credential:eSemnBun-Automation`, environment or 1Password with an explicit absolute op.exe path. A separately provisioned Keychain/Credential Manager entry must allow the intended access; the app biometric vault is not weakened. Authenticate 1Password outside MCP.
 
 Replace `<CERTIFICATE_SHA256>` with the exact 64 hexadecimal digits before running. The output folder must already exist; macOS/Linux require ownership by you and mode0700. Windows allows only your account, SYSTEM and Administrators in its ACL.
 

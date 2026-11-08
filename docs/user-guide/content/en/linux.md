@@ -133,13 +133,13 @@ Switch to History, choose Clear list and read the confirmation before accepting 
 
 Open the application menu → Preferences. Choose System, Light or Dark appearance and System, Romanian, English or Russian language. Changes apply to the interface. These captures use native translated controls.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Choose language and appearance" steps={[{"text": "Choose the appearance.", "x": 69, "y": 21}, {"text": "Choose the interface language.", "x": 69, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Choose language and appearance" steps={[{"text": "Choose the appearance.", "x": 69, "y": 41}, {"text": "Choose the interface language.", "x": 69, "y": 48}]} />
 
 ## 21. Manage saved PINs and website access
 
 Saved PINs use the desktop Secret Service/system keyring. When normal signing offers Remember PIN, save only intentionally and unlock the keyring if asked. If it is unavailable or locked, enter the PIN for that operation instead. Delete all PINs removes saved copies only; it does not change or unblock the physical card PIN. Enable Browser connection only for a website workflow you intend to use.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Manage saved PINs and website access" steps={[{"text": "Delete saved PIN copies only if you intend to enter them again.", "x": 68, "y": 45}, {"text": "Enable the browser connection only for your intended service.", "x": 69, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Manage saved PINs and website access" steps={[{"text": "Delete saved PIN copies only if you intend to enter them again.", "x": 68, "y": 65}, {"text": "Enable the browser connection only for your intended service.", "x": 69, "y": 85}]} />
 
 ## 22. Keep the app available in the background
 
@@ -158,6 +158,14 @@ Open Preferences → About eSemnBun to find the installed version and website. U
 The application menu contains Preferences, About, Check for Updates and Quit. Open [troubleshooting](/docs/troubleshooting) for online help. Closing the window may leave the app running when background mode is enabled; choose Quit to end it. For terminal automation continue with the Linux CLI guide.
 
 <GuideScreenshot src="/img/guide/linux/en/menu.png" alt="Open help and application commands" steps={[{"text": "Open the application menu."}, {"text": "Choose the intended Preferences, Help, update or Quit action.", "x": 87, "y": 35}]} />
+
+
+## 25. Approve a local MCP signing request
+
+In Preferences, enable local signing requests only when you intend to use an MCP client. Copy the private broker directory shown in the setting into the helper configuration. Keep the desktop app running. Each request opens a staged PDF for review: check the document, card and operation, approve it explicitly, then enter the PIN in the native dialog. A saved PIN never replaces approval. Cancel unexpected requests.
+
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Approve a local MCP signing request" caption="Native Settings capture with fictional data. The opt-in is disabled in this isolated screenshot session; no live MCP approval or card signing was performed." steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
+
 
 ## Use government websites in your own browser
 

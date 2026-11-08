@@ -96,6 +96,18 @@ esemnbun-mcp --root documents=/home/me/Documents/Signing
 {"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
 ```
 
+### Activează semnarea cu aprobare în aplicație
+
+Activează cererile locale de semnare în aplicația GNOME și păstreaz-o pornită. Adaugă dosarul privat afișat în Preferințe la comanda helperului de mai jos. Folosește dosarul tău real; captura arată un dosar izolat. Apelează `prepare_signing`, examinează PDF-ul în aplicație, aprobă explicit și introdu PIN-ul acolo, apoi folosește `get_job` pentru rezultat. `cancel_job` solicită anularea; anularea sau expirarea nu dovedește că nu s-a creat o semnătură. PIN-ul nu se transmite în argumentele MCP. Acest flux cu aprobare pentru fiecare document este separat de semnarea nesupravegheată de mai jos.
+
+```sh
+esemnbun-mcp \
+  --root documents=/home/me/Documents/Signing \
+  --broker-directory "$HOME/.local/share/eSemnBun/AgentBroker"
+```
+
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Activează semnarea cu aprobare în aplicație" caption="Captură nativă a preferințelor cu date fictive. Opțiunea este dezactivată în această sesiune izolată; nu s-a efectuat aprobarea MCP sau semnarea reală cu un card." steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
+
 ## 7. Configurează semnarea nesupravegheată explicită
 
 Această opțiune avansată semnează fără dialog per document. Pregătește separat secretele, fixează amprenta SHA-256 DER exactă a certificatului și creează un dosar privat pentru rezultate. Folosește referințe către furnizori, nu valori PIN. Certificatul este verificat înainte de citirea secretului sau VERIFY. Validează cardul și furnizorul în instalarea ta înainte de producție.
@@ -111,7 +123,7 @@ esemnbun-mcp \
   --pin-source env:ESEMNBUN_AUTOMATION_PIN
 ```
 
-macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` sau `onepassword:op://Vault/Item/field`. Linux: mediu sau1Password. Windows: `credential:eSemnBun-Automation`, mediu sau1Password cu o cale absolută op.exe. Intrarea Keychain/Credential Manager se pregătește separat; seiful biometric al aplicației rămâne protejat. Autentifică1Password în afara MCP.
+macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` sau `onepassword:op://Vault/Item/field`. Linux: `secret-service:service:account`, mediu sau1Password. Windows: `credential:eSemnBun-Automation`, mediu sau1Password cu o cale absolută op.exe. Intrarea Keychain/Credential Manager se pregătește separat; seiful biometric al aplicației rămâne protejat. Autentifică1Password în afara MCP.
 
 Înlocuiește `<CERTIFICATE_SHA256>` cu64cifre hexazecimale exacte înainte de executare. Dosarul rezultat trebuie să existe; macOS/Linux cer proprietar curent și0700. ACL Windows permite doar contul tău, SYSTEM și Administrators.
 

@@ -2,7 +2,7 @@
 title: "Fix a problem — Linux"
 sidebar_label: "Fix a problem"
 description: "Resolve reader, PIN, document and connection problems safely."
-pagination_prev: "platforms/linux/preferences"
+pagination_prev: "platforms/linux/approval"
 pagination_next: null
 ---
 

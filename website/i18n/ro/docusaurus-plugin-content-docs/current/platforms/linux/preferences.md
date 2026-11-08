@@ -3,7 +3,7 @@ title: "Modifică setările — Linux"
 sidebar_label: "Modifică setările"
 description: "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările."
 pagination_prev: "platforms/linux/browser"
-pagination_next: "platforms/linux/help"
+pagination_next: "platforms/linux/approval"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -20,13 +20,13 @@ Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația ins
 
 Deschide meniul aplicației → Preferințe. Alege aspectul Sistem, Deschis sau Întunecat și limba Sistem, Română, English sau Русский. Modificările se aplică interfeței. Capturile folosesc traducerile native.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 69, "y": 21}, {"text": "Alege limba interfeței.", "x": 69, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 69, "y": 41}, {"text": "Alege limba interfeței.", "x": 69, "y": 48}]} />
 
 ## Gestionează PIN-urile și accesul site-urilor
 
 PIN-urile sunt păstrate prin Secret Service/seiful sistemului. Dacă semnarea obișnuită oferă memorarea, salvează intenționat și deblochează seiful când se solicită. Dacă acesta este indisponibil/blocat, introdu PIN-ul pentru operația curentă. Ștergerea copiilor salvate nu schimbă și nu deblochează PIN-ul fizic. Activează conexiunea browser numai pentru fluxul dorit.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Gestionează PIN-urile și accesul site-urilor" steps={[{"text": "Șterge copiile PIN numai dacă vrei să le introduci din nou.", "x": 68, "y": 45}, {"text": "Activează conexiunea numai pentru serviciul dorit.", "x": 69, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Gestionează PIN-urile și accesul site-urilor" steps={[{"text": "Șterge copiile PIN numai dacă vrei să le introduci din nou.", "x": 68, "y": 65}, {"text": "Activează conexiunea numai pentru serviciul dorit.", "x": 69, "y": 85}]} />
 
 ## Păstrează aplicația disponibilă în fundal
 

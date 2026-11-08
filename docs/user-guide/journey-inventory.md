@@ -45,7 +45,7 @@ Each row is required on every applicable GUI form above, in each language. An im
 | G15 | Use a website: open Browser/service/bookmark or enable external bridge, navigate to card login/sign, inspect origin/request, authorize | Browser start/navigation; consent; completion. Use safe local mock website for capture | Apple/Android in-app browser; Linux external system browser |
 | G16 | Manage website bookmarks/data: add/edit title+URL+icon, navigate, clear selected cache/cookies/history | Bookmark controls/dialog; clear-data controls | Apple/Android browser; not Linux in-app browser (none) |
 | G17 | Manage saved PINs: save only via explicit option, unlock using offered platform mechanism, delete entry/all | PIN Remember option; dedicated saved-PIN settings; delete action | Apple/Linux only; Android rememberAvailable=false (AND-06), so do not claim saved-PIN UI |
-| G18 | Set language and appearance: open Settings/Preferences or OS app settings, choose supported options | Native preferences for Apple/Linux; Android follows OS locale/theme | Apple/Linux in-app controls; Android Settings currently Demo/About only |
+| G18 | Set language and appearance: open Settings/Preferences or OS app settings, choose supported options | Native preferences for Apple/Linux/Android | In-app language/theme selectors; Android also offers browser stamps, PIN removal, Demo/About |
 | G19 | Demo/help/about/update: enable normal demo only intentionally, access help/version, update through installed channel | Settings/About/help/update where controls exist | All; normal demo is labelled, unlike isolated documentation capture |
 | G20 | Recover reader/browser problems: distinguish permission/no reader/empty/read error/port busy, correct cause | Relevant native state plus recovery control | All; never retry incorrect PIN automatically |
 
@@ -130,6 +130,6 @@ Flags: Debug `MOLDSIGN_DEMO` binary, `MSIGN_SCREENSHOT_CAPTURE=1`, `MSIGN_DEMO_L
 
 ## Source corrections for platform authors
 
-Android source specifically sets `rememberAvailable = false` in `ui/MoldSignRoot.kt` with TODO(AND-06): a platform vault abstraction is not a shipped saved-PIN UI. Android settings currently expose Demo/About; interface language/theme follow the OS, unlike the explicit Apple/Linux selectors. Existing Android prose claiming these settings must be corrected.
+Android source specifically sets `rememberAvailable = false` in `ui/MoldSignRoot.kt` with TODO(AND-06): a platform vault abstraction is not a shipped saved-PIN UI. Android General now includes per-app language/theme, browser stamps and selected-card PIN removal, alongside Demo/About. New PIN retention is still unavailable.
 
-Windows source verification: `CliApp.Run` explicitly dispatches `mcp` to `McpHost`; normal command dispatch remains partial. `CliApp` capability writer advertises `mcpServerAvailable:true`, so the older JSON example in `spec/cli.md` saying false is stale. `McpServer` exposes `verify_document` and conditionally `sign_document`, but no prepare/get/cancel approval tools. Use that source distinction in guides.
+Windows source verification: `CliApp.Run` explicitly dispatches `mcp` to `McpHost`; normal command dispatch remains partial. `CliApp` capability writer advertises `mcpServerAvailable:true`, so the older JSON example in `spec/cli.md` saying false is stale. `McpServer` now exposes `prepare_signing`, `get_job` and `cancel_job` when a private desktop broker is configured, plus verification and explicit unattended signing. Native approval is separate from ordinary CLI sign command support.

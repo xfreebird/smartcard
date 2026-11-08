@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {test} from 'node:test';
 import GithubSlugger from 'github-slugger';
 const site=new URL('../',import.meta.url);
@@ -20,6 +20,10 @@ test('task directories preserve panels, device navigation and old localized book
     assert.doesNotMatch(text,/<PlatformScreenshots/);
    }
    assert.equal(count,topic.panels[locale]);panels+=count;pages++;
+   const folder=locale==='en'?'docs':`i18n/${locale}/docusaurus-plugin-content-docs/current`;
+   const taskUrl=new URL(`${folder}/platforms/${platform.id}/${topic.id}.md`,site);
+   for(const [,link] of text.matchAll(/\]\((\.{1,2}\/[^)#?]+\.md)(?:#[^)]*)?\)/g))
+    assert.ok(existsSync(new URL(link,taskUrl)),`${locale}/${platform.id}/${topic.id}: missing ${link}`);
    for(const [,target] of text.matchAll(/pagination_(?:prev|next): "([^"]+)"/g)) assert.ok(target===`platforms/${platform.id}`||target.startsWith(`platforms/${platform.id}/`));
    const slugger=new GithubSlugger();
    destinations.set(topic.id,new Set([...text.matchAll(/^#{1,6} (.+)$/gm)].map(([,heading])=>slugger.slug(heading))));
@@ -28,5 +32,5 @@ test('task directories preserve panels, device navigation and old localized book
    const [topic,anchor]=target.split('/#');assert.ok(destinations.get(topic)?.has(anchor),`${locale}/${platform.id}/${target}`);anchors++;
   }
  }
- assert.equal(pages,225);assert.equal(panels,531);assert.equal(anchors,492);
+ assert.equal(pages,231);assert.equal(panels,546);assert.equal(anchors,498);
 });

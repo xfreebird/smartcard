@@ -111,10 +111,10 @@
       "scenario": "ready",
       "tab": "sign",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "1c1f0a0d880df9a8835ecf71775fd408e953972b8478123ea644cc940e00c2b2",
+      "sha256": "16b7ddd63b2c09c9c6d18fe1787687eb2dc1d6eb02690e179eae10c889d9bf69",
       "platform": "iphone",
       "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
         1206,
         2622
@@ -125,7 +125,15 @@
         2622
       ],
       "path": "website/static/img/guide/iphone/en/stamp.png",
-      "assetSha256": "1c1f0a0d880df9a8835ecf71775fd408e953972b8478123ea644cc940e00c2b2"
+      "assetSha256": "16b7ddd63b2c09c9c6d18fe1787687eb2dc1d6eb02690e179eae10c889d9bf69",
+      "rawSha256": "16b7ddd63b2c09c9c6d18fe1787687eb2dc1d6eb02690e179eae10c889d9bf69",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "en",
@@ -485,10 +493,10 @@
       "scenario": "ready",
       "tab": "card",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "defeddd4a430d6338cfaf3cba8a7f1991f2d964242e0025f9deed35760b1fb1e",
+      "sha256": "99d7689769f5e7f378684febb657bbea53fd2acdb224a17e66eff507a8671f60",
       "platform": "iphone",
       "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
         1206,
         2622
@@ -499,7 +507,15 @@
         2622
       ],
       "path": "website/static/img/guide/iphone/en/settings.png",
-      "assetSha256": "defeddd4a430d6338cfaf3cba8a7f1991f2d964242e0025f9deed35760b1fb1e"
+      "assetSha256": "99d7689769f5e7f378684febb657bbea53fd2acdb224a17e66eff507a8671f60",
+      "rawSha256": "99d7689769f5e7f378684febb657bbea53fd2acdb224a17e66eff507a8671f60",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ro",
@@ -595,10 +611,10 @@
       "scenario": "ready",
       "tab": "sign",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "91a6b88c63cc2b4a65e20975d0c449eadf6112685690f39331a0cac64c31eab5",
+      "sha256": "601317d840498e5b737ce036547e3a334b49d37252589d292e5719dca44d68bb",
       "platform": "iphone",
       "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
         1206,
         2622
@@ -609,7 +625,15 @@
         2622
       ],
       "path": "website/static/img/guide/iphone/ro/stamp.png",
-      "assetSha256": "91a6b88c63cc2b4a65e20975d0c449eadf6112685690f39331a0cac64c31eab5"
+      "assetSha256": "601317d840498e5b737ce036547e3a334b49d37252589d292e5719dca44d68bb",
+      "rawSha256": "601317d840498e5b737ce036547e3a334b49d37252589d292e5719dca44d68bb",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ro",
@@ -969,10 +993,10 @@
       "scenario": "ready",
       "tab": "card",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "55e526ef58460521cebdfa68ca5c8267bbf25ba75e0357a67550398ef2f60002",
+      "sha256": "7308c84c831416ddef8586c28ba4b66d24f0316ad1bca7f3633ff1f906f9ff1d",
       "platform": "iphone",
       "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
         1206,
         2622
@@ -983,7 +1007,15 @@
         2622
       ],
       "path": "website/static/img/guide/iphone/ro/settings.png",
-      "assetSha256": "55e526ef58460521cebdfa68ca5c8267bbf25ba75e0357a67550398ef2f60002"
+      "assetSha256": "7308c84c831416ddef8586c28ba4b66d24f0316ad1bca7f3633ff1f906f9ff1d",
+      "rawSha256": "7308c84c831416ddef8586c28ba4b66d24f0316ad1bca7f3633ff1f906f9ff1d",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ru",
@@ -1079,10 +1111,10 @@
       "scenario": "ready",
       "tab": "sign",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "f57a2064adfe2e1053d704039c0aa722589081d101c7d8dfb9b17d642a3cbb1f",
+      "sha256": "28f9eb2dab758105c96ce967f3564abecb0c2f088ae463cc64f17e03188de846",
       "platform": "iphone",
       "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
         1206,
         2622
@@ -1093,7 +1125,15 @@
         2622
       ],
       "path": "website/static/img/guide/iphone/ru/stamp.png",
-      "assetSha256": "f57a2064adfe2e1053d704039c0aa722589081d101c7d8dfb9b17d642a3cbb1f"
+      "assetSha256": "28f9eb2dab758105c96ce967f3564abecb0c2f088ae463cc64f17e03188de846",
+      "rawSha256": "28f9eb2dab758105c96ce967f3564abecb0c2f088ae463cc64f17e03188de846",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ru",
@@ -1453,10 +1493,10 @@
       "scenario": "ready",
       "tab": "card",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "e7b42a8104282ed90eb11b8ee497766adf0c4ffe75f97ee826d66350a042f1b9",
+      "sha256": "bd74412fadde08a95ed83fc4b9c021820c3496c7d171729689089b2ce48ab1c9",
       "platform": "iphone",
       "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
         1206,
         2622
@@ -1467,7 +1507,15 @@
         2622
       ],
       "path": "website/static/img/guide/iphone/ru/settings.png",
-      "assetSha256": "e7b42a8104282ed90eb11b8ee497766adf0c4ffe75f97ee826d66350a042f1b9"
+      "assetSha256": "bd74412fadde08a95ed83fc4b9c021820c3496c7d171729689089b2ce48ab1c9",
+      "rawSha256": "bd74412fadde08a95ed83fc4b9c021820c3496c7d171729689089b2ce48ab1c9",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "en",
@@ -1583,26 +1631,34 @@
       "scenario": "ready",
       "tab": "sign",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "941bb101fc1cb7bdb09a891a142049db1bfefe2f26c63445543d726da571bc1b",
+      "sha256": "e7c6be4f25a24bc57de88d69aa75481e90b07643ddea27fdc6fe29341d9b70d8",
       "platform": "ipad",
       "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
-        1668,
-        2420
+        2064,
+        2752
       ],
       "cropPixels": [
-        250,
-        557,
-        1418,
-        1936
+        310,
+        633,
+        1754,
+        2202
       ],
       "dimensions": [
-        1168,
-        1379
+        1444,
+        1569
       ],
       "path": "website/static/img/guide/ipad/en/stamp.png",
-      "assetSha256": "13fd38a53fa654bd5602c57f0ce9b76124a94a95c28ef094f923af856086e387"
+      "assetSha256": "3ccaf84ec78888c16e95d9452ca7416bef6f087224798347294127cb2484ed5c",
+      "rawSha256": "e7c6be4f25a24bc57de88d69aa75481e90b07643ddea27fdc6fe29341d9b70d8",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "en",
@@ -2022,26 +2078,34 @@
       "scenario": "ready",
       "tab": "card",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "52ef3b1b18911a4709b8e5987c49bb103b54a2e52457d7cada679079a7b9133f",
+      "sha256": "cd6f8fbdff8fecd50c07a478a9ddacc7c31545c05b21da7b5e9e0611a521edfd",
       "platform": "ipad",
       "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
-        1668,
-        2420
+        2064,
+        2752
       ],
       "cropPixels": [
-        250,
-        557,
-        1418,
-        1936
+        310,
+        633,
+        1754,
+        2202
       ],
       "dimensions": [
-        1168,
-        1379
+        1444,
+        1569
       ],
       "path": "website/static/img/guide/ipad/en/settings.png",
-      "assetSha256": "3aa2b5bf0a5f7b51a203c329172145fb4ab44aab525c9552aa36278310054bbc"
+      "assetSha256": "6d1da65d824d76f42ceaec5114fc1f4a0fa641dc9693ea063f49169b472f3303",
+      "rawSha256": "cd6f8fbdff8fecd50c07a478a9ddacc7c31545c05b21da7b5e9e0611a521edfd",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ro",
@@ -2157,26 +2221,34 @@
       "scenario": "ready",
       "tab": "sign",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "796c6babdae38e68e4c338d113701251a8f5bb155c72e8c50011077fb4164fc1",
+      "sha256": "9937e80f139abfd16694d43e1da6a23490db1d7f1cadf2c4fab929d123724ad9",
       "platform": "ipad",
       "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
-        1668,
-        2420
+        2064,
+        2752
       ],
       "cropPixels": [
-        250,
-        557,
-        1418,
-        1936
+        310,
+        633,
+        1754,
+        2202
       ],
       "dimensions": [
-        1168,
-        1379
+        1444,
+        1569
       ],
       "path": "website/static/img/guide/ipad/ro/stamp.png",
-      "assetSha256": "24abf7fee902492952cd30e09905178a34f0d099202516f64a1d4e6aa60af742"
+      "assetSha256": "c01ed72d7a06bb75a33bb3e98b78c57005ea7ab551bde0353d055424bf73868b",
+      "rawSha256": "9937e80f139abfd16694d43e1da6a23490db1d7f1cadf2c4fab929d123724ad9",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ro",
@@ -2596,26 +2668,34 @@
       "scenario": "ready",
       "tab": "card",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "9e5779a8ac2a4eda7ea1d7afe849aad602a2fde010b7e1ef319adcf30563b6ea",
+      "sha256": "ee06e8d33ee44ed2a3276744b9a00bf2adef652e9b56239486e15a681b33171d",
       "platform": "ipad",
       "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
-        1668,
-        2420
+        2064,
+        2752
       ],
       "cropPixels": [
-        250,
-        557,
-        1418,
-        1936
+        310,
+        633,
+        1754,
+        2202
       ],
       "dimensions": [
-        1168,
-        1379
+        1444,
+        1569
       ],
       "path": "website/static/img/guide/ipad/ro/settings.png",
-      "assetSha256": "7191c357d6f3b31f1c32fe633ffe796572f0413a5fc13c998ecfa31db2b72018"
+      "assetSha256": "fd085442553ef24accbca43fb73900558776627fbe50df3199abda31cb6e24a1",
+      "rawSha256": "ee06e8d33ee44ed2a3276744b9a00bf2adef652e9b56239486e15a681b33171d",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ru",
@@ -2731,26 +2811,34 @@
       "scenario": "ready",
       "tab": "sign",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "a99d4146c3d87462987795982b01e7371ec79434d24aa0e7901820f1d53eb5a3",
+      "sha256": "21a6460f220119c18024794336c36fec0f96ba656a699c091fd36fe74938c52f",
       "platform": "ipad",
       "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
-        1668,
-        2420
+        2064,
+        2752
       ],
       "cropPixels": [
-        250,
-        557,
-        1418,
-        1936
+        310,
+        633,
+        1754,
+        2202
       ],
       "dimensions": [
-        1168,
-        1379
+        1444,
+        1569
       ],
       "path": "website/static/img/guide/ipad/ru/stamp.png",
-      "assetSha256": "6d441002bdffedc75b84bd6867d6ce0d4b854d1f3d90489b98d6be5d49423be3"
+      "assetSha256": "6fd14e717ba095823f10747aa4b0e597c45525de3e9849f9db877b183eca82c9",
+      "rawSha256": "21a6460f220119c18024794336c36fec0f96ba656a699c091fd36fe74938c52f",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     },
     {
       "locale": "ru",
@@ -3170,28 +3258,66 @@
       "scenario": "ready",
       "tab": "card",
       "readiness": "MSIGN_DEMO_READY",
-      "sha256": "c8dbb3d8e74a556ed847b3b9a42fc348a15b719f07898cbccb3b8ee11c896ade",
+      "sha256": "48f8e95919f19e19b5b026d2ecdd1c1eb482b7bc71241566c278d6418df5f34b",
       "platform": "ipad",
       "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
-      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
       "sourceDimensions": [
-        1668,
-        2420
+        2064,
+        2752
       ],
       "cropPixels": [
-        250,
-        557,
-        1418,
-        1936
+        310,
+        633,
+        1754,
+        2202
       ],
       "dimensions": [
-        1168,
-        1379
+        1444,
+        1569
       ],
       "path": "website/static/img/guide/ipad/ru/settings.png",
-      "assetSha256": "520ef2d2d237a752e9285af52edd8002ed49ab4c4a98d1636ccea5322fa2a35a"
+      "assetSha256": "8ffff81f07f2d9d73f09129e7523f87f99254d74e7e973294c329086ac0814e8",
+      "rawSha256": "48f8e95919f19e19b5b026d2ecdd1c1eb482b7bc71241566c278d6418df5f34b",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceIncludesWorkingTree": true,
+      "mock": true,
+      "bannerHidden": true,
+      "theme": "light",
+      "captureHost": "MacBook Air",
+      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
     }
   ],
   "visualReview": "All132 frames reviewed through native-state contact sheets; sign/stamp/PIN/settings additionally compared across all3native locales on both forms. Callout positions checked against native English OCR geometry and adjusted for iPad crops. Russian iPad tab overflow documented.",
-  "cleanup": "Both task-created Air simulators were shut down and deleted after capture; original simulator devices and app data were preserved."
+  "cleanup": "Both task-created Air simulators were shut down and deleted after capture; original simulator devices and app data were preserved.",
+  "refreshes": [
+    {
+      "date": "2026-11-08",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "workingTree": true,
+      "assets": [
+        "website/static/img/guide/iphone/en/stamp.png",
+        "website/static/img/guide/iphone/en/settings.png",
+        "website/static/img/guide/iphone/ro/stamp.png",
+        "website/static/img/guide/iphone/ro/settings.png",
+        "website/static/img/guide/iphone/ru/stamp.png",
+        "website/static/img/guide/iphone/ru/settings.png"
+      ],
+      "limitations": "Native fictional captures; no real signing, Siri or MCP authorization exercised."
+    },
+    {
+      "date": "2026-11-08",
+      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "workingTree": true,
+      "assets": [
+        "website/static/img/guide/ipad/en/stamp.png",
+        "website/static/img/guide/ipad/en/settings.png",
+        "website/static/img/guide/ipad/ro/stamp.png",
+        "website/static/img/guide/ipad/ro/settings.png",
+        "website/static/img/guide/ipad/ru/stamp.png",
+        "website/static/img/guide/ipad/ru/settings.png"
+      ],
+      "limitations": "Native fictional captures; no real signing, Siri or MCP authorization exercised."
+    }
+  ]
 }

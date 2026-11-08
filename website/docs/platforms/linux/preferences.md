@@ -3,7 +3,7 @@ title: "Change settings — Linux"
 sidebar_label: "Change settings"
 description: "Manage language, appearance, saved PINs, startup and updates."
 pagination_prev: "platforms/linux/browser"
-pagination_next: "platforms/linux/help"
+pagination_next: "platforms/linux/approval"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -20,13 +20,13 @@ Illustrations use fictional data. Follow the instructions in your installed app.
 
 Open the application menu → Preferences. Choose System, Light or Dark appearance and System, Romanian, English or Russian language. Changes apply to the interface. These captures use native translated controls.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Choose language and appearance" steps={[{"text": "Choose the appearance.", "x": 69, "y": 21}, {"text": "Choose the interface language.", "x": 69, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Choose language and appearance" steps={[{"text": "Choose the appearance.", "x": 69, "y": 41}, {"text": "Choose the interface language.", "x": 69, "y": 48}]} />
 
 ## Manage saved PINs and website access
 
 Saved PINs use the desktop Secret Service/system keyring. When normal signing offers Remember PIN, save only intentionally and unlock the keyring if asked. If it is unavailable or locked, enter the PIN for that operation instead. Delete all PINs removes saved copies only; it does not change or unblock the physical card PIN. Enable Browser connection only for a website workflow you intend to use.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Manage saved PINs and website access" steps={[{"text": "Delete saved PIN copies only if you intend to enter them again.", "x": 68, "y": 45}, {"text": "Enable the browser connection only for your intended service.", "x": 69, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Manage saved PINs and website access" steps={[{"text": "Delete saved PIN copies only if you intend to enter them again.", "x": 68, "y": 65}, {"text": "Enable the browser connection only for your intended service.", "x": 69, "y": 85}]} />
 
 ## Keep the app available in the background
 

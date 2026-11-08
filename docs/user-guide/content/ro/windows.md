@@ -45,7 +45,7 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Poziționează ștampila PDF vizibilă
 
-<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF."}, {"x": 93, "y": 95, "text": "Verifică opțiunile paginii și aplică ștampila înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF. Textul urmează limba aplicației."}, {"x": 69, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică poziția tuturor PDF-urilor din listă."}, {"x": 93, "y": 95, "text": "Alege Aplică pentru a salva poziția înainte de semnare."}]} />
 
 ### Verifică autorizarea semnării
 
@@ -87,9 +87,9 @@ Modul demonstrativ necesită acceptare, arată carduri fictive și documente de 
 
 <GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 7, "y": 96, "text": "Deschide Setări."}, {"x": 28, "y": 88, "text": "Alege limba și aspectul aplicației."}]} />
 
-### Gestionează PIN-urile salvate și conexiunea browserului
+### Conexiune browser și cereri locale
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Gestionează PIN-urile salvate și conexiunea browserului" steps={[{"x": 27, "y": 21, "text": "Verifică preferințele PIN salvate. Ștergerea unei intrări din aplicație nu schimbă PIN-ul cardului."}, {"x": 27, "y": 44, "text": "Activează Conexiune browser și deschide serviciul dorit în browser pe acest computer. Verifică fiecare cerere de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 24, "text": "Activează Conexiune browser pentru site-ul dorit pe acest computer."}, {"x": 25, "y": 36, "text": "Opțional, activează ștampilele vizibile pentru cererile din browser; alege poziția o dată pentru fiecare lot."}]} />
 
 ### Găsește versiunea instalată
 
@@ -101,9 +101,8 @@ Activează **Browser connection (Conexiune cu browserul)** în Configurări. Des
 
 Dacă alt server MoldSign ocupă porturile, finalizează operațiunile active ale aplicației furnizorului și folosește acțiunea oferită pentru rezolvarea conflictului, dacă există. Un singur bridge poate folosi porturile 18480/18443 la un moment dat. Dacă browserul cere acces la rețeaua locală, acordă-l pentru serviciul dorit, ca să poată contacta bridge-ul local. Consultă [serviciile în browser](/docs/browser).
 
-### Gestionează PIN-urile salvate și conexiunea browserului
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Gestionează PIN-urile salvate și conexiunea browserului" steps={[{"x": 27, "y": 21, "text": "Verifică preferințele PIN salvate. Ștergerea unei intrări din aplicație nu schimbă PIN-ul cardului."}, {"x": 27, "y": 44, "text": "Activează Conexiune browser și deschide serviciul dorit în browser pe acest computer. Verifică fiecare cerere de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Browser connection" steps={[{"x": 25.5, "y": 23.7, "text": "Activează Conexiunea browser doar când folosești un site compatibil."}, {"x": 25.5, "y": 36, "text": "Opțional, activează ștampilele pentru browser și verifică poziția înainte de semnare."}]} />
 
 ## Actualizează sau rezolvă o problemă
 
@@ -134,3 +133,20 @@ Deschide Documente și selectează lista documentelor semnate. Alege un element 
 ### Examinează un document salvat
 
 <GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51, "y": 45, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />
+
+## Aprobă cereri locale de semnare (MCP)
+
+În **Setări → General**, derulează la **Avansat** și activează **Permite cereri locale de semnare (MCP)**. Copiază dosarul privat afișat sub comutator în configurația clientului MCP. Păstrează eSemnBun deschis și selectează cardul dorit. Opțiunea nu este disponibilă în modul demonstrativ.
+
+```powershell
+& "C:\Program Files\eSemnBun\bin\esemnbun.exe" mcp `
+  --root "documents=C:\Users\me\Documents\Signing" `
+  --broker-directory "C:\Users\me\AppData\Local\MoldSign\MCP"
+```
+
+Folosește dosarul afișat de instalarea ta, în locul exemplului de mai jos. Clientul poate pregăti un PDF prin `prepare_signing`, verifica starea prin `get_job` sau anula prin `cancel_job`. Examinează PDF-ul în previzualizarea nativă și alege Semnează numai dacă aprobi cererea; urmează autorizarea cu cardul. Un PIN salvat nu omite această aprobare. Anularea sau expirarea timpului nu dovedește că nu a fost creată o semnătură.
+
+Captura folosește un profil demonstrativ izolat: calea este un exemplu, iar comutatorul MCP este dezactivat. Nu a fost executată nicio cerere MCP de semnare pentru această captură.
+
+
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 82, "text": "Găsește comutatorul MCP în Avansat. În afara modului demonstrativ, activează-l și copiază dosarul privat în configurația clientului."}, {"x": 48, "y": 92, "text": "Folosește dosarul afișat de instalarea ta, nu calea demonstrativă."}]} />

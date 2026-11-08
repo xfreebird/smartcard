@@ -26,6 +26,8 @@ Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. 
 
 Deschide opțiunile unui PDF și alege Adaugă/Editează ștampila. Ștampila vizibilă este opțională; dovada semnării rămâne semnătura criptografică. Evită acoperirea textului existent.
 
+Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
+
 <GuideScreenshot src="/img/guide/iphone/ro/stamp.png" alt="Trage ștampila pentru mutare și colțurile pentru redimensionare." steps={[{"text": "Trage ștampila pentru mutare și colțurile pentru redimensionare.", "x": 30, "y": 61}, {"text": "Alege pagina și modul Oprit, O pagină sau Toate paginile.", "x": 25, "y": 86}, {"text": "Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.", "x": 87, "y": 12}]} />
 
 ## Verifică cererea și autorizează semnarea

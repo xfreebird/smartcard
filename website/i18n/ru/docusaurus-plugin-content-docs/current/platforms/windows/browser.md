@@ -3,7 +3,7 @@ title: "Подпишите на сайте — Windows"
 sidebar_label: "Подпишите на сайте"
 description: "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
 pagination_prev: "platforms/windows/preferences"
-pagination_next: "platforms/windows/help"
+pagination_next: "platforms/windows/approval"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -22,6 +22,5 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Если порты заняты другим сервером MoldSign, завершите активные операции приложения поставщика и воспользуйтесь предложенным действием устранения конфликта, если оно доступно. Порты 18480/18443 одновременно может использовать только один bridge. Если браузер запрашивает доступ к локальной сети, разрешите его для нужного сервиса, чтобы он мог связаться с локальным bridge. См. [сервисы в браузере](/docs/browser).
 
-### Настройте сохранённые PIN и связь с браузером
 
-<GuideScreenshot src="/img/guide/windows/ru/lower.png" alt="Настройте сохранённые PIN и связь с браузером" steps={[{"x": 27, "y": 21, "text": "Проверьте настройки сохранённых PIN. Удаление записи приложения не меняет PIN карты."}, {"x": 27, "y": 44, "text": "Включите связь с браузером и откройте нужный сервис на этом компьютере. Проверяйте каждый запрос подписи."}]} />
+<GuideScreenshot src="/img/guide/windows/ru/lower.png" alt="Browser connection" steps={[{"x": 25.5, "y": 23.7, "text": "Включайте подключение к браузеру только при работе с поддерживаемым сайтом."}, {"x": 25.5, "y": 36, "text": "При необходимости включите штампы для браузера и проверьте положение перед подписью."}]} />

@@ -11,7 +11,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 Для операций с картой нужны поддерживаемое электронное удостоверение, правильный PIN, совместимый USB-считыватель и адаптер. NFC не поддерживается. Для проверки не нужны карта или PIN. Сохраняйте оригиналы. Закрытый ключ остаётся на карте.
 
 :::info
-CLI Windows сейчас поддерживает help, capabilities, readers, cert, sign-hex, mcp. Обычные sign/xades/verify/server/cms-for-hash не реализованы. Для документов используйте настольное приложение или отдельно настроенные инструменты MCP проверки/подписи без присутствия. В Windows MCP нет брокера подтверждения настольного приложения. Не предполагайте одинаковые команды с macOS/Linux.
+CLI Windows сейчас поддерживает help, capabilities, readers, cert, sign-hex, mcp. Обычные sign/xades/verify/server/cms-for-hash не реализованы. Для документов используйте настольное приложение или отдельно настроенные инструменты MCP проверки/подписи без присутствия. Включите локальные запросы в настройках приложения Windows и задайте --broker-directory для подтверждения. Не предполагайте одинаковые команды с macOS/Linux.
 :::
 
 ## 1. Установите и проверьте доступные возможности
@@ -102,7 +102,7 @@ esemnbun mcp `
   --pin-source credential:eSemnBun-Automation
 ```
 
-macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` или `onepassword:op://Vault/Item/field`. Linux: окружение или1Password. Windows: `credential:eSemnBun-Automation`, окружение или1Password с абсолютным путём op.exe. Отдельно подготовленная запись Keychain/Credential Manager должна разрешать нужный доступ; биометрическое хранилище приложения не ослабляется. Войдите в1Password вне MCP.
+macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` или `onepassword:op://Vault/Item/field`. Linux: `secret-service:service:account`, окружение или1Password. Windows: `credential:eSemnBun-Automation`, окружение или1Password с абсолютным путём op.exe. Отдельно подготовленная запись Keychain/Credential Manager должна разрешать нужный доступ; биометрическое хранилище приложения не ослабляется. Войдите в1Password вне MCP.
 
 Перед запуском замените `<CERTIFICATE_SHA256>` точными64шестнадцатеричными цифрами. Папка должна существовать: macOS/Linux требуют владельца-пользователя и0700; ACL Windows допускает только пользователя, SYSTEM и Administrators.
 

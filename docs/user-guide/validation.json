@@ -21,20 +21,26 @@
     {
       "locale": "en",
       "platform": "android",
-      "panels": 24,
-      "assets": 24
+      "panels": 25,
+      "assets": 25
     },
     {
       "locale": "en",
       "platform": "android-tablet",
-      "panels": 24,
-      "assets": 24
+      "panels": 25,
+      "assets": 25
     },
     {
       "locale": "en",
       "platform": "linux",
-      "panels": 25,
+      "panels": 26,
       "assets": 23
+    },
+    {
+      "locale": "en",
+      "platform": "windows",
+      "panels": 16,
+      "assets": 14
     },
     {
       "locale": "en",
@@ -45,14 +51,14 @@
     {
       "locale": "en",
       "platform": "linux-cli",
-      "panels": 7,
-      "assets": 7
+      "panels": 8,
+      "assets": 8
     },
     {
       "locale": "en",
       "platform": "windows-cli",
-      "panels": 4,
-      "assets": 4
+      "panels": 5,
+      "assets": 5
     },
     {
       "locale": "ro",
@@ -75,20 +81,26 @@
     {
       "locale": "ro",
       "platform": "android",
-      "panels": 24,
-      "assets": 24
+      "panels": 25,
+      "assets": 25
     },
     {
       "locale": "ro",
       "platform": "android-tablet",
-      "panels": 24,
-      "assets": 24
+      "panels": 25,
+      "assets": 25
     },
     {
       "locale": "ro",
       "platform": "linux",
-      "panels": 25,
+      "panels": 26,
       "assets": 23
+    },
+    {
+      "locale": "ro",
+      "platform": "windows",
+      "panels": 16,
+      "assets": 14
     },
     {
       "locale": "ro",
@@ -99,14 +111,14 @@
     {
       "locale": "ro",
       "platform": "linux-cli",
-      "panels": 7,
-      "assets": 7
+      "panels": 8,
+      "assets": 8
     },
     {
       "locale": "ro",
       "platform": "windows-cli",
-      "panels": 4,
-      "assets": 4
+      "panels": 5,
+      "assets": 5
     },
     {
       "locale": "ru",
@@ -129,20 +141,26 @@
     {
       "locale": "ru",
       "platform": "android",
-      "panels": 24,
-      "assets": 24
+      "panels": 25,
+      "assets": 25
     },
     {
       "locale": "ru",
       "platform": "android-tablet",
-      "panels": 24,
-      "assets": 24
+      "panels": 25,
+      "assets": 25
     },
     {
       "locale": "ru",
       "platform": "linux",
-      "panels": 25,
+      "panels": 26,
       "assets": 23
+    },
+    {
+      "locale": "ru",
+      "platform": "windows",
+      "panels": 16,
+      "assets": 14
     },
     {
       "locale": "ru",
@@ -153,18 +171,18 @@
     {
       "locale": "ru",
       "platform": "linux-cli",
-      "panels": 7,
-      "assets": 7
+      "panels": 8,
+      "assets": 8
     },
     {
       "locale": "ru",
       "platform": "windows-cli",
-      "panels": 4,
-      "assets": 4
+      "panels": 5,
+      "assets": 5
     }
   ],
-  "guideCount": 27,
-  "panelCount": 483,
+  "guideCount": 30,
+  "panelCount": 546,
   "errors": [],
   "date": "2026-11-08",
   "nativeScreenshots": 411,
@@ -222,9 +240,9 @@
   },
   "navigationRevision": {
     "overviews": 30,
-    "taskPages": 225,
-    "preservedPanels": 531,
-    "localizedBookmarkTargets": 492,
+    "taskPages": 231,
+    "preservedPanels": 546,
+    "localizedBookmarkTargets": 498,
     "locales": [
       "en",
       "ro",
@@ -258,5 +276,31 @@
       "desktop signing walkthrough and enlarged numbered screenshot",
       "Windows MCP verification numbered example and copyable command/input"
     ]
+  },
+  "taskPageCount": 231,
+  "screenshotRefresh": {
+    "date": "2026-11-08",
+    "nativeCaptures": 54,
+    "changedPngAssets": 48,
+    "locales": [
+      "en",
+      "ro",
+      "ru"
+    ],
+    "platforms": [
+      "macos",
+      "iphone",
+      "ipad",
+      "android-phone",
+      "android-tablet",
+      "linux",
+      "windows"
+    ],
+    "nativeDebugBuilds": "passed on all five OS targets",
+    "websiteTestsPassed": 19,
+    "guideValidation": "passed",
+    "allLocaleProductionBuild": "passed",
+    "seo": "passed",
+    "limits": "Fictional UI fixtures. No real MCP authorization, PIN retrieval or physical signing; full native regression tests not run."
   }
 }

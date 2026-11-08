@@ -34,6 +34,8 @@ Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. 
 
 Deschide opțiunile unui PDF și alege Adaugă/Editează ștampila. Ștampila vizibilă este opțională; dovada semnării rămâne semnătura criptografică. Evită acoperirea textului existent.
 
+Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
+
 <GuideScreenshot src="/img/guide/iphone/ro/stamp.png" alt="Trage ștampila pentru mutare și colțurile pentru redimensionare." steps={[{"text": "Trage ștampila pentru mutare și colțurile pentru redimensionare.", "x": 30, "y": 61}, {"text": "Alege pagina și modul Oprit, O pagină sau Toate paginile.", "x": 25, "y": 86}, {"text": "Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.", "x": 87, "y": 12}]} />
 
 ## Verifică cererea și autorizează semnarea
@@ -102,7 +104,7 @@ Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează 
 
 Deschide Card, apoi Setări. Alege Română, English, Русский ori Sistem și tema Luminoasă, Întunecată ori Sistem. Activează ștampilele PDF din browser doar dacă le dorești pentru cererile acceptate. Modul demonstrativ obișnuit este etichetat intenționat și nu produce semnături reale. Despre afișează versiunea și informațiile utile. Actualizările vin prin canalul Apple folosit la instalare.
 
-<GuideScreenshot src="/img/guide/iphone/ro/settings.png" alt="Alege limba interfeței și tema." steps={[{"text": "Alege limba interfeței și tema.", "x": 95, "y": 29}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 86, "y": 65}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 68, "y": 12}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/settings.png" alt="Alege limba interfeței și tema." steps={[{"text": "Alege limba interfeței și tema.", "x": 95, "y": 29}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 86, "y": 65}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 88, "y": 12}]} />
 
 Pentru un PIN memorat, deschide Card pentru identitatea respectivă și Șterge PIN-ul salvat când opțiunea este disponibilă. Memorarea folosește seiful protejat al platformei și autentificarea dispozitivului; ștergerea copiei nu schimbă și nu deblochează PIN-ul fizic. Un alt card necesită propriul PIN.
 

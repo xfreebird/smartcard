@@ -43,7 +43,7 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Position a visible PDF stamp
 
-<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 19, "y": 85, "text": "Move and resize the stamp in the PDF preview."}, {"x": 93, "y": 95, "text": "Check the page options and apply the stamp before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 19, "y": 85, "text": "Drag the stamp to move it and a corner to resize it. Its text follows the application language."}, {"x": 69, "y": 34, "text": "Choose the selected page or all pages; optionally reuse the placement for all queued PDFs."}, {"x": 93, "y": 95, "text": "Choose Apply to save the placement before signing."}]} />
 
 ### Review signing authorization
 
@@ -85,9 +85,9 @@ Demo mode requires acceptance, shows fictional cards and sample documents, and r
 
 <GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 7, "y": 96, "text": "Open Settings."}, {"x": 28, "y": 88, "text": "Choose the application language and appearance."}]} />
 
-### Manage saved PINs and browser connection
+### Browser connection and local requests
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Manage saved PINs and browser connection" steps={[{"x": 27, "y": 21, "text": "Check saved-PIN preferences. Removing an app entry does not change the card PIN."}, {"x": 27, "y": 44, "text": "Enable Browser connection, then open the intended service in the browser on this computer. Review every signing request."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 24, "text": "Enable Browser connection for the intended website on this computer."}, {"x": 25, "y": 36, "text": "Optionally enable visible PDF stamps for website requests; choose placement once per batch."}]} />
 
 ### Find your installed version
 
@@ -99,9 +99,8 @@ Enable **Browser connection** in Settings. Open a supported service in a browser
 
 If another MoldSign server owns the ports, finish active vendor operations and use the offered conflict-resolution action where available. Only one bridge can use ports 18480/18443 at a time. If the browser asks for local-network access, grant it for the intended service so it can contact the local bridge. See [browser services](/docs/browser).
 
-### Manage saved PINs and browser connection
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Manage saved PINs and browser connection" steps={[{"x": 27, "y": 21, "text": "Check saved-PIN preferences. Removing an app entry does not change the card PIN."}, {"x": 27, "y": 44, "text": "Enable Browser connection, then open the intended service in the browser on this computer. Review every signing request."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection" steps={[{"x": 25.5, "y": 23.7, "text": "Enable Browser connection only while using a supported website."}, {"x": 25.5, "y": 36, "text": "Optionally enable browser stamps to review their placement before signing."}]} />
 
 ## Update or resolve a problem
 
@@ -132,3 +131,20 @@ Open Documents and select the signed-document list. Choose an entry to open its 
 ### Inspect a saved document
 
 <GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51, "y": 45, "text": "Review this document’s signing information before opening or sharing its file."}]} />
+
+## Approve local signing requests (MCP)
+
+In **Settings → General**, scroll to **Advanced** and enable **Allow local signing requests (MCP)**. Copy the private directory shown below the switch into your MCP client configuration. Keep eSemnBun running and select the intended card. This option is unavailable while demo mode is on.
+
+```powershell
+& "C:\Program Files\eSemnBun\bin\esemnbun.exe" mcp `
+  --root "documents=C:\Users\me\Documents\Signing" `
+  --broker-directory "C:\Users\me\AppData\Local\MoldSign\MCP"
+```
+
+Use the actual directory displayed by your installation instead of the example below. A client can stage a PDF with `prepare_signing`, inspect its status with `get_job`, or cancel it with `cancel_job`. Review the PDF in the native preview and choose Sign only when you approve the request; card authorization follows. A saved PIN does not skip this approval. Cancelling or timing out is not proof that a signature was never made.
+
+The screenshot uses an isolated demonstration profile: its directory is an example and its MCP switch is disabled. No MCP signing request was executed for this capture.
+
+
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 82, "text": "Find the MCP switch under Advanced. Outside demo mode, enable it and copy the private directory into your client configuration."}, {"x": 48, "y": 92, "text": "Use the directory shown by your installation, not the demonstration path."}]} />

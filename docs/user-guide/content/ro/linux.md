@@ -133,13 +133,13 @@ Treci la Istoric, alege Golește lista și citește confirmarea. Eliminarea isto
 
 Deschide meniul aplicației → Preferințe. Alege aspectul Sistem, Deschis sau Întunecat și limba Sistem, Română, English sau Русский. Modificările se aplică interfeței. Capturile folosesc traducerile native.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 69, "y": 21}, {"text": "Alege limba interfeței.", "x": 69, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 69, "y": 41}, {"text": "Alege limba interfeței.", "x": 69, "y": 48}]} />
 
 ## 21. Gestionează PIN-urile și accesul site-urilor
 
 PIN-urile sunt păstrate prin Secret Service/seiful sistemului. Dacă semnarea obișnuită oferă memorarea, salvează intenționat și deblochează seiful când se solicită. Dacă acesta este indisponibil/blocat, introdu PIN-ul pentru operația curentă. Ștergerea copiilor salvate nu schimbă și nu deblochează PIN-ul fizic. Activează conexiunea browser numai pentru fluxul dorit.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Gestionează PIN-urile și accesul site-urilor" steps={[{"text": "Șterge copiile PIN numai dacă vrei să le introduci din nou.", "x": 68, "y": 45}, {"text": "Activează conexiunea numai pentru serviciul dorit.", "x": 69, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Gestionează PIN-urile și accesul site-urilor" steps={[{"text": "Șterge copiile PIN numai dacă vrei să le introduci din nou.", "x": 68, "y": 65}, {"text": "Activează conexiunea numai pentru serviciul dorit.", "x": 69, "y": 85}]} />
 
 ## 22. Păstrează aplicația disponibilă în fundal
 
@@ -158,6 +158,14 @@ Deschide Preferințe → Despre eSemnBun pentru versiune și site. Folosește ve
 Meniul aplicației oferă Preferințe, Despre, Verifică actualizările și Ieșire. Pentru ajutor online deschide [depanarea](/docs/troubleshooting). Închiderea ferestrei poate lăsa aplicația în fundal; alege Ieșire pentru oprire. Pentru automatizare continuă cu ghidul CLI Linux.
 
 <GuideScreenshot src="/img/guide/linux/ro/menu.png" alt="Deschide ajutorul și comenzile aplicației" steps={[{"text": "Deschide meniul aplicației."}, {"text": "Alege Preferințe, Ajutor, actualizare sau Ieșire.", "x": 87, "y": 35}]} />
+
+
+## 25. Aprobă o cerere locală de semnare MCP
+
+În Preferințe, activează cererile locale de semnare doar dacă intenționezi să folosești un client MCP. Copiază dosarul privat afișat în configurarea helperului. Păstrează aplicația desktop pornită. Fiecare cerere deschide PDF-ul pregătit pentru examinare: verifică documentul, cardul și operația, aprobă explicit, apoi introdu PIN-ul în dialogul nativ. Un PIN salvat nu înlocuiește aprobarea. Anulează cererile neașteptate.
+
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" caption="Captură nativă a preferințelor cu date fictive. Opțiunea este dezactivată în această sesiune izolată; nu s-a efectuat aprobarea MCP sau semnarea reală cu un card." steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
+
 
 ## Folosește site-urile în browserul tău
 

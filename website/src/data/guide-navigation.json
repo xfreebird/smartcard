@@ -1387,9 +1387,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 2,
+            "ro": 2,
+            "ru": 2
           }
         },
         {
@@ -1765,9 +1765,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 2,
+            "ro": 2,
+            "ru": 2
           }
         },
         {
@@ -2152,6 +2152,35 @@
           }
         },
         {
+          "id": "approval",
+          "labels": {
+            "en": "Approve local signing",
+            "ro": "Aprobă semnarea locală",
+            "ru": "Подтвердите локальную подпись"
+          },
+          "descriptions": {
+            "en": "Prepare a PDF and review its foreground approval request.",
+            "ro": "Pregătește un PDF și verifică cererea de aprobare în aplicație.",
+            "ru": "Подготовьте PDF и проверьте запрос подтверждения в приложении."
+          },
+          "headings": {
+            "en": [
+              "Approve a local MCP signing request"
+            ],
+            "ro": [
+              "Aprobă o cerere locală de semnare MCP"
+            ],
+            "ru": [
+              "Подтвердите локальный запрос подписи MCP"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
           "id": "help",
           "labels": {
             "en": "Fix a problem",
@@ -2208,6 +2237,7 @@
           "22-keep-the-app-available-in-the-background": "preferences/#keep-the-app-available-in-the-background",
           "23-find-the-version-and-update-safely": "preferences/#find-the-version-and-update-safely",
           "24-open-help-and-application-commands": "preferences/#open-help-and-application-commands",
+          "25-approve-a-local-mcp-signing-request": "approval/#approve-a-local-mcp-signing-request",
           "recover-safely": "help/#recover-safely"
         },
         "ro": {
@@ -2236,6 +2266,7 @@
           "22-păstrează-aplicația-disponibilă-în-fundal": "preferences/#păstrează-aplicația-disponibilă-în-fundal",
           "23-găsește-versiunea-și-actualizează-sigur": "preferences/#găsește-versiunea-și-actualizează-sigur",
           "24-deschide-ajutorul-și-comenzile-aplicației": "preferences/#deschide-ajutorul-și-comenzile-aplicației",
+          "25-aprobă-o-cerere-locală-de-semnare-mcp": "approval/#aprobă-o-cerere-locală-de-semnare-mcp",
           "rezolvă-problemele-în-siguranță": "help/#rezolvă-problemele-în-siguranță"
         },
         "ru": {
@@ -2264,6 +2295,7 @@
           "22-оставьте-приложение-доступным-в-фоне": "preferences/#оставьте-приложение-доступным-в-фоне",
           "23-найдите-версию-и-обновите-безопасно": "preferences/#найдите-версию-и-обновите-безопасно",
           "24-откройте-справку-и-команды-приложения": "preferences/#откройте-справку-и-команды-приложения",
+          "25-подтвердите-локальный-запрос-подписи-mcp": "approval/#подтвердите-локальный-запрос-подписи-mcp",
           "безопасное-устранение-проблем": "help/#безопасное-устранение-проблем"
         }
       }
@@ -2453,6 +2485,35 @@
           }
         },
         {
+          "id": "approval",
+          "labels": {
+            "en": "Approve local signing",
+            "ro": "Aprobă semnarea locală",
+            "ru": "Подтвердите локальную подпись"
+          },
+          "descriptions": {
+            "en": "Prepare a PDF and review its foreground approval request.",
+            "ro": "Pregătește un PDF și verifică cererea de aprobare în aplicație.",
+            "ru": "Подготовьте PDF и проверьте запрос подтверждения в приложении."
+          },
+          "headings": {
+            "en": [
+              "Approve local signing requests (MCP)"
+            ],
+            "ro": [
+              "Aprobă cereri locale de semnare (MCP)"
+            ],
+            "ru": [
+              "Подтверждайте локальные запросы подписи (MCP)"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
           "id": "help",
           "labels": {
             "en": "Fix a problem",
@@ -2490,6 +2551,7 @@
           "find-and-open-saved-documents": "documents/#find-and-open-saved-documents",
           "settings-pins-and-tray-controls": "preferences/#settings-pins-and-tray-controls",
           "use-the-browser-bridge": "browser/#use-the-browser-bridge",
+          "approve-local-signing-requests-mcp": "approval/#approve-local-signing-requests-mcp",
           "update-or-resolve-a-problem": "help/#update-or-resolve-a-problem"
         },
         "ro": {
@@ -2499,6 +2561,7 @@
           "găsește-și-deschide-documentele-salvate": "documents/#găsește-și-deschide-documentele-salvate",
           "configurări-pin-uri-și-pictograma-din-zona-de-notificare": "preferences/#configurări-pin-uri-și-pictograma-din-zona-de-notificare",
           "folosește-conexiunea-cu-browserul": "browser/#folosește-conexiunea-cu-browserul",
+          "aprobă-cereri-locale-de-semnare-mcp": "approval/#aprobă-cereri-locale-de-semnare-mcp",
           "actualizează-sau-rezolvă-o-problemă": "help/#actualizează-sau-rezolvă-o-problemă"
         },
         "ru": {
@@ -2508,6 +2571,7 @@
           "найдите-и-откройте-сохранённые-документы": "documents/#найдите-и-откройте-сохранённые-документы",
           "настройки-pin-и-значок-в-области-уведомлений": "preferences/#настройки-pin-и-значок-в-области-уведомлений",
           "используйте-соединение-с-браузером": "browser/#используйте-соединение-с-браузером",
+          "подтверждайте-локальные-запросы-подписи-mcp": "approval/#подтверждайте-локальные-запросы-подписи-mcp",
           "обновите-приложение-или-устраните-проблему": "help/#обновите-приложение-или-устраните-проблему"
         }
       }
@@ -2644,9 +2708,9 @@
         {
           "id": "approval",
           "labels": {
-            "en": "Approve signing on Mac",
-            "ro": "Aprobă semnarea pe Mac",
-            "ru": "Подтвердите подпись на Mac"
+            "en": "Approve local signing",
+            "ro": "Aprobă semnarea locală",
+            "ru": "Подтвердите локальную подпись"
           },
           "descriptions": {
             "en": "Prepare a PDF and review its foreground approval request.",
@@ -2886,9 +2950,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 2,
+            "ro": 2,
+            "ru": 2
           }
         },
         {

@@ -1,8 +1,9 @@
-﻿param([switch]$VerificationOnly)
+﻿param([switch]$VerificationOnly, [switch]$RefreshOnly, [string]$RootPath)
 $ErrorActionPreference='Stop'
-$root="$env:USERPROFILE\esemnbun-windows-guide-screenshots-20261108"
+$root=if($RootPath){$RootPath}else{"$env:USERPROFILE\esemnbun-windows-guide-screenshots-20261108"}
 $env:DOTNET_ROOT="$env:USERPROFILE\dotnet-x64";$env:DOTNET_ROOT_X64=$env:DOTNET_ROOT;$env:PATH="$env:DOTNET_ROOT;$env:PATH"
 $out=Join-Path $root 'captures';New-Item -ItemType Directory -Force $out|Out-Null
+Remove-Item "$root\capture-status.txt" -ErrorAction SilentlyContinue
 $env:MSIGN_TEST_PREFERENCES=Join-Path $root 'profile\settings.json';New-Item -ItemType Directory -Force (Split-Path $env:MSIGN_TEST_PREFERENCES)|Out-Null
 $env:MSIGN_SCREENSHOT_CAPTURE='1'
 $app=Join-Path $root 'publish\eSemnBun.exe'
@@ -47,8 +48,8 @@ function Shot([string]$suffix='') {
  [CaptureNative]::SetCursorPos(1590,990)|Out-Null
  $bmp=New-Object Drawing.Bitmap(($r.Right-$r.Left),($r.Bottom-$r.Top));$g=[Drawing.Graphics]::FromImage($bmp)
  try{$g.CopyFromScreen($r.Left,$r.Top,0,0,$bmp.Size);$bmp.Save("$out\$name.png",[Drawing.Imaging.ImageFormat]::Png)}finally{$g.Dispose();$bmp.Dispose()}
- $record=@{file="$name.png";platform='windows';form=$form;theme=$theme;reader=$reader;page=$page;stage=$stage;width=$r.Right-$r.Left;height=$r.Bottom-$r.Top;processId=$process.Id;simulated=$true;bannerHidden=$true;binarySHA256=(Get-FileHash $app -Algorithm SHA256).Hash;language=$locale;readiness=$ready}
- $record|ConvertTo-Json -Depth 8|Set-Content "$out\$name.json" -Encoding UTF8;$records.Add($record)
+ $record=@{nativeWindowTitle=$ui.Current.Name;file="$name.png";platform='windows';form=$form;theme=$theme;reader=$reader;page=$page;stage=$stage;width=$r.Right-$r.Left;height=$r.Bottom-$r.Top;processId=$process.Id;simulated=$true;bannerHidden=$true;binarySHA256=(Get-FileHash $app -Algorithm SHA256).Hash;language=$locale;readiness=$ready}
+ $record|ConvertTo-Json -Depth 8|Set-Content "$out\$name.json" -Encoding UTF8;for($i=$records.Count-1;$i -ge 0;$i--){if($records[$i].file -eq $record.file){$records.RemoveAt($i)}};$records.Add($record)
  @{platform='windows';language=$locale;records=$records.ToArray()}|ConvertTo-Json -Depth 9|Set-Content "$out\manifest.json" -Encoding UTF8
  Write-Output $name
 }
@@ -79,7 +80,7 @@ function Run-Job([string]$reader,[string]$page,[string]$stage='baseline') {
   $script:ui=[System.Windows.Automation.AutomationElement]::FromHandle($hwnd)
   Start-Sleep -Milliseconds 300
   switch($stage){
-   'stamp'{Open-Queue;$n=Nodes|Where-Object{$_.Current.ControlType -eq [System.Windows.Automation.ControlType]::Button -and $_.Current.Name -eq (L 'file_options')}|Select-Object -First 1;Invoke $n;Invoke (Name (L 'Stamp_Add'));Start-Sleep -Milliseconds 600;$script:hwnd=[CaptureNative]::GetForegroundWindow();$script:ui=[System.Windows.Automation.AutomationElement]::FromHandle($hwnd);if($ui.Current.ProcessId -ne $process.Id){throw 'Editor does not belong to task'};[CaptureNative]::MoveWindow($hwnd,30,30,$width,$height,$true)|Out-Null;Start-Sleep -Milliseconds 500;Shot;break}
+   'stamp'{Open-Queue;$n=Nodes|Where-Object{$_.Current.ControlType -eq [System.Windows.Automation.ControlType]::Button -and $_.Current.Name -eq (L 'file_options')}|Select-Object -First 1;Invoke $n;Invoke (Name (L 'Stamp_Add'));$editor=$null;for($attempt=0;$attempt -lt 400;$attempt++){Start-Sleep -Milliseconds 150;$candidate=[System.Windows.Automation.AutomationElement]::FromHandle([CaptureNative]::GetForegroundWindow());if($candidate.Current.ProcessId -eq $process.Id -and $candidate.Current.Name -eq (L 'Stamp_Title')){$editor=$candidate};if($editor){break}};if(!$editor){throw 'Native PDF stamp editor did not appear'};$script:hwnd=[IntPtr]$editor.Current.NativeWindowHandle;$script:ui=$editor;[CaptureNative]::SetWindowPos($hwnd,[IntPtr](-1),0,0,0,0,0x43)|Out-Null;Focus;[CaptureNative]::MoveWindow($hwnd,30,30,$width,$height,$true)|Out-Null;Start-Sleep -Milliseconds 500;Shot;break}
 'queue'{Open-Queue;Shot;break}
    'success'{Open-Success;Shot;break}
    'formats'{Open-Queue;$node=Nodes|Where-Object{$_.Current.ControlType -eq [System.Windows.Automation.ControlType]::Button -and $_.Current.Name -eq (L 'file_options')}|Select-Object -First 1;Invoke $node;Shot;break}
@@ -99,6 +100,13 @@ try {
  foreach($locale in @('en-US','ro-RO','ru-RU')) {
   [xml]$resources=Get-Content "$root\windows\src\MoldSign.App\Strings\$locale\Resources.resw" -Raw -Encoding UTF8
   if($VerificationOnly){Run-Job 'multiple' 'verify' 'verify-valid';continue}
+  if($RefreshOnly){
+   Run-Job 'multiple' 'sign' 'stamp'
+   Run-Job 'multiple' 'settings'
+   Run-Job 'multiple' 'settings' 'settings-lower'
+   Run-Job 'multiple' 'settings' 'about'
+   continue
+  }
   Run-Job 'none' 'card'
   Run-Job 'multiple' 'card'
   Run-Job 'multiple' 'sign' 'queue'

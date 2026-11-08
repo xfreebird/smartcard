@@ -32,6 +32,8 @@ PDF signature (PAdES-T) embeds the signature in a PDF. XAdES creates XML: keep t
 
 The placement editor opens before the PIN request when a stamp is enabled. Review page content to avoid covering important text.
 
+The stamp labels follow the app language chosen in General settings.
+
 <GuideScreenshot src="/img/guide/android-phone/en/stamp.png" alt="Place an optional visible stamp" steps={[{"text": "Drag the stamp on the page; use its resize handles to fit the available space.", "x": 38, "y": 58}, {"text": "Use the page arrows, then choose One page, All pages, or Off.", "x": 40.9, "y": 80.6}, {"text": "Choose whether the placement applies to all queued PDFs, then tap Apply. Cancel returns without approving a signature.", "x": 82.5, "y": 93.0}]} />
 
 ## Review and authorize

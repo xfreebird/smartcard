@@ -10,7 +10,7 @@ The public entry point is the website's `/docs/platforms/` route, available in E
 - Use only fictional identities, filenames and sample documents. Debug capture mode must isolate hardware and hide the demo banner; ordinary app demo mode remains labelled.
 - Record provenance, binary identity, locale, device form and capture limitations in each platform evidence manifest. A mock successful screen does not establish physical-card signing, saved-credential access or system-service behavior.
 - Terminal examples are instructional illustrations, labelled in adjacent prose, with copyable commands. Do not imply they show an operation that was not exercised. Never include PIN values in a command, screenshot, guide or log.
-- Document current platform and distribution differences explicitly. In particular, Windows normal CLI coverage differs from Windows MCP; desktop approval UI is macOS-only; Android currently offers no saved-PIN save control.
+- Document current platform and distribution differences explicitly. In particular, Windows normal CLI coverage differs from Windows MCP; desktop approval UI is available in standalone macOS, Windows and Linux builds; the Mac App Store edition retains its separate CLI fallback; Android currently offers no saved-PIN save control.
 
 ## Refresh and validation
 
@@ -23,3 +23,5 @@ The public entry point is the website's `/docs/platforms/` route, available in E
 Per-platform evidence files distinguish actual native captures, live read-only CLI evidence and explicitly instructional terminal examples. Keep technical evidence outside the public how-to prose unless it helps a user make a meaningful choice.
 
 Windows desktop captures are recorded in `windows-evidence.json`; `windows-panel-targets.json` maps capture names to public assets. Every Windows desktop and CLI task must contain numbered `GuideScreenshot` instructions. The validator and navigation tests reject legacy unannotated panels and missing visual steps.
+
+Current refresh: 231 focused task pages and 546 numbered panels. The 8 November settings/stamp refresh captured 54 native images in English, Romanian and Russian across all seven app forms; 48 PNG assets changed and six recaptures were pixel-identical. Per-asset evidence identifies current Debug fixtures and their limits. Native images do not establish real MCP signing or credential-provider authorization.

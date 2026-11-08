@@ -35,6 +35,8 @@ PDF signature (PAdES-T) embeds the signature in a PDF. XAdES creates XML: keep t
 
 The placement editor opens before the PIN request when a stamp is enabled. Review page content to avoid covering important text.
 
+The stamp labels follow the app language chosen in General settings.
+
 <GuideScreenshot src="/img/guide/android-tablet/en/stamp.png" alt="Place an optional visible stamp" steps={[{"text": "Drag the stamp on the page; use its resize handles to fit the available space.", "x": 38, "y": 58}, {"text": "Use the page arrows, then choose One page, All pages, or Off.", "x": 46.1, "y": 83.2}, {"text": "Choose whether the placement applies to all queued PDFs, then tap Apply. Cancel returns without approving a signature.", "x": 93.9, "y": 93.5}]} />
 
 ## 5. Review and authorize
@@ -153,9 +155,11 @@ The displayed card uses certificate information and a neutral avatar, not a phot
 
 ## 15. Language, appearance, demo, and support
 
-Android controls the app language and appearance. On Android 13 or later, open system Settings → Apps → eSemnBun → Language and choose English, Romanian, or Russian. On older Android, the interface follows the device’s supported language. Use the system dark-theme setting for dark appearance.
+Open the gear → General. Choose App language: System, Romanian, English, or Russian; choose Theme: System, Light, or Dark. Choices apply to eSemnBun only and are remembered. Android 13+ also exposes the language choice in system Settings → Apps → eSemnBun → Language. General also controls browser stamps and lets you remove the selected card’s saved PIN.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/about.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open the gear → General to enable demo mode after reading its explanation. Ordinary demo mode is labelled and produces samples, not valid signatures; disable it before real work.", "x": 38.4, "y": 14.4}, {"text": "Open About to find the version, official-source disclosure, and website. Include app/Android version, reader/adapter model, and reproduction steps in support requests.", "x": 45.3, "y": 29.8}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/settings.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open the gear → General. Tap App language and choose System, Romanian, English, or Russian.", "x": 38.3, "y": 39.5}, {"text": "Tap Theme and choose System, Light, or Dark. The app remembers both choices.", "x": 36.6, "y": 46.1}, {"text": "Enable browser stamps when needed. Remove a saved PIN only for the selected card; this does not change the card’s PIN.", "x": 43.1, "y": 52.5}, {"text": "Open the gear → General to enable demo mode after reading its explanation. Ordinary demo mode is labelled and produces samples, not valid signatures; disable it before real work.", "x": 48.4, "y": 64.8}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/en/about.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open About to find the version, official-source disclosure, and website. Include app/Android version, reader/adapter model, and reproduction steps in support requests.", "x": 45.3, "y": 29.8}]} />
 
 ## Troubleshooting
 

@@ -20,7 +20,7 @@ TOPICS = {
  'automation': (tr('Use Shortcuts and automation','Folosește Scurtături și automatizări','Используйте команды и автоматизацию'), tr('Set up Siri, Spotlight, Handoff and the supported approval workflow.','Configurează Siri, Spotlight, Handoff și aprobarea disponibilă pe dispozitiv.','Настройте Siri, Spotlight, Handoff и поддерживаемое подтверждение.')),
  'help': (tr('Fix a problem','Rezolvă o problemă','Решите проблему'), tr('Resolve reader, PIN, document and connection problems safely.','Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.','Безопасно решайте проблемы считывателя, PIN, документов и соединения.')),
  'mcp': (tr('Connect an agent with MCP','Conectează un agent prin MCP','Подключите агента через MCP'), tr('Choose trusted folders and configure your MCP host.','Alege dosarele autorizate și configurează clientul MCP.','Выберите доверенные папки и настройте клиент MCP.')),
- 'approval': (tr('Approve signing on Mac','Aprobă semnarea pe Mac','Подтвердите подпись на Mac'), tr('Prepare a PDF and review its foreground approval request.','Pregătește un PDF și verifică cererea de aprobare în aplicație.','Подготовьте PDF и проверьте запрос подтверждения в приложении.')),
+ 'approval': (tr('Approve local signing','Aprobă semnarea locală','Подтвердите локальную подпись'), tr('Prepare a PDF and review its foreground approval request.','Pregătește un PDF și verifică cererea de aprobare în aplicație.','Подготовьте PDF и проверьте запрос подтверждения в приложении.')),
  'unattended': (tr('Configure unattended signing','Configurează semnarea nesupravegheată','Настройте подпись без присутствия'), tr('Pin the certificate, choose a secret provider and restrict output.','Fixează certificatul, alege sursa secretului și restricționează rezultatele.','Закрепите сертификат, выберите источник секрета и ограничьте вывод.')),
  'service': (tr('Run the browser service','Pornește serviciul pentru browser','Запустите службу браузера'), tr('Start and stop the local bridge or supported user service.','Pornește și oprește conexiunea locală sau serviciul utilizatorului.','Запускайте и останавливайте локальный мост или службу пользователя.')),
 }
@@ -29,8 +29,8 @@ ANDROID = {'setup':[0,22],'signing':[1,2,3,4,5,6,7],'verification':[8,12,13],'re
 MAPS = {
  'macos': {'setup':[0,1,2],'signing':[3,4,5,6,7,8],'verification':[9,10,11],'results':[12,13,14],'documents':[15,16,17],'browser':[18,19,24],'preferences':[20,25],'automation':[21,22,23],'help':[26]},
  'ios': MOBILE, 'ipad': MOBILE, 'android': ANDROID, 'android-tablet': ANDROID,
- 'linux': {'setup':[0,1,2],'signing':[3,4,5,6,7,8,9],'verification':[10,11,15],'results':[12,13,14],'documents':[16,17,18],'browser':[24],'preferences':[19,20,21,22,23],'help':[25]},
- 'windows': {'setup':[0],'signing':[1],'verification':[2],'documents':[6],'preferences':[3],'browser':[4],'help':[5]},
+ 'linux': {'setup':[0,1,2],'signing':[3,4,5,6,7,8,9],'verification':[10,11,15],'results':[12,13,14],'documents':[16,17,18],'browser':[25],'preferences':[19,20,21,22,23],'approval':[24],'help':[26]},
+ 'windows': {'setup':[0],'signing':[1],'verification':[2],'documents':[6],'preferences':[3],'browser':[4],'approval':[7],'help':[5]},
  'macos-cli': {'setup':[0,1],'signing':[2],'verification':[3],'mcp':[4],'approval':[5],'unattended':[6],'service':[7]},
  'linux-cli': {'setup':[0,1],'signing':[2],'verification':[3],'mcp':[4],'unattended':[5],'service':[6]},
  'windows-cli': {'setup':[0,1],'verification':[2],'mcp':[3],'unattended':[4]},
@@ -97,7 +97,9 @@ def organize(check=False):
           'pagination_next':f'platforms/{platform}/{topic_ids[position+1]}' if position+1<len(topic_ids) else None}
     context=f'[{WORDS["all"][lang]}](../{platform}.md)'
     if topic!='setup': context+=f' · [{WORDS["setup"][lang]}](./setup.md)'
-    if topic in ('approval','unattended'): context+=f' · [{TOPICS["mcp"][0][lang]}](./mcp.md)'
+    if topic in ('approval','unattended'):
+     mcp_path='./mcp.md' if 'mcp' in mapping else f'../{platform}-cli/mcp.md'
+     context+=f' · [{TOPICS["mcp"][0][lang]}]({mcp_path})'
     used_imports='\n'.join(line for line in imports.splitlines() if re.search(r'import (\w+)',line).group(1) in content)
     text=frontmatter(meta)+used_imports+'\n\n# '+header+'\n\n'+context+'\n\n'+item['descriptions'][lang]+'\n\n'
     if count: text+=WORDS['samples'][lang]+'\n\n'

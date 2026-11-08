@@ -39,6 +39,8 @@ A PDF normally uses PAdES-T: the signature stays inside the PDF. Other files nor
 
 Open Stamp off/Edit stamp on a queued PDF. A visible stamp is optional and does not replace the cryptographic signature. On a multipage PDF choose the page in the preview before applying.
 
+Stamp text follows the selected app language (Romanian, English or Russian).
+
 <GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 83, "y": 17, "text": "Enable Visible stamp."}, {"x": 21, "y": 49, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 83, "y": 34, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 81, "y": 84, "text": "Choose Apply to return to the signing queue."}]} />
 
 ## Authorize the displayed batch
@@ -137,7 +139,7 @@ Open eSemnBun → Settings (⌘,). General offers Romanian, English, Russian and
 
 For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight. Only readable app-owned signed PDF/XML filenames and dates are exposed. Document bodies, certificate identities and PINs are not indexed. In standalone macOS this excludes arbitrary files beside your originals; only eligible app-owned imports qualify. Disable discovery to remove this index.
 
-<GuideScreenshot src="/img/guide/macos/en/settings.png" alt="Set language, appearance and system discovery" steps={[{"x": 83, "y": 24, "text": "Choose the interface language."}, {"x": 83, "y": 32, "text": "Choose Light, Dark or System."}, {"x": 90, "y": 41, "text": "Opt in to signed-document discovery if you want eligible filenames in Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Open Saved PINs to inspect or delete saved entries without revealing their PIN values."}]} />
+<GuideScreenshot src="/img/guide/macos/en/settings.png" alt="Set language, appearance and system discovery" steps={[{"x": 83, "y": 24, "text": "Choose the interface language."}, {"x": 83, "y": 32, "text": "Choose Light, Dark or System."}, {"x": 90, "y": 41, "text": "Opt in to signed-document discovery if you want eligible filenames in Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Open Saved PINs to inspect or delete saved entries without revealing their PIN values."}, {"x": 91, "y": 68, "text": "Enable local signing requests only when connecting an MCP client; every request still needs PDF review and approval."}]} />
 
 ## Use Shortcuts and Siri
 

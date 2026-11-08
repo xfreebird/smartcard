@@ -2,7 +2,7 @@
 title: "Fix a problem — Windows"
 sidebar_label: "Fix a problem"
 description: "Resolve reader, PIN, document and connection problems safely."
-pagination_prev: "platforms/windows/browser"
+pagination_prev: "platforms/windows/approval"
 pagination_next: null
 ---
 

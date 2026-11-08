@@ -63,7 +63,8 @@ for language in ('en', 'ro', 'ru'):
                         ET.parse(asset)
                     except ET.ParseError as error:
                         errors.append(f'Invalid SVG: {image}: {error}')
-            if not image.startswith(f'/img/guide/{asset_platform}/{language}/'):
+            allowed_platforms = [asset_platform] + ([asset_platform[:-4]] if asset_platform.endswith('-cli') else [])
+            if not any(image.startswith(f'/img/guide/{allowed}/{language}/') for allowed in allowed_platforms):
                 errors.append(f'{language}/{page}: incorrect platform or native locale in {image}')
         for coordinate in re.findall(r"\b[xy][\"']?\s*:\s*(-?\d+(?:\.\d+)?)", text):
             if not 0 <= float(coordinate) <= 100:

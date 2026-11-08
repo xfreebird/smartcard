@@ -26,6 +26,8 @@ A PDF normally uses PAdES-T: the signature stays inside the PDF. Other files nor
 
 Open Stamp off/Edit stamp on a queued PDF. A visible stamp is optional and does not replace the cryptographic signature. On a multipage PDF choose the page in the preview before applying.
 
+Stamp text follows the selected app language (Romanian, English or Russian).
+
 <GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 83, "y": 17, "text": "Enable Visible stamp."}, {"x": 21, "y": 49, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 83, "y": 34, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 81, "y": 84, "text": "Choose Apply to return to the signing queue."}]} />
 
 ## Authorize the displayed batch

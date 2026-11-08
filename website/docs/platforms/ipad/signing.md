@@ -26,7 +26,9 @@ Open Sign and choose files from Files or a cloud provider. Download cloud-only d
 
 Open a queued PDF’s options and choose Add/Edit stamp. A visible stamp is optional artwork; the cryptographic signature remains the actual signing proof. Position the stamp away from existing text.
 
-<GuideScreenshot src="/img/guide/ipad/en/stamp.png" alt="Drag the stamp to move it; drag its corner handles to resize it." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Drag the stamp to move it; drag its corner handles to resize it.", "x": 38.6, "y": 56.1}, {"text": "Select the page and choose Off, One page or All pages.", "x": 14.3, "y": 82.5}, {"text": "Optionally apply the placement to all queued PDFs, then choose Apply.", "x": 91.4, "y": 5.3}]} />
+Stamp text follows the selected app language (Romanian, English or Russian).
+
+<GuideScreenshot src="/img/guide/ipad/en/stamp.png" alt="Drag the stamp to move it; drag its corner handles to resize it." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Drag the stamp to move it; drag its corner handles to resize it.", "x": 40, "y": 55}, {"text": "Select the page and choose Off, One page or All pages.", "x": 25, "y": 79}, {"text": "Optionally apply the placement to all queued PDFs, then choose Apply.", "x": 84, "y": 9}]} />
 
 ## Review the request and authorize signing
 

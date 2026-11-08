@@ -35,6 +35,8 @@ Semnătura PDF (PAdES-T) este inclusă în PDF. XAdES creează XML: păstrează 
 
 Editorul de poziționare se deschide înainte de solicitarea PIN-ului, când ștampila este activată. Nu acoperi textul important.
 
+Etichetele ștampilei urmează limba aplicației aleasă în setările General.
+
 <GuideScreenshot src="/img/guide/android-tablet/ro/stamp.png" alt="Poziționează ștampila vizibilă" steps={[{"text": "Trage ștampila pe pagină; ajustează dimensiunea cu mânerele din colțuri.", "x": 38, "y": 58}, {"text": "Folosește săgețile paginii, apoi alege O pagină, Toate paginile sau Oprit.", "x": 46.2, "y": 83.2}, {"text": "Alege dacă poziția se aplică tuturor PDF-urilor din lot și atinge Aplică. Anulează revine fără aprobarea semnării.", "x": 93.6, "y": 93.5}]} />
 
 ## 5. Verifică și autorizează
@@ -153,9 +155,11 @@ Cardul afișat folosește informații din certificat și un avatar neutru, nu fo
 
 ## 15. Limbă, aspect, demonstrație și suport
 
-Android controlează limba și aspectul. Pe Android 13 sau ulterior, deschide Setări sistem → Aplicații → eSemnBun → Limbă și alege engleză, română sau rusă. Pe Android mai vechi, interfața urmează limba compatibilă a dispozitivului. Folosește tema întunecată a sistemului pentru aspect întunecat.
+Deschide rotița → General. Alege Limba aplicației: Sistem, română, engleză sau rusă; alege Tema: Sistem, Luminoasă sau Întunecată. Preferințele se aplică doar aplicației eSemnBun și sunt memorate. Android 13+ oferă aceeași alegere a limbii în Setări sistem → Aplicații → eSemnBun → Limbă. General include și ștampilele pentru browser și ștergerea PIN-ului salvat al cardului selectat.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/about.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide rotița → General pentru modul demonstrativ, după citirea explicației. Modul obișnuit este etichetat și produce exemple, nu semnături valide; dezactivează-l înainte de lucru real.", "x": 38.4, "y": 14.6}, {"text": "Deschide Despre pentru versiune, surse oficiale și site. În cererile de suport include versiunea aplicației și Android, cititorul/adaptorul și pașii de reproducere.", "x": 44.9, "y": 30.1}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/settings.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide rotița → General. Atinge Limba aplicației și alege Sistem, română, engleză sau rusă.", "x": 38.8, "y": 39.5}, {"text": "Atinge Tema și alege Sistem, Luminoasă sau Întunecată. Aplicația memorează ambele alegeri.", "x": 36.3, "y": 46.1}, {"text": "Activează ștampilele pentru browser când ai nevoie. Ștergerea PIN-ului salvat se aplică doar cardului selectat și nu modifică PIN-ul cardului.", "x": 45.2, "y": 52.5}, {"text": "Deschide rotița → General pentru modul demonstrativ, după citirea explicației. Modul obișnuit este etichetat și produce exemple, nu semnături valide; dezactivează-l înainte de lucru real.", "x": 48.4, "y": 64.8}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/about.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide Despre pentru versiune, surse oficiale și site. În cererile de suport include versiunea aplicației și Android, cititorul/adaptorul și pașii de reproducere.", "x": 44.9, "y": 30.1}]} />
 
 ## Rezolvarea problemelor
 

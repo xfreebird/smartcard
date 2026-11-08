@@ -41,3 +41,15 @@ esemnbun-mcp --root documents=/home/me/Documents/Signing
 ```json
 {"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
 ```
+
+### Activează semnarea cu aprobare în aplicație
+
+Activează cererile locale de semnare în aplicația GNOME și păstreaz-o pornită. Adaugă dosarul privat afișat în Preferințe la comanda helperului de mai jos. Folosește dosarul tău real; captura arată un dosar izolat. Apelează `prepare_signing`, examinează PDF-ul în aplicație, aprobă explicit și introdu PIN-ul acolo, apoi folosește `get_job` pentru rezultat. `cancel_job` solicită anularea; anularea sau expirarea nu dovedește că nu s-a creat o semnătură. PIN-ul nu se transmite în argumentele MCP. Acest flux cu aprobare pentru fiecare document este separat de semnarea nesupravegheată de mai jos.
+
+```sh
+esemnbun-mcp \
+  --root documents=/home/me/Documents/Signing \
+  --broker-directory "$HOME/.local/share/eSemnBun/AgentBroker"
+```
+
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Activează semnarea cu aprobare în aplicație" caption="Captură nativă a preferințelor cu date fictive. Opțiunea este dezactivată în această sesiune izolată; nu s-a efectuat aprobarea MCP sau semnarea reală cu un card." steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />

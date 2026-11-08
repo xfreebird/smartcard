@@ -34,7 +34,9 @@ Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. 
 
 Deschide opțiunile unui PDF și alege Adaugă/Editează ștampila. Ștampila vizibilă este opțională; dovada semnării rămâne semnătura criptografică. Evită acoperirea textului existent.
 
-<GuideScreenshot src="/img/guide/ipad/ro/stamp.png" alt="Trage ștampila pentru mutare și colțurile pentru redimensionare." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Trage ștampila pentru mutare și colțurile pentru redimensionare.", "x": 38.6, "y": 56.1}, {"text": "Alege pagina și modul Oprit, O pagină sau Toate paginile.", "x": 14.3, "y": 82.5}, {"text": "Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.", "x": 91.4, "y": 5.3}]} />
+Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
+
+<GuideScreenshot src="/img/guide/ipad/ro/stamp.png" alt="Trage ștampila pentru mutare și colțurile pentru redimensionare." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Trage ștampila pentru mutare și colțurile pentru redimensionare.", "x": 40, "y": 55}, {"text": "Alege pagina și modul Oprit, O pagină sau Toate paginile.", "x": 25, "y": 79}, {"text": "Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.", "x": 84, "y": 9}]} />
 
 ## Verifică cererea și autorizează semnarea
 
@@ -102,7 +104,7 @@ Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează 
 
 Deschide Card, apoi Setări. Alege Română, English, Русский ori Sistem și tema Luminoasă, Întunecată ori Sistem. Activează ștampilele PDF din browser doar dacă le dorești pentru cererile acceptate. Modul demonstrativ obișnuit este etichetat intenționat și nu produce semnături reale. Despre afișează versiunea și informațiile utile. Actualizările vin prin canalul Apple folosit la instalare.
 
-<GuideScreenshot src="/img/guide/ipad/ro/settings.png" alt="Alege limba interfeței și tema." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Alege limba interfeței și tema.", "x": 5.7, "y": 26.3}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 90.0, "y": 70.2}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 92.9, "y": 5.3}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/settings.png" alt="Alege limba interfeței și tema." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Alege limba interfeței și tema.", "x": 82, "y": 29}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 82, "y": 67}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 84, "y": 9}]} />
 
 Pentru un PIN memorat, deschide Card pentru identitatea respectivă și Șterge PIN-ul salvat când opțiunea este disponibilă. Memorarea folosește seiful protejat al platformei și autentificarea dispozitivului; ștergerea copiei nu schimbă și nu deblochează PIN-ul fizic. Un alt card necesită propriul PIN.
 
@@ -116,7 +118,7 @@ Pentru un PIN memorat, deschide Card pentru identitatea respectivă și Șterge 
 3. Rulează scurtătura. Verifică lista pregătită ori rezultatul offline în eSemnBun; semnarea necesită în continuare aprobarea ta.
 
 Pentru căutare, activează Găsește documentele semnate în Siri și Spotlight din Setări, finalizează un PDF/XML semnat deținut de aplicație și caută numele în Spotlight. Indexul opțional expune numele și datele, nu conținutul, PIN-ul ori identitatea certificatului. Schemele sistem Open/Search necesită funcțiile OS/SDK acceptate; sugestiile depind de dispozitiv, limbă și configurare. Cu Handoff activ pe dispozitive Apple compatibile, deschide Documente pe unul și continuă de pe celălalt. Handoff reia navigarea către Documente; nu transferă PDF-ul, PIN-ul sau sesiunea cardului. Verifică disponibilitatea Siri, Spotlight și Handoff în versiunea instalată; capturile arată comenzile aplicației, nu un rezultat real între dispozitive.
-<GuideScreenshot src="/img/guide/ipad/ro/settings.png" alt="Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight.", "x": 90.0, "y": 70.2}, {"text": "După crearea unui document semnat deținut de aplicație, caută numele în Spotlight și deschide rezultatul."}, {"text": "Pentru Handoff, deschide Documente pe un dispozitiv compatibil și continuă pe celălalt."}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/settings.png" alt="Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight.", "x": 82, "y": 67}, {"text": "După crearea unui document semnat deținut de aplicație, caută numele în Spotlight și deschide rezultatul."}, {"text": "Pentru Handoff, deschide Documente pe un dispozitiv compatibil și continuă pe celălalt."}]} />
 
 ## Folosește ferestrele iPad și Fișiere alături de semnare
 

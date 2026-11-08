@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run on an Apple build host. Captures isolated Debug native guide fixtures only."""
 import argparse, hashlib, json, os, pathlib, select, subprocess, time
-p=argparse.ArgumentParser();p.add_argument('device');p.add_argument('app');p.add_argument('output');args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('device');p.add_argument('app');p.add_argument('output');p.add_argument('--only', help='Comma-separated capture names for a targeted refresh');args=p.parse_args()
 os.environ['DEVELOPER_DIR']='/Applications/Xcode-27.1-rc.app/Contents/Developer'
 app=pathlib.Path(args.app)
 images=[app/'eSemnBun']+list(app.glob('*.debug.dylib'))
@@ -21,6 +21,11 @@ scenarios=[
  ('documents','documents','documents-populated',False,{}),('details','documents','documents-details-valid',False,{}),
  ('history','documents','history-populated',False,{}),('browser','browser','ready',False,{}),
  ('card','card','ready',False,{}),('settings','card','ready',False,{'MSIGN_CAPTURE_SHEET':'settings'})]
+if args.only:
+ selected=set(args.only.split(','))
+ unknown=selected-{row[0] for row in scenarios}
+ if unknown: raise SystemExit('Unknown capture names: '+','.join(sorted(unknown)))
+ scenarios=[row for row in scenarios if row[0] in selected]
 records=[]
 for lang in ['en','ro','ru']:
  for name,tab,scenario,files,extra in scenarios:

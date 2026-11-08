@@ -22,7 +22,7 @@ Open eSemnBun → Settings (⌘,). General offers Romanian, English, Russian and
 
 For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight. Only readable app-owned signed PDF/XML filenames and dates are exposed. Document bodies, certificate identities and PINs are not indexed. In standalone macOS this excludes arbitrary files beside your originals; only eligible app-owned imports qualify. Disable discovery to remove this index.
 
-<GuideScreenshot src="/img/guide/macos/en/settings.png" alt="Set language, appearance and system discovery" steps={[{"x": 83, "y": 24, "text": "Choose the interface language."}, {"x": 83, "y": 32, "text": "Choose Light, Dark or System."}, {"x": 90, "y": 41, "text": "Opt in to signed-document discovery if you want eligible filenames in Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Open Saved PINs to inspect or delete saved entries without revealing their PIN values."}]} />
+<GuideScreenshot src="/img/guide/macos/en/settings.png" alt="Set language, appearance and system discovery" steps={[{"x": 83, "y": 24, "text": "Choose the interface language."}, {"x": 83, "y": 32, "text": "Choose Light, Dark or System."}, {"x": 90, "y": 41, "text": "Opt in to signed-document discovery if you want eligible filenames in Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Open Saved PINs to inspect or delete saved entries without revealing their PIN values."}, {"x": 91, "y": 68, "text": "Enable local signing requests only when connecting an MCP client; every request still needs PDF review and approval."}]} />
 
 ## Menu bar, startup, updates and help
 

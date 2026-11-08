@@ -39,6 +39,8 @@ Un PDF folosește în mod normal PAdES-T: semnătura rămâne în PDF. Alte fiș
 
 Deschide controlul Ștampilă oprită/Editează ștampila al unui PDF din listă. Ștampila vizibilă este opțională și nu înlocuiește semnătura criptografică. Pentru un PDF cu mai multe pagini, selectează pagina în previzualizare.
 
+Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
+
 <GuideScreenshot src="/img/guide/macos/ro/stamp.png" alt="Aplică o ștampilă vizibilă pe PDF" steps={[{"x": 83, "y": 17, "text": "Activează Ștampilă vizibilă."}, {"x": 21, "y": 49, "text": "Trage ștampila pentru poziționare și un colț pentru redimensionare."}, {"x": 83, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică setarea tuturor PDF-urilor din lot."}, {"x": 81, "y": 84, "text": "Alege Aplică pentru a reveni la lista de semnare."}]} />
 
 ## Autorizează lotul afișat
@@ -137,7 +139,7 @@ Deschide eSemnBun → Configurări (⌘,). General oferă română, engleză, ru
 
 Pentru descoperirea Spotlight/Siri activează Găsește documentele semnate în Siri și Spotlight. Sunt expuse numai numele și datele PDF/XML-urilor semnate, lizibile și deținute de aplicație. Conținutul, identitatea din certificat și PIN-ul nu sunt indexate. În ediția independentă, fișierele arbitrare de lângă originale nu sunt eligibile; sunt eligibile numai importurile deținute de aplicație. Dezactivează opțiunea pentru eliminarea indexului.
 
-<GuideScreenshot src="/img/guide/macos/ro/settings.png" alt="Configurează limba, aspectul și descoperirea în sistem" steps={[{"x": 83, "y": 24, "text": "Alege limba interfeței."}, {"x": 83, "y": 32, "text": "Alege Luminos, Întunecat sau Sistem."}, {"x": 90, "y": 41, "text": "Activează descoperirea documentelor dacă dorești numele eligibile în Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Deschide PIN-uri salvate pentru a vedea sau șterge intrările fără afișarea valorilor PIN."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/settings.png" alt="Configurează limba, aspectul și descoperirea în sistem" steps={[{"x": 83, "y": 24, "text": "Alege limba interfeței."}, {"x": 83, "y": 32, "text": "Alege Luminos, Întunecat sau Sistem."}, {"x": 90, "y": 41, "text": "Activează descoperirea documentelor dacă dorești numele eligibile în Siri/Spotlight."}, {"x": 32, "y": 8, "text": "Deschide PIN-uri salvate pentru a vedea sau șterge intrările fără afișarea valorilor PIN."}, {"x": 91, "y": 68, "text": "Activează cererile locale doar pentru conectarea unui client MCP; fiecare cerere necesită verificarea PDF și aprobare."}]} />
 
 ## Folosește Scurtături și Siri
 

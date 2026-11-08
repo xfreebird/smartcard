@@ -3,7 +3,7 @@ title: "Измените настройки — Linux"
 sidebar_label: "Измените настройки"
 description: "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
 pagination_prev: "platforms/linux/browser"
-pagination_next: "platforms/linux/help"
+pagination_next: "platforms/linux/approval"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -20,13 +20,13 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Откройте меню → Настройки. Выберите системное, светлое или тёмное оформление и системный, румынский, английский или русский язык. Изменения применяются к интерфейсу. Снимки используют нативный перевод.
 
-<GuideScreenshot src="/img/guide/linux/ru/settings.png" alt="Выберите язык и оформление" steps={[{"text": "Выберите оформление.", "x": 69, "y": 21}, {"text": "Выберите язык интерфейса.", "x": 69, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/ru/settings.png" alt="Выберите язык и оформление" steps={[{"text": "Выберите оформление.", "x": 69, "y": 44}, {"text": "Выберите язык интерфейса.", "x": 69, "y": 51}]} />
 
 ## Управляйте PIN и доступом сайтов
 
 PIN сохраняются через Secret Service/системное хранилище. Если при обычной подписи предлагается запоминание, сохраняйте намеренно и разблокируйте хранилище по запросу. Если оно недоступно, введите PIN для операции. Удаление сохранённых копий не меняет и не разблокирует PIN карты. Подключение браузера включайте только для нужного процесса.
 
-<GuideScreenshot src="/img/guide/linux/ru/settings.png" alt="Управляйте PIN и доступом сайтов" steps={[{"text": "Удаляйте сохранённые PIN, только если готовы вводить снова.", "x": 68, "y": 45}, {"text": "Включите подключение для нужного сервиса.", "x": 69, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/ru/settings.png" alt="Управляйте PIN и доступом сайтов" steps={[{"text": "Удаляйте сохранённые PIN, только если готовы вводить снова.", "x": 68, "y": 68}, {"text": "Включите подключение для нужного сервиса.", "x": 69, "y": 90}]} />
 
 ## Оставьте приложение доступным в фоне
 

@@ -31,7 +31,7 @@ esemnbun mcp `
   --pin-source credential:eSemnBun-Automation
 ```
 
-macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` или `onepassword:op://Vault/Item/field`. Linux: окружение или1Password. Windows: `credential:eSemnBun-Automation`, окружение или1Password с абсолютным путём op.exe. Отдельно подготовленная запись Keychain/Credential Manager должна разрешать нужный доступ; биометрическое хранилище приложения не ослабляется. Войдите в1Password вне MCP.
+macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` или `onepassword:op://Vault/Item/field`. Linux: `secret-service:service:account`, окружение или1Password. Windows: `credential:eSemnBun-Automation`, окружение или1Password с абсолютным путём op.exe. Отдельно подготовленная запись Keychain/Credential Manager должна разрешать нужный доступ; биометрическое хранилище приложения не ослабляется. Войдите в1Password вне MCP.
 
 Перед запуском замените `<CERTIFICATE_SHA256>` точными64шестнадцатеричными цифрами. Папка должна существовать: macOS/Linux требуют владельца-пользователя и0700; ACL Windows допускает только пользователя, SYSTEM и Administrators.
 
