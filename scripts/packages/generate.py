@@ -52,7 +52,7 @@ write('chocolatey/esemnbun-cli.nuspec',f'''<?xml version="1.0" encoding="utf-8"?
 <package xmlns="http://schemas.microsoft.com/packaging/2015/06/nuspec.xsd"><metadata>
 <id>esemnbun-cli</id><version>{v}</version><title>eSemnBun CLI</title>
 <authors>Nicolae Ghimbovschi</authors><owners>xfreebird</owners>
-<projectUrl>https://esemnbun.md</projectUrl><licenseUrl>https://github.com/xfreebird/smartcard/blob/main/LICENSE</licenseUrl>
+<projectUrl>https://esemnbun.md</projectUrl><licenseUrl>https://esemnbun.md/packages/downloads/v{v}/LICENSE</licenseUrl>
 <requireLicenseAcceptance>false</requireLicenseAcceptance>
 <projectSourceUrl>https://github.com/xfreebird/smartcard</projectSourceUrl>
 <bugTrackerUrl>https://github.com/xfreebird/smartcard/issues</bugTrackerUrl>

@@ -116,7 +116,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Chocolatey pack failed' }
           choco install esemnbun-cli --source . --yes --no-progress
           if ($LASTEXITCODE -ne 0) { throw 'Chocolatey installation failed' }
-          & "$env:ChocolateyInstall/bin/esemnbun.exe" --version
+          & "$env:ChocolateyInstall/bin/esemnbun.exe" --help
           if ($LASTEXITCODE -ne 0) { throw 'CLI smoke check failed' }
           choco uninstall esemnbun-cli --yes --no-progress
           if ($LASTEXITCODE -ne 0) { throw 'Chocolatey uninstall failed' }
