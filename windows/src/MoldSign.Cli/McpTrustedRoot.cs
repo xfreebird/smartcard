@@ -151,8 +151,15 @@ internal sealed class McpTrustedRoot : IDisposable
         {
             if (OperatingSystem.IsWindows())
             {
-                using var stream = new FileStream(Path.Combine(path, name), FileMode.CreateNew, FileAccess.Write,
-                    FileShare.None, 4096, FileOptions.WriteThrough);
+                // Elevated Windows tokens can default new files to Administrators ownership.
+                // Set the current-user owner and private ACL at exclusive creation, before any bytes exist.
+                var owner = WindowsIdentity.GetCurrent().User!;
+                var security = new FileSecurity();
+                security.SetOwner(owner);
+                security.SetAccessRuleProtection(isProtected: true, preserveInheritance: false);
+                security.AddAccessRule(new FileSystemAccessRule(owner, FileSystemRights.FullControl, AccessControlType.Allow));
+                using var stream = new FileInfo(Path.Combine(path, name)).Create(FileMode.CreateNew, FileSystemRights.Write,
+                    FileShare.None, 4096, FileOptions.WriteThrough, security);
                 stream.Write(bytes);
                 stream.Flush(flushToDisk: true);
             }
@@ -240,7 +247,11 @@ internal sealed class McpTrustedRoot : IDisposable
 
     private static SafeFileHandle OpenWindows(string name, bool directory)
     {
-        var handle = CreateFileW(name, 0x80000000, 1, IntPtr.Zero, 3, 0x00200000 | (directory ? 0x02000000u : 0), IntPtr.Zero);
+        // Allow writes through directory handles so atomic publication can rename children.
+        // Omit FILE_SHARE_DELETE to keep every directory component pinned against replacement.
+        // File readers still deny write/delete while their bytes are being inspected.
+        var share = directory ? 3u : 1u; // FILE_SHARE_READ | FILE_SHARE_WRITE for directories only.
+        var handle = CreateFileW(name, 0x80000000, share, IntPtr.Zero, 3, 0x00200000 | (directory ? 0x02000000u : 0), IntPtr.Zero);
         if (handle.IsInvalid) { handle.Dispose(); throw new McpException("PATH_DENIED"); }
         if (!GetFileInformationByHandle(handle, out var info) || (info.Attributes & 0x400) != 0 ||
             ((info.Attributes & 0x10) != 0) != directory)

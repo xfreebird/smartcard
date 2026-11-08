@@ -55,6 +55,14 @@ public sealed class WindowsMcpApprovalTests
             foreach (var child in new[] { "requests", "responses", "outputs" }) Private(directory.CreateSubdirectory(child));
             using var root = new McpTrustedRoot(directory.FullName);
             root.Publish("value", [1]);
+            // Also runs under elevated Windows tokens, whose default file owner can be Administrators.
+            Assert.Equal(new byte[] { 1 }, root.Read("value", 4, privateFile: true));
+            if (OperatingSystem.IsWindows())
+            {
+                var security = new FileInfo(Path.Combine(directory.FullName, "value")).GetAccessControl();
+                Assert.Equal(WindowsIdentity.GetCurrent().User, security.GetOwner(typeof(SecurityIdentifier)));
+                Assert.True(security.AreAccessRulesProtected);
+            }
             Assert.Throws<McpException>(() => root.Publish("value", [2]));
             Assert.Equal(new byte[] { 1 }, root.Read("value", 4));
             root.Publish("value", [3], replace: true);
