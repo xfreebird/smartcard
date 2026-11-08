@@ -99,3 +99,5 @@ After publishing, verify the release assets/checksums, Apple processing state, s
 Update `PLAN.md` with the implementation and relevant remaining validation. Report commit/build, tested targets, actual observations and limitations. Keep detailed evidence under `docs/reports/` or a local ignored directory; sanitize identity details and filenames. Follow the repository's commit/review conventions; don't add tool attribution.
 
 The repo skills are discoverable in `.agents/skills/`. Start with environment discovery, then build/sign, UI validation or release/submission as the task requires. Existing operational scripts are preferred over copied one-off commands. Historical reports explain what happened at the time; current code and store state decide what to do now.
+
+For CI selection, exact-artifact publishing, review deferrals and distribution credential storage, read [GitHub Actions and publishing operations](14-github-actions.md). Use the CI automation skill when editing workflows; use the release skill for authorized delivery.

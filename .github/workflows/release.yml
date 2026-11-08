@@ -29,6 +29,10 @@ on:
         description: Optional Android version code override (independent of the Apple and Windows build number)
         type: string
         required: false
+      upload_ios_testflight:
+        description: Also upload the signed iOS IPA to TestFlight (never App Review)
+        type: boolean
+        default: false
       upload_android_play:
         description: Upload Android AAB artifact to Play without changing tracks
         type: boolean
@@ -67,7 +71,7 @@ jobs:
       ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: bash apple/scripts/require-siri-sdk.sh
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: "3.3", bundler-cache: true }
@@ -86,14 +90,18 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-macos
+          retention-days: 30
           path: |
             dist/macos/*.dmg
             dist/macos/*.tar.gz
           if-no-files-found: error
 
   ios:
+    concurrency:
+      group: apple-store-ios
+      cancel-in-progress: false
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'ios' }}
-    name: iOS app (TestFlight upload + App Store and ad hoc IPAs)
+    name: iOS signed IPAs (optional TestFlight upload)
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
@@ -104,18 +112,20 @@ jobs:
       # Integer build identity; a new workflow run increments it (retries keep the same build).
       BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Require iPhone Duo SDK
         run: bash apple/scripts/require-ios-sdk.sh
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: "3.3", bundler-cache: true }
-      # one archive → App Store IPA (uploaded to TestFlight; returns without waiting for Apple's processing)
-      # and an ad hoc IPA (match AdHoc profile: installs on the team's registered devices)
-      - name: Archive, export, upload to TestFlight
-        run: bundle exec fastlane ios_release
+      # Tags build signed private IPAs; uploading is an explicit manual choice.
+      - name: Archive and export (TestFlight only when explicitly requested)
+        env:
+          UPLOAD_IOS: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_ios_testflight }}
+        run: bundle exec fastlane ios_release upload:"$UPLOAD_IOS"
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-ios
+          retention-days: 30
           path: dist/ios/*.ipa
           if-no-files-found: error
 
@@ -127,39 +137,22 @@ jobs:
       group: android-play-version-code
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: 17 }
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+          cache-dependency-path: |
+            android/**/*.gradle*
+            android/gradle.properties
+            android/gradle/wrapper/gradle-wrapper.properties
       - name: Select Android build number
         env:
           BUILD_NUMBER_INPUT: ${{ inputs.android_build_number }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          git fetch --force --tags origin
-          minimum_version_code=1793624666
-          last_reserved_code="$(git tag -l 'android-play-vc-*' | sed -n 's/^android-play-vc-//p' | sort -n | tail -1)"
-          if [[ -n "$last_reserved_code" && "$last_reserved_code" -gt "$minimum_version_code" ]]; then
-            next_build_number=$((last_reserved_code + 1))
-          else
-            next_build_number=$((minimum_version_code + 1))
-          fi
-          build_number="${BUILD_NUMBER_INPUT:-$next_build_number}"
-          [[ "$build_number" =~ ^[1-9][0-9]*$ ]] || { echo '::error::Invalid build number'; exit 1; }
-          (( build_number <= 2100000000 )) || { echo '::error::Build number exceeds Android versionCode limit'; exit 1; }
-          if (( build_number < next_build_number )); then
-            if [[ -n "$BUILD_NUMBER_INPUT" && "$(git rev-parse "refs/tags/android-play-vc-$build_number^{}" 2>/dev/null || true)" == "$GITHUB_SHA" ]]; then
-              echo "Reusing version code $build_number reserved for this source commit"
-            else
-              echo '::error::Build number belongs to another source commit or is below the next Play version code'
-              exit 1
-            fi
-          else
-            # Reserve an existing commit through the refs API; pushing a new annotated tag
-            # can require workflows permission when main advanced after checkout.
-            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
-              -f "ref=refs/tags/android-play-vc-$build_number" -f "sha=$GITHUB_SHA" >/dev/null
-          fi
-          echo "BUILD_NUMBER=$build_number" >> "$GITHUB_ENV"
+          bash scripts/ci/reserve-android-version.sh
       - name: Upload key
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -177,6 +170,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-android
+          retention-days: 30
           path: |
             dist/android/*.apk
             dist/android/*.aab
@@ -197,7 +191,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: System libraries + packaging tools
         run: |
           apt-get update
@@ -211,6 +205,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-linux
+          retention-days: 30
           path: dist/linux/
           if-no-files-found: error
 
@@ -219,7 +214,7 @@ jobs:
     name: Linux (Flatpak bundle)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: flatpak-builder
         run: |
           sudo apt-get update
@@ -240,6 +235,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-flatpak
+          retention-days: 30
           path: dist/linux/*.flatpak
           if-no-files-found: error
 
@@ -265,9 +261,15 @@ jobs:
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with: { global-json-file: windows/global.json }
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: windows/global.json
+          cache: true
+          cache-dependency-path: |
+            windows/**/*.csproj
+            windows/Directory.Build.props
+            windows/global.json
       - name: Azure Trusted Signing client (only when configured)
         if: env.MOLDSIGN_TS_ENDPOINT != ''
         shell: pwsh
@@ -284,6 +286,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-windows
+          retention-days: 30
           path: |
             dist/windows/*.cer
             dist/windows/*.msi
@@ -330,7 +333,7 @@ jobs:
     needs: [macos, ios, android, linux, flatpak, windows]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v4
         with: { path: artifacts, pattern: "esemnbun-*" }
       - name: Publish

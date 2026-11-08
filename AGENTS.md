@@ -286,10 +286,21 @@ Moved to [`PLAN.md`](PLAN.md) (phases, IDs, decisions) and [`docs/09-architectur
   modes; the tooling and per-platform tricks are in the same skill. Real-card PINs come from the owner per session,
   are typed via stdin only, and never land in files, logs or commits.
 
+## GitHub Actions and delivery
+
+Read [GitHub Actions and publishing operations](docs/14-github-actions.md) for the supported flow matrix, recovery cases and credential inventory before dispatching or changing publishing automation. Use the [CI automation skill](.agents/skills/esemnbun-ci-automation/SKILL.md) for workflow changes and the release skill for actual delivery.
+
+- Validation CI uses changed-platform selection, read-only permissions and no signing/Store secrets; docs-only changes skip native builds. `CI result` is the stable aggregate. Unknown history/paths and manual dispatch select full CI.
+- Reuse the exact signed Android Actions artifact when its source matches. `android-play-publish.yml` distinguishes upload-only from one selected closed track and preserves existing review/other tracks. The legacy `android_testing` lane changes internal plus closed and requires explicit opt-in.
+- Release's iOS TestFlight, Play artifact and Windows Store flags default off, including tag builds. Apple TestFlight uploads are not App Review submission. Huawei automation stages a draft only.
+- Cancel obsolete validation runs, not publishing. Preserve shared version-counter and per-platform Apple Store concurrency. Verify actual store build maxima, review state, signatures and hashes before mutation.
+- Distribution secrets live in repository Actions secrets; the owner's external backup is `~/Desktop/eSemnBun-secrets/` on the main Mac. Apple certificates/profiles are encrypted in the separate match repository. Document names/locations only; never copy secret values into git, inputs, artifacts or logs. Runtime card PINs are not distribution secrets.
+
 ## Developer workflows and repo skills
 
 New contributors start with [developer onboarding](docs/13-developer-onboarding.md). Use the skills in `.agents/skills/` when relevant:
 
+- `esemnbun-ci-automation`: CI routing, workflow optimization, artifact reuse, publishing guards and credential documentation.
 - `esemnbun-dev-environment`: discover each developer’s own hosts, VM access and device IDs; owner-specific addresses are optional examples.
 - `esemnbun-build-sign`: platform builds, signing/entitlements, packaging and validation.
 - `esemnbun-ui-validation`: UI automation, isolated demo screenshots and real interaction evidence.

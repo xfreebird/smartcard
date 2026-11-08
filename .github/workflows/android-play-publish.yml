@@ -1,0 +1,103 @@
+name: Google Play publish existing artifact
+on:
+  workflow_dispatch:
+    inputs:
+      android_run_id:
+        description: Exact completed Android-build (main) or Release run with signed APK and AAB
+        type: string
+        required: true
+      operation:
+        description: Upload only, or submit an existing closed-testing track
+        type: choice
+        options: [artifact_only, closed_testing]
+        default: artifact_only
+      closed_track:
+        description: Used only for closed_testing; never internal or production
+        type: choice
+        options: [alpha, beta]
+        default: alpha
+      notes_json:
+        description: Optional localized releaseNotes JSON array; defaults to current catalog Android notes
+        type: string
+        required: false
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: android-play-version-code
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with: { python-version: '3.12' }
+      - run: python -m pip install requests==2.32.5 PyJWT==2.10.1 cryptography==46.0.3
+      - name: Validate publishing guards (no network or credentials)
+        run: python -m unittest discover -s scripts -p test_play_publish.py
+      - name: Download and verify the exact source artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          SOURCE_RUN: ${{ inputs.android_run_id }}
+          UPLOAD_CERT: ${{ vars.ANDROID_UPLOAD_CERT_SHA256 || '0bd6c7ce1a0e57b3f959917d6c166c433184a3101cad5ddd5333b82bce9324cf' }}
+        run: |
+          set -euo pipefail
+          [[ "$SOURCE_RUN" =~ ^[0-9]+$ ]] || { echo '::error::Numeric source run required'; exit 1; }
+          gh api "repos/$GH_REPO/actions/runs/$SOURCE_RUN" > "$RUNNER_TEMP/source-run.json"
+          python - <<'PY'
+          import json,os,re
+          r=json.load(open(os.environ['RUNNER_TEMP']+'/source-run.json'))
+          assert r['status']=='completed'
+          assert r['path'] in ('.github/workflows/android-build.yml','.github/workflows/release.yml')
+          main=r['head_branch']=='main'
+          release_tag=r['path']=='.github/workflows/release.yml' and r['event']=='push' and re.fullmatch(r'v\d+\.\d+\.\d+',r['head_branch'])
+          assert main or release_tag, 'Source must be main or a stable Release tag'
+          assert r['head_repository']['full_name']==os.environ['GH_REPO']
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:f.write(f"Source run: {r['id']}; commit: {r['head_sha']}\n\n")
+          PY
+          gh run download "$SOURCE_RUN" --name esemnbun-android --dir "$RUNNER_TEMP/play-input"
+          mapfile -t apks < <(find "$RUNNER_TEMP/play-input" -type f -name '*.apk')
+          mapfile -t aabs < <(find "$RUNNER_TEMP/play-input" -type f -name '*.aab')
+          [[ ${#apks[@]} == 1 && ${#aabs[@]} == 1 ]] || { echo '::error::Exactly one signed APK/AAB pair required'; exit 1; }
+          bt="$(find "$ANDROID_HOME/build-tools" -maxdepth 1 -mindepth 1 -type d | sort -V | tail -1)"
+          "$bt/apksigner" verify --print-certs "${apks[0]}" > "$RUNNER_TEMP/apk-signature.txt"
+          grep -Fq "certificate SHA-256 digest: $UPLOAD_CERT" "$RUNNER_TEMP/apk-signature.txt"
+          jarsigner -verify "${aabs[0]}" > "$RUNNER_TEMP/aab-signature.txt"
+          grep -q 'jar verified' "$RUNNER_TEMP/aab-signature.txt"
+          "$bt/aapt" dump badging "${apks[0]}" > "$RUNNER_TEMP/badging.txt"
+          python - <<'PY'
+          import os,re
+          text=open(os.environ['RUNNER_TEMP']+'/badging.txt').read()
+          p=re.search(r"^package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'",text)
+          assert p and p[1]=='md.esemnbun.app'
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'PLAY_VERSION_CODE={p[2]}\nPLAY_VERSION_NAME={p[3]}\n')
+          PY
+          echo "AAB_PATH=${aabs[0]}" >> "$GITHUB_ENV"
+      - name: Upload or submit the selected closed track
+        env:
+          GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          OPERATION: ${{ inputs.operation }}
+          CLOSED_TRACK: ${{ inputs.closed_track }}
+          NOTES_JSON: ${{ inputs.notes_json }}
+        run: |
+          set -euo pipefail
+          args=(--aab "$AAB_PATH" --version-code "$PLAY_VERSION_CODE" --version-name "$PLAY_VERSION_NAME" --operation "$OPERATION" --result "$RUNNER_TEMP/play-result.json")
+          if [[ "$OPERATION" == closed_testing ]]; then
+            args+=(--track "$CLOSED_TRACK")
+            if [[ -n "$NOTES_JSON" ]]; then
+              printf '%s' "$NOTES_JSON" > "$RUNNER_TEMP/play-notes.json"
+              args+=(--notes "$RUNNER_TEMP/play-notes.json")
+            fi
+          fi
+          python scripts/play_publish.py "${args[@]}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: play-publish-result-${{ github.run_id }}
+          retention-days: 30
+          path: ${{ runner.temp }}/play-result.json
+          if-no-files-found: warn

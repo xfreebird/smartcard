@@ -15,6 +15,7 @@ env:
   BUILD_NUMBER: ${{ inputs.build_number }}
 jobs:
   windows:
+    timeout-minutes: 45
     name: Windows (MSI, MSIX, winget manifests)
     runs-on: windows-latest
     env:
@@ -32,9 +33,15 @@ jobs:
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with: { global-json-file: windows/global.json }
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: windows/global.json
+          cache: true
+          cache-dependency-path: |
+            windows/**/*.csproj
+            windows/Directory.Build.props
+            windows/global.json
       - name: Azure Trusted Signing client (only when configured)
         if: env.MOLDSIGN_TS_ENDPOINT != ''
         shell: pwsh
@@ -44,14 +51,14 @@ jobs:
       - name: Package
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64
-      # The existing Partner Center submission is in certification. Building never changes it.
+      # Building never changes Partner Center submissions.
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-windows
+          retention-days: 30
           path: |
             dist/windows/*.cer
             dist/windows/*.msi
-            dist/windows/*.cer
             dist/windows/*.msix
             dist/windows/*.zip
             dist/windows/SHA256SUMS.txt

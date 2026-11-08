@@ -7,6 +7,8 @@ description: Create eSemnBun GitHub releases, run distribution workflows, submit
 
 Read [store-specific operations](references/stores.md) only for the selected store, and [build/sign](../esemnbun-build-sign/SKILL.md) for packaging. Source of truth: `.github/workflows/`, `fastlane/Fastfile`, package scripts and current store API state. See [build automation](../../../distribution/BUILD-AUTOMATION.md) and [onboarding](../../../docs/13-developer-onboarding.md).
 
+The canonical [workflow decision guide and credential inventory](../../../docs/14-github-actions.md) lists all supported operations, expected deferrals and owner backup locations. For CI changes use the [automation skill](../esemnbun-ci-automation/SKILL.md).
+
 ## Decide the operation
 
 Distinguish build, artifact upload, draft preparation, submission for review and public rollout. A request for one does not authorize all five. Preserve existing reviews unless replacement/cancellation is requested. A skill does not itself grant access or permission. Prefer existing APIs/lanes; use browser UI when a required capability or permission is absent, and explain the fallback.
@@ -24,11 +26,12 @@ Marketing version is shared across Apple project settings, `windows/Directory.Bu
 | `release.yml` | Public assets, selected `only`, optional `tag` and build overrides; has store side effects—inspect selected job/conditions |
 | `windows-build.yml` | Build-only Windows artifacts, not Partner Center submission |
 | `windows-store-credentials.yml` | Read-only OAuth/app-access validation |
-| `android-build.yml` | Android artifacts; inspect Play lane/inputs before dispatch |
+| `android-build.yml` | Build/sign Android; optional artifact-only upload, no track promotion |
+| `android-play-publish.yml` | Reuse exact signed Android-build/Release artifact: upload only or submit one existing closed track |
 | `huawei-appgallery.yml` | Upload/draft operations; active-review guard applies |
 | `website.yml` | Regenerates downloads/update manifests from latest GitHub release, tests/builds/deploys Pages |
 
-`release.yml` Windows submission runs for version tags or explicit `submit_windows_store=true` when all four secrets exist. A platform rerun may replace only its public assets; maintain the others. Avoid rerunning all platforms merely to repair one upload.
+`release.yml` store side effects require explicit manual `upload_ios_testflight`, `upload_android_play` or `submit_windows_store` inputs; all default false and tag pushes do not enable them. Windows submission additionally requires all four Store secrets. A platform rerun may replace only its public assets; maintain the others. Avoid rerunning all platforms merely to repair one upload.
 
 ## Complete and verify
 
@@ -40,3 +43,7 @@ Marketing version is shared across Apple project settings, `windows/Directory.Bu
 6. Report separately: release published, uploaded/processing/valid, waiting for review, draft pending, public rollout. Do not say “released” for an inactive Play artifact or Apple build awaiting review. Include remaining blockers and actions actually taken.
 
 Never print API tokens, client secrets, keystore passwords or key contents. Use ignored local files/environment or GitHub Actions secrets. Store IDs and tenant/client IDs identify resources but aren't authentication secrets. Read-only credential validation should not create a submission.
+
+## Reuse Android artifacts
+
+Prefer `android-play-publish.yml` over rebuilding or the legacy two-track lane. Inspect the exact Android-build/Release source run and choose `artifact_only` or `closed_testing` with `alpha`/`beta`. Confirm the catalog Android notes or supply explicit localized `notes_json`. The workflow validates the signed APK identity, upload certificate and AAB; the publisher verifies Google's returned code/hash, preserves other tracks, guards existing review and reads state after commit. `deferred_review` means no submission. An `outcome_unknown` result requires live inspection before retrying. Check Play Console for review/approval/tester availability; do not infer availability from track `completed`.

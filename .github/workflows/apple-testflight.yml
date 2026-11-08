@@ -15,15 +15,15 @@ permissions:
   contents: read
 jobs:
   upload:
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - platform: ios
-            runner: xcode-27
-          - platform: macos
-            runner: xcode-27
-    runs-on: ${{ matrix.runner }}
+        platform: ${{ fromJSON(inputs.platform == 'both' && '["ios","macos"]' || format('["{0}"]', inputs.platform)) }}
+    runs-on: xcode-27
+    concurrency:
+      group: apple-store-${{ matrix.platform }}
+      cancel-in-progress: false
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
@@ -33,23 +33,19 @@ jobs:
       BUILD_NUMBER: ${{ inputs.build_number }}
       FASTLANE_OPT_OUT_USAGE: '1'
     steps:
-      - uses: actions/checkout@v4
-        if: inputs.platform == 'both' || inputs.platform == matrix.platform
+      - uses: actions/checkout@v6
       - name: Select iPhone Duo SDK
-        if: matrix.platform == 'ios' && (inputs.platform == 'both' || inputs.platform == 'ios')
+        if: matrix.platform == 'ios'
         env:
           DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
         run: |
           bash apple/scripts/require-ios-sdk.sh
           echo "DEVELOPER_DIR=$DEVELOPER_DIR" >> "$GITHUB_ENV"
       - name: Require Siri system schemas
-        if: inputs.platform == 'both' || inputs.platform == matrix.platform
         run: bash apple/scripts/require-siri-sdk.sh
       - uses: ruby/setup-ruby@v1
-        if: inputs.platform == 'both' || inputs.platform == matrix.platform
         with: { ruby-version: '3.3', bundler-cache: true }
       - name: Build and upload
-        if: inputs.platform == 'both' || inputs.platform == matrix.platform
         env:
           PLATFORM: ${{ matrix.platform }}
         run: |
@@ -58,3 +54,12 @@ jobs:
           else
             bundle exec fastlane mac_store_release upload:true
           fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apple-store-input-${{ matrix.platform }}-${{ github.run_id }}
+          retention-days: 30
+          path: |
+            dist/ios/*.ipa
+            dist/macos-app-store/*.pkg
+          if-no-files-found: warn

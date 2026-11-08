@@ -215,8 +215,9 @@ lane :mac_store_release do |options|
   end
 end
 
-desc "Upload an Android bundle to Google Play internal testing and stage closed testing"
+desc "Legacy two-track Android publication (requires explicit PLAY_ALLOW_INTERNAL_AND_CLOSED=true)"
 lane :android_testing do
+  UI.user_error!('This legacy lane changes internal AND closed tracks. Use android-play-publish.yml for one-track publication, or explicitly set PLAY_ALLOW_INTERNAL_AND_CLOSED=true.') unless ENV['PLAY_ALLOW_INTERNAL_AND_CLOSED'] == 'true'
   build_number = integer_build_number
   bundle = Dir[File.expand_path('../dist/android/*.aab', __dir__)].reject { |p| p.include?('-unsigned') }
   UI.user_error!('Expected exactly one signed AAB') unless bundle.length == 1

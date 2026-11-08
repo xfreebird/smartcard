@@ -1,29 +1,63 @@
-# Build + test every platform (X-05, CLI-06, LNX-07). Nothing here needs secrets: signing happens in
-# release jobs that read keys from repository secrets (not yet configured).
+# Changed-platform validation only. Signing and publishing belong to explicit release workflows.
 name: CI
 
 on:
   push:
+    branches: [main]
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   BUILD_NUMBER: ${{ github.run_number }}
 
 jobs:
+  changes:
+    timeout-minutes: 10
+    name: Select affected platforms
+    runs-on: ubuntu-latest
+    outputs:
+      localization: ${{ steps.select.outputs.localization }}
+      swift: ${{ steps.select.outputs.swift }}
+      macos: ${{ steps.select.outputs.macos }}
+      ios: ${{ steps.select.outputs.ios }}
+      linux: ${{ steps.select.outputs.linux }}
+      android: ${{ steps.select.outputs.android }}
+      windows: ${{ steps.select.outputs.windows }}
+    steps:
+      - uses: actions/checkout@v6
+        with: { fetch-depth: 0 }
+      - id: select
+        run: python3 scripts/ci/select_jobs.py
+      - name: Check workflow routing and publishing guards
+        run: |
+          python3 -m unittest discover -s scripts/ci -p 'test_*.py'
+          python3 -m unittest discover -s scripts -p test_play_publish.py
   localization:
+    timeout-minutes: 10
+    needs: changes
+    if: needs.changes.outputs.localization == 'true'
     name: Shared localization exports
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: python3 scripts/localize.py --check --require-complete
       - run: python3 scripts/export-browser-services.py --check
       - run: python3 scripts/prepare-store-metadata.py --check
 
   swift-macos:
+    timeout-minutes: 30
+    needs: changes
+    if: needs.changes.outputs.swift == 'true'
     name: Swift core + CLI (macOS, Apple + portable backends)
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Test (Apple frameworks)
         working-directory: swift/MoldSignKit
         run: swift test
@@ -33,12 +67,15 @@ jobs:
         run: scripts/test-portable-macos.sh
 
   apple-apps:
+    timeout-minutes: 40
+    needs: changes
+    if: needs.changes.outputs.macos == 'true'
     name: Xcode project (macOS app, CLI)
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: bash apple/scripts/require-siri-sdk.sh
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS CODE_SIGN_IDENTITY=- build
       - name: macOS App Store variant (unsigned sandbox build)
@@ -46,23 +83,29 @@ jobs:
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
 
   ios-app:
+    timeout-minutes: 40
+    needs: changes
+    if: needs.changes.outputs.ios == 'true'
     name: iOS app (iPhone Duo SDK)
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Require iPhone Duo SDK
         run: bash apple/scripts/require-ios-sdk.sh
       - name: Build iOS and share extension
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Release -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
 
   linux:
+    timeout-minutes: 45
+    needs: changes
+    if: needs.changes.outputs.linux == 'true'
     name: Linux (Swift core, CLI, GNOME app, packages)
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: System libraries + packaging tools
         run: |
           apt-get update
@@ -84,14 +127,18 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-linux-${{ github.sha }}
+          retention-days: 7
           path: dist/linux/
           if-no-files-found: error
 
   android:
+    timeout-minutes: 30
+    needs: changes
+    if: needs.changes.outputs.android == 'true'
     name: Android (core vectors, CCID, app)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
@@ -106,23 +153,26 @@ jobs:
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
 
   windows:
+    timeout-minutes: 45
+    needs: changes
+    if: needs.changes.outputs.windows == 'true'
     name: Windows (C# core + CLI tests; eSemnBun MSI + MSIX)
     runs-on: windows-latest
     env:
-      # Optional code signing (windows/README.md "Signing"): unset secrets/variables = unsigned artifacts.
-      MOLDSIGN_TS_ENDPOINT: ${{ secrets.MOLDSIGN_TS_ENDPOINT }}
-      MOLDSIGN_TS_ACCOUNT: ${{ secrets.MOLDSIGN_TS_ACCOUNT }}
-      MOLDSIGN_TS_PROFILE: ${{ secrets.MOLDSIGN_TS_PROFILE }}
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+      # Public package identity only; CI never receives signing or Store credentials.
       MOLDSIGN_MSIX_IDENTITY: ${{ vars.MOLDSIGN_MSIX_IDENTITY }}
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v4
-        with: { global-json-file: windows/global.json }
+      - uses: actions/checkout@v6
+      - uses: actions/setup-dotnet@v5
+        with:
+          global-json-file: windows/global.json
+          cache: true
+          cache-dependency-path: |
+            windows/**/*.csproj
+            windows/Directory.Build.props
+            windows/global.json
       - working-directory: windows
         run: dotnet test MoldSign.Portable.slnf
       - name: Azure Trusted Signing client (only when configured)
@@ -137,9 +187,29 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-windows-x64
+          retention-days: 7
           path: |
             dist/windows/*.msi
             dist/windows/*.msix
             dist/windows/SHA256SUMS.txt
             dist/windows/winget/
           if-no-files-found: error
+
+  result:
+    name: CI result
+    if: always()
+    needs: [changes, localization, swift-macos, apple-apps, ios-app, linux, android, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require selected checks to succeed
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PYCODE'
+          import json,os
+          checks=json.loads(os.environ['RESULTS'])
+          failed=[name for name,value in checks.items() if value['result'] not in ('success','skipped')]
+          assert not failed, f'Failed or cancelled checks: {failed}'
+          assert checks['changes']['result']=='success', 'Platform selection must succeed'
+          print('All selected platform checks passed; unaffected platforms were skipped.')
+          PYCODE

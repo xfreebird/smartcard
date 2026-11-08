@@ -37,6 +37,8 @@ A platform that fails doesn't block the release: it is named in the release note
 | `flatpak` | ubuntu-24.04 | `eSemnBun-<ver>.flatpak` | unsigned bundle |
 | `windows` | windows-latest | `.msi`, `.msix`, winget manifests | optional (Azure Trusted Signing / thumbprint); unsigned by default |
 
+For workflow choice, artifact reuse, expected review deferrals and the complete credential inventory, use [GitHub Actions and publishing operations](14-github-actions.md). The sections below describe platform build/sign details.
+
 ## Signing secrets
 
 | Where | What |
@@ -44,7 +46,7 @@ A platform that fails doesn't block the release: it is named in the release note
 | GitHub → Settings → Secrets → Actions | `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8`, `APPLE_TEAM_ID`, `MATCH_PASSWORD`, `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` |
 | `github.com/xfreebird/fastlanecerts` (match storage, public, encrypted) | Apple Distribution + Apple Development certificates and profiles for `md.esemnbun.ios`; Developer ID Application once imported |
 | GitHub → Settings → Variables → Actions | Microsoft Store identity for the MSIX: `MOLDSIGN_MSIX_IDENTITY` = `NicolaeGhimbovschi.eSemnBun`, `MOLDSIGN_MSIX_PUBLISHER` = `CN=3AAF334E-BE21-4B3F-8FDE-FBEDDF7498EE`, `MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME` = `Nicolae Ghimbovschi` (Partner Center → Product identity) |
-| Microsoft Store upload | secrets `MSSTORE_TENANT_ID`, `MSSTORE_SELLER_ID`, `MSSTORE_CLIENT_ID`, `MSSTORE_CLIENT_SECRET` (Partner Center → Account settings → User management → Microsoft Entra applications, role Manager; Seller ID under Account settings). Dedicated tenant `esemnbun.onmicrosoft.com`, application **eSemnBun GitHub Store Publisher**. The `windows` job runs `msstore publish … --appId 9PDPR6RNT42S` for version-tag builds, or manual Release dispatches with `submit_windows_store=true`; all four secrets must be present. Each upload requires a higher Windows package/build number. |
+| Microsoft Store upload | secrets `MSSTORE_TENANT_ID`, `MSSTORE_SELLER_ID`, `MSSTORE_CLIENT_ID`, `MSSTORE_CLIENT_SECRET` (Partner Center → Account settings → User management → Microsoft Entra applications, role Manager; Seller ID under Account settings). Dedicated tenant `esemnbun.onmicrosoft.com`, application **eSemnBun GitHub Store Publisher**. The `windows` job runs `msstore publish … --appId 9PDPR6RNT42S` only for manual Release dispatches with `submit_windows_store=true`; all four secrets must be present. Each upload requires a higher Windows package/build number. |
 | Microsoft Store (Partner Center) | product **eSemnBun**, Store ID 9PDPR6RNT42S, PFN `NicolaeGhimbovschi.eSemnBun_b6ch7rvqfntkc`; free individual account. The Store signs the MSIX, so CI uploads it unsigned; `runFullTrust` (every WinUI desktop app) needs the justification in the submission |
 | App Store Connect | app record **eSemnBun**, Apple ID 6826865290, SKU `esemnbun-ios`, primary language Romanian (created in the web UI: the API refuses `POST /v1/apps`) |
 | The owner's offline copy (outside git; README inside it) | every value above, the `.p8`, the Android upload keystore, the exported Apple identities, the Developer ID key + CSR |
@@ -53,8 +55,7 @@ Run the **Windows Store credential check** workflow (`windows-store-credentials.
 
 Apple team `H86U5Z8HYB` (personal account), bundle IDs `md.esemnbun.ios` / `md.esemnbun.mac` (CLI identifier
 `md.esemnbun.cli`), Android application ID `md.esemnbun.app`. Linux and Windows identifiers keep the codename.
-Losing the Android upload key is recoverable through Play App Signing (key reset); losing `MATCH_PASSWORD` means
-re-creating the Apple certificates (`fastlane nuke_all` + `certs`).
+Losing the Android upload key has a Play App Signing recovery process. Recover `MATCH_PASSWORD` from the authorized backup or coordinate certificate/profile recovery; never automatically revoke or nuke certificates to repair CI.
 
 ## macOS signing + notarization recipe (local)
 

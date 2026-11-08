@@ -1,27 +1,17 @@
-# Store and installer builds
+# Build and publishing entry points
 
-Run these actions from GitHub Actions → Run workflow. Use a positive whole-number build number higher than the last store upload. Marketing versions stay `x.y.z`.
+Use the [complete workflow guide](../docs/14-github-actions.md) for supported operations, inputs, expected deferrals and the secret/storage inventory. Workflow files and live store state are authoritative.
 
-| Action | Outputs | Store behavior |
-| --- | --- | --- |
-| Apple TestFlight | iOS / macOS store builds | Uploads selected platforms to TestFlight; no review submission |
-| macOS App Store + TestFlight | Signed sandboxed PKG | Uploads to TestFlight; no review submission |
-| Android build + Play testing | Release-signed APK and AAB | Build-only on push; manual `upload_play=true` attempts an artifact-only Play upload without track changes |
-| Windows build | MSI, MSIX, checksums, winget manifests | Builds only; does not change Partner Center |
-| Release | Public installers | Publishes DMG, APK, MSI and Linux packages; Play artifact and Microsoft Store submission require explicit manual inputs |
+- **Validate:** CI selects affected platforms on PR/main changes; docs-only edits skip native builds. Manual CI dispatch selects all. The `CI result` aggregate must pass; no signing/Store secrets enter validation.
+- **Build Android:** `android-build.yml` produces signed APK/AAB artifacts and reserves a code. Default push/manual behavior does not upload to Play. Optional `upload_play=true` uploads an artifact only.
+- **Publish Android:** `android-play-publish.yml` reuses the exact completed main Android-build or trusted Release run. Choose upload-only or one existing closed track. It preserves active reviews and other tracks, verifies identity/hashes and records uncertain results. It does not publish production or alter tester lists/listings.
+- **Apple:** `apple-testflight.yml` allocates only the selected iOS/macOS runners and requires an explicit higher build number. Upload is TestFlight only. `macos-app-store.yml` is a compatible macOS-only shortcut. Review selection/submission is separate.
+- **Windows:** `windows-build.yml` builds installers/CLI without Partner Center submission. `windows-store-credentials.yml` checks access read-only. Optional MSI signing uses existing credentials; self-signed MSI trust is distinct from Store MSIX signing.
+- **Public installers:** `release.yml` creates/replaces the selected GitHub release assets, preserving other platforms. TestFlight, Play artifact and Windows Store operations require separate manual flags, default false; version tags do not activate them.
+- **Package repositories:** `cli-packages.yml` consumes a complete release, signs APT/RPM feeds and publishes tested brew/Chocolatey definitions/assets. Community/upstream package-manager submission is not automated.
+- **Huawei:** `huawei-appgallery.yml` requires an exact source run and stages a draft. An active review produces a visible deferral; cancellation and production submission remain separate authorized operations.
+- **Website:** validates all locales and deploys Pages on main website/guide changes, explicit dispatch or successful release/feed completion. Installer/feed metadata derives from the actual latest release.
 
-Android signing uses the existing `ANDROID_KEYSTORE_*`, `ANDROID_KEY_ALIAS` and `ANDROID_KEY_PASSWORD` secrets. Play uploads additionally require `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`, containing a service-account JSON authorized for `md.esemnbun.app` in Play Console. It is configured in GitHub Actions and backed up in the owner’s offline secrets folder. The service account has app-scoped read and testing-track release access; it has no production release or financial permissions. Authentication and app access were verified through the Play Developer API. Leaving `upload_play=false` builds packages without calling Play. Store listing metadata is not changed by this upload.
+Credentials belong in Actions secrets or the owner's approved external secret source. The configured main-Mac backup is `~/Desktop/eSemnBun-secrets/`, not this repository. The [inventory](../docs/14-github-actions.md#secrets-identities-and-storage) lists exact names and backup files, including optional/unconfigured integrations. Build numbers, track identifiers, package identities and certificate fingerprints are configuration, not passwords.
 
-Windows Store API credentials are configured as `MSSTORE_TENANT_ID`, `MSSTORE_CLIENT_ID`, `MSSTORE_CLIENT_SECRET` and `MSSTORE_SELLER_ID`. The dedicated **Windows build** action remains build-only. **Release** submits a Windows package only when manually dispatched with `submit_windows_store=true` and all four credentials present; a tag push packages without starting a Partner Center submission. Inspect pending submissions first and supply a build number higher than every existing upload. The **Windows Store credential check** action validates access without changing submissions. Current certification/publication state must be queried rather than inferred from this guide.
-
-Play artifact upload is also opt-in: set `upload_android_play=true` on **Release** or `upload_play=true` on a manual **Android build + Play testing** run. These inputs do not promote a track. Use Play Console for the closed-track release when an active review or track-state error blocks an artifact-only edit. Android version-code tags may be reused only by an explicit rebuild of the same source commit; a different commit cannot take a reserved code.
-
-**Huawei AppGallery draft upload** is manual and requires the exact completed main Android-build run ID with a packaged APK artifact. A Play-upload failure does not invalidate an already packaged APK. The workflow does not select an arbitrary latest build. A review already in progress defers the draft with a visible warning; replacing that review is a separate owner-authorized action. After cancellation, rerun the draft workflow or submit the verified APK with `scripts/appgallery.py`.
-
-For current per-store operations, API limitations and preservation of existing reviews, see the [release skill](../.agents/skills/esemnbun-release-stores/SKILL.md). For machine and VM setup, start with [developer onboarding](../docs/13-developer-onboarding.md).
-
-Artifacts are downloadable from the completed action's summary. Dedicated build actions do not replace public release files; use Release with the appropriate `only` platform when ready to publish installers.
-
-### Play listing permission
-
-The current service account can upload testing builds but cannot commit store listing changes (HTTP 403). The Android lane therefore keeps metadata uploads off by default. Update listings in Play Console using the generated `distribution/google/metadata/android` copy. Only set `PLAY_UPLOAD_METADATA=true` for a credential already authorized to manage store presence. This does not change credential permissions.
+Use the [CI skill](../.agents/skills/esemnbun-ci-automation/SKILL.md) for workflow changes and the [release skill](../.agents/skills/esemnbun-release-stores/SKILL.md) for delivery. Neither a workflow nor a skill expands the user's requested publication scope.

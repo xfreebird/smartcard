@@ -7,6 +7,8 @@ description: Build, test, package and verify signing for eSemnBun on Apple, Andr
 
 Read [developer onboarding](../../../docs/13-developer-onboarding.md) and the relevant platform section of [build and release](../../../docs/11-build-and-release.md). Scripts, project files and workflow inputs are authoritative; older prose may describe historical versions.
 
+Before selecting a build/publish workflow, consult [the operation matrix and secret inventory](../../../docs/14-github-actions.md). An existing signed artifact may already satisfy the requested source; rebuilding just to submit a track consumes another code unnecessarily. Build success, upload, review and rollout must be reported separately.
+
 ## Before building
 
 - Resolve the developer's actual machine/VM access from the environment skill. Do not assume the owner's SSH addresses, user names, OS architecture or installed SDK paths.

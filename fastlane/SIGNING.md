@@ -26,15 +26,17 @@ bundle exec fastlane mac_certificates force:true  # refresh Developer ID profile
 bundle exec fastlane mac_signing      # installs Developer ID identity + iCloud profile (CI: temporary keychain)
 bundle exec fastlane ios_release      # dist/ios: -appstore.ipa (+ TestFlight upload in CI) and -adhoc.ipa
 bundle exec fastlane ios_release upload:false   # local: both IPAs, no upload
-bundle exec fastlane android_testing             # signed AAB → internal, then stage the closed-testing release (requires Play credentials)
+PLAY_ALLOW_INTERNAL_AND_CLOSED=true bundle exec fastlane android_testing # legacy: changes internal AND closed tracks
 bundle exec fastlane nuke_all         # DESTRUCTIVE, local only: revoke all certificates, delete all profiles
 ```
 
-Android CI runs for Android/release automation changes merged to `main`, and on explicit Android release
-workflows. Each newly built AAB first becomes available to internal testers, then the same version code is
-staged on the configured closed-testing track. Google only accepts a draft closed release while the
-app itself is still a Play Console draft; configure `PLAY_CLOSED_RELEASE_STATUS=completed` after
-that restriction is lifted. Neither path publishes to production.
+Android main builds produce signed Actions artifacts without changing a track. Manual
+`upload_play=true` is artifact-only. Prefer `android-play-publish.yml` to reuse an exact
+signed build: `artifact_only` uploads without track changes; `closed_testing` submits one
+existing `alpha`/`beta` track and preserves internal/production. The legacy `android_testing`
+lane changes both internal and closed tracks and requires `PLAY_ALLOW_INTERNAL_AND_CLOSED=true`.
+See [the workflow and credentials guide](../docs/14-github-actions.md) for review guards,
+uncertain-result recovery, build identities and external backup paths.
 
 The regular Android and all-platform release workflows share a serialized, tag-backed Play counter.
 Before building, CI creates and pushes an `android-play-vc-<code>` reservation tag. Failed builds may

@@ -78,6 +78,7 @@ jobs:
         if: steps.release.outputs.ready == 'true'
         with:
           name: cli-package-definitions
+          retention-days: 7
           path: definitions/
       - name: Publish signed feeds and definitions
         if: steps.release.outputs.ready == 'true'

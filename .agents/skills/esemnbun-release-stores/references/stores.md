@@ -25,6 +25,7 @@ These procedures describe the November 2026 setup. Verify current account/API st
 
 ## Google Play
 
+- For an existing signed Actions artifact use `android-play-publish.yml`: explicit source run ID, `artifact_only` or one `closed_testing` track. See [workflow guide](../../../../docs/14-github-actions.md). Never use the legacy internal-plus-closed lane for a closed-only request.
 - Package `md.esemnbun.app`; service account secret `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON`, authorized only for the intended app/tracks. Existing service-account listing edits encountered HTTP 403; metadata defaults off (`PLAY_UPLOAD_METADATA=true` is opt-in and does not grant permissions).
 - Artifact-only request: use `android_artifact` lane (and `AAB_PATH` for a specific bundle). It checks bundle SHA-256 idempotently and preserves track state. An uploaded inactive bundle is a successful artifact upload, not a new review/rollout.
 - Play edits can reject `changesNotSentForReview`; lane retries without that parameter only for the specific API rejection, retaining `changes_in_review_behavior: ERROR_IF_IN_REVIEW`. Never remove that review guard or cancel an old review to force an artifact upload through.
