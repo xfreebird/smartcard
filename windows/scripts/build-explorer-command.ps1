@@ -7,7 +7,17 @@ $root = Join-Path $cache "llvm-mingw-$version-ucrt-x86_64"
 if (!(Test-Path (Join-Path $root 'bin/clang++.exe'))) {
     New-Item -ItemType Directory -Force $cache | Out-Null
     $archive = Join-Path $cache 'toolchain.zip'
-    Invoke-WebRequest "https://github.com/mstorsjo/llvm-mingw/releases/download/$version/llvm-mingw-$version-ucrt-x86_64.zip" -OutFile $archive
+    $downloadUrl = "https://github.com/mstorsjo/llvm-mingw/releases/download/$version/llvm-mingw-$version-ucrt-x86_64.zip"
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        try {
+            Invoke-WebRequest $downloadUrl -OutFile $archive -TimeoutSec 120
+            break
+        } catch {
+            if ($attempt -eq 3) { throw }
+            Write-Warning "Compiler download attempt $attempt failed; retrying shortly."
+            Start-Sleep -Seconds (5 * $attempt)
+        }
+    }
     if ((Get-FileHash $archive -Algorithm SHA256).Hash -ne 'FD5462B7F5D93B2FF981FCD3F9C7E427E47F3203C64EA91C27BCC444EEBD74CD') { throw 'Compiler archive checksum mismatch' }
     Expand-Archive $archive $cache -Force
     Remove-Item $archive
