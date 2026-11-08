@@ -7,7 +7,7 @@ import PlatformScreenshots from '@site/src/components/PlatformScreenshots';
 
 # Windows desktop app
 
-Applies to **eSemnBun 0.2.0**, Windows 10 **1809 or later**, and Windows 11. See the [Windows CLI guide](./windows-cli.md) for PowerShell and automation workflows.
+Applies to **eSemnBun 0.2.0**, Windows 10 **1809 or later**, and Windows 11. See the [Windows CLI guide](/docs/platforms/windows-cli/) for PowerShell and automation workflows.
 
 ## Install the appropriate edition
 

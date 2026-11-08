@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-08",
+  "commit": "b60af1e59d1da8205bde4de20f2947ea9440090d",
+  "binarySha256": "52b6f465c29f0c00cc3227d8ac6f7bdb0d70caca2e09e4c5ed97bc6277d196df",
+  "mode": "read-only local CLI; no reader, card, PIN or credential access",
+  "observations": [
+    {
+      "args": [
+        "capabilities",
+        "--json"
+      ],
+      "stdout": "{\"data\":{\"commands\":[\"capabilities\",\"help\",\"version\",\"readers\",\"cert\",\"sign\",\"xades\",\"verify\",\"server\",\"sign-hex\",\"cms-for-hash\"],\"desktopApprovalBrokerAvailable\":false,\"documentSigning\":{\"available\":true,\"formats\":[\"PAdES-T\",\"XAdES-BES\",\"XAdES-T\",\"XAdES-C\"]},\"interface\":\"cli\",\"mcpServerAvailable\":false,\"platform\":\"macos\",\"product\":\"eSemnBun\",\"structuredOutputCommands\":[\"capabilities\",\"verify\"],\"verification\":{\"available\":true,\"formats\":[\"PDF\",\"XAdES\"],\"json\":true,\"requiresCard\":false}},\"ok\":true,\"schemaVersion\":1}",
+      "stderr": "",
+      "exit": 0
+    },
+    {
+      "args": [
+        "verify",
+        "--json",
+        "swift/MoldSignKit/Tests/MoldSignKitTests/Fixtures/unsigned.pdf"
+      ],
+      "stdout": "{\"data\":{\"mode\":\"offline\",\"revocationChecked\":false,\"signatureCount\":0,\"signatures\":[],\"status\":\"no_recognized_signature\"},\"ok\":true,\"schemaVersion\":1}",
+      "stderr": "",
+      "exit": 2
+    }
+  ],
+  "illustrations": "SVG terminal panels are authored command examples; only capability and unsigned-fixture panels reproduce captured output. No signing success is fabricated."
+}

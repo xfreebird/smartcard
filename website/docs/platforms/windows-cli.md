@@ -2,99 +2,100 @@
 title: Windows CLI
 ---
 
-# Windows command line
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-Applies to **eSemnBun 0.2.0**. The terminal command is `esemnbun.exe`; the graphical app is `eSemnBun.exe` in its own installation folder.
+# Windows — command-line guide
 
-## Install and check PATH
+Reach a specific goal using the numbered terminal examples below. Commands stay in English. The illustrated panels are instructional examples, not screenshots of a real card signing. Only the capability and unsigned-fixture verification results were captured from a local executable; no real PIN, card or credential provider was used.
 
-Install the standalone MSI from [GitHub Releases](https://github.com/xfreebird/smartcard/releases/latest). It installs the CLI under its `bin` folder and adds it to PATH. Open a **new PowerShell window** after installation so the updated PATH is loaded.
+You need a supported electronic ID and its correct signing PIN, a compatible USB reader and any required adapter for card operations. NFC is not supported. Verification needs no reader or PIN. Keep your original documents. The private signing key stays on the card.
+
+:::info
+The Windows CLI currently supports help, capabilities, readers, cert, sign-hex and mcp. Normal sign/xades/verify/server/cms-for-hash commands are not implemented. Use the desktop app for those document workflows, or the separately configured MCP verification/unattended tools. Windows MCP has no foreground desktop approval broker. Do not assume command parity from the macOS/Linux examples.
+:::
+
+## 1. Install and discover what your executable supports
+
+Open [Downloads](/downloads/) and choose your platform. CLI archives contain terminal and MCP tools; the desktop application is a separate installation. Use the package-manager instructions there for the current version and signing-key fingerprint. Then locate the command and inspect capabilities before automating.
+
+<GuideScreenshot src="/img/guide/windows-cli/en/install.svg" alt="1. Install and discover what your executable supports" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 30.6, "text": "Install through the selected platform channel."}, {"x": 3, "y": 78.3, "text": "Run capability discovery before using card commands."}]} />
 
 ```powershell
+scoop bucket add esemnbun https://github.com/xfreebird/homebrew-utils
+scoop install esemnbun/esemnbun-cli
 Get-Command esemnbun
-esemnbun readers
+esemnbun capabilities --json
 ```
 
-If the command is not found, check the MSI installation and PATH, or run the CLI by its full installed path. Use the [desktop guide](./windows.md) for the tray app and graphical workflows. Reader access requires Windows' Smart Card service and a compatible CCID driver.
-
-For source builds, use the .NET SDK from the repository's `windows/global.json` and build on Windows:
+For Chocolatey, download the project .nupkg to an empty folder, then run:
 
 ```powershell
-cd windows
-dotnet run --project src/MoldSign.Cli -- readers
+choco install esemnbun-cli --source . --yes
 ```
 
-Native AOT publishing additionally requires the matching C++/Windows SDK build tools. Release installers avoid this development setup.
+## 2. Find the reader and check the certificate
 
-## Select a reader and inspect its certificate
+Connect the USB reader and insert your card. List readers, then inspect the signing certificate without entering a PIN. With several cards, use the exact reader name and check the holder before every signing request. These commands below are examples; a reader was not accessed to create this guide.
 
-```sh
+<GuideScreenshot src="/img/guide/windows-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "List connected readers and card presence."}, {"x": 3, "y": 66.2, "text": "Read the intended certificate; replace the reader name."}]} />
+
+```powershell
 esemnbun readers
-esemnbun cert --out leaf.der
+esemnbun cert --reader "miniLector EVO" --out leaf.der
 ```
 
-The certificate command reads public signing-certificate details without a signing PIN. With multiple readers, use the exact reader name from `readers`:
+## 3. Verify and interpret the result
 
-```sh
-esemnbun cert --reader "exact reader name" --out leaf.der
-esemnbun sign input.pdf output-signed.pdf --reader "exact reader name"
+Windows offline verification is available through MCP verify_document, not the normal verify CLI command. Launch the host with an explicit root and supply input `{rootId,relativePath}`; inspect integrity/signature/chain fields. Missing originals require the explicit detached root. No reader/PIN is used. It does not check current revocation.
+
+## 4. Connect an MCP host with explicit file access
+
+Configure a local host that supports the implemented protocol with an absolute executable path and a trusted root you selected. Substitute your own existing physical directory. Client-advertised roots do not grant access. Symlinks, path traversal and special files are rejected. No root means discovery only. The helper uses stdio, not a network signing endpoint. Files are bounded to 8 MiB; detached XML originals need an explicitly selected detached root.
+
+<GuideScreenshot src="/img/guide/windows-cli/en/mcp.svg" alt="5. Connect an MCP host with explicit file access" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 58.5, "text": "Choose the installed executable and a narrow document root."}, {"text": "Let the host discover capabilities, then request offline verification."}]} />
+
+```powershell
+esemnbun mcp --root "documents=C:\Users\me\Documents\Signing"
 ```
 
-Without `--reader`, the CLI selects the first reader with a card. Check the certificate first when several people have cards connected.
+Use `capabilities` and `verify_document` first. Tool input identifies `{rootId,relativePath}`; never put a PIN or document contents in tool arguments. MCP verification returns minimized metadata. The host may send that metadata to its own external services. See [complete MCP setup and policy](https://esemnbun.md/packages/mcp.md) for exact protocol and host configuration.
 
-## Sign PDFs and XML signatures
-
-```sh
-esemnbun sign input.pdf output-signed.pdf
-esemnbun xades XAdES-T original.txt original-signature.xml
-esemnbun xades XAdES-BES original.txt embedded.xml --enveloping
+```json
+{
+  "command": "C:\\Program Files\\eSemnBun\\bin\\esemnbun.exe",
+  "args": [
+    "mcp",
+    "--root",
+    "documents=C:\\Users\\me\\Documents\\Signing"
+  ]
+}
 ```
 
-PDF signing uses PAdES-T. If you omit its output path, the default is `<name>-semnat.pdf` beside the input; existing output is not overwritten. XAdES supports BES, T, and C, and uses a detached signature by default. Keep detached XML and its original file together. `--enveloping` places the document content inside the XML.
-
-XAdES defaults to SHA-256. `--digest SHA-1` exists for relying parties that explicitly require it; do not switch the digest merely to work around an unrelated file error. Timestamped signatures need the public timestamp service; XAdES-C also collects certificate-status references.
-
-## Supply the PIN
-
-Run a signing command interactively to receive a prompt without echo. Do not type a PIN as an argument. For integration with an existing secret-input mechanism, `--pin-stdin` consumes the first line of standard input:
-
-```sh
-esemnbun sign input.pdf output-signed.pdf --pin-stdin
+```json
+{"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
 ```
 
-That command expects input from your caller or terminal; the example deliberately contains no PIN. Input precedence is `--pin-stdin`, then `MSIGN_PIN`, then the secure interactive prompt. Prefer the prompt for manual use. Never store a real PIN in a script or retry automatically after an incorrect-PIN error.
+## 5. Configure explicit unattended signing
 
-## Verify the result
+This advanced opt-in signs without a per-document approval dialog. Provision credentials independently, pin the exact signing-certificate DER SHA-256, and create a dedicated private output directory. Use secret-provider references, never PIN values. The helper checks the card certificate before reading a secret or sending VERIFY. Physical-card/provider behavior needs validation for your installation before production use.
 
-```sh
-esemnbun verify output-signed.pdf
-esemnbun verify original-signature.xml ".\\original-documents"
+<GuideScreenshot src="/img/guide/windows-cli/en/unattended.svg" alt="7. Configure explicit unattended signing" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 27.4, "text": "Set a narrow input root and private output directory."}, {"x": 3, "y": 80.6, "text": "Pin the exact certificate and choose a secret-provider reference."}]} />
+
+```powershell
+esemnbun mcp `
+  --root "documents=C:\Users\me\Documents\Signing" `
+  --allow-unattended-signing `
+  --signing-certificate-sha256 <CERTIFICATE_SHA256> `
+  --signing-output-directory C:\Users\me\PrivateOutput `
+  --pin-source credential:eSemnBun-Automation
 ```
 
-For detached XAdES, the directory must contain the referenced original document. Verification prints one result per signature with integrity, signer, level, signing time, available timestamp, and chain status. It is offline validation; it does not establish current revocation status by itself.
+macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN`, or `onepassword:op://Vault/Item/field`. Linux: environment or 1Password. Windows: `credential:eSemnBun-Automation`, environment or 1Password with an explicit absolute op.exe path. A separately provisioned Keychain/Credential Manager entry must allow the intended access; the app biometric vault is not weakened. Authenticate 1Password outside MCP.
 
-### Exit codes
+Replace `<CERTIFICATE_SHA256>` with the exact 64 hexadecimal digits before running. The output folder must already exist; macOS/Linux require ownership by you and mode0700. Windows allows only your account, SYSTEM and Administrators in its ACL.
 
-| Code | Meaning | Handling |
-| --- | --- | --- |
-| 0 | Success; verification found all signatures valid | Continue your workflow. |
-| 1 | Usage or unexpected error | Read stderr and check arguments/file structure. |
-| 2 | Invalid signature or none found | Do not treat the file as successfully verified. |
-| 3 | Wrong PIN | Stop; check the remaining-attempt message and selected card. |
-| 4 | PIN blocked | Contact the card provider. |
-| 5 | No reader/card | Check the connection and reader selection. |
-| 6 | Trust-service network error | Check connectivity/service availability before a deliberate retry. |
+Before signing, the helper creates `.unattended-signing-lock` in the output directory. Wrong PIN, interrupted execution or uncertain failure leaves this durable marker and prevents another automatic attempt. Inspect output and card outcome, reconcile deliberately, then remove the marker and restart only when appropriate. Never write an automatic lock-deletion/retry loop. A cancellation or timeout does not prove no signature was made.
 
-Errors are written to stderr with `error:`. `--quiet` suppresses protocol traces. Avoid recording sensitive files or credential input in automation logs.
+---
 
-## Browser service
-
-```sh
-esemnbun server
-```
-
-Defaults are HTTP on loopback port **18480** and HTTPS on **18443**. Optional positional ports are `esemnbun server <http-port> <https-port>`; government portals normally expect the default HTTPS endpoint.
-
-Keep the server in the foreground and stop it with **Ctrl+C**. Do not run it alongside the desktop app's bridge or MoldSign Server on the same ports. For interactive consent and PIN dialogs, use the desktop app. The CLI is not a replacement for its consent UI, and server packaging must include a usable localhost HTTPS identity for browser compatibility.
-
-See the [CLI contract](https://github.com/xfreebird/smartcard/blob/main/spec/cli.md) for developer commands such as raw digest signing. Most users only need readers, cert, sign, xades, verify, and server.
+Advanced reference: macOS/Linux also expose `sign-hex <digestinfo_hex>` and `cms-for-hash <sha256_hex>`; Windows has sign-hex only. These are developer primitives, not document signing. Read the CLI contract before using them. For support include app/OS version, command without secrets, exit code and a fictional reproducer. Never attach PINs or confidential files.

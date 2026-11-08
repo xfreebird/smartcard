@@ -1,0 +1,3197 @@
+{
+  "date": "2026-11-08",
+  "sourceCommit": "b60af1e59d1da8205bde4de20f2947ea9440090d",
+  "configuration": "Debug arm64 iOS Simulator; Xcode27.1 RC build",
+  "runtime": "iOS27.0",
+  "captureHost": "MacBook Air",
+  "mock": true,
+  "theme": "light",
+  "isolation": "MSIGN_QA_NO_HARDWARE + md.esemnbun.qa.* isolated preferences + MSIGN_SCREENSHOT_CAPTURE; native demo banner absent",
+  "method": "simctl fixture launch, stdout readiness marker, native PNG screenshot; untouched screenshots except declared iPad crop of unused canvas or focus on a sheet",
+  "rawOriginals": "capture host /tmp/esemnbun-guide-mobile/{iphone,ipad}/",
+  "limitations": [
+    "Fictional identity and result fixtures, not proof of real card signing or saved-credential access.",
+    "Browser remains offline and navigation disabled in isolated fixture mode; production steps checked in source.",
+    "Siri, Shortcuts execution, Spotlight indexing and cross-device Handoff were source-reviewed, not exercised end-to-end.",
+    "iPad is native portrait with expanded side-by-side workspace; no landscape, split-view or drag/drop validation claimed.",
+    "PIN fields contain no PIN; no real reader, credential provider or trust-service operation used."
+  ],
+  "records": [
+    {
+      "locale": "en",
+      "name": "connect",
+      "scenario": "no-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "565693a1ba70de91199ff611750ef402c9a4f8adc876ccd436d86e1bcebbec3f",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/connect.png",
+      "assetSha256": "565693a1ba70de91199ff611750ef402c9a4f8adc876ccd436d86e1bcebbec3f"
+    },
+    {
+      "locale": "en",
+      "name": "empty-reader",
+      "scenario": "empty-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b7667802d6b775a56f02e2ceee8503f8ebe70f22a8cbd09e91e22eac56dd33b0",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/empty-reader.png",
+      "assetSha256": "b7667802d6b775a56f02e2ceee8503f8ebe70f22a8cbd09e91e22eac56dd33b0"
+    },
+    {
+      "locale": "en",
+      "name": "sign",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e8d8f81db609e77b3b3c3799ebf121dc80c5b014a4380d2e98f38d42299d6e85",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/sign.png",
+      "assetSha256": "e8d8f81db609e77b3b3c3799ebf121dc80c5b014a4380d2e98f38d42299d6e85"
+    },
+    {
+      "locale": "en",
+      "name": "cards",
+      "scenario": "multiple",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b0e9e5f08523d1b1587bcec4706ec295abd161bdb8d896cf73ee9246eac0006b",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/cards.png",
+      "assetSha256": "b0e9e5f08523d1b1587bcec4706ec295abd161bdb8d896cf73ee9246eac0006b"
+    },
+    {
+      "locale": "en",
+      "name": "stamp",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "1c1f0a0d880df9a8835ecf71775fd408e953972b8478123ea644cc940e00c2b2",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/stamp.png",
+      "assetSha256": "1c1f0a0d880df9a8835ecf71775fd408e953972b8478123ea644cc940e00c2b2"
+    },
+    {
+      "locale": "en",
+      "name": "consent",
+      "scenario": "consent-batch",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "3c9de2c1fe4eceaaeea2ef297c863883a4808eb40aa0dab30deb5de6181e1812",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/consent.png",
+      "assetSha256": "3c9de2c1fe4eceaaeea2ef297c863883a4808eb40aa0dab30deb5de6181e1812"
+    },
+    {
+      "locale": "en",
+      "name": "pin",
+      "scenario": "pin",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a314e3ecb7e62fbf8122548a51119cc2d8a808b9328ee573a68ac4faabd338a8",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/pin.png",
+      "assetSha256": "a314e3ecb7e62fbf8122548a51119cc2d8a808b9328ee573a68ac4faabd338a8"
+    },
+    {
+      "locale": "en",
+      "name": "progress",
+      "scenario": "signing",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e2a99a9e9a69753609a39cb47e5e2bae0231470b674144edcfc3878fc4b72e5c",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/progress.png",
+      "assetSha256": "e2a99a9e9a69753609a39cb47e5e2bae0231470b674144edcfc3878fc4b72e5c"
+    },
+    {
+      "locale": "en",
+      "name": "success",
+      "scenario": "success",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "5fd5728aa648124d9249fcad0f521fd3482ad29a44c08bf180ad2acfd81494e9",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/success.png",
+      "assetSha256": "5fd5728aa648124d9249fcad0f521fd3482ad29a44c08bf180ad2acfd81494e9"
+    },
+    {
+      "locale": "en",
+      "name": "file-error",
+      "scenario": "sign-failure",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "03329c50f8d98c01e1b7f919cd4e1821a1cdb79a249f9bf47e6079aa2984244b",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/file-error.png",
+      "assetSha256": "03329c50f8d98c01e1b7f919cd4e1821a1cdb79a249f9bf47e6079aa2984244b"
+    },
+    {
+      "locale": "en",
+      "name": "verify",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "020dc71c4d7282a630dd2676665b9eb7a1d8ddda58c9a59c9bb56c1a0e2c3334",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/verify.png",
+      "assetSha256": "020dc71c4d7282a630dd2676665b9eb7a1d8ddda58c9a59c9bb56c1a0e2c3334"
+    },
+    {
+      "locale": "en",
+      "name": "certificate",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c12eb3733c85e1c56292df765f5594852a9530f66cbf1dcfbbb3020e0db83e0a",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/certificate.png",
+      "assetSha256": "c12eb3733c85e1c56292df765f5594852a9530f66cbf1dcfbbb3020e0db83e0a"
+    },
+    {
+      "locale": "en",
+      "name": "invalid",
+      "scenario": "verify-invalid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e7a7d59a6cf7d3406635abb0043c4a69b06ce8e5c9fd59820347d23476b30860",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/invalid.png",
+      "assetSha256": "e7a7d59a6cf7d3406635abb0043c4a69b06ce8e5c9fd59820347d23476b30860"
+    },
+    {
+      "locale": "en",
+      "name": "incomplete",
+      "scenario": "verify-incomplete",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "9bbd3fe333c46ad60c1bc376cda5ede8ff3f101d5a4edcfc36e190248d21af57",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/incomplete.png",
+      "assetSha256": "9bbd3fe333c46ad60c1bc376cda5ede8ff3f101d5a4edcfc36e190248d21af57"
+    },
+    {
+      "locale": "en",
+      "name": "untrusted",
+      "scenario": "verify-untrusted",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "d1d2f8fd6186948b29cc1726b39c9805d8d719bc7bf8a77d24e054f0f881a62f",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/untrusted.png",
+      "assetSha256": "d1d2f8fd6186948b29cc1726b39c9805d8d719bc7bf8a77d24e054f0f881a62f"
+    },
+    {
+      "locale": "en",
+      "name": "unsigned",
+      "scenario": "verify-unsigned",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "6509a2015f2429746a0351e6dde5bf1fd4069992ddb83699677cbdb1df389b77",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/unsigned.png",
+      "assetSha256": "6509a2015f2429746a0351e6dde5bf1fd4069992ddb83699677cbdb1df389b77"
+    },
+    {
+      "locale": "en",
+      "name": "documents",
+      "scenario": "documents-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "82c19a0e5ee6da48c9800b42f49adf5ad808cbaa2d5c5155ed490f17b002fd54",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/documents.png",
+      "assetSha256": "82c19a0e5ee6da48c9800b42f49adf5ad808cbaa2d5c5155ed490f17b002fd54"
+    },
+    {
+      "locale": "en",
+      "name": "details",
+      "scenario": "documents-details-valid",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c50e89cf88660bb4d817260216e50deaf1c00543f2846aa4e2c2e3a52c46107e",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/details.png",
+      "assetSha256": "c50e89cf88660bb4d817260216e50deaf1c00543f2846aa4e2c2e3a52c46107e"
+    },
+    {
+      "locale": "en",
+      "name": "history",
+      "scenario": "history-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "609f4da6e2624fb15070da5612ca995468813679aafd88ee76be2fb71f959c0f",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/history.png",
+      "assetSha256": "609f4da6e2624fb15070da5612ca995468813679aafd88ee76be2fb71f959c0f"
+    },
+    {
+      "locale": "en",
+      "name": "browser",
+      "scenario": "ready",
+      "tab": "browser",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "6a332d9bab38140949ee2f65c3082730b110d356a4442f008c1ad15a03a403e4",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/browser.png",
+      "assetSha256": "6a332d9bab38140949ee2f65c3082730b110d356a4442f008c1ad15a03a403e4"
+    },
+    {
+      "locale": "en",
+      "name": "card",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "0c232c47fb59ef08699fcbbe4d9e3f7472869ff1a4a7a4bd5867df50e21eba2a",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/card.png",
+      "assetSha256": "0c232c47fb59ef08699fcbbe4d9e3f7472869ff1a4a7a4bd5867df50e21eba2a"
+    },
+    {
+      "locale": "en",
+      "name": "settings",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "defeddd4a430d6338cfaf3cba8a7f1991f2d964242e0025f9deed35760b1fb1e",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/en/settings.png",
+      "assetSha256": "defeddd4a430d6338cfaf3cba8a7f1991f2d964242e0025f9deed35760b1fb1e"
+    },
+    {
+      "locale": "ro",
+      "name": "connect",
+      "scenario": "no-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "5f19711f34ecde84ef863941e529c622a760589085488cb0fea9ab1edd7d1500",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/connect.png",
+      "assetSha256": "5f19711f34ecde84ef863941e529c622a760589085488cb0fea9ab1edd7d1500"
+    },
+    {
+      "locale": "ro",
+      "name": "empty-reader",
+      "scenario": "empty-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "56a8bcac97996f47d56d70890a51de390169fdf4e4e0530ac1419fc1497d8fc2",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/empty-reader.png",
+      "assetSha256": "56a8bcac97996f47d56d70890a51de390169fdf4e4e0530ac1419fc1497d8fc2"
+    },
+    {
+      "locale": "ro",
+      "name": "sign",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "1024945a68ff07fa325f5e3f54e20df3a9d306f39796a91a4aba6e7392a49c84",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/sign.png",
+      "assetSha256": "1024945a68ff07fa325f5e3f54e20df3a9d306f39796a91a4aba6e7392a49c84"
+    },
+    {
+      "locale": "ro",
+      "name": "cards",
+      "scenario": "multiple",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "5b5aef146f77e15a50b4755978fedb6952982f4d7b14c65181089d054526fa90",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/cards.png",
+      "assetSha256": "5b5aef146f77e15a50b4755978fedb6952982f4d7b14c65181089d054526fa90"
+    },
+    {
+      "locale": "ro",
+      "name": "stamp",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "91a6b88c63cc2b4a65e20975d0c449eadf6112685690f39331a0cac64c31eab5",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/stamp.png",
+      "assetSha256": "91a6b88c63cc2b4a65e20975d0c449eadf6112685690f39331a0cac64c31eab5"
+    },
+    {
+      "locale": "ro",
+      "name": "consent",
+      "scenario": "consent-batch",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c64f869f91fe76ea19db816ae5892f63fe7fb772f6a58c3d38c9fe54cf206477",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/consent.png",
+      "assetSha256": "c64f869f91fe76ea19db816ae5892f63fe7fb772f6a58c3d38c9fe54cf206477"
+    },
+    {
+      "locale": "ro",
+      "name": "pin",
+      "scenario": "pin",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "11c1a4070b4800c98ad7c770532d8daabf36b645663dbd9de7cf0ce46f6dc959",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/pin.png",
+      "assetSha256": "11c1a4070b4800c98ad7c770532d8daabf36b645663dbd9de7cf0ce46f6dc959"
+    },
+    {
+      "locale": "ro",
+      "name": "progress",
+      "scenario": "signing",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "ccac9d4d95fa02595edf08c07fa6ea254f8fb0e8eaedbf374afb42326a78d477",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/progress.png",
+      "assetSha256": "ccac9d4d95fa02595edf08c07fa6ea254f8fb0e8eaedbf374afb42326a78d477"
+    },
+    {
+      "locale": "ro",
+      "name": "success",
+      "scenario": "success",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "0d5696e91bd503455e464f0ea400f722a13792273a360d11cf9c7903c6e40810",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/success.png",
+      "assetSha256": "0d5696e91bd503455e464f0ea400f722a13792273a360d11cf9c7903c6e40810"
+    },
+    {
+      "locale": "ro",
+      "name": "file-error",
+      "scenario": "sign-failure",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "3c35710994750cc0e4696df02745849de1136fa354c82fbc4c92f9aacd7c55a9",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/file-error.png",
+      "assetSha256": "3c35710994750cc0e4696df02745849de1136fa354c82fbc4c92f9aacd7c55a9"
+    },
+    {
+      "locale": "ro",
+      "name": "verify",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "9a0d8d0dfb48bd338410f18539ccb969ac1f8d3e48a2a02f8e2e2b7fcd3be574",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/verify.png",
+      "assetSha256": "9a0d8d0dfb48bd338410f18539ccb969ac1f8d3e48a2a02f8e2e2b7fcd3be574"
+    },
+    {
+      "locale": "ro",
+      "name": "certificate",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a553c5e164ad1986e0c1ac5148a08237afc76c3a4dba00ecde240cf6a7939e52",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/certificate.png",
+      "assetSha256": "a553c5e164ad1986e0c1ac5148a08237afc76c3a4dba00ecde240cf6a7939e52"
+    },
+    {
+      "locale": "ro",
+      "name": "invalid",
+      "scenario": "verify-invalid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "f02844d062d985b0e9b1364dc27e2aa7af34db133269e84866c055314aeb3880",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/invalid.png",
+      "assetSha256": "f02844d062d985b0e9b1364dc27e2aa7af34db133269e84866c055314aeb3880"
+    },
+    {
+      "locale": "ro",
+      "name": "incomplete",
+      "scenario": "verify-incomplete",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "4705ccdb97a1ff2125c4704b102e93b856493fea2a5c2b86d4d23b969047e9a9",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/incomplete.png",
+      "assetSha256": "4705ccdb97a1ff2125c4704b102e93b856493fea2a5c2b86d4d23b969047e9a9"
+    },
+    {
+      "locale": "ro",
+      "name": "untrusted",
+      "scenario": "verify-untrusted",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "bcb5a7ad24d386aa56210a4372974025d4a42216017989fc0c0dac802f6af2d2",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/untrusted.png",
+      "assetSha256": "bcb5a7ad24d386aa56210a4372974025d4a42216017989fc0c0dac802f6af2d2"
+    },
+    {
+      "locale": "ro",
+      "name": "unsigned",
+      "scenario": "verify-unsigned",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "28224192c6842cedad44a8ef71e2d70cf9ed006658200050dbbfb3109c72c38c",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/unsigned.png",
+      "assetSha256": "28224192c6842cedad44a8ef71e2d70cf9ed006658200050dbbfb3109c72c38c"
+    },
+    {
+      "locale": "ro",
+      "name": "documents",
+      "scenario": "documents-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "f08afab188cfe26365d47a8b48880b2a175bd8b2528644f3f3a3e80b6853c0c3",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/documents.png",
+      "assetSha256": "f08afab188cfe26365d47a8b48880b2a175bd8b2528644f3f3a3e80b6853c0c3"
+    },
+    {
+      "locale": "ro",
+      "name": "details",
+      "scenario": "documents-details-valid",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "bb71a25a74578e5fcf4daf7bded6c77bbb65200be01d032bea3c851322f3e5ab",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/details.png",
+      "assetSha256": "bb71a25a74578e5fcf4daf7bded6c77bbb65200be01d032bea3c851322f3e5ab"
+    },
+    {
+      "locale": "ro",
+      "name": "history",
+      "scenario": "history-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "93a834c63b026d5b4b83995934b5ef864b992d7dd7c03a4d213d69a718fc85f3",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/history.png",
+      "assetSha256": "93a834c63b026d5b4b83995934b5ef864b992d7dd7c03a4d213d69a718fc85f3"
+    },
+    {
+      "locale": "ro",
+      "name": "browser",
+      "scenario": "ready",
+      "tab": "browser",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a99d8255bacbf49ebc2aa2bfad53a8ef2fd6af8247e08e564ef7baa9151cf9c2",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/browser.png",
+      "assetSha256": "a99d8255bacbf49ebc2aa2bfad53a8ef2fd6af8247e08e564ef7baa9151cf9c2"
+    },
+    {
+      "locale": "ro",
+      "name": "card",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "65dd538acca353b1a3574153ed925bf3258da548e112bc604930641c5a076b4e",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/card.png",
+      "assetSha256": "65dd538acca353b1a3574153ed925bf3258da548e112bc604930641c5a076b4e"
+    },
+    {
+      "locale": "ro",
+      "name": "settings",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "55e526ef58460521cebdfa68ca5c8267bbf25ba75e0357a67550398ef2f60002",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ro/settings.png",
+      "assetSha256": "55e526ef58460521cebdfa68ca5c8267bbf25ba75e0357a67550398ef2f60002"
+    },
+    {
+      "locale": "ru",
+      "name": "connect",
+      "scenario": "no-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "227cbfe9b2680596e6ae1396593418e80e34d69c716a78c0d9739b13a543a176",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/connect.png",
+      "assetSha256": "227cbfe9b2680596e6ae1396593418e80e34d69c716a78c0d9739b13a543a176"
+    },
+    {
+      "locale": "ru",
+      "name": "empty-reader",
+      "scenario": "empty-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "fb9c5680331a74985565279b718721b7da19b7f418c4af6cd3f88c2a9a15d755",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/empty-reader.png",
+      "assetSha256": "fb9c5680331a74985565279b718721b7da19b7f418c4af6cd3f88c2a9a15d755"
+    },
+    {
+      "locale": "ru",
+      "name": "sign",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "d27c434efc397ce2db91bfc40a1a6ac8615f14ddd77430d4490153a6c9a6220f",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/sign.png",
+      "assetSha256": "d27c434efc397ce2db91bfc40a1a6ac8615f14ddd77430d4490153a6c9a6220f"
+    },
+    {
+      "locale": "ru",
+      "name": "cards",
+      "scenario": "multiple",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "d31f8ad0b7e562c3ee306105696c2c861a7e9a4cfb0df9c5e17efd5934fd74ea",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/cards.png",
+      "assetSha256": "d31f8ad0b7e562c3ee306105696c2c861a7e9a4cfb0df9c5e17efd5934fd74ea"
+    },
+    {
+      "locale": "ru",
+      "name": "stamp",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "f57a2064adfe2e1053d704039c0aa722589081d101c7d8dfb9b17d642a3cbb1f",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/stamp.png",
+      "assetSha256": "f57a2064adfe2e1053d704039c0aa722589081d101c7d8dfb9b17d642a3cbb1f"
+    },
+    {
+      "locale": "ru",
+      "name": "consent",
+      "scenario": "consent-batch",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "3e817bc87938d9d7ebcb6ef8742a280201140f6e333867aec1fb97b9ae1c3913",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/consent.png",
+      "assetSha256": "3e817bc87938d9d7ebcb6ef8742a280201140f6e333867aec1fb97b9ae1c3913"
+    },
+    {
+      "locale": "ru",
+      "name": "pin",
+      "scenario": "pin",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "631c249440c40f4dd1173708f5dda961d74838114916c7470f2d8949d9ea3553",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/pin.png",
+      "assetSha256": "631c249440c40f4dd1173708f5dda961d74838114916c7470f2d8949d9ea3553"
+    },
+    {
+      "locale": "ru",
+      "name": "progress",
+      "scenario": "signing",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c3549cdb225fddbc4a716f0be61aecb1e98651f5ca0da6771b832a5c600635be",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/progress.png",
+      "assetSha256": "c3549cdb225fddbc4a716f0be61aecb1e98651f5ca0da6771b832a5c600635be"
+    },
+    {
+      "locale": "ru",
+      "name": "success",
+      "scenario": "success",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "f0f1db4a8a17276f6123f75ee1b699dcdffb91dbb0715d586a3ce56a4258f3bf",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/success.png",
+      "assetSha256": "f0f1db4a8a17276f6123f75ee1b699dcdffb91dbb0715d586a3ce56a4258f3bf"
+    },
+    {
+      "locale": "ru",
+      "name": "file-error",
+      "scenario": "sign-failure",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "034d06dd59e77d7073cf7efcfe653df0bdf512285d2169a76e8d191add4996b8",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/file-error.png",
+      "assetSha256": "034d06dd59e77d7073cf7efcfe653df0bdf512285d2169a76e8d191add4996b8"
+    },
+    {
+      "locale": "ru",
+      "name": "verify",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "2c77ba7b1fd46acd7095ee5af6b408a3459bbe0509c62f3bc7c6cc7a8337a211",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/verify.png",
+      "assetSha256": "2c77ba7b1fd46acd7095ee5af6b408a3459bbe0509c62f3bc7c6cc7a8337a211"
+    },
+    {
+      "locale": "ru",
+      "name": "certificate",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "d57781c32805148a31caa41e3768dd579f7a0a0481697352037a17740c679d3f",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/certificate.png",
+      "assetSha256": "d57781c32805148a31caa41e3768dd579f7a0a0481697352037a17740c679d3f"
+    },
+    {
+      "locale": "ru",
+      "name": "invalid",
+      "scenario": "verify-invalid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "4d24a061d0e93e59d9ac9eb3a0e8a7fd75552d834cc1ed6183e0e534a51f6738",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/invalid.png",
+      "assetSha256": "4d24a061d0e93e59d9ac9eb3a0e8a7fd75552d834cc1ed6183e0e534a51f6738"
+    },
+    {
+      "locale": "ru",
+      "name": "incomplete",
+      "scenario": "verify-incomplete",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "1627d90de94bd21b75fa99051e42a0bdfce7a3ccb8494435bc5aed856df44ea1",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/incomplete.png",
+      "assetSha256": "1627d90de94bd21b75fa99051e42a0bdfce7a3ccb8494435bc5aed856df44ea1"
+    },
+    {
+      "locale": "ru",
+      "name": "untrusted",
+      "scenario": "verify-untrusted",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "18d40fa0c014c750c579d4a5ec0d65ac5e36c3d1d4592d9b64266f8e18991811",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/untrusted.png",
+      "assetSha256": "18d40fa0c014c750c579d4a5ec0d65ac5e36c3d1d4592d9b64266f8e18991811"
+    },
+    {
+      "locale": "ru",
+      "name": "unsigned",
+      "scenario": "verify-unsigned",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "ab2b141b99326c17ed3ca2a14a7e2def8e91e340970d8a0864abcd663e0f1676",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/unsigned.png",
+      "assetSha256": "ab2b141b99326c17ed3ca2a14a7e2def8e91e340970d8a0864abcd663e0f1676"
+    },
+    {
+      "locale": "ru",
+      "name": "documents",
+      "scenario": "documents-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "9e5aae366d0812ccfd1fbd15d213cdd9fe9cd5d983b9b553a35b0d3f582a7416",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/documents.png",
+      "assetSha256": "9e5aae366d0812ccfd1fbd15d213cdd9fe9cd5d983b9b553a35b0d3f582a7416"
+    },
+    {
+      "locale": "ru",
+      "name": "details",
+      "scenario": "documents-details-valid",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c9116bcb31f72a3e0ebf83613dc1c17ccb4d8aadbf62e655058b54130ccca0f4",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/details.png",
+      "assetSha256": "c9116bcb31f72a3e0ebf83613dc1c17ccb4d8aadbf62e655058b54130ccca0f4"
+    },
+    {
+      "locale": "ru",
+      "name": "history",
+      "scenario": "history-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "aff0baa073eee2aeae032d0d7dc626a811922678fdec81aa2f7dc314001b1fbc",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/history.png",
+      "assetSha256": "aff0baa073eee2aeae032d0d7dc626a811922678fdec81aa2f7dc314001b1fbc"
+    },
+    {
+      "locale": "ru",
+      "name": "browser",
+      "scenario": "ready",
+      "tab": "browser",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a7fda7e14ca9495b2ae80e2afada085c26d1405d7765850ef957284945e1cb4a",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/browser.png",
+      "assetSha256": "a7fda7e14ca9495b2ae80e2afada085c26d1405d7765850ef957284945e1cb4a"
+    },
+    {
+      "locale": "ru",
+      "name": "card",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c7e8dd1c03d95a37de3d01e317de93b42e8513f9807dae1372db5314c664edc2",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/card.png",
+      "assetSha256": "c7e8dd1c03d95a37de3d01e317de93b42e8513f9807dae1372db5314c664edc2"
+    },
+    {
+      "locale": "ru",
+      "name": "settings",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e7b42a8104282ed90eb11b8ee497766adf0c4ffe75f97ee826d66350a042f1b9",
+      "platform": "iphone",
+      "device": "FCE13F5B-7027-48E2-A139-2AF6E9CA9F3E",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "path": "website/static/img/guide/iphone/ru/settings.png",
+      "assetSha256": "e7b42a8104282ed90eb11b8ee497766adf0c4ffe75f97ee826d66350a042f1b9"
+    },
+    {
+      "locale": "en",
+      "name": "connect",
+      "scenario": "no-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "0edc5d0b50189e979ac7feb0b204b08377e8ff5584c124252f3710685a4218f1",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        702
+      ],
+      "dimensions": [
+        1668,
+        702
+      ],
+      "path": "website/static/img/guide/ipad/en/connect.png",
+      "assetSha256": "d1983949a8a5f5a480d24100a87528079d8cff03c16fab242dc3cd90fe205d69"
+    },
+    {
+      "locale": "en",
+      "name": "empty-reader",
+      "scenario": "empty-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "eab10ca6468fd2390729a77de2deaf5a0719107040ed3f3125f3010cf697ad08",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        702
+      ],
+      "dimensions": [
+        1668,
+        702
+      ],
+      "path": "website/static/img/guide/ipad/en/empty-reader.png",
+      "assetSha256": "4e1020e0c6a8c16f5f483bb1334e137917039ff4631b93bb68a257fd571f8e91"
+    },
+    {
+      "locale": "en",
+      "name": "sign",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "178fd2c4cf594c923a44658b6d01a3fab241cba4c8342d1291cbf05a8cb8ecb3",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        968
+      ],
+      "dimensions": [
+        1668,
+        968
+      ],
+      "path": "website/static/img/guide/ipad/en/sign.png",
+      "assetSha256": "a6b5082dd5b260c4374529cac4152ef2600f5e99f4d28219f229b56321def10d"
+    },
+    {
+      "locale": "en",
+      "name": "cards",
+      "scenario": "multiple",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "6fe0ce4839ea16d3d76675e70cf938bdf3b2477db5cd33c8599735edd1a9c1ed",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1016
+      ],
+      "dimensions": [
+        1668,
+        1016
+      ],
+      "path": "website/static/img/guide/ipad/en/cards.png",
+      "assetSha256": "0d29bce775f0d69947329f59c54a295671cec46da98f03c9a02109cc4ef86876"
+    },
+    {
+      "locale": "en",
+      "name": "stamp",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "941bb101fc1cb7bdb09a891a142049db1bfefe2f26c63445543d726da571bc1b",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        557,
+        1418,
+        1936
+      ],
+      "dimensions": [
+        1168,
+        1379
+      ],
+      "path": "website/static/img/guide/ipad/en/stamp.png",
+      "assetSha256": "13fd38a53fa654bd5602c57f0ce9b76124a94a95c28ef094f923af856086e387"
+    },
+    {
+      "locale": "en",
+      "name": "consent",
+      "scenario": "consent-batch",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "617e0f5b6236240c29b4468fa116e66ac4a2d777ae673b6bc9302785d3ed9e50",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        1113,
+        1418,
+        1888
+      ],
+      "dimensions": [
+        1168,
+        775
+      ],
+      "path": "website/static/img/guide/ipad/en/consent.png",
+      "assetSha256": "d4d982d030165f94f70518e0ddef317ab811c0b1c2a96f793efc5414c67366fb"
+    },
+    {
+      "locale": "en",
+      "name": "pin",
+      "scenario": "pin",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b1714dd34d4826fbcd92274bdb379d26409106b4a0cb730b40e2faa667b1b806",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/en/pin.png",
+      "assetSha256": "b1714dd34d4826fbcd92274bdb379d26409106b4a0cb730b40e2faa667b1b806"
+    },
+    {
+      "locale": "en",
+      "name": "progress",
+      "scenario": "signing",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "352720540b8910f6e3b32e4828fdecaf9cf5d8f0ac23460a7d6039a41f84bdfc",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        968
+      ],
+      "dimensions": [
+        1668,
+        968
+      ],
+      "path": "website/static/img/guide/ipad/en/progress.png",
+      "assetSha256": "8fcdd7b7eb4a60377edb6135ef1c6637a71270f26b3b1fa7566c0fa49123cca0"
+    },
+    {
+      "locale": "en",
+      "name": "success",
+      "scenario": "success",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "bc3660ac0d3946607180fc9813203b3478624b2b9731d89d0222de57ae1e95fe",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1694
+      ],
+      "dimensions": [
+        1668,
+        1694
+      ],
+      "path": "website/static/img/guide/ipad/en/success.png",
+      "assetSha256": "90ed13462808721085d56c63eb88e6a8ab1f0cf1aa04b47e202d409b75cf53e1"
+    },
+    {
+      "locale": "en",
+      "name": "file-error",
+      "scenario": "sign-failure",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "53529885f3f14e3015dece25da9c9027d05041f0f9d91c7528f28cfc21dc66a4",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1065
+      ],
+      "dimensions": [
+        1668,
+        1065
+      ],
+      "path": "website/static/img/guide/ipad/en/file-error.png",
+      "assetSha256": "03c6b229b995b905bfa389f35a64d176583fb0b7c000f94c2d5750114e6956d3"
+    },
+    {
+      "locale": "en",
+      "name": "verify",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "ade5da201830a1124a4b6057901309bbdecbad82a8280e9711500295baac2ae9",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/en/verify.png",
+      "assetSha256": "c6f8d3ad259edef8865a667925cc95918ecefcec01ede7f45fbc91a1b41949a5"
+    },
+    {
+      "locale": "en",
+      "name": "certificate",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "70696eef475a103894e941d89329710a171dbeb5de93d5dca45b0b5fca4c5a82",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/en/certificate.png",
+      "assetSha256": "70696eef475a103894e941d89329710a171dbeb5de93d5dca45b0b5fca4c5a82"
+    },
+    {
+      "locale": "en",
+      "name": "invalid",
+      "scenario": "verify-invalid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "d2a8a8dd679cd08aaa881816cbc662dee6deb6eec803008170a31991b207fcf7",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/en/invalid.png",
+      "assetSha256": "78407b1c8b76120ab696f8d48b350f57deed9b70bed75afafcf1dc657b7b6f0b"
+    },
+    {
+      "locale": "en",
+      "name": "incomplete",
+      "scenario": "verify-incomplete",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b91f58614d73c5781cc194cb969fea46b0ff745798feb1739bc5584c1e9d27c4",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1210
+      ],
+      "dimensions": [
+        1668,
+        1210
+      ],
+      "path": "website/static/img/guide/ipad/en/incomplete.png",
+      "assetSha256": "63a8cd5e607951ab9c6d99d2113f6d662b84db44d9ee422d369efc798f99ac1a"
+    },
+    {
+      "locale": "en",
+      "name": "untrusted",
+      "scenario": "verify-untrusted",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "771ebdc406e4b7f7653997102510351d8af7c242593cb16f9a54303ef3315e7a",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/en/untrusted.png",
+      "assetSha256": "2c359633677d2572fc642de23057498fd00d13bebc6404f9bdbc3a89aab1fb91"
+    },
+    {
+      "locale": "en",
+      "name": "unsigned",
+      "scenario": "verify-unsigned",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "df13caa6ea6a85106956b33d96530641e53fdcfd99bac8367b51ac104ccca530",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        895
+      ],
+      "dimensions": [
+        1668,
+        895
+      ],
+      "path": "website/static/img/guide/ipad/en/unsigned.png",
+      "assetSha256": "6be67fa23fb096cef331fe5cf12d27d4dea2a3d041fc8006042b478fa40ac575"
+    },
+    {
+      "locale": "en",
+      "name": "documents",
+      "scenario": "documents-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "eedb6b13340c63d354b2e5f2bd743b115ce3489e33209d3c846eb06c3c17a8d9",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1041
+      ],
+      "dimensions": [
+        1668,
+        1041
+      ],
+      "path": "website/static/img/guide/ipad/en/documents.png",
+      "assetSha256": "27b4cd6547b25843cb5f2c0b28fb002702eace58d5bafb836ac26b68b25c82a2"
+    },
+    {
+      "locale": "en",
+      "name": "details",
+      "scenario": "documents-details-valid",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e3913ba1846ac1f24b3956f9279a06239a818cf9b09dfe24553dc28de88cb6bc",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        532,
+        1418,
+        1355
+      ],
+      "dimensions": [
+        1168,
+        823
+      ],
+      "path": "website/static/img/guide/ipad/en/details.png",
+      "assetSha256": "272c38100a6b353419d3f1f6caf89c287ead6225bc0fe8e6037002a9bdde9f53"
+    },
+    {
+      "locale": "en",
+      "name": "history",
+      "scenario": "history-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "60795cfa03b743346bd40e1d501a01e0078291442e8cb511133a712c9065c04f",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1041
+      ],
+      "dimensions": [
+        1668,
+        1041
+      ],
+      "path": "website/static/img/guide/ipad/en/history.png",
+      "assetSha256": "c014b5d09e5496d29711312aa3dadb68c34171ccf1bb434cc012925c71c4e19a"
+    },
+    {
+      "locale": "en",
+      "name": "browser",
+      "scenario": "ready",
+      "tab": "browser",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b9673e9dd02e62c882c283ae2c91d9b592470543696aef4d0e597751dd12c4ac",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/en/browser.png",
+      "assetSha256": "b9673e9dd02e62c882c283ae2c91d9b592470543696aef4d0e597751dd12c4ac"
+    },
+    {
+      "locale": "en",
+      "name": "card",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "9fe219d5e3c5b65ed4b2cf91fd27a2746156d6706e6824e67df0db43712dcd79",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/en/card.png",
+      "assetSha256": "9fe219d5e3c5b65ed4b2cf91fd27a2746156d6706e6824e67df0db43712dcd79"
+    },
+    {
+      "locale": "en",
+      "name": "settings",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "52ef3b1b18911a4709b8e5987c49bb103b54a2e52457d7cada679079a7b9133f",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        557,
+        1418,
+        1936
+      ],
+      "dimensions": [
+        1168,
+        1379
+      ],
+      "path": "website/static/img/guide/ipad/en/settings.png",
+      "assetSha256": "3aa2b5bf0a5f7b51a203c329172145fb4ab44aab525c9552aa36278310054bbc"
+    },
+    {
+      "locale": "ro",
+      "name": "connect",
+      "scenario": "no-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "62ccf03b467b9a40bf5229565f72e7ab37192cfb56c3159806f8de3c2ada25fe",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        702
+      ],
+      "dimensions": [
+        1668,
+        702
+      ],
+      "path": "website/static/img/guide/ipad/ro/connect.png",
+      "assetSha256": "cb6f05f803043669082ccdafba2d332c75d9ea97e44dfdabc1241ca87755c960"
+    },
+    {
+      "locale": "ro",
+      "name": "empty-reader",
+      "scenario": "empty-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "be1d7731519cc09d4953392a693450e28b5c55d43c2e606452f07b2ba02cc362",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        702
+      ],
+      "dimensions": [
+        1668,
+        702
+      ],
+      "path": "website/static/img/guide/ipad/ro/empty-reader.png",
+      "assetSha256": "03ca66a5856f48112f7dfb4b20a98030fe8cf1bc03daf1fee588896519f25f59"
+    },
+    {
+      "locale": "ro",
+      "name": "sign",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "6660de7a4e4b1f38bd51bbdf4bfab3acaa2edd369b5e066c9375a89a28a82b13",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        968
+      ],
+      "dimensions": [
+        1668,
+        968
+      ],
+      "path": "website/static/img/guide/ipad/ro/sign.png",
+      "assetSha256": "e7c8e1fd360d037fb16288459f2d3f9d3c582551768ab31741f43684ab777b0c"
+    },
+    {
+      "locale": "ro",
+      "name": "cards",
+      "scenario": "multiple",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "756b87268f004d98ea6a13453183dd07775477afde2bf432b74fb130aad1b709",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1016
+      ],
+      "dimensions": [
+        1668,
+        1016
+      ],
+      "path": "website/static/img/guide/ipad/ro/cards.png",
+      "assetSha256": "1568e6ea717b78cffdfee98a7651b6a9d4f97a9378ffdac22045a26f4a4ae622"
+    },
+    {
+      "locale": "ro",
+      "name": "stamp",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "796c6babdae38e68e4c338d113701251a8f5bb155c72e8c50011077fb4164fc1",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        557,
+        1418,
+        1936
+      ],
+      "dimensions": [
+        1168,
+        1379
+      ],
+      "path": "website/static/img/guide/ipad/ro/stamp.png",
+      "assetSha256": "24abf7fee902492952cd30e09905178a34f0d099202516f64a1d4e6aa60af742"
+    },
+    {
+      "locale": "ro",
+      "name": "consent",
+      "scenario": "consent-batch",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "f02bbd726c51485fabd21253f1f7e7070679e714e06e86e409f5f5c02176d4de",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        1113,
+        1418,
+        1888
+      ],
+      "dimensions": [
+        1168,
+        775
+      ],
+      "path": "website/static/img/guide/ipad/ro/consent.png",
+      "assetSha256": "a4b9d4041d51617cd98c46550079fb8e8f23bfe60c7da1325aa71c6702ab1d61"
+    },
+    {
+      "locale": "ro",
+      "name": "pin",
+      "scenario": "pin",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "53becbefcec339e0a8b9286c7f50794416418e119cdfbc0cd58bdd900f9b6fa8",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ro/pin.png",
+      "assetSha256": "53becbefcec339e0a8b9286c7f50794416418e119cdfbc0cd58bdd900f9b6fa8"
+    },
+    {
+      "locale": "ro",
+      "name": "progress",
+      "scenario": "signing",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "91aea69bfac6323a9b0acd71a36febb6179378b450a6f958f4f29f387294fac5",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        968
+      ],
+      "dimensions": [
+        1668,
+        968
+      ],
+      "path": "website/static/img/guide/ipad/ro/progress.png",
+      "assetSha256": "bf9e5b64188ce28bb775ef5847b1161ac0a9d7e01fbb6e2bee545ba771005465"
+    },
+    {
+      "locale": "ro",
+      "name": "success",
+      "scenario": "success",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "55942cff6bbf7dfed134508329ceab2fe98df34c3fae2dca2264533f75cbff9c",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1694
+      ],
+      "dimensions": [
+        1668,
+        1694
+      ],
+      "path": "website/static/img/guide/ipad/ro/success.png",
+      "assetSha256": "ab6193c1a61bb5dbf19f1a0658deaf0466408da8050462d6abe0202927ec9773"
+    },
+    {
+      "locale": "ro",
+      "name": "file-error",
+      "scenario": "sign-failure",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "300fc64e9f77688203715ded2e26b6e63c112a6605710dadec1f17af2d37ca70",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1065
+      ],
+      "dimensions": [
+        1668,
+        1065
+      ],
+      "path": "website/static/img/guide/ipad/ro/file-error.png",
+      "assetSha256": "45ed03d2b1f209a059d8ac16125dd8d1cb434d10b6d7be376a01b2856748ed30"
+    },
+    {
+      "locale": "ro",
+      "name": "verify",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "4c8e2a5f4e9b19c6fb45e860fa18858f611e66f8f667d744e577594f5b783fde",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/ro/verify.png",
+      "assetSha256": "3c8d1024651195bd4c9e6f7ea5c9aad22e0caffe78715f10e854e508dd7a2654"
+    },
+    {
+      "locale": "ro",
+      "name": "certificate",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "f3f0bb1c3018907542a2d55f49a9167932d19566a57dddeddad7b8a504a346da",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ro/certificate.png",
+      "assetSha256": "f3f0bb1c3018907542a2d55f49a9167932d19566a57dddeddad7b8a504a346da"
+    },
+    {
+      "locale": "ro",
+      "name": "invalid",
+      "scenario": "verify-invalid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "55c7eb7737f7fadf297b9431de4b52b67a2d5dd4119062703e889e04aee4ebf4",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/ro/invalid.png",
+      "assetSha256": "bb0b99aabf1efd5e73c76c0ba9c498be9aa5c3b1f939b689ac0c869548b62e21"
+    },
+    {
+      "locale": "ro",
+      "name": "incomplete",
+      "scenario": "verify-incomplete",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b756c28e21ed3669256f598cf1acb2b2d9a3b37272c95ff3d602a486991c4ec7",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1210
+      ],
+      "dimensions": [
+        1668,
+        1210
+      ],
+      "path": "website/static/img/guide/ipad/ro/incomplete.png",
+      "assetSha256": "4898d33e66a43226225716a73995ad4c496d0c8132da239b4edea71d0dfd516d"
+    },
+    {
+      "locale": "ro",
+      "name": "untrusted",
+      "scenario": "verify-untrusted",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b418ed9b29b674430c06a51c5e7664941ea8f5c1a82966da17d3d5ffcde84f66",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/ro/untrusted.png",
+      "assetSha256": "5239ec4f10141785e3e711a9d7774716c629855fbdcc2e40fa98535729925001"
+    },
+    {
+      "locale": "ro",
+      "name": "unsigned",
+      "scenario": "verify-unsigned",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "b0f8fb9684b10b7656459d91dfae6ef69d1ab9ee0bd420cf6839d8b4109a7ad0",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        895
+      ],
+      "dimensions": [
+        1668,
+        895
+      ],
+      "path": "website/static/img/guide/ipad/ro/unsigned.png",
+      "assetSha256": "a894b387c3b6761977d3dbe2935c2dca35a9256de0cce5b0e135adf6214a1a9e"
+    },
+    {
+      "locale": "ro",
+      "name": "documents",
+      "scenario": "documents-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "74df4287dd19f82e48535a7b97bd952d1be8e38d6dc76a3f6c6367c627e5bc05",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1041
+      ],
+      "dimensions": [
+        1668,
+        1041
+      ],
+      "path": "website/static/img/guide/ipad/ro/documents.png",
+      "assetSha256": "135731ea12f9c74f53583bd14e30241680279d10ca7e84a47e852844760a26d7"
+    },
+    {
+      "locale": "ro",
+      "name": "details",
+      "scenario": "documents-details-valid",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "cd2908ddaf8528cb79bbe601d0d4f74e2c1bf0f8a13d175a09b11f5216537fc8",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        532,
+        1418,
+        1355
+      ],
+      "dimensions": [
+        1168,
+        823
+      ],
+      "path": "website/static/img/guide/ipad/ro/details.png",
+      "assetSha256": "beb6a8d482823e7600e8700660b4916a0f6c33df3cfa08b7ea427272f8116601"
+    },
+    {
+      "locale": "ro",
+      "name": "history",
+      "scenario": "history-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "21d4abf1e50ad5da6e92b5c6983dfda20ee0545e899c1a6bdd26d80dc662401e",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1041
+      ],
+      "dimensions": [
+        1668,
+        1041
+      ],
+      "path": "website/static/img/guide/ipad/ro/history.png",
+      "assetSha256": "90b7fd5d879cc1b281fc6ea79a994574117e9c6c11620ed10dee8df1b56458ea"
+    },
+    {
+      "locale": "ro",
+      "name": "browser",
+      "scenario": "ready",
+      "tab": "browser",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c443c9c1d4d6d8e4f862455ff4247de3317d75e9b1e3fe583c942ac2d43297bc",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ro/browser.png",
+      "assetSha256": "c443c9c1d4d6d8e4f862455ff4247de3317d75e9b1e3fe583c942ac2d43297bc"
+    },
+    {
+      "locale": "ro",
+      "name": "card",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a88d143ca2f2020aa653fc8696256ec3c3855763419bb8ce3a450e51e8495048",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ro/card.png",
+      "assetSha256": "a88d143ca2f2020aa653fc8696256ec3c3855763419bb8ce3a450e51e8495048"
+    },
+    {
+      "locale": "ro",
+      "name": "settings",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "9e5779a8ac2a4eda7ea1d7afe849aad602a2fde010b7e1ef319adcf30563b6ea",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        557,
+        1418,
+        1936
+      ],
+      "dimensions": [
+        1168,
+        1379
+      ],
+      "path": "website/static/img/guide/ipad/ro/settings.png",
+      "assetSha256": "7191c357d6f3b31f1c32fe633ffe796572f0413a5fc13c998ecfa31db2b72018"
+    },
+    {
+      "locale": "ru",
+      "name": "connect",
+      "scenario": "no-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "34ae358d2d39686d1810b2a1846eebcd2322600c196edd2363d94adc501d9881",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        702
+      ],
+      "dimensions": [
+        1668,
+        702
+      ],
+      "path": "website/static/img/guide/ipad/ru/connect.png",
+      "assetSha256": "24aa143faf974e1e90d183eba3cf73f9c6687fbc3519c0bb6030688abe93296a"
+    },
+    {
+      "locale": "ru",
+      "name": "empty-reader",
+      "scenario": "empty-reader",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "6156aeb33d474a29e8cf72923d97d11e09c95ce31535016f387b82253329d312",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        702
+      ],
+      "dimensions": [
+        1668,
+        702
+      ],
+      "path": "website/static/img/guide/ipad/ru/empty-reader.png",
+      "assetSha256": "5c6743c256c36d1939804e915ebeadc4fc675d2d466a54c28b21dc908bdad978"
+    },
+    {
+      "locale": "ru",
+      "name": "sign",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "396cf6e747c1a5d36cf1e698cffe88fb06bfa8d052e61ee72f1a494327d0f846",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        968
+      ],
+      "dimensions": [
+        1668,
+        968
+      ],
+      "path": "website/static/img/guide/ipad/ru/sign.png",
+      "assetSha256": "d21e2095d7b95d9705aeb730cb11510995e6a561a932f193eb1064fbce7a0d59"
+    },
+    {
+      "locale": "ru",
+      "name": "cards",
+      "scenario": "multiple",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "dbcf162700728dc5c1ea43cb75ded4bf077dcdcbdc00e9df96589ef0d6f78c97",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1016
+      ],
+      "dimensions": [
+        1668,
+        1016
+      ],
+      "path": "website/static/img/guide/ipad/ru/cards.png",
+      "assetSha256": "f7d34059374467fa16b129142eb7a87858067e62360db1363a792b5b459e1dc6"
+    },
+    {
+      "locale": "ru",
+      "name": "stamp",
+      "scenario": "ready",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a99d4146c3d87462987795982b01e7371ec79434d24aa0e7901820f1d53eb5a3",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        557,
+        1418,
+        1936
+      ],
+      "dimensions": [
+        1168,
+        1379
+      ],
+      "path": "website/static/img/guide/ipad/ru/stamp.png",
+      "assetSha256": "6d441002bdffedc75b84bd6867d6ce0d4b854d1f3d90489b98d6be5d49423be3"
+    },
+    {
+      "locale": "ru",
+      "name": "consent",
+      "scenario": "consent-batch",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "0b9e087f902618f4d2226a9c745403307b1904b06f3a9610e6d63b6e15eb4106",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        1113,
+        1418,
+        1888
+      ],
+      "dimensions": [
+        1168,
+        775
+      ],
+      "path": "website/static/img/guide/ipad/ru/consent.png",
+      "assetSha256": "b7b68498811c7cb381d19c258806319d887ca9d872336d98b77908696a09655d"
+    },
+    {
+      "locale": "ru",
+      "name": "pin",
+      "scenario": "pin",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "960228cdd82cc178bd0b6e5fc2a110e4c2231fadcecaf8d02bc70750f2d5022d",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ru/pin.png",
+      "assetSha256": "960228cdd82cc178bd0b6e5fc2a110e4c2231fadcecaf8d02bc70750f2d5022d"
+    },
+    {
+      "locale": "ru",
+      "name": "progress",
+      "scenario": "signing",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "08b0c4d71a942e6a944350f9a01a55693d98a096986752df7923b344f5ff60db",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        968
+      ],
+      "dimensions": [
+        1668,
+        968
+      ],
+      "path": "website/static/img/guide/ipad/ru/progress.png",
+      "assetSha256": "f9432dd456d91896e1628bc7def728865eb2125b91ab2538fa63b6488ede7dba"
+    },
+    {
+      "locale": "ru",
+      "name": "success",
+      "scenario": "success",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e578a396a72b308be53b2c914e320be40275b7b9a8811a37e3acf68e7e9db175",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1694
+      ],
+      "dimensions": [
+        1668,
+        1694
+      ],
+      "path": "website/static/img/guide/ipad/ru/success.png",
+      "assetSha256": "741076bb9f5812d2c53a5ea1e569e6d2a512eed69f1d4b8551abaab1b9ff83e1"
+    },
+    {
+      "locale": "ru",
+      "name": "file-error",
+      "scenario": "sign-failure",
+      "tab": "sign",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "aa8f87de248ee0b0c6667e7e5be2a4f63c683b0f9ceddfc55e92c9901fd58ace",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1065
+      ],
+      "dimensions": [
+        1668,
+        1065
+      ],
+      "path": "website/static/img/guide/ipad/ru/file-error.png",
+      "assetSha256": "4d2956b8250d1d0f1e70cf9f9781ec6467ec211817f68855368cb0bb69d2902b"
+    },
+    {
+      "locale": "ru",
+      "name": "verify",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a24264ae25081e710b1c867f1f8bae056f293d82e9d040463fcba4bb65737e83",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/ru/verify.png",
+      "assetSha256": "cd6bd0f2ccd9ed685ebe9fee97550f54ea5db5004a119e838b342270e7e2c5a1"
+    },
+    {
+      "locale": "ru",
+      "name": "certificate",
+      "scenario": "verify-valid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c700980a9a26263a641f5b3b2a201139e8c45d84b8ad6f0e047b9c53ecb1cae4",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ru/certificate.png",
+      "assetSha256": "c700980a9a26263a641f5b3b2a201139e8c45d84b8ad6f0e047b9c53ecb1cae4"
+    },
+    {
+      "locale": "ru",
+      "name": "invalid",
+      "scenario": "verify-invalid",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "9aef930d8d2e175c251ca8e6c5d24803c1597d1357dd0b976d98d97a9b254ff7",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/ru/invalid.png",
+      "assetSha256": "0753758f5883ce105377bfb584d101cccd04b2e58106b80480645f677d964d76"
+    },
+    {
+      "locale": "ru",
+      "name": "incomplete",
+      "scenario": "verify-incomplete",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "51aec846bedd3b30f49993d8f9c3573c03845a189bb4bcbfd058aa1fa7766677",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1210
+      ],
+      "dimensions": [
+        1668,
+        1210
+      ],
+      "path": "website/static/img/guide/ipad/ru/incomplete.png",
+      "assetSha256": "38a42c572df07bf081a7703c305d962fe2a0d00a3a90c42498f2ef4503aa0e85"
+    },
+    {
+      "locale": "ru",
+      "name": "untrusted",
+      "scenario": "verify-untrusted",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "dddf7291c2d06c8584122e8035ba5dbb89f35c78cec270f9ec174b4ea34ae7d8",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        992
+      ],
+      "dimensions": [
+        1668,
+        992
+      ],
+      "path": "website/static/img/guide/ipad/ru/untrusted.png",
+      "assetSha256": "2c531bf60b63621ee77107a673a69acc9a3720393ded1044265839e087e86d05"
+    },
+    {
+      "locale": "ru",
+      "name": "unsigned",
+      "scenario": "verify-unsigned",
+      "tab": "verify",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "a3bce10e64fdd4a3ddfd5f532511d845d3a019d6b1032ae649de4ef46e520532",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        895
+      ],
+      "dimensions": [
+        1668,
+        895
+      ],
+      "path": "website/static/img/guide/ipad/ru/unsigned.png",
+      "assetSha256": "d48c23f457100e62ac73e08acc54fed33f7810e7f340f7ed1308233b76159a0a"
+    },
+    {
+      "locale": "ru",
+      "name": "documents",
+      "scenario": "documents-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "d1a43140c5cd5cf275e2c3c4aa78b9052b9a5bdff90ae416696a7e2782132f1d",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1041
+      ],
+      "dimensions": [
+        1668,
+        1041
+      ],
+      "path": "website/static/img/guide/ipad/ru/documents.png",
+      "assetSha256": "a2c22ae01ee1ed14810baae584a1dc53d3937aceba413ea2643320f2b67f8098"
+    },
+    {
+      "locale": "ru",
+      "name": "details",
+      "scenario": "documents-details-valid",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "14e2cba2cfb06da24757f062538fe13bde63848180978cfc6f49c442479efedb",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        532,
+        1418,
+        1355
+      ],
+      "dimensions": [
+        1168,
+        823
+      ],
+      "path": "website/static/img/guide/ipad/ru/details.png",
+      "assetSha256": "4dce6c85c5f4c159a23723b9b83a2e4570e1f2a3b011481540ba1cfd3eed9e07"
+    },
+    {
+      "locale": "ru",
+      "name": "history",
+      "scenario": "history-populated",
+      "tab": "documents",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "ce7c7b0fc45e48c4a43ca6d72426594784ddafe595aa090ed5d792e9378cdb4a",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        0,
+        0,
+        1668,
+        1041
+      ],
+      "dimensions": [
+        1668,
+        1041
+      ],
+      "path": "website/static/img/guide/ipad/ru/history.png",
+      "assetSha256": "aafacde2e6bd737671bf0c14b708f51873a1dc2910739ab58a2015271c29ce44"
+    },
+    {
+      "locale": "ru",
+      "name": "browser",
+      "scenario": "ready",
+      "tab": "browser",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "e236a3f7b86ac2ef6f7af5cd4a466f9cf4ec1a44bc8aefdc1f0eea139dd1b9df",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ru/browser.png",
+      "assetSha256": "e236a3f7b86ac2ef6f7af5cd4a466f9cf4ec1a44bc8aefdc1f0eea139dd1b9df"
+    },
+    {
+      "locale": "ru",
+      "name": "card",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "3b7dc59f99e3a61325f6d5517070faf2b1fe3172fc3912b53cdb1d2e88370e5a",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": null,
+      "dimensions": [
+        1668,
+        2420
+      ],
+      "path": "website/static/img/guide/ipad/ru/card.png",
+      "assetSha256": "3b7dc59f99e3a61325f6d5517070faf2b1fe3172fc3912b53cdb1d2e88370e5a"
+    },
+    {
+      "locale": "ru",
+      "name": "settings",
+      "scenario": "ready",
+      "tab": "card",
+      "readiness": "MSIGN_DEMO_READY",
+      "sha256": "c8dbb3d8e74a556ed847b3b9a42fc348a15b719f07898cbccb3b8ee11c896ade",
+      "platform": "ipad",
+      "device": "623FBE52-0E39-4653-8578-B9FAC02A2DB5",
+      "binarySha256": "ac5889cecb2ccc9fe55525ebdbdeaf889c779ca9e38c2d89ced4708b46a79d6e",
+      "sourceDimensions": [
+        1668,
+        2420
+      ],
+      "cropPixels": [
+        250,
+        557,
+        1418,
+        1936
+      ],
+      "dimensions": [
+        1168,
+        1379
+      ],
+      "path": "website/static/img/guide/ipad/ru/settings.png",
+      "assetSha256": "520ef2d2d237a752e9285af52edd8002ed49ab4c4a98d1636ccea5322fa2a35a"
+    }
+  ],
+  "visualReview": "All132 frames reviewed through native-state contact sheets; sign/stamp/PIN/settings additionally compared across all3native locales on both forms. Callout positions checked against native English OCR geometry and adjusted for iPad crops. Russian iPad tab overflow documented.",
+  "cleanup": "Both task-created Air simulators were shut down and deleted after capture; original simulator devices and app data were preserved."
+}

@@ -1,24 +1,28 @@
 ---
-title: Platform guides
+title: Illustrated guides
 sidebar_position: 4
 ---
 
-# Platform guides
+# Illustrated guides
 
-These guides document the current **0.2.0** release line. Each platform has its own install path, capabilities, and release channel; use the guide that matches the app or command you installed.
+Choose your device and follow the numbered screenshots. Each guide takes you from connecting a reader to signing, verifying and finding your completed documents.
 
-| Platform | Documentation version | Application guide | Command-line guide |
-| --- | --- | --- | --- |
-| macOS | 0.2.0 | [Mac App Store and GitHub desktop app](./platforms/macos.md) | [macOS CLI](./platforms/macos-cli.md) |
-| iOS and iPadOS | 0.2.0 | [iPhone and iPad](./platforms/ios.md) | — |
-| Android | 0.2.0 | [Phone and tablet](./platforms/android.md) | — |
-| Linux | 0.2.0 | [GNOME desktop app](./platforms/linux.md) | [Linux CLI](./platforms/linux-cli.md) |
-| Windows | 0.2.0 | [Desktop app](./platforms/windows.md) | [Windows CLI](./platforms/windows-cli.md) |
+The guides describe the 0.2.6 feature set. Store availability and integrations can vary by edition; the platform guide explains those differences.
 
-Every screenshot in these guides is captured from the native app using isolated mock data. Capture mode prevents reader, card, bridge, PIN, and signing I/O; it is used only to make documentation repeatable and is never enabled for ordinary users.
+| Device | App guide | Terminal and automation |
+| --- | --- | --- |
+| Mac | [Mac](./platforms/macos.md) | [Command line](./platforms/macos-cli.md) |
+| iPhone | [iPhone](./platforms/ios.md) | — |
+| iPad | [iPad](./platforms/ipad.md) | — |
+| Android phone | [Android phone](./platforms/android.md) | — |
+| Android tablet | [Android tablet](./platforms/android-tablet.md) | — |
+| Linux | [Linux](./platforms/linux.md) | [Command line](./platforms/linux-cli.md) |
+| Windows | — | [Command line](./platforms/windows-cli.md) |
 
-## A shared signing model
+Screenshots use fictional identities and sample documents from isolated app captures. The numbered circles are instructions added to the guide. They do not appear in the app.
 
-Connect a compatible USB reader, insert the electronic ID card, choose the right card when more than one is available, add documents, and confirm the request with the card PIN. The key stays on the card. NFC is not supported.
+## Before you begin
 
-The desktop and mobile apps share signing, verification, saved-PIN management, language, theme, and demo controls where those capabilities make sense for the operating system. Browser integration and hardware access follow the limits of the installed platform and distribution channel.
+You need a supported electronic ID, its correct signing PIN, a compatible USB reader and any required adapter. NFC signing is not supported. Never include your PIN in a support request.
+
+[Download the app for your device](/downloads)

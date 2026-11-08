@@ -1,0 +1,2931 @@
+{
+  "commit": "b60af1e59d1da8205bde4de20f2947ea9440090d",
+  "build": "current source Debug APK",
+  "hardwareUsed": false,
+  "realPinEntered": false,
+  "screenshots": [
+    {
+      "file": "website/static/img/guide/android-phone/en/connect.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "permission",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "4366d14a8bee8bb4c889a003d9a37fb9cb816c501538563e3718124c4aaf6666",
+      "capturedAt": 1794136671.1341062
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/sign.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "batch",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "5dc3645eeed91aa728c8495bbcf3d2b375c23554f10fda1e6db086b1904c404c",
+      "capturedAt": 1794136677.108672
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/stamp.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "c9bcb5460f811b2de59c9a630bb6d040eca18e438ef61d77dbb8c65bf51e0889",
+      "capturedAt": 1794136690.00311
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/pin.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "pin",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "b9f7fc7e152209a0a1a469e9fd3eac9aefe3d3cb76ce026987aa87df4e523b8e",
+      "capturedAt": 1794136696.242707
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/results.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "results",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "d91274e68aac270f0de1b0f52fd0d753e7a34e57305d0bab42a10603046ec31e",
+      "capturedAt": 1794136702.4865432
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/verify.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "f51c2ab2cca4269b8c93d8322908516dca74974f64a7db766621464c1246d00d",
+      "capturedAt": 1794136708.1076322
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/certificate.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": "certificate",
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "2eac0b5e608c970f753d9b4cc9f65d416667e3532245d84d1f74cb5df077fa27",
+      "capturedAt": 1794136714.821151
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/original.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-xml-missing",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "450d8659bcefd61ade9507875bf65177c2433547a62b1ca0a595c84620d6cf93",
+      "capturedAt": 1794136720.435035
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/documents.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "42bc9c012c3ff1dbcd200de566e773f9bde1b1b3f1865adde86c44ad54e9be8f",
+      "capturedAt": 1794136725.425642
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/details.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "document-details",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a2bbd9b19c6eb8165282c9533e01fd370bbbfdfbe34a16a5cb8d6edc70595634",
+      "capturedAt": 1794136730.881422
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/history.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "history",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "acf4b33dac6d2241d92ed67ef5e577de9806c8f0442bcf7d1a15bb05dc665db9",
+      "capturedAt": 1794136736.5294888
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/browser.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "browser",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "c99d8417ae9982e7dbb2deafaa338e93cc46882e2a3d3f4455a3a9850f9fa307",
+      "capturedAt": 1794136742.877287
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/card.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "card",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "56a699a13fd376b154a28795780ff593fbd4bcce6031d027c31d3dc63fcb4181",
+      "capturedAt": 1794136748.5474539
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/about.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "sign",
+      "dialog": "about",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "23a840049dcd2e4eb687761ba2803e92244b74f7f72bd5064bfc712c06fa9ecf",
+      "capturedAt": 1794136754.18726
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/connect.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "permission",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "84fc684874611b3006e8d915a3e5d6bab4629ef44c3434f31fb4a851fbaf8e05",
+      "capturedAt": 1794136759.706767
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/sign.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "batch",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "03149a8b94ce94840fb5c4e12df5e7e4bf7a15b6a0fe6e113a5dda486a073b8e",
+      "capturedAt": 1794136764.977049
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/stamp.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "246d511e5eb5ac897fa8011067b07ec60c0f1ad95ea400636939cf12ce47e5ec",
+      "capturedAt": 1794136776.1792011
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/pin.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "pin",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "cd656b97903a3be2187438b68fc974c49a1ca053cadcf9aba7e3a293c47eb955",
+      "capturedAt": 1794136782.28285
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/results.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "results",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "17312d4c7e6f77f9008234057e54da7b985fe881b1eb096698b7a517f70f1183",
+      "capturedAt": 1794136787.632988
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/verify.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "2a137ce1b13fd0f980092c8d5de31c715ad38a490680d1f6fccd23291c96233d",
+      "capturedAt": 1794136793.142164
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/certificate.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": "certificate",
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "69b4db78fac1de60f388a3d76bb37c5ac42420bfa1d3a1b0037757588844bbaf",
+      "capturedAt": 1794136799.6087732
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/original.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-xml-missing",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a6186d5aeab4dac4bc9783797c6008fa5db9b7e99becc28bac6cc32a2b8302ab",
+      "capturedAt": 1794136805.121592
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/documents.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "eba01a8372a30442db1f0854faa19c498dd0555d41c13eebfbed6296fe38d984",
+      "capturedAt": 1794136810.671602
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/details.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "document-details",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "8705330faa811dd0d6cc8a4f101cae5d5f96293ac18ac319107058a3242a2101",
+      "capturedAt": 1794136816.98306
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/history.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "history",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "4f5d0d865ea797bfd48bc880892c23f6ce95dca89610c153be37dcf2fcecdd01",
+      "capturedAt": 1794136827.090006
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/browser.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "browser",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "ef7bb97f31eb474f4359c50ee363a56df67ed44915eb7f5352039ad4dc037251",
+      "capturedAt": 1794136836.4779441
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/card.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "card",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "aa83cc14d432dac9e6a2b324f0fe3e94e7c0cb5237604af0ecac8a0826613d2d",
+      "capturedAt": 1794136842.339597
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/about.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "sign",
+      "dialog": "about",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "58668a0b48b597cbafb164fa4a8a66d2b76e013a2a26ae81250bcd6ec4423d93",
+      "capturedAt": 1794136847.9754748
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/connect.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "permission",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "8b4004113905765141c2ead7a038b0a543e5bf7885660b4819e5c0705f89be69",
+      "capturedAt": 1794136853.58599
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/sign.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "batch",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "b4b16d95083276c9b2cb72d872e19d7a6310e865c750b3b84202321dc0c33750",
+      "capturedAt": 1794136975.036354
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/stamp.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "058dd8bdc7dac803f937e93d2601dfe661e238735c068fe414210d986534b1db",
+      "capturedAt": 1794136985.4930618
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/pin.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "pin",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "3f1591fe234da173e47da8f83b1c056b020b511549afc714dc699bff1e6ba312",
+      "capturedAt": 1794136991.026648
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/results.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "results",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "761ef6288d94b10f802a0178194f69060374dc484b42238dfab28d6e2d14064d",
+      "capturedAt": 1794136996.334892
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/verify.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "b2f34080596b66abe2568b68bd939b7159924212bcd8d5a6a1ed2b29b6fc0176",
+      "capturedAt": 1794137001.56845
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/certificate.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": "certificate",
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "5dbd6957774e02ef3f156aac1c2fd8cf568efa1f2523fff58d3949f6292bffdf",
+      "capturedAt": 1794137007.840273
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/original.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-xml-missing",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "cf88074a058bdacc5a70bf654d6f2a7865dc6c53203e4de6398834fea0d3e402",
+      "capturedAt": 1794137012.982506
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/documents.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "ec64df50f09cfdd9f08aae02a05036a018fc405d0090828210c09bec780c5d6a",
+      "capturedAt": 1794137017.9055302
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/details.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "document-details",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "d3df43794c57687b3674244b6726d208e14bf611c1b85380c309a5b5693cc09d",
+      "capturedAt": 1794137023.126681
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/history.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "history",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "bc3d0772bc305b24fe0230162ca40c3b89d923de0478a5dc12e3622cd1ec10b5",
+      "capturedAt": 1794137028.401563
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/browser.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "browser",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "5291d082ec4ae882798d840a1a7720ff4219577f9742c75c46cf814bb93037a4",
+      "capturedAt": 1794137034.266776
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/card.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "card",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "54279bbc4efc5dc5891005485c1aa36824acade939089b2dfe390e347bc31038",
+      "capturedAt": 1794137039.532902
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/about.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "cards",
+      "page": "sign",
+      "dialog": "about",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "f14143be6c77bc009f0655a8a2c3d20e648596aa3dc9dbe7bb6af0431de8d1e8",
+      "capturedAt": 1794137044.595147
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/connect.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "permission",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "c56d72cbcfcb4082525a6c81d6098d3106344a9ceae5fb68fb6baa3c610a2ec1",
+      "capturedAt": 1794137050.955441
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/sign.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "batch",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "e4922af78408fd650b24ff244676f7b9b76b321164d36dd2ed0c8df0125054b3",
+      "capturedAt": 1794137056.38659
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/stamp.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "4ce54e020900612677a9bc7c60f428b8f71958c3c48fd718f52da3a45bef7f89",
+      "capturedAt": 1794137065.910329
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/pin.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "pin",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "3617f47969cb3300f21ff7834401411d93d7a1cac3fc58f5cf994e96dc61d967",
+      "capturedAt": 1794137071.036853
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/results.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "results",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "92ca3eb3ac20249f22c703f92bbd41e624a6c87cfaef53afdadd6e4a64bd03fe",
+      "capturedAt": 1794137076.0396101
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/verify.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "cfd1885a9140a2aa7902884671141bef061c0790f770b5f28dcd299fdff1de0b",
+      "capturedAt": 1794137081.0882251
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/certificate.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": "certificate",
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "fdc04e16ca213451c863107735a53718625269bc3fc37b8f01ee0772be9bd5b5",
+      "capturedAt": 1794137086.885699
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/original.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-xml-missing",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "02314eec9438c0285198aaa164c489c5dfddac6697c0cf183ae473230a02504f",
+      "capturedAt": 1794137091.721108
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/documents.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "bd4b9fac6082f8312da088eb7523e3a1dad74b29512fa822c5280fc65ac0bef2",
+      "capturedAt": 1794137096.5069818
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/details.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "document-details",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "007b99707e745937680b9fdb5d4955d32ad97b28c4c0a687571ef5e5e612f8ba",
+      "capturedAt": 1794137102.012989
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/history.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "history",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "7f190cffccbf7bd77a88051bfc78950bb76b13fe2a1952f6e918ae12e721615b",
+      "capturedAt": 1794137107.286172
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/browser.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "browser",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "9906f0513b2d932e9034ed65cbb4e60b8444681593a088e6af066cfe34705171",
+      "capturedAt": 1794137112.783329
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/card.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "card",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "b31e91af26481ee77d350dfed1df064e879a3f17887e65ca129ffadfda459804",
+      "capturedAt": 1794137117.6771772
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/about.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "sign",
+      "dialog": "about",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "d716483bb735feb107b6c9476ed64349ca895a99fbfbff6f87bae113099d851b",
+      "capturedAt": 1794137122.4700968
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/connect.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "permission",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "fe08dba24612ba61b8d6e8a7b5a463d22d20a70f6f7d1c8bb7c01eac65203cc2",
+      "capturedAt": 1794137127.244019
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/sign.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "batch",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "ee61a7e568df7ee24738dad0e2be5722851aab4e6866c7eccbb19e0649f3687a",
+      "capturedAt": 1794137132.291399
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/stamp.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "413d7d818ef7173a82b805292767c40c6f3fb057734f84446115fdc1a9e74917",
+      "capturedAt": 1794137142.044703
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/pin.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "pin",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "d23814e7247cabe796eacefc955b6f019f225715b407dc4cadce69034b8f16fa",
+      "capturedAt": 1794137147.222378
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/results.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "results",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "41b194c2214ced04b86bdee76f0d5370a74611a9ac9e730b63ae4e1ee792fa04",
+      "capturedAt": 1794137152.138101
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/verify.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "e5a741de342ff266dc10dac45fe52969b8715c6632c812b9e633722261179598",
+      "capturedAt": 1794137157.4103758
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/certificate.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": "certificate",
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a44e19493b5f8609f533973827ecdc80846c1698c186198b3172309ea721d44c",
+      "capturedAt": 1794137163.539865
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/original.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-xml-missing",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "5b58f5dbbb561b8051f9141a5c5d031e73009c2b1581b1723fbc28b76150b641",
+      "capturedAt": 1794137168.605301
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/documents.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a19e65d6196137eab64e623462a093f1eab1f9faca377380cdb2a8b6e5222577",
+      "capturedAt": 1794137173.5620759
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/details.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "document-details",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "329b776bcfd8a0e1ce6ed08106d2a7259375db58ede3dfa13f6f3f59397ef66c",
+      "capturedAt": 1794137178.530289
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/history.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "history",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "46ed6932ae6c2b6d85f53d7835459d1686145695719b327557a082c57cbcfa33",
+      "capturedAt": 1794137183.3288891
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/browser.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "browser",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "956ae97a1fa1dca4fb06031c5847fe746389443a8cfc3b54abe4b3cf571d4b83",
+      "capturedAt": 1794137188.7907689
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/card.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "card",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "6013d79533209e3b0d618d274f248b897c3ec49d11285d7bb4125ec510abdbf9",
+      "capturedAt": 1794137193.631726
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/about.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "sign",
+      "dialog": "about",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "6d02c90cc74bfd1513d7e06a90edaedbac5f21430e17af9fdab543face481213",
+      "capturedAt": 1794137198.994536
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/connect.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "permission",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "6f0ba977c6a6cd2fd4ca45b3d8a5444c49a653eb34724365e96bc907ea969999",
+      "capturedAt": 1794137203.655352
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/sign.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "batch",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "4457145051e7eb2900546c2e6c69f529f95475cbe643ccfad0b05b185fd23848",
+      "capturedAt": 1794137208.889667
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/stamp.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "161648ec94ec79a1c03b795ab821e05843154cabaa50653a0aea220088c6cadc",
+      "capturedAt": 1794137219.7546911
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/pin.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "pin",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "95cfd7765d727b9e0509dc6d7e39c32e0cfc86066fb404eb834a649b3a37110f",
+      "capturedAt": 1794137225.50384
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/results.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "results",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "e51619f66897618113d61c9e5270d406661232c69b7ed586381e37c0635b5a9d",
+      "capturedAt": 1794137230.9744508
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/verify.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a597e49df187423a2601286b2475f1241d05d6837ae05a35c1ebbd8974bb5dab",
+      "capturedAt": 1794137236.512863
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/certificate.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-valid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": "certificate",
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "773c05a5d9263d345c1975291be7fa2aa41363ca52c5f77634dfe2cdeae00be0",
+      "capturedAt": 1794137242.872763
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/original.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-xml-missing",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a3028132975b08844485626e5bf735ec1d71a755ad4e8c92ff200e72fe6cb41b",
+      "capturedAt": 1794137247.874639
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/documents.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "beb958681f8bba8d9af2d72e15132747b708bcd57d6f331f9537daf61b4ed0aa",
+      "capturedAt": 1794137252.7671301
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/details.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "document-details",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a8bc54f4fba0e0fff92b7347ad52fc46aa215cf5daf222ebffd0e0c89896e4b1",
+      "capturedAt": 1794137257.831164
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/history.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "activity",
+      "dialog": "history",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "66f4ee31bc56e8871bca24e83356744e75de15cedd770092fff29f51357a3cff",
+      "capturedAt": 1794137262.764225
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/browser.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "browser",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "19663973630bb651fe2e4747ddc053eddc68952af9c9fc46898a82fa1bdff59f",
+      "capturedAt": 1794137268.259881
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/card.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "card",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "770e25b9e6684ba2153b272f0b6450d8de5d9953db736f5a1703c01b72243871",
+      "capturedAt": 1794137273.219606
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/about.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "cards",
+      "page": "sign",
+      "dialog": "about",
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "c95bf63fb792ed336da08fc91b2fe9a2bc37777d7a44d38ce4870da19d2bbb5f",
+      "capturedAt": 1794137278.028521
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/format.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": true,
+      "dataSource": "fictional fixture",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "c6fa1faa04b21218f7e29322e2c1a47d84f37082104ca6a21c6ba37b6f33247a",
+      "capturedAt": 1794137306.114742
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/browser-menu.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "5b4c780d8ed1602df975a40722156ddcdc27221e3b9566c6af223675ccf5c12f",
+      "capturedAt": 1794137320.6360419
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/bookmark.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "98a329dcfff4e86e5c03663fd8e03fcf6bd9dbb696077bc1bad0b34807ed309e",
+      "capturedAt": 1794137325.714994
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/browser-data.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "77e6082566cbcd57b09c826fe80d631e46ff84a2b14994d748fa90860442d4e7",
+      "capturedAt": 1794137333.791785
+    },
+    {
+      "file": "website/static/img/guide/android-phone/en/bookmarks.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "9b226a628dabfdc40ff0ecdb3323a71c373d80357fc28fcb1cc64cd25f9cb8d9",
+      "capturedAt": 1794137342.004972
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/format.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": true,
+      "dataSource": "fictional fixture",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "b45c832c5fbb4a88a58475168f867662dfbb02c507bc53771fcae75d0163bdb0",
+      "capturedAt": 1794137350.928662
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/browser-menu.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "ce70440728555f44a3e4074bc07f61ddf402ca0ef1b9a70fac5ba2b7d724ca11",
+      "capturedAt": 1794137365.482372
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/bookmark.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "1a950969e4e6c1ba64d6ada135167b89aae315f03933d4b666f345879e0e525d",
+      "capturedAt": 1794137370.589967
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/browser-data.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "c279aa31ec45d41e030d9131eaf832534475589b5dc917a4dfa39bcbc1229903",
+      "capturedAt": 1794137378.733925
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ro/bookmarks.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "485a71fda77c9d556e181abbb360546b3fde75d9cf5cad591d19f5a0541fd762",
+      "capturedAt": 1794137386.863978
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/format.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": true,
+      "dataSource": "fictional fixture",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "991184593c6b00353d0f1bf41e5bbf83cbf2ad73f0f90c1f576c5e80facfbcad",
+      "capturedAt": 1794137395.2442188
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/browser-menu.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "f56f9f524b93f9a50dce4b10f145767d9972a59ca67cd71e315794249c339b40",
+      "capturedAt": 1794137409.768349
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/bookmark.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "f52259784e075f8d00fa4f635b01ae77af29cfa96f4d6937eadb18e4657d5aeb",
+      "capturedAt": 1794137414.8954968
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/browser-data.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "56d9e328d69dbadd84dc13185f3bc5f3198fa65055b2905bf7b96428340bc729",
+      "capturedAt": 1794137423.036413
+    },
+    {
+      "file": "website/static/img/guide/android-phone/ru/bookmarks.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "891531fdd965a2acf6e227b88170bd394e33315984fd4895acfb7afacc21bec4",
+      "capturedAt": 1794137431.4555771
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/format.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": true,
+      "dataSource": "fictional fixture",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "bc7abecb029fd5cfc4766785de73c396602b805f36f59e5b3769b47805a24fd9",
+      "capturedAt": 1794137440.450146
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/browser-menu.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "e4d840979ecd96689ba1b0c6de1c2ce82815e16a1e32e760fb367dd68d35d7f9",
+      "capturedAt": 1794137454.53133
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/bookmark.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "18272752e912e4cc8b8fed39c36325a3f41a8b1589d5918835eb7896dea168ac",
+      "capturedAt": 1794137459.6901052
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/browser-data.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "33ae24626669fb4e6125e6cd57565fdc71c02389c858728ca93a887dd012c573",
+      "capturedAt": 1794137467.79069
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/en/bookmarks.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "a890351cf0eaae411675037de3f03c1215b2c09e0a2f8c6c21d65c4b184cb34b",
+      "capturedAt": 1794137475.854953
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/format.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": true,
+      "dataSource": "fictional fixture",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "c8eecddab6764c946143cc71ccd1076e7eff28c667f24e3dda7f3524b2119207",
+      "capturedAt": 1794137483.891343
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/browser-menu.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "9b09d35993cac79cabb45b1a0f0708e07f18749000b304a84ec7c1dabd4f26e6",
+      "capturedAt": 1794137498.012833
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/bookmark.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "43a06747dfdb78352c624a6d7048baab8c0a991b3da51af1c10dcf37f318da47",
+      "capturedAt": 1794137503.149079
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/browser-data.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "a5b3855d2428ab4924ce559859ca461ce7e47dbc5a0941efaa318418762933d0",
+      "capturedAt": 1794137511.188552
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ro/bookmarks.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "66efb0449bd11f95a83dadf9ba7656869e04299dbcd2902fa7367dc76a975cef",
+      "capturedAt": 1794137519.229413
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/format.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": true,
+      "dataSource": "fictional fixture",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "1d7b3d0919d782ae8a056d83c22ebf11b5b477f3770def896c983a90558020dc",
+      "capturedAt": 1794137527.577004
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/browser-menu.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "7b9689654d62b7b731ea5b40a1589aababac94dd5f352a54b7d11f456c1ba49e",
+      "capturedAt": 1794137542.201074
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/bookmark.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "10093d63fd1f51d422e558be5adf0b49940b4539fea631fefa59e889fed5b98a",
+      "capturedAt": 1794137547.357697
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/browser-data.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "73526d130f7faa63b3860bd5a2df676290eb124e0f7450544b275c14e6db2428",
+      "capturedAt": 1794137555.3588428
+    },
+    {
+      "file": "website/static/img/guide/android-tablet/ru/bookmarks.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "theme": "light",
+      "synthetic": false,
+      "dataSource": "empty emulator browser, no account or identity; public default service",
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "imageSha256": "bffb189bc096ef6953d3b124602da11c69a5ce11368635c92fbc6200c8be95e2",
+      "capturedAt": 1794137563.618902
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/en/sign-failure.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "sign-failure",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "c61dcab1b7c415f2a46db8b378a1027a9e30ec0a4bd1de49a0c0327225a4d786",
+      "capturedAt": 1794138084.082749,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": "Signing",
+      "file": "website/static/img/guide/android-phone/en/sign-progress.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "99072c824137541c5faff15200ec13f0851b5787ec65a844719f68df16a8cf30",
+      "capturedAt": 1794138089.883584,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/en/verify-invalid.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-invalid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "55d3de68e0f8fb74986fa90383b5596d6ff44ec5bcf8d3dfdee7d5c735c70e1d",
+      "capturedAt": 1794138095.804411,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/en/verify-unconfirmed.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-unconfirmed",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "4edad131b9e0f7c2d32503a21348a4956df3f773de5f570667998022e45f7107",
+      "capturedAt": 1794138101.911923,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/en/verify-none.png",
+      "platform": "android-phone",
+      "language": "en",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-none",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "fd4cdfc3b24683f0d1681a4546d577437a8a4a2c132d4bcb14cff78752c89d40",
+      "capturedAt": 1794138107.829956,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ro/sign-failure.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "sign-failure",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "54277d452a5d36d267abd8faeaa00bc622ad92758e16f4622ef9252dc57b0de0",
+      "capturedAt": 1794138114.243577,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": "Signing",
+      "file": "website/static/img/guide/android-phone/ro/sign-progress.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "738cccc5d4c2a9f180fd0e7a8413aaf4c297e941d78fada1904868bd6bec7232",
+      "capturedAt": 1794138120.3173811,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ro/verify-invalid.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-invalid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "e68589a88bbf0eb02c7a92a91cb2c44330eb6b1d248b51a740c88c92404b9bb5",
+      "capturedAt": 1794138126.205303,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ro/verify-unconfirmed.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-unconfirmed",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "07480fa709beb1721dac6600437c189c3c0a7e0b3e4e947d1950b2ab54b75fe0",
+      "capturedAt": 1794138131.977854,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ro/verify-none.png",
+      "platform": "android-phone",
+      "language": "ro",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-none",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "71085406d71be493dd005913d7693cf37b99fde93becaaf6845060a8c0d39891",
+      "capturedAt": 1794138138.2688289,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ru/sign-failure.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "sign-failure",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "0885888d95cd0b464290a5370f5f88c83635eba7b2a0bfca719ff238cc103422",
+      "capturedAt": 1794138144.462962,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": "Signing",
+      "file": "website/static/img/guide/android-phone/ru/sign-progress.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "0a7aed5bbd1c2f9d882525a64e67a677201700814da9f434693c058bdaa72798",
+      "capturedAt": 1794138150.657438,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ru/verify-invalid.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-invalid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "1c97ef8f11f8271ef07065c1117bf55eacbccd0d3411e474a66eef8029f48705",
+      "capturedAt": 1794138156.587849,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ru/verify-unconfirmed.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-unconfirmed",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "53780149aa401244fc4f96b3c408565afba77e6224fb9fad9d72c1b1c1d6a95e",
+      "capturedAt": 1794138162.725705,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-phone/ru/verify-none.png",
+      "platform": "android-phone",
+      "language": "ru",
+      "pixels": [
+        1080,
+        2400
+      ],
+      "scenario": "verify-none",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "174abce9d6e2669ecb723a748989aa6396c73b904f25a9d72df99a50fc154a1a",
+      "capturedAt": 1794138168.999145,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/en/sign-failure.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "sign-failure",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "88babb390c80f11e6fa5d447be5ba308424fc844e9fd5fbd7bc57e4608c05b95",
+      "capturedAt": 1794138176.866306,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": "Signing",
+      "file": "website/static/img/guide/android-tablet/en/sign-progress.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "914d332edaedfb50026f8d5f71b8124ac1333492958b310f0f31cc3152601e07",
+      "capturedAt": 1794138182.8044748,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/en/verify-invalid.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-invalid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "22003f5981e274266a27fa432f84d9fef58ac41faa5e28894ba7f50c65e6b378",
+      "capturedAt": 1794138189.225971,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/en/verify-unconfirmed.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-unconfirmed",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "860f7a84b8291c329bec5e2002e711258232d58368075b951f3291b2cb4a8905",
+      "capturedAt": 1794138195.72466,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/en/verify-none.png",
+      "platform": "android-tablet",
+      "language": "en",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-none",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "342377c052db9338018c8f9cbad2c5c634faf13bd5c911302aa7e109c624816f",
+      "capturedAt": 1794138202.0257201,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ro/sign-failure.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "sign-failure",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "e32e3cdb594558229d5d1986f29b0fb4d92507e5799da478bbfb6e3a39f118b8",
+      "capturedAt": 1794138208.3228421,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": "Signing",
+      "file": "website/static/img/guide/android-tablet/ro/sign-progress.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "ffd874f0ec4d1b8265c551efe6ffdac8765d33e32b849d02ee281a964b05711d",
+      "capturedAt": 1794138214.814394,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ro/verify-invalid.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-invalid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "bef2815dcb0af9254b72f93d4304244416eb937490f6937dbbff082f2ecdd369",
+      "capturedAt": 1794138220.8903959,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ro/verify-unconfirmed.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-unconfirmed",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "a967664bbca212e3f2fb5eb2cdb3c3d941d3a2c414084118d52055dc17fe30bc",
+      "capturedAt": 1794138227.1900392,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ro/verify-none.png",
+      "platform": "android-tablet",
+      "language": "ro",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-none",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "96694bca9d36d4484d8c1b597866ecd1ea556bd8d04a639c202129cc027f9ee6",
+      "capturedAt": 1794138233.597198,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ru/sign-failure.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "sign-failure",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "7392e3cfa150b9157d8dd406a93564c3fce6261ef678a77d521cac5e2dc13995",
+      "capturedAt": 1794138240.295326,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": "Signing",
+      "file": "website/static/img/guide/android-tablet/ru/sign-progress.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "documents",
+      "page": "sign",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "c01d36c58cb0ae62cbe2b8a50bf1a77cc1ea8b2337b6c17052410387a23a9e88",
+      "capturedAt": 1794138246.2132978,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ru/verify-invalid.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-invalid",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "1cdc98eb8b2b3c3576857d01420aa1bae9976000f9443442cde014ca0d67c306",
+      "capturedAt": 1794138252.657985,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ru/verify-unconfirmed.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-unconfirmed",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "f462dc7de69d99930a33ac56d0f26c5d63838b139080dd29fc500ed95662b5e4",
+      "capturedAt": 1794138259.1620271,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    },
+    {
+      "staticSigningStep": null,
+      "file": "website/static/img/guide/android-tablet/ru/verify-none.png",
+      "platform": "android-tablet",
+      "language": "ru",
+      "pixels": [
+        1600,
+        1100
+      ],
+      "scenario": "verify-none",
+      "page": "verify",
+      "dialog": null,
+      "expanded": null,
+      "theme": "light",
+      "synthetic": true,
+      "bannerHidden": true,
+      "serial": "emulator-5562",
+      "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+      "imageSha256": "6a865cffcc19e0930eb554eb57c7473d30ed7ec6db4e37323a34bcb1b12b62c3",
+      "capturedAt": 1794138265.4445848,
+      "captureHost": "MacBook Air, existing air-review AVD",
+      "physicalDisplayId": "4619827259835644672",
+      "transport": "ADB via local-only SSH forwarded server"
+    }
+  ],
+  "validationLimits": [
+    "Mock presentation captures do not prove USB or physical card signing.",
+    "About may report Debug marketing version; use release availability from Downloads.",
+    "Certificate verification fixture details include deliberate example wording."
+  ],
+  "apkSha256": "9e41b0e1152fcb92526e32a1c6be72643b60e0b62768f9934b0088549bbdd765",
+  "device": "Android 16/API36 arm64 emulator; esb-stamp-review, emulator-5562",
+  "viewports": {
+    "phone": {
+      "pixels": [
+        1080,
+        2400
+      ],
+      "densityDpi": 420
+    },
+    "tablet": {
+      "pixels": [
+        1600,
+        1100
+      ],
+      "densityDpi": 160
+    }
+  },
+  "review": "EN/RO/RU phone and tablet native main-state contact sheets inspected; EN failure full-size and outcome contact sheets checked; supplemental browser dialogs reviewed; all new state localization and callouts validated from native layout bounds.",
+  "documentationChecks": {
+    "guides": 6,
+    "journeysPerGuide": 24,
+    "uniqueScreenshots": 144,
+    "missingImagesOrCallouts": []
+  },
+  "outcomeCoverage": {
+    "addedScreenshots": 30,
+    "states": [
+      "sign-failure",
+      "sign-progress",
+      "verify-invalid",
+      "verify-none",
+      "verify-unconfirmed"
+    ],
+    "multipleSignatures": "UI renders every report. No dedicated multi-signature Debug fixture exists; guide instructs reviewing each signature without inventing screenshot results.",
+    "signingProgress": "Static Debug Signing stage; no actual card signing performed.",
+    "realPinSubmitted": false
+  }
+}

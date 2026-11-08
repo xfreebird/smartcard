@@ -247,8 +247,31 @@ body:has(.devices-guide) .col--6{--ifm-col-width:100%;margin-left:0;max-width:10
 @media(max-width:600px){.package-download-options details{padding:16px}}
 
 .download-platform-grid{align-items:start}
-.package-download-options :is(summary,summary small){cursor:pointer}
+.package-download-options summary,.package-download-options summary small{cursor:pointer}
 .package-download-options :is(p,code,pre){cursor:text}
 .download-platform-card#linux{grid-column:1/-1}
 .download-platform-card#linux .download-installers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:640px){.download-platform-card#linux .download-installers{grid-template-columns:1fr}}
+
+/* Illustrated user journeys: numbered controls match the adjacent action list. */
+.guide-screenshot{margin:1.5rem 0 2.5rem;max-width:100%}
+.guide-screenshot-image{position:relative;display:block;width:fit-content;max-width:100%;margin:0 auto;line-height:0;border-radius:12px;overflow:hidden;border:1px solid var(--ifm-color-emphasis-300);box-shadow:0 8px 28px #00000018}
+.guide-screenshot-image img{display:block;max-width:100%;max-height:760px;width:auto;height:auto}
+.guide-screenshot-marker{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;min-width:30px;height:30px;padding:0 5px;border-radius:999px;background:#b62816;color:#fff;border:2px solid #fff;box-shadow:0 1px 5px #000b;font:700 16px/1 system-ui;pointer-events:none}
+.guide-screenshot figcaption{margin:1rem auto 0;max-width:760px;color:var(--ifm-font-color-base);font-size:1rem;text-align:left}
+.guide-screenshot figcaption ol{padding-left:2rem}
+.guide-screenshot figcaption li{padding-left:.35rem;margin:.65rem 0}
+.guide-screenshot figcaption li::marker{color:var(--ifm-color-primary);font-weight:750}
+@media(max-width:480px){.guide-screenshot-marker{min-width:24px;height:24px;font-size:13px}.guide-screenshot-image img{max-height:650px}}
+button.guide-screenshot-image{padding:0;background:transparent;cursor:zoom-in;text-align:initial}
+button.guide-screenshot-image:focus-visible{outline:3px solid var(--ifm-color-primary);outline-offset:4px}
+.guide-screenshot-dialog{border:0;border-radius:12px;padding:2.75rem .75rem .75rem;max-width:96vw;max-height:96vh;background:var(--ifm-background-color);color:var(--ifm-font-color-base)}
+.guide-screenshot-dialog::backdrop{background:#000b}
+.guide-screenshot-dialog .guide-screenshot-image img{max-height:none;max-width:90vw}
+.guide-screenshot-close{position:absolute;right:.5rem;top:.25rem;width:2rem;height:2rem;font:1.75rem/1 system-ui;border:0;border-radius:50%;background:var(--ifm-color-emphasis-200);color:inherit;cursor:pointer}
+.guide-screenshot-dialog{padding:.5rem;overflow:auto}
+.guide-screenshot-tools{position:sticky;top:0;left:0;z-index:2;display:flex;justify-content:flex-end;align-items:center;gap:.5rem;padding:0 0 .5rem;background:var(--ifm-background-color)}
+.guide-screenshot-tools button{border:1px solid var(--ifm-color-emphasis-300);border-radius:6px;padding:.3rem .65rem;background:var(--ifm-background-color);color:inherit;cursor:pointer}
+.guide-screenshot-tools .guide-screenshot-close{position:static;padding:0;width:2rem;height:2rem;border-radius:50%}
+.guide-screenshot-actual-size .guide-screenshot-image{max-width:none;width:max-content}
+.guide-screenshot-actual-size .guide-screenshot-image img{max-width:none;max-height:none}

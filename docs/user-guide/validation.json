@@ -1,0 +1,199 @@
+{
+  "guides": [
+    {
+      "locale": "en",
+      "platform": "macos",
+      "panels": 21,
+      "assets": 21
+    },
+    {
+      "locale": "en",
+      "platform": "ios",
+      "panels": 23,
+      "assets": 22
+    },
+    {
+      "locale": "en",
+      "platform": "ipad",
+      "panels": 23,
+      "assets": 22
+    },
+    {
+      "locale": "en",
+      "platform": "android",
+      "panels": 24,
+      "assets": 24
+    },
+    {
+      "locale": "en",
+      "platform": "android-tablet",
+      "panels": 24,
+      "assets": 24
+    },
+    {
+      "locale": "en",
+      "platform": "linux",
+      "panels": 25,
+      "assets": 23
+    },
+    {
+      "locale": "en",
+      "platform": "macos-cli",
+      "panels": 10,
+      "assets": 10
+    },
+    {
+      "locale": "en",
+      "platform": "linux-cli",
+      "panels": 7,
+      "assets": 7
+    },
+    {
+      "locale": "en",
+      "platform": "windows-cli",
+      "panels": 4,
+      "assets": 4
+    },
+    {
+      "locale": "ro",
+      "platform": "macos",
+      "panels": 21,
+      "assets": 21
+    },
+    {
+      "locale": "ro",
+      "platform": "ios",
+      "panels": 23,
+      "assets": 22
+    },
+    {
+      "locale": "ro",
+      "platform": "ipad",
+      "panels": 23,
+      "assets": 22
+    },
+    {
+      "locale": "ro",
+      "platform": "android",
+      "panels": 24,
+      "assets": 24
+    },
+    {
+      "locale": "ro",
+      "platform": "android-tablet",
+      "panels": 24,
+      "assets": 24
+    },
+    {
+      "locale": "ro",
+      "platform": "linux",
+      "panels": 25,
+      "assets": 23
+    },
+    {
+      "locale": "ro",
+      "platform": "macos-cli",
+      "panels": 10,
+      "assets": 10
+    },
+    {
+      "locale": "ro",
+      "platform": "linux-cli",
+      "panels": 7,
+      "assets": 7
+    },
+    {
+      "locale": "ro",
+      "platform": "windows-cli",
+      "panels": 4,
+      "assets": 4
+    },
+    {
+      "locale": "ru",
+      "platform": "macos",
+      "panels": 21,
+      "assets": 21
+    },
+    {
+      "locale": "ru",
+      "platform": "ios",
+      "panels": 23,
+      "assets": 22
+    },
+    {
+      "locale": "ru",
+      "platform": "ipad",
+      "panels": 23,
+      "assets": 22
+    },
+    {
+      "locale": "ru",
+      "platform": "android",
+      "panels": 24,
+      "assets": 24
+    },
+    {
+      "locale": "ru",
+      "platform": "android-tablet",
+      "panels": 24,
+      "assets": 24
+    },
+    {
+      "locale": "ru",
+      "platform": "linux",
+      "panels": 25,
+      "assets": 23
+    },
+    {
+      "locale": "ru",
+      "platform": "macos-cli",
+      "panels": 10,
+      "assets": 10
+    },
+    {
+      "locale": "ru",
+      "platform": "linux-cli",
+      "panels": 7,
+      "assets": 7
+    },
+    {
+      "locale": "ru",
+      "platform": "windows-cli",
+      "panels": 4,
+      "assets": 4
+    }
+  ],
+  "guideCount": 27,
+  "panelCount": 483,
+  "errors": [],
+  "date": "2026-11-08",
+  "nativeScreenshots": 411,
+  "terminalIllustrations": 63,
+  "websiteUnitTests": {
+    "passed": 16,
+    "failed": 0
+  },
+  "productionBuild": {
+    "host": "second Mac",
+    "locales": [
+      "en",
+      "ro",
+      "ru"
+    ],
+    "result": "passed",
+    "brokenLinks": "none",
+    "seo": "passed"
+  },
+  "browserReview": [
+    "Desktop documentation and numbered callouts",
+    "400 CSS pixel viewport",
+    "Fit and actual-size screenshot viewing",
+    "iPad workspace callout positions"
+  ],
+  "contentReview": "Three major design findings corrected and rechecked",
+  "validationLimits": [
+    "App screenshots use isolated fictional data, not real signing.",
+    "CLI panels are labelled instructional examples except captured read-only outputs.",
+    "Physical card, live Siri, Spotlight and cross-device Handoff were not exercised."
+  ]
+}

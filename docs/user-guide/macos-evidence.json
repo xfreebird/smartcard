@@ -1,0 +1,560 @@
+{
+  "capturedAt": "2026-11-08",
+  "sourceCommit": "b60af1e",
+  "appSourceCommit": "214bf2a",
+  "appVersion": "0.2.6",
+  "configuration": "Debug",
+  "sdk": "Xcode27.1RC macOS27 SDK",
+  "build": "Fresh local development-signed build passed. Default invocation failed due missing signing overrides; correct Apple Development/H86U5Z8HYB invocation passed.",
+  "fixtureMode": true,
+  "hardwareDenied": true,
+  "demoBannerVisible": false,
+  "locales": [
+    "en",
+    "ro",
+    "ru"
+  ],
+  "captureSafety": "MSIGN_QA_NO_HARDWARE=1, MSIGN_SCREENSHOT_CAPTURE=1, isolated md.esemnbun.qa.guide.macos suite, fictional cards/documents. No PIN entered and no physical-card I/O or real signing.",
+  "captureNotes": [
+    "EN/RO main-window design previews with native fixture data. RU production main window used because its Debug popover preview hit an NSWindow update-constraints loop.",
+    "RU Settings captured through native CUA in a task-local duplicate bundle with unique QA bundle identifier to disambiguate existing app installations. Source unchanged.",
+    "Native EN/RO/RU controls captured, step marker coordinates in localized MDX. Sample file names stay intentionally fictional and untranslated.",
+    "Completed sample result keeps sample provenance text; isolated demo banner hidden.",
+    "Browser screenshot shows native bookmark manager; background public MSign home page loaded without signing/login. Website consent is an isolated fixture."
+  ],
+  "limits": [
+    "No physical-reader/card, Keychain credential retrieval, real signing, government service transaction, Spotlight OS search, Siri invocation or cross-device Handoff exercised.",
+    "Broker, Shortcuts, Spotlight, Handoff, startup and browser cleanup are documented from actual implemented controls/contracts; system permission/Shortcuts UI not photographed.",
+    "App Store difference explained in text; captured UI is standalone Debug edition."
+  ],
+  "assets": [
+    {
+      "file": "website/static/img/guide/macos/en/browser.png",
+      "language": "en",
+      "scenario": "browser",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "04599d6a80a3daf21b404e27d9b029db5c5c8bf90f17f729dddf57055478f1e4"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/cards.png",
+      "language": "en",
+      "scenario": "cards",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "91e2a5eebed1b318a59a12d3bf9c1593fc855fc9fa5301195588fbfd2676fdeb"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/certificate.png",
+      "language": "en",
+      "scenario": "certificate",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "673fc850953658e9918641868f1aa0bbe31018801906fb9c901dbe0872763a2b"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/connect.png",
+      "language": "en",
+      "scenario": "connect",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "6db273cdd1f03936deb8c5a1ffda292c570258e18b8cd0776ae8a340cf52d692"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/consent.png",
+      "language": "en",
+      "scenario": "consent",
+      "width": 760,
+      "height": 862,
+      "sha256": "dc1fa134249277bba70b9845c15bfb74cba7ca1fe73af837961ea32198cbe6f3"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/details.png",
+      "language": "en",
+      "scenario": "details",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "6542404d4690508efa663aadf4d0cb05aaa12f4918806777291353e9b8b0a2e7"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/documents.png",
+      "language": "en",
+      "scenario": "documents",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "1450b4eb605b15099a7a5c456709804aa593716f2f33b512980b83333548414b"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/empty-reader.png",
+      "language": "en",
+      "scenario": "empty-reader",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "19566e58540660d49cbc331e9e6ba886f3cb66ab77ab9813e9e37c29541e8ed2"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/file-error.png",
+      "language": "en",
+      "scenario": "file-error",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "e20e7787d31a915102eb9650a5d4bc765c4b1a9f5731ba8379040d8b1bfe899c"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/history.png",
+      "language": "en",
+      "scenario": "history",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "a3aaf20747d43ce4237540262046827a0e145643c5407ef8f25f85adddf2ac38"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/pin.png",
+      "language": "en",
+      "scenario": "pin",
+      "width": 680,
+      "height": 944,
+      "sha256": "fa5d97a608b807757c1d308e8736dfe11231ea2b94186b97d6b35173eedf9b4a"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/progress.png",
+      "language": "en",
+      "scenario": "progress",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "d29150d5fbe8b654ef70b242c7ffbc355a1ada1f437e309b58343b9a3bf906e0"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/reader-error.png",
+      "language": "en",
+      "scenario": "reader-error",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "cfec2b962e852a384485dd15b52d7af6237ee0d3652e58ea81b11b5876cc442c"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/settings.png",
+      "language": "en",
+      "scenario": "settings",
+      "width": 1120,
+      "height": 1024,
+      "sha256": "b5083b3bc0bd604b242aefb62a15c298ce8bc3bed62712ad40aed3287df42831"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/sign.png",
+      "language": "en",
+      "scenario": "sign",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "0cc994024ff552d2918b99c0d003b3753f39c5f602dd3fbaae2d1d790090f8fb"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/stamp.png",
+      "language": "en",
+      "scenario": "stamp",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "4979fa5b04cd82d830c273db164563bf148592c57ea5c028d1236b0a75d86af7"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/success.png",
+      "language": "en",
+      "scenario": "success",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "6c3fd31007f91722434d52f9ef513b298dac6fa982fdfd349dd050621bc3fbcd"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/verify-invalid.png",
+      "language": "en",
+      "scenario": "verify-invalid",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "982653062e371377b7bf3b63a0a97a2f39eb34a1de94fb76e33898e7d7b63573"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/verify-original.png",
+      "language": "en",
+      "scenario": "verify-original",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "14a5eaf4d69e6f7cff09f10c27f8c2fef3405f0df4889262443d7f0d6b680c0e"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/verify-unsigned.png",
+      "language": "en",
+      "scenario": "verify-unsigned",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "9e9c103977180d2731d3fce751a4051077d2adc22c46eb6d6d1f3e3583226fe2"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/verify-untrusted.png",
+      "language": "en",
+      "scenario": "verify-untrusted",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "3518d069a8fb1a1837a36d506625435ac904cbd9dea3fa4f80103f27b8aba834"
+    },
+    {
+      "file": "website/static/img/guide/macos/en/verify.png",
+      "language": "en",
+      "scenario": "verify",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "6a0e05cf4b110df76b34dc25e3babaa2005fcee90d067904894934c7f3ac6674"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/browser.png",
+      "language": "ro",
+      "scenario": "browser",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "36492c99d8ea357d268bde9a46779e04e6f56e42594ca7d012191a1d316a6ecd"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/cards.png",
+      "language": "ro",
+      "scenario": "cards",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "6310c3aac14615cf884f24a6620cf5afc1a8c6f905d2e4fb7862611c89645570"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/certificate.png",
+      "language": "ro",
+      "scenario": "certificate",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "cb4a38ca1a270f320f01c6cbccdca377a78b493911edba1959c32f394b5a869e"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/connect.png",
+      "language": "ro",
+      "scenario": "connect",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "e2e48f6578f7159ef115a6a03e9f2d34486b49c7383fd7595d0055da67dff563"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/consent.png",
+      "language": "ro",
+      "scenario": "consent",
+      "width": 760,
+      "height": 862,
+      "sha256": "f8f5f016dd91d5a017dcac821f148e3d0d3b04c40f0ecb7ea9b192a57183ad67"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/details.png",
+      "language": "ro",
+      "scenario": "details",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "0c28cf0766e8e56caf3f17809dcfcbea67a203144eb5f12d70c8fa73cfc1e23f"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/documents.png",
+      "language": "ro",
+      "scenario": "documents",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "b9c4c774dba4017ee6533810f4191d6e8bef93f10fb2bcca359f0518a20f5f04"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/empty-reader.png",
+      "language": "ro",
+      "scenario": "empty-reader",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "fe77bcb1e1eaf4a6a5c7aa112a1ca29a62d0e1e9fe57093917adb2536e973d03"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/file-error.png",
+      "language": "ro",
+      "scenario": "file-error",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "1a5265e18d9acfc0c3624d2fa0c29924185cea823ea7471d73650b872ab233f5"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/history.png",
+      "language": "ro",
+      "scenario": "history",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "d7fbf4ee68c94e2afbf621cc2ff33eb92a2c7d774b6d6f9a440f17ee24045c72"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/pin.png",
+      "language": "ro",
+      "scenario": "pin",
+      "width": 680,
+      "height": 944,
+      "sha256": "3e4bd588cb0dbe8c8bb61fda7721a81dc64ee46acc8d5905a01cd0c1ffca5168"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/progress.png",
+      "language": "ro",
+      "scenario": "progress",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "b088d7ef00cdead3dfecdf078315281837eb0f169826ee1b5a539f3a36063bc3"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/reader-error.png",
+      "language": "ro",
+      "scenario": "reader-error",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "c5c2f14495f1e3697bb5f30eb94b6c99e6fb992cb9c90b8a69abe9adf6036f21"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/settings.png",
+      "language": "ro",
+      "scenario": "settings",
+      "width": 1120,
+      "height": 1024,
+      "sha256": "516a76f1a19af14d9e93ee452ff9af0ef5e1b011285ac456d6bbc2eea3f2345d"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/sign.png",
+      "language": "ro",
+      "scenario": "sign",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "c378d0b79d797af8ee0e694e910422b6dd3857332ed4bb7bcaec9e23be217481"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/stamp.png",
+      "language": "ro",
+      "scenario": "stamp",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "fdd05f2efc55c345de227652e146c65199fb5cfcb090d2dbc3cecac76301e355"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/success.png",
+      "language": "ro",
+      "scenario": "success",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "9535db38409fa4ec3cbf43512f8e1a97f35255ceb8335336ec6bd011213037fb"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/verify-invalid.png",
+      "language": "ro",
+      "scenario": "verify-invalid",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "2e69c1ab5a9552c52b27f8454f8ef85d8a6871c5f2496cf7f45aba64b9e4d2cb"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/verify-original.png",
+      "language": "ro",
+      "scenario": "verify-original",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "5090a10bf8b964b9dbe56131b7466abf8d1c5c80e583a9ea4690d07b76909dc6"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/verify-unsigned.png",
+      "language": "ro",
+      "scenario": "verify-unsigned",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "2877f399ba8d97c108424909c08d8bf9948029ea6a77fd9e7533271271375c88"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/verify-untrusted.png",
+      "language": "ro",
+      "scenario": "verify-untrusted",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "ebe8d480c0868fecb072655bf0842db73c464f7cda644beb33b0d3f0664fe906"
+    },
+    {
+      "file": "website/static/img/guide/macos/ro/verify.png",
+      "language": "ro",
+      "scenario": "verify",
+      "width": 2200,
+      "height": 1640,
+      "sha256": "c74dfa7ede96eddca137a073cf5b705e586dd6dade0d12b27624728ada8bd30c"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/browser.png",
+      "language": "ru",
+      "scenario": "browser",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "917999e45dad7265b6a1ce903b68f48bb03d00a2d49b65f9a59d01a43ade97ef"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/cards.png",
+      "language": "ru",
+      "scenario": "cards",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "063e81019da9dac19cb33ad41ab4cf5fb1d52e285b9fd284c3c94bf90c86475a"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/certificate.png",
+      "language": "ru",
+      "scenario": "certificate",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "ef2fc8868267086db217691e4f74b0d296b2388ad957c7826d9591d417f63765"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/connect.png",
+      "language": "ru",
+      "scenario": "connect",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "26d013691f690955cd156b0c5c1f712a61514eebc0579bedd21c7b83b39bc2a5"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/consent.png",
+      "language": "ru",
+      "scenario": "consent",
+      "width": 760,
+      "height": 862,
+      "sha256": "f4852fec209ca6a3357aa434f832c02f490cfd09927c5fa3783a808a5577d737"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/details.png",
+      "language": "ru",
+      "scenario": "details",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "201ee774ed28f73de406145c7b6357368f22a55b8246f1711c1fa16e5b6c38d7"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/documents.png",
+      "language": "ru",
+      "scenario": "documents",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "3cedd355164bb957091c2f7f5b42c44ff6522dc5e4384599bce7d8f1d125f156"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/empty-reader.png",
+      "language": "ru",
+      "scenario": "empty-reader",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "d229540518fd95157ef2ec24323640af21df73d2f2e7a3941de3f7da82d86fdd"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/file-error.png",
+      "language": "ru",
+      "scenario": "file-error",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "bc90aa49b513f58f34558d0268eeccce31728d80dafdff25d6d1d86388c1d564"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/history.png",
+      "language": "ru",
+      "scenario": "history",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "82924eab7a42033b402b4c0b56caaa1aa16403db0c582cc72b031e6c739f7658"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/pin.png",
+      "language": "ru",
+      "scenario": "pin",
+      "width": 680,
+      "height": 944,
+      "sha256": "9a150c8a3481d5e9b959d1dc26276a63854a25193229643e165f54359e1fe566"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/progress.png",
+      "language": "ru",
+      "scenario": "progress",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "ea2f0411eb6f38b6ff6712a84e12011565943c457bd6007fb52c42ea8759506e"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/reader-error.png",
+      "language": "ru",
+      "scenario": "reader-error",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "ddbc5072781c4da4f5dd6937b483a16962c62b06040e0ec0cf3b673fee7eaccc"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/settings.png",
+      "language": "ru",
+      "scenario": "settings",
+      "width": 1120,
+      "height": 1136,
+      "sha256": "9783581809e5c703d3a111494f4b2b875cfe2f82927ba61a535e654e1713bb6c"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/sign.png",
+      "language": "ru",
+      "scenario": "sign",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "0fd1c19241d8bc80e6a429bcf9c4158e31d67b803b722913114ff7ef8a2440c7"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/stamp.png",
+      "language": "ru",
+      "scenario": "stamp",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "313a3023d14ed209fa967e598e41f18072c93e0fbba9b6a16c324a522458c09a"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/success.png",
+      "language": "ru",
+      "scenario": "success",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "cbe7844f95487713c016c42bd35eb5e868ce4944494876f950c6b1cf0a533169"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/verify-invalid.png",
+      "language": "ru",
+      "scenario": "verify-invalid",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "6ffbe8ea03cd820d0ddbdcaa1c88d7393765ef1dd8d515af8c9beb4c0ea78cae"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/verify-original.png",
+      "language": "ru",
+      "scenario": "verify-original",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "4e917d5f6c09791d48c61995dc17100d5923493c9513e1ee0115a8e231a80ff9"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/verify-unsigned.png",
+      "language": "ru",
+      "scenario": "verify-unsigned",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "75e3515462bcb5370d6018c37e169207bc9e35bb02b76c2edb8ca018fa358833"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/verify-untrusted.png",
+      "language": "ru",
+      "scenario": "verify-untrusted",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "2bc81d15da27901f7b8a5950c85ecda0968d492da1db9e0d53f5dc0712c5bcae"
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/verify.png",
+      "language": "ru",
+      "scenario": "verify",
+      "width": 2560,
+      "height": 1600,
+      "sha256": "dc292a44054f6b348d87bb4842d4347b4b58efe1e7a54ab343dacaa51c9c3323"
+    }
+  ]
+}

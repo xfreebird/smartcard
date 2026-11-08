@@ -2,98 +2,152 @@
 title: macOS CLI
 ---
 
-# macOS command line
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-Applies to **eSemnBun 0.2.0**. This guide covers the standalone `esemnbun` command; it is separate from the Mac App Store app.
+# macOS — command-line guide
 
-## Install and check the command
+Reach a specific goal using the numbered terminal examples below. Commands stay in English. The illustrated panels are instructional examples, not screenshots of a real card signing. Only the capability and unsigned-fixture verification results were captured from a local executable; no real PIN, card or credential provider was used.
 
-Use the macOS CLI artifact offered in [GitHub Releases](https://github.com/xfreebird/smartcard/releases/latest), matching your Mac's architecture. Extract the archive and place the executable in a directory on your PATH. Opening the graphical app does not necessarily install a terminal command.
+You need a supported electronic ID and its correct signing PIN, a compatible USB reader and any required adapter for card operations. NFC is not supported. Verification needs no reader or PIN. Keep your original documents. The private signing key stays on the card.
+
+## 1. Install and discover what your executable supports
+
+Open [Downloads](/downloads/) and choose your platform. CLI archives contain terminal and MCP tools; the desktop application is a separate installation. Use the package-manager instructions there for the current version and signing-key fingerprint. Then locate the command and inspect capabilities before automating.
+
+<GuideScreenshot src="/img/guide/macos-cli/en/install.svg" alt="1. Install and discover what your executable supports" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Install through the selected platform channel."}, {"x": 3, "y": 71.5, "text": "Run capability discovery before using card commands."}]} />
 
 ```sh
+brew install xfreebird/utils/esemnbun-cli
 command -v esemnbun
+esemnbun capabilities --json
+```
+
+<GuideScreenshot src="/img/guide/macos-cli/en/capability.svg" alt="command-line guide" caption="Captured local read-only capability output." steps={[{"x": 3, "y": 5.1, "text": "Run capability discovery before using card commands."}]} />
+
+```sh
+esemnbun capabilities --json
+```
+
+The captured local build reports MCP unavailable from its ordinary CLI capability envelope; the separate installed esemnbun-mcp helper has its own discovery. Always inspect your installed binaries.
+
+## 2. Find the reader and check the certificate
+
+Connect the USB reader and insert your card. List readers, then inspect the signing certificate without entering a PIN. With several cards, use the exact reader name and check the holder before every signing request. These commands below are examples; a reader was not accessed to create this guide.
+
+<GuideScreenshot src="/img/guide/macos-cli/en/reader.svg" alt="2. Find the reader and check the certificate" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "List connected readers and card presence."}, {"x": 3, "y": 66.2, "text": "Read the intended certificate; replace the reader name."}]} />
+
+```sh
 esemnbun readers
+esemnbun cert --reader "miniLector EVO" --out leaf.der
 ```
 
-macOS provides PC/SC. Connect the supported reader and card before running reader-dependent commands. If you need the graphical app instead, follow the [desktop guide](./macos.md).
+## 3. Sign PDF or create an XML signature
 
-For a source build, install the Xcode command-line tools and build the CLI product from the repository:
+PDF signing embeds a PAdES-T signature and timestamp. Omitting the output path creates a separate `-semnat.pdf` file; existing outputs are not overwritten. XAdES defaults to detached XML and SHA-256: retain the unchanged original with the XML. Choose BES without timestamp, T with timestamp, or C with certificate/revocation references. Use `--enveloping` only when the recipient wants the original inside XML. Timestamped formats need network access; C also obtains status references.
+
+<GuideScreenshot src="/img/guide/macos-cli/en/sign.svg" alt="3. Sign PDF or create an XML signature" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Start PDF signing and respond to the no-echo PIN prompt."}, {"x": 3, "y": 55.9, "text": "Create the XML level your recipient requires."}, {"x": 3, "y": 71.5, "text": "Use enveloping only when needed; keep originals for detached XML."}]} />
 
 ```sh
-cd swift/MoldSignKit
-swift build -c release --product esemnbun
-.build/release/esemnbun readers
+esemnbun sign Contract.pdf Contract-semnat.pdf
+esemnbun xades XAdES-T Declaration.txt Declaration.xml
+esemnbun xades XAdES-BES Declaration.txt Embedded.xml --enveloping
 ```
 
-## Select a reader and inspect its certificate
+Enter the PIN only through the no-echo prompt or an existing secret-input caller with `--pin-stdin`. Input precedence is stdin, `MSIGN_PIN`, then prompt. Never put a PIN in command arguments, screenshots, scripts or logs. An incorrect PIN needs a deliberate stop and review; never retry automatically.
 
 ```sh
-esemnbun readers
-esemnbun cert --out leaf.der
+esemnbun sign Contract.pdf Contract-semnat.pdf --pin-stdin
 ```
 
-The certificate command reads public signing-certificate details without a signing PIN. With multiple readers, use the exact reader name from `readers`:
+## 4. Verify and interpret the result
+
+Choose the signed PDF or XML. For detached XML, provide the directory containing its unchanged originals. Verification is offline: integrity, signature and embedded trust results do not establish current revocation status. `ok:true` means execution succeeded, not that the signature is valid. No recognized signature is not a successful signed-document verification.
+
+<GuideScreenshot src="/img/guide/macos-cli/en/verify.svg" alt="4. Verify and interpret the result" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 40.2, "text": "Verify a PDF or XML using the original-document directory."}, {"x": 3, "y": 71.5, "text": "Use JSON for automation and inspect status, not only ok."}]} />
 
 ```sh
-esemnbun cert --reader "exact reader name" --out leaf.der
-esemnbun sign input.pdf output-signed.pdf --reader "exact reader name"
+esemnbun verify Contract-semnat.pdf
+esemnbun verify Declaration.xml /home/me/Originals
+esemnbun verify --json Contract-semnat.pdf
 ```
 
-Without `--reader`, the CLI selects the first reader with a card. Check the certificate first when several people have cards connected.
-
-## Sign PDFs and XML signatures
+<GuideScreenshot src="/img/guide/macos-cli/en/unsigned.svg" alt="command-line guide" caption="Captured local read-only output; this is an unsigned fictional fixture, not a verified signature." steps={[{"x": 3, "y": 16.7, "text": "Use JSON for automation and inspect status, not only ok."}]} />
 
 ```sh
-esemnbun sign input.pdf output-signed.pdf
-esemnbun xades XAdES-T original.txt original-signature.xml
-esemnbun xades XAdES-BES original.txt embedded.xml --enveloping
+esemnbun verify --json unsigned.pdf
 ```
 
-PDF signing uses PAdES-T. If you omit its output path, the default is `<name>-semnat.pdf` beside the input; existing output is not overwritten. XAdES supports BES, T, and C, and uses a detached signature by default. Keep detached XML and its original file together. `--enveloping` places the document content inside the XML.
+`valid` and `unconfirmed` exit 0; the latter leaves trust unconfirmed. `invalid`, `incomplete` and `no_recognized_signature` exit 2. Missing originals alone mean incomplete, not proven modification. Exit 1 is usage/input failure; card operations use 3 wrong PIN, 4 blocked PIN, 5 no reader/card and 6 trust-service network failure. Stop after PIN errors. The app cannot unblock the card.
 
-XAdES defaults to SHA-256. `--digest SHA-1` exists for relying parties that explicitly require it; do not switch the digest merely to work around an unrelated file error. Timestamped signatures need the public timestamp service; XAdES-C also collects certificate-status references.
+## 5. Connect an MCP host with explicit file access
 
-## Supply the PIN
+Configure a local host that supports the implemented protocol with an absolute executable path and a trusted root you selected. Substitute your own existing physical directory. Client-advertised roots do not grant access. Symlinks, path traversal and special files are rejected. No root means discovery only. The helper uses stdio, not a network signing endpoint. Files are bounded to 8 MiB; detached XML originals need an explicitly selected detached root.
 
-Run a signing command interactively to receive a prompt without echo. Do not type a PIN as an argument. For integration with an existing secret-input mechanism, `--pin-stdin` consumes the first line of standard input:
+<GuideScreenshot src="/img/guide/macos-cli/en/mcp.svg" alt="5. Connect an MCP host with explicit file access" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 58.5, "text": "Choose the installed executable and a narrow document root."}, {"text": "Let the host discover capabilities, then request offline verification."}]} />
 
 ```sh
-esemnbun sign input.pdf output-signed.pdf --pin-stdin
+esemnbun-mcp --root documents=/Users/me/Documents/Signing
 ```
 
-That command expects input from your caller or terminal; the example deliberately contains no PIN. Input precedence is `--pin-stdin`, then `MSIGN_PIN`, then the secure interactive prompt. Prefer the prompt for manual use. Never store a real PIN in a script or retry automatically after an incorrect-PIN error.
+Use `capabilities` and `verify_document` first. Tool input identifies `{rootId,relativePath}`; never put a PIN or document contents in tool arguments. MCP verification returns minimized metadata. The host may send that metadata to its own external services. See [complete MCP setup and policy](https://esemnbun.md/packages/mcp.md) for exact protocol and host configuration.
 
-## Verify the result
+```json
+{
+  "command": "/opt/homebrew/bin/esemnbun-mcp",
+  "args": [
+    "--root",
+    "documents=/Users/me/Documents/Signing"
+  ]
+}
+```
+
+```json
+{"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
+```
+
+## 6. Request signing with foreground Mac approval
+
+In the Mac app enable the agent approval broker in Settings and use its configured private spool directory. The app and helper must run as the same user. The directory and requests/responses/outputs subdirectories must already exist with mode 0700. Start the helper with that directory. In your host call prepare_signing for a PDF, review the native certificate/document request, approve with the card PIN, poll get_job and retrieve the completed output. cancel_job requests cancellation; it cannot undo a signature already in progress. Requests expire after five minutes and outputs are retained for 24 hours. Keep the app running. This is macOS-only and requires installed-build validation before relying on it.
+
+<GuideScreenshot src="/img/guide/macos-cli/en/broker.svg" alt="6. Request signing with foreground Mac approval" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "Enable the Mac app broker and use its displayed private directory."}, {"x": 3, "y": 66.2, "text": "Prepare a request in the host, then approve in the app."}]} />
 
 ```sh
-esemnbun verify output-signed.pdf
-esemnbun verify original-signature.xml /path/to/original-documents
+esemnbun-mcp --root documents=/Users/me/Documents/Signing \
+  --broker-directory /Users/me/PrivateBroker
 ```
 
-For detached XAdES, the directory must contain the referenced original document. Verification prints one result per signature with integrity, signer, level, signing time, available timestamp, and chain status. It is offline validation; it does not establish current revocation status by itself.
+## 7. Configure explicit unattended signing
 
-### Exit codes
+This advanced opt-in signs without a per-document approval dialog. Provision credentials independently, pin the exact signing-certificate DER SHA-256, and create a dedicated private output directory. Use secret-provider references, never PIN values. The helper checks the card certificate before reading a secret or sending VERIFY. Physical-card/provider behavior needs validation for your installation before production use.
 
-| Code | Meaning | Handling |
-| --- | --- | --- |
-| 0 | Success; verification found all signatures valid | Continue your workflow. |
-| 1 | Usage or unexpected error | Read stderr and check arguments/file structure. |
-| 2 | Invalid signature or none found | Do not treat the file as successfully verified. |
-| 3 | Wrong PIN | Stop; check the remaining-attempt message and selected card. |
-| 4 | PIN blocked | Contact the card provider. |
-| 5 | No reader/card | Check the connection and reader selection. |
-| 6 | Trust-service network error | Check connectivity/service availability before a deliberate retry. |
+<GuideScreenshot src="/img/guide/macos-cli/en/unattended.svg" alt="7. Configure explicit unattended signing" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 27.4, "text": "Set a narrow input root and private output directory."}, {"x": 3, "y": 80.6, "text": "Pin the exact certificate and choose a secret-provider reference."}]} />
 
-Errors are written to stderr with `error:`. `--quiet` suppresses protocol traces. Avoid recording sensitive files or credential input in automation logs.
+```sh
+esemnbun-mcp \
+  --root documents=/Users/me/Documents/Signing \
+  --allow-unattended-signing \
+  --signing-certificate-sha256 <CERTIFICATE_SHA256> \
+  --signing-output-directory /Users/me/PrivateOutput \
+  --pin-source keychain:service:account
+```
 
-## Browser service
+macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN`, or `onepassword:op://Vault/Item/field`. Linux: environment or 1Password. Windows: `credential:eSemnBun-Automation`, environment or 1Password with an explicit absolute op.exe path. A separately provisioned Keychain/Credential Manager entry must allow the intended access; the app biometric vault is not weakened. Authenticate 1Password outside MCP.
+
+Replace `<CERTIFICATE_SHA256>` with the exact 64 hexadecimal digits before running. The output folder must already exist; macOS/Linux require ownership by you and mode0700. Windows allows only your account, SYSTEM and Administrators in its ACL.
+
+Before signing, the helper creates `.unattended-signing-lock` in the output directory. Wrong PIN, interrupted execution or uncertain failure leaves this durable marker and prevents another automatic attempt. Inspect output and card outcome, reconcile deliberately, then remove the marker and restart only when appropriate. Never write an automatic lock-deletion/retry loop. A cancellation or timeout does not prove no signature was made.
+
+## 8. Run the local browser connection
+
+Run the bridge in the foreground and keep it running while using the supported site on this computer. The defaults are loopback HTTP18480 and HTTPS18443. Do not run the GUI bridge or vendor MoldSign on the same ports. Stop with Ctrl+C. The package needs its localhost HTTPS identity. Prefer the desktop app when you need native consent/PIN dialogs; a terminal bridge is not that approval UI.
+
+<GuideScreenshot src="/img/guide/macos-cli/en/service.svg" alt="8. Run the local browser connection" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 47.7, "text": "Start the local browser bridge."}, {"x": 3, "y": 66.2, "text": "Stop with Ctrl+C when finished."}]} />
 
 ```sh
 esemnbun server
+# Ctrl+C
 ```
 
-Defaults are HTTP on loopback port **18480** and HTTPS on **18443**. Optional positional ports are `esemnbun server <http-port> <https-port>`; government portals normally expect the default HTTPS endpoint.
+---
 
-Keep the server in the foreground and stop it with **Ctrl+C**. Do not run it alongside the desktop app's bridge or MoldSign Server on the same ports. For interactive consent and PIN dialogs, use the desktop app. The CLI is not a replacement for its consent UI, and server packaging must include a usable localhost HTTPS identity for browser compatibility.
-
-See the [CLI contract](https://github.com/xfreebird/smartcard/blob/main/spec/cli.md) for developer commands such as raw digest signing. Most users only need readers, cert, sign, xades, verify, and server.
+Advanced reference: macOS/Linux also expose `sign-hex <digestinfo_hex>` and `cms-for-hash <sha256_hex>`; Windows has sign-hex only. These are developer primitives, not document signing. Read the CLI contract before using them. For support include app/OS version, command without secrets, exit code and a fictional reproducer. Never attach PINs or confidential files.

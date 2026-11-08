@@ -16,3 +16,7 @@ eSemnBun este o aplicație gratuită, cu codul sursă deschis, creată de Nicola
 Pe macOS, deschide DMG-ul și mută aplicația în Applications. Pe Windows, folosește MSI-ul. Pentru Android, folosește Google Play când este disponibil sau APK-ul din [GitHub Releases](https://github.com/xfreebird/smartcard/releases). Pe Linux, alege Flatpak, DEB sau RPM. Pe iPhone și iPad se folosesc canalele de distribuție Apple.
 
 Conectează cititorul și introdu cardul. Verifică titularul afișat și alege cardul potrivit dacă sunt mai multe. Continuă cu [semnarea documentelor](./signing.md). Nu trimite PIN-ul către suport.
+
+## Ghidul dispozitivului
+
+Deschide [ghidurile ilustrate pentru fiecare platformă](./platforms.md): capturi numerotate și pași compleți pentru Mac, iPhone, iPad, telefoane și tablete Android, Linux și linia de comandă.
