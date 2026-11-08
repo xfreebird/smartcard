@@ -16,7 +16,7 @@ User installation instructions: https://esemnbun.md/packages/
 
 Public binary URLs use `esemnbun.md/packages/downloads/vVERSION/` because the source repository is private. Authenticated CI downloads are digest verified before publication.
 
-The workflow publishes signed repository and definition archives, the Chocolatey `.nupkg`, and refreshed SHA256SUMS to the existing release. Website deployment verifies the repository archive digest and the pinned signing key before exposing the repositories. It does not hold the private signing key. The tap workflow checks for definitions every six hours, verifies the archive digest, and updates only the two eSemnBun package definitions. Manual tap workflow dispatch also exercises Homebrew install/test.
+The workflow publishes signed repository and definition archives, the Chocolatey `.nupkg`, and refreshed SHA256SUMS to the existing release. Website deployment verifies the repository archive digest and the pinned signing key before exposing the repositories. It does not hold the private signing key. Partial releases keep the last complete package feed live; website deployment also retains CLI downloads for two previous packaged versions. The tap workflow checks for definitions every six hours, verifies the archive digest, and updates only the two eSemnBun package definitions. Manual tap workflow dispatch also exercises Homebrew install/test.
 
 Windows packaging now emits a standalone Native AOT ZIP for future releases. The initial 0.2.6 ZIP contains the exact `bin/esemnbun.exe` from the verified 1.2.206.0 MSIX, plus LICENSE and usage notes. It installs no GUI, certificate, service or PIN configuration.
 

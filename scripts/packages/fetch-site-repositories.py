@@ -3,9 +3,16 @@
 import hashlib,io,json,subprocess,sys,tarfile,tempfile,urllib.request
 from pathlib import Path
 release=json.load(open(sys.argv[1]));name='esemnbun-package-repositories.tar.gz'
-a=next((a for a in release['assets'] if a['name']==name),None)
-if a is None:
- print('Package feeds not published for this release yet.');raise SystemExit(0)
+def complete(r):
+ names={a['name'] for a in r['assets']}
+ return not r.get('draft') and not r.get('prerelease') and name in names and 'esemnbun-package-definitions.zip' in names and any(n.endswith('.nupkg') for n in names)
+# Partial platform releases must not remove the last working public package feeds.
+releases=json.loads(subprocess.check_output(['gh','api','repos/xfreebird/smartcard/releases?per_page=100']))
+if not complete(release):
+ release=next((r for r in releases if complete(r)),None)
+ if release is None:
+  print('No complete package release is available yet.');raise SystemExit(0)
+a=next(a for a in release['assets'] if a['name']==name)
 url=f'https://github.com/xfreebird/smartcard/releases/download/{release["tag_name"]}/{name}'
 assert a['browser_download_url']==url
 body=subprocess.check_output(['gh','api',a['url'],'-H','Accept: application/octet-stream'])
@@ -40,3 +47,17 @@ with zipfile.ZipFile(destination/'downloads'/release['tag_name']/'esemnbun-packa
 shutil.copyfile(root/'spec/mcp.md',destination/'mcp.md')
 index=destination/'index.html'
 index.write_text(index.read_text().replace('@VERSION@',release['tag_name'].removeprefix('v')))
+
+# Keep two previous published versions available while package-manager caches refresh.
+previous=[r for r in releases if complete(r) and r['tag_name']!=release['tag_name']][:2]
+for older in previous:
+ asset=next(a for a in older['assets'] if a['name']==name)
+ data=subprocess.check_output(['gh','api',asset['url'],'-H','Accept: application/octet-stream'])
+ assert asset.get('digest')=='sha256:'+hashlib.sha256(data).hexdigest()
+ prefix='packages/downloads/'+older['tag_name']+'/'
+ with tarfile.open(fileobj=io.BytesIO(data),mode='r:gz') as archive:
+  for member in archive.getmembers():
+   if member.isfile() and member.name.startswith(prefix) and '/' not in member.name[len(prefix):]:
+    target=destination/'downloads'/older['tag_name']/Path(member.name).name
+    target.parent.mkdir(parents=True,exist_ok=True)
+    target.write_bytes(archive.extractfile(member).read())
