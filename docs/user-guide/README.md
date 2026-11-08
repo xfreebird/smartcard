@@ -1,6 +1,6 @@
 # Illustrated user documentation
 
-The public entry point is the website's `/docs/platforms/` route, available in English, Romanian and Russian. Guides live in `website/docs/platforms/` and the corresponding Docusaurus locale directories. Documentation images live under `website/static/img/guide/<platform>/<locale>/`.
+The public entry point is the website's `/docs/platforms/` route, available in English, Romanian and Russian. Canonical authoring sources live in `docs/user-guide/content/<locale>/`. `scripts/docs/organize-user-guides.py` generates short device overviews and focused task pages in `website/docs/platforms/` and the corresponding locale directories. Edit the canonical sources, then regenerate; do not edit generated task pages directly. Documentation images live under `website/static/img/guide/<platform>/<locale>/`.
 
 ## Editorial and capture rules
 
@@ -17,7 +17,7 @@ The public entry point is the website's `/docs/platforms/` route, available in E
 1. Audit the source and update `journey-inventory.md` before refreshing screenshots.
 2. Capture from a recorded build into the correct platform and locale directory.
 3. Update the localized goal steps and callout positions together.
-4. Run `python3 scripts/docs/validate-user-guides.py` to check localized coverage, native-locale asset paths and references.
+4. Run `python3 scripts/docs/organize-user-guides.py`, then `python3 scripts/docs/organize-user-guides.py --check` and `python3 scripts/docs/validate-user-guides.py` to check localized coverage, native-locale asset paths and references.
 5. Build all Docusaurus locales and visually inspect representative desktop and phone pages, including enlarged screenshots. The Website workflow runs the coverage validation before publication.
 
 Per-platform evidence files distinguish actual native captures, live read-only CLI evidence and explicitly instructional terminal examples. Keep technical evidence outside the public how-to prose unless it helps a user make a meaningful choice.

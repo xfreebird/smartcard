@@ -128,7 +128,7 @@ def panel(platform,lang,name,commands,steps,observed=False,display=None):
 for lang,t in T.items():
  for platform,osname in [('macos-cli','macOS'),('linux-cli','Linux'),('windows-cli','Windows')]:
   win=platform=='windows-cli'; mac=platform=='macos-cli'
-  folder=root/'website/docs/platforms' if lang=='en' else root/f'website/i18n/{lang}/docusaurus-plugin-content-docs/current/platforms';folder.mkdir(parents=True,exist_ok=True)
+  folder=root/'docs/user-guide/content'/lang;folder.mkdir(parents=True,exist_ok=True)
   doc=f'---\ntitle: {osname} CLI\n---\n\nimport GuideScreenshot from \'@site/src/components/GuideScreenshot\';\n\n# {osname} — {t["title"]}\n\n{t["intro"]}\n\n{t["need"]}\n\n'
   if win:doc+=':::info\n'+t['windowslimit']+'\n:::\n\n'
   doc+='## '+t['install']+'\n\n'+t['installtext']+'\n\n'

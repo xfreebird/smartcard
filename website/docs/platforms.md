@@ -1,28 +1,16 @@
 ---
-title: Illustrated guides
-sidebar_position: 4
+title: Guides
+hide_table_of_contents: true
 ---
 
-# Illustrated guides
+import GuideDirectory from '@site/src/components/GuideDirectory';
 
-Choose your device and follow the numbered screenshots. Each guide takes you from connecting a reader to signing, verifying and finding your completed documents.
+# Guides
 
-The guides describe the 0.2.6 feature set. Store availability and integrations can vary by edition; the platform guide explains those differences.
+Choose your device or search for the task you want to complete. Each task has its own page with numbered illustrated steps.
 
-| Device | App guide | Terminal and automation |
-| --- | --- | --- |
-| Mac | [Mac](./platforms/macos.md) | [Command line](./platforms/macos-cli.md) |
-| iPhone | [iPhone](./platforms/ios.md) | — |
-| iPad | [iPad](./platforms/ipad.md) | — |
-| Android phone | [Android phone](./platforms/android.md) | — |
-| Android tablet | [Android tablet](./platforms/android-tablet.md) | — |
-| Linux | [Linux](./platforms/linux.md) | [Command line](./platforms/linux-cli.md) |
-| Windows | — | [Command line](./platforms/windows-cli.md) |
+<GuideDirectory />
 
-Screenshots use fictional identities and sample documents from isolated app captures. The numbered circles are instructions added to the guide. They do not appear in the app.
+## Before you start
 
-## Before you begin
-
-You need a supported electronic ID, its correct signing PIN, a compatible USB reader and any required adapter. NFC signing is not supported. Never include your PIN in a support request.
-
-[Download the app for your device](/downloads)
+You need a supported electronic ID, a compatible reader and the card’s signing PIN. [Find installation options](/downloads) and [check reader compatibility](/devices).

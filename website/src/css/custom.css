@@ -284,3 +284,25 @@ button.guide-screenshot-image:focus-visible{outline:3px solid var(--ifm-color-pr
 .guide-screenshot-marker{min-width:24px;width:24px;height:24px;padding:0;border-width:1.5px;font-size:13px;z-index:1}
 .guide-screenshot-actual-size .guide-annotated-frame{max-width:none;grid-template-columns:36px max-content 36px}
 .guide-screenshot-dialog:not(.guide-screenshot-actual-size) .guide-annotated-frame>img{max-width:calc(90vw - 72px)}
+
+/* Short device directories lead directly to focused, searchable tasks. */
+.guide-directory{margin:1.5rem 0 2rem}
+.guide-directory-filters{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.guide-directory-filters label{display:flex;flex:1 1 230px;flex-direction:column;gap:.35rem;font-size:.9rem;font-weight:600}
+.guide-directory-filters input,.guide-directory-filters select{width:100%;min-height:44px;padding:.65rem .8rem;border:1px solid var(--ifm-color-emphasis-300);border-radius:8px;background:var(--ifm-background-color);color:var(--ifm-font-color-base);font:inherit;font-weight:400}
+.guide-directory-filters :is(input,select):focus-visible{outline:2px solid var(--ifm-color-primary);outline-offset:2px}
+.guide-directory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+.guide-task-card,.guide-device-card{position:relative;min-width:0;padding:1.25rem;border:1px solid var(--ifm-color-emphasis-300);border-radius:12px;background:var(--ifm-background-surface-color)}
+.guide-task-card{display:block;color:var(--ifm-font-color-base);text-decoration:none!important;padding-right:2.5rem}
+.guide-task-card:hover{border-color:var(--ifm-color-primary);color:var(--ifm-font-color-base)}
+.guide-task-card:focus-visible{outline:3px solid var(--ifm-color-primary);outline-offset:3px}
+.guide-task-card h2,.guide-device-card h2{margin:0 0 .6rem;font-size:1.2rem;line-height:1.4}
+.guide-task-card p{margin:0;color:var(--ifm-color-emphasis-700);font-size:.95rem;line-height:1.55}
+.guide-task-card small{display:block;margin-bottom:.4rem;color:var(--ifm-color-emphasis-700)}
+.guide-task-card>span{position:absolute;right:1rem;top:1.25rem;color:var(--ifm-color-primary)}
+.guide-device-option+.guide-device-option{border-top:1px solid var(--ifm-color-emphasis-200);padding-top:1rem;margin-top:1rem}
+.guide-device-overview{display:inline-block;font-weight:650;padding:.2rem 0}
+.guide-device-option ul{display:flex;gap:.4rem 1rem;flex-wrap:wrap;list-style:none;padding:0;margin:.6rem 0 0}
+.guide-device-option li{margin:0;font-size:.9rem}
+.guide-directory-count{color:var(--ifm-color-emphasis-700);font-size:.9rem}
+@media(max-width:640px){.guide-directory-grid{grid-template-columns:1fr}}

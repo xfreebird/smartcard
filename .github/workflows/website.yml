@@ -2,9 +2,9 @@ name: Website
 on:
   push:
     branches: [main]
-    paths: ['website/**', '.github/workflows/website.yml']
+    paths: ['website/**', 'scripts/docs/**', 'docs/user-guide/content/**', '.github/workflows/website.yml']
   pull_request:
-    paths: ['website/**', '.github/workflows/website.yml']
+    paths: ['website/**', 'scripts/docs/**', 'docs/user-guide/content/**', '.github/workflows/website.yml']
   workflow_dispatch:
   workflow_run:
     workflows: [Release, CLI package repositories]
@@ -42,6 +42,8 @@ jobs:
         working-directory: website
       - run: node --test tests/*.test.mjs
         working-directory: website
+      - name: Check guide organization
+        run: python3 scripts/docs/organize-user-guides.py --check
       - name: Validate illustrated user guides
         run: python3 scripts/docs/validate-user-guides.py
       - run: npm run build

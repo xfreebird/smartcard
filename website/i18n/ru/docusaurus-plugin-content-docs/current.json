@@ -2,5 +2,26 @@
   "version.label": {
     "message": "Next",
     "description": "The label for version current"
+  },
+  "sidebar.guide.category.Platform guides": {
+    "message": "Руководства по платформам"
+  },
+  "sidebar.guide.category.Concepts and shared guidance": {
+    "message": "Общие сведения и рекомендации"
+  },
+  "sidebar.guide.category.Android phone": {
+    "message": "Телефон Android"
+  },
+  "sidebar.guide.category.Android tablet": {
+    "message": "Планшет Android"
+  },
+  "sidebar.guide.category.Command line (CLI) — Mac": {
+    "message": "Командная строка (CLI) — Mac"
+  },
+  "sidebar.guide.category.Command line (CLI) — Linux": {
+    "message": "Командная строка (CLI) — Linux"
+  },
+  "sidebar.guide.category.Command line (CLI) — Windows": {
+    "message": "Командная строка (CLI) — Windows"
   }
 }

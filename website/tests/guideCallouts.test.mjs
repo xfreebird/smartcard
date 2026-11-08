@@ -7,8 +7,9 @@ import {layoutGuideCallouts} from '../src/components/guideCallouts.mjs';
 
 const site = fileURLToPath(new URL('../', import.meta.url));
 const roots = ['docs/platforms','i18n/ro/docusaurus-plugin-content-docs/current/platforms','i18n/ru/docusaurus-plugin-content-docs/current/platforms'];
-const panels = roots.flatMap(root => readdirSync(path.join(site, root)).filter(file => file.endsWith('.md')).flatMap(file => {
-  const text = readFileSync(path.join(site, root, file), 'utf8');
+const markdown = root => readdirSync(root,{withFileTypes:true}).flatMap(entry=>entry.isDirectory() ? markdown(path.join(root,entry.name)) : entry.name.endsWith('.md') ? [path.join(root,entry.name)] : []);
+const panels = roots.flatMap(root => markdown(path.join(site,root)).flatMap(file => {
+  const text = readFileSync(file, 'utf8');
   return [...text.matchAll(/<GuideScreenshot\b[\s\S]*?\/>/g)].map(([panel]) => {
     const src = panel.match(/src="([^"]+)"/)[1];
     const steps = JSON.parse(panel.match(/steps=\{(\[[\s\S]*\])\}/)[1]);

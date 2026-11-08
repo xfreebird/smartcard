@@ -168,4 +168,4 @@ for platform,slug,is_tablet in [('android-phone','android',False),('android-tabl
    alt=heading[lang].split('. ',1)[-1]
    parts += ['## '+heading[lang],'',adapt(body[lang],lang,is_tablet),'',f'<GuideScreenshot src="/img/guide/{platform}/{lang}/{name}.png" alt={json.dumps(alt,ensure_ascii=False)} steps={{{json.dumps(markers,ensure_ascii=False)}}} />','']
   parts += ['## '+TROUBLE[lang],'',ISSUES[lang],'',t('For background on result meanings, see [Signing and verification](/docs/signing). For reader and adapter choices, see [Devices](/devices).','Pentru explicația rezultatelor, vezi [Semnare și verificare](/docs/signing). Pentru cititoare și adaptoare, vezi [Dispozitive](/devices).','Объяснения результатов: [Подписание и проверка](/docs/signing). Считыватели и адаптеры: [Устройства](/devices).')[lang],'']
-  path=ROOT/('website/docs' if lang=='en' else f'website/i18n/{lang}/docusaurus-plugin-content-docs/current')/'platforms'/f'{slug}.md';path.parent.mkdir(parents=True,exist_ok=True);path.write_text('\n'.join(parts))
+  path=ROOT/'docs/user-guide/content'/lang/f'{slug}.md';path.parent.mkdir(parents=True,exist_ok=True);path.write_text('\n'.join(parts))

@@ -121,7 +121,7 @@ D={
 
 def main():
  for lang,t in D.items():
-  dest=ROOT/('website/docs/platforms' if lang=='en' else f'website/i18n/{lang}/docusaurus-plugin-content-docs/current/platforms');dest.mkdir(parents=True,exist_ok=True)
+  dest=ROOT/'docs/user-guide/content'/lang;dest.mkdir(parents=True,exist_ok=True)
   lines=['---',f'title: "{t["title"]}"','sidebar_position: 7','---','',"import GuideScreenshot from '@site/src/components/GuideScreenshot';",'',f'# {t["title"]}','',t['intro'],'',t['need'],'',t['service'],'']
   for index,(name,title,body,steps,coords) in enumerate(zip(NAMES,t['titles'],t['body'],t['steps'],COORDS),1):
    markers=[dict(text=step,**({'x':xy[0],'y':xy[1]} if xy else {})) for xy,step in zip(coords,steps)]

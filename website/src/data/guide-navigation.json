@@ -1,0 +1,3178 @@
+{
+  "platforms": [
+    {
+      "id": "macos",
+      "labels": {
+        "en": "Mac",
+        "ro": "Mac",
+        "ru": "Mac"
+      },
+      "assetPlatform": "macos",
+      "kind": "app",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Install and connect your reader",
+              "Insert the card",
+              "Choose the identity and inspect its certificate"
+            ],
+            "ro": [
+              "Instalează aplicația și conectează cititorul",
+              "Introdu cardul",
+              "Alege identitatea și verifică certificatul"
+            ],
+            "ru": [
+              "Установите приложение и подключите считыватель",
+              "Вставьте удостоверение",
+              "Выберите владельца и проверьте сертификат"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Add documents and choose their format",
+              "Place a visible stamp on a PDF",
+              "Authorize the displayed batch",
+              "Wait for signing and the timestamp",
+              "Find, preview and share the completed output",
+              "Recover from a failed document"
+            ],
+            "ro": [
+              "Adaugă documentele și alege formatul",
+              "Aplică o ștampilă vizibilă pe PDF",
+              "Autorizează lotul afișat",
+              "Așteaptă semnarea și marca temporală",
+              "Găsește, previzualizează și partajează rezultatul",
+              "Rezolvă o eroare de document"
+            ],
+            "ru": [
+              "Добавьте документы и выберите формат",
+              "Разместите видимый штамп в PDF",
+              "Подтвердите показанный пакет",
+              "Дождитесь подписи и метки времени",
+              "Найдите, просмотрите и отправьте результат",
+              "Разберитесь с ошибкой документа"
+            ]
+          },
+          "panels": {
+            "en": 6,
+            "ro": 6,
+            "ru": 6
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify a PDF and every signature",
+              "Read integrity, trust and certificate details",
+              "Verify detached XML with its original"
+            ],
+            "ro": [
+              "Verifică un PDF și fiecare semnătură",
+              "Citește integritatea, încrederea și detaliile certificatului",
+              "Verifică XML-ul detașat cu originalul"
+            ],
+            "ru": [
+              "Проверьте PDF и каждую подпись",
+              "Изучите целостность, доверие и сертификат",
+              "Проверьте отделённый XML вместе с оригиналом"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "results",
+          "labels": {
+            "en": "Understand verification results",
+            "ro": "Înțelege rezultatele verificării",
+            "ru": "Разберитесь в результатах проверки"
+          },
+          "descriptions": {
+            "en": "Distinguish invalid signatures, unconfirmed trust and unsigned files.",
+            "ro": "Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.",
+            "ru": "Различайте неверную подпись, неподтверждённое доверие и файлы без подписи."
+          },
+          "headings": {
+            "en": [
+              "Recognize a modified or invalid signature",
+              "Distinguish unconfirmed trust",
+              "Recognize an unsigned document"
+            ],
+            "ro": [
+              "Recunoaște o semnătură nevalidă sau un document modificat",
+              "Deosebește încrederea neconfirmată",
+              "Recunoaște un document nesemnat"
+            ],
+            "ru": [
+              "Распознайте изменённый документ или неверную подпись",
+              "Отличайте неподтверждённое доверие",
+              "Распознайте неподписанный документ"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find a saved signed document",
+              "Inspect and hand off a saved document",
+              "Clear operation history while keeping documents"
+            ],
+            "ro": [
+              "Găsește un document semnat salvat",
+              "Inspectează și transmite un document salvat",
+              "Curăță istoricul păstrând documentele"
+            ],
+            "ru": [
+              "Найдите сохранённый подписанный документ",
+              "Просмотрите и передайте сохранённый документ",
+              "Очистите историю, сохранив документы"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Use a service and manage bookmarks",
+              "Check every website signing request",
+              "Browser settings and cleanup"
+            ],
+            "ro": [
+              "Folosește un serviciu și gestionează marcajele",
+              "Verifică fiecare cerere de semnare de pe site",
+              "Configurările browserului și curățarea datelor"
+            ],
+            "ru": [
+              "Откройте сервис и настройте закладки",
+              "Проверяйте каждый запрос сайта на подпись",
+              "Настройте подключение браузера и очистите данные"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Set language, appearance and system discovery",
+              "Menu bar, startup, updates and help"
+            ],
+            "ro": [
+              "Configurează limba, aspectul și descoperirea în sistem",
+              "Bara de meniu, pornirea, actualizările și ajutorul"
+            ],
+            "ru": [
+              "Настройте язык, оформление и системный поиск",
+              "Строка меню, автозапуск, обновления и помощь"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "automation",
+          "labels": {
+            "en": "Use Shortcuts and automation",
+            "ro": "Folosește Scurtături și automatizări",
+            "ru": "Используйте команды и автоматизацию"
+          },
+          "descriptions": {
+            "en": "Set up Siri, Spotlight, Handoff and the supported approval workflow.",
+            "ro": "Configurează Siri, Spotlight, Handoff și aprobarea disponibilă pe dispozitiv.",
+            "ru": "Настройте Siri, Spotlight, Handoff и поддерживаемое подтверждение."
+          },
+          "headings": {
+            "en": [
+              "Use Shortcuts and Siri",
+              "Find documents with Spotlight and resume with Handoff",
+              "Approve a local automation request"
+            ],
+            "ro": [
+              "Folosește Scurtături și Siri",
+              "Găsește documente cu Spotlight și continuă cu Handoff",
+              "Aprobă o cerere locală de automatizare"
+            ],
+            "ru": [
+              "Используйте «Команды» и Siri",
+              "Найдите документы в Spotlight и продолжите через Handoff",
+              "Подтвердите локальный запрос автоматизации"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Recover safely"
+            ],
+            "ro": [
+              "Rezolvă problemele în siguranță"
+            ],
+            "ru": [
+              "Безопасно устраните неполадки"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "install-and-connect-your-reader": "setup/#install-and-connect-your-reader",
+          "insert-the-card": "setup/#insert-the-card",
+          "choose-the-identity-and-inspect-its-certificate": "setup/#choose-the-identity-and-inspect-its-certificate",
+          "add-documents-and-choose-their-format": "signing/#add-documents-and-choose-their-format",
+          "place-a-visible-stamp-on-a-pdf": "signing/#place-a-visible-stamp-on-a-pdf",
+          "authorize-the-displayed-batch": "signing/#authorize-the-displayed-batch",
+          "wait-for-signing-and-the-timestamp": "signing/#wait-for-signing-and-the-timestamp",
+          "find-preview-and-share-the-completed-output": "signing/#find-preview-and-share-the-completed-output",
+          "recover-from-a-failed-document": "signing/#recover-from-a-failed-document",
+          "verify-a-pdf-and-every-signature": "verification/#verify-a-pdf-and-every-signature",
+          "read-integrity-trust-and-certificate-details": "verification/#read-integrity-trust-and-certificate-details",
+          "verify-detached-xml-with-its-original": "verification/#verify-detached-xml-with-its-original",
+          "recognize-a-modified-or-invalid-signature": "results/#recognize-a-modified-or-invalid-signature",
+          "distinguish-unconfirmed-trust": "results/#distinguish-unconfirmed-trust",
+          "recognize-an-unsigned-document": "results/#recognize-an-unsigned-document",
+          "find-a-saved-signed-document": "documents/#find-a-saved-signed-document",
+          "inspect-and-hand-off-a-saved-document": "documents/#inspect-and-hand-off-a-saved-document",
+          "clear-operation-history-while-keeping-documents": "documents/#clear-operation-history-while-keeping-documents",
+          "use-a-service-and-manage-bookmarks": "browser/#use-a-service-and-manage-bookmarks",
+          "check-every-website-signing-request": "browser/#check-every-website-signing-request",
+          "browser-settings-and-cleanup": "browser/#browser-settings-and-cleanup",
+          "set-language-appearance-and-system-discovery": "preferences/#set-language-appearance-and-system-discovery",
+          "menu-bar-startup-updates-and-help": "preferences/#menu-bar-startup-updates-and-help",
+          "use-shortcuts-and-siri": "automation/#use-shortcuts-and-siri",
+          "find-documents-with-spotlight-and-resume-with-handoff": "automation/#find-documents-with-spotlight-and-resume-with-handoff",
+          "approve-a-local-automation-request": "automation/#approve-a-local-automation-request",
+          "recover-safely": "help/#recover-safely"
+        },
+        "ro": {
+          "instalează-aplicația-și-conectează-cititorul": "setup/#instalează-aplicația-și-conectează-cititorul",
+          "introdu-cardul": "setup/#introdu-cardul",
+          "alege-identitatea-și-verifică-certificatul": "setup/#alege-identitatea-și-verifică-certificatul",
+          "adaugă-documentele-și-alege-formatul": "signing/#adaugă-documentele-și-alege-formatul",
+          "aplică-o-ștampilă-vizibilă-pe-pdf": "signing/#aplică-o-ștampilă-vizibilă-pe-pdf",
+          "autorizează-lotul-afișat": "signing/#autorizează-lotul-afișat",
+          "așteaptă-semnarea-și-marca-temporală": "signing/#așteaptă-semnarea-și-marca-temporală",
+          "găsește-previzualizează-și-partajează-rezultatul": "signing/#găsește-previzualizează-și-partajează-rezultatul",
+          "rezolvă-o-eroare-de-document": "signing/#rezolvă-o-eroare-de-document",
+          "verifică-un-pdf-și-fiecare-semnătură": "verification/#verifică-un-pdf-și-fiecare-semnătură",
+          "citește-integritatea-încrederea-și-detaliile-certificatului": "verification/#citește-integritatea-încrederea-și-detaliile-certificatului",
+          "verifică-xml-ul-detașat-cu-originalul": "verification/#verifică-xml-ul-detașat-cu-originalul",
+          "recunoaște-o-semnătură-nevalidă-sau-un-document-modificat": "results/#recunoaște-o-semnătură-nevalidă-sau-un-document-modificat",
+          "deosebește-încrederea-neconfirmată": "results/#deosebește-încrederea-neconfirmată",
+          "recunoaște-un-document-nesemnat": "results/#recunoaște-un-document-nesemnat",
+          "găsește-un-document-semnat-salvat": "documents/#găsește-un-document-semnat-salvat",
+          "inspectează-și-transmite-un-document-salvat": "documents/#inspectează-și-transmite-un-document-salvat",
+          "curăță-istoricul-păstrând-documentele": "documents/#curăță-istoricul-păstrând-documentele",
+          "folosește-un-serviciu-și-gestionează-marcajele": "browser/#folosește-un-serviciu-și-gestionează-marcajele",
+          "verifică-fiecare-cerere-de-semnare-de-pe-site": "browser/#verifică-fiecare-cerere-de-semnare-de-pe-site",
+          "configurările-browserului-și-curățarea-datelor": "browser/#configurările-browserului-și-curățarea-datelor",
+          "configurează-limba-aspectul-și-descoperirea-în-sistem": "preferences/#configurează-limba-aspectul-și-descoperirea-în-sistem",
+          "bara-de-meniu-pornirea-actualizările-și-ajutorul": "preferences/#bara-de-meniu-pornirea-actualizările-și-ajutorul",
+          "folosește-scurtături-și-siri": "automation/#folosește-scurtături-și-siri",
+          "găsește-documente-cu-spotlight-și-continuă-cu-handoff": "automation/#găsește-documente-cu-spotlight-și-continuă-cu-handoff",
+          "aprobă-o-cerere-locală-de-automatizare": "automation/#aprobă-o-cerere-locală-de-automatizare",
+          "rezolvă-problemele-în-siguranță": "help/#rezolvă-problemele-în-siguranță"
+        },
+        "ru": {
+          "установите-приложение-и-подключите-считыватель": "setup/#установите-приложение-и-подключите-считыватель",
+          "вставьте-удостоверение": "setup/#вставьте-удостоверение",
+          "выберите-владельца-и-проверьте-сертификат": "setup/#выберите-владельца-и-проверьте-сертификат",
+          "добавьте-документы-и-выберите-формат": "signing/#добавьте-документы-и-выберите-формат",
+          "разместите-видимый-штамп-в-pdf": "signing/#разместите-видимый-штамп-в-pdf",
+          "подтвердите-показанный-пакет": "signing/#подтвердите-показанный-пакет",
+          "дождитесь-подписи-и-метки-времени": "signing/#дождитесь-подписи-и-метки-времени",
+          "найдите-просмотрите-и-отправьте-результат": "signing/#найдите-просмотрите-и-отправьте-результат",
+          "разберитесь-с-ошибкой-документа": "signing/#разберитесь-с-ошибкой-документа",
+          "проверьте-pdf-и-каждую-подпись": "verification/#проверьте-pdf-и-каждую-подпись",
+          "изучите-целостность-доверие-и-сертификат": "verification/#изучите-целостность-доверие-и-сертификат",
+          "проверьте-отделённый-xml-вместе-с-оригиналом": "verification/#проверьте-отделённый-xml-вместе-с-оригиналом",
+          "распознайте-изменённый-документ-или-неверную-подпись": "results/#распознайте-изменённый-документ-или-неверную-подпись",
+          "отличайте-неподтверждённое-доверие": "results/#отличайте-неподтверждённое-доверие",
+          "распознайте-неподписанный-документ": "results/#распознайте-неподписанный-документ",
+          "найдите-сохранённый-подписанный-документ": "documents/#найдите-сохранённый-подписанный-документ",
+          "просмотрите-и-передайте-сохранённый-документ": "documents/#просмотрите-и-передайте-сохранённый-документ",
+          "очистите-историю-сохранив-документы": "documents/#очистите-историю-сохранив-документы",
+          "откройте-сервис-и-настройте-закладки": "browser/#откройте-сервис-и-настройте-закладки",
+          "проверяйте-каждый-запрос-сайта-на-подпись": "browser/#проверяйте-каждый-запрос-сайта-на-подпись",
+          "настройте-подключение-браузера-и-очистите-данные": "browser/#настройте-подключение-браузера-и-очистите-данные",
+          "настройте-язык-оформление-и-системный-поиск": "preferences/#настройте-язык-оформление-и-системный-поиск",
+          "строка-меню-автозапуск-обновления-и-помощь": "preferences/#строка-меню-автозапуск-обновления-и-помощь",
+          "используйте-команды-и-siri": "automation/#используйте-команды-и-siri",
+          "найдите-документы-в-spotlight-и-продолжите-через-handoff": "automation/#найдите-документы-в-spotlight-и-продолжите-через-handoff",
+          "подтвердите-локальный-запрос-автоматизации": "automation/#подтвердите-локальный-запрос-автоматизации",
+          "безопасно-устраните-неполадки": "help/#безопасно-устраните-неполадки"
+        }
+      }
+    },
+    {
+      "id": "ios",
+      "labels": {
+        "en": "iPhone",
+        "ro": "iPhone",
+        "ru": "iPhone"
+      },
+      "assetPlatform": "iphone",
+      "kind": "app",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Connect the reader and insert your card",
+              "Choose the identity that will sign",
+              "Use a smaller or wider iPhone window"
+            ],
+            "ro": [
+              "Conectează cititorul și introdu cardul",
+              "Alege identitatea care va semna",
+              "Folosește o fereastră iPhone mai mică sau mai largă"
+            ],
+            "ru": [
+              "Подключите считыватель и вставьте карту",
+              "Выберите владельца подписи",
+              "Используйте более узкое или широкое окно iPhone"
+            ]
+          },
+          "panels": {
+            "en": 4,
+            "ro": 4,
+            "ru": 4
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Add documents and choose a signature format",
+              "Place a visible stamp in a PDF",
+              "Review the request and authorize signing",
+              "Wait for completion and save the signed output",
+              "Recover from a failed document"
+            ],
+            "ro": [
+              "Adaugă documente și alege formatul semnăturii",
+              "Plasează o ștampilă vizibilă într-un PDF",
+              "Verifică cererea și autorizează semnarea",
+              "Așteaptă finalizarea și salvează rezultatul semnat",
+              "Rezolvă o eroare la un document"
+            ],
+            "ru": [
+              "Добавьте документы и выберите формат подписи",
+              "Разместите видимый штамп в PDF",
+              "Проверьте запрос и разрешите подписание",
+              "Дождитесь завершения и сохраните подписанный результат",
+              "Устраните ошибку отдельного документа"
+            ]
+          },
+          "panels": {
+            "en": 7,
+            "ro": 7,
+            "ru": 7
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify a signed PDF and inspect its certificate",
+              "Supply the original for a detached XML signature"
+            ],
+            "ro": [
+              "Verifică un PDF semnat și certificatul său",
+              "Furnizează originalul pentru XML detașat"
+            ],
+            "ru": [
+              "Проверьте подписанный PDF и его сертификат",
+              "Укажите оригинал для отделённой XML-подписи"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "results",
+          "labels": {
+            "en": "Understand verification results",
+            "ro": "Înțelege rezultatele verificării",
+            "ru": "Разберитесь в результатах проверки"
+          },
+          "descriptions": {
+            "en": "Distinguish invalid signatures, unconfirmed trust and unsigned files.",
+            "ro": "Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.",
+            "ru": "Различайте неверную подпись, неподтверждённое доверие и файлы без подписи."
+          },
+          "headings": {
+            "en": [
+              "Understand an unexpected verification result"
+            ],
+            "ro": [
+              "Înțelege un rezultat neașteptat"
+            ],
+            "ru": [
+              "Поймите неожиданный результат проверки"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find a saved document and open its signing details",
+              "Clear recent history while keeping saved documents"
+            ],
+            "ro": [
+              "Găsește un document și deschide detaliile semnării",
+              "Șterge istoricul păstrând documentele salvate"
+            ],
+            "ru": [
+              "Найдите документ и откройте сведения о подписи",
+              "Очистите историю, сохранив документы"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Log in or sign on a website"
+            ],
+            "ro": [
+              "Autentifică-te sau semnează pe un site"
+            ],
+            "ru": [
+              "Войдите или подпишите на сайте"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Change language, appearance and privacy preferences"
+            ],
+            "ro": [
+              "Schimbă limba, aspectul și confidențialitatea"
+            ],
+            "ru": [
+              "Измените язык, оформление и приватность"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "automation",
+          "labels": {
+            "en": "Use Shortcuts and automation",
+            "ro": "Folosește Scurtături și automatizări",
+            "ru": "Используйте команды и автоматизацию"
+          },
+          "descriptions": {
+            "en": "Set up Siri, Spotlight, Handoff and the supported approval workflow.",
+            "ro": "Configurează Siri, Spotlight, Handoff și aprobarea disponibilă pe dispozitiv.",
+            "ru": "Настройте Siri, Spotlight, Handoff и поддерживаемое подтверждение."
+          },
+          "headings": {
+            "en": [
+              "Use Shortcuts, Siri, Spotlight and Handoff"
+            ],
+            "ro": [
+              "Folosește Scurtături, Siri, Spotlight și Handoff"
+            ],
+            "ru": [
+              "Используйте Команды, Siri, Spotlight и Handoff"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Get help without sharing secrets"
+            ],
+            "ro": [
+              "Cere ajutor fără a trimite secrete"
+            ],
+            "ru": [
+              "Получите помощь без передачи секретов"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "connect-the-reader-and-insert-your-card": "setup/#connect-the-reader-and-insert-your-card",
+          "choose-the-identity-that-will-sign": "setup/#choose-the-identity-that-will-sign",
+          "use-a-smaller-or-wider-iphone-window": "setup/#use-a-smaller-or-wider-iphone-window",
+          "add-documents-and-choose-a-signature-format": "signing/#add-documents-and-choose-a-signature-format",
+          "place-a-visible-stamp-in-a-pdf": "signing/#place-a-visible-stamp-in-a-pdf",
+          "review-the-request-and-authorize-signing": "signing/#review-the-request-and-authorize-signing",
+          "wait-for-completion-and-save-the-signed-output": "signing/#wait-for-completion-and-save-the-signed-output",
+          "recover-from-a-failed-document": "signing/#recover-from-a-failed-document",
+          "verify-a-signed-pdf-and-inspect-its-certificate": "verification/#verify-a-signed-pdf-and-inspect-its-certificate",
+          "supply-the-original-for-a-detached-xml-signature": "verification/#supply-the-original-for-a-detached-xml-signature",
+          "understand-an-unexpected-verification-result": "results/#understand-an-unexpected-verification-result",
+          "find-a-saved-document-and-open-its-signing-details": "documents/#find-a-saved-document-and-open-its-signing-details",
+          "clear-recent-history-while-keeping-saved-documents": "documents/#clear-recent-history-while-keeping-saved-documents",
+          "log-in-or-sign-on-a-website": "browser/#log-in-or-sign-on-a-website",
+          "change-language-appearance-and-privacy-preferences": "preferences/#change-language-appearance-and-privacy-preferences",
+          "use-shortcuts-siri-spotlight-and-handoff": "automation/#use-shortcuts-siri-spotlight-and-handoff",
+          "get-help-without-sharing-secrets": "help/#get-help-without-sharing-secrets"
+        },
+        "ro": {
+          "conectează-cititorul-și-introdu-cardul": "setup/#conectează-cititorul-și-introdu-cardul",
+          "alege-identitatea-care-va-semna": "setup/#alege-identitatea-care-va-semna",
+          "folosește-o-fereastră-iphone-mai-mică-sau-mai-largă": "setup/#folosește-o-fereastră-iphone-mai-mică-sau-mai-largă",
+          "adaugă-documente-și-alege-formatul-semnăturii": "signing/#adaugă-documente-și-alege-formatul-semnăturii",
+          "plasează-o-ștampilă-vizibilă-într-un-pdf": "signing/#plasează-o-ștampilă-vizibilă-într-un-pdf",
+          "verifică-cererea-și-autorizează-semnarea": "signing/#verifică-cererea-și-autorizează-semnarea",
+          "așteaptă-finalizarea-și-salvează-rezultatul-semnat": "signing/#așteaptă-finalizarea-și-salvează-rezultatul-semnat",
+          "rezolvă-o-eroare-la-un-document": "signing/#rezolvă-o-eroare-la-un-document",
+          "verifică-un-pdf-semnat-și-certificatul-său": "verification/#verifică-un-pdf-semnat-și-certificatul-său",
+          "furnizează-originalul-pentru-xml-detașat": "verification/#furnizează-originalul-pentru-xml-detașat",
+          "înțelege-un-rezultat-neașteptat": "results/#înțelege-un-rezultat-neașteptat",
+          "găsește-un-document-și-deschide-detaliile-semnării": "documents/#găsește-un-document-și-deschide-detaliile-semnării",
+          "șterge-istoricul-păstrând-documentele-salvate": "documents/#șterge-istoricul-păstrând-documentele-salvate",
+          "autentifică-te-sau-semnează-pe-un-site": "browser/#autentifică-te-sau-semnează-pe-un-site",
+          "schimbă-limba-aspectul-și-confidențialitatea": "preferences/#schimbă-limba-aspectul-și-confidențialitatea",
+          "folosește-scurtături-siri-spotlight-și-handoff": "automation/#folosește-scurtături-siri-spotlight-și-handoff",
+          "cere-ajutor-fără-a-trimite-secrete": "help/#cere-ajutor-fără-a-trimite-secrete"
+        },
+        "ru": {
+          "подключите-считыватель-и-вставьте-карту": "setup/#подключите-считыватель-и-вставьте-карту",
+          "выберите-владельца-подписи": "setup/#выберите-владельца-подписи",
+          "используйте-более-узкое-или-широкое-окно-iphone": "setup/#используйте-более-узкое-или-широкое-окно-iphone",
+          "добавьте-документы-и-выберите-формат-подписи": "signing/#добавьте-документы-и-выберите-формат-подписи",
+          "разместите-видимый-штамп-в-pdf": "signing/#разместите-видимый-штамп-в-pdf",
+          "проверьте-запрос-и-разрешите-подписание": "signing/#проверьте-запрос-и-разрешите-подписание",
+          "дождитесь-завершения-и-сохраните-подписанный-результат": "signing/#дождитесь-завершения-и-сохраните-подписанный-результат",
+          "устраните-ошибку-отдельного-документа": "signing/#устраните-ошибку-отдельного-документа",
+          "проверьте-подписанный-pdf-и-его-сертификат": "verification/#проверьте-подписанный-pdf-и-его-сертификат",
+          "укажите-оригинал-для-отделённой-xml-подписи": "verification/#укажите-оригинал-для-отделённой-xml-подписи",
+          "поймите-неожиданный-результат-проверки": "results/#поймите-неожиданный-результат-проверки",
+          "найдите-документ-и-откройте-сведения-о-подписи": "documents/#найдите-документ-и-откройте-сведения-о-подписи",
+          "очистите-историю-сохранив-документы": "documents/#очистите-историю-сохранив-документы",
+          "войдите-или-подпишите-на-сайте": "browser/#войдите-или-подпишите-на-сайте",
+          "измените-язык-оформление-и-приватность": "preferences/#измените-язык-оформление-и-приватность",
+          "используйте-команды-siri-spotlight-и-handoff": "automation/#используйте-команды-siri-spotlight-и-handoff",
+          "получите-помощь-без-передачи-секретов": "help/#получите-помощь-без-передачи-секретов"
+        }
+      }
+    },
+    {
+      "id": "ipad",
+      "labels": {
+        "en": "iPad",
+        "ro": "iPad",
+        "ru": "iPad"
+      },
+      "assetPlatform": "ipad",
+      "kind": "app",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Connect the reader and insert your card",
+              "Choose the identity that will sign",
+              "Use iPad windows and Files alongside signing"
+            ],
+            "ro": [
+              "Conectează cititorul și introdu cardul",
+              "Alege identitatea care va semna",
+              "Folosește ferestrele iPad și Fișiere alături de semnare"
+            ],
+            "ru": [
+              "Подключите считыватель и вставьте карту",
+              "Выберите владельца подписи",
+              "Используйте окна iPad и Файлы рядом с подписанием"
+            ]
+          },
+          "panels": {
+            "en": 4,
+            "ro": 4,
+            "ru": 4
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Add documents and choose a signature format",
+              "Place a visible stamp in a PDF",
+              "Review the request and authorize signing",
+              "Wait for completion and save the signed output",
+              "Recover from a failed document"
+            ],
+            "ro": [
+              "Adaugă documente și alege formatul semnăturii",
+              "Plasează o ștampilă vizibilă într-un PDF",
+              "Verifică cererea și autorizează semnarea",
+              "Așteaptă finalizarea și salvează rezultatul semnat",
+              "Rezolvă o eroare la un document"
+            ],
+            "ru": [
+              "Добавьте документы и выберите формат подписи",
+              "Разместите видимый штамп в PDF",
+              "Проверьте запрос и разрешите подписание",
+              "Дождитесь завершения и сохраните подписанный результат",
+              "Устраните ошибку отдельного документа"
+            ]
+          },
+          "panels": {
+            "en": 7,
+            "ro": 7,
+            "ru": 7
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify a signed PDF and inspect its certificate",
+              "Supply the original for a detached XML signature"
+            ],
+            "ro": [
+              "Verifică un PDF semnat și certificatul său",
+              "Furnizează originalul pentru XML detașat"
+            ],
+            "ru": [
+              "Проверьте подписанный PDF и его сертификат",
+              "Укажите оригинал для отделённой XML-подписи"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "results",
+          "labels": {
+            "en": "Understand verification results",
+            "ro": "Înțelege rezultatele verificării",
+            "ru": "Разберитесь в результатах проверки"
+          },
+          "descriptions": {
+            "en": "Distinguish invalid signatures, unconfirmed trust and unsigned files.",
+            "ro": "Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.",
+            "ru": "Различайте неверную подпись, неподтверждённое доверие и файлы без подписи."
+          },
+          "headings": {
+            "en": [
+              "Understand an unexpected verification result"
+            ],
+            "ro": [
+              "Înțelege un rezultat neașteptat"
+            ],
+            "ru": [
+              "Поймите неожиданный результат проверки"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find a saved document and open its signing details",
+              "Clear recent history while keeping saved documents"
+            ],
+            "ro": [
+              "Găsește un document și deschide detaliile semnării",
+              "Șterge istoricul păstrând documentele salvate"
+            ],
+            "ru": [
+              "Найдите документ и откройте сведения о подписи",
+              "Очистите историю, сохранив документы"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Log in or sign on a website"
+            ],
+            "ro": [
+              "Autentifică-te sau semnează pe un site"
+            ],
+            "ru": [
+              "Войдите или подпишите на сайте"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Change language, appearance and privacy preferences"
+            ],
+            "ro": [
+              "Schimbă limba, aspectul și confidențialitatea"
+            ],
+            "ru": [
+              "Измените язык, оформление и приватность"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "automation",
+          "labels": {
+            "en": "Use Shortcuts and automation",
+            "ro": "Folosește Scurtături și automatizări",
+            "ru": "Используйте команды и автоматизацию"
+          },
+          "descriptions": {
+            "en": "Set up Siri, Spotlight, Handoff and the supported approval workflow.",
+            "ro": "Configurează Siri, Spotlight, Handoff și aprobarea disponibilă pe dispozitiv.",
+            "ru": "Настройте Siri, Spotlight, Handoff и поддерживаемое подтверждение."
+          },
+          "headings": {
+            "en": [
+              "Use Shortcuts, Siri, Spotlight and Handoff"
+            ],
+            "ro": [
+              "Folosește Scurtături, Siri, Spotlight și Handoff"
+            ],
+            "ru": [
+              "Используйте Команды, Siri, Spotlight и Handoff"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Get help without sharing secrets"
+            ],
+            "ro": [
+              "Cere ajutor fără a trimite secrete"
+            ],
+            "ru": [
+              "Получите помощь без передачи секретов"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "connect-the-reader-and-insert-your-card": "setup/#connect-the-reader-and-insert-your-card",
+          "choose-the-identity-that-will-sign": "setup/#choose-the-identity-that-will-sign",
+          "use-ipad-windows-and-files-alongside-signing": "setup/#use-ipad-windows-and-files-alongside-signing",
+          "add-documents-and-choose-a-signature-format": "signing/#add-documents-and-choose-a-signature-format",
+          "place-a-visible-stamp-in-a-pdf": "signing/#place-a-visible-stamp-in-a-pdf",
+          "review-the-request-and-authorize-signing": "signing/#review-the-request-and-authorize-signing",
+          "wait-for-completion-and-save-the-signed-output": "signing/#wait-for-completion-and-save-the-signed-output",
+          "recover-from-a-failed-document": "signing/#recover-from-a-failed-document",
+          "verify-a-signed-pdf-and-inspect-its-certificate": "verification/#verify-a-signed-pdf-and-inspect-its-certificate",
+          "supply-the-original-for-a-detached-xml-signature": "verification/#supply-the-original-for-a-detached-xml-signature",
+          "understand-an-unexpected-verification-result": "results/#understand-an-unexpected-verification-result",
+          "find-a-saved-document-and-open-its-signing-details": "documents/#find-a-saved-document-and-open-its-signing-details",
+          "clear-recent-history-while-keeping-saved-documents": "documents/#clear-recent-history-while-keeping-saved-documents",
+          "log-in-or-sign-on-a-website": "browser/#log-in-or-sign-on-a-website",
+          "change-language-appearance-and-privacy-preferences": "preferences/#change-language-appearance-and-privacy-preferences",
+          "use-shortcuts-siri-spotlight-and-handoff": "automation/#use-shortcuts-siri-spotlight-and-handoff",
+          "get-help-without-sharing-secrets": "help/#get-help-without-sharing-secrets"
+        },
+        "ro": {
+          "conectează-cititorul-și-introdu-cardul": "setup/#conectează-cititorul-și-introdu-cardul",
+          "alege-identitatea-care-va-semna": "setup/#alege-identitatea-care-va-semna",
+          "folosește-ferestrele-ipad-și-fișiere-alături-de-semnare": "setup/#folosește-ferestrele-ipad-și-fișiere-alături-de-semnare",
+          "adaugă-documente-și-alege-formatul-semnăturii": "signing/#adaugă-documente-și-alege-formatul-semnăturii",
+          "plasează-o-ștampilă-vizibilă-într-un-pdf": "signing/#plasează-o-ștampilă-vizibilă-într-un-pdf",
+          "verifică-cererea-și-autorizează-semnarea": "signing/#verifică-cererea-și-autorizează-semnarea",
+          "așteaptă-finalizarea-și-salvează-rezultatul-semnat": "signing/#așteaptă-finalizarea-și-salvează-rezultatul-semnat",
+          "rezolvă-o-eroare-la-un-document": "signing/#rezolvă-o-eroare-la-un-document",
+          "verifică-un-pdf-semnat-și-certificatul-său": "verification/#verifică-un-pdf-semnat-și-certificatul-său",
+          "furnizează-originalul-pentru-xml-detașat": "verification/#furnizează-originalul-pentru-xml-detașat",
+          "înțelege-un-rezultat-neașteptat": "results/#înțelege-un-rezultat-neașteptat",
+          "găsește-un-document-și-deschide-detaliile-semnării": "documents/#găsește-un-document-și-deschide-detaliile-semnării",
+          "șterge-istoricul-păstrând-documentele-salvate": "documents/#șterge-istoricul-păstrând-documentele-salvate",
+          "autentifică-te-sau-semnează-pe-un-site": "browser/#autentifică-te-sau-semnează-pe-un-site",
+          "schimbă-limba-aspectul-și-confidențialitatea": "preferences/#schimbă-limba-aspectul-și-confidențialitatea",
+          "folosește-scurtături-siri-spotlight-și-handoff": "automation/#folosește-scurtături-siri-spotlight-și-handoff",
+          "cere-ajutor-fără-a-trimite-secrete": "help/#cere-ajutor-fără-a-trimite-secrete"
+        },
+        "ru": {
+          "подключите-считыватель-и-вставьте-карту": "setup/#подключите-считыватель-и-вставьте-карту",
+          "выберите-владельца-подписи": "setup/#выберите-владельца-подписи",
+          "используйте-окна-ipad-и-файлы-рядом-с-подписанием": "setup/#используйте-окна-ipad-и-файлы-рядом-с-подписанием",
+          "добавьте-документы-и-выберите-формат-подписи": "signing/#добавьте-документы-и-выберите-формат-подписи",
+          "разместите-видимый-штамп-в-pdf": "signing/#разместите-видимый-штамп-в-pdf",
+          "проверьте-запрос-и-разрешите-подписание": "signing/#проверьте-запрос-и-разрешите-подписание",
+          "дождитесь-завершения-и-сохраните-подписанный-результат": "signing/#дождитесь-завершения-и-сохраните-подписанный-результат",
+          "устраните-ошибку-отдельного-документа": "signing/#устраните-ошибку-отдельного-документа",
+          "проверьте-подписанный-pdf-и-его-сертификат": "verification/#проверьте-подписанный-pdf-и-его-сертификат",
+          "укажите-оригинал-для-отделённой-xml-подписи": "verification/#укажите-оригинал-для-отделённой-xml-подписи",
+          "поймите-неожиданный-результат-проверки": "results/#поймите-неожиданный-результат-проверки",
+          "найдите-документ-и-откройте-сведения-о-подписи": "documents/#найдите-документ-и-откройте-сведения-о-подписи",
+          "очистите-историю-сохранив-документы": "documents/#очистите-историю-сохранив-документы",
+          "войдите-или-подпишите-на-сайте": "browser/#войдите-или-подпишите-на-сайте",
+          "измените-язык-оформление-и-приватность": "preferences/#измените-язык-оформление-и-приватность",
+          "используйте-команды-siri-spotlight-и-handoff": "automation/#используйте-команды-siri-spotlight-и-handoff",
+          "получите-помощь-без-передачи-секретов": "help/#получите-помощь-без-передачи-секретов"
+        }
+      }
+    },
+    {
+      "id": "android",
+      "labels": {
+        "en": "Android phone",
+        "ro": "Telefon Android",
+        "ru": "Телефон Android"
+      },
+      "assetPlatform": "android-phone",
+      "kind": "app",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Connect the reader and card",
+              "Inspect or refresh the card"
+            ],
+            "ro": [
+              "Conectează cititorul și cardul",
+              "Consultă sau recitește cardul"
+            ],
+            "ru": [
+              "Подключите считыватель и карту",
+              "Просмотрите или перечитайте карту"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Add files and prepare a batch",
+              "Choose PDF or XML signatures",
+              "Place an optional visible stamp",
+              "Review and authorize",
+              "Follow signing progress",
+              "Recover from a failed item",
+              "Open, save, or share the result"
+            ],
+            "ro": [
+              "Adaugă fișiere și pregătește un lot",
+              "Alege semnătura PDF sau XML",
+              "Poziționează ștampila vizibilă",
+              "Verifică și autorizează",
+              "Urmărește progresul semnării",
+              "Rezolvă eroarea unui fișier",
+              "Deschide, salvează sau distribuie rezultatul"
+            ],
+            "ru": [
+              "Добавьте файлы и подготовьте пакет",
+              "Выберите подпись PDF или XML",
+              "Разместите видимый штамп",
+              "Проверьте и подтвердите",
+              "Следите за ходом подписания",
+              "Исправьте ошибку отдельного файла",
+              "Откройте, сохраните или отправьте результат"
+            ]
+          },
+          "panels": {
+            "en": 7,
+            "ro": 7,
+            "ru": 7
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Check a signed document",
+              "Inspect certificate and technical details",
+              "Supply the original for detached XML"
+            ],
+            "ro": [
+              "Verifică un document semnat",
+              "Consultă certificatul și detaliile tehnice",
+              "Furnizează originalul pentru XML detașat"
+            ],
+            "ru": [
+              "Проверьте подписанный документ",
+              "Изучите сертификат и технические сведения",
+              "Добавьте оригинал для отсоединённой XML-подписи"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "results",
+          "labels": {
+            "en": "Understand verification results",
+            "ro": "Înțelege rezultatele verificării",
+            "ru": "Разберитесь в результатах проверки"
+          },
+          "descriptions": {
+            "en": "Distinguish invalid signatures, unconfirmed trust and unsigned files.",
+            "ro": "Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.",
+            "ru": "Различайте неверную подпись, неподтверждённое доверие и файлы без подписи."
+          },
+          "headings": {
+            "en": [
+              "Understand an invalid signature",
+              "Understand an unconfirmed trust chain",
+              "Recognize an unsigned or unsupported file"
+            ],
+            "ro": [
+              "Înțelege semnătura invalidă",
+              "Înțelege lanțul de încredere neconfirmat",
+              "Recunoaște un fișier nesemnat sau neacceptat"
+            ],
+            "ru": [
+              "Разберите недействительную подпись",
+              "Разберите неподтверждённую цепочку доверия",
+              "Распознайте файл без читаемой подписи"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find signed documents",
+              "Read signing details without losing your list",
+              "Clear history while keeping documents"
+            ],
+            "ro": [
+              "Găsește documentele semnate",
+              "Consultă detaliile fără a pierde lista",
+              "Curăță istoricul păstrând documentele"
+            ],
+            "ru": [
+              "Найдите подписанные документы",
+              "Просмотрите сведения, сохраняя список",
+              "Очистите историю, сохранив документы"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Sign on a website",
+              "Use browser controls and services",
+              "Add a useful bookmark",
+              "Edit or remove bookmarks",
+              "Reset a website session"
+            ],
+            "ro": [
+              "Semnează pe un site",
+              "Folosește comenzile browserului și serviciile",
+              "Adaugă un marcaj util",
+              "Editează sau elimină marcaje",
+              "Resetează sesiunea unui site"
+            ],
+            "ru": [
+              "Подпишите документ на сайте",
+              "Навигация в браузере и выбор службы",
+              "Добавьте полезную закладку",
+              "Измените или удалите закладки",
+              "Сбросьте сеанс сайта"
+            ]
+          },
+          "panels": {
+            "en": 5,
+            "ro": 5,
+            "ru": 5
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Language, appearance, demo, and support"
+            ],
+            "ro": [
+              "Limbă, aspect, demonstrație și suport"
+            ],
+            "ru": [
+              "Язык, оформление, демонстрация и поддержка"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Troubleshooting"
+            ],
+            "ro": [
+              "Rezolvarea problemelor"
+            ],
+            "ru": [
+              "Решение проблем"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "1-connect-the-reader-and-card": "setup/#connect-the-reader-and-card",
+          "14-inspect-or-refresh-the-card": "setup/#inspect-or-refresh-the-card",
+          "2-add-files-and-prepare-a-batch": "signing/#add-files-and-prepare-a-batch",
+          "3-choose-pdf-or-xml-signatures": "signing/#choose-pdf-or-xml-signatures",
+          "4-place-an-optional-visible-stamp": "signing/#place-an-optional-visible-stamp",
+          "5-review-and-authorize": "signing/#review-and-authorize",
+          "follow-signing-progress": "signing/#follow-signing-progress",
+          "recover-from-a-failed-item": "signing/#recover-from-a-failed-item",
+          "6-open-save-or-share-the-result": "signing/#open-save-or-share-the-result",
+          "7-check-a-signed-document": "verification/#check-a-signed-document",
+          "8-inspect-certificate-and-technical-details": "verification/#inspect-certificate-and-technical-details",
+          "9-supply-the-original-for-detached-xml": "verification/#supply-the-original-for-detached-xml",
+          "understand-an-invalid-signature": "results/#understand-an-invalid-signature",
+          "understand-an-unconfirmed-trust-chain": "results/#understand-an-unconfirmed-trust-chain",
+          "recognize-an-unsigned-or-unsupported-file": "results/#recognize-an-unsigned-or-unsupported-file",
+          "10-find-signed-documents": "documents/#find-signed-documents",
+          "11-read-signing-details-without-losing-your-list": "documents/#read-signing-details-without-losing-your-list",
+          "12-clear-history-while-keeping-documents": "documents/#clear-history-while-keeping-documents",
+          "13-sign-on-a-website": "browser/#sign-on-a-website",
+          "use-browser-controls-and-services": "browser/#use-browser-controls-and-services",
+          "add-a-useful-bookmark": "browser/#add-a-useful-bookmark",
+          "edit-or-remove-bookmarks": "browser/#edit-or-remove-bookmarks",
+          "reset-a-website-session": "browser/#reset-a-website-session",
+          "15-language-appearance-demo-and-support": "preferences/#language-appearance-demo-and-support",
+          "troubleshooting": "help/#troubleshooting"
+        },
+        "ro": {
+          "1-conectează-cititorul-și-cardul": "setup/#conectează-cititorul-și-cardul",
+          "14-consultă-sau-recitește-cardul": "setup/#consultă-sau-recitește-cardul",
+          "2-adaugă-fișiere-și-pregătește-un-lot": "signing/#adaugă-fișiere-și-pregătește-un-lot",
+          "3-alege-semnătura-pdf-sau-xml": "signing/#alege-semnătura-pdf-sau-xml",
+          "4-poziționează-ștampila-vizibilă": "signing/#poziționează-ștampila-vizibilă",
+          "5-verifică-și-autorizează": "signing/#verifică-și-autorizează",
+          "urmărește-progresul-semnării": "signing/#urmărește-progresul-semnării",
+          "rezolvă-eroarea-unui-fișier": "signing/#rezolvă-eroarea-unui-fișier",
+          "6-deschide-salvează-sau-distribuie-rezultatul": "signing/#deschide-salvează-sau-distribuie-rezultatul",
+          "7-verifică-un-document-semnat": "verification/#verifică-un-document-semnat",
+          "8-consultă-certificatul-și-detaliile-tehnice": "verification/#consultă-certificatul-și-detaliile-tehnice",
+          "9-furnizează-originalul-pentru-xml-detașat": "verification/#furnizează-originalul-pentru-xml-detașat",
+          "înțelege-semnătura-invalidă": "results/#înțelege-semnătura-invalidă",
+          "înțelege-lanțul-de-încredere-neconfirmat": "results/#înțelege-lanțul-de-încredere-neconfirmat",
+          "recunoaște-un-fișier-nesemnat-sau-neacceptat": "results/#recunoaște-un-fișier-nesemnat-sau-neacceptat",
+          "10-găsește-documentele-semnate": "documents/#găsește-documentele-semnate",
+          "11-consultă-detaliile-fără-a-pierde-lista": "documents/#consultă-detaliile-fără-a-pierde-lista",
+          "12-curăță-istoricul-păstrând-documentele": "documents/#curăță-istoricul-păstrând-documentele",
+          "13-semnează-pe-un-site": "browser/#semnează-pe-un-site",
+          "folosește-comenzile-browserului-și-serviciile": "browser/#folosește-comenzile-browserului-și-serviciile",
+          "adaugă-un-marcaj-util": "browser/#adaugă-un-marcaj-util",
+          "editează-sau-elimină-marcaje": "browser/#editează-sau-elimină-marcaje",
+          "resetează-sesiunea-unui-site": "browser/#resetează-sesiunea-unui-site",
+          "15-limbă-aspect-demonstrație-și-suport": "preferences/#limbă-aspect-demonstrație-și-suport",
+          "rezolvarea-problemelor": "help/#rezolvarea-problemelor"
+        },
+        "ru": {
+          "1-подключите-считыватель-и-карту": "setup/#подключите-считыватель-и-карту",
+          "14-просмотрите-или-перечитайте-карту": "setup/#просмотрите-или-перечитайте-карту",
+          "2-добавьте-файлы-и-подготовьте-пакет": "signing/#добавьте-файлы-и-подготовьте-пакет",
+          "3-выберите-подпись-pdf-или-xml": "signing/#выберите-подпись-pdf-или-xml",
+          "4-разместите-видимый-штамп": "signing/#разместите-видимый-штамп",
+          "5-проверьте-и-подтвердите": "signing/#проверьте-и-подтвердите",
+          "следите-за-ходом-подписания": "signing/#следите-за-ходом-подписания",
+          "исправьте-ошибку-отдельного-файла": "signing/#исправьте-ошибку-отдельного-файла",
+          "6-откройте-сохраните-или-отправьте-результат": "signing/#откройте-сохраните-или-отправьте-результат",
+          "7-проверьте-подписанный-документ": "verification/#проверьте-подписанный-документ",
+          "8-изучите-сертификат-и-технические-сведения": "verification/#изучите-сертификат-и-технические-сведения",
+          "9-добавьте-оригинал-для-отсоединённой-xml-подписи": "verification/#добавьте-оригинал-для-отсоединённой-xml-подписи",
+          "разберите-недействительную-подпись": "results/#разберите-недействительную-подпись",
+          "разберите-неподтверждённую-цепочку-доверия": "results/#разберите-неподтверждённую-цепочку-доверия",
+          "распознайте-файл-без-читаемой-подписи": "results/#распознайте-файл-без-читаемой-подписи",
+          "10-найдите-подписанные-документы": "documents/#найдите-подписанные-документы",
+          "11-просмотрите-сведения-сохраняя-список": "documents/#просмотрите-сведения-сохраняя-список",
+          "12-очистите-историю-сохранив-документы": "documents/#очистите-историю-сохранив-документы",
+          "13-подпишите-документ-на-сайте": "browser/#подпишите-документ-на-сайте",
+          "навигация-в-браузере-и-выбор-службы": "browser/#навигация-в-браузере-и-выбор-службы",
+          "добавьте-полезную-закладку": "browser/#добавьте-полезную-закладку",
+          "измените-или-удалите-закладки": "browser/#измените-или-удалите-закладки",
+          "сбросьте-сеанс-сайта": "browser/#сбросьте-сеанс-сайта",
+          "15-язык-оформление-демонстрация-и-поддержка": "preferences/#язык-оформление-демонстрация-и-поддержка",
+          "решение-проблем": "help/#решение-проблем"
+        }
+      }
+    },
+    {
+      "id": "android-tablet",
+      "labels": {
+        "en": "Android tablet",
+        "ro": "Tabletă Android",
+        "ru": "Планшет Android"
+      },
+      "assetPlatform": "android-tablet",
+      "kind": "app",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Connect the reader and card",
+              "Inspect or refresh the card"
+            ],
+            "ro": [
+              "Conectează cititorul și cardul",
+              "Consultă sau recitește cardul"
+            ],
+            "ru": [
+              "Подключите считыватель и карту",
+              "Просмотрите или перечитайте карту"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Add files and prepare a batch",
+              "Choose PDF or XML signatures",
+              "Place an optional visible stamp",
+              "Review and authorize",
+              "Follow signing progress",
+              "Recover from a failed item",
+              "Open, save, or share the result"
+            ],
+            "ro": [
+              "Adaugă fișiere și pregătește un lot",
+              "Alege semnătura PDF sau XML",
+              "Poziționează ștampila vizibilă",
+              "Verifică și autorizează",
+              "Urmărește progresul semnării",
+              "Rezolvă eroarea unui fișier",
+              "Deschide, salvează sau distribuie rezultatul"
+            ],
+            "ru": [
+              "Добавьте файлы и подготовьте пакет",
+              "Выберите подпись PDF или XML",
+              "Разместите видимый штамп",
+              "Проверьте и подтвердите",
+              "Следите за ходом подписания",
+              "Исправьте ошибку отдельного файла",
+              "Откройте, сохраните или отправьте результат"
+            ]
+          },
+          "panels": {
+            "en": 7,
+            "ro": 7,
+            "ru": 7
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Check a signed document",
+              "Inspect certificate and technical details",
+              "Supply the original for detached XML"
+            ],
+            "ro": [
+              "Verifică un document semnat",
+              "Consultă certificatul și detaliile tehnice",
+              "Furnizează originalul pentru XML detașat"
+            ],
+            "ru": [
+              "Проверьте подписанный документ",
+              "Изучите сертификат и технические сведения",
+              "Добавьте оригинал для отсоединённой XML-подписи"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "results",
+          "labels": {
+            "en": "Understand verification results",
+            "ro": "Înțelege rezultatele verificării",
+            "ru": "Разберитесь в результатах проверки"
+          },
+          "descriptions": {
+            "en": "Distinguish invalid signatures, unconfirmed trust and unsigned files.",
+            "ro": "Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.",
+            "ru": "Различайте неверную подпись, неподтверждённое доверие и файлы без подписи."
+          },
+          "headings": {
+            "en": [
+              "Understand an invalid signature",
+              "Understand an unconfirmed trust chain",
+              "Recognize an unsigned or unsupported file"
+            ],
+            "ro": [
+              "Înțelege semnătura invalidă",
+              "Înțelege lanțul de încredere neconfirmat",
+              "Recunoaște un fișier nesemnat sau neacceptat"
+            ],
+            "ru": [
+              "Разберите недействительную подпись",
+              "Разберите неподтверждённую цепочку доверия",
+              "Распознайте файл без читаемой подписи"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find signed documents",
+              "Read signing details without losing your list",
+              "Clear history while keeping documents"
+            ],
+            "ro": [
+              "Găsește documentele semnate",
+              "Consultă detaliile fără a pierde lista",
+              "Curăță istoricul păstrând documentele"
+            ],
+            "ru": [
+              "Найдите подписанные документы",
+              "Просмотрите сведения, сохраняя список",
+              "Очистите историю, сохранив документы"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Sign on a website",
+              "Use browser controls and services",
+              "Add a useful bookmark",
+              "Edit or remove bookmarks",
+              "Reset a website session"
+            ],
+            "ro": [
+              "Semnează pe un site",
+              "Folosește comenzile browserului și serviciile",
+              "Adaugă un marcaj util",
+              "Editează sau elimină marcaje",
+              "Resetează sesiunea unui site"
+            ],
+            "ru": [
+              "Подпишите документ на сайте",
+              "Навигация в браузере и выбор службы",
+              "Добавьте полезную закладку",
+              "Измените или удалите закладки",
+              "Сбросьте сеанс сайта"
+            ]
+          },
+          "panels": {
+            "en": 5,
+            "ro": 5,
+            "ru": 5
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Language, appearance, demo, and support"
+            ],
+            "ro": [
+              "Limbă, aspect, demonstrație și suport"
+            ],
+            "ru": [
+              "Язык, оформление, демонстрация и поддержка"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Troubleshooting"
+            ],
+            "ro": [
+              "Rezolvarea problemelor"
+            ],
+            "ru": [
+              "Решение проблем"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "1-connect-the-reader-and-card": "setup/#connect-the-reader-and-card",
+          "14-inspect-or-refresh-the-card": "setup/#inspect-or-refresh-the-card",
+          "2-add-files-and-prepare-a-batch": "signing/#add-files-and-prepare-a-batch",
+          "3-choose-pdf-or-xml-signatures": "signing/#choose-pdf-or-xml-signatures",
+          "4-place-an-optional-visible-stamp": "signing/#place-an-optional-visible-stamp",
+          "5-review-and-authorize": "signing/#review-and-authorize",
+          "follow-signing-progress": "signing/#follow-signing-progress",
+          "recover-from-a-failed-item": "signing/#recover-from-a-failed-item",
+          "6-open-save-or-share-the-result": "signing/#open-save-or-share-the-result",
+          "7-check-a-signed-document": "verification/#check-a-signed-document",
+          "8-inspect-certificate-and-technical-details": "verification/#inspect-certificate-and-technical-details",
+          "9-supply-the-original-for-detached-xml": "verification/#supply-the-original-for-detached-xml",
+          "understand-an-invalid-signature": "results/#understand-an-invalid-signature",
+          "understand-an-unconfirmed-trust-chain": "results/#understand-an-unconfirmed-trust-chain",
+          "recognize-an-unsigned-or-unsupported-file": "results/#recognize-an-unsigned-or-unsupported-file",
+          "10-find-signed-documents": "documents/#find-signed-documents",
+          "11-read-signing-details-without-losing-your-list": "documents/#read-signing-details-without-losing-your-list",
+          "12-clear-history-while-keeping-documents": "documents/#clear-history-while-keeping-documents",
+          "13-sign-on-a-website": "browser/#sign-on-a-website",
+          "use-browser-controls-and-services": "browser/#use-browser-controls-and-services",
+          "add-a-useful-bookmark": "browser/#add-a-useful-bookmark",
+          "edit-or-remove-bookmarks": "browser/#edit-or-remove-bookmarks",
+          "reset-a-website-session": "browser/#reset-a-website-session",
+          "15-language-appearance-demo-and-support": "preferences/#language-appearance-demo-and-support",
+          "troubleshooting": "help/#troubleshooting"
+        },
+        "ro": {
+          "1-conectează-cititorul-și-cardul": "setup/#conectează-cititorul-și-cardul",
+          "14-consultă-sau-recitește-cardul": "setup/#consultă-sau-recitește-cardul",
+          "2-adaugă-fișiere-și-pregătește-un-lot": "signing/#adaugă-fișiere-și-pregătește-un-lot",
+          "3-alege-semnătura-pdf-sau-xml": "signing/#alege-semnătura-pdf-sau-xml",
+          "4-poziționează-ștampila-vizibilă": "signing/#poziționează-ștampila-vizibilă",
+          "5-verifică-și-autorizează": "signing/#verifică-și-autorizează",
+          "urmărește-progresul-semnării": "signing/#urmărește-progresul-semnării",
+          "rezolvă-eroarea-unui-fișier": "signing/#rezolvă-eroarea-unui-fișier",
+          "6-deschide-salvează-sau-distribuie-rezultatul": "signing/#deschide-salvează-sau-distribuie-rezultatul",
+          "7-verifică-un-document-semnat": "verification/#verifică-un-document-semnat",
+          "8-consultă-certificatul-și-detaliile-tehnice": "verification/#consultă-certificatul-și-detaliile-tehnice",
+          "9-furnizează-originalul-pentru-xml-detașat": "verification/#furnizează-originalul-pentru-xml-detașat",
+          "înțelege-semnătura-invalidă": "results/#înțelege-semnătura-invalidă",
+          "înțelege-lanțul-de-încredere-neconfirmat": "results/#înțelege-lanțul-de-încredere-neconfirmat",
+          "recunoaște-un-fișier-nesemnat-sau-neacceptat": "results/#recunoaște-un-fișier-nesemnat-sau-neacceptat",
+          "10-găsește-documentele-semnate": "documents/#găsește-documentele-semnate",
+          "11-consultă-detaliile-fără-a-pierde-lista": "documents/#consultă-detaliile-fără-a-pierde-lista",
+          "12-curăță-istoricul-păstrând-documentele": "documents/#curăță-istoricul-păstrând-documentele",
+          "13-semnează-pe-un-site": "browser/#semnează-pe-un-site",
+          "folosește-comenzile-browserului-și-serviciile": "browser/#folosește-comenzile-browserului-și-serviciile",
+          "adaugă-un-marcaj-util": "browser/#adaugă-un-marcaj-util",
+          "editează-sau-elimină-marcaje": "browser/#editează-sau-elimină-marcaje",
+          "resetează-sesiunea-unui-site": "browser/#resetează-sesiunea-unui-site",
+          "15-limbă-aspect-demonstrație-și-suport": "preferences/#limbă-aspect-demonstrație-și-suport",
+          "rezolvarea-problemelor": "help/#rezolvarea-problemelor"
+        },
+        "ru": {
+          "1-подключите-считыватель-и-карту": "setup/#подключите-считыватель-и-карту",
+          "14-просмотрите-или-перечитайте-карту": "setup/#просмотрите-или-перечитайте-карту",
+          "2-добавьте-файлы-и-подготовьте-пакет": "signing/#добавьте-файлы-и-подготовьте-пакет",
+          "3-выберите-подпись-pdf-или-xml": "signing/#выберите-подпись-pdf-или-xml",
+          "4-разместите-видимый-штамп": "signing/#разместите-видимый-штамп",
+          "5-проверьте-и-подтвердите": "signing/#проверьте-и-подтвердите",
+          "следите-за-ходом-подписания": "signing/#следите-за-ходом-подписания",
+          "исправьте-ошибку-отдельного-файла": "signing/#исправьте-ошибку-отдельного-файла",
+          "6-откройте-сохраните-или-отправьте-результат": "signing/#откройте-сохраните-или-отправьте-результат",
+          "7-проверьте-подписанный-документ": "verification/#проверьте-подписанный-документ",
+          "8-изучите-сертификат-и-технические-сведения": "verification/#изучите-сертификат-и-технические-сведения",
+          "9-добавьте-оригинал-для-отсоединённой-xml-подписи": "verification/#добавьте-оригинал-для-отсоединённой-xml-подписи",
+          "разберите-недействительную-подпись": "results/#разберите-недействительную-подпись",
+          "разберите-неподтверждённую-цепочку-доверия": "results/#разберите-неподтверждённую-цепочку-доверия",
+          "распознайте-файл-без-читаемой-подписи": "results/#распознайте-файл-без-читаемой-подписи",
+          "10-найдите-подписанные-документы": "documents/#найдите-подписанные-документы",
+          "11-просмотрите-сведения-сохраняя-список": "documents/#просмотрите-сведения-сохраняя-список",
+          "12-очистите-историю-сохранив-документы": "documents/#очистите-историю-сохранив-документы",
+          "13-подпишите-документ-на-сайте": "browser/#подпишите-документ-на-сайте",
+          "навигация-в-браузере-и-выбор-службы": "browser/#навигация-в-браузере-и-выбор-службы",
+          "добавьте-полезную-закладку": "browser/#добавьте-полезную-закладку",
+          "измените-или-удалите-закладки": "browser/#измените-или-удалите-закладки",
+          "сбросьте-сеанс-сайта": "browser/#сбросьте-сеанс-сайта",
+          "15-язык-оформление-демонстрация-и-поддержка": "preferences/#язык-оформление-демонстрация-и-поддержка",
+          "решение-проблем": "help/#решение-проблем"
+        }
+      }
+    },
+    {
+      "id": "linux",
+      "labels": {
+        "en": "Linux",
+        "ro": "Linux",
+        "ru": "Linux"
+      },
+      "assetPlatform": "linux",
+      "kind": "app",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Connect a reader",
+              "Insert the card",
+              "Choose the intended identity"
+            ],
+            "ro": [
+              "Conectează cititorul",
+              "Introdu cardul",
+              "Alege identitatea corectă"
+            ],
+            "ru": [
+              "Подключите считыватель",
+              "Вставьте карту",
+              "Выберите нужную личность"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Add documents and prepare a batch",
+              "Choose the signature format",
+              "Place an optional visible PDF stamp",
+              "Review and authorize the batch",
+              "Wait for signing and timestamping",
+              "Locate the completed output",
+              "Recover from a failed item"
+            ],
+            "ro": [
+              "Adaugă documentele lotului",
+              "Alege formatul semnăturii",
+              "Plasează o ștampilă PDF opțională",
+              "Verifică și autorizează lotul",
+              "Așteaptă semnarea și marca temporală",
+              "Găsește fișierul rezultat",
+              "Rezolvă eroarea unui document"
+            ],
+            "ru": [
+              "Добавьте документы пакета",
+              "Выберите формат подписи",
+              "Разместите необязательный PDF-штамп",
+              "Проверьте и разрешите пакет",
+              "Дождитесь подписи и отметки времени",
+              "Найдите готовый файл",
+              "Разберитесь с ошибкой файла"
+            ]
+          },
+          "panels": {
+            "en": 7,
+            "ro": 7,
+            "ru": 7
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify a PDF",
+              "Inspect certificate and technical details",
+              "Verify detached XML with its original"
+            ],
+            "ro": [
+              "Verifică un PDF",
+              "Inspectează certificatul și detaliile tehnice",
+              "Verifică XML detașat cu originalul"
+            ],
+            "ru": [
+              "Проверьте PDF",
+              "Изучите сертификат и технические данные",
+              "Проверьте отделённый XML с оригиналом"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "results",
+          "labels": {
+            "en": "Understand verification results",
+            "ro": "Înțelege rezultatele verificării",
+            "ru": "Разберитесь в результатах проверки"
+          },
+          "descriptions": {
+            "en": "Distinguish invalid signatures, unconfirmed trust and unsigned files.",
+            "ro": "Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.",
+            "ru": "Различайте неверную подпись, неподтверждённое доверие и файлы без подписи."
+          },
+          "headings": {
+            "en": [
+              "Recognize a modified document",
+              "Distinguish unconfirmed trust",
+              "Recognize an unsigned file"
+            ],
+            "ro": [
+              "Recunoaște un document modificat",
+              "Deosebește încrederea neconfirmată",
+              "Recunoaște un fișier nesemnat"
+            ],
+            "ru": [
+              "Распознайте изменённый документ",
+              "Отличите неподтверждённое доверие",
+              "Распознайте неподписанный файл"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find signed documents",
+              "Open signing details",
+              "Clear history while keeping documents"
+            ],
+            "ro": [
+              "Găsește documentele semnate",
+              "Deschide detaliile semnării",
+              "Golește istoricul păstrând documentele"
+            ],
+            "ru": [
+              "Найдите подписанные документы",
+              "Откройте сведения о подписи",
+              "Очистите историю, сохранив документы"
+            ]
+          },
+          "panels": {
+            "en": 4,
+            "ro": 4,
+            "ru": 4
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Use government websites in your own browser"
+            ],
+            "ro": [
+              "Folosește site-urile în browserul tău"
+            ],
+            "ru": [
+              "Используйте сайты в своём браузере"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Choose language and appearance",
+              "Manage saved PINs and website access",
+              "Keep the app available in the background",
+              "Find the version and update safely",
+              "Open help and application commands"
+            ],
+            "ro": [
+              "Alege limba și aspectul",
+              "Gestionează PIN-urile și accesul site-urilor",
+              "Păstrează aplicația disponibilă în fundal",
+              "Găsește versiunea și actualizează sigur",
+              "Deschide ajutorul și comenzile aplicației"
+            ],
+            "ru": [
+              "Выберите язык и оформление",
+              "Управляйте PIN и доступом сайтов",
+              "Оставьте приложение доступным в фоне",
+              "Найдите версию и обновите безопасно",
+              "Откройте справку и команды приложения"
+            ]
+          },
+          "panels": {
+            "en": 5,
+            "ro": 5,
+            "ru": 5
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Recover safely"
+            ],
+            "ro": [
+              "Rezolvă problemele în siguranță"
+            ],
+            "ru": [
+              "Безопасное устранение проблем"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "1-connect-a-reader": "setup/#connect-a-reader",
+          "2-insert-the-card": "setup/#insert-the-card",
+          "3-choose-the-intended-identity": "setup/#choose-the-intended-identity",
+          "4-add-documents-and-prepare-a-batch": "signing/#add-documents-and-prepare-a-batch",
+          "5-choose-the-signature-format": "signing/#choose-the-signature-format",
+          "6-place-an-optional-visible-pdf-stamp": "signing/#place-an-optional-visible-pdf-stamp",
+          "7-review-and-authorize-the-batch": "signing/#review-and-authorize-the-batch",
+          "8-wait-for-signing-and-timestamping": "signing/#wait-for-signing-and-timestamping",
+          "9-locate-the-completed-output": "signing/#locate-the-completed-output",
+          "10-recover-from-a-failed-item": "signing/#recover-from-a-failed-item",
+          "11-verify-a-pdf": "verification/#verify-a-pdf",
+          "12-inspect-certificate-and-technical-details": "verification/#inspect-certificate-and-technical-details",
+          "16-verify-detached-xml-with-its-original": "verification/#verify-detached-xml-with-its-original",
+          "13-recognize-a-modified-document": "results/#recognize-a-modified-document",
+          "14-distinguish-unconfirmed-trust": "results/#distinguish-unconfirmed-trust",
+          "15-recognize-an-unsigned-file": "results/#recognize-an-unsigned-file",
+          "17-find-signed-documents": "documents/#find-signed-documents",
+          "18-open-signing-details": "documents/#open-signing-details",
+          "19-clear-history-while-keeping-documents": "documents/#clear-history-while-keeping-documents",
+          "use-government-websites-in-your-own-browser": "browser/#use-government-websites-in-your-own-browser",
+          "20-choose-language-and-appearance": "preferences/#choose-language-and-appearance",
+          "21-manage-saved-pins-and-website-access": "preferences/#manage-saved-pins-and-website-access",
+          "22-keep-the-app-available-in-the-background": "preferences/#keep-the-app-available-in-the-background",
+          "23-find-the-version-and-update-safely": "preferences/#find-the-version-and-update-safely",
+          "24-open-help-and-application-commands": "preferences/#open-help-and-application-commands",
+          "recover-safely": "help/#recover-safely"
+        },
+        "ro": {
+          "1-conectează-cititorul": "setup/#conectează-cititorul",
+          "2-introdu-cardul": "setup/#introdu-cardul",
+          "3-alege-identitatea-corectă": "setup/#alege-identitatea-corectă",
+          "4-adaugă-documentele-lotului": "signing/#adaugă-documentele-lotului",
+          "5-alege-formatul-semnăturii": "signing/#alege-formatul-semnăturii",
+          "6-plasează-o-ștampilă-pdf-opțională": "signing/#plasează-o-ștampilă-pdf-opțională",
+          "7-verifică-și-autorizează-lotul": "signing/#verifică-și-autorizează-lotul",
+          "8-așteaptă-semnarea-și-marca-temporală": "signing/#așteaptă-semnarea-și-marca-temporală",
+          "9-găsește-fișierul-rezultat": "signing/#găsește-fișierul-rezultat",
+          "10-rezolvă-eroarea-unui-document": "signing/#rezolvă-eroarea-unui-document",
+          "11-verifică-un-pdf": "verification/#verifică-un-pdf",
+          "12-inspectează-certificatul-și-detaliile-tehnice": "verification/#inspectează-certificatul-și-detaliile-tehnice",
+          "16-verifică-xml-detașat-cu-originalul": "verification/#verifică-xml-detașat-cu-originalul",
+          "13-recunoaște-un-document-modificat": "results/#recunoaște-un-document-modificat",
+          "14-deosebește-încrederea-neconfirmată": "results/#deosebește-încrederea-neconfirmată",
+          "15-recunoaște-un-fișier-nesemnat": "results/#recunoaște-un-fișier-nesemnat",
+          "17-găsește-documentele-semnate": "documents/#găsește-documentele-semnate",
+          "18-deschide-detaliile-semnării": "documents/#deschide-detaliile-semnării",
+          "19-golește-istoricul-păstrând-documentele": "documents/#golește-istoricul-păstrând-documentele",
+          "folosește-site-urile-în-browserul-tău": "browser/#folosește-site-urile-în-browserul-tău",
+          "20-alege-limba-și-aspectul": "preferences/#alege-limba-și-aspectul",
+          "21-gestionează-pin-urile-și-accesul-site-urilor": "preferences/#gestionează-pin-urile-și-accesul-site-urilor",
+          "22-păstrează-aplicația-disponibilă-în-fundal": "preferences/#păstrează-aplicația-disponibilă-în-fundal",
+          "23-găsește-versiunea-și-actualizează-sigur": "preferences/#găsește-versiunea-și-actualizează-sigur",
+          "24-deschide-ajutorul-și-comenzile-aplicației": "preferences/#deschide-ajutorul-și-comenzile-aplicației",
+          "rezolvă-problemele-în-siguranță": "help/#rezolvă-problemele-în-siguranță"
+        },
+        "ru": {
+          "1-подключите-считыватель": "setup/#подключите-считыватель",
+          "2-вставьте-карту": "setup/#вставьте-карту",
+          "3-выберите-нужную-личность": "setup/#выберите-нужную-личность",
+          "4-добавьте-документы-пакета": "signing/#добавьте-документы-пакета",
+          "5-выберите-формат-подписи": "signing/#выберите-формат-подписи",
+          "6-разместите-необязательный-pdf-штамп": "signing/#разместите-необязательный-pdf-штамп",
+          "7-проверьте-и-разрешите-пакет": "signing/#проверьте-и-разрешите-пакет",
+          "8-дождитесь-подписи-и-отметки-времени": "signing/#дождитесь-подписи-и-отметки-времени",
+          "9-найдите-готовый-файл": "signing/#найдите-готовый-файл",
+          "10-разберитесь-с-ошибкой-файла": "signing/#разберитесь-с-ошибкой-файла",
+          "11-проверьте-pdf": "verification/#проверьте-pdf",
+          "12-изучите-сертификат-и-технические-данные": "verification/#изучите-сертификат-и-технические-данные",
+          "16-проверьте-отделённый-xml-с-оригиналом": "verification/#проверьте-отделённый-xml-с-оригиналом",
+          "13-распознайте-изменённый-документ": "results/#распознайте-изменённый-документ",
+          "14-отличите-неподтверждённое-доверие": "results/#отличите-неподтверждённое-доверие",
+          "15-распознайте-неподписанный-файл": "results/#распознайте-неподписанный-файл",
+          "17-найдите-подписанные-документы": "documents/#найдите-подписанные-документы",
+          "18-откройте-сведения-о-подписи": "documents/#откройте-сведения-о-подписи",
+          "19-очистите-историю-сохранив-документы": "documents/#очистите-историю-сохранив-документы",
+          "используйте-сайты-в-своём-браузере": "browser/#используйте-сайты-в-своём-браузере",
+          "20-выберите-язык-и-оформление": "preferences/#выберите-язык-и-оформление",
+          "21-управляйте-pin-и-доступом-сайтов": "preferences/#управляйте-pin-и-доступом-сайтов",
+          "22-оставьте-приложение-доступным-в-фоне": "preferences/#оставьте-приложение-доступным-в-фоне",
+          "23-найдите-версию-и-обновите-безопасно": "preferences/#найдите-версию-и-обновите-безопасно",
+          "24-откройте-справку-и-команды-приложения": "preferences/#откройте-справку-и-команды-приложения",
+          "безопасное-устранение-проблем": "help/#безопасное-устранение-проблем"
+        }
+      }
+    },
+    {
+      "id": "windows",
+      "labels": {
+        "en": "Windows desktop reference",
+        "ro": "Referință desktop Windows",
+        "ru": "Справочник Windows для компьютера"
+      },
+      "assetPlatform": "windows",
+      "kind": "reference",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Install the appropriate edition"
+            ],
+            "ro": [
+              "Instalează ediția potrivită"
+            ],
+            "ru": [
+              "Установите подходящую редакцию"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Sign documents from the app or Explorer"
+            ],
+            "ro": [
+              "Semnează documente din aplicație sau Explorer"
+            ],
+            "ru": [
+              "Подпишите документы из приложения или Проводника"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify and inspect activity"
+            ],
+            "ro": [
+              "Verifică și consultă activitatea"
+            ],
+            "ru": [
+              "Проверьте подписи и просмотрите действия"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "preferences",
+          "labels": {
+            "en": "Change settings",
+            "ro": "Modifică setările",
+            "ru": "Измените настройки"
+          },
+          "descriptions": {
+            "en": "Manage language, appearance, saved PINs, startup and updates.",
+            "ro": "Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.",
+            "ru": "Настройте язык, оформление, сохранённые PIN, запуск и обновления."
+          },
+          "headings": {
+            "en": [
+              "Settings, PINs, and tray controls"
+            ],
+            "ro": [
+              "Configurări, PIN-uri și pictograma din zona de notificare"
+            ],
+            "ru": [
+              "Настройки, PIN и значок в области уведомлений"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "browser",
+          "labels": {
+            "en": "Sign on websites",
+            "ro": "Semnează pe site-uri",
+            "ru": "Подпишите на сайте"
+          },
+          "descriptions": {
+            "en": "Connect a service, review requests and manage website sessions.",
+            "ro": "Conectează un serviciu, verifică cererile și gestionează sesiunile web.",
+            "ru": "Подключите сервис, проверьте запросы и управляйте сеансами сайтов."
+          },
+          "headings": {
+            "en": [
+              "Use the browser bridge"
+            ],
+            "ro": [
+              "Folosește conexiunea cu browserul"
+            ],
+            "ru": [
+              "Используйте соединение с браузером"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "help",
+          "labels": {
+            "en": "Fix a problem",
+            "ro": "Rezolvă o problemă",
+            "ru": "Решите проблему"
+          },
+          "descriptions": {
+            "en": "Resolve reader, PIN, document and connection problems safely.",
+            "ro": "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.",
+            "ru": "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
+          },
+          "headings": {
+            "en": [
+              "Update or resolve a problem"
+            ],
+            "ro": [
+              "Actualizează sau rezolvă o problemă"
+            ],
+            "ru": [
+              "Обновите приложение или устраните проблему"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "install-the-appropriate-edition": "setup/#install-the-appropriate-edition",
+          "sign-documents-from-the-app-or-explorer": "signing/#sign-documents-from-the-app-or-explorer",
+          "verify-and-inspect-activity": "verification/#verify-and-inspect-activity",
+          "settings-pins-and-tray-controls": "preferences/#settings-pins-and-tray-controls",
+          "use-the-browser-bridge": "browser/#use-the-browser-bridge",
+          "update-or-resolve-a-problem": "help/#update-or-resolve-a-problem"
+        },
+        "ro": {
+          "instalează-ediția-potrivită": "setup/#instalează-ediția-potrivită",
+          "semnează-documente-din-aplicație-sau-explorer": "signing/#semnează-documente-din-aplicație-sau-explorer",
+          "verifică-și-consultă-activitatea": "verification/#verifică-și-consultă-activitatea",
+          "configurări-pin-uri-și-pictograma-din-zona-de-notificare": "preferences/#configurări-pin-uri-și-pictograma-din-zona-de-notificare",
+          "folosește-conexiunea-cu-browserul": "browser/#folosește-conexiunea-cu-browserul",
+          "actualizează-sau-rezolvă-o-problemă": "help/#actualizează-sau-rezolvă-o-problemă"
+        },
+        "ru": {
+          "установите-подходящую-редакцию": "setup/#установите-подходящую-редакцию",
+          "подпишите-документы-из-приложения-или-проводника": "signing/#подпишите-документы-из-приложения-или-проводника",
+          "проверьте-подписи-и-просмотрите-действия": "verification/#проверьте-подписи-и-просмотрите-действия",
+          "настройки-pin-и-значок-в-области-уведомлений": "preferences/#настройки-pin-и-значок-в-области-уведомлений",
+          "используйте-соединение-с-браузером": "browser/#используйте-соединение-с-браузером",
+          "обновите-приложение-или-устраните-проблему": "help/#обновите-приложение-или-устраните-проблему"
+        }
+      }
+    },
+    {
+      "id": "macos-cli",
+      "labels": {
+        "en": "Mac · Command line (CLI)",
+        "ro": "Mac · Linie de comandă (CLI)",
+        "ru": "Mac · Командная строка (CLI)"
+      },
+      "assetPlatform": "macos-cli",
+      "kind": "cli",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Install and discover what your executable supports",
+              "Find the reader and check the certificate"
+            ],
+            "ro": [
+              "Instalează și descoperă funcțiile disponibile",
+              "Găsește cititorul și verifică certificatul"
+            ],
+            "ru": [
+              "Установите и проверьте доступные возможности",
+              "Найдите считыватель и проверьте сертификат"
+            ]
+          },
+          "panels": {
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Sign PDF or create an XML signature"
+            ],
+            "ro": [
+              "Semnează PDF sau creează o semnătură XML"
+            ],
+            "ru": [
+              "Подпишите PDF или создайте XML-подпись"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify and interpret the result"
+            ],
+            "ro": [
+              "Verifică și interpretează rezultatul"
+            ],
+            "ru": [
+              "Проверьте документ и результат"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
+          }
+        },
+        {
+          "id": "mcp",
+          "labels": {
+            "en": "Connect an agent with MCP",
+            "ro": "Conectează un agent prin MCP",
+            "ru": "Подключите агента через MCP"
+          },
+          "descriptions": {
+            "en": "Choose trusted folders and configure your MCP host.",
+            "ro": "Alege dosarele autorizate și configurează clientul MCP.",
+            "ru": "Выберите доверенные папки и настройте клиент MCP."
+          },
+          "headings": {
+            "en": [
+              "Connect an MCP host with explicit file access"
+            ],
+            "ro": [
+              "Conectează un client MCP cu acces explicit"
+            ],
+            "ru": [
+              "Подключите MCP с явным доступом к файлам"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "approval",
+          "labels": {
+            "en": "Approve signing on Mac",
+            "ro": "Aprobă semnarea pe Mac",
+            "ru": "Подтвердите подпись на Mac"
+          },
+          "descriptions": {
+            "en": "Prepare a PDF and review its foreground approval request.",
+            "ro": "Pregătește un PDF și verifică cererea de aprobare în aplicație.",
+            "ru": "Подготовьте PDF и проверьте запрос подтверждения в приложении."
+          },
+          "headings": {
+            "en": [
+              "Request signing with foreground Mac approval"
+            ],
+            "ro": [
+              "Cere semnare cu aprobare pe Mac"
+            ],
+            "ru": [
+              "Запросите подпись с подтверждением на Mac"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "unattended",
+          "labels": {
+            "en": "Configure unattended signing",
+            "ro": "Configurează semnarea nesupravegheată",
+            "ru": "Настройте подпись без присутствия"
+          },
+          "descriptions": {
+            "en": "Pin the certificate, choose a secret provider and restrict output.",
+            "ro": "Fixează certificatul, alege sursa secretului și restricționează rezultatele.",
+            "ru": "Закрепите сертификат, выберите источник секрета и ограничьте вывод."
+          },
+          "headings": {
+            "en": [
+              "Configure explicit unattended signing"
+            ],
+            "ro": [
+              "Configurează semnarea nesupravegheată explicită"
+            ],
+            "ru": [
+              "Явно настройте подпись без присутствия"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "service",
+          "labels": {
+            "en": "Run the browser service",
+            "ro": "Pornește serviciul pentru browser",
+            "ru": "Запустите службу браузера"
+          },
+          "descriptions": {
+            "en": "Start and stop the local bridge or supported user service.",
+            "ro": "Pornește și oprește conexiunea locală sau serviciul utilizatorului.",
+            "ru": "Запускайте и останавливайте локальный мост или службу пользователя."
+          },
+          "headings": {
+            "en": [
+              "Run the local browser connection"
+            ],
+            "ro": [
+              "Rulează conexiunea locală cu browserul"
+            ],
+            "ru": [
+              "Запустите локальное соединение с браузером"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "1-install-and-discover-what-your-executable-supports": "setup/#install-and-discover-what-your-executable-supports",
+          "2-find-the-reader-and-check-the-certificate": "setup/#find-the-reader-and-check-the-certificate",
+          "3-sign-pdf-or-create-an-xml-signature": "signing/#sign-pdf-or-create-an-xml-signature",
+          "4-verify-and-interpret-the-result": "verification/#verify-and-interpret-the-result",
+          "5-connect-an-mcp-host-with-explicit-file-access": "mcp/#connect-an-mcp-host-with-explicit-file-access",
+          "6-request-signing-with-foreground-mac-approval": "approval/#request-signing-with-foreground-mac-approval",
+          "7-configure-explicit-unattended-signing": "unattended/#configure-explicit-unattended-signing",
+          "8-run-the-local-browser-connection": "service/#run-the-local-browser-connection"
+        },
+        "ro": {
+          "1-instalează-și-descoperă-funcțiile-disponibile": "setup/#instalează-și-descoperă-funcțiile-disponibile",
+          "2-găsește-cititorul-și-verifică-certificatul": "setup/#găsește-cititorul-și-verifică-certificatul",
+          "3-semnează-pdf-sau-creează-o-semnătură-xml": "signing/#semnează-pdf-sau-creează-o-semnătură-xml",
+          "4-verifică-și-interpretează-rezultatul": "verification/#verifică-și-interpretează-rezultatul",
+          "5-conectează-un-client-mcp-cu-acces-explicit": "mcp/#conectează-un-client-mcp-cu-acces-explicit",
+          "6-cere-semnare-cu-aprobare-pe-mac": "approval/#cere-semnare-cu-aprobare-pe-mac",
+          "7-configurează-semnarea-nesupravegheată-explicită": "unattended/#configurează-semnarea-nesupravegheată-explicită",
+          "8-rulează-conexiunea-locală-cu-browserul": "service/#rulează-conexiunea-locală-cu-browserul"
+        },
+        "ru": {
+          "1-установите-и-проверьте-доступные-возможности": "setup/#установите-и-проверьте-доступные-возможности",
+          "2-найдите-считыватель-и-проверьте-сертификат": "setup/#найдите-считыватель-и-проверьте-сертификат",
+          "3-подпишите-pdf-или-создайте-xml-подпись": "signing/#подпишите-pdf-или-создайте-xml-подпись",
+          "4-проверьте-документ-и-результат": "verification/#проверьте-документ-и-результат",
+          "5-подключите-mcp-с-явным-доступом-к-файлам": "mcp/#подключите-mcp-с-явным-доступом-к-файлам",
+          "6-запросите-подпись-с-подтверждением-на-mac": "approval/#запросите-подпись-с-подтверждением-на-mac",
+          "7-явно-настройте-подпись-без-присутствия": "unattended/#явно-настройте-подпись-без-присутствия",
+          "8-запустите-локальное-соединение-с-браузером": "service/#запустите-локальное-соединение-с-браузером"
+        }
+      }
+    },
+    {
+      "id": "linux-cli",
+      "labels": {
+        "en": "Linux · Command line (CLI)",
+        "ro": "Linux · Linie de comandă (CLI)",
+        "ru": "Linux · Командная строка (CLI)"
+      },
+      "assetPlatform": "linux-cli",
+      "kind": "cli",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Install and discover what your executable supports",
+              "Find the reader and check the certificate"
+            ],
+            "ro": [
+              "Instalează și descoperă funcțiile disponibile",
+              "Găsește cititorul și verifică certificatul"
+            ],
+            "ru": [
+              "Установите и проверьте доступные возможности",
+              "Найдите считыватель и проверьте сертификат"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
+          }
+        },
+        {
+          "id": "signing",
+          "labels": {
+            "en": "Sign documents",
+            "ro": "Semnează documente",
+            "ru": "Подпишите документы"
+          },
+          "descriptions": {
+            "en": "Add files, choose the format and stamp, approve and save the output.",
+            "ro": "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.",
+            "ru": "Добавьте файлы, выберите формат и штамп, подтвердите и сохраните результат."
+          },
+          "headings": {
+            "en": [
+              "Sign PDF or create an XML signature"
+            ],
+            "ro": [
+              "Semnează PDF sau creează o semnătură XML"
+            ],
+            "ru": [
+              "Подпишите PDF или создайте XML-подпись"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Check a signature",
+            "ro": "Verifică o semnătură",
+            "ru": "Проверьте подпись"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify and interpret the result"
+            ],
+            "ro": [
+              "Verifică și interpretează rezultatul"
+            ],
+            "ru": [
+              "Проверьте документ и результат"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "mcp",
+          "labels": {
+            "en": "Connect an agent with MCP",
+            "ro": "Conectează un agent prin MCP",
+            "ru": "Подключите агента через MCP"
+          },
+          "descriptions": {
+            "en": "Choose trusted folders and configure your MCP host.",
+            "ro": "Alege dosarele autorizate și configurează clientul MCP.",
+            "ru": "Выберите доверенные папки и настройте клиент MCP."
+          },
+          "headings": {
+            "en": [
+              "Connect an MCP host with explicit file access"
+            ],
+            "ro": [
+              "Conectează un client MCP cu acces explicit"
+            ],
+            "ru": [
+              "Подключите MCP с явным доступом к файлам"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "unattended",
+          "labels": {
+            "en": "Configure unattended signing",
+            "ro": "Configurează semnarea nesupravegheată",
+            "ru": "Настройте подпись без присутствия"
+          },
+          "descriptions": {
+            "en": "Pin the certificate, choose a secret provider and restrict output.",
+            "ro": "Fixează certificatul, alege sursa secretului și restricționează rezultatele.",
+            "ru": "Закрепите сертификат, выберите источник секрета и ограничьте вывод."
+          },
+          "headings": {
+            "en": [
+              "Configure explicit unattended signing"
+            ],
+            "ro": [
+              "Configurează semnarea nesupravegheată explicită"
+            ],
+            "ru": [
+              "Явно настройте подпись без присутствия"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "service",
+          "labels": {
+            "en": "Run the browser service",
+            "ro": "Pornește serviciul pentru browser",
+            "ru": "Запустите службу браузера"
+          },
+          "descriptions": {
+            "en": "Start and stop the local bridge or supported user service.",
+            "ro": "Pornește și oprește conexiunea locală sau serviciul utilizatorului.",
+            "ru": "Запускайте и останавливайте локальный мост или службу пользователя."
+          },
+          "headings": {
+            "en": [
+              "Run the local browser connection"
+            ],
+            "ro": [
+              "Rulează conexiunea locală cu browserul"
+            ],
+            "ru": [
+              "Запустите локальное соединение с браузером"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "1-install-and-discover-what-your-executable-supports": "setup/#install-and-discover-what-your-executable-supports",
+          "2-find-the-reader-and-check-the-certificate": "setup/#find-the-reader-and-check-the-certificate",
+          "3-sign-pdf-or-create-an-xml-signature": "signing/#sign-pdf-or-create-an-xml-signature",
+          "4-verify-and-interpret-the-result": "verification/#verify-and-interpret-the-result",
+          "5-connect-an-mcp-host-with-explicit-file-access": "mcp/#connect-an-mcp-host-with-explicit-file-access",
+          "7-configure-explicit-unattended-signing": "unattended/#configure-explicit-unattended-signing",
+          "8-run-the-local-browser-connection": "service/#run-the-local-browser-connection"
+        },
+        "ro": {
+          "1-instalează-și-descoperă-funcțiile-disponibile": "setup/#instalează-și-descoperă-funcțiile-disponibile",
+          "2-găsește-cititorul-și-verifică-certificatul": "setup/#găsește-cititorul-și-verifică-certificatul",
+          "3-semnează-pdf-sau-creează-o-semnătură-xml": "signing/#semnează-pdf-sau-creează-o-semnătură-xml",
+          "4-verifică-și-interpretează-rezultatul": "verification/#verifică-și-interpretează-rezultatul",
+          "5-conectează-un-client-mcp-cu-acces-explicit": "mcp/#conectează-un-client-mcp-cu-acces-explicit",
+          "7-configurează-semnarea-nesupravegheată-explicită": "unattended/#configurează-semnarea-nesupravegheată-explicită",
+          "8-rulează-conexiunea-locală-cu-browserul": "service/#rulează-conexiunea-locală-cu-browserul"
+        },
+        "ru": {
+          "1-установите-и-проверьте-доступные-возможности": "setup/#установите-и-проверьте-доступные-возможности",
+          "2-найдите-считыватель-и-проверьте-сертификат": "setup/#найдите-считыватель-и-проверьте-сертификат",
+          "3-подпишите-pdf-или-создайте-xml-подпись": "signing/#подпишите-pdf-или-создайте-xml-подпись",
+          "4-проверьте-документ-и-результат": "verification/#проверьте-документ-и-результат",
+          "5-подключите-mcp-с-явным-доступом-к-файлам": "mcp/#подключите-mcp-с-явным-доступом-к-файлам",
+          "7-явно-настройте-подпись-без-присутствия": "unattended/#явно-настройте-подпись-без-присутствия",
+          "8-запустите-локальное-соединение-с-браузером": "service/#запустите-локальное-соединение-с-браузером"
+        }
+      }
+    },
+    {
+      "id": "windows-cli",
+      "labels": {
+        "en": "Windows · Command line (CLI)",
+        "ro": "Windows · Linie de comandă (CLI)",
+        "ru": "Windows · Командная строка (CLI)"
+      },
+      "assetPlatform": "windows-cli",
+      "kind": "cli",
+      "topics": [
+        {
+          "id": "setup",
+          "labels": {
+            "en": "Get started",
+            "ro": "Primii pași",
+            "ru": "Начало работы"
+          },
+          "descriptions": {
+            "en": "Install, connect a reader and choose your card.",
+            "ro": "Instalează, conectează cititorul și alege cardul.",
+            "ru": "Установите приложение, подключите считыватель и выберите карту."
+          },
+          "headings": {
+            "en": [
+              "Install and discover what your executable supports",
+              "Find the reader and check the certificate"
+            ],
+            "ro": [
+              "Instalează și descoperă funcțiile disponibile",
+              "Găsește cititorul și verifică certificatul"
+            ],
+            "ru": [
+              "Установите и проверьте доступные возможности",
+              "Найдите считыватель и проверьте сертификат"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
+          }
+        },
+        {
+          "id": "verification",
+          "labels": {
+            "en": "Verify with MCP",
+            "ro": "Verifică prin MCP",
+            "ru": "Проверьте через MCP"
+          },
+          "descriptions": {
+            "en": "Verify a PDF or XML and inspect its signer and certificate.",
+            "ro": "Verifică un PDF sau XML și inspectează semnatarul și certificatul.",
+            "ru": "Проверьте PDF или XML, сведения о подписанте и сертификате."
+          },
+          "headings": {
+            "en": [
+              "Verify and interpret the result"
+            ],
+            "ro": [
+              "Verifică și interpretează rezultatul"
+            ],
+            "ru": [
+              "Проверьте документ и результат"
+            ]
+          },
+          "panels": {
+            "en": 0,
+            "ro": 0,
+            "ru": 0
+          }
+        },
+        {
+          "id": "mcp",
+          "labels": {
+            "en": "Connect an agent with MCP",
+            "ro": "Conectează un agent prin MCP",
+            "ru": "Подключите агента через MCP"
+          },
+          "descriptions": {
+            "en": "Choose trusted folders and configure your MCP host.",
+            "ro": "Alege dosarele autorizate și configurează clientul MCP.",
+            "ru": "Выберите доверенные папки и настройте клиент MCP."
+          },
+          "headings": {
+            "en": [
+              "Connect an MCP host with explicit file access"
+            ],
+            "ro": [
+              "Conectează un client MCP cu acces explicit"
+            ],
+            "ru": [
+              "Подключите MCP с явным доступом к файлам"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        },
+        {
+          "id": "unattended",
+          "labels": {
+            "en": "Configure unattended signing",
+            "ro": "Configurează semnarea nesupravegheată",
+            "ru": "Настройте подпись без присутствия"
+          },
+          "descriptions": {
+            "en": "Pin the certificate, choose a secret provider and restrict output.",
+            "ro": "Fixează certificatul, alege sursa secretului și restricționează rezultatele.",
+            "ru": "Закрепите сертификат, выберите источник секрета и ограничьте вывод."
+          },
+          "headings": {
+            "en": [
+              "Configure explicit unattended signing"
+            ],
+            "ro": [
+              "Configurează semnarea nesupravegheată explicită"
+            ],
+            "ru": [
+              "Явно настройте подпись без присутствия"
+            ]
+          },
+          "panels": {
+            "en": 1,
+            "ro": 1,
+            "ru": 1
+          }
+        }
+      ],
+      "anchors": {
+        "en": {
+          "1-install-and-discover-what-your-executable-supports": "setup/#install-and-discover-what-your-executable-supports",
+          "2-find-the-reader-and-check-the-certificate": "setup/#find-the-reader-and-check-the-certificate",
+          "3-verify-and-interpret-the-result": "verification/#verify-and-interpret-the-result",
+          "4-connect-an-mcp-host-with-explicit-file-access": "mcp/#connect-an-mcp-host-with-explicit-file-access",
+          "5-configure-explicit-unattended-signing": "unattended/#configure-explicit-unattended-signing"
+        },
+        "ro": {
+          "1-instalează-și-descoperă-funcțiile-disponibile": "setup/#instalează-și-descoperă-funcțiile-disponibile",
+          "2-găsește-cititorul-și-verifică-certificatul": "setup/#găsește-cititorul-și-verifică-certificatul",
+          "3-verifică-și-interpretează-rezultatul": "verification/#verifică-și-interpretează-rezultatul",
+          "4-conectează-un-client-mcp-cu-acces-explicit": "mcp/#conectează-un-client-mcp-cu-acces-explicit",
+          "5-configurează-semnarea-nesupravegheată-explicită": "unattended/#configurează-semnarea-nesupravegheată-explicită"
+        },
+        "ru": {
+          "1-установите-и-проверьте-доступные-возможности": "setup/#установите-и-проверьте-доступные-возможности",
+          "2-найдите-считыватель-и-проверьте-сертификат": "setup/#найдите-считыватель-и-проверьте-сертификат",
+          "3-проверьте-документ-и-результат": "verification/#проверьте-документ-и-результат",
+          "4-подключите-mcp-с-явным-доступом-к-файлам": "mcp/#подключите-mcp-с-явным-доступом-к-файлам",
+          "5-явно-настройте-подпись-без-присутствия": "unattended/#явно-настройте-подпись-без-присутствия"
+        }
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "macos",
+      "platforms": [
+        "macos",
+        "macos-cli"
+      ],
+      "labels": {
+        "en": "Mac",
+        "ro": "Mac",
+        "ru": "Mac"
+      }
+    },
+    {
+      "id": "ios",
+      "platforms": [
+        "ios"
+      ],
+      "labels": {
+        "en": "iPhone",
+        "ro": "iPhone",
+        "ru": "iPhone"
+      }
+    },
+    {
+      "id": "ipad",
+      "platforms": [
+        "ipad"
+      ],
+      "labels": {
+        "en": "iPad",
+        "ro": "iPad",
+        "ru": "iPad"
+      }
+    },
+    {
+      "id": "android",
+      "platforms": [
+        "android",
+        "android-tablet"
+      ],
+      "labels": {
+        "en": "Android",
+        "ro": "Android",
+        "ru": "Android"
+      }
+    },
+    {
+      "id": "linux",
+      "platforms": [
+        "linux",
+        "linux-cli"
+      ],
+      "labels": {
+        "en": "Linux",
+        "ro": "Linux",
+        "ru": "Linux"
+      }
+    },
+    {
+      "id": "windows",
+      "platforms": [
+        "windows",
+        "windows-cli"
+      ],
+      "labels": {
+        "en": "Windows",
+        "ro": "Windows",
+        "ru": "Windows"
+      }
+    }
+  ]
+}

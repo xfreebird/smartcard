@@ -2,5 +2,26 @@
   "version.label": {
     "message": "Next",
     "description": "The label for version current"
+  },
+  "sidebar.guide.category.Platform guides": {
+    "message": "Ghiduri pe platforme"
+  },
+  "sidebar.guide.category.Concepts and shared guidance": {
+    "message": "Noțiuni și îndrumări generale"
+  },
+  "sidebar.guide.category.Android phone": {
+    "message": "Telefon Android"
+  },
+  "sidebar.guide.category.Android tablet": {
+    "message": "Tabletă Android"
+  },
+  "sidebar.guide.category.Command line (CLI) — Mac": {
+    "message": "Linia de comandă (CLI) — Mac"
+  },
+  "sidebar.guide.category.Command line (CLI) — Linux": {
+    "message": "Linia de comandă (CLI) — Linux"
+  },
+  "sidebar.guide.category.Command line (CLI) — Windows": {
+    "message": "Linia de comandă (CLI) — Windows"
   }
 }

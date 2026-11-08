@@ -1,0 +1,28 @@
+---
+title: "Get started — Windows desktop reference"
+sidebar_label: "Get started"
+description: "Install, connect a reader and choose your card."
+pagination_prev: "platforms/windows"
+pagination_next: "platforms/windows/signing"
+---
+
+import PlatformScreenshots from '@site/src/components/PlatformScreenshots';
+
+# Get started — Windows desktop reference
+
+[Platform overview](../windows.md)
+
+Install, connect a reader and choose your card.
+
+## Install the appropriate edition
+
+Use the **MSI** from [GitHub Releases](https://github.com/xfreebird/smartcard/releases/latest) for standalone installation, or install [eSemnBun from Microsoft Store](https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD). Choose the architecture listed for your machine in the release assets. An unsigned development MSIX can require a signing certificate and is not a substitute for the public MSI.
+
+1. Run the MSI and complete the installation, or install from the store.
+2. Open **eSemnBun** from Start. The main window appears on the first launch.
+3. Connect the reader. The miniLector uses the Windows CCID driver and Smart Card service.
+4. Insert the card and wait for its certificate. Check the holder and expiry before signing.
+
+<PlatformScreenshots platform="windows" alt="Windows signing page with the card above the document drop zone" caption="The Windows workspace follows the website's light or dark appearance." />
+
+Multiple cards appear in the horizontal carousel. Select the centred card you intend to sign with. The artwork uses certificate information and a neutral avatar, rather than your ID photograph.

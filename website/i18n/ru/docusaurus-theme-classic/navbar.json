@@ -25,5 +25,8 @@
   },
   "item.label.Devices": {
     "message": "Устройства"
+  },
+  "item.label.Guides": {
+    "message": "Руководства"
   }
 }

@@ -229,6 +229,6 @@ def build(form,lang):
  COORDS['settings']=original;IPAD_COORDS['settings']=original_ipad
  key='ipad' if form=='ipad' else 'phone';out+=section(key)
  out+=section('help')+f'\n## {d["other"]}\n\n[iPhone](./ios.md) · [iPad](./ipad.md) · [macOS](./macos.md) · [Android](./android.md) · [Linux](./linux.md)\n'
- base=ROOT/('website/docs' if lang=='en' else f'website/i18n/{lang}/docusaurus-plugin-content-docs/current');path=base/'platforms'/('ios.md' if form=='iphone' else 'ipad.md');path.parent.mkdir(parents=True,exist_ok=True);path.write_text(out)
+ base=ROOT/'docs/user-guide/content'/lang;path=base/('ios.md' if form=='iphone' else 'ipad.md');path.parent.mkdir(parents=True,exist_ok=True);path.write_text(out)
 for form in ['iphone','ipad']:
  for lang in ['en','ro','ru']:build(form,lang)

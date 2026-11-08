@@ -1,0 +1,247 @@
+{
+  "overviews": 30,
+  "taskPages": 222,
+  "panels": 483,
+  "coverage": [
+    {
+      "platform": "macos",
+      "locale": "en",
+      "topics": 9,
+      "panels": 21,
+      "originalSections": 27,
+      "redirects": 27
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "topics": 9,
+      "panels": 21,
+      "originalSections": 27,
+      "redirects": 27
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "topics": 9,
+      "panels": 21,
+      "originalSections": 27,
+      "redirects": 27
+    },
+    {
+      "platform": "ios",
+      "locale": "en",
+      "topics": 9,
+      "panels": 23,
+      "originalSections": 18,
+      "redirects": 17
+    },
+    {
+      "platform": "ios",
+      "locale": "ro",
+      "topics": 9,
+      "panels": 23,
+      "originalSections": 18,
+      "redirects": 17
+    },
+    {
+      "platform": "ios",
+      "locale": "ru",
+      "topics": 9,
+      "panels": 23,
+      "originalSections": 18,
+      "redirects": 17
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "topics": 9,
+      "panels": 23,
+      "originalSections": 18,
+      "redirects": 17
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "topics": 9,
+      "panels": 23,
+      "originalSections": 18,
+      "redirects": 17
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "topics": 9,
+      "panels": 23,
+      "originalSections": 18,
+      "redirects": 17
+    },
+    {
+      "platform": "android",
+      "locale": "en",
+      "topics": 8,
+      "panels": 24,
+      "originalSections": 25,
+      "redirects": 25
+    },
+    {
+      "platform": "android",
+      "locale": "ro",
+      "topics": 8,
+      "panels": 24,
+      "originalSections": 25,
+      "redirects": 25
+    },
+    {
+      "platform": "android",
+      "locale": "ru",
+      "topics": 8,
+      "panels": 24,
+      "originalSections": 25,
+      "redirects": 25
+    },
+    {
+      "platform": "android-tablet",
+      "locale": "en",
+      "topics": 8,
+      "panels": 24,
+      "originalSections": 25,
+      "redirects": 25
+    },
+    {
+      "platform": "android-tablet",
+      "locale": "ro",
+      "topics": 8,
+      "panels": 24,
+      "originalSections": 25,
+      "redirects": 25
+    },
+    {
+      "platform": "android-tablet",
+      "locale": "ru",
+      "topics": 8,
+      "panels": 24,
+      "originalSections": 25,
+      "redirects": 25
+    },
+    {
+      "platform": "linux",
+      "locale": "en",
+      "topics": 8,
+      "panels": 25,
+      "originalSections": 26,
+      "redirects": 26
+    },
+    {
+      "platform": "linux",
+      "locale": "ro",
+      "topics": 8,
+      "panels": 25,
+      "originalSections": 26,
+      "redirects": 26
+    },
+    {
+      "platform": "linux",
+      "locale": "ru",
+      "topics": 8,
+      "panels": 25,
+      "originalSections": 26,
+      "redirects": 26
+    },
+    {
+      "platform": "windows",
+      "locale": "en",
+      "topics": 6,
+      "panels": 0,
+      "originalSections": 6,
+      "redirects": 6
+    },
+    {
+      "platform": "windows",
+      "locale": "ro",
+      "topics": 6,
+      "panels": 0,
+      "originalSections": 6,
+      "redirects": 6
+    },
+    {
+      "platform": "windows",
+      "locale": "ru",
+      "topics": 6,
+      "panels": 0,
+      "originalSections": 6,
+      "redirects": 6
+    },
+    {
+      "platform": "macos-cli",
+      "locale": "en",
+      "topics": 7,
+      "panels": 10,
+      "originalSections": 8,
+      "redirects": 8
+    },
+    {
+      "platform": "macos-cli",
+      "locale": "ro",
+      "topics": 7,
+      "panels": 10,
+      "originalSections": 8,
+      "redirects": 8
+    },
+    {
+      "platform": "macos-cli",
+      "locale": "ru",
+      "topics": 7,
+      "panels": 10,
+      "originalSections": 8,
+      "redirects": 8
+    },
+    {
+      "platform": "linux-cli",
+      "locale": "en",
+      "topics": 6,
+      "panels": 7,
+      "originalSections": 7,
+      "redirects": 7
+    },
+    {
+      "platform": "linux-cli",
+      "locale": "ro",
+      "topics": 6,
+      "panels": 7,
+      "originalSections": 7,
+      "redirects": 7
+    },
+    {
+      "platform": "linux-cli",
+      "locale": "ru",
+      "topics": 6,
+      "panels": 7,
+      "originalSections": 7,
+      "redirects": 7
+    },
+    {
+      "platform": "windows-cli",
+      "locale": "en",
+      "topics": 4,
+      "panels": 4,
+      "originalSections": 5,
+      "redirects": 5
+    },
+    {
+      "platform": "windows-cli",
+      "locale": "ro",
+      "topics": 4,
+      "panels": 4,
+      "originalSections": 5,
+      "redirects": 5
+    },
+    {
+      "platform": "windows-cli",
+      "locale": "ru",
+      "topics": 4,
+      "panels": 4,
+      "originalSections": 5,
+      "redirects": 5
+    }
+  ]
+}

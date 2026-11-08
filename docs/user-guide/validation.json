@@ -219,5 +219,24 @@
       "short CLI panels"
     ],
     "nativeScreenshotPixelsChanged": false
+  },
+  "navigationRevision": {
+    "overviews": 30,
+    "taskPages": 222,
+    "preservedPanels": 483,
+    "localizedBookmarkTargets": 489,
+    "locales": [
+      "en",
+      "ro",
+      "ru"
+    ],
+    "websiteTestsPassed": 19,
+    "allLocaleProductionBuild": "passed",
+    "seoChecks": "passed",
+    "browserReviewed": [
+      "desktop device directory and sidebar",
+      "320px task search",
+      "old section bookmark redirect"
+    ]
   }
 }

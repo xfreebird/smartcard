@@ -9,17 +9,18 @@ const config = {
     sitemap: {changefreq: 'monthly', ignorePatterns: ['/**/404']},
     theme: {customCss: './src/css/custom.css'}}]],
   themeConfig: {
+    docs: {sidebar: {autoCollapseCategories: true}},
     image: 'img/icon.png',
     colorMode: {defaultMode: 'light', disableSwitch: false, respectPrefersColorScheme: true},
     navbar: {hideOnScroll: true, title: 'eSemnBun', logo: {alt: 'eSemnBun', src: 'img/icon.png'}, items: [
       {type:'localeDropdown', position:'right'},
       {to: '/downloads', label: 'Downloads', position: 'right'},
-      {to: '/docs/start', label: 'How it works', position: 'right'},
+      {to: '/docs/platforms', label: 'Guides', position: 'right'},
       {to: '/devices', label: 'Devices', position: 'right'},
       {to: '/support', label: 'Support', position: 'right'},
       {href: 'https://github.com/xfreebird/smartcard', label: 'Source', position: 'right'}]},
     footer: {style: 'dark', links: [
-      {title: 'Get started', items: [{label: 'Documentation', to: '/docs/start'}, {label: 'Downloads', to: '/downloads'}, {label: 'Devices', to: '/devices'}]},
+      {title: 'Get started', items: [{label: 'Documentation', to: '/docs/platforms'}, {label: 'Downloads', to: '/downloads'}, {label: 'Devices', to: '/devices'}]},
       {title: 'Here to help', items: [{label: 'Support', to: '/support'}, {label: 'Privacy', to: '/privacy'}, {label: 'Terms & conditions', to: '/terms'}]},
       {title: 'Open source', items: [{label: 'GitHub', href: 'https://github.com/xfreebird/smartcard'}, {label: 'MIT license', href: 'https://github.com/xfreebird/smartcard/blob/main/LICENSE'}]}],
       copyright: '© 2026 Nicolae Ghimbovschi. Independent software, made in Moldova.'}

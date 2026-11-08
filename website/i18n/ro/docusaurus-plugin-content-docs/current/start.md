@@ -3,6 +3,8 @@ title: Primii pași
 ---
 # Prima semnătură
 
+[Ghiduri — Alege dispozitivul sau caută sarcina pe care vrei să o realizezi](./platforms.md)
+
 eSemnBun este o aplicație gratuită, cu codul sursă deschis, creată de Nicolae Ghimbovschi pentru cărțile de identitate electronice compatibile din Moldova.
 
 ## Ai nevoie de

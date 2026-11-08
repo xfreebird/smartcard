@@ -25,5 +25,8 @@
   },
   "item.label.Devices": {
     "message": "Dispozitive"
+  },
+  "item.label.Guides": {
+    "message": "Ghiduri"
   }
 }

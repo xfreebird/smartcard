@@ -5,6 +5,8 @@ sidebar_position: 1
 ---
 # Your first signature
 
+[Guides — Choose your device or search for the task you want to complete](./platforms.md)
+
 eSemnBun is free, open-source software by Nicolae Ghimbovschi. It works with supported Moldovan electronic identity cards and USB smart-card readers.
 
 ## What you need
