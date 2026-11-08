@@ -212,6 +212,10 @@ function Set-MsixIdentity([string] $Name, [string] $Publisher, [string] $Package
     $xml.SelectSingleNode('/m:Package/m:Properties/m:PublisherDisplayName', $ns).InnerText = $PublisherDisplayName
     # Store packages expose the bundled console CLI without requiring a versioned WindowsApps path.
     # The alias is generated only together with the packaged CLI payload and restored in finally.
+    $application = $xml.SelectSingleNode('/m:Package/m:Applications/m:Application', $ns)
+    $multiInstance = $xml.CreateAttribute('desktop4', 'SupportsMultipleInstances', 'http://schemas.microsoft.com/appx/manifest/desktop/windows10/4')
+    $multiInstance.Value = 'true'
+    [void]$application.Attributes.Append($multiInstance)
     $extensions = $xml.SelectSingleNode('/m:Package/m:Applications/m:Application/m:Extensions', $ns)
     $fragment = $xml.CreateDocumentFragment()
     $fragment.InnerXml = '<uap5:Extension xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" Category="windows.appExecutionAlias" Executable="bin\esemnbun.exe" EntryPoint="Windows.FullTrustApplication"><uap5:AppExecutionAlias desktop4:Subsystem="console"><uap5:ExecutionAlias Alias="esemnbun.exe" /></uap5:AppExecutionAlias></uap5:Extension>'

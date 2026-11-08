@@ -133,6 +133,7 @@ jobs:
       - name: Select Android build number
         env:
           BUILD_NUMBER_INPUT: ${{ inputs.android_build_number }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           git fetch --force --tags origin
           minimum_version_code=1793624666
@@ -153,10 +154,10 @@ jobs:
               exit 1
             fi
           else
-            git config user.name 'github-actions[bot]'
-            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-            git tag -a "android-play-vc-$build_number" -m "Reserve Android Play version code $build_number"
-            git push origin "refs/tags/android-play-vc-$build_number"
+            # Reserve an existing commit through the refs API; pushing a new annotated tag
+            # can require workflows permission when main advanced after checkout.
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+              -f "ref=refs/tags/android-play-vc-$build_number" -f "sha=$GITHUB_SHA" >/dev/null
           fi
           echo "BUILD_NUMBER=$build_number" >> "$GITHUB_ENV"
       - name: Upload key
