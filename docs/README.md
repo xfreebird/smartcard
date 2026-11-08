@@ -48,3 +48,9 @@ CryptoTokenKit) · `Formats/` (PAdES + CMS, XAdES, Validator, ChainCerts, RFC316
 (TSA/OCSP/CRL over plain HTTP) · `Bridge/` (MoldSign Server protocol + origin policy) · `Services/SigningService`
 (app facade, card lock) · `Support/Log`. `CPCSC` = PC/SC + CommonCrypto C shims. `moldsign` = CLI source (product `esemnbun`).
 Apps: `apple/Apps/{Shared,macOS,iOS}` (Xcode project `apple/eSemnBun.xcodeproj`) · `linux/` (GNOME) · `android/` · `windows/`.
+
+## Agent integrations
+
+[Connect ten AI agents](../website/docs/integrations/mcp-agents.md) — per-client MCP configuration,
+macOS/Linux/Windows exports, a portable document skill, native workflow/rule adapters and a
+Claude Code plugin. See the [protocol contract](../spec/mcp.md) for signing authority and limits.

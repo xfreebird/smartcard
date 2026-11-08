@@ -80,7 +80,7 @@ Configurează un client local compatibil cu protocolul folosind calea absolută 
 esemnbun-mcp --root documents=/home/me/Documents/Signing
 ```
 
-Începe cu `capabilities` și `verify_document`. Intrarea identifică `{rootId,relativePath}`; nu trimite PIN sau conținutul documentului ca argumente. Rezultatele includ metadate minime. Clientul poate trimite metadatele propriilor servicii externe. Consultă [configurarea și politica MCP](https://esemnbun.md/packages/mcp.md).
+Începe cu `capabilities` și `verify_document`. Intrarea identifică `{rootId,relativePath}`; nu trimite PIN sau conținutul documentului ca argumente. Rezultatele includ metadate minime. Clientul poate trimite metadatele propriilor servicii externe. Consultă [configurarea și politica MCP](https://esemnbun.md/packages/mcp.md). [Configurări și abilități reutilizabile pentru zece agenți AI](https://esemnbun.md/docs/integrations/mcp-agents/) (în engleză).
 
 ```json
 {

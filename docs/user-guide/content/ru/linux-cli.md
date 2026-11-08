@@ -80,7 +80,7 @@ esemnbun verify --json Contract-semnat.pdf
 esemnbun-mcp --root documents=/home/me/Documents/Signing
 ```
 
-Начните с `capabilities` и `verify_document`. Вход: `{rootId,relativePath}`; не передавайте PIN или содержимое документа. Возвращаются минимальные метаданные. Клиент может передать их своим внешним сервисам. См. [настройку и правила MCP](https://esemnbun.md/packages/mcp.md).
+Начните с `capabilities` и `verify_document`. Вход: `{rootId,relativePath}`; не передавайте PIN или содержимое документа. Возвращаются минимальные метаданные. Клиент может передать их своим внешним сервисам. См. [настройку и правила MCP](https://esemnbun.md/packages/mcp.md). [Настройки и навыки для десяти ИИ-агентов](https://esemnbun.md/docs/integrations/mcp-agents/) (на английском).
 
 ```json
 {

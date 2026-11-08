@@ -31,6 +31,15 @@ The implementation follows the official [stdio binding](https://modelcontextprot
 The legacy adapter follows the official [2025-11-25 lifecycle](https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle).
 Application job handles are not MCP Tasks and do not imply a protocol session.
 
+## Agent client setup and reusable skills
+
+See [AI agent integrations](https://esemnbun.md/docs/integrations/mcp-agents/) for ten client
+configurations, a downloadable macOS/Linux/Windows integration pack, reusable document skills,
+rule/workflow adapters and a local Claude Code plugin. Sources and validation limits are listed
+per client. The pack defaults to verification; native approval and unattended signing require
+separate operator configuration. Source: `distribution/agents/`; exporter:
+`scripts/agents/export_integrations.py`.
+
 ## Trusted launch configuration
 
 Build with `swift build --package-path swift/MoldSignKit --product esemnbun-mcp`.

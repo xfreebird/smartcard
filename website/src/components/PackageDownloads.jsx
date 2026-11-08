@@ -43,6 +43,7 @@ sudo apt install esemnbun-cli`}</CodeBlock>
     <p>{text('Requires compatible glibc, OpenSSL, libcurl and PC/SC libraries. Not an Alpine/musl build.','Necesită biblioteci compatibile glibc, OpenSSL, libcurl și PC/SC. Nu este o versiune pentru Alpine/musl.','Требуются совместимые библиотеки glibc, OpenSSL, libcurl и PC/SC. Не предназначено для Alpine/musl.')}</p>
    </details>
    </>}
+  <p><a href="/docs/integrations/mcp-agents/">{text('Connect your AI agent: configurations, skills and plugin','Conectează agentul AI: configurări, abilități și plugin','Подключите ИИ-агента: настройки, навыки и плагин')}</a></p>
   <p><a href="/packages/mcp.md">{text('MCP setup and signing policy','Configurarea MCP și politica de semnare','Настройка MCP и правила подписи')}</a></p>
  </div>;
 }
