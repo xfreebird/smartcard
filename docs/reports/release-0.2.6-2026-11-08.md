@@ -9,7 +9,7 @@ The release contains the Apple discovery/Shortcuts/Siri work and desktop MCP/sig
 | iOS App Store | 0.2.6 (206) | Waiting for review; existing localized screenshots and review details retained. |
 | macOS App Store | 0.2.6 (206) | Withdrew the pending 0.2.5 review, attached processed build 206, and submitted the replacement. Waiting for review. |
 | Google Play Alpha closed test | 1793624681 | Uploaded AAB and committed 0.2.6 to Alpha; API reads back `completed`. Review/distribution availability is separate. Other tracks preserved. |
-| Microsoft Store | 1.2.206.0 | Uploaded the replacement MSIX and committed submission 1152921505702344468. Processing; manual publication retained. |
+| Microsoft Store | 1.2.206.0 | Uploaded the replacement MSIX and committed submission 1152921505702344468. Certification, with no reported errors; manual publication retained. |
 | Huawei AppGallery | Replacement APK 1793624681 ready | Existing 1793624678 review remains unchanged. Browser verification did not complete through the available controls; a candidate service-account withdrawal route returned HTTP 404. No replacement review claimed. |
 | GitHub / website downloads | 0.2.6 | Public installers include macOS DMG and universal CLI archive, Android APK, Windows MSI/certificate, Linux GUI/CLI DEB/RPM/tar archive and Flatpak. |
 
@@ -41,3 +41,5 @@ Apple review IDs: iOS `25c13037-682e-4c0a-b27c-395d502612e7`; macOS `28a2f791-0d
 - Linux and macOS archives contain both `esemnbun` and `esemnbun-mcp`.
 
 Live Siri, Spotlight/Handoff behavior, installed Store CLI activation, real credential-provider authorization, and physical-card unattended signing retain the validation limits documented in the implementation report. No real card PIN was used during release verification.
+
+Final live checks: `/downloads/` includes the 0.2.6 macOS CLI and Windows MSI; all three desktop update JSON endpoints return 0.2.6 (HTTP 200). Website deployment 42453079909 succeeded. Full CI also passed on the final app-code/packaging commit `0974b2f` in run 42452799975; subsequent release-metadata/workflow follow-up CI was still running at this check.
