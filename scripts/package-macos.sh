@@ -85,7 +85,7 @@ MCP="$(cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun
 sign_ts --force --options runtime --identifier md.esemnbun.mcp --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$MCP"
 mkdir -p "$APP/Contents/Helpers"
 cp "$MCP" "$APP/Contents/Helpers/esemnbun-mcp"
-lipo -verify_arch arm64 x86_64 "$APP/Contents/Helpers/esemnbun-mcp"
+lipo "$APP/Contents/Helpers/esemnbun-mcp" -verify_arch arm64 x86_64
 codesign --verify --strict "$APP/Contents/Helpers/esemnbun-mcp"
 sign_ts --force --preserve-metadata=identifier,entitlements,requirements,flags --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$APP"
 codesign -d --entitlements :- "$APP" > "$ENTITLEMENTS_AFTER" 2>/dev/null
