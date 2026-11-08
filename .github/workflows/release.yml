@@ -343,7 +343,7 @@ jobs:
             VERSION=$(sed -n 's/.*MARKETING_VERSION = \([^;]*\);.*/\1/p' apple/eSemnBun.xcodeproj/project.pbxproj | head -1)
             TAG="${INPUT_TAG:-v$VERSION}"
           fi
-          mapfile -t FILES < <(find artifacts -type f \( -name '*.dmg' -o -name '*linux*.tar.gz' \
+          mapfile -t FILES < <(find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' \
             -o -name '*.apk' -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' \
             -o -name '*.msi' -o -name '*.cer' \) | sort)
           if (( ${#FILES[@]} == 0 )); then echo "::error::nothing was built"; exit 1; fi
@@ -356,10 +356,10 @@ jobs:
             gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
               --title "eSemnBun ${TAG#v}" --notes "$NOTE" --generate-notes "${FILES[@]}"
           fi
-          # Remove store-upload packages and the standalone macOS CLI from public downloads.
+          # Remove store-upload packages from public downloads.
           while IFS= read -r asset; do
             case "$asset" in
-              *.ipa|*.aab|*.msix|*.pkg|*macos*.tar.gz) gh release delete-asset "$TAG" "$asset" --repo "$GITHUB_REPOSITORY" --yes ;;
+              *.ipa|*.aab|*.msix|*.pkg) gh release delete-asset "$TAG" "$asset" --repo "$GITHUB_REPOSITORY" --yes ;;
             esac
           done < <(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json assets --jq '.assets[].name')
           # checksums over every installer now in the release (earlier runs included)

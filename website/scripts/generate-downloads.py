@@ -14,7 +14,7 @@ version = release['tag_name'].removeprefix('v')
 if not re.fullmatch(r'\d+\.\d+\.\d+', version) or release.get('draft') or release.get('prerelease'):
     parser.error('Expected a published stable x.y.z release')
 def family(name):
-    if name.endswith('.dmg'): return 'macos'
+    if name.endswith('.dmg') or ('macos' in name and name.endswith('.tar.gz')): return 'macos'
     if name.endswith('.msi'): return 'windows'
     if name.endswith('.apk'): return 'android'
     if name.endswith('.flatpak'): return 'flatpak'
@@ -30,7 +30,7 @@ def describe(asset):
     if not kind:
         return asset
     platform = 'linux' if kind in ('flatpak', 'linux') else kind
-    if name.startswith('esemnbun-cli') or name.endswith('.tar.gz'):
+    if kind == 'linux' and (name.startswith('esemnbun-cli') or name.endswith('.tar.gz')):
         platform = 'linux-cli'
     version_match = re.search(r'/download/v([^/]+)/', asset['url'])
     return {**asset, 'platform': platform,
