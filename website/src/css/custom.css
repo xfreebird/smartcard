@@ -275,3 +275,12 @@ button.guide-screenshot-image:focus-visible{outline:3px solid var(--ifm-color-pr
 .guide-screenshot-tools .guide-screenshot-close{position:static;padding:0;width:2rem;height:2rem;border-radius:50%}
 .guide-screenshot-actual-size .guide-screenshot-image{max-width:none;width:max-content}
 .guide-screenshot-actual-size .guide-screenshot-image img{max-width:none;max-height:none}
+
+/* Annotation gutters keep every numbered badge outside the native screenshot. */
+.guide-annotated-frame{position:relative;display:grid;grid-template-columns:36px minmax(0,auto) 36px;align-items:center;width:fit-content;max-width:100%;padding:6px 0;isolation:isolate}
+.guide-annotated-frame>img{grid-column:2;grid-row:1;min-width:0;border-radius:6px}
+.guide-screenshot-pointers{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.guide-screenshot-pointer,.guide-screenshot-target{fill:none;stroke:#b62816;stroke-width:1.25;vector-effect:non-scaling-stroke;opacity:.85}
+.guide-screenshot-marker{min-width:24px;width:24px;height:24px;padding:0;border-width:1.5px;font-size:13px;z-index:1}
+.guide-screenshot-actual-size .guide-annotated-frame{max-width:none;grid-template-columns:36px max-content 36px}
+.guide-screenshot-dialog:not(.guide-screenshot-actual-size) .guide-annotated-frame>img{max-width:calc(90vw - 72px)}

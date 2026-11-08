@@ -1,6 +1,51 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import {layoutGuideCallouts} from './guideCallouts.mjs';
+
+/** The original image stays unobstructed; labels live in reserved outside gutters. */
+function AnnotatedImage({image, alt, steps, start}) {
+  const frameRef = useRef(null);
+  const imageRef = useRef(null);
+  const [geometry, setGeometry] = useState(null);
+  const positioned = steps.filter(step => Number.isFinite(step.x) && Number.isFinite(step.y));
+  const lanes = Math.max(positioned.filter(step => step.x <= 50).length,
+    positioned.filter(step => step.x > 50).length);
+  useEffect(() => {
+    const measure = () => {
+      const frame = frameRef.current?.getBoundingClientRect();
+      const photo = imageRef.current?.getBoundingClientRect();
+      if (!frame?.width || !photo?.width || !photo?.height) return;
+      const next = {frame: {width: frame.width, height: frame.height},
+        image: {x: photo.left - frame.left, y: photo.top - frame.top,
+          width: photo.width, height: photo.height}};
+      setGeometry(previous => JSON.stringify(previous) === JSON.stringify(next) ? previous : next);
+    };
+    const observer = new ResizeObserver(measure);
+    observer.observe(frameRef.current);
+    observer.observe(imageRef.current);
+    imageRef.current.addEventListener('load', measure);
+    measure();
+    const photo = imageRef.current;
+    return () => {observer.disconnect(); photo.removeEventListener('load', measure);};
+  }, [image]);
+  const callouts = geometry ? layoutGuideCallouts(steps, geometry.frame, geometry.image, start) : [];
+  return <span ref={frameRef} className="guide-annotated-frame" style={{minHeight: `${Math.max(52, lanes * 32 + 12)}px`}}>
+    <img ref={imageRef} src={image} alt={alt} loading="lazy" />
+    {geometry && <svg className="guide-screenshot-pointers" viewBox={`0 0 ${geometry.frame.width} ${geometry.frame.height}`} aria-hidden="true">
+      {callouts.map(item => {
+        const edge = item.side === 'left' ? geometry.image.x - 5 : geometry.image.x + geometry.image.width + 5;
+        const path = `M ${item.x} ${item.y} L ${edge} ${item.y} L ${item.targetX} ${item.targetY}`;
+        return <g key={item.number}>
+          <path className="guide-screenshot-pointer" d={path} />
+          <circle className="guide-screenshot-target" cx={item.targetX} cy={item.targetY} r="3" />
+        </g>;
+      })}
+    </svg>}
+    {callouts.map(item => <span key={item.number} className="guide-screenshot-marker" aria-hidden="true"
+      style={{left: item.x, top: item.y}}>{item.number}</span>)}
+  </span>;
+}
 
 /** Native screenshot plus accessible numbered instructions; coordinates are percentages. */
 export default function GuideScreenshot({src, alt, steps = [], caption, start = 1}) {
@@ -10,12 +55,7 @@ export default function GuideScreenshot({src, alt, steps = [], caption, start = 
   const {i18n} = useDocusaurusContext();
   const close = {en: 'Close image', ro: 'Închide imaginea', ru: 'Закрыть изображение'}[i18n.currentLocale] || 'Close image';
   const zoom = {en: ['Actual size', 'Fit to screen'], ro: ['Mărime originală', 'Încadrează pe ecran'], ru: ['Исходный размер', 'По размеру экрана']}[i18n.currentLocale] || ['Actual size', 'Fit to screen'];
-  const picture = () => <>
-    <img src={image} alt={alt} loading="lazy" />
-    {steps.map((step, index) => Number.isFinite(step.x) && Number.isFinite(step.y) &&
-      <span key={index} className="guide-screenshot-marker" aria-hidden="true"
-        style={{left: `clamp(16px, ${step.x}%, calc(100% - 16px))`, top: `clamp(16px, ${step.y}%, calc(100% - 16px))`}}>{index + start}</span>)}
-  </>;
+  const picture = () => <AnnotatedImage image={image} alt={alt} steps={steps} start={start} />;
   return <figure className="guide-screenshot">
     <button type="button" className="guide-screenshot-image" onClick={() => {setActualSize(false); dialog.current?.showModal();}} aria-label={alt} aria-haspopup="dialog">
       {picture()}

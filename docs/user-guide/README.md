@@ -5,7 +5,7 @@ The public entry point is the website's `/docs/platforms/` route, available in E
 ## Editorial and capture rules
 
 - Start with a user goal, state prerequisites and the expected result, then show the numbered actions on the native screen.
-- Use `GuideScreenshot` for both numbered markers and the matching accessible ordered list. Coordinates are percentages of the original image; inspect them in the rendered page. Tapping a screenshot opens an enlarged view with its callouts.
+- Use `GuideScreenshot` for both numbered markers and the matching accessible ordered list. Coordinates identify the target in percentages of the original image; never use them as the badge position. Numbers are automatically packed in outside gutters, with thin pointers to the target, so opaque labels never cover app content. Inspect them in the rendered page. Tapping a screenshot opens an enlarged view with its callouts.
 - Capture native translated interfaces, including actual phone and tablet layouts. Do not stretch a phone screen to represent a tablet.
 - Use only fictional identities, filenames and sample documents. Debug capture mode must isolate hardware and hide the demo banner; ordinary app demo mode remains labelled.
 - Record provenance, binary identity, locale, device form and capture limitations in each platform evidence manifest. A mock successful screen does not establish physical-card signing, saved-credential access or system-service behavior.

@@ -170,7 +170,7 @@
   "nativeScreenshots": 411,
   "terminalIllustrations": 63,
   "websiteUnitTests": {
-    "passed": 16,
+    "passed": 18,
     "failed": 0
   },
   "productionBuild": {
@@ -206,5 +206,18 @@
       "retry exhaustion preserves exit status"
     ],
     "windowsPowerShellSyntax": "passed"
+  },
+  "calloutRevision": {
+    "numberPlacement": "outside native screenshot in reserved gutters",
+    "pointerStyle": "thin outline-only leaders and targets",
+    "panelsChecked": 483,
+    "widthsChecked": "288px, 368px, 760px and native image size",
+    "browserReviewed": [
+      "desktop fit",
+      "320px phone fit",
+      "320px phone actual size",
+      "short CLI panels"
+    ],
+    "nativeScreenshotPixelsChanged": false
   }
 }
