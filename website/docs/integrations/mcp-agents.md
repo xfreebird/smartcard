@@ -41,7 +41,7 @@ schema-reviewed examples; connections to all ten installed clients have not been
 The server supports **2026-07-28** and the explicit **2025-11-25** initialization adapter.
 A host pinned to an older revision cannot connect. Update it or use a compatible client;
 these templates do not turn unsupported revisions into supported ones. Keep each signing job
-on the same live server connection. See the [full protocol and security policy](/packages/mcp.md).
+on the same live server connection. See the [full protocol and security policy](https://esemnbun.md/packages/mcp.md).
 
 ## Export a configuration for your own paths
 
@@ -318,7 +318,7 @@ physical-card/provider behavior need validation on the target installation.
 The supplied configurations enable **verification only**. The exporter can add an existing
 foreground broker but cannot enable unattended mode. An operator can separately configure
 certificate-pinned unattended signing with a private output directory and a credential-provider
-reference as described in the [MCP contract](/packages/mcp.md). The skill supports an already
+reference as described in the [MCP contract](https://esemnbun.md/packages/mcp.md). The skill supports an already
 configured `sign_document` tool when the user's request authorizes that signing operation.
 
 Use Keychain on macOS, Credential Manager on Windows, Secret Service on Linux, or the supported
