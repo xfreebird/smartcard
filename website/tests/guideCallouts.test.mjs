@@ -21,7 +21,7 @@ const panels = roots.flatMap(root => markdown(path.join(site,root)).flatMap(file
 }));
 
 test('all illustrated panels keep numbered labels outside app pixels at phone, desktop and actual size', () => {
-  assert.equal(panels.length, 483);
+  assert.equal(panels.length, 531);
   for (const panel of panels) {
     for (const available of [288,368,760,panel.width + 72]) {
       const positioned = panel.steps.filter(step => Number.isFinite(step.x) && Number.isFinite(step.y));

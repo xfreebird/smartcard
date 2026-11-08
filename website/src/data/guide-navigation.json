@@ -2271,12 +2271,12 @@
     {
       "id": "windows",
       "labels": {
-        "en": "Windows desktop reference",
-        "ro": "Referință desktop Windows",
-        "ru": "Справочник Windows для компьютера"
+        "en": "Windows",
+        "ro": "Windows",
+        "ru": "Windows"
       },
       "assetPlatform": "windows",
-      "kind": "reference",
+      "kind": "app",
       "topics": [
         {
           "id": "setup",
@@ -2302,9 +2302,9 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 1,
+            "ro": 1,
+            "ru": 1
           }
         },
         {
@@ -2331,9 +2331,9 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 4,
+            "ro": 4,
+            "ru": 4
           }
         },
         {
@@ -2360,9 +2360,38 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 3,
+            "ro": 3,
+            "ru": 3
+          }
+        },
+        {
+          "id": "documents",
+          "labels": {
+            "en": "Find saved documents",
+            "ro": "Găsește documentele salvate",
+            "ru": "Найдите сохранённые документы"
+          },
+          "descriptions": {
+            "en": "Open signing details, share saved files and clear recent history.",
+            "ro": "Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.",
+            "ru": "Откройте сведения о подписи, отправьте файлы и очистите историю."
+          },
+          "headings": {
+            "en": [
+              "Find and open saved documents"
+            ],
+            "ro": [
+              "Găsește și deschide documentele salvate"
+            ],
+            "ru": [
+              "Найдите и откройте сохранённые документы"
+            ]
+          },
+          "panels": {
+            "en": 2,
+            "ro": 2,
+            "ru": 2
           }
         },
         {
@@ -2389,9 +2418,9 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -2418,9 +2447,9 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 1,
+            "ro": 1,
+            "ru": 1
           }
         },
         {
@@ -2447,9 +2476,9 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 1,
+            "ro": 1,
+            "ru": 1
           }
         }
       ],
@@ -2458,6 +2487,7 @@
           "install-the-appropriate-edition": "setup/#install-the-appropriate-edition",
           "sign-documents-from-the-app-or-explorer": "signing/#sign-documents-from-the-app-or-explorer",
           "verify-and-inspect-activity": "verification/#verify-and-inspect-activity",
+          "find-and-open-saved-documents": "documents/#find-and-open-saved-documents",
           "settings-pins-and-tray-controls": "preferences/#settings-pins-and-tray-controls",
           "use-the-browser-bridge": "browser/#use-the-browser-bridge",
           "update-or-resolve-a-problem": "help/#update-or-resolve-a-problem"
@@ -2466,6 +2496,7 @@
           "instalează-ediția-potrivită": "setup/#instalează-ediția-potrivită",
           "semnează-documente-din-aplicație-sau-explorer": "signing/#semnează-documente-din-aplicație-sau-explorer",
           "verifică-și-consultă-activitatea": "verification/#verifică-și-consultă-activitatea",
+          "găsește-și-deschide-documentele-salvate": "documents/#găsește-și-deschide-documentele-salvate",
           "configurări-pin-uri-și-pictograma-din-zona-de-notificare": "preferences/#configurări-pin-uri-și-pictograma-din-zona-de-notificare",
           "folosește-conexiunea-cu-browserul": "browser/#folosește-conexiunea-cu-browserul",
           "actualizează-sau-rezolvă-o-problemă": "help/#actualizează-sau-rezolvă-o-problemă"
@@ -2474,6 +2505,7 @@
           "установите-подходящую-редакцию": "setup/#установите-подходящую-редакцию",
           "подпишите-документы-из-приложения-или-проводника": "signing/#подпишите-документы-из-приложения-или-проводника",
           "проверьте-подписи-и-просмотрите-действия": "verification/#проверьте-подписи-и-просмотрите-действия",
+          "найдите-и-откройте-сохранённые-документы": "documents/#найдите-и-откройте-сохранённые-документы",
           "настройки-pin-и-значок-в-области-уведомлений": "preferences/#настройки-pin-и-значок-в-области-уведомлений",
           "используйте-соединение-с-браузером": "browser/#используйте-соединение-с-браузером",
           "обновите-приложение-или-устраните-проблему": "help/#обновите-приложение-или-устраните-проблему"
@@ -3014,9 +3046,9 @@
             ]
           },
           "panels": {
-            "en": 0,
-            "ro": 0,
-            "ru": 0
+            "en": 1,
+            "ro": 1,
+            "ru": 1
           }
         },
         {

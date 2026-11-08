@@ -1,18 +1,20 @@
 ---
-title: "Fix a problem — Windows desktop reference"
+title: "Fix a problem — Windows"
 sidebar_label: "Fix a problem"
 description: "Resolve reader, PIN, document and connection problems safely."
 pagination_prev: "platforms/windows/browser"
 pagination_next: null
 ---
 
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-
-# Fix a problem — Windows desktop reference
+# Fix a problem — Windows
 
 [Platform overview](../windows.md) · [Installation and reader setup](./setup.md)
 
 Resolve reader, PIN, document and connection problems safely.
+
+Illustrations use fictional data. Follow the instructions in your installed app.
 
 ## Update or resolve a problem
 
@@ -28,3 +30,7 @@ Microsoft Store installations update through the store. Standalone builds offer 
 | Document fails | Inspect its error, preserve the source, and correct the cause before retrying. |
 
 Stop after an incorrect-PIN result and verify the PIN rather than guessing. Report app/Windows versions, MSI or Store edition, architecture, reader model, and reproduction steps. See [troubleshooting](/docs/troubleshooting).
+
+### Recover when no reader is detected
+
+<GuideScreenshot src="/img/guide/windows/en/none.png" alt="Recover when no reader is detected" steps={[{"x": 60, "y": 34, "text": "Read the connection guidance, reconnect the USB reader and insert the card."}, {"x": 88, "y": 13, "text": "Read the card again after correcting the connection. A PIN error requires a deliberate stop, not another guess."}]} />

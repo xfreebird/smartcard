@@ -1,18 +1,20 @@
 ---
-title: "Semnează documente — Referință desktop Windows"
+title: "Semnează documente — Windows"
 sidebar_label: "Semnează documente"
 description: "Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul."
 pagination_prev: "platforms/windows/setup"
 pagination_next: "platforms/windows/verification"
 ---
 
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-
-# Semnează documente — Referință desktop Windows
+# Semnează documente — Windows
 
 [Ghidurile platformei](../windows.md) · [Instalare și conectarea cititorului](./setup.md)
 
 Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.
+
+Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
 
 ## Semnează documente din aplicație sau Explorer
 
@@ -24,3 +26,19 @@ Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul
 4. Ține cititorul conectat până la finalizare. Folosește acțiunile rezultatului pentru a deschide sau localiza fișierele produse.
 
 Autorizarea lotului se aplică listei de documente aprobate și cardului selectat. Dacă un element eșuează, citește eroarea înainte de a reîncerca. Nu confunda rezultatele finalizate cu intrările nesemnate. Consultă [formatele de semnare și erorile](/docs/signing).
+
+### Pregătește lotul de semnare
+
+<GuideScreenshot src="/img/guide/windows/ro/queue.png" alt="Pregătește lotul de semnare" steps={[{"x": 90, "y": 68, "text": "Alege fișierele sau trage-le în zona punctată."}, {"x": 34, "y": 50, "text": "Verifică formatul; folosește Ștampilă dezactivată pentru o ștampilă PDF opțională."}, {"x": 88, "y": 95, "text": "Verifică cardul selectat și alege Semnează pentru lotul afișat."}]} />
+
+### Poziționează ștampila PDF vizibilă
+
+<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF."}, {"x": 93, "y": 95, "text": "Verifică opțiunile paginii și aplică ștampila înainte de semnare."}]} />
+
+### Verifică autorizarea semnării
+
+<GuideScreenshot src="/img/guide/windows/ro/pin.png" alt="Verifică autorizarea semnării" steps={[{"x": 50, "y": 42, "text": "Verifică identitatea selectată și lista completă de documente."}, {"x": 50, "y": 63, "text": "Introdu PIN-ul de semnare al cardului fizic doar după verificarea cererii. Nu ghici și nu repeta automat."}]} />
+
+### Găsește rezultatele finalizate
+
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90, "y": 23, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 44, "y": 23, "text": "Păstrează XML-ul detașat cu originalul nemodificat. Rezultatele ilustrate sunt fictive."}]} />

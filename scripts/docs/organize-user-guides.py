@@ -30,7 +30,7 @@ MAPS = {
  'macos': {'setup':[0,1,2],'signing':[3,4,5,6,7,8],'verification':[9,10,11],'results':[12,13,14],'documents':[15,16,17],'browser':[18,19,24],'preferences':[20,25],'automation':[21,22,23],'help':[26]},
  'ios': MOBILE, 'ipad': MOBILE, 'android': ANDROID, 'android-tablet': ANDROID,
  'linux': {'setup':[0,1,2],'signing':[3,4,5,6,7,8,9],'verification':[10,11,15],'results':[12,13,14],'documents':[16,17,18],'browser':[24],'preferences':[19,20,21,22,23],'help':[25]},
- 'windows': {'setup':[0],'signing':[1],'verification':[2],'preferences':[3],'browser':[4],'help':[5]},
+ 'windows': {'setup':[0],'signing':[1],'verification':[2],'documents':[6],'preferences':[3],'browser':[4],'help':[5]},
  'macos-cli': {'setup':[0,1],'signing':[2],'verification':[3],'mcp':[4],'approval':[5],'unattended':[6],'service':[7]},
  'linux-cli': {'setup':[0,1],'signing':[2],'verification':[3],'mcp':[4],'unattended':[5],'service':[6]},
  'windows-cli': {'setup':[0,1],'verification':[2],'mcp':[3],'unattended':[4]},
@@ -38,7 +38,7 @@ MAPS = {
 NAMES = {
  'macos': tr('Mac','Mac','Mac'), 'ios':tr('iPhone','iPhone','iPhone'), 'ipad':tr('iPad','iPad','iPad'),
  'android':tr('Android phone','Telefon Android','Телефон Android'), 'android-tablet':tr('Android tablet','Tabletă Android','Планшет Android'),
- 'linux':tr('Linux','Linux','Linux'), 'windows':tr('Windows desktop reference','Referință desktop Windows','Справочник Windows для компьютера'),
+ 'linux':tr('Linux','Linux','Linux'), 'windows':tr('Windows','Windows','Windows'),
  'macos-cli':tr('Mac · Command line (CLI)','Mac · Linie de comandă (CLI)','Mac · Командная строка (CLI)'),
  'linux-cli':tr('Linux · Command line (CLI)','Linux · Linie de comandă (CLI)','Linux · Командная строка (CLI)'),
  'windows-cli':tr('Windows · Command line (CLI)','Windows · Linie de comandă (CLI)','Windows · Командная строка (CLI)'),
@@ -64,7 +64,7 @@ def frontmatter(values):
 def organize(check=False):
  outputs={};platforms=[];audit=[]
  for platform,mapping in MAPS.items():
-  entry={'id':platform,'labels':NAMES[platform],'assetPlatform':ASSETS[platform],'kind':'cli' if platform.endswith('-cli') else 'reference' if platform=='windows' else 'app','topics':[],'anchors':{}}
+  entry={'id':platform,'labels':NAMES[platform],'assetPlatform':ASSETS[platform],'kind':'cli' if platform.endswith('-cli') else 'app','topics':[],'anchors':{}}
   for topic,indices in mapping.items():
    if topic.startswith('_'): continue
    labels,descriptions=TOPICS[topic]

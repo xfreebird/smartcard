@@ -95,6 +95,9 @@ T={
  'providers':'macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` или `onepassword:op://Vault/Item/field`. Linux: окружение или1Password. Windows: `credential:eSemnBun-Automation`, окружение или1Password с абсолютным путём op.exe. Отдельно подготовленная запись Keychain/Credential Manager должна разрешать нужный доступ; биометрическое хранилище приложения не ослабляется. Войдите в1Password вне MCP.',
  'advanced':'Расширенная справка: macOS/Linux также дают `sign-hex <digestinfo_hex>` и `cms-for-hash <sha256_hex>`; Windows только sign-hex. Это инструменты разработчика, не подпись документов. Для поддержки укажите версии приложения/ОС, команду без секретов, код и вымышленный пример. Не прикладывайте PIN или конфиденциальные файлы.'}}
 
+windows_verify_example='esemnbun mcp --root "documents=C:\\Users\\me\\Documents\\Signing"'
+windows_verify_display=['PS> esemnbun mcp --root "documents=C:\\Users\\me\\Documents\\Signing"', 'MCP client: verify_document', '{"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}']
+windows_verify_steps={'en': ['Start the MCP server with the folder you selected.', 'In your MCP client, choose the verify_document tool.', 'Supply this tool input, then inspect integrity, signature and chain fields. This is an example, not captured output.'], 'ro': ['Pornește serverul MCP cu dosarul pe care l-ai ales.', 'În clientul MCP, alege instrumentul verify_document.', 'Furnizează această intrare și examinează integritatea, semnătura și lanțul. Este un exemplu, nu un rezultat capturat.'], 'ru': ['Запустите сервер MCP с выбранной папкой.', 'В клиенте MCP выберите инструмент verify_document.', 'Передайте эти параметры и проверьте целостность, подпись и цепочку. Это пример, а не полученный результат.']}
 def svg(platform,lang,name,lines,labels):
  out=root/f'website/static/img/guide/{platform}/{lang}';out.mkdir(parents=True,exist_ok=True)
  wrapped=[]
@@ -119,7 +122,8 @@ def panel(platform,lang,name,commands,steps,observed=False,display=None):
   if i >= n:
    coords.append({'text':step})
    continue
-  y=(72+round(i*max(1,n-1)/max(1,len(steps)-1))*line_height)/h*100
+  line_index = i if name == "verification" else round(i*max(1,n-1)/max(1,len(steps)-1))
+  y=(72+line_index*line_height)/h*100
   coords.append({'x':3,'y':round(y,1),'text':step})
  t=T[lang];mark=(t['observed'] if name=='unsigned' else {'en':'Captured local read-only capability output.','ro':'Rezultat local capturat: funcțiile disponibile, fără acces la card.','ru':'Локальный результат возможностей без доступа к карте.'}[lang]) if observed else t['example']
  block=f'<GuideScreenshot src="{src}" alt={json.dumps(t[name] if name in t else t["title"],ensure_ascii=False)} caption={json.dumps(mark,ensure_ascii=False)} steps={{{json.dumps(coords,ensure_ascii=False)}}} />\n\n'
@@ -161,6 +165,7 @@ for lang,t in T.items():
    doc+=t['status']+'\n\n'
   else:
    doc+='## '+t['verify']+'\n\n'+t['windowsverify']+'\n\n'
+   doc+=panel(platform,lang,'verification',windows_verify_example,windows_verify_steps[lang],display=windows_verify_display)+'```json\n{"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}\n```\n\n'
   doc+='## '+t['mcp']+'\n\n'+t['mcptext']+'\n\n'
   if win:mcp='esemnbun mcp --root "documents=C:\\Users\\me\\Documents\\Signing"'
   else:mcp='esemnbun-mcp --root documents='+('/Users/me' if mac else '/home/me')+'/Documents/Signing'

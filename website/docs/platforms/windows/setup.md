@@ -1,18 +1,20 @@
 ---
-title: "Get started — Windows desktop reference"
+title: "Get started — Windows"
 sidebar_label: "Get started"
 description: "Install, connect a reader and choose your card."
 pagination_prev: "platforms/windows"
 pagination_next: "platforms/windows/signing"
 ---
 
-import PlatformScreenshots from '@site/src/components/PlatformScreenshots';
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-# Get started — Windows desktop reference
+# Get started — Windows
 
 [Platform overview](../windows.md)
 
 Install, connect a reader and choose your card.
+
+Illustrations use fictional data. Follow the instructions in your installed app.
 
 ## Install the appropriate edition
 
@@ -23,6 +25,10 @@ Use the **MSI** from [GitHub Releases](https://github.com/xfreebird/smartcard/re
 3. Connect the reader. The miniLector uses the Windows CCID driver and Smart Card service.
 4. Insert the card and wait for its certificate. Check the holder and expiry before signing.
 
-<PlatformScreenshots platform="windows" alt="Windows signing page with the card above the document drop zone" caption="The Windows workspace follows the website's light or dark appearance." />
+
 
 Multiple cards appear in the horizontal carousel. Select the centred card you intend to sign with. The artwork uses certificate information and a neutral avatar, rather than your ID photograph.
+
+### Choose and inspect your card
+
+<GuideScreenshot src="/img/guide/windows/en/card.png" alt="Choose and inspect your card" steps={[{"x": 6, "y": 26, "text": "Open Card after connecting the reader and inserting the card."}, {"x": 60, "y": 31, "text": "Check the holder and expiry; select the intended card in the carousel."}, {"x": 51, "y": 58, "text": "Inspect the certificate and reader before signing."}]} />

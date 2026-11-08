@@ -222,9 +222,9 @@
   },
   "navigationRevision": {
     "overviews": 30,
-    "taskPages": 222,
-    "preservedPanels": 483,
-    "localizedBookmarkTargets": 489,
+    "taskPages": 225,
+    "preservedPanels": 531,
+    "localizedBookmarkTargets": 492,
     "locales": [
       "en",
       "ro",
@@ -237,6 +237,26 @@
       "desktop device directory and sidebar",
       "320px task search",
       "old section bookmark redirect"
+    ]
+  },
+  "windowsIllustrationRevision": {
+    "nativeScreenshots": 42,
+    "desktopPanels": 45,
+    "addedCliPanels": 3,
+    "locales": [
+      "en",
+      "ro",
+      "ru"
+    ],
+    "windowsTasksWithIllustrations": 33,
+    "limits": "Native simulated captures; no physical signing or credential validation.",
+    "nativeBuild": "passed: Debug self-contained win-x64, displayed version 0.2.6.0",
+    "websiteTestsPassed": 19,
+    "allLocaleProductionBuild": "passed",
+    "seo": "passed",
+    "browserReviewed": [
+      "desktop signing walkthrough and enlarged numbered screenshot",
+      "Windows MCP verification numbered example and copyable command/input"
     ]
   }
 }

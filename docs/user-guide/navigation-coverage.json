@@ -1,7 +1,7 @@
 {
   "overviews": 30,
-  "taskPages": 222,
-  "panels": 483,
+  "taskPages": 225,
+  "panels": 531,
   "coverage": [
     {
       "platform": "macos",
@@ -150,26 +150,26 @@
     {
       "platform": "windows",
       "locale": "en",
-      "topics": 6,
-      "panels": 0,
-      "originalSections": 6,
-      "redirects": 6
+      "topics": 7,
+      "panels": 15,
+      "originalSections": 7,
+      "redirects": 7
     },
     {
       "platform": "windows",
       "locale": "ro",
-      "topics": 6,
-      "panels": 0,
-      "originalSections": 6,
-      "redirects": 6
+      "topics": 7,
+      "panels": 15,
+      "originalSections": 7,
+      "redirects": 7
     },
     {
       "platform": "windows",
       "locale": "ru",
-      "topics": 6,
-      "panels": 0,
-      "originalSections": 6,
-      "redirects": 6
+      "topics": 7,
+      "panels": 15,
+      "originalSections": 7,
+      "redirects": 7
     },
     {
       "platform": "macos-cli",
@@ -223,7 +223,7 @@
       "platform": "windows-cli",
       "locale": "en",
       "topics": 4,
-      "panels": 4,
+      "panels": 5,
       "originalSections": 5,
       "redirects": 5
     },
@@ -231,7 +231,7 @@
       "platform": "windows-cli",
       "locale": "ro",
       "topics": 4,
-      "panels": 4,
+      "panels": 5,
       "originalSections": 5,
       "redirects": 5
     },
@@ -239,7 +239,7 @@
       "platform": "windows-cli",
       "locale": "ru",
       "topics": 4,
-      "panels": 4,
+      "panels": 5,
       "originalSections": 5,
       "redirects": 5
     }

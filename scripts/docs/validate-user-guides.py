@@ -28,6 +28,8 @@ for language in ('en', 'ro', 'ru'):
                 errors.append(f'Missing task page: {task}')
                 continue
             content = task.read_text()
+            if page in ('windows', 'windows-cli') and '<GuideScreenshot ' not in content:
+                errors.append(f'{task}: Windows task requires numbered visual instructions')
             if content.count('<GuideScreenshot ') != topic['panels'][language]:
                 errors.append(f'{language}/{page}/{topic["id"]}: changed illustration coverage')
             if len(re.findall(r'^## ', content, re.M)) > 8:
@@ -41,10 +43,10 @@ for language in ('en', 'ro', 'ru'):
         for panel in re.findall(r'<GuideScreenshot\b[\s\S]*?/>', text):
             if not re.search(r'\bx[\"\']?\s*:\s*\d', panel) or not re.search(r'\by[\"\']?\s*:\s*\d', panel):
                 errors.append(f'{language}/{page}: screenshot panel has no numbered target')
-        minimum = 0 if page == 'windows' else 3 if page.endswith('-cli') else 6
+        minimum = 3 if page.endswith('-cli') else 6
         if len(images) < minimum:
             errors.append(f'{language}/{page}: {len(images)} illustrated panels; at least {minimum} required')
-        if page != 'windows' and '0.2.0' in text:
+        if '0.2.0' in text:
             errors.append(f'{language}/{page}: obsolete version statement')
         for image in images:
             asset = root / 'website/static' / image.lstrip('/')

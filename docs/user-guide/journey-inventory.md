@@ -18,7 +18,7 @@ Publish English (`en`), Romanian (`ro`) and Russian (`ru`) guides. The website a
 | Linux CLI | Terminal commands, reader service, MCP | `website/docs/platforms/linux-cli.md` |
 | Windows CLI | Explicit partial CLI coverage and MCP | `website/docs/platforms/windows-cli.md` |
 
-Localized copies belong under `website/i18n/{ro,ru}/docusaurus-plugin-content-docs/current/platforms/`. User requested Mac, Apple mobile, Android and Linux GUI; Windows GUI is outside this requested screenshot scope, but Windows CLI is already a supported documentation destination.
+Localized copies belong under `website/i18n/{ro,ru}/docusaurus-plugin-content-docs/current/platforms/`. Windows desktop and CLI are covered in all three languages. Desktop tasks use fresh native numbered captures; CLI tasks use explicitly instructional terminal panels.
 
 Use `GuideScreenshot` with screenshot-native numbered callouts and a matching step list. One goal per journey. Each numbered action must point at an actually visible control, not a hidden action or an inferred gesture. For dialogs, output states or another tab, use a subsequent image. Keep original clean PNGs available as the source for overlays. Every image needs useful localized alternative text.
 

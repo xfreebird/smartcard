@@ -15,6 +15,10 @@ test('task directories preserve panels, device navigation and old localized book
   for(const topic of platform.topics){
    const text=read(locale,`${platform.id}/${topic.id}`);
    const count=(text.match(/<GuideScreenshot /g)||[]).length;
+   if(platform.id==='windows'||platform.id==='windows-cli'){
+    assert.ok(count>0,`Windows task must have numbered illustrations: ${locale}/${platform.id}/${topic.id}`);
+    assert.doesNotMatch(text,/<PlatformScreenshots/);
+   }
    assert.equal(count,topic.panels[locale]);panels+=count;pages++;
    for(const [,target] of text.matchAll(/pagination_(?:prev|next): "([^"]+)"/g)) assert.ok(target===`platforms/${platform.id}`||target.startsWith(`platforms/${platform.id}/`));
    const slugger=new GithubSlugger();
@@ -24,5 +28,5 @@ test('task directories preserve panels, device navigation and old localized book
    const [topic,anchor]=target.split('/#');assert.ok(destinations.get(topic)?.has(anchor),`${locale}/${platform.id}/${target}`);anchors++;
   }
  }
- assert.equal(pages,222);assert.equal(panels,483);assert.equal(anchors,489);
+ assert.equal(pages,225);assert.equal(panels,531);assert.equal(anchors,492);
 });

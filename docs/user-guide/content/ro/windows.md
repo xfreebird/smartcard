@@ -3,11 +3,11 @@ title: Windows — aplicația desktop
 sidebar_position: 6
 ---
 
-import PlatformScreenshots from '@site/src/components/PlatformScreenshots';
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Aplicația desktop pentru Windows
 
-Se aplică versiunii **eSemnBun 0.2.0**, Windows 10 **1809 sau ulterior** și Windows 11. Consultă [ghidul CLI pentru Windows](/docs/platforms/windows-cli/) pentru PowerShell și automatizare.
+Se aplică versiunii **eSemnBun 0.2.6**, Windows 10 **1809 sau ulterior** și Windows 11. Consultă [ghidul CLI pentru Windows](/docs/platforms/windows-cli/) pentru PowerShell și automatizare.
 
 ## Instalează ediția potrivită
 
@@ -18,11 +18,15 @@ Pentru instalare independentă folosește **MSI** din [GitHub Releases](https://
 3. Conectează cititorul. miniLector folosește driverul CCID și serviciul Smart Card din Windows.
 4. Introdu cardul și așteaptă încărcarea certificatului. Verifică titularul și expirarea înainte de semnare.
 
-Captura existentă arată interfața în engleză; aspectul ei urmează tema luminoasă sau întunecată a site-ului.
 
-<PlatformScreenshots platform="windows" alt="Pagina de semnare Windows cu cardul deasupra zonei de plasare a documentelor" caption="Spațiul de lucru Windows în captura existentă în engleză, în tema site-ului." />
+
+
 
 Mai multe carduri apar în caruselul orizontal. Selectează cardul centrat cu care intenționezi să semnezi. Ilustrația folosește datele certificatului și un avatar neutru, nu fotografia din actul de identitate.
+
+### Alege și examinează cardul
+
+<GuideScreenshot src="/img/guide/windows/ro/card.png" alt="Alege și examinează cardul" steps={[{"x": 6, "y": 26, "text": "Deschide Card după conectarea cititorului și introducerea cardului."}, {"x": 60, "y": 31, "text": "Verifică titularul și expirarea; alege cardul dorit din carusel."}, {"x": 51, "y": 58, "text": "Examinează certificatul și cititorul înainte de semnare."}]} />
 
 ## Semnează documente din aplicație sau Explorer
 
@@ -35,11 +39,39 @@ Mai multe carduri apar în caruselul orizontal. Selectează cardul centrat cu ca
 
 Autorizarea lotului se aplică listei de documente aprobate și cardului selectat. Dacă un element eșuează, citește eroarea înainte de a reîncerca. Nu confunda rezultatele finalizate cu intrările nesemnate. Consultă [formatele de semnare și erorile](/docs/signing).
 
+### Pregătește lotul de semnare
+
+<GuideScreenshot src="/img/guide/windows/ro/queue.png" alt="Pregătește lotul de semnare" steps={[{"x": 90, "y": 68, "text": "Alege fișierele sau trage-le în zona punctată."}, {"x": 34, "y": 50, "text": "Verifică formatul; folosește Ștampilă dezactivată pentru o ștampilă PDF opțională."}, {"x": 88, "y": 95, "text": "Verifică cardul selectat și alege Semnează pentru lotul afișat."}]} />
+
+### Poziționează ștampila PDF vizibilă
+
+<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF."}, {"x": 93, "y": 95, "text": "Verifică opțiunile paginii și aplică ștampila înainte de semnare."}]} />
+
+### Verifică autorizarea semnării
+
+<GuideScreenshot src="/img/guide/windows/ro/pin.png" alt="Verifică autorizarea semnării" steps={[{"x": 50, "y": 42, "text": "Verifică identitatea selectată și lista completă de documente."}, {"x": 50, "y": 63, "text": "Introdu PIN-ul de semnare al cardului fizic doar după verificarea cererii. Nu ghici și nu repeta automat."}]} />
+
+### Găsește rezultatele finalizate
+
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90, "y": 23, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 44, "y": 23, "text": "Păstrează XML-ul detașat cu originalul nemodificat. Rezultatele ilustrate sunt fictive."}]} />
+
 ## Verifică și consultă activitatea
 
 Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O semnătură XML detașată necesită și documentul original. Consultă semnatarul, integritatea, lanțul de certificate și verificările disponibile ale mărcii temporale. Un nume de fișier sau o stare verde a cardului nu demonstrează validitatea semnăturii documentului.
 
-**Activity (Activitate)** înregistrează operațiunile recente și oferă acțiuni pentru fișierele disponibile. Ștergerea istoricului nu elimină documentele semnate propriu-zise.
+**Documente → Istoric** înregistrează operațiunile recente și oferă acțiuni pentru fișierele disponibile. Ștergerea istoricului nu elimină documentele semnate propriu-zise.
+
+### Alege documentul de verificat
+
+<GuideScreenshot src="/img/guide/windows/ro/verify.png" alt="Alege documentul de verificat" steps={[{"x": 6, "y": 17, "text": "Deschide Verifică. Verificarea nu necesită card sau PIN."}, {"x": 60, "y": 28, "text": "Alege sau trage PDF-ul ori XML-ul semnat. Pentru XML detașat, furnizează originalele nemodificate la solicitare."}]} />
+
+### Citește rezultatul verificării
+
+<GuideScreenshot src="/img/guide/windows/ro/summary.png" alt="Citește rezultatul verificării" steps={[{"x": 37, "y": 40, "text": "Verifică rezultatul general, apoi autorul și momentul fiecărei semnături."}, {"x": 43, "y": 85, "text": "Citește separat integritatea, semnătura și încrederea. Derulează pentru limitele offline și detaliile certificatului."}]} />
+
+### Examinează detaliile verificării
+
+<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60, "y": 14, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60, "y": 23, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />
 
 ## Configurări, PIN-uri și pictograma din zona de notificare
 
@@ -51,11 +83,27 @@ Pictograma din zona de notificare oferă acces la aplicație și la acțiunile e
 
 Modul demonstrativ necesită acceptare, arată carduri fictive și documente de exemplu și rămâne etichetat în utilizarea normală. Dezactivează-l pentru a reveni la cititorul tău. Secțiunea Despre arată pictograma, autorul, versiunea și site-ul.
 
+### Schimbă limba și aspectul
+
+<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 7, "y": 96, "text": "Deschide Setări."}, {"x": 28, "y": 88, "text": "Alege limba și aspectul aplicației."}]} />
+
+### Gestionează PIN-urile salvate și conexiunea browserului
+
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Gestionează PIN-urile salvate și conexiunea browserului" steps={[{"x": 27, "y": 21, "text": "Verifică preferințele PIN salvate. Ștergerea unei intrări din aplicație nu schimbă PIN-ul cardului."}, {"x": 27, "y": 44, "text": "Activează Conexiune browser și deschide serviciul dorit în browser pe acest computer. Verifică fiecare cerere de semnare."}]} />
+
+### Găsește versiunea instalată
+
+<GuideScreenshot src="/img/guide/windows/ro/about.png" alt="Găsește versiunea instalată" steps={[{"x": 61, "y": 35, "text": "Deschide Despre în Setări și notează versiunea instalată când raportezi o problemă."}]} />
+
 ## Folosește conexiunea cu browserul
 
 Activează **Browser connection (Conexiune cu browserul)** în Configurări. Deschide un serviciu acceptat într-un browser pe același calculator Windows. Când sosește o cerere, verifică site-ul, fișierele și cardul selectat înainte de autorizare.
 
 Dacă alt server MoldSign ocupă porturile, finalizează operațiunile active ale aplicației furnizorului și folosește acțiunea oferită pentru rezolvarea conflictului, dacă există. Un singur bridge poate folosi porturile 18480/18443 la un moment dat. Dacă browserul cere acces la rețeaua locală, acordă-l pentru serviciul dorit, ca să poată contacta bridge-ul local. Consultă [serviciile în browser](/docs/browser).
+
+### Gestionează PIN-urile salvate și conexiunea browserului
+
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Gestionează PIN-urile salvate și conexiunea browserului" steps={[{"x": 27, "y": 21, "text": "Verifică preferințele PIN salvate. Ștergerea unei intrări din aplicație nu schimbă PIN-ul cardului."}, {"x": 27, "y": 44, "text": "Activează Conexiune browser și deschide serviciul dorit în browser pe acest computer. Verifică fiecare cerere de semnare."}]} />
 
 ## Actualizează sau rezolvă o problemă
 
@@ -71,3 +119,18 @@ Instalările Microsoft Store se actualizează prin magazin. Versiunile independe
 | Documentul eșuează | Citește eroarea, păstrează sursa și corectează cauza înainte de a reîncerca. |
 
 Oprește-te după un rezultat de PIN incorect și verifică PIN-ul, în loc să îl ghicești. Raportează versiunile aplicației și Windows, ediția MSI sau Store, arhitectura, modelul cititorului și pașii de reproducere. Consultă [depanarea](/docs/troubleshooting).
+
+### Acționează când cititorul nu este detectat
+
+<GuideScreenshot src="/img/guide/windows/ro/none.png" alt="Acționează când cititorul nu este detectat" steps={[{"x": 60, "y": 34, "text": "Citește îndrumările de conectare, reconectează cititorul USB și introdu cardul."}, {"x": 88, "y": 13, "text": "Recitește cardul după corectarea conexiunii. La o eroare PIN oprește-te; nu încerca să ghicești."}]} />
+
+## Găsește și deschide documentele salvate
+Deschide Documente și selectează lista documentelor semnate. Alege un element pentru detaliile semnării, apoi folosește acțiunile de deschidere sau afișare. Comută la istoric pentru operațiile recente. Golirea istoricului păstrează biblioteca independentă de documente semnate și nu șterge fișierele semnate.
+
+### Găsește documentele semnate
+
+<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"x": 51, "y": 18, "text": "Deschide Documente și selectează lista documentelor semnate."}, {"x": 33, "y": 31, "text": "Alege un document salvat pentru a deschide detaliile semnării."}]} />
+
+### Examinează un document salvat
+
+<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51, "y": 45, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />

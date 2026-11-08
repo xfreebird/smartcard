@@ -1,18 +1,20 @@
 ---
-title: "Change settings — Windows desktop reference"
+title: "Change settings — Windows"
 sidebar_label: "Change settings"
 description: "Manage language, appearance, saved PINs, startup and updates."
-pagination_prev: "platforms/windows/verification"
+pagination_prev: "platforms/windows/documents"
 pagination_next: "platforms/windows/browser"
 ---
 
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-
-# Change settings — Windows desktop reference
+# Change settings — Windows
 
 [Platform overview](../windows.md) · [Installation and reader setup](./setup.md)
 
 Manage language, appearance, saved PINs, startup and updates.
+
+Illustrations use fictional data. Follow the instructions in your installed app.
 
 ## Settings, PINs, and tray controls
 
@@ -23,3 +25,15 @@ A saved PIN uses Windows security/authentication facilities. Deleting it removes
 The tray icon gives access to the app and its actions. Closing the main window can leave eSemnBun running; use **Quit** when you intend to stop it. In Settings, configure whether to open at sign-in or when a reader/card is inserted. Enable the relevant option first, then reconnect the reader to check the behavior.
 
 Demo mode requires acceptance, shows fictional cards and sample documents, and remains labelled during normal use. Turn it off to return to your reader. About shows the icon, author, version, and website.
+
+### Adjust language and appearance
+
+<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 7, "y": 96, "text": "Open Settings."}, {"x": 28, "y": 88, "text": "Choose the application language and appearance."}]} />
+
+### Manage saved PINs and browser connection
+
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Manage saved PINs and browser connection" steps={[{"x": 27, "y": 21, "text": "Check saved-PIN preferences. Removing an app entry does not change the card PIN."}, {"x": 27, "y": 44, "text": "Enable Browser connection, then open the intended service in the browser on this computer. Review every signing request."}]} />
+
+### Find your installed version
+
+<GuideScreenshot src="/img/guide/windows/en/about.png" alt="Find your installed version" steps={[{"x": 61, "y": 35, "text": "Open About in Settings and note the installed app version when reporting a problem."}]} />

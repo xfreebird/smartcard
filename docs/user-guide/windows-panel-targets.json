@@ -1,0 +1,58 @@
+{
+  "card": {
+    "capture": "multiple-card-baseline",
+    "asset": "card.png"
+  },
+  "queue": {
+    "capture": "multiple-sign-queue",
+    "asset": "queue.png"
+  },
+  "stamp": {
+    "capture": "multiple-sign-stamp",
+    "asset": "stamp.png"
+  },
+  "pin": {
+    "capture": "multiple-pin-pin",
+    "asset": "pin.png"
+  },
+  "success": {
+    "capture": "multiple-sign-success",
+    "asset": "success.png"
+  },
+  "verify": {
+    "capture": "multiple-verify-baseline",
+    "asset": "verify.png"
+  },
+  "results": {
+    "capture": "multiple-verify-verify-valid-expanded-details",
+    "asset": "results.png"
+  },
+  "documents": {
+    "capture": "multiple-sign-documents",
+    "asset": "documents.png"
+  },
+  "details": {
+    "capture": "multiple-sign-document-details",
+    "asset": "details.png"
+  },
+  "settings": {
+    "capture": "multiple-settings-baseline",
+    "asset": "settings.png"
+  },
+  "lower": {
+    "capture": "multiple-settings-settings-lower",
+    "asset": "lower.png"
+  },
+  "about": {
+    "capture": "multiple-settings-about",
+    "asset": "about.png"
+  },
+  "none": {
+    "capture": "none-card-baseline",
+    "asset": "none.png"
+  },
+  "summary": {
+    "capture": "multiple-verify-verify-valid-summary",
+    "asset": "summary.png"
+  }
+}

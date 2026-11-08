@@ -21,3 +21,5 @@ The public entry point is the website's `/docs/platforms/` route, available in E
 5. Build all Docusaurus locales and visually inspect representative desktop and phone pages, including enlarged screenshots. The Website workflow runs the coverage validation before publication.
 
 Per-platform evidence files distinguish actual native captures, live read-only CLI evidence and explicitly instructional terminal examples. Keep technical evidence outside the public how-to prose unless it helps a user make a meaningful choice.
+
+Windows desktop captures are recorded in `windows-evidence.json`; `windows-panel-targets.json` maps capture names to public assets. Every Windows desktop and CLI task must contain numbered `GuideScreenshot` instructions. The validator and navigation tests reject legacy unannotated panels and missing visual steps.

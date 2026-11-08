@@ -49,6 +49,17 @@ Get-FileHash leaf.der -Algorithm SHA256
 
 Windows offline verification is available through MCP verify_document, not the normal verify CLI command. Launch the host with an explicit root and supply input `{rootId,relativePath}`; inspect integrity/signature/chain fields. Missing originals require the explicit detached root. No reader/PIN is used. It does not check current revocation.
 
+<GuideScreenshot src="/img/guide/windows-cli/en/verification.svg" alt="command-line guide" caption="Illustrative command example. Copy the commands below; replace example paths and reader names." steps={[{"x": 3, "y": 18.3, "text": "Start the MCP server with the folder you selected."}, {"x": 3, "y": 41.2, "text": "In your MCP client, choose the verify_document tool."}, {"x": 3, "y": 64.1, "text": "Supply this tool input, then inspect integrity, signature and chain fields. This is an example, not captured output."}]} />
+
+```powershell
+esemnbun mcp --root "documents=C:\Users\me\Documents\Signing"
+```
+
+```json
+{"input":{"rootId":"documents","relativePath":"Contract-semnat.pdf"}}
+```
+
+
 ## 4. Connect an MCP host with explicit file access
 
 Configure a local host that supports the implemented protocol with an absolute executable path and a trusted root you selected. Substitute your own existing physical directory. Client-advertised roots do not grant access. Symlinks, path traversal and special files are rejected. No root means discovery only. The helper uses stdio, not a network signing endpoint. Files are bounded to 8 MiB; detached XML originals need an explicitly selected detached root.

@@ -1,6 +1,6 @@
 ---
-title: "Справочник Windows для компьютера — руководства"
-sidebar_label: "Справочник Windows для компьютера"
+title: "Windows — руководства"
+sidebar_label: "Windows"
 hide_table_of_contents: true
 pagination_prev: null
 pagination_next: "platforms/windows/setup"
@@ -9,7 +9,7 @@ pagination_next: "platforms/windows/setup"
 import GuideDirectory from '@site/src/components/GuideDirectory';
 import GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';
 
-# Справочник Windows для компьютера — руководства
+# Windows — руководства
 
 Выберите задачу. Для каждой есть отдельное краткое иллюстрированное руководство.
 
@@ -18,4 +18,4 @@ import GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';
 
 ## Перед началом
 
-Относится к **eSemnBun 0.2.0**, Windows 10 **1809 или новее** и Windows 11. Для PowerShell и автоматизации см. [руководство Windows CLI](/docs/platforms/windows-cli/).
+Относится к **eSemnBun 0.2.6**, Windows 10 **1809 или новее** и Windows 11. Для PowerShell и автоматизации см. [руководство Windows CLI](/docs/platforms/windows-cli/).

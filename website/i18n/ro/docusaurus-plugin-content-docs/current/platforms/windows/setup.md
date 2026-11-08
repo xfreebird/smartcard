@@ -1,18 +1,20 @@
 ---
-title: "Primii pași — Referință desktop Windows"
+title: "Primii pași — Windows"
 sidebar_label: "Primii pași"
 description: "Instalează, conectează cititorul și alege cardul."
 pagination_prev: "platforms/windows"
 pagination_next: "platforms/windows/signing"
 ---
 
-import PlatformScreenshots from '@site/src/components/PlatformScreenshots';
+import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
-# Primii pași — Referință desktop Windows
+# Primii pași — Windows
 
 [Ghidurile platformei](../windows.md)
 
 Instalează, conectează cititorul și alege cardul.
+
+Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
 
 ## Instalează ediția potrivită
 
@@ -23,8 +25,12 @@ Pentru instalare independentă folosește **MSI** din [GitHub Releases](https://
 3. Conectează cititorul. miniLector folosește driverul CCID și serviciul Smart Card din Windows.
 4. Introdu cardul și așteaptă încărcarea certificatului. Verifică titularul și expirarea înainte de semnare.
 
-Captura existentă arată interfața în engleză; aspectul ei urmează tema luminoasă sau întunecată a site-ului.
 
-<PlatformScreenshots platform="windows" alt="Pagina de semnare Windows cu cardul deasupra zonei de plasare a documentelor" caption="Spațiul de lucru Windows în captura existentă în engleză, în tema site-ului." />
+
+
 
 Mai multe carduri apar în caruselul orizontal. Selectează cardul centrat cu care intenționezi să semnezi. Ilustrația folosește datele certificatului și un avatar neutru, nu fotografia din actul de identitate.
+
+### Alege și examinează cardul
+
+<GuideScreenshot src="/img/guide/windows/ro/card.png" alt="Alege și examinează cardul" steps={[{"x": 6, "y": 26, "text": "Deschide Card după conectarea cititorului și introducerea cardului."}, {"x": 60, "y": 31, "text": "Verifică titularul și expirarea; alege cardul dorit din carusel."}, {"x": 51, "y": 58, "text": "Examinează certificatul și cititorul înainte de semnare."}]} />
