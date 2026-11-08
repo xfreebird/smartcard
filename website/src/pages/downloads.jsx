@@ -29,6 +29,24 @@ export default function DownloadsPage() {
   return () => window.removeEventListener('hashchange', selectFromHash);
  }, []);
  const text = value => value[currentLocale] || value.en;
+ const installerInfo = asset => {
+  if ((asset.platform === 'macos' && asset.format === 'TAR.GZ') ||
+      (asset.platform === 'windows' && asset.format === 'ZIP' && asset.name.startsWith('esemnbun-cli-'))) {
+   return {
+    label: text({en: `CLI & MCP tools · ${asset.format}`, ro: `Instrumente CLI și MCP · ${asset.format}`, ru: `Инструменты CLI и MCP · ${asset.format}`}),
+    description: text({en: 'For terminal use and agent integrations. Contains command-line tools, not the desktop app.', ro: 'Pentru terminal și integrări cu agenți. Conține instrumente în linia de comandă, nu aplicația desktop.', ru: 'Для терминала и интеграции с агентами. Содержит инструменты командной строки, а не настольное приложение.'}),
+   };
+  }
+  if (asset.platform === 'macos' && asset.format === 'DMG') return {
+   label: text({en: 'Desktop app · DMG', ro: 'Aplicație desktop · DMG', ru: 'Настольное приложение · DMG'}),
+   description: text({en: 'Open the disk image and drag eSemnBun to Applications.', ro: 'Deschide imaginea de disc și trage eSemnBun în dosarul Aplicații.', ru: 'Откройте образ диска и перетащите eSemnBun в папку «Программы».'}),
+  };
+  if (asset.platform === 'windows' && asset.format === 'MSI') return {
+   label: text({en: 'Desktop app installer · MSI', ro: 'Program de instalare desktop · MSI', ru: 'Установщик настольного приложения · MSI'}),
+   description: text({en: 'Run the installer to install the Windows desktop app.', ro: 'Rulează programul de instalare pentru a instala aplicația desktop Windows.', ru: 'Запустите установщик для установки настольного приложения Windows.'}),
+  };
+  return {label: t('downloadFormat').replace('{format}', asset.format)};
+ };
  return <Layout title={t('downloadsTitle')} description={t('downloadsDescription')}>
   <main className="downloads-page">
    <header className="downloads-header">
@@ -64,11 +82,12 @@ export default function DownloadsPage() {
       {platform.store && <StoreBadge store={platform.store} locale={currentLocale}/>}
      </div>
      <div className="download-installers">
-      {release.assets.filter(asset => asset.platform === platform.id).map(asset => <a className="download-installer" href={asset.url} key={asset.name} title={asset.name}>
-       <PlatformIcon name="download"/><span><b>{t('downloadFormat').replace('{format}', asset.format)}</b>
+      {release.assets.filter(asset => asset.platform === platform.id).map(asset => {const info=installerInfo(asset);return <a className="download-installer" href={asset.url} key={asset.name} title={asset.name}>
+       <PlatformIcon name="download"/><span><b>{info.label}</b>
+       {info.description && <small>{info.description}</small>}
        <small>{[asset.version, asset.architecture, `${(asset.size / 1_000_000).toFixed(1)} MB`].filter(Boolean).join(' · ')}</small></span>
        <PlatformIcon name="external"/>
-      </a>)}
+      </a>;})}
       {platform.alternatives?.map(option => <a className="download-installer" href={option.url} key={option.url}>
        <PlatformIcon name="github"/><span><b>{text(option.label)}</b><small>{text(option.hint)}</small></span>
       </a>)}
