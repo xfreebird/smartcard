@@ -286,6 +286,11 @@ foreach ($platform in $Platforms) {
         (Join-Path $appOut 'eSemnBun.Explorer.dll'),
         (Join-Path $appOut 'MoldSign.Core.dll'), (Join-Path $cliOut 'esemnbun.exe'), (Join-Path $appOut 'helper/eSemnBun.Watcher.exe'))
 
+    Copy-Item (Join-Path $RepoRoot 'LICENSE') (Join-Path $cliOut 'LICENSE')
+    $cliZip = Join-Path $Dist "esemnbun-cli-$Version-windows-$platform.zip"
+    Compress-Archive -Path (Join-Path $cliOut '*') -DestinationPath $cliZip -Force
+    $built["cli-$platform"] = $cliZip
+
     if (-not $SkipMsi) {
         Write-Host "`n== ${rid}: MSI (WiX v5)" -ForegroundColor Cyan
         $msiOut = Join-Path $Staging "$rid/msi"
@@ -351,7 +356,7 @@ if ($built.ContainsKey('msi-x64')) {
 
 # --- Checksums ------------------------------------------------------------------------------------------------
 
-$sums = Get-ChildItem $Dist -File | Where-Object { $_.Extension -in '.msi', '.msix' } | Sort-Object Name |
+$sums = Get-ChildItem $Dist -File | Where-Object { $_.Extension -in '.msi', '.msix', '.zip' } | Sort-Object Name |
     ForEach-Object { '{0}  {1}' -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLowerInvariant(), $_.Name }
 Set-Content -Path (Join-Path $Dist 'SHA256SUMS.txt') -Value $sums -Encoding ascii
 

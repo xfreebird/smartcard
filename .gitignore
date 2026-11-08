@@ -39,3 +39,6 @@ fastlane/Preview.html
 
 # Developer-specific VM/device inventory and local evidence (no credentials)
 .local/
+
+# Generated signed package feeds (fetched at deployment).
+/website/static/packages/

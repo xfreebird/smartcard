@@ -53,6 +53,7 @@ jobs:
             dist/windows/*.msi
             dist/windows/*.cer
             dist/windows/*.msix
+            dist/windows/*.zip
             dist/windows/SHA256SUMS.txt
             dist/windows/winget/
           if-no-files-found: error

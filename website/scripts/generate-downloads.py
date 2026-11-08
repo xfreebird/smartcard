@@ -15,7 +15,7 @@ if not re.fullmatch(r'\d+\.\d+\.\d+', version) or release.get('draft') or releas
     parser.error('Expected a published stable x.y.z release')
 def family(name):
     if name.endswith('.dmg') or ('macos' in name and name.endswith('.tar.gz')): return 'macos'
-    if name.endswith('.msi'): return 'windows'
+    if name.endswith('.msi') or ('windows' in name and name.endswith('.zip')): return 'windows'
     if name.endswith('.apk'): return 'android'
     if name.endswith('.flatpak'): return 'flatpak'
     if name.endswith(('.deb', '.rpm', '.tar.gz')): return 'linux'
@@ -44,6 +44,8 @@ def describe(asset):
 assets = []
 prefix = f'https://github.com/xfreebird/smartcard/releases/download/{release["tag_name"]}/'
 for asset in release['assets']:
+    if asset['name'].startswith('esemnbun-package-') or asset['name'].endswith('.nupkg'):
+        continue
     url = asset['browser_download_url']
     if not url.startswith(prefix):
         parser.error('Unexpected release asset host or tag')

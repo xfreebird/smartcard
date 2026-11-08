@@ -1,0 +1,21 @@
+# Maintainer: Nicolae Ghimbovschi <xfreebird@gmail.com>
+pkgname=esemnbun-cli-bin
+pkgver=0.2.6
+pkgrel=1
+pkgdesc='Electronic ID signing and local MCP command-line tools'
+arch=('x86_64')
+url='https://esemnbun.md'
+license=('MIT')
+depends=('glibc>=2.39' 'openssl' 'pcsclite' 'curl')
+optdepends=('ccid: USB card reader driver')
+provides=('esemnbun-cli')
+conflicts=('esemnbun-cli')
+source=('https://github.com/xfreebird/smartcard/releases/download/v0.2.6/esemnbun-0.2.6-linux-x86_64.tar.gz' 'LICENSE::https://raw.githubusercontent.com/xfreebird/smartcard/v0.2.6/LICENSE')
+sha256sums=('298b5160d4cafee94cc593584ef28f721579203215e0f17395c4b557be07cd52' 'a622e769550783cae9836de5b568d8cfe09a4aca1c28082349fef89ed16bb689')
+package() {
+  install -Dm755 "esemnbun-$pkgver/esemnbun" "$pkgdir/usr/bin/esemnbun"
+  install -Dm755 "esemnbun-$pkgver/esemnbun-mcp" "$pkgdir/usr/bin/esemnbun-mcp"
+  install -Dm644 "esemnbun-$pkgver/share/moldsign/localhost.p12" "$pkgdir/usr/share/moldsign-cli/localhost.p12"
+  install -Dm644 "esemnbun-$pkgver/esemnbun-server.service" "$pkgdir/usr/lib/systemd/user/esemnbun-server.service"
+  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

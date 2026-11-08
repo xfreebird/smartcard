@@ -7,7 +7,7 @@ on:
     paths: ['website/**', '.github/workflows/website.yml']
   workflow_dispatch:
   workflow_run:
-    workflows: [Release]
+    workflows: [Release, CLI package repositories]
     types: [completed]
 permissions:
   contents: read
@@ -36,6 +36,7 @@ jobs:
           version=$(jq -r .tag_name "$RUNNER_TEMP/esemnbun-release.json")
           python3 website/scripts/generate-downloads.py "$RUNNER_TEMP/esemnbun-release.json"
           python3 website/scripts/generate-update-manifests.py --version "$version" --release-data website/src/data/release.json
+          python3 scripts/packages/fetch-site-repositories.py "$RUNNER_TEMP/esemnbun-release.json"
       - run: npm ci
         working-directory: website
       - run: node --test tests/*.test.mjs

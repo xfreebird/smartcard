@@ -289,6 +289,7 @@ jobs:
             dist/windows/*.msi
             dist/windows/*.cer
             dist/windows/*.msix
+            dist/windows/*.zip
             dist/windows/SHA256SUMS.txt
             dist/windows/winget/
           if-no-files-found: error
@@ -346,7 +347,7 @@ jobs:
           fi
           mapfile -t FILES < <(find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' \
             -o -name '*.apk' -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' \
-            -o -name '*.msi' -o -name '*.cer' \) | sort)
+            -o -name '*.msi' -o -name '*.cer' -o -name 'esemnbun-cli-*-windows-*.zip' \) | sort)
           if (( ${#FILES[@]} == 0 )); then echo "::error::nothing was built"; exit 1; fi
           FAILED=$(jq -r 'to_entries[] | select(.value.result == "failure") | .key' <<<"$RESULTS" | paste -sd, - | sed 's/,/, /g')
           NOTE="Built by run ${GITHUB_RUN_NUMBER} from ${GITHUB_SHA::7}."

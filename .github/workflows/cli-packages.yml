@@ -1,0 +1,119 @@
+name: CLI package repositories
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+permissions:
+  contents: write
+concurrency:
+  group: cli-package-repositories
+  cancel-in-progress: false
+jobs:
+  repositories:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-24.04
+    outputs:
+      ready: ${{ steps.release.outputs.ready }}
+      tag: ${{ steps.release.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Select complete stable release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api "repos/$GITHUB_REPOSITORY/releases/latest" > release.json
+          python3 - <<'PY'
+          import json,os,re
+          r=json.load(open('release.json'));v=r['tag_name'].removeprefix('v')
+          assert re.fullmatch(r'\d+\.\d+\.\d+',v) and not r['draft'] and not r['prerelease']
+          names={a['name'] for a in r['assets']}
+          expected={f'esemnbun-{v}-macos-universal.tar.gz',f'esemnbun-cli-{v}-windows-x64.zip',f'esemnbun-{v}-linux-x86_64.tar.gz',f'esemnbun-cli_{v}-1_amd64.deb',f'esemnbun-cli-{v}-1.x86_64.rpm'}
+          ready=expected<=names
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write(f'ready={str(ready).lower()}\ntag={r["tag_name"]}\n')
+          if not ready:print('Waiting for remaining release artifacts:',sorted(expected-names))
+          PY
+      - name: Repository tools
+        if: steps.release.outputs.ready == 'true'
+        run: sudo apt-get update && sudo apt-get install -y apt-utils dpkg-dev rpm createrepo-c gnupg
+      - name: Import signing key and build repositories
+        if: steps.release.outputs.ready == 'true'
+        env:
+          PACKAGE_SIGNING_KEY: ${{ secrets.PACKAGE_SIGNING_KEY }}
+          PACKAGE_SIGNING_FINGERPRINT: F8075499A4B311BA30E53156E5622B86C8280D0B
+        run: |
+          test -n "$PACKAGE_SIGNING_KEY"
+          export GNUPGHOME="$RUNNER_TEMP/package-gnupg"
+          mkdir -m 700 "$GNUPGHOME"
+          trap 'rm -rf "$GNUPGHOME"' EXIT
+          printf '%s' "$PACKAGE_SIGNING_KEY" | gpg --batch --import
+          gpg --batch --list-secret-keys "$PACKAGE_SIGNING_FINGERPRINT"
+          scripts/packages/build-repositories.sh release.json "$RUNNER_TEMP/packages"
+          python3 scripts/packages/generate.py release.json --out definitions
+          tar -C "$RUNNER_TEMP" -czf esemnbun-package-repositories.tar.gz packages
+          (cd definitions && zip -qr ../esemnbun-package-definitions.zip .)
+      - name: Validate APT installation and RPM signatures
+        if: steps.release.outputs.ready == 'true'
+        run: |
+          sudo install -m 644 "$RUNNER_TEMP/packages/signing-key.gpg" /usr/share/keyrings/esemnbun.gpg
+          echo "deb [signed-by=/usr/share/keyrings/esemnbun.gpg] file:$RUNNER_TEMP/packages/apt stable main" | sudo tee /etc/apt/sources.list.d/esemnbun.list
+          sudo apt-get update
+          sudo apt-get install -y esemnbun-cli
+          esemnbun --version
+          test -x /usr/bin/esemnbun-mcp
+          mkdir -p "$RUNNER_TEMP/rpmdb"
+          rpm --dbpath "$RUNNER_TEMP/rpmdb" --initdb
+          rpm --dbpath "$RUNNER_TEMP/rpmdb" --import "$RUNNER_TEMP/packages/signing-key.asc"
+          rpm --dbpath "$RUNNER_TEMP/rpmdb" --checksig "$RUNNER_TEMP"/packages/rpm/x86_64/*.rpm
+      - uses: actions/upload-artifact@v4
+        if: steps.release.outputs.ready == 'true'
+        with:
+          name: cli-package-definitions
+          path: definitions/
+      - name: Publish signed feeds and definitions
+        if: steps.release.outputs.ready == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: gh release upload "$RELEASE_TAG" --clobber esemnbun-package-repositories.tar.gz esemnbun-package-definitions.zip
+  chocolatey:
+    needs: repositories
+    if: needs.repositories.outputs.ready == 'true'
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: cli-package-definitions
+          path: definitions
+      - name: Pack and verify Chocolatey install and uninstall
+        shell: pwsh
+        run: |
+          choco pack definitions/chocolatey/esemnbun-cli.nuspec --output-directory .
+          if ($LASTEXITCODE -ne 0) { throw 'Chocolatey pack failed' }
+          choco install esemnbun-cli --source . --yes --no-progress
+          if ($LASTEXITCODE -ne 0) { throw 'Chocolatey installation failed' }
+          & "$env:ChocolateyInstall/bin/esemnbun.exe" --version
+          if ($LASTEXITCODE -ne 0) { throw 'CLI smoke check failed' }
+          choco uninstall esemnbun-cli --yes --no-progress
+          if ($LASTEXITCODE -ne 0) { throw 'Chocolatey uninstall failed' }
+      - name: Publish package and refresh checksums
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ needs.repositories.outputs.tag }}
+        run: |
+          gh release upload "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --clobber ./*.nupkg
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$RELEASE_TAG" > release.json
+          python - <<'PY'
+          import json,re
+          r=json.load(open('release.json'))
+          with open('SHA256SUMS.txt','w') as f:
+            for a in sorted(r['assets'],key=lambda a:a['name']):
+              if a['name']=='SHA256SUMS.txt':continue
+              assert re.fullmatch(r'sha256:[0-9a-f]{64}',a.get('digest',''))
+              f.write(a['digest'][7:]+'  '+a['name']+'\n')
+          PY
+          gh release upload "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --clobber SHA256SUMS.txt
