@@ -61,7 +61,7 @@ function Open-Queue {Invoke (Id 'ChooseDocuments');Start-Sleep -Milliseconds 300
 function Open-Success {Open-Queue;Invoke (Id 'SignDocuments');for($i=0;$i -lt 100;$i++){$n=Nodes|Where-Object{$_.Current.Name -like '*DEMO-NOT-SIGNED*'}|Select-Object -First 1;if($n){foreach($node in (Nodes)){$pat=$null;if($node.TryGetCurrentPattern([System.Windows.Automation.ScrollPattern]::Pattern,[ref]$pat) -and $pat.Current.VerticallyScrollable){$pat.SetScrollPercent(-1,0)}};Start-Sleep -Milliseconds 300;return};Start-Sleep -Milliseconds 100};throw 'Signing fixture did not settle'}
 function Run-Job([string]$reader,[string]$page,[string]$stage='baseline') {
  $script:reader=$reader;$script:page=$page;$script:stage=$stage;$script:jobName="$locale-$reader-$page-$stage"
- 
+
  $env:MSIGN_DEMO_CARDS=$reader;$env:MSIGN_DEMO_PAGE=$page;$env:MSIGN_DEMO_DARK=$(if($theme -eq 'dark'){'1'}else{'0'});$env:MSIGN_DEMO_PIN_ONLY=$null;$env:MSIGN_DEMO_VERIFY=$null
  if($stage.StartsWith('verify-')){$env:MSIGN_DEMO_VERIFY=$stage.Substring(7)}
  @{Language=$locale;Theme=$theme;FirstRunDone=$true;BridgeEnabled=$false;DemoModeEnabled=$true;InsertionHelperEnabled=$false}|ConvertTo-Json|Set-Content $env:MSIGN_TEST_PREFERENCES
