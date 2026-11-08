@@ -3,10 +3,11 @@ using MoldSign.Cli;
 
 if (OperatingSystem.IsWindows())
 {
-    // Holder names carry Romanian diacritics (ă, î, ș, ț).
+    // Console and redirected MCP frames carry Romanian diacritics (ă, î, ș, ț).
     try
     {
-        Console.OutputEncoding = Encoding.UTF8;
+        Console.OutputEncoding = new UTF8Encoding(false);
+        if (args.Length > 0 && args[0] == "mcp") Console.InputEncoding = new UTF8Encoding(false, true);
     }
     catch (IOException)
     {

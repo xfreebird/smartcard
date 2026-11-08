@@ -1,4 +1,3 @@
-• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.
-• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.
-• Informații mai clare despre certificate și protecție PIN îmbunătățită.
-• Navigare, dialoguri și texte localizate îmbunătățite.
+• Deschide și caută documentele semnate cu noua integrare Siri pe sistemele compatibile.
+• Folosește Scurtături pentru a verifica PDF-uri sau a le pregăti pentru semnare.
+• Descoperire opțională în Spotlight și Handoff pentru ecranul Documente.

@@ -51,6 +51,9 @@
     -->
     <Content Update="Assets\**" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="ShellPayload\eSemnBun.Explorer.dll" Link="eSemnBun.Explorer.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('ShellPayload\eSemnBun.Explorer.dll')" />
+    <!-- Packaging supplies the signed Native AOT CLI for the Store execution alias. -->
+    <Content Include="$(MoldSignCliPayload)\**" Link="bin\%(RecursiveDir)%(Filename)%(Extension)"
+             CopyToOutputDirectory="PreserveNewest" Condition="'$(MoldSignCliPayload)' != '' And Exists('$(MoldSignCliPayload)')" />
     <!-- Packaging publishes the independent helper here before the MSIX build. -->
     <Content Include="HelperPayload\**" Link="helper\%(RecursiveDir)%(Filename)%(Extension)"
              CopyToOutputDirectory="PreserveNewest" Condition="Exists('HelperPayload')" />

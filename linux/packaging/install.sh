@@ -47,6 +47,9 @@ install_gui() {
 install_cli() {
   need "$cli_bin" "build it: cd swift/MoldSignKit && swift build -c release --product esemnbun --static-swift-stdlib"
   install -Dm755 "$cli_bin" "$root/bin/esemnbun"
+  local mcp_bin="${MOLDSIGN_MCP_BIN:-$repo/swift/MoldSignKit/.build/release/esemnbun-mcp}"
+  need "$mcp_bin" "build it: swift build -c release --product esemnbun-mcp"
+  install -Dm755 "$mcp_bin" "$root/bin/esemnbun-mcp"
   # Separate ownership avoids overlapping files when GUI and CLI packages coexist.
   install -Dm644 "$repo/swift/MoldSignKit/Resources/localhost.p12" "$root/share/moldsign-cli/localhost.p12"
   # systemd --user unit for the browser bridge (LNX-06); not enabled by default. systemd looks in

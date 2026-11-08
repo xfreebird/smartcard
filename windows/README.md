@@ -411,3 +411,44 @@ Completed outputs remain on the Sign page as links that reveal the file in Explo
 ### Temporary standalone MSI certificate
 
 GitHub Actions can sign only the standalone MSI using `WINDOWS_MSI_CERTIFICATE_PFX_BASE64` and `WINDOWS_MSI_CERTIFICATE_PASSWORD`. The public `eSemnBun-self-signed.cer` is exported beside the installer. This does not change the Store MSIX publisher or signing. The certificate is self-signed and does not establish public Windows trust; recipients must explicitly trust it. Keep the private PFX/password only in GitHub Actions secrets and the owner's offline secrets folder.
+
+## Local MCP interface
+
+The CLI also serves MCP over stdin/stdout: `esemnbun.exe mcp --root documents=C:\Documents\Signing`.
+Configure an absolute executable path in the MCP host and pass `mcp` as its first argument.
+It supports protocol `2026-07-28` and the `2025-11-25` initialize adapter. Discovery and offline
+PDF/XAdES verification never access credentials or a reader. Only explicit root IDs are exposed;
+reparse points, alternate data streams, traversal and Windows device names are rejected.
+Root directory handles prevent replacement while the helper is running. Verification returns
+integrity/trust flags without document text, certificate identities or local paths.
+
+Unattended PDF signing is listed only with explicit launch options:
+
+```text
+mcp --root documents=C:\Documents\Signing
+--allow-unattended-signing
+--signing-certificate-sha256 <64 hex digits>
+--signing-output-directory C:\PrivateSigningOutput
+--pin-source env:ESEMNBUN_AUTOMATION_PIN
+```
+
+The output directory must already exist, be owned by the current user, and grant access only
+to that user, SYSTEM or Administrators. Alternative secret references are
+`credential:TARGET` (a separately provisioned generic Windows Credential Manager item containing
+a UTF-16 PIN) or `onepassword:op://Vault/Item/field` with an explicit
+`--onepassword-executable C:\absolute\path\op.exe`. Never put the PIN itself in launch arguments
+or MCP requests. There is no desktop approval broker in this Windows interface.
+
+The full certificate fingerprint is checked before reading the secret or verifying the PIN.
+Signing uses exclusive PC/SC access and writes a persistent `.unattended-signing-lock` before
+attempting the operation. Success clears it only after saving the output; failures and crashes
+leave it in place across restarts. After inspecting the card and output state, the operator must
+explicitly remove the marker before attempting another job. There is no reset or automatic
+PIN retry tool. A request watchdog exits the helper after 120 seconds with unattended mode
+configured (30 seconds otherwise); a signing timeout has an uncertain outcome.
+
+The standalone MSI includes this CLI in `bin`. The Store packaging workflow also includes the
+CLI payload and an `esemnbun.exe` execution alias; Store installation/alias behavior requires
+validation of the resulting signed package. See [`spec/mcp.md`](../spec/mcp.md) for schemas and
+privacy limits. No physical-card, Credential Manager ACL or 1Password authentication validation
+is implied by the simulated-card suite.

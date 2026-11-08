@@ -249,8 +249,11 @@ struct ActivityScreen: View {
     @State private var confirmClear = false
     @State private var history = false
     @State private var selectedDocument: ActivityItem?
+    @State private var documentNavigation = ShortcutNavigation.shared
     private var entries: [ActivityItem] {
-        history ? model.activity : model.savedDocuments
+        let items = history ? model.activity : model.savedDocuments
+        let query = documentNavigation.documentSearch.trimmingCharacters(in: .whitespacesAndNewlines)
+        return query.isEmpty ? items : items.filter { ($0.fileURL?.lastPathComponent ?? $0.title).localizedCaseInsensitiveContains(query) }
     }
 
     var body: some View {
@@ -291,6 +294,7 @@ struct ActivityScreen: View {
                     .buttonStyle(.plain)
                     .accessibilityHint(L10n.text(.saved_details))
                     .accessibilityIdentifier("documents.openDetails")
+                    .modifier(SignedDocumentAnnotation(item: item))
                 }
                 else { ActivityRowView(item: item)
                     .contextMenu {
@@ -311,6 +315,10 @@ struct ActivityScreen: View {
         }
         }
         .navigationTitle(L10n.text(.saved_title))
+        .searchable(text: Binding(get: { documentNavigation.documentSearch }, set: { documentNavigation.documentSearch = $0 }),
+                    prompt: L10n.text(.discovery_search))
+        .onChange(of: documentNavigation.documentSearch) { _, _ in history = false }
+        .onChange(of: documentNavigation.documentSearchGeneration) { _, _ in history = false }
         .sheet(item: $selectedDocument) { item in
             if let url = item.fileURL {
                 SavedDocumentDetails(url: url).environment(model).appPreferences()
@@ -318,6 +326,12 @@ struct ActivityScreen: View {
         }
         .onAppear {
             model.pruneMissingFiles()
+            DocumentDiscovery.refresh()
+            if !documentNavigation.documentSearch.isEmpty { history = false }
+            if let id = DocumentDiscovery.selectedID {
+                selectedDocument = model.savedDocuments.first { $0.id == id }
+                DocumentDiscovery.selectedID = nil
+            }
             #if DEBUG
             if model.isScreenshotCapture {
                 let scenario = ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? ""
@@ -326,6 +340,13 @@ struct ActivityScreen: View {
             }
             #endif
         }      // moved/deleted documents drop out of the list
+        .onChange(of: documentNavigation.selectedDocumentID) { _, id in
+            if let id {
+                history = false
+                selectedDocument = model.savedDocuments.first { $0.id == id }
+                documentNavigation.selectedDocumentID = nil
+            }
+        }
         .onChange(of: model.savedDocuments.count) { _, _ in
             #if DEBUG
             if model.isScreenshotCapture,

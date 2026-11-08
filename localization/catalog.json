@@ -12614,6 +12614,132 @@
         "en": "Extension",
         "ru": "Расширение"
       }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_prepare_short",
+      "translations": {
+        "ro": "Pregătește semnarea",
+        "en": "Prepare Signing",
+        "ru": "Подготовить подписание"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_prepare_pdf",
+      "translations": {
+        "ro": "Pregătește PDF pentru semnare",
+        "en": "Prepare PDF for Signing",
+        "ru": "Подготовить PDF к подписанию"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_prepare_description",
+      "translations": {
+        "ro": "Adaugă un PDF de până la 32 MiB în lista de semnare. Verifică documentul și pornește explicit semnarea în aplicație.",
+        "en": "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app.",
+        "ru": "Добавляет PDF размером до 32 МиБ в очередь. Проверьте документ и явно начните подписание в приложении."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_document",
+      "translations": {
+        "ro": "Document",
+        "en": "Document",
+        "ru": "Документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "discovery_enable",
+      "translations": {
+        "ro": "Găsește documentele semnate în Siri și Spotlight",
+        "en": "Find signed documents in Siri and Spotlight",
+        "ru": "Находить подписанные документы в Siri и Spotlight"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "discovery_explanation",
+      "translations": {
+        "ro": "Partajează numele și datele documentelor semnate din spațiul aplicației. Conținutul și datele de identitate nu sunt indexate.",
+        "en": "Shares filenames and dates of app-owned signed documents. Document contents and identity details are not indexed.",
+        "ru": "Передаёт имена и даты подписанных документов из хранилища приложения. Содержимое и личные данные не индексируются."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_title",
+      "translations": {
+        "ro": "Automatizare locală",
+        "en": "Local automation",
+        "ru": "Локальная автоматизация"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_enable",
+      "translations": {
+        "ro": "Permite cereri de semnare de la clienți locali",
+        "en": "Allow signing requests from local clients",
+        "ru": "Разрешить запросы на подписание от локальных клиентов"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_hint",
+      "translations": {
+        "ro": "Fiecare cerere necesită verificarea PDF-ului și aprobarea în eSemnBun. PIN-ul rămâne în aplicație. Dezactivează pentru a respinge cererile în așteptare.",
+        "en": "Every request requires a PDF review and approval in eSemnBun. PINs stay in the app. Turn this off to reject pending requests.",
+        "ru": "Каждый запрос требует проверки PDF и одобрения в eSemnBun. PIN остаётся в приложении. Отключите, чтобы отклонить ожидающие запросы."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_approve_title",
+      "translations": {
+        "ro": "Aprobă cererea de semnare",
+        "en": "Approve signing request",
+        "ru": "Одобрить запрос на подписание"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_approve",
+      "translations": {
+        "ro": "Aprobă semnarea",
+        "en": "Approve signing",
+        "ru": "Одобрить подписание"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_reject",
+      "translations": {
+        "ro": "Respinge",
+        "en": "Reject",
+        "ru": "Отклонить"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "automation_approve_details",
+      "translations": {
+        "ro": "Un client local de automatizare solicită o semnătură PAdES-T. Verifică PDF-ul înainte de aprobare.\n\nDocument: %@\nIdentitate: %@\nSHA-256 document: %@\nSHA-256 certificat: %@\n\nPDF-ul semnat va fi returnat clientului solicitant.",
+        "en": "A local automation client requests a PAdES-T signature. Review the PDF before approving.\n\nDocument: %@\nIdentity: %@\nDocument SHA-256: %@\nCertificate SHA-256: %@\n\nThe signed PDF will be returned to the requesting client.",
+        "ru": "Локальный клиент автоматизации запрашивает подпись PAdES-T. Проверьте PDF перед одобрением.\n\nДокумент: %@\nЛичность: %@\nSHA-256 документа: %@\nSHA-256 сертификата: %@\n\nПодписанный PDF будет возвращён запрашивающему клиенту."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "discovery_search",
+      "translations": {
+        "ro": "Caută documente",
+        "en": "Search documents",
+        "ru": "Поиск документов"
+      }
     }
   ],
   "storeMetadata": {
@@ -12623,7 +12749,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
+      "releaseNotes": "• Actualizare de întreținere cu metadate actualizate și îmbunătățiri ale distribuției.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -12639,10 +12765,10 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
-        "macos": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
-        "android": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite.",
-        "windows": "• Interfață îmbunătățită pentru diferite dimensiuni de ecran, inclusiv orientarea orizontală și dispozitivele pliabile.\n• Deschide detaliile semnăturii direct din Documente. Ștergerea istoricului păstrează documentele salvate.\n• Informații mai clare despre certificate și protecție PIN îmbunătățită.\n• Navigare, dialoguri și texte localizate îmbunătățite."
+        "ios": "• Deschide și caută documentele semnate cu noua integrare Siri pe sistemele compatibile.\n• Folosește Scurtături pentru a verifica PDF-uri sau a le pregăti pentru semnare.\n• Descoperire opțională în Spotlight și Handoff pentru ecranul Documente.",
+        "macos": "• Deschide și caută documentele semnate cu noua integrare Siri pe sistemele compatibile.\n• Folosește Scurtături pentru a verifica PDF-uri sau a le pregăti pentru semnare.\n• Descoperire opțională în Spotlight și Handoff pentru ecranul Documente.",
+        "android": "• Actualizare de întreținere cu metadate actualizate și îmbunătățiri ale distribuției.",
+        "windows": "• Interfață MCP locală pentru verificarea documentelor și semnarea PDF fără intervenție, configurată explicit.\n• Integrare cu furnizorii de credențiale, asocierea certificatului și protecție persistentă împotriva reîncercării automate a PIN-ului."
       }
     },
     "en": {
@@ -12651,7 +12777,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
+      "releaseNotes": "• Maintenance update with refreshed release metadata and distribution improvements.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -12667,10 +12793,10 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
-        "macos": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
-        "android": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text.",
-        "windows": "• Improved layouts across screen sizes, including landscape and foldable devices.\n• Open signature details directly from Documents. Clearing activity history keeps saved documents.\n• Clearer certificate information and improved PIN protection.\n• Refined navigation, dialogs, and localized interface text."
+        "ios": "• Open and search signed documents with the new Siri integration on supported systems.\n• Use Shortcuts to verify PDFs or prepare them for signing.\n• Optional Spotlight discovery and Handoff for the Documents screen.",
+        "macos": "• Open and search signed documents with the new Siri integration on supported systems.\n• Use Shortcuts to verify PDFs or prepare them for signing.\n• Optional Spotlight discovery and Handoff for the Documents screen.",
+        "android": "• Maintenance update with refreshed release metadata and distribution improvements.",
+        "windows": "• Local MCP interface for document verification and explicitly configured unattended PDF signing.\n• Credential-provider integration, certificate binding and persistent protection against automatic PIN retries."
       }
     },
     "ru": {
@@ -12679,7 +12805,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
+      "releaseNotes": "• Обновление обслуживания с актуальными метаданными и улучшениями распространения.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -12695,10 +12821,10 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
-        "macos": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
-        "android": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса.",
-        "windows": "• Улучшен интерфейс для разных размеров экрана, горизонтальной ориентации и складных устройств.\n• Открывайте сведения о подписи прямо из раздела «Документы». Очистка истории сохраняет документы.\n• Более понятные сведения о сертификатах и улучшенная защита PIN-кода.\n• Улучшены навигация, диалоги и переводы интерфейса."
+        "ios": "• Открывайте и находите подписанные документы через новую интеграцию Siri на поддерживаемых системах.\n• Используйте «Команды» для проверки PDF или подготовки к подписанию.\n• Дополнительный поиск Spotlight и Handoff для экрана «Документы».",
+        "macos": "• Открывайте и находите подписанные документы через новую интеграцию Siri на поддерживаемых системах.\n• Используйте «Команды» для проверки PDF или подготовки к подписанию.\n• Дополнительный поиск Spotlight и Handoff для экрана «Документы».",
+        "android": "• Обновление обслуживания с актуальными метаданными и улучшениями распространения.",
+        "windows": "• Локальный интерфейс MCP для проверки документов и явно настроенного автоматического подписания PDF.\n• Интеграция с хранилищами учётных данных, привязка сертификата и постоянная защита от автоматического повторного ввода PIN."
       }
     }
   },

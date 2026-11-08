@@ -67,8 +67,7 @@ class PublishingTests(unittest.TestCase):
             {'appInfo': {'versionCode': 111, 'releaseState': 1}},
             {'uploadUrl': 'https://example.invalid/upload', 'authCode': 'fixture'},
             {'ret': {'code': 0}},
-            {'appInfo': {'versionCode': 111}},
-        ]
+        ] + [{'appInfo': {'versionCode': 111}}] * 16
         response = Mock()
         response.json.return_value = {'result': {'UploadFileRsp': {'fileInfoList': [
             {'fileDestUlr': 'fixture'}], 'ifSuccess': 1}}}

@@ -6,9 +6,16 @@ let package = Package(
     platforms: [.macOS(.v14), .iOS(.v17)],
     products: [
         .library(name: "MoldSignKit", targets: ["MoldSignKit"]),
+        .executable(name: "esemnbun-mcp", targets: ["esemnbun-mcp"]),
         .executable(name: "esemnbun", targets: ["moldsign"]),   // public name (docs/10 §0.2b); codename target
     ],
     targets: [
+        .target(name: "MoldSignMCP", dependencies: ["MoldSignKit"]),
+        .executableTarget(name: "esemnbun-mcp", dependencies: ["MoldSignMCP", "MoldSignKit"], linkerSettings: [
+            .unsafeFlags(["-Xlinker", "-sectcreate", "-Xlinker", "__TEXT", "-Xlinker", "__info_plist",
+                          "-Xlinker", "Resources/Info.plist"], .when(platforms: [.macOS]))
+        ]),
+        .testTarget(name: "MoldSignMCPTests", dependencies: ["MoldSignMCP"]),
         // C shims: PC/SC (macOS PCSC.framework, Linux pcsc-lite) + AES-256/CMAC (CommonCrypto on Apple,
         // OpenSSL libcrypto on Linux) + OpenSSL digests/RSA/TLS helpers for Linux (LNX-01…05)
         .target(

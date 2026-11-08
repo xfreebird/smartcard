@@ -113,7 +113,9 @@ Input/usage failures emit `ok:false`, `schemaVersion:1` and `error:{code,retryab
 fixed error codes are `INVALID_ARGUMENT`, `UNSUPPORTED` or `INPUT_UNREADABLE`, with exit 1.
 Diagnostics go to stderr. The verifier does not return raw filesystem errors or supplied paths.
 `--json` and `--quiet` may each appear once; reader/PIN options and extra positionals are rejected.
-No MCP server or foreground signing approval broker is implied by this CLI interface.
+The JSON CLI interface is independent of the local MCP interface. macOS/Linux ship the
+separate `esemnbun-mcp` executable; Windows exposes `esemnbun mcp`. See [the MCP contract](mcp.md)
+for supported protocols, trusted roots, foreground approval and explicit unattended configuration.
 
 ## PIN
 

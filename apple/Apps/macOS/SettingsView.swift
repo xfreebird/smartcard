@@ -51,6 +51,10 @@ private struct GeneralSettings: View {
                     Text(L10n.text(.ui_dark)).tag("dark")
                 }
             }
+            DocumentDiscoverySettings()
+            #if !APP_STORE
+            AgentBrokerSettingsView()
+            #endif
             DemoModeSettings()
             #if !APP_STORE
             Toggle(L10n.text(.ui_open_app_on_reader_or_card_insertion), isOn: Binding(

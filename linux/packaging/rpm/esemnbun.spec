@@ -63,6 +63,7 @@ systemctl --user enable --now esemnbun-server.service
 %build
 %if 0%{!?moldsign_stage:1}
 cd %{moldsign_src}/swift/MoldSignKit && swift build -c release --product esemnbun --static-swift-stdlib
+cd %{moldsign_src}/swift/MoldSignKit && swift build -c release --product esemnbun-mcp --static-swift-stdlib
 cd %{moldsign_src}/linux && swift build -c release --static-swift-stdlib
 %endif
 
@@ -85,6 +86,7 @@ cp -a %{moldsign_stage}/. %{buildroot}/
 
 %files cli
 %{_bindir}/esemnbun
+%{_bindir}/esemnbun-mcp
 %{_datadir}/moldsign-cli/localhost.p12
 %{_userunitdir}/esemnbun-server.service
 

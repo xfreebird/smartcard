@@ -1,5 +1,6 @@
 import SwiftUI
 import AppIntents
+import CoreSpotlight
 import MoldSignKit
 
 /// iOS / iPadOS app: Semnează · Verifică · Browser · Card (docs/10 §4.4).
@@ -31,6 +32,7 @@ struct MoldSigniOSApp: App {
         .onChange(of: scenePhase) { _, phase in
             // R-01: iOS suspends us in the background; the bridge only serves while we are foreground
             if phase == .active {
+                DocumentDiscovery.refresh()
                 let shared = SharedDocumentInbox.takeDocuments()
                 model.addFiles(shared)
                 if !shared.isEmpty { NotificationCenter.default.post(name: .sharedDocumentsImported, object: nil) }
@@ -73,6 +75,14 @@ struct RootTabView: View {
                 .tabItem { Label(L10n.text(.ui_card), systemImage: "person.text.rectangle") }
                 .tag(TabID.card)
         }
+        .onContinueUserActivity(DocumentDiscovery.activityType, perform: DocumentDiscovery.resume)
+        .onContinueUserActivity(CSSearchableItemActionType, perform: DocumentDiscovery.resume)
+        .userActivity(DocumentDiscovery.activityType, isActive: tab == .documents) { activity in
+            activity.title = L10n.text(.saved_title)
+            activity.isEligibleForHandoff = true
+            activity.isEligibleForSearch = false
+            activity.isEligibleForPublicIndexing = false
+        }
         .onChange(of: model.browserURL) { _, url in if url != nil { tab = .browser } }
         .onReceive(NotificationCenter.default.publisher(for: .sharedDocumentsImported)) { _ in tab = .sign }
         .task { consumeShortcutNavigation() }
@@ -101,7 +111,10 @@ struct RootTabView: View {
     private func consumeShortcutNavigation() {
         guard let request = shortcutNavigation.request else { return }
         shortcutNavigation.request = nil
-        if let reports = request.reports, let filename = request.filename {
+        if let url = request.preparedURL {
+            model.addFiles([url])
+            tab = .sign
+        } else if let reports = request.reports, let filename = request.filename {
             model.clearVerification()
             // Results contain metadata only. The shortcut's private input copy has been erased;
             // this display URL is deliberately not a file URL or persistent document permission.

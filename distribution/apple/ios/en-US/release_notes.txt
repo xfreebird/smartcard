@@ -1,4 +1,3 @@
-• Improved layouts across screen sizes, including landscape and foldable devices.
-• Open signature details directly from Documents. Clearing activity history keeps saved documents.
-• Clearer certificate information and improved PIN protection.
-• Refined navigation, dialogs, and localized interface text.
+• Open and search signed documents with the new Siri integration on supported systems.
+• Use Shortcuts to verify PDFs or prepare them for signing.
+• Optional Spotlight discovery and Handoff for the Documents screen.

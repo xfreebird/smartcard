@@ -20,6 +20,9 @@ public sealed record WinSCardOptions
     /// TODO(WIN-02): verify on the miniLector + Microsoft CCID class driver, then default to true.
     /// </summary>
     public bool ResetOnConnect { get; init; }
+
+    /// <summary>Request OS-enforced exclusive reader access for unattended automation.</summary>
+    public bool Exclusive { get; init; }
 }
 
 /// <summary>A PC/SC reader and whether a card answered a SHARED connect.</summary>
@@ -38,13 +41,15 @@ public sealed class WinSCardTransport : ICardTransport
     private nint _context;
     private nint _card;
     private uint _activeProtocol;
+    private readonly uint _shareMode;
 
-    private WinSCardTransport(nint context, nint card, uint activeProtocol, string readerName)
+    private WinSCardTransport(nint context, nint card, uint activeProtocol, string readerName, uint shareMode)
     {
         _context = context;
         _card = card;
         _activeProtocol = activeProtocol;
         ReaderName = readerName;
+        _shareMode = shareMode;
     }
 
     public string ReaderName { get; }
@@ -191,7 +196,7 @@ public sealed class WinSCardTransport : ICardTransport
             var lastError = SCARD_E_NO_SMARTCARD;
             foreach (var reader in candidates)
             {
-                var rv = SCardConnect(ctx, reader, SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1,
+                var rv = SCardConnect(ctx, reader, options.Exclusive ? 1u : SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1,
                                       out var card, out var protocol);
                 if (rv != SCARD_S_SUCCESS)
                 {
@@ -199,7 +204,7 @@ public sealed class WinSCardTransport : ICardTransport
                     continue;
                 }
 
-                var transport = new WinSCardTransport(ctx, card, protocol, reader);
+                var transport = new WinSCardTransport(ctx, card, protocol, reader, options.Exclusive ? 1u : SCARD_SHARE_SHARED);
                 if (options.ResetOnConnect)
                 {
                     try
@@ -224,11 +229,11 @@ public sealed class WinSCardTransport : ICardTransport
         }
     }
 
-    /// <summary><c>SCardReconnect(SHARED, T0|T1, SCARD_RESET_CARD)</c>: resets the card and drops any SM state.</summary>
+    /// <summary><c>SCardReconnect(current share mode, T0|T1, SCARD_RESET_CARD)</c>: resets the card and drops any SM state.</summary>
     public void Reset()
     {
         ThrowIfDisposed();
-        var rv = SCardReconnect(_card, SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1,
+        var rv = SCardReconnect(_card, _shareMode, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1,
                                 SCARD_RESET_CARD, out var protocol);
         if (rv != SCARD_S_SUCCESS) throw Map(unchecked((uint)rv), "SCardReconnect");
         _activeProtocol = protocol;

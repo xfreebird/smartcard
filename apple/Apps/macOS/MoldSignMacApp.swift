@@ -1,5 +1,7 @@
 import SwiftUI
 import MoldSignKit
+import AppIntents
+import CoreSpotlight
 
 /// macOS menu-bar agent (LSUIElement): status icon + popover, main window on demand, Settings (MAC-01, MAC-09).
 @main
@@ -75,6 +77,9 @@ private struct AboutMenuCommand: View {
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let model = AppModel()
+    #if !APP_STORE
+    private var approvalBroker: AgentApprovalBroker?
+    #endif
     private let authPanel = AuthPanelController()
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -84,12 +89,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             NotificationCenter.default.post(name: .showInsertedCard, object: nil)
         }
         model.start()
+        ESemnBunShortcuts.updateAppShortcutParameters()
+        DocumentDiscovery.refresh()
+        #if !APP_STORE
+        approvalBroker = AgentApprovalBroker(model: model)
+        approvalBroker?.start()
+        #endif
         #if !APP_STORE
         AppUpdateChecker.shared.start()
         #endif
         observeWindows()
         let firstLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow")
-        if firstLaunch || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
+        if firstLaunch || ShortcutNavigation.shared.request != nil || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
             Task { @MainActor in
                 try? await Task.sleep(for: .milliseconds(250))
                 NotificationCenter.default.post(name: .showInsertedCard, object: nil)
@@ -143,6 +154,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         NotificationCenter.default.post(name: .showInsertedCard, object: nil)
         return false
+    }
+
+    func application(_ application: NSApplication, continue userActivity: NSUserActivity,
+                     restorationHandler: @escaping ([NSUserActivityRestoring]) -> Void) -> Bool {
+        guard [DocumentDiscovery.activityType, CSSearchableItemActionType].contains(userActivity.activityType) else { return false }
+        DocumentDiscovery.resume(userActivity)
+        return true
     }
 
     // MARK: Dock / Cmd-Tab presence

@@ -49,7 +49,7 @@ built=()
 if [[ "${MOLDSIGN_SKIP_BUILD:-0}" != 1 ]]; then
   have swift || { echo "swift not found: install a Swift 6 toolchain (https://www.swift.org/install/linux/)." >&2; exit 1; }
   echo "▸ Building the esemnbun CLI (release, static stdlib)"
-  (cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun --static-swift-stdlib)
+  (cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun --static-swift-stdlib && swift build -c release --product esemnbun-mcp --static-swift-stdlib)
   echo "▸ Building the GNOME app (release, static stdlib)"
   (cd "$ROOT/linux" && swift build -c release --static-swift-stdlib)
 fi
@@ -75,7 +75,7 @@ if count != 1:
 path.write_text(source)
 PYMETA
 if [[ "${MOLDSIGN_NO_STRIP:-0}" != 1 ]] && have strip; then
-  strip --strip-unneeded "$STAGE/usr/bin/esemnbun" "$STAGE/usr/bin/esemnbun-gnome"
+  strip --strip-unneeded "$STAGE/usr/bin/esemnbun" "$STAGE/usr/bin/esemnbun-mcp" "$STAGE/usr/bin/esemnbun-gnome"
 fi
 "$STAGE/usr/bin/esemnbun" --version
 
@@ -94,6 +94,7 @@ if wants tar; then
   echo "▸ CLI tarball"
   tarroot="$WORK/tar/esemnbun-$VERSION"
   install -Dm755 "$STAGE/usr/bin/esemnbun" "$tarroot/esemnbun"
+  install -Dm755 "$STAGE/usr/bin/esemnbun-mcp" "$tarroot/esemnbun-mcp"
   install -Dm644 "$ROOT/swift/MoldSignKit/Resources/localhost.p12" "$tarroot/share/moldsign/localhost.p12"
   install -Dm644 "$STAGE/usr/lib/systemd/user/esemnbun-server.service" "$tarroot/esemnbun-server.service"
   tar -C "$WORK/tar" -czf "$OUT/esemnbun-$VERSION-linux-$ARCH.tar.gz" "esemnbun-$VERSION"

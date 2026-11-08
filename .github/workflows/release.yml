@@ -59,14 +59,16 @@ jobs:
   macos:
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'macos' }}
     name: macOS app (DMG, Developer ID, notarized) + CLI
-    runs-on: macos-26
+    runs-on: xcode-27
     env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
       ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
     steps:
       - uses: actions/checkout@v4
+      - run: bash apple/scripts/require-siri-sdk.sh
       - uses: ruby/setup-ruby@v1
         with: { ruby-version: "3.3", bundler-cache: true }
       - name: Developer ID identity (match, read-only, temporary keychain)

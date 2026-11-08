@@ -31,6 +31,7 @@ struct MobileSettingsView: View {
                     Toggle(L10n.text(.stamp_browser), isOn: $browserStamps)
                     Text(L10n.text(.stamp_batch_hint)).font(.caption)
                 }
+                Section { DocumentDiscoverySettings() }
                 DemoModeSettings()
                 Section { NavigationLink(L10n.text(.about_app_title)) { AboutContent() } }
             }

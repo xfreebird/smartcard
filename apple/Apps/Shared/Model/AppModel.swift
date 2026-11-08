@@ -600,6 +600,49 @@ final class AppModel {
         )
     }
 
+    #if os(macOS) && !APP_STORE
+    enum AgentSigningError: Error { case busy, noCard, cancelled }
+
+    /// A separate foreground approval is mandatory even when a PIN is saved. The exact
+    /// bytes and certificate are frozen before approval; no request can reuse this decision.
+    func signAgentPDF(_ pdf: Data, name: String,
+                      approve: (SigningService.CertificateSummary) async -> Bool,
+                      stillAuthorized: () -> Bool, willSign: () -> Void) async throws -> Data {
+        guard !demoMode, !signing, !batchRunner.isRunning, !obtainingPIN,
+              consentRequest == nil, bridgeStampRequest == nil else { throw AgentSigningError.busy }
+        guard let card = selectedCard, let cert = card.certificate, status.canSign else {
+            throw AgentSigningError.noCard
+        }
+        signing = true
+        signingCards = cards
+        status = .busy(reader: card.reader, holder: cert.holder)
+        defer {
+            signing = false
+            signingCards = nil
+            currentStep = nil
+            if let snapshot = pendingReaderSnapshot { pendingReaderSnapshot = nil; apply(snapshot) }
+            recomputeStatus()
+        }
+        guard stillAuthorized(), await approve(cert), stillAuthorized() else { throw AgentSigningError.cancelled }
+        guard let entry = await obtainPIN(certID: cert.sha1Hex, holder: cert.holder,
+                                         allowRemember: false, documentNames: [name]),
+              stillAuthorized() else { throw AgentSigningError.cancelled }
+        let service = service
+        let digest = cert.der.sha256().hexString
+        willSign()
+        do {
+            return try await Task.detached {
+                try service.signPDF(pdf, pin: entry.pin, reader: card.reader,
+                                    expectedCertificateSHA1: cert.sha1Hex,
+                                    expectedCertificateSHA256: digest)
+            }.value
+        } catch {
+            handleCardError(error, certID: cert.sha1Hex)
+            throw error
+        }
+    }
+    #endif
+
     private func signDemoBatch(only itemID: UUID? = nil) async {
         guard !signing, status.canSign, !signItems.isEmpty else { return }
         signing = true
@@ -851,7 +894,7 @@ final class AppModel {
     }
 
     private func authorize(_ request: BridgeRequest) async -> BridgeDecision {
-        guard !demoMode else { return .deny }
+        guard !demoMode, !signing, !obtainingPIN, consentRequest == nil else { return .deny }
         let origin = request.origin ?? "local"
         // the page picked a certificate from /certificates (several cards may be connected): consent + PIN for THAT card
         let target = request.certificateSHA1.flatMap { sha in cards.first { $0.certificate?.sha1Hex == sha }?.certificate }
@@ -917,6 +960,7 @@ final class AppModel {
             savedDocuments.removeAll { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }
             savedDocuments.insert(item, at: 0)
             activityStore.saveDocuments(savedDocuments)
+            if !demoMode { DocumentDiscovery.refresh() }
         }
         activity.insert(item, at: 0)
         if activity.count > 100 { activity.removeLast(activity.count - 100) }

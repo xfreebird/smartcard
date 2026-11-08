@@ -128,6 +128,23 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
         });
     }
 
+    /// <summary>Signs an immutable in-memory PDF while retaining the shared card-operation lock.
+    /// The consent callback sees the exact certificate before PIN verification and may reject it.</summary>
+    public byte[] SignPdfBytes(byte[] pdf, ConsentProvider consent, string requester = "Local automation",
+                               string? reader = null)
+    {
+        ArgumentNullException.ThrowIfNull(pdf);
+        ArgumentNullException.ThrowIfNull(consent);
+        var snapshot = (byte[])pdf.Clone();
+        return WithCard(reader, card =>
+        {
+            var der = ReadCertificate(card, expectedCertificateSha1: null);
+            var summary = CertificateSummary.FromDer(der);
+            return _pades.Sign(snapshot, der, digestInfo =>
+                SignWithConsent(card, summary, digestInfo, consent, requester, ["PDF document"], "PAdES-T"));
+        });
+    }
+
     /// <summary>XAdES signature over <paramref name="files"/> written to <paramref name="output"/>.</summary>
     /// <param name="reader">Reader holding the card to sign with; null = the connect callback's default.</param>
     /// <param name="expectedCertificateSha1">Identity guard, see <see cref="SignDigestInfo"/>.</param>

@@ -102,5 +102,7 @@
 			<string>Viewer</string>
 		</dict>
 	</array>
+	<key>NSUserActivityTypes</key>
+	<array><string>md.esemnbun.documents</string></array>
 </dict>
 </plist>

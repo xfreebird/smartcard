@@ -26,6 +26,37 @@ final class BridgeEndToEndTests: XCTestCase {
 
     // MARK: - SigningService
 
+    func testSigningServicePDFRejectsDifferentSHA256BeforePIN() throws {
+        let otherIdentity = try TestIdentity(commonName: "OTHER TEST SIGNER")
+        XCTAssertThrowsError(try SigningService.shared.signPDF(
+            Fixtures.data("unsigned.pdf"), pin: "9999",
+            expectedCertificateSHA256: otherIdentity.certDER.sha256().hexString
+        )) {
+            guard case CardError.cardChanged = $0 else {
+                return XCTFail("expected cardChanged, got \($0)")
+            }
+        }
+        XCTAssertEqual(card.verifyAttempts, 0, "a mismatched identity must never receive the PIN")
+        XCTAssertEqual(card.triesLeft, 3, "certificate rejection must not consume a PIN retry")
+        XCTAssertTrue(card.signedDigestInfos.isEmpty)
+    }
+
+    func testSigningServicePDFAcceptsMatchingSHA256BeforePIN() throws {
+        // An intentionally wrong simulated PIN stops before the live timestamp request while
+        // proving that the matching certificate passes the guard and reaches VERIFY exactly once.
+        XCTAssertThrowsError(try SigningService.shared.signPDF(
+            Fixtures.data("unsigned.pdf"), pin: "9999",
+            expectedCertificateSHA256: TestIdentity.shared.certDER.sha256().hexString.uppercased()
+        )) {
+            guard case CardError.wrongPIN(remaining: 2) = $0 else {
+                return XCTFail("expected wrongPIN after accepting the certificate, got \($0)")
+            }
+        }
+        XCTAssertEqual(card.verifyAttempts, 1)
+        XCTAssertEqual(card.triesLeft, 2)
+        XCTAssertTrue(card.signedDigestInfos.isEmpty)
+    }
+
     func testSigningServiceXAdESVerifiesWithBothDigests() throws {
         let doc = FileManager.default.temporaryDirectory.appendingPathComponent("msa-e2e-\(UUID().uuidString).xml")
         try Data("<doc>de semnat</doc>".utf8).write(to: doc)

@@ -27,14 +27,19 @@ jobs:
       - name: Test (Apple frameworks)
         working-directory: swift/MoldSignKit
         run: swift test
+      - name: MCP stdio process contract
+        run: python3 scripts/test-mcp-process.py swift/MoldSignKit/.build/debug/esemnbun-mcp
       - name: "Test (Linux code paths: OpenSSL + POSIX)"
         run: scripts/test-portable-macos.sh
 
   apple-apps:
     name: Xcode project (macOS app, CLI)
-    runs-on: macos-15
+    runs-on: xcode-27
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v4
+      - run: bash apple/scripts/require-siri-sdk.sh
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS CODE_SIGN_IDENTITY=- build
       - name: macOS App Store variant (unsigned sandbox build)
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS-AppStore CODE_SIGNING_ALLOWED=NO build
@@ -67,6 +72,8 @@ jobs:
       - name: Core + CLI tests
         working-directory: swift/MoldSignKit
         run: swift test
+      - name: MCP stdio process contract
+        run: python3 scripts/test-mcp-process.py swift/MoldSignKit/.build/debug/esemnbun-mcp
       - name: GNOME app (debug, includes the MSIGN_DEMO_CARDS demo mode)
         working-directory: linux
         run: swift build

@@ -36,6 +36,7 @@ internal static class CliApp
 
         Usage:
           esemnbun capabilities [--json]                    Supported commands and formats; no card/PIN access
+          esemnbun mcp [--root ID=/absolute/directory]       Local stdio MCP; offline verification
           esemnbun readers                                   List PC/SC readers and card presence
           esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN)
           esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
@@ -62,6 +63,8 @@ internal static class CliApp
 
     public static int Run(IReadOnlyList<string> args, CliHost host)
     {
+        if (args.Count > 0 && args[0] == "mcp") return McpHost.Run(args.Skip(1).ToArray(), host);
+
         // Discover capabilities before the normal dispatcher can touch a card or obtain a PIN.
         // Until structured verification ships, other --json commands fail closed here.
         var discoveryCommand = args.FirstOrDefault(arg => arg is not "--quiet" and not "--json");
@@ -142,7 +145,7 @@ internal static class CliApp
             return ExitCodes.UsageOrUnexpected;
         }
 
-        string[] commands = ["capabilities", "help", "readers", "cert", "sign-hex"];
+        string[] commands = ["capabilities", "help", "readers", "cert", "sign-hex", "mcp"];
         if (json) WriteCapabilityJson(host, writer =>
         {
             writer.WriteBoolean("ok", true);
@@ -163,7 +166,7 @@ internal static class CliApp
             writer.WriteBoolean("requiresCard", false);
             writer.WriteBoolean("json", false);
             writer.WriteEndObject();
-            writer.WriteBoolean("mcpServerAvailable", false);
+            writer.WriteBoolean("mcpServerAvailable", true);
             writer.WriteBoolean("desktopApprovalBrokerAvailable", false);
             writer.WriteEndObject();
         });
@@ -174,7 +177,7 @@ internal static class CliApp
             host.Out.WriteLine("Structured output: capabilities --json");
             host.Out.WriteLine("Document signing: unavailable in this CLI; use the desktop app");
             host.Out.WriteLine("Verification: unavailable in this CLI; use the desktop app");
-            host.Out.WriteLine("MCP server: unavailable; desktop approval broker: unavailable");
+            host.Out.WriteLine("MCP server: mcp (offline verification); desktop approval broker: unavailable");
         }
         return ExitCodes.Success;
     }

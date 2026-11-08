@@ -378,6 +378,20 @@ enum L10n {
         case cert_label_authority
         case cert_label_certificate_policy
         case cert_label_extension
+        case shortcut_prepare_short
+        case shortcut_prepare_pdf
+        case shortcut_prepare_description
+        case shortcut_document
+        case discovery_enable
+        case discovery_explanation
+        case automation_title
+        case automation_enable
+        case automation_hint
+        case automation_approve_title
+        case automation_approve
+        case automation_reject
+        case automation_approve_details
+        case discovery_search
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

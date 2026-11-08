@@ -18,13 +18,13 @@ public class CliCapabilitiesTests
         Assert.True(root.GetProperty("ok").GetBoolean());
         var data = root.GetProperty("data");
         Assert.Equal("windows", data.GetProperty("platform").GetString());
-        Assert.Equal(new[] { "capabilities", "help", "readers", "cert", "sign-hex" },
+        Assert.Equal(new[] { "capabilities", "help", "readers", "cert", "sign-hex", "mcp" },
             data.GetProperty("commands").EnumerateArray().Select(v => v.GetString()));
         Assert.Equal(new[] { "capabilities" },
             data.GetProperty("structuredOutputCommands").EnumerateArray().Select(v => v.GetString()));
         Assert.False(data.GetProperty("documentSigning").GetProperty("available").GetBoolean());
         Assert.False(data.GetProperty("verification").GetProperty("available").GetBoolean());
-        Assert.False(data.GetProperty("mcpServerAvailable").GetBoolean());
+        Assert.True(data.GetProperty("mcpServerAvailable").GetBoolean());
         Assert.False(data.GetProperty("desktopApprovalBrokerAvailable").GetBoolean());
         Assert.Equal(0, data.GetProperty("verification").GetProperty("formats").GetArrayLength());
     }

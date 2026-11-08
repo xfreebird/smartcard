@@ -180,6 +180,7 @@ end
 
 desc "Archive sandboxed macOS App Store package; upload to TestFlight in CI"
 lane :mac_store_release do |options|
+  sh("bash", File.expand_path("../apple/scripts/require-siri-sdk.sh", __dir__))
   setup_ci if is_ci
   match(type: "appstore", platform: "macos", app_identifier: MAC_ID, api_key: asc_key,
         readonly: true, additional_cert_types: ["mac_installer_distribution"])

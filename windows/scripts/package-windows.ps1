@@ -210,6 +210,12 @@ function Set-MsixIdentity([string] $Name, [string] $Publisher, [string] $Package
     $identity.SetAttribute('Publisher', $Publisher)
     $identity.SetAttribute('Version', $PackageVersion)
     $xml.SelectSingleNode('/m:Package/m:Properties/m:PublisherDisplayName', $ns).InnerText = $PublisherDisplayName
+    # Store packages expose the bundled console CLI without requiring a versioned WindowsApps path.
+    # The alias is generated only together with the packaged CLI payload and restored in finally.
+    $extensions = $xml.SelectSingleNode('/m:Package/m:Applications/m:Application/m:Extensions', $ns)
+    $fragment = $xml.CreateDocumentFragment()
+    $fragment.InnerXml = '<uap5:Extension xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" Category="windows.appExecutionAlias" Executable="bin\esemnbun.exe" EntryPoint="Windows.FullTrustApplication"><uap5:AppExecutionAlias desktop4:Subsystem="console"><uap5:ExecutionAlias Alias="esemnbun.exe" /></uap5:AppExecutionAlias></uap5:Extension>'
+    [void]$extensions.AppendChild($fragment)
     $xml.Save($Manifest)
 }
 
@@ -301,7 +307,7 @@ foreach ($platform in $Platforms) {
             # --no-incremental: the obj folder was just used by the unpackaged publish above.
             Invoke-Tool dotnet @('build', $AppProject, '-c', $Configuration, '-r', $rid, "-p:Platform=$msbuildPlatform",
                 '--self-contained', '--no-incremental', '-p:WindowsPackageType=MSIX', '-p:GenerateAppxPackageOnBuild=true',
-                '-p:AppxPackageSigningEnabled=false', "-p:Version=$Version", "-p:AppxPackageDir=$msixOut/")
+                '-p:AppxPackageSigningEnabled=false', "-p:Version=$Version", "-p:AppxPackageDir=$msixOut/", "-p:MoldSignCliPayload=$cliOut")
         }
         finally {
             Move-Item $backup $Manifest -Force

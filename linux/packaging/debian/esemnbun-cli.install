@@ -1,3 +1,4 @@
 usr/bin/esemnbun
 usr/lib/systemd/user/esemnbun-server.service
 usr/share/moldsign-cli/localhost.p12
+usr/bin/esemnbun-mcp

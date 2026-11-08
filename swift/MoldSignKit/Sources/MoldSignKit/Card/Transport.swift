@@ -59,6 +59,7 @@ public final class PCSCTransport: CardTransport {
     public private(set) var activeProtocol: UInt32 = 0
     private var ctx: Int64 = 0
     private var hCard: Int64 = 0
+    private var shareMode: UInt32 = 2
 
     /// Names of all PC/SC readers currently attached.
     public static func readerNames() -> [String] {
@@ -98,8 +99,10 @@ public final class PCSCTransport: CardTransport {
         }
     }
 
-    /// Connects (SHARED, T0|T1) to `readerName`, or to the first reader when nil.
-    public init(readerName: String? = nil) throws {
+    /// Automation uses EXCLUSIVE ownership so another process cannot interleave APDUs.
+    /// Existing interactive callers retain SHARED, T0|T1 behavior.
+    public init(readerName: String? = nil, exclusive: Bool = false) throws {
+        shareMode = exclusive ? 1 : 2
         var ctx: Int64 = 0
         let rv = c_scard_establish(0, &ctx) // SCARD_SCOPE_USER = 0
         guard rv == 0 else { throw CardError.noReader }
@@ -122,7 +125,7 @@ public final class PCSCTransport: CardTransport {
 
         var hCard: Int64 = 0
         var proto: UInt32 = 0
-        let rv3 = c_scard_connect(&ctx, name, 2, 3, &hCard, &proto) // shared, T0|T1
+        let rv3 = c_scard_connect(&ctx, name, shareMode, 3, &hCard, &proto)
         guard rv3 == 0 else { _ = c_scard_release(&self.ctx); throw CardError.noCard }
         self.hCard = hCard
         self.activeProtocol = proto
@@ -135,7 +138,7 @@ public final class PCSCTransport: CardTransport {
     /// TODO(MAC-12): docs/01 says to always do this on connect; verify on device before making it default.
     public func reset() throws {
         var proto: UInt32 = 0
-        guard c_scard_reconnect(&hCard, 2, 3, 1, &proto) == 0 else { throw CardError.cardNotResponding }
+        guard c_scard_reconnect(&hCard, shareMode, 3, 1, &proto) == 0 else { throw CardError.cardNotResponding }
         activeProtocol = proto
     }
 

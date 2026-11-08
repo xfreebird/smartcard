@@ -258,6 +258,7 @@ struct MainWindowView: View {
     }
 
     @Environment(AppModel.self) private var model
+    @State private var shortcutNavigation = ShortcutNavigation.shared
     @State private var portalBrowser = MacPortalBrowser()
     @State private var onboardingPresented = false
     @AppStorage("mainSection", store: AppPreferencesStore.defaults) private var stored = Section.sign.rawValue
@@ -322,7 +323,34 @@ struct MainWindowView: View {
         .sheet(isPresented: $onboardingPresented, onDismiss: markOnboardingComplete) {
             OnboardingView { onboardingPresented = false }
         }
-        .onAppear { presentOnboardingIfNeeded() }
+        .onAppear { presentOnboardingIfNeeded(); consumeShortcutNavigation(); DocumentDiscovery.refresh() }
+        .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
+            DocumentDiscovery.refresh()
+            consumeShortcutNavigation()
+        }
+        .onChange(of: shortcutNavigation.request?.id) { _, _ in consumeShortcutNavigation() }
+        .userActivity(DocumentDiscovery.activityType, isActive: stored == Section.activity.rawValue) { activity in
+            activity.title = L10n.text(.saved_title)
+            activity.isEligibleForHandoff = true
+            activity.isEligibleForSearch = false
+            activity.isEligibleForPublicIndexing = false
+        }
+    }
+
+    private func consumeShortcutNavigation() {
+        guard let request = shortcutNavigation.request else { return }
+        shortcutNavigation.request = nil
+        if let url = request.preparedURL {
+            model.addFiles([url])
+            stored = Section.sign.rawValue
+        } else if let reports = request.reports, let filename = request.filename {
+            model.clearVerification()
+            let url = URL(string: "esemnbun-verification://result")!.appendingPathComponent(filename)
+            model.verifyFile = url
+            model.verifyReports = reports
+            model.verifiedDocuments = [(url, reports)]
+            stored = Section.verify.rawValue
+        } else { stored = Section.activity.rawValue }
     }
 
     private var toolbarHeightReservation: some View {

@@ -18,6 +18,7 @@ override_dh_auto_test:
 override_dh_auto_build:
 ifeq ($(MOLDSIGN_STAGE),)
 	cd swift/MoldSignKit && swift build -c release --product esemnbun --static-swift-stdlib
+	cd swift/MoldSignKit && swift build -c release --product esemnbun-mcp --static-swift-stdlib
 	cd linux && swift build -c release --static-swift-stdlib
 endif
 

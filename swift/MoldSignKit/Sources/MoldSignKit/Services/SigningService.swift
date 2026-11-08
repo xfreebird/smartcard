@@ -144,7 +144,7 @@ public final class SigningService: @unchecked Sendable {
     /// `expectedCertificateSHA1`: the card the PIN belongs to; a different card fails with `.cardChanged`
     /// before VERIFY.
     public func signPDF(_ pdf: Data, pin: String, reader: String? = nil, expectedCertificateSHA1: String? = nil,
-                        appearance: PDFStampPlacement? = nil,
+                        appearance: PDFStampPlacement? = nil, expectedCertificateSHA256: String? = nil,
                         progress: ((Step) -> Void)? = nil) throws -> Data {
         try withCard(reader: reader, progress: progress) { card in
             try card.selectMF()
@@ -152,6 +152,9 @@ public final class SigningService: @unchecked Sendable {
             progress?(.readingCertificate)
             let cert = try card.readCertificate()
             if let expected = expectedCertificateSHA1, cert.sha1().hexString.lowercased() != expected.lowercased() {
+                throw CardError.cardChanged
+            }
+            if let expected = expectedCertificateSHA256, cert.sha256().hexString.lowercased() != expected.lowercased() {
                 throw CardError.cardChanged
             }
             let signed = try PAdESSigner().signPDF(pdf, certDER: cert, appearance: appearance) { digestInfo in

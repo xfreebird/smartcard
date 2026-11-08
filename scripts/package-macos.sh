@@ -12,9 +12,12 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+bash "$ROOT/apple/scripts/require-siri-sdk.sh"
 OUT="$ROOT/dist/macos"
 DD="$ROOT/dist/.derived-macos"
 IDENTITY="${MACOS_SIGN_IDENTITY:--}"
+timestamp_flag=""
+[[ "$IDENTITY" != "-" ]] && timestamp_flag=--timestamp
 VERSION="$(xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS-Desktop -showBuildSettings 2>/dev/null | awk '/ MARKETING_VERSION =/{print $3; exit}')"
 rm -rf "$OUT" && mkdir -p "$OUT"
 
@@ -70,6 +73,29 @@ xcodebuild -project "$ROOT/apple/eSemnBun.xcodeproj" -scheme eSemnBun-macOS-Desk
   -derivedDataPath "$DD" -archivePath "$OUT/eSemnBun.xcarchive" "${sign_args[@]}" archive -quiet
 
 APP="$OUT/eSemnBun.xcarchive/Products/Applications/eSemnBun.app"
+# Capture the actual archive entitlements, including provisioning-expanded values.
+ENTITLEMENTS_BEFORE="$OUT/.app-entitlements-before.plist"
+ENTITLEMENTS_AFTER="$OUT/.app-entitlements-after.plist"
+codesign -d --entitlements :- "$APP" > "$ENTITLEMENTS_BEFORE" 2>/dev/null
+# Bundle the local stdio automation executable only in the standalone distribution.
+# Re-seal the archive after adding signed nested code; preserve the app's provisioning entitlements.
+echo "▸ Building the local MCP server (release)"
+(cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun-mcp --arch arm64 --arch x86_64 >/dev/null)
+MCP="$(cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun-mcp --arch arm64 --arch x86_64 --show-bin-path)/esemnbun-mcp"
+sign_ts --force --options runtime --identifier md.esemnbun.mcp --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$MCP"
+mkdir -p "$APP/Contents/Helpers"
+cp "$MCP" "$APP/Contents/Helpers/esemnbun-mcp"
+lipo -verify_arch arm64 x86_64 "$APP/Contents/Helpers/esemnbun-mcp"
+codesign --verify --strict "$APP/Contents/Helpers/esemnbun-mcp"
+sign_ts --force --preserve-metadata=identifier,entitlements,requirements,flags --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$APP"
+codesign -d --entitlements :- "$APP" > "$ENTITLEMENTS_AFTER" 2>/dev/null
+python3 - "$ENTITLEMENTS_BEFORE" "$ENTITLEMENTS_AFTER" <<'PYTHON'
+import plistlib,sys
+with open(sys.argv[1], 'rb') as source, open(sys.argv[2], 'rb') as sealed:
+    if plistlib.load(source) != plistlib.load(sealed):
+        raise SystemExit('Application entitlements changed while embedding the MCP helper')
+PYTHON
+rm -f "$ENTITLEMENTS_BEFORE" "$ENTITLEMENTS_AFTER"
 "$ROOT/apple/scripts/verify-macos-distribution.sh" desktop "$APP"
 
 echo "▸ Building DMG"
@@ -114,14 +140,17 @@ fi
 echo "▸ Building the esemnbun CLI (release)"
 (cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun --arch arm64 --arch x86_64 >/dev/null)
 CLI="$(cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun --arch arm64 --arch x86_64 --show-bin-path)/esemnbun"
-sign_ts --force --options runtime --identifier md.esemnbun.cli --sign "$IDENTITY" ${MACOS_SIGN_IDENTITY:+--timestamp} "$CLI"
+sign_ts --force --options runtime --identifier md.esemnbun.cli --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$CLI"
 if (( ${#notary[@]} )); then
-  echo "▸ Notarizing the CLI"
-  (cd "$(dirname "$CLI")" && /usr/bin/ditto -c -k esemnbun "$OUT/esemnbun-notarize.zip")
+  echo "▸ Notarizing both CLI executables"
+  CLI_NOTARY_STAGE="$(mktemp -d "$OUT/.cli-notarize.XXXXXX")"
+  cp "$CLI" "$MCP" "$CLI_NOTARY_STAGE/"
+  /usr/bin/ditto -c -k "$CLI_NOTARY_STAGE" "$OUT/esemnbun-notarize.zip"
   notarize "$OUT/esemnbun-notarize.zip"
+  rm -rf "$CLI_NOTARY_STAGE"
   rm -f "$OUT/esemnbun-notarize.zip"
 fi
-tar -C "$(dirname "$CLI")" -czf "$OUT/esemnbun-$VERSION-macos-universal.tar.gz" esemnbun
+tar -C "$(dirname "$CLI")" -czf "$OUT/esemnbun-$VERSION-macos-universal.tar.gz" esemnbun esemnbun-mcp
 
 rm -rf "$DD"
 echo "✔ $(ls "$OUT")"
