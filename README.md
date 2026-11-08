@@ -23,7 +23,7 @@ The native macOS app, ready to sign a document with the selected identity card.
 
 Download an installer from [GitHub Releases](https://github.com/xfreebird/smartcard/releases). Connect a compatible identity card and reader, open eSemnBun, and choose the documents to sign. A PIN is required to authorize signing.
 
-For the CLI, use [Homebrew, Scoop, Chocolatey, APT, DNF or the Arch recipe](https://esemnbun.md/packages/). On macOS: `brew install xfreebird/utils/esemnbun-cli`. Packaging and signing details are in [CLI distribution](distribution/packages/README.md).
+For the CLI, use [Homebrew, Scoop, Chocolatey, APT, DNF or the Arch recipe](https://esemnbun.md/downloads/#cli). On macOS: `brew install xfreebird/utils/esemnbun-cli`. Packaging and signing details are in [CLI distribution](distribution/packages/README.md).
 
 New contributors: start with [developer onboarding](docs/13-developer-onboarding.md), including your own VM/device access setup and the [repo skills](.agents/skills/). Build instructions and platform requirements are in the [documentation](docs/README.md). See [build automation](distribution/BUILD-AUTOMATION.md) for installer and store-upload actions. The [development plan](PLAN.md) tracks platform support and outstanding work.
 

@@ -1,17 +1,1 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>eSemnBun CLI packages</title><style>body{font:17px/1.6 system-ui;max-width:850px;margin:40px auto;padding:0 20px}pre{overflow:auto;background:#eee;padding:16px;border-radius:8px}a{color:#165bc1}@media(prefers-color-scheme:dark){body{background:#17191d;color:#eee}pre{background:#282b31}a{color:#8db7ff}}</style><h1>eSemnBun CLI packages</h1><p>Signing, verification and local MCP tools. Installing a package does not start a service or enable unattended signing.</p>
-<h2>macOS — Apple silicon and Intel, macOS 15+</h2><pre>brew install xfreebird/utils/esemnbun-cli</pre>
-<h2>Windows x64 — Scoop</h2><pre>scoop bucket add esemnbun https://github.com/xfreebird/homebrew-utils
-scoop install esemnbun/esemnbun-cli</pre>
-<h2>Windows x64 — Chocolatey</h2><p>Download the <code>esemnbun-cli.VERSION.nupkg</code> package from the <a href="/packages/downloads/v@VERSION@/esemnbun-cli.@VERSION@.nupkg">current release</a> into an empty folder, then run from that folder:</p><pre>choco install esemnbun-cli --source . --yes</pre><p>This is a project-distributed package; it is not listed in the Chocolatey community catalog.</p>
-<h2>Ubuntu 24.04+ / Debian 13+ — x86-64</h2><pre>curl -fsSLo /tmp/esemnbun-signing-key.asc https://esemnbun.md/packages/signing-key.asc
-gpg --show-keys --with-fingerprint /tmp/esemnbun-signing-key.asc</pre><p>Verify fingerprint <code>F807 5499 A4B3 11BA 30E5 3156 E562 2B86 C828 0D0B</code>, then:</p><pre>gpg --dearmor --yes --output /tmp/esemnbun.gpg /tmp/esemnbun-signing-key.asc
-sudo install -m 644 /tmp/esemnbun.gpg /usr/share/keyrings/esemnbun.gpg
-echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/esemnbun.gpg] https://esemnbun.md/packages/apt stable main' | sudo tee /etc/apt/sources.list.d/esemnbun.list
-sudo apt update
-sudo apt install esemnbun-cli</pre>
-<h2>Fedora — x86-64</h2><p>The RPM carries its required library versions; DNF checks dependencies and signatures.</p><pre>curl -fsSLo /tmp/esemnbun.repo https://esemnbun.md/packages/esemnbun.repo
-sudo install -m 644 /tmp/esemnbun.repo /etc/yum.repos.d/esemnbun.repo
-sudo dnf install esemnbun-cli</pre><p>Verify the same signing fingerprint when prompted. Both package and repository signatures are required. The same RPM repository can be added to compatible openSUSE systems with Zypper; compatibility depends on available libraries.</p>
-<h2>Arch Linux — x86-64</h2><p>Use the <a href="/packages/PKGBUILD">project PKGBUILD</a>: download it, inspect it, then run <code>makepkg -si</code>. This recipe is not submitted to AUR.</p>
-<h2>Other Linux systems</h2><p>A <a href="/packages/downloads/v@VERSION@/esemnbun-@VERSION@-linux-x86_64.tar.gz">portable CLI tar archive</a> is also available. It requires compatible glibc, OpenSSL, libcurl and PC/SC libraries; it is not a musl/Alpine build. Current Linux binary packages are x86-64.</p>
-<p><a href="/packages/mcp.md">MCP setup and signing policy</a> · <a href="/downloads/">All downloads</a></p></html>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=/downloads/#cli"><link rel="canonical" href="https://esemnbun.md/downloads/"><title>eSemnBun CLI downloads</title><body><header><a href="/">eSemnBun · Home</a> · <a href="/downloads/">Downloads</a></header><main><h1>CLI installation instructions</h1><p>Package-manager instructions are now on the <a href="/downloads/#cli">Downloads page</a>.</p></main></body></html>

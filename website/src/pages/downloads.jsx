@@ -6,6 +6,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import PlatformIcon from '../components/PlatformIcon';
 import useText from '../i18n/useText';
 import release from '../data/release.json';
+import PackageDownloads from '../components/PackageDownloads';
 
 function StoreBadge({store, locale}) {
  const src = useBaseUrl(store.badges[locale] || store.badges.en);
@@ -21,7 +22,7 @@ export default function DownloadsPage() {
  useEffect(() => {
   const selectFromHash = () => {
    const id = window.location.hash.slice(1);
-   setSelectedPlatform(release.platforms.some(platform => platform.id === id) ? id : release.platforms[0].id);
+   setSelectedPlatform((id === 'cli' || release.platforms.some(platform => platform.id === id)) ? id : release.platforms[0].id);
   };
   selectFromHash();
   window.addEventListener('hashchange', selectFromHash);
@@ -33,7 +34,7 @@ export default function DownloadsPage() {
    <header className="downloads-header">
     <span className="downloads-eyebrow">eSemnBun <span aria-hidden="true">/</span> {release.version}</span>
     <h1>{t('downloadsTitle')}</h1><p>{t('downloadsDescription')}</p>
-    <p><a href="/packages/">{text({en: 'Install CLI with Homebrew, Scoop, Chocolatey, APT or DNF', ro: 'Instalează CLI cu Homebrew, Scoop, Chocolatey, APT sau DNF', ru: 'Установить CLI через Homebrew, Scoop, Chocolatey, APT или DNF'})}</a></p>
+    <p><a href="#cli">{text({en: 'Install CLI with Homebrew, Scoop, Chocolatey, APT or DNF', ro: 'Instalează CLI cu Homebrew, Scoop, Chocolatey, APT sau DNF', ru: 'Установить CLI через Homebrew, Scoop, Chocolatey, APT или DNF'})}</a></p>
    </header>
    <nav className="download-platform-nav" aria-label={t('choosePlatform')}>
     {release.platforms.map(platform => <a key={platform.id} href={`#${platform.id}`}
@@ -41,6 +42,7 @@ export default function DownloadsPage() {
      onClick={() => setSelectedPlatform(platform.id)}>
      <PlatformIcon name={platform.icon}/>{text(platform.name)}
     </a>)}
+    <a href="#cli" aria-current={selectedPlatform === 'cli' ? 'location' : undefined} onClick={() => setSelectedPlatform('cli')}>CLI</a>
    </nav>
    <div className="download-platform-grid">
     {release.platforms.map(platform => <section className={`download-platform-card${selectedPlatform === platform.id ? ' download-platform-card-selected' : ''}`} id={platform.id} key={platform.id} aria-labelledby={`${platform.id}-title`}
@@ -78,6 +80,7 @@ export default function DownloadsPage() {
      </div>
     </section>)}
    </div>
+   <PackageDownloads/>
    <aside className="downloads-requirements">
     <p>{t('downloadRequirementsBrief')}</p>
     <Link to="/docs/start">{t('guide')}</Link> · <Link to="/devices">{t('recommendedDevices')}</Link>

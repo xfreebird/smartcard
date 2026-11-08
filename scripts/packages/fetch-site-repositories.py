@@ -45,6 +45,7 @@ import zipfile
 with zipfile.ZipFile(destination/'downloads'/release['tag_name']/'esemnbun-package-definitions.zip') as z:
  (destination/'PKGBUILD').write_bytes(z.read('arch/PKGBUILD'))
 shutil.copyfile(root/'spec/mcp.md',destination/'mcp.md')
+(root/'website/src/data/package-release.json').write_text(json.dumps({'version':release['tag_name'].removeprefix('v')})+'\n')
 index=destination/'index.html'
 index.write_text(index.read_text().replace('@VERSION@',release['tag_name'].removeprefix('v')))
 
