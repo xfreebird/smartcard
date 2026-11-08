@@ -3,6 +3,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useColorMode} from '@docusaurus/theme-common';
 import useText from '../i18n/useText';
 import StoryProgress from './StoryProgress';
+import StoryScreen from './StoryScreen';
 import PlatformPreview from './PlatformPreview';
 import {debugPreviewEnabled,previewChoice,storyPlatform} from './previewPlatformState.mjs';
 import {iphone, androidPhone, desktop as desktopDisplay} from './deviceGeometry';
@@ -17,7 +18,6 @@ export default function SigningStory(){
  const [viewport,setViewport]=useState({width:1440,height:960}),[reduced,setReduced]=useState(false);
  const landingRoot=useBaseUrl('/img/landing/');
  const appearance=colorMode==='dark'?'dark':'light';
- const landingAsset=(target,state)=>`${landingRoot}${target}/${state}-${appearance}.png`;
  const readerImage=useBaseUrl('/img/reader.png'),cardImage=useBaseUrl('/img/card.png');
  useEffect(()=>{
   const enabled=debugPreviewEnabled(window.location.hostname,process.env.NODE_ENV==='development');
@@ -85,10 +85,8 @@ export default function SigningStory(){
      <rect {...frame} fill="#303533" stroke="var(--site-hardware-border)" strokeWidth="1"/>
      {!mobile&&<><path d="M500 525 H600 L615 580 H485Z" fill="#bac0bd"/><rect x="450" y="576" width="200" height="10" rx="5" fill="#adb5b0"/></>}
     </g>
-    <rect {...screen} fill="#e1e6e9"/>
-    <image href={landingAsset(platform,'disconnected')} {...screen} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
-    <image href={landingAsset(platform,'reader')} {...screen} opacity={state.reader} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
-    <image href={landingAsset(platform,'ready')} {...screen} opacity={state.app} preserveAspectRatio={mobile?'xMidYMid meet':'xMidYMin slice'} clipPath={`url(#${clip})`}/>
+    <StoryScreen root={landingRoot} platform={platform} appearance={appearance}
+     stage={state.app>=.5?2:state.reader>=.5?1:0} screen={screen} clip={clip}/>
     {mobile&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
     <g opacity={clamp(state.connect*4)}>
      <path className="connection-cable" style={{strokeWidth:mobile?6:10}} pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V635 Q${port.x} 646 ${port.x+20} 646 H445 Q467 646 467 624 V${cableY+14} Q467 ${cableY} ${cableX} ${cableY}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>

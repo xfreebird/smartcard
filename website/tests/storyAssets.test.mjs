@@ -18,3 +18,16 @@ test('macOS story captures preserve native window title, size and content setup'
   assert.equal(createHash('sha256').update(bytes).digest('hex'),state.sha256);
  }
 });
+
+test('every landing state shares the same capture canvas within its platform',()=>{
+ for(const platform of ['macos','windows','linux','iphone','android']){
+  let expected;
+  for(const appearance of ['light','dark'])for(const state of ['disconnected','reader','ready']){
+   const file=`landing/${platform}/${state}-${appearance}.png`;
+   const bytes=readFileSync(new URL(file,assets));
+   const dimensions=[bytes.readUInt32BE(16),bytes.readUInt32BE(20)];
+   expected??=dimensions;
+   assert.deepEqual(dimensions,expected,`${file} must align with the other story states`);
+  }
+ }
+});
