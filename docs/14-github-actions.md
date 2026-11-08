@@ -63,6 +63,7 @@ Replace `EXACT_RUN_ID` with the numeric run you inspected. The publisher accepts
 | Unknown/expired/missing Actions artifact | Stop. Identify the intended binary again; rebuild only when necessary with a new unused code. Never silently pick “latest”. |
 | Wrong signature, hash, source workflow, package, version or downgrade | Hard failure. Correct the artifact/configuration; do not retry to bypass validation. |
 | `outcome_unknown` after upload/commit timeout | Inspect the result checkpoint, live bundles/tracks and review state before retrying. Do not automatically repeat a store mutation. |
+| App is still a Play draft | A completed closed rollout may be rejected. Finish the app setup or explicitly stage a draft through the intended flow; never describe a draft as published. |
 | API cannot edit listings (403) | Use Console for an authorized listing update. Setting `PLAY_UPLOAD_METADATA=true` does not grant permissions. |
 | Play rejects an existing halted-track state | Inspect/resolve only within separately authorized track changes, or use Console's artifact-only upload. Do not resume another track to make an artifact-only edit succeed. |
 | Apple build already used / missing profile | Read App Store Connect's actual maximum, select a larger build, or obtain an authorized profile refresh. Build/signature success is not TestFlight processing success. |
@@ -72,7 +73,7 @@ Replace `EXACT_RUN_ID` with the numeric run you inspected. The publisher accepts
 
 ## Secrets, identities and storage
 
-Verified configured repository secret **names** on 8 November 2026. Values were not read from GitHub (GitHub cannot return them) or written into this guide. The configured owner's backup is **`~/Desktop/eSemnBun-secrets/` on the main Mac**, outside this repository, with its own README and `secrets.env`. Other developers use their own approved secret source; do not assume the same path or transfer this folder to test hosts. The backup is an owner-managed external copy, not a repository file or an assertion that cloud backup/offline protection is configured.
+Configured values are managed under [repository Actions secrets](https://github.com/xfreebird/smartcard/settings/secrets/actions); public configuration is under the adjacent Variables tab. Verified configured repository secret **names** on 8 November 2026. Values were not read from GitHub (GitHub cannot return them) or written into this guide. The configured owner's backup is **`~/Desktop/eSemnBun-secrets/` on the main Mac**, outside this repository, with its own README and `secrets.env`. Other developers use their own approved secret source; do not assume the same path or transfer this folder to test hosts. The backup is an owner-managed external copy, not a repository file or an assertion that cloud backup/offline protection is configured.
 
 | Repository secret(s) | Consumer / purpose | Owner backup location relative to external folder |
 | --- | --- | --- |
@@ -87,6 +88,8 @@ Verified configured repository secret **names** on 8 November 2026. Values were 
 | `PACKAGE_SIGNING_KEY` | CLI package repositories: sign APT metadata/RPM packages | `packages/signing-private.asc`; revocation certificate beside it |
 
 Optional Azure Artifact Signing variables are referenced but **not configured as repository secrets** in this snapshot: `MOLDSIGN_TS_ENDPOINT`, `MOLDSIGN_TS_ACCOUNT`, `MOLDSIGN_TS_PROFILE`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`. They are only for Windows signing jobs, not validation CI. `MOLDSIGN_TS_DLIB` is a temporary runner path to the downloaded signing client, not a credential. The current self-signed MSI certificate is not public CA trust; Microsoft separately signs Store-distributed MSIX packages.
+
+The owner's manual GitHub CLI session is authenticated as `xfreebird` using the main Mac's macOS keychain/keyring. Use `gh auth status --hostname github.com` to inspect account/storage status without printing its token, and `GH_HOST=github.com` on commands so the separate employer host session remains untouched. This local CLI credential is not a repository Actions secret.
 
 GitHub **variables** are public configuration: `ENABLE_PAGES_DEPLOYMENT`, `MOLDSIGN_MSIX_IDENTITY`, `MOLDSIGN_MSIX_PUBLISHER`, `MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME` are configured. `ANDROID_UPLOAD_CERT_SHA256` optionally overrides the public upload-key fingerprint (default pinned in the publisher). Legacy `PLAY_CLOSED_TRACK` / `PLAY_CLOSED_RELEASE_STATUS` affect only the explicitly enabled legacy lane; the new publisher takes its closed-track input. `GITHUB_TOKEN` (`github.token`, passed as `GH_TOKEN`) is short-lived and generated per job; there is no owner backup of it.
 
