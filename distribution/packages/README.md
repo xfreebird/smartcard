@@ -1,6 +1,6 @@
 # CLI package distribution
 
-User installation instructions: https://esemnbun.md/downloads/#cli
+User installation instructions: https://esemnbun.md/downloads/
 
 - Homebrew: reuse `xfreebird/homebrew-utils`, formula `esemnbun-cli` (macOS 15+, ARM64 and Intel).
 - Scoop: `bucket/esemnbun-cli.json` in the same repository, standalone Windows x64 CLI.

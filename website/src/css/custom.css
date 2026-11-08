@@ -170,7 +170,7 @@
 .downloads-requirements small{display:block;font-size:12px;margin-top:18px}
 body:has(.downloads-page) .navbar{position:sticky;top:0;transform:none!important;background:var(--site-surface)}
 .downloads-page .download-platform-nav{top:var(--ifm-navbar-height)}
-.downloads-page :is(.download-platform-card,.package-downloads){scroll-margin-top:calc(var(--ifm-navbar-height) + 100px)}
+.downloads-page .download-platform-card{scroll-margin-top:calc(var(--ifm-navbar-height) + 100px)}
 @media(max-width:900px){.download-platform-grid{grid-template-columns:1fr}}
 @media(max-width:640px){.downloads-page{padding:40px 20px}.download-platform-grid{grid-template-columns:1fr;gap:14px}.download-platform-card{padding:24px}.downloads-header>p{font-size:16px}}
 @media(prefers-reduced-motion:reduce){.download-installer{transition:none}}
@@ -234,9 +234,6 @@ body:has(.devices-guide) .col--6{--ifm-col-width:100%;margin-left:0;max-width:10
 .download-platform-card :is(h2,p,small,b,span,.platform-icon){cursor:pointer}
 .download-store-badge img{cursor:pointer}
 
-.package-downloads{margin-top:48px;scroll-margin-top:110px}
-.package-downloads>h2{font-size:clamp(24px,3vw,34px);letter-spacing:-.03em}
-.package-downloads>p{color:var(--site-muted);max-width:780px}
 .package-download-options{display:grid;gap:12px;margin-top:24px}
 .package-download-options details{min-width:0;border:1px solid var(--site-border);border-radius:14px;padding:18px 22px;background:var(--site-surface)}
 .package-download-options summary{cursor:pointer;font-weight:600;font-size:18px}
@@ -247,4 +244,11 @@ body:has(.devices-guide) .col--6{--ifm-col-width:100%;margin-left:0;max-width:10
 .package-download-options pre{max-width:100%;font-size:13px}
 .package-download-options summary:focus-visible{outline:2px solid var(--ifm-color-primary);outline-offset:5px}
 .package-fingerprint{overflow-wrap:anywhere;white-space:normal}
-@media(max-width:600px){.package-download-options details{padding:16px}.package-downloads{scroll-margin-top:90px}}
+@media(max-width:600px){.package-download-options details{padding:16px}}
+
+.download-platform-grid{align-items:start}
+.package-download-options :is(summary,summary small){cursor:pointer}
+.package-download-options :is(p,code,pre){cursor:text}
+.download-platform-card#linux{grid-column:1/-1}
+.download-platform-card#linux .download-installers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:640px){.download-platform-card#linux .download-installers{grid-template-columns:1fr}}
