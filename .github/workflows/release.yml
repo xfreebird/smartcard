@@ -354,7 +354,13 @@ jobs:
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber "${FILES[@]}"
           else
-            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            # Reserve the exact existing commit separately. Release creation against an older
+            # branch commit can otherwise require workflow-write permission after main advances.
+            if ! gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" >/dev/null 2>&1; then
+              gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
+                -f "ref=refs/tags/$TAG" -f "sha=$GITHUB_SHA" >/dev/null
+            fi
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
               --title "eSemnBun ${TAG#v}" --notes "$NOTE" --generate-notes "${FILES[@]}"
           fi
           # Remove store-upload packages from public downloads.
