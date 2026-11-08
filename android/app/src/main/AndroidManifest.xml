@@ -59,6 +59,12 @@
             </intent-filter>
         </activity>
 
+        <!-- Persist app language on API 26–32 and migrate it to system app-language settings on API 33+. -->
+        <service android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false" android:exported="false">
+            <meta-data android:name="autoStoreLocales" android:value="true" />
+        </service>
+
         <service
             android:name=".bridge.BridgeService"
             android:exported="false"

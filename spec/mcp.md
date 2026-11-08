@@ -67,10 +67,28 @@ standards coverage. Offline chain trust is not a current revocation check.
 
 ## Foreground approval broker
 
-The foreground approval spool is implemented for the macOS app. Windows exposes read-only
-verification and explicit unattended signing; it does not expose `prepare_signing`, `get_job`,
-or `cancel_job`, and reports `desktopApprovalBrokerAvailable:false`. Linux can use the Swift
-helper for verification/unattended signing but no GNOME approval UI is supplied here.
+The foreground approval spool is implemented for standalone macOS, Windows WinUI, and Linux
+GNOME apps. Enable local signing requests in the desktop settings, then pass the displayed
+private directory as `--broker-directory` to the platform CLI/helper. All three expose
+`prepare_signing`, `get_job`, and `cancel_job`, with process-owned jobs. Windows and Linux
+show the staged PDF before fresh approval and native PIN access; stored PINs never bypass
+approval. The selected certificate is frozen and checked before VERIFY. Desktop apps must
+be running; the helper does not launch them. macOS App Store keeps the separate CLI fallback.
+
+Default desktop spool locations:
+
+- macOS: `~/Library/Application Support/eSemnBun/AgentBroker`
+- Windows: `%LOCALAPPDATA%/MoldSign/MCP`
+- Linux: `$XDG_DATA_HOME/eSemnBun/AgentBroker` (default `~/.local/share/eSemnBun/AgentBroker`)
+
+Linux staging lives in an additional private `staging` subdirectory. Its preview uses the app's
+PDF editor; the user can choose a localized visible stamp or invisible signing. A separate
+approval dialog displays both input and certificate hashes, defaults to rejection, and is
+required before PIN access. Expiry, opt-out and cancellation are checked again before signing.
+A cancelled PIN/approval dialog may remain visible until dismissed but cannot authorize the
+expired job. Requests left in `signing` after a crash are uncertain; inspect outcomes manually.
+Windows broker cleanup currently runs only while enabled. These additions require native
+build/runtime and installed-package validation, including Flatpak sandbox integration.
 
 Enable the desktop app's broker first, then add `--broker-directory /absolute/private/directory`.
 The directory and its `requests`, `responses`, `outputs` subdirectories must already exist,
@@ -117,9 +135,10 @@ and accepts a secret-provider reference rather than a PIN. Example launch argume
 ```
 
 The output directory must already exist, be owned by the user and have mode 0700. Alternative
-provider settings are `--pin-source keychain:service:account` (macOS) or
+provider settings are `--pin-source keychain:service:account` (macOS),
+`--pin-source secret-service:service:account` (Linux), or
 `--pin-source onepassword:op://Vault/Item/field`. The 1Password executable defaults to
-`/opt/homebrew/bin/op`; an operator may set `--onepassword-executable /absolute/path/op`.
+`/opt/homebrew/bin/op` on macOS and `/usr/bin/op` on Linux; an operator may set `--onepassword-executable /absolute/path/op`.
 A separately provisioned Keychain item must permit noninteractive access; the app's biometric
 vault is not weakened. The operator configures 1Password authentication outside MCP. Do not put
 PIN values in host launch arguments, tool calls, documents or logs. Environment secrets are
@@ -135,6 +154,16 @@ the operator must explicitly remove this marker and restart; MCP has no reset to
 are never automatically retried. The trust-service client may retry a transient timestamp HTTP
 request using the existing signature; this does not repeat a card operation. An exclusive PC/SC connection prevents APDU interleaving with other apps. The whole workflow
 needs signed installed-app/physical-card validation before production unattended deployment.
+
+Linux Secret Service uses the operator-selected `/usr/bin/secret-tool` by default; override it
+with `--secret-tool-executable /absolute/path/secret-tool`. Provision a separate item using
+`secret-tool store --label="eSemnBun automation" service SERVICE account ACCOUNT`, entering
+the PIN interactively or via protected stdin. The helper runs bounded `lookup service SERVICE
+account ACCOUNT` without a shell, discards diagnostics, and validates the result as 4–8 ASCII
+digits before VERIFY. Keep the automation collection unlocked for unattended operation;
+credential-provider unlocking/authentication and physical-card behavior remain unvalidated.
+The app's saved-PIN items are not reused. See the
+[Secret Service CLI contract](https://manpages.debian.org/testing/libsecret-tools/secret-tool.1.en.html).
 
 ## Windows launch and credentials
 
@@ -190,11 +219,12 @@ card state rather than retrying blindly. EOF discards pending work, lets active 
 reach its watchdog, requests broker cancellation, and exits. Metadata can still leave the machine
 through the MCP host.
 
-The Windows host handles one request at a time and currently applies its watchdog to the whole
-request (30 seconds without unattended configuration, 120 seconds with it). It does not process
-cancellation notifications while a signing operation is running. Closing/killing the host can
-leave an uncertain signing outcome; the persistent marker prevents automatic replay after restart.
-Do not interpret protocol cancellation or process exit as proof that no signature was made.
+The Windows host uses an independent bounded reader and a serial executor, with at most
+eight active/queued requests. Cancellation notifications suppress queued work or replies while
+an operation is running. The watchdog terminates the process after 30 seconds, or 120 seconds
+for `sign_document`; it cannot return while a signing task still owns trusted filesystem roots.
+Closing/killing the host can leave an uncertain outcome. Do not interpret protocol cancellation
+or process exit as proof that no signature was made.
 
 ## Validation
 
@@ -211,3 +241,7 @@ fixture timestamp responses to cover immutable input, exact-certificate rejectio
 access/VERIFY, one PIN attempt, valid output, timestamp failure and persistent replay prevention.
 They do not validate real Credential Manager provisioning, 1Password authentication, physical-card
 behavior or Store-installed execution aliases. Windows VM/build evidence is recorded separately.
+
+Current parity additions include focused Windows spool/session tests and Linux request-decoding,
+settings-default and stamp-language tests. They have been added but not executed in this change;
+new native UI/card paths and provider integration are unvalidated until the owner runs builds/tests.

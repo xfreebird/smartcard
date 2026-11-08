@@ -346,4 +346,7 @@ eSemnBun</value></data>
   <data name="cert_label_authority" xml:space="preserve"><value>Authority</value></data>
   <data name="cert_label_certificate_policy" xml:space="preserve"><value>Certificate policy</value></data>
   <data name="cert_label_extension" xml:space="preserve"><value>Extension</value></data>
+  <data name="MCP_Enabled" xml:space="preserve"><value>Allow local signing requests (MCP)</value></data>
+  <data name="MCP_Description" xml:space="preserve"><value>Each request needs approval in eSemnBun. Configure your MCP client with this private directory.</value></data>
+  <data name="MCP_Unavailable" xml:space="preserve"><value>Local signing requests could not be enabled.</value></data>
 </root>

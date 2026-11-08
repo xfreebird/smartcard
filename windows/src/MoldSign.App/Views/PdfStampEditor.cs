@@ -22,10 +22,12 @@ internal static class PdfStampEditor
     [DllImport("user32.dll")] private static extern bool EnableWindow(nint window, bool enabled);
     [DllImport("user32.dll", EntryPoint="SetWindowLongPtrW")] private static extern nint SetOwner(nint window, int index, nint owner);
 
-    internal static async Task<bool> ShowAsync(XamlRoot root, FileRow row, Action<PdfStampPlacement?>? onBatch = null, string? requester = null, CancellationToken cancellationToken = default)
+    internal static async Task<bool> ShowAsync(XamlRoot root, FileRow row, Action<PdfStampPlacement?>? onBatch = null, string? requester = null, CancellationToken cancellationToken = default, bool previewOnly = false)
     {
-        var placement = row.Stamp ?? new PdfStampPlacement();
-        var enabled = new ToggleSwitch { Header = Loc.Get("Stamp_Visible"), IsOn = true };
+        var appLanguage = Microsoft.Windows.Globalization.ApplicationLanguages.PrimaryLanguageOverride;
+        if (string.IsNullOrEmpty(appLanguage)) appLanguage = Microsoft.Windows.Globalization.ApplicationLanguages.Languages.FirstOrDefault() ?? "ro";
+        var placement = (row.Stamp ?? new PdfStampPlacement()) with { Language = PdfStampText.FromLocale(appLanguage) };
+        var enabled = new ToggleSwitch { Header = Loc.Get("Stamp_Visible"), IsOn = !previewOnly, Visibility = previewOnly ? Visibility.Collapsed : Visibility.Visible };
         var queue = new CheckBox { Content = Loc.Get("Stamp_Queue") };
         var all = new RadioButton { Content = Loc.Get("Stamp_AllPages"), GroupName="StampScope", IsChecked = placement.AllPages };
         var selected = new RadioButton { Content=Loc.Get("Stamp_SelectedPage"), GroupName="StampScope", IsChecked=!placement.AllPages };
@@ -50,13 +52,16 @@ internal static class PdfStampEditor
         scope.Children.Add(new TextBlock { Text=Loc.Get("Stamp_Scope") });
         scope.Children.Add(selected); scope.Children.Add(all);
         if (onBatch is not null) scope.Children.Add(queue);
-        options.Children.Add(Group(scope));
-        options.Children.Add(new TextBlock { Text=Loc.Get("Stamp_MoveHint"), TextWrapping=TextWrapping.Wrap, Opacity=.65 });
+        if (!previewOnly)
+        {
+            options.Children.Add(Group(scope));
+            options.Children.Add(new TextBlock { Text=Loc.Get("Stamp_MoveHint"), TextWrapping=TextWrapping.Wrap, Opacity=.65 });
+        }
         if (requester is not null) options.Children.Add(new TextBlock { Text=requester, TextWrapping=TextWrapping.Wrap });
         options.Children.Add(error);
         var editor = new Window { Title=Loc.Get("Stamp_Title") };
         var completion = new TaskCompletionSource<bool>();
-        var apply = new Button { Content=Loc.Get("Stamp_Save"), MinWidth=100, IsEnabled=false, Style=(Style)Application.Current.Resources["AccentButtonStyle"] };
+        var apply = new Button { Content=Loc.Get(previewOnly ? "Action_Sign" : "Stamp_Save"), MinWidth=100, IsEnabled=false, Style=(Style)Application.Current.Resources["AccentButtonStyle"] };
         var cancel = new Button { Content=Loc.Get("Action_Cancel"), MinWidth=100 };
         var footer = new StackPanel { Orientation=Orientation.Horizontal, Spacing=12, HorizontalAlignment=HorizontalAlignment.Right, Margin=new Thickness(24,16,24,20) };
         footer.Children.Add(cancel); footer.Children.Add(apply);
@@ -112,10 +117,18 @@ internal static class PdfStampEditor
         var image = new Image(); preview.Children.Add(image);
         var artwork = new StackPanel { Spacing = 0 };
         var ink = new SolidColorBrush(Colors.Black);
-        artwork.Children.Add(new TextBlock { Text = $"Digitally signed by {AppState.Current.Certificate?.CommonName}\nDate: {DateTimeOffset.Now:yyyy.MM.dd HH:mm:ss zzz}\nReason: MoldSign Signature\nLocation: Moldova", FontFamily = new FontFamily("Times New Roman"), FontSize = 13, Foreground = ink });
-        artwork.Children.Add(new Border { BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(.5), Padding = new Thickness(5, 1, 5, 1), HorizontalAlignment = HorizontalAlignment.Left,
-            Child = new TextBlock { Text = "MOLDOVA EUROPEANĂ", FontFamily = new FontFamily("Times New Roman"), FontSize = 13, Foreground = ink } });
-        artwork.Children.Add(new TextBlock { Text = "Signed with eSemnBun", FontFamily = new FontFamily("Times New Roman"), FontSize = 7, Foreground = ink });
+        var lines = (placement.Language ?? PdfStampText.CurrentLanguage).Lines(AppState.Current.Certificate?.CommonName ?? "", DateTimeOffset.Now);
+        TextBlock StampLine(int index, double maximumWidth)
+        {
+            var line = new TextBlock { Text = lines[index], FontFamily = new FontFamily("Times New Roman"), FontSize = index == 5 ? 7 : 13, Foreground = ink };
+            line.Measure(new Windows.Foundation.Size(double.PositiveInfinity, double.PositiveInfinity));
+            if (line.DesiredSize.Width > maximumWidth) line.FontSize *= maximumWidth / line.DesiredSize.Width;
+            return line;
+        }
+        for (var line = 0; line < 4; line++) artwork.Children.Add(StampLine(line, 228));
+        artwork.Children.Add(new Border { BorderBrush = new SolidColorBrush(Colors.Gray), BorderThickness = new Thickness(.5), Padding = new Thickness(5, 1, 5, 1), Width = 175, HorizontalAlignment = HorizontalAlignment.Left,
+            Child = StampLine(4, 164) });
+        artwork.Children.Add(StampLine(5, 228));
         artwork.Width = 240;
         var stamp = new Border { BorderBrush = (Brush)Application.Current.Resources["AccentFillColorDefaultBrush"], BorderThickness = new Thickness(1),
             Child = new Viewbox { Child = artwork, Stretch = Stretch.Fill } };

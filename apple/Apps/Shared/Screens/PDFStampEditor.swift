@@ -101,6 +101,8 @@ struct PDFStampEditor: View {
         .onDisappear { if !answered { onCancel?() } }
         .task {
             placement = initial ?? PDFStampPlacement()
+            let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"
+            placement.language = PDFStampLanguage(localeIdentifier: preference == "system" ? (Locale.preferredLanguages.first ?? "ro") : preference)
             visiblePage = placement.page
             enabled = true
             let scoped = url.startAccessingSecurityScopedResource()
@@ -209,7 +211,7 @@ struct PDFStampEditor: View {
         GeometryReader { geometry in
             let scale = geometry.size.width / 240
             let vertical = geometry.size.height / 96
-            let lines = ["Digitally signed by \(holder)", "Date: \(Self.stampDate.string(from: Date()))", "Reason: MoldSign Signature", "Location: Moldova", "MOLDOVA EUROPEANĂ", "Signed with eSemnBun"]
+            let lines = placement.language.lines(holder: holder, date: Date())
             ZStack(alignment: .topLeading) {
                 Rectangle().stroke(.gray.opacity(0.65), lineWidth: 0.5 * scale)
                     .frame(width: 174 * scale, height: 21 * vertical)
@@ -217,20 +219,13 @@ struct PDFStampEditor: View {
                 ForEach(0..<6, id: \.self) { index in
                     Text(verbatim: lines[index])
                         .font(.custom("TimesNewRomanPSMT", size: (index == 5 ? 7 : 13) * scale))
-                        .foregroundStyle(.black).lineLimit(1).minimumScaleFactor(0.5)
-                        .frame(width: (index == 4 ? 170 : 240) * scale, alignment: .leading)
+                        .foregroundStyle(.black).lineLimit(1).minimumScaleFactor(0.01)
+                        .frame(width: (index == 4 ? 164 : 228) * scale, alignment: .leading)
                         .offset(x: (index == 4 ? 5 : 0) * scale, y: [2, 17, 32, 47, 68, 87][index] * vertical)
                 }
             }
         }.accessibilityHidden(true)
     }
-
-    private static let stampDate: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "yyyy.MM.dd HH:mm:ss z"
-        return formatter
-    }()
 
     private func preview(_ page: PDFPage, pageIndex: Int? = nil) -> some View {
         let box = page.bounds(for: .cropBox)

@@ -5,9 +5,31 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+/** Closed, trusted wording shared by the signed PDF and its preview. Unsupported locales use Romanian. */
+enum class PdfStampLanguage {
+    RO, EN, RU;
+
+    fun lines(holder: String, date: ZonedDateTime): List<String> {
+        val timestamp = date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss z", Locale.ROOT))
+        return when (this) {
+            RO -> listOf("Semnat digital de $holder", "Data: $timestamp", "Motiv: MoldSign Signature", "Locație: Moldova", "MOLDOVA EUROPEANĂ", "Semnat cu eSemnBun")
+            EN -> listOf("Digitally signed by $holder", "Date: $timestamp", "Reason: MoldSign Signature", "Location: Moldova", "EUROPEAN MOLDOVA", "Signed with eSemnBun")
+            RU -> listOf("Подписано электронной подписью: $holder", "Дата: $timestamp", "Причина: MoldSign Signature", "Место: Молдова", "ЕВРОПЕЙСКАЯ МОЛДОВА", "Подписано с eSemnBun")
+        }
+    }
+
+    companion object {
+        fun fromLocale(locale: Locale): PdfStampLanguage = when (locale.language) {
+            "en" -> EN
+            "ru" -> RU
+            else -> RO
+        }
+    }
+}
+
 /** Fractions of the displayed CropBox from top-left; page is zero-based. Null means invisible. */
 data class PdfStampPlacement(val page: Int = 0, val allPages: Boolean = false, val x: Double = .06,
-    val y: Double = .72, val width: Double = .40, val height: Double = .113, val documentSHA256: String? = null) {
+    val y: Double = .72, val width: Double = .40, val height: Double = .113, val documentSHA256: String? = null, val language: PdfStampLanguage = PdfStampLanguage.fromLocale(Locale.getDefault())) {
     fun resized(corner: Int, dx: Double, dy: Double): PdfStampPlacement {
         if (corner !in 0..3 || !dx.isFinite() || !dy.isFinite() || width <= 0 || height <= 0) return this
         val right = corner % 2 == 1; val bottom = corner >= 2; val ratio = height / width
@@ -129,12 +151,12 @@ internal object StampPdf {
         val selected=listOf(primary)+(if(placement.allPages) pages.filter { it.number != primary.number } else emptyList())
         fun resource(file: String)=StampPdf::class.java.getResourceAsStream("/md/moldsign/core/pdfstamp/$file")?.use { it.readBytes() } ?: error("Missing stamp font")
         val metrics=resource("metrics.txt").toString(Charsets.UTF_8).lineSequence().filter { it.isNotBlank() }.associate { line -> val v=line.split(' ').map(String::toInt); v[0] to (v[1] to v[2]) }
-        val lines=listOf("Digitally signed by $holder", "Date: ${date.format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss z",Locale.ROOT))}","Reason: MoldSign Signature","Location: Moldova","MOLDOVA EUROPEANĂ","Signed with eSemnBun")
+        val lines=placement.language.lines(holder, date)
         val used=sortedMapOf<Int,Pair<Int,Int>>(); val content=StringBuilder("q 0.65 G 0.5 w 0.5 10 174 21 re S 0 g\n")
         lines.forEachIndexed { index,line ->
             var width=0; val hex=StringBuilder()
             line.codePoints().forEach { scalar -> val (gid,advance)=metrics[scalar] ?: throw CardError.Format("The signature font cannot display a character in the signer name"); used[gid]=scalar to advance; width+=advance; hex.append(String.format(Locale.ROOT,"%04X",gid)) }
-            val size=minOf(if(index==5) 7.0 else 13.0,228000.0/maxOf(width,1))
+            val size=minOf(if(index==5) 7.0 else 13.0,(if(index==4) 164000.0 else 228000.0)/maxOf(width,1))
             content.append("BT /F ${num(size)} Tf 1 0 0 1 ${if(index==4) 5 else 0} ${listOf(82,67,52,37,16,2)[index]} Tm <$hex> Tj ET\n")
         }
         content.append("Q")

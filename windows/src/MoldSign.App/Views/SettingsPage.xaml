@@ -100,6 +100,10 @@
                 x:Uid="SettingsAdvanced"
                 Style="{StaticResource MsSectionHeaderTextStyle}"
                 Text="AVANSAT" />
+            <ToggleSwitch x:Name="McpApprovalToggle" Toggled="OnMcpApprovalToggled" />
+            <TextBlock x:Name="McpApprovalDescription" TextWrapping="Wrap" />
+            <TextBlock x:Name="McpApprovalDirectory" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+            <TextBlock x:Name="McpApprovalStatus" TextWrapping="Wrap" />
             <!-- TODO(WIN-04): diagnostics export (no PIN, no session keys: SEC-04) and reset. -->
             </StackPanel>
             <StackPanel x:Name="AboutContent" MaxWidth="720" Padding="{StaticResource PagePadding}"

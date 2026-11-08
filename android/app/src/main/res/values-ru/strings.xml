@@ -348,4 +348,10 @@ eSemnBun</string>
   <string name="cert_label_authority">Центр сертификации</string>
   <string name="cert_label_certificate_policy">Политика сертификата</string>
   <string name="cert_label_extension">Расширение</string>
+  <string name="settings_appearance_language">Оформление и язык</string>
+  <string name="settings_language">Язык приложения</string>
+  <string name="settings_theme">Тема</string>
+  <string name="settings_system">Системная</string>
+  <string name="settings_light">Светлая</string>
+  <string name="settings_dark">Тёмная</string>
 </resources>

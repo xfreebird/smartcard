@@ -1,8 +1,35 @@
 import Foundation
 
+/// Closed, trusted stamp wording shared by the PDF output and native previews.
+/// Unsupported locales use Romanian, matching the application's default language.
+public enum PDFStampLanguage: String, Sendable, CaseIterable {
+    case ro, en, ru
+
+    public init(localeIdentifier: String) {
+        self = Self(rawValue: String(localeIdentifier.lowercased().prefix(2))) ?? .ro
+    }
+    public static var current: Self { Self(localeIdentifier: Locale.current.identifier) }
+
+    public func lines(holder: String, date: Date) -> [String] {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy.MM.dd HH:mm:ss z"
+        let timestamp = formatter.string(from: date)
+        switch self {
+        case .ro:
+            return ["Semnat digital de \(holder)", "Data: \(timestamp)", "Motiv: MoldSign Signature", "Locație: Moldova", "MOLDOVA EUROPEANĂ", "Semnat cu eSemnBun"]
+        case .en:
+            return ["Digitally signed by \(holder)", "Date: \(timestamp)", "Reason: MoldSign Signature", "Location: Moldova", "EUROPEAN MOLDOVA", "Signed with eSemnBun"]
+        case .ru:
+            return ["Подписано электронной подписью: \(holder)", "Дата: \(timestamp)", "Причина: MoldSign Signature", "Место: Молдова", "ЕВРОПЕЙСКАЯ МОЛДОВА", "Подписано с eSemnBun"]
+        }
+    }
+}
+
 /// Coordinates are fractions of the displayed CropBox, measured from its top-left.
 /// The selection belongs to one input document; page is zero-based. Nil means invisible signing.
 public struct PDFStampPlacement: Sendable, Equatable {
+    public var language: PDFStampLanguage
     public var documentSHA256: String?
     public var page: Int
     public var allPages: Bool
@@ -11,7 +38,8 @@ public struct PDFStampPlacement: Sendable, Equatable {
     public var width: Double
     public var height: Double
     public init(page: Int = 0, allPages: Bool = false, x: Double = 0.06, y: Double = 0.72,
-                width: Double = 0.40, height: Double = 0.113) {
+                width: Double = 0.40, height: Double = 0.113, language: PDFStampLanguage = .current) {
+        self.language = language
         self.page = page; self.allPages = allPages; self.x = x; self.y = y
         self.width = width; self.height = height
     }
@@ -207,8 +235,7 @@ enum StampPDF {
         let metrics = String(decoding: try resource("metrics", "txt"), as: UTF8.self).split(separator: "\n").reduce(into: [UInt32: (Int, Int)]()) { m, row in
             let v = row.split(separator: " ").compactMap { Int($0) }; if v.count == 3 { m[UInt32(v[0])] = (v[1], v[2]) }
         }
-        let formatter = DateFormatter(); formatter.locale = Locale(identifier: "en_US_POSIX"); formatter.dateFormat = "yyyy.MM.dd HH:mm:ss z"
-        let lines = ["Digitally signed by \(holder)", "Date: \(formatter.string(from: date))", "Reason: MoldSign Signature", "Location: Moldova", "MOLDOVA EUROPEANĂ", "Signed with eSemnBun"]
+        let lines = placement.language.lines(holder: holder, date: date)
         var used: [Int: (UInt32, Int)] = [:]; var content = "q 0.65 G 0.5 w 0.5 10 174 21 re S 0 g\n"
         for (index, line) in lines.enumerated() {
             var hex = ""; var width = 0
@@ -216,7 +243,7 @@ enum StampPDF {
                 guard let (gid, advance) = metrics[scalar.value] else { throw CardError.signFailed("The signature font cannot display a character in the signer name") }
                 used[gid] = (scalar.value, advance); hex += String(format: "%04X", gid); width += advance
             }
-            let size = min(index == 5 ? 7.0 : 13.0, 228000.0 / Double(max(width, 1)))
+            let size = min(index == 5 ? 7.0 : 13.0, (index == 4 ? 164000.0 : 228000.0) / Double(max(width, 1)))
             content += "BT /F \(num(size)) Tf 1 0 0 1 \(index == 4 ? 5 : 0) \([82, 67, 52, 37, 16, 2][index]) Tm <\(hex)> Tj ET\n"
         }
         content += "Q"

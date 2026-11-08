@@ -12740,6 +12740,159 @@
         "en": "Search documents",
         "ru": "Поиск документов"
       }
+    },
+    {
+      "platform": "android",
+      "key": "settings_appearance_language",
+      "translations": {
+        "ro": "Aspect și limbă",
+        "en": "Appearance and language",
+        "ru": "Оформление и язык"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_language",
+      "translations": {
+        "ro": "Limba aplicației",
+        "en": "App language",
+        "ru": "Язык приложения"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_theme",
+      "translations": {
+        "ro": "Temă",
+        "en": "Theme",
+        "ru": "Тема"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_system",
+      "translations": {
+        "ro": "Sistem",
+        "en": "System",
+        "ru": "Системная"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_light",
+      "translations": {
+        "ro": "Luminoasă",
+        "en": "Light",
+        "ru": "Светлая"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_dark",
+      "translations": {
+        "ro": "Întunecată",
+        "en": "Dark",
+        "ru": "Тёмная"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_title",
+      "translations": {
+        "ro": "Automatizare locală",
+        "en": "Local automation",
+        "ru": "Локальная автоматизация"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_enable",
+      "translations": {
+        "ro": "Permite cereri de semnare de la clienți locali",
+        "en": "Allow signing requests from local clients",
+        "ru": "Разрешить запросы на подписание от локальных клиентов"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_hint",
+      "translations": {
+        "ro": "Fiecare cerere necesită verificarea PDF-ului și aprobarea în eSemnBun. PIN-ul rămâne în aplicație. Dezactivează pentru a respinge cererile în așteptare.",
+        "en": "Every request requires a PDF review and approval in eSemnBun. PINs stay in the app. Turn this off to reject pending requests.",
+        "ru": "Каждый запрос требует проверки PDF и одобрения в eSemnBun. PIN остаётся в приложении. Отключите, чтобы отклонить ожидающие запросы."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_approve_title",
+      "translations": {
+        "ro": "Aprobă cererea de semnare",
+        "en": "Approve signing request",
+        "ru": "Одобрить запрос на подписание"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_approve",
+      "translations": {
+        "ro": "Aprobă semnarea",
+        "en": "Approve signing",
+        "ru": "Одобрить подписание"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_reject",
+      "translations": {
+        "ro": "Respinge",
+        "en": "Reject",
+        "ru": "Отклонить"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_approve_details",
+      "translations": {
+        "ro": "Un client local de automatizare solicită o semnătură PAdES-T. Verifică PDF-ul înainte de aprobare.\n\nDocument: %@\nIdentitate: %@\nSHA-256 document: %@\nSHA-256 certificat: %@\n\nPDF-ul semnat va fi returnat clientului solicitant.",
+        "en": "A local automation client requests a PAdES-T signature. Review the PDF before approving.\n\nDocument: %@\nIdentity: %@\nDocument SHA-256: %@\nCertificate SHA-256: %@\n\nThe signed PDF will be returned to the requesting client.",
+        "ru": "Локальный клиент автоматизации запрашивает подпись PAdES-T. Проверьте PDF перед одобрением.\n\nДокумент: %@\nЛичность: %@\nSHA-256 документа: %@\nSHA-256 сертификата: %@\n\nПодписанный PDF будет возвращён запрашивающему клиенту."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "MCP_Enabled",
+      "translations": {
+        "ro": "Permite cereri locale de semnare (MCP)",
+        "en": "Allow local signing requests (MCP)",
+        "ru": "Разрешить локальные запросы подписи (MCP)"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "MCP_Description",
+      "translations": {
+        "ro": "Fiecare cerere necesită aprobarea în eSemnBun. Configurați clientul MCP cu acest dosar privat.",
+        "en": "Each request needs approval in eSemnBun. Configure your MCP client with this private directory.",
+        "ru": "Каждый запрос требует подтверждения в eSemnBun. Укажите эту частную папку в клиенте MCP."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "MCP_Unavailable",
+      "translations": {
+        "ro": "Cererile locale de semnare nu au putut fi activate.",
+        "en": "Local signing requests could not be enabled.",
+        "ru": "Не удалось включить локальные запросы подписи."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "automation_unavailable",
+      "translations": {
+        "ro": "Cererile locale de semnare nu au putut fi activate.",
+        "en": "Local signing requests could not be enabled.",
+        "ru": "Не удалось включить локальные запросы подписи."
+      }
     }
   ],
   "storeMetadata": {

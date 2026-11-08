@@ -58,6 +58,7 @@ final class AppController {
     var askStamp: ((SignItem, String, String?, @escaping (PDFStampDecision) -> Void) -> (() -> Void))?
     private var cancelStamp: (() -> Void)?
     var askConsent: ((ConsentRequest, @escaping (_ approved: Bool, _ trust: Bool) -> Void) -> Void)?
+    var askAgentApproval: ((_ heading: String, _ body: String, _ action: String, @escaping (Bool) -> Void) -> Void)?
     var askConfirm: ((_ heading: String, _ body: String, _ action: String, @escaping (Bool) -> Void) -> Void)?
     var toast: ((String) -> Void)?
     /// Toast with one button, e.g. "Document semnat" + "Arată".
@@ -98,6 +99,7 @@ final class AppController {
     private var nextObserver = 0
     private var renderScheduled = false
 
+    private(set) lazy var agentBroker = AgentApprovalBroker(controller: self)
     private let cardQueue = DispatchQueue(label: "md.moldsign.card")
     private let vaultQueue = DispatchQueue(label: "md.moldsign.vault")
     private let verifyQueue = DispatchQueue(label: "md.moldsign.verify")
@@ -157,6 +159,8 @@ final class AppController {
         }
         #endif
         readers.start()
+        if settings.agentApprovalEnabled { setAgentApprovalEnabled(true) }
+        agentBroker.start()
         let vault = self.vault
         vaultQueue.async { [weak self] in
             let problem = vault.availabilityProblem()
@@ -233,6 +237,7 @@ final class AppController {
     #endif
 
     func shutdown() {
+        agentBroker.stop()
         readers.stop()
         stopBridge()
     }
@@ -275,7 +280,7 @@ final class AppController {
         changed()
     }
 
-    var canSign: Bool { status.canSign && !signItems.isEmpty && !isSigning }
+    var canSign: Bool { status.canSign && !signItems.isEmpty && !isSigning && !bridgeSigning }
 
     /// Signs every queued file with one PIN entry. Wrong PIN: stop, drop the stored PIN, never retry (MAC-05).
     func signAll() { signBatch(signItems) }
@@ -504,6 +509,72 @@ final class AppController {
 
     // MARK: - Bridge (LNX-11)
 
+    func setAgentApprovalEnabled(_ enabled: Bool) {
+        var accepted = enabled && !isDemo
+        if accepted {
+            do { try agentBroker.prepare() }
+            catch { accepted = false; toast?(L10n.text(.automation_unavailable)) }
+        }
+        preferences.update { $0.agentApprovalEnabled = accepted }
+        changed()
+    }
+
+    /// A broker request never enters the normal file queue or borrows browser consent.
+    /// The exact bytes and certificate are frozen before a fresh preview and approval.
+    func cancelAgentPreview() { cancelStamp?(); cancelStamp = nil }
+
+    func signAgentPDF(_ pdf: Data, name: String, stagingURL: URL,
+                      authorized: @escaping () -> Bool, willSign: @escaping () -> Void,
+                      completion: @escaping (Result<Data, Error>) -> Void) {
+        guard !isDemo, !isSigning, !bridgeSigning, let askStamp, let askAgentApproval, authorized() else {
+            completion(.failure(AgentSigningError.unavailable)); return
+        }
+        guard let card = selectedCard, let cert = card.certificate else {
+            completion(.failure(AgentSigningError.noCard)); return
+        }
+        isSigning = true; changed(); presentWindow?()
+        func finish(_ result: Result<Data, Error>) {
+            self.isSigning = false; self.readers.refreshSnapshot(); self.changed(); completion(result)
+        }
+        let hash = pdf.sha256().hexString, certificateHash = cert.der.sha256().hexString
+        cancelStamp = askStamp(SignItem(url: stagingURL), cert.holder, nil) { [weak self] decision in
+            guard let self else { return }
+            self.cancelStamp = nil
+            guard case .proceed(let placement) = decision, authorized() else {
+                finish(.failure(AgentSigningError.cancelled)); return
+            }
+            askAgentApproval(L10n.text(.automation_approve_title),
+                localized(.automation_approve_details, name, cert.holder, hash, certificateHash),
+                L10n.text(.automation_approve)) { approved in
+                guard approved, authorized() else { finish(.failure(AgentSigningError.cancelled)); return }
+                self.obtainPIN(certID: cert.sha1Hex, holder: cert.holder, purpose: name,
+                               confirmStored: nil, allowRemember: false) { entry in
+                    guard let entry, authorized() else { finish(.failure(AgentSigningError.cancelled)); return }
+                    willSign()
+                    let service = self.service
+                    self.cardQueue.async {
+                        let result = Result { try service.signPDF(pdf, pin: entry.pin, reader: card.reader,
+                            expectedCertificateSHA1: cert.sha1Hex, appearance: placement,
+                            expectedCertificateSHA256: certificateHash) }
+                        onMain {
+                            if case .failure(let error) = result {
+                                switch error {
+                                case CardError.wrongPIN, CardError.pinBlocked:
+                                    self.vault.delete(certID: cert.sha1Hex)
+                                    self.setStoredPIN(false, certID: cert.sha1Hex)
+                                default: break
+                                }
+                            }
+                            finish(result)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    enum AgentSigningError: Error { case unavailable, cancelled, noCard }
+
     func setBrowserStampsEnabled(_ on: Bool) {
         preferences.update { $0.browserStampsEnabled = on }; changed()
     }
@@ -572,7 +643,7 @@ final class AppController {
 
     /// The window may close into the background while card monitoring or the bridge is enabled.
     var shouldRunInBackground: Bool {
-        settings.runInBackground && (settings.launchAtLogin || settings.showOnCardInsertion || (settings.bridgeEnabled && bridgeState == .running))
+        settings.runInBackground && (settings.agentApprovalEnabled || settings.launchAtLogin || settings.showOnCardInsertion || (settings.bridgeEnabled && bridgeState == .running))
     }
 
     func setLegacyDesktopClientEnabled(_ enabled: Bool) {
@@ -663,6 +734,7 @@ final class AppController {
 
     /// Consent (unless the origin is trusted for 10 minutes), then the PIN unless the page sent one.
     private func authorize(_ request: BridgeRequest, completion: @escaping (BridgeDecision) -> Void) {
+        guard !isSigning else { completion(.deny); return }
         let origin = request.origin ?? "local"
         // the page picked a certificate from /certificates (several cards may be connected): consent + PIN for THAT card
         let target: CardSlot? = request.certificateSHA1.map { sha in cards.first { $0.certificate?.sha1Hex == sha } }

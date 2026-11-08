@@ -85,6 +85,10 @@ final class MoldSignApp {
         controller.askConsent = { consent, done in
             presentConsentDialog(parent: window.window.widget, consent: consent, completion: done)
         }
+        controller.askAgentApproval = { heading, body, action, done in
+            presentConfirmDialog(parent: window.window.widget, heading: heading, body: body, action: action,
+                                 defaultApprove: false, completion: done)
+        }
         controller.askConfirm = { heading, body, action, done in
             presentConfirmDialog(parent: window.window.widget, heading: heading, body: body, action: action, completion: done)
         }

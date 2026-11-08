@@ -77,7 +77,7 @@ internal sealed class McpTrustedRoot : IDisposable
         }
     }
 
-    public byte[] Read(string relative, int limit)
+    public byte[] Read(string relative, int limit, bool privateFile = false)
     {
         if (relative.Length is 0 or > 1024 || relative.Contains('\\') || relative.Contains(':') || relative.Contains('\0'))
             throw new McpException("PATH_DENIED");
@@ -112,6 +112,20 @@ internal sealed class McpTrustedRoot : IDisposable
                 file = handles[^1];
             }
             using var stream = new FileStream(file, FileAccess.Read);
+            if (privateFile)
+            {
+                if (OperatingSystem.IsWindows())
+                {
+                    var security = stream.GetAccessControl();
+                    var owner = WindowsIdentity.GetCurrent().User!;
+                    if (security.GetOwner(typeof(SecurityIdentifier))?.Equals(owner) != true) throw new McpException("PATH_DENIED");
+                    var permitted = new HashSet<string>(StringComparer.Ordinal) { owner.Value, "S-1-5-18", "S-1-5-32-544" };
+                    foreach (FileSystemAccessRule rule in security.GetAccessRules(true, true, typeof(SecurityIdentifier)))
+                        if (rule.AccessControlType == AccessControlType.Allow && !permitted.Contains(rule.IdentityReference.Value)) throw new McpException("PATH_DENIED");
+                }
+                else if ((File.GetUnixFileMode(file) & (UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute |
+                    UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute)) != 0) throw new McpException("PATH_DENIED");
+            }
             if (!stream.CanSeek) throw new McpException("PATH_DENIED");
             if (stream.Length > limit) throw new McpException("LIMIT_EXCEEDED");
             using var bytes = new MemoryStream();
@@ -156,6 +170,48 @@ internal sealed class McpTrustedRoot : IDisposable
         }
         catch (McpException) { throw; }
         catch { throw new McpException("PATH_DENIED"); }
+    }
+
+    // OS-owned lease is released on process death; no persistent lock prevents broker restart.
+    public FileStream AcquireLease(string name)
+    {
+        ValidatePart(name);
+        if (name.Contains('/') || !OperatingSystem.IsWindows()) throw new McpException("PATH_DENIED");
+        var handle = CreateFileW(Path.Combine(path, name), 0xC0000000, 0, IntPtr.Zero, 4, 0x00200000, IntPtr.Zero);
+        if (handle.IsInvalid) { handle.Dispose(); throw new McpException("PATH_DENIED"); }
+        if (!GetFileInformationByHandle(handle, out var info) || (info.Attributes & (0x400 | 0x10)) != 0)
+        { handle.Dispose(); throw new McpException("PATH_DENIED"); }
+        return new FileStream(handle, FileAccess.ReadWrite);
+    }
+
+    // Publish only fully flushed files. Temporary names are never considered requests.
+    public void Publish(string name, byte[] bytes, bool replace = false)
+    {
+        ValidatePart(name);
+        if (name.Contains('/')) throw new McpException("PATH_DENIED");
+        var temporary = Guid.NewGuid().ToString("D") + ".tmp";
+        WriteExclusive(temporary, bytes);
+        try
+        {
+            if (OperatingSystem.IsWindows()) File.Move(Path.Combine(path, temporary), Path.Combine(path, name), replace);
+            else
+            {
+                var fd = unixRoot!.DangerousGetHandle().ToInt32();
+                if (replace)
+                {
+                    if (renameat(fd, temporary, fd, name) != 0) throw new McpException("PATH_DENIED");
+                }
+                else
+                {
+                    if (linkat(fd, temporary, fd, name, 0) != 0) throw new McpException("PATH_DENIED");
+                    if (unlinkat(fd, temporary, 0) != 0) throw new McpException("PATH_DENIED");
+                }
+                if (fsync(fd) != 0) throw new McpException("PATH_DENIED");
+            }
+        }
+        catch (McpException) { throw; }
+        catch { throw new McpException("PATH_DENIED"); }
+        finally { try { Remove(temporary); } catch { } }
     }
 
     public void Remove(string name)
@@ -214,6 +270,8 @@ internal sealed class McpTrustedRoot : IDisposable
     [DllImport("libc", SetLastError = true)] private static extern int openat(int fd, string path, int flags);
     [DllImport("libc", EntryPoint = "openat", SetLastError = true)] private static extern int openatCreate(int fd, string path, int flags, uint mode);
     [DllImport("libc", SetLastError = true)] private static extern int unlinkat(int fd, string path, int flags);
+    [DllImport("libc", SetLastError = true)] private static extern int linkat(int from, string source, int to, string destination, int flags);
+    [DllImport("libc", SetLastError = true)] private static extern int renameat(int from, string source, int to, string destination);
     [DllImport("libc", SetLastError = true)] private static extern int fsync(int fd);
     [DllImport("libc")] private static extern int close(int fd);
 }

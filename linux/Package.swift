@@ -46,6 +46,7 @@ let package = Package(
                 "CPoppler",
                 "CLibSecret",
                 .product(name: "MoldSignKit", package: "MoldSignKit"),
+                .product(name: "MoldSignMCP", package: "MoldSignKit"),
             ],
             path: "Sources/MoldSignGnome",
             swiftSettings: [

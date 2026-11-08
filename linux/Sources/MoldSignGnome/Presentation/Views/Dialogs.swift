@@ -135,11 +135,11 @@ func presentConsentDialog(parent: Widget, consent: ConsentRequest, completion: @
 
 // MARK: - Confirmation (stored PIN: the consent step before a local signature)
 
-func presentConfirmDialog(parent: Widget, heading: String, body: String, action: String, completion: @escaping (Bool) -> Void) {
+func presentConfirmDialog(parent: Widget, heading: String, body: String, action: String, defaultApprove: Bool = true, completion: @escaping (Bool) -> Void) {
     let dialog = alert(heading: heading, body: body)
     addResponse(dialog, "cancel", L10n.text(.ui_cancel))
     addResponse(dialog, "ok", action, ADW_RESPONSE_SUGGESTED)
-    adw_alert_dialog_set_default_response(dialog.cast(), "ok")
+    adw_alert_dialog_set_default_response(dialog.cast(), defaultApprove ? "ok" : "cancel")
     adw_alert_dialog_set_close_response(dialog.cast(), "cancel")
     onResponse(dialog) { completion($0 == "ok") }
     adw_dialog_present(dialog, parent)
@@ -250,6 +250,14 @@ func presentPreferences(parent: Widget, controller: AppController) {
     adw_action_row_add_suffix(identityRow.cast(), importIdentity)
     groupAdd(bridge, identityRow)
 
+    let automation = preferencesGroup(title: L10n.text(.automation_title),
+                                      description: L10n.text(.automation_hint))
+    let agents = adw_switch_row_new()!
+    adw_preferences_row_set_title(agents.cast(), L10n.text(.automation_enable))
+    adw_action_row_set_subtitle(agents.cast(), AgentApprovalBroker.directory.path)
+    groupAdd(automation, agents)
+    adw_preferences_page_add(page.cast(), automation.cast())
+
     let background = preferencesGroup(title: L10n.text(.ui_background))
     let backgroundRow = adw_switch_row_new()!
     adw_preferences_row_set_title(backgroundRow.cast(), L10n.text(.ui_run_in_the_background))
@@ -325,6 +333,8 @@ func presentPreferences(parent: Widget, controller: AppController) {
     var updating = false
     let token = controller.observe {
         updating = true
+        adw_switch_row_set_active(agents.opaque, controller.settings.agentApprovalEnabled ? 1 : 0)
+        gtk_widget_set_sensitive(agents, controller.isDemo ? 0 : 1)
         adw_switch_row_set_active(stamps.opaque, controller.settings.browserStampsEnabled ? 1 : 0)
         adw_switch_row_set_active(bridgeRow.opaque, controller.settings.bridgeEnabled ? 1 : 0)
         adw_switch_row_set_active(legacy.opaque, controller.settings.legacyDesktopClientEnabled ? 1 : 0)
@@ -334,6 +344,10 @@ func presentPreferences(parent: Widget, controller: AppController) {
         adw_switch_row_set_active(login.opaque, controller.settings.launchAtLogin ? 1 : 0)
         gtk_widget_set_sensitive(login, controller.configuringLoginStartup || controller.isDemo ? 0 : 1)
         updating = false
+    }
+    onSignal(agents, "notify::active") { _ in
+        guard !updating else { return }
+        controller.setAgentApprovalEnabled(adw_switch_row_get_active(agents.opaque) != 0)
     }
     onSignal(stamps, "notify::active") { _ in
         guard !updating else { return }

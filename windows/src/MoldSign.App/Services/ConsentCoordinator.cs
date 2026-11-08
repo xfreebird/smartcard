@@ -22,10 +22,12 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, IPinVault pins, AppSe
     /// <summary>Remaining attempts to show in the next dialog after a wrong PIN.</summary>
     public int? LastRemainingAttempts { get; set; }
 
-    public ConsentResult Request(ConsentRequest request)
+    public ConsentResult Request(ConsentRequest request) => Request(request, CancellationToken.None);
+
+    public ConsentResult Request(ConsentRequest request, CancellationToken cancellationToken)
     {
         if (_shutdown.IsCancellationRequested) return ConsentResult.Cancelled;
-        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_shutdown.Token);
+        using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_shutdown.Token, cancellationToken);
         if (request.Requester != "Tu") timeout.CancelAfter(TimeSpan.FromMinutes(2));
         LastCertificateSha1 = request.Certificate.Sha1;
         var answer = new TaskCompletionSource<ConsentResult>(TaskCreationOptions.RunContinuationsAsynchronously);

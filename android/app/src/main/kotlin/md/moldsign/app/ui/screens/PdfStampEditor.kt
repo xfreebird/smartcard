@@ -43,6 +43,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import md.moldsign.app.R
 import md.moldsign.app.application.SignItem
+import md.moldsign.core.PdfStampLanguage
 import md.moldsign.core.PdfStampPlacement
 import java.io.File
 import kotlin.math.roundToInt
@@ -51,7 +52,7 @@ import kotlin.math.roundToInt
 @Composable
 fun PdfStampEditor(item: SignItem, holder: String, onDismiss: () -> Unit, onSave: (PdfStampPlacement?) -> Unit, requester: String? = null, onBatch: ((PdfStampPlacement?) -> Unit)? = null) {
     val context = LocalContext.current
-    var placement by remember(item.doc.uri) { mutableStateOf(item.stamp ?: PdfStampPlacement()) }
+    var placement by remember(item.doc.uri) { mutableStateOf((item.stamp ?: PdfStampPlacement()).copy(language = PdfStampLanguage.fromLocale(context.resources.configuration.locales[0]))) }
     var enabled by remember(item.doc.uri) { mutableStateOf(true) }
     var applyToQueue by remember { mutableStateOf(false) }
     var file by remember { mutableStateOf<File?>(null) }
@@ -142,11 +143,12 @@ fun PdfStampEditor(item: SignItem, holder: String, onDismiss: () -> Unit, onSave
                                     canvas.drawRect(.5f,65f,174.5f,86f,paint)
                                     paint.color = android.graphics.Color.BLACK; paint.style = android.graphics.Paint.Style.FILL
                                     paint.typeface = android.graphics.Typeface.create("serif", android.graphics.Typeface.NORMAL)
-                                    val lines = listOf("Digitally signed by $holder", "Date: ${java.time.ZonedDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss z"))}", "Reason: MoldSign Signature", "Location: Moldova", "MOLDOVA EUROPEANĂ", "Signed with eSemnBun")
+                                    val lines = placement.language.lines(holder, java.time.ZonedDateTime.now())
                                     lines.forEachIndexed { index, line ->
                                         paint.textSize = if (index == 5) 7f else 13f
                                         val measured = paint.measureText(line)
-                                        if (measured > 228) paint.textSize *= 228/measured
+                                        val maximumWidth = if (index == 4) 164f else 228f
+                                        if (measured > maximumWidth) paint.textSize *= maximumWidth/measured
                                         canvas.drawText(line, if (index == 4) 5f else 0f, listOf(14f,29f,44f,59f,80f,94f)[index], paint)
                                     }
                                     canvas.restore()

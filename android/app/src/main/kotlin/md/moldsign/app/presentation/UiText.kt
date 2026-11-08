@@ -4,6 +4,8 @@ import md.moldsign.app.R
 import md.moldsign.app.application.AppStatus
 
 import android.content.Context
+import androidx.core.content.ContextCompat
+import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import md.moldsign.core.CardError
@@ -12,25 +14,29 @@ import md.moldsign.core.SigningStep
 import md.moldsign.core.StatusLight
 import md.moldsign.core.WalletState
 
+/** Resolve background/service copy with the app language on Android 12 and earlier too. */
+fun Context.appString(@StringRes res: Int, vararg args: Any): String =
+    ContextCompat.getContextForLanguage(this).getString(res, *args)
+
 /**
  * Calm, actionable copy for the error taxonomy (docs/09 §3.3, docs/10 principle 5).
  * Raw status words never reach the UI text; they stay in logs / technical details.
  */
 fun errorText(context: Context, e: Throwable): String = when (e) {
-    is CardError.NoReader -> context.getString(R.string.error_no_reader)
-    is CardError.NoCard -> context.getString(R.string.error_no_card)
-    is CardError.WrongPin -> context.getString(R.string.error_wrong_pin, e.remaining)
-    is CardError.PinBlocked -> context.getString(R.string.error_pin_blocked)
-    is CardError.CardChanged -> context.getString(R.string.error_card_changed)
-    is CardError.CardStateStuck -> context.getString(R.string.error_card_stuck)
-    is CardError.SmOutOfSync -> context.getString(R.string.error_sm_out_of_sync)
-    is CardError.Network -> context.getString(R.string.error_network, e.service)
+    is CardError.NoReader -> context.appString(R.string.error_no_reader)
+    is CardError.NoCard -> context.appString(R.string.error_no_card)
+    is CardError.WrongPin -> context.appString(R.string.error_wrong_pin, e.remaining)
+    is CardError.PinBlocked -> context.appString(R.string.error_pin_blocked)
+    is CardError.CardChanged -> context.appString(R.string.error_card_changed)
+    is CardError.CardStateStuck -> context.appString(R.string.error_card_stuck)
+    is CardError.SmOutOfSync -> context.appString(R.string.error_sm_out_of_sync)
+    is CardError.Network -> context.appString(R.string.error_network, e.service)
     is CardError.Format -> "This document could not be signed. It may be damaged or use an unsupported format."
     is CardError.Cancelled -> ""
     is CardError.CardNotResponding, is CardError.UnexpectedStatus, is CardError.Protocol ->
-        context.getString(R.string.error_card_stuck)
-    is NotImplementedError -> context.getString(R.string.error_not_ported)
-    else -> context.getString(R.string.error_generic, e.message ?: e.javaClass.simpleName)
+        context.appString(R.string.error_card_stuck)
+    is NotImplementedError -> context.appString(R.string.error_not_ported)
+    else -> context.appString(R.string.error_generic, e.message ?: e.javaClass.simpleName)
 }
 
 @Composable
@@ -38,8 +44,8 @@ fun errorText(e: Throwable): String = errorText(LocalContext.current, e)
 
 fun messageText(context: Context, m: UiMessage): String = when (m) {
     is UiMessage.Error -> errorText(context, m.error)
-    is UiMessage.Text -> context.getString(m.res)
-    is UiMessage.Saved -> context.getString(m.res)
+    is UiMessage.Text -> context.appString(m.res)
+    is UiMessage.Saved -> context.appString(m.res)
     is UiMessage.Status -> statusLabel(context, m.status)
 }
 
@@ -56,22 +62,22 @@ fun statusLabel(context: Context, status: AppStatus): String {
             val holder = wallet.selectedCard?.certificate?.commonName.orEmpty()
             val ready = wallet.readyCards.size
             if (ready > 1) {
-                context.getString(R.string.light_ready_many, holder, context.resources.getQuantityString(R.plurals.cards_count, ready, ready))
+                context.appString(R.string.light_ready_many, holder, ContextCompat.getContextForLanguage(context).resources.getQuantityString(R.plurals.cards_count, ready, ready))
             } else {
-                context.getString(R.string.light_ready, holder)
+                context.appString(R.string.light_ready, holder)
             }
         }
-        StatusLight.Reader -> context.getString(
+        StatusLight.Reader -> context.appString(
             when {
                 wallet.waitingForPermission() -> R.string.light_permission
                 wallet.selectedCard?.isReading == true -> R.string.light_reading
                 else -> R.string.light_reader
             },
         )
-        StatusLight.Busy -> context.getString(R.string.light_busy)
+        StatusLight.Busy -> context.appString(R.string.light_busy)
         StatusLight.Error -> wallet.selectedCard?.problem?.let { errorText(context, it) }
-            ?: context.getString(R.string.light_reader_error)
-        StatusLight.Idle -> context.getString(R.string.light_idle)
+            ?: context.appString(R.string.light_reader_error)
+        StatusLight.Idle -> context.appString(R.string.light_idle)
     }
 }
 
@@ -82,15 +88,15 @@ fun statusLabel(context: Context, status: AppStatus): String {
 fun trayText(context: Context, wallet: WalletState): String {
     val tray = wallet.tray()
     return when {
-        tray.connected -> context.getString(R.string.tray_connected, tray.card?.certificate?.commonName ?: tray.card?.readerName.orEmpty())
+        tray.connected -> context.appString(R.string.tray_connected, tray.card?.certificate?.commonName ?: tray.card?.readerName.orEmpty())
         tray.problem != null -> errorText(context, tray.problem!!)
-        tray.readerError -> context.getString(R.string.light_reader_error)
-        else -> context.getString(R.string.tray_no_card)
+        tray.readerError -> context.appString(R.string.light_reader_error)
+        else -> context.appString(R.string.tray_no_card)
     }
 }
 
 /** Short chip text for the top app bar (the full [statusLabel] is its accessibility label). */
-fun statusChipText(context: Context, status: AppStatus): String = context.getString(
+fun statusChipText(context: Context, status: AppStatus): String = context.appString(
     when (status.light) {
         StatusLight.Ready -> R.string.chip_ready
         StatusLight.Reader -> when {
@@ -105,13 +111,13 @@ fun statusChipText(context: Context, status: AppStatus): String = context.getStr
 )
 
 fun stepText(context: Context, step: SigningStep): String = when (step) {
-    SigningStep.Idle, SigningStep.Connecting -> context.getString(R.string.step_connecting)
-    SigningStep.Authenticating -> context.getString(R.string.step_authenticating)
-    SigningStep.ReadingCertificate -> context.getString(R.string.step_reading_certificate)
-    SigningStep.VerifyingPin -> context.getString(R.string.step_verifying_pin)
-    SigningStep.Signing -> context.getString(R.string.step_signing)
-    SigningStep.Timestamping -> context.getString(R.string.step_timestamping)
-    SigningStep.Revocation -> context.getString(R.string.step_revocation)
-    SigningStep.Writing -> context.getString(R.string.step_writing)
-    SigningStep.Done -> context.getString(R.string.step_done)
+    SigningStep.Idle, SigningStep.Connecting -> context.appString(R.string.step_connecting)
+    SigningStep.Authenticating -> context.appString(R.string.step_authenticating)
+    SigningStep.ReadingCertificate -> context.appString(R.string.step_reading_certificate)
+    SigningStep.VerifyingPin -> context.appString(R.string.step_verifying_pin)
+    SigningStep.Signing -> context.appString(R.string.step_signing)
+    SigningStep.Timestamping -> context.appString(R.string.step_timestamping)
+    SigningStep.Revocation -> context.appString(R.string.step_revocation)
+    SigningStep.Writing -> context.appString(R.string.step_writing)
+    SigningStep.Done -> context.appString(R.string.step_done)
 }

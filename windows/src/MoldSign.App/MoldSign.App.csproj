@@ -82,6 +82,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="../MoldSign.Cli/McpTrustedRoot.cs" Link="Services/McpTrustedRoot.cs" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 

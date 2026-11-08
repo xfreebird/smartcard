@@ -14,6 +14,21 @@ class PdfStampTest {
     """.trimIndent()
     private fun create(placement: PdfStampPlacement) = StampPdf.appearance(pdf,catalog,12,10,13,"Signature1",placement,"Ștefan Țurcanu Иванов",ZonedDateTime.parse("2026-11-06T10:00:00Z"))
 
+    @Test fun localizedStampsRenderEveryLanguageAndPreserveItOnResize() {
+        assertEquals(PdfStampLanguage.RU, PdfStampLanguage.fromLocale(java.util.Locale.forLanguageTag("ru-RU")))
+        assertEquals(PdfStampLanguage.EN, PdfStampLanguage.fromLocale(java.util.Locale.US))
+        assertEquals(PdfStampLanguage.RO, PdfStampLanguage.fromLocale(java.util.Locale.FRANCE))
+        PdfStampLanguage.entries.forEach { language ->
+            val placement = PdfStampPlacement(language = language)
+            assertEquals(language, placement.resized(3, .1, 0.0).language)
+            val lines = language.lines("Ștefan Иванов", ZonedDateTime.parse("2026-11-06T10:00:00Z"))
+            assertEquals(6, lines.size)
+            assertTrue(lines[0].contains("Ștefan Иванов"))
+            assertTrue(lines[2].contains("MoldSign Signature"))
+            assertTrue(create(placement).chunks.joinToString("").contains("/ToUnicode"))
+        }
+    }
+
     @Test fun allPagesUsesOneWidgetAndLinksBackToIt() {
         val a=create(PdfStampPlacement(allPages=true,x=.1,y=.2,width=.4,height=.1))
         val update=a.chunks.joinToString("")

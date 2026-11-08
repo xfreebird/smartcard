@@ -122,8 +122,8 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
     val captureDialog = if (DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
     md.moldsign.app.ui.components.GovernmentDisclosure(forceVisible = captureDialog == "disclosure")
-    var settingsOpen by remember { mutableStateOf(false) }
-    var settingsTab by remember { mutableIntStateOf(0) }
+    var settingsOpen by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+    var settingsTab by androidx.compose.runtime.saveable.rememberSaveable { mutableIntStateOf(0) }
     var confirmDemoEnable by remember { mutableStateOf(false) }
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
@@ -301,16 +301,19 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 }
                 Spacer(Modifier.size(12.dp))
                 if (settingsTab == 0) {
-                    Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                        Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
-                        Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null,
-                            onCheckedChange = { enabled ->
-                                settingsOpen = false
-                                if (enabled) confirmDemoEnable = true
-                                else (context as? MainActivity)?.changeDemoMode(false)
-                            })
+                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                        md.moldsign.app.ui.components.AppSettings(vm, enabled = !working && !status.busy && pending == null && stamp == null)
+                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
+                            Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
+                            Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null && stamp == null,
+                                onCheckedChange = { enabled ->
+                                    settingsOpen = false
+                                    if (enabled) confirmDemoEnable = true
+                                    else (context as? MainActivity)?.changeDemoMode(false)
+                                })
+                        }
+                        Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
                     }
-                    Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
                 } else {
                     AboutContent()
                 }

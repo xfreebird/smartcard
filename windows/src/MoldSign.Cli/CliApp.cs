@@ -36,7 +36,7 @@ internal static class CliApp
 
         Usage:
           esemnbun capabilities [--json]                    Supported commands and formats; no card/PIN access
-          esemnbun mcp [--root ID=/absolute/directory]       Local stdio MCP; offline verification
+          esemnbun mcp [--root ID=/absolute/directory]       Local stdio MCP; verification and signing
           esemnbun readers                                   List PC/SC readers and card presence
           esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN)
           esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
@@ -177,7 +177,7 @@ internal static class CliApp
             host.Out.WriteLine("Structured output: capabilities --json");
             host.Out.WriteLine("Document signing: unavailable in this CLI; use the desktop app");
             host.Out.WriteLine("Verification: unavailable in this CLI; use the desktop app");
-            host.Out.WriteLine("MCP server: mcp (offline verification); desktop approval broker: unavailable");
+            host.Out.WriteLine("MCP server: mcp; desktop approval broker: opt-in via Settings and --broker-directory");
         }
         return ExitCodes.Success;
     }

@@ -13,7 +13,7 @@ import Glibc
 
 /// The operator, never an MCP request, chooses the credential provider and identity.
 func configuredUnattended(arguments: inout [String], roots: inout [String: TrustedRoot]) throws -> MCPUnattendedTransport? {
-    let flags = ["--signing-certificate-sha256", "--signing-output-directory", "--pin-source", "--onepassword-executable"]
+    let flags = ["--signing-certificate-sha256", "--signing-output-directory", "--pin-source", "--onepassword-executable", "--secret-tool-executable"]
     let enabled = arguments.contains("--allow-unattended-signing")
     guard enabled else {
         guard !arguments.contains(where: { flags.contains($0) }) else { throw MCPFailure.invalidArgument }
@@ -32,10 +32,18 @@ func configuredUnattended(arguments: inout [String], roots: inout [String: Trust
           certificate.count == 64, certificate.allSatisfy({ $0.isASCII && $0.isHexDigit }),
           let outputPath = try take("--signing-output-directory"),
           let source = try take("--pin-source") else { throw MCPFailure.invalidArgument }
-    let executable = try take("--onepassword-executable") ?? "/opt/homebrew/bin/op"
+    #if os(Linux)
+    let defaultOnePassword = "/usr/bin/op"
+    #else
+    let defaultOnePassword = "/opt/homebrew/bin/op"
+    #endif
+    let executable = try take("--onepassword-executable") ?? defaultOnePassword
+    let secretToolOption = try take("--secret-tool-executable")
+    let secretTool = secretToolOption ?? "/usr/bin/secret-tool"
+    guard source.hasPrefix("secret-service:") || secretToolOption == nil else { throw MCPFailure.invalidArgument }
     let output = try TrustedRoot(path: outputPath, privateDirectory: true)
     guard roots["unattended-output"] == nil else { throw MCPFailure.invalidArgument }
-    let credentials = try AutomationCredentialSource(source, executable: executable)
+    let credentials = try AutomationCredentialSource(source, executable: executable, secretTool: secretTool)
     roots["unattended-output"] = output
     return UnattendedSigningTransport(certificate: certificate.lowercased(), output: output, credentials: credentials)
 }
@@ -43,9 +51,10 @@ func configuredUnattended(arguments: inout [String], roots: inout [String: Trust
 private enum AutomationCredentialSource {
     case environment(String)
     case keychain(service: String, account: String)
+    case secretService(service: String, account: String, executable: String)
     case onePassword(reference: String, executable: String)
 
-    init(_ configuration: String, executable: String) throws {
+    init(_ configuration: String, executable: String, secretTool: String) throws {
         if configuration.hasPrefix("env:") {
             let name = String(configuration.dropFirst(4))
             guard !name.isEmpty, name.count <= 128,
@@ -56,6 +65,15 @@ private enum AutomationCredentialSource {
             guard pieces.count == 2, pieces.allSatisfy({ !$0.isEmpty && $0.count <= 255 }) else { throw MCPFailure.invalidArgument }
             #if os(macOS)
             self = .keychain(service: String(pieces[0]), account: String(pieces[1]))
+            #else
+            throw MCPFailure.unsupported
+            #endif
+        } else if configuration.hasPrefix("secret-service:") {
+            #if os(Linux)
+            let pieces = configuration.dropFirst(15).split(separator: ":", maxSplits: 1, omittingEmptySubsequences: false)
+            guard pieces.count == 2, pieces.allSatisfy({ !$0.isEmpty && $0.utf8.count <= 255 && !$0.contains("\0") && !$0.contains("\n") }),
+                  secretTool.hasPrefix("/"), !secretTool.contains("\0") else { throw MCPFailure.invalidArgument }
+            self = .secretService(service: String(pieces[0]), account: String(pieces[1]), executable: secretTool)
             #else
             throw MCPFailure.unsupported
             #endif
@@ -91,6 +109,13 @@ private enum AutomationCredentialSource {
             #else
             throw MCPFailure.unsupported
             #endif
+        case .secretService(let service, let account, let executable):
+            // A separate operator-provisioned item, never the app's stored-PIN record.
+            let data = try MCPBoundedCredentialCommand.read(executable: executable,
+                arguments: ["lookup", "service", service, "account", account])
+            guard var value = String(data: data, encoding: .utf8) else { throw MCPFailure.credentialUnavailable }
+            if value.hasSuffix("\n") { value.removeLast() }
+            secret = value
         case .onePassword(let reference, let executable):
             let data = try MCPBoundedCredentialCommand.read(executable: executable,
                 arguments: ["read", "--no-newline", reference])

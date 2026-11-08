@@ -818,11 +818,6 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                 shape = RoundedCornerShape(Tokens.RadiusCard),
             ) {
                 val itemColors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
-                var browserStamps by remember { mutableStateOf(vm.browserStampsEnabled) }
-                ListItem(headlineContent = { Text(stringResource(R.string.stamp_browser)) },
-                    supportingContent = { Text(stringResource(R.string.stamp_batch_hint)) },
-                    trailingContent = { Switch(checked = browserStamps, onCheckedChange = { browserStamps = it; vm.browserStampsEnabled = it }) },
-                    colors = itemColors)
                 ListItem(
                     leadingContent = { Icon(Icons.Outlined.Language, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
                     headlineContent = { Text(stringResource(R.string.bridge_toggle)) },

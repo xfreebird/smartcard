@@ -62,6 +62,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.appcompat) // Per-app locales on Android 12 and earlier
     implementation(libs.androidx.fragment) // FragmentActivity host for BiometricPrompt
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)

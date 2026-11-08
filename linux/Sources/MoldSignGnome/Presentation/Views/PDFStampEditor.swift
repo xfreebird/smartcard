@@ -16,6 +16,7 @@ private final class StampState {
         guard let document = poppler_document_new_from_bytes(bytes, nil, nil) else { return nil }
         self.document = document
         placement = (item.stamp ?? PDFStampPlacement()).bound(to: data)
+        placement.language = PDFStampLanguage(localeIdentifier: L10n.language ?? Locale.current.identifier)
     }
     deinit { g_object_unref(document.raw) }
 }
@@ -69,8 +70,7 @@ private final class StampPreview {
                 cairo_set_source_rgb(context, 0.65, 0.65, 0.65)
                 cairo_set_line_width(context, 0.5); cairo_rectangle(context, 0.5, 65, 174, 21); cairo_stroke(context)
                 cairo_set_source_rgb(context, 0, 0, 0)
-                let formatter = DateFormatter(); formatter.locale = Locale(identifier: "en_US_POSIX"); formatter.dateFormat = "yyyy.MM.dd HH:mm:ss z"
-                let lines = ["Digitally signed by \(preview.holder)", "Date: \(formatter.string(from: Date()))", "Reason: MoldSign Signature", "Location: Moldova", "MOLDOVA EUROPEANĂ", "Signed with eSemnBun"]
+                let lines = preview.placement.language.lines(holder: preview.holder, date: Date())
                 for (index, line) in lines.enumerated() {
                     if let layout = pango_cairo_create_layout(context) {
                         pango_layout_set_text(layout, line, -1)
@@ -78,7 +78,13 @@ private final class StampPreview {
                             pango_layout_set_font_description(layout, font); pango_font_description_free(font)
                         }
                         cairo_move_to(context, index == 4 ? 5 : 0, [2.0,17,32,47,68,87][index])
-                        pango_cairo_show_layout(context, layout); g_object_unref(layout.raw)
+                        var textWidth: Int32 = 0
+                        pango_layout_get_pixel_size(layout, &textWidth, nil)
+                        let maximumWidth = index == 4 ? 164.0 : 228.0
+                        cairo_save(context)
+                        if Double(textWidth) > maximumWidth { cairo_scale(context, maximumWidth / Double(textWidth), 1) }
+                        pango_cairo_show_layout(context, layout)
+                        cairo_restore(context); g_object_unref(layout.raw)
                     }
                 }
                 cairo_restore(context)

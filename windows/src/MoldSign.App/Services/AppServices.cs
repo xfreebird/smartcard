@@ -30,6 +30,8 @@ public sealed record DocumentJob(string Path, SignatureFormat Format, PdfStampPl
 public sealed class AppServices : IAsyncDisposable
 {
     private readonly DispatcherQueue _ui;
+    private McpApprovalBroker? _mcpBroker;
+    private readonly SemaphoreSlim _mcpConfiguration = new(1, 1);
     private IReadOnlyList<CardEntry> _bridgeCards = [];
     private int _busyCount;
     private int _activeOperations;
@@ -153,7 +155,93 @@ public sealed class AppServices : IAsyncDisposable
         if (!IsDemo) State.LoadActivity(); // demo does not expose real document history
         Readers.Start();
         if (!IsDemo) Updates.Start();
+        if (!IsDemo) _ = SetMcpApprovalEnabledAsync(Settings.McpApprovalEnabled);
         if (!IsDemo) _ = SetBridgeEnabledAsync(Settings.BridgeEnabled);
+    }
+
+    public async Task<bool> SetMcpApprovalEnabledAsync(bool enabled)
+    {
+        await _mcpConfiguration.WaitAsync();
+        try
+        {
+            if (_disposed || IsDemo) enabled = false;
+            if (!enabled && _mcpBroker is not null)
+            {
+                await _mcpBroker.DisposeAsync();
+                _mcpBroker = null;
+            }
+            if (enabled && _mcpBroker is null) _mcpBroker = new McpApprovalBroker(SignMcpPdfAsync);
+            Settings.McpApprovalEnabled = enabled;
+            Settings.Save();
+            return true;
+        }
+        catch { Settings.McpApprovalEnabled = false; Settings.Save(); return false; }
+        finally { _mcpConfiguration.Release(); }
+    }
+
+    private Task<byte[]> SignMcpPdfAsync(byte[] pdf, string name, CancellationToken cancellation, Action signing)
+    {
+        var answer = new TaskCompletionSource<byte[]>(TaskCreationOptions.RunContinuationsAsynchronously);
+        if (!_ui.TryEnqueue(async () =>
+        {
+            string? reader = null, certificateSha1 = null;
+            var busy = false;
+            try
+            {
+                cancellation.ThrowIfCancellationRequested();
+                if (_disposed || IsDemo) throw new OperationCanceledException();
+                if (IsOperationActive) throw new MoldSign.Cli.McpException("BUSY");
+                reader = State.SelectedReader;
+                var certificate = State.Certificate;
+                if (reader is null || certificate is null || !State.CanSign)
+                    throw new CardException(CardErrorKind.NoCard, "No signing card selected");
+                certificateSha1 = certificate.Sha1;
+                var expected = System.Security.Cryptography.SHA256.HashData(certificate.Der);
+                SetBusy(true); busy = true;
+                Interlocked.Increment(ref _activeOperations);
+                var previewId = Guid.NewGuid().ToString("D") + ".pdf";
+                var previewDirectory = Path.Combine(McpApprovalBroker.DefaultDirectory, "staging");
+                using (var staging = new MoldSign.Cli.McpTrustedRoot(previewDirectory, privateDirectory: true))
+                {
+                    staging.Publish(previewId, pdf);
+                    try
+                    {
+                        var window = App.Current.EnsureMainWindow(activate: true);
+                        using var presentation = WindowHelpers.PresentConsent(window, aboveBrowser: true);
+                        var row = new MoldSign.App.Views.FileRow(Path.Combine(previewDirectory, previewId));
+                        if (!await MoldSign.App.Views.PdfStampEditor.ShowAsync(window.Content.XamlRoot, row,
+                            requester: "MCP · " + name, cancellationToken: cancellation, previewOnly: true))
+                            throw new OperationCanceledException();
+                    }
+                    finally { staging.Remove(previewId); }
+                }
+                cancellation.ThrowIfCancellationRequested();
+                var signed = await Task.Run(() => Signing.SignPdfBytes(pdf, request =>
+                {
+                    cancellation.ThrowIfCancellationRequested();
+                    if (!System.Security.Cryptography.CryptographicOperations.FixedTimeEquals(expected,
+                        System.Security.Cryptography.SHA256.HashData(request.Certificate.Der)))
+                        throw new CardException(CardErrorKind.CardChanged, "Signing card changed");
+                    var consent = Consent.Request(request with { Documents = new[] { name } }, cancellation);
+                    cancellation.ThrowIfCancellationRequested();
+                    if (!consent.IsCancelled) signing();
+                    return consent;
+                }, requester: "MCP", reader: reader));
+                Consent.LastRemainingAttempts = null;
+                answer.TrySetResult(signed);
+            }
+            catch (CardException error)
+            {
+                if (reader is not null && certificateSha1 is not null) HandleCardError(error, reader, certificateSha1);
+                answer.TrySetException(error);
+            }
+            catch (Exception error) { answer.TrySetException(error); }
+            finally
+            {
+                if (busy) { Interlocked.Decrement(ref _activeOperations); SetBusy(false); }
+            }
+        })) answer.TrySetCanceled();
+        return answer.Task;
     }
 
     public Task SetBridgeEnabledAsync(bool enabled) => BrowserConnection.SetEnabledAsync(enabled);
@@ -353,6 +441,13 @@ public sealed class AppServices : IAsyncDisposable
     {
         _disposed = true;
         Updates.Stop();
+        await _mcpConfiguration.WaitAsync();
+        try
+        {
+            if (_mcpBroker is not null) await _mcpBroker.DisposeAsync();
+            _mcpBroker = null;
+        }
+        finally { _mcpConfiguration.Release(); }
         State.WalletChanged -= OnWalletChanged;
         Readers.Dispose();
         Consent.CancelPending();

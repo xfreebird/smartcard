@@ -6,6 +6,7 @@ let package = Package(
     platforms: [.macOS(.v14), .iOS(.v17)],
     products: [
         .library(name: "MoldSignKit", targets: ["MoldSignKit"]),
+        .library(name: "MoldSignMCP", targets: ["MoldSignMCP"]),
         .executable(name: "esemnbun-mcp", targets: ["esemnbun-mcp"]),
         .executable(name: "esemnbun", targets: ["moldsign"]),   // public name (docs/10 §0.2b); codename target
     ],

@@ -346,4 +346,7 @@ eSemnBun</value></data>
   <data name="cert_label_authority" xml:space="preserve"><value>Autoritate</value></data>
   <data name="cert_label_certificate_policy" xml:space="preserve"><value>Politică de certificare</value></data>
   <data name="cert_label_extension" xml:space="preserve"><value>Extensie</value></data>
+  <data name="MCP_Enabled" xml:space="preserve"><value>Permite cereri locale de semnare (MCP)</value></data>
+  <data name="MCP_Description" xml:space="preserve"><value>Fiecare cerere necesită aprobarea în eSemnBun. Configurați clientul MCP cu acest dosar privat.</value></data>
+  <data name="MCP_Unavailable" xml:space="preserve"><value>Cererile locale de semnare nu au putut fi activate.</value></data>
 </root>

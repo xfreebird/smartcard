@@ -16,7 +16,7 @@ public sealed partial class SettingsPage : Page
         // WinUI's built-in state text follows the OS resources, which may differ from the app language.
         foreach (var toggle in new[] { DemoModeToggle, StartAtLoginToggle, ToastsToggle,
             OpenOnInsertionToggle, OpenOnReaderInsertionToggle, RememberPinToggle,
-            BridgeToggle, BrowserStampsToggle, LegacyClientToggle })
+            BridgeToggle, BrowserStampsToggle, LegacyClientToggle, McpApprovalToggle })
         {
             toggle.OnContent = Loc.Get("toggle_on");
             toggle.OffContent = Loc.Get("toggle_off");
@@ -37,6 +37,11 @@ public sealed partial class SettingsPage : Page
         RememberPinToggle.IsOn = settings.RememberPin;
         LanguagePicker.SelectedIndex = settings.Language switch { "ro-RO" => 1, "en-US" => 2, "ru-RU" => 3, _ => 0 };
         ThemePicker.SelectedItem = ThemePicker.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == settings.Theme);
+        McpApprovalToggle.Header = Loc.Get("MCP_Enabled");
+        McpApprovalToggle.IsOn = settings.McpApprovalEnabled && !App.Current.Services.IsDemo;
+        McpApprovalToggle.IsEnabled = !App.Current.Services.IsDemo;
+        McpApprovalDescription.Text = Loc.Get("MCP_Description");
+        McpApprovalDirectory.Text = McpApprovalBroker.DefaultDirectory;
         BrowserStampsToggle.Header = Loc.Get("Stamp_Browser");
         StampBatchHint.Text = Loc.Get("Stamp_BatchHint");
         BrowserStampsToggle.IsOn = settings.BrowserStampsEnabled;
@@ -62,6 +67,21 @@ public sealed partial class SettingsPage : Page
         CheckUpdatesButton.IsEnabled = false;
         try { UpdateStatus.Text = await App.Current.Services.Updates.CheckAsync(automatic: false) ?? ""; }
         finally { CheckUpdatesButton.IsEnabled = true; }
+    }
+
+    private async void OnMcpApprovalToggled(object sender, RoutedEventArgs e)
+    {
+        if (_loadingPreferences) return;
+        McpApprovalToggle.IsEnabled = false;
+        try
+        {
+            var success = await App.Current.Services.SetMcpApprovalEnabledAsync(McpApprovalToggle.IsOn);
+            McpApprovalStatus.Text = success ? "" : Loc.Get("MCP_Unavailable");
+            _loadingPreferences = true;
+            McpApprovalToggle.IsOn = App.Current.Services.Settings.McpApprovalEnabled;
+            _loadingPreferences = false;
+        }
+        finally { McpApprovalToggle.IsEnabled = !App.Current.Services.IsDemo; }
     }
 
     private void OnBrowserStampsToggled(object sender, RoutedEventArgs e)

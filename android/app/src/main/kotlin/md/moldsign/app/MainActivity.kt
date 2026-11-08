@@ -13,12 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.content.IntentCompat
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import md.moldsign.app.ui.MoldSignRoot
 import md.moldsign.app.ui.theme.MoldSignTheme
 
-/** FragmentActivity (not ComponentActivity) so PinVault can host a BiometricPrompt. */
-class MainActivity : FragmentActivity() {
+/** AppCompat also supplies FragmentActivity support for the biometric PIN prompt. */
+class MainActivity : AppCompatActivity() {
     /** The same instance MoldSignRoot gets from `viewModel()` (activity scope). */
     private val viewModel: MainViewModel by viewModels()
     private var demoPage by mutableStateOf<String?>(null)
@@ -34,11 +35,27 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    val appTheme: String
+        get() = getSharedPreferences("settings", MODE_PRIVATE).getString("app_theme", "system") ?: "system"
+
+    fun changeAppTheme(value: String) {
+        if (value !in setOf("system", "light", "dark")) return
+        getSharedPreferences("settings", MODE_PRIVATE).edit().putString("app_theme", value).apply()
+        delegate.localNightMode = nightMode(value)
+    }
+
+    private fun nightMode(value: String): Int = when (value) {
+        "light" -> AppCompatDelegate.MODE_NIGHT_NO
+        "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+        else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        delegate.localNightMode = nightMode(appTheme)
         super.onCreate(savedInstanceState)
         // The launch window is cosmetic; the running activity keeps its regular theme.
         setTheme(R.style.Theme_MoldSign)
+        enableEdgeToEdge()
         if (savedInstanceState == null && android.os.Build.VERSION.SDK_INT >= 31) {
             configureLaunchTransition()
         }

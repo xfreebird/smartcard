@@ -2,6 +2,28 @@ import XCTest
 @testable import MoldSignKit
 
 final class PDFStampTests: XCTestCase {
+    func testLocalizedStampUsesSupportedFontAndKeepsLanguageWhenCopied() throws {
+        XCTAssertEqual(PDFStampLanguage(localeIdentifier: "ru-RU"), .ru)
+        XCTAssertEqual(PDFStampLanguage(localeIdentifier: "en_US"), .en)
+        XCTAssertEqual(PDFStampLanguage(localeIdentifier: "fr-FR"), .ro)
+        let date = Date(timeIntervalSince1970: 0)
+        for language in PDFStampLanguage.allCases {
+            let placement = PDFStampPlacement(language: language)
+            XCTAssertEqual(placement.resized(corner: 3, dx: 0.1, dy: 0).bound(to: Data()).language, language)
+            let lines = language.lines(holder: "Ștefan Иванов", date: date)
+            XCTAssertEqual(lines.count, 6)
+            XCTAssertTrue(lines[0].contains("Ștefan Иванов"))
+            XCTAssertTrue(lines[2].contains("MoldSign Signature"))
+            // Rendering all languages exercises the embedded font's complete glyph coverage.
+            let (_, chunks, _) = try StampPDF.appearance(text: pdf, catalog: catalog, field: 12, signature: 10,
+                first: 13, name: "Signature1", placement: placement, holder: "Ștefan Иванов", date: date)
+            XCTAssertTrue(chunks.joined().contains("/ToUnicode"))
+        }
+        XCTAssertEqual(PDFStampLanguage.ro.lines(holder: "Ion", date: date).last, "Semnat cu eSemnBun")
+        XCTAssertEqual(PDFStampLanguage.en.lines(holder: "Ion", date: date).last, "Signed with eSemnBun")
+        XCTAssertEqual(PDFStampLanguage.ru.lines(holder: "Ion", date: date).last, "Подписано с eSemnBun")
+    }
+
     func testCornerResizeKeepsOppositeCornerAndProportionsInsidePage() throws {
         let start = PDFStampPlacement(x: 0.2, y: 0.3, width: 0.4, height: 0.16)
         for corner in 0..<4 {

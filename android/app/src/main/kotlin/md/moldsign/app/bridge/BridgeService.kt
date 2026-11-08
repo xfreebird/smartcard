@@ -31,6 +31,7 @@ import md.moldsign.app.application.AppContainer
 import md.moldsign.app.application.AppStatus
 import md.moldsign.app.MainActivity
 import md.moldsign.app.MoldSignApp
+import md.moldsign.app.presentation.appString
 import md.moldsign.app.R
 import md.moldsign.app.presentation.errorText
 import md.moldsign.app.presentation.trayText
@@ -154,7 +155,7 @@ class BridgeService : Service() {
     private fun startInForeground() {
         val nm = getSystemService(NotificationManager::class.java)
         nm.createNotificationChannel(
-            NotificationChannel(CHANNEL_ID, getString(R.string.bridge_channel_name), NotificationManager.IMPORTANCE_LOW),
+            NotificationChannel(CHANNEL_ID, appString(R.string.bridge_channel_name), NotificationManager.IMPORTANCE_LOW),
         )
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE else 0
         ServiceCompat.startForeground(this, NOTIFICATION_ID, buildNotification(status.value), type)
@@ -177,11 +178,11 @@ class BridgeService : Service() {
         override fun signFinished(origin: String?, format: String, error: Throwable?) {
             container.endBusy()
             if (error is CardError.Cancelled) return
-            val site = origin?.substringAfter("://") ?: getString(R.string.bridge_toggle)
+            val site = origin?.substringAfter("://") ?: appString(R.string.bridge_toggle)
             if (error == null) {
-                container.activity.browser(site, ok = true, getString(R.string.activity_signed, format))
+                container.activity.browser(site, ok = true, appString(R.string.activity_signed, format))
             } else {
-                container.activity.browser(site, ok = false, getString(R.string.activity_failed, format, errorText(this@BridgeService, error)))
+                container.activity.browser(site, ok = false, appString(R.string.activity_failed, format, errorText(this@BridgeService, error)))
             }
         }
     }
@@ -205,18 +206,18 @@ class BridgeService : Service() {
         if (!canPost) return
         val nm = getSystemService(NotificationManager::class.java)
         nm.createNotificationChannel(
-            NotificationChannel(CONSENT_CHANNEL_ID, getString(R.string.consent_channel_name), NotificationManager.IMPORTANCE_HIGH),
+            NotificationChannel(CONSENT_CHANNEL_ID, appString(R.string.consent_channel_name), NotificationManager.IMPORTANCE_HIGH),
         )
         val open = PendingIntent.getActivity(
             this, 2,
             Intent(this, MainActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
-        val site = request.requester?.substringAfter("://") ?: getString(R.string.consent_you)
+        val site = request.requester?.substringAfter("://") ?: appString(R.string.consent_you)
         val builder = NotificationCompat.Builder(this, CONSENT_CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_moldsign)
-            .setContentTitle(getString(R.string.consent_title, site))
-            .setContentText(getString(R.string.consent_notification_text, request.documentNames.joinToString()))
+            .setContentTitle(appString(R.string.consent_title, site))
+            .setContentText(appString(R.string.consent_notification_text, request.documentNames.joinToString()))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
@@ -242,14 +243,14 @@ class BridgeService : Service() {
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_moldsign)
             .setColor(s.wallet.tray().notificationArgb())
-            .setContentTitle(getString(R.string.bridge_notification_title))
+            .setContentTitle(appString(R.string.bridge_notification_title))
             .setContentText(line)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(line + "\n" + getString(R.string.bridge_notification_text)))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(line + "\n" + appString(R.string.bridge_notification_text)))
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setOnlyAlertOnce(true)
             .setOngoing(true)
             .setContentIntent(open)
-            .addAction(0, getString(R.string.bridge_stop), stop)
+            .addAction(0, appString(R.string.bridge_stop), stop)
             .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             .build()
     }

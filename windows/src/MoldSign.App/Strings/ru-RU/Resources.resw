@@ -346,4 +346,7 @@ eSemnBun</value></data>
   <data name="cert_label_authority" xml:space="preserve"><value>Центр сертификации</value></data>
   <data name="cert_label_certificate_policy" xml:space="preserve"><value>Политика сертификата</value></data>
   <data name="cert_label_extension" xml:space="preserve"><value>Расширение</value></data>
+  <data name="MCP_Enabled" xml:space="preserve"><value>Разрешить локальные запросы подписи (MCP)</value></data>
+  <data name="MCP_Description" xml:space="preserve"><value>Каждый запрос требует подтверждения в eSemnBun. Укажите эту частную папку в клиенте MCP.</value></data>
+  <data name="MCP_Unavailable" xml:space="preserve"><value>Не удалось включить локальные запросы подписи.</value></data>
 </root>

@@ -5,6 +5,7 @@ namespace MoldSign.App.Services;
 /// <summary>UI preference adapter; persistence is shared with the independent insertion helper.</summary>
 public sealed class AppSettings : DesktopPreferences
 {
+    public bool McpApprovalEnabled { get; set; }
     public bool BrowserStampsEnabled { get; set; }
     public bool LegacyDesktopClientEnabled { get; set; }
     internal static string PreferencesPath

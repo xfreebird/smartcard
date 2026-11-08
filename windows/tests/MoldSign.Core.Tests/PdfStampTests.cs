@@ -15,6 +15,24 @@ public sealed class PdfStampTests
         "Signature1", placement, "Ștefan Țurcanu Иванов", DateTimeOffset.UnixEpoch);
 
     [Fact]
+    public void LocalizedStampsRenderEveryLanguageAndPreserveItOnResize()
+    {
+        Assert.Equal(PdfStampLanguage.Ru, PdfStampText.FromLocale("ru-RU"));
+        Assert.Equal(PdfStampLanguage.En, PdfStampText.FromLocale("en_US"));
+        Assert.Equal(PdfStampLanguage.Ro, PdfStampText.FromLocale("fr-FR"));
+        foreach (var language in Enum.GetValues<PdfStampLanguage>())
+        {
+            var placement = new PdfStampPlacement(Language: language);
+            Assert.Equal(language, placement.Resized(3, .1, 0).Language);
+            var lines = language.Lines("Ștefan Иванов", DateTimeOffset.UnixEpoch);
+            Assert.Equal(6, lines.Length);
+            Assert.Contains("Ștefan Иванов", lines[0]);
+            Assert.Contains("MoldSign Signature", lines[2]);
+            Assert.Contains("/ToUnicode", string.Join("", Create(placement).Chunks.Select(c => c.Body)));
+        }
+    }
+
+    [Fact]
     public void AllPagesUsesOneWidgetAndLinksBackToIt()
     {
         var a = Create(new PdfStampPlacement(AllPages: true, X: .1, Y: .2, Width: .4, Height: .1));

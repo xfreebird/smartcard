@@ -470,7 +470,7 @@ documents.copy(source, target)
 
     private fun log(doc: PickedDocument, ok: Boolean, subtitle: String) = container.activity.document(doc.name, doc.uri, ok, subtitle)
 
-    private fun text(res: Int, vararg args: Any): String = getApplication<Application>().getString(res, *args)
+    private fun text(res: Int, vararg args: Any): String = getApplication<Application>().appString(res, *args)
 
     /** Keeps read access across restarts so activity entries can be opened later (and pruned when it is revoked). */
     // ---------------------------------------------------------------- Browser / Card

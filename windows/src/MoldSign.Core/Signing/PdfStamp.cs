@@ -4,9 +4,34 @@ using System.Text.RegularExpressions;
 
 namespace MoldSign.Core;
 
+/// <summary>Closed, trusted stamp language; arbitrary wording cannot enter the PDF appearance.</summary>
+public enum PdfStampLanguage { Ro, En, Ru }
+
+public static class PdfStampText
+{
+    public static PdfStampLanguage CurrentLanguage => FromLocale(CultureInfo.CurrentUICulture.Name);
+    public static PdfStampLanguage FromLocale(string? identifier) => identifier?.Split('-', '_')[0].ToLowerInvariant() switch
+    {
+        "en" => PdfStampLanguage.En,
+        "ru" => PdfStampLanguage.Ru,
+        _ => PdfStampLanguage.Ro
+    };
+
+    public static string[] Lines(this PdfStampLanguage language, string holder, DateTimeOffset date)
+    {
+        var timestamp = date.ToString("yyyy.MM.dd HH:mm:ss zzz", CultureInfo.InvariantCulture);
+        return language switch
+        {
+            PdfStampLanguage.En => [$"Digitally signed by {holder}", $"Date: {timestamp}", "Reason: MoldSign Signature", "Location: Moldova", "EUROPEAN MOLDOVA", "Signed with eSemnBun"],
+            PdfStampLanguage.Ru => [$"Подписано электронной подписью: {holder}", $"Дата: {timestamp}", "Причина: MoldSign Signature", "Место: Молдова", "ЕВРОПЕЙСКАЯ МОЛДОВА", "Подписано с eSemnBun"],
+            _ => [$"Semnat digital de {holder}", $"Data: {timestamp}", "Motiv: MoldSign Signature", "Locație: Moldova", "MOLDOVA EUROPEANĂ", "Semnat cu eSemnBun"]
+        };
+    }
+}
+
 /// <summary>Fractions of the displayed CropBox from top-left; Page is zero-based. Null means invisible.</summary>
 public sealed record PdfStampPlacement(int Page = 0, bool AllPages = false, double X = .06, double Y = .72,
-                                       double Width = .40, double Height = .113, string? DocumentSHA256 = null)
+                                       double Width = .40, double Height = .113, string? DocumentSHA256 = null, PdfStampLanguage? Language = null)
 {
     public bool CanApplyTo(byte[] document) => StampPdf.CanApply(this, document);
     public PdfStampPlacement Resized(int corner, double dx, double dy)
@@ -168,7 +193,7 @@ internal static class StampPdf
             using var data = new MemoryStream(); source.CopyTo(data); return data.ToArray();
         }
         var metrics = Encoding.UTF8.GetString(Resource("metrics.txt")).Split('\n', StringSplitOptions.RemoveEmptyEntries).Select(line => line.Split(' ').Select(v => int.Parse(v, CultureInfo.InvariantCulture)).ToArray()).ToDictionary(v => v[0], v => (Glyph: v[1], Advance: v[2]));
-        var lines = new[] { "Digitally signed by " + holder, "Date: " + date.ToString("yyyy.MM.dd HH:mm:ss zzz", CultureInfo.InvariantCulture), "Reason: MoldSign Signature", "Location: Moldova", "MOLDOVA EUROPEANĂ", "Signed with eSemnBun" };
+        var lines = (placement.Language ?? PdfStampText.CurrentLanguage).Lines(holder, date);
         var used = new SortedDictionary<int, (int Scalar, int Advance)>();
         var content = new StringBuilder("q 0.65 G 0.5 w 0.5 10 174 21 re S 0 g\n");
         for (var index = 0; index < lines.Length; index++)
@@ -179,7 +204,7 @@ internal static class StampPdf
                 if (!metrics.TryGetValue(rune.Value, out var glyph)) throw new CardException(CardErrorKind.Format, "The signature font cannot display a character in the signer name");
                 used[glyph.Glyph] = (rune.Value, glyph.Advance); width += glyph.Advance; hex.Append(glyph.Glyph.ToString("X4", CultureInfo.InvariantCulture));
             }
-            var size = Math.Min(index == 5 ? 7.0 : 13.0, 228000.0 / Math.Max(width, 1));
+            var size = Math.Min(index == 5 ? 7.0 : 13.0, (index == 4 ? 164000.0 : 228000.0) / Math.Max(width, 1));
             content.Append(FormattableString.Invariant($"BT /F {Num(size)} Tf 1 0 0 1 {(index == 4 ? 5 : 0)} {new[] {82,67,52,37,16,2}[index]} Tm <{hex}> Tj ET\n"));
         }
         content.Append('Q');

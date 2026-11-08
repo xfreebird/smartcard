@@ -6,7 +6,7 @@ using MoldSign.Core;
 
 namespace MoldSign.Cli;
 
-internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> roots, WindowsMcpUnattendedSigner? unattended = null)
+internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> roots, WindowsMcpUnattendedSigner? unattended = null, WindowsMcpApprovalTransport? broker = null)
 {
     internal const string Version = "2026-07-28", LegacyVersion = "2025-11-25";
     internal const int MaxFrame = 65536, MaxDocument = 8 * 1024 * 1024;
@@ -68,7 +68,7 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
                 return Encode(Result(new JsonObject { ["tools"] = Tools() }));
             case "tools/call":
                 if (!Keys(parameters, ["name", "arguments"], "_meta") || Text(parameters, "name") is not { } name ||
-                    (name is not ("capabilities" or "verify_document") && !(name == "sign_document" && unattended is not null)) || parameters["arguments"] is not JsonObject arguments)
+                    (name is not ("capabilities" or "verify_document") && !(name == "sign_document" && unattended is not null) && !(broker is not null && name is ("prepare_signing" or "get_job" or "cancel_job"))) || parameters["arguments"] is not JsonObject arguments)
                     return Encode(Error(id, -32602, "Invalid tool call"));
                 JsonObject envelope;
                 try { envelope = new JsonObject { ["schemaVersion"] = 1, ["ok"] = true, ["data"] = Call(name, arguments) }; }
@@ -89,9 +89,14 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
             if (!Keys(arguments, [])) throw new McpException("INVALID_ARGUMENT");
             return new JsonObject { ["product"] = "eSemnBun", ["protocolVersion"] = Version,
                 ["rootIds"] = Strings(roots.Keys.Order(StringComparer.Ordinal)), ["verificationFormats"] = Strings(["PDF", "XAdES"]),
-                ["desktopApprovalBrokerAvailable"] = false, ["unattendedSigningAvailable"] = unattended?.Available ?? false };
+                ["desktopApprovalBrokerAvailable"] = broker is not null, ["signingFormat"] = "PAdES-T", ["unattendedSigningAvailable"] = unattended?.Available ?? false };
         }
-        var signing = name == "sign_document";
+        if (name is "get_job" or "cancel_job")
+        {
+            if (!Keys(arguments, ["jobId"]) || Text(arguments, "jobId") is not { } id) throw new McpException("INVALID_ARGUMENT");
+            return broker!.Job(id, name == "cancel_job");
+        }
+        var signing = name is "sign_document" or "prepare_signing";
         if (!(signing ? Keys(arguments, ["input", "format"]) && Text(arguments, "format") == "PAdES-T" : Keys(arguments, ["input"], "detachedRootId")) || arguments["input"] is not JsonObject input ||
             !Keys(input, ["rootId", "relativePath"]) || Text(input, "rootId") is not { } rootId ||
             !roots.TryGetValue(rootId, out var root) || Text(input, "relativePath") is not { } path)
@@ -100,6 +105,7 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
         if (arguments.ContainsKey("detachedRootId") && (Text(arguments, "detachedRootId") is not { } detachedId || !roots.TryGetValue(detachedId, out detached)))
             throw new McpException("INVALID_ARGUMENT");
         var bytes = root.Read(path, MaxDocument);
+        if (name == "prepare_signing") return broker!.Prepare(bytes, Path.GetFileName(path));
         if (signing)
         {
             if (unattended is null) throw new McpException("UNSUPPORTED");
@@ -172,8 +178,14 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
                 ["rootIds"] = new JsonObject { ["type"] = "array", ["maxItems"] = 32, ["items"] = StringSchema(64) },
                 ["verificationFormats"] = new JsonObject { ["type"] = "array", ["items"] = StringSchema(16) },
                 ["desktopApprovalBrokerAvailable"] = new JsonObject { ["type"] = "boolean" },
+                ["signingFormat"] = new JsonObject { ["const"] = "PAdES-T" },
                 ["unattendedSigningAvailable"] = new JsonObject { ["type"] = "boolean" } },
-                "product", "protocolVersion", "rootIds", "verificationFormats", "desktopApprovalBrokerAvailable", "unattendedSigningAvailable");
+                "product", "protocolVersion", "rootIds", "verificationFormats", "desktopApprovalBrokerAvailable", "signingFormat", "unattendedSigningAvailable");
+            else if (name is "prepare_signing" or "get_job" or "cancel_job") data = ObjectSchema(new JsonObject {
+                ["jobId"] = StringSchema(36), ["state"] = new JsonObject { ["enum"] = Strings(WindowsMcpApprovalTransport.States) },
+                ["cancellationRequested"] = new JsonObject { ["type"] = "boolean" },
+                ["inputSHA256"] = StringSchema(64), ["outputSHA256"] = StringSchema(64),
+                ["errorCode"] = new JsonObject { ["enum"] = Strings(WindowsMcpApprovalTransport.ErrorCodes) }, ["output"] = reference.DeepClone() }, "jobId", "state");
             else if (name == "sign_document") data = ObjectSchema(new JsonObject {
                 ["state"] = new JsonObject { ["const"] = "completed" }, ["inputSHA256"] = StringSchema(64),
                 ["outputSHA256"] = StringSchema(64), ["output"] = reference.DeepClone() }, "state", "inputSHA256", "outputSHA256", "output");
@@ -197,6 +209,18 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
         var tools = new JsonArray(Tool("capabilities", "Discover configured root IDs; no card or credential access.", ObjectSchema(new JsonObject())),
             Tool("verify_document", "Offline PDF/XAdES verification. No revocation check; no document text or identity is returned.",
                 ObjectSchema(new JsonObject { ["input"] = reference, ["detachedRootId"] = StringSchema(64) }, "input")));
+        if (broker is not null)
+        {
+            var prepare = Tool("prepare_signing", "Stage a PDF for foreground approval in eSemnBun. Never pass a PIN.",
+                ObjectSchema(new JsonObject { ["input"] = reference.DeepClone(), ["format"] = new JsonObject { ["const"] = "PAdES-T" } }, "input", "format"));
+            prepare["annotations"]!["readOnlyHint"] = false;
+            prepare["annotations"]!["openWorldHint"] = true;
+            tools.Add((JsonNode)prepare);
+            tools.Add((JsonNode)Tool("get_job", "Read the state of a job created by this helper.", ObjectSchema(new JsonObject { ["jobId"] = StringSchema(36) }, "jobId")));
+            var cancel = Tool("cancel_job", "Request cancellation. An in-progress signature cannot be undone.", ObjectSchema(new JsonObject { ["jobId"] = StringSchema(36) }, "jobId"));
+            cancel["annotations"]!["readOnlyHint"] = false;
+            tools.Add((JsonNode)cancel);
+        }
         if (unattended is not null)
         {
             var tool = Tool("sign_document", "Sign using explicitly configured unattended policy. Never pass a PIN.",

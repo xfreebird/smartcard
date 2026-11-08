@@ -141,6 +141,8 @@ public sealed class WindowsMcpTests
         CliHost Host(string input) => new() { In = new StringReader(input), Out = output, Error = error,
             GetEnvironmentVariable = _ => throw new InvalidOperationException(), IsInputRedirected = () => true,
             PromptHidden = _ => throw new InvalidOperationException(), Cards = new NoCards() };
+        Assert.Equal(1, CliApp.Run(["mcp", "--root", "broker-output=/unused"], Host("")));
+        Assert.Equal(1, CliApp.Run(["mcp", "--root", "unattended-output=/unused"], Host("")));
         Assert.Equal(1, CliApp.Run(["mcp", "--pin", "synthetic-secret"], Host("")));
         Assert.DoesNotContain("synthetic-secret", error.ToString());
         Assert.Empty(output.ToString());

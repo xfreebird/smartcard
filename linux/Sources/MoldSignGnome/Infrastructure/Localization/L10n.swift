@@ -350,6 +350,14 @@ enum L10n {
         case cert_label_authority
         case cert_label_certificate_policy
         case cert_label_extension
+        case automation_title
+        case automation_enable
+        case automation_hint
+        case automation_approve_title
+        case automation_approve
+        case automation_reject
+        case automation_approve_details
+        case automation_unavailable
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2093,6 +2101,46 @@ enum L10n {
     "ro": "Extensie",
     "en": "Extension",
     "ru": "Расширение"
+  },
+  "automation_title": {
+    "ro": "Automatizare locală",
+    "en": "Local automation",
+    "ru": "Локальная автоматизация"
+  },
+  "automation_enable": {
+    "ro": "Permite cereri de semnare de la clienți locali",
+    "en": "Allow signing requests from local clients",
+    "ru": "Разрешить запросы на подписание от локальных клиентов"
+  },
+  "automation_hint": {
+    "ro": "Fiecare cerere necesită verificarea PDF-ului și aprobarea în eSemnBun. PIN-ul rămâne în aplicație. Dezactivează pentru a respinge cererile în așteptare.",
+    "en": "Every request requires a PDF review and approval in eSemnBun. PINs stay in the app. Turn this off to reject pending requests.",
+    "ru": "Каждый запрос требует проверки PDF и одобрения в eSemnBun. PIN остаётся в приложении. Отключите, чтобы отклонить ожидающие запросы."
+  },
+  "automation_approve_title": {
+    "ro": "Aprobă cererea de semnare",
+    "en": "Approve signing request",
+    "ru": "Одобрить запрос на подписание"
+  },
+  "automation_approve": {
+    "ro": "Aprobă semnarea",
+    "en": "Approve signing",
+    "ru": "Одобрить подписание"
+  },
+  "automation_reject": {
+    "ro": "Respinge",
+    "en": "Reject",
+    "ru": "Отклонить"
+  },
+  "automation_approve_details": {
+    "ro": "Un client local de automatizare solicită o semnătură PAdES-T. Verifică PDF-ul înainte de aprobare.\n\nDocument: %@\nIdentitate: %@\nSHA-256 document: %@\nSHA-256 certificat: %@\n\nPDF-ul semnat va fi returnat clientului solicitant.",
+    "en": "A local automation client requests a PAdES-T signature. Review the PDF before approving.\n\nDocument: %@\nIdentity: %@\nDocument SHA-256: %@\nCertificate SHA-256: %@\n\nThe signed PDF will be returned to the requesting client.",
+    "ru": "Локальный клиент автоматизации запрашивает подпись PAdES-T. Проверьте PDF перед одобрением.\n\nДокумент: %@\nЛичность: %@\nSHA-256 документа: %@\nSHA-256 сертификата: %@\n\nПодписанный PDF будет возвращён запрашивающему клиенту."
+  },
+  "automation_unavailable": {
+    "ro": "Cererile locale de semnare nu au putut fi activate.",
+    "en": "Local signing requests could not be enabled.",
+    "ru": "Не удалось включить локальные запросы подписи."
   }
 }
 """#.utf8)

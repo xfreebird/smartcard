@@ -345,4 +345,10 @@ eSemnBun</string>
   <string name="cert_label_authority">Autoritate</string>
   <string name="cert_label_certificate_policy">Politică de certificare</string>
   <string name="cert_label_extension">Extensie</string>
+  <string name="settings_appearance_language">Aspect și limbă</string>
+  <string name="settings_language">Limba aplicației</string>
+  <string name="settings_theme">Temă</string>
+  <string name="settings_system">Sistem</string>
+  <string name="settings_light">Luminoasă</string>
+  <string name="settings_dark">Întunecată</string>
 </resources>
