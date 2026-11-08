@@ -32,7 +32,7 @@ def describe(asset):
     platform = 'linux' if kind in ('flatpak', 'linux') else kind
     if kind == 'linux' and (name.startswith('esemnbun-cli') or name.endswith('.tar.gz')):
         platform = 'linux-cli'
-    version_match = re.search(r'/download/v([^/]+)/', asset['url'])
+    version_match = re.search(r'/downloads?/v([^/]+)/', asset['url'])
     return {**asset, 'platform': platform,
             'version': version_match.group(1) if version_match else version,
             'format': 'TAR.GZ' if name.endswith('.tar.gz') else name.rsplit('.', 1)[1].upper(),
@@ -49,6 +49,14 @@ for asset in release['assets']:
     url = asset['browser_download_url']
     if not url.startswith(prefix):
         parser.error('Unexpected release asset host or tag')
+    if any(a['name']=='esemnbun-package-repositories.tar.gz' for a in release['assets']):
+        name=asset['name']
+        if name in (f'esemnbun-{version}-macos-universal.tar.gz', f'esemnbun-{version}-linux-x86_64.tar.gz', f'esemnbun-cli-{version}-windows-x64.zip'):
+            url=f'https://esemnbun.md/packages/downloads/v{version}/{name}'
+        elif name.startswith('esemnbun-cli_') and name.endswith('.deb'):
+            url=f'https://esemnbun.md/packages/apt/pool/main/e/esemnbun-cli/{name}'
+        elif name.startswith('esemnbun-cli-') and name.endswith('.rpm'):
+            url=f'https://esemnbun.md/packages/rpm/x86_64/{name}'
     assets.append({'name': asset['name'], 'url': url, 'size': asset['size']})
 # Preserve each missing package/architecture independently (including desktop vs CLI).
 def package_key(asset):
