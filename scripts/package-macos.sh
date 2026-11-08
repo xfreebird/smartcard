@@ -85,7 +85,13 @@ MCP="$(cd "$ROOT/swift/MoldSignKit" && swift build -c release --product esemnbun
 sign_ts --force --options runtime --identifier md.esemnbun.mcp --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$MCP"
 mkdir -p "$APP/Contents/Helpers"
 cp "$MCP" "$APP/Contents/Helpers/esemnbun-mcp"
-lipo "$APP/Contents/Helpers/esemnbun-mcp" -verify_arch arm64 x86_64
+MCP_ARCHS="$(xcrun lipo -archs "$APP/Contents/Helpers/esemnbun-mcp")"
+for required_arch in arm64 x86_64; do
+  case " $MCP_ARCHS " in
+    *" $required_arch "*) ;;
+    *) echo "MCP helper is missing $required_arch (found: $MCP_ARCHS)" >&2; exit 1 ;;
+  esac
+done
 codesign --verify --strict "$APP/Contents/Helpers/esemnbun-mcp"
 sign_ts --force --preserve-metadata=identifier,entitlements,requirements,flags --sign "$IDENTITY" ${timestamp_flag:+--timestamp} "$APP"
 codesign -d --entitlements :- "$APP" > "$ENTITLEMENTS_AFTER" 2>/dev/null
