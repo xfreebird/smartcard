@@ -16,6 +16,7 @@ Downloaded examples use fictional paths that must be customized.
 After modifying the shared skill or exporter, regenerate the checked-in public ZIP:
 
 ```sh
+python3 scripts/agents/generate-web-data.py
 python3 scripts/agents/export_integrations.py \
   --archive website/static/downloads/esemnbun-agent-integrations.zip
 python3 -m unittest discover -s scripts/agents -p 'test_*.py' -v
@@ -30,3 +31,6 @@ When changing vendor configuration shapes, verify the official sources linked in
 When changing tool names, inputs or lifecycle, reconcile the shared skill with `spec/mcp.md`
 and the actual Swift/Windows server contracts. Update the guide, pack and `PLAN.md` together.
 Do not install these exports into the maintainer's personal agent settings as part of packaging.
+
+The browser configurator reads `website/src/data/agent-integrations.json`, generated from the
+same client catalog and skill. Regenerate it when changing either, then run the website tests.

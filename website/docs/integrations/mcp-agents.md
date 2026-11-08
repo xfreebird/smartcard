@@ -4,12 +4,16 @@ sidebar_label: AI agents and MCP
 description: Configure ten local MCP clients with eSemnBun skills, workflows and a Claude Code plugin.
 ---
 
+import AgentConfigurator from '@site/src/components/AgentConfigurator';
+
 # Connect your AI agent
 
 Use eSemnBun to verify document signatures or prepare a PDF for smartcard signing from your
 agent. Start with offline verification; add native approval or unattended signing separately.
 
-[Download configurations and skills for all ten clients](/downloads/esemnbun-agent-integrations.zip)
+<AgentConfigurator />
+
+[Download configurations and skills for all ten clients](https://esemnbun.md/downloads/esemnbun-agent-integrations.zip)
 
 The pack includes macOS, Windows and Linux examples for **Claude Code, Claude Desktop,
 Codex, Cursor, GitHub Copilot in VS Code, Gemini CLI, Windsurf/Cascade, Cline, Roo Code and
@@ -315,7 +319,9 @@ physical-card/provider behavior need validation on the target installation.
 
 ## Unattended automation and privacy
 
-The supplied configurations enable **verification only**. The exporter can add an existing
+The downloadable pack defaults to **verification only**. The configurator above can explicitly
+prepare an unattended configuration after you supply its certificate pin and provider reference;
+it never provisions a credential or starts a signer. The command-line exporter can add an existing
 foreground broker but cannot enable unattended mode. An operator can separately configure
 certificate-pinned unattended signing with a private output directory and a credential-provider
 reference as described in the [MCP contract](https://esemnbun.md/packages/mcp.md). The skill supports an already
