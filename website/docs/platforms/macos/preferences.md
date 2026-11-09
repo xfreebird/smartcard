@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Set language, appearance and system discovery
 
 Open eSemnBun → Settings (⌘,). General offers Romanian, English, Russian and system language, plus light, dark or system appearance. Saved PINs has its own tab. Delete an entry there to remove only the stored copy; this never changes the physical card PIN.
@@ -32,4 +30,4 @@ For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight
 4. In standalone installations, use **Check for updates** and install the newer DMG. App Store copies update through the App Store. Keep the same distribution when updating.
 5. Use **About eSemnBun** to find the installed version; use Help or the [support page](/support) with app/macOS version, reader/adapter model and reproduction steps. Never send a PIN.
 
-Normal Demo mode is an intentional Settings option with fictional data and a visible notice; it cannot produce valid electronic signatures. Documentation capture hides its banner only in isolated Debug fixtures.
+Normal Demo mode is an intentional Settings option with fictional data and a visible notice; it cannot produce valid electronic signatures.

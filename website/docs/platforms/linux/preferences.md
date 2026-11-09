@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Choose language and appearance
 
 Open the application menu → Preferences. Choose System, Light or Dark appearance and System, Romanian, English or Russian language. Changes apply to the interface. These captures use native translated controls.

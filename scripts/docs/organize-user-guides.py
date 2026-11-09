@@ -63,7 +63,6 @@ WORDS = {
  'before':tr('Before you begin','Înainte de a începe','Перед началом'),
  'all':tr('Platform overview','Ghidurile platformei','Все руководства платформы'),
  'setup':tr('Installation and reader setup','Instalare și conectarea cititorului','Установка и подключение считывателя'),
- 'samples':tr('Illustrations use fictional data. Follow the instructions in your installed app.','Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.','В иллюстрациях используются вымышленные данные. Выполняйте действия в установленном приложении.'),
 }
 def doc_root(lang): return ROOT/('website/docs' if lang=='en' else f'website/i18n/{lang}/docusaurus-plugin-content-docs/current')
 def clean_heading(value): return re.sub(r'^\d+\.\s*','',value)
@@ -115,7 +114,6 @@ def organize(check=False):
      context+=f' · [{TOPICS["mcp"][0][lang]}]({mcp_path})'
     used_imports='\n'.join(line for line in imports.splitlines() if re.search(r'import (\w+)',line).group(1) in content)
     text=frontmatter(meta)+used_imports+'\n\n# '+header+'\n\n'+context+'\n\n'+item['descriptions'][lang]+'\n\n'
-    if count: text+=WORDS['samples'][lang]+'\n\n'
     outputs[doc_root(lang)/'platforms'/platform/f'{topic}.md']=text+content
    assert new_panels==original_panels,(platform,lang,new_panels,original_panels)
    entry['anchors'][lang]=aliases

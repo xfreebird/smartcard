@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Encrypt a file with a password
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Encrypt a file with a password
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.

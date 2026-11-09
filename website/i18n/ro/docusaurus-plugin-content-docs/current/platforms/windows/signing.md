@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Semnează documente din aplicație sau Explorer
 
 În **Sign (Semnează)**, trage documentele în zona cu contur întrerupt sau alege **Choose files… (Alege fișiere…)**. Dacă ediția instalată oferă integrare în meniul contextual Explorer, poți trimite și fișierele selectate din Explorer în eSemnBun.
@@ -41,4 +39,4 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Găsește rezultatele finalizate
 
-<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90, "y": 23, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 44, "y": 23, "text": "Păstrează XML-ul detașat cu originalul nemodificat. Rezultatele ilustrate sunt fictive."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90, "y": 23, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 44, "y": 23, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />

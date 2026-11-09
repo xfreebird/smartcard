@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Conectează un serviciu, verifică cererile și gestionează sesiunile web.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Semnează pe un site
 
 Folosește doar un serviciu cu adresă și cerere cunoscute. Aplicația este independentă de Guvernul Republicii Moldova; sursele oficiale sunt în Browser și Despre. Aspectul site-urilor poate varia.

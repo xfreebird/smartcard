@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Recunoaște o semnătură nevalidă sau un document modificat
 
 Un rezultat nevalid nu se repară prin redenumire sau adăugarea unei ștampile. Cere expeditorului o copie semnată intactă și verific-o.

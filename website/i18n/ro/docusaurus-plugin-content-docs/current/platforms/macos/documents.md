@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Găsește un document semnat salvat
 
 Documentele și Istoricul operațiunilor sunt colecții separate. Intrările indică fișiere; dacă un fișier a fost mutat sau eliminat, selectează-l din nou din noua locație pentru verificare.

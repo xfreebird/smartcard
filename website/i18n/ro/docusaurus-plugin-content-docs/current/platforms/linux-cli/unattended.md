@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Fixează certificatul, alege sursa secretului și restricționează rezultatele.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Configurează semnarea nesupravegheată explicită
 
 Această opțiune avansată semnează fără dialog per document. Pregătește separat secretele, fixează amprenta SHA-256 DER exactă a certificatului și creează un dosar privat pentru rezultate. Folosește referințe către furnizori, nu valori PIN. Certificatul este verificat înainte de citirea secretului sau VERIFY. Validează cardul și furnizorul în instalarea ta înainte de producție.

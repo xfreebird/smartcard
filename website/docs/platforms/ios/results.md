@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Distinguish invalid signatures, unconfirmed trust and unsigned files.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Understand an unexpected verification result
 
 Invalid means a signature or document-integrity check failed. Unconfirmed trust means the embedded chain is not confirmed; it is different from a proven altered document. Unsigned or unrecognized means no supported signature was found. Do not treat the filename or a green file icon as proof. An inaccessible saved file is unavailable, not necessarily unsigned.

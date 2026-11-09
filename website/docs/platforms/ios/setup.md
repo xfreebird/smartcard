@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Install, connect a reader and choose your card.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Connect the reader and insert your card
 
 The signing certificate is read without a PIN. An empty-reader prompt means the reader is detected but the card is not ready. Wait for the holder and expiry before adding a signing request.

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Add files, choose the format and stamp, approve and save the output.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Sign documents from the app or Explorer
 
 In **Sign**, drag documents to the dashed drop zone or choose **Choose files…**. Where the installed edition provides an Explorer context-menu integration, you can send selected files into eSemnBun from Explorer as well.
@@ -41,4 +39,4 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Locate completed outputs
 
-<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90, "y": 23, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 44, "y": 23, "text": "Keep detached XML together with its unchanged original. The shown outputs are fictional fixtures."}]} />
+<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90, "y": 23, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 44, "y": 23, "text": "Keep detached XML together with its unchanged original."}]} />

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Instalează, conectează cititorul și alege cardul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Conectează cititorul și introdu cardul
 
 Certificatul de semnare este citit fără PIN. Mesajul despre cititorul gol indică un cititor detectat, dar fără un card pregătit. Așteaptă afișarea titularului și a valabilității înainte de semnare.

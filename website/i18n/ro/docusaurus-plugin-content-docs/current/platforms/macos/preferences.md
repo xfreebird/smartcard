@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Configurează limba, aspectul și descoperirea în sistem
 
 Deschide eSemnBun → Configurări (⌘,). General oferă română, engleză, rusă și limba sistemului, plus aspect luminos, întunecat sau de sistem. PIN-urile salvate au o filă separată. Ștergerea unei intrări elimină numai copia salvată; nu schimbă PIN-ul cardului fizic.
@@ -32,4 +30,4 @@ Pentru descoperirea Spotlight/Siri activează Găsește documentele semnate în 
 4. Pentru ediția independentă, folosește **Caută actualizări** și instalează DMG-ul nou. Copiile App Store se actualizează prin magazin. Păstrează același canal de distribuție.
 5. În **Despre eSemnBun** găsești versiunea instalată; folosește Ajutor sau [Suport](/support), indicând versiunile aplicației/macOS, cititorul/adaptorul și pașii de reproducere. Nu trimite PIN-ul.
 
-Modul demonstrativ normal este o opțiune intenționată în Configurări, cu date fictive și avertisment vizibil; nu produce semnături electronice valide. Captura pentru documentație ascunde bannerul numai în scenarii Debug izolate.
+Modul demonstrativ normal este o opțiune intenționată în Configurări, cu date fictive și avertisment vizibil; nu produce semnături electronice valide.

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Install, connect a reader and choose your card.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Connect a reader
 
 Connect the reader directly or through the appropriate USB adapter. No signing PIN is needed to discover the reader or read a certificate. A PC/SC service failure is different from an unplugged reader.

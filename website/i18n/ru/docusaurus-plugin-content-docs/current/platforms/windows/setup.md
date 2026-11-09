@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Установите приложение, подключите считыватель и выберите карту.
 
-В иллюстрациях используются вымышленные данные. Выполняйте действия в установленном приложении.
-
 ## Установите подходящую редакцию
 
 Для самостоятельной установки используйте **MSI** из [GitHub Releases](https://github.com/xfreebird/smartcard/releases/latest) или установите [eSemnBun из Microsoft Store](https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&gl=MD). Выберите архитектуру своего компьютера среди файлов выпуска. Неподписанный MSIX для разработки может требовать сертификат подписи и не заменяет публичный MSI.

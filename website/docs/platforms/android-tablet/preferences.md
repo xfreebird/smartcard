@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Language, appearance, demo, and support
 
 Open the gear → General. Choose App language: System, Romanian, English, or Russian; choose Theme: System, Light, or Dark. Choices apply to eSemnBun only and are remembered. Android 13+ also exposes the language choice in system Settings → Apps → eSemnBun → Language. General also controls browser stamps and lets you remove the selected card’s saved PIN.

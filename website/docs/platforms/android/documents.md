@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Open signing details, share saved files and clear recent history.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Find signed documents
 
 Files contains a signed-output library and a separate activity history. A saved entry is a shortcut to a file, not a substitute for a backup.

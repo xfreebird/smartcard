@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Instalează, conectează cititorul și alege cardul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Conectează cititorul și cardul
 
 Conectează cititorul prin adaptorul potrivit. Permisiunea privește dispozitivul USB, nu accesul general la toate fișierele. Citirea certificatului de semnare nu necesită PIN.

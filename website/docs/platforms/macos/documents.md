@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Open signing details, share saved files and clear recent history.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Find a saved signed document
 
 Documents and operation History are separate collections. Entries refer to files; if a file has moved or disappeared, choose the file again from its new location for verification.

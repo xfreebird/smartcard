@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Găsește și deschide documentele salvate
 
 Deschide Documente și selectează lista documentelor semnate. Alege un element pentru detaliile semnării, apoi folosește acțiunile de deschidere sau afișare. Comută la istoric pentru operațiile recente. Golirea istoricului păstrează biblioteca independentă de documente semnate și nu șterge fișierele semnate.

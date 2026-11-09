@@ -14,10 +14,8 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Pregătește un PDF și verifică cererea de aprobare în aplicație.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Aprobă o cerere locală de semnare MCP
 
 În Preferințe, activează cererile locale de semnare doar dacă intenționezi să folosești un client MCP. Copiază dosarul privat afișat în configurarea helperului. Păstrează aplicația desktop pornită. Fiecare cerere deschide PDF-ul pregătit pentru examinare: verifică documentul, cardul și operația, aprobă explicit, apoi introdu PIN-ul în dialogul nativ. Un PIN salvat nu înlocuiește aprobarea. Anulează cererile neașteptate.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" caption="Captură nativă a preferințelor cu date fictive. Opțiunea este dezactivată în această sesiune izolată; nu s-a efectuat aprobarea MCP sau semnarea reală cu un card." steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />

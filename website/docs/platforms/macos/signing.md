@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Add files, choose the format and stamp, approve and save the output.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Add documents and choose their format
 
 A PDF normally uses PAdES-T: the signature stays inside the PDF. Other files normally use detached XAdES-T: the XML and unchanged original belong together. Use the format control on a queued file when a recipient requires a different supported format. The row menu removes an unintended file.
@@ -44,7 +42,7 @@ Leave the reader connected while the app signs and obtains a timestamp. Timestam
 
 ## Find, preview and share the completed output
 
-These illustrations use fictional sample files; their demonstration labels do not appear in an ordinary real signing result. Standalone macOS normally writes a new file beside the source, with a signed suffix, without overwriting the original. The App Store edition uses its permitted storage and explicit export/share actions. Keep a detached XML together with its original.
+Standalone macOS normally writes a new file beside the source, with a signed suffix, without overwriting the original. The App Store edition uses its permitted storage and explicit export/share actions. Keep a detached XML together with its original.
 
 <GuideScreenshot src="/img/guide/macos/en/success.png" alt="Find, preview and share the completed output" steps={[{"x": 80, "y": 53, "text": "Click the completed row or Show in Finder to locate the output."}, {"x": 90, "y": 53, "text": "Use Preview to inspect the output. Use Share for the signed PDF, then choose its destination."}]} />
 

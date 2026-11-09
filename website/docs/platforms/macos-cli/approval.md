@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Prepare a PDF and review its foreground approval request.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Request signing with foreground Mac approval
 
 In the Mac app enable the agent approval broker in Settings and use its configured private spool directory. The app and helper must run as the same user. The directory and requests/responses/outputs subdirectories must already exist with mode 0700. Start the helper with that directory. In your host call prepare_signing for a PDF, review the native certificate/document request, approve with the card PIN, poll get_job and retrieve the completed output. cancel_job requests cancellation; it cannot undo a signature already in progress. Requests expire after five minutes and outputs are retained for 24 hours. Keep the app running. Windows and Linux also offer desktop approval with their platform-specific private directory; installed-build validation is required.

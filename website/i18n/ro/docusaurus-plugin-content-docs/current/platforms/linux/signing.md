@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Adaugă documentele lotului
 
 Alege sau trage toate documentele în Semnează. Poți selecta mai multe fișiere. Verifică numele și elimină intrările nedorite înainte de autorizare. Tragerea depinde de managerul de fișiere; selectorul rămâne disponibil.
@@ -48,7 +46,7 @@ Lasă cititorul conectat până la rezultat. Marca temporală necesită rețea. 
 
 ## Găsește fișierul rezultat
 
-Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat. Finalizarea ilustrată folosește un exemplu fictiv nesemnat.
+Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat.
 
 <GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Activează rezultatul finalizat pentru localizare/deschidere.", "x": 70, "y": 48}]} />
 

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Schimbă limba, aspectul și confidențialitatea
 
 Deschide Card, apoi Setări. Alege Română, English, Русский ori Sistem și tema Luminoasă, Întunecată ori Sistem. Activează ștampilele PDF din browser doar dacă le dorești pentru cererile acceptate. Modul demonstrativ obișnuit este etichetat intenționat și nu produce semnături reale. Despre afișează versiunea și informațiile utile. Actualizările vin prin canalul Apple folosit la instalare.

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verify a PDF or XML and inspect its signer and certificate.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Verify a PDF and every signature
 
 Verification does not require a reader or PIN. It checks the file you selected, not a visual stamp or a filename. Offline checks do not establish current certificate revocation status.

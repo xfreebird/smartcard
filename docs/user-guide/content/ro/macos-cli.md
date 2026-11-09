@@ -72,7 +72,7 @@ esemnbun verify Declaration.xml /home/me/Originals
 esemnbun verify --json Contract-semnat.pdf
 ```
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/unsigned.svg" alt="ghid pentru linia de comandă" caption="Rezultat local capturat fără acces la card; fișierul fictiv nu are semnături." steps={[{"x": 3, "y": 16.7, "text": "Pentru automatizare citește status din JSON, nu doar ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/unsigned.svg" alt="ghid pentru linia de comandă" steps={[{"x": 3, "y": 16.7, "text": "Pentru automatizare citește status din JSON, nu doar ok."}]} />
 
 ```sh
 esemnbun verify --json unsigned.pdf

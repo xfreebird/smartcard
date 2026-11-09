@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Distinguish invalid signatures, unconfirmed trust and unsigned files.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Recognize a modified or invalid signature
 
 An invalid result is not repaired by renaming the file or adding a stamp. Request an intact signed copy from its sender and verify that copy.

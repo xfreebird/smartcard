@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Pregătește un PDF și verifică cererea de aprobare în aplicație.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Cere semnare cu aprobare pe Mac
 
 Activează brokerul de aprobare în Configurări pe Mac și folosește dosarul privat configurat. Aplicația și helperul trebuie să ruleze pentru același utilizator. Dosarul și subdosarele requests/responses/outputs trebuie să existe cu permisiuni0700. Pornește helperul cu acel dosar. Din client cere prepare_signing pentru PDF, verifică certificatul/documentul în aplicație, aprobă cu PIN, urmărește get_job și preia rezultatul. cancel_job cere anulare, dar nu anulează o semnătură deja creată. Cererile expiră după5minute, rezultatele se păstrează24ore. Ține aplicația pornită. Windows și Linux oferă și ele aprobare desktop cu dosarul privat al platformei; validează versiunea instalată.

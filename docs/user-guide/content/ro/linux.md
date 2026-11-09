@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Linux — ghid desktop ilustrat
 
-Urmează capturile numerotate pentru eSemnBun 0.2.6 pe Linux. Imaginile arată interfața GTK nativă, cu persoane fictive și documente de exemplu. Cercurile numerotate sunt adăugate în ghid; bannerul demo este ascuns numai în capturile izolate pentru documentație. Un rezultat de previzualizare nu dovedește o semnătură reală. Atinge imaginea pentru mărire și alege Mărime originală pentru detalii.
+Urmează capturile numerotate pentru eSemnBun 0.2.6 pe Linux. Atinge imaginea pentru mărire și alege Mărime originală pentru detalii.
 
 Instalează pachetul desktop pentru distribuția și arhitectura ta din [Descărcări](/downloads/), apoi deschide eSemnBun din meniul de aplicații. Pachetele desktop DEB/RPM/Flatpak deschid aplicația grafică; depozitele și arhivele CLI instalează instrumentele de terminal. Consultă [ghidul CLI Linux](./linux-cli.md) pentru terminal și MCP. Ubuntu 24.04/Fedora sunt platforme desktop acceptate; verifică cerințele pachetului. Ai nevoie de un act electronic acceptat și activ, PIN-ul corect pentru semnare, un cititor USB compatibil și adaptorul necesar. NFC nu este disponibil. Cheia privată rămâne pe card.
 
@@ -63,7 +63,7 @@ Lasă cititorul conectat până la rezultat. Marca temporală necesită rețea. 
 
 ## 9. Găsește fișierul rezultat
 
-Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat. Finalizarea ilustrată folosește un exemplu fictiv nesemnat.
+Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat.
 
 <GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Activează rezultatul finalizat pentru localizare/deschidere.", "x": 70, "y": 48}]} />
 
@@ -164,7 +164,7 @@ Meniul aplicației oferă Preferințe, Despre, Verifică actualizările și Ieș
 
 În Preferințe, activează cererile locale de semnare doar dacă intenționezi să folosești un client MCP. Copiază dosarul privat afișat în configurarea helperului. Păstrează aplicația desktop pornită. Fiecare cerere deschide PDF-ul pregătit pentru examinare: verifică documentul, cardul și operația, aprobă explicit, apoi introdu PIN-ul în dialogul nativ. Un PIN salvat nu înlocuiește aprobarea. Anulează cererile neașteptate.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" caption="Captură nativă a preferințelor cu date fictive. Opțiunea este dezactivată în această sesiune izolată; nu s-a efectuat aprobarea MCP sau semnarea reală cu un card." steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
 
 
 ## Folosește site-urile în browserul tău
@@ -184,7 +184,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" caption="Date fictive. Înainte de finalizare." steps={[{"x": 26.9, "y": 16.3, "text": "Alege Criptează."}, {"x": 32.2, "y": 33.3, "text": "Alege fișierul sursă."}, {"x": 32.2, "y": 61.2, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50.0, "y": 89.1, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 26.9, "y": 16.3, "text": "Alege Criptează."}, {"x": 32.2, "y": 33.3, "text": "Alege fișierul sursă."}, {"x": 32.2, "y": 61.2, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50.0, "y": 89.1, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 
 ## Criptează pentru titularul unui certificat
@@ -193,7 +193,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Date fictive. Înainte de finalizare." steps={[{"x": 26.9, "y": 16.3, "text": "Alege Criptează."}, {"x": 32.2, "y": 33.3, "text": "Alege fișierul sursă."}, {"x": 28.7, "y": 47.3, "text": "Alege Certificat/card."}, {"x": 41.1, "y": 61.2, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50.0, "y": 89.1, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 26.9, "y": 16.3, "text": "Alege Criptează."}, {"x": 32.2, "y": 33.3, "text": "Alege fișierul sursă."}, {"x": 28.7, "y": 47.3, "text": "Alege Certificat/card."}, {"x": 41.1, "y": 61.2, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50.0, "y": 89.1, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 
 ## Decriptează un fișier primit
@@ -202,7 +202,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" caption="Date fictive. Înainte de finalizare." steps={[{"x": 26.9, "y": 16.3, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 32.2, "y": 61.2, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50.0, "y": 89.1, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 26.9, "y": 16.3, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 32.2, "y": 61.2, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50.0, "y": 89.1, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
 
 Pentru decriptare cu cardul: alege Certificat/card, apoi Citește cardul meu. Selectează identitatea de criptare corespunzătoare, verifică detaliile, introdu PIN-ul și alege Decriptează. Salvează cu un nume nou. Dacă nu apare o identitate compatibilă, cere o copie criptată cu parolă. Oprește-te după o eroare PIN; nu reîncerca automat.
 
@@ -215,7 +215,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Date fictive. Înainte de finalizare." steps={[{"x": 28.7, "y": 47.3, "text": "Alege Certificat/card."}, {"x": 41.1, "y": 69.0, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 28.7, "y": 47.3, "text": "Alege Certificat/card."}, {"x": 41.1, "y": 69.0, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
 
 După citire, selectează identitatea dorită și extinde Detalii certificat. Alege Exportă certificatul de criptare, salvează fișierul .cer și transmite-l expeditorului. Compară amprenta separat. Se exportă numai certificatul public; cheia privată rămâne pe card. Captura arată ecranul inițial, înainte de citire.
 
@@ -226,4 +226,4 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" caption="Date fictive. Înainte de finalizare." steps={[{"x": 26.9, "y": 16.3, "text": "Alege Elimină fișierul."}, {"x": 32.2, "y": 33.3, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50.0, "y": 89.1, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 26.9, "y": 16.3, "text": "Alege Elimină fișierul."}, {"x": 32.2, "y": 33.3, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50.0, "y": 89.1, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />

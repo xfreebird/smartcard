@@ -1129,3 +1129,8 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - Recaptured file-protection screens natively in English, Romanian and Russian for macOS, iPhone, iPad, Android phone/tablet, Linux and Windows; replaced the prior shared-locale image exception. Linux images show only the application window.
 - Moved all numbered callout graphics, including pointer endpoints, outside screenshot pixels across the 684 guide panels and enlarged views. Kept numbered accessible text steps alongside the images.
 - Added regression coverage rejecting identical cross-locale protection images and checking annotation geometry at phone, desktop and original image sizes. Regenerated all task pages and validated the multilingual website before publication.
+
+### 2026-11-09 — Remove screenshot notices from public guides
+
+- Removed fictional-data notices from guide introductions, screenshot captions and generated task pages in English, Romanian and Russian. Retained actual Demo mode instructions and safe support-reporting guidance.
+- Regenerated the public guides for website publication; screenshot provenance remains in engineering evidence files.

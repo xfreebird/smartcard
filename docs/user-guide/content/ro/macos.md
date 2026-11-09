@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # macOS — ghid ilustrat pentru desktop
 
-Pentru eSemnBun 0.2.6 pe macOS 15 sau mai nou. Urmează câte un obiectiv; numerele din imagini corespund instrucțiunilor de sub ele. Apasă imaginea pentru captura la dimensiune completă. Ilustrațiile folosesc identități fictive și documente-model; nu dovedesc semnături reale sau tranzacții live cu servicii publice.
+Pentru eSemnBun 0.2.6 pe macOS 15 sau mai nou. Urmează câte un obiectiv; numerele din imagini corespund instrucțiunilor de sub ele. Apasă imaginea pentru captura la dimensiune completă.
 
 ## Instalează aplicația și conectează cititorul
 
@@ -57,7 +57,7 @@ Lasă cititorul conectat în timpul semnării și obținerii mărcii temporale. 
 
 ## Găsește, previzualizează și partajează rezultatul
 
-Ilustrațiile folosesc fișiere fictive; etichetele demonstrative nu apar în rezultatul obișnuit al unei semnări reale. Ediția macOS independentă scrie de obicei un fișier nou lângă sursă, cu sufix de semnare, fără a suprascrie originalul. Ediția App Store folosește stocarea permisă și acțiunile explicite de export/partajare. Păstrează XML-ul detașat împreună cu originalul.
+Ediția macOS independentă scrie de obicei un fișier nou lângă sursă, cu sufix de semnare, fără a suprascrie originalul. Ediția App Store folosește stocarea permisă și acțiunile explicite de export/partajare. Păstrează XML-ul detașat împreună cu originalul.
 
 <GuideScreenshot src="/img/guide/macos/ro/success.png" alt="Găsește, previzualizează și partajează rezultatul" steps={[{"x": 80, "y": 53, "text": "Apasă rândul finalizat sau Arată în Finder pentru a găsi rezultatul."}, {"x": 90, "y": 53, "text": "Folosește Previzualizare pentru a inspecta rezultatul. Folosește Partajează pentru PDF-ul semnat și alege destinația."}]} />
 
@@ -157,7 +157,7 @@ Sugestiile sistemului, prezentarea nouă Siri pentru căutare/deschidere și lim
 3. Pentru continuare pe alt dispozitiv Apple, folosește același Cont Apple și activează Bluetooth, Wi-Fi și Handoff pe ambele. Deschide Documente în eSemnBun și folosește intrarea Handoff a sistemului pe celălalt dispozitiv.
 4. Handoff reia **numai navigarea către Documente**. Nu copiază fișierul, nu transferă PIN-ul și nu continuă o semnătură în așteptare. Transferă fișierul separat prin metoda aleasă, dacă este necesar.
 
-Indexarea Spotlight este opțională și limitată; un fișier scris lângă sursă de ediția independentă nu este automat eligibil. Capturile fictive nu demonstrează comportamentul Handoff/Spotlight între dispozitive.
+Indexarea Spotlight este opțională și limitată; un fișier scris lângă sursă de ediția independentă nu este automat eligibil.
 
 ## Aprobă o cerere locală de automatizare
 
@@ -188,7 +188,7 @@ Comutatorul este vizibil în captura General de mai sus. Capturile nu ilustreaz�
 4. Pentru ediția independentă, folosește **Caută actualizări** și instalează DMG-ul nou. Copiile App Store se actualizează prin magazin. Păstrează același canal de distribuție.
 5. În **Despre eSemnBun** găsești versiunea instalată; folosește Ajutor sau [Suport](/support), indicând versiunile aplicației/macOS, cititorul/adaptorul și pașii de reproducere. Nu trimite PIN-ul.
 
-Modul demonstrativ normal este o opțiune intenționată în Configurări, cu date fictive și avertisment vizibil; nu produce semnături electronice valide. Captura pentru documentație ascunde bannerul numai în scenarii Debug izolate.
+Modul demonstrativ normal este o opțiune intenționată în Configurări, cu date fictive și avertisment vizibil; nu produce semnături electronice valide.
 
 ## Rezolvă problemele în siguranță
 
@@ -214,7 +214,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" caption="Date fictive. Înainte de finalizare." steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 33, "text": "Alege fișierul sursă."}, {"x": 35, "y": 59, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50, "y": 81, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 33, "text": "Alege fișierul sursă."}, {"x": 35, "y": 59, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50, "y": 81, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 
 ## Criptează pentru titularul unui certificat
@@ -223,7 +223,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Date fictive. Înainte de finalizare." steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 33, "text": "Alege fișierul sursă."}, {"x": 67, "y": 48, "text": "Alege Certificat/card."}, {"x": 38, "y": 59, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50, "y": 81, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 33, "text": "Alege fișierul sursă."}, {"x": 67, "y": 48, "text": "Alege Certificat/card."}, {"x": 38, "y": 59, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50, "y": 81, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 
 ## Decriptează un fișier primit
@@ -232,7 +232,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" caption="Date fictive. Înainte de finalizare." steps={[{"x": 56, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 35, "y": 59, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50, "y": 81, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 56, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 35, "y": 59, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50, "y": 81, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
 
 Pentru decriptare cu cardul: alege Certificat/card, apoi Citește cardul meu. Selectează identitatea de criptare corespunzătoare, verifică detaliile, introdu PIN-ul și alege Decriptează. Salvează cu un nume nou. Dacă nu apare o identitate compatibilă, cere o copie criptată cu parolă. Oprește-te după o eroare PIN; nu reîncerca automat.
 
@@ -245,7 +245,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Date fictive. Înainte de finalizare." steps={[{"x": 67, "y": 48, "text": "Alege Certificat/card."}, {"x": 35, "y": 64, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 67, "y": 48, "text": "Alege Certificat/card."}, {"x": 35, "y": 64, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
 
 După citire, selectează identitatea dorită și extinde Detalii certificat. Alege Exportă certificatul de criptare, salvează fișierul .cer și transmite-l expeditorului. Compară amprenta separat. Se exportă numai certificatul public; cheia privată rămâne pe card. Captura arată ecranul inițial, înainte de citire.
 
@@ -256,4 +256,4 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-remove-light.png" alt="Elimină un fișier local" caption="Date fictive. Înainte de finalizare." steps={[{"x": 67, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 35, "y": 33, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50, "y": 81, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 67, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 35, "y": 33, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50, "y": 81, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />

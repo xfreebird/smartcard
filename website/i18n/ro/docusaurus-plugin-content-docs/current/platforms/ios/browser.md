@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Conectează un serviciu, verifică cererile și gestionează sesiunile web.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Autentifică-te sau semnează pe un site
 
 Deschide Browser, folosește Deschide o adresă ori un serviciu salvat și navighează la autentificarea sau semnarea cu act electronic. Browserul solicită prezentarea desktop pentru fluxurile compatibile de autentificare. Păstrează eSemnBun în prim-plan; conexiunea mobilă se oprește în fundal. Verifică serviciul și cererea înainte de aprobare. Ilustrația păstrează rețeaua și hardware-ul inactive, deci comenzile de navigare pot fi dezactivate.

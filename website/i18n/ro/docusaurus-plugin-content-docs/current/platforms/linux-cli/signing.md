@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Semnează PDF sau creează o semnătură XML
 
 PAdES-T include semnătura și marca temporală în PDF. Fără calea rezultatului se creează separat `-semnat.pdf`; rezultatele existente nu sunt suprascrise. XAdES folosește implicit XML detașat și SHA-256: păstrează originalul neschimbat împreună cu XML-ul. BES nu are marcă temporală, T are marcă temporală, C adaugă referințe de certificat/revocare. Folosește `--enveloping` doar dacă destinatarul cere originalul în XML. Formatele temporizate necesită rețea; C obține și referințe de stare.

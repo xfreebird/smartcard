@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verify a PDF or XML and inspect its signer and certificate.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Verify a signed PDF and inspect its certificate
 
 Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF or XML. Expand each signature, then its certificate and technical sections. Check every signature when a file is countersigned. Offline results distinguish document integrity, cryptographic signature, embedded trust and timestamp information; they are not a current revocation check.

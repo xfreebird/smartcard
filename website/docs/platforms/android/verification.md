@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verify a PDF or XML and inspect its signer and certificate.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Check a signed document
 
 Verification does not require the card or PIN. A green result refers to the checks shown, not to the filename or the presence of a visible stamp.

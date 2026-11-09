@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Actualizează sau rezolvă o problemă
 
 Instalările Microsoft Store se actualizează prin magazin. Versiunile independente oferă verificări de actualizare care deschid pagina de descărcare; instalează MSI-ul nou al versiunii.

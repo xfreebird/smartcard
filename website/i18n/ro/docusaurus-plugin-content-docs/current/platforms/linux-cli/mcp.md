@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Alege dosarele autorizate și configurează clientul MCP.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Conectează un client MCP cu acces explicit
 
 Configurează un client local compatibil cu protocolul folosind calea absolută a executabilului și un dosar autorizat ales de tine. Înlocuiește cu propriul dosar fizic existent. Rădăcinile declarate de client nu acordă acces. Legăturile simbolice, traversarea și fișierele speciale sunt respinse. Fără rădăcini ai doar descoperire. Helperul folosește stdio, nu un serviciu de semnare în rețea. Limita este8MiB; originalele XML necesită o rădăcină detașată explicită.
@@ -52,4 +50,4 @@ esemnbun-mcp \
   --broker-directory "$HOME/.local/share/eSemnBun/AgentBroker"
 ```
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Activează semnarea cu aprobare în aplicație" caption="Captură nativă a preferințelor cu date fictive. Opțiunea este dezactivată în această sesiune izolată; nu s-a efectuat aprobarea MCP sau semnarea reală cu un card." steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Activează semnarea cu aprobare în aplicație" steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />

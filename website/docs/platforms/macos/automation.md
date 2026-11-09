@@ -30,7 +30,7 @@ The system’s suggested actions, newer Siri search/open presentation and langua
 3. To resume on another Apple device, keep both devices signed into the same Apple Account with Bluetooth, Wi-Fi and Handoff enabled. Open Documents in eSemnBun, then use the system’s Handoff entry on the other device.
 4. Handoff resumes **Documents navigation only**. It does not copy the file, transfer a PIN or continue a pending signature. Independently move the file through your chosen file-sharing method if needed.
 
-Spotlight indexing is opt-in and limited; a file written beside its source by the standalone app is not automatically eligible. Handoff and Spotlight cross-device/system behavior are not demonstrated by the fictional captures.
+Spotlight indexing is opt-in and limited; a file written beside its source by the standalone app is not automatically eligible.
 
 ## Approve a local automation request
 

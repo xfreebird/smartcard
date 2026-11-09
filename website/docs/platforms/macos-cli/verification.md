@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verify a PDF or XML and inspect its signer and certificate.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Verify and interpret the result
 
 Choose the signed PDF or XML. For detached XML, provide the directory containing its unchanged originals. Verification is offline: integrity, signature and embedded trust results do not establish current revocation status. `ok:true` means execution succeeded, not that the signature is valid. No recognized signature is not a successful signed-document verification.
@@ -28,7 +26,7 @@ esemnbun verify Declaration.xml /home/me/Originals
 esemnbun verify --json Contract-semnat.pdf
 ```
 
-<GuideScreenshot src="/img/guide/macos-cli/en/unsigned.svg" alt="command-line guide" caption="Captured local read-only output; this is an unsigned fictional fixture, not a verified signature." steps={[{"x": 3, "y": 16.7, "text": "Use JSON for automation and inspect status, not only ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/unsigned.svg" alt="command-line guide" steps={[{"x": 3, "y": 16.7, "text": "Use JSON for automation and inspect status, not only ok."}]} />
 
 ```sh
 esemnbun verify --json unsigned.pdf

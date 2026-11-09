@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Add files, choose the format and stamp, approve and save the output.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Add documents and prepare a batch
 
 Choose or drop all the intended files into Sign. You can select multiple documents. Review every filename and remove unintended inputs before authorization. Drag/drop behavior depends on your file manager; choosing files remains available.
@@ -48,7 +46,7 @@ Leave the reader connected until the result appears. Timestamp retrieval needs n
 
 ## Locate the completed output
 
-The app creates a separate output rather than replacing the input. Use the completed row to open/reveal the result. Retain the unchanged original with detached XML. The illustrated completion uses an unsigned fictional sample, not proof of signing.
+The app creates a separate output rather than replacing the input. Use the completed row to open/reveal the result. Retain the unchanged original with detached XML.
 
 <GuideScreenshot src="/img/guide/linux/en/success.png" alt="Locate the completed output" steps={[{"text": "Activate the completed result to locate/open its separate output.", "x": 70, "y": 48}]} />
 

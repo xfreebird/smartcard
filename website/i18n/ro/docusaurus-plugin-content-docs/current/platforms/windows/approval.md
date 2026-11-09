@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Pregătește un PDF și verifică cererea de aprobare în aplicație.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Aprobă cereri locale de semnare (MCP)
 
 În **Setări → General**, derulează la **Avansat** și activează **Permite cereri locale de semnare (MCP)**. Copiază dosarul privat afișat sub comutator în configurația clientului MCP. Păstrează eSemnBun deschis și selectează cardul dorit. Opțiunea nu este disponibilă în modul demonstrativ.

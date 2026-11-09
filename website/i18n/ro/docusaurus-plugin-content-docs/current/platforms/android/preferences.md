@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Limbă, aspect, demonstrație și suport
 
 Deschide rotița → General. Alege Limba aplicației: Sistem, română, engleză sau rusă; alege Tema: Sistem, Luminoasă sau Întunecată. Preferințele se aplică doar aplicației eSemnBun și sunt memorate. Android 13+ oferă aceeași alegere a limbii în Setări sistem → Aplicații → eSemnBun → Limbă. General include și ștampilele pentru browser și ștergerea PIN-ului salvat al cardului selectat.

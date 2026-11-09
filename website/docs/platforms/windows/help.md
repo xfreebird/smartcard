@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Resolve reader, PIN, document and connection problems safely.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Update or resolve a problem
 
 Microsoft Store installations update through the store. Standalone builds offer update checks that lead to the download page; install the replacement MSI from the release.

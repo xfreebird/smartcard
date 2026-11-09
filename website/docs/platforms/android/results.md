@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Distinguish invalid signatures, unconfirmed trust and unsigned files.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Understand an invalid signature
 
 Invalid means that document integrity or the cryptographic signature check failed. It can indicate changed bytes or a damaged/incorrect signature. A valid-looking stamp, familiar filename, or recognized author does not override this result.

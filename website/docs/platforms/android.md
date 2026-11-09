@@ -20,6 +20,6 @@ Choose what you want to do. Each task has its own short illustrated guide.
 
 Use a compatible USB/OTG reader and an active electronic ID with its signing PIN. Android 8 or later and USB host support are required. NFC signing is unavailable. Install from the channel listed on [Downloads](/downloads); an APK installs on a device, while an AAB is a store upload. Update through the same distribution channel.
 
-The illustrations use fictional people and sample documents. Numbered circles point to the controls used in each journey. Tap an image to enlarge it. A preview result illustrates the interface; it is not a legally signed document.
+Numbered circles point to the controls used in each journey. Tap an image to enlarge it.
 
 The bottom bar opens Sign, Verify, Files, Browser, and Card. In a wide landscape window the app can show a navigation rail and place the card beside file operations. Narrow landscape windows keep compact navigation. See the dedicated [tablet guide](./android-tablet.md) for the expanded workspace.

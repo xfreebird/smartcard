@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Configurează Siri, Spotlight, Handoff și aprobarea disponibilă pe dispozitiv.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Folosește Scurtături, Siri, Spotlight și Handoff
 
 În aplicația Apple Scurtături, creează o scurtătură, adaugă o acțiune, caută eSemnBun și alege Deschide Documente, Pregătește PDF pentru semnare ori Verifică PDF. Oferă un PDF acțiunilor de pregătire/verificare. Pregătirea deschide aplicația cu PDF-ul în listă; verifici și aprobi semnarea în prim-plan. Verificarea returnează rezultatul offline și deschide detaliile. Limita PDF este 32 MiB. Rulează scurtătura din aplicație ori printr-o expresie Siri disponibilă; Siri nu primește PIN-ul cardului.

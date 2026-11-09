@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Connect a service, review requests and manage website sessions.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Use the browser bridge
 
 Enable **Browser connection** in Settings. Open a supported service in a browser on the same Windows computer. When a request arrives, check its site, files, and selected card before authorization.

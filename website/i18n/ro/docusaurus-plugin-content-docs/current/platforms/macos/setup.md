@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Instalează, conectează cititorul și alege cardul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Instalează aplicația și conectează cititorul
 
 Deschide [Descărcări](/downloads/). Instalează ediția Mac App Store sau deschide DMG-ul pentru desktop și trage eSemnBun în Aplicații. Ejectează DMG-ul și pornește copia instalată. Arhiva TAR.GZ și Homebrew oferă instrumentele CLI/MCP; vezi [ghidul pentru terminal](../macos-cli.md).

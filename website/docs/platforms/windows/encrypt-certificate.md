@@ -14,12 +14,10 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Encrypt for a certificate holder
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Encrypt for a certificate holder
 
 Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
 
 Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Fictional data. Before completion." steps={[{"x": 40, "y": 15, "text": "Choose Encrypt."}, {"x": 35, "y": 27, "text": "Choose the source file."}, {"x": 40, "y": 42, "text": "Choose Certificate/card."}, {"x": 37, "y": 54, "text": "Choose the recipient’s certificate file."}, {"x": 40, "y": 94, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 40, "y": 15, "text": "Choose Encrypt."}, {"x": 35, "y": 27, "text": "Choose the source file."}, {"x": 40, "y": 42, "text": "Choose Certificate/card."}, {"x": 37, "y": 54, "text": "Choose the recipient’s certificate file."}, {"x": 40, "y": 94, "text": "Choose Encrypt, then save the new encrypted file."}]} />

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Open signing details, share saved files and clear recent history.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Find a saved document and open its signing details
 
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.

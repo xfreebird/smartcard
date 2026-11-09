@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Decrypt a received file
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Decrypt a received file
 
 Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.

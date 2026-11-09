@@ -30,7 +30,7 @@ Sugestiile sistemului, prezentarea nouă Siri pentru căutare/deschidere și lim
 3. Pentru continuare pe alt dispozitiv Apple, folosește același Cont Apple și activează Bluetooth, Wi-Fi și Handoff pe ambele. Deschide Documente în eSemnBun și folosește intrarea Handoff a sistemului pe celălalt dispozitiv.
 4. Handoff reia **numai navigarea către Documente**. Nu copiază fișierul, nu transferă PIN-ul și nu continuă o semnătură în așteptare. Transferă fișierul separat prin metoda aleasă, dacă este necesar.
 
-Indexarea Spotlight este opțională și limitată; un fișier scris lângă sursă de ediția independentă nu este automat eligibil. Capturile fictive nu demonstrează comportamentul Handoff/Spotlight între dispozitive.
+Indexarea Spotlight este opțională și limitată; un fișier scris lângă sursă de ediția independentă nu este automat eligibil.
 
 ## Aprobă o cerere locală de automatizare
 

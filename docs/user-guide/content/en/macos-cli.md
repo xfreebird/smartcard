@@ -72,7 +72,7 @@ esemnbun verify Declaration.xml /home/me/Originals
 esemnbun verify --json Contract-semnat.pdf
 ```
 
-<GuideScreenshot src="/img/guide/macos-cli/en/unsigned.svg" alt="command-line guide" caption="Captured local read-only output; this is an unsigned fictional fixture, not a verified signature." steps={[{"x": 3, "y": 16.7, "text": "Use JSON for automation and inspect status, not only ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/en/unsigned.svg" alt="command-line guide" steps={[{"x": 3, "y": 16.7, "text": "Use JSON for automation and inspect status, not only ok."}]} />
 
 ```sh
 esemnbun verify --json unsigned.pdf

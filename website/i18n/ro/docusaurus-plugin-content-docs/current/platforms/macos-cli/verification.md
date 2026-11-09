@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verifică un PDF sau XML și inspectează semnatarul și certificatul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Verifică și interpretează rezultatul
 
 Alege PDF-ul sau XML-ul semnat. Pentru XML detașat, indică dosarul cu originalele neschimbate. Verificarea este offline: integritatea, semnătura și lanțul încorporat nu stabilesc starea curentă de revocare. `ok:true` înseamnă executare reușită, nu semnătură validă. Lipsa semnăturilor recunoscute nu este o verificare reușită a unui document semnat.
@@ -28,7 +26,7 @@ esemnbun verify Declaration.xml /home/me/Originals
 esemnbun verify --json Contract-semnat.pdf
 ```
 
-<GuideScreenshot src="/img/guide/macos-cli/ro/unsigned.svg" alt="ghid pentru linia de comandă" caption="Rezultat local capturat fără acces la card; fișierul fictiv nu are semnături." steps={[{"x": 3, "y": 16.7, "text": "Pentru automatizare citește status din JSON, nu doar ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ro/unsigned.svg" alt="ghid pentru linia de comandă" steps={[{"x": 3, "y": 16.7, "text": "Pentru automatizare citește status din JSON, nu doar ok."}]} />
 
 ```sh
 esemnbun verify --json unsigned.pdf

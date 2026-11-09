@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Înțelege un rezultat neașteptat
 
 Invalid înseamnă că verificarea semnăturii sau integrității a eșuat. Încredere neconfirmată înseamnă că lanțul inclus nu este confirmat și diferă de modificarea dovedită. Nesemnat sau nerecunoscut înseamnă că nu a fost găsită o semnătură acceptată. Numele fișierului ori pictograma verde nu sunt dovezi. Un fișier inaccesibil este indisponibil, nu neapărat nesemnat.

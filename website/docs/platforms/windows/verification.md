@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verify a PDF or XML and inspect its signer and certificate.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Verify and inspect activity
 
 Open **Verify** and choose or drop in a signed PDF/XML file. A detached XML signature also needs the original document. Inspect the signer, integrity, certificate chain, and available timestamp checks. A valid filename or green card status does not establish that a document signature is valid.

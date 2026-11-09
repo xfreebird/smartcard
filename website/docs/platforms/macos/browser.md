@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Connect a service, review requests and manage website sessions.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Use a service and manage bookmarks
 
 Open Browser from the sidebar. Enter a trusted service’s HTTPS address and use the arrow to open it; back, forward and reload remain in the toolbar. Choose the bookmark menu for saved services, Add bookmark, Manage bookmarks and browser-data cleanup. In the bookmark dialog shown below, enter a title, URL and icon, then Save. Close with Done and select the saved service from the bookmark menu.

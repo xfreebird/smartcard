@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Add files, choose the format and stamp, approve and save the output.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Sign PDF or create an XML signature
 
 PDF signing embeds a PAdES-T signature and timestamp. Omitting the output path creates a separate `-semnat.pdf` file; existing outputs are not overwritten. XAdES defaults to detached XML and SHA-256: retain the unchanged original with the XML. Choose BES without timestamp, T with timestamp, or C with certificate/revocation references. Use `--enveloping` only when the recipient wants the original inside XML. Timestamped formats need network access; C also obtains status references.

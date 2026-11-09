@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Choose trusted folders and configure your MCP host.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Connect an MCP host with explicit file access
 
 Configure a local host that supports the implemented protocol with an absolute executable path and a trusted root you selected. Substitute your own existing physical directory. Client-advertised roots do not grant access. Symlinks, path traversal and special files are rejected. No root means discovery only. The helper uses stdio, not a network signing endpoint. Files are bounded to 8 MiB; detached XML originals need an explicitly selected detached root.
@@ -52,4 +50,4 @@ esemnbun-mcp \
   --broker-directory "$HOME/.local/share/eSemnBun/AgentBroker"
 ```
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Enable signing with desktop approval" caption="Native Settings capture with fictional data. The opt-in is disabled in this isolated screenshot session; no live MCP approval or card signing was performed." steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Enable signing with desktop approval" steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />

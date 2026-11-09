@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Connect a service, review requests and manage website sessions.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Sign on a website
 
 Use only a service whose address and request you recognize. The app is independent from the Moldovan government; official sources are linked in Browser and About. Website appearance can differ from these illustrations.

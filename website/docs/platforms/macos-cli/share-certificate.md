@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Share your encryption certificate
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Share your encryption certificate
 
 Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.

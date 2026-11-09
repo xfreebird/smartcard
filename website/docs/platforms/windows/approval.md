@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Prepare a PDF and review its foreground approval request.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Approve local signing requests (MCP)
 
 In **Settings → General**, scroll to **Advanced** and enable **Allow local signing requests (MCP)**. Copy the private directory shown below the switch into your MCP client configuration. Keep eSemnBun running and select the intended card. This option is unavailable while demo mode is on.

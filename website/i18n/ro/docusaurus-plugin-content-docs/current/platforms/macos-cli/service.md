@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Pornește și oprește conexiunea locală sau serviciul utilizatorului.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Rulează conexiunea locală cu browserul
 
 Rulează bridge-ul în prim-plan cât timp folosești site-ul pe același calculator. Implicit: HTTP18480 și HTTPS18443 pe loopback. Nu porni simultan bridge-ul GUI sau MoldSign pe aceleași porturi. Oprește cu Ctrl+C. Pachetul necesită identitatea HTTPS localhost. Pentru dialoguri native de acord/PIN folosește aplicația desktop.

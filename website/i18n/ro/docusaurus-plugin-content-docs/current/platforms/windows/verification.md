@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Verifică un PDF sau XML și inspectează semnatarul și certificatul.
 
-Ilustrațiile folosesc date fictive. Urmează instrucțiunile în aplicația instalată.
-
 ## Verifică și consultă activitatea
 
 Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O semnătură XML detașată necesită și documentul original. Consultă semnatarul, integritatea, lanțul de certificate și verificările disponibile ale mărcii temporale. Un nume de fișier sau o stare verde a cardului nu demonstrează validitatea semnăturii documentului.

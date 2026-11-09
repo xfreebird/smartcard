@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Linux — illustrated desktop guide
 
-Follow the numbered screenshots for eSemnBun 0.2.6 on Linux. The captures show a native GTK desktop with fictional people and sample documents. Numbered circles are guide annotations; the demo banner is hidden only in isolated documentation captures. Successful-looking preview states do not demonstrate a real electronic signature. Tap an image to enlarge it, then choose Actual size to inspect small controls.
+Follow the numbered screenshots for eSemnBun 0.2.6 on Linux. Tap an image to enlarge it, then choose Actual size to inspect small controls.
 
 Install the desktop package for your distribution and architecture from [Downloads](/downloads/), then open eSemnBun from your application launcher. DEB/RPM/Flatpak desktop downloads open a graphical app; the package-manager CLI feeds and terminal archives install command-line tools. See the [Linux CLI guide](./linux-cli.md) for terminal and MCP setup. Ubuntu 24.04/Fedora are supported desktop targets; check the chosen package’s requirements. You need an active supported electronic ID, its correct signing PIN, a compatible USB reader and an adapter if needed. NFC signing is unavailable. The private signing key remains on the card.
 
@@ -63,7 +63,7 @@ Leave the reader connected until the result appears. Timestamp retrieval needs n
 
 ## 9. Locate the completed output
 
-The app creates a separate output rather than replacing the input. Use the completed row to open/reveal the result. Retain the unchanged original with detached XML. The illustrated completion uses an unsigned fictional sample, not proof of signing.
+The app creates a separate output rather than replacing the input. Use the completed row to open/reveal the result. Retain the unchanged original with detached XML.
 
 <GuideScreenshot src="/img/guide/linux/en/success.png" alt="Locate the completed output" steps={[{"text": "Activate the completed result to locate/open its separate output.", "x": 70, "y": 48}]} />
 
@@ -164,7 +164,7 @@ The application menu contains Preferences, About, Check for Updates and Quit. Op
 
 In Preferences, enable local signing requests only when you intend to use an MCP client. Copy the private broker directory shown in the setting into the helper configuration. Keep the desktop app running. Each request opens a staged PDF for review: check the document, card and operation, approve it explicitly, then enter the PIN in the native dialog. A saved PIN never replaces approval. Cancel unexpected requests.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Approve a local MCP signing request" caption="Native Settings capture with fictional data. The opt-in is disabled in this isolated screenshot session; no live MCP approval or card signing was performed." steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Approve a local MCP signing request" steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
 
 
 ## Use government websites in your own browser
@@ -184,7 +184,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" caption="Fictional data. Before completion." steps={[{"x": 26.9, "y": 16.3, "text": "Choose Encrypt."}, {"x": 32.2, "y": 33.3, "text": "Choose the source file."}, {"x": 32.2, "y": 61.2, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50.0, "y": 89.1, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Encrypt."}, {"x": 32.2, "y": 33.3, "text": "Choose the source file."}, {"x": 32.2, "y": 61.2, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50.0, "y": 89.1, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 
 ## Encrypt for a certificate holder
@@ -193,7 +193,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Fictional data. Before completion." steps={[{"x": 26.9, "y": 16.3, "text": "Choose Encrypt."}, {"x": 32.2, "y": 33.3, "text": "Choose the source file."}, {"x": 28.7, "y": 47.3, "text": "Choose Certificate/card."}, {"x": 41.1, "y": 61.2, "text": "Choose the recipient’s certificate file."}, {"x": 50.0, "y": 89.1, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Encrypt."}, {"x": 32.2, "y": 33.3, "text": "Choose the source file."}, {"x": 28.7, "y": 47.3, "text": "Choose Certificate/card."}, {"x": 41.1, "y": 61.2, "text": "Choose the recipient’s certificate file."}, {"x": 50.0, "y": 89.1, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 
 ## Decrypt a received file
@@ -202,7 +202,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" caption="Fictional data. Before completion." steps={[{"x": 26.9, "y": 16.3, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32.2, "y": 61.2, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50.0, "y": 89.1, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32.2, "y": 61.2, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50.0, "y": 89.1, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
 
@@ -215,7 +215,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Fictional data. Before completion." steps={[{"x": 28.7, "y": 47.3, "text": "Choose Certificate/card."}, {"x": 41.1, "y": 69.0, "text": "Choose Read my card; scroll if needed."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 28.7, "y": 47.3, "text": "Choose Certificate/card."}, {"x": 41.1, "y": 69.0, "text": "Choose Read my card; scroll if needed."}]} />
 
 After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.
 
@@ -226,4 +226,4 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" caption="Fictional data. Before completion." steps={[{"x": 26.9, "y": 16.3, "text": "Choose Remove file."}, {"x": 32.2, "y": 33.3, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 50.0, "y": 89.1, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Remove file."}, {"x": 32.2, "y": 33.3, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 50.0, "y": 89.1, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

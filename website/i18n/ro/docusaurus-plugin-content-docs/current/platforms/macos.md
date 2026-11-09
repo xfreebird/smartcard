@@ -18,4 +18,4 @@ Alege ce vrei să faci. Fiecare activitate are un ghid ilustrat separat.
 
 ## Înainte de a începe
 
-Pentru eSemnBun 0.2.6 pe macOS 15 sau mai nou. Urmează câte un obiectiv; numerele din imagini corespund instrucțiunilor de sub ele. Apasă imaginea pentru captura la dimensiune completă. Ilustrațiile folosesc identități fictive și documente-model; nu dovedesc semnături reale sau tranzacții live cu servicii publice.
+Pentru eSemnBun 0.2.6 pe macOS 15 sau mai nou. Urmează câte un obiectiv; numerele din imagini corespund instrucțiunilor de sub ele. Apasă imaginea pentru captura la dimensiune completă.

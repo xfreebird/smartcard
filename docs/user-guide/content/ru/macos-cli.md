@@ -72,7 +72,7 @@ esemnbun verify Declaration.xml /home/me/Originals
 esemnbun verify --json Contract-semnat.pdf
 ```
 
-<GuideScreenshot src="/img/guide/macos-cli/ru/unsigned.svg" alt="руководство командной строки" caption="Локальный результат без обращения к карте; вымышленный файл не содержит подписей." steps={[{"x": 3, "y": 16.7, "text": "Для автоматизации анализируйте status JSON, а не только ok."}]} />
+<GuideScreenshot src="/img/guide/macos-cli/ru/unsigned.svg" alt="руководство командной строки" steps={[{"x": 3, "y": 16.7, "text": "Для автоматизации анализируйте status JSON, а не только ok."}]} />
 
 ```sh
 esemnbun verify --json unsigned.pdf

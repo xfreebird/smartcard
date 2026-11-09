@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # macOS — illustrated desktop guide
 
-For eSemnBun 0.2.6 on macOS 15 or later. Follow one goal at a time; numbered markers correspond to the instructions below each image. Click an image to open its full-size capture. Illustrations use fictional identities and sample documents; they do not prove a real signature or live government-service transaction.
+For eSemnBun 0.2.6 on macOS 15 or later. Follow one goal at a time; numbered markers correspond to the instructions below each image. Click an image to open its full-size capture.
 
 ## Install and connect your reader
 
@@ -57,7 +57,7 @@ Leave the reader connected while the app signs and obtains a timestamp. Timestam
 
 ## Find, preview and share the completed output
 
-These illustrations use fictional sample files; their demonstration labels do not appear in an ordinary real signing result. Standalone macOS normally writes a new file beside the source, with a signed suffix, without overwriting the original. The App Store edition uses its permitted storage and explicit export/share actions. Keep a detached XML together with its original.
+Standalone macOS normally writes a new file beside the source, with a signed suffix, without overwriting the original. The App Store edition uses its permitted storage and explicit export/share actions. Keep a detached XML together with its original.
 
 <GuideScreenshot src="/img/guide/macos/en/success.png" alt="Find, preview and share the completed output" steps={[{"x": 80, "y": 53, "text": "Click the completed row or Show in Finder to locate the output."}, {"x": 90, "y": 53, "text": "Use Preview to inspect the output. Use Share for the signed PDF, then choose its destination."}]} />
 
@@ -157,7 +157,7 @@ The system’s suggested actions, newer Siri search/open presentation and langua
 3. To resume on another Apple device, keep both devices signed into the same Apple Account with Bluetooth, Wi-Fi and Handoff enabled. Open Documents in eSemnBun, then use the system’s Handoff entry on the other device.
 4. Handoff resumes **Documents navigation only**. It does not copy the file, transfer a PIN or continue a pending signature. Independently move the file through your chosen file-sharing method if needed.
 
-Spotlight indexing is opt-in and limited; a file written beside its source by the standalone app is not automatically eligible. Handoff and Spotlight cross-device/system behavior are not demonstrated by the fictional captures.
+Spotlight indexing is opt-in and limited; a file written beside its source by the standalone app is not automatically eligible.
 
 ## Approve a local automation request
 
@@ -188,7 +188,7 @@ Optional browser PDF stamps and legacy desktop-client access have their own Brow
 4. In standalone installations, use **Check for updates** and install the newer DMG. App Store copies update through the App Store. Keep the same distribution when updating.
 5. Use **About eSemnBun** to find the installed version; use Help or the [support page](/support) with app/macOS version, reader/adapter model and reproduction steps. Never send a PIN.
 
-Normal Demo mode is an intentional Settings option with fictional data and a visible notice; it cannot produce valid electronic signatures. Documentation capture hides its banner only in isolated Debug fixtures.
+Normal Demo mode is an intentional Settings option with fictional data and a visible notice; it cannot produce valid electronic signatures.
 
 ## Recover safely
 
@@ -214,7 +214,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Encrypt a file with a password" caption="Fictional data. Before completion." steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 33, "text": "Choose the source file."}, {"x": 35, "y": 59, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50, "y": 81, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 33, "text": "Choose the source file."}, {"x": 35, "y": 59, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50, "y": 81, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 
 ## Encrypt for a certificate holder
@@ -223,7 +223,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Fictional data. Before completion." steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 33, "text": "Choose the source file."}, {"x": 67, "y": 48, "text": "Choose Certificate/card."}, {"x": 38, "y": 59, "text": "Choose the recipient’s certificate file."}, {"x": 50, "y": 81, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 33, "text": "Choose the source file."}, {"x": 67, "y": 48, "text": "Choose Certificate/card."}, {"x": 38, "y": 59, "text": "Choose the recipient’s certificate file."}, {"x": 50, "y": 81, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 
 ## Decrypt a received file
@@ -232,7 +232,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" caption="Fictional data. Before completion." steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 59, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 81, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 59, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 81, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
 
@@ -245,7 +245,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Fictional data. Before completion." steps={[{"x": 67, "y": 48, "text": "Choose Certificate/card."}, {"x": 35, "y": 64, "text": "Choose Read my card; scroll if needed."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 67, "y": 48, "text": "Choose Certificate/card."}, {"x": 35, "y": 64, "text": "Choose Read my card; scroll if needed."}]} />
 
 After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.
 
@@ -256,4 +256,4 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-remove-light.png" alt="Remove a local file" caption="Fictional data. Before completion." steps={[{"x": 67, "y": 17, "text": "Choose Remove file."}, {"x": 35, "y": 33, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 50, "y": 81, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 67, "y": 17, "text": "Choose Remove file."}, {"x": 35, "y": 33, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 50, "y": 81, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

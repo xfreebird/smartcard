@@ -18,4 +18,4 @@ Choose what you want to do. Each task has its own short illustrated guide.
 
 ## Before you begin
 
-For eSemnBun 0.2.6 on macOS 15 or later. Follow one goal at a time; numbered markers correspond to the instructions below each image. Click an image to open its full-size capture. Illustrations use fictional identities and sample documents; they do not prove a real signature or live government-service transaction.
+For eSemnBun 0.2.6 on macOS 15 or later. Follow one goal at a time; numbered markers correspond to the instructions below each image. Click an image to open its full-size capture.

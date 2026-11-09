@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Distinguish invalid signatures, unconfirmed trust and unsigned files.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Recognize a modified document
 
 An invalid result can mean the document bytes no longer match what was signed. Obtain an intact signed copy from the sender and verify that copy. Adding a stamp or renaming the file does not repair it.

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Open signing details, share saved files and clear recent history.
 
-Illustrations use fictional data. Follow the instructions in your installed app.
-
 ## Find and open saved documents
 
 Open Documents and select the signed-document list. Choose an entry to open its signing details, then use the available open/reveal actions. Switch to history to review recent operations. Clearing recent history keeps the independent signed-document library; it does not delete signed files.
