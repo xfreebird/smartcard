@@ -27,7 +27,7 @@ if [[ "$platform" == ios ]]; then
     device_data_root="${app_container%/Containers/Data/Application/*}"
     ready_file="$device_data_root$capture_tmp/ready.log"
     trap 'xcrun simctl terminate "$device" md.esemnbun.ios >/dev/null 2>&1 || true; rm -rf "$capture_tmp" "$device_data_root$capture_tmp"' EXIT
-    for theme in light dark; do
+    for theme in ${MSIGN_CAPTURE_THEMES:-light dark}; do
         xcrun simctl ui "$device" appearance "$theme"
         for scenario in "${scenarios[@]}"; do
             count=1; [[ "$scenario" == multiple ]] && count=3
@@ -37,7 +37,7 @@ if [[ "$platform" == ios ]]; then
             SIMCTL_CHILD_MSIGN_DEMO_TAB="${MSIGN_CAPTURE_TAB:-sign}" \
             SIMCTL_CHILD_MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" \
             SIMCTL_CHILD_MSIGN_DEMO_FILES="$files" \
-                xcrun simctl launch --stdout="$capture_tmp/ready.log" "$device" md.esemnbun.ios -appTheme "$theme" -appLanguage ro -AppleLanguages "(ro)"
+                xcrun simctl launch --stdout="$capture_tmp/ready.log" "$device" md.esemnbun.ios -appTheme "$theme" -appLanguage "${MSIGN_CAPTURE_LANGUAGE:-ro}" -AppleLanguages "(${MSIGN_CAPTURE_LANGUAGE:-ro})"
             ready=0
             for attempt in {1..60}; do
                 if [[ -f "$ready_file" ]] && /usr/bin/grep -q MSIGN_DEMO_READY "$ready_file"; then ready=1; break; fi
@@ -72,16 +72,16 @@ for item in list where item[kCGWindowOwnerPID as String] as? Int == pid {
 }
 SWIFT
     swiftc "$helper" -o "$helper_dir/window-list"
-    for theme in light dark; do
+    for theme in ${MSIGN_CAPTURE_THEMES:-light dark}; do
         for scenario in "${scenarios[@]}"; do
             count=1; [[ "$scenario" == multiple ]] && count=3
             dark=; [[ "$theme" == dark ]] && dark=1
             if [[ -n "$dark" ]]; then
                 MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.capture MSIGN_SCREENSHOT_CAPTURE=1 MSIGN_QA_NO_HARDWARE=1 MSIGN_DEMO_DARK=1 MSIGN_DEMO_CARDS="$count" MSIGN_DEMO_SCENARIO="$scenario" \
-                MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" MSIGN_DEMO_FILES="$files" "$app/Contents/MacOS/eSemnBun" -mainSection "${MSIGN_CAPTURE_TAB:-sign}" -appTheme "$theme" -appLanguage ro -AppleLanguages "(ro)" &
+                MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" MSIGN_DEMO_FILES="$files" "$app/Contents/MacOS/eSemnBun" -mainSection "${MSIGN_CAPTURE_TAB:-sign}" -appTheme "$theme" -appLanguage "${MSIGN_CAPTURE_LANGUAGE:-ro}" -AppleLanguages "(${MSIGN_CAPTURE_LANGUAGE:-ro})" &
             else
                 MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.capture MSIGN_SCREENSHOT_CAPTURE=1 MSIGN_QA_NO_HARDWARE=1 MSIGN_DEMO_CARDS="$count" MSIGN_DEMO_SCENARIO="$scenario" \
-                MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" MSIGN_DEMO_FILES="$files" "$app/Contents/MacOS/eSemnBun" -mainSection "${MSIGN_CAPTURE_TAB:-sign}" -appTheme "$theme" -appLanguage ro -AppleLanguages "(ro)" &
+                MSIGN_DEMO_SELECTED="${MSIGN_CAPTURE_SELECTED:-0}" MSIGN_DEMO_FILES="$files" "$app/Contents/MacOS/eSemnBun" -mainSection "${MSIGN_CAPTURE_TAB:-sign}" -appTheme "$theme" -appLanguage "${MSIGN_CAPTURE_LANGUAGE:-ro}" -AppleLanguages "(${MSIGN_CAPTURE_LANGUAGE:-ro})" &
             fi
             app_pid=$!
             window=

@@ -22,7 +22,7 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 37, "y": 30, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 40, "y": 59, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50, "y": 77, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" caption="Date fictive. Înainte de finalizare." steps={[{"x": 26.9, "y": 16.3, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 32.2, "y": 61.2, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50.0, "y": 89.1, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
 
 Pentru decriptare cu cardul: alege Certificat/card, apoi Citește cardul meu. Selectează identitatea de criptare corespunzătoare, verifică detaliile, introdu PIN-ul și alege Decriptează. Salvează cu un nume nou. Dacă nu apare o identitate compatibilă, cere o copie criptată cu parolă. Oprește-te după o eroare PIN; nu reîncerca automat.
 

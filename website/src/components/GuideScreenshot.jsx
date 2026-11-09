@@ -34,11 +34,9 @@ function AnnotatedImage({image, alt, steps, start}) {
     <img ref={imageRef} src={image} alt={alt} loading="lazy" />
     {geometry && <svg className="guide-screenshot-pointers" viewBox={`0 0 ${geometry.frame.width} ${geometry.frame.height}`} aria-hidden="true">
       {callouts.map(item => {
-        const edge = item.side === 'left' ? geometry.image.x - 5 : geometry.image.x + geometry.image.width + 5;
-        const path = `M ${item.x} ${item.y} L ${edge} ${item.y} L ${item.targetX} ${item.targetY}`;
+        const path = `M ${item.x} ${item.y} L ${item.targetX} ${item.targetY}`;
         return <g key={item.number}>
           <path className="guide-screenshot-pointer" d={path} />
-          <circle className="guide-screenshot-target" cx={item.targetX} cy={item.targetY} r="3" />
         </g>;
       })}
     </svg>}

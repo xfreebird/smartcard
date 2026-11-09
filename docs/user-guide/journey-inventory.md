@@ -96,7 +96,7 @@ MCP requires operator-selected physical roots, no symlink/traversal grant, no PI
 
 ### Apple
 
-Authoritative capture driver: `apple/scripts/capture-screenshots.sh macos|ios APP_PATH OUTPUT_DIR [SIMULATOR_UDID]`. It requires Debug binary. The script currently hardcodes Romanian launch arguments; adapt invocation or add a safe language parameter for EN/RO/RU instead of relabelling images. Keep dedicated simulator IDs/preferences suites.
+Authoritative capture driver: `apple/scripts/capture-screenshots.sh macos|ios APP_PATH OUTPUT_DIR [SIMULATOR_UDID]`. It requires Debug binary. Set `MSIGN_CAPTURE_LANGUAGE=en|ro|ru` and optionally `MSIGN_CAPTURE_THEMES=light` for localized documentation captures. Keep dedicated simulator IDs/preferences suites.
 
 Required isolation flags: `MSIGN_DEMO_CARDS=1` (3 for multiple), `MSIGN_SCREENSHOT_CAPTURE=1`, `MSIGN_QA_NO_HARDWARE=1`, `MSIGN_DEMO_PREFERENCES_SUITE=md.esemnbun.qa.<run>`. Set `MSIGN_DEMO_SCENARIO`, `MSIGN_DEMO_FILES`, `MSIGN_DEMO_SELECTED`, theme and `-appLanguage en|ro|ru -AppleLanguages '(en)'`. iOS environment uses `SIMCTL_CHILD_` prefixes and `MSIGN_DEMO_TAB=sign|verify|documents|browser|card`. Mac uses `-mainSection sign|verify|browser|card|activity`. Ready marker: `MSIGN_DEMO_READY`.
 
@@ -138,4 +138,4 @@ Windows source verification: `CliApp.Run` explicitly dispatches `mcp` to `McpHos
 
 Added five discoverable goals: password encryption, encryption for a certificate holder, password/card decryption, public encryption-certificate sharing, and local file removal. Each has EN/RO/RU numbered guides for Mac, Windows, Linux and their CLI tools. iPhone, iPad and Android phone/tablet cover the first four; removal is unavailable on mobile.
 
-Reused the refreshed native v2 captures with external callout gutters. The capture language is explicitly identified in every caption; translated text does not imply a translated screenshot. `file-protection-evidence.json` records native locale, source and hashes. Card discovery/export completion and card decryption remain textual instructions from source, not runtime success evidence. CLI panels are explicitly instructional command illustrations.
+Recaptured the native screens separately in EN/RO/RU. Numbers and pointer lines remain entirely outside the image in reserved gutters. `file-protection-evidence.json` records native locale, source and hashes. Card discovery/export completion and card decryption remain textual instructions from source, not runtime success evidence. CLI panels are explicitly instructional command illustrations.

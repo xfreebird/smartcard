@@ -22,7 +22,7 @@ Open Documents → Protect files. Select a file you can read; scroll the form wh
 
 Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Decrypt a received file" caption="Native Romanian interface; fictional data. Before completion." steps={[{"x": 37, "y": 33, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32, "y": 64, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 73, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Decrypt a received file" caption="Fictional data. Before completion." steps={[{"x": 37, "y": 33, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32, "y": 64, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 73, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
 

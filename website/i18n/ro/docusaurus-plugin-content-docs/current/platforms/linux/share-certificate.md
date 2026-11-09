@@ -22,6 +22,6 @@ Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulea
 
 Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 38, "y": 50, "text": "Alege Certificat/card."}, {"x": 45, "y": 64, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Date fictive. Înainte de finalizare." steps={[{"x": 28.7, "y": 47.3, "text": "Alege Certificat/card."}, {"x": 41.1, "y": 69.0, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
 
 După citire, selectează identitatea dorită și extinde Detalii certificat. Alege Exportă certificatul de criptare, salvează fișierul .cer și transmite-l expeditorului. Compară amprenta separat. Se exportă numai certificatul public; cheia privată rămâne pe card. Captura arată ecranul inițial, înainte de citire.

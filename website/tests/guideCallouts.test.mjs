@@ -36,7 +36,7 @@ test('all illustrated panels keep numbered labels outside app pixels at phone, d
         assert.ok(label.x + 12 < image.x || label.x - 12 > image.x + width, `${panel.src}: badge over image`);
         assert.ok(label.y >= 12 && label.y <= frame.height - 12, `${panel.src}: clipped badge`);
         const step = panel.steps[label.number - 1];
-        assert.equal(label.targetX, image.x + width * step.x / 100);
+        assert.ok(label.side === 'left' ? label.targetX < image.x : label.targetX > image.x + width, `${panel.src}: pointer over image`);
         assert.equal(label.targetY, image.y + height * step.y / 100);
       }
       for (const side of ['left','right']) {
@@ -50,4 +50,16 @@ test('all illustrated panels keep numbered labels outside app pixels at phone, d
 test('text-only steps retain their numbering without a misleading pointer', () => {
   const labels=layoutGuideCallouts([{text:'First'},{x:80,y:50,text:'Second'}],{width:300,height:100},{x:36,y:10,width:228,height:80},4);
   assert.deepEqual(labels.map(label=>label.number),[5]);
+});
+
+test('file protection screenshots are native captures in each documentation locale', () => {
+  for (const platform of ['macos','iphone','ipad','android-phone','android-tablet','linux','windows']) {
+    const scenarios = ['password','certificate','decrypt', ...(['macos','linux','windows'].includes(platform) ? ['remove'] : [])];
+    for (const scenario of scenarios) {
+      const captures = ['en','ro','ru'].map(locale => readFileSync(path.join(site, 'static/img/guide', platform, locale, `protect-${scenario}-light.png`)));
+      for (let i = 0; i < captures.length; i++) for (let j = i + 1; j < captures.length; j++) {
+        assert.ok(!captures[i].equals(captures[j]), `${platform}/${scenario}: untranslated screenshot reused`);
+      }
+    }
+  }
 });

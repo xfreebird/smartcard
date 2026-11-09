@@ -5,7 +5,8 @@ export function layoutGuideCallouts(steps, frame, image, start = 1) {
   const callouts = steps.flatMap((step, index) => {
     if (!Number.isFinite(step.x) || !Number.isFinite(step.y)) return [];
     const side = step.x <= 50 ? 'left' : 'right';
-    const targetX = image.x + image.width * step.x / 100;
+    // End pointers in the gutter: no line, dot or badge may cover app pixels.
+    const targetX = side === 'left' ? image.x - 5 : image.x + image.width + 5;
     const targetY = image.y + image.height * step.y / 100;
     return [{number: index + start, side, targetX, targetY,
       x: side === 'left' ? inset : frame.width - inset, y: targetY}];
