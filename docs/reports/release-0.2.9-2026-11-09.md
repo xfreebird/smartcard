@@ -33,3 +33,10 @@ Production changes: `b125964`. Test-harness follow-up: `6243d63` (no production-
 A review submission is not store availability. Statuses above are checkpoints, not approval claims.
 
 - CLI package repositories workflow `42652831633` passed signed APT/RPM validation and Chocolatey installation/uninstallation. Updated website release data and desktop manifests to 0.2.9.
+
+## Final distribution verification
+
+- Website `42653376230`: succeeded on deployment retry. The first attempt timed out while GitHub Pages synced files; the retry reused the same successful build artifact. Live macOS/Windows/Linux update manifests and package-feed version now report 0.2.9.
+- All 15 final release assets, including the signed repositories, definitions and Chocolatey package, match the refreshed SHA256SUMS.
+- Live package-definition ZIP SHA-256 matched `packages/version.json`; the Homebrew/Scoop definitions match its contents byte-for-byte. Published to the existing `xfreebird/homebrew-utils` repository as `5f94530`. Ruby syntax and patch checks passed. New local Homebrew/Scoop installation tests were not run; package CI separately passed APT/RPM and Chocolatey checks.
+- Huawei read-only recheck still reports build 1793624688 in review; CAPTCHA confirmation remains pending. No Huawei review was withdrawn.
