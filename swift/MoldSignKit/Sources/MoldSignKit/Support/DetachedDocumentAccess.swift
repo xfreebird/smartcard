@@ -18,8 +18,13 @@ public enum DetachedDocumentAccess {
         for name in names {
             guard URL(fileURLWithPath: name).lastPathComponent == name else { continue }
             let chosen = selected.last { $0.isFileURL && $0.lastPathComponent == name }
-            let directory = chosen?.deletingLastPathComponent() ?? signature.deletingLastPathComponent()
-            files[name] = try? read(name, beneath: directory)
+            if let chosen {
+                // A Files picker grants access to this file, not its containing directory.
+                // Opening the parent first fails for security-scoped iOS/provider URLs.
+                files[name] = try? readSelected(chosen)
+            } else {
+                files[name] = try? read(name, beneath: signature.deletingLastPathComponent())
+            }
         }
         return files
     }
@@ -44,6 +49,17 @@ public enum DetachedDocumentAccess {
             close(descriptor)
             descriptor = next
         }
+        return try readContents(descriptor)
+    }
+
+    private static func readSelected(_ url: URL) throws -> Data {
+        let descriptor = open(url.path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK)
+        guard descriptor >= 0 else { throw AccessError.unavailable }
+        defer { close(descriptor) }
+        return try readContents(descriptor)
+    }
+
+    private static func readContents(_ descriptor: Int32) throws -> Data {
         var info = stat()
         guard fstat(descriptor, &info) == 0, (info.st_mode & mode_t(S_IFMT)) == mode_t(S_IFREG) else {
             throw AccessError.unsafeReference

@@ -1134,3 +1134,26 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 
 - Removed fictional-data notices from guide introductions, screenshot captions and generated task pages in English, Romanian and Russian. Retained actual Demo mode instructions and safe support-reporting guidance.
 - Regenerated the public guides for website publication; screenshot provenance remains in engineering evidence files.
+
+### 2026-11-09 — Clear stale Apple signing errors after queue edits
+
+- Reset the screen-level signing error when queued document identities change, covering individual removal, grouped removal, additions and replacement on iOS/iPadOS and the shared macOS model.
+- Preserve per-document errors on remaining items; changes to signing progress or an item's error do not reset the banner. Cancelled imports and duplicate-only additions leave the unchanged queue alone.
+- Reviewed all queue mutation paths and checked patch whitespace. Native build and simulator tests have not been run; verification remains with the owner per project guidance.
+
+### 2026-11-09 — Clearer iOS share-extension handoff
+
+- Replaced the centered text-only share result with native UIKit status imagery, preparation progress, readable saved filenames, localized next steps and a full-width Done button. Content scrolls for long lists and Dynamic Type; semantic colors support light/dark appearances.
+- Kept atomic delivery: success appears only after all files and the ready marker are saved; failed deliveries still clean up. Prevent interactive dismissal while saving.
+- Reviewed Apple extension documentation: launching the containing app is not a supported Share extension operation. The UI explains the manual handoff; the existing app inbox imports shared files and selects Sign when activated.
+- Localization generation/check and whitespace checks passed. Native build and device/simulator visual validation have not been run, per owner-managed build/test guidance.
+
+
+### 2026-11-09 — Signed-document deletion and XML original selection
+
+- Added confirmed individual and all-document deletion to Signed documents on iOS/iPadOS/macOS, Android, Windows and Linux. Successful deletions remove the saved file and library entry; failed deletions retain their entries and show a localized error. History clearing remains independent and does not delete files. Windows individual deletion is in the document details dialog; Apple uses swipe/context actions, Android the row menu, and Linux a row action.
+- Fixed Apple detached XML verification to open the exact security-scoped original selected in Files, without first requiring access to its parent directory. Selected files remain limited to expected names, no-follow final opens and regular files. Added a regression case for an unreadable parent with a readable selected original.
+- Added Linux original-document pickers to Verify and saved-document details using the same bounded reference resolver. Android now rechecks a repeated original selection and replaces earlier same-name attachments in Verify. Windows clears the previous rendered report before displaying the refreshed result.
+- Generated English, Romanian and Russian strings. Localization consistency, patch whitespace and Swift syntax parsing passed. Native builds, regression-test execution and device/VM interaction validation have not run, per owner-managed build/test guidance. These changes are not released.
+
+- 2026-11-09 release 0.2.9 preparation: owner authorized new releases and replacement of pending reviews. Updated shared marketing version and EN/RO/RU platform-specific notes for saved-document deletion, XML verification, stale signing errors and the iOS share handoff. Apple live maximum is 209; replacement Apple/Windows build 210 selected. Existing Apple 0.2.8 and Huawei 1793624688 reviews remain until replacement packages are ready. CI and signed release builds will validate the source before store replacement.

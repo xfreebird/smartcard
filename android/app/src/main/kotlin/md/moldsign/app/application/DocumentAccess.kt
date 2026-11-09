@@ -8,5 +8,6 @@ interface DocumentAccess {
     suspend fun describe(uri: Uri): PickedDocument
     fun readBytes(uri: Uri): ByteArray
     fun copyToCache(uri: Uri): Uri?
+    fun delete(uri: Uri): Boolean = false
     fun copy(source: Uri, target: Uri): Boolean
 }

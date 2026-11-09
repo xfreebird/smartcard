@@ -30,6 +30,16 @@ class AndroidDocumentAccess(private val app: Application) : DocumentAccess {
         file.toUri()
     }.getOrNull()
 
+    override fun delete(uri: Uri): Boolean = runCatching {
+        when (uri.scheme) {
+            "file" -> File(requireNotNull(uri.path)).let { file -> !file.exists() || (file.isFile && file.delete()) }
+            "content" -> if (android.provider.DocumentsContract.isDocumentUri(app, uri)) {
+                android.provider.DocumentsContract.deleteDocument(app.contentResolver, uri)
+            } else app.contentResolver.delete(uri, null, null) > 0
+            else -> false
+        }
+    }.getOrDefault(false)
+
     override fun keepAccess(uri: Uri) {
         runCatching {
             app.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)

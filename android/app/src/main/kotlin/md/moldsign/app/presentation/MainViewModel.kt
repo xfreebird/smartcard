@@ -442,7 +442,7 @@ documents.copy(source, target)
         verifyJob = viewModelScope.launch {
             uris.forEach(documents::keepAccess)
             val docs = uris.map { documents.describe(it) }
-            _verifyDetached.update { list -> list + docs.filter { d -> list.none { it.name == d.name } } }
+            _verifyDetached.update { list -> list.filterNot { existing -> docs.any { it.name == existing.name } } + docs.distinctBy { it.name } }
             runVerify(firstRun = false)
         }
     }
@@ -496,6 +496,16 @@ documents.copy(source, target)
     }
 
     /** "Golește lista", after the confirmation dialog. */
+    fun deleteSavedDocuments(entries: List<ActivityEntry>) = viewModelScope.launch {
+        val current = savedDocuments.value.map { it.id }.toSet()
+        val selected = entries.filter { it.id in current }
+        val deleted = withContext(Dispatchers.IO) {
+            selected.filter { entry -> entry.documentUri?.toUri()?.let(documents::delete) == true }.map { it.id }.toSet()
+        }
+        container.activity.removeSignedDocuments(deleted)
+        if (deleted.size != selected.size) _message.value = UiMessage.Text(R.string.saved_delete_failed)
+    }
+
     fun clearActivity() = container.activity.clear()
 
     private fun log(doc: PickedDocument, ok: Boolean, subtitle: String) = container.activity.document(doc.name, doc.uri, ok, subtitle)

@@ -77,7 +77,11 @@ public sealed partial class VerifyPage : Page
             var paths = App.Current.Services.IsDemo ? App.Current.Services.DemoDocuments
                 : await WindowHelpers.PickFilesAsync(XamlRoot);
             AddDocuments(paths);
-            if (paths.Count > 0) await VerifyCurrentAsync();
+            if (paths.Count > 0)
+            {
+                SignatureCards.Children.Clear();
+                await VerifyCurrentAsync();
+            }
         }
         catch (Exception error)
         {

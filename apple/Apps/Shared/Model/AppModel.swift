@@ -28,7 +28,13 @@ final class AppModel {
     var certificate: SigningService.CertificateSummary? { selectedCard?.certificate }
 
     // Sign
-    var signItems: [SignItem] = []
+    var signItems: [SignItem] = [] {
+        didSet {
+            // A changed queue starts a new review context. Keep per-document errors on
+            // remaining items, but never carry a previous attempt's banner to new files.
+            if oldValue.map(\.id) != signItems.map(\.id) { lastError = nil }
+        }
+    }
     var currentStep: SigningService.Step?
     var lastSigned: [URL] = []
     var lastError: PresentedError?
@@ -988,6 +994,28 @@ final class AppModel {
         guard kept.count != activity.count else { return }
         activity = kept
         saveActivity()
+    }
+
+    /// Called only after the user confirms the selected saved outputs.
+    func deleteSavedDocuments(_ items: [ActivityItem]) -> Bool {
+        var failed = false
+        for item in items {
+            guard savedDocuments.contains(where: { $0.id == item.id }), let url = item.fileURL else { continue }
+            let scoped = url.startAccessingSecurityScopedResource()
+            defer { if scoped { url.stopAccessingSecurityScopedResource() } }
+            do {
+                let values = try url.resourceValues(forKeys: [.isRegularFileKey, .isSymbolicLinkKey])
+                guard values.isRegularFile == true, values.isSymbolicLink != true else { failed = true; continue }
+                try FileManager.default.removeItem(at: url)
+                savedDocuments.removeAll { $0.id == item.id }
+            } catch let error as NSError where error.domain == NSCocoaErrorDomain &&
+                (error.code == NSFileNoSuchFileError || error.code == NSFileReadNoSuchFileError) {
+                savedDocuments.removeAll { $0.id == item.id }
+            } catch { failed = true }
+        }
+        activityStore.saveDocuments(savedDocuments)
+        if !demoMode { DocumentDiscovery.refresh() }
+        return !failed
     }
 
     func clearActivity() {

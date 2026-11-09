@@ -16,7 +16,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Spacing="12"><Grid>
+        <StackPanel Spacing="12"><Grid RowSpacing="8">
+            <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
             <TextBlock
                 x:Uid="ActivityPageTitle"
                 VerticalAlignment="Center"
@@ -24,7 +25,7 @@
                 Text="Documente" />
             <Button
                 x:Name="ClearButton"
-                HorizontalAlignment="Right"
+                Grid.Row="1" HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Click="OnClearClick"
                 IsEnabled="False">

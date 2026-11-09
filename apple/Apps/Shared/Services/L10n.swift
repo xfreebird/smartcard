@@ -455,6 +455,17 @@ enum L10n {
         case protect_password_decrypt_help
         case protect_certificate_encrypt_help
         case protect_certificate_decrypt_help
+        case share_preparing_detail
+        case share_saved_title
+        case share_saved_detail
+        case share_failed_title
+        case share_next
+        case share_step_close
+        case share_step_open
+        case saved_delete
+        case saved_delete_all
+        case saved_delete_warning
+        case saved_delete_failed
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

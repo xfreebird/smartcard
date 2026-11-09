@@ -157,6 +157,18 @@ func presentClearActivityDialog(parent: Widget, completion: @escaping (Bool) -> 
     adw_dialog_present(dialog, parent)
 }
 
+func presentDeleteSignedDocumentsDialog(parent: Widget, items: [ActivityItem], completion: @escaping (Bool) -> Void) {
+    let title = L10n.text(items.count == 1 ? .saved_delete : .saved_delete_all)
+    let name = items.count == 1 ? items[0].title + "\n\n" : ""
+    let dialog = alert(heading: title, body: name + L10n.text(.saved_delete_warning))
+    addResponse(dialog, "cancel", L10n.text(.ui_cancel))
+    addResponse(dialog, "delete", L10n.text(.saved_delete), ADW_RESPONSE_DESTRUCTIVE)
+    adw_alert_dialog_set_default_response(dialog.cast(), "cancel")
+    adw_alert_dialog_set_close_response(dialog.cast(), "cancel")
+    onResponse(dialog) { completion($0 == "delete") }
+    adw_dialog_present(dialog, parent)
+}
+
 // MARK: - First-run onboarding (docs/10 §4.7)
 
 /// Welcome plus the two availability choices (start at sign-in, show on card insertion). The switches

@@ -398,4 +398,8 @@ eSemnBun</value></data>
   <data name="protect_password_decrypt_help" xml:space="preserve"><value>Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.</value></data>
   <data name="protect_certificate_encrypt_help" xml:space="preserve"><value>Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.</value></data>
   <data name="protect_certificate_decrypt_help" xml:space="preserve"><value>Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.</value></data>
+  <data name="saved_delete" xml:space="preserve"><value>Delete document</value></data>
+  <data name="saved_delete_all" xml:space="preserve"><value>Delete all signed documents</value></data>
+  <data name="saved_delete_warning" xml:space="preserve"><value>The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.</value></data>
+  <data name="saved_delete_failed" xml:space="preserve"><value>Some documents could not be deleted. They remain in the list. Check file access and try again.</value></data>
 </root>

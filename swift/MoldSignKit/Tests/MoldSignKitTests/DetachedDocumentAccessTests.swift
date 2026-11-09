@@ -44,4 +44,23 @@ final class DetachedDocumentAccessTests: XCTestCase {
         XCTAssertEqual(files, ["original.txt": bytes])
         XCTAssertTrue(DetachedDocumentAccess.companions(named: names, near: signature, selected: []).isEmpty)
     }
+    func testSelectedFileDoesNotRequireReadingItsParentDirectory() throws {
+        let fm = FileManager.default
+        let root = fm.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let originals = root.appendingPathComponent("originals")
+        try fm.createDirectory(at: originals, withIntermediateDirectories: true)
+        defer {
+            try? fm.setAttributes([.posixPermissions: 0o700], ofItemAtPath: originals.path)
+            try? fm.removeItem(at: root)
+        }
+        let selected = originals.appendingPathComponent("original.txt")
+        let bytes = Data("selected original".utf8)
+        try bytes.write(to: selected)
+        // Model a picker grant: the file is readable but the parent cannot be opened for reading.
+        try fm.setAttributes([.posixPermissions: 0o111], ofItemAtPath: originals.path)
+        let files = DetachedDocumentAccess.companions(named: ["original.txt"],
+            near: root.appendingPathComponent("signature.xml"), selected: [selected])
+        XCTAssertEqual(files, ["original.txt": bytes])
+    }
+
 }

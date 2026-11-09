@@ -279,6 +279,9 @@ struct ActivityScreen: View {
     @Environment(AppModel.self) private var model
     @State private var protecting = false
     @State private var confirmClear = false
+    @State private var confirmDelete = false
+    @State private var deletionFailed = false
+    @State private var deleting: [ActivityItem] = []
     @State private var history = false
     @State private var selectedDocument: ActivityItem?
     @State private var documentNavigation = ShortcutNavigation.shared
@@ -308,14 +311,15 @@ struct ActivityScreen: View {
                 Text(L10n.text(.saved_history)).tag(true)
             }.pickerStyle(.segmented).labelsHidden()
             #if os(macOS)
-            Button(role: .destructive) { confirmClear = true } label: {
-                Label(L10n.text(.ui_clear_list), systemImage: "trash")
+            Button(role: .destructive) {
+                if history { confirmClear = true }
+                else { deleting = model.savedDocuments; confirmDelete = true }
+            } label: {
+                Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash")
             }
             .labelStyle(.iconOnly)
-            .disabled(!history || model.activity.isEmpty)
-            .opacity(history ? 1 : 0)
-            .accessibilityHidden(!history)
-            .help(L10n.text(.ui_clear_history_documents_remain_on_disk))
+            .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
+            .help(L10n.text(history ? .ui_clear_history_documents_remain_on_disk : .saved_delete_all))
             #endif
             }.padding()
             List {
@@ -339,6 +343,14 @@ struct ActivityScreen: View {
                     .accessibilityHint(L10n.text(.saved_details))
                     .accessibilityIdentifier("documents.openDetails")
                     .modifier(SignedDocumentAnnotation(item: item))
+                    .swipeActions(allowsFullSwipe: false) {
+                        Button(role: .destructive) { deleting = [item]; confirmDelete = true } label: {
+                            Label(L10n.text(.saved_delete), systemImage: "trash")
+                        }
+                    }
+                    .contextMenu {
+                        Button(L10n.text(.saved_delete), role: .destructive) { deleting = [item]; confirmDelete = true }
+                    }
                 }
                 else { ActivityRowView(item: item)
                     .contextMenu {
@@ -404,12 +416,25 @@ struct ActivityScreen: View {
         #if !os(macOS)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                if history { Button(role: .destructive) { confirmClear = true } label: { Label(L10n.text(.ui_clear_list), systemImage: "trash") }
-                    .disabled(model.activity.isEmpty)
-                    .help(L10n.text(.ui_clear_history_documents_remain_on_disk)) }
+                Button(role: .destructive) {
+                if history { confirmClear = true }
+                else { deleting = model.savedDocuments; confirmDelete = true }
+            } label: { Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash") }
+                    .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
             }
         }
         #endif
+        .confirmationDialog(L10n.text(deleting.count == 1 ? .saved_delete : .saved_delete_all), isPresented: $confirmDelete, titleVisibility: .visible) {
+            Button(L10n.text(deleting.count == 1 ? .saved_delete : .saved_delete_all), role: .destructive) {
+                deletionFailed = !model.deleteSavedDocuments(deleting)
+                deleting = []
+            }
+        } message: {
+            Text((deleting.count == 1 ? (deleting.first?.fileURL?.lastPathComponent ?? "") + "\n\n" : "") + L10n.text(.saved_delete_warning))
+        }
+        .alert(L10n.text(.saved_delete_failed), isPresented: $deletionFailed) {
+            Button(L10n.text(.ui_done), role: .cancel) {}
+        }
         .confirmationDialog(L10n.text(.ui_clear_the_activity_list), isPresented: $confirmClear, titleVisibility: .visible) {
             Button(L10n.text(.ui_clear_list), role: .destructive) { model.clearActivity() }
         } message: {

@@ -398,4 +398,8 @@ eSemnBun</value></data>
   <data name="protect_password_decrypt_help" xml:space="preserve"><value>Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием.</value></data>
   <data name="protect_certificate_encrypt_help" xml:space="preserve"><value>Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны.</value></data>
   <data name="protect_certificate_decrypt_help" xml:space="preserve"><value>Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код.</value></data>
+  <data name="saved_delete" xml:space="preserve"><value>Удалить документ</value></data>
+  <data name="saved_delete_all" xml:space="preserve"><value>Удалить все подписанные документы</value></data>
+  <data name="saved_delete_warning" xml:space="preserve"><value>Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся.</value></data>
+  <data name="saved_delete_failed" xml:space="preserve"><value>Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку.</value></data>
 </root>

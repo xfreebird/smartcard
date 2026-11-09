@@ -51,6 +51,12 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
         save()
     }
 
+    @Synchronized
+    fun removeSignedDocuments(ids: Set<String>) {
+        _signedDocuments.update { items -> items.filterNot { it.id in ids } }
+        save()
+    }
+
     fun document(name: String, uri: Uri, ok: Boolean, subtitle: String, signedOutput: Boolean = false) = add(
         ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Document, name, subtitle, ok, System.currentTimeMillis(), uri.toString(), signedOutput),
     )

@@ -407,6 +407,11 @@ enum L10n {
         case protect_password_decrypt_help
         case protect_certificate_encrypt_help
         case protect_certificate_decrypt_help
+        case verify_choose_originals
+        case saved_delete
+        case saved_delete_all
+        case saved_delete_warning
+        case saved_delete_failed
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2435,6 +2440,31 @@ enum L10n {
     "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
     "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
     "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
+  },
+  "verify_choose_originals": {
+    "en": "Choose original documents…",
+    "ro": "Alegeți documentele originale…",
+    "ru": "Выбрать исходные документы…"
+  },
+  "saved_delete": {
+    "ro": "Șterge documentul",
+    "en": "Delete document",
+    "ru": "Удалить документ"
+  },
+  "saved_delete_all": {
+    "ro": "Șterge toate documentele semnate",
+    "en": "Delete all signed documents",
+    "ru": "Удалить все подписанные документы"
+  },
+  "saved_delete_warning": {
+    "ro": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.",
+    "en": "The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.",
+    "ru": "Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся."
+  },
+  "saved_delete_failed": {
+    "ro": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.",
+    "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
+    "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
   }
 }
 """#.utf8)

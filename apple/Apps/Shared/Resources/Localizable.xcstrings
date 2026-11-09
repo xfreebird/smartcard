@@ -9944,6 +9944,248 @@
           }
         }
       }
+    },
+    "share_preparing_detail": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se salvează o copie în eSemnBun. Păstrează această fereastră deschisă până la finalizare."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saving a copy to eSemnBun. Keep this sheet open until it finishes."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохраняем копию в eSemnBun. Не закрывайте это окно до завершения."
+          }
+        }
+      }
+    },
+    "share_saved_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pregătit pentru semnare"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready to sign"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово к подписанию"
+          }
+        }
+      }
+    },
+    "share_saved_detail": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvat în eSemnBun. Fișierele originale rămân nemodificate."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved to eSemnBun. Your original files are unchanged."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранено в eSemnBun. Исходные файлы не изменены."
+          }
+        }
+      }
+    },
+    "share_failed_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentele nu au putut fi salvate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t save documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось сохранить документы"
+          }
+        }
+      }
+    },
+    "share_next": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continuă în eSemnBun"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continue in eSemnBun"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Продолжите в eSemnBun"
+          }
+        }
+      }
+    },
+    "share_step_close": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apasă Gata pentru a reveni la aplicația din care ai distribuit fișierele."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap Done to return to the app you shared from."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нажмите «Готово», чтобы вернуться в исходное приложение."
+          }
+        }
+      }
+    },
+    "share_step_open": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide eSemnBun. Documentele vor apărea în ecranul Semnează, pregătite pentru verificare."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open eSemnBun. Your documents will appear on the Sign screen, ready for review."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте eSemnBun. Документы появятся на экране «Подписать» для проверки."
+          }
+        }
+      }
+    },
+    "saved_delete": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Șterge documentul"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete document"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить документ"
+          }
+        }
+      }
+    },
+    "saved_delete_all": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Șterge toate documentele semnate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete all signed documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить все подписанные документы"
+          }
+        }
+      }
+    },
+    "saved_delete_warning": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся."
+          }
+        }
+      }
+    },
+    "saved_delete_failed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Some documents could not be deleted. They remain in the list. Check file access and try again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

@@ -33,6 +33,11 @@ protocol BridgeHosting: AnyObject {
 
 protocol DocumentVerifying {
     func verify(_ url: URL) -> [SignatureReport]
+    func verify(_ url: URL, companions: [URL]) -> [SignatureReport]
+}
+
+extension DocumentVerifying {
+    func verify(_ url: URL, companions: [URL]) -> [SignatureReport] { verify(url) }
 }
 
 // Test bridges can ignore the legacy-client capability; production BridgeHost owns it.

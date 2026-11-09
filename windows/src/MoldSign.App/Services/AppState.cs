@@ -311,6 +311,26 @@ public sealed class AppState : INotifyPropertyChanged
         ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
     }
 
+    public bool DeleteSignedDocuments(IEnumerable<ActivityItem> items)
+    {
+        var success = true;
+        foreach (var item in items.ToArray())
+        {
+            if (!SignedDocuments.Contains(item)) continue;
+            try
+            {
+                if (item.Path is not { } path) { success = false; continue; }
+                if (Directory.Exists(path)) { success = false; continue; }
+                File.Delete(path); // Missing files can safely be removed from the library.
+                SignedDocuments.Remove(item);
+            }
+            catch (Exception error) { AppLog.Error(error); success = false; }
+        }
+        RefreshRecents();
+        ActivityLog.Save(Activity, _recentsClearedAt, SignedDocuments);
+        return success;
+    }
+
     private void RefreshRecents()
     {
         var documents = Activity

@@ -101,6 +101,15 @@ final class VerifyPage {
         let documents = controller.verifiedDocuments.isEmpty ? [(url: file, reports: reports)] : controller.verifiedDocuments
         for document in documents {
             append(reportsBox, label(document.url.lastPathComponent))
+            if document.url.pathExtension.lowercased() == "xml" {
+                append(reportsBox, button(L10n.text(.verify_choose_originals)) { [weak self] in
+                    guard let self else { return }
+                    chooseFiles(parent: self.window(), title: L10n.text(.verify_choose_originals), multiple: true) { paths in
+                        guard !paths.isEmpty else { return }
+                        self.controller.verifyOriginals(path: document.url.path, companions: paths.map { URL(fileURLWithPath: $0) })
+                    }
+                })
+            }
             for (index, report) in document.reports.enumerated() {
                 append(reportsBox, Self.signatureGroup(report, index: index + 1, file: document.url))
             }
@@ -125,7 +134,7 @@ final class VerifyPage {
                                                badText: L10n.text(.ui_the_content_differs_from_what_was_signed)))
         } else {
             gtk_list_box_append(list.opaque, actionRow(title: L10n.text(.linux_integrity),
-                subtitle: L10n.text(.ui_signed_files_must_be_in_the_same_folder_as_the_xml_signature) + "\n" +
+                subtitle: L10n.text(.verify_choose_originals) + "\n" +
                     report.missingDetachedReferences.joined(separator: "\n"), icon: "dialog-warning-symbolic"))
         }
         gtk_list_box_append(list.opaque, check(L10n.text(.ui_signature), ok: report.signatureValid,
@@ -154,10 +163,9 @@ final class VerifyPage {
             adw_expander_row_add_row(details.cast(), row)
         }
         if file.pathExtension.lowercased() == "xml" && !report.contentIntact {
-            // TODO(LNX-09): inline picker row for the signed file(s) of a detached signature (docs/10 §4.2).
             adw_expander_row_add_row(details.cast(), actionRow(
                 title: L10n.text(.ui_detached_signature),
-                subtitle: L10n.text(.ui_signed_files_must_be_in_the_same_folder_as_the_xml_signature)))
+                subtitle: L10n.text(.verify_choose_originals)))
         }
         gtk_list_box_append(list.opaque, details)
         groupAdd(group, list)

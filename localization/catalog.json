@@ -14864,6 +14864,222 @@
         "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
         "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "share_preparing_detail",
+      "translations": {
+        "ro": "Se salvează o copie în eSemnBun. Păstrează această fereastră deschisă până la finalizare.",
+        "en": "Saving a copy to eSemnBun. Keep this sheet open until it finishes.",
+        "ru": "Сохраняем копию в eSemnBun. Не закрывайте это окно до завершения."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_saved_title",
+      "translations": {
+        "ro": "Pregătit pentru semnare",
+        "en": "Ready to sign",
+        "ru": "Готово к подписанию"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_saved_detail",
+      "translations": {
+        "ro": "Salvat în eSemnBun. Fișierele originale rămân nemodificate.",
+        "en": "Saved to eSemnBun. Your original files are unchanged.",
+        "ru": "Сохранено в eSemnBun. Исходные файлы не изменены."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_failed_title",
+      "translations": {
+        "ro": "Documentele nu au putut fi salvate",
+        "en": "Couldn’t save documents",
+        "ru": "Не удалось сохранить документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_next",
+      "translations": {
+        "ro": "Continuă în eSemnBun",
+        "en": "Continue in eSemnBun",
+        "ru": "Продолжите в eSemnBun"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_step_close",
+      "translations": {
+        "ro": "Apasă Gata pentru a reveni la aplicația din care ai distribuit fișierele.",
+        "en": "Tap Done to return to the app you shared from.",
+        "ru": "Нажмите «Готово», чтобы вернуться в исходное приложение."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "share_step_open",
+      "translations": {
+        "ro": "Deschide eSemnBun. Documentele vor apărea în ecranul Semnează, pregătite pentru verificare.",
+        "en": "Open eSemnBun. Your documents will appear on the Sign screen, ready for review.",
+        "ru": "Откройте eSemnBun. Документы появятся на экране «Подписать» для проверки."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "verify_choose_originals",
+      "translations": {
+        "en": "Choose original documents…",
+        "ro": "Alegeți documentele originale…",
+        "ru": "Выбрать исходные документы…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_delete",
+      "translations": {
+        "ro": "Șterge documentul",
+        "en": "Delete document",
+        "ru": "Удалить документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_delete_all",
+      "translations": {
+        "ro": "Șterge toate documentele semnate",
+        "en": "Delete all signed documents",
+        "ru": "Удалить все подписанные документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_delete_warning",
+      "translations": {
+        "ro": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.",
+        "en": "The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.",
+        "ru": "Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_delete_failed",
+      "translations": {
+        "ro": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.",
+        "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
+        "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_delete",
+      "translations": {
+        "ro": "Șterge documentul",
+        "en": "Delete document",
+        "ru": "Удалить документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_delete_all",
+      "translations": {
+        "ro": "Șterge toate documentele semnate",
+        "en": "Delete all signed documents",
+        "ru": "Удалить все подписанные документы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_delete_warning",
+      "translations": {
+        "ro": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.",
+        "en": "The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.",
+        "ru": "Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_delete_failed",
+      "translations": {
+        "ro": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.",
+        "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
+        "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_delete",
+      "translations": {
+        "ro": "Șterge documentul",
+        "en": "Delete document",
+        "ru": "Удалить документ"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_delete_all",
+      "translations": {
+        "ro": "Șterge toate documentele semnate",
+        "en": "Delete all signed documents",
+        "ru": "Удалить все подписанные документы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_delete_warning",
+      "translations": {
+        "ro": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.",
+        "en": "The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.",
+        "ru": "Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_delete_failed",
+      "translations": {
+        "ro": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.",
+        "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
+        "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_delete",
+      "translations": {
+        "ro": "Șterge documentul",
+        "en": "Delete document",
+        "ru": "Удалить документ"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_delete_all",
+      "translations": {
+        "ro": "Șterge toate documentele semnate",
+        "en": "Delete all signed documents",
+        "ru": "Удалить все подписанные документы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_delete_warning",
+      "translations": {
+        "ro": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.",
+        "en": "The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.",
+        "ru": "Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_delete_failed",
+      "translations": {
+        "ro": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.",
+        "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
+        "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+      }
     }
   ],
   "storeMetadata": {
@@ -14873,7 +15089,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat.",
+      "releaseNotes": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -14889,11 +15105,11 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat.",
-        "macos": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat. Eliminarea fișierelor locale acceptate este disponibilă cu confirmare explicită; nu garantează ștergerea urmelor de pe SSD sau a copiilor de rezervă.",
-        "android": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat.",
-        "windows": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat. Eliminarea fișierelor locale acceptate este disponibilă cu confirmare explicită; nu garantează ștergerea urmelor de pe SSD sau a copiilor de rezervă.",
-        "linux": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat. Eliminarea fișierelor locale acceptate este disponibilă cu confirmare explicită; nu garantează ștergerea urmelor de pe SSD sau a copiilor de rezervă."
+        "ios": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Verificarea XML citește corect documentul original ales din Fișiere. Erorile de semnare se șterg când lista documentelor se schimbă. Extensia de partajare afișează numele fișierelor salvate și pași următori mai clari.",
+        "macos": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Verificarea XML citește corect documentul original ales din Fișiere. Erorile de semnare se șterg când lista documentelor se schimbă.",
+        "android": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Reselectarea documentului original actualizează verificarea XML, iar noua selecție înlocuiește fișierul anterior cu același nume.",
+        "windows": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Verificarea XML actualizează rezultatul după selectarea documentelor originale.",
+        "linux": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Alegeți documentele originale direct din Verificare sau din detaliile documentului salvat pentru a verifica semnăturile XML detașate."
       }
     },
     "en": {
@@ -14902,7 +15118,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged.",
+      "releaseNotes": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -14918,11 +15134,11 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged.",
-        "macos": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged. Desktop file removal is available for supported local files with explicit confirmation; it does not guarantee erasure of SSD remnants or backups.",
-        "android": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged.",
-        "windows": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged. Desktop file removal is available for supported local files with explicit confirmation; it does not guarantee erasure of SSD remnants or backups.",
-        "linux": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged. Desktop file removal is available for supported local files with explicit confirmation; it does not guarantee erasure of SSD remnants or backups."
+        "ios": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification now reads the original document selected in Files correctly. Signing errors clear when the document list changes. The share extension now shows saved filenames and clearer next steps.",
+        "macos": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification now reads the original document selected in Files correctly. Signing errors clear when the document list changes.",
+        "android": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. Selecting an original document again refreshes XML verification, and a new selection replaces an earlier file with the same name.",
+        "windows": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification refreshes the result after selecting original documents.",
+        "linux": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. Choose original documents directly from Verify or saved-document details to check detached XML signatures."
       }
     },
     "ru": {
@@ -14931,7 +15147,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл.",
+      "releaseNotes": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -14947,11 +15163,11 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл.",
-        "macos": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл. Удаление поддерживаемых локальных файлов требует явного подтверждения; стирание остатков на SSD или резервных копий не гарантируется.",
-        "android": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл.",
-        "windows": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл. Удаление поддерживаемых локальных файлов требует явного подтверждения; стирание остатков на SSD или резервных копий не гарантируется.",
-        "linux": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл. Удаление поддерживаемых локальных файлов требует явного подтверждения; стирание остатков на SSD или резервных копий не гарантируется."
+        "ios": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Проверка XML корректно читает исходный документ, выбранный в «Файлах». Ошибки подписания сбрасываются при изменении списка документов. Расширение общего доступа показывает имена сохранённых файлов и более понятные дальнейшие шаги.",
+        "macos": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Проверка XML корректно читает исходный документ, выбранный в «Файлах». Ошибки подписания сбрасываются при изменении списка документов.",
+        "android": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Повторный выбор исходного документа обновляет проверку XML, а новый выбор заменяет ранее выбранный файл с тем же именем.",
+        "windows": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Проверка XML обновляет результат после выбора исходных документов.",
+        "linux": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Выбирайте исходные документы в разделе проверки или в сведениях о сохранённом документе для проверки отсоединённых XML-подписей."
       }
     }
   },

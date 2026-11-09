@@ -65,9 +65,16 @@ final class ActivityPage {
         gtk_widget_set_vexpand(root, 1)
 
         onSignal(clear, "clicked") { [weak self] in
-            guard let parent = self?.window() else { return }
-            presentClearActivityDialog(parent: parent.widget) { confirmed in
-                if confirmed { controller.clearActivity() }
+            guard let self, let parent = self.window() else { return }
+            if self.history {
+                presentClearActivityDialog(parent: parent.widget) { confirmed in
+                    if confirmed { controller.clearActivity() }
+                }
+            } else {
+                let items = controller.signedDocuments
+                presentDeleteSignedDocumentsDialog(parent: parent.widget, items: items) { confirmed in
+                    if confirmed { controller.deleteSignedDocuments(items) }
+                }
             }
         }
         // a file deleted while the app runs disappears the next time the page is shown
@@ -93,8 +100,10 @@ final class ActivityPage {
 
     private func render() {
         adw_preferences_group_set_title(group.cast(), L10n.text(history ? .saved_history : .saved_signed))
-        gtk_widget_set_visible(clearButton, history ? 1 : 0)
+        gtk_widget_set_visible(clearButton, 1)
+        gtk_widget_set_tooltip_text(clearButton, L10n.text(history ? .ui_clear_the_list : .saved_delete_all))
         let items = (history ? controller.activity : controller.signedDocuments).filter(\.isShowable)
+        gtk_widget_set_sensitive(clearButton, items.isEmpty ? 0 : 1)
         adw_status_page_set_title(empty.opaque, L10n.text(history ? .ui_no_activity_yet : .saved_empty))
         adw_status_page_set_description(empty.opaque, L10n.text(history ? .ui_signed_and_verified_documents_and_browser_requests_appear_here : .saved_hint))
         gtk_stack_set_visible_child_name(stack, items.isEmpty ? "empty" : "list")
@@ -132,6 +141,14 @@ final class ActivityPage {
                     }
                 ]))
             }
+            if !history {
+                append(content, button(L10n.text(.saved_delete), classes: ["flat", "destructive-action"]) { [weak self] in
+                    guard let self, let parent = self.window() else { return }
+                    presentDeleteSignedDocumentsDialog(parent: parent.widget, items: [item]) { confirmed in
+                        if confirmed { self.controller.deleteSignedDocuments([item]) }
+                    }
+                })
+            }
             margins(content, 12)
             let row = gtk_list_box_row_new()!
             gtk_list_box_row_set_child(row.cast(), content)
@@ -167,23 +184,40 @@ final class ActivityPage {
             self?.detailsOpen = false
         }
         adw_dialog_present(dialog, parent.widget)
-        controller.inspectDocument(path: path) { reports in
-            guard open else { return } // The user may close while validation is still running.
+        var generation = UUID()
+        func inspect(_ companions: [URL]) {
+            generation = UUID()
+            let request = generation
             clearBox(content)
-            append(content, label(URL(fileURLWithPath: path).lastPathComponent, wrap: true))
-            guard let reports else {
-                append(content, label(L10n.text(.saved_unavailable), classes: ["error"], wrap: true))
-                return
-            }
-            let result = Verdict(reports)
-            append(content, label(reports.isEmpty ? L10n.text(.ui_no_signature_found) : result.title,
-                                  classes: ["title-2", result.styleClass], wrap: true))
-            append(content, label(reports.isEmpty ? L10n.text(.ui_the_document_contains_no_recognized_signature) : result.subtitle,
-                                  classes: ["dim-label"], wrap: true))
-            for (index, report) in reports.enumerated() {
-                append(content, VerifyPage.signatureGroup(report, index: index + 1, file: URL(fileURLWithPath: path)))
+            append(content, label(L10n.text(.ui_verifying)))
+            controller.inspectDocument(path: path, companions: companions) { reports in
+                guard generation == request else { return }
+                guard open else { return } // The user may close while validation is still running.
+                clearBox(content)
+                append(content, label(URL(fileURLWithPath: path).lastPathComponent, wrap: true))
+                guard let reports else {
+                    append(content, label(L10n.text(.saved_unavailable), classes: ["error"], wrap: true))
+                    return
+                }
+                let result = Verdict(reports)
+                append(content, label(reports.isEmpty ? L10n.text(.ui_no_signature_found) : result.title,
+                                      classes: ["title-2", result.styleClass], wrap: true))
+                append(content, label(reports.isEmpty ? L10n.text(.ui_the_document_contains_no_recognized_signature) : result.subtitle,
+                                      classes: ["dim-label"], wrap: true))
+                if URL(fileURLWithPath: path).pathExtension.lowercased() == "xml" {
+                    append(content, button(L10n.text(.verify_choose_originals)) {
+                        chooseFiles(parent: parent, title: L10n.text(.verify_choose_originals), multiple: true) { paths in
+                            guard open, !paths.isEmpty else { return }
+                            inspect(paths.map { URL(fileURLWithPath: $0) })
+                        }
+                    })
+                }
+                for (index, report) in reports.enumerated() {
+                    append(content, VerifyPage.signatureGroup(report, index: index + 1, file: URL(fileURLWithPath: path)))
+                }
             }
         }
+        inspect([])
     }
 
 }

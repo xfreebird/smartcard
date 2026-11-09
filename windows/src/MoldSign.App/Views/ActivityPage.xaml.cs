@@ -51,15 +51,16 @@ public sealed partial class ActivityPage : Page
             DisplayItems.Add(item);
         EmptyMessage.Text = history ? Loc.Get("RecentEmpty/Text") : Loc.Get("saved_empty") + "\n" + Loc.Get("saved_hint");
         EmptyMessage.Visibility = DisplayItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-        ClearButton.IsEnabled = State.Activity.Count > 0;
-        ClearButton.Visibility = history ? Visibility.Visible : Visibility.Collapsed;
+        ClearButton.IsEnabled = DisplayItems.Count > 0;
+        ClearButton.Content = Loc.Get(history ? "Activity_ClearConfirm" : "saved_delete_all");
+        ClearButton.Visibility = Visibility.Visible;
     }
 
     private bool _detailsOpen;
 
     private async void OnItemClick(object sender, ItemClickEventArgs e)
     {
-        if (_detailsOpen || XamlRoot is null || e.ClickedItem is not ActivityItem { Path: { } path }) return;
+        if (_detailsOpen || XamlRoot is null || e.ClickedItem is not ActivityItem { Path: { } path } item) return;
         if (!File.Exists(path)) { State.PruneMissingFiles(); return; }
         _detailsOpen = true;
         try
@@ -74,11 +75,13 @@ public sealed partial class ActivityPage : Page
             var dialog = new ContentDialog
             {
                 XamlRoot = XamlRoot, RequestedTheme = ActualTheme, Title = Loc.Get("saved_details"), Content = details,
+                PrimaryButtonText = DocumentFilter.SelectedIndex == 0 ? Loc.Get("saved_delete") : "",
                 CloseButtonText = Loc.Get("saved_close"), DefaultButton = ContentDialogButton.Close,
             };
             dialog.Opened += async (_, _) => await details.VerifyFilesAsync(new[] { path });
             dialog.Closed += (_, _) => details.CancelInspection();
-            await dialog.ShowAsync();
+            if (await dialog.ShowAsync() == ContentDialogResult.Primary)
+                await ConfirmDeleteAsync(new[] { item });
         }
         catch (Exception error)
         {
@@ -97,6 +100,11 @@ public sealed partial class ActivityPage : Page
     /// <summary>Clear operation history only; the saved document library and files are retained.</summary>
     private async void OnClearClick(object sender, RoutedEventArgs e)
     {
+        if (DocumentFilter.SelectedIndex == 0)
+        {
+            await ConfirmDeleteAsync(State.SignedDocuments.ToArray());
+            return;
+        }
         var dialog = new ContentDialog
         {
             XamlRoot = XamlRoot,
@@ -109,4 +117,24 @@ public sealed partial class ActivityPage : Page
         };
         if (await dialog.ShowAsync() == ContentDialogResult.Primary) State.ClearActivity();
     }
+    private async Task ConfirmDeleteAsync(ActivityItem[] items)
+    {
+        if (items.Length == 0) return;
+        var dialog = new ContentDialog
+        {
+            XamlRoot = XamlRoot, RequestedTheme = ActualTheme,
+            Title = Loc.Get(items.Length == 1 ? "saved_delete" : "saved_delete_all"),
+            Content = (items.Length == 1 ? items[0].FileName + "\n\n" : "") + Loc.Get("saved_delete_warning"),
+            PrimaryButtonText = Loc.Get("saved_delete"), CloseButtonText = Loc.Get("Action_Cancel"),
+            DefaultButton = ContentDialogButton.Close,
+        };
+        if (await dialog.ShowAsync() != ContentDialogResult.Primary) return;
+        if (!State.DeleteSignedDocuments(items))
+            await new ContentDialog
+            {
+                XamlRoot = XamlRoot, RequestedTheme = ActualTheme,
+                Content = Loc.Get("saved_delete_failed"), CloseButtonText = Loc.Get("saved_close"),
+            }.ShowAsync();
+    }
+
 }

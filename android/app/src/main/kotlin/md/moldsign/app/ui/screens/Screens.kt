@@ -81,6 +81,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -553,6 +554,7 @@ private fun CheckChip(@StringRes label: Int, ok: Boolean?) {
  */
 @Composable
 fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) -> Unit) {
+    var deleting by remember { mutableStateOf<List<ActivityEntry>?>(null) }
     val allEntries by vm.activity.collectAsStateWithLifecycle()
     val savedDocuments by vm.savedDocuments.collectAsStateWithLifecycle()
     var protecting by remember { mutableStateOf(false) }
@@ -621,10 +623,10 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
         } else {
             Column {
                 SectionHeader(stringResource(if (history) R.string.activity_recent else R.string.saved_signed)) {
-                    if (history) TextButton(onClick = { confirm = true }) {
+                    TextButton(onClick = { if (history) confirm = true else deleting = savedDocuments.toList() }) {
                         Icon(Icons.Outlined.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(Tokens.S2))
-                        Text(stringResource(R.string.activity_clear))
+                        Text(stringResource(if (history) R.string.activity_clear else R.string.saved_delete_all))
                     }
                 }
                 Card(
@@ -634,11 +636,22 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
                 ) {
                     entries.forEachIndexed { i, e ->
                         if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
-                        ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onSaveAs = { source, name -> saveSource = source; saveAs(name) })
+                        ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onDelete = if (history) null else ({ deleting = listOf(e) }), onSaveAs = { source, name -> saveSource = source; saveAs(name) })
                     }
                 }
             }
         }
+    }
+    deleting?.let { selected ->
+        AlertDialog(
+            onDismissRequest = { deleting = null },
+            title = { Text(stringResource(if (selected.size == 1) R.string.saved_delete else R.string.saved_delete_all)) },
+            text = { Text((if (selected.size == 1) selected.first().title + "\n\n" else "") + stringResource(R.string.saved_delete_warning)) },
+            confirmButton = { TextButton(onClick = { deleting = null; vm.deleteSavedDocuments(selected) }) {
+                Text(stringResource(if (selected.size == 1) R.string.saved_delete else R.string.saved_delete_all))
+            } },
+            dismissButton = { TextButton(onClick = { deleting = null }) { Text(stringResource(R.string.action_cancel)) } },
+        )
     }
     detailsEntry?.let { entry ->
         SavedDocumentDetails(vm, entry, onDismiss = { detailsEntry = null })
@@ -663,7 +676,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
 private fun mimeOf(name: String) = if (name.endsWith(".xml", ignoreCase = true)) "application/xml" else "application/pdf"
 
 @Composable
-private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onSaveAs: (source: Uri, name: String) -> Unit) {
+private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onDelete: (() -> Unit)? = null, onSaveAs: (source: Uri, name: String) -> Unit) {
     val context = LocalContext.current
     val colors = LocalStatusColors.current
     val uri = e.documentUri?.toUri()?.takeIf { it.scheme == "content" }
@@ -698,16 +711,21 @@ private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, on
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
-                if (uri != null && open != null && share != null) {
+                if (onDelete != null || (uri != null && open != null && share != null)) {
                     Box {
                         IconButton(onClick = { menu = true }) {
                             Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more))
                         }
                         DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                            if (uri != null && open != null && share != null) {
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; open() })
                             DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; share() })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
+                            }
+                            onDelete?.let { remove ->
+                                DropdownMenuItem(text = { Text(stringResource(R.string.saved_delete)) }, onClick = { menu = false; remove() })
+                            }
                         }
                     }
                 }
@@ -723,20 +741,22 @@ private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, on
 private fun SavedDocumentDetails(vm: MainViewModel, entry: ActivityEntry, onDismiss: () -> Unit) {
     val context = LocalContext.current
     var detached by remember(entry.id) { mutableStateOf<List<Uri>>(emptyList()) }
+    var originalSelection by remember(entry.id) { mutableIntStateOf(0) }
     var outcome by remember(entry.id) { mutableStateOf<VerifyOutcome?>(null) }
     var error by remember(entry.id) { mutableStateOf<String?>(null) }
     var loading by remember(entry.id) { mutableStateOf(true) }
     val attach = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { uris ->
-        val next = (detached + uris).distinct()
-        if (next != detached) {
+        val next = (detached.filterNot { it in uris } + uris).distinct()
+        if (uris.isNotEmpty()) {
             // Stop showing the previous verdict immediately, before the new effect starts.
             outcome = null
             error = null
             loading = true
             detached = next
+            originalSelection++
         }
     }
-    LaunchedEffect(entry.id, detached) {
+    LaunchedEffect(entry.id, detached, originalSelection) {
         loading = true
         outcome = null
         error = null

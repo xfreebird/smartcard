@@ -398,4 +398,8 @@ eSemnBun</value></data>
   <data name="protect_password_decrypt_help" xml:space="preserve"><value>Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.</value></data>
   <data name="protect_certificate_encrypt_help" xml:space="preserve"><value>Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.</value></data>
   <data name="protect_certificate_decrypt_help" xml:space="preserve"><value>Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.</value></data>
+  <data name="saved_delete" xml:space="preserve"><value>Șterge documentul</value></data>
+  <data name="saved_delete_all" xml:space="preserve"><value>Șterge toate documentele semnate</value></data>
+  <data name="saved_delete_warning" xml:space="preserve"><value>Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.</value></data>
+  <data name="saved_delete_failed" xml:space="preserve"><value>Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.</value></data>
 </root>

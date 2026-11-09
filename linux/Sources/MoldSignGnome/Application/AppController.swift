@@ -466,7 +466,7 @@ final class AppController {
     }
 
     /// Inspect a saved document without replacing Verify's selection or creating history.
-    func inspectDocument(path: String, completion: @escaping ([SignatureReport]?) -> Void) {
+    func inspectDocument(path: String, companions: [URL] = [], completion: @escaping ([SignatureReport]?) -> Void) {
         let verifier = documentVerifier
         let url = URL(fileURLWithPath: path)
         verifyQueue.async {
@@ -474,19 +474,19 @@ final class AppController {
                 onMain { completion(nil) }
                 return
             }
-            let reports = verifier.verify(url)
+            let reports = verifier.verify(url, companions: companions)
             onMain { completion(FileManager.default.isReadableFile(atPath: path) ? reports : nil) }
         }
     }
 
-    private func verifyDocument(path: String, generation: UUID) {
+    private func verifyDocument(path: String, generation: UUID, companions: [URL] = []) {
         let url = URL(fileURLWithPath: path)
         verifyFile = url
         verifyReports = nil
         changed()
         let verifier = documentVerifier
         verifyQueue.async { [weak self] in
-            let reports = verifier.verify(url)
+            let reports = verifier.verify(url, companions: companions)
             onMain { [weak self] in
                 guard let self, self.verificationGeneration == generation else { return }
                 self.verifyReports = reports
@@ -497,6 +497,11 @@ final class AppController {
                 self.changed()
             }
         }
+    }
+
+    func verifyOriginals(path: String, companions: [URL]) {
+        verificationGeneration = UUID()
+        verifyDocument(path: path, generation: verificationGeneration, companions: companions)
     }
 
     func resetVerify() {
@@ -808,6 +813,30 @@ final class AppController {
         activity.insert(item, at: 0)
         if activity.count > Store.activityLimit { activity.removeLast(activity.count - Store.activityLimit) }
         if shouldPersistActivity { Store.save(activity) }
+        changed()
+    }
+
+    func deleteSignedDocuments(_ items: [ActivityItem]) {
+        var failed = false
+        for item in items {
+            guard signedDocuments.contains(where: { $0.id == item.id }) else { continue }
+            guard let path = item.filePath else { failed = true; continue }
+            do {
+                let url = URL(fileURLWithPath: path)
+                let values = try url.resourceValues(forKeys: [.isRegularFileKey, .isSymbolicLinkKey])
+                guard values.isRegularFile == true, values.isSymbolicLink != true else {
+                    failed = true; continue
+                }
+                try FileManager.default.removeItem(at: url)
+                signedDocuments.removeAll { $0.id == item.id }
+            } catch let error as NSError where error.domain == NSCocoaErrorDomain &&
+                (error.code == NSFileNoSuchFileError || error.code == NSFileReadNoSuchFileError) {
+                signedDocuments.removeAll { $0.id == item.id }
+            } catch { failed = true }
+        }
+        if shouldPersistActivity, !Store.saveSignedDocuments(signedDocuments) {
+            toast?(L10n.text(.saved_library_save_failed))
+        } else if failed { toast?(L10n.text(.saved_delete_failed)) }
         changed()
     }
 
