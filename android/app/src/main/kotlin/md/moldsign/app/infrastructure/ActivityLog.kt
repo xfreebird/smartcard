@@ -27,7 +27,7 @@ import java.util.UUID
  * `content://` URI needs a still-persisted read permission and a document that still answers a query; a `file://`
  * path must exist. Browser-request entries always stay. [prune] runs at start and whenever the list is shown.
  */
-class ActivityLog(context: Context, private val scope: CoroutineScope, preferencesName: String = "activity") {
+class ActivityLog(context: Context, private val scope: CoroutineScope, private val preferencesName: String = "activity") {
     private val appContext = context.applicationContext
     private val prefs = appContext.getSharedPreferences(preferencesName, Context.MODE_PRIVATE)
     private val _entries = MutableStateFlow(load(KEY))
@@ -127,6 +127,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, preferenc
             putString(KEY, encode(_entries.value))
             putString(DOCUMENTS_KEY, encode(_signedDocuments.value))
         }
+        if (preferencesName == "activity") md.moldsign.app.widget.DocumentsWidget.refresh(appContext, _signedDocuments.value)
     }
 
     private fun encode(entries: List<ActivityEntry>): String {

@@ -5,7 +5,8 @@ default_platform(:ios)
 
 IOS_ID = "md.esemnbun.ios"
 IOS_SHARE_ID = "md.esemnbun.ios.share"
-IOS_IDS = [IOS_ID, IOS_SHARE_ID]
+IOS_WIDGET_ID = "md.esemnbun.ios.widgets"
+IOS_IDS = [IOS_ID, IOS_SHARE_ID, IOS_WIDGET_ID]
 MAC_ID = "md.esemnbun.mac"
 PROJECT = File.expand_path("../apple/eSemnBun.xcodeproj", __dir__)
 
@@ -32,6 +33,7 @@ lane :register_ids do
   Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.from(hash: asc_key)
   { IOS_ID => ["eSemnBun iOS", Spaceship::ConnectAPI::Platform::IOS],
     IOS_SHARE_ID => ["eSemnBun Share", Spaceship::ConnectAPI::Platform::IOS],
+    IOS_WIDGET_ID => ["eSemnBun Widgets", Spaceship::ConnectAPI::Platform::IOS],
     MAC_ID => ["eSemnBun macOS", Spaceship::ConnectAPI::Platform::MAC_OS] }.each do |identifier, (name, platform)|
     if Spaceship::ConnectAPI::BundleId.find(identifier)
       UI.message("#{identifier} already registered")
@@ -133,6 +135,8 @@ lane :ios_release do |options|
   adhoc_profile = ENV["sigh_#{IOS_ID}_adhoc_profile-name"]
   share_appstore_profile = ENV["sigh_#{IOS_SHARE_ID}_appstore_profile-name"]
   share_adhoc_profile = ENV["sigh_#{IOS_SHARE_ID}_adhoc_profile-name"]
+  widget_appstore_profile = ENV["sigh_#{IOS_WIDGET_ID}_appstore_profile-name"]
+  widget_adhoc_profile = ENV["sigh_#{IOS_WIDGET_ID}_adhoc_profile-name"]
   out = File.expand_path("../dist/ios", __dir__)
   archive = File.join(out, "eSemnBun-iOS.xcarchive")
   # the project also has macOS targets: pin the platform or gym exports with the Mac installer method
@@ -149,13 +153,16 @@ lane :ios_release do |options|
     update_code_signing_settings(path: PROJECT, use_automatic_signing: false, targets: ["eSemnBunShare"],
                                  build_configurations: ["Release"], team_id: team, profile_name: share_appstore_profile,
                                  code_sign_identity: "Apple Distribution")
+    update_code_signing_settings(path: PROJECT, use_automatic_signing: false, targets: ["eSemnBunWidgets"],
+                                 build_configurations: ["Release"], team_id: team, profile_name: widget_appstore_profile,
+                                 code_sign_identity: "Apple Distribution")
     version = get_version_number(xcodeproj: PROJECT, target: "eSemnBun-iOS", configuration: "Release")
-    build_app(**common, export_method: "app-store", export_options: { provisioningProfiles: { IOS_ID => appstore_profile, IOS_SHARE_ID => share_appstore_profile } },
+    build_app(**common, export_method: "app-store", export_options: { provisioningProfiles: { IOS_ID => appstore_profile, IOS_SHARE_ID => share_appstore_profile, IOS_WIDGET_ID => widget_appstore_profile } },
               output_name: "eSemnBun-#{version}-appstore.ipa", clean: true,
               xcargs: "CURRENT_PROJECT_VERSION=#{integer_build_number}#{signing_args}")
     # same archive, re-signed with the ad hoc profile: installs on the team's registered devices
     build_app(**common, skip_build_archive: true, export_method: "ad-hoc",
-              export_options: { provisioningProfiles: { IOS_ID => adhoc_profile, IOS_SHARE_ID => share_adhoc_profile } },
+              export_options: { provisioningProfiles: { IOS_ID => adhoc_profile, IOS_SHARE_ID => share_adhoc_profile, IOS_WIDGET_ID => widget_adhoc_profile } },
               output_name: "eSemnBun-#{version}-adhoc.ipa")
   ensure
     File.write(pbxproj, original)   # never leave manual-signing edits in the committed project

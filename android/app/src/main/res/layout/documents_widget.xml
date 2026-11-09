@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp" android:background="@drawable/widget_background">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="@string/app_name" android:textStyle="bold" android:textSize="12sp" android:textColor="@color/widget_secondary" />
+    <TextView android:id="@+id/widget_verify" android:layout_width="match_parent" android:layout_height="64dp"
+        android:layout_marginTop="10dp" android:paddingHorizontal="16dp"
+        android:gravity="center_vertical" android:text="@string/shortcut_verify_pdf" android:textStyle="bold"
+        android:maxLines="2" android:ellipsize="end" android:drawableStart="@drawable/shortcut_verify_pdf" android:drawablePadding="12dp"
+        android:drawableTint="@color/widget_on_accent" android:textSize="20sp" android:textColor="@color/widget_on_accent"
+        android:background="@drawable/widget_action_background" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"
+        android:layout_marginTop="8dp" android:orientation="vertical" android:gravity="center_vertical">
+        <TextView android:id="@+id/widget_empty" android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="@string/widget_private" android:maxLines="3" android:ellipsize="end"
+            android:textSize="13sp" android:textColor="@color/widget_secondary" />
+        <TextView android:id="@+id/widget_recent_one" android:layout_width="match_parent" android:layout_height="48dp"
+            android:paddingHorizontal="10dp" android:drawableStart="@drawable/shortcut_documents" android:drawablePadding="8dp"
+            android:drawableTint="@color/widget_text" android:background="@drawable/widget_row_background"
+            android:gravity="center_vertical" android:maxLines="1" android:ellipsize="middle" android:textSize="14sp"
+            android:visibility="gone" android:textColor="@color/widget_text" />
+        <TextView android:id="@+id/widget_recent_two" android:layout_width="match_parent" android:layout_height="48dp"
+            android:layout_marginTop="4dp" android:paddingHorizontal="10dp"
+            android:drawableStart="@drawable/shortcut_documents" android:drawablePadding="8dp" android:drawableTint="@color/widget_text"
+            android:background="@drawable/widget_row_background" android:gravity="center_vertical" android:maxLines="1"
+            android:ellipsize="middle" android:textSize="14sp" android:visibility="gone" android:textColor="@color/widget_text" />
+    </LinearLayout>
+    <TextView android:id="@+id/widget_documents" android:layout_width="match_parent" android:layout_height="48dp"
+        android:gravity="center_vertical" android:text="@string/shortcut_documents" android:textStyle="bold"
+        android:textSize="14sp" android:textColor="@color/widget_text" />
+</LinearLayout>

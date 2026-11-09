@@ -349,4 +349,9 @@ eSemnBun</value></data>
   <data name="MCP_Enabled" xml:space="preserve"><value>Разрешить локальные запросы подписи (MCP)</value></data>
   <data name="MCP_Description" xml:space="preserve"><value>Каждый запрос требует подтверждения в eSemnBun. Укажите эту частную папку в клиенте MCP.</value></data>
   <data name="MCP_Unavailable" xml:space="preserve"><value>Не удалось включить локальные запросы подписи.</value></data>
+  <data name="about_legal_title" xml:space="preserve"><value>Правовая информация</value></data>
+  <data name="about_terms" xml:space="preserve"><value>Условия использования</value></data>
+  <data name="about_privacy" xml:space="preserve"><value>Политика конфиденциальности</value></data>
+  <data name="about_disclaimer" xml:space="preserve"><value>Отказ от ответственности</value></data>
+  <data name="about_disclaimer_body" xml:space="preserve"><value>eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования.</value></data>
 </root>

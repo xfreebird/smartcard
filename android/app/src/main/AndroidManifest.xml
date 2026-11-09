@@ -41,6 +41,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
             <!-- Reader plugged in → open the app (filter from :transport-usb). -->
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -58,6 +59,11 @@
                 <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".widget.DocumentsWidget" android:exported="false" android:label="@string/widget_title">
+            <intent-filter><action android:name="android.appwidget.action.APPWIDGET_UPDATE" /></intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/documents_widget_info" />
+        </receiver>
 
         <!-- Persist app language on API 26–32 and migrate it to system app-language settings on API 33+. -->
         <service android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"

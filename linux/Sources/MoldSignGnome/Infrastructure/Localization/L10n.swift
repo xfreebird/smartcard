@@ -358,6 +358,11 @@ enum L10n {
         case automation_reject
         case automation_approve_details
         case automation_unavailable
+        case about_legal_title
+        case about_terms
+        case about_privacy
+        case about_disclaimer
+        case about_disclaimer_body
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2141,6 +2146,31 @@ enum L10n {
     "ro": "Cererile locale de semnare nu au putut fi activate.",
     "en": "Local signing requests could not be enabled.",
     "ru": "Не удалось включить локальные запросы подписи."
+  },
+  "about_legal_title": {
+    "ro": "Informații juridice",
+    "en": "Legal information",
+    "ru": "Правовая информация"
+  },
+  "about_terms": {
+    "ro": "Termeni și condiții",
+    "en": "Terms & Conditions",
+    "ru": "Условия использования"
+  },
+  "about_privacy": {
+    "ro": "Politica de confidențialitate",
+    "en": "Privacy Policy",
+    "ru": "Политика конфиденциальности"
+  },
+  "about_disclaimer": {
+    "ro": "Declinarea responsabilității",
+    "en": "Disclaimer",
+    "ru": "Отказ от ответственности"
+  },
+  "about_disclaimer_body": {
+    "ro": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.",
+    "en": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.",
+    "ru": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
   }
 }
 """#.utf8)

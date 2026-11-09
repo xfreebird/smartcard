@@ -4,7 +4,7 @@
   "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
   "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.\n\nFor Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package.",
   "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-  "releaseNotes": "• Local MCP interface for document verification and explicitly configured unattended PDF signing.\n• Credential-provider integration, certificate binding and persistent protection against automatic PIN retries.",
+  "releaseNotes": "About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
   "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
   "features": [
     "PDF and XAdES signing",
@@ -14,10 +14,11 @@
     "Romanian, English and Russian"
   ],
   "releaseNotesByPlatform": {
-    "ios": "• Open and search signed documents with the new Siri integration on supported systems.\n• Use Shortcuts to verify PDFs or prepare them for signing.\n• Optional Spotlight discovery and Handoff for the Documents screen.",
-    "macos": "• Open and search signed documents with the new Siri integration on supported systems.\n• Use Shortcuts to verify PDFs or prepare them for signing.\n• Optional Spotlight discovery and Handoff for the Documents screen.",
-    "android": "• Maintenance update with refreshed release metadata and distribution improvements.",
-    "windows": "• Local MCP interface for document verification and explicitly configured unattended PDF signing.\n• Credential-provider integration, certificate binding and persistent protection against automatic PIN retries."
+    "ios": "New Home Screen widgets provide quick access to PDF verification and recent signed documents. Added app-icon quick actions. Siri and Shortcuts can open the file picker when no PDF is supplied, and offer actions for your latest signed documents. About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+    "macos": "Improved Siri and Shortcuts actions: choose a PDF in the app when no file is supplied, open your latest signed document, or verify your latest signed PDF. Improved localized shortcut phrases and cancellation handling. About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+    "android": "New Home Screen widget and app-icon shortcuts provide quick access to PDF verification, signing preparation and Documents. Fixed immediate language and theme updates. About now scrolls and includes Terms & Conditions, Privacy Policy and disclaimer information.",
+    "windows": "About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+    "linux": "About now includes Terms & Conditions, Privacy Policy and disclaimer information."
   },
   "platform": "windows",
   "languageCode": "en-US",

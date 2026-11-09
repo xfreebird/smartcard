@@ -7222,19 +7222,19 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Verifică semnăturile PDF offline și deschide rezultatele complete. Sunt acceptate fișiere PDF de până la 32 MiB. Starea actuală de revocare a certificatelor nu este verificată."
+            "value": "Verifică semnăturile PDF offline și deschide rezultatele complete. Sunt acceptate fișiere PDF de până la 32 MiB. Starea actuală de revocare a certificatelor nu este verificată. Dacă nu este furnizat un fișier, alege un PDF din selectorul de fișiere al aplicației."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status."
+            "value": "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status. If no file is supplied, choose a PDF in the app’s file picker."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Проверить подписи PDF автономно и открыть полные результаты. Поддерживаются PDF размером до 32 МиБ. Текущий статус отзыва сертификатов не проверяется."
+            "value": "Проверить подписи PDF автономно и открыть полные результаты. Поддерживаются PDF размером до 32 МиБ. Текущий статус отзыва сертификатов не проверяется. Если файл не передан, выберите PDF в окне выбора файлов приложения."
           }
         }
       }
@@ -8300,19 +8300,19 @@
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Adaugă un PDF de până la 32 MiB în lista de semnare. Verifică documentul și pornește explicit semnarea în aplicație."
+            "value": "Adaugă un PDF de până la 32 MiB în lista de semnare. Verifică documentul și pornește explicit semnarea în aplicație. Dacă nu este furnizat un fișier, alege un PDF din selectorul de fișiere al aplicației."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app."
+            "value": "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app. If no file is supplied, choose a PDF in the app’s file picker."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Добавляет PDF размером до 32 МиБ в очередь. Проверьте документ и явно начните подписание в приложении."
+            "value": "Добавляет PDF размером до 32 МиБ в очередь. Проверьте документ и явно начните подписание в приложении. Если файл не передан, выберите PDF в окне выбора файлов приложения."
           }
         }
       }
@@ -8363,22 +8363,22 @@
     },
     "discovery_explanation": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Partajează numele și datele documentelor semnate din spațiul aplicației. Conținutul și datele de identitate nu sunt indexate."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Shares filenames and dates of app-owned signed documents. Document contents and identity details are not indexed."
+            "value": "Shares filenames and dates of app-owned signed documents with Siri and Spotlight, and recent filenames with the Home Screen widget. Document contents and identity details are not shared."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partajează numele și datele documentelor semnate cu Siri și Spotlight, iar numele recente cu widgetul de pe ecranul principal. Conținutul și datele de identitate nu sunt partajate."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Передаёт имена и даты подписанных документов из хранилища приложения. Содержимое и личные данные не индексируются."
+            "value": "Передаёт имена и даты подписанных документов Siri и Spotlight, а недавние имена — виджету главного экрана. Содержимое и личные данные не передаются."
           }
         }
       }
@@ -8555,6 +8555,424 @@
           "stringUnit": {
             "state": "translated",
             "value": "Поиск документов"
+          }
+        }
+      }
+    },
+    "about_legal_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Informații juridice"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Legal information"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Правовая информация"
+          }
+        }
+      }
+    },
+    "about_terms": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Termeni și condiții"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Terms & Conditions"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Условия использования"
+          }
+        }
+      }
+    },
+    "about_privacy": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Politica de confidențialitate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Privacy Policy"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Политика конфиденциальности"
+          }
+        }
+      }
+    },
+    "about_disclaimer": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Declinarea responsabilității"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disclaimer"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отказ от ответственности"
+          }
+        }
+      }
+    },
+    "about_disclaimer_body": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
+          }
+        }
+      }
+    },
+    "shortcut_choose_verify": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege PDF-ul de verificat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose PDF to Verify"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать PDF для проверки"
+          }
+        }
+      }
+    },
+    "shortcut_choose_verify_description": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide eSemnBun și alege un PDF din selectorul de fișiere pentru a verifica semnăturile."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open eSemnBun and select a PDF in the file picker to verify its signatures."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте eSemnBun и выберите PDF в окне выбора файлов для проверки подписей."
+          }
+        }
+      }
+    },
+    "shortcut_choose_sign": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege PDF-ul de semnat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose PDF for Signing"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать PDF для подписания"
+          }
+        }
+      }
+    },
+    "shortcut_choose_sign_description": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide eSemnBun și alege un PDF pentru semnare. Verifică și aprobă semnarea în aplicație."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open eSemnBun and select a PDF for signing. Review and approve signing in the app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте eSemnBun и выберите PDF для подписания. Проверьте документ и подтвердите подписание в приложении."
+          }
+        }
+      }
+    },
+    "widget_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verificare și documente recente"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify & Recent Documents"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверка и недавние документы"
+          }
+        }
+      }
+    },
+    "widget_description": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege un PDF de verificat și deschide documentele semnate recent."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a PDF to verify and open your latest signed documents."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите PDF для проверки и откройте последние подписанные документы."
+          }
+        }
+      }
+    },
+    "widget_no_documents": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Încă nu există documente semnate."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No signed documents yet."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пока нет подписанных документов."
+          }
+        }
+      }
+    },
+    "widget_private": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Numele recente sunt ascunse. Activează afișarea în setări."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recent filenames are hidden. Enable them in app settings."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Имена недавних файлов скрыты. Включите их в настройках."
+          }
+        }
+      }
+    },
+    "widget_show_recents": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Arată documentele recente în widget"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show recent documents in widget"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывать недавние документы в виджете"
+          }
+        }
+      }
+    },
+    "widget_recents_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Afișează numele fișierelor semnate pe ecranul principal. Dezactivat implicit."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Displays signed filenames on your Home Screen. Off by default."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Показывает имена подписанных файлов на главном экране. По умолчанию выключено."
+          }
+        }
+      }
+    },
+    "shortcut_open_latest": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide ultimul document semnat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Latest Signed Document"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открыть последний подписанный документ"
+          }
+        }
+      }
+    },
+    "shortcut_open_latest_description": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide cel mai recent document semnat accesibil când descoperirea documentelor este activată. Altfel deschide Documente."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open the newest accessible signed document when document discovery is enabled. Otherwise open Documents."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Откройте последний доступный подписанный документ, если включён поиск документов. Иначе откройте Документы."
+          }
+        }
+      }
+    },
+    "shortcut_verify_latest": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifică ultimul PDF semnat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify Latest Signed PDF"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверить последний подписанный PDF"
+          }
+        }
+      }
+    },
+    "shortcut_verify_latest_description": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifică offline cel mai recent PDF semnat accesibil. Dacă nu există, alege un PDF în aplicație."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify the newest accessible signed PDF offline. If none is available, select a PDF in the app."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверьте последний доступный подписанный PDF офлайн. Если его нет, выберите PDF в приложении."
           }
         }
       }

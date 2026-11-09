@@ -349,4 +349,9 @@ eSemnBun</value></data>
   <data name="MCP_Enabled" xml:space="preserve"><value>Allow local signing requests (MCP)</value></data>
   <data name="MCP_Description" xml:space="preserve"><value>Each request needs approval in eSemnBun. Configure your MCP client with this private directory.</value></data>
   <data name="MCP_Unavailable" xml:space="preserve"><value>Local signing requests could not be enabled.</value></data>
+  <data name="about_legal_title" xml:space="preserve"><value>Legal information</value></data>
+  <data name="about_terms" xml:space="preserve"><value>Terms &amp; Conditions</value></data>
+  <data name="about_privacy" xml:space="preserve"><value>Privacy Policy</value></data>
+  <data name="about_disclaimer" xml:space="preserve"><value>Disclaimer</value></data>
+  <data name="about_disclaimer_body" xml:space="preserve"><value>eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.</value></data>
 </root>

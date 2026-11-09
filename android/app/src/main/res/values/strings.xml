@@ -351,4 +351,18 @@ eSemnBun</string>
   <string name="settings_system">Sistem</string>
   <string name="settings_light">Luminoasă</string>
   <string name="settings_dark">Întunecată</string>
+  <string name="about_legal_title">Informații juridice</string>
+  <string name="about_terms">Termeni și condiții</string>
+  <string name="about_privacy">Politica de confidențialitate</string>
+  <string name="about_disclaimer">Declinarea responsabilității</string>
+  <string name="about_disclaimer_body">eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.</string>
+  <string name="shortcut_verify_pdf">Verifică PDF</string>
+  <string name="shortcut_prepare_signing">Pregătește semnarea</string>
+  <string name="shortcut_documents">Documente</string>
+  <string name="widget_title">Verificare și documente recente</string>
+  <string name="widget_description">Alege un PDF de verificat și deschide documentele semnate recent.</string>
+  <string name="widget_no_documents">Încă nu există documente semnate.</string>
+  <string name="widget_private">Numele recente sunt ascunse. Activează afișarea în setări.</string>
+  <string name="widget_show_recents">Arată documentele recente în widget</string>
+  <string name="widget_recents_hint">Afișează numele fișierelor semnate pe ecranul principal. Dezactivat implicit.</string>
 </resources>

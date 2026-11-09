@@ -58,6 +58,17 @@ public sealed partial class SettingsPage : Page
         AllowedSitesText.Text = Loc.Format("Settings_AllowedSites", BridgeOriginPolicy.Default.Patterns.Count);
         VersionText.Text = $"{AppInfo.ProductName} {typeof(App).Assembly.GetName().Version} · .NET {Environment.Version}";
         AboutTitle.Text = Loc.Get("about_app_title");
+        AboutLegalTitle.Text = Loc.Get("about_legal_title");
+        AboutDisclaimerBody.Text = Loc.Get("about_disclaimer_body");
+        var language = App.Current.Services.Settings.Language;
+        if (string.IsNullOrEmpty(language)) language = System.Globalization.CultureInfo.CurrentUICulture.Name;
+        var legalBase = "https://esemnbun.md" + (language.StartsWith("ro") ? "/ro" : language.StartsWith("ru") ? "/ru" : "");
+        AboutTermsLink.Content = Loc.Get("about_terms");
+        AboutTermsLink.NavigateUri = new Uri(legalBase + "/terms/");
+        AboutPrivacyLink.Content = Loc.Get("about_privacy");
+        AboutPrivacyLink.NavigateUri = new Uri(legalBase + "/privacy/");
+        AboutDisclaimerLink.Content = Loc.Get("about_disclaimer");
+        AboutDisclaimerLink.NavigateUri = new Uri(legalBase + "/terms/");
         AboutDeveloper.Text = $"{Loc.Get("about_developer")}: Nicolae Ghimbovschi";
         ResolveBridgeButton.Content = Loc.Get("Bridge_Resolve");
     }

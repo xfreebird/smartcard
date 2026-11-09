@@ -340,7 +340,10 @@ struct MainWindowView: View {
     private func consumeShortcutNavigation() {
         guard let request = shortcutNavigation.request else { return }
         shortcutNavigation.request = nil
-        if let url = request.preparedURL {
+        if let purpose = request.pickerPurpose {
+            stored = purpose == .verify ? Section.verify.rawValue : Section.sign.rawValue
+            shortcutNavigation.pendingPDFSelection = .init(id: request.id, purpose: purpose, waitsForIntent: request.pickerWaitsForIntent)
+        } else if let url = request.preparedURL {
             model.addFiles([url])
             stored = Section.sign.rawValue
         } else if let reports = request.reports, let filename = request.filename {
@@ -350,7 +353,10 @@ struct MainWindowView: View {
             model.verifyReports = reports
             model.verifiedDocuments = [(url, reports)]
             stored = Section.verify.rawValue
-        } else { stored = Section.activity.rawValue }
+        } else {
+            if let id = request.documentID { shortcutNavigation.selectedDocumentID = id }
+            stored = Section.activity.rawValue
+        }
     }
 
     private var toolbarHeightReservation: some View {

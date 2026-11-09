@@ -354,4 +354,18 @@ eSemnBun</string>
   <string name="settings_system">Системная</string>
   <string name="settings_light">Светлая</string>
   <string name="settings_dark">Тёмная</string>
+  <string name="about_legal_title">Правовая информация</string>
+  <string name="about_terms">Условия использования</string>
+  <string name="about_privacy">Политика конфиденциальности</string>
+  <string name="about_disclaimer">Отказ от ответственности</string>
+  <string name="about_disclaimer_body">eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования.</string>
+  <string name="shortcut_verify_pdf">Проверить PDF</string>
+  <string name="shortcut_prepare_signing">Подготовить подпись</string>
+  <string name="shortcut_documents">Документы</string>
+  <string name="widget_title">Проверка и недавние документы</string>
+  <string name="widget_description">Выберите PDF для проверки и откройте последние подписанные документы.</string>
+  <string name="widget_no_documents">Пока нет подписанных документов.</string>
+  <string name="widget_private">Имена недавних файлов скрыты. Включите их в настройках.</string>
+  <string name="widget_show_recents">Показывать недавние документы в виджете</string>
+  <string name="widget_recents_hint">Показывает имена подписанных файлов на главном экране. По умолчанию выключено.</string>
 </resources>

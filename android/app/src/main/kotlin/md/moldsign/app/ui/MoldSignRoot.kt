@@ -1,5 +1,11 @@
 package md.moldsign.app.ui
 
+import md.moldsign.app.hostActivity
+import md.moldsign.app.AppShortcuts
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.saveable.rememberSaveable
+
 import androidx.annotation.StringRes
 import android.content.Intent
 import md.moldsign.app.DemoMode
@@ -25,6 +31,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CreditCard
@@ -119,7 +126,7 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
-    val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureDialog = if (DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
     md.moldsign.app.ui.components.GovernmentDisclosure(forceVisible = captureDialog == "disclosure")
     var settingsOpen by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
@@ -146,6 +153,39 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val openLabel = stringResource(R.string.action_open)
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
+    val shortcutRequest by vm.shortcutRequest.collectAsStateWithLifecycle()
+    // Saved with the ActivityResult registry so rotation/process recreation cannot change the result's purpose.
+    var activeShortcut by rememberSaveable { mutableStateOf<String?>(null) }
+    val shortcutPicker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        val purpose = AppShortcuts.Destination.fromId(activeShortcut)
+        activeShortcut = null
+        // A newer request supersedes this picker. Cancellation never changes the existing document list.
+        if (uri != null && vm.shortcutRequest.value == null) {
+            when (purpose) {
+                AppShortcuts.Destination.Verify -> vm.pickMultipleForVerify(listOf(uri))
+                AppShortcuts.Destination.PrepareSigning -> vm.addForSigning(listOf(uri))
+                else -> Unit
+            }
+        }
+    }
+    LaunchedEffect(shortcutRequest?.id, activeShortcut, working, pending, stamp) {
+        val request = shortcutRequest ?: return@LaunchedEffect
+        // Do not replace a consent sheet, signature operation or another system picker.
+        if (working || pending != null || stamp != null || activeShortcut != null) return@LaunchedEffect
+        settingsOpen = false
+        vm.selectWidgetDocument(request.documentID)
+        when (request.destination) {
+            AppShortcuts.Destination.Verify -> nav.go(Dest.Verify)
+            AppShortcuts.Destination.PrepareSigning -> nav.go(Dest.Sign)
+            AppShortcuts.Destination.Documents -> nav.go(Dest.Activity)
+        }
+        vm.consumeShortcut(request.id)
+        if (request.destination != AppShortcuts.Destination.Documents) {
+            activeShortcut = request.destination.id
+            shortcutPicker.launch(arrayOf("application/pdf"))
+        }
+    }
+
     LaunchedEffect(demoGeneration, captureDialog) {
         if (DemoMode.screenshotCapture(captureIntent)) {
             settingsOpen = captureDialog == "settings" || captureDialog == "about"
@@ -159,7 +199,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     }
 
     LaunchedEffect(dest.route, status.wallet, items, working, pending, demoGeneration) {
-        val activity = context as? android.app.Activity
+        val activity = context.hostActivity()
         val isDemo = activity?.intent?.hasExtra("demo") == true
         val isPinDemo = activity?.intent?.getStringExtra("demo")?.startsWith("pin") == true
         val consentReady = if (isPinDemo) pending != null else pending == null
@@ -221,7 +261,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     },
                     scrollBehavior = scrollBehavior,
                 )
-                if (vm.demoMode && !DemoMode.screenshotCapture((context as? android.app.Activity)?.intent)) Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
+                if (vm.demoMode && !DemoMode.screenshotCapture(context.hostActivity()?.intent)) Surface(color = MaterialTheme.colorScheme.secondaryContainer) {
                     Text(stringResource(R.string.demo_mode_disclaimer),
                         modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp),
                         style = MaterialTheme.typography.labelLarge)
@@ -294,14 +334,14 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         onDismissRequest = { settingsOpen = false },
         title = { Text(stringResource(R.string.demo_mode_settings)) },
         text = {
-            Column {
+            Column(Modifier.heightIn(max = 480.dp)) {
                 androidx.compose.material3.TabRow(selectedTabIndex = settingsTab) {
                     androidx.compose.material3.Tab(selected = settingsTab == 0, onClick = { settingsTab = 0 }, text = { Text(stringResource(R.string.settings_general)) })
                     androidx.compose.material3.Tab(selected = settingsTab == 1, onClick = { settingsTab = 1 }, text = { Text(stringResource(R.string.about_title)) })
                 }
                 Spacer(Modifier.size(12.dp))
                 if (settingsTab == 0) {
-                    Column(Modifier.verticalScroll(rememberScrollState())) {
+                    Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
                         md.moldsign.app.ui.components.AppSettings(vm, enabled = !working && !status.busy && pending == null && stamp == null)
                         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                             Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
@@ -309,13 +349,13 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                                 onCheckedChange = { enabled ->
                                     settingsOpen = false
                                     if (enabled) confirmDemoEnable = true
-                                    else (context as? MainActivity)?.changeDemoMode(false)
+                                    else (context.hostActivity() as? MainActivity)?.changeDemoMode(false)
                                 })
                         }
                         Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
                     }
                 } else {
-                    AboutContent()
+                    Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) { AboutContent() }
                 }
             }
         },
@@ -332,7 +372,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         } },
         confirmButton = { TextButton(onClick = {
             confirmDemoEnable = false
-            (context as? MainActivity)?.changeDemoMode(true)
+            (context.hostActivity() as? MainActivity)?.changeDemoMode(true)
         }) { Text(stringResource(R.string.demo_mode_enable)) } },
         dismissButton = { TextButton(onClick = { confirmDemoEnable = false }) { Text(stringResource(R.string.action_cancel)) } },
     )

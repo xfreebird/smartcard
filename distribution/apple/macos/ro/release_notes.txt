@@ -1,3 +1,1 @@
-• Deschide și caută documentele semnate cu noua integrare Siri pe sistemele compatibile.
-• Folosește Scurtături pentru a verifica PDF-uri sau a le pregăti pentru semnare.
-• Descoperire opțională în Spotlight și Handoff pentru ecranul Documente.
+Acțiuni Siri și Scurtături îmbunătățite: alege un PDF în aplicație când nu este furnizat un fișier, deschide ultimul document semnat sau verifică ultimul PDF semnat. Expresii localizate și gestionarea anulării îmbunătățite. Secțiunea Despre include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.

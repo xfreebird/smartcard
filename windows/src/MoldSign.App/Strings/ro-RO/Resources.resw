@@ -349,4 +349,9 @@ eSemnBun</value></data>
   <data name="MCP_Enabled" xml:space="preserve"><value>Permite cereri locale de semnare (MCP)</value></data>
   <data name="MCP_Description" xml:space="preserve"><value>Fiecare cerere necesită aprobarea în eSemnBun. Configurați clientul MCP cu acest dosar privat.</value></data>
   <data name="MCP_Unavailable" xml:space="preserve"><value>Cererile locale de semnare nu au putut fi activate.</value></data>
+  <data name="about_legal_title" xml:space="preserve"><value>Informații juridice</value></data>
+  <data name="about_terms" xml:space="preserve"><value>Termeni și condiții</value></data>
+  <data name="about_privacy" xml:space="preserve"><value>Politica de confidențialitate</value></data>
+  <data name="about_disclaimer" xml:space="preserve"><value>Declinarea responsabilității</value></data>
+  <data name="about_disclaimer_body" xml:space="preserve"><value>eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.</value></data>
 </root>

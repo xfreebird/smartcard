@@ -6,6 +6,9 @@ import MoldSignKit
 struct VerifyScreen: View {
     @Environment(AppModel.self) private var model
     @State private var importing = false
+    @State private var shortcutPDFOnly = false
+    @State private var activeShortcutSelection: ShortcutNavigation.PDFSelection?
+    @State private var shortcutNavigation = ShortcutNavigation.shared
     @State private var dropTargeted = false
     #if os(iOS)
     @Environment(\.verticalSizeClass) private var verticalSizeClass
@@ -28,7 +31,7 @@ struct VerifyScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: shortViewport ? 12 : 24) {
-                DropZone(verification: true, compact: compactChooser, short: compactChooser, targeted: dropTargeted) { importing = true }
+                DropZone(verification: true, compact: compactChooser, short: compactChooser, targeted: dropTargeted) { shortcutPDFOnly = false; importing = true }
                     .accessibilityIdentifier("verify.dropZone")
                 if let file = model.verifyFile, model.verifyReports == nil {
                     ProgressView(L10n.text(.ui_verifying) + " · " + file.lastPathComponent)
@@ -69,9 +72,37 @@ struct VerifyScreen: View {
             }
             return !providers.isEmpty
         }
-        .fileImporter(isPresented: $importing, allowedContentTypes: [.pdf, .xml, .item], allowsMultipleSelection: true) { result in
-            if case .success(let urls) = result { Task { await model.verifyFiles(urls) } }
+        .task(id: "\(shortcutNavigation.pendingPDFSelection?.id.uuidString ?? "none")-\(importing)") {
+            guard !importing else { return }
+            guard shortcutNavigation.pendingPDFSelection?.purpose == .verify else { return }
+            // Present after the destination is mounted, including a cold Siri launch.
+            await Task.yield()
+            guard !Task.isCancelled, !importing,
+                  shortcutNavigation.pendingPDFSelection?.purpose == .verify else { return }
+            activeShortcutSelection = shortcutNavigation.pendingPDFSelection
+            shortcutPDFOnly = true
+            importing = true
+            shortcutNavigation.pendingPDFSelection = nil
         }
+        .fileImporter(isPresented: $importing, allowedContentTypes: shortcutPDFOnly ? [.pdf] : [.pdf, .xml, .item], allowsMultipleSelection: !shortcutPDFOnly, onCompletion: { result in
+            let selection = activeShortcutSelection
+            activeShortcutSelection = nil
+            if let selection, selection.waitsForIntent {
+                let selectedURL = result.flatMap { urls -> Result<URL, Error> in
+                    guard let url = urls.first else { return .failure(CancellationError()) }
+                    return .success(url)
+                }
+                shortcutNavigation.finishPDFSelection(id: selection.id, result: selectedURL)
+                return
+            }
+            if let selection, !shortcutNavigation.isCurrentSelection(selection.id) { return }
+            if case .success(let urls) = result { Task { await model.verifyFiles(urls) } }
+        }, onCancellation: {
+            if let selection = activeShortcutSelection, selection.waitsForIntent {
+                shortcutNavigation.finishPDFSelection(id: selection.id, result: .failure(CancellationError()))
+            }
+            activeShortcutSelection = nil
+        })
     }
 }
 

@@ -113,6 +113,11 @@
                 <TextBlock x:Name="VersionText" HorizontalAlignment="Center" Style="{StaticResource MsCaptionTextStyle}" IsTextSelectionEnabled="True" />
                 <TextBlock x:Name="AboutDeveloper" HorizontalAlignment="Center" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
                 <HyperlinkButton HorizontalAlignment="Center" Content="esemnbun.md" NavigateUri="https://esemnbun.md" />
+                <TextBlock x:Name="AboutLegalTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
+                <TextBlock x:Name="AboutDisclaimerBody" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
+                <HyperlinkButton x:Name="AboutTermsLink" />
+                <HyperlinkButton x:Name="AboutPrivacyLink" />
+                <HyperlinkButton x:Name="AboutDisclaimerLink" />
                 <Button x:Name="CheckUpdatesButton" HorizontalAlignment="Center" Visibility="Collapsed" Click="OnCheckUpdatesClick" />
                 <TextBlock x:Name="UpdateStatus" TextAlignment="Center" TextWrapping="Wrap" />
             </StackPanel>

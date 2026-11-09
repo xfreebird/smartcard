@@ -10,6 +10,7 @@ offline validation, and a drop-in replica of the MoldSign Server used by msign.g
 
 | Doc | Contents |
 |---|---|
+| [15-assistant-shortcuts.md](15-assistant-shortcuts.md) | Android launcher/Assistant shortcuts, Siri file selection, privacy boundaries and device validation |
 | [01-card-protocol.md](01-card-protocol.md) | IAS/ECC mutual auth, SM channel rules, P2=04/Le=00/SSC traps, status-word playbook, Slicing crashes, recapture tools |
 | [02-pades-signing.md](02-pades-signing.md) | iText-faithful incremental updates, fixed-width ByteRange, counter-signing via existing AcroForm, CMS with signingCertificateV2+chain+MDQTSA, the BouncyCastle rejection bug, byte-template method |
 | [03-xades-signing.md](03-xades-signing.md) | XAdES-BES/T/C byte-exact structures incl. vendor quirks (id/basename mismatch, duplicated OCSPRef, DN spellings, #WithComments), CRL/OCSP fetching, golden extraction, XMLDSig harness |

@@ -10,6 +10,9 @@ struct SignScreen: View {
     var onOpenDocuments: () -> Void = {}
     @Environment(AppModel.self) private var model
     @State private var importing = false
+    @State private var shortcutPDFOnly = false
+    @State private var activeShortcutSelection: ShortcutNavigation.PDFSelection?
+    @State private var shortcutNavigation = ShortcutNavigation.shared
     @State private var dropTargeted = false
     #if os(iOS)
     @Environment(\.horizontalSizeClass) private var sizeClass
@@ -104,9 +107,37 @@ struct SignScreen: View {
             Task { model.addFiles(await DroppedDocumentLoader.load(providers)) }
             return !providers.isEmpty
         }
-        .fileImporter(isPresented: $importing, allowedContentTypes: [.item], allowsMultipleSelection: true) { result in
-            if case .success(let urls) = result { model.addFiles(urls) }
+        .task(id: "\(shortcutNavigation.pendingPDFSelection?.id.uuidString ?? "none")-\(importing)") {
+            guard !importing else { return }
+            guard shortcutNavigation.pendingPDFSelection?.purpose == .prepareSigning else { return }
+            // Present after the destination is mounted, including a cold Siri launch.
+            await Task.yield()
+            guard !Task.isCancelled, !importing,
+                  shortcutNavigation.pendingPDFSelection?.purpose == .prepareSigning else { return }
+            activeShortcutSelection = shortcutNavigation.pendingPDFSelection
+            shortcutPDFOnly = true
+            importing = true
+            shortcutNavigation.pendingPDFSelection = nil
         }
+        .fileImporter(isPresented: $importing, allowedContentTypes: shortcutPDFOnly ? [.pdf] : [.item], allowsMultipleSelection: !shortcutPDFOnly, onCompletion: { result in
+            let selection = activeShortcutSelection
+            activeShortcutSelection = nil
+            if let selection, selection.waitsForIntent {
+                let selectedURL = result.flatMap { urls -> Result<URL, Error> in
+                    guard let url = urls.first else { return .failure(CancellationError()) }
+                    return .success(url)
+                }
+                shortcutNavigation.finishPDFSelection(id: selection.id, result: selectedURL)
+                return
+            }
+            if let selection, !shortcutNavigation.isCurrentSelection(selection.id) { return }
+            if case .success(let urls) = result { model.addFiles(urls) }
+        }, onCancellation: {
+            if let selection = activeShortcutSelection, selection.waitsForIntent {
+                shortcutNavigation.finishPDFSelection(id: selection.id, result: .failure(CancellationError()))
+            }
+            activeShortcutSelection = nil
+        })
     }
 
     private var shortViewport: Bool {
@@ -221,7 +252,7 @@ struct SignScreen: View {
                     }
                 }
             }
-            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { importing = true }
+            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { shortcutPDFOnly = false; importing = true }
             if !model.signItems.isEmpty {
                 Text(L10n.text(.ui_pades_signs_inside_the_pdf_xades_creates_a_separate_xml_file_sha_256_algorithm))
                     .font(.caption).foregroundStyle(.secondary)
@@ -301,7 +332,7 @@ struct SignScreen: View {
         // An independent section keeps the last document's native bottom corners rounded.
         // Its native section inset aligns the drop area with the document card above it.
         Section {
-            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { importing = true }
+            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { shortcutPDFOnly = false; importing = true }
                 .padding(12)
                 .listRowInsets(EdgeInsets())
                 .listRowBackground(Color.clear)

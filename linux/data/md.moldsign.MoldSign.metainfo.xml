@@ -59,6 +59,7 @@
   <!-- TODO(LNX-14): screenshots (Sign, Verify, Card pages) hosted at a stable URL. -->
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.7" date="2026-11-09"><description><p>Added terms, privacy policy and disclaimer information to About.</p></description></release>
     <release version="0.2.6" date="2026-11-08"><description><p>Local MCP automation, offline verification, and explicitly configured unattended signing.</p></description></release>
     <release version="0.2.5" date="2026-11-07"><description><p>Improved adaptive layouts, document details, and independent document history.</p></description></release>
     <release version="0.2.4" date="2026-11-06"><description><p>Optional visible PDF stamps, clearer batch options, and signed documents with direct verification.</p></description></release>

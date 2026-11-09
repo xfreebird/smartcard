@@ -112,3 +112,9 @@ signature and entitlement/profile checks. The standalone DMG was notarized and s
 Mac TestFlight 0.2.1 build 114 completed processing as `VALID` on the same date;
 the existing 0.2.0 review submission kept build 102. The upload lane explicitly selects
 `md.esemnbun.mac`, preventing inheritance of the iOS identifier from `Appfile`.
+
+### Verification widget extension
+
+The iOS app embeds `eSemnBunWidgets` (`md.esemnbun.ios.widgets`). Before its first signed build, register the identifier and enable App Groups with `group.md.esemnbun.shared` in the developer portal. Create development/App Store/ad hoc profiles using the existing match workflow; CI continues to fetch them read-only. `IOS_IDS` and the App Store/ad hoc export mappings include the extension. No new distribution secret is required. Widget metadata never includes document content or runtime signing credentials.
+
+Provisioned on 2026-11-09: `md.esemnbun.ios.widgets` is registered with `group.md.esemnbun.shared`. Development, App Store and Ad Hoc profiles were created and pushed to the encrypted match repository (commits `2a97517`, `79e4f46`, `5624615`). Each decoded profile was checked for the App Group entitlement. Existing signing certificates were reused.

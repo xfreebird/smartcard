@@ -9,6 +9,8 @@ struct MoldSignMacApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @AppStorage("appLanguage", store: AppPreferencesStore.defaults) private var language = "system"
 
+    init() { ESemnBunShortcuts.updateAppShortcutParameters() }
+
     private var showsMenuBarItem: Bool {
         #if DEBUG
         ProcessInfo.processInfo.environment["MSIGN_QA_HIDE_TRAY"] != "1"

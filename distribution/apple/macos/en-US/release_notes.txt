@@ -1,3 +1,1 @@
-• Open and search signed documents with the new Siri integration on supported systems.
-• Use Shortcuts to verify PDFs or prepare them for signing.
-• Optional Spotlight discovery and Handoff for the Documents screen.
+Improved Siri and Shortcuts actions: choose a PDF in the app when no file is supplied, open your latest signed document, or verify your latest signed PDF. Improved localized shortcut phrases and cancellation handling. About now includes Terms & Conditions, Privacy Policy and disclaimer information.

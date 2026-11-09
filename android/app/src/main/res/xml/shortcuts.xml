@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <capability android:name="actions.intent.OPEN_APP_FEATURE">
+        <intent android:action="md.esemnbun.app.OPEN_FEATURE"
+            android:targetPackage="md.esemnbun.app" android:targetClass="md.moldsign.app.MainActivity">
+            <parameter android:name="feature" android:key="esemnbun_feature" />
+        </intent>
+    </capability>
+    <shortcut android:shortcutId="verify_pdf" android:enabled="true"
+        android:icon="@drawable/shortcut_verify_pdf" android:shortcutShortLabel="@string/shortcut_verify_pdf">
+        <intent android:action="md.esemnbun.app.OPEN_FEATURE"
+            android:targetPackage="md.esemnbun.app" android:targetClass="md.moldsign.app.MainActivity">
+            <extra android:name="esemnbun_feature" android:value="verify_pdf" />
+        </intent>
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding android:key="feature" android:value="@string/shortcut_verify_pdf" />
+        </capability-binding>
+    </shortcut>
+    <shortcut android:shortcutId="prepare_signing" android:enabled="true"
+        android:icon="@drawable/shortcut_prepare_signing" android:shortcutShortLabel="@string/shortcut_prepare_signing">
+        <intent android:action="md.esemnbun.app.OPEN_FEATURE"
+            android:targetPackage="md.esemnbun.app" android:targetClass="md.moldsign.app.MainActivity">
+            <extra android:name="esemnbun_feature" android:value="prepare_signing" />
+        </intent>
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding android:key="feature" android:value="@string/shortcut_prepare_signing" />
+        </capability-binding>
+    </shortcut>
+    <shortcut android:shortcutId="documents" android:enabled="true"
+        android:icon="@drawable/shortcut_documents" android:shortcutShortLabel="@string/shortcut_documents">
+        <intent android:action="md.esemnbun.app.OPEN_FEATURE"
+            android:targetPackage="md.esemnbun.app" android:targetClass="md.moldsign.app.MainActivity">
+            <extra android:name="esemnbun_feature" android:value="documents" />
+        </intent>
+        <capability-binding android:key="actions.intent.OPEN_APP_FEATURE">
+            <parameter-binding android:key="feature" android:value="@string/shortcut_documents" />
+        </capability-binding>
+    </shortcut>
+</shortcuts>

@@ -348,4 +348,18 @@ eSemnBun</string>
   <string name="settings_system">System</string>
   <string name="settings_light">Light</string>
   <string name="settings_dark">Dark</string>
+  <string name="about_legal_title">Legal information</string>
+  <string name="about_terms">Terms &amp; Conditions</string>
+  <string name="about_privacy">Privacy Policy</string>
+  <string name="about_disclaimer">Disclaimer</string>
+  <string name="about_disclaimer_body">eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.</string>
+  <string name="shortcut_verify_pdf">Verify PDF</string>
+  <string name="shortcut_prepare_signing">Prepare Signing</string>
+  <string name="shortcut_documents">Documents</string>
+  <string name="widget_title">Verify &amp; Recent Documents</string>
+  <string name="widget_description">Choose a PDF to verify and open your latest signed documents.</string>
+  <string name="widget_no_documents">No signed documents yet.</string>
+  <string name="widget_private">Recent filenames are hidden. Enable them in app settings.</string>
+  <string name="widget_show_recents">Show recent documents in widget</string>
+  <string name="widget_recents_hint">Displays signed filenames on your Home Screen. Off by default.</string>
 </resources>

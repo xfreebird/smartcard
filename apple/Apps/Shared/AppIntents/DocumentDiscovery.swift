@@ -35,6 +35,9 @@ enum DocumentDiscovery {
     /// Serialize delete/reindex so disabling wins over an in-flight refresh.
     private static var indexing: Task<Void, Never>?
     static func refresh() {
+        #if os(iOS)
+        DocumentWidgetSnapshot.refresh()
+        #endif
         let previous = indexing
         indexing = Task { @MainActor in
             await previous?.value

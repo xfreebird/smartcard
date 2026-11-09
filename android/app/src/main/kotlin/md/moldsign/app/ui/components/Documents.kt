@@ -1,5 +1,7 @@
 package md.moldsign.app.ui.components
 
+import md.moldsign.app.hostActivity
+
 import android.text.format.Formatter
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
@@ -90,7 +92,7 @@ import md.moldsign.core.SignFormat
  */
 @Composable
 fun FormatChip(doc: PickedDocument, format: SignFormat, onSelect: (SignFormat) -> Unit) {
-    val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureMenu = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("capture_dialog") == "format-menu"
     var open by remember(captureMenu) { mutableStateOf(false) }
     val capturePosition = remember { BringIntoViewRequester() }
@@ -224,7 +226,7 @@ fun DocumentList(
 ) {
     val grouped = LocalConfiguration.current.screenWidthDp < 600 && items.size > 1
     var stackExpanded by rememberSaveable { mutableStateOf(false) }
-    val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureMenu = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("capture_dialog") == "batch-menu"
     var groupMenu by remember(captureMenu) { mutableStateOf(false) }
     val captureGroupPosition = remember { BringIntoViewRequester() }
@@ -321,7 +323,7 @@ fun DocumentList(
             }
             item.error?.let { error ->
                 val captureErrorPosition = remember { BringIntoViewRequester() }
-                val captureIntent = (LocalContext.current as? android.app.Activity)?.intent
+                val captureIntent = LocalContext.current.hostActivity()?.intent
                 LaunchedEffect(error) {
                     if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("demo") == "sign-failure") {
                         androidx.compose.runtime.withFrameNanos { }

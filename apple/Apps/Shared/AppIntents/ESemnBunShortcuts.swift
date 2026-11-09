@@ -7,9 +7,19 @@ import Observation
 @MainActor @Observable
 final class ShortcutNavigation {
     static let shared = ShortcutNavigation()
+    enum PDFSelectionPurpose: Equatable { case verify, prepareSigning }
+    struct PDFSelection {
+        let id: UUID
+        let purpose: PDFSelectionPurpose
+        var waitsForIntent = false
+    }
+    var pendingPDFSelection: PDFSelection?
     struct Request {
         let id = UUID()
         var preparedURL: URL? = nil
+        var documentID: UUID? = nil
+        var pickerPurpose: PDFSelectionPurpose? = nil
+        var pickerWaitsForIntent = false
         let reports: [Validator.Report]?
         let filename: String?
     }
@@ -18,14 +28,86 @@ final class ShortcutNavigation {
     var selectedDocumentID: UUID?
     var request: Request?
     private var generation = UUID()
+    private(set) var currentSelectionID: UUID?
+
+    func isCurrentSelection(_ id: UUID) -> Bool { currentSelectionID == id }
+    func isCurrentOperation(_ id: UUID) -> Bool { generation == id }
+    private var waitingSelection: (id: UUID, continuation: CheckedContinuation<URL, Error>)?
+    private var selectionTimeout: Task<Void, Never>?
+
+    /// Optional file parameters use the same picker while retaining the action's real result.
+    func selectPDF(for purpose: PDFSelectionPurpose) async throws -> IntentFile {
+        try Task.checkCancellation()
+        cancelWaitingSelection()
+        generation = UUID()
+        let selectionRequest = Request(pickerPurpose: purpose, pickerWaitsForIntent: true, reports: nil, filename: nil)
+        let url: URL = try await withTaskCancellationHandler {
+            try Task.checkCancellation()
+            return try await withCheckedThrowingContinuation { continuation in
+                waitingSelection = (selectionRequest.id, continuation)
+                pendingPDFSelection = nil
+                currentSelectionID = selectionRequest.id
+                request = selectionRequest
+                activate()
+                selectionTimeout = Task { @MainActor in
+                    do { try await Task.sleep(for: .seconds(300)) } catch { return }
+                    self.finishPDFSelection(id: selectionRequest.id, result: .failure(CancellationError()))
+                }
+            }
+        } onCancel: {
+            Task { @MainActor in
+                self.finishPDFSelection(id: selectionRequest.id, result: .failure(CancellationError()))
+            }
+        }
+        try Task.checkCancellation()
+        guard currentSelectionID == selectionRequest.id else { throw CancellationError() }
+        return IntentFile(fileURL: url, filename: url.lastPathComponent)
+    }
+
+    func finishPDFSelection(id: UUID, result: Result<URL, Error>) {
+        guard let waiting = waitingSelection, waiting.id == id else { return }
+        waitingSelection = nil
+        if case .failure = result, currentSelectionID == id { currentSelectionID = nil }
+        selectionTimeout?.cancel()
+        selectionTimeout = nil
+        if pendingPDFSelection?.id == id { pendingPDFSelection = nil }
+        if request?.id == id { request = nil }
+        waiting.continuation.resume(with: result)
+    }
+
+    private func cancelWaitingSelection() {
+        if let id = waitingSelection?.id {
+            finishPDFSelection(id: id, result: .failure(CancellationError()))
+        }
+    }
+
+    func choosePDF(for purpose: PDFSelectionPurpose) {
+        cancelWaitingSelection()
+        generation = UUID()
+        pendingPDFSelection = nil
+        let next = Request(pickerPurpose: purpose, reports: nil, filename: nil)
+        currentSelectionID = next.id
+        request = next
+        activate()
+    }
 
     func openDocuments() {
+        cancelWaitingSelection()
         generation = UUID()
+        pendingPDFSelection = nil
+        currentSelectionID = nil
         request = Request(reports: nil, filename: nil)
         activate()
     }
+    func openDocument(_ id: UUID) {
+        openDocuments()
+        request?.documentID = id
+    }
     func prepare(_ url: URL) {
+        cancelWaitingSelection()
         generation = UUID()
+        pendingPDFSelection = nil
+        currentSelectionID = nil
         request = Request(preparedURL: url, reports: nil, filename: nil)
         activate()
     }
@@ -34,7 +116,12 @@ final class ShortcutNavigation {
         NotificationCenter.default.post(name: .showInsertedCard, object: nil)
         #endif
     }
-    func beginVerification() -> UUID {
+    /// A generation also protects preparation while a file provider copies its input.
+    func beginOperation() -> UUID {
+        cancelWaitingSelection()
+        pendingPDFSelection = nil
+        currentSelectionID = nil
+        request = nil
         generation = UUID()
         return generation
     }
@@ -55,6 +142,7 @@ struct OpenDocumentsIntent: AppIntent {
 
     @MainActor
     func perform() async throws -> some IntentResult {
+        try Task.checkCancellation()
         ShortcutNavigation.shared.openDocuments()
         return .result()
     }
@@ -74,20 +162,22 @@ enum PDFVerificationOutcome: String, AppEnum {
 
 struct VerifyPDFIntent: AppIntent {
     static var title: LocalizedStringResource = LocalizedStringResource("shortcut_verify_pdf", defaultValue: "Verify PDF")
-    static var description = IntentDescription(LocalizedStringResource("shortcut_verify_pdf_description", defaultValue: "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status."))
+    static var description = IntentDescription(LocalizedStringResource("shortcut_verify_pdf_description", defaultValue: "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status. If no file is supplied, choose a PDF in the app’s file picker."))
     @available(iOS 26.0, macOS 26.0, *)
     static var supportedModes: IntentModes { .foreground }
     static var openAppWhenRun: Bool = true
     static var authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
 
     @Parameter(title: LocalizedStringResource("shortcut_pdf_document", defaultValue: "PDF document"), supportedTypeIdentifiers: ["com.adobe.pdf"])
-    var document: IntentFile
+    var document: IntentFile?
 
     @MainActor
     func perform() async throws -> some IntentResult & ReturnsValue<PDFVerificationOutcome> {
         try Task.checkCancellation()
-        let generation = ShortcutNavigation.shared.beginVerification()
-        let file = document
+        let file: IntentFile
+        if let document { file = document }
+        else { file = try await ShortcutNavigation.shared.selectPDF(for: .verify) }
+        let generation = ShortcutNavigation.shared.beginOperation()
         // Stream file-backed input off the main actor; never copy an unbounded provider file.
         let copying = Task.detached { try ShortcutPDFCopy(file) }
         let copy = try await withTaskCancellationHandler {
@@ -109,13 +199,51 @@ struct VerifyPDFIntent: AppIntent {
     }
 }
 
+/// Voice entry points have no file parameter: selection happens in the foreground app.
+/// Keep the file-taking intents above/below for existing Shortcuts pipelines and typed output.
+struct ChoosePDFForVerificationIntent: AppIntent {
+    static var title: LocalizedStringResource = LocalizedStringResource("shortcut_choose_verify", defaultValue: "Choose PDF to Verify")
+    static var description = IntentDescription(LocalizedStringResource("shortcut_choose_verify_description", defaultValue: "Open eSemnBun and select a PDF in the file picker to verify its signatures."))
+    @available(iOS 26.0, macOS 26.0, *)
+    static var supportedModes: IntentModes { .foreground }
+    static var openAppWhenRun: Bool = true
+    static var authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        try Task.checkCancellation()
+        ShortcutNavigation.shared.choosePDF(for: .verify)
+        return .result()
+    }
+}
+
+struct ChoosePDFForSigningIntent: AppIntent {
+    static var title: LocalizedStringResource = LocalizedStringResource("shortcut_choose_sign", defaultValue: "Choose PDF for Signing")
+    static var description = IntentDescription(LocalizedStringResource("shortcut_choose_sign_description", defaultValue: "Open eSemnBun and select a PDF for signing. Review and approve signing in the app."))
+    @available(iOS 26.0, macOS 26.0, *)
+    static var supportedModes: IntentModes { .foreground }
+    static var openAppWhenRun: Bool = true
+    static var authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
+
+    @MainActor
+    func perform() async throws -> some IntentResult {
+        try Task.checkCancellation()
+        ShortcutNavigation.shared.choosePDF(for: .prepareSigning)
+        return .result()
+    }
+}
+
 struct ESemnBunShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
+        AppShortcut(intent: OpenLatestSignedDocumentIntent(), phrases: ["Open latest signed document in \(.applicationName)"],
+                    shortTitle: LocalizedStringResource("shortcut_open_latest", defaultValue: "Open Latest Signed Document"), systemImageName: "clock")
+        AppShortcut(intent: VerifyLatestSignedPDFIntent(), phrases: ["Verify latest signed PDF with \(.applicationName)"],
+                    shortTitle: LocalizedStringResource("shortcut_verify_latest", defaultValue: "Verify Latest Signed PDF"), systemImageName: "checkmark.seal")
         AppShortcut(intent: OpenDocumentsIntent(), phrases: ["Open documents in \(.applicationName)"],
                     shortTitle: LocalizedStringResource("shortcut_open_documents", defaultValue: "Open Documents"), systemImageName: "folder")
-        AppShortcut(intent: PreparePDFSigningIntent(), phrases: ["Prepare PDF for signing in \(.applicationName)"],
+        AppShortcut(intent: ChoosePDFForSigningIntent(), phrases: ["Prepare PDF for signing in \(.applicationName)"],
                     shortTitle: LocalizedStringResource("shortcut_prepare_short", defaultValue: "Prepare Signing"), systemImageName: "signature")
-        AppShortcut(intent: VerifyPDFIntent(), phrases: ["Verify PDF with \(.applicationName)"],
+        AppShortcut(intent: ChoosePDFForVerificationIntent(), phrases: ["Verify PDF with \(.applicationName)"],
                     shortTitle: LocalizedStringResource("shortcut_verify_pdf", defaultValue: "Verify PDF"), systemImageName: "checkmark.seal")
     }
 }
@@ -181,21 +309,25 @@ struct ShortcutPDFCopy: Sendable {
 /// Preparation never invokes signing or requests a PIN. The existing foreground review owns both.
 struct PreparePDFSigningIntent: AppIntent {
     static var title: LocalizedStringResource = LocalizedStringResource("shortcut_prepare_pdf", defaultValue: "Prepare PDF for Signing")
-    static var description = IntentDescription(LocalizedStringResource("shortcut_prepare_description", defaultValue: "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app."))
+    static var description = IntentDescription(LocalizedStringResource("shortcut_prepare_description", defaultValue: "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app. If no file is supplied, choose a PDF in the app’s file picker."))
     @available(iOS 26.0, macOS 26.0, *)
     static var supportedModes: IntentModes { .foreground }
     static var openAppWhenRun = true
     static var authenticationPolicy: IntentAuthenticationPolicy = .requiresAuthentication
     @Parameter(title: LocalizedStringResource("shortcut_pdf_document", defaultValue: "PDF document"), supportedTypeIdentifiers: ["com.adobe.pdf"])
-    var document: IntentFile
+    var document: IntentFile?
 
     @MainActor
     func perform() async throws -> some IntentResult {
-        let file = document
+        let file: IntentFile
+        if let document { file = document }
+        else { file = try await ShortcutNavigation.shared.selectPDF(for: .prepareSigning) }
+        let operation = ShortcutNavigation.shared.beginOperation()
         let task = Task.detached { try ShortcutPDFCopy(file, forSigning: true) }
         let copy = try await withTaskCancellationHandler { try await task.value } onCancel: { task.cancel() }
         do {
             try Task.checkCancellation()
+            guard ShortcutNavigation.shared.isCurrentOperation(operation) else { throw CancellationError() }
             ShortcutNavigation.shared.prepare(copy.url)
         } catch {
             try? FileManager.default.removeItem(at: copy.directory)

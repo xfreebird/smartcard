@@ -37,6 +37,12 @@ def validate_text(value, limit, label, byte_limit=False):
 outputs = {}
 for lang in config['locales']:
     m = metadata[lang]
+    for platform in PLATFORM_NAMES:
+        notes = m.get('releaseNotesByPlatform', {}).get(platform)
+        if not notes:
+            raise SystemExit(f'{lang}/{platform}: missing platform release notes')
+        validate_text(notes, 4000, f'{lang}/{platform}/releaseNotes')
+        validate_platform_text(notes, platform, f'{lang}/{platform}/releaseNotes')
     for field, limit in [('name', 30), ('subtitle', 30), ('shortDescription', 80), ('promotionalText', 170), ('releaseNotes', 4000)]:
         validate_text(m[field], limit, f'{lang}/{field}')
     validate_text(m['keywords'], 100, f'{lang}/keywords UTF-8', byte_limit=True)

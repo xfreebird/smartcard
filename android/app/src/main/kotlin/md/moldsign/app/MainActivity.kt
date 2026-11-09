@@ -3,6 +3,14 @@ package md.moldsign.app
 import md.moldsign.app.presentation.MainViewModel
 
 import android.content.Intent
+import android.content.res.Configuration
+import android.content.res.Resources
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.LocaleListCompat
+import androidx.compose.foundation.isSystemInDarkTheme
 import android.hardware.usb.UsbManager
 import android.net.Uri
 import android.os.Bundle
@@ -38,9 +46,21 @@ class MainActivity : AppCompatActivity() {
     val appTheme: String
         get() = getSharedPreferences("settings", MODE_PRIVATE).getString("app_theme", "system") ?: "system"
 
+    var themePreference by mutableStateOf("system")
+        private set
+    private var languagePreference by mutableStateOf("system")
+
+    fun changeAppLanguage(value: String) {
+        if (value !in setOf("system", "ro", "en", "ru")) return
+        languagePreference = value
+        getSharedPreferences("settings", MODE_PRIVATE).edit().putString("widget_language", value).apply()
+        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(if (value == "system") "" else value))
+    }
+
     fun changeAppTheme(value: String) {
         if (value !in setOf("system", "light", "dark")) return
         getSharedPreferences("settings", MODE_PRIVATE).edit().putString("app_theme", value).apply()
+        themePreference = value
         delegate.localNightMode = nightMode(value)
     }
 
@@ -53,6 +73,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         delegate.localNightMode = nightMode(appTheme)
         super.onCreate(savedInstanceState)
+        themePreference = appTheme
+        languagePreference = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "system"
         // The launch window is cosmetic; the running activity keeps its regular theme.
         setTheme(R.style.Theme_MoldSign)
         enableEdgeToEdge()
@@ -62,11 +84,30 @@ class MainActivity : AppCompatActivity() {
         // A recreated activity (rotation, dark mode, locale) must not replay the launch intent.
         if (savedInstanceState == null) handleIntent(intent)
         setContent {
-            MoldSignTheme {
-                // Each screenshot intent gets fresh navigation/scroll/dialog state without a process restart.
-                // The release implementation never enables this isolated fixture key.
-                androidx.compose.runtime.key(if (DemoMode.screenshotCapture(intent)) demoGeneration else 0) {
-                    MoldSignRoot(demoPage = demoPage, demoGeneration = demoGeneration)
+            val configuration = LocalConfiguration.current
+            val localizedConfiguration = remember(configuration, languagePreference) {
+                Configuration(configuration).apply {
+                    setLocales(if (languagePreference == "system") Resources.getSystem().configuration.locales
+                        else android.os.LocaleList.forLanguageTags(languagePreference))
+                }
+            }
+            val localizedContext = remember(localizedConfiguration) {
+                android.view.ContextThemeWrapper(this@MainActivity, R.style.Theme_MoldSign).apply {
+                    applyOverrideConfiguration(localizedConfiguration)
+                }
+            }
+            val darkTheme = when (themePreference) {
+                "light" -> false
+                "dark" -> true
+                else -> isSystemInDarkTheme()
+            }
+            CompositionLocalProvider(LocalContext provides localizedContext, LocalConfiguration provides localizedConfiguration) {
+                MoldSignTheme(darkTheme = darkTheme) {
+                    // Each screenshot intent gets fresh navigation/scroll/dialog state without a process restart.
+                    // The release implementation never enables this isolated fixture key.
+                    androidx.compose.runtime.key(if (DemoMode.screenshotCapture(intent)) demoGeneration else 0) {
+                        MoldSignRoot(demoPage = demoPage, demoGeneration = demoGeneration)
+                    }
                 }
             }
         }
@@ -95,10 +136,12 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         (application as MoldSignApp).container.inForeground = true
+        md.moldsign.app.widget.DocumentsWidget.refresh(this)
     }
 
     override fun onStop() {
         (application as MoldSignApp).container.inForeground = false
+        md.moldsign.app.widget.DocumentsWidget.refresh(this)
         super.onStop()
     }
 
@@ -116,6 +159,10 @@ class MainActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent?) {
         val container = (application as MoldSignApp).container
         if (intent?.action == UsbManager.ACTION_USB_DEVICE_ATTACHED) container.readerMonitor.rescan()
+        AppShortcuts.destination(intent)?.let { destination ->
+            viewModel.receiveShortcut(destination, if (destination == AppShortcuts.Destination.Documents)
+                intent?.getStringExtra(md.moldsign.app.widget.DocumentsWidget.DOCUMENT_ID) else null)
+        }
         sharedUris(intent).takeIf { it.isNotEmpty() }?.let(viewModel::receiveShared)
         DemoMode.apply(container, intent, viewModel)
         if (intent?.hasExtra("demo") == true) {

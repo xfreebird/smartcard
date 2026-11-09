@@ -66,6 +66,26 @@ class MainViewModel @JvmOverloads constructor(
     private val container: AppContainer = (app as MoldSignApp).container,
 ) : AndroidViewModel(app) {
 
+    data class ShortcutRequest(val id: String, val destination: md.moldsign.app.AppShortcuts.Destination, val documentID: String? = null)
+    private val _shortcutRequest = MutableStateFlow<ShortcutRequest?>(null)
+    val shortcutRequest = _shortcutRequest.asStateFlow()
+    fun receiveShortcut(destination: md.moldsign.app.AppShortcuts.Destination, documentID: String? = null) {
+        _shortcutRequest.value = ShortcutRequest(java.util.UUID.randomUUID().toString(), destination, documentID)
+    }
+    fun consumeShortcut(id: String) {
+        if (_shortcutRequest.value?.id == id) _shortcutRequest.value = null
+    }
+
+    private val _widgetDocument = MutableStateFlow<String?>(null)
+    val widgetDocument = _widgetDocument.asStateFlow()
+    fun selectWidgetDocument(id: String?) {
+        _widgetDocument.value = id?.takeIf { candidate ->
+            md.moldsign.app.widget.DocumentsWidget.showsRecents(getApplication()) &&
+                savedDocuments.value.any { it.id == candidate && it.signedOutput && it.ok }
+        }
+    }
+    fun consumeWidgetDocument() { _widgetDocument.value = null }
+
     val demoMode: Boolean = container.userDemoMode
     val status: StateFlow<AppStatus> = container.status
     val progress = container.signingService.progress

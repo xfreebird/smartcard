@@ -15,14 +15,36 @@
 		A10000000000000000000001 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000002 /* ShareViewController.swift */; };
 		A10000000000000000000003 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* Localizable.xcstrings */; };
 		A10000000000000000000005 /* eSemnBunShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A10000000000000000000006 /* eSemnBunShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D7530268BB30D57F888085FA /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000004 /* Localizable.xcstrings */; };
+		CF90C67A464477D07AC6A2A0 /* eSemnBunWidgets.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = AA489F240A00B569CFAB2381 /* eSemnBunWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		9FB7456367580080AB4E31B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BCAFBCA10793E9721678D64 /* Foundation.framework */; };
+		A921F07944DD4DAB198C6DAD /* DocumentsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE70232ECB5711B7E3A838B0 /* DocumentsWidget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		A10000000000000000000007 /* PBXContainerItemProxy */ = {isa = PBXContainerItemProxy; containerPortal = BE9061C6BB0447C32441F63C /* Project object */; proxyType = 1; remoteGlobalIDString = A10000000000000000000008; remoteInfo = eSemnBunShare; };
+		67D003A820B67387618FBEBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE9061C6BB0447C32441F63C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B60D9624E6EF2CE82C30EC2D;
+			remoteInfo = eSemnBunWidgets;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		A10000000000000000000009 /* Embed App Extensions */ = {isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = (A10000000000000000000005 /* eSemnBunShare.appex in Embed App Extensions */, ); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0; };
+		A10000000000000000000009 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A10000000000000000000005 /* eSemnBunShare.appex in Embed App Extensions */,
+				CF90C67A464477D07AC6A2A0 /* eSemnBunWidgets.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 /* Begin PBXFileReference section */
 		9D3A4354BB64867F51E37837 /* MoldSignKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MoldSignKit; path = ../swift/MoldSignKit; sourceTree = SOURCE_ROOT; };
@@ -33,6 +55,11 @@
 		A10000000000000000000002 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareExtension/ShareViewController.swift; sourceTree = SOURCE_ROOT; };
 		A10000000000000000000004 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Apps/Shared/Resources/Localizable.xcstrings; sourceTree = SOURCE_ROOT; };
 		A10000000000000000000006 /* eSemnBunShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eSemnBunShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BCAFBCA10793E9721678D64 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		AA489F240A00B569CFAB2381 /* eSemnBunWidgets.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = eSemnBunWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9B2EA9DBBB1B39B9E63F84C /* Widget.entitlements */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.entitlements; path = Widget.entitlements; sourceTree = "<group>"; };
+		E3AF77FF74069DFBB00775EC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE70232ECB5711B7E3A838B0 /* DocumentsWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DocumentsWidget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -126,6 +153,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C1395FFC30A348559D36B607 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9FB7456367580080AB4E31B5 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -136,6 +171,7 @@
 				A10000000000000000000006 /* eSemnBunShare.appex */,
 				F44F8E98815B97E665D97178 /* eSemnBun-iOS.app */,
 				C62C76F898CF23FE6B39E022 /* eSemnBun-macOS.app */,
+				AA489F240A00B569CFAB2381 /* eSemnBunWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -167,6 +203,8 @@
 				D3BAA8E7F029DB79141EB1A5 /* MoldSignKit */,
 				A40AA187AECC19AD5E24C508 /* Packages */,
 				033BFFADBFCCC6BE9A02D653 /* Products */,
+				4A8A1B620E3E5F2E5128106D /* Frameworks */,
+				5F57E01B742697853E8AC303 /* WidgetExtension */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,6 +224,33 @@
 			);
 			name = MoldSignKit;
 			path = ../swift/MoldSignKit;
+			sourceTree = "<group>";
+		};
+		810FB5B828D5F86EE1184065 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				7BCAFBCA10793E9721678D64 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		5F57E01B742697853E8AC303 /* WidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				DE70232ECB5711B7E3A838B0 /* DocumentsWidget.swift */,
+				E3AF77FF74069DFBB00775EC /* Info.plist */,
+				A9B2EA9DBBB1B39B9E63F84C /* Widget.entitlements */,
+			);
+			name = WidgetExtension;
+			path = WidgetExtension;
+			sourceTree = "<group>";
+		};
+		4A8A1B620E3E5F2E5128106D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				810FB5B828D5F86EE1184065 /* iOS */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +294,7 @@
 			);
 			dependencies = (
 				A1000000000000000000000A /* PBXTargetDependency */,
+				EB1BF52B5120DAF591905AB2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				81B22A7491DCAC3D156E2714 /* Shared */,
@@ -276,6 +342,23 @@
 			productReference = A10000000000000000000006 /* eSemnBunShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		B60D9624E6EF2CE82C30EC2D /* eSemnBunWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C111EBB01081124F9AED23FA /* Build configuration list for PBXNativeTarget "eSemnBunWidgets" */;
+			buildPhases = (
+				EDD21AFEB72F722C6EC38ECC /* Sources */,
+				C1395FFC30A348559D36B607 /* Frameworks */,
+				F64549206D5D052DDA510CE5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = eSemnBunWidgets;
+			productName = eSemnBunWidgets;
+			productReference = AA489F240A00B569CFAB2381 /* eSemnBunWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -320,6 +403,7 @@
 				4D6FDB6F3A417301EBF98977 /* eSemnBun-iOS */,
 				A10000000000000000000008 /* eSemnBunShare */,
 				D8D5F2ABFCA3FB9FD890D10D /* esemnbun-cli */,
+				B60D9624E6EF2CE82C30EC2D /* eSemnBunWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -349,6 +433,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A1000000000000000000000D /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000003 /* Localizable.xcstrings in Resources */, ); runOnlyForDeploymentPostprocessing = 0; };
+		F64549206D5D052DDA510CE5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D7530268BB30D57F888085FA /* Localizable.xcstrings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -388,10 +480,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A1000000000000000000000C /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (A10000000000000000000001 /* ShareViewController.swift in Sources */, ); runOnlyForDeploymentPostprocessing = 0; };
+		EDD21AFEB72F722C6EC38ECC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A921F07944DD4DAB198C6DAD /* DocumentsWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		A1000000000000000000000A /* PBXTargetDependency */ = {isa = PBXTargetDependency; target = A10000000000000000000008 /* eSemnBunShare */; targetProxy = A10000000000000000000007 /* PBXContainerItemProxy */; };
+		EB1BF52B5120DAF591905AB2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = eSemnBunWidgets;
+			target = B60D9624E6EF2CE82C30EC2D /* eSemnBunWidgets */;
+			targetProxy = 67D003A820B67387618FBEBC /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 /* Begin XCBuildConfiguration section */
 		4E3B0DFF0323B9D4D49F5F8A /* Release */ = {
@@ -553,7 +659,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.6;
+				MARKETING_VERSION = 0.2.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -637,7 +743,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.6;
+				MARKETING_VERSION = 0.2.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -708,7 +814,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.6;
+				MARKETING_VERSION = 0.2.7;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -772,7 +878,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.6;
+				MARKETING_VERSION = 0.2.7;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -831,6 +937,84 @@
 			};
 			name = "AppStore Release";
 		};
+		08D122285A28E482D0354E57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/Widget.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios.widgets;
+				PRODUCT_NAME = eSemnBunWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0BF6D26DD2CFB790D8760A18 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/Widget.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios.widgets;
+				PRODUCT_NAME = eSemnBunWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6483FDEA26B6B6E94D7821AE /* AppStore Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/Widget.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios.widgets;
+				PRODUCT_NAME = eSemnBunWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = "AppStore Debug";
+		};
+		76F6496C3251D78ACB8410EE /* AppStore Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_ENTITLEMENTS = WidgetExtension/Widget.entitlements;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WidgetExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.ios.widgets;
+				PRODUCT_NAME = eSemnBunWidgets;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "AppStore Release";
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -875,6 +1059,17 @@
 			defaultConfigurationName = Debug;
 		};
 		A1000000000000000000000B /* Build configuration list for PBXNativeTarget "eSemnBunShare" */ = {isa = XCConfigurationList; buildConfigurations = (A1000000000000000000000E /* Debug */, A1000000000000000000000F /* Release */, ); defaultConfigurationIsVisible = 0; defaultConfigurationName = Debug; };
+		C111EBB01081124F9AED23FA /* Build configuration list for PBXNativeTarget "eSemnBunWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BF6D26DD2CFB790D8760A18 /* Release */,
+				08D122285A28E482D0354E57 /* Debug */,
+				6483FDEA26B6B6E94D7821AE /* AppStore Debug */,
+				76F6496C3251D78ACB8410EE /* AppStore Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */

@@ -1,5 +1,7 @@
 package md.moldsign.app.ui.screens
 
+import md.moldsign.app.hostActivity
+
 import md.moldsign.app.ui.components.signatureLabels
 import md.moldsign.app.ui.components.CertificateLabels
 
@@ -165,14 +167,14 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                 val native = event.toAndroidDragEvent()
                 val uris = native.clipData?.let { clip -> (0 until clip.itemCount).mapNotNull { clip.getItemAt(it).uri } }.orEmpty()
                 if (uris.isEmpty()) return false
-                val permission = (context as? Activity)?.requestDragAndDropPermissions(native)
+                val permission = context.hostActivity()?.requestDragAndDropPermissions(native)
                 vm.receiveDroppedForSigning(uris) { permission?.release() }
                 return true
             }
         }
     }
     val liveStatus by vm.status.collectAsStateWithLifecycle()
-    val captureIntent = (context as? Activity)?.intent
+    val captureIntent = context.hostActivity()?.intent
     val captureStep = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent))
         SigningStep.entries.firstOrNull { it.name == captureIntent?.getStringExtra("capture_step") } else null
     val status = if (captureStep != null) liveStatus.copy(light = md.moldsign.core.StatusLight.Busy, busy = true) else liveStatus
@@ -337,7 +339,7 @@ private fun SignBlockedHint(text: String) {
 @Composable
 private fun StepCard(step: SigningStep, modifier: Modifier = Gutter) {
     val context = LocalContext.current
-    val captureIntent = (context as? Activity)?.intent
+    val captureIntent = context.hostActivity()?.intent
     val captureProgress = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.hasExtra("capture_step") == true
     val capturePosition = remember { BringIntoViewRequester() }
     LaunchedEffect(captureProgress, step) {
@@ -377,7 +379,7 @@ fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
                     (0 until clip.itemCount).mapNotNull { index -> clip.getItemAt(index).uri }
                 }.orEmpty()
                 if (uris.isEmpty()) return false
-                val permission = (context as? Activity)?.requestDragAndDropPermissions(androidEvent)
+                val permission = context.hostActivity()?.requestDragAndDropPermissions(androidEvent)
                 vm.receiveDroppedForVerify(uris) { permission?.release() }
                 return true
             }
@@ -419,7 +421,7 @@ fun VerifyScreen(vm: MainViewModel, padding: PaddingValues) {
 /** docs/10 VerdictBadge: a large icon and the verdict in words (color is never the only signal). */
 @Composable
 private fun VerdictBadge(outcome: VerifyOutcome) {
-    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureTarget = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) &&
         captureIntent?.getStringExtra("demo")?.startsWith("verify-") == true &&
         captureIntent.getStringExtra("demo") != "verify-xml-missing" && captureIntent.getStringExtra("capture_expand") == null
@@ -461,7 +463,7 @@ private data class Verdict4(val icon: ImageVector, val tint: Color, @StringRes v
 /** A detached XAdES signature names the file it signed: the user picks it (the document is matched by file name). */
 @Composable
 private fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
-    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureTarget = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("demo") == "verify-xml-missing"
     val capturePosition = remember { BringIntoViewRequester() }
     LaunchedEffect(captureTarget) {
@@ -487,11 +489,12 @@ private fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun SignatureCard(report: ValidationReport) {
-    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureExpand = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_expand") else null
     var certificateExpanded by remember(captureExpand) { mutableStateOf(captureExpand == "certificate") }
     var details by remember(captureExpand) { mutableStateOf(captureExpand == "technical") }
-    val dateTime = remember { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT) }
+    val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales.get(0)
+    val dateTime = remember(locale) { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, locale) }
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         shape = RoundedCornerShape(Tokens.RadiusCard),
@@ -556,7 +559,15 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     val entries = if (history) allEntries else savedDocuments
     var confirm by remember { mutableStateOf(false) }
     var detailsEntry by remember { mutableStateOf<ActivityEntry?>(null) }
-    val captureIntent = (LocalContext.current as? Activity)?.intent
+    val widgetDocument by vm.widgetDocument.collectAsStateWithLifecycle()
+    LaunchedEffect(widgetDocument) {
+        val id = widgetDocument ?: return@LaunchedEffect
+        history = false
+        detailsEntry = savedDocuments.firstOrNull { it.id == id && it.signedOutput && it.ok }
+        vm.consumeWidgetDocument()
+    }
+
+    val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureDialog = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
     LaunchedEffect(captureDialog, savedDocuments) {
         if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) {
@@ -732,7 +743,7 @@ private fun SavedDocumentDetails(vm: MainViewModel, entry: ActivityEntry, onDism
         }
         // A cancelled/obsolete read must not turn off a newer request's loading indicator.
         if (detached == companions) loading = false
-        if (md.moldsign.app.DemoMode.screenshotCapture((context as? Activity)?.intent)) {
+        if (md.moldsign.app.DemoMode.screenshotCapture(context.hostActivity()?.intent)) {
             android.util.Log.i("MoldSignDemo", "capture-ready:activity")
         }
     }
@@ -794,7 +805,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
     val context = LocalContext.current
     val status = LocalStatusColors.current
     val notifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.setBridge(true) }
-    val captureIntent = (context as? Activity)?.intent
+    val captureIntent = context.hostActivity()?.intent
     val captureBrowser = md.moldsign.app.DemoMode.screenshotCapture(captureIntent) && captureIntent?.getStringExtra("capture_dialog") == "browser-window"
     var inAppBrowser by remember(captureBrowser) { mutableStateOf(captureBrowser) }
     LaunchedEffect(vm.demoMode) { if (vm.demoMode) inAppBrowser = false }
@@ -910,6 +921,17 @@ fun AboutContent() {
         Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge)
         Text(stringResource(R.string.about_version, version))
         Text(stringResource(R.string.about_body), textAlign = TextAlign.Center)
+        Text(stringResource(R.string.about_legal_title), style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.about_disclaimer_body), style = MaterialTheme.typography.bodyMedium)
+        val language = androidx.compose.ui.platform.LocalConfiguration.current.locales.get(0).language
+        val legalBase = "https://esemnbun.md" + if (language in listOf("ro", "ru")) "/$language" else ""
+        listOf(
+            R.string.about_terms to "$legalBase/terms/",
+            R.string.about_privacy to "$legalBase/privacy/",
+            R.string.about_disclaimer to "$legalBase/terms/",
+        ).forEach { (label, url) ->
+            TextButton(onClick = { uriHandler.openUri(url) }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(label)) }
+        }
         md.moldsign.app.ui.components.GovernmentSources()
         Text("Nicolae Ghimbovschi")
         TextButton(onClick = { uriHandler.openUri("https://esemnbun.md") }) { Text("esemnbun.md") }

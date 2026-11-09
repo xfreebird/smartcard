@@ -1,0 +1,121 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Open documents in ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open documents in ${applicationName}"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide documentele în ${applicationName}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открой документы в ${applicationName}"
+          }
+        }
+      }
+    },
+    "Verify PDF with ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify PDF with ${applicationName}"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifică PDF-ul cu ${applicationName}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверь PDF в ${applicationName}"
+          }
+        }
+      }
+    },
+    "Prepare PDF for signing in ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prepare PDF for signing in ${applicationName}"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pregătește PDF-ul pentru semnare în ${applicationName}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подготовь PDF к подписанию в ${applicationName}"
+          }
+        }
+      }
+    },
+    "Open latest signed document in ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open latest signed document in ${applicationName}"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Deschide ultimul document semnat în ${applicationName}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Открой последний подписанный документ в ${applicationName}"
+          }
+        }
+      }
+    },
+    "Verify latest signed PDF with ${applicationName}": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verify latest signed PDF with ${applicationName}"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verifică ultimul PDF semnat cu ${applicationName}"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Проверь последний подписанный PDF в ${applicationName}"
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

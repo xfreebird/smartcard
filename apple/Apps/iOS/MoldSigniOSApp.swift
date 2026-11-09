@@ -6,6 +6,7 @@ import MoldSignKit
 /// iOS / iPadOS app: Semnează · Verifică · Browser · Card (docs/10 §4.4).
 @main
 struct MoldSigniOSApp: App {
+    @UIApplicationDelegateAdaptor(QuickActionsAppDelegate.self) private var appDelegate
     @State private var model = AppModel()
     @Environment(\.scenePhase) private var scenePhase
 
@@ -17,10 +18,12 @@ struct MoldSigniOSApp: App {
                 .environment(model)
                 .appPreferences()
                 .task {
+                    HomeScreenQuickActions.refresh()
                     model.start()
                     model.addFiles(SharedDocumentInbox.takeDocuments())
                 }
                 .onOpenURL { url in
+                    if DocumentWidgetSnapshot.open(url) { return }
                     if ["https", "http"].contains(url.scheme?.lowercased() ?? L10n.text(.ui_)) { model.browserURL = url }
                     else if url.scheme == "esemnbun", url.host == "browser",
                             let target = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems?.first(where: { $0.name == "url" })?.value,
@@ -32,13 +35,18 @@ struct MoldSigniOSApp: App {
         .onChange(of: scenePhase) { _, phase in
             // R-01: iOS suspends us in the background; the bridge only serves while we are foreground
             if phase == .active {
+                HomeScreenQuickActions.refresh()
                 DocumentDiscovery.refresh()
                 let shared = SharedDocumentInbox.takeDocuments()
                 model.addFiles(shared)
                 if !shared.isEmpty { NotificationCenter.default.post(name: .sharedDocumentsImported, object: nil) }
                 if model.bridgeEnabled { model.startBridge() }
             }
-            if phase == .background { model.stopBridge() }
+            if phase == .background {
+                DocumentWidgetSnapshot.refresh()
+                HomeScreenQuickActions.refresh()
+                model.stopBridge()
+            }
         }
     }
 }
@@ -87,6 +95,9 @@ struct RootTabView: View {
         .onReceive(NotificationCenter.default.publisher(for: .sharedDocumentsImported)) { _ in tab = .sign }
         .task { consumeShortcutNavigation() }
         .onChange(of: shortcutNavigation.request?.id) { _, _ in consumeShortcutNavigation() }
+        .onChange(of: shortcutNavigationBlocked) { _, blocked in
+            if !blocked { consumeShortcutNavigation() }
+        }
         .tint(Theme.brand)
         .sheet(item: $model.bridgeStampRequest, onDismiss: { model.finishBridgeStampDismissal() }) { stamp in
             PDFStampEditor(url: stamp.url, initial: .init(), holder: stamp.holder,
@@ -108,10 +119,18 @@ struct RootTabView: View {
         }
     }
 
+    private var shortcutNavigationBlocked: Bool {
+        model.light == .busy
+    }
+
     private func consumeShortcutNavigation() {
+        guard !shortcutNavigationBlocked else { return }
         guard let request = shortcutNavigation.request else { return }
         shortcutNavigation.request = nil
-        if let url = request.preparedURL {
+        if let purpose = request.pickerPurpose {
+            tab = purpose == .verify ? .verify : .sign
+            shortcutNavigation.pendingPDFSelection = .init(id: request.id, purpose: purpose, waitsForIntent: request.pickerWaitsForIntent)
+        } else if let url = request.preparedURL {
             model.addFiles([url])
             tab = .sign
         } else if let reports = request.reports, let filename = request.filename {
@@ -124,6 +143,7 @@ struct RootTabView: View {
             model.verifiedDocuments = [(displayURL, reports)]
             tab = .verify
         } else {
+            if let id = request.documentID { shortcutNavigation.selectedDocumentID = id }
             tab = .documents
         }
     }

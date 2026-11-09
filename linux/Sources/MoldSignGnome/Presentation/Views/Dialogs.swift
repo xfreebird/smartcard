@@ -392,5 +392,12 @@ func presentAbout(parent: Widget) {
     adw_about_dialog_set_comments(about.opaque,
         L10n.text(.ui_electronic_signature_using_the_republic_of_moldova_identity_card_idemia_cosmox_id_a_card) +
         L10n.text(.ui_pades_and_xades_and_the_browser_connection_for_msign_gov_md))
+    let language = L10n.language ?? Locale.current.language.languageCode?.identifier ?? "ro"
+    let legalBase = "https://esemnbun.md" + (["ro", "ru"].contains(language) ? "/\(language)" : "")
+    adw_about_dialog_add_legal_section(about.opaque, L10n.text(.about_legal_title), nil,
+                                     GTK_LICENSE_CUSTOM, L10n.text(.about_disclaimer_body))
+    adw_about_dialog_add_link(about.opaque, L10n.text(.about_terms), legalBase + "/terms/")
+    adw_about_dialog_add_link(about.opaque, L10n.text(.about_privacy), legalBase + "/privacy/")
+    adw_about_dialog_add_link(about.opaque, L10n.text(.about_disclaimer), legalBase + "/terms/")
     adw_dialog_present(about, parent)
 }

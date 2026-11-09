@@ -11188,9 +11188,9 @@
       "platform": "apple",
       "key": "shortcut_verify_pdf_description",
       "translations": {
-        "ro": "Verifică semnăturile PDF offline și deschide rezultatele complete. Sunt acceptate fișiere PDF de până la 32 MiB. Starea actuală de revocare a certificatelor nu este verificată.",
-        "en": "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status.",
-        "ru": "Проверить подписи PDF автономно и открыть полные результаты. Поддерживаются PDF размером до 32 МиБ. Текущий статус отзыва сертификатов не проверяется."
+        "ro": "Verifică semnăturile PDF offline și deschide rezultatele complete. Sunt acceptate fișiere PDF de până la 32 MiB. Starea actuală de revocare a certificatelor nu este verificată. Dacă nu este furnizat un fișier, alege un PDF din selectorul de fișiere al aplicației.",
+        "en": "Check PDF signatures offline and open the full results. PDFs up to 32 MiB are supported. This does not check current certificate revocation status. If no file is supplied, choose a PDF in the app’s file picker.",
+        "ru": "Проверить подписи PDF автономно и открыть полные результаты. Поддерживаются PDF размером до 32 МиБ. Текущий статус отзыва сертификатов не проверяется. Если файл не передан, выберите PDF в окне выбора файлов приложения."
       }
     },
     {
@@ -12637,9 +12637,9 @@
       "platform": "apple",
       "key": "shortcut_prepare_description",
       "translations": {
-        "ro": "Adaugă un PDF de până la 32 MiB în lista de semnare. Verifică documentul și pornește explicit semnarea în aplicație.",
-        "en": "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app.",
-        "ru": "Добавляет PDF размером до 32 МиБ в очередь. Проверьте документ и явно начните подписание в приложении."
+        "ro": "Adaugă un PDF de până la 32 MiB în lista de semnare. Verifică documentul și pornește explicit semnarea în aplicație. Dacă nu este furnizat un fișier, alege un PDF din selectorul de fișiere al aplicației.",
+        "en": "Add a PDF up to 32 MiB to the signing queue. Review the document and explicitly sign in the app. If no file is supplied, choose a PDF in the app’s file picker.",
+        "ru": "Добавляет PDF размером до 32 МиБ в очередь. Проверьте документ и явно начните подписание в приложении. Если файл не передан, выберите PDF в окне выбора файлов приложения."
       }
     },
     {
@@ -12664,9 +12664,9 @@
       "platform": "apple",
       "key": "discovery_explanation",
       "translations": {
-        "ro": "Partajează numele și datele documentelor semnate din spațiul aplicației. Conținutul și datele de identitate nu sunt indexate.",
-        "en": "Shares filenames and dates of app-owned signed documents. Document contents and identity details are not indexed.",
-        "ru": "Передаёт имена и даты подписанных документов из хранилища приложения. Содержимое и личные данные не индексируются."
+        "en": "Shares filenames and dates of app-owned signed documents with Siri and Spotlight, and recent filenames with the Home Screen widget. Document contents and identity details are not shared.",
+        "ro": "Partajează numele și datele documentelor semnate cu Siri și Spotlight, iar numele recente cu widgetul de pe ecranul principal. Conținutul și datele de identitate nu sunt partajate.",
+        "ru": "Передаёт имена и даты подписанных документов Siri и Spotlight, а недавние имена — виджету главного экрана. Содержимое и личные данные не передаются."
       }
     },
     {
@@ -12893,6 +12893,393 @@
         "en": "Local signing requests could not be enabled.",
         "ru": "Не удалось включить локальные запросы подписи."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "about_legal_title",
+      "translations": {
+        "ro": "Informații juridice",
+        "en": "Legal information",
+        "ru": "Правовая информация"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "about_terms",
+      "translations": {
+        "ro": "Termeni și condiții",
+        "en": "Terms & Conditions",
+        "ru": "Условия использования"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "about_privacy",
+      "translations": {
+        "ro": "Politica de confidențialitate",
+        "en": "Privacy Policy",
+        "ru": "Политика конфиденциальности"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "about_disclaimer",
+      "translations": {
+        "ro": "Declinarea responsabilității",
+        "en": "Disclaimer",
+        "ru": "Отказ от ответственности"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "about_disclaimer_body",
+      "translations": {
+        "ro": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.",
+        "en": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.",
+        "ru": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "about_legal_title",
+      "translations": {
+        "ro": "Informații juridice",
+        "en": "Legal information",
+        "ru": "Правовая информация"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "about_terms",
+      "translations": {
+        "ro": "Termeni și condiții",
+        "en": "Terms & Conditions",
+        "ru": "Условия использования"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "about_privacy",
+      "translations": {
+        "ro": "Politica de confidențialitate",
+        "en": "Privacy Policy",
+        "ru": "Политика конфиденциальности"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "about_disclaimer",
+      "translations": {
+        "ro": "Declinarea responsabilității",
+        "en": "Disclaimer",
+        "ru": "Отказ от ответственности"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "about_disclaimer_body",
+      "translations": {
+        "ro": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.",
+        "en": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.",
+        "ru": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "about_legal_title",
+      "translations": {
+        "ro": "Informații juridice",
+        "en": "Legal information",
+        "ru": "Правовая информация"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "about_terms",
+      "translations": {
+        "ro": "Termeni și condiții",
+        "en": "Terms & Conditions",
+        "ru": "Условия использования"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "about_privacy",
+      "translations": {
+        "ro": "Politica de confidențialitate",
+        "en": "Privacy Policy",
+        "ru": "Политика конфиденциальности"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "about_disclaimer",
+      "translations": {
+        "ro": "Declinarea responsabilității",
+        "en": "Disclaimer",
+        "ru": "Отказ от ответственности"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "about_disclaimer_body",
+      "translations": {
+        "ro": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.",
+        "en": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.",
+        "ru": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "about_legal_title",
+      "translations": {
+        "ro": "Informații juridice",
+        "en": "Legal information",
+        "ru": "Правовая информация"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "about_terms",
+      "translations": {
+        "ro": "Termeni și condiții",
+        "en": "Terms & Conditions",
+        "ru": "Условия использования"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "about_privacy",
+      "translations": {
+        "ro": "Politica de confidențialitate",
+        "en": "Privacy Policy",
+        "ru": "Политика конфиденциальности"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "about_disclaimer",
+      "translations": {
+        "ro": "Declinarea responsabilității",
+        "en": "Disclaimer",
+        "ru": "Отказ от ответственности"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "about_disclaimer_body",
+      "translations": {
+        "ro": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.",
+        "en": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.",
+        "ru": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_choose_verify",
+      "translations": {
+        "ro": "Alege PDF-ul de verificat",
+        "en": "Choose PDF to Verify",
+        "ru": "Выбрать PDF для проверки"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_choose_verify_description",
+      "translations": {
+        "ro": "Deschide eSemnBun și alege un PDF din selectorul de fișiere pentru a verifica semnăturile.",
+        "en": "Open eSemnBun and select a PDF in the file picker to verify its signatures.",
+        "ru": "Откройте eSemnBun и выберите PDF в окне выбора файлов для проверки подписей."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_choose_sign",
+      "translations": {
+        "ro": "Alege PDF-ul de semnat",
+        "en": "Choose PDF for Signing",
+        "ru": "Выбрать PDF для подписания"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_choose_sign_description",
+      "translations": {
+        "ro": "Deschide eSemnBun și alege un PDF pentru semnare. Verifică și aprobă semnarea în aplicație.",
+        "en": "Open eSemnBun and select a PDF for signing. Review and approve signing in the app.",
+        "ru": "Откройте eSemnBun и выберите PDF для подписания. Проверьте документ и подтвердите подписание в приложении."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "shortcut_verify_pdf",
+      "translations": {
+        "en": "Verify PDF",
+        "ro": "Verifică PDF",
+        "ru": "Проверить PDF"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "shortcut_prepare_signing",
+      "translations": {
+        "en": "Prepare Signing",
+        "ro": "Pregătește semnarea",
+        "ru": "Подготовить подпись"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "shortcut_documents",
+      "translations": {
+        "en": "Documents",
+        "ro": "Documente",
+        "ru": "Документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "widget_title",
+      "translations": {
+        "ro": "Verificare și documente recente",
+        "en": "Verify & Recent Documents",
+        "ru": "Проверка и недавние документы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "widget_title",
+      "translations": {
+        "ro": "Verificare și documente recente",
+        "en": "Verify & Recent Documents",
+        "ru": "Проверка и недавние документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "widget_description",
+      "translations": {
+        "ro": "Alege un PDF de verificat și deschide documentele semnate recent.",
+        "en": "Choose a PDF to verify and open your latest signed documents.",
+        "ru": "Выберите PDF для проверки и откройте последние подписанные документы."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "widget_description",
+      "translations": {
+        "ro": "Alege un PDF de verificat și deschide documentele semnate recent.",
+        "en": "Choose a PDF to verify and open your latest signed documents.",
+        "ru": "Выберите PDF для проверки и откройте последние подписанные документы."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "widget_no_documents",
+      "translations": {
+        "ro": "Încă nu există documente semnate.",
+        "en": "No signed documents yet.",
+        "ru": "Пока нет подписанных документов."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "widget_no_documents",
+      "translations": {
+        "ro": "Încă nu există documente semnate.",
+        "en": "No signed documents yet.",
+        "ru": "Пока нет подписанных документов."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "widget_private",
+      "translations": {
+        "ro": "Numele recente sunt ascunse. Activează afișarea în setări.",
+        "en": "Recent filenames are hidden. Enable them in app settings.",
+        "ru": "Имена недавних файлов скрыты. Включите их в настройках."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "widget_private",
+      "translations": {
+        "ro": "Numele recente sunt ascunse. Activează afișarea în setări.",
+        "en": "Recent filenames are hidden. Enable them in app settings.",
+        "ru": "Имена недавних файлов скрыты. Включите их в настройках."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "widget_show_recents",
+      "translations": {
+        "ro": "Arată documentele recente în widget",
+        "en": "Show recent documents in widget",
+        "ru": "Показывать недавние документы в виджете"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "widget_show_recents",
+      "translations": {
+        "ro": "Arată documentele recente în widget",
+        "en": "Show recent documents in widget",
+        "ru": "Показывать недавние документы в виджете"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "widget_recents_hint",
+      "translations": {
+        "ro": "Afișează numele fișierelor semnate pe ecranul principal. Dezactivat implicit.",
+        "en": "Displays signed filenames on your Home Screen. Off by default.",
+        "ru": "Показывает имена подписанных файлов на главном экране. По умолчанию выключено."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "widget_recents_hint",
+      "translations": {
+        "ro": "Afișează numele fișierelor semnate pe ecranul principal. Dezactivat implicit.",
+        "en": "Displays signed filenames on your Home Screen. Off by default.",
+        "ru": "Показывает имена подписанных файлов на главном экране. По умолчанию выключено."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_open_latest",
+      "translations": {
+        "ro": "Deschide ultimul document semnat",
+        "en": "Open Latest Signed Document",
+        "ru": "Открыть последний подписанный документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_open_latest_description",
+      "translations": {
+        "ro": "Deschide cel mai recent document semnat accesibil când descoperirea documentelor este activată. Altfel deschide Documente.",
+        "en": "Open the newest accessible signed document when document discovery is enabled. Otherwise open Documents.",
+        "ru": "Откройте последний доступный подписанный документ, если включён поиск документов. Иначе откройте Документы."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_verify_latest",
+      "translations": {
+        "ro": "Verifică ultimul PDF semnat",
+        "en": "Verify Latest Signed PDF",
+        "ru": "Проверить последний подписанный PDF"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "shortcut_verify_latest_description",
+      "translations": {
+        "ro": "Verifică offline cel mai recent PDF semnat accesibil. Dacă nu există, alege un PDF în aplicație.",
+        "en": "Verify the newest accessible signed PDF offline. If none is available, select a PDF in the app.",
+        "ru": "Проверьте последний доступный подписанный PDF офлайн. Если его нет, выберите PDF в приложении."
+      }
     }
   ],
   "storeMetadata": {
@@ -12902,7 +13289,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "• Actualizare de întreținere cu metadate actualizate și îmbunătățiri ale distribuției.",
+      "releaseNotes": "Secțiunea Despre include acum Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -12918,10 +13305,11 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Deschide și caută documentele semnate cu noua integrare Siri pe sistemele compatibile.\n• Folosește Scurtături pentru a verifica PDF-uri sau a le pregăti pentru semnare.\n• Descoperire opțională în Spotlight și Handoff pentru ecranul Documente.",
-        "macos": "• Deschide și caută documentele semnate cu noua integrare Siri pe sistemele compatibile.\n• Folosește Scurtături pentru a verifica PDF-uri sau a le pregăti pentru semnare.\n• Descoperire opțională în Spotlight și Handoff pentru ecranul Documente.",
-        "android": "• Actualizare de întreținere cu metadate actualizate și îmbunătățiri ale distribuției.",
-        "windows": "• Interfață MCP locală pentru verificarea documentelor și semnarea PDF fără intervenție, configurată explicit.\n• Integrare cu furnizorii de credențiale, asocierea certificatului și protecție persistentă împotriva reîncercării automate a PIN-ului."
+        "ios": "Widgeturi noi pe ecranul principal pentru verificarea PDF și acces la documentele semnate recent. Acțiuni rapide din pictograma aplicației. Siri și Scurtături pot deschide selectorul de fișiere când nu este furnizat un PDF și includ acțiuni pentru ultimele documente semnate. Secțiunea Despre include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
+        "macos": "Acțiuni Siri și Scurtături îmbunătățite: alege un PDF în aplicație când nu este furnizat un fișier, deschide ultimul document semnat sau verifică ultimul PDF semnat. Expresii localizate și gestionarea anulării îmbunătățite. Secțiunea Despre include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
+        "android": "Widget nou pe ecranul principal și acțiuni rapide din pictograma aplicației pentru verificarea PDF, pregătirea semnării și Documente. Aplicarea imediată a limbii și temei a fost corectată. Secțiunea Despre permite derularea și include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
+        "windows": "Secțiunea Despre include acum Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
+        "linux": "Secțiunea Despre include acum Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea."
       }
     },
     "en": {
@@ -12930,7 +13318,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "• Maintenance update with refreshed release metadata and distribution improvements.",
+      "releaseNotes": "About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -12946,10 +13334,11 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Open and search signed documents with the new Siri integration on supported systems.\n• Use Shortcuts to verify PDFs or prepare them for signing.\n• Optional Spotlight discovery and Handoff for the Documents screen.",
-        "macos": "• Open and search signed documents with the new Siri integration on supported systems.\n• Use Shortcuts to verify PDFs or prepare them for signing.\n• Optional Spotlight discovery and Handoff for the Documents screen.",
-        "android": "• Maintenance update with refreshed release metadata and distribution improvements.",
-        "windows": "• Local MCP interface for document verification and explicitly configured unattended PDF signing.\n• Credential-provider integration, certificate binding and persistent protection against automatic PIN retries."
+        "ios": "New Home Screen widgets provide quick access to PDF verification and recent signed documents. Added app-icon quick actions. Siri and Shortcuts can open the file picker when no PDF is supplied, and offer actions for your latest signed documents. About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+        "macos": "Improved Siri and Shortcuts actions: choose a PDF in the app when no file is supplied, open your latest signed document, or verify your latest signed PDF. Improved localized shortcut phrases and cancellation handling. About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+        "android": "New Home Screen widget and app-icon shortcuts provide quick access to PDF verification, signing preparation and Documents. Fixed immediate language and theme updates. About now scrolls and includes Terms & Conditions, Privacy Policy and disclaimer information.",
+        "windows": "About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+        "linux": "About now includes Terms & Conditions, Privacy Policy and disclaimer information."
       }
     },
     "ru": {
@@ -12958,7 +13347,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "• Обновление обслуживания с актуальными метаданными и улучшениями распространения.",
+      "releaseNotes": "В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -12974,10 +13363,11 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "• Открывайте и находите подписанные документы через новую интеграцию Siri на поддерживаемых системах.\n• Используйте «Команды» для проверки PDF или подготовки к подписанию.\n• Дополнительный поиск Spotlight и Handoff для экрана «Документы».",
-        "macos": "• Открывайте и находите подписанные документы через новую интеграцию Siri на поддерживаемых системах.\n• Используйте «Команды» для проверки PDF или подготовки к подписанию.\n• Дополнительный поиск Spotlight и Handoff для экрана «Документы».",
-        "android": "• Обновление обслуживания с актуальными метаданными и улучшениями распространения.",
-        "windows": "• Локальный интерфейс MCP для проверки документов и явно настроенного автоматического подписания PDF.\n• Интеграция с хранилищами учётных данных, привязка сертификата и постоянная защита от автоматического повторного ввода PIN."
+        "ios": "Новые виджеты главного экрана для проверки PDF и доступа к недавно подписанным документам. Добавлены быстрые действия через значок приложения. Siri и Команды открывают выбор файла, если PDF не указан, и предлагают действия с последними подписанными документами. В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
+        "macos": "Улучшены действия Siri и Команд: выбор PDF в приложении, если файл не указан, открытие последнего подписанного документа и проверка последнего подписанного PDF. Улучшены локализованные фразы и обработка отмены. В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
+        "android": "Новый виджет главного экрана и быстрые действия через значок приложения для проверки PDF, подготовки к подписанию и доступа к документам. Исправлено немедленное применение языка и темы. Раздел «О приложении» теперь прокручивается и содержит условия использования, политику конфиденциальности и информацию об ответственности.",
+        "windows": "В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
+        "linux": "В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности."
       }
     }
   },
