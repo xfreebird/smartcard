@@ -40,3 +40,5 @@ A review submission is not store availability. Statuses above are checkpoints, n
 - All 15 final release assets, including the signed repositories, definitions and Chocolatey package, match the refreshed SHA256SUMS.
 - Live package-definition ZIP SHA-256 matched `packages/version.json`; the Homebrew/Scoop definitions match its contents byte-for-byte. Published to the existing `xfreebird/homebrew-utils` repository as `5f94530`. Ruby syntax and patch checks passed. New local Homebrew/Scoop installation tests were not run; package CI separately passed APT/RPM and Chocolatey checks.
 - Huawei read-only recheck still reports build 1793624688 in review; CAPTCHA confirmation remains pending. No Huawei review was withdrawn.
+
+- Windows certification subsequently passed. Clicked Publish now in Firefox for replacement submission `1152921505702354441` (MSIX 1.2.210.0). Partner Center confirms Update in publishing and says the new version will be available shortly; completed Store propagation is not yet confirmed.
