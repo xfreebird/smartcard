@@ -191,9 +191,11 @@
     "generator": "passed",
     "assets_and_coordinates": "passed",
     "whitespace": "passed",
-    "site_build": "not run; owner-run build/test rule",
+    "site_build": "passed for en, ro and ru",
     "browser_render": "not run",
-    "screenshots": "native v2 captures reused; raw image coordinates reviewed"
+    "screenshots": "native v2 captures reused; raw image coordinates reviewed",
+    "website_tests": "25 passed",
+    "seo": "passed"
   },
-  "publication": "not requested"
+  "publication": "Website run 42615332988 succeeded; live encryption guide verified"
 }
