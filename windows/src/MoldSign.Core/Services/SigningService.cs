@@ -46,6 +46,11 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
     /// <summary>"progress: stream&lt;Step&gt;".</summary>
     public event EventHandler<SigningStep>? Progress;
 
+    public IReadOnlyList<Protection.CardEncryptionIdentity> EncryptionIdentities(string? reader = null) =>
+        WithCard(reader, Protection.CardFileProtection.Identities);
+    public byte[] DecryptFile(byte[] envelope, Protection.CardEncryptionIdentity identity, string pin, string? reader = null) =>
+        WithCard(reader, card => Protection.CardFileProtection.Decrypt(card,envelope,identity,pin));
+
     public ReaderState ReaderState => Volatile.Read(ref _readerState);
 
     /// <summary>The platform ReaderMonitor (Windows: ReaderWatcher) publishes hot-plug changes here.</summary>

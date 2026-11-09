@@ -32,3 +32,5 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 
 <GuideScreenshot src="/img/guide/windows/ru/lower.png" alt="Подключение к браузеру и локальные запросы" steps={[{"x": 25, "y": 82, "text": "Найдите переключатель MCP в разделе «Дополнительно». Вне демонстрационного режима включите его и скопируйте частную папку в конфигурацию клиента."}, {"x": 48, "y": 92, "text": "Используйте папку своей установки, а не демонстрационный путь."}]} />
+
+<!-- file-protection-guides -->

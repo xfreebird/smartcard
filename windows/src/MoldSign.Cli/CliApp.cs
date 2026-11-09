@@ -37,6 +37,10 @@ internal static class CliApp
         Usage:
           esemnbun capabilities [--json]                    Supported commands and formats; no card/PIN access
           esemnbun mcp [--root ID=/absolute/directory]       Local stdio MCP; verification and signing
+          esemnbun encrypt INPUT NEW-OUTPUT [--password-stdin | --certificate DER | --card SHA256]
+          esemnbun decrypt INPUT NEW-OUTPUT [--password-stdin | --card SHA256]
+          esemnbun encryption-certs [--reader NAME] [--card SHA256 --out NEW.cer]
+          esemnbun remove-file PATH --confirm-removal        Best-effort overwrite/removal
           esemnbun readers                                   List PC/SC readers and card presence
           esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN)
           esemnbun sign-hex <digestinfo_hex>                 Developer: raw card signature over a DigestInfo
@@ -63,6 +67,7 @@ internal static class CliApp
 
     public static int Run(IReadOnlyList<string> args, CliHost host)
     {
+        if (FileProtectionCommand.Handles(args.FirstOrDefault())) return FileProtectionCommand.Run(args, host);
         if (args.Count > 0 && args[0] == "mcp") return McpHost.Run(args.Skip(1).ToArray(), host);
 
         // Discover capabilities before the normal dispatcher can touch a card or obtain a PIN.
@@ -145,7 +150,7 @@ internal static class CliApp
             return ExitCodes.UsageOrUnexpected;
         }
 
-        string[] commands = ["capabilities", "help", "readers", "cert", "sign-hex", "mcp"];
+        string[] commands = ["capabilities", "help", "readers", "cert", "sign-hex", "mcp", "encrypt", "decrypt", "encryption-certs", "remove-file"];
         if (json) WriteCapabilityJson(host, writer =>
         {
             writer.WriteBoolean("ok", true);

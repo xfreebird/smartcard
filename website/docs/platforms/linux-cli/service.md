@@ -3,7 +3,7 @@ title: "Run the browser service — Linux · Command line (CLI)"
 sidebar_label: "Run the browser service"
 description: "Start and stop the local bridge or supported user service."
 pagination_prev: "platforms/linux-cli/unattended"
-pagination_next: null
+pagination_next: "platforms/linux-cli/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -31,3 +31,5 @@ esemnbun server
 ---
 
 Advanced reference: macOS/Linux also expose `sign-hex <digestinfo_hex>` and `cms-for-hash <sha256_hex>`; Windows has sign-hex only. These are developer primitives, not document signing. Read the CLI contract before using them. For support include app/OS version, command without secrets, exit code and a fictional reproducer. Never attach PINs or confidential files.
+
+<!-- file-protection-guides -->

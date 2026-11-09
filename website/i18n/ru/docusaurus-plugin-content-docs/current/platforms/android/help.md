@@ -3,7 +3,7 @@ title: "Решите проблему — Телефон Android"
 sidebar_label: "Решите проблему"
 description: "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
 pagination_prev: "platforms/android/preferences"
-pagination_next: null
+pagination_next: "platforms/android/encrypt-password"
 ---
 
 
@@ -26,3 +26,5 @@ pagination_next: null
 | Проблема входа/загрузки на сайте | Проверьте адрес и соединение. Для загрузок после входа может понадобиться внешний браузер. |
 
 Объяснения результатов: [Подписание и проверка](/docs/signing). Считыватели и адаптеры: [Устройства](/devices).
+
+<!-- file-protection-guides -->

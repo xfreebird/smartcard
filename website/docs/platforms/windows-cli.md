@@ -23,5 +23,5 @@ Reach a specific goal using the numbered terminal examples below. Commands stay 
 You need a supported electronic ID and its correct signing PIN, a compatible USB reader and any required adapter for card operations. NFC is not supported. Verification needs no reader or PIN. Keep your original documents. The private signing key stays on the card.
 
 :::info
-The Windows CLI currently supports help, capabilities, readers, cert, sign-hex and mcp. Normal sign/xades/verify/server/cms-for-hash commands are not implemented. Use the desktop app for those document workflows, or the separately configured MCP verification/unattended tools. Enable local signing requests in Windows app Settings and configure --broker-directory for foreground approval. Do not assume command parity from the macOS/Linux examples.
+The Windows CLI currently supports help, capabilities, readers, cert, sign-hex, mcp, encrypt, decrypt, encryption-certs and remove-file. Normal sign/xades/verify/server/cms-for-hash commands are not implemented. Use the desktop app for those document workflows, or the separately configured MCP verification/unattended tools. Enable local signing requests in Windows app Settings and configure --broker-directory for foreground approval. Do not assume command parity from the macOS/Linux examples.
 :::

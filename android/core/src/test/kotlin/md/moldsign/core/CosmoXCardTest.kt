@@ -113,6 +113,11 @@ internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduT
     var verifyOverride: Int? = null
     var mseOverride: Int? = null
     var selectOverride: Int? = null
+    val extraFiles = mutableMapOf<String,ByteArray>()
+    var decryptKey: java.security.PrivateKey? = null
+    var decryptAttempts = 0
+    private var verified = false
+    private var decryptionSelected = false
 
     private val kdf = v.obj("kdf")
     private val serial = kdf.str("serial_ascii").toByteArray(Charsets.US_ASCII)
@@ -186,9 +191,11 @@ internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduT
     private fun smCommand(apdu: ByteArray): ByteArray {
         val enc = sessEnc ?: return sw(0x6988)
         assertEquals("SM APDU must end with Le=00", 0, apdu.u8(apdu.size - 1))
-        val lc = apdu.u8(4)
-        assertEquals("Lc covers the TLVs", apdu.size - 6, lc)
-        val tlvs = apdu.copyOfRange(5, 5 + lc)
+        val extended = apdu.u8(4) == 0
+        val start = if(extended) 7 else 5
+        val lc = if(extended) apdu.u8(5)*256+apdu.u8(6) else apdu.u8(4)
+        assertEquals("Lc covers the TLVs", apdu.size-start-(if(extended)2 else 1),lc)
+        val tlvs = apdu.copyOfRange(start,start+lc)
         inc()
         // Parse TLVs and check the MAC with the card's own SSC.
         var pos = 0
@@ -201,10 +208,11 @@ internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduT
             var len = tlvs.u8(pos + 1)
             var hdr = 2
             if (len == 0x81) { len = tlvs.u8(pos + 2); hdr = 3 }
+            else if (len == 0x82) { len = tlvs.u8(pos+2)*256+tlvs.u8(pos+3); hdr = 4 }
             val content = tlvs.copyOfRange(pos + hdr, pos + hdr + len)
             when (tag) {
                 0x87 -> data = Iso9797.unpad(enc.cbcDecrypt(content.copyOfRange(1, content.size), enc.ecbEncryptBlock(ssc)))
-                0x97 -> le = content.u8(0)
+                0x97 -> le = content.fold(0) { n,b -> n*256+(b.toInt() and 255) }
                 0x8E -> { mac = content; macEnd = pos }
             }
             pos += hdr + len
@@ -217,27 +225,40 @@ internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduT
         plainLog += "SM:%02X".format(ins)
         return when (ins) {
             0xA4 -> {
-                if (data.contentEquals(bytesOf(0x00, 0x01))) selectedFile = "0001"
+                if (apdu.u8(2) == 0x02) selectedFile = data.toHex()
                 if (apdu.u8(2) == 0x04) assertArrayEquals("Generic ADF AID", CosmoXCard.GENERIC_ADF, data)
                 swOnly(selectOverride ?: 0x9000)
             }
             0xB0 -> {
                 val off = ((apdu.u8(2) and 0x7F) shl 8) or apdu.u8(3)
                 val n = (le ?: 0).let { if (it == 0) 256 else it }
-                smData(certificate.copyOfRange(off, minOf(off + n, certificate.size)))
+                val file = extraFiles[selectedFile] ?: certificate
+                if(off>=file.size) swOnly(0x6b00) else smData(file.copyOfRange(off,minOf(off+n,file.size)))
             }
             0x20 -> {
                 assertEquals("PIN reference", 0x03, apdu.u8(3))
                 when {
                     verifyOverride != null -> swOnly(verifyOverride!!)
-                    String(data, Charsets.US_ASCII) == PIN -> { attempts = 3; swOnly(0x9000) }
+                    String(data, Charsets.US_ASCII) == PIN -> { verified = true; attempts = 3; swOnly(0x9000) }
                     else -> { attempts--; swOnly(0x63C0 or attempts) }
                 }
             }
             0x22 -> {
-                assertEquals("41A4", "%02X%02X".format(apdu.u8(2), apdu.u8(3)))
-                assertEquals("800102840181", data.toHex())
+                if(apdu.u8(3)==0xb8) {
+                    assertEquals(0x41,apdu.u8(2));assertEquals("80011A840182",data.toHex());decryptionSelected=true
+                } else {
+                    assertEquals("41A4", "%02X%02X".format(apdu.u8(2), apdu.u8(3)))
+                    assertEquals("800102840181", data.toHex())
+                }
                 swOnly(mseOverride ?: 0x9000)
+            }
+            0x2a -> {
+                decryptAttempts++
+                assertTrue(verified && decryptionSelected)
+                assertEquals(0x80,apdu.u8(2));assertEquals(0x86,apdu.u8(3));assertEquals(257,data.size);assertEquals(0x81,data.u8(0))
+                val cipher=javax.crypto.Cipher.getInstance("RSA/ECB/PKCS1Padding")
+                cipher.init(javax.crypto.Cipher.DECRYPT_MODE,requireNotNull(decryptKey))
+                smData(cipher.doFinal(data.copyOfRange(1,data.size)))
             }
             0x88 -> smData(fakeSignature(data))
             else -> swOnly(0x6D00)

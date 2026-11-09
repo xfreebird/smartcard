@@ -3,7 +3,7 @@ title: "Rezolvă o problemă — Windows"
 sidebar_label: "Rezolvă o problemă"
 description: "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune."
 pagination_prev: "platforms/windows/approval"
-pagination_next: null
+pagination_next: "platforms/windows/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';

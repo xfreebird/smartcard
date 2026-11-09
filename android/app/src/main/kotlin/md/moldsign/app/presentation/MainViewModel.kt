@@ -66,6 +66,16 @@ class MainViewModel @JvmOverloads constructor(
     private val container: AppContainer = (app as MoldSignApp).container,
 ) : AndroidViewModel(app) {
 
+    suspend fun encryptionIdentities(): Pair<String?,List<md.moldsign.core.protection.CardEncryptionIdentity>> = withContext(Dispatchers.IO) {
+        check(!demoMode)
+        val reader = container.wallet.value.selectedCard?.readerId ?: throw CardError.NoCard()
+        reader to container.signingService.encryptionIdentities(reader)
+    }
+    suspend fun decryptProtectedFile(bytes: ByteArray, identity: md.moldsign.core.protection.CardEncryptionIdentity, pin: CharArray, reader: String?): ByteArray = withContext(Dispatchers.IO) {
+        check(!demoMode)
+        container.signingService.decryptFile(bytes,identity,pin,reader)
+    }
+
     data class ShortcutRequest(val id: String, val destination: md.moldsign.app.AppShortcuts.Destination, val documentID: String? = null)
     private val _shortcutRequest = MutableStateFlow<ShortcutRequest?>(null)
     val shortcutRequest = _shortcutRequest.asStateFlow()

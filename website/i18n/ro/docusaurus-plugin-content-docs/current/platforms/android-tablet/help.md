@@ -3,7 +3,7 @@ title: "Rezolvă o problemă — Tabletă Android"
 sidebar_label: "Rezolvă o problemă"
 description: "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune."
 pagination_prev: "platforms/android-tablet/preferences"
-pagination_next: null
+pagination_next: "platforms/android-tablet/encrypt-password"
 ---
 
 
@@ -26,3 +26,5 @@ Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 | Probleme la autentificare/descărcare web | Verifică adresa și conexiunea. Descărcările autentificate pot necesita browser extern. |
 
 Pentru explicația rezultatelor, vezi [Semnare și verificare](/docs/signing). Pentru cititoare și adaptoare, vezi [Dispozitive](/devices).
+
+<!-- file-protection-guides -->

@@ -32,3 +32,5 @@ Captura folosește un profil demonstrativ izolat: calea este un exemplu, iar com
 
 
 <GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 82, "text": "Găsește comutatorul MCP în Avansat. În afara modului demonstrativ, activează-l și copiază dosarul privat în configurația clientului."}, {"x": 48, "y": 92, "text": "Folosește dosarul afișat de instalarea ta, nu calea demonstrativă."}]} />
+
+<!-- file-protection-guides -->

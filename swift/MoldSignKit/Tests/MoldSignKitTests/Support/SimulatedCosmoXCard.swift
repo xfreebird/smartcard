@@ -11,7 +11,7 @@ final class TestIdentity {
     let privateKey: SecKey
     let certDER: Data
 
-    init(commonName: String = "TEST SEMNATAR") throws {
+    init(commonName: String = "TEST SEMNATAR", encryption: Bool = false) throws {
         let attrs: [String: Any] = [kSecAttrKeyType as String: kSecAttrKeyTypeRSA, kSecAttrKeySizeInBits as String: 2048]
         var error: Unmanaged<CFError>?
         guard let key = SecKeyCreateRandomKey(attrs as CFDictionary, &error),
@@ -25,8 +25,9 @@ final class TestIdentity {
         let sha256WithRSA = DER.seq(DER.tlv(0x06, PAdESSigner.oidSha256WithRSA) + Data([0x05, 0x00]))
         let name = DER.seq(DER.tlv(0x31, DER.seq(DER.tlv(0x06, Data([0x55, 0x04, 0x03])) + DER.tlv(0x0C, Data(commonName.utf8)))))
         let validity = DER.seq(DER.tlv(0x17, Data("250101000000Z".utf8)) + DER.tlv(0x17, Data("350101000000Z".utf8)))
+        let extensions = encryption ? DER.tlv(0xA3, DER.seq(DER.seq(DER.tlv(0x06, Data([0x55,0x1D,0x0F])) + DER.tlv(0x04, DER.tlv(0x03, Data([5,0x20])))))) : Data()
         let tbs = DER.seq(DER.tlv(0xA0, DER.tlv(0x02, Data([0x02]))) + DER.tlv(0x02, Data([0x01, 0x23, 0x45]))
-                          + sha256WithRSA + name + validity + name + spki)
+                          + sha256WithRSA + name + validity + name + spki + extensions)
         guard let signature = SecKeyCreateSignature(key, .rsaSignatureMessagePKCS1v15SHA256, tbs as CFData, &error) as Data? else {
             throw error!.takeRetainedValue() as Error
         }
@@ -76,6 +77,9 @@ final class SimulatedCosmoXCard: CardTransport {
     let readerName = "Simulated miniLector"
     private let state: SimulatedCardState
     private let identity: TestIdentity
+    var extraFiles: [Data: Data] = [:]
+    private(set) var decryptAttempts = 0
+    private var decryptionSelected = false
     private let serial = Data("51180B0A2B597D33".utf8)
     private let seed = Data("32972F83F5A65D4C".utf8)
     private var selectedFile: [UInt8] = []
@@ -144,7 +148,10 @@ final class SimulatedCosmoXCard: CardTransport {
         guard let enc = sessENC else { return sw(0x6988) }
         bumpSSC()
         // parse TLVs: 87 (01 || ct) / 97 (Le) / 8E (MAC)
-        var pos = 5, end = 5 + Int(a[4])
+        let extended = a[4] == 0
+        var pos = extended ? 7 : 5
+        var end = pos + (extended ? Int(a[5]) * 256 + Int(a[6]) : Int(a[4]))
+        guard end + (extended ? 2 : 1) == a.count else { return sw(0x6700) }
         var cipher: Data?, le: Int?, mac = Data(), macInput = Data()
         while pos < end {
             let tag = a[pos]
@@ -154,7 +161,7 @@ final class SimulatedCosmoXCard: CardTransport {
             let value = Data(a[(pos + hdr)..<(pos + hdr + len)])
             switch tag {
             case 0x87: cipher = value.dropFirst(); macInput += Data(a[pos..<(pos + hdr + len)])
-            case 0x97: le = Int(value[value.startIndex]); macInput += Data(a[pos..<(pos + hdr + len)])
+            case 0x97: le = value.reduce(0) { $0 * 256 + Int($1) }; macInput += Data(a[pos..<(pos + hdr + len)])
             case 0x8E: mac = value
             default: break
             }
@@ -190,13 +197,18 @@ final class SimulatedCosmoXCard: CardTransport {
             verified = status == 0x9000
             return (Data(), status)
         case 0xB0:
-            guard selectedFile == [0x00, 0x01] else { return (Data(), 0x6A82) }
-            let file = identity.certDER
+            guard let file = extraFiles[Data(selectedFile)] ?? (selectedFile == [0x00,0x01] ? identity.certDER : nil) else { return (Data(),0x6A82) }
             let offset = Int(p1 & 0x7F) << 8 | Int(p2)
             guard offset < file.count else { return (Data(), 0x6B00) }
             return (file.subdata(in: offset..<min(file.count, offset + (le == 0 ? 256 : le))), 0x9000)
         case 0x22:
+            decryptionSelected = p1 == 0x41 && p2 == 0xB8 && body == Data([0x80,0x01,0x1a,0x84,0x01,0x82])
             return (Data(), 0x9000)
+        case 0x2a:
+            decryptAttempts += 1
+            guard verified, decryptionSelected, p1 == 0x80, p2 == 0x86, body.count == 257, body.first == 0x81,
+                  let result = SecKeyCreateDecryptedData(identity.privateKey, .rsaEncryptionPKCS1, Data(body.dropFirst()) as CFData, nil) as Data? else { return (Data(),0x6982) }
+            return (result,0x9000)
         case 0x88:
             guard verified else { return (Data(), 0x6982) }
             state.recordSignature(body)

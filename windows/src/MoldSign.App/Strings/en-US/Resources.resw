@@ -354,4 +354,48 @@ eSemnBun</value></data>
   <data name="about_privacy" xml:space="preserve"><value>Privacy Policy</value></data>
   <data name="about_disclaimer" xml:space="preserve"><value>Disclaimer</value></data>
   <data name="about_disclaimer_body" xml:space="preserve"><value>eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.</value></data>
+  <data name="protect_title" xml:space="preserve"><value>Protect files</value></data>
+  <data name="protect_hint" xml:space="preserve"><value>Encrypt or decrypt a file</value></data>
+  <data name="protect_encrypt" xml:space="preserve"><value>Encrypt</value></data>
+  <data name="protect_decrypt" xml:space="preserve"><value>Decrypt</value></data>
+  <data name="protect_remove" xml:space="preserve"><value>Remove file</value></data>
+  <data name="protect_operation" xml:space="preserve"><value>Action</value></data>
+  <data name="protect_method" xml:space="preserve"><value>Protection</value></data>
+  <data name="protect_password" xml:space="preserve"><value>Password</value></data>
+  <data name="protect_confirm_password" xml:space="preserve"><value>Confirm password</value></data>
+  <data name="protect_certificate" xml:space="preserve"><value>Certificate / card</value></data>
+  <data name="protect_choose_file" xml:space="preserve"><value>Choose a file</value></data>
+  <data name="protect_choose_certificate" xml:space="preserve"><value>Choose recipient certificate</value></data>
+  <data name="protect_read_card" xml:space="preserve"><value>Read my card</value></data>
+  <data name="protect_recipient" xml:space="preserve"><value>Recipient</value></data>
+  <data name="protect_card_pin" xml:space="preserve"><value>Card PIN</value></data>
+  <data name="protect_no_key" xml:space="preserve"><value>No supported encryption key found. Signing-only keys cannot decrypt files.</value></data>
+  <data name="protect_original" xml:space="preserve"><value>Your original file stays unchanged. Save the result as a new file.</value></data>
+  <data name="protect_compatibility" xml:space="preserve"><value>Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.</value></data>
+  <data name="protect_ready" xml:space="preserve"><value>Ready to save</value></data>
+  <data name="protect_save" xml:space="preserve"><value>Save a copy</value></data>
+  <data name="protect_saved" xml:space="preserve"><value>File saved</value></data>
+  <data name="protect_working" xml:space="preserve"><value>Processing file…</value></data>
+  <data name="protect_error" xml:space="preserve"><value>The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept.</value></data>
+  <data name="protect_mismatch" xml:space="preserve"><value>Passwords do not match</value></data>
+  <data name="protect_removal_warning" xml:space="preserve"><value>This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone.</value></data>
+  <data name="protect_remove_confirm" xml:space="preserve"><value>Remove this file permanently?</value></data>
+  <data name="protect_removed" xml:space="preserve"><value>File removed</value></data>
+  <data name="protect_remove_unavailable" xml:space="preserve"><value>Overwrite removal is unavailable for Files providers on this device. Manage the original in Files.</value></data>
+  <data name="protect_password_hint" xml:space="preserve"><value>Keep the password separately. It cannot be recovered.</value></data>
+  <data name="protect_pin_failure" xml:space="preserve"><value>Card authorization failed. Check the PIN and remaining attempts before trying again.</value></data>
+  <data name="protect_export_certificate" xml:space="preserve"><value>Export encryption certificate</value></data>
+  <data name="protect_export_certificate_hint" xml:space="preserve"><value>Share this public certificate so others can encrypt files for you. No PIN or private key is shared.</value></data>
+  <data name="protect_file_step" xml:space="preserve"><value>1. File</value></data>
+  <data name="protect_access_step" xml:space="preserve"><value>2. Access method</value></data>
+  <data name="protect_help" xml:space="preserve"><value>What do I need?</value></data>
+  <data name="protect_details" xml:space="preserve"><value>Certificate details and export</value></data>
+  <data name="protect_password_encrypt_guide" xml:space="preserve"><value>Create a password for this file.</value></data>
+  <data name="protect_password_decrypt_guide" xml:space="preserve"><value>Enter the password provided by the sender.</value></data>
+  <data name="protect_certificate_encrypt_guide" xml:space="preserve"><value>Choose the recipient’s encryption certificate, or read your own card.</value></data>
+  <data name="protect_certificate_decrypt_guide" xml:space="preserve"><value>Connect the recipient’s card and reader, then read the card.</value></data>
+  <data name="protect_password_encrypt_help" xml:space="preserve"><value>Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.</value></data>
+  <data name="protect_password_decrypt_help" xml:space="preserve"><value>Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.</value></data>
+  <data name="protect_certificate_encrypt_help" xml:space="preserve"><value>Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.</value></data>
+  <data name="protect_certificate_decrypt_help" xml:space="preserve"><value>Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.</value></data>
 </root>

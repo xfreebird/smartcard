@@ -3,7 +3,7 @@ title: "Rezolvă o problemă — iPad"
 sidebar_label: "Rezolvă o problemă"
 description: "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune."
 pagination_prev: "platforms/ipad/automation"
-pagination_next: null
+pagination_next: "platforms/ipad/encrypt-password"
 ---
 
 

@@ -109,7 +109,7 @@ if discoveryCommand == "capabilities" || discoveryArguments.contains("--json") {
     #else
     let platform = "macos"
     #endif
-    let commands = ["capabilities", "help", "version", "readers", "cert", "sign", "xades", "verify", "server", "sign-hex", "cms-for-hash"]
+    let commands = ["capabilities", "help", "version", "readers", "cert", "sign", "xades", "verify", "server", "sign-hex", "cms-for-hash", "encrypt", "decrypt", "encryption-certs", "remove-file"]
     if json {
         let envelope: [String: Any] = ["schemaVersion": 1, "ok": true, "data": [
             "product": "eSemnBun", "interface": "cli", "platform": platform,
@@ -188,6 +188,10 @@ func usage() -> Never {
     print("""
     Usage: esemnbun <command> [options]
       capabilities [--json]                   supported commands and formats; no card/PIN access
+      encrypt <in> <new-out> [--password-stdin | --certificate <DER> | --card <SHA256>]
+      decrypt <in> <new-out> [--password-stdin | --card <SHA256>]
+      encryption-certs [--card SHA256 --out NEW.cer]  list or export encryption certificates
+      remove-file <path> --confirm-removal     best-effort overwrite/removal; not physical erasure
       readers                                  list readers and card presence
       cert [--out <file.der>]                  read the signing certificate (no PIN)
       sign <in.pdf> [<out.pdf>]                PAdES-T signature
@@ -233,6 +237,8 @@ func signPDF(_ inputPath: String, _ outputPath: String) -> Never {
 // MARK: - Commands
 
 guard args.count >= 2 else { usage() }
+
+do { if try runFileProtectionCLI(args, reader: readerName, pin: cliPIN) { exit(0) } } catch { fail(error) }
 
 switch args[1] {
 case "readers":

@@ -18,7 +18,7 @@ public class CliCapabilitiesTests
         Assert.True(root.GetProperty("ok").GetBoolean());
         var data = root.GetProperty("data");
         Assert.Equal("windows", data.GetProperty("platform").GetString());
-        Assert.Equal(new[] { "capabilities", "help", "readers", "cert", "sign-hex", "mcp" },
+        Assert.Equal(new[] { "capabilities", "help", "readers", "cert", "sign-hex", "mcp", "encrypt", "decrypt", "encryption-certs", "remove-file" },
             data.GetProperty("commands").EnumerateArray().Select(v => v.GetString()));
         Assert.Equal(new[] { "capabilities" },
             data.GetProperty("structuredOutputCommands").EnumerateArray().Select(v => v.GetString()));

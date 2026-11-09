@@ -354,4 +354,48 @@ eSemnBun</value></data>
   <data name="about_privacy" xml:space="preserve"><value>Politica de confidențialitate</value></data>
   <data name="about_disclaimer" xml:space="preserve"><value>Declinarea responsabilității</value></data>
   <data name="about_disclaimer_body" xml:space="preserve"><value>eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.</value></data>
+  <data name="protect_title" xml:space="preserve"><value>Protejează fișiere</value></data>
+  <data name="protect_hint" xml:space="preserve"><value>Criptează sau decriptează un fișier</value></data>
+  <data name="protect_encrypt" xml:space="preserve"><value>Criptează</value></data>
+  <data name="protect_decrypt" xml:space="preserve"><value>Decriptează</value></data>
+  <data name="protect_remove" xml:space="preserve"><value>Elimină fișierul</value></data>
+  <data name="protect_operation" xml:space="preserve"><value>Acțiune</value></data>
+  <data name="protect_method" xml:space="preserve"><value>Protecție</value></data>
+  <data name="protect_password" xml:space="preserve"><value>Parolă</value></data>
+  <data name="protect_confirm_password" xml:space="preserve"><value>Confirmă parola</value></data>
+  <data name="protect_certificate" xml:space="preserve"><value>Certificat / card</value></data>
+  <data name="protect_choose_file" xml:space="preserve"><value>Alege un fișier</value></data>
+  <data name="protect_choose_certificate" xml:space="preserve"><value>Alege certificatul destinatarului</value></data>
+  <data name="protect_read_card" xml:space="preserve"><value>Citește cardul meu</value></data>
+  <data name="protect_recipient" xml:space="preserve"><value>Destinatar</value></data>
+  <data name="protect_card_pin" xml:space="preserve"><value>PIN-ul cardului</value></data>
+  <data name="protect_no_key" xml:space="preserve"><value>Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.</value></data>
+  <data name="protect_original" xml:space="preserve"><value>Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.</value></data>
+  <data name="protect_compatibility" xml:space="preserve"><value>Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.</value></data>
+  <data name="protect_ready" xml:space="preserve"><value>Gata de salvat</value></data>
+  <data name="protect_save" xml:space="preserve"><value>Salvează o copie</value></data>
+  <data name="protect_saved" xml:space="preserve"><value>Fișier salvat</value></data>
+  <data name="protect_working" xml:space="preserve"><value>Se procesează fișierul…</value></data>
+  <data name="protect_error" xml:space="preserve"><value>Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat.</value></data>
+  <data name="protect_mismatch" xml:space="preserve"><value>Parolele nu coincid</value></data>
+  <data name="protect_removal_warning" xml:space="preserve"><value>Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă.</value></data>
+  <data name="protect_remove_confirm" xml:space="preserve"><value>Elimini definitiv acest fișier?</value></data>
+  <data name="protect_removed" xml:space="preserve"><value>Fișier eliminat</value></data>
+  <data name="protect_remove_unavailable" xml:space="preserve"><value>Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere.</value></data>
+  <data name="protect_password_hint" xml:space="preserve"><value>Păstrează parola separat. Aceasta nu poate fi recuperată.</value></data>
+  <data name="protect_pin_failure" xml:space="preserve"><value>Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou.</value></data>
+  <data name="protect_export_certificate" xml:space="preserve"><value>Exportă certificatul de criptare</value></data>
+  <data name="protect_export_certificate_hint" xml:space="preserve"><value>Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.</value></data>
+  <data name="protect_file_step" xml:space="preserve"><value>1. Fișier</value></data>
+  <data name="protect_access_step" xml:space="preserve"><value>2. Metoda de acces</value></data>
+  <data name="protect_help" xml:space="preserve"><value>De ce am nevoie?</value></data>
+  <data name="protect_details" xml:space="preserve"><value>Detalii și export certificat</value></data>
+  <data name="protect_password_encrypt_guide" xml:space="preserve"><value>Creează o parolă pentru acest fișier.</value></data>
+  <data name="protect_password_decrypt_guide" xml:space="preserve"><value>Introdu parola primită de la expeditor.</value></data>
+  <data name="protect_certificate_encrypt_guide" xml:space="preserve"><value>Alege certificatul de criptare al destinatarului sau citește propriul card.</value></data>
+  <data name="protect_certificate_decrypt_guide" xml:space="preserve"><value>Conectează cardul destinatarului și cititorul, apoi citește cardul.</value></data>
+  <data name="protect_password_encrypt_help" xml:space="preserve"><value>Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.</value></data>
+  <data name="protect_password_decrypt_help" xml:space="preserve"><value>Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.</value></data>
+  <data name="protect_certificate_encrypt_help" xml:space="preserve"><value>Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.</value></data>
+  <data name="protect_certificate_decrypt_help" xml:space="preserve"><value>Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.</value></data>
 </root>

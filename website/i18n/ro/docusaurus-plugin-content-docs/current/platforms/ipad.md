@@ -25,3 +25,5 @@ Instalează eSemnBun prin canalul Apple disponibil din [Descărcări](/downloads
 ## Alte ghiduri
 
 [iPhone](./ios.md) · [iPad](./ipad.md) · [macOS](./macos.md) · [Android](./android.md) · [Linux](./linux.md)
+
+<!-- file-protection-guides -->

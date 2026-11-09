@@ -17,6 +17,7 @@ final class ActivityPage {
     private let filterButton: Widget
     private let clearButton: Widget
     private var detailsOpen = false
+    private var protection: FileProtectionDialog?
     private var rowPaths: [UnsafeMutableRawPointer: String] = [:]
 
     init(controller: AppController, window: @escaping () -> UnsafeMutablePointer<GtkWindow>?) {
@@ -43,7 +44,13 @@ final class ActivityPage {
         filterButton = button(L10n.text(.saved_history), classes: ["flat"]) {}
         let navigation = hbox(spacing: 12, [label(L10n.text(.saved_title), classes: ["title-2"]), filterButton])
         margins(navigation, 18)
-        root = vbox(spacing: 0, [navigation, stack.widget])
+        let protect = button(L10n.text(.protect_title) + " · " + L10n.text(.protect_hint), classes: ["pill"]) {}
+        margins(protect, 18)
+        root = vbox(spacing: 0, [navigation, protect, stack.widget])
+        onSignal(protect, "clicked") { [weak self] in
+            guard let self, let parent = self.window(), self.protection == nil else { return }
+            self.protection = FileProtectionDialog(controller: controller, parent: parent) { [weak self] in self?.protection = nil }
+        }
         onSignal(list, "row-activated") { [weak self] row in
             guard let self, let row, let path = self.rowPaths[row] else { return }
             self.presentDetails(path)
@@ -67,6 +74,13 @@ final class ActivityPage {
         onSignal(root, "map") { [weak self] in
             self?.renderedKey = ""
             self?.render()
+            #if MOLDSIGN_DEMO
+            if let self, controller.isDemo, DemoMode.screenshotCapture,
+               ProcessInfo.processInfo.environment["MSIGN_CAPTURE_DIALOG"]?.hasPrefix("protect-")==true,
+               let parent=self.window(), self.protection==nil {
+                self.protection=FileProtectionDialog(controller:controller,parent:parent){[weak self] in self?.protection=nil}
+            }
+            #endif
         }
         controller.observe { [weak self] in self?.render() }
         // Relative times ("acum 2 min") age: refresh once a minute.

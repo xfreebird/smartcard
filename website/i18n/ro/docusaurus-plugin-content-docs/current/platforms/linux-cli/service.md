@@ -3,7 +3,7 @@ title: "Pornește serviciul pentru browser — Linux · Linie de comandă (CLI)"
 sidebar_label: "Pornește serviciul pentru browser"
 description: "Pornește și oprește conexiunea locală sau serviciul utilizatorului."
 pagination_prev: "platforms/linux-cli/unattended"
-pagination_next: null
+pagination_next: "platforms/linux-cli/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -31,3 +31,5 @@ esemnbun server
 ---
 
 Referință avansată: macOS/Linux oferă și `sign-hex <digestinfo_hex>`, `cms-for-hash <sha256_hex>`; Windows doar sign-hex. Sunt primitive pentru dezvoltatori, nu semnare de documente. Pentru suport trimite versiunea aplicației/sistemului, comanda fără secrete, codul și un exemplu fictiv. Nu atașa PIN sau documente confidențiale.
+
+<!-- file-protection-guides -->

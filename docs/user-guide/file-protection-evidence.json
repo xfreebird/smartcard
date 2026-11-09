@@ -1,0 +1,662 @@
+{
+  "date": "2026-11-09",
+  "capture": "native Debug fixtures, v2 screenshot refresh",
+  "limitations": [
+    "Screenshots precede completion; no physical-card outcome is depicted.",
+    "Localized instructions reuse Romanian or English native captures, explicitly identified in each caption.",
+    "Card discovery/export and card decryption are described from implementation; populated identity and save pickers are not pictured."
+  ],
+  "assets": [
+    {
+      "path": "img/guide/macos/en/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-password-light.png",
+      "sha256": "d05915f0f60d58c91a969fcc0eacc185068ecf8817463effacfca9de737aea83"
+    },
+    {
+      "path": "img/guide/macos/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-certificate-light.png",
+      "sha256": "8ebeaa82d90785e90b8f38a84042c4e85d8fc047b37a21bc166771ce61607707"
+    },
+    {
+      "path": "img/guide/macos/en/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-decrypt-light.png",
+      "sha256": "e6c714c46058b3f1d65476abe092d228261a945373f2f7f6aa4079c19d0deee0"
+    },
+    {
+      "path": "img/guide/macos/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-certificate-light.png",
+      "sha256": "8ebeaa82d90785e90b8f38a84042c4e85d8fc047b37a21bc166771ce61607707"
+    },
+    {
+      "path": "img/guide/macos/en/protect-remove-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-remove-light.png",
+      "sha256": "caf13b3ab853527cb4f332eafc25c10dc391945edb34f2b8f9948be57ec196d5"
+    },
+    {
+      "path": "img/guide/macos/ro/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-password-light.png",
+      "sha256": "d05915f0f60d58c91a969fcc0eacc185068ecf8817463effacfca9de737aea83"
+    },
+    {
+      "path": "img/guide/macos/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-certificate-light.png",
+      "sha256": "8ebeaa82d90785e90b8f38a84042c4e85d8fc047b37a21bc166771ce61607707"
+    },
+    {
+      "path": "img/guide/macos/ro/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-decrypt-light.png",
+      "sha256": "e6c714c46058b3f1d65476abe092d228261a945373f2f7f6aa4079c19d0deee0"
+    },
+    {
+      "path": "img/guide/macos/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-certificate-light.png",
+      "sha256": "8ebeaa82d90785e90b8f38a84042c4e85d8fc047b37a21bc166771ce61607707"
+    },
+    {
+      "path": "img/guide/macos/ro/protect-remove-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-remove-light.png",
+      "sha256": "caf13b3ab853527cb4f332eafc25c10dc391945edb34f2b8f9948be57ec196d5"
+    },
+    {
+      "path": "img/guide/macos/ru/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-password-light.png",
+      "sha256": "d05915f0f60d58c91a969fcc0eacc185068ecf8817463effacfca9de737aea83"
+    },
+    {
+      "path": "img/guide/macos/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-certificate-light.png",
+      "sha256": "8ebeaa82d90785e90b8f38a84042c4e85d8fc047b37a21bc166771ce61607707"
+    },
+    {
+      "path": "img/guide/macos/ru/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-decrypt-light.png",
+      "sha256": "e6c714c46058b3f1d65476abe092d228261a945373f2f7f6aa4079c19d0deee0"
+    },
+    {
+      "path": "img/guide/macos/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-certificate-light.png",
+      "sha256": "8ebeaa82d90785e90b8f38a84042c4e85d8fc047b37a21bc166771ce61607707"
+    },
+    {
+      "path": "img/guide/macos/ru/protect-remove-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/macos/protect-remove-light.png",
+      "sha256": "caf13b3ab853527cb4f332eafc25c10dc391945edb34f2b8f9948be57ec196d5"
+    },
+    {
+      "path": "img/guide/iphone/en/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-password-light.png",
+      "sha256": "6b5356114ffd7729dbbb486931e5ce0028e9994dd34adadfd3b0d4786613c8a7"
+    },
+    {
+      "path": "img/guide/iphone/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-certificate-light.png",
+      "sha256": "9ec1b03ca47267a2fbb609f786a0685234feb8c709d7555abedb6479df1ea076"
+    },
+    {
+      "path": "img/guide/iphone/en/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-decrypt-light.png",
+      "sha256": "02830c014d669dec89df0eaab196408b67bad344b41fe6d93de095d1056e46ef"
+    },
+    {
+      "path": "img/guide/iphone/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-certificate-light.png",
+      "sha256": "9ec1b03ca47267a2fbb609f786a0685234feb8c709d7555abedb6479df1ea076"
+    },
+    {
+      "path": "img/guide/iphone/ro/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-password-light.png",
+      "sha256": "6b5356114ffd7729dbbb486931e5ce0028e9994dd34adadfd3b0d4786613c8a7"
+    },
+    {
+      "path": "img/guide/iphone/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-certificate-light.png",
+      "sha256": "9ec1b03ca47267a2fbb609f786a0685234feb8c709d7555abedb6479df1ea076"
+    },
+    {
+      "path": "img/guide/iphone/ro/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-decrypt-light.png",
+      "sha256": "02830c014d669dec89df0eaab196408b67bad344b41fe6d93de095d1056e46ef"
+    },
+    {
+      "path": "img/guide/iphone/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-certificate-light.png",
+      "sha256": "9ec1b03ca47267a2fbb609f786a0685234feb8c709d7555abedb6479df1ea076"
+    },
+    {
+      "path": "img/guide/iphone/ru/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-password-light.png",
+      "sha256": "6b5356114ffd7729dbbb486931e5ce0028e9994dd34adadfd3b0d4786613c8a7"
+    },
+    {
+      "path": "img/guide/iphone/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-certificate-light.png",
+      "sha256": "9ec1b03ca47267a2fbb609f786a0685234feb8c709d7555abedb6479df1ea076"
+    },
+    {
+      "path": "img/guide/iphone/ru/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-decrypt-light.png",
+      "sha256": "02830c014d669dec89df0eaab196408b67bad344b41fe6d93de095d1056e46ef"
+    },
+    {
+      "path": "img/guide/iphone/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/iphone/protect-certificate-light.png",
+      "sha256": "9ec1b03ca47267a2fbb609f786a0685234feb8c709d7555abedb6479df1ea076"
+    },
+    {
+      "path": "img/guide/ipad/en/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-password-light.png",
+      "sha256": "356cb04440d4a7e6cbb0ad57d95d539ef56f3437ea1f9d9df90a75821f6ce962"
+    },
+    {
+      "path": "img/guide/ipad/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-certificate-light.png",
+      "sha256": "2499e4f2a10df12b565fb0470367765ec925ed99fdb0c799f3a79e98e273d7a4"
+    },
+    {
+      "path": "img/guide/ipad/en/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-decrypt-light.png",
+      "sha256": "b537e7d4cd18eb8f9ec1378d83165cbd2fa3a80c473b30db1d062c8d35185552"
+    },
+    {
+      "path": "img/guide/ipad/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-certificate-light.png",
+      "sha256": "2499e4f2a10df12b565fb0470367765ec925ed99fdb0c799f3a79e98e273d7a4"
+    },
+    {
+      "path": "img/guide/ipad/ro/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-password-light.png",
+      "sha256": "356cb04440d4a7e6cbb0ad57d95d539ef56f3437ea1f9d9df90a75821f6ce962"
+    },
+    {
+      "path": "img/guide/ipad/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-certificate-light.png",
+      "sha256": "2499e4f2a10df12b565fb0470367765ec925ed99fdb0c799f3a79e98e273d7a4"
+    },
+    {
+      "path": "img/guide/ipad/ro/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-decrypt-light.png",
+      "sha256": "b537e7d4cd18eb8f9ec1378d83165cbd2fa3a80c473b30db1d062c8d35185552"
+    },
+    {
+      "path": "img/guide/ipad/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-certificate-light.png",
+      "sha256": "2499e4f2a10df12b565fb0470367765ec925ed99fdb0c799f3a79e98e273d7a4"
+    },
+    {
+      "path": "img/guide/ipad/ru/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-password-light.png",
+      "sha256": "356cb04440d4a7e6cbb0ad57d95d539ef56f3437ea1f9d9df90a75821f6ce962"
+    },
+    {
+      "path": "img/guide/ipad/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-certificate-light.png",
+      "sha256": "2499e4f2a10df12b565fb0470367765ec925ed99fdb0c799f3a79e98e273d7a4"
+    },
+    {
+      "path": "img/guide/ipad/ru/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-decrypt-light.png",
+      "sha256": "b537e7d4cd18eb8f9ec1378d83165cbd2fa3a80c473b30db1d062c8d35185552"
+    },
+    {
+      "path": "img/guide/ipad/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/ipad/protect-certificate-light.png",
+      "sha256": "2499e4f2a10df12b565fb0470367765ec925ed99fdb0c799f3a79e98e273d7a4"
+    },
+    {
+      "path": "img/guide/android-phone/en/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-password-light.png",
+      "sha256": "06bb7e9b2961449c3ef793ea1b77c538a257f484af4784819ed1652859c42afe"
+    },
+    {
+      "path": "img/guide/android-phone/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-certificate-light.png",
+      "sha256": "cf26d8d3b134efe5e4c9484477850b83b03bee3e7d6383f39057ca6b4979e1b7"
+    },
+    {
+      "path": "img/guide/android-phone/en/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-decrypt-light.png",
+      "sha256": "c0474ff3a8a3db0a609e67c9c175011a7b028274ce5def4d171bed2ef9b1f5dd"
+    },
+    {
+      "path": "img/guide/android-phone/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-certificate-light.png",
+      "sha256": "cf26d8d3b134efe5e4c9484477850b83b03bee3e7d6383f39057ca6b4979e1b7"
+    },
+    {
+      "path": "img/guide/android-phone/ro/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-password-light.png",
+      "sha256": "06bb7e9b2961449c3ef793ea1b77c538a257f484af4784819ed1652859c42afe"
+    },
+    {
+      "path": "img/guide/android-phone/ro/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-certificate-light.png",
+      "sha256": "cf26d8d3b134efe5e4c9484477850b83b03bee3e7d6383f39057ca6b4979e1b7"
+    },
+    {
+      "path": "img/guide/android-phone/ro/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-decrypt-light.png",
+      "sha256": "c0474ff3a8a3db0a609e67c9c175011a7b028274ce5def4d171bed2ef9b1f5dd"
+    },
+    {
+      "path": "img/guide/android-phone/ro/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-certificate-light.png",
+      "sha256": "cf26d8d3b134efe5e4c9484477850b83b03bee3e7d6383f39057ca6b4979e1b7"
+    },
+    {
+      "path": "img/guide/android-phone/ru/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-password-light.png",
+      "sha256": "06bb7e9b2961449c3ef793ea1b77c538a257f484af4784819ed1652859c42afe"
+    },
+    {
+      "path": "img/guide/android-phone/ru/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-certificate-light.png",
+      "sha256": "cf26d8d3b134efe5e4c9484477850b83b03bee3e7d6383f39057ca6b4979e1b7"
+    },
+    {
+      "path": "img/guide/android-phone/ru/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-decrypt-light.png",
+      "sha256": "c0474ff3a8a3db0a609e67c9c175011a7b028274ce5def4d171bed2ef9b1f5dd"
+    },
+    {
+      "path": "img/guide/android-phone/ru/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android-phone/protect-certificate-light.png",
+      "sha256": "cf26d8d3b134efe5e4c9484477850b83b03bee3e7d6383f39057ca6b4979e1b7"
+    },
+    {
+      "path": "img/guide/android-tablet/en/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-password-light.png",
+      "sha256": "aec27b20e75392086df7f774e291b7c8381ce26f443627928ac4f0810ff35d3d"
+    },
+    {
+      "path": "img/guide/android-tablet/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-certificate-light.png",
+      "sha256": "f26d0aca5053cb3e5aac408833d4915f184a135bb01ea9db26ac6e0c6d655c4e"
+    },
+    {
+      "path": "img/guide/android-tablet/en/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-decrypt-light.png",
+      "sha256": "81b818d5473ac9cf5f66147fbf8586619faa2eaac6dc7d0d3ad3912ca453756c"
+    },
+    {
+      "path": "img/guide/android-tablet/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-certificate-light.png",
+      "sha256": "f26d0aca5053cb3e5aac408833d4915f184a135bb01ea9db26ac6e0c6d655c4e"
+    },
+    {
+      "path": "img/guide/android-tablet/ro/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-password-light.png",
+      "sha256": "aec27b20e75392086df7f774e291b7c8381ce26f443627928ac4f0810ff35d3d"
+    },
+    {
+      "path": "img/guide/android-tablet/ro/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-certificate-light.png",
+      "sha256": "f26d0aca5053cb3e5aac408833d4915f184a135bb01ea9db26ac6e0c6d655c4e"
+    },
+    {
+      "path": "img/guide/android-tablet/ro/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-decrypt-light.png",
+      "sha256": "81b818d5473ac9cf5f66147fbf8586619faa2eaac6dc7d0d3ad3912ca453756c"
+    },
+    {
+      "path": "img/guide/android-tablet/ro/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-certificate-light.png",
+      "sha256": "f26d0aca5053cb3e5aac408833d4915f184a135bb01ea9db26ac6e0c6d655c4e"
+    },
+    {
+      "path": "img/guide/android-tablet/ru/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-password-light.png",
+      "sha256": "aec27b20e75392086df7f774e291b7c8381ce26f443627928ac4f0810ff35d3d"
+    },
+    {
+      "path": "img/guide/android-tablet/ru/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-certificate-light.png",
+      "sha256": "f26d0aca5053cb3e5aac408833d4915f184a135bb01ea9db26ac6e0c6d655c4e"
+    },
+    {
+      "path": "img/guide/android-tablet/ru/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-decrypt-light.png",
+      "sha256": "81b818d5473ac9cf5f66147fbf8586619faa2eaac6dc7d0d3ad3912ca453756c"
+    },
+    {
+      "path": "img/guide/android-tablet/ru/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/android/protect-certificate-light.png",
+      "sha256": "f26d0aca5053cb3e5aac408833d4915f184a135bb01ea9db26ac6e0c6d655c4e"
+    },
+    {
+      "path": "img/guide/windows/en/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-password-light.png",
+      "sha256": "14408e906f500d88c52482568a6ac9989ec0029c23b1851d6cccffd43c44e6d6"
+    },
+    {
+      "path": "img/guide/windows/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-certificate-light.png",
+      "sha256": "c2715564c2d9ccf8cb382bdc879f0c832b882a522c0822675630ae92d67b0ac1"
+    },
+    {
+      "path": "img/guide/windows/en/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-decrypt-light.png",
+      "sha256": "17eac860d53b509ad45f7c6e39d76324e181890be6b107c80e522d70bf3f8c8b"
+    },
+    {
+      "path": "img/guide/windows/en/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-certificate-light.png",
+      "sha256": "c2715564c2d9ccf8cb382bdc879f0c832b882a522c0822675630ae92d67b0ac1"
+    },
+    {
+      "path": "img/guide/windows/en/protect-remove-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-remove-light.png",
+      "sha256": "325605cd7a0c5522eb0d13825ce62b107f2d480ba2acc6994a2aec1e6c6335e6"
+    },
+    {
+      "path": "img/guide/windows/ro/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-password-light.png",
+      "sha256": "14408e906f500d88c52482568a6ac9989ec0029c23b1851d6cccffd43c44e6d6"
+    },
+    {
+      "path": "img/guide/windows/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-certificate-light.png",
+      "sha256": "c2715564c2d9ccf8cb382bdc879f0c832b882a522c0822675630ae92d67b0ac1"
+    },
+    {
+      "path": "img/guide/windows/ro/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-decrypt-light.png",
+      "sha256": "17eac860d53b509ad45f7c6e39d76324e181890be6b107c80e522d70bf3f8c8b"
+    },
+    {
+      "path": "img/guide/windows/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-certificate-light.png",
+      "sha256": "c2715564c2d9ccf8cb382bdc879f0c832b882a522c0822675630ae92d67b0ac1"
+    },
+    {
+      "path": "img/guide/windows/ro/protect-remove-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-remove-light.png",
+      "sha256": "325605cd7a0c5522eb0d13825ce62b107f2d480ba2acc6994a2aec1e6c6335e6"
+    },
+    {
+      "path": "img/guide/windows/ru/protect-password-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-password-light.png",
+      "sha256": "14408e906f500d88c52482568a6ac9989ec0029c23b1851d6cccffd43c44e6d6"
+    },
+    {
+      "path": "img/guide/windows/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-certificate-light.png",
+      "sha256": "c2715564c2d9ccf8cb382bdc879f0c832b882a522c0822675630ae92d67b0ac1"
+    },
+    {
+      "path": "img/guide/windows/ru/protect-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-decrypt-light.png",
+      "sha256": "17eac860d53b509ad45f7c6e39d76324e181890be6b107c80e522d70bf3f8c8b"
+    },
+    {
+      "path": "img/guide/windows/ru/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-certificate-light.png",
+      "sha256": "c2715564c2d9ccf8cb382bdc879f0c832b882a522c0822675630ae92d67b0ac1"
+    },
+    {
+      "path": "img/guide/windows/ru/protect-remove-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/windows/protect-remove-light.png",
+      "sha256": "325605cd7a0c5522eb0d13825ce62b107f2d480ba2acc6994a2aec1e6c6335e6"
+    },
+    {
+      "path": "img/guide/linux/en/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-password-light.png",
+      "sha256": "ef1bcdbc55448c0ff89e9b7e317656013a6fad4163dc4d5d105c836f22dd5712"
+    },
+    {
+      "path": "img/guide/linux/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-certificate-light.png",
+      "sha256": "52689c6296dd17d50ebf1ab15af4e245a39ad2647676b9be913e68ad5860b452"
+    },
+    {
+      "path": "img/guide/linux/en/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-decrypt-light.png",
+      "sha256": "f93f049ce022eca954ea02461a7930c231ae2cc80d02f903e00250abdc926809"
+    },
+    {
+      "path": "img/guide/linux/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-certificate-light.png",
+      "sha256": "52689c6296dd17d50ebf1ab15af4e245a39ad2647676b9be913e68ad5860b452"
+    },
+    {
+      "path": "img/guide/linux/en/protect-remove-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-remove-light.png",
+      "sha256": "f9592bb79e7d48610c8582421930f3b362d7fbef3c7023a1ba8ef4ba86973929"
+    },
+    {
+      "path": "img/guide/linux/ro/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-password-light.png",
+      "sha256": "ef1bcdbc55448c0ff89e9b7e317656013a6fad4163dc4d5d105c836f22dd5712"
+    },
+    {
+      "path": "img/guide/linux/ro/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-certificate-light.png",
+      "sha256": "52689c6296dd17d50ebf1ab15af4e245a39ad2647676b9be913e68ad5860b452"
+    },
+    {
+      "path": "img/guide/linux/ro/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-decrypt-light.png",
+      "sha256": "f93f049ce022eca954ea02461a7930c231ae2cc80d02f903e00250abdc926809"
+    },
+    {
+      "path": "img/guide/linux/ro/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-certificate-light.png",
+      "sha256": "52689c6296dd17d50ebf1ab15af4e245a39ad2647676b9be913e68ad5860b452"
+    },
+    {
+      "path": "img/guide/linux/ro/protect-remove-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ro",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-remove-light.png",
+      "sha256": "f9592bb79e7d48610c8582421930f3b362d7fbef3c7023a1ba8ef4ba86973929"
+    },
+    {
+      "path": "img/guide/linux/ru/protect-password-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-password-light.png",
+      "sha256": "ef1bcdbc55448c0ff89e9b7e317656013a6fad4163dc4d5d105c836f22dd5712"
+    },
+    {
+      "path": "img/guide/linux/ru/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-certificate-light.png",
+      "sha256": "52689c6296dd17d50ebf1ab15af4e245a39ad2647676b9be913e68ad5860b452"
+    },
+    {
+      "path": "img/guide/linux/ru/protect-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-decrypt-light.png",
+      "sha256": "f93f049ce022eca954ea02461a7930c231ae2cc80d02f903e00250abdc926809"
+    },
+    {
+      "path": "img/guide/linux/ru/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-certificate-light.png",
+      "sha256": "52689c6296dd17d50ebf1ab15af4e245a39ad2647676b9be913e68ad5860b452"
+    },
+    {
+      "path": "img/guide/linux/ru/protect-remove-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "ru",
+      "source": ".local/encryption-compatibility/screenshots-v2/linux/protect-remove-light.png",
+      "sha256": "f9592bb79e7d48610c8582421930f3b362d7fbef3c7023a1ba8ef4ba86973929"
+    }
+  ]
+}

@@ -133,3 +133,47 @@ For no reader, check the cable, adapter and power. For an empty reader, reinsert
 ## Other guides
 
 [iPhone](./ios.md) · [iPad](./ipad.md) · [macOS](./macos.md) · [Android](./android.md) · [Linux](./linux.md)
+
+<!-- file-protection-guides -->
+
+
+## Encrypt a file with a password
+
+Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+
+No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Encrypt a file with a password" caption="Native Romanian interface; fictional data. Before completion." steps={[{"x": 37, "y": 33, "text": "Choose Encrypt."}, {"x": 35, "y": 44, "text": "Choose the source file."}, {"x": 32, "y": 64, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50, "y": 73, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+
+
+## Encrypt for a certificate holder
+
+Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+
+Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Native Romanian interface; fictional data. Before completion." steps={[{"x": 37, "y": 33, "text": "Choose Encrypt."}, {"x": 35, "y": 44, "text": "Choose the source file."}, {"x": 38, "y": 55, "text": "Choose Certificate/card."}, {"x": 38, "y": 65, "text": "Choose the recipient’s certificate file."}, {"x": 50, "y": 73, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+
+
+## Decrypt a received file
+
+Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+
+Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Decrypt a received file" caption="Native Romanian interface; fictional data. Before completion." steps={[{"x": 37, "y": 33, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32, "y": 64, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 73, "text": "Choose Decrypt and save the result under a new filename."}]} />
+
+For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
+
+Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
+
+
+## Share your encryption certificate
+
+Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+
+Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" caption="Native Romanian interface; fictional data. Before completion." steps={[{"x": 38, "y": 55, "text": "Choose Certificate/card. Choose Read my card; scroll if needed."}]} />
+
+After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.

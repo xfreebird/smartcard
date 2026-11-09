@@ -25,3 +25,5 @@ import GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';
 ## Другие руководства
 
 [iPhone](./ios.md) · [iPad](./ipad.md) · [macOS](./macos.md) · [Android](./android.md) · [Linux](./linux.md)
+
+<!-- file-protection-guides -->

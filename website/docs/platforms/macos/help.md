@@ -3,7 +3,7 @@ title: "Fix a problem — Mac"
 sidebar_label: "Fix a problem"
 description: "Resolve reader, PIN, document and connection problems safely."
 pagination_prev: "platforms/macos/automation"
-pagination_next: null
+pagination_next: "platforms/macos/encrypt-password"
 ---
 
 
@@ -28,3 +28,5 @@ Resolve reader, PIN, document and connection problems safely.
 | No Spotlight result | Check opt-in, app ownership, file readability and indexing time. |
 
 For terminal automation, package-manager installation and unattended policy, continue with the [macOS CLI guide](../macos-cli.md).
+
+<!-- file-protection-guides -->

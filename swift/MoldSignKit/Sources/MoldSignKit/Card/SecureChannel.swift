@@ -32,36 +32,31 @@ struct SecureChannel {
 
     /// Wrap an APDU in secure messaging
     mutating func wrap(_ apdu: Data) throws -> Data {
-        // Split header (CLA INS P1 P2) and body
-        let header = apdu.prefix(4)
-        var cla = header[0] | 0x0C  // SM bit
-        let ins = header[1]
-        let p1 = header[2]
-        let p2 = header[3]
-
-        var dataField = Data()
-        var calcMac = Data()
-
-        // Parse original APDU body
+        guard apdu.count >= 4 else { throw CryptoError.invalidLength }
+        let header = Data(apdu.prefix(4))
+        let cla = header[0] | 0x0C, ins = header[1], p1 = header[2], p2 = header[3]
         let body = Data(apdu.dropFirst(4))
-        var lc: Int = 0
-        var cmdData = Data()
-        var le: UInt8? = nil
-
-        if body.count == 1 {
-            // Case 2 APDU: CLA INS P1 P2 Le (no data, just expected length)
-            le = body[0]
-            lc = 0
+        var cmdData = Data(), le: Data? = nil
+        let extended = body.count > 1 && body[0] == 0
+        if body.count == 1 { le = body }
+        else if extended {
+            guard body.count >= 3 else { throw CryptoError.invalidLength }
+            if body.count == 3 { le = Data(body.suffix(2)) }
+            else {
+                let count = Int(body[1]) * 256 + Int(body[2])
+                guard count > 0, body.count == count + 3 || body.count == count + 5 else { throw CryptoError.invalidLength }
+                cmdData = body.subdata(in: 3..<(3+count))
+                if body.count == count+5 { le = Data(body.suffix(2)) }
+            }
         } else if body.count > 1 {
-            lc = Int(body[0])
-            if lc > 0 && (1 + lc) <= body.count {
-                cmdData = body.subdata(in: 1..<(1 + lc))
-            }
-            if body.count > 1 + lc {
-                le = body[body.count - 1]
-            }
+            let count = Int(body[0])
+            guard body.count == count + 1 || body.count == count + 2 else { throw CryptoError.invalidLength }
+            cmdData = body.subdata(in: 1..<(1+count))
+            if body.count == count + 2 { le = Data(body.suffix(1)) }
         }
+        var dataField = Data(), calcMac = Data()
 
+        guard cmdData.count <= 65488 else { throw CryptoError.invalidLength }
         let ssc1 = incSSC()
 
         // Pad header for MAC
@@ -87,7 +82,7 @@ struct SecureChannel {
 
         // Le as tag 97
         if let le = le {
-            let tlv = buildTLV(0x97, Data([le]))
+            let tlv = buildTLV(0x97, le)
             calcMac += tlv
             dataField += tlv
         }
@@ -103,9 +98,11 @@ struct SecureChannel {
         dataField += buildTLV(0x8E, mac8)
 
         // Build final APDU
-        var result = Data([cla, ins, p1, p2, UInt8(dataField.count)])
-        result += dataField
-        result.append(0x00) // Lua always appends Le=00
+        guard dataField.count <= 65535 else { throw CryptoError.invalidLength }
+        var result = Data([cla, ins, p1, p2])
+        if extended || dataField.count > 255 {
+            result += Data([0, UInt8(dataField.count >> 8), UInt8(dataField.count & 255)]) + dataField + Data([0,0])
+        } else { result += Data([UInt8(dataField.count)]) + dataField + Data([0]) }
         return result
     }
 

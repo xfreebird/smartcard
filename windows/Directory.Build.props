@@ -7,9 +7,9 @@
     <!-- Public product name eSemnBun (file properties, Task Manager); the codename MoldSign stays in namespaces/IDs. -->
     <Company>eSemnBun</Company>
     <Product>eSemnBun</Product>
-    <!-- One version for app, CLI and installers (the eSemnBun rebrand ships as 0.2.7 on every platform).
+    <!-- One version for app, CLI and installers (the eSemnBun rebrand ships as 0.2.8 on every platform).
          scripts/package-windows.ps1 reads it from here; MSIX uses <Version>.0. -->
-    <Version>0.2.7</Version>
+    <Version>0.2.8</Version>
     <Deterministic>true</Deterministic>
     <!-- Repo root (windows/..): spec/ lives there and is shared with the Swift and Kotlin ports. -->
     <MoldSignRepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..'))</MoldSignRepoRoot>

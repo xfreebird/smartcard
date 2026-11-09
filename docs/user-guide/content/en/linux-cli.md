@@ -144,3 +144,72 @@ esemnbun server
 ---
 
 Advanced reference: macOS/Linux also expose `sign-hex <digestinfo_hex>` and `cms-for-hash <sha256_hex>`; Windows has sign-hex only. These are developer primitives, not document signing. Read the CLI contract before using them. For support include app/OS version, command without secrets, exit code and a fictional reproducer. Never attach PINs or confidential files.
+
+<!-- file-protection-guides -->
+
+## Encrypt a file with a password
+
+No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
+
+Instructional command example — no operation executed.
+
+<GuideScreenshot src="/img/guide/linux-cli/en/protect-password.svg" alt="Encrypt a file with a password" steps={[{"x": 20, "y": 25, "text": "Run the command with your own filenames. Use a new output path. Enter secrets only in the hidden prompt; replace SHA256 with the full encryption-certificate fingerprint."}]} />
+
+```sh
+esemnbun encrypt Contract.pdf Contract.enc
+```
+
+## Encrypt for a certificate holder
+
+Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
+
+Instructional command example — no operation executed.
+
+<GuideScreenshot src="/img/guide/linux-cli/en/protect-certificate.svg" alt="Encrypt for a certificate holder" steps={[{"x": 20, "y": 25, "text": "Run the command with your own filenames. Use a new output path. Enter secrets only in the hidden prompt; replace SHA256 with the full encryption-certificate fingerprint."}]} />
+
+```sh
+esemnbun encrypt Contract.pdf Contract.enc --certificate recipient.cer
+```
+
+## Decrypt a received file
+
+Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
+
+Instructional command example — no operation executed.
+
+<GuideScreenshot src="/img/guide/linux-cli/en/protect-decrypt.svg" alt="Decrypt a received file" steps={[{"x": 20, "y": 25, "text": "Run the command with your own filenames. Use a new output path. Enter secrets only in the hidden prompt; replace SHA256 with the full encryption-certificate fingerprint."}]} />
+
+```sh
+esemnbun decrypt Contract.enc Contract-opened.pdf
+esemnbun encryption-certs
+esemnbun decrypt Contract.enc Contract-opened.pdf --card SHA256
+```
+
+Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
+
+## Share your encryption certificate
+
+Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
+
+Instructional command example — no operation executed.
+
+<GuideScreenshot src="/img/guide/linux-cli/en/protect-export.svg" alt="Share your encryption certificate" steps={[{"x": 20, "y": 25, "text": "Run the command with your own filenames. Use a new output path. Enter secrets only in the hidden prompt; replace SHA256 with the full encryption-certificate fingerprint."}]} />
+
+```sh
+esemnbun encryption-certs
+esemnbun encryption-certs --card SHA256 --out recipient.cer
+```
+
+Share only recipient.cer; exporting needs no PIN and never exports the private key.
+
+## Remove a local file
+
+Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
+
+Instructional command example — no operation executed.
+
+<GuideScreenshot src="/img/guide/linux-cli/en/protect-remove.svg" alt="Remove a local file" steps={[{"x": 20, "y": 25, "text": "Run the command with your own filenames. Use a new output path. Enter secrets only in the hidden prompt; replace SHA256 with the full encryption-certificate fingerprint."}]} />
+
+```sh
+esemnbun remove-file disposable-copy.pdf --confirm-removal
+```

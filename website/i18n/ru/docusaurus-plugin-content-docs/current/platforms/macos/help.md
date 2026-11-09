@@ -3,7 +3,7 @@ title: "Решите проблему — Mac"
 sidebar_label: "Решите проблему"
 description: "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
 pagination_prev: "platforms/macos/automation"
-pagination_next: null
+pagination_next: "platforms/macos/encrypt-password"
 ---
 
 
@@ -28,3 +28,5 @@ pagination_next: null
 | Нет результата Spotlight | Проверьте включение, принадлежность приложению, доступность файла и время индексации. |
 
 Установку пакетными менеджерами, терминальную автоматизацию и автономные политики см. в [руководстве CLI для macOS](../macos-cli.md).
+
+<!-- file-protection-guides -->

@@ -13280,6 +13280,1590 @@
         "en": "Verify the newest accessible signed PDF offline. If none is available, select a PDF in the app.",
         "ru": "Проверьте последний доступный подписанный PDF офлайн. Если его нет, выберите PDF в приложении."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_title",
+      "translations": {
+        "ro": "Protejează fișiere",
+        "en": "Protect files",
+        "ru": "Защита файлов"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_hint",
+      "translations": {
+        "en": "Encrypt or decrypt a file",
+        "ro": "Criptează sau decriptează un fișier",
+        "ru": "Зашифровать или расшифровать файл"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_encrypt",
+      "translations": {
+        "ro": "Criptează",
+        "en": "Encrypt",
+        "ru": "Зашифровать"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_decrypt",
+      "translations": {
+        "ro": "Decriptează",
+        "en": "Decrypt",
+        "ru": "Расшифровать"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_remove",
+      "translations": {
+        "ro": "Elimină fișierul",
+        "en": "Remove file",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_operation",
+      "translations": {
+        "ro": "Acțiune",
+        "en": "Action",
+        "ru": "Действие"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_method",
+      "translations": {
+        "ro": "Protecție",
+        "en": "Protection",
+        "ru": "Защита"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_password",
+      "translations": {
+        "ro": "Parolă",
+        "en": "Password",
+        "ru": "Пароль"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_confirm_password",
+      "translations": {
+        "ro": "Confirmă parola",
+        "en": "Confirm password",
+        "ru": "Повторите пароль"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_certificate",
+      "translations": {
+        "ro": "Certificat / card",
+        "en": "Certificate / card",
+        "ru": "Сертификат / карта"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_choose_file",
+      "translations": {
+        "ro": "Alege un fișier",
+        "en": "Choose a file",
+        "ru": "Выбрать файл"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_choose_certificate",
+      "translations": {
+        "en": "Choose recipient certificate",
+        "ro": "Alege certificatul destinatarului",
+        "ru": "Выбрать сертификат получателя"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_read_card",
+      "translations": {
+        "en": "Read my card",
+        "ro": "Citește cardul meu",
+        "ru": "Прочитать мою карту"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_recipient",
+      "translations": {
+        "ro": "Destinatar",
+        "en": "Recipient",
+        "ru": "Получатель"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_card_pin",
+      "translations": {
+        "ro": "PIN-ul cardului",
+        "en": "Card PIN",
+        "ru": "PIN карты"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_no_key",
+      "translations": {
+        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
+        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
+        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_original",
+      "translations": {
+        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
+        "en": "Your original file stays unchanged. Save the result as a new file.",
+        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_compatibility",
+      "translations": {
+        "en": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.",
+        "ro": "Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.",
+        "ru": "Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_ready",
+      "translations": {
+        "ro": "Gata de salvat",
+        "en": "Ready to save",
+        "ru": "Готово к сохранению"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_save",
+      "translations": {
+        "ro": "Salvează o copie",
+        "en": "Save a copy",
+        "ru": "Сохранить копию"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_saved",
+      "translations": {
+        "ro": "Fișier salvat",
+        "en": "File saved",
+        "ru": "Файл сохранён"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_working",
+      "translations": {
+        "ro": "Se procesează fișierul…",
+        "en": "Processing file…",
+        "ru": "Обработка файла…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_error",
+      "translations": {
+        "ro": "Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat.",
+        "en": "The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept.",
+        "ru": "Не удалось завершить операцию. Проверьте файл, пароль или сертификат шифрования. Исходный файл сохранён."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_mismatch",
+      "translations": {
+        "ro": "Parolele nu coincid",
+        "en": "Passwords do not match",
+        "ru": "Пароли не совпадают"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_removal_warning",
+      "translations": {
+        "ro": "Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă.",
+        "en": "This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone.",
+        "ru": "Выбранный файл будет перезаписан, где это возможно, затем удалён. Данные на SSD, снимки, резервные и другие копии могут сохраниться. Отменить действие нельзя."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_remove_confirm",
+      "translations": {
+        "ro": "Elimini definitiv acest fișier?",
+        "en": "Remove this file permanently?",
+        "ru": "Удалить этот файл безвозвратно?"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_removed",
+      "translations": {
+        "ro": "Fișier eliminat",
+        "en": "File removed",
+        "ru": "Файл удалён"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_remove_unavailable",
+      "translations": {
+        "ro": "Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere.",
+        "en": "Overwrite removal is unavailable for Files providers on this device. Manage the original in Files.",
+        "ru": "Удаление с перезаписью недоступно для файловых провайдеров на этом устройстве. Управляйте оригиналом в приложении «Файлы»."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_password_hint",
+      "translations": {
+        "ro": "Păstrează parola separat. Aceasta nu poate fi recuperată.",
+        "en": "Keep the password separately. It cannot be recovered.",
+        "ru": "Храните пароль отдельно. Восстановить его невозможно."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_pin_failure",
+      "translations": {
+        "ro": "Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou.",
+        "en": "Card authorization failed. Check the PIN and remaining attempts before trying again.",
+        "ru": "Ошибка авторизации карты. Проверьте PIN и оставшиеся попытки перед повтором."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_title",
+      "translations": {
+        "ro": "Protejează fișiere",
+        "en": "Protect files",
+        "ru": "Защита файлов"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_hint",
+      "translations": {
+        "en": "Encrypt or decrypt a file",
+        "ro": "Criptează sau decriptează un fișier",
+        "ru": "Зашифровать или расшифровать файл"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_encrypt",
+      "translations": {
+        "ro": "Criptează",
+        "en": "Encrypt",
+        "ru": "Зашифровать"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_decrypt",
+      "translations": {
+        "ro": "Decriptează",
+        "en": "Decrypt",
+        "ru": "Расшифровать"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_remove",
+      "translations": {
+        "ro": "Elimină fișierul",
+        "en": "Remove file",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_operation",
+      "translations": {
+        "ro": "Acțiune",
+        "en": "Action",
+        "ru": "Действие"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_method",
+      "translations": {
+        "ro": "Protecție",
+        "en": "Protection",
+        "ru": "Защита"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_password",
+      "translations": {
+        "ro": "Parolă",
+        "en": "Password",
+        "ru": "Пароль"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_confirm_password",
+      "translations": {
+        "ro": "Confirmă parola",
+        "en": "Confirm password",
+        "ru": "Повторите пароль"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_certificate",
+      "translations": {
+        "ro": "Certificat / card",
+        "en": "Certificate / card",
+        "ru": "Сертификат / карта"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_choose_file",
+      "translations": {
+        "ro": "Alege un fișier",
+        "en": "Choose a file",
+        "ru": "Выбрать файл"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_choose_certificate",
+      "translations": {
+        "en": "Choose recipient certificate",
+        "ro": "Alege certificatul destinatarului",
+        "ru": "Выбрать сертификат получателя"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_read_card",
+      "translations": {
+        "en": "Read my card",
+        "ro": "Citește cardul meu",
+        "ru": "Прочитать мою карту"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_recipient",
+      "translations": {
+        "ro": "Destinatar",
+        "en": "Recipient",
+        "ru": "Получатель"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_card_pin",
+      "translations": {
+        "ro": "PIN-ul cardului",
+        "en": "Card PIN",
+        "ru": "PIN карты"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_no_key",
+      "translations": {
+        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
+        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
+        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_original",
+      "translations": {
+        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
+        "en": "Your original file stays unchanged. Save the result as a new file.",
+        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_compatibility",
+      "translations": {
+        "en": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.",
+        "ro": "Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.",
+        "ru": "Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_ready",
+      "translations": {
+        "ro": "Gata de salvat",
+        "en": "Ready to save",
+        "ru": "Готово к сохранению"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_save",
+      "translations": {
+        "ro": "Salvează o copie",
+        "en": "Save a copy",
+        "ru": "Сохранить копию"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_saved",
+      "translations": {
+        "ro": "Fișier salvat",
+        "en": "File saved",
+        "ru": "Файл сохранён"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_working",
+      "translations": {
+        "ro": "Se procesează fișierul…",
+        "en": "Processing file…",
+        "ru": "Обработка файла…"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_error",
+      "translations": {
+        "ro": "Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat.",
+        "en": "The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept.",
+        "ru": "Не удалось завершить операцию. Проверьте файл, пароль или сертификат шифрования. Исходный файл сохранён."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_mismatch",
+      "translations": {
+        "ro": "Parolele nu coincid",
+        "en": "Passwords do not match",
+        "ru": "Пароли не совпадают"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_removal_warning",
+      "translations": {
+        "ro": "Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă.",
+        "en": "This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone.",
+        "ru": "Выбранный файл будет перезаписан, где это возможно, затем удалён. Данные на SSD, снимки, резервные и другие копии могут сохраниться. Отменить действие нельзя."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_remove_confirm",
+      "translations": {
+        "ro": "Elimini definitiv acest fișier?",
+        "en": "Remove this file permanently?",
+        "ru": "Удалить этот файл безвозвратно?"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_removed",
+      "translations": {
+        "ro": "Fișier eliminat",
+        "en": "File removed",
+        "ru": "Файл удалён"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_remove_unavailable",
+      "translations": {
+        "ro": "Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere.",
+        "en": "Overwrite removal is unavailable for Files providers on this device. Manage the original in Files.",
+        "ru": "Удаление с перезаписью недоступно для файловых провайдеров на этом устройстве. Управляйте оригиналом в приложении «Файлы»."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_password_hint",
+      "translations": {
+        "ro": "Păstrează parola separat. Aceasta nu poate fi recuperată.",
+        "en": "Keep the password separately. It cannot be recovered.",
+        "ru": "Храните пароль отдельно. Восстановить его невозможно."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_pin_failure",
+      "translations": {
+        "ro": "Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou.",
+        "en": "Card authorization failed. Check the PIN and remaining attempts before trying again.",
+        "ru": "Ошибка авторизации карты. Проверьте PIN и оставшиеся попытки перед повтором."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_title",
+      "translations": {
+        "ro": "Protejează fișiere",
+        "en": "Protect files",
+        "ru": "Защита файлов"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_hint",
+      "translations": {
+        "en": "Encrypt or decrypt a file",
+        "ro": "Criptează sau decriptează un fișier",
+        "ru": "Зашифровать или расшифровать файл"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_encrypt",
+      "translations": {
+        "ro": "Criptează",
+        "en": "Encrypt",
+        "ru": "Зашифровать"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_decrypt",
+      "translations": {
+        "ro": "Decriptează",
+        "en": "Decrypt",
+        "ru": "Расшифровать"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_remove",
+      "translations": {
+        "ro": "Elimină fișierul",
+        "en": "Remove file",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_operation",
+      "translations": {
+        "ro": "Acțiune",
+        "en": "Action",
+        "ru": "Действие"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_method",
+      "translations": {
+        "ro": "Protecție",
+        "en": "Protection",
+        "ru": "Защита"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_password",
+      "translations": {
+        "ro": "Parolă",
+        "en": "Password",
+        "ru": "Пароль"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_confirm_password",
+      "translations": {
+        "ro": "Confirmă parola",
+        "en": "Confirm password",
+        "ru": "Повторите пароль"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_certificate",
+      "translations": {
+        "ro": "Certificat / card",
+        "en": "Certificate / card",
+        "ru": "Сертификат / карта"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_choose_file",
+      "translations": {
+        "ro": "Alege un fișier",
+        "en": "Choose a file",
+        "ru": "Выбрать файл"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_choose_certificate",
+      "translations": {
+        "en": "Choose recipient certificate",
+        "ro": "Alege certificatul destinatarului",
+        "ru": "Выбрать сертификат получателя"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_read_card",
+      "translations": {
+        "en": "Read my card",
+        "ro": "Citește cardul meu",
+        "ru": "Прочитать мою карту"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_recipient",
+      "translations": {
+        "ro": "Destinatar",
+        "en": "Recipient",
+        "ru": "Получатель"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_card_pin",
+      "translations": {
+        "ro": "PIN-ul cardului",
+        "en": "Card PIN",
+        "ru": "PIN карты"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_no_key",
+      "translations": {
+        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
+        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
+        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_original",
+      "translations": {
+        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
+        "en": "Your original file stays unchanged. Save the result as a new file.",
+        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_compatibility",
+      "translations": {
+        "en": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.",
+        "ro": "Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.",
+        "ru": "Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_ready",
+      "translations": {
+        "ro": "Gata de salvat",
+        "en": "Ready to save",
+        "ru": "Готово к сохранению"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_save",
+      "translations": {
+        "ro": "Salvează o copie",
+        "en": "Save a copy",
+        "ru": "Сохранить копию"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_saved",
+      "translations": {
+        "ro": "Fișier salvat",
+        "en": "File saved",
+        "ru": "Файл сохранён"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_working",
+      "translations": {
+        "ro": "Se procesează fișierul…",
+        "en": "Processing file…",
+        "ru": "Обработка файла…"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_error",
+      "translations": {
+        "ro": "Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat.",
+        "en": "The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept.",
+        "ru": "Не удалось завершить операцию. Проверьте файл, пароль или сертификат шифрования. Исходный файл сохранён."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_mismatch",
+      "translations": {
+        "ro": "Parolele nu coincid",
+        "en": "Passwords do not match",
+        "ru": "Пароли не совпадают"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_removal_warning",
+      "translations": {
+        "ro": "Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă.",
+        "en": "This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone.",
+        "ru": "Выбранный файл будет перезаписан, где это возможно, затем удалён. Данные на SSD, снимки, резервные и другие копии могут сохраниться. Отменить действие нельзя."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_remove_confirm",
+      "translations": {
+        "ro": "Elimini definitiv acest fișier?",
+        "en": "Remove this file permanently?",
+        "ru": "Удалить этот файл безвозвратно?"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_removed",
+      "translations": {
+        "ro": "Fișier eliminat",
+        "en": "File removed",
+        "ru": "Файл удалён"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_remove_unavailable",
+      "translations": {
+        "ro": "Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere.",
+        "en": "Overwrite removal is unavailable for Files providers on this device. Manage the original in Files.",
+        "ru": "Удаление с перезаписью недоступно для файловых провайдеров на этом устройстве. Управляйте оригиналом в приложении «Файлы»."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_password_hint",
+      "translations": {
+        "ro": "Păstrează parola separat. Aceasta nu poate fi recuperată.",
+        "en": "Keep the password separately. It cannot be recovered.",
+        "ru": "Храните пароль отдельно. Восстановить его невозможно."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_pin_failure",
+      "translations": {
+        "ro": "Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou.",
+        "en": "Card authorization failed. Check the PIN and remaining attempts before trying again.",
+        "ru": "Ошибка авторизации карты. Проверьте PIN и оставшиеся попытки перед повтором."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_title",
+      "translations": {
+        "ro": "Protejează fișiere",
+        "en": "Protect files",
+        "ru": "Защита файлов"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_hint",
+      "translations": {
+        "en": "Encrypt or decrypt a file",
+        "ro": "Criptează sau decriptează un fișier",
+        "ru": "Зашифровать или расшифровать файл"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_encrypt",
+      "translations": {
+        "ro": "Criptează",
+        "en": "Encrypt",
+        "ru": "Зашифровать"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_decrypt",
+      "translations": {
+        "ro": "Decriptează",
+        "en": "Decrypt",
+        "ru": "Расшифровать"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_remove",
+      "translations": {
+        "ro": "Elimină fișierul",
+        "en": "Remove file",
+        "ru": "Удалить файл"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_operation",
+      "translations": {
+        "ro": "Acțiune",
+        "en": "Action",
+        "ru": "Действие"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_method",
+      "translations": {
+        "ro": "Protecție",
+        "en": "Protection",
+        "ru": "Защита"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_password",
+      "translations": {
+        "ro": "Parolă",
+        "en": "Password",
+        "ru": "Пароль"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_confirm_password",
+      "translations": {
+        "ro": "Confirmă parola",
+        "en": "Confirm password",
+        "ru": "Повторите пароль"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_certificate",
+      "translations": {
+        "ro": "Certificat / card",
+        "en": "Certificate / card",
+        "ru": "Сертификат / карта"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_choose_file",
+      "translations": {
+        "ro": "Alege un fișier",
+        "en": "Choose a file",
+        "ru": "Выбрать файл"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_choose_certificate",
+      "translations": {
+        "en": "Choose recipient certificate",
+        "ro": "Alege certificatul destinatarului",
+        "ru": "Выбрать сертификат получателя"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_read_card",
+      "translations": {
+        "en": "Read my card",
+        "ro": "Citește cardul meu",
+        "ru": "Прочитать мою карту"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_recipient",
+      "translations": {
+        "ro": "Destinatar",
+        "en": "Recipient",
+        "ru": "Получатель"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_card_pin",
+      "translations": {
+        "ro": "PIN-ul cardului",
+        "en": "Card PIN",
+        "ru": "PIN карты"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_no_key",
+      "translations": {
+        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
+        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
+        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_original",
+      "translations": {
+        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
+        "en": "Your original file stays unchanged. Save the result as a new file.",
+        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_compatibility",
+      "translations": {
+        "en": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.",
+        "ro": "Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.",
+        "ru": "Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_ready",
+      "translations": {
+        "ro": "Gata de salvat",
+        "en": "Ready to save",
+        "ru": "Готово к сохранению"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_save",
+      "translations": {
+        "ro": "Salvează o copie",
+        "en": "Save a copy",
+        "ru": "Сохранить копию"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_saved",
+      "translations": {
+        "ro": "Fișier salvat",
+        "en": "File saved",
+        "ru": "Файл сохранён"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_working",
+      "translations": {
+        "ro": "Se procesează fișierul…",
+        "en": "Processing file…",
+        "ru": "Обработка файла…"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_error",
+      "translations": {
+        "ro": "Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat.",
+        "en": "The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept.",
+        "ru": "Не удалось завершить операцию. Проверьте файл, пароль или сертификат шифрования. Исходный файл сохранён."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_mismatch",
+      "translations": {
+        "ro": "Parolele nu coincid",
+        "en": "Passwords do not match",
+        "ru": "Пароли не совпадают"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_removal_warning",
+      "translations": {
+        "ro": "Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă.",
+        "en": "This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone.",
+        "ru": "Выбранный файл будет перезаписан, где это возможно, затем удалён. Данные на SSD, снимки, резервные и другие копии могут сохраниться. Отменить действие нельзя."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_remove_confirm",
+      "translations": {
+        "ro": "Elimini definitiv acest fișier?",
+        "en": "Remove this file permanently?",
+        "ru": "Удалить этот файл безвозвратно?"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_removed",
+      "translations": {
+        "ro": "Fișier eliminat",
+        "en": "File removed",
+        "ru": "Файл удалён"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_remove_unavailable",
+      "translations": {
+        "ro": "Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere.",
+        "en": "Overwrite removal is unavailable for Files providers on this device. Manage the original in Files.",
+        "ru": "Удаление с перезаписью недоступно для файловых провайдеров на этом устройстве. Управляйте оригиналом в приложении «Файлы»."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_password_hint",
+      "translations": {
+        "ro": "Păstrează parola separat. Aceasta nu poate fi recuperată.",
+        "en": "Keep the password separately. It cannot be recovered.",
+        "ru": "Храните пароль отдельно. Восстановить его невозможно."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_pin_failure",
+      "translations": {
+        "ro": "Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou.",
+        "en": "Card authorization failed. Check the PIN and remaining attempts before trying again.",
+        "ru": "Ошибка авторизации карты. Проверьте PIN и оставшиеся попытки перед повтором."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_export_certificate",
+      "translations": {
+        "en": "Export encryption certificate",
+        "ro": "Exportă certificatul de criptare",
+        "ru": "Экспорт сертификата шифрования"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_export_certificate_hint",
+      "translations": {
+        "en": "Share this public certificate so others can encrypt files for you. No PIN or private key is shared.",
+        "ro": "Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.",
+        "ru": "Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_export_certificate",
+      "translations": {
+        "en": "Export encryption certificate",
+        "ro": "Exportă certificatul de criptare",
+        "ru": "Экспорт сертификата шифрования"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_export_certificate_hint",
+      "translations": {
+        "en": "Share this public certificate so others can encrypt files for you. No PIN or private key is shared.",
+        "ro": "Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.",
+        "ru": "Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_export_certificate",
+      "translations": {
+        "en": "Export encryption certificate",
+        "ro": "Exportă certificatul de criptare",
+        "ru": "Экспорт сертификата шифрования"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_export_certificate_hint",
+      "translations": {
+        "en": "Share this public certificate so others can encrypt files for you. No PIN or private key is shared.",
+        "ro": "Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.",
+        "ru": "Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_export_certificate",
+      "translations": {
+        "en": "Export encryption certificate",
+        "ro": "Exportă certificatul de criptare",
+        "ru": "Экспорт сертификата шифрования"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_export_certificate_hint",
+      "translations": {
+        "en": "Share this public certificate so others can encrypt files for you. No PIN or private key is shared.",
+        "ro": "Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.",
+        "ru": "Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_file_step",
+      "translations": {
+        "en": "1. File",
+        "ro": "1. Fișier",
+        "ru": "1. Файл"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_access_step",
+      "translations": {
+        "en": "2. Access method",
+        "ro": "2. Metoda de acces",
+        "ru": "2. Способ доступа"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_help",
+      "translations": {
+        "en": "What do I need?",
+        "ro": "De ce am nevoie?",
+        "ru": "Что потребуется?"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_details",
+      "translations": {
+        "en": "Certificate details and export",
+        "ro": "Detalii și export certificat",
+        "ru": "Сведения и экспорт сертификата"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_password_encrypt_guide",
+      "translations": {
+        "en": "Create a password for this file.",
+        "ro": "Creează o parolă pentru acest fișier.",
+        "ru": "Создайте пароль для этого файла."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_password_decrypt_guide",
+      "translations": {
+        "en": "Enter the password provided by the sender.",
+        "ro": "Introdu parola primită de la expeditor.",
+        "ru": "Введите пароль, полученный от отправителя."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_certificate_encrypt_guide",
+      "translations": {
+        "en": "Choose the recipient’s encryption certificate, or read your own card.",
+        "ro": "Alege certificatul de criptare al destinatarului sau citește propriul card.",
+        "ru": "Выберите сертификат шифрования получателя или прочитайте свою карту."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_certificate_decrypt_guide",
+      "translations": {
+        "en": "Connect the recipient’s card and reader, then read the card.",
+        "ro": "Conectează cardul destinatarului și cititorul, apoi citește cardul.",
+        "ru": "Подключите карту получателя и считыватель, затем прочитайте карту."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_password_encrypt_help",
+      "translations": {
+        "en": "Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.",
+        "ro": "Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.",
+        "ru": "Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_password_decrypt_help",
+      "translations": {
+        "en": "Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.",
+        "ro": "Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.",
+        "ru": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_certificate_encrypt_help",
+      "translations": {
+        "en": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.",
+        "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.",
+        "ru": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_certificate_decrypt_help",
+      "translations": {
+        "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
+        "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
+        "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_file_step",
+      "translations": {
+        "en": "1. File",
+        "ro": "1. Fișier",
+        "ru": "1. Файл"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_access_step",
+      "translations": {
+        "en": "2. Access method",
+        "ro": "2. Metoda de acces",
+        "ru": "2. Способ доступа"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_help",
+      "translations": {
+        "en": "What do I need?",
+        "ro": "De ce am nevoie?",
+        "ru": "Что потребуется?"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_details",
+      "translations": {
+        "en": "Certificate details and export",
+        "ro": "Detalii și export certificat",
+        "ru": "Сведения и экспорт сертификата"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_password_encrypt_guide",
+      "translations": {
+        "en": "Create a password for this file.",
+        "ro": "Creează o parolă pentru acest fișier.",
+        "ru": "Создайте пароль для этого файла."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_password_decrypt_guide",
+      "translations": {
+        "en": "Enter the password provided by the sender.",
+        "ro": "Introdu parola primită de la expeditor.",
+        "ru": "Введите пароль, полученный от отправителя."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_certificate_encrypt_guide",
+      "translations": {
+        "en": "Choose the recipient’s encryption certificate, or read your own card.",
+        "ro": "Alege certificatul de criptare al destinatarului sau citește propriul card.",
+        "ru": "Выберите сертификат шифрования получателя или прочитайте свою карту."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_certificate_decrypt_guide",
+      "translations": {
+        "en": "Connect the recipient’s card and reader, then read the card.",
+        "ro": "Conectează cardul destinatarului și cititorul, apoi citește cardul.",
+        "ru": "Подключите карту получателя и считыватель, затем прочитайте карту."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_password_encrypt_help",
+      "translations": {
+        "en": "Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.",
+        "ro": "Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.",
+        "ru": "Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_password_decrypt_help",
+      "translations": {
+        "en": "Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.",
+        "ro": "Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.",
+        "ru": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_certificate_encrypt_help",
+      "translations": {
+        "en": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.",
+        "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.",
+        "ru": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_certificate_decrypt_help",
+      "translations": {
+        "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
+        "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
+        "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_file_step",
+      "translations": {
+        "en": "1. File",
+        "ro": "1. Fișier",
+        "ru": "1. Файл"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_access_step",
+      "translations": {
+        "en": "2. Access method",
+        "ro": "2. Metoda de acces",
+        "ru": "2. Способ доступа"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_help",
+      "translations": {
+        "en": "What do I need?",
+        "ro": "De ce am nevoie?",
+        "ru": "Что потребуется?"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_details",
+      "translations": {
+        "en": "Certificate details and export",
+        "ro": "Detalii și export certificat",
+        "ru": "Сведения и экспорт сертификата"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_password_encrypt_guide",
+      "translations": {
+        "en": "Create a password for this file.",
+        "ro": "Creează o parolă pentru acest fișier.",
+        "ru": "Создайте пароль для этого файла."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_password_decrypt_guide",
+      "translations": {
+        "en": "Enter the password provided by the sender.",
+        "ro": "Introdu parola primită de la expeditor.",
+        "ru": "Введите пароль, полученный от отправителя."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_certificate_encrypt_guide",
+      "translations": {
+        "en": "Choose the recipient’s encryption certificate, or read your own card.",
+        "ro": "Alege certificatul de criptare al destinatarului sau citește propriul card.",
+        "ru": "Выберите сертификат шифрования получателя или прочитайте свою карту."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_certificate_decrypt_guide",
+      "translations": {
+        "en": "Connect the recipient’s card and reader, then read the card.",
+        "ro": "Conectează cardul destinatarului și cititorul, apoi citește cardul.",
+        "ru": "Подключите карту получателя и считыватель, затем прочитайте карту."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_password_encrypt_help",
+      "translations": {
+        "en": "Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.",
+        "ro": "Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.",
+        "ru": "Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_password_decrypt_help",
+      "translations": {
+        "en": "Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.",
+        "ro": "Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.",
+        "ru": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_certificate_encrypt_help",
+      "translations": {
+        "en": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.",
+        "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.",
+        "ru": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_certificate_decrypt_help",
+      "translations": {
+        "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
+        "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
+        "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_file_step",
+      "translations": {
+        "en": "1. File",
+        "ro": "1. Fișier",
+        "ru": "1. Файл"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_access_step",
+      "translations": {
+        "en": "2. Access method",
+        "ro": "2. Metoda de acces",
+        "ru": "2. Способ доступа"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_help",
+      "translations": {
+        "en": "What do I need?",
+        "ro": "De ce am nevoie?",
+        "ru": "Что потребуется?"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_details",
+      "translations": {
+        "en": "Certificate details and export",
+        "ro": "Detalii și export certificat",
+        "ru": "Сведения и экспорт сертификата"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_password_encrypt_guide",
+      "translations": {
+        "en": "Create a password for this file.",
+        "ro": "Creează o parolă pentru acest fișier.",
+        "ru": "Создайте пароль для этого файла."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_password_decrypt_guide",
+      "translations": {
+        "en": "Enter the password provided by the sender.",
+        "ro": "Introdu parola primită de la expeditor.",
+        "ru": "Введите пароль, полученный от отправителя."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_certificate_encrypt_guide",
+      "translations": {
+        "en": "Choose the recipient’s encryption certificate, or read your own card.",
+        "ro": "Alege certificatul de criptare al destinatarului sau citește propriul card.",
+        "ru": "Выберите сертификат шифрования получателя или прочитайте свою карту."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_certificate_decrypt_guide",
+      "translations": {
+        "en": "Connect the recipient’s card and reader, then read the card.",
+        "ro": "Conectează cardul destinatarului și cititorul, apoi citește cardul.",
+        "ru": "Подключите карту получателя и считыватель, затем прочитайте карту."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_password_encrypt_help",
+      "translations": {
+        "en": "Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.",
+        "ro": "Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.",
+        "ru": "Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_password_decrypt_help",
+      "translations": {
+        "en": "Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.",
+        "ro": "Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.",
+        "ru": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_certificate_encrypt_help",
+      "translations": {
+        "en": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.",
+        "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.",
+        "ru": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_certificate_decrypt_help",
+      "translations": {
+        "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
+        "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
+        "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
+      }
     }
   ],
   "storeMetadata": {
@@ -13289,7 +14873,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "Secțiunea Despre include acum Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
+      "releaseNotes": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -13305,11 +14889,11 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "Widgeturi noi pe ecranul principal pentru verificarea PDF și acces la documentele semnate recent. Acțiuni rapide din pictograma aplicației. Siri și Scurtături pot deschide selectorul de fișiere când nu este furnizat un PDF și includ acțiuni pentru ultimele documente semnate. Secțiunea Despre include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
-        "macos": "Acțiuni Siri și Scurtături îmbunătățite: alege un PDF în aplicație când nu este furnizat un fișier, deschide ultimul document semnat sau verifică ultimul PDF semnat. Expresii localizate și gestionarea anulării îmbunătățite. Secțiunea Despre include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
-        "android": "Widget nou pe ecranul principal și acțiuni rapide din pictograma aplicației pentru verificarea PDF, pregătirea semnării și Documente. Aplicarea imediată a limbii și temei a fost corectată. Secțiunea Despre permite derularea și include Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
-        "windows": "Secțiunea Despre include acum Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea.",
-        "linux": "Secțiunea Despre include acum Termeni și condiții, Politica de confidențialitate și informații privind responsabilitatea."
+        "ios": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat.",
+        "macos": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat. Eliminarea fișierelor locale acceptate este disponibilă cu confirmare explicită; nu garantează ștergerea urmelor de pe SSD sau a copiilor de rezervă.",
+        "android": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat.",
+        "windows": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat. Eliminarea fișierelor locale acceptate este disponibilă cu confirmare explicită; nu garantează ștergerea urmelor de pe SSD sau a copiilor de rezervă.",
+        "linux": "Protejează fișiere din Documente: criptează și decriptează cu parolă sau cu un certificat și card de criptare compatibil. Exportă certificatul public de criptare pentru a-l transmite expeditorului. Formulare mai clare explică cerințele și păstrează fișierul original neschimbat. Eliminarea fișierelor locale acceptate este disponibilă cu confirmare explicită; nu garantează ștergerea urmelor de pe SSD sau a copiilor de rezervă."
       }
     },
     "en": {
@@ -13318,7 +14902,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
+      "releaseNotes": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -13334,11 +14918,11 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "New Home Screen widgets provide quick access to PDF verification and recent signed documents. Added app-icon quick actions. Siri and Shortcuts can open the file picker when no PDF is supplied, and offer actions for your latest signed documents. About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
-        "macos": "Improved Siri and Shortcuts actions: choose a PDF in the app when no file is supplied, open your latest signed document, or verify your latest signed PDF. Improved localized shortcut phrases and cancellation handling. About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
-        "android": "New Home Screen widget and app-icon shortcuts provide quick access to PDF verification, signing preparation and Documents. Fixed immediate language and theme updates. About now scrolls and includes Terms & Conditions, Privacy Policy and disclaimer information.",
-        "windows": "About now includes Terms & Conditions, Privacy Policy and disclaimer information.",
-        "linux": "About now includes Terms & Conditions, Privacy Policy and disclaimer information."
+        "ios": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged.",
+        "macos": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged. Desktop file removal is available for supported local files with explicit confirmation; it does not guarantee erasure of SSD remnants or backups.",
+        "android": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged.",
+        "windows": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged. Desktop file removal is available for supported local files with explicit confirmation; it does not guarantee erasure of SSD remnants or backups.",
+        "linux": "Protect files from Documents: encrypt and decrypt using a password or a compatible encryption certificate and card. Export your public encryption certificate to share with a sender. Clearer step-by-step forms explain what you need and keep the original file unchanged. Desktop file removal is available for supported local files with explicit confirmation; it does not guarantee erasure of SSD remnants or backups."
       }
     },
     "ru": {
@@ -13347,7 +14931,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
+      "releaseNotes": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -13363,11 +14947,11 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "Новые виджеты главного экрана для проверки PDF и доступа к недавно подписанным документам. Добавлены быстрые действия через значок приложения. Siri и Команды открывают выбор файла, если PDF не указан, и предлагают действия с последними подписанными документами. В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
-        "macos": "Улучшены действия Siri и Команд: выбор PDF в приложении, если файл не указан, открытие последнего подписанного документа и проверка последнего подписанного PDF. Улучшены локализованные фразы и обработка отмены. В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
-        "android": "Новый виджет главного экрана и быстрые действия через значок приложения для проверки PDF, подготовки к подписанию и доступа к документам. Исправлено немедленное применение языка и темы. Раздел «О приложении» теперь прокручивается и содержит условия использования, политику конфиденциальности и информацию об ответственности.",
-        "windows": "В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности.",
-        "linux": "В разделе «О приложении» добавлены условия использования, политика конфиденциальности и информация об ответственности."
+        "ios": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл.",
+        "macos": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл. Удаление поддерживаемых локальных файлов требует явного подтверждения; стирание остатков на SSD или резервных копий не гарантируется.",
+        "android": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл.",
+        "windows": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл. Удаление поддерживаемых локальных файлов требует явного подтверждения; стирание остатков на SSD или резервных копий не гарантируется.",
+        "linux": "Защищайте файлы в разделе Документы: шифруйте и расшифровывайте паролем или совместимым сертификатом и картой шифрования. Экспортируйте открытый сертификат шифрования для отправителя. Понятные пошаговые формы объясняют требования и сохраняют исходный файл. Удаление поддерживаемых локальных файлов требует явного подтверждения; стирание остатков на SSD или резервных копий не гарантируется."
       }
     }
   },

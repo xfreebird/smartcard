@@ -3,7 +3,7 @@ title: "Решите проблему — Windows"
 sidebar_label: "Решите проблему"
 description: "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
 pagination_prev: "platforms/windows/approval"
-pagination_next: null
+pagination_next: "platforms/windows/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';

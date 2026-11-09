@@ -363,6 +363,50 @@ enum L10n {
         case about_privacy
         case about_disclaimer
         case about_disclaimer_body
+        case protect_title
+        case protect_hint
+        case protect_encrypt
+        case protect_decrypt
+        case protect_remove
+        case protect_operation
+        case protect_method
+        case protect_password
+        case protect_confirm_password
+        case protect_certificate
+        case protect_choose_file
+        case protect_choose_certificate
+        case protect_read_card
+        case protect_recipient
+        case protect_card_pin
+        case protect_no_key
+        case protect_original
+        case protect_compatibility
+        case protect_ready
+        case protect_save
+        case protect_saved
+        case protect_working
+        case protect_error
+        case protect_mismatch
+        case protect_removal_warning
+        case protect_remove_confirm
+        case protect_removed
+        case protect_remove_unavailable
+        case protect_password_hint
+        case protect_pin_failure
+        case protect_export_certificate
+        case protect_export_certificate_hint
+        case protect_file_step
+        case protect_access_step
+        case protect_help
+        case protect_details
+        case protect_password_encrypt_guide
+        case protect_password_decrypt_guide
+        case protect_certificate_encrypt_guide
+        case protect_certificate_decrypt_guide
+        case protect_password_encrypt_help
+        case protect_password_decrypt_help
+        case protect_certificate_encrypt_help
+        case protect_certificate_decrypt_help
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2171,6 +2215,226 @@ enum L10n {
     "ro": "eSemnBun este un proiect independent, neafiliat Guvernului Republicii Moldova sau STISC. Nu emite certificate și nu oferă consultanță juridică. Consultă termenii pentru informații despre garanții, responsabilități și riscuri.",
     "en": "eSemnBun is an independent project, not affiliated with the Government of Moldova or STISC. It does not issue certificates or provide legal advice. See the terms for warranties, responsibilities and risks.",
     "ru": "eSemnBun — независимый проект, не связанный с Правительством Молдовы или STISC. Он не выдаёт сертификаты и не предоставляет юридических консультаций. Гарантии, обязанности и риски описаны в условиях использования."
+  },
+  "protect_title": {
+    "ro": "Protejează fișiere",
+    "en": "Protect files",
+    "ru": "Защита файлов"
+  },
+  "protect_hint": {
+    "en": "Encrypt or decrypt a file",
+    "ro": "Criptează sau decriptează un fișier",
+    "ru": "Зашифровать или расшифровать файл"
+  },
+  "protect_encrypt": {
+    "ro": "Criptează",
+    "en": "Encrypt",
+    "ru": "Зашифровать"
+  },
+  "protect_decrypt": {
+    "ro": "Decriptează",
+    "en": "Decrypt",
+    "ru": "Расшифровать"
+  },
+  "protect_remove": {
+    "ro": "Elimină fișierul",
+    "en": "Remove file",
+    "ru": "Удалить файл"
+  },
+  "protect_operation": {
+    "ro": "Acțiune",
+    "en": "Action",
+    "ru": "Действие"
+  },
+  "protect_method": {
+    "ro": "Protecție",
+    "en": "Protection",
+    "ru": "Защита"
+  },
+  "protect_password": {
+    "ro": "Parolă",
+    "en": "Password",
+    "ru": "Пароль"
+  },
+  "protect_confirm_password": {
+    "ro": "Confirmă parola",
+    "en": "Confirm password",
+    "ru": "Повторите пароль"
+  },
+  "protect_certificate": {
+    "ro": "Certificat / card",
+    "en": "Certificate / card",
+    "ru": "Сертификат / карта"
+  },
+  "protect_choose_file": {
+    "ro": "Alege un fișier",
+    "en": "Choose a file",
+    "ru": "Выбрать файл"
+  },
+  "protect_choose_certificate": {
+    "en": "Choose recipient certificate",
+    "ro": "Alege certificatul destinatarului",
+    "ru": "Выбрать сертификат получателя"
+  },
+  "protect_read_card": {
+    "en": "Read my card",
+    "ro": "Citește cardul meu",
+    "ru": "Прочитать мою карту"
+  },
+  "protect_recipient": {
+    "ro": "Destinatar",
+    "en": "Recipient",
+    "ru": "Получатель"
+  },
+  "protect_card_pin": {
+    "ro": "PIN-ul cardului",
+    "en": "Card PIN",
+    "ru": "PIN карты"
+  },
+  "protect_no_key": {
+    "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
+    "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
+    "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+  },
+  "protect_original": {
+    "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
+    "en": "Your original file stays unchanged. Save the result as a new file.",
+    "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+  },
+  "protect_compatibility": {
+    "en": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.",
+    "ro": "Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.",
+    "ru": "Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием."
+  },
+  "protect_ready": {
+    "ro": "Gata de salvat",
+    "en": "Ready to save",
+    "ru": "Готово к сохранению"
+  },
+  "protect_save": {
+    "ro": "Salvează o copie",
+    "en": "Save a copy",
+    "ru": "Сохранить копию"
+  },
+  "protect_saved": {
+    "ro": "Fișier salvat",
+    "en": "File saved",
+    "ru": "Файл сохранён"
+  },
+  "protect_working": {
+    "ro": "Se procesează fișierul…",
+    "en": "Processing file…",
+    "ru": "Обработка файла…"
+  },
+  "protect_error": {
+    "ro": "Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat.",
+    "en": "The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept.",
+    "ru": "Не удалось завершить операцию. Проверьте файл, пароль или сертификат шифрования. Исходный файл сохранён."
+  },
+  "protect_mismatch": {
+    "ro": "Parolele nu coincid",
+    "en": "Passwords do not match",
+    "ru": "Пароли не совпадают"
+  },
+  "protect_removal_warning": {
+    "ro": "Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă.",
+    "en": "This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone.",
+    "ru": "Выбранный файл будет перезаписан, где это возможно, затем удалён. Данные на SSD, снимки, резервные и другие копии могут сохраниться. Отменить действие нельзя."
+  },
+  "protect_remove_confirm": {
+    "ro": "Elimini definitiv acest fișier?",
+    "en": "Remove this file permanently?",
+    "ru": "Удалить этот файл безвозвратно?"
+  },
+  "protect_removed": {
+    "ro": "Fișier eliminat",
+    "en": "File removed",
+    "ru": "Файл удалён"
+  },
+  "protect_remove_unavailable": {
+    "ro": "Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere.",
+    "en": "Overwrite removal is unavailable for Files providers on this device. Manage the original in Files.",
+    "ru": "Удаление с перезаписью недоступно для файловых провайдеров на этом устройстве. Управляйте оригиналом в приложении «Файлы»."
+  },
+  "protect_password_hint": {
+    "ro": "Păstrează parola separat. Aceasta nu poate fi recuperată.",
+    "en": "Keep the password separately. It cannot be recovered.",
+    "ru": "Храните пароль отдельно. Восстановить его невозможно."
+  },
+  "protect_pin_failure": {
+    "ro": "Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou.",
+    "en": "Card authorization failed. Check the PIN and remaining attempts before trying again.",
+    "ru": "Ошибка авторизации карты. Проверьте PIN и оставшиеся попытки перед повтором."
+  },
+  "protect_export_certificate": {
+    "en": "Export encryption certificate",
+    "ro": "Exportă certificatul de criptare",
+    "ru": "Экспорт сертификата шифрования"
+  },
+  "protect_export_certificate_hint": {
+    "en": "Share this public certificate so others can encrypt files for you. No PIN or private key is shared.",
+    "ro": "Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.",
+    "ru": "Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются."
+  },
+  "protect_file_step": {
+    "en": "1. File",
+    "ro": "1. Fișier",
+    "ru": "1. Файл"
+  },
+  "protect_access_step": {
+    "en": "2. Access method",
+    "ro": "2. Metoda de acces",
+    "ru": "2. Способ доступа"
+  },
+  "protect_help": {
+    "en": "What do I need?",
+    "ro": "De ce am nevoie?",
+    "ru": "Что потребуется?"
+  },
+  "protect_details": {
+    "en": "Certificate details and export",
+    "ro": "Detalii și export certificat",
+    "ru": "Сведения и экспорт сертификата"
+  },
+  "protect_password_encrypt_guide": {
+    "en": "Create a password for this file.",
+    "ro": "Creează o parolă pentru acest fișier.",
+    "ru": "Создайте пароль для этого файла."
+  },
+  "protect_password_decrypt_guide": {
+    "en": "Enter the password provided by the sender.",
+    "ro": "Introdu parola primită de la expeditor.",
+    "ru": "Введите пароль, полученный от отправителя."
+  },
+  "protect_certificate_encrypt_guide": {
+    "en": "Choose the recipient’s encryption certificate, or read your own card.",
+    "ro": "Alege certificatul de criptare al destinatarului sau citește propriul card.",
+    "ru": "Выберите сертификат шифрования получателя или прочитайте свою карту."
+  },
+  "protect_certificate_decrypt_guide": {
+    "en": "Connect the recipient’s card and reader, then read the card.",
+    "ro": "Conectează cardul destinatarului și cititorul, apoi citește cardul.",
+    "ru": "Подключите карту получателя и считыватель, затем прочитайте карту."
+  },
+  "protect_password_encrypt_help": {
+    "en": "Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.",
+    "ro": "Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.",
+    "ru": "Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна."
+  },
+  "protect_password_decrypt_help": {
+    "en": "Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.",
+    "ro": "Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.",
+    "ru": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
+  },
+  "protect_certificate_encrypt_help": {
+    "en": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.",
+    "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.",
+    "ru": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+  },
+  "protect_certificate_decrypt_help": {
+    "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
+    "ro": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.",
+    "ru": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
   }
 }
 """#.utf8)

@@ -34,6 +34,7 @@
                 </StackPanel>
             </Button>
         </Grid>
+            <Button x:Name="ProtectButton" Click="OnProtectClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" />
             <ComboBox x:Name="DocumentFilter" SelectionChanged="OnFilterChanged" SelectedIndex="0" HorizontalAlignment="Stretch">
                 <ComboBoxItem x:Name="SignedFilter" />
                 <ComboBoxItem x:Name="HistoryFilter" />

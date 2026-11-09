@@ -133,3 +133,9 @@ Flags: Debug `MOLDSIGN_DEMO` binary, `MSIGN_SCREENSHOT_CAPTURE=1`, `MSIGN_DEMO_L
 Android source specifically sets `rememberAvailable = false` in `ui/MoldSignRoot.kt` with TODO(AND-06): a platform vault abstraction is not a shipped saved-PIN UI. Android General now includes per-app language/theme, browser stamps and selected-card PIN removal, alongside Demo/About. New PIN retention is still unavailable.
 
 Windows source verification: `CliApp.Run` explicitly dispatches `mcp` to `McpHost`; normal command dispatch remains partial. `CliApp` capability writer advertises `mcpServerAvailable:true`, so the older JSON example in `spec/cli.md` saying false is stale. `McpServer` now exposes `prepare_signing`, `get_job` and `cancel_job` when a private desktop broker is configured, plus verification and explicit unattended signing. Native approval is separate from ordinary CLI sign command support.
+
+## File protection — 9 November 2026
+
+Added five discoverable goals: password encryption, encryption for a certificate holder, password/card decryption, public encryption-certificate sharing, and local file removal. Each has EN/RO/RU numbered guides for Mac, Windows, Linux and their CLI tools. iPhone, iPad and Android phone/tablet cover the first four; removal is unavailable on mobile.
+
+Reused the refreshed native v2 captures with external callout gutters. The capture language is explicitly identified in every caption; translated text does not imply a translated screenshot. `file-protection-evidence.json` records native locale, source and hashes. Card discovery/export completion and card decryption remain textual instructions from source, not runtime success evidence. CLI panels are explicitly instructional command illustrations.

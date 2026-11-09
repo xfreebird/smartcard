@@ -3,7 +3,7 @@ title: "Rezolvă o problemă — iPhone"
 sidebar_label: "Rezolvă o problemă"
 description: "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune."
 pagination_prev: "platforms/ios/automation"
-pagination_next: null
+pagination_next: "platforms/ios/encrypt-password"
 ---
 
 

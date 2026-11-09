@@ -174,3 +174,56 @@ Linux folosește un browser extern; nu include browserul integrat și managerul 
 ## Rezolvă problemele în siguranță
 
 Fără cititor: verifică PC/SC, CCID, cablul și adaptorul. Cititor gol: introdu cardul și așteaptă. Titular greșit: alege cardul înainte de PIN. PIN incorect/blocat: oprește-te și contactează furnizorul când este necesar; aplicația nu îl poate debloca. Fișier indisponibil: selectează fișierul curent. Original lipsă: restabilește originalul nemodificat lângă XML. Pentru suport folosește exemple fictive și nu trimite PIN, documente confidențiale sau datele complete ale actului.
+
+<!-- file-protection-guides -->
+
+
+## Criptează un fișier cu parolă
+
+Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+
+Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 37, "y": 30, "text": "Alege Criptează."}, {"x": 40, "y": 41, "text": "Alege fișierul sursă."}, {"x": 40, "y": 59, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50, "y": 77, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+
+
+## Criptează pentru titularul unui certificat
+
+Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+
+Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 37, "y": 30, "text": "Alege Criptează."}, {"x": 40, "y": 41, "text": "Alege fișierul sursă."}, {"x": 38, "y": 50, "text": "Alege Certificat/card."}, {"x": 45, "y": 59, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50, "y": 77, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+
+
+## Decriptează un fișier primit
+
+Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+
+Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 37, "y": 30, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 40, "y": 59, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50, "y": 77, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+
+Pentru decriptare cu cardul: alege Certificat/card, apoi Citește cardul meu. Selectează identitatea de criptare corespunzătoare, verifică detaliile, introdu PIN-ul și alege Decriptează. Salvează cu un nume nou. Dacă nu apare o identitate compatibilă, cere o copie criptată cu parolă. Oprește-te după o eroare PIN; nu reîncerca automat.
+
+Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
+
+
+## Distribuie certificatul tău de criptare
+
+Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+
+Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 38, "y": 50, "text": "Alege Certificat/card."}, {"x": 45, "y": 64, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
+
+După citire, selectează identitatea dorită și extinde Detalii certificat. Alege Exportă certificatul de criptare, salvează fișierul .cer și transmite-l expeditorului. Compară amprenta separat. Se exportă numai certificatul public; cheia privată rămâne pe card. Captura arată ecranul inițial, înainte de citire.
+
+
+## Elimină un fișier local
+
+Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+
+Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" caption="Interfață nativă în engleză; date fictive. Înainte de finalizare." steps={[{"x": 37, "y": 30, "text": "Alege Elimină fișierul."}, {"x": 40, "y": 41, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50, "y": 77, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />

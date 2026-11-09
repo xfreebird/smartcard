@@ -3,7 +3,7 @@ title: "Настройте подпись без присутствия — Wind
 sidebar_label: "Настройте подпись без присутствия"
 description: "Закрепите сертификат, выберите источник секрета и ограничьте вывод."
 pagination_prev: "platforms/windows-cli/mcp"
-pagination_next: null
+pagination_next: "platforms/windows-cli/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -40,3 +40,5 @@ macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` или `onepass
 ---
 
 Расширенная справка: macOS/Linux также дают `sign-hex <digestinfo_hex>` и `cms-for-hash <sha256_hex>`; Windows только sign-hex. Это инструменты разработчика, не подпись документов. Для поддержки укажите версии приложения/ОС, команду без секретов, код и вымышленный пример. Не прикладывайте PIN или конфиденциальные файлы.
+
+<!-- file-protection-guides -->

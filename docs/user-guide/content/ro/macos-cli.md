@@ -152,3 +152,72 @@ esemnbun server
 ---
 
 Referință avansată: macOS/Linux oferă și `sign-hex <digestinfo_hex>`, `cms-for-hash <sha256_hex>`; Windows doar sign-hex. Sunt primitive pentru dezvoltatori, nu semnare de documente. Pentru suport trimite versiunea aplicației/sistemului, comanda fără secrete, codul și un exemplu fictiv. Nu atașa PIN sau documente confidențiale.
+
+<!-- file-protection-guides -->
+
+## Criptează un fișier cu parolă
+
+Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
+
+Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
+
+<GuideScreenshot src="/img/guide/macos-cli/ro/protect-password.svg" alt="Criptează un fișier cu parolă" steps={[{"x": 20, "y": 25, "text": "Rulează comanda cu propriile fișiere. Folosește o cale nouă pentru rezultat. Introdu secretele numai în solicitarea ascunsă; înlocuiește SHA256 cu amprenta completă a certificatului de criptare."}]} />
+
+```sh
+esemnbun encrypt Contract.pdf Contract.enc
+```
+
+## Criptează pentru titularul unui certificat
+
+Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
+
+Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
+
+<GuideScreenshot src="/img/guide/macos-cli/ro/protect-certificate.svg" alt="Criptează pentru titularul unui certificat" steps={[{"x": 20, "y": 25, "text": "Rulează comanda cu propriile fișiere. Folosește o cale nouă pentru rezultat. Introdu secretele numai în solicitarea ascunsă; înlocuiește SHA256 cu amprenta completă a certificatului de criptare."}]} />
+
+```sh
+esemnbun encrypt Contract.pdf Contract.enc --certificate recipient.cer
+```
+
+## Decriptează un fișier primit
+
+Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
+
+Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
+
+<GuideScreenshot src="/img/guide/macos-cli/ro/protect-decrypt.svg" alt="Decriptează un fișier primit" steps={[{"x": 20, "y": 25, "text": "Rulează comanda cu propriile fișiere. Folosește o cale nouă pentru rezultat. Introdu secretele numai în solicitarea ascunsă; înlocuiește SHA256 cu amprenta completă a certificatului de criptare."}]} />
+
+```sh
+esemnbun decrypt Contract.enc Contract-opened.pdf
+esemnbun encryption-certs
+esemnbun decrypt Contract.enc Contract-opened.pdf --card SHA256
+```
+
+Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
+
+## Distribuie certificatul tău de criptare
+
+Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
+
+Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
+
+<GuideScreenshot src="/img/guide/macos-cli/ro/protect-export.svg" alt="Distribuie certificatul tău de criptare" steps={[{"x": 20, "y": 25, "text": "Rulează comanda cu propriile fișiere. Folosește o cale nouă pentru rezultat. Introdu secretele numai în solicitarea ascunsă; înlocuiește SHA256 cu amprenta completă a certificatului de criptare."}]} />
+
+```sh
+esemnbun encryption-certs
+esemnbun encryption-certs --card SHA256 --out recipient.cer
+```
+
+Distribuie numai recipient.cer; exportul nu cere PIN și nu exportă cheia privată.
+
+## Elimină un fișier local
+
+Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
+
+Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
+
+<GuideScreenshot src="/img/guide/macos-cli/ro/protect-remove.svg" alt="Elimină un fișier local" steps={[{"x": 20, "y": 25, "text": "Rulează comanda cu propriile fișiere. Folosește o cale nouă pentru rezultat. Introdu secretele numai în solicitarea ascunsă; înlocuiește SHA256 cu amprenta completă a certificatului de criptare."}]} />
+
+```sh
+esemnbun remove-file disposable-copy.pdf --confirm-removal
+```

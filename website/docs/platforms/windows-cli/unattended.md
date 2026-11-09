@@ -3,7 +3,7 @@ title: "Configure unattended signing — Windows · Command line (CLI)"
 sidebar_label: "Configure unattended signing"
 description: "Pin the certificate, choose a secret provider and restrict output."
 pagination_prev: "platforms/windows-cli/mcp"
-pagination_next: null
+pagination_next: "platforms/windows-cli/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -40,3 +40,5 @@ Before signing, the helper creates `.unattended-signing-lock` in the output dire
 ---
 
 Advanced reference: macOS/Linux also expose `sign-hex <digestinfo_hex>` and `cms-for-hash <sha256_hex>`; Windows has sign-hex only. These are developer primitives, not document signing. Read the CLI contract before using them. For support include app/OS version, command without secrets, exit code and a fictional reproducer. Never attach PINs or confidential files.
+
+<!-- file-protection-guides -->

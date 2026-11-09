@@ -46,19 +46,28 @@ class SecureChannel(sessEnc: ByteArray, sessMac: ByteArray, ssc: ByteArray) {
         val p1 = apdu[2]
         val p2 = apdu[3]
 
-        // Parse the original body exactly like the Swift reference.
         val body = apdu.copyOfRange(4, apdu.size)
         var cmdData = ByteArray(0)
-        var le: Byte? = null
-        if (body.size == 1) {
-            // Case 2: CLA INS P1 P2 Le. Never read body[0] as Lc here (docs/01).
-            le = body[0]
+        var le: ByteArray? = null
+        val extended = body.size > 1 && body[0] == 0.toByte()
+        if (body.size == 1) le = body
+        else if (extended) {
+            require(body.size >= 3)
+            if (body.size == 3) le = body.copyOfRange(1,3)
+            else {
+                val count = body.u8(1) * 256 + body.u8(2)
+                require(count > 0 && (body.size == count+3 || body.size == count+5))
+                cmdData = body.copyOfRange(3,3+count)
+                if (body.size == count+5) le = body.copyOfRange(body.size-2,body.size)
+            }
         } else if (body.size > 1) {
-            val lc = body.u8(0)
-            if (lc > 0 && 1 + lc <= body.size) cmdData = body.copyOfRange(1, 1 + lc)
-            if (body.size > 1 + lc) le = body[body.size - 1]
+            val count = body.u8(0)
+            require(body.size == count+1 || body.size == count+2)
+            cmdData = body.copyOfRange(1,1+count)
+            if (body.size == count+2) le = byteArrayOf(body.last())
         }
 
+        require(cmdData.size <= 65488) { "Secure APDU payload too large" }
         val ssc1 = incrementSsc()
 
         val macInput = ByteArrayOutputStream()
@@ -74,7 +83,7 @@ class SecureChannel(sessEnc: ByteArray, sessMac: ByteArray, ssc: ByteArray) {
         }
 
         if (le != null) {
-            val tlv = tlv(0x97, byteArrayOf(le))
+            val tlv = tlv(0x97, le)
             macInput.write(tlv)
             dataField.write(tlv)
         }
@@ -83,11 +92,13 @@ class SecureChannel(sessEnc: ByteArray, sessMac: ByteArray, ssc: ByteArray) {
         dataField.write(tlv(0x8E, mac))
 
         val fields = dataField.toByteArray()
-        require(fields.size <= 0xFF) { "SM body too long for a short APDU (${fields.size} B)" }
-        val out = ByteArrayOutputStream(fields.size + 6)
-        out.write(byteArrayOf(cla, ins, p1, p2, fields.size.toByte()))
-        out.write(fields)
-        out.write(0x00) // the vendor Lua driver always appends Le=00
+        require(fields.size <= 65535)
+        val out = ByteArrayOutputStream(fields.size + 9)
+        out.write(byteArrayOf(cla, ins, p1, p2))
+        if (extended || fields.size > 255) {
+            out.write(byteArrayOf(0,(fields.size ushr 8).toByte(),fields.size.toByte()))
+            out.write(fields); out.write(byteArrayOf(0,0))
+        } else { out.write(fields.size); out.write(fields); out.write(0) }
         return out.toByteArray()
     }
 

@@ -3,7 +3,7 @@ title: "Fix a problem — Android phone"
 sidebar_label: "Fix a problem"
 description: "Resolve reader, PIN, document and connection problems safely."
 pagination_prev: "platforms/android/preferences"
-pagination_next: null
+pagination_next: "platforms/android/encrypt-password"
 ---
 
 
@@ -26,3 +26,5 @@ Resolve reader, PIN, document and connection problems safely.
 | Website login/download problem | Check the address and connection. Signed-in browser downloads may need an external browser. |
 
 For background on result meanings, see [Signing and verification](/docs/signing). For reader and adapter choices, see [Devices](/devices).
+
+<!-- file-protection-guides -->

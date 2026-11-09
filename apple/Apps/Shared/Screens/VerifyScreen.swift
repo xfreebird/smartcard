@@ -277,6 +277,7 @@ private struct SignatureSection: View {
 
 struct ActivityScreen: View {
     @Environment(AppModel.self) private var model
+    @State private var protecting = false
     @State private var confirmClear = false
     @State private var history = false
     @State private var selectedDocument: ActivityItem?
@@ -289,6 +290,18 @@ struct ActivityScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            Button { protecting = true } label: {
+                HStack {
+                    Image(systemName: "lock.doc").font(.title2)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(L10n.text(.protect_title)).font(.headline)
+                        Text(L10n.text(.protect_hint)).font(.caption).foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                }.padding(12).frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
+            }.buttonStyle(.bordered).padding([.horizontal,.top])
+                .accessibilityIdentifier("documents.protectFiles")
             HStack {
             Picker(L10n.text(.saved_title), selection: $history) {
                 Text(L10n.text(.saved_signed)).tag(false)
@@ -350,6 +363,7 @@ struct ActivityScreen: View {
                     prompt: L10n.text(.discovery_search))
         .onChange(of: documentNavigation.documentSearch) { _, _ in history = false }
         .onChange(of: documentNavigation.documentSearchGeneration) { _, _ in history = false }
+        .sheet(isPresented: $protecting) { FileProtectionScreen().environment(model).appPreferences() }
         .sheet(item: $selectedDocument) { item in
             if let url = item.fileURL {
                 SavedDocumentDetails(url: url).environment(model).appPreferences()
@@ -366,6 +380,7 @@ struct ActivityScreen: View {
             #if DEBUG
             if model.isScreenshotCapture {
                 let scenario = ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? ""
+                protecting = scenario.hasPrefix("protect-")
                 history = scenario.hasPrefix("history-")
                 if scenario.hasPrefix("documents-details-") { selectedDocument = model.savedDocuments.first }
             }

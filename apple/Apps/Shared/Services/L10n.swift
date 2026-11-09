@@ -411,6 +411,50 @@ enum L10n {
         case shortcut_open_latest_description
         case shortcut_verify_latest
         case shortcut_verify_latest_description
+        case protect_title
+        case protect_hint
+        case protect_encrypt
+        case protect_decrypt
+        case protect_remove
+        case protect_operation
+        case protect_method
+        case protect_password
+        case protect_confirm_password
+        case protect_certificate
+        case protect_choose_file
+        case protect_choose_certificate
+        case protect_read_card
+        case protect_recipient
+        case protect_card_pin
+        case protect_no_key
+        case protect_original
+        case protect_compatibility
+        case protect_ready
+        case protect_save
+        case protect_saved
+        case protect_working
+        case protect_error
+        case protect_mismatch
+        case protect_removal_warning
+        case protect_remove_confirm
+        case protect_removed
+        case protect_remove_unavailable
+        case protect_password_hint
+        case protect_pin_failure
+        case protect_export_certificate
+        case protect_export_certificate_hint
+        case protect_file_step
+        case protect_access_step
+        case protect_help
+        case protect_details
+        case protect_password_encrypt_guide
+        case protect_password_decrypt_guide
+        case protect_certificate_encrypt_guide
+        case protect_certificate_decrypt_guide
+        case protect_password_encrypt_help
+        case protect_password_decrypt_help
+        case protect_certificate_encrypt_help
+        case protect_certificate_decrypt_help
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

@@ -1,247 +1,247 @@
 {
   "overviews": 30,
-  "taskPages": 231,
-  "panels": 546,
+  "taskPages": 369,
+  "panels": 684,
   "coverage": [
     {
       "platform": "macos",
       "locale": "en",
-      "topics": 9,
-      "panels": 21,
-      "originalSections": 27,
-      "redirects": 27
+      "topics": 14,
+      "panels": 26,
+      "originalSections": 32,
+      "redirects": 32
     },
     {
       "platform": "macos",
       "locale": "ro",
-      "topics": 9,
-      "panels": 21,
-      "originalSections": 27,
-      "redirects": 27
+      "topics": 14,
+      "panels": 26,
+      "originalSections": 32,
+      "redirects": 32
     },
     {
       "platform": "macos",
       "locale": "ru",
-      "topics": 9,
+      "topics": 14,
+      "panels": 26,
+      "originalSections": 32,
+      "redirects": 32
+    },
+    {
+      "platform": "ios",
+      "locale": "en",
+      "topics": 13,
+      "panels": 27,
+      "originalSections": 22,
+      "redirects": 21
+    },
+    {
+      "platform": "ios",
+      "locale": "ro",
+      "topics": 13,
+      "panels": 27,
+      "originalSections": 22,
+      "redirects": 21
+    },
+    {
+      "platform": "ios",
+      "locale": "ru",
+      "topics": 13,
+      "panels": 27,
+      "originalSections": 22,
+      "redirects": 21
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "topics": 13,
+      "panels": 27,
+      "originalSections": 22,
+      "redirects": 21
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "topics": 13,
+      "panels": 27,
+      "originalSections": 22,
+      "redirects": 21
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "topics": 13,
+      "panels": 27,
+      "originalSections": 22,
+      "redirects": 21
+    },
+    {
+      "platform": "android",
+      "locale": "en",
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 29,
+      "redirects": 29
+    },
+    {
+      "platform": "android",
+      "locale": "ro",
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 29,
+      "redirects": 29
+    },
+    {
+      "platform": "android",
+      "locale": "ru",
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 29,
+      "redirects": 29
+    },
+    {
+      "platform": "android-tablet",
+      "locale": "en",
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 29,
+      "redirects": 29
+    },
+    {
+      "platform": "android-tablet",
+      "locale": "ro",
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 29,
+      "redirects": 29
+    },
+    {
+      "platform": "android-tablet",
+      "locale": "ru",
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 29,
+      "redirects": 29
+    },
+    {
+      "platform": "linux",
+      "locale": "en",
+      "topics": 14,
+      "panels": 31,
+      "originalSections": 32,
+      "redirects": 32
+    },
+    {
+      "platform": "linux",
+      "locale": "ro",
+      "topics": 14,
+      "panels": 31,
+      "originalSections": 32,
+      "redirects": 32
+    },
+    {
+      "platform": "linux",
+      "locale": "ru",
+      "topics": 14,
+      "panels": 31,
+      "originalSections": 32,
+      "redirects": 32
+    },
+    {
+      "platform": "windows",
+      "locale": "en",
+      "topics": 13,
       "panels": 21,
-      "originalSections": 27,
-      "redirects": 27
-    },
-    {
-      "platform": "ios",
-      "locale": "en",
-      "topics": 9,
-      "panels": 23,
-      "originalSections": 18,
-      "redirects": 17
-    },
-    {
-      "platform": "ios",
-      "locale": "ro",
-      "topics": 9,
-      "panels": 23,
-      "originalSections": 18,
-      "redirects": 17
-    },
-    {
-      "platform": "ios",
-      "locale": "ru",
-      "topics": 9,
-      "panels": 23,
-      "originalSections": 18,
-      "redirects": 17
-    },
-    {
-      "platform": "ipad",
-      "locale": "en",
-      "topics": 9,
-      "panels": 23,
-      "originalSections": 18,
-      "redirects": 17
-    },
-    {
-      "platform": "ipad",
-      "locale": "ro",
-      "topics": 9,
-      "panels": 23,
-      "originalSections": 18,
-      "redirects": 17
-    },
-    {
-      "platform": "ipad",
-      "locale": "ru",
-      "topics": 9,
-      "panels": 23,
-      "originalSections": 18,
-      "redirects": 17
-    },
-    {
-      "platform": "android",
-      "locale": "en",
-      "topics": 8,
-      "panels": 25,
-      "originalSections": 25,
-      "redirects": 25
-    },
-    {
-      "platform": "android",
-      "locale": "ro",
-      "topics": 8,
-      "panels": 25,
-      "originalSections": 25,
-      "redirects": 25
-    },
-    {
-      "platform": "android",
-      "locale": "ru",
-      "topics": 8,
-      "panels": 25,
-      "originalSections": 25,
-      "redirects": 25
-    },
-    {
-      "platform": "android-tablet",
-      "locale": "en",
-      "topics": 8,
-      "panels": 25,
-      "originalSections": 25,
-      "redirects": 25
-    },
-    {
-      "platform": "android-tablet",
-      "locale": "ro",
-      "topics": 8,
-      "panels": 25,
-      "originalSections": 25,
-      "redirects": 25
-    },
-    {
-      "platform": "android-tablet",
-      "locale": "ru",
-      "topics": 8,
-      "panels": 25,
-      "originalSections": 25,
-      "redirects": 25
-    },
-    {
-      "platform": "linux",
-      "locale": "en",
-      "topics": 9,
-      "panels": 26,
-      "originalSections": 27,
-      "redirects": 27
-    },
-    {
-      "platform": "linux",
-      "locale": "ro",
-      "topics": 9,
-      "panels": 26,
-      "originalSections": 27,
-      "redirects": 27
-    },
-    {
-      "platform": "linux",
-      "locale": "ru",
-      "topics": 9,
-      "panels": 26,
-      "originalSections": 27,
-      "redirects": 27
-    },
-    {
-      "platform": "windows",
-      "locale": "en",
-      "topics": 8,
-      "panels": 16,
-      "originalSections": 8,
-      "redirects": 8
+      "originalSections": 13,
+      "redirects": 13
     },
     {
       "platform": "windows",
       "locale": "ro",
-      "topics": 8,
-      "panels": 16,
-      "originalSections": 8,
-      "redirects": 8
+      "topics": 13,
+      "panels": 21,
+      "originalSections": 13,
+      "redirects": 13
     },
     {
       "platform": "windows",
       "locale": "ru",
-      "topics": 8,
-      "panels": 16,
-      "originalSections": 8,
-      "redirects": 8
+      "topics": 13,
+      "panels": 21,
+      "originalSections": 13,
+      "redirects": 13
     },
     {
       "platform": "macos-cli",
       "locale": "en",
-      "topics": 7,
-      "panels": 10,
-      "originalSections": 8,
-      "redirects": 8
+      "topics": 12,
+      "panels": 15,
+      "originalSections": 13,
+      "redirects": 13
     },
     {
       "platform": "macos-cli",
       "locale": "ro",
-      "topics": 7,
-      "panels": 10,
-      "originalSections": 8,
-      "redirects": 8
+      "topics": 12,
+      "panels": 15,
+      "originalSections": 13,
+      "redirects": 13
     },
     {
       "platform": "macos-cli",
       "locale": "ru",
-      "topics": 7,
+      "topics": 12,
+      "panels": 15,
+      "originalSections": 13,
+      "redirects": 13
+    },
+    {
+      "platform": "linux-cli",
+      "locale": "en",
+      "topics": 11,
+      "panels": 13,
+      "originalSections": 12,
+      "redirects": 12
+    },
+    {
+      "platform": "linux-cli",
+      "locale": "ro",
+      "topics": 11,
+      "panels": 13,
+      "originalSections": 12,
+      "redirects": 12
+    },
+    {
+      "platform": "linux-cli",
+      "locale": "ru",
+      "topics": 11,
+      "panels": 13,
+      "originalSections": 12,
+      "redirects": 12
+    },
+    {
+      "platform": "windows-cli",
+      "locale": "en",
+      "topics": 9,
       "panels": 10,
-      "originalSections": 8,
-      "redirects": 8
-    },
-    {
-      "platform": "linux-cli",
-      "locale": "en",
-      "topics": 6,
-      "panels": 8,
-      "originalSections": 7,
-      "redirects": 7
-    },
-    {
-      "platform": "linux-cli",
-      "locale": "ro",
-      "topics": 6,
-      "panels": 8,
-      "originalSections": 7,
-      "redirects": 7
-    },
-    {
-      "platform": "linux-cli",
-      "locale": "ru",
-      "topics": 6,
-      "panels": 8,
-      "originalSections": 7,
-      "redirects": 7
-    },
-    {
-      "platform": "windows-cli",
-      "locale": "en",
-      "topics": 4,
-      "panels": 5,
-      "originalSections": 5,
-      "redirects": 5
+      "originalSections": 10,
+      "redirects": 10
     },
     {
       "platform": "windows-cli",
       "locale": "ro",
-      "topics": 4,
-      "panels": 5,
-      "originalSections": 5,
-      "redirects": 5
+      "topics": 9,
+      "panels": 10,
+      "originalSections": 10,
+      "redirects": 10
     },
     {
       "platform": "windows-cli",
       "locale": "ru",
-      "topics": 4,
-      "panels": 5,
-      "originalSections": 5,
-      "redirects": 5
+      "topics": 9,
+      "panels": 10,
+      "originalSections": 10,
+      "redirects": 10
     }
   ]
 }

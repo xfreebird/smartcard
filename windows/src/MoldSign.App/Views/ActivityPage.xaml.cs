@@ -12,6 +12,7 @@ public sealed partial class ActivityPage : Page
     {
         InitializeComponent();
         DocumentList.ItemsSource = DisplayItems;
+        ProtectButton.Content = Loc.Get("protect_title") + " · " + Loc.Get("protect_hint");
         SignedFilter.Content = Loc.Get("saved_signed");
         HistoryFilter.Content = Loc.Get("saved_history");
         RefreshDocuments();
@@ -21,6 +22,10 @@ public sealed partial class ActivityPage : Page
             State.Activity.CollectionChanged += OnActivityChanged;
             State.SignedDocuments.CollectionChanged += OnActivityChanged;
             RefreshDocuments();
+#if DEBUG
+            if(DemoMode.ScreenshotCapture && AppSettings.IsolatedTestPreferences && Environment.GetEnvironmentVariable("MSIGN_CAPTURE_DIALOG")?.StartsWith("protect-",StringComparison.Ordinal)==true)
+                DispatcherQueue.TryEnqueue(async()=>await new FileProtectionDialog(XamlRoot,ActualTheme).ShowAsync());
+#endif
         };
         Unloaded += (_, _) =>
         {
@@ -28,6 +33,8 @@ public sealed partial class ActivityPage : Page
             State.SignedDocuments.CollectionChanged -= OnActivityChanged;
         };
     }
+
+    private async void OnProtectClick(object sender, RoutedEventArgs e) => await new FileProtectionDialog(XamlRoot, ActualTheme).ShowAsync();
 
     public AppState State => AppState.Current;
 

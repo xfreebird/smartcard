@@ -47,4 +47,19 @@ extern void c_tls_close(void *session);
 /// 1 when the OpenSSL helpers above are compiled in.
 extern int32_t c_openssl_available(void);
 
+
+// MoldSign-compatible password file primitives; callers own all buffers.
+int32_t c_file_password_key(const uint8_t *password, size_t password_len,
+                           const uint8_t salt[16], uint8_t *key, size_t key_len);
+int32_t c_file_aes_cbc(int32_t encrypt, const uint8_t *key, size_t key_len,
+                     const uint8_t iv[16], const uint8_t *input, size_t input_len,
+                     uint8_t *output, size_t *output_len);
+
+int32_t c_file_rsa_wrap(const uint8_t *certificate, size_t certificate_len,
+                        const uint8_t *input, size_t input_len, uint8_t *output, size_t *output_len);
+int32_t c_file_local_volume(int32_t fd);
+
+int32_t c_file_legacy_decrypt(int32_t algorithm, const uint8_t *password, size_t plen,
+    const uint8_t *salt, size_t slen, uint32_t iterations, const uint8_t *input, size_t ilen, uint8_t *output, size_t *olen);
+
 #endif // CPCSC_H

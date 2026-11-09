@@ -3,7 +3,7 @@ title: "Rezolvă o problemă — Mac"
 sidebar_label: "Rezolvă o problemă"
 description: "Rezolvă în siguranță problemele de cititor, PIN, document și conexiune."
 pagination_prev: "platforms/macos/automation"
-pagination_next: null
+pagination_next: "platforms/macos/encrypt-password"
 ---
 
 
@@ -28,3 +28,5 @@ Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 | Niciun rezultat Spotlight | Verifică activarea, apartenența la aplicație, accesul și timpul de indexare. |
 
 Pentru automatizare în terminal, instalare prin manager de pachete și politici nesupravegheate, continuă cu [ghidul CLI macOS](../macos-cli.md).
+
+<!-- file-protection-guides -->

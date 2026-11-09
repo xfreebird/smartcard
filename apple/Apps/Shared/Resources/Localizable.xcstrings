@@ -8976,6 +8976,974 @@
           }
         }
       }
+    },
+    "protect_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protejează fișiere"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protect files"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Защита файлов"
+          }
+        }
+      }
+    },
+    "protect_hint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypt or decrypt a file"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Criptează sau decriptează un fișier"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зашифровать или расшифровать файл"
+          }
+        }
+      }
+    },
+    "protect_encrypt": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Criptează"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypt"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зашифровать"
+          }
+        }
+      }
+    },
+    "protect_decrypt": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decriptează"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decrypt"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расшифровать"
+          }
+        }
+      }
+    },
+    "protect_remove": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimină fișierul"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove file"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить файл"
+          }
+        }
+      }
+    },
+    "protect_operation": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acțiune"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Action"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Действие"
+          }
+        }
+      }
+    },
+    "protect_method": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protecție"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Protection"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Защита"
+          }
+        }
+      }
+    },
+    "protect_password": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parolă"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Password"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пароль"
+          }
+        }
+      }
+    },
+    "protect_confirm_password": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmă parola"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirm password"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Повторите пароль"
+          }
+        }
+      }
+    },
+    "protect_certificate": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certificat / card"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certificate / card"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сертификат / карта"
+          }
+        }
+      }
+    },
+    "protect_choose_file": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege un fișier"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a file"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать файл"
+          }
+        }
+      }
+    },
+    "protect_choose_certificate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose recipient certificate"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege certificatul destinatarului"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать сертификат получателя"
+          }
+        }
+      }
+    },
+    "protect_read_card": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read my card"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Citește cardul meu"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Прочитать мою карту"
+          }
+        }
+      }
+    },
+    "protect_recipient": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Destinatar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recipient"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Получатель"
+          }
+        }
+      }
+    },
+    "protect_card_pin": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PIN-ul cardului"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card PIN"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "PIN карты"
+          }
+        }
+      }
+    },
+    "protect_no_key": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No supported encryption key found. Signing-only keys cannot decrypt files."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+          }
+        }
+      }
+    },
+    "protect_original": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your original file stays unchanged. Save the result as a new file."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+          }
+        }
+      }
+    },
+    "protect_compatibility": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием."
+          }
+        }
+      }
+    },
+    "protect_ready": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Gata de salvat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready to save"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Готово к сохранению"
+          }
+        }
+      }
+    },
+    "protect_save": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvează o copie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save a copy"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить копию"
+          }
+        }
+      }
+    },
+    "protect_saved": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișier salvat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File saved"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файл сохранён"
+          }
+        }
+      }
+    },
+    "protect_working": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Se procesează fișierul…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Processing file…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обработка файла…"
+          }
+        }
+      }
+    },
+    "protect_error": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Operația nu a putut fi finalizată. Verifică fișierul, parola sau certificatul de criptare. Fișierul original a fost păstrat."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The operation could not be completed. Check the file, password or encryption certificate. Your original file was kept."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Не удалось завершить операцию. Проверьте файл, пароль или сертификат шифрования. Исходный файл сохранён."
+          }
+        }
+      }
+    },
+    "protect_mismatch": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Parolele nu coincid"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Passwords do not match"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Пароли не совпадают"
+          }
+        }
+      }
+    },
+    "protect_removal_warning": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișierul selectat va fi suprascris, unde este posibil, apoi eliminat. Pot rămâne urme pe SSD, instantanee, copii de rezervă și alte copii. Acțiunea este ireversibilă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This overwrites the selected file where supported, then removes it. SSD remnants, snapshots, backups and other copies may remain. This cannot be undone."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбранный файл будет перезаписан, где это возможно, затем удалён. Данные на SSD, снимки, резервные и другие копии могут сохраниться. Отменить действие нельзя."
+          }
+        }
+      }
+    },
+    "protect_remove_confirm": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Elimini definitiv acest fișier?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove this file permanently?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удалить этот файл безвозвратно?"
+          }
+        }
+      }
+    },
+    "protect_removed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișier eliminat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "File removed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Файл удалён"
+          }
+        }
+      }
+    },
+    "protect_remove_unavailable": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminarea prin suprascriere nu este disponibilă pentru furnizorii de fișiere de pe acest dispozitiv. Gestionează originalul în Fișiere."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Overwrite removal is unavailable for Files providers on this device. Manage the original in Files."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Удаление с перезаписью недоступно для файловых провайдеров на этом устройстве. Управляйте оригиналом в приложении «Файлы»."
+          }
+        }
+      }
+    },
+    "protect_password_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Păstrează parola separat. Aceasta nu poate fi recuperată."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep the password separately. It cannot be recovered."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Храните пароль отдельно. Восстановить его невозможно."
+          }
+        }
+      }
+    },
+    "protect_pin_failure": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Autorizarea cardului a eșuat. Verifică PIN-ul și încercările rămase înainte de a încerca din nou."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card authorization failed. Check the PIN and remaining attempts before trying again."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ошибка авторизации карты. Проверьте PIN и оставшиеся попытки перед повтором."
+          }
+        }
+      }
+    },
+    "protect_export_certificate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export encryption certificate"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportă certificatul de criptare"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт сертификата шифрования"
+          }
+        }
+      }
+    },
+    "protect_export_certificate_hint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share this public certificate so others can encrypt files for you. No PIN or private key is shared."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются."
+          }
+        }
+      }
+    },
+    "protect_file_step": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. File"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Fișier"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "1. Файл"
+          }
+        }
+      }
+    },
+    "protect_access_step": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Access method"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Metoda de acces"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "2. Способ доступа"
+          }
+        }
+      }
+    },
+    "protect_help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "What do I need?"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "De ce am nevoie?"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Что потребуется?"
+          }
+        }
+      }
+    },
+    "protect_details": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certificate details and export"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detalii și export certificat"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сведения и экспорт сертификата"
+          }
+        }
+      }
+    },
+    "protect_password_encrypt_guide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Create a password for this file."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Creează o parolă pentru acest fișier."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Создайте пароль для этого файла."
+          }
+        }
+      }
+    },
+    "protect_password_decrypt_guide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter the password provided by the sender."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Introdu parola primită de la expeditor."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Введите пароль, полученный от отправителя."
+          }
+        }
+      }
+    },
+    "protect_certificate_encrypt_guide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose the recipient’s encryption certificate, or read your own card."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege certificatul de criptare al destinatarului sau citește propriul card."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите сертификат шифрования получателя или прочитайте свою карту."
+          }
+        }
+      }
+    },
+    "protect_certificate_decrypt_guide": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect the recipient’s card and reader, then read the card."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conectează cardul destinatarului și cititorul, apoi citește cardul."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подключите карту получателя и считыватель, затем прочитайте карту."
+          }
+        }
+      }
+    },
+    "protect_password_encrypt_help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна."
+          }
+        }
+      }
+    },
+    "protect_password_decrypt_help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
+          }
+        }
+      }
+    },
+    "protect_certificate_encrypt_help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+          }
+        }
+      }
+    },
+    "protect_certificate_decrypt_help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

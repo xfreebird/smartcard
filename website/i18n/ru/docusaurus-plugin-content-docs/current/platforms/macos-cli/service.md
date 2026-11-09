@@ -3,7 +3,7 @@ title: "Запустите службу браузера — Mac · Команд
 sidebar_label: "Запустите службу браузера"
 description: "Запускайте и останавливайте локальный мост или службу пользователя."
 pagination_prev: "platforms/macos-cli/unattended"
-pagination_next: null
+pagination_next: "platforms/macos-cli/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -30,3 +30,5 @@ esemnbun server
 ---
 
 Расширенная справка: macOS/Linux также дают `sign-hex <digestinfo_hex>` и `cms-for-hash <sha256_hex>`; Windows только sign-hex. Это инструменты разработчика, не подпись документов. Для поддержки укажите версии приложения/ОС, команду без секретов, код и вымышленный пример. Не прикладывайте PIN или конфиденциальные файлы.
+
+<!-- file-protection-guides -->

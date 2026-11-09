@@ -20,6 +20,10 @@ fun interface TransportProvider {
  * Every card operation goes through one process-wide lock (interleaved SM sessions desync the SSC).
  */
 interface SigningService {
+    fun encryptionIdentities(reader: String? = null): List<md.moldsign.core.protection.CardEncryptionIdentity> =
+        throw CardError.Format("Card encryption is unavailable")
+    fun decryptFile(envelope: ByteArray, identity: md.moldsign.core.protection.CardEncryptionIdentity, pin: CharArray, reader: String? = null): ByteArray =
+        throw CardError.Format("Card decryption is unavailable")
     val readerState: StateFlow<ReaderState>
     val progress: StateFlow<SigningStep>
 
@@ -102,6 +106,10 @@ class CardSigningService(
 ) : SigningService {
     private val progressFlow = MutableStateFlow(SigningStep.Idle)
     override val progress: StateFlow<SigningStep> = progressFlow.asStateFlow()
+
+    override fun encryptionIdentities(reader: String?) = withCard(reader) { md.moldsign.core.protection.CardFileProtection.identities(it) }
+    override fun decryptFile(envelope: ByteArray, identity: md.moldsign.core.protection.CardEncryptionIdentity, pin: CharArray, reader: String?) =
+        withCard(reader) { md.moldsign.core.protection.CardFileProtection.decrypt(it,envelope,identity,pin) }
 
     override fun certificate(reader: String?): CertificateSummary = withCard(reader) { card ->
         card.selectMF()

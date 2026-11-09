@@ -3,7 +3,7 @@ title: "Fix a problem — iPhone"
 sidebar_label: "Fix a problem"
 description: "Resolve reader, PIN, document and connection problems safely."
 pagination_prev: "platforms/ios/automation"
-pagination_next: null
+pagination_next: "platforms/ios/encrypt-password"
 ---
 
 

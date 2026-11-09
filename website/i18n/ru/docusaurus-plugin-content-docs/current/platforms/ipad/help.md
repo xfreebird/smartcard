@@ -3,7 +3,7 @@ title: "Решите проблему — iPad"
 sidebar_label: "Решите проблему"
 description: "Безопасно решайте проблемы считывателя, PIN, документов и соединения."
 pagination_prev: "platforms/ipad/automation"
-pagination_next: null
+pagination_next: "platforms/ipad/encrypt-password"
 ---
 
 

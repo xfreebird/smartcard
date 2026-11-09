@@ -35,6 +35,19 @@ MAPS = {
  'linux-cli': {'setup':[0,1],'signing':[2],'verification':[3],'mcp':[4],'unattended':[5],'service':[6]},
  'windows-cli': {'setup':[0,1],'verification':[2],'mcp':[3],'unattended':[4]},
 }
+# File-protection journeys appended to the canonical sources.
+for _platform, _mapping in list(MAPS.items()):
+ _mapping = {key: list(value) for key, value in _mapping.items()}
+ _start = max(i for group in _mapping.values() for i in group) + 1
+ for _offset, _topic in enumerate(('encrypt-password', 'encrypt-certificate', 'decrypt-file', 'share-certificate') + (() if _platform in ('ios','ipad','android','android-tablet') else ('remove-file',))):
+  _mapping[_topic] = [_start + _offset]
+ MAPS[_platform] = _mapping
+TOPICS['encrypt-password'] = (tr(*('Encrypt a file with a password', 'Criptează un fișier cu parolă', 'Зашифруйте файл паролем')), tr(*('Encrypt a file with a password', 'Criptează un fișier cu parolă', 'Зашифруйте файл паролем')))
+TOPICS['encrypt-certificate'] = (tr(*('Encrypt for a certificate holder', 'Criptează pentru titularul unui certificat', 'Зашифруйте для владельца сертификата')), tr(*('Encrypt for a certificate holder', 'Criptează pentru titularul unui certificat', 'Зашифруйте для владельца сертификата')))
+TOPICS['decrypt-file'] = (tr(*('Decrypt a received file', 'Decriptează un fișier primit', 'Расшифруйте полученный файл')), tr(*('Decrypt a received file', 'Decriptează un fișier primit', 'Расшифруйте полученный файл')))
+TOPICS['share-certificate'] = (tr(*('Share your encryption certificate', 'Distribuie certificatul tău de criptare', 'Поделитесь сертификатом шифрования')), tr(*('Share your encryption certificate', 'Distribuie certificatul tău de criptare', 'Поделитесь сертификатом шифрования')))
+TOPICS['remove-file'] = (tr(*('Remove a local file', 'Elimină un fișier local', 'Удалите локальный файл')), tr(*('Remove a local file', 'Elimină un fișier local', 'Удалите локальный файл')))
+
 NAMES = {
  'macos': tr('Mac','Mac','Mac'), 'ios':tr('iPhone','iPhone','iPhone'), 'ipad':tr('iPad','iPad','iPad'),
  'android':tr('Android phone','Telefon Android','Телефон Android'), 'android-tablet':tr('Android tablet','Tabletă Android','Планшет Android'),

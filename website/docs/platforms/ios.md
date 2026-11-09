@@ -25,3 +25,5 @@ Install eSemnBun through the available Apple distribution channel from [Download
 ## Other guides
 
 [iPhone](./ios.md) · [iPad](./ipad.md) · [macOS](./macos.md) · [Android](./android.md) · [Linux](./linux.md)
+
+<!-- file-protection-guides -->

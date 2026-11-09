@@ -308,6 +308,11 @@ public class CosmoXCardTests
 
         public byte[] EfContent { get; init; } = [];
         public Func<byte[], byte[]>? InternalAuthenticate { get; set; }
+        public Func<byte[],byte[]>? Decipher { get; set; }
+        public Dictionary<int,byte[]> ExtraFiles { get; } = new();
+        public ushort VerifyStatus { get; set; } = 0x9000;
+        private int _selectedFile;
+        private bool _verified, _decipherSelected;
         public List<byte[]> Commands { get; } = [];
         public List<(int Offset, int Length)> Reads { get; } = [];
         public int GetResponseCount { get; private set; }
@@ -328,10 +333,18 @@ public class CosmoXCardTests
             Increment(_ssc);
             var (data, le) = OpenCommand(apdu);
 
+            if(apdu[1]==0xA4 && apdu[2]==2 && data.Length==2) _selectedFile=data[0]*256+data[1];
+            if(apdu[1]==0x22 && apdu[3]==0xb8) {Assert.Equal(new byte[]{0x80,1,0x1a,0x84,1,0x82},data);_decipherSelected=true;}
+            if(apdu[1]==0x20) {
+                _verified=VerifyStatus==0x9000;
+                if(!_verified){Increment(_ssc);return [(byte)(VerifyStatus>>8),(byte)VerifyStatus];}
+            }
+            if(apdu[1]==0x2a) {Assert.True(_verified && _decipherSelected);Assert.Equal(257,data.Length);Assert.Equal(0x81,data[0]);Assert.Equal(0x80,apdu[2]);Assert.Equal(0x86,apdu[3]);}
             byte[]? answer = apdu[1] switch
             {
                 0xB0 => Read((apdu[2] << 8) | apdu[3], le ?? 0),
                 0x88 => InternalAuthenticate!(data),
+                0x2a => Decipher!(data[1..]),
                 _ => null, // SELECT, MSE SET: SW-only 9000
             };
             Increment(_ssc); // the card counts its response, SW-only or not
@@ -346,7 +359,7 @@ public class CosmoXCardTests
         private byte[] Read(int offset, int length)
         {
             Reads.Add((offset, length));
-            return EfContent.Skip(offset).Take(length).ToArray();
+            return (ExtraFiles.GetValueOrDefault(_selectedFile) ?? EfContent).Skip(offset).Take(length).ToArray();
         }
 
         private byte[] NextChunk(int max)
@@ -360,7 +373,8 @@ public class CosmoXCardTests
 
         private (byte[] Data, int? Le) OpenCommand(byte[] apdu)
         {
-            var body = apdu.AsSpan(5, apdu[4]);
+            var extended=apdu[4]==0;
+            var body = extended?apdu.AsSpan(7,apdu[5]*256+apdu[6]):apdu.AsSpan(5, apdu[4]);
             var macInput = new List<byte>(_ssc);
             macInput.AddRange(Iso9797.Pad([apdu[0], apdu[1], apdu[2], apdu[3]]));
             byte[] data = [];
@@ -372,6 +386,7 @@ public class CosmoXCardTests
                 var tag = body[pos];
                 int len = body[pos + 1], hdr = 2;
                 if (len == 0x81) { len = body[pos + 2]; hdr = 3; }
+                else if(len==0x82){len=body[pos+2]*256+body[pos+3];hdr=4;}
                 var content = body.Slice(pos + hdr, len);
                 if (tag == 0x8E)
                 {

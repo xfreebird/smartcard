@@ -57,28 +57,30 @@ public sealed class SecureChannel
         var p1 = apdu[2];
         var p2 = apdu[3];
 
-        // Parse the plain body exactly like the Swift reference.
         var body = apdu[4..];
-        ReadOnlySpan<byte> cmdData = [];
-        byte? le = null;
-        if (body.Length == 1)
+        ReadOnlySpan<byte> cmdData = [], le = [];
+        var extended = body.Length > 1 && body[0] == 0;
+        if (body.Length == 1) le = body;
+        else if (extended)
         {
-            le = body[0]; // case 2: CLA INS P1 P2 Le
+            if (body.Length < 3) throw new ArgumentException("Truncated extended APDU.");
+            if (body.Length == 3) le = body[1..];
+            else {
+                var count = body[1] * 256 + body[2];
+                if (count == 0 || (body.Length != count+3 && body.Length != count+5)) throw new ArgumentException("Invalid extended APDU length.");
+                cmdData = body.Slice(3,count);
+                if (body.Length == count+5) le = body[^2..];
+            }
         }
         else if (body.Length > 1)
         {
-            int lc = body[0];
-            if (lc > 0)
-            {
-                if (1 + lc > body.Length)
-                    throw new ArgumentException($"Lc={lc} exceeds the APDU body ({body.Length - 1} byte(s)).", nameof(apdu));
-                cmdData = body.Slice(1, lc);
-            }
-            if (body.Length > 2 + lc)
-                throw new ArgumentException("Trailing bytes after Le (extended APDUs are not supported).", nameof(apdu));
-            if (body.Length > 1 + lc) le = body[^1];
+            var count = body[0];
+            if (body.Length != count+1 && body.Length != count+2) throw new ArgumentException("Invalid APDU length.");
+            cmdData = body.Slice(1,count);
+            if (body.Length == count+2) le = body[^1..];
         }
 
+        if (cmdData.Length > 65488) throw new ArgumentException("Secure APDU payload too large.");
         var ssc1 = IncrementSsc();
 
         using var macInput = new MemoryStream();
@@ -96,9 +98,9 @@ public sealed class SecureChannel
             dataField.Write(tlv);
         }
 
-        if (le is { } leByte)
+        if (!le.IsEmpty)
         {
-            var tlv = BuildTlv(0x97, [leByte]);
+            var tlv = BuildTlv(0x97, le);
             macInput.Write(tlv);
             dataField.Write(tlv);
         }
@@ -107,17 +109,11 @@ public sealed class SecureChannel
         dataField.Write(BuildTlv(0x8E, mac.AsSpan(0, 8)));
 
         var fields = dataField.ToArray();
-        if (fields.Length > 255)
-            throw new ArgumentException($"SM data field of {fields.Length} bytes needs an extended APDU.", nameof(apdu));
-
-        var result = new byte[5 + fields.Length + 1];
-        result[0] = cla;
-        result[1] = ins;
-        result[2] = p1;
-        result[3] = p2;
-        result[4] = (byte)fields.Length;
-        fields.CopyTo(result, 5);
-        result[^1] = 0x00; // the vendor Lua always appends Le=00
+        if (fields.Length > 65535) throw new ArgumentException("SM APDU too long.");
+        byte[] result;
+        if (extended || fields.Length > 255)
+            result = [cla,ins,p1,p2,0,(byte)(fields.Length >> 8),(byte)fields.Length,..fields,0,0];
+        else result = [cla,ins,p1,p2,(byte)fields.Length,..fields,0];
         return result;
     }
 

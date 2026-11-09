@@ -555,6 +555,8 @@ private fun CheckChip(@StringRes label: Int, ok: Boolean?) {
 fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) -> Unit) {
     val allEntries by vm.activity.collectAsStateWithLifecycle()
     val savedDocuments by vm.savedDocuments.collectAsStateWithLifecycle()
+    var protecting by remember { mutableStateOf(false) }
+    if (protecting) FileProtectionDialog(vm) { protecting = false }
     var history by remember { mutableStateOf(false) }
     val entries = if (history) allEntries else savedDocuments
     var confirm by remember { mutableStateOf(false) }
@@ -571,6 +573,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     val captureDialog = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
     LaunchedEffect(captureDialog, savedDocuments) {
         if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) {
+            protecting = captureDialog?.startsWith("protect-") == true
             history = captureDialog == "history" || captureDialog == "history-clear"
             confirm = captureDialog == "history-clear"
             detailsEntry = when (captureDialog) {
@@ -590,6 +593,12 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
         onPauseOrDispose { }
     }
     ScreenColumn(padding) {
+        OutlinedButton(onClick = { protecting = true }, modifier = Gutter.fillMaxWidth()) {
+            Column(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
+                Text(stringResource(R.string.protect_title), style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.protect_hint), style = MaterialTheme.typography.bodySmall)
+            }
+        }
         Row(Gutter.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterChip(selected = !history, onClick = { history = false }, label = { Text(stringResource(R.string.saved_signed)) })
             FilterChip(selected = history, onClick = { history = true }, label = { Text(stringResource(R.string.saved_history)) })

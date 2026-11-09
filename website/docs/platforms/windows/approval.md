@@ -32,3 +32,5 @@ The screenshot uses an isolated demonstration profile: its directory is an examp
 
 
 <GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 82, "text": "Find the MCP switch under Advanced. Outside demo mode, enable it and copy the private directory into your client configuration."}, {"x": 48, "y": 92, "text": "Use the directory shown by your installation, not the demonstration path."}]} />
+
+<!-- file-protection-guides -->

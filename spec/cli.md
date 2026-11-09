@@ -151,3 +151,29 @@ Never retry automatically after a wrong PIN.
 
 Linux prerequisites: `pcscd` running (`systemctl enable --now pcscd.socket`) and the `libccid` driver
 package. The bit4id miniLector is a standard CCID reader.
+
+## File protection
+
+Available in the Swift CLI (macOS/Linux) and Windows CLI:
+
+```text
+esemnbun encrypt INPUT NEW-OUTPUT [--password-stdin | --certificate RECIPIENT.der | --card SHA256]
+esemnbun decrypt INPUT NEW-OUTPUT [--password-stdin | --card SHA256]
+esemnbun encryption-certs [--reader NAME]
+esemnbun encryption-certs [--reader NAME] --card SHA256 --out recipient.cer
+esemnbun remove-file PATH --confirm-removal
+```
+
+With no method flag, encryption/decryption prompts for a password without echo; interactive encryption asks for confirmation. `--password-stdin` reads one line for automation. Passwords are never command-line arguments. Card decryption uses the existing `--pin-stdin`, `MSIGN_PIN`, or hidden PIN prompt. Certificate encryption needs no private key/PIN. `--card` identifies the encryption certificate by its full SHA-256 fingerprint from `encryption-certs`; the signing-certificate fingerprint is not interchangeable.
+
+The source is preserved and output creation is exclusive: existing destinations, including the source itself, are refused. Inputs are bounded to approximately 64 MiB. New password files use MoldSign-compatible AES-256; old AES-128/192/256, 3DES, DES and RC2 password files can be read. New certificate files use CMS AES-128 with RSA key transport. CBC compatibility provides no content authentication: successful padding does not prove a correct password or untampered content. Check decrypted content before use.
+
+Card discovery requires an explicit PKCS#15 encryption key, a key-encipherment certificate and supported PIN metadata. Signing-only keys are excluded. The selected identity is read again before PIN verification; PIN failures are never automatically retried. A card without a supported encryption key cannot decrypt certificate files.
+
+Removal is a separate destructive operation on one regular local file. It attempts a random overwrite, flush and removal, and rejects links and unsupported volumes. It cannot erase SSD remnants, copy-on-write snapshots, backups or other copies. Never use it as a physical-erasure guarantee. Mobile Files/document providers do not expose this overwrite operation.
+
+### Share a public encryption certificate
+
+Connect the card and run `esemnbun encryption-certs` to list supported identities. Export the selected full fingerprint with `esemnbun encryption-certs --card SHA256 --out recipient.cer`. This saves the exact public DER certificate, refuses existing destinations, and never requests a PIN or exports a private key. Both --card and --out are required for export. The recipient imports this file using encrypt --certificate recipient.cer. Confirm the fingerprint with its owner through a trusted channel.
+
+In native apps, open Documents → Protect files → Certificate/card → Read card, select an identity, then Export encryption certificate. No input document is required. Save the .cer file and share it. Apple, Android and Windows use native save pickers; Linux and CLI exports refuse existing destinations.

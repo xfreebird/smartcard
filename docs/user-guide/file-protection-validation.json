@@ -1,0 +1,199 @@
+{
+  "coverage": {
+    "guides": [
+      {
+        "locale": "en",
+        "platform": "macos",
+        "panels": 26,
+        "assets": 25
+      },
+      {
+        "locale": "en",
+        "platform": "ios",
+        "panels": 27,
+        "assets": 25
+      },
+      {
+        "locale": "en",
+        "platform": "ipad",
+        "panels": 27,
+        "assets": 25
+      },
+      {
+        "locale": "en",
+        "platform": "android",
+        "panels": 29,
+        "assets": 28
+      },
+      {
+        "locale": "en",
+        "platform": "android-tablet",
+        "panels": 29,
+        "assets": 28
+      },
+      {
+        "locale": "en",
+        "platform": "linux",
+        "panels": 31,
+        "assets": 27
+      },
+      {
+        "locale": "en",
+        "platform": "windows",
+        "panels": 21,
+        "assets": 18
+      },
+      {
+        "locale": "en",
+        "platform": "macos-cli",
+        "panels": 15,
+        "assets": 15
+      },
+      {
+        "locale": "en",
+        "platform": "linux-cli",
+        "panels": 13,
+        "assets": 13
+      },
+      {
+        "locale": "en",
+        "platform": "windows-cli",
+        "panels": 10,
+        "assets": 10
+      },
+      {
+        "locale": "ro",
+        "platform": "macos",
+        "panels": 26,
+        "assets": 25
+      },
+      {
+        "locale": "ro",
+        "platform": "ios",
+        "panels": 27,
+        "assets": 25
+      },
+      {
+        "locale": "ro",
+        "platform": "ipad",
+        "panels": 27,
+        "assets": 25
+      },
+      {
+        "locale": "ro",
+        "platform": "android",
+        "panels": 29,
+        "assets": 28
+      },
+      {
+        "locale": "ro",
+        "platform": "android-tablet",
+        "panels": 29,
+        "assets": 28
+      },
+      {
+        "locale": "ro",
+        "platform": "linux",
+        "panels": 31,
+        "assets": 27
+      },
+      {
+        "locale": "ro",
+        "platform": "windows",
+        "panels": 21,
+        "assets": 18
+      },
+      {
+        "locale": "ro",
+        "platform": "macos-cli",
+        "panels": 15,
+        "assets": 15
+      },
+      {
+        "locale": "ro",
+        "platform": "linux-cli",
+        "panels": 13,
+        "assets": 13
+      },
+      {
+        "locale": "ro",
+        "platform": "windows-cli",
+        "panels": 10,
+        "assets": 10
+      },
+      {
+        "locale": "ru",
+        "platform": "macos",
+        "panels": 26,
+        "assets": 25
+      },
+      {
+        "locale": "ru",
+        "platform": "ios",
+        "panels": 27,
+        "assets": 25
+      },
+      {
+        "locale": "ru",
+        "platform": "ipad",
+        "panels": 27,
+        "assets": 25
+      },
+      {
+        "locale": "ru",
+        "platform": "android",
+        "panels": 29,
+        "assets": 28
+      },
+      {
+        "locale": "ru",
+        "platform": "android-tablet",
+        "panels": 29,
+        "assets": 28
+      },
+      {
+        "locale": "ru",
+        "platform": "linux",
+        "panels": 31,
+        "assets": 27
+      },
+      {
+        "locale": "ru",
+        "platform": "windows",
+        "panels": 21,
+        "assets": 18
+      },
+      {
+        "locale": "ru",
+        "platform": "macos-cli",
+        "panels": 15,
+        "assets": 15
+      },
+      {
+        "locale": "ru",
+        "platform": "linux-cli",
+        "panels": 13,
+        "assets": 13
+      },
+      {
+        "locale": "ru",
+        "platform": "windows-cli",
+        "panels": 10,
+        "assets": 10
+      }
+    ],
+    "guideCount": 30,
+    "taskPageCount": 369,
+    "panelCount": 684,
+    "errors": []
+  },
+  "checks": {
+    "generator": "passed",
+    "assets_and_coordinates": "passed",
+    "whitespace": "passed",
+    "site_build": "not run; owner-run build/test rule",
+    "browser_render": "not run",
+    "screenshots": "native v2 captures reused; raw image coordinates reviewed"
+  },
+  "publication": "not requested"
+}

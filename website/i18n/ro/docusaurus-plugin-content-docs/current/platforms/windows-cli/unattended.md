@@ -3,7 +3,7 @@ title: "Configurează semnarea nesupravegheată — Windows · Linie de comandă
 sidebar_label: "Configurează semnarea nesupravegheată"
 description: "Fixează certificatul, alege sursa secretului și restricționează rezultatele."
 pagination_prev: "platforms/windows-cli/mcp"
-pagination_next: null
+pagination_next: "platforms/windows-cli/encrypt-password"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -40,3 +40,5 @@ macOS: `keychain:service:account`, `env:ESEMNBUN_AUTOMATION_PIN` sau `onepasswor
 ---
 
 Referință avansată: macOS/Linux oferă și `sign-hex <digestinfo_hex>`, `cms-for-hash <sha256_hex>`; Windows doar sign-hex. Sunt primitive pentru dezvoltatori, nu semnare de documente. Pentru suport trimite versiunea aplicației/sistemului, comanda fără secrete, codul și un exemplu fictiv. Nu atașa PIN sau documente confidențiale.
+
+<!-- file-protection-guides -->
