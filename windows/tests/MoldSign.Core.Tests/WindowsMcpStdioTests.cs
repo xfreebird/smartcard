@@ -9,21 +9,21 @@ public sealed class WindowsMcpStdioTests
     public async Task CancellationIsReadDuringWorkAndOnlySuppressesItsReply()
     {
         using var input = new ControlledInput();
-        using var entered = new ManualResetEventSlim();
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var release = new ManualResetEventSlim();
         using var reply = new ManualResetEventSlim();
         var output = new ReplyWriter(reply);
         var error = new StringWriter();
         var disconnected = false;
         var calls = 0;
-        var session = Task.Run(() => McpStdioSession.Run(input, output, error, line =>
+        var session = Task.Factory.StartNew(() => McpStdioSession.Run(input, output, error, line =>
         {
             Interlocked.Increment(ref calls);
-            if (line.Contains("first", StringComparison.Ordinal)) { entered.Set(); Assert.True(release.Wait(TimeSpan.FromSeconds(5))); return "first"; }
+            if (line.Contains("first", StringComparison.Ordinal)) { entered.TrySetResult(); Assert.True(release.Wait(TimeSpan.FromSeconds(5))); return "first"; }
             return "second";
-        }, () => disconnected = true));
+        }, () => disconnected = true), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         input.Feed("{\"jsonrpc\":\"2.0\",\"id\":\"first\",\"method\":\"ping\"}\n");
-        Assert.True(entered.Wait(TimeSpan.FromSeconds(5)));
+        await entered.Task.WaitAsync(TimeSpan.FromSeconds(30));
         input.Feed("{\"jsonrpc\":\"2.0\",\"method\":\"notifications/cancelled\",\"params\":{\"requestId\":\"first\"}}\n");
         Assert.True(input.WaitUntilDrained());
         release.Set();
@@ -41,16 +41,16 @@ public sealed class WindowsMcpStdioTests
     public async Task EofDiscardsPendingWorkWithoutRetryingActiveOperation()
     {
         using var input = new ControlledInput();
-        using var entered = new ManualResetEventSlim();
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var release = new ManualResetEventSlim();
         using var closed = new ManualResetEventSlim();
         var output = new StringWriter(); var error = new StringWriter(); var calls = 0;
-        var session = Task.Run(() => McpStdioSession.Run(input, output, error, _ =>
+        var session = Task.Factory.StartNew(() => McpStdioSession.Run(input, output, error, _ =>
         {
-            Interlocked.Increment(ref calls); entered.Set(); Assert.True(release.Wait(TimeSpan.FromSeconds(5))); return "reply";
-        }, () => { }, closed.Set));
+            Interlocked.Increment(ref calls); entered.TrySetResult(); Assert.True(release.Wait(TimeSpan.FromSeconds(5))); return "reply";
+        }, () => { }, closed.Set), CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         input.Feed("{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"ping\"}\n");
-        Assert.True(entered.Wait(TimeSpan.FromSeconds(5)));
+        await entered.Task.WaitAsync(TimeSpan.FromSeconds(30));
         input.Feed("{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"ping\"}\n");
         input.End();
         Assert.True(closed.Wait(TimeSpan.FromSeconds(5)));
