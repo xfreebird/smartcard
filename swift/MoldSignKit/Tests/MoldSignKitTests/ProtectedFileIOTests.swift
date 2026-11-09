@@ -20,7 +20,14 @@ final class ProtectedFileIOTests: XCTestCase {
     }
     func testHardLinksRefusedAndExplicitRemoval() throws {
         #if !os(iOS)
-        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        // Container /tmp may be overlayfs, deliberately unsupported for removal.
+        // Linux /dev/shm is tmpfs, an explicitly supported local filesystem.
+        #if os(Linux)
+        let base = URL(fileURLWithPath: "/dev/shm", isDirectory: true)
+        #else
+        let base = FileManager.default.temporaryDirectory
+        #endif
+        let directory = base.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         defer { try? FileManager.default.removeItem(at: directory) }
         let file = directory.appendingPathComponent("original")
