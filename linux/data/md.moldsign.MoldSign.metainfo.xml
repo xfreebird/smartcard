@@ -59,6 +59,7 @@
   <!-- TODO(LNX-14): screenshots (Sign, Verify, Card pages) hosted at a stable URL. -->
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.10" date="2026-11-10"><description><p>Clear password-only file protection, native navigation access and encrypted or decrypted files retained in Documents.</p></description></release>
     <release version="0.2.9" date="2026-11-09"><description><p>Delete saved signed documents with confirmation and select original files to verify detached XML signatures.</p></description></release>
     <release version="0.2.8" date="2026-11-09"><description><p>Encrypt and decrypt files with passwords or compatible encryption certificates and cards. Export public encryption certificates and remove supported local files with explicit confirmation.</p></description></release>
     <release version="0.2.7" date="2026-11-09"><description><p>Added terms, privacy policy and disclaimer information to About.</p></description></release>
