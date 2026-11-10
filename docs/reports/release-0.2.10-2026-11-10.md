@@ -45,3 +45,11 @@ GitHub Actions reported a hosted spending-budget block and an artifact-storage q
 Resolved after the owner updated the budget: package workflow42818811932 passed Linux APT/RPM installation/signature checks and Chocolatey installation/uninstallation, then published0.2.10 signed feeds, definitions and Chocolatey package. Website42819453689 deployed them with the new guides. No temporary runners or runner credentials remain. Live evidence: `/tmp/esemnbun-0210-artifacts/live-docs-verification.json`.
 
 Huawei replacement remains blocked at the displayed browser CAPTCHA because the computer-use tool requires per-action confirmation. The latest APK remains at `/tmp/esemnbun-0210-artifacts/android/eSemnBun-0.2.10.apk`; SHA256`20cb52cb85e61216e9da9cb991f7e1b178992b222981deaf8ae28dfd774e7587`. Preserve the old review until the authorized browser verification permits replacement.
+
+## GitHub artifact cleanup
+
+At the owner's request, removed both obsolete Actions artifacts and downloads attached to older releases. Deleted 152 Actions artifacts (9,638,658,131 bytes) and 122 assets from ten older releases (3,176,505,853 bytes), totaling 12.82 GB. All 274 API deletions succeeded.
+
+Read-back verification confirmed all 16 v0.2.10 assets retain their original IDs, sizes and digests; older releases have no attached assets. Nine Actions artifacts remain (1.59 GB): six platform outputs from Release 42784324572, macOS Store 42784328570, package definitions 42818811932 and Pages 42819453689. The corrected Linux downloads remain attached to v0.2.10; the retained original build artifacts are provenance, not the corrected distribution packages.
+
+Release notes, Git tags, workflow run logs and store submissions were not removed. Older GitHub download URLs no longer work. This cleanup does not remove existing website mirrors; its next package refresh will find only the latest complete GitHub release. GitHub quota accounting may update later than API deletion.
