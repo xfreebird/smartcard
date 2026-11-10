@@ -13,7 +13,7 @@
     },
     {
       "name": "esemnbun-0.2.10-linux-x86_64.tar.gz",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.10/esemnbun-0.2.10-linux-x86_64.tar.gz",
+      "url": "https://esemnbun.md/packages/downloads/v0.2.10/esemnbun-0.2.10-linux-x86_64.tar.gz",
       "size": 44328798,
       "platform": "linux-cli",
       "version": "0.2.10",
@@ -22,7 +22,7 @@
     },
     {
       "name": "esemnbun-0.2.10-macos-universal.tar.gz",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.10/esemnbun-0.2.10-macos-universal.tar.gz",
+      "url": "https://esemnbun.md/packages/downloads/v0.2.10/esemnbun-0.2.10-macos-universal.tar.gz",
       "size": 2073196,
       "platform": "macos",
       "version": "0.2.10",
@@ -67,7 +67,7 @@
     },
     {
       "name": "esemnbun-cli-0.2.10-1.x86_64.rpm",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.10/esemnbun-cli-0.2.10-1.x86_64.rpm",
+      "url": "https://esemnbun.md/packages/rpm/x86_64/esemnbun-cli-0.2.10-1.x86_64.rpm",
       "size": 44069516,
       "platform": "linux-cli",
       "version": "0.2.10",
@@ -76,7 +76,7 @@
     },
     {
       "name": "esemnbun-cli-0.2.10-windows-x64.zip",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.10/esemnbun-cli-0.2.10-windows-x64.zip",
+      "url": "https://esemnbun.md/packages/downloads/v0.2.10/esemnbun-cli-0.2.10-windows-x64.zip",
       "size": 3936408,
       "platform": "windows",
       "version": "0.2.10",
@@ -85,7 +85,7 @@
     },
     {
       "name": "esemnbun-cli_0.2.10-1_amd64.deb",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.10/esemnbun-cli_0.2.10-1_amd64.deb",
+      "url": "https://esemnbun.md/packages/apt/pool/main/e/esemnbun-cli/esemnbun-cli_0.2.10-1_amd64.deb",
       "size": 29178556,
       "platform": "linux-cli",
       "version": "0.2.10",
@@ -109,7 +109,7 @@
     {
       "name": "SHA256SUMS.txt",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.10/SHA256SUMS.txt",
-      "size": 1138
+      "size": 1447
     }
   ],
   "platforms": [
