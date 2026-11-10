@@ -127,7 +127,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-linux-${{ github.sha }}
-          retention-days: 7
+          retention-days: 1
           path: dist/linux/
           if-no-files-found: error
 
@@ -187,7 +187,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: esemnbun-windows-x64
-          retention-days: 7
+          retention-days: 1
           path: |
             dist/windows/*.msi
             dist/windows/*.msix
