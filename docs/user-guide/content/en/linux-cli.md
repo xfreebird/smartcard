@@ -147,6 +147,7 @@ Advanced reference: macOS/Linux also expose `sign-hex <digestinfo_hex>` and `cms
 
 <!-- file-protection-guides -->
 
+
 ## Encrypt a file with a password
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
@@ -159,7 +160,10 @@ Instructional command example — no operation executed.
 esemnbun encrypt Contract.pdf Contract.enc
 ```
 
+
 ## Encrypt for a certificate holder
+
+The Moldovan ID card does not provide the encryption key required by these certificate/card commands. Use password encryption for that card. The CLI certificate commands are retained for compatible encryption certificates and hardware; a signing-only certificate is not suitable.
 
 Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
 
@@ -171,7 +175,10 @@ Instructional command example — no operation executed.
 esemnbun encrypt Contract.pdf Contract.enc --certificate recipient.cer
 ```
 
+
 ## Decrypt a received file
+
+The Moldovan ID card does not provide the encryption key required by these certificate/card commands. Use password encryption for that card. The CLI certificate commands are retained for compatible encryption certificates and hardware; a signing-only certificate is not suitable.
 
 Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
 
@@ -187,7 +194,10 @@ esemnbun decrypt Contract.enc Contract-opened.pdf --card SHA256
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
+
 ## Share your encryption certificate
+
+The Moldovan ID card does not provide the encryption key required by these certificate/card commands. Use password encryption for that card. The CLI certificate commands are retained for compatible encryption certificates and hardware; a signing-only certificate is not suitable.
 
 Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
 
@@ -201,6 +211,7 @@ esemnbun encryption-certs --card SHA256 --out recipient.cer
 ```
 
 Share only recipient.cer; exporting needs no PIN and never exports the private key.
+
 
 ## Remove a local file
 

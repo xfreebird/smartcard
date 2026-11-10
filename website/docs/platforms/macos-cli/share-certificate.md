@@ -16,6 +16,8 @@ Share your encryption certificate
 
 ## Share your encryption certificate
 
+The Moldovan ID card does not provide the encryption key required by these certificate/card commands. Use password encryption for that card. The CLI certificate commands are retained for compatible encryption certificates and hardware; a signing-only certificate is not suitable.
+
 Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
 
 Instructional command example — no operation executed.

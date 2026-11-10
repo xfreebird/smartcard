@@ -16,6 +16,7 @@ Deschide detaliile semnării, distribuie fișierele și golește istoricul recen
 
 ## Găsește și deschide documentele salvate
 
+Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
 Deschide Documente și selectează lista documentelor semnate. Alege un element pentru detaliile semnării, apoi folosește acțiunile de deschidere sau afișare. Comută la istoric pentru operațiile recente. Golirea istoricului păstrează biblioteca independentă de documente semnate și nu șterge fișierele semnate.
 
 ### Găsește documentele semnate

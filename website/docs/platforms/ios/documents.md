@@ -16,9 +16,11 @@ Open signing details, share saved files and clear recent history.
 
 ## Find a saved document and open its signing details
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
-<GuideScreenshot src="/img/guide/iphone/en/documents.png" alt="Open Documents and select the intended file." steps={[{"text": "Open Documents and select the intended file.", "x": 14, "y": 40}, {"text": "Use the search field to narrow the saved-document list.", "x": 10, "y": 22}]} />
+<GuideScreenshot src="/img/guide/iphone/en/documents-protection-light.png" alt="Open Documents and select the intended file." steps={[{"text": "Open Documents and select the intended file.", "x": 20, "y": 47}, {"text": "Use the search field to narrow the saved-document list.", "x": 20, "y": 22}]} />
 <GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Review the document’s signing details." steps={[{"text": "Review the document’s signing details.", "x": 12, "y": 31}, {"text": "Choose Preview to read the file or Share to save/send it.", "x": 8, "y": 44}, {"text": "Choose Done to return to the library.", "x": 90, "y": 12}]} />
 
 ## Clear recent history while keeping saved documents

@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+import MoldSignKit
 @testable import MoldSignGnome
 
 final class DocumentsStoreTests: XCTestCase {
@@ -66,6 +67,38 @@ final class DocumentsStoreTests: XCTestCase {
         XCTAssertEqual(restored.map(\.kind), items.map(\.kind))
         XCTAssertEqual(restored.map(\.filePath), items.map(\.filePath))
         XCTAssertTrue(restored.allSatisfy(\.isSavedDocument))
+    }
+
+    func testPasswordRoundTripSavedLibraryAndDeletion() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let original = root.appendingPathComponent("input.txt")
+        let encrypted = root.appendingPathComponent("input.txt.symmetric.p7m")
+        let decrypted = root.appendingPathComponent("decrypted-input.txt")
+        let bytes = Data("Synthetic document\nUnicode: ăîșț\n".utf8)
+        try bytes.write(to: original)
+        let password = "test-only-roundtrip"
+        try ProtectedFileIO.saveNew(PasswordFileProtection.encrypt(ProtectedFileIO.read(original), password: password), to: encrypted)
+        XCTAssertNotEqual(try Data(contentsOf: encrypted), bytes)
+        try ProtectedFileIO.saveNew(PasswordFileProtection.decrypt(ProtectedFileIO.read(encrypted), password: password), to: decrypted)
+        XCTAssertEqual(try Data(contentsOf: decrypted), bytes)
+        let items = [ActivityItem(kind: .encrypted, title: encrypted.lastPathComponent, subtitle: "", ok: true, filePath: encrypted.path),
+                     ActivityItem(kind: .decrypted, title: decrypted.lastPathComponent, subtitle: "", ok: true, filePath: decrypted.path)]
+        let library = root.appendingPathComponent("documents.json")
+        let history = root.appendingPathComponent("activity.json")
+        XCTAssertTrue(Store.saveSignedDocuments(items, to: library))
+        try Data("[]".utf8).write(to: history)
+        var restored = Store.loadSignedDocuments(from: library, historyURL: history)
+        XCTAssertEqual(restored.map(\.kind), [.encrypted, .decrypted])
+        XCTAssertTrue(restored.allSatisfy { $0.isSavedDocument && !$0.isSignedDocument })
+        try FileManager.default.removeItem(at: encrypted)
+        restored.removeAll { $0.filePath == encrypted.path }
+        XCTAssertTrue(Store.saveSignedDocuments(restored, to: library))
+        XCTAssertEqual(Store.loadSignedDocuments(from: library, historyURL: history).map(\.filePath), [decrypted.path])
+        XCTAssertFalse(FileManager.default.fileExists(atPath: encrypted.path))
+        XCTAssertEqual(try Data(contentsOf: original), bytes)
+        XCTAssertEqual(try Data(contentsOf: decrypted), bytes)
     }
 
     func testSavedLibraryHasNoHistoryLimit() throws {

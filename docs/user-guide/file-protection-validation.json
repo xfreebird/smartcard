@@ -1,47 +1,48 @@
 {
+  "date": "2026-11-10",
   "coverage": {
     "guides": [
       {
         "locale": "en",
         "platform": "macos",
-        "panels": 26,
-        "assets": 25
+        "panels": 28,
+        "assets": 26
       },
       {
         "locale": "en",
         "platform": "ios",
-        "panels": 27,
-        "assets": 25
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "en",
         "platform": "ipad",
-        "panels": 27,
-        "assets": 25
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "en",
         "platform": "android",
-        "panels": 29,
-        "assets": 28
+        "panels": 31,
+        "assets": 30
       },
       {
         "locale": "en",
         "platform": "android-tablet",
-        "panels": 29,
-        "assets": 28
+        "panels": 31,
+        "assets": 30
       },
       {
         "locale": "en",
         "platform": "linux",
-        "panels": 31,
-        "assets": 27
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "en",
         "platform": "windows",
-        "panels": 21,
-        "assets": 18
+        "panels": 19,
+        "assets": 17
       },
       {
         "locale": "en",
@@ -64,44 +65,44 @@
       {
         "locale": "ro",
         "platform": "macos",
-        "panels": 26,
-        "assets": 25
+        "panels": 28,
+        "assets": 26
       },
       {
         "locale": "ro",
         "platform": "ios",
-        "panels": 27,
-        "assets": 25
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "ro",
         "platform": "ipad",
-        "panels": 27,
-        "assets": 25
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "ro",
         "platform": "android",
-        "panels": 29,
-        "assets": 28
+        "panels": 31,
+        "assets": 30
       },
       {
         "locale": "ro",
         "platform": "android-tablet",
-        "panels": 29,
-        "assets": 28
+        "panels": 31,
+        "assets": 30
       },
       {
         "locale": "ro",
         "platform": "linux",
-        "panels": 31,
-        "assets": 27
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "ro",
         "platform": "windows",
-        "panels": 21,
-        "assets": 18
+        "panels": 19,
+        "assets": 17
       },
       {
         "locale": "ro",
@@ -124,44 +125,44 @@
       {
         "locale": "ru",
         "platform": "macos",
-        "panels": 26,
-        "assets": 25
+        "panels": 28,
+        "assets": 26
       },
       {
         "locale": "ru",
         "platform": "ios",
-        "panels": 27,
-        "assets": 25
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "ru",
         "platform": "ipad",
-        "panels": 27,
-        "assets": 25
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "ru",
         "platform": "android",
-        "panels": 29,
-        "assets": 28
+        "panels": 31,
+        "assets": 30
       },
       {
         "locale": "ru",
         "platform": "android-tablet",
-        "panels": 29,
-        "assets": 28
+        "panels": 31,
+        "assets": 30
       },
       {
         "locale": "ru",
         "platform": "linux",
-        "panels": 31,
-        "assets": 27
+        "panels": 29,
+        "assets": 26
       },
       {
         "locale": "ru",
         "platform": "windows",
-        "panels": 21,
-        "assets": 18
+        "panels": 19,
+        "assets": 17
       },
       {
         "locale": "ru",
@@ -183,19 +184,11 @@
       }
     ],
     "guideCount": 30,
-    "taskPageCount": 369,
-    "panelCount": 684,
+    "taskPageCount": 327,
+    "panelCount": 702,
     "errors": []
   },
-  "checks": {
-    "generator": "passed",
-    "assets_and_coordinates": "passed",
-    "whitespace": "passed",
-    "site_build": "passed for en, ro and ru",
-    "browser_render": "Firefox desktop enlarged view and 390px Russian mobile enlarged view inspected; annotations outside image",
-    "screenshots": "72 native localized light captures across seven app forms (70 changed PNGs, two identical Romanian recaptures); fictional fixtures, no banner",
-    "website_tests": "26 passed",
-    "seo": "passed"
-  },
-  "publication": "Website workflow on main publishes this correction; use its commit-linked deployment status."
+  "annotationTests": "4 passed: all702 panels outside app pixels at phone, desktop and actual size",
+  "websiteBuild": "EN/RO/RU production builds passed",
+  "screenshots": "96 current localized native protection captures; evidence and limits in file-protection-evidence.json"
 }

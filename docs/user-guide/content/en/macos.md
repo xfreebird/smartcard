@@ -105,9 +105,11 @@ A visible signature image or stamp is not proof of an electronic signature. If n
 
 ## Find a saved signed document
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Documents and operation History are separate collections. Entries refer to files; if a file has moved or disappeared, choose the file again from its new location for verification.
 
-<GuideScreenshot src="/img/guide/macos/en/documents.png" alt="Find a saved signed document" steps={[{"x": 8, "y": 19, "text": "Open Documents and choose Signed documents."}, {"x": 79, "y": 3, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Find a saved signed document" steps={[{"x": 30, "y": 20, "text": "Open Documents and choose Saved documents."}, {"x": 82, "y": 3, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
 
 ## Inspect and hand off a saved document
 
@@ -117,9 +119,9 @@ The details modal uses the same verification presentation as Verify. Inspecting 
 
 ## Clear operation history while keeping documents
 
-Choose the trash control, read the confirmation and confirm only if you want to remove the operation list. This does not delete signed files or the separate Signed documents collection. Return to Signed documents to continue using your saved output.
+Choose the trash control, read the confirmation and confirm only if you want to remove the operation list. This does not delete signed files or the separate Saved documents collection. Return to Saved documents to continue using your saved output.
 
-<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Clear operation history while keeping documents" steps={[{"x": 64, "y": 8, "text": "In Documents, select History."}, {"x": 73, "y": 8, "text": "Choose the trash control and confirm the history-only cleanup."}, {"x": 51, "y": 8, "text": "Return to Signed documents; the saved collection remains available."}]} />
+<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Clear operation history while keeping documents" steps={[{"x": 64, "y": 8, "text": "In Documents, select History."}, {"x": 73, "y": 8, "text": "Choose the trash control and confirm the history-only cleanup."}, {"x": 51, "y": 8, "text": "Return to Saved documents; the saved collection remains available."}]} />
 
 ## Use a service and manage bookmarks
 
@@ -210,49 +212,45 @@ For terminal automation, package-manager installation and unattended policy, con
 
 ## Encrypt a file with a password
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 33, "text": "Choose the source file."}, {"x": 35, "y": 59, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50, "y": 81, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 59, "y": 3}]} />
 
-## Encrypt for a certificate holder
+<GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 30, "text": "Choose the source file."}, {"x": 35, "y": 51, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 82, "text": "Choose Encrypt. The encrypted copy is saved in Documents; choose Done when finished."}]} />
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+<GuideScreenshot src="/img/guide/macos/en/protect-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={6} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 40, "y": 52}, {"text": "Optionally choose Save a copy to export another copy.", "x": 40, "y": 62}, {"text": "Choose Done to return to Documents.", "x": 70, "y": 90}]} />
 
-Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
+Choose **Encrypt** or **Decrypt**. The new output is saved automatically in **Documents → Saved documents**. Choose **Done** to return, or **Save a copy** to export it to Files or another location. The original is kept.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 33, "text": "Choose the source file."}, {"x": 67, "y": 48, "text": "Choose Certificate/card."}, {"x": 38, "y": 59, "text": "Choose the recipient’s certificate file."}, {"x": 50, "y": 81, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
 
 
 ## Decrypt a received file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
+Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 59, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 81, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 59, "y": 3}]} />
 
-For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 51, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 82, "text": "Choose Decrypt. Check the new output in Documents; choose Done when finished."}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={5} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 40, "y": 52}, {"text": "Optionally choose Save a copy to export another copy.", "x": 40, "y": 62}, {"text": "Choose Done to return to Documents.", "x": 70, "y": 90}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
+Choose **Encrypt** or **Decrypt**. The new output is saved automatically in **Documents → Saved documents**. Choose **Done** to return, or **Save a copy** to export it to Files or another location. The original is kept.
 
-## Share your encryption certificate
-
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
-
-Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
-
-<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 67, "y": 48, "text": "Choose Certificate/card."}, {"x": 35, "y": 64, "text": "Choose Read my card; scroll if needed."}]} />
-
-After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
 
 
 ## Remove a local file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 

@@ -16,9 +16,11 @@ Open signing details, share saved files and clear recent history.
 
 ## Find signed documents
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Files contains a signed-output library and a separate activity history. A saved entry is a shortcut to a file, not a substitute for a backup.
 
-<GuideScreenshot src="/img/guide/android-phone/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Files and select Signed documents.", "x": 5.8, "y": 16.6}, {"text": "Tap a document row to open its signing-details modal. The app checks the current file again.", "x": 15.5, "y": 29.1}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Files and select Saved documents.", "x": 5.8, "y": 16.6}, {"text": "Tap a document row to open its signing-details modal. The app checks the current file again.", "x": 15.5, "y": 29.1}]} />
 
 ## Read signing details without losing your list
 
@@ -28,6 +30,6 @@ The modal’s verdict is a fresh verification, not just a historical “signed�
 
 ## Clear history while keeping documents
 
-History lists document operations and website requests. Clearing it does not clear Signed documents or delete signed files on storage.
+History lists document operations and website requests. Clearing it does not clear Saved documents or delete signed files on storage.
 
-<GuideScreenshot src="/img/guide/android-phone/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History in Files and review the recent actions.", "x": 43.6, "y": 16.6}, {"text": "Tap Clear the list and confirm, then return to Signed documents to access saved outputs.", "x": 72.0, "y": 23.6}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History in Files and review the recent actions.", "x": 43.6, "y": 16.6}, {"text": "Tap Clear the list and confirm, then return to Saved documents to access saved outputs.", "x": 72.0, "y": 23.6}]} />

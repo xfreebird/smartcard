@@ -1,175 +1,175 @@
 {
   "overviews": 30,
-  "taskPages": 369,
-  "panels": 684,
+  "taskPages": 327,
+  "panels": 702,
   "coverage": [
     {
       "platform": "macos",
       "locale": "en",
-      "topics": 14,
-      "panels": 26,
-      "originalSections": 32,
-      "redirects": 32
+      "topics": 12,
+      "panels": 28,
+      "originalSections": 30,
+      "redirects": 30
     },
     {
       "platform": "macos",
       "locale": "ro",
-      "topics": 14,
-      "panels": 26,
-      "originalSections": 32,
-      "redirects": 32
+      "topics": 12,
+      "panels": 28,
+      "originalSections": 30,
+      "redirects": 30
     },
     {
       "platform": "macos",
       "locale": "ru",
-      "topics": 14,
-      "panels": 26,
-      "originalSections": 32,
-      "redirects": 32
+      "topics": 12,
+      "panels": 28,
+      "originalSections": 30,
+      "redirects": 30
     },
     {
       "platform": "ios",
       "locale": "en",
-      "topics": 13,
-      "panels": 27,
-      "originalSections": 22,
-      "redirects": 21
+      "topics": 11,
+      "panels": 29,
+      "originalSections": 20,
+      "redirects": 19
     },
     {
       "platform": "ios",
       "locale": "ro",
-      "topics": 13,
-      "panels": 27,
-      "originalSections": 22,
-      "redirects": 21
+      "topics": 11,
+      "panels": 29,
+      "originalSections": 20,
+      "redirects": 19
     },
     {
       "platform": "ios",
       "locale": "ru",
-      "topics": 13,
-      "panels": 27,
-      "originalSections": 22,
-      "redirects": 21
+      "topics": 11,
+      "panels": 29,
+      "originalSections": 20,
+      "redirects": 19
     },
     {
       "platform": "ipad",
       "locale": "en",
-      "topics": 13,
-      "panels": 27,
-      "originalSections": 22,
-      "redirects": 21
+      "topics": 11,
+      "panels": 29,
+      "originalSections": 20,
+      "redirects": 19
     },
     {
       "platform": "ipad",
       "locale": "ro",
-      "topics": 13,
-      "panels": 27,
-      "originalSections": 22,
-      "redirects": 21
+      "topics": 11,
+      "panels": 29,
+      "originalSections": 20,
+      "redirects": 19
     },
     {
       "platform": "ipad",
       "locale": "ru",
-      "topics": 13,
-      "panels": 27,
-      "originalSections": 22,
-      "redirects": 21
+      "topics": 11,
+      "panels": 29,
+      "originalSections": 20,
+      "redirects": 19
     },
     {
       "platform": "android",
       "locale": "en",
-      "topics": 12,
-      "panels": 29,
-      "originalSections": 29,
-      "redirects": 29
+      "topics": 10,
+      "panels": 31,
+      "originalSections": 27,
+      "redirects": 27
     },
     {
       "platform": "android",
       "locale": "ro",
-      "topics": 12,
-      "panels": 29,
-      "originalSections": 29,
-      "redirects": 29
+      "topics": 10,
+      "panels": 31,
+      "originalSections": 27,
+      "redirects": 27
     },
     {
       "platform": "android",
       "locale": "ru",
-      "topics": 12,
-      "panels": 29,
-      "originalSections": 29,
-      "redirects": 29
+      "topics": 10,
+      "panels": 31,
+      "originalSections": 27,
+      "redirects": 27
     },
     {
       "platform": "android-tablet",
       "locale": "en",
-      "topics": 12,
-      "panels": 29,
-      "originalSections": 29,
-      "redirects": 29
+      "topics": 10,
+      "panels": 31,
+      "originalSections": 27,
+      "redirects": 27
     },
     {
       "platform": "android-tablet",
       "locale": "ro",
-      "topics": 12,
-      "panels": 29,
-      "originalSections": 29,
-      "redirects": 29
+      "topics": 10,
+      "panels": 31,
+      "originalSections": 27,
+      "redirects": 27
     },
     {
       "platform": "android-tablet",
       "locale": "ru",
+      "topics": 10,
+      "panels": 31,
+      "originalSections": 27,
+      "redirects": 27
+    },
+    {
+      "platform": "linux",
+      "locale": "en",
       "topics": 12,
       "panels": 29,
-      "originalSections": 29,
-      "redirects": 29
-    },
-    {
-      "platform": "linux",
-      "locale": "en",
-      "topics": 14,
-      "panels": 31,
-      "originalSections": 32,
-      "redirects": 32
+      "originalSections": 30,
+      "redirects": 30
     },
     {
       "platform": "linux",
       "locale": "ro",
-      "topics": 14,
-      "panels": 31,
-      "originalSections": 32,
-      "redirects": 32
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 30,
+      "redirects": 30
     },
     {
       "platform": "linux",
       "locale": "ru",
-      "topics": 14,
-      "panels": 31,
-      "originalSections": 32,
-      "redirects": 32
+      "topics": 12,
+      "panels": 29,
+      "originalSections": 30,
+      "redirects": 30
     },
     {
       "platform": "windows",
       "locale": "en",
-      "topics": 13,
-      "panels": 21,
-      "originalSections": 13,
-      "redirects": 13
+      "topics": 11,
+      "panels": 19,
+      "originalSections": 11,
+      "redirects": 11
     },
     {
       "platform": "windows",
       "locale": "ro",
-      "topics": 13,
-      "panels": 21,
-      "originalSections": 13,
-      "redirects": 13
+      "topics": 11,
+      "panels": 19,
+      "originalSections": 11,
+      "redirects": 11
     },
     {
       "platform": "windows",
       "locale": "ru",
-      "topics": 13,
-      "panels": 21,
-      "originalSections": 13,
-      "redirects": 13
+      "topics": 11,
+      "panels": 19,
+      "originalSections": 11,
+      "redirects": 11
     },
     {
       "platform": "macos-cli",

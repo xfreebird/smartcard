@@ -155,6 +155,7 @@ Referință avansată: macOS/Linux oferă și `sign-hex <digestinfo_hex>`, `cms-
 
 <!-- file-protection-guides -->
 
+
 ## Criptează un fișier cu parolă
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
@@ -167,7 +168,10 @@ Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
 esemnbun encrypt Contract.pdf Contract.enc
 ```
 
+
 ## Criptează pentru titularul unui certificat
+
+Cartea de identitate moldovenească nu oferă cheia de criptare necesară acestor comenzi pentru certificat/card. Folosește criptarea cu parolă pentru acest card. Comenzile CLI pentru certificate rămân disponibile pentru certificate și dispozitive de criptare compatibile; un certificat doar pentru semnare nu este potrivit.
 
 Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
 
@@ -179,7 +183,10 @@ Exemplu ilustrativ de comandă — operațiunea nu a fost executată.
 esemnbun encrypt Contract.pdf Contract.enc --certificate recipient.cer
 ```
 
+
 ## Decriptează un fișier primit
+
+Cartea de identitate moldovenească nu oferă cheia de criptare necesară acestor comenzi pentru certificat/card. Folosește criptarea cu parolă pentru acest card. Comenzile CLI pentru certificate rămân disponibile pentru certificate și dispozitive de criptare compatibile; un certificat doar pentru semnare nu este potrivit.
 
 Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
 
@@ -195,7 +202,10 @@ esemnbun decrypt Contract.enc Contract-opened.pdf --card SHA256
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
+
 ## Distribuie certificatul tău de criptare
+
+Cartea de identitate moldovenească nu oferă cheia de criptare necesară acestor comenzi pentru certificat/card. Folosește criptarea cu parolă pentru acest card. Comenzile CLI pentru certificate rămân disponibile pentru certificate și dispozitive de criptare compatibile; un certificat doar pentru semnare nu este potrivit.
 
 Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
 
@@ -209,6 +219,7 @@ esemnbun encryption-certs --card SHA256 --out recipient.cer
 ```
 
 Distribuie numai recipient.cer; exportul nu cere PIN și nu exportă cheia privată.
+
 
 ## Elimină un fișier local
 

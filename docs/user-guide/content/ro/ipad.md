@@ -81,9 +81,11 @@ Invalid înseamnă că verificarea semnăturii sau integrității a eșuat. Înc
 
 ## Găsește un document și deschide detaliile semnării
 
+Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
+
 Deschide Documente și selectează un element salvat. Fereastra detaliilor folosește aceeași prezentare ca Verifică și nu înlocuiește spațiul de verificare curent. Previzualizare deschide conținutul; Partajează exportă fișierul ales. Dacă fișierul a fost mutat sau nu poate fi citit, selectează-l din locația reală.
 
-<GuideScreenshot src="/img/guide/ipad/ro/documents.png" alt="Deschide Documente și selectează fișierul dorit." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Deschide Documente și selectează fișierul dorit.", "x": 7.0, "y": 51.2}, {"text": "Folosește căutarea pentru restrângerea listei.", "x": 97.0, "y": 11.6}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/documents-protection-light.png" alt="Deschide Documente și selectează fișierul dorit." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Deschide Documente și selectează fișierul dorit.", "x": 20, "y": 22}, {"text": "Folosește căutarea pentru restrângerea listei.", "x": 95, "y": 4}]} />
 <GuideScreenshot src="/img/guide/ipad/ro/details.png" alt="Verifică detaliile semnării documentului." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Verifică detaliile semnării documentului.", "x": 10.0, "y": 52.9}, {"text": "Alege Previzualizare pentru citire sau Partajează pentru salvare/trimitere.", "x": 5.7, "y": 79.4}, {"text": "Apasă Gata pentru revenirea la bibliotecă.", "x": 92.9, "y": 11.8}]} />
 
 ## Șterge istoricul păstrând documentele salvate
@@ -139,41 +141,37 @@ Fără cititor: verifică firul, adaptorul și alimentarea. Cititor gol: reintro
 
 ## Criptează un fișier cu parolă
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-<GuideScreenshot src="/img/guide/ipad/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 37, "y": 33, "text": "Alege Criptează."}, {"x": 35, "y": 44, "text": "Alege fișierul sursă."}, {"x": 32, "y": 64, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50, "y": 73, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
 
+<GuideScreenshot src="/img/guide/ipad/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 90, "y": 6}]} />
 
-## Criptează pentru titularul unui certificat
+<GuideScreenshot src="/img/guide/ipad/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 37, "y": 31, "text": "Alege Criptează."}, {"x": 35, "y": 42, "text": "Alege fișierul sursă."}, {"x": 32, "y": 59, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 73, "text": "Alege Criptează. Copia criptată este salvată în Documente; alege Gata la final."}]} />
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+<GuideScreenshot src="/img/guide/ipad/ro/protect-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={6} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 35, "y": 53}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 35, "y": 61}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 22, "y": 25}]} />
 
-Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
+Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 
-<GuideScreenshot src="/img/guide/ipad/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 37, "y": 33, "text": "Alege Criptează."}, {"x": 35, "y": 44, "text": "Alege fișierul sursă."}, {"x": 38, "y": 55, "text": "Alege Certificat/card."}, {"x": 38, "y": 65, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50, "y": 73, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+Documente salvate include fișiere semnate, criptate și decriptate. Identifică rezultatul după numele fișierului și eticheta operațiunii. Criptarea nu creează o semnătură digitală; fișierele criptate trebuie decriptate înainte de deschiderea sau verificarea conținutului.
 
 
 ## Decriptează un fișier primit
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
-Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
+Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
 
-<GuideScreenshot src="/img/guide/ipad/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 37, "y": 33, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 32, "y": 64, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50, "y": 73, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 90, "y": 6}]} />
 
-Pentru decriptare cu cardul: alege Certificat/card, apoi Citește cardul meu. Selectează identitatea de criptare corespunzătoare, verifică detaliile, introdu PIN-ul și alege Decriptează. Salvează cu un nume nou. Dacă nu apare o identitate compatibilă, cere o copie criptată cu parolă. Oprește-te după o eroare PIN; nu reîncerca automat.
+<GuideScreenshot src="/img/guide/ipad/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" start={2} steps={[{"x": 37, "y": 31, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 32, "y": 55, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 73, "text": "Alege Decriptează. Verifică rezultatul nou în Documente; alege Gata la final."}]} />
+
+<GuideScreenshot src="/img/guide/ipad/ro/protect-decrypt-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={5} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 35, "y": 53}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 35, "y": 61}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 22, "y": 25}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
+Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 
-## Distribuie certificatul tău de criptare
-
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
-
-Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
-
-<GuideScreenshot src="/img/guide/ipad/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 38, "y": 55, "text": "Alege Certificat/card. Alege Citește cardul meu; derulează la nevoie."}]} />
-
-După citire, selectează identitatea dorită și extinde Detalii certificat. Alege Exportă certificatul de criptare, salvează fișierul .cer și transmite-l expeditorului. Compară amprenta separat. Se exportă numai certificatul public; cheia privată rămâne pe card. Captura arată ecranul inițial, înainte de citire.
+Documente salvate include fișiere semnate, criptate și decriptate. Identifică rezultatul după numele fișierului și eticheta operațiunii. Criptarea nu creează o semnătură digitală; fișierele criptate trebuie decriptate înainte de deschiderea sau verificarea conținutului.

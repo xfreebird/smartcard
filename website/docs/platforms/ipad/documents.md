@@ -16,9 +16,11 @@ Open signing details, share saved files and clear recent history.
 
 ## Find a saved document and open its signing details
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
-<GuideScreenshot src="/img/guide/ipad/en/documents.png" alt="Open Documents and select the intended file." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Open Documents and select the intended file.", "x": 7.0, "y": 51.2}, {"text": "Use the search field to narrow the saved-document list.", "x": 97.0, "y": 11.6}]} />
+<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents and select the intended file." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Open Documents and select the intended file.", "x": 20, "y": 22}, {"text": "Use the search field to narrow the saved-document list.", "x": 95, "y": 4}]} />
 <GuideScreenshot src="/img/guide/ipad/en/details.png" alt="Review the document’s signing details." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Review the document’s signing details.", "x": 10.0, "y": 52.9}, {"text": "Choose Preview to read the file or Share to save/send it.", "x": 5.7, "y": 79.4}, {"text": "Choose Done to return to the library.", "x": 92.9, "y": 11.8}]} />
 
 ## Clear recent history while keeping saved documents

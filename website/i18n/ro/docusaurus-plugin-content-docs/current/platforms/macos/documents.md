@@ -16,9 +16,11 @@ Deschide detaliile semnării, distribuie fișierele și golește istoricul recen
 
 ## Găsește un document semnat salvat
 
+Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
+
 Documentele și Istoricul operațiunilor sunt colecții separate. Intrările indică fișiere; dacă un fișier a fost mutat sau eliminat, selectează-l din nou din noua locație pentru verificare.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents.png" alt="Găsește un document semnat salvat" steps={[{"x": 8, "y": 19, "text": "Deschide Documente și alege Documente semnate."}, {"x": 79, "y": 3, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Găsește un document semnat salvat" steps={[{"x": 30, "y": 20, "text": "Deschide Documente și alege Documente salvate."}, {"x": 82, "y": 3, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
 
 ## Inspectează și transmite un document salvat
 
@@ -28,6 +30,6 @@ Fereastra cu detalii folosește aceeași prezentare ca Verifică. Inspectarea un
 
 ## Curăță istoricul păstrând documentele
 
-Apasă coșul, citește confirmarea și confirmă numai dacă dorești ștergerea listei de operațiuni. Acțiunea nu șterge fișierele semnate și nici colecția separată de Documente semnate. Revino la Documente semnate pentru a folosi rezultatele salvate.
+Apasă coșul, citește confirmarea și confirmă numai dacă dorești ștergerea listei de operațiuni. Acțiunea nu șterge fișierele semnate și nici colecția separată de Documente salvate. Revino la Documente salvate pentru a folosi rezultatele salvate.
 
-<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"x": 64, "y": 8, "text": "În Documente, selectează Istoric."}, {"x": 73, "y": 8, "text": "Apasă coșul și confirmă curățarea exclusivă a istoricului."}, {"x": 51, "y": 8, "text": "Revino la Documente semnate; colecția salvată rămâne disponibilă."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"x": 64, "y": 8, "text": "În Documente, selectează Istoric."}, {"x": 73, "y": 8, "text": "Apasă coșul și confirmă curățarea exclusivă a istoricului."}, {"x": 51, "y": 8, "text": "Revino la Documente salvate; colecția salvată rămâne disponibilă."}]} />

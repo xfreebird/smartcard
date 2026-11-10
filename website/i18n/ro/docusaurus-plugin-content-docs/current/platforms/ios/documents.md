@@ -16,9 +16,11 @@ Deschide detaliile semnării, distribuie fișierele și golește istoricul recen
 
 ## Găsește un document și deschide detaliile semnării
 
+Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
+
 Deschide Documente și selectează un element salvat. Fereastra detaliilor folosește aceeași prezentare ca Verifică și nu înlocuiește spațiul de verificare curent. Previzualizare deschide conținutul; Partajează exportă fișierul ales. Dacă fișierul a fost mutat sau nu poate fi citit, selectează-l din locația reală.
 
-<GuideScreenshot src="/img/guide/iphone/ro/documents.png" alt="Deschide Documente și selectează fișierul dorit." steps={[{"text": "Deschide Documente și selectează fișierul dorit.", "x": 14, "y": 40}, {"text": "Folosește căutarea pentru restrângerea listei.", "x": 10, "y": 22}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="Deschide Documente și selectează fișierul dorit." steps={[{"text": "Deschide Documente și selectează fișierul dorit.", "x": 20, "y": 47}, {"text": "Folosește căutarea pentru restrângerea listei.", "x": 20, "y": 22}]} />
 <GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Verifică detaliile semnării documentului." steps={[{"text": "Verifică detaliile semnării documentului.", "x": 12, "y": 31}, {"text": "Alege Previzualizare pentru citire sau Partajează pentru salvare/trimitere.", "x": 8, "y": 44}, {"text": "Apasă Gata pentru revenirea la bibliotecă.", "x": 90, "y": 12}]} />
 
 ## Șterge istoricul păstrând documentele salvate

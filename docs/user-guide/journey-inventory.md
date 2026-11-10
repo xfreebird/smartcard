@@ -1,6 +1,6 @@
 # Illustrated user guide: feature and journey inventory
 
-Source audit: 8 November 2026, current working tree. This is the production plan for end-user documentation, not a claim that every hardware or system integration has been exercised. Screenshots must use isolated fictional data. Keep disclosure that illustrations use fictional data in the guide introduction, outside the screenshots; do not display a demo banner inside documentation captures.
+Source audit: 8 November 2026, current working tree. This is the production plan for end-user documentation, not a claim that every hardware or system integration has been exercised. Screenshots must use isolated fictional data. Do not describe the sample data in public guides and do not display a demo banner inside documentation captures.
 
 ## Deliverables and languages
 
@@ -139,3 +139,7 @@ Windows source verification: `CliApp.Run` explicitly dispatches `mcp` to `McpHos
 Added five discoverable goals: password encryption, encryption for a certificate holder, password/card decryption, public encryption-certificate sharing, and local file removal. Each has EN/RO/RU numbered guides for Mac, Windows, Linux and their CLI tools. iPhone, iPad and Android phone/tablet cover the first four; removal is unavailable on mobile.
 
 Recaptured the native screens separately in EN/RO/RU. Numbers and pointer lines remain entirely outside the image in reserved gutters. `file-protection-evidence.json` records native locale, source and hashes. Card discovery/export completion and card decryption remain textual instructions from source, not runtime success evidence. CLI panels are explicitly instructional command illustrations.
+
+## File protection revision — 10 November 2026
+
+Native apps expose password encryption/decryption from the Documents navigation menu. The Moldovan ID card has no supported encryption key, so native certificate/card journeys are removed. CLI compatibility commands remain documented with this restriction. Capture the menu entry, clearly bordered password/confirmation fields, completion with Done, and saved encrypted/decrypted entries. Apple and Android save app-managed outputs automatically; Windows and Linux use a save-location step. Captures must reflect the final platform behavior, including each locale.

@@ -105,9 +105,11 @@ Imaginea unei semnături sau ștampile nu dovedește o semnătură electronică.
 
 ## Găsește un document semnat salvat
 
+Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
+
 Documentele și Istoricul operațiunilor sunt colecții separate. Intrările indică fișiere; dacă un fișier a fost mutat sau eliminat, selectează-l din nou din noua locație pentru verificare.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents.png" alt="Găsește un document semnat salvat" steps={[{"x": 8, "y": 19, "text": "Deschide Documente și alege Documente semnate."}, {"x": 79, "y": 3, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Găsește un document semnat salvat" steps={[{"x": 30, "y": 20, "text": "Deschide Documente și alege Documente salvate."}, {"x": 82, "y": 3, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
 
 ## Inspectează și transmite un document salvat
 
@@ -117,9 +119,9 @@ Fereastra cu detalii folosește aceeași prezentare ca Verifică. Inspectarea un
 
 ## Curăță istoricul păstrând documentele
 
-Apasă coșul, citește confirmarea și confirmă numai dacă dorești ștergerea listei de operațiuni. Acțiunea nu șterge fișierele semnate și nici colecția separată de Documente semnate. Revino la Documente semnate pentru a folosi rezultatele salvate.
+Apasă coșul, citește confirmarea și confirmă numai dacă dorești ștergerea listei de operațiuni. Acțiunea nu șterge fișierele semnate și nici colecția separată de Documente salvate. Revino la Documente salvate pentru a folosi rezultatele salvate.
 
-<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"x": 64, "y": 8, "text": "În Documente, selectează Istoric."}, {"x": 73, "y": 8, "text": "Apasă coșul și confirmă curățarea exclusivă a istoricului."}, {"x": 51, "y": 8, "text": "Revino la Documente semnate; colecția salvată rămâne disponibilă."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"x": 64, "y": 8, "text": "În Documente, selectează Istoric."}, {"x": 73, "y": 8, "text": "Apasă coșul și confirmă curățarea exclusivă a istoricului."}, {"x": 51, "y": 8, "text": "Revino la Documente salvate; colecția salvată rămâne disponibilă."}]} />
 
 ## Folosește un serviciu și gestionează marcajele
 
@@ -210,49 +212,45 @@ Pentru automatizare în terminal, instalare prin manager de pachete și politici
 
 ## Criptează un fișier cu parolă
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 33, "text": "Alege fișierul sursă."}, {"x": 35, "y": 59, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50, "y": 81, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
 
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 59, "y": 3}]} />
 
-## Criptează pentru titularul unui certificat
+<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 30, "text": "Alege fișierul sursă."}, {"x": 35, "y": 51, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 82, "text": "Alege Criptează. Copia criptată este salvată în Documente; alege Gata la final."}]} />
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+<GuideScreenshot src="/img/guide/macos/ro/protect-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={6} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 40, "y": 52}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 40, "y": 62}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 70, "y": 90}]} />
 
-Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
+Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 33, "text": "Alege fișierul sursă."}, {"x": 67, "y": 48, "text": "Alege Certificat/card."}, {"x": 38, "y": 59, "text": "Alege fișierul certificatului destinatarului."}, {"x": 50, "y": 81, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+Documente salvate include fișiere semnate, criptate și decriptate. Identifică rezultatul după numele fișierului și eticheta operațiunii. Criptarea nu creează o semnătură digitală; fișierele criptate trebuie decriptate înainte de deschiderea sau verificarea conținutului.
 
 
 ## Decriptează un fișier primit
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
-Întreabă expeditorul ce metodă a folosit. Pentru fișiere cu parolă, obține parola separat. Pentru fișiere cu certificat, conectează cardul corespunzător și cititorul compatibil; ai nevoie de cheia de criptare și PIN. Alt card sau un card doar pentru semnare nu poate decripta fișierul.
+Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 56, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 35, "y": 59, "text": "Alege Parolă și introdu parola primită de la expeditor."}, {"x": 50, "y": 81, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 59, "y": 3}]} />
 
-Pentru decriptare cu cardul: alege Certificat/card, apoi Citește cardul meu. Selectează identitatea de criptare corespunzătoare, verifică detaliile, introdu PIN-ul și alege Decriptează. Salvează cu un nume nou. Dacă nu apare o identitate compatibilă, cere o copie criptată cu parolă. Oprește-te după o eroare PIN; nu reîncerca automat.
+<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" start={2} steps={[{"x": 56, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 35, "y": 51, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 82, "text": "Alege Decriptează. Verifică rezultatul nou în Documente; alege Gata la final."}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={5} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 40, "y": 52}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 40, "y": 62}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 70, "y": 90}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
+Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 
-## Distribuie certificatul tău de criptare
-
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
-
-Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
-
-<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Criptează pentru titularul unui certificat" steps={[{"x": 67, "y": 48, "text": "Alege Certificat/card."}, {"x": 35, "y": 64, "text": "Alege Citește cardul meu; derulează la nevoie."}]} />
-
-După citire, selectează identitatea dorită și extinde Detalii certificat. Alege Exportă certificatul de criptare, salvează fișierul .cer și transmite-l expeditorului. Compară amprenta separat. Se exportă numai certificatul public; cheia privată rămâne pe card. Captura arată ecranul inițial, înainte de citire.
+Documente salvate include fișiere semnate, criptate și decriptate. Identifică rezultatul după numele fișierului și eticheta operațiunii. Criptarea nu creează o semnătură digitală; fișierele criptate trebuie decriptate înainte de deschiderea sau verificarea conținutului.
 
 
 ## Elimină un fișier local
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 

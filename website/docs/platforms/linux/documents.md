@@ -16,6 +16,8 @@ Open signing details, share saved files and clear recent history.
 
 ## Find signed documents
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Documents contains a signed-output collection and separate operation History. Entries point to actual files and do not replace a backup. A missing or moved file needs to be selected again at its new location.
 
 <GuideScreenshot src="/img/guide/linux/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Documents.", "x": 55, "y": 3}, {"text": "Select the saved document row.", "x": 42, "y": 26}, {"text": "Use Signing details or the folder icon for the selected file.", "x": 36, "y": 37}]} />
@@ -28,8 +30,8 @@ Click the document row or Signing details to open the modal. It verifies the cur
 
 ## Clear history while keeping documents
 
-Switch to History, choose Clear list and read the confirmation before accepting it. Clearing history removes operation entries, not signed files or the separate Signed documents collection. Return to Signed documents afterward.
+Switch to History, choose Clear list and read the confirmation before accepting it. Clearing history removes operation entries, not signed files or the separate Saved documents collection. Return to Saved documents afterward.
 
-<GuideScreenshot src="/img/guide/linux/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Review History; Signed documents returns to your saved collection.", "x": 17, "y": 10}, {"text": "Choose Clear list and confirm history-only removal.", "x": 79, "y": 20}]} />
+<GuideScreenshot src="/img/guide/linux/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Review History; Saved documents returns to your saved collection.", "x": 17, "y": 10}, {"text": "Choose Clear list and confirm history-only removal.", "x": 79, "y": 20}]} />
 
-<GuideScreenshot src="/img/guide/linux/en/history-confirm.png" alt="Clear history while keeping documents" start={3} steps={[{"x": 57, "y": 57, "text": "Read the history-only confirmation, then choose Clear list or Cancel. Signed documents remain available."}]} />
+<GuideScreenshot src="/img/guide/linux/en/history-confirm.png" alt="Clear history while keeping documents" start={3} steps={[{"x": 57, "y": 57, "text": "Read the history-only confirmation, then choose Clear list or Cancel. Saved documents remain available."}]} />

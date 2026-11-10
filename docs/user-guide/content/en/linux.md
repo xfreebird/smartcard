@@ -111,6 +111,8 @@ For detached XAdES, put the exact unchanged original beside the XML, using the n
 
 ## 17. Find signed documents
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Documents contains a signed-output collection and separate operation History. Entries point to actual files and do not replace a backup. A missing or moved file needs to be selected again at its new location.
 
 <GuideScreenshot src="/img/guide/linux/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Documents.", "x": 55, "y": 3}, {"text": "Select the saved document row.", "x": 42, "y": 26}, {"text": "Use Signing details or the folder icon for the selected file.", "x": 36, "y": 37}]} />
@@ -123,11 +125,11 @@ Click the document row or Signing details to open the modal. It verifies the cur
 
 ## 19. Clear history while keeping documents
 
-Switch to History, choose Clear list and read the confirmation before accepting it. Clearing history removes operation entries, not signed files or the separate Signed documents collection. Return to Signed documents afterward.
+Switch to History, choose Clear list and read the confirmation before accepting it. Clearing history removes operation entries, not signed files or the separate Saved documents collection. Return to Saved documents afterward.
 
-<GuideScreenshot src="/img/guide/linux/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Review History; Signed documents returns to your saved collection.", "x": 17, "y": 10}, {"text": "Choose Clear list and confirm history-only removal.", "x": 79, "y": 20}]} />
+<GuideScreenshot src="/img/guide/linux/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Review History; Saved documents returns to your saved collection.", "x": 17, "y": 10}, {"text": "Choose Clear list and confirm history-only removal.", "x": 79, "y": 20}]} />
 
-<GuideScreenshot src="/img/guide/linux/en/history-confirm.png" alt="Clear history while keeping documents" start={3} steps={[{"x": 57, "y": 57, "text": "Read the history-only confirmation, then choose Clear list or Cancel. Signed documents remain available."}]} />
+<GuideScreenshot src="/img/guide/linux/en/history-confirm.png" alt="Clear history while keeping documents" start={3} steps={[{"x": 57, "y": 57, "text": "Read the history-only confirmation, then choose Clear list or Cancel. Saved documents remain available."}]} />
 
 ## 20. Choose language and appearance
 
@@ -180,50 +182,38 @@ No reader: check PC/SC, CCID, cable and adapter. Empty reader: insert/reinsert t
 
 ## Encrypt a file with a password
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open the main menu in the window header, then **Protect files → Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Encrypt."}, {"x": 32.2, "y": 33.3, "text": "Choose the source file."}, {"x": 32.2, "y": 61.2, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50.0, "y": 89.1, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
+<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 27, "y": 17, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 30, "y": 58, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 91, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
-## Encrypt for a certificate holder
+Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Use the close button in the window header when finished. The original is kept.
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
-
-Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
-
-<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Encrypt."}, {"x": 32.2, "y": 33.3, "text": "Choose the source file."}, {"x": 28.7, "y": 47.3, "text": "Choose Certificate/card."}, {"x": 41.1, "y": 61.2, "text": "Choose the recipient’s certificate file."}, {"x": 50.0, "y": 89.1, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
 
 
 ## Decrypt a received file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open the main menu in the window header, then **Protect files → Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
-Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
+Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32.2, "y": 61.2, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50.0, "y": 89.1, "text": "Choose Decrypt and save the result under a new filename."}]} />
-
-For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
+<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 40, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 30, "y": 55, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 91, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
+Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Use the close button in the window header when finished. The original is kept.
 
-## Share your encryption certificate
-
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
-
-Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
-
-<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 28.7, "y": 47.3, "text": "Choose Certificate/card."}, {"x": 41.1, "y": 69.0, "text": "Choose Read my card; scroll if needed."}]} />
-
-After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
 
 
 ## Remove a local file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open the main menu in the window header, then **Protect files → Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 26.9, "y": 16.3, "text": "Choose Remove file."}, {"x": 32.2, "y": 33.3, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 50.0, "y": 89.1, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 50, "y": 17, "text": "Choose Remove file."}, {"x": 30, "y": 31, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 30, "y": 84, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

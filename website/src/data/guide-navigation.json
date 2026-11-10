@@ -349,38 +349,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -407,38 +378,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -501,9 +443,7 @@
           "approve-a-local-automation-request": "automation/#approve-a-local-automation-request",
           "recover-safely": "help/#recover-safely",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
           "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate",
           "remove-a-local-file": "remove-file/#remove-a-local-file"
         },
         "ro": {
@@ -535,9 +475,7 @@
           "aprobă-o-cerere-locală-de-automatizare": "automation/#aprobă-o-cerere-locală-de-automatizare",
           "rezolvă-problemele-în-siguranță": "help/#rezolvă-problemele-în-siguranță",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
           "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare",
           "elimină-un-fișier-local": "remove-file/#elimină-un-fișier-local"
         },
         "ru": {
@@ -569,9 +507,7 @@
           "подтвердите-локальный-запрос-автоматизации": "automation/#подтвердите-локальный-запрос-автоматизации",
           "безопасно-устраните-неполадки": "help/#безопасно-устраните-неполадки",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
           "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования",
           "удалите-локальный-файл": "remove-file/#удалите-локальный-файл"
         }
       }
@@ -895,38 +831,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -953,38 +860,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         }
       ],
@@ -1008,9 +886,7 @@
           "use-shortcuts-siri-spotlight-and-handoff": "automation/#use-shortcuts-siri-spotlight-and-handoff",
           "get-help-without-sharing-secrets": "help/#get-help-without-sharing-secrets",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
-          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate"
+          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file"
         },
         "ro": {
           "conectează-cititorul-și-introdu-cardul": "setup/#conectează-cititorul-și-introdu-cardul",
@@ -1031,9 +907,7 @@
           "folosește-scurtături-siri-spotlight-și-handoff": "automation/#folosește-scurtături-siri-spotlight-și-handoff",
           "cere-ajutor-fără-a-trimite-secrete": "help/#cere-ajutor-fără-a-trimite-secrete",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
-          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare"
+          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit"
         },
         "ru": {
           "подключите-считыватель-и-вставьте-карту": "setup/#подключите-считыватель-и-вставьте-карту",
@@ -1054,9 +928,7 @@
           "используйте-команды-siri-spotlight-и-handoff": "automation/#используйте-команды-siri-spotlight-и-handoff",
           "получите-помощь-без-передачи-секретов": "help/#получите-помощь-без-передачи-секретов",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
-          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования"
+          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл"
         }
       }
     },
@@ -1379,38 +1251,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -1437,38 +1280,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         }
       ],
@@ -1492,9 +1306,7 @@
           "use-shortcuts-siri-spotlight-and-handoff": "automation/#use-shortcuts-siri-spotlight-and-handoff",
           "get-help-without-sharing-secrets": "help/#get-help-without-sharing-secrets",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
-          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate"
+          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file"
         },
         "ro": {
           "conectează-cititorul-și-introdu-cardul": "setup/#conectează-cititorul-și-introdu-cardul",
@@ -1515,9 +1327,7 @@
           "folosește-scurtături-siri-spotlight-și-handoff": "automation/#folosește-scurtături-siri-spotlight-și-handoff",
           "cere-ajutor-fără-a-trimite-secrete": "help/#cere-ajutor-fără-a-trimite-secrete",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
-          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare"
+          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit"
         },
         "ru": {
           "подключите-считыватель-и-вставьте-карту": "setup/#подключите-считыватель-и-вставьте-карту",
@@ -1538,9 +1348,7 @@
           "используйте-команды-siri-spotlight-и-handoff": "automation/#используйте-команды-siri-spotlight-и-handoff",
           "получите-помощь-без-передачи-секретов": "help/#получите-помощь-без-передачи-секретов",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
-          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования"
+          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл"
         }
       }
     },
@@ -1861,38 +1669,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -1919,38 +1698,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         }
       ],
@@ -1982,9 +1732,7 @@
           "15-language-appearance-demo-and-support": "preferences/#language-appearance-demo-and-support",
           "troubleshooting": "help/#troubleshooting",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
-          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate"
+          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file"
         },
         "ro": {
           "1-conectează-cititorul-și-cardul": "setup/#conectează-cititorul-și-cardul",
@@ -2013,9 +1761,7 @@
           "15-limbă-aspect-demonstrație-și-suport": "preferences/#limbă-aspect-demonstrație-și-suport",
           "rezolvarea-problemelor": "help/#rezolvarea-problemelor",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
-          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare"
+          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit"
         },
         "ru": {
           "1-подключите-считыватель-и-карту": "setup/#подключите-считыватель-и-карту",
@@ -2044,9 +1790,7 @@
           "15-язык-оформление-демонстрация-и-поддержка": "preferences/#язык-оформление-демонстрация-и-поддержка",
           "решение-проблем": "help/#решение-проблем",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
-          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования"
+          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл"
         }
       }
     },
@@ -2367,38 +2111,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         },
         {
@@ -2425,38 +2140,9 @@
             ]
           },
           "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
+            "en": 3,
+            "ro": 3,
+            "ru": 3
           }
         }
       ],
@@ -2488,9 +2174,7 @@
           "15-language-appearance-demo-and-support": "preferences/#language-appearance-demo-and-support",
           "troubleshooting": "help/#troubleshooting",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
-          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate"
+          "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file"
         },
         "ro": {
           "1-conectează-cititorul-și-cardul": "setup/#conectează-cititorul-și-cardul",
@@ -2519,9 +2203,7 @@
           "15-limbă-aspect-demonstrație-și-suport": "preferences/#limbă-aspect-demonstrație-și-suport",
           "rezolvarea-problemelor": "help/#rezolvarea-problemelor",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
-          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare"
+          "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit"
         },
         "ru": {
           "1-подключите-считыватель-и-карту": "setup/#подключите-считыватель-и-карту",
@@ -2550,9 +2232,7 @@
           "15-язык-оформление-демонстрация-и-поддержка": "preferences/#язык-оформление-демонстрация-и-поддержка",
           "решение-проблем": "help/#решение-проблем",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
-          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования"
+          "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл"
         }
       }
     },
@@ -2911,35 +2591,6 @@
           }
         },
         {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
           "id": "decrypt-file",
           "labels": {
             "en": "Decrypt a received file",
@@ -2960,35 +2611,6 @@
             ],
             "ru": [
               "Расшифруйте полученный файл"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
             ]
           },
           "panels": {
@@ -3057,9 +2679,7 @@
           "25-approve-a-local-mcp-signing-request": "approval/#approve-a-local-mcp-signing-request",
           "recover-safely": "help/#recover-safely",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
           "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate",
           "remove-a-local-file": "remove-file/#remove-a-local-file"
         },
         "ro": {
@@ -3091,9 +2711,7 @@
           "25-aprobă-o-cerere-locală-de-semnare-mcp": "approval/#aprobă-o-cerere-locală-de-semnare-mcp",
           "rezolvă-problemele-în-siguranță": "help/#rezolvă-problemele-în-siguranță",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
           "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare",
           "elimină-un-fișier-local": "remove-file/#elimină-un-fișier-local"
         },
         "ru": {
@@ -3125,9 +2743,7 @@
           "25-подтвердите-локальный-запрос-подписи-mcp": "approval/#подтвердите-локальный-запрос-подписи-mcp",
           "безопасное-устранение-проблем": "help/#безопасное-устранение-проблем",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
           "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования",
           "удалите-локальный-файл": "remove-file/#удалите-локальный-файл"
         }
       }
@@ -3404,35 +3020,6 @@
           }
         },
         {
-          "id": "encrypt-certificate",
-          "labels": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "descriptions": {
-            "en": "Encrypt for a certificate holder",
-            "ro": "Criptează pentru titularul unui certificat",
-            "ru": "Зашифруйте для владельца сертификата"
-          },
-          "headings": {
-            "en": [
-              "Encrypt for a certificate holder"
-            ],
-            "ro": [
-              "Criptează pentru titularul unui certificat"
-            ],
-            "ru": [
-              "Зашифруйте для владельца сертификата"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
           "id": "decrypt-file",
           "labels": {
             "en": "Decrypt a received file",
@@ -3453,35 +3040,6 @@
             ],
             "ru": [
               "Расшифруйте полученный файл"
-            ]
-          },
-          "panels": {
-            "en": 1,
-            "ro": 1,
-            "ru": 1
-          }
-        },
-        {
-          "id": "share-certificate",
-          "labels": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "descriptions": {
-            "en": "Share your encryption certificate",
-            "ro": "Distribuie certificatul tău de criptare",
-            "ru": "Поделитесь сертификатом шифрования"
-          },
-          "headings": {
-            "en": [
-              "Share your encryption certificate"
-            ],
-            "ro": [
-              "Distribuie certificatul tău de criptare"
-            ],
-            "ru": [
-              "Поделитесь сертификатом шифрования"
             ]
           },
           "panels": {
@@ -3531,9 +3089,7 @@
           "approve-local-signing-requests-mcp": "approval/#approve-local-signing-requests-mcp",
           "update-or-resolve-a-problem": "help/#update-or-resolve-a-problem",
           "encrypt-a-file-with-a-password": "encrypt-password/#encrypt-a-file-with-a-password",
-          "encrypt-for-a-certificate-holder": "encrypt-certificate/#encrypt-for-a-certificate-holder",
           "decrypt-a-received-file": "decrypt-file/#decrypt-a-received-file",
-          "share-your-encryption-certificate": "share-certificate/#share-your-encryption-certificate",
           "remove-a-local-file": "remove-file/#remove-a-local-file"
         },
         "ro": {
@@ -3546,9 +3102,7 @@
           "aprobă-cereri-locale-de-semnare-mcp": "approval/#aprobă-cereri-locale-de-semnare-mcp",
           "actualizează-sau-rezolvă-o-problemă": "help/#actualizează-sau-rezolvă-o-problemă",
           "criptează-un-fișier-cu-parolă": "encrypt-password/#criptează-un-fișier-cu-parolă",
-          "criptează-pentru-titularul-unui-certificat": "encrypt-certificate/#criptează-pentru-titularul-unui-certificat",
           "decriptează-un-fișier-primit": "decrypt-file/#decriptează-un-fișier-primit",
-          "distribuie-certificatul-tău-de-criptare": "share-certificate/#distribuie-certificatul-tău-de-criptare",
           "elimină-un-fișier-local": "remove-file/#elimină-un-fișier-local"
         },
         "ru": {
@@ -3561,9 +3115,7 @@
           "подтверждайте-локальные-запросы-подписи-mcp": "approval/#подтверждайте-локальные-запросы-подписи-mcp",
           "обновите-приложение-или-устраните-проблему": "help/#обновите-приложение-или-устраните-проблему",
           "зашифруйте-файл-паролем": "encrypt-password/#зашифруйте-файл-паролем",
-          "зашифруйте-для-владельца-сертификата": "encrypt-certificate/#зашифруйте-для-владельца-сертификата",
           "расшифруйте-полученный-файл": "decrypt-file/#расшифруйте-полученный-файл",
-          "поделитесь-сертификатом-шифрования": "share-certificate/#поделитесь-сертификатом-шифрования",
           "удалите-локальный-файл": "remove-file/#удалите-локальный-файл"
         }
       }

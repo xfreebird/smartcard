@@ -16,9 +16,11 @@ Open signing details, share saved files and clear recent history.
 
 ## Find a saved signed document
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Documents and operation History are separate collections. Entries refer to files; if a file has moved or disappeared, choose the file again from its new location for verification.
 
-<GuideScreenshot src="/img/guide/macos/en/documents.png" alt="Find a saved signed document" steps={[{"x": 8, "y": 19, "text": "Open Documents and choose Signed documents."}, {"x": 79, "y": 3, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Find a saved signed document" steps={[{"x": 30, "y": 20, "text": "Open Documents and choose Saved documents."}, {"x": 82, "y": 3, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
 
 ## Inspect and hand off a saved document
 
@@ -28,6 +30,6 @@ The details modal uses the same verification presentation as Verify. Inspecting 
 
 ## Clear operation history while keeping documents
 
-Choose the trash control, read the confirmation and confirm only if you want to remove the operation list. This does not delete signed files or the separate Signed documents collection. Return to Signed documents to continue using your saved output.
+Choose the trash control, read the confirmation and confirm only if you want to remove the operation list. This does not delete signed files or the separate Saved documents collection. Return to Saved documents to continue using your saved output.
 
-<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Clear operation history while keeping documents" steps={[{"x": 64, "y": 8, "text": "In Documents, select History."}, {"x": 73, "y": 8, "text": "Choose the trash control and confirm the history-only cleanup."}, {"x": 51, "y": 8, "text": "Return to Signed documents; the saved collection remains available."}]} />
+<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Clear operation history while keeping documents" steps={[{"x": 64, "y": 8, "text": "In Documents, select History."}, {"x": 73, "y": 8, "text": "Choose the trash control and confirm the history-only cleanup."}, {"x": 51, "y": 8, "text": "Return to Saved documents; the saved collection remains available."}]} />

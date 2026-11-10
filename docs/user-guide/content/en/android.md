@@ -61,7 +61,7 @@ An error belongs to the affected file. Review the remaining rows and completed o
 
 On Android 10 and later, ordinary signed output is saved under Downloads/eSemnBun. Keep both the XML and original document for detached XAdES. If one file fails, read its error and check completed files before starting another batch.
 
-<GuideScreenshot src="/img/guide/android-phone/en/results.png" alt="Open, save, or share the result" steps={[{"text": "Tap Open beside a completed file to open it in a compatible viewer.", "x": 69.6, "y": 61.6}, {"text": "In Files → Signed documents, use the file’s menu for Open, Verify, Share, or Save as… when file-provider access is available. Save as lets you choose another location."}, {"text": "Clear results hides this completion list. Your saved outputs remain available in Files.", "x": 68.0, "y": 53.6}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/results.png" alt="Open, save, or share the result" steps={[{"text": "Tap Open beside a completed file to open it in a compatible viewer.", "x": 69.6, "y": 61.6}, {"text": "In Files → Saved documents, use the file’s menu for Open, Verify, Share, or Save as… when file-provider access is available. Save as lets you choose another location."}, {"text": "Clear results hides this completion list. Your saved outputs remain available in Files.", "x": 68.0, "y": 53.6}]} />
 
 ## 7. Check a signed document
 
@@ -101,9 +101,11 @@ Detached XML contains a reference to the signed document. Its original bytes are
 
 ## 10. Find signed documents
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Files contains a signed-output library and a separate activity history. A saved entry is a shortcut to a file, not a substitute for a backup.
 
-<GuideScreenshot src="/img/guide/android-phone/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Files and select Signed documents.", "x": 5.8, "y": 16.6}, {"text": "Tap a document row to open its signing-details modal. The app checks the current file again.", "x": 15.5, "y": 29.1}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Files and select Saved documents.", "x": 5.8, "y": 16.6}, {"text": "Tap a document row to open its signing-details modal. The app checks the current file again.", "x": 15.5, "y": 29.1}]} />
 
 ## 11. Read signing details without losing your list
 
@@ -113,9 +115,9 @@ The modal’s verdict is a fresh verification, not just a historical “signed�
 
 ## 12. Clear history while keeping documents
 
-History lists document operations and website requests. Clearing it does not clear Signed documents or delete signed files on storage.
+History lists document operations and website requests. Clearing it does not clear Saved documents or delete signed files on storage.
 
-<GuideScreenshot src="/img/guide/android-phone/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History in Files and review the recent actions.", "x": 43.6, "y": 16.6}, {"text": "Tap Clear the list and confirm, then return to Signed documents to access saved outputs.", "x": 72.0, "y": 23.6}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History in Files and review the recent actions.", "x": 43.6, "y": 16.6}, {"text": "Tap Clear the list and confirm, then return to Saved documents to access saved outputs.", "x": 72.0, "y": 23.6}]} />
 
 ## 13. Sign on a website
 
@@ -179,41 +181,37 @@ For background on result meanings, see [Signing and verification](/docs/signing)
 
 ## Encrypt a file with a password
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open the **More** menu in the navigation bar and choose **Protect files**. Choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 27, "y": 20, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 25, "y": 55, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50, "y": 88, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
+<GuideScreenshot src="/img/guide/android-phone/en/protect-menu-light.png" alt="Open file protection" steps={[{"x": 70, "y": 15, "text": "Open the navigation menu and choose Protect files."}]} />
 
-## Encrypt for a certificate holder
+<GuideScreenshot src="/img/guide/android-phone/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 27, "y": 20, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 25, "y": 55, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 88, "text": "Choose Encrypt. The encrypted copy is saved in Documents."}]} />
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+<GuideScreenshot src="/img/guide/android-phone/en/protect-complete-light.png" alt="Encrypted file saved" start={6} steps={[{"x": 25, "y": 33, "text": "Check the saved filename. This output is already in Documents."}, {"x": 25, "y": 83, "text": "Choose Save as… only if you also want a copy in another location."}, {"x": 75, "y": 88, "text": "Choose Close to return to the app. The saved file remains in Documents."}]} />
 
-Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
+Choose **Encrypt** or **Decrypt**. The result is saved automatically in the app’s private storage and appears in **Documents → Saved documents**. Choose **Close** when finished, or **Save as…** to export it with the Android file picker. The original is kept.
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 27, "y": 20, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 27, "y": 43, "text": "Choose Certificate/card."}, {"x": 30, "y": 56, "text": "Choose the recipient’s certificate file."}, {"x": 50, "y": 88, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
 
 
 ## Decrypt a received file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open the **More** menu in the navigation bar and choose **Protect files**. Choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
+Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 27, "y": 20, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 25, "y": 55, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 88, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/protect-menu-light.png" alt="Open file protection" steps={[{"x": 70, "y": 15, "text": "Open the navigation menu and choose Protect files."}]} />
 
-For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
+<GuideScreenshot src="/img/guide/android-phone/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 27, "y": 20, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 25, "y": 55, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 88, "text": "Choose Decrypt. The new output is saved in Documents."}]} />
+
+<GuideScreenshot src="/img/guide/android-phone/en/protect-decrypt-complete-light.png" alt="Decrypted file saved" start={5} steps={[{"x": 25, "y": 33, "text": "Check the saved filename. This output is already in Documents."}, {"x": 25, "y": 83, "text": "Choose Save as… only if you also want a copy in another location."}, {"x": 75, "y": 88, "text": "Choose Close to return to the app. The saved file remains in Documents."}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
+Choose **Encrypt** or **Decrypt**. The result is saved automatically in the app’s private storage and appears in **Documents → Saved documents**. Choose **Close** when finished, or **Save as…** to export it with the Android file picker. The original is kept.
 
-## Share your encryption certificate
-
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
-
-Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
-
-<GuideScreenshot src="/img/guide/android-phone/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 27, "y": 43, "text": "Choose Certificate/card."}, {"x": 26, "y": 63, "text": "Choose Read my card; scroll if needed."}]} />
-
-After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.

@@ -2,7 +2,7 @@
 title: "Elimină un fișier local — Mac"
 sidebar_label: "Elimină un fișier local"
 description: "Elimină un fișier local"
-pagination_prev: "platforms/macos/share-certificate"
+pagination_prev: "platforms/macos/decrypt-file"
 pagination_next: null
 ---
 
@@ -16,7 +16,7 @@ Elimină un fișier local
 
 ## Elimină un fișier local
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 

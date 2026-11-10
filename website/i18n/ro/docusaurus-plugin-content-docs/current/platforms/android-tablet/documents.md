@@ -16,9 +16,11 @@ Deschide detaliile semnării, distribuie fișierele și golește istoricul recen
 
 ## Găsește documentele semnate
 
+Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
+
 Documente conține biblioteca rezultatelor semnate și un istoric separat. Intrarea din bibliotecă este o referință la fișier, nu o copie de siguranță.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Deschide Documente și selectează Documente semnate.", "x": 31.8, "y": 14.7}, {"text": "Atinge rândul unui document pentru fereastra cu detaliile semnăturii. Aplicația verifică din nou fișierul actual.", "x": 34.2, "y": 25.1}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Deschide Documente și selectează Documente salvate.", "x": 31.8, "y": 14.7}, {"text": "Atinge rândul unui document pentru fereastra cu detaliile semnăturii. Aplicația verifică din nou fișierul actual.", "x": 34.2, "y": 25.1}]} />
 
 ## Consultă detaliile fără a pierde lista
 
@@ -28,6 +30,6 @@ Verdictul din fereastră este o verificare actuală, nu doar eticheta istorică 
 
 ## Curăță istoricul păstrând documentele
 
-Istoricul listează operațiile cu documente și cererile site-urilor. Curățarea lui nu golește Documente semnate și nu șterge fișierele de pe dispozitiv.
+Istoricul listează operațiile cu documente și cererile site-urilor. Curățarea lui nu golește Documente salvate și nu șterge fișierele de pe dispozitiv.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"text": "Alege Istoric în Documente și consultă operațiile recente.", "x": 42.7, "y": 14.7}, {"text": "Atinge Șterge lista și confirmă, apoi revino la Documente semnate pentru rezultate.", "x": 65.2, "y": 20.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"text": "Alege Istoric în Documente și consultă operațiile recente.", "x": 42.7, "y": 14.7}, {"text": "Atinge Șterge lista și confirmă, apoi revino la Documente salvate pentru rezultate.", "x": 65.2, "y": 20.5}]} />

@@ -3,7 +3,7 @@ title: "Criptează un fișier cu parolă — Tabletă Android"
 sidebar_label: "Criptează un fișier cu parolă"
 description: "Criptează un fișier cu parolă"
 pagination_prev: "platforms/android-tablet/help"
-pagination_next: "platforms/android-tablet/encrypt-certificate"
+pagination_next: "platforms/android-tablet/decrypt-file"
 ---
 
 import GuideScreenshot from '@site/src/components/GuideScreenshot';
@@ -16,8 +16,18 @@ Criptează un fișier cu parolă
 
 ## Criptează un fișier cu parolă
 
-Deschide Documente → Protejează fișiere. Alege un fișier accesibil; derulează formularul la nevoie. Ghidurile descriu noua funcție de protecție, care poate lipsi încă din versiunea instalată din magazin.
+Deschide meniul **Mai multe** din bara de navigare și alege **Protejează fișiere**. Alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 30, "y": 21, "text": "Alege Criptează."}, {"x": 30, "y": 33, "text": "Alege fișierul sursă."}, {"x": 25, "y": 59, "text": "Alege Parolă, introdu o parolă nouă și repet-o în câmpul de confirmare."}, {"x": 50, "y": 87, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-menu-light.png" alt="Deschide protecția fișierelor" steps={[{"x": 70, "y": 15, "text": "Deschide meniul de navigare și alege Protejează fișiere."}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 30, "y": 21, "text": "Alege Criptează."}, {"x": 30, "y": 33, "text": "Alege fișierul sursă."}, {"x": 25, "y": 59, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 87, "text": "Alege Criptează. Copia criptată este salvată în Documente."}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-complete-light.png" alt="Fișier criptat salvat" start={6} steps={[{"x": 25, "y": 33, "text": "Verifică numele fișierului salvat. Rezultatul este deja în Documente."}, {"x": 25, "y": 83, "text": "Alege Salvează ca… numai dacă dorești și o copie în alt loc."}, {"x": 75, "y": 88, "text": "Alege Închide pentru a reveni în aplicație. Fișierul salvat rămâne în Documente."}]} />
+
+Alege **Criptează** sau **Decriptează**. Rezultatul este salvat automat în spațiul privat al aplicației și apare în **Documente → Documente salvate**. Alege **Închide** la final sau **Salvează ca…** pentru a-l exporta prin selectorul de fișiere Android. Originalul este păstrat.
+
+Documente salvate include fișiere semnate, criptate și decriptate. Identifică rezultatul după numele fișierului și eticheta operațiunii. Criptarea nu creează o semnătură digitală; fișierele criptate trebuie decriptate înainte de deschiderea sau verificarea conținutului.

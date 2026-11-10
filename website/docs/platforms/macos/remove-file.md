@@ -2,7 +2,7 @@
 title: "Remove a local file — Mac"
 sidebar_label: "Remove a local file"
 description: "Remove a local file"
-pagination_prev: "platforms/macos/share-certificate"
+pagination_prev: "platforms/macos/decrypt-file"
 pagination_next: null
 ---
 
@@ -16,7 +16,7 @@ Remove a local file
 
 ## Remove a local file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 

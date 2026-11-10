@@ -21,7 +21,7 @@ const panels = roots.flatMap(root => markdown(path.join(site,root)).flatMap(file
 }));
 
 test('all illustrated panels keep numbered labels outside app pixels at phone, desktop and actual size', () => {
-  assert.equal(panels.length, 684);
+  assert.equal(panels.length, 702);
   for (const panel of panels) {
     for (const available of [288,368,760,panel.width + 72]) {
       const positioned = panel.steps.filter(step => Number.isFinite(step.x) && Number.isFinite(step.y));
@@ -54,7 +54,7 @@ test('text-only steps retain their numbering without a misleading pointer', () =
 
 test('file protection screenshots are native captures in each documentation locale', () => {
   for (const platform of ['macos','iphone','ipad','android-phone','android-tablet','linux','windows']) {
-    const scenarios = ['password','certificate','decrypt', ...(['macos','linux','windows'].includes(platform) ? ['remove'] : [])];
+    const scenarios = ['password','decrypt', ...(['macos','linux','windows'].includes(platform) ? ['remove'] : [])];
     for (const scenario of scenarios) {
       const captures = ['en','ro','ru'].map(locale => readFileSync(path.join(site, 'static/img/guide', platform, locale, `protect-${scenario}-light.png`)));
       for (let i = 0; i < captures.length; i++) for (let j = i + 1; j < captures.length; j++) {

@@ -39,7 +39,8 @@ MAPS = {
 for _platform, _mapping in list(MAPS.items()):
  _mapping = {key: list(value) for key, value in _mapping.items()}
  _start = max(i for group in _mapping.values() for i in group) + 1
- for _offset, _topic in enumerate(('encrypt-password', 'encrypt-certificate', 'decrypt-file', 'share-certificate') + (() if _platform in ('ios','ipad','android','android-tablet') else ('remove-file',))):
+ _protection_topics = ('encrypt-password', 'encrypt-certificate', 'decrypt-file', 'share-certificate') if _platform.endswith('-cli') else ('encrypt-password', 'decrypt-file')
+ for _offset, _topic in enumerate(_protection_topics + (() if _platform in ('ios','ipad','android','android-tablet') else ('remove-file',))):
   _mapping[_topic] = [_start + _offset]
  MAPS[_platform] = _mapping
 TOPICS['encrypt-password'] = (tr(*('Encrypt a file with a password', 'Criptează un fișier cu parolă', 'Зашифруйте файл паролем')), tr(*('Encrypt a file with a password', 'Criptează un fișier cu parolă', 'Зашифруйте файл паролем')))

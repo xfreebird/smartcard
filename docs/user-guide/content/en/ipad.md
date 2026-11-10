@@ -81,9 +81,11 @@ Invalid means a signature or document-integrity check failed. Unconfirmed trust 
 
 ## Find a saved document and open its signing details
 
+Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
+
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
-<GuideScreenshot src="/img/guide/ipad/en/documents.png" alt="Open Documents and select the intended file." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Open Documents and select the intended file.", "x": 7.0, "y": 51.2}, {"text": "Use the search field to narrow the saved-document list.", "x": 97.0, "y": 11.6}]} />
+<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents and select the intended file." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Open Documents and select the intended file.", "x": 20, "y": 22}, {"text": "Use the search field to narrow the saved-document list.", "x": 95, "y": 4}]} />
 <GuideScreenshot src="/img/guide/ipad/en/details.png" alt="Review the document’s signing details." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Review the document’s signing details.", "x": 10.0, "y": 52.9}, {"text": "Choose Preview to read the file or Share to save/send it.", "x": 5.7, "y": 79.4}, {"text": "Choose Done to return to the library.", "x": 92.9, "y": 11.8}]} />
 
 ## Clear recent history while keeping saved documents
@@ -139,41 +141,37 @@ For no reader, check the cable, adapter and power. For an empty reader, reinsert
 
 ## Encrypt a file with a password
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 37, "y": 33, "text": "Choose Encrypt."}, {"x": 35, "y": 44, "text": "Choose the source file."}, {"x": 32, "y": 64, "text": "Choose Password, enter a new password and repeat it in the confirmation field."}, {"x": 50, "y": 73, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
+<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 90, "y": 6}]} />
 
-## Encrypt for a certificate holder
+<GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 37, "y": 31, "text": "Choose Encrypt."}, {"x": 35, "y": 42, "text": "Choose the source file."}, {"x": 32, "y": 59, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 73, "text": "Choose Encrypt. The encrypted copy is saved in Documents; choose Done when finished."}]} />
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+<GuideScreenshot src="/img/guide/ipad/en/protect-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={6} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 35, "y": 53}, {"text": "Optionally choose Save a copy to export another copy.", "x": 35, "y": 61}, {"text": "Choose Done to return to Documents.", "x": 22, "y": 25}]} />
 
-Ask the recipient for their public encryption certificate (.cer/.der), exported using the next guide. Confirm its fingerprint with its owner through a trusted channel. A signing-only certificate is not sufficient. Encrypting for someone else needs their public certificate, not their card, private key or PIN.
+Choose **Encrypt** or **Decrypt**. The new output is saved automatically in **Documents → Saved documents**. Choose **Done** to return, or **Save a copy** to export it to Files or another location. The original is kept.
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 37, "y": 33, "text": "Choose Encrypt."}, {"x": 35, "y": 44, "text": "Choose the source file."}, {"x": 38, "y": 55, "text": "Choose Certificate/card."}, {"x": 38, "y": 65, "text": "Choose the recipient’s certificate file."}, {"x": 50, "y": 73, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
 
 
 ## Decrypt a received file
 
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
+Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
+Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 37, "y": 33, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32, "y": 64, "text": "Choose Password and enter the password supplied by the sender."}, {"x": 50, "y": 73, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 90, "y": 6}]} />
 
-For card decryption: choose Certificate/card, then Read my card. Select the matching encryption identity, inspect its details, enter its PIN and choose Decrypt. Save under a new name. If no supported encryption identity appears, ask the sender for a password-encrypted copy. Stop after a PIN error; do not retry automatically.
+<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 37, "y": 31, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32, "y": 55, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 73, "text": "Choose Decrypt. Check the new output in Documents; choose Done when finished."}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={5} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 35, "y": 53}, {"text": "Optionally choose Save a copy to export another copy.", "x": 35, "y": 61}, {"text": "Choose Done to return to Documents.", "x": 22, "y": 25}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
+Choose **Encrypt** or **Decrypt**. The new output is saved automatically in **Documents → Saved documents**. Choose **Done** to return, or **Save a copy** to export it to Files or another location. The original is kept.
 
-## Share your encryption certificate
-
-Open Documents → Protect files. Select a file you can read; scroll the form when needed. These guides describe the new file-protection feature; it may not yet be in your installed store version.
-
-Connect your supported card and USB reader. No document or PIN is required to export a public certificate. The card must expose an encryption identity; the usual signing certificate is not interchangeable.
-
-<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Encrypt for a certificate holder" steps={[{"x": 38, "y": 55, "text": "Choose Certificate/card. Choose Read my card; scroll if needed."}]} />
-
-After discovery, select the intended identity and expand Certificate details. Choose Export encryption certificate, save the .cer file and share it with the sender. Compare its fingerprint separately. Only the public certificate is exported; the private key stays on the card. The screenshot shows the starting screen before discovery.
+Saved documents includes signed, encrypted and decrypted files. Use the filename and operation label to identify the result. Encryption does not create a digital signature; encrypted files must be decrypted before you can open or verify their contents.
