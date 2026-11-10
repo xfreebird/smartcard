@@ -2,6 +2,7 @@ package md.moldsign.app
 
 import md.moldsign.app.application.AppContainer
 import md.moldsign.app.presentation.MainViewModel
+import md.moldsign.app.presentation.appString
 
 import android.content.Intent
 import android.net.Uri
@@ -191,11 +192,11 @@ internal object DemoMode {
             ActivityEntry(id, kind, title, subtitle, ok, now - minutesAgo * 60_000, file?.let { Uri.fromFile(it).toString() }, signedOutput = signedOutput)
         container.activity.replaceForDemo(
             listOf(
-                entry("d1", ActivityEntry.Kind.Document, "contract-semnat.pdf", "Semnat · PAdES-T", true, 2, signed, signedOutput = true),
-                entry("b1", ActivityEntry.Kind.Browser, "msign.gov.md", "Semnat · XAdES-T (SHA-1) · cerere.xml · lot", true, 25),
-                entry("d2", ActivityEntry.Kind.Document, "cerere-angajare.pdf", "Verificat", true, 70, verified),
-                entry("d3", ActivityEntry.Kind.Document, "act-vechi.pdf", "Semnat · XAdES-C", true, 3_000, gone, signedOutput = true),
-                entry("b2", ActivityEntry.Kind.Browser, "msign.gov.md", "Eșuat · PAdES-T · PIN greșit. Încercări rămase: 2", false, 4_400),
+                entry("d1", ActivityEntry.Kind.Document, "contract-semnat.pdf", container.app.appString(R.string.activity_signed, "PAdES-T"), true, 2, signed, signedOutput = true),
+                entry("b1", ActivityEntry.Kind.Browser, "msign.gov.md", container.app.appString(R.string.activity_signed, "XAdES-T (SHA-1) · cerere.xml"), true, 25),
+                entry("d2", ActivityEntry.Kind.Document, "cerere-angajare.pdf", container.app.appString(R.string.activity_verified), true, 70, verified),
+                entry("d3", ActivityEntry.Kind.Document, "act-vechi.pdf", container.app.appString(R.string.activity_signed, "XAdES-C"), true, 3_000, gone, signedOutput = true),
+                entry("b2", ActivityEntry.Kind.Browser, "msign.gov.md", container.app.appString(R.string.activity_failed, "PAdES-T", container.app.appString(R.string.protect_pin_failure)), false, 4_400),
             ),
         )
     }

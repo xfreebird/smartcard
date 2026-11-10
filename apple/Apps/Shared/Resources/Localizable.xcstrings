@@ -10123,22 +10123,22 @@
     },
     "saved_delete_all": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Șterge toate documentele semnate"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Delete all signed documents"
+            "value": "Delete all saved documents"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Șterge toate documentele salvate"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Удалить все подписанные документы"
+            "value": "Удалить все сохранённые документы"
           }
         }
       }

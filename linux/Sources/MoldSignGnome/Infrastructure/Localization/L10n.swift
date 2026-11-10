@@ -2459,9 +2459,9 @@ enum L10n {
     "ru": "Удалить документ"
   },
   "saved_delete_all": {
-    "ro": "Șterge toate documentele semnate",
-    "en": "Delete all signed documents",
-    "ru": "Удалить все подписанные документы"
+    "en": "Delete all saved documents",
+    "ro": "Șterge toate documentele salvate",
+    "ru": "Удалить все сохранённые документы"
   },
   "saved_delete_warning": {
     "ro": "Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.",

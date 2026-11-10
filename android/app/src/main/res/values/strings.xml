@@ -410,7 +410,7 @@ eSemnBun</string>
   <string name="protect_certificate_encrypt_help">Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.</string>
   <string name="protect_certificate_decrypt_help">Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.</string>
   <string name="saved_delete">Șterge documentul</string>
-  <string name="saved_delete_all">Șterge toate documentele semnate</string>
+  <string name="saved_delete_all">Șterge toate documentele salvate</string>
   <string name="saved_delete_warning">Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.</string>
   <string name="saved_delete_failed">Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.</string>
   <string name="saved_files">Documente salvate</string>

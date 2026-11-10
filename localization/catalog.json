@@ -14950,9 +14950,9 @@
       "platform": "apple",
       "key": "saved_delete_all",
       "translations": {
-        "ro": "Șterge toate documentele semnate",
-        "en": "Delete all signed documents",
-        "ru": "Удалить все подписанные документы"
+        "en": "Delete all saved documents",
+        "ro": "Șterge toate documentele salvate",
+        "ru": "Удалить все сохранённые документы"
       }
     },
     {
@@ -14986,9 +14986,9 @@
       "platform": "android",
       "key": "saved_delete_all",
       "translations": {
-        "ro": "Șterge toate documentele semnate",
-        "en": "Delete all signed documents",
-        "ru": "Удалить все подписанные документы"
+        "en": "Delete all saved documents",
+        "ro": "Șterge toate documentele salvate",
+        "ru": "Удалить все сохранённые документы"
       }
     },
     {
@@ -15022,9 +15022,9 @@
       "platform": "windows",
       "key": "saved_delete_all",
       "translations": {
-        "ro": "Șterge toate documentele semnate",
-        "en": "Delete all signed documents",
-        "ru": "Удалить все подписанные документы"
+        "en": "Delete all saved documents",
+        "ro": "Șterge toate documentele salvate",
+        "ru": "Удалить все сохранённые документы"
       }
     },
     {
@@ -15058,9 +15058,9 @@
       "platform": "linux",
       "key": "saved_delete_all",
       "translations": {
-        "ro": "Șterge toate documentele semnate",
-        "en": "Delete all signed documents",
-        "ru": "Удалить все подписанные документы"
+        "en": "Delete all saved documents",
+        "ro": "Șterge toate documentele salvate",
+        "ru": "Удалить все сохранённые документы"
       }
     },
     {

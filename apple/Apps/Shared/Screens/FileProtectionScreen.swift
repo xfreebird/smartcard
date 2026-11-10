@@ -49,7 +49,7 @@ struct FileProtectionScreen: View {
                         Section(L10n.text(.protect_file_step)) {
                             Button { importing = true } label: {
                                 Label(input?.lastPathComponent ?? L10n.text(.protect_choose_file), systemImage: "doc.badge.plus")
-                                    .frame(maxWidth: .infinity, minHeight: 48, alignment: .leading)
+                                    .frame(maxWidth: .infinity, minHeight: 36, alignment: .leading)
                                     .contentShape(Rectangle())
                             }.buttonStyle(.bordered).accessibilityIdentifier("protect.chooseFile")
                         }
@@ -87,6 +87,10 @@ struct FileProtectionScreen: View {
                         }
                     }
                     .formStyle(.grouped)
+                    #if os(iOS)
+                    .contentMargins(.top, 8, for: .scrollContent)
+                    .listSectionSpacing(16)
+                    #endif
                     .safeAreaInset(edge: .bottom) {
                         VStack(alignment: .leading, spacing: 12) {
                             Text(L10n.text(operation == 2 ? .protect_removal_warning : .protect_original))
