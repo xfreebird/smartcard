@@ -412,6 +412,13 @@ enum L10n {
         case saved_delete_all
         case saved_delete_warning
         case saved_delete_failed
+        case saved_files
+        case protect_encrypted
+        case protect_decrypted
+        case protect_saved_library
+        case protect_save_copy
+        case protect_encrypted_hint
+        case protect_save_file
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -1912,9 +1919,9 @@ enum L10n {
     "ru": "Документы"
   },
   "saved_signed": {
-    "ro": "Documente semnate",
-    "en": "Signed documents",
-    "ru": "Подписанные документы"
+    "en": "Saved documents",
+    "ro": "Documente salvate",
+    "ru": "Сохранённые документы"
   },
   "saved_history": {
     "ro": "Istoric",
@@ -1922,14 +1929,14 @@ enum L10n {
     "ru": "История"
   },
   "saved_empty": {
-    "ro": "Niciun document semnat încă",
-    "en": "No signed documents yet",
-    "ru": "Пока нет подписанных документов"
+    "en": "No saved documents yet",
+    "ro": "Niciun document salvat încă",
+    "ru": "Пока нет сохранённых документов"
   },
   "saved_hint": {
-    "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
-    "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
-    "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+    "en": "Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.",
+    "ro": "Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.",
+    "ru": "Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта."
   },
   "saved_browse": {
     "ro": "Vezi documentele semnate",
@@ -2302,9 +2309,9 @@ enum L10n {
     "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
   },
   "protect_original": {
-    "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
-    "en": "Your original file stays unchanged. Save the result as a new file.",
-    "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+    "en": "Your original file stays unchanged.",
+    "ro": "Fișierul original rămâne neschimbat.",
+    "ru": "Исходный файл остаётся без изменений."
   },
   "protect_compatibility": {
     "en": "Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.",
@@ -2387,9 +2394,9 @@ enum L10n {
     "ru": "1. Файл"
   },
   "protect_access_step": {
-    "en": "2. Access method",
-    "ro": "2. Metoda de acces",
-    "ru": "2. Способ доступа"
+    "en": "2. Password",
+    "ro": "2. Parolă",
+    "ru": "2. Пароль"
   },
   "protect_help": {
     "en": "What do I need?",
@@ -2465,6 +2472,41 @@ enum L10n {
     "ro": "Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.",
     "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
     "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+  },
+  "saved_files": {
+    "en": "Saved documents",
+    "ro": "Documente salvate",
+    "ru": "Сохранённые документы"
+  },
+  "protect_encrypted": {
+    "en": "Encrypted",
+    "ro": "Criptat",
+    "ru": "Зашифрован"
+  },
+  "protect_decrypted": {
+    "en": "Decrypted",
+    "ro": "Decriptat",
+    "ru": "Расшифрован"
+  },
+  "protect_saved_library": {
+    "en": "Saved in Documents",
+    "ro": "Salvat în Documente",
+    "ru": "Сохранено в Документах"
+  },
+  "protect_save_copy": {
+    "en": "Save a copy…",
+    "ro": "Salvează o copie…",
+    "ru": "Сохранить копию…"
+  },
+  "protect_encrypted_hint": {
+    "en": "Use Decrypt in the Documents menu and enter the password to open this file.",
+    "ro": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.",
+    "ru": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+  },
+  "protect_save_file": {
+    "en": "Save file",
+    "ro": "Salvează fișierul",
+    "ru": "Сохранить файл"
   }
 }
 """#.utf8)

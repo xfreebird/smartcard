@@ -29,7 +29,7 @@ final class ActivityPage {
         adw_status_page_set_title(empty.opaque, L10n.text(.ui_no_activity_yet))
         adw_status_page_set_description(empty.opaque, L10n.text(.ui_signed_and_verified_documents_and_browser_requests_appear_here))
 
-        group = preferencesGroup(title: L10n.text(.saved_signed))
+        group = preferencesGroup(title: L10n.text(.saved_files))
         clearButton = iconButton("edit-clear-all-symbolic", tooltip: L10n.text(.ui_clear_list)) {}
         let clear = clearButton
         gtk_widget_set_visible(clear, 0)
@@ -44,13 +44,7 @@ final class ActivityPage {
         filterButton = button(L10n.text(.saved_history), classes: ["flat"]) {}
         let navigation = hbox(spacing: 12, [label(L10n.text(.saved_title), classes: ["title-2"]), filterButton])
         margins(navigation, 18)
-        let protect = button(L10n.text(.protect_title) + " · " + L10n.text(.protect_hint), classes: ["pill"]) {}
-        margins(protect, 18)
-        root = vbox(spacing: 0, [navigation, protect, stack.widget])
-        onSignal(protect, "clicked") { [weak self] in
-            guard let self, let parent = self.window(), self.protection == nil else { return }
-            self.protection = FileProtectionDialog(controller: controller, parent: parent) { [weak self] in self?.protection = nil }
-        }
+        root = vbox(spacing: 0, [navigation, stack.widget])
         onSignal(list, "row-activated") { [weak self] row in
             guard let self, let row, let path = self.rowPaths[row] else { return }
             self.presentDetails(path)
@@ -58,7 +52,7 @@ final class ActivityPage {
         onSignal(filterButton, "clicked") { [weak self] in
             guard let self else { return }
             self.history.toggle()
-            gtk_button_set_label(self.filterButton.cast(), L10n.text(self.history ? .saved_signed : .saved_history))
+            gtk_button_set_label(self.filterButton.cast(), L10n.text(self.history ? .saved_files : .saved_history))
             self.renderedKey = ""
             self.render()
         }
@@ -98,8 +92,13 @@ final class ActivityPage {
         }
     }
 
+    func showProtection(operation: Int = 0) {
+        guard let parent = window(), protection == nil else { return }
+        protection = FileProtectionDialog(controller: controller, parent: parent, operation: operation) { [weak self] in self?.protection = nil }
+    }
+
     private func render() {
-        adw_preferences_group_set_title(group.cast(), L10n.text(history ? .saved_history : .saved_signed))
+        adw_preferences_group_set_title(group.cast(), L10n.text(history ? .saved_history : .saved_files))
         gtk_widget_set_visible(clearButton, 1)
         gtk_widget_set_tooltip_text(clearButton, L10n.text(history ? .ui_clear_the_list : .saved_delete_all))
         let items = (history ? controller.activity : controller.signedDocuments).filter(\.isShowable)
@@ -117,6 +116,7 @@ final class ActivityPage {
             switch item.kind {
             case .bridge: icon = item.ok ? "web-browser-symbolic" : "dialog-error-symbolic"
             case .failed: icon = "dialog-error-symbolic"
+            case .encrypted, .decrypted: icon = "document-save-symbolic"
             case .signed, .verified: icon = item.ok ? "object-select-symbolic" : "dialog-warning-symbolic"
             }
             let tone: [String]
@@ -130,12 +130,12 @@ final class ActivityPage {
             gtk_label_set_ellipsize(title.opaque, PANGO_ELLIPSIZE_MIDDLE)
             gtk_widget_set_hexpand(title, 1)
             let heading = hbox(spacing: 8, [image(icon, classes: tone), title])
-            let subtitle = label(signatureLabels(item.subtitle), classes: ["dim-label"], wrap: true)
+            let subtitle = label(item.kind == .encrypted ? L10n.text(.protect_encrypted) : item.kind == .decrypted ? L10n.text(.protect_decrypted) : signatureLabels(item.subtitle), classes: ["dim-label"], wrap: true)
             let content = vbox(spacing: 8, [heading, subtitle,
                 label(Format.relative(item.date), classes: ["dim-label", "caption"])])
             if let path = item.filePath {
                 append(content, hbox(spacing: 8, [
-                    button(L10n.text(.saved_details), classes: ["flat"]) { [weak self] in self?.presentDetails(path) },
+                    button(L10n.text(item.isProtectionOutput ? .saved_files : .saved_details), classes: ["flat"]) { [weak self] in self?.presentDetails(path) },
                     iconButton("folder-open-symbolic", tooltip: L10n.text(.ui_open_folder)) { [weak self] in
                         revealInFolder(path, parent: self?.window())
                     }
@@ -163,12 +163,14 @@ final class ActivityPage {
     private func presentDetails(_ path: String) {
         guard !detailsOpen, let parent = window() else { return }
         detailsOpen = true
+        let protected = (controller.signedDocuments + controller.activity).first(where: { $0.filePath == path })?.isProtectionOutput == true
+        let detailsTitle = L10n.text(protected ? .saved_files : .saved_details)
         let dialog = adw_dialog_new()!
-        adw_dialog_set_title(dialog, L10n.text(.saved_details))
+        adw_dialog_set_title(dialog, detailsTitle)
         adw_dialog_set_content_width(dialog, 560)
         adw_dialog_set_content_height(dialog, 640)
         let header = adw_header_bar_new()!
-        adw_header_bar_set_title_widget(header.opaque, label(L10n.text(.saved_details), classes: ["heading"]))
+        adw_header_bar_set_title_widget(header.opaque, label(detailsTitle, classes: ["heading"]))
         let content = vbox(spacing: 18, [label(URL(fileURLWithPath: path).lastPathComponent, wrap: true)])
         margins(content, 18)
         let spinner = gtk_spinner_new()!
@@ -217,7 +219,16 @@ final class ActivityPage {
                 }
             }
         }
-        inspect([])
+        if let item = (controller.signedDocuments + controller.activity).first(where: { $0.filePath == path }), item.isProtectionOutput {
+            clearBox(content)
+            adw_dialog_set_title(dialog, L10n.text(.saved_files))
+            append(content, label(URL(fileURLWithPath: path).lastPathComponent, wrap: true))
+            append(content, label(L10n.text(item.kind == .encrypted ? .protect_encrypted : .protect_decrypted)))
+            append(content, button(L10n.text(.ui_open_folder)) { [weak self] in revealInFolder(path, parent: self?.window()) })
+            if item.kind == .decrypted && ["pdf", "xml"].contains(URL(fileURLWithPath: path).pathExtension.lowercased()) {
+                append(content, button(L10n.text(.ui_verify)) { inspect([]) })
+            }
+        } else { inspect([]) }
     }
 
 }

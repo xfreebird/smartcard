@@ -30,7 +30,6 @@ final class FileProtectionDialog {
     private let save: Widget
     private let exportCertificate: Widget
     private var operationButtons: [Widget] = []
-    private var methodButtons: [Widget] = []
     private var operation = 0
     private var certificateMode = false
     private var source: URL?
@@ -39,10 +38,11 @@ final class FileProtectionDialog {
     private var reader: String?
     private var output: Data?
     private var busy = false
+    private var completed = false
     private var open = true
 
-    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, closed: @escaping () -> Void) {
-        self.controller = controller; self.parent = parent
+    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, closed: @escaping () -> Void) {
+        self.controller = controller; self.parent = parent; self.operation = initialOperation
         dialog = adw_dialog_new()!
         adw_dialog_set_title(dialog, L10n.text(.protect_title))
         adw_dialog_set_content_width(dialog, 560); adw_dialog_set_content_height(dialog, 700)
@@ -55,10 +55,8 @@ final class FileProtectionDialog {
         append(form,label(L10n.text(.protect_file_step),classes:["heading"]))
         let choose = button(L10n.text(.protect_choose_file),classes:["pill"]) {}
         fileLabel = label("",wrap:true);append(form,choose);append(form,fileLabel)
-        let passwordMode = button(L10n.text(.protect_password)) {}, cardMode = button(L10n.text(.protect_certificate)) {}
-        methodButtons = [passwordMode,cardMode]
         methodLabel=label(L10n.text(.protect_access_step),classes:["heading"]);append(form,methodLabel)
-        let methods=hbox(spacing:0,methodButtons);gtk_widget_add_css_class(methods,"linked");append(form,methods)
+        // Password is the only supported access method for the national ID card app.
         guide=label("",classes:["dim-label"],wrap:true);append(form,guide)
         password = gtk_password_entry_new()!;confirmation = gtk_password_entry_new()!;pin = gtk_password_entry_new()!
         for (entry,key) in [(password,L10n.Key.protect_password),(confirmation,.protect_confirm_password),(pin,.protect_card_pin)] {
@@ -80,7 +78,7 @@ final class FileProtectionDialog {
         warning = label("",classes:["dim-label"],wrap:true);append(form,warning)
         removeConfirmation = gtk_check_button_new_with_label(L10n.text(.protect_remove_confirm))!
         notice = label("",wrap:true);append(form,notice)
-        run = button(L10n.text(.protect_encrypt),classes:["suggested-action","pill"]) {};save = button(L10n.text(.protect_save),classes:["suggested-action","pill"]) {}
+        run = button(L10n.text(.protect_encrypt),classes:["suggested-action","pill"]) {};save = button(L10n.text(.protect_save_file),classes:["suggested-action","pill"]) {}
         let actions=vbox(spacing:8,[removeConfirmation,run,save]);margins(actions,16)
         let toolbar = adw_toolbar_view_new()!
         adw_toolbar_view_add_top_bar(toolbar.opaque,header);adw_toolbar_view_add_bottom_bar(toolbar.opaque,actions);adw_toolbar_view_set_content(toolbar.opaque,scrolledPage(form));adw_dialog_set_child(dialog,toolbar)
@@ -94,8 +92,6 @@ final class FileProtectionDialog {
                 guard let self else{return};self.operation=index;self.reset();self.clearSecrets();gtk_check_button_set_active(self.removeConfirmation.cast(),0);self.refresh()
             }
         }
-        onSignal(passwordMode,"clicked") { [weak self] in self?.certificateMode=false;self?.reset();self?.clearSecrets();self?.refresh() }
-        onSignal(cardMode,"clicked") { [weak self] in self?.certificateMode=true;self?.reset();self?.clearSecrets();self?.refresh() }
         for entry in [password,confirmation,pin] {onSignal(entry,"changed") {[weak self] in if self?.busy == false { self?.reset() };self?.refresh()}}
         onSignal(removeConfirmation,"toggled") { [weak self] in self?.refresh() }
         onSignal(choose,"clicked") { [weak self] in
@@ -118,30 +114,29 @@ final class FileProtectionDialog {
             }
         }
         onSignal(readCard,"clicked") { [weak self] in self?.readCard() }
-        onSignal(run,"clicked") { [weak self] in self?.process() }
+        onSignal(run,"clicked") { [weak self] in
+            guard let self else { return }
+            if self.completed { _ = adw_dialog_close(self.dialog) } else { self.process() }
+        }
         onSignal(save,"clicked") { [weak self] in self?.saveOutput() }
         #if MOLDSIGN_DEMO
         if controller.isDemo && DemoMode.screenshotCapture,
            let scenario=ProcessInfo.processInfo.environment["MSIGN_CAPTURE_DIALOG"],scenario.hasPrefix("protect-") {
             operation=scenario.contains("remove") ? 2:scenario.contains("decrypt") ? 1:0
-            certificateMode=scenario.contains("certificate")
-            gtk_label_set_text(fileLabel.opaque,"Contract.pdf")
+            certificateMode=false
+            gtk_label_set_text(fileLabel.opaque,operation==1 ? "Contract.pdf"+PasswordFileProtection.suffix : "Contract.pdf")
         }
         #endif
         refresh();adw_dialog_present(dialog,parent.widget)
     }
     private func text(_ entry: Widget) -> String {String(cString:gtk_editable_get_text(entry.opaque))}
     private func clearSecrets(){for entry in [password,confirmation,pin]{gtk_editable_set_text(entry.opaque,"")}}
-    private func reset(){output=nil;gtk_label_set_text(notice.opaque,"")}
+    private func reset(){completed=false;output=nil;gtk_label_set_text(notice.opaque,"")}
     private func error(){gtk_label_set_text(notice.opaque,L10n.text(.protect_error))}
     private func setBusy(_ value:Bool){busy=value;gtk_widget_set_sensitive(form,value ? 0:1);adw_dialog_set_can_close(dialog,value ? 0:1);refresh()}
     private func refresh(){
         for (index,button) in operationButtons.enumerated() {
             if index==operation {gtk_widget_add_css_class(button,"suggested-action")} else {gtk_widget_remove_css_class(button,"suggested-action")}
-        }
-        for (index,button) in methodButtons.enumerated() {
-            if (index==1)==certificateMode {gtk_widget_add_css_class(button,"suggested-action")} else {gtk_widget_remove_css_class(button,"suggested-action")}
-            gtk_widget_set_visible(button,operation==2 ? 0:1)
         }
         gtk_widget_set_visible(chooseCertificate,operation==0 ? 1:0)
         gtk_widget_set_visible(methodLabel,operation==2 ? 0:1)
@@ -163,9 +158,9 @@ final class FileProtectionDialog {
         gtk_label_set_text(warning.opaque,L10n.text(operation==2 ? .protect_removal_warning:.protect_original))
         if operation==2 {gtk_widget_remove_css_class(run,"suggested-action");gtk_widget_add_css_class(run,"destructive-action")}
         else {gtk_widget_remove_css_class(run,"destructive-action");gtk_widget_add_css_class(run,"suggested-action")}
-        gtk_button_set_label(run.cast(),L10n.text(operation==0 ? .protect_encrypt:operation==1 ? .protect_decrypt:.protect_remove))
+        gtk_button_set_label(run.cast(),L10n.text(completed ? .saved_close : operation==0 ? .protect_encrypt:operation==1 ? .protect_decrypt:.protect_remove))
         let ready = source != nil && !busy && (operation==2 ? gtk_check_button_get_active(removeConfirmation.cast()) != 0 : certificateMode ? (operation==0 ? certificate != nil : identity != nil && !text(pin).isEmpty) : !text(password).isEmpty && (operation==1 || text(password)==text(confirmation)))
-        gtk_widget_set_sensitive(save,busy ? 0:1);gtk_widget_set_sensitive(run,ready ? 1:0);gtk_widget_set_visible(run,output==nil ? 1:0);gtk_widget_set_visible(save,output==nil ? 0:1)
+        gtk_widget_set_sensitive(save,busy ? 0:1);gtk_widget_set_sensitive(run,(completed && !busy) || ready ? 1:0);gtk_widget_set_visible(run,output==nil ? 1:0);gtk_widget_set_visible(save,output==nil ? 0:1)
     }
     private func readCard(){
         guard !controller.isDemo, let reader=controller.selectedCard?.reader else{error();return}
@@ -201,7 +196,7 @@ final class FileProtectionDialog {
                 return try self.controller.service.withCard(reader:reader){try $0.decryptFile(bytes,identity:identity,pin:pin)}
             }
             onMain {guard self.open else{return};self.setBusy(false)
-                switch result {case .success(let output):self.output=output;gtk_label_set_text(self.notice.opaque,L10n.text(operation==2 ? .protect_removed:.protect_ready));if operation==2{self.source=nil;gtk_label_set_text(self.fileLabel.opaque,"")}
+                switch result {case .success(let output):self.output=output;gtk_label_set_text(self.notice.opaque,L10n.text(operation==2 ? .protect_removed:.protect_ready));if operation==2{self.completed=true;self.source=nil;gtk_label_set_text(self.fileLabel.opaque,"")}
                 case .failure:self.error()};self.refresh()
             }
         }
@@ -214,7 +209,7 @@ final class FileProtectionDialog {
         saveData(output,name:name,clearOutput:true)
     }
     private func saveData(_ output:Data,name:String,clearOutput:Bool){
-        let chooser=gtk_file_dialog_new();gtk_file_dialog_set_title(chooser,L10n.text(.protect_save));gtk_file_dialog_set_initial_name(chooser,name)
+        let chooser=gtk_file_dialog_new();gtk_file_dialog_set_title(chooser,L10n.text(.protect_save_file));gtk_file_dialog_set_initial_name(chooser,name)
         let (callback,data)=asyncReady { [weak self] result in
             var error:UnsafeMutablePointer<GError>?
             defer{_ = takeError(error);g_object_unref(chooser?.raw)}
@@ -224,7 +219,7 @@ final class FileProtectionDialog {
             self.setBusy(true)
             DispatchQueue.global(qos:.userInitiated).async {
                 let result=Result{try ProtectedFileIO.saveNew(output,to:URL(fileURLWithPath:path))}
-                onMain{guard self.open else{return};self.setBusy(false);switch result{case .success:if clearOutput{self.output=nil};gtk_label_set_text(self.notice.opaque,L10n.text(.protect_saved));case .failure:self.error()};self.refresh()}
+                onMain{guard self.open else{return};self.setBusy(false);switch result{case .success:if clearOutput{self.output=nil;self.completed=true;self.controller.recordProtectionOutput(path:path,encrypted:self.operation==0)};gtk_label_set_text(self.notice.opaque,L10n.text(.protect_saved));case .failure:self.error()};self.refresh()}
             }
         }
         gtk_file_dialog_save(chooser,parent,nil,callback,data)

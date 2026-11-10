@@ -10,9 +10,11 @@ import QuickLookUI
 /// Read-only inspection: it neither changes the Verify workspace nor creates another history event.
 struct SavedDocumentDetails: View {
     let url: URL
+    var protectionOperation: String? = nil
     @Environment(AppModel.self) private var model
     @Environment(\.dismiss) private var dismiss
     @State private var reports: [Validator.Report]?
+    @State private var decrypting = false
     @State private var unavailable = false
     @State private var scoped = false
     @State private var inspectedURL: URL?
@@ -31,12 +33,18 @@ struct SavedDocumentDetails: View {
                     if unavailable {
                         ContentUnavailableView(L10n.text(.saved_unavailable), systemImage: "doc.badge.ellipsis",
                                                description: Text(L10n.text(.saved_unavailable_hint)))
+                    } else if let operation = protectionOperation {
+                        Label(url.lastPathComponent, systemImage: operation == "encrypt" ? "lock.doc" : "doc.text")
+                            .font(.headline).textSelection(.enabled)
+                        Text(L10n.text(operation == "encrypt" ? .protect_encrypted : .protect_decrypted))
+                            .foregroundStyle(.secondary)
+                        if operation == "encrypt" { Text(L10n.text(.protect_encrypted_hint)) }
                     } else if let reports {
                         VerificationDocumentView(url: url, reports: reports)
                     } else {
                         ProgressView(L10n.text(.ui_verifying)).frame(maxWidth: .infinity, minHeight: 120)
                     }
-                    if !unavailable, reports != nil {
+                    if !unavailable, reports != nil || protectionOperation != nil {
                         ViewThatFits(in: .horizontal) {
                             HStack(spacing: 16) { fileActions }
                             VStack(alignment: .leading, spacing: 16) { fileActions }
@@ -49,7 +57,7 @@ struct SavedDocumentDetails: View {
                 .padding(24).frame(maxWidth: 680).frame(maxWidth: .infinity)
                 .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
             }
-            .navigationTitle(L10n.text(.saved_details))
+            .navigationTitle(L10n.text(protectionOperation == nil ? .saved_details : .saved_title))
             .accessibilityIdentifier("documents.details")
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
@@ -68,6 +76,7 @@ struct SavedDocumentDetails: View {
         .quickLookPreview($previewURL)
         .sheet(isPresented: $pdfPreviewing) { PDFDocumentPreview(url: url) }
         #endif
+        .sheet(isPresented: $decrypting) { FileProtectionScreen(initialURL: url, operation: 1).environment(model).appPreferences() }
         .onAppear { scoped = url.startAccessingSecurityScopedResource() }
         .onDisappear {
             if scoped { url.stopAccessingSecurityScopedResource(); scoped = false }
@@ -79,7 +88,7 @@ struct SavedDocumentDetails: View {
             reports = nil
             // An inaccessible file must not be presented as an unsigned or invalid document.
             unavailable = !FileManager.default.isReadableFile(atPath: url.path)
-            guard !unavailable else { return }
+            guard !unavailable, protectionOperation == nil else { return }
             do {
                 let checked = try await model.inspectDocument(url)
                 guard !Task.isCancelled else { return }
@@ -94,6 +103,10 @@ struct SavedDocumentDetails: View {
     }
 
     @ViewBuilder private var fileActions: some View {
+        if protectionOperation == "encrypt" {
+            Button { decrypting = true } label: { Label(L10n.text(.protect_decrypt), systemImage: "lock.open") }
+        }
+        if protectionOperation != "encrypt" {
         Button {
             #if os(iOS)
             if url.pathExtension.lowercased() == "pdf" { pdfPreviewing = true }
@@ -102,6 +115,7 @@ struct SavedDocumentDetails: View {
             previewing = true
             #endif
         } label: { Label(L10n.text(.document_preview), systemImage: "doc.text.magnifyingglass") }
+        }
         ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
         #if os(macOS)
         Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: {

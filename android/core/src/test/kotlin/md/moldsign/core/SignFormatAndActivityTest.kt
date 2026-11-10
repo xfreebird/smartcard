@@ -100,4 +100,18 @@ class SignFormatAndActivityTest {
         assertEquals(ActivityHistory.MAX_ENTRIES, many.size)
         assertEquals("newest first", "e${ActivityHistory.MAX_ENTRIES + 4}", many.first().id)
     }
+    @Test
+    fun protectedOutputsBelongToLibraryWithoutClaimingASignature() {
+        val encrypted = ActivityEntry("encrypted", ActivityEntry.Kind.Document, "contract.pdf.symmetric.p7m", "", true, 1,
+            "content://protected/encrypted", protectionOperation = "encrypt")
+        val decrypted = encrypted.copy(id = "decrypted", title = "contract.pdf", documentUri = "content://protected/decrypted", protectionOperation = "decrypt")
+        val verified = decrypted.copy(id = "verified", documentUri = "content://verified", protectionOperation = null)
+        val failed = encrypted.copy(id = "failed", documentUri = "content://failed", ok = false)
+        val library = SignedDocumentLibrary.migrate(listOf(decrypted, encrypted, verified, failed))
+        assertEquals(listOf("decrypted", "encrypted"), library.map { it.id })
+        assertTrue(library.none { it.signedOutput })
+        assertEquals(2, SignedDocumentLibrary.add(library, encrypted.copy(id = "replacement")).size)
+        assertEquals("replacement", SignedDocumentLibrary.add(library, encrypted.copy(id = "replacement")).first().id)
+    }
+
 }

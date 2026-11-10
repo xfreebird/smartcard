@@ -43,6 +43,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.CheckCircle
@@ -558,7 +559,8 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     val allEntries by vm.activity.collectAsStateWithLifecycle()
     val savedDocuments by vm.savedDocuments.collectAsStateWithLifecycle()
     var protecting by remember { mutableStateOf(false) }
-    if (protecting) FileProtectionDialog(vm) { protecting = false }
+    var protectionSource by remember { mutableStateOf<Uri?>(null) }
+    if (protecting) FileProtectionDialog(vm, initialFile = protectionSource) { protecting = false; protectionSource = null }
     var history by remember { mutableStateOf(false) }
     val entries = if (history) allEntries else savedDocuments
     var confirm by remember { mutableStateOf(false) }
@@ -575,7 +577,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     val captureDialog = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
     LaunchedEffect(captureDialog, savedDocuments) {
         if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) {
-            protecting = captureDialog?.startsWith("protect-") == true
+            protecting = captureDialog?.startsWith("protect-") == true && captureDialog != "protect-menu"
             history = captureDialog == "history" || captureDialog == "history-clear"
             confirm = captureDialog == "history-clear"
             detailsEntry = when (captureDialog) {
@@ -589,18 +591,13 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     var saveSource by remember { mutableStateOf<Uri?>(null) }
     val savePdf = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/pdf")) { vm.saveCopy(saveSource, it) }
     val saveXml = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/xml")) { vm.saveCopy(saveSource, it) }
-    val saveAs: (String) -> Unit = { name -> if (name.endsWith(".xml", ignoreCase = true)) saveXml.launch(name) else savePdf.launch(name) }
+    val saveOther = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { vm.saveCopy(saveSource, it) }
+    val saveAs: (String) -> Unit = { name -> when { name.endsWith(".xml", ignoreCase = true) -> saveXml.launch(name); name.endsWith(".pdf", ignoreCase = true) -> savePdf.launch(name); else -> saveOther.launch(name) } }
     LifecycleResumeEffect(Unit) {
         vm.pruneActivity()
         onPauseOrDispose { }
     }
     ScreenColumn(padding) {
-        OutlinedButton(onClick = { protecting = true }, modifier = Gutter.fillMaxWidth()) {
-            Column(Modifier.fillMaxWidth().padding(vertical = 8.dp)) {
-                Text(stringResource(R.string.protect_title), style = MaterialTheme.typography.titleMedium)
-                Text(stringResource(R.string.protect_hint), style = MaterialTheme.typography.bodySmall)
-            }
-        }
         Row(Gutter.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             FilterChip(selected = !history, onClick = { history = false }, label = { Text(stringResource(R.string.saved_signed)) })
             FilterChip(selected = history, onClick = { history = true }, label = { Text(stringResource(R.string.saved_history)) })
@@ -636,7 +633,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
                 ) {
                     entries.forEachIndexed { i, e ->
                         if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
-                        ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onDelete = if (history) null else ({ deleting = listOf(e) }), onSaveAs = { source, name -> saveSource = source; saveAs(name) })
+                        ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onDecrypt = { protectionSource = it; protecting = true }, onDelete = if (history) null else ({ deleting = listOf(e) }), onSaveAs = { source, name -> saveSource = source; saveAs(name) })
                     }
                 }
             }
@@ -654,7 +651,9 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
         )
     }
     detailsEntry?.let { entry ->
-        SavedDocumentDetails(vm, entry, onDismiss = { detailsEntry = null })
+        if (entry.protectionOperation != null) ProtectedDocumentDetails(entry, onDismiss = { detailsEntry = null }, onDecrypt = {
+            detailsEntry = null; protectionSource = it; protecting = true
+        }) else SavedDocumentDetails(vm, entry, onDismiss = { detailsEntry = null })
     }
     if (confirm) {
         AlertDialog(
@@ -673,10 +672,10 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     }
 }
 
-private fun mimeOf(name: String) = if (name.endsWith(".xml", ignoreCase = true)) "application/xml" else "application/pdf"
+private fun mimeOf(name: String) = when { name.endsWith(".xml", ignoreCase = true) -> "application/xml"; name.endsWith(".pdf", ignoreCase = true) -> "application/pdf"; else -> "application/octet-stream" }
 
 @Composable
-private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onDelete: (() -> Unit)? = null, onSaveAs: (source: Uri, name: String) -> Unit) {
+private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onDelete: (() -> Unit)? = null, onDecrypt: (Uri) -> Unit = {}, onSaveAs: (source: Uri, name: String) -> Unit) {
     val context = LocalContext.current
     val colors = LocalStatusColors.current
     val uri = e.documentUri?.toUri()?.takeIf { it.scheme == "content" }
@@ -702,12 +701,14 @@ private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, on
         leadingContent = {
             when {
                 e.kind == ActivityEntry.Kind.Browser -> Icon(Icons.Outlined.Language, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                e.protectionOperation == "encrypt" -> Icon(Icons.Outlined.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                e.protectionOperation == "decrypt" -> Icon(Icons.Outlined.FolderOpen, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                 e.ok -> Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = colors.success)
                 else -> Icon(Icons.Outlined.ErrorOutline, contentDescription = null, tint = colors.danger)
             }
         },
         headlineContent = { Text(e.title, maxLines = 1, overflow = TextOverflow.MiddleEllipsis) },
-        supportingContent = { Text(signatureLabels(e.subtitle), maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        supportingContent = { Text(when (e.protectionOperation) { "encrypt" -> stringResource(R.string.protect_encrypted); "decrypt" -> stringResource(R.string.protect_decrypted); else -> signatureLabels(e.subtitle) }, maxLines = 2, overflow = TextOverflow.Ellipsis) },
         trailingContent = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
@@ -719,7 +720,8 @@ private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, on
                         DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
                             if (uri != null && open != null && share != null) {
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; open() })
-                            DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
+                            if (e.protectionOperation == "encrypt") DropdownMenuItem(text = { Text(stringResource(R.string.protect_decrypt)) }, onClick = { menu = false; onDecrypt(uri) })
+                            else DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; share() })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
                             }
@@ -733,6 +735,41 @@ private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, on
         },
         colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = if (e.documentUri != null) Modifier.clickable(onClickLabel = stringResource(R.string.saved_details)) { onDetails(e) } else Modifier,
+    )
+}
+
+/** Protection results are ordinary files, not signature-verification results. */
+@Composable
+private fun ProtectedDocumentDetails(entry: ActivityEntry, onDismiss: () -> Unit, onDecrypt: (Uri) -> Unit) {
+    val context = LocalContext.current
+    val uri = entry.documentUri?.toUri()
+    val encrypted = entry.protectionOperation == "encrypt"
+    var unavailable by remember { mutableStateOf(false) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(entry.title) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Text(stringResource(if (encrypted) R.string.protect_encrypted else R.string.protect_decrypted))
+                if (uri != null) {
+                    if (encrypted) Button(onClick = { onDecrypt(uri) }) { Text(stringResource(R.string.protect_decrypt)) }
+                    else OutlinedButton(onClick = {
+                        unavailable = runCatching {
+                            context.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, mimeOf(entry.title)).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
+                        }.isFailure
+                    }) { Text(stringResource(R.string.action_open)) }
+                    OutlinedButton(onClick = {
+                        unavailable = runCatching {
+                            val send = Intent(Intent.ACTION_SEND).setType(mimeOf(entry.title)).putExtra(Intent.EXTRA_STREAM, uri)
+                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            context.startActivity(Intent.createChooser(send, null))
+                        }.isFailure
+                    }) { Text(stringResource(R.string.action_share)) }
+                }
+                if (unavailable) Text(stringResource(R.string.saved_unavailable), color = MaterialTheme.colorScheme.error)
+            }
+        },
+        confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) } },
     )
 }
 

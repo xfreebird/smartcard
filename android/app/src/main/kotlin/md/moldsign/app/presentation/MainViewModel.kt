@@ -506,6 +506,13 @@ documents.copy(source, target)
         if (deleted.size != selected.size) _message.value = UiMessage.Text(R.string.saved_delete_failed)
     }
 
+    suspend fun saveProtectedDocument(name: String, bytes: ByteArray, decrypted: Boolean): Uri = withContext(Dispatchers.IO) {
+        val uri = md.moldsign.app.infrastructure.ProtectedFileStore(getApplication()).save(name, bytes)
+        container.activity.document(name, uri, ok = true, subtitle = text(if (decrypted) R.string.protect_decrypted else R.string.protect_encrypted),
+            protectionOperation = if (decrypted) "decrypt" else "encrypt")
+        uri
+    }
+
     fun clearActivity() = container.activity.clear()
 
     private fun log(doc: PickedDocument, ok: Boolean, subtitle: String) = container.activity.document(doc.name, doc.uri, ok, subtitle)

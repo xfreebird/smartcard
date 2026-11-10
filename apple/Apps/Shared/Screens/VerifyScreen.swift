@@ -293,18 +293,6 @@ struct ActivityScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            Button { protecting = true } label: {
-                HStack {
-                    Image(systemName: "lock.doc").font(.title2)
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(L10n.text(.protect_title)).font(.headline)
-                        Text(L10n.text(.protect_hint)).font(.caption).foregroundStyle(.secondary)
-                    }
-                    Spacer()
-                    Image(systemName: "chevron.right")
-                }.padding(12).frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
-            }.buttonStyle(.bordered).padding([.horizontal,.top])
-                .accessibilityIdentifier("documents.protectFiles")
             HStack {
             Picker(L10n.text(.saved_title), selection: $history) {
                 Text(L10n.text(.saved_signed)).tag(false)
@@ -327,11 +315,14 @@ struct ActivityScreen: View {
                 if !history, let url = item.fileURL {
                     Button { selectedDocument = item } label: {
                         HStack(spacing: 12) {
-                            Image(systemName: "doc.text").foregroundStyle(Color.accentColor)
+                            Image(systemName: item.protectionOperation == "encrypt" ? "lock.doc" : "doc.text").foregroundStyle(Color.accentColor)
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(url.lastPathComponent).font(.headline)
                                     .fixedSize(horizontal: false, vertical: true)
-                                Text(item.date, style: .date).font(.caption).foregroundStyle(.secondary)
+                                HStack {
+                                    if let operation = item.protectionOperation { Text(L10n.text(operation == "encrypt" ? .protect_encrypted : .protect_decrypted)) }
+                                    Text(item.date, style: .date)
+                                }.font(.caption).foregroundStyle(.secondary)
                             }
                             Spacer(minLength: 8)
                             Image(systemName: "chevron.right").foregroundStyle(.secondary)
@@ -371,6 +362,16 @@ struct ActivityScreen: View {
         }
         }
         .navigationTitle(L10n.text(.saved_title))
+        .toolbar {
+            ToolbarItem(placement: .primaryAction) {
+                Menu {
+                    Button { protecting = true } label: {
+                        Label(L10n.text(.protect_title), systemImage: "lock.doc")
+                    }.accessibilityIdentifier("documents.protectFiles")
+                } label: { Label(L10n.text(.protect_title), systemImage: "ellipsis.circle") }
+                .accessibilityIdentifier("documents.menu")
+            }
+        }
         .searchable(text: Binding(get: { documentNavigation.documentSearch }, set: { documentNavigation.documentSearch = $0 }),
                     prompt: L10n.text(.discovery_search))
         .onChange(of: documentNavigation.documentSearch) { _, _ in history = false }
@@ -378,7 +379,7 @@ struct ActivityScreen: View {
         .sheet(isPresented: $protecting) { FileProtectionScreen().environment(model).appPreferences() }
         .sheet(item: $selectedDocument) { item in
             if let url = item.fileURL {
-                SavedDocumentDetails(url: url).environment(model).appPreferences()
+                SavedDocumentDetails(url: url, protectionOperation: item.protectionOperation).environment(model).appPreferences()
             }
         }
         .onAppear {

@@ -1165,3 +1165,9 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - 0.2.9 distribution follow-up: Pages `42653376230` succeeded after a file-sync timeout and deployment-only retry. Live desktop update manifests and signed package feed report 0.2.9; all 15 final GitHub asset checksums match. Published hash-verified Homebrew/Scoop definitions to the existing tap (`5f94530`). Huawei still awaits per-action CAPTCHA confirmation; previous review preserved.
 
 - Windows 0.2.9 certification passed during final checks. Manually published replacement submission `1152921505702354441` in Firefox; Partner Center confirms Update in publishing. Store propagation remains pending.
+
+## 2026-11-10 — File protection UX and 0.2.10
+
+- Moved protection entry points into native navigation/header menus; removed unsupported ID-card/certificate choices from app forms while retaining CLI format compatibility.
+- Apple password fields now have explicit labels/borders; mobile success automatically stores separate encrypted/decrypted outputs with Done/Close and optional export. Desktop Save records the result in Documents. Protected outputs retain their type, survive history clearing, and are excluded from signed-document discovery/widgets.
+- Validated Apple iOS/macOS Debug builds and seven document-library tests; Android core suite (137 tests, one opt-in skip), emulator vendor compatibility, save/reload/delete checks and cross-process library relaunch passed; Windows native build and Linux build/23 tests passed. Localized guide screenshot refresh and store delivery are in progress.

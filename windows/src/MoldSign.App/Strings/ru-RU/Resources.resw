@@ -298,10 +298,10 @@ eSemnBun</value></data>
   <data name="file_remove" xml:space="preserve"><value>Удалить файл</value></data>
   <data name="format_pdf_time" xml:space="preserve"><value>PDF с отметкой времени</value></data>
   <data name="saved_title" xml:space="preserve"><value>Документы</value></data>
-  <data name="saved_signed" xml:space="preserve"><value>Подписанные документы</value></data>
+  <data name="saved_signed" xml:space="preserve"><value>Сохранённые документы</value></data>
   <data name="saved_history" xml:space="preserve"><value>История</value></data>
-  <data name="saved_empty" xml:space="preserve"><value>Пока нет подписанных документов</value></data>
-  <data name="saved_hint" xml:space="preserve"><value>Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте.</value></data>
+  <data name="saved_empty" xml:space="preserve"><value>Пока нет сохранённых документов</value></data>
+  <data name="saved_hint" xml:space="preserve"><value>Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта.</value></data>
   <data name="saved_browse" xml:space="preserve"><value>Посмотреть подписанные документы</value></data>
   <data name="toggle_on" xml:space="preserve"><value>Вкл.</value></data>
   <data name="toggle_off" xml:space="preserve"><value>Выкл.</value></data>
@@ -370,7 +370,7 @@ eSemnBun</value></data>
   <data name="protect_recipient" xml:space="preserve"><value>Получатель</value></data>
   <data name="protect_card_pin" xml:space="preserve"><value>PIN карты</value></data>
   <data name="protect_no_key" xml:space="preserve"><value>Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы.</value></data>
-  <data name="protect_original" xml:space="preserve"><value>Исходный файл останется без изменений. Сохраните результат в новом файле.</value></data>
+  <data name="protect_original" xml:space="preserve"><value>Исходный файл остаётся без изменений.</value></data>
   <data name="protect_compatibility" xml:space="preserve"><value>Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием.</value></data>
   <data name="protect_ready" xml:space="preserve"><value>Готово к сохранению</value></data>
   <data name="protect_save" xml:space="preserve"><value>Сохранить копию</value></data>
@@ -387,7 +387,7 @@ eSemnBun</value></data>
   <data name="protect_export_certificate" xml:space="preserve"><value>Экспорт сертификата шифрования</value></data>
   <data name="protect_export_certificate_hint" xml:space="preserve"><value>Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются.</value></data>
   <data name="protect_file_step" xml:space="preserve"><value>1. Файл</value></data>
-  <data name="protect_access_step" xml:space="preserve"><value>2. Способ доступа</value></data>
+  <data name="protect_access_step" xml:space="preserve"><value>2. Пароль</value></data>
   <data name="protect_help" xml:space="preserve"><value>Что потребуется?</value></data>
   <data name="protect_details" xml:space="preserve"><value>Сведения и экспорт сертификата</value></data>
   <data name="protect_password_encrypt_guide" xml:space="preserve"><value>Создайте пароль для этого файла.</value></data>
@@ -402,4 +402,11 @@ eSemnBun</value></data>
   <data name="saved_delete_all" xml:space="preserve"><value>Удалить все подписанные документы</value></data>
   <data name="saved_delete_warning" xml:space="preserve"><value>Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся.</value></data>
   <data name="saved_delete_failed" xml:space="preserve"><value>Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку.</value></data>
+  <data name="saved_files" xml:space="preserve"><value>Сохранённые документы</value></data>
+  <data name="protect_encrypted" xml:space="preserve"><value>Зашифрован</value></data>
+  <data name="protect_decrypted" xml:space="preserve"><value>Расшифрован</value></data>
+  <data name="protect_saved_library" xml:space="preserve"><value>Сохранено в Документах</value></data>
+  <data name="protect_save_copy" xml:space="preserve"><value>Сохранить копию…</value></data>
+  <data name="protect_encrypted_hint" xml:space="preserve"><value>Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл.</value></data>
+  <data name="protect_save_file" xml:space="preserve"><value>Сохранить файл</value></data>
 </root>

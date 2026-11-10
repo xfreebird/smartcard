@@ -12,8 +12,7 @@ public sealed partial class ActivityPage : Page
     {
         InitializeComponent();
         DocumentList.ItemsSource = DisplayItems;
-        ProtectButton.Content = Loc.Get("protect_title") + " · " + Loc.Get("protect_hint");
-        SignedFilter.Content = Loc.Get("saved_signed");
+        SignedFilter.Content = Loc.Get("saved_files");
         HistoryFilter.Content = Loc.Get("saved_history");
         RefreshDocuments();
         Loaded += (_, _) =>
@@ -34,7 +33,6 @@ public sealed partial class ActivityPage : Page
         };
     }
 
-    private async void OnProtectClick(object sender, RoutedEventArgs e) => await new FileProtectionDialog(XamlRoot, ActualTheme).ShowAsync();
 
     public AppState State => AppState.Current;
 
@@ -65,6 +63,20 @@ public sealed partial class ActivityPage : Page
         _detailsOpen = true;
         try
         {
+            if (item.IsProtectionOutput)
+            {
+                var content = new StackPanel { Spacing = 16 };
+                content.Children.Add(new TextBlock { Text = item.FileName, TextWrapping = TextWrapping.Wrap });
+                content.Children.Add(new TextBlock { Text = item.ActionLabel, TextWrapping = TextWrapping.Wrap });
+                var open = new Button { Content = Loc.Get("File_ShowInFolder") };
+                open.Click += (_, _) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", "/select,\"" + path + "\"") { UseShellExecute = true });
+                content.Children.Add(open);
+                var saved = new ContentDialog { XamlRoot = XamlRoot, RequestedTheme = ActualTheme,
+                    Title = Loc.Get("saved_files"), Content = content, CloseButtonText = Loc.Get("saved_close"),
+                    PrimaryButtonText = DocumentFilter.SelectedIndex == 0 ? Loc.Get("saved_delete") : "" };
+                if (await saved.ShowAsync() == ContentDialogResult.Primary) await ConfirmDeleteAsync(new[] { item });
+                return;
+            }
             // Use the same fresh verification and certificate renderer as Verify, without
             // navigating away, replacing Verify's selected files, or adding another history row.
             var details = new VerifyPage(detailsMode: true)

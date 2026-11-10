@@ -51,6 +51,23 @@ final class DocumentsStoreTests: XCTestCase {
         XCTAssertTrue(Store.loadSignedDocuments(from: library, historyURL: history).isEmpty)
     }
 
+    func testProtectionOutputsPersistWithoutBecomingSignedDocuments() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let items = [ActivityItem.Kind.encrypted, .decrypted].map { kind in
+            ActivityItem(kind: kind, title: "output", subtitle: "", ok: true, filePath: root.appendingPathComponent(kind.rawValue).path)
+        }
+        XCTAssertTrue(items.allSatisfy(\.isSavedDocument))
+        XCTAssertTrue(items.allSatisfy { !$0.isSignedDocument })
+        let library = root.appendingPathComponent("documents.json")
+        XCTAssertTrue(Store.saveSignedDocuments(items, to: library))
+        let restored = Store.loadSignedDocuments(from: library, historyURL: root.appendingPathComponent("history.json"))
+        XCTAssertEqual(restored.map(\.id), items.map(\.id))
+        XCTAssertEqual(restored.map(\.kind), items.map(\.kind))
+        XCTAssertEqual(restored.map(\.filePath), items.map(\.filePath))
+        XCTAssertTrue(restored.allSatisfy(\.isSavedDocument))
+    }
+
     func testSavedLibraryHasNoHistoryLimit() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         defer { try? FileManager.default.removeItem(at: root) }

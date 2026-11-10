@@ -298,10 +298,10 @@ eSemnBun</value></data>
   <data name="file_remove" xml:space="preserve"><value>Remove file</value></data>
   <data name="format_pdf_time" xml:space="preserve"><value>PDF with timestamp</value></data>
   <data name="saved_title" xml:space="preserve"><value>Documents</value></data>
-  <data name="saved_signed" xml:space="preserve"><value>Signed documents</value></data>
+  <data name="saved_signed" xml:space="preserve"><value>Saved documents</value></data>
   <data name="saved_history" xml:space="preserve"><value>History</value></data>
-  <data name="saved_empty" xml:space="preserve"><value>No signed documents yet</value></data>
-  <data name="saved_hint" xml:space="preserve"><value>Documents signed in the app appear here. For website requests, download the result from that website.</value></data>
+  <data name="saved_empty" xml:space="preserve"><value>No saved documents yet</value></data>
+  <data name="saved_hint" xml:space="preserve"><value>Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.</value></data>
   <data name="saved_browse" xml:space="preserve"><value>View signed documents</value></data>
   <data name="toggle_on" xml:space="preserve"><value>On</value></data>
   <data name="toggle_off" xml:space="preserve"><value>Off</value></data>
@@ -370,7 +370,7 @@ eSemnBun</value></data>
   <data name="protect_recipient" xml:space="preserve"><value>Recipient</value></data>
   <data name="protect_card_pin" xml:space="preserve"><value>Card PIN</value></data>
   <data name="protect_no_key" xml:space="preserve"><value>No supported encryption key found. Signing-only keys cannot decrypt files.</value></data>
-  <data name="protect_original" xml:space="preserve"><value>Your original file stays unchanged. Save the result as a new file.</value></data>
+  <data name="protect_original" xml:space="preserve"><value>Your original file stays unchanged.</value></data>
   <data name="protect_compatibility" xml:space="preserve"><value>Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.</value></data>
   <data name="protect_ready" xml:space="preserve"><value>Ready to save</value></data>
   <data name="protect_save" xml:space="preserve"><value>Save a copy</value></data>
@@ -387,7 +387,7 @@ eSemnBun</value></data>
   <data name="protect_export_certificate" xml:space="preserve"><value>Export encryption certificate</value></data>
   <data name="protect_export_certificate_hint" xml:space="preserve"><value>Share this public certificate so others can encrypt files for you. No PIN or private key is shared.</value></data>
   <data name="protect_file_step" xml:space="preserve"><value>1. File</value></data>
-  <data name="protect_access_step" xml:space="preserve"><value>2. Access method</value></data>
+  <data name="protect_access_step" xml:space="preserve"><value>2. Password</value></data>
   <data name="protect_help" xml:space="preserve"><value>What do I need?</value></data>
   <data name="protect_details" xml:space="preserve"><value>Certificate details and export</value></data>
   <data name="protect_password_encrypt_guide" xml:space="preserve"><value>Create a password for this file.</value></data>
@@ -402,4 +402,11 @@ eSemnBun</value></data>
   <data name="saved_delete_all" xml:space="preserve"><value>Delete all signed documents</value></data>
   <data name="saved_delete_warning" xml:space="preserve"><value>The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.</value></data>
   <data name="saved_delete_failed" xml:space="preserve"><value>Some documents could not be deleted. They remain in the list. Check file access and try again.</value></data>
+  <data name="saved_files" xml:space="preserve"><value>Saved documents</value></data>
+  <data name="protect_encrypted" xml:space="preserve"><value>Encrypted</value></data>
+  <data name="protect_decrypted" xml:space="preserve"><value>Decrypted</value></data>
+  <data name="protect_saved_library" xml:space="preserve"><value>Saved in Documents</value></data>
+  <data name="protect_save_copy" xml:space="preserve"><value>Save a copy…</value></data>
+  <data name="protect_encrypted_hint" xml:space="preserve"><value>Use Decrypt in the Documents menu and enter the password to open this file.</value></data>
+  <data name="protect_save_file" xml:space="preserve"><value>Save file</value></data>
 </root>

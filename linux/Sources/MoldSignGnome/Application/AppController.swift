@@ -804,8 +804,13 @@ final class AppController {
         return true
     }
 
+    func recordProtectionOutput(path: String, encrypted: Bool) {
+        log(ActivityItem(kind: encrypted ? .encrypted : .decrypted, title: URL(fileURLWithPath: path).lastPathComponent,
+                         subtitle: L10n.text(encrypted ? .protect_encrypted : .protect_decrypted), ok: true, filePath: path))
+    }
+
     private func log(_ item: ActivityItem) {
-        if item.isSignedDocument {
+        if item.isSavedDocument {
             signedDocuments.removeAll { $0.filePath == item.filePath }
             signedDocuments.insert(item, at: 0)
             if shouldPersistActivity { Store.saveSignedDocuments(signedDocuments) }

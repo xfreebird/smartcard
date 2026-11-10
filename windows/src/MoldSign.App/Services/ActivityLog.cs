@@ -25,7 +25,7 @@ internal static class ActivityLog
         {
             if (File.Exists(s_path) && JsonSerializer.Deserialize<Stored>(File.ReadAllText(s_path), s_json) is { } stored)
                 return new Snapshot(stored.Items ?? [], stored.RecentsClearedAt,
-                    stored.SignedDocuments ?? (stored.Items ?? []).Where(item => item.IsSignedDocument).ToArray());
+                    stored.SignedDocuments ?? (stored.Items ?? []).Where(item => item.IsSavedDocument).ToArray());
         }
         catch (Exception e) when (e is IOException or JsonException or UnauthorizedAccessException)
         {

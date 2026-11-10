@@ -213,7 +213,7 @@ enum Verdict {
 }
 
 struct ActivityItem: Codable, Equatable {
-    enum Kind: String, Codable { case signed, verified, bridge, failed }
+    enum Kind: String, Codable { case signed, verified, bridge, failed, encrypted, decrypted }
     var id = UUID()
     var kind: Kind
     var title: String
@@ -221,6 +221,9 @@ struct ActivityItem: Codable, Equatable {
     var ok: Bool
     var date = Date()
     var filePath: String?
+
+    var isProtectionOutput: Bool { kind == .encrypted || kind == .decrypted }
+    var isSavedDocument: Bool { ok && filePath != nil && (kind == .signed || isProtectionOutput) }
 
     var isSignedDocument: Bool { kind == .signed && ok && filePath != nil }
 

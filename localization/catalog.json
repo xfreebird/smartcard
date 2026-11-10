@@ -10630,9 +10630,9 @@
       "platform": "apple",
       "key": "saved_signed",
       "translations": {
-        "ro": "Documente semnate",
-        "en": "Signed documents",
-        "ru": "Подписанные документы"
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
       }
     },
     {
@@ -10648,18 +10648,18 @@
       "platform": "apple",
       "key": "saved_empty",
       "translations": {
-        "ro": "Niciun document semnat încă",
-        "en": "No signed documents yet",
-        "ru": "Пока нет подписанных документов"
+        "en": "No saved documents yet",
+        "ro": "Niciun document salvat încă",
+        "ru": "Пока нет сохранённых документов"
       }
     },
     {
       "platform": "apple",
       "key": "saved_hint",
       "translations": {
-        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
-        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
-        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+        "en": "Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.",
+        "ro": "Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.",
+        "ru": "Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта."
       }
     },
     {
@@ -10684,9 +10684,9 @@
       "platform": "android",
       "key": "saved_signed",
       "translations": {
-        "ro": "Documente semnate",
-        "en": "Signed documents",
-        "ru": "Подписанные документы"
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
       }
     },
     {
@@ -10702,18 +10702,18 @@
       "platform": "android",
       "key": "saved_empty",
       "translations": {
-        "ro": "Niciun document semnat încă",
-        "en": "No signed documents yet",
-        "ru": "Пока нет подписанных документов"
+        "en": "No saved documents yet",
+        "ro": "Niciun document salvat încă",
+        "ru": "Пока нет сохранённых документов"
       }
     },
     {
       "platform": "android",
       "key": "saved_hint",
       "translations": {
-        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
-        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
-        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+        "en": "Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.",
+        "ro": "Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.",
+        "ru": "Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта."
       }
     },
     {
@@ -10738,9 +10738,9 @@
       "platform": "windows",
       "key": "saved_signed",
       "translations": {
-        "ro": "Documente semnate",
-        "en": "Signed documents",
-        "ru": "Подписанные документы"
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
       }
     },
     {
@@ -10756,18 +10756,18 @@
       "platform": "windows",
       "key": "saved_empty",
       "translations": {
-        "ro": "Niciun document semnat încă",
-        "en": "No signed documents yet",
-        "ru": "Пока нет подписанных документов"
+        "en": "No saved documents yet",
+        "ro": "Niciun document salvat încă",
+        "ru": "Пока нет сохранённых документов"
       }
     },
     {
       "platform": "windows",
       "key": "saved_hint",
       "translations": {
-        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
-        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
-        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+        "en": "Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.",
+        "ro": "Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.",
+        "ru": "Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта."
       }
     },
     {
@@ -10792,9 +10792,9 @@
       "platform": "linux",
       "key": "saved_signed",
       "translations": {
-        "ro": "Documente semnate",
-        "en": "Signed documents",
-        "ru": "Подписанные документы"
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
       }
     },
     {
@@ -10810,18 +10810,18 @@
       "platform": "linux",
       "key": "saved_empty",
       "translations": {
-        "ro": "Niciun document semnat încă",
-        "en": "No signed documents yet",
-        "ru": "Пока нет подписанных документов"
+        "en": "No saved documents yet",
+        "ro": "Niciun document salvat încă",
+        "ru": "Пока нет сохранённых документов"
       }
     },
     {
       "platform": "linux",
       "key": "saved_hint",
       "translations": {
-        "ro": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.",
-        "en": "Documents signed in the app appear here. For website requests, download the result from that website.",
-        "ru": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+        "en": "Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.",
+        "ro": "Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.",
+        "ru": "Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта."
       }
     },
     {
@@ -13429,9 +13429,9 @@
       "platform": "apple",
       "key": "protect_original",
       "translations": {
-        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
-        "en": "Your original file stays unchanged. Save the result as a new file.",
-        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+        "en": "Your original file stays unchanged.",
+        "ro": "Fișierul original rămâne neschimbat.",
+        "ru": "Исходный файл остаётся без изменений."
       }
     },
     {
@@ -13699,9 +13699,9 @@
       "platform": "android",
       "key": "protect_original",
       "translations": {
-        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
-        "en": "Your original file stays unchanged. Save the result as a new file.",
-        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+        "en": "Your original file stays unchanged.",
+        "ro": "Fișierul original rămâne neschimbat.",
+        "ru": "Исходный файл остаётся без изменений."
       }
     },
     {
@@ -13969,9 +13969,9 @@
       "platform": "windows",
       "key": "protect_original",
       "translations": {
-        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
-        "en": "Your original file stays unchanged. Save the result as a new file.",
-        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+        "en": "Your original file stays unchanged.",
+        "ro": "Fișierul original rămâne neschimbat.",
+        "ru": "Исходный файл остаётся без изменений."
       }
     },
     {
@@ -14239,9 +14239,9 @@
       "platform": "linux",
       "key": "protect_original",
       "translations": {
-        "ro": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.",
-        "en": "Your original file stays unchanged. Save the result as a new file.",
-        "ru": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+        "en": "Your original file stays unchanged.",
+        "ro": "Fișierul original rămâne neschimbat.",
+        "ru": "Исходный файл остаётся без изменений."
       }
     },
     {
@@ -14446,9 +14446,9 @@
       "platform": "apple",
       "key": "protect_access_step",
       "translations": {
-        "en": "2. Access method",
-        "ro": "2. Metoda de acces",
-        "ru": "2. Способ доступа"
+        "en": "2. Password",
+        "ro": "2. Parolă",
+        "ru": "2. Пароль"
       }
     },
     {
@@ -14554,9 +14554,9 @@
       "platform": "android",
       "key": "protect_access_step",
       "translations": {
-        "en": "2. Access method",
-        "ro": "2. Metoda de acces",
-        "ru": "2. Способ доступа"
+        "en": "2. Password",
+        "ro": "2. Parolă",
+        "ru": "2. Пароль"
       }
     },
     {
@@ -14662,9 +14662,9 @@
       "platform": "windows",
       "key": "protect_access_step",
       "translations": {
-        "en": "2. Access method",
-        "ro": "2. Metoda de acces",
-        "ru": "2. Способ доступа"
+        "en": "2. Password",
+        "ro": "2. Parolă",
+        "ru": "2. Пароль"
       }
     },
     {
@@ -14770,9 +14770,9 @@
       "platform": "linux",
       "key": "protect_access_step",
       "translations": {
-        "en": "2. Access method",
-        "ro": "2. Metoda de acces",
-        "ru": "2. Способ доступа"
+        "en": "2. Password",
+        "ro": "2. Parolă",
+        "ru": "2. Пароль"
       }
     },
     {
@@ -15080,6 +15080,240 @@
         "en": "Some documents could not be deleted. They remain in the list. Check file access and try again.",
         "ru": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
       }
+    },
+    {
+      "platform": "apple",
+      "key": "saved_files",
+      "translations": {
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_encrypted",
+      "translations": {
+        "en": "Encrypted",
+        "ro": "Criptat",
+        "ru": "Зашифрован"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_decrypted",
+      "translations": {
+        "en": "Decrypted",
+        "ro": "Decriptat",
+        "ru": "Расшифрован"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_saved_library",
+      "translations": {
+        "en": "Saved in Documents",
+        "ro": "Salvat în Documente",
+        "ru": "Сохранено в Документах"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_save_copy",
+      "translations": {
+        "en": "Save a copy…",
+        "ro": "Salvează o copie…",
+        "ru": "Сохранить копию…"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_encrypted_hint",
+      "translations": {
+        "en": "Use Decrypt in the Documents menu and enter the password to open this file.",
+        "ro": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.",
+        "ru": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "saved_files",
+      "translations": {
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_encrypted",
+      "translations": {
+        "en": "Encrypted",
+        "ro": "Criptat",
+        "ru": "Зашифрован"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_decrypted",
+      "translations": {
+        "en": "Decrypted",
+        "ro": "Decriptat",
+        "ru": "Расшифрован"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_saved_library",
+      "translations": {
+        "en": "Saved in Documents",
+        "ro": "Salvat în Documente",
+        "ru": "Сохранено в Документах"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_save_copy",
+      "translations": {
+        "en": "Save a copy…",
+        "ro": "Salvează o copie…",
+        "ru": "Сохранить копию…"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_encrypted_hint",
+      "translations": {
+        "en": "Use Decrypt in the Documents menu and enter the password to open this file.",
+        "ro": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.",
+        "ru": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "saved_files",
+      "translations": {
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_encrypted",
+      "translations": {
+        "en": "Encrypted",
+        "ro": "Criptat",
+        "ru": "Зашифрован"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_decrypted",
+      "translations": {
+        "en": "Decrypted",
+        "ro": "Decriptat",
+        "ru": "Расшифрован"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_saved_library",
+      "translations": {
+        "en": "Saved in Documents",
+        "ro": "Salvat în Documente",
+        "ru": "Сохранено в Документах"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_save_copy",
+      "translations": {
+        "en": "Save a copy…",
+        "ro": "Salvează o copie…",
+        "ru": "Сохранить копию…"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_encrypted_hint",
+      "translations": {
+        "en": "Use Decrypt in the Documents menu and enter the password to open this file.",
+        "ro": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.",
+        "ru": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "saved_files",
+      "translations": {
+        "en": "Saved documents",
+        "ro": "Documente salvate",
+        "ru": "Сохранённые документы"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_encrypted",
+      "translations": {
+        "en": "Encrypted",
+        "ro": "Criptat",
+        "ru": "Зашифрован"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_decrypted",
+      "translations": {
+        "en": "Decrypted",
+        "ro": "Decriptat",
+        "ru": "Расшифрован"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_saved_library",
+      "translations": {
+        "en": "Saved in Documents",
+        "ro": "Salvat în Documente",
+        "ru": "Сохранено в Документах"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_save_copy",
+      "translations": {
+        "en": "Save a copy…",
+        "ro": "Salvează o copie…",
+        "ru": "Сохранить копию…"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_encrypted_hint",
+      "translations": {
+        "en": "Use Decrypt in the Documents menu and enter the password to open this file.",
+        "ro": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.",
+        "ru": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_save_file",
+      "translations": {
+        "en": "Save file",
+        "ro": "Salvează fișierul",
+        "ru": "Сохранить файл"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_save_file",
+      "translations": {
+        "en": "Save file",
+        "ro": "Salvează fișierul",
+        "ru": "Сохранить файл"
+      }
     }
   ],
   "storeMetadata": {
@@ -15089,7 +15323,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate.",
+      "releaseNotes": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -15105,11 +15339,11 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Verificarea XML citește corect documentul original ales din Fișiere. Erorile de semnare se șterg când lista documentelor se schimbă. Extensia de partajare afișează numele fișierelor salvate și pași următori mai clari.",
-        "macos": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Verificarea XML citește corect documentul original ales din Fișiere. Erorile de semnare se șterg când lista documentelor se schimbă.",
-        "android": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Reselectarea documentului original actualizează verificarea XML, iar noua selecție înlocuiește fișierul anterior cu același nume.",
-        "windows": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Verificarea XML actualizează rezultatul după selectarea documentelor originale.",
-        "linux": "Ștergeți individual sau toate documentele semnate salvate, cu confirmare. Golirea istoricului păstrează fișierele salvate. Alegeți documentele originale direct din Verificare sau din detaliile documentului salvat pentru a verifica semnăturile XML detașate."
+        "ios": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
+        "macos": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
+        "android": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
+        "windows": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
+        "linux": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate."
       }
     },
     "en": {
@@ -15118,7 +15352,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files.",
+      "releaseNotes": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -15134,11 +15368,11 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification now reads the original document selected in Files correctly. Signing errors clear when the document list changes. The share extension now shows saved filenames and clearer next steps.",
-        "macos": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification now reads the original document selected in Files correctly. Signing errors clear when the document list changes.",
-        "android": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. Selecting an original document again refreshes XML verification, and a new selection replaces an earlier file with the same name.",
-        "windows": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification refreshes the result after selecting original documents.",
-        "linux": "Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. Choose original documents directly from Verify or saved-document details to check detached XML signatures."
+        "ios": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
+        "macos": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
+        "android": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
+        "windows": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
+        "linux": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option."
       }
     },
     "ru": {
@@ -15147,7 +15381,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы.",
+      "releaseNotes": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -15163,11 +15397,11 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Проверка XML корректно читает исходный документ, выбранный в «Файлах». Ошибки подписания сбрасываются при изменении списка документов. Расширение общего доступа показывает имена сохранённых файлов и более понятные дальнейшие шаги.",
-        "macos": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Проверка XML корректно читает исходный документ, выбранный в «Файлах». Ошибки подписания сбрасываются при изменении списка документов.",
-        "android": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Повторный выбор исходного документа обновляет проверку XML, а новый выбор заменяет ранее выбранный файл с тем же именем.",
-        "windows": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Проверка XML обновляет результат после выбора исходных документов.",
-        "linux": "Удаляйте отдельные или все сохранённые подписанные документы с подтверждением. Очистка истории по-прежнему сохраняет файлы. Выбирайте исходные документы в разделе проверки или в сведениях о сохранённом документе для проверки отсоединённых XML-подписей."
+        "ios": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
+        "macos": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
+        "android": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
+        "windows": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
+        "linux": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой."
       }
     }
   },

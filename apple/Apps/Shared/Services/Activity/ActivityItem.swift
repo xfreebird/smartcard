@@ -10,6 +10,10 @@ struct ActivityItem: Identifiable, Codable, Equatable {
     var documentRelativePath: String? = nil
     var signedOutput: Bool? = nil
 
+    var protectionOperation: String? = nil
+
+    var isSavedDocument: Bool { isSignedDocument || (ok && fileURL != nil && ["encrypt", "decrypt"].contains(protectionOperation ?? "")) }
+
     /// Legacy records predate the explicit signedOutput flag; verification never opts into the library.
     var isSignedDocument: Bool {
         ok && fileURL != nil && (signedOutput == true ||

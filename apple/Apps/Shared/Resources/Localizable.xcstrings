@@ -6757,22 +6757,22 @@
     },
     "saved_signed": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Documente semnate"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Signed documents"
+            "value": "Saved documents"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documente salvate"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Подписанные документы"
+            "value": "Сохранённые документы"
           }
         }
       }
@@ -6801,44 +6801,44 @@
     },
     "saved_empty": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Niciun document semnat încă"
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No signed documents yet"
+            "value": "No saved documents yet"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niciun document salvat încă"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Пока нет подписанных документов"
+            "value": "Пока нет сохранённых документов"
           }
         }
       }
     },
     "saved_hint": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Documents signed in the app appear here. For website requests, download the result from that website."
+            "value": "Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте."
+            "value": "Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта."
           }
         }
       }
@@ -9331,22 +9331,22 @@
     },
     "protect_original": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your original file stays unchanged. Save the result as a new file."
+            "value": "Your original file stays unchanged."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fișierul original rămâne neschimbat."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Исходный файл останется без изменений. Сохраните результат в новом файле."
+            "value": "Исходный файл остаётся без изменений."
           }
         }
       }
@@ -9708,19 +9708,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "2. Access method"
+            "value": "2. Password"
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "2. Metoda de acces"
+            "value": "2. Parolă"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "2. Способ доступа"
+            "value": "2. Пароль"
           }
         }
       }
@@ -10183,6 +10183,138 @@
           "stringUnit": {
             "state": "translated",
             "value": "Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку."
+          }
+        }
+      }
+    },
+    "saved_files": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved documents"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documente salvate"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранённые документы"
+          }
+        }
+      }
+    },
+    "protect_encrypted": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Encrypted"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Criptat"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Зашифрован"
+          }
+        }
+      }
+    },
+    "protect_decrypted": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decrypted"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Decriptat"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Расшифрован"
+          }
+        }
+      }
+    },
+    "protect_saved_library": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved in Documents"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvat în Documente"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранено в Документах"
+          }
+        }
+      }
+    },
+    "protect_save_copy": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save a copy…"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvează o copie…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить копию…"
+          }
+        }
+      }
+    },
+    "protect_encrypted_hint": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use Decrypt in the Documents menu and enter the password to open this file."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
           }
         }
       }

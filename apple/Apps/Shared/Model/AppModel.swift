@@ -457,8 +457,15 @@ final class AppModel {
             }
             if scenario.hasPrefix("documents-") && scenario != "documents-empty" || scenario == "history-populated" {
                 let urls = ScreenshotFixtures.documents(in: demoFiles.directory, unavailable: scenario.contains("unavailable"), xml: scenario.contains("incomplete"))
-                let records = urls.map { ActivityItem(title: $0.lastPathComponent, subtitle: L10n.text(.ui_verified), ok: true,
+                var records = urls.map { ActivityItem(title: $0.lastPathComponent, subtitle: L10n.text(.ui_verified), ok: true,
                     fileURL: $0, signedOutput: true) }
+                if scenario == "documents-protection" {
+                    records += ["encrypt", "decrypt"].map { operation in
+                        let name = operation == "encrypt" ? "Contract.pdf.symmetric.p7m" : "decrypted-Contract.pdf"
+                        return ActivityItem(title: name, subtitle: L10n.text(operation == "encrypt" ? .protect_encrypted : .protect_decrypted), ok: true,
+                                            fileURL: demoFiles.directory.appendingPathComponent(name), signedOutput: false, protectionOperation: operation)
+                    }
+                }
                 savedDocuments = records
                 activity = records
                 demoActivityStore.save(records)
@@ -962,7 +969,7 @@ final class AppModel {
     }
 
     func log(_ item: ActivityItem) {
-        if item.isSignedDocument, let url = item.fileURL {
+        if item.isSavedDocument, let url = item.fileURL {
             savedDocuments.removeAll { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }
             savedDocuments.insert(item, at: 0)
             activityStore.saveDocuments(savedDocuments)

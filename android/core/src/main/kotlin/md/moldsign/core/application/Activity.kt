@@ -14,6 +14,7 @@ data class ActivityEntry(
     val timeMillis: Long,
     val documentUri: String? = null,
     val signedOutput: Boolean = false,
+    val protectionOperation: String? = null,
 ) {
     enum class Kind { Document, Browser }
 }
@@ -43,7 +44,7 @@ object ActivityHistory {
 /** Saved outputs outlive activity cleanup and the history cap. A URI identifies one saved file. */
 object SignedDocumentLibrary {
     fun add(documents: List<ActivityEntry>, entry: ActivityEntry): List<ActivityEntry> =
-        if (entry.kind == ActivityEntry.Kind.Document && entry.ok && entry.signedOutput && entry.documentUri != null)
+        if (entry.kind == ActivityEntry.Kind.Document && entry.ok && (entry.signedOutput || entry.protectionOperation in setOf("encrypt", "decrypt")) && entry.documentUri != null)
             listOf(entry) + documents.filterNot { it.documentUri == entry.documentUri }
         else documents
 

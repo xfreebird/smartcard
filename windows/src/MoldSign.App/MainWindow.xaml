@@ -52,6 +52,17 @@
             OpenPaneLength="220"
             PaneDisplayMode="Auto"
             SelectionChanged="OnNavSelectionChanged">
+            <NavigationView.PaneFooter>
+                <DropDownButton x:Name="ProtectionMenu" Margin="12,8" HorizontalAlignment="Stretch">
+                    <DropDownButton.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem x:Name="EncryptMenuItem" Click="OnEncryptClick" />
+                            <MenuFlyoutItem x:Name="DecryptMenuItem" Click="OnDecryptClick" />
+                            <MenuFlyoutItem x:Name="RemoveMenuItem" Click="OnRemoveClick" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+            </NavigationView.PaneFooter>
             <NavigationView.MenuItems>
                 <NavigationViewItem
                     x:Uid="NavSign"

@@ -45,4 +45,30 @@ final class DocumentLibraryTests: XCTestCase {
         store.save([])
         XCTAssertEqual(store.loadOrMigrateDocuments(), documents)
     }
+    @MainActor
+    func testProtectedOutputsPersistWithoutBecomingSignedDocuments() throws {
+        let suite = "md.esemnbun.qa.protected.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let root = URL(fileURLWithPath: "/tmp/old-container/Documents")
+        let store = PreferencesActivityStore(defaults: defaults, documentsDirectory: root)
+        let outputs = ["encrypt", "decrypt"].map { operation in
+            ActivityItem(title: "file", subtitle: "", ok: true,
+                         fileURL: root.appendingPathComponent("Protected/unique/\(operation).pdf"),
+                         signedOutput: false, protectionOperation: operation)
+        }
+        XCTAssertTrue(outputs.allSatisfy(\.isSavedDocument))
+        XCTAssertFalse(outputs.contains(where: \.isSignedDocument))
+        store.saveDocuments(outputs)
+        store.save([])
+        let newRoot = URL(fileURLWithPath: "/tmp/new-container/Documents")
+        let restored = PreferencesActivityStore(defaults: defaults, documentsDirectory: newRoot).loadOrMigrateDocuments()
+        XCTAssertEqual(restored.map(\.protectionOperation), ["encrypt", "decrypt"])
+        XCTAssertTrue(restored.allSatisfy(\.isSavedDocument))
+        XCTAssertFalse(restored.contains(where: \.isSignedDocument))
+        XCTAssertTrue(restored.allSatisfy { $0.fileURL!.path.hasPrefix(newRoot.path + "/") })
+        var failed = outputs[0]; failed.ok = false
+        XCTAssertFalse(failed.isSavedDocument)
+    }
+
 }

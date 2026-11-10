@@ -295,10 +295,10 @@ eSemnBun</string>
   <string name="batch_automatic">Формат для каждого файла</string>
   <string name="batch_remove">Убрать группу</string>
   <string name="saved_title">Документы</string>
-  <string name="saved_signed">Подписанные документы</string>
+  <string name="saved_signed">Сохранённые документы</string>
   <string name="saved_history">История</string>
-  <string name="saved_empty">Пока нет подписанных документов</string>
-  <string name="saved_hint">Документы, подписанные в приложении, появятся здесь. Результаты запросов сайтов скачивайте на сайте.</string>
+  <string name="saved_empty">Пока нет сохранённых документов</string>
+  <string name="saved_hint">Здесь появятся подписанные, зашифрованные и расшифрованные файлы, сохранённые в приложении. Результаты подписания на сайте скачивайте с этого сайта.</string>
   <string name="saved_browse">Посмотреть подписанные документы</string>
   <string name="results_clear">Скрыть результаты</string>
   <string name="results_hint">Файлы остаются доступны в разделе «Документы».</string>
@@ -384,7 +384,7 @@ eSemnBun</string>
   <string name="protect_recipient">Получатель</string>
   <string name="protect_card_pin">PIN карты</string>
   <string name="protect_no_key">Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы.</string>
-  <string name="protect_original">Исходный файл останется без изменений. Сохраните результат в новом файле.</string>
+  <string name="protect_original">Исходный файл остаётся без изменений.</string>
   <string name="protect_compatibility">Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием.</string>
   <string name="protect_ready">Готово к сохранению</string>
   <string name="protect_save">Сохранить копию</string>
@@ -401,7 +401,7 @@ eSemnBun</string>
   <string name="protect_export_certificate">Экспорт сертификата шифрования</string>
   <string name="protect_export_certificate_hint">Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются.</string>
   <string name="protect_file_step">1. Файл</string>
-  <string name="protect_access_step">2. Способ доступа</string>
+  <string name="protect_access_step">2. Пароль</string>
   <string name="protect_help">Что потребуется?</string>
   <string name="protect_details">Сведения и экспорт сертификата</string>
   <string name="protect_password_encrypt_guide">Создайте пароль для этого файла.</string>
@@ -416,4 +416,10 @@ eSemnBun</string>
   <string name="saved_delete_all">Удалить все подписанные документы</string>
   <string name="saved_delete_warning">Выбранные сохранённые файлы будут удалены из хранилища. Это действие нельзя отменить. Другие копии сохранятся.</string>
   <string name="saved_delete_failed">Некоторые документы не удалось удалить. Они остались в списке. Проверьте доступ к файлам и повторите попытку.</string>
+  <string name="saved_files">Сохранённые документы</string>
+  <string name="protect_encrypted">Зашифрован</string>
+  <string name="protect_decrypted">Расшифрован</string>
+  <string name="protect_saved_library">Сохранено в Документах</string>
+  <string name="protect_save_copy">Сохранить копию…</string>
+  <string name="protect_encrypted_hint">Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл.</string>
 </resources>

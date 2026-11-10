@@ -31,7 +31,7 @@ final class DocumentsUITests: XCTestCase {
         app.buttons["Clear list"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["No activity yet"].waitForExistence(timeout: 5), app.debugDescription)
         attach(app, "03-history-empty")
-        app.buttons["Signed documents"].tap()
+        app.buttons["Saved documents"].tap()
         XCTAssertTrue(entry.waitForExistence(timeout: 5))
         app.terminate()
         app.launch()
@@ -40,7 +40,7 @@ final class DocumentsUITests: XCTestCase {
         attach(app, "04-documents-after-relaunch")
         app.buttons["History"].tap()
         XCTAssertTrue(app.staticTexts["No activity yet"].waitForExistence(timeout: 5))
-        app.buttons["Signed documents"].tap()
+        app.buttons["Saved documents"].tap()
         let xml = app.buttons.matching(NSPredicate(format: "identifier == %@ AND label CONTAINS %@", "documents.openDetails", "detached-signature.xml")).firstMatch
         XCTAssertTrue(xml.exists)
         xml.tap()

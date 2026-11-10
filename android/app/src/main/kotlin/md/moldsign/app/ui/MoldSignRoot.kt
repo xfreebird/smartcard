@@ -16,6 +16,11 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.requiredWidth
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material.icons.outlined.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import md.moldsign.app.ui.screens.FileProtectionDialog
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -151,6 +156,10 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
     val openLabel = stringResource(R.string.action_open)
+    var protectionOpen by remember { mutableStateOf(false) }
+    var toolsOpen by remember { mutableStateOf(false) }
+    LaunchedEffect(captureDialog) { if (captureDialog == "protect-menu") toolsOpen = true }
+    if (protectionOpen) FileProtectionDialog(vm) { protectionOpen = false }
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     val shortcutRequest by vm.shortcutRequest.collectAsStateWithLifecycle()
@@ -248,6 +257,12 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     // Home shows the public name (UX-12); the other destinations their own title.
                     title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label), maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     actions = {
+                        Box {
+                            IconButton(onClick = { toolsOpen = true }) { Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more)) }
+                            DropdownMenu(expanded = toolsOpen, onDismissRequest = { toolsOpen = false }) {
+                                DropdownMenuItem(text = { Text(stringResource(R.string.protect_title)) }, onClick = { toolsOpen = false; protectionOpen = true })
+                            }
+                        }
                         IconButton(onClick = { settingsOpen = true }) {
                             Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.demo_mode_settings))
                         }

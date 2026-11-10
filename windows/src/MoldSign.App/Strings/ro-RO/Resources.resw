@@ -298,10 +298,10 @@ eSemnBun</value></data>
   <data name="file_remove" xml:space="preserve"><value>Elimină fișierul</value></data>
   <data name="format_pdf_time" xml:space="preserve"><value>PDF cu marcă temporală</value></data>
   <data name="saved_title" xml:space="preserve"><value>Documente</value></data>
-  <data name="saved_signed" xml:space="preserve"><value>Documente semnate</value></data>
+  <data name="saved_signed" xml:space="preserve"><value>Documente salvate</value></data>
   <data name="saved_history" xml:space="preserve"><value>Istoric</value></data>
-  <data name="saved_empty" xml:space="preserve"><value>Niciun document semnat încă</value></data>
-  <data name="saved_hint" xml:space="preserve"><value>Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.</value></data>
+  <data name="saved_empty" xml:space="preserve"><value>Niciun document salvat încă</value></data>
+  <data name="saved_hint" xml:space="preserve"><value>Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.</value></data>
   <data name="saved_browse" xml:space="preserve"><value>Vezi documentele semnate</value></data>
   <data name="toggle_on" xml:space="preserve"><value>Pornit</value></data>
   <data name="toggle_off" xml:space="preserve"><value>Oprit</value></data>
@@ -370,7 +370,7 @@ eSemnBun</value></data>
   <data name="protect_recipient" xml:space="preserve"><value>Destinatar</value></data>
   <data name="protect_card_pin" xml:space="preserve"><value>PIN-ul cardului</value></data>
   <data name="protect_no_key" xml:space="preserve"><value>Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.</value></data>
-  <data name="protect_original" xml:space="preserve"><value>Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.</value></data>
+  <data name="protect_original" xml:space="preserve"><value>Fișierul original rămâne neschimbat.</value></data>
   <data name="protect_compatibility" xml:space="preserve"><value>Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.</value></data>
   <data name="protect_ready" xml:space="preserve"><value>Gata de salvat</value></data>
   <data name="protect_save" xml:space="preserve"><value>Salvează o copie</value></data>
@@ -387,7 +387,7 @@ eSemnBun</value></data>
   <data name="protect_export_certificate" xml:space="preserve"><value>Exportă certificatul de criptare</value></data>
   <data name="protect_export_certificate_hint" xml:space="preserve"><value>Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.</value></data>
   <data name="protect_file_step" xml:space="preserve"><value>1. Fișier</value></data>
-  <data name="protect_access_step" xml:space="preserve"><value>2. Metoda de acces</value></data>
+  <data name="protect_access_step" xml:space="preserve"><value>2. Parolă</value></data>
   <data name="protect_help" xml:space="preserve"><value>De ce am nevoie?</value></data>
   <data name="protect_details" xml:space="preserve"><value>Detalii și export certificat</value></data>
   <data name="protect_password_encrypt_guide" xml:space="preserve"><value>Creează o parolă pentru acest fișier.</value></data>
@@ -402,4 +402,11 @@ eSemnBun</value></data>
   <data name="saved_delete_all" xml:space="preserve"><value>Șterge toate documentele semnate</value></data>
   <data name="saved_delete_warning" xml:space="preserve"><value>Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.</value></data>
   <data name="saved_delete_failed" xml:space="preserve"><value>Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.</value></data>
+  <data name="saved_files" xml:space="preserve"><value>Documente salvate</value></data>
+  <data name="protect_encrypted" xml:space="preserve"><value>Criptat</value></data>
+  <data name="protect_decrypted" xml:space="preserve"><value>Decriptat</value></data>
+  <data name="protect_saved_library" xml:space="preserve"><value>Salvat în Documente</value></data>
+  <data name="protect_save_copy" xml:space="preserve"><value>Salvează o copie…</value></data>
+  <data name="protect_encrypted_hint" xml:space="preserve"><value>Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.</value></data>
+  <data name="protect_save_file" xml:space="preserve"><value>Salvează fișierul</value></data>
 </root>

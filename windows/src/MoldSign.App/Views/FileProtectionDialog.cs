@@ -26,17 +26,18 @@ internal sealed class FileProtectionDialog : ContentDialog
     private X509Certificate2? _certificate;
     private byte[]? _output;
     private bool _busy;
-    public FileProtectionDialog(XamlRoot root,ElementTheme theme)
+    private bool _completed;
+    public FileProtectionDialog(XamlRoot root,ElementTheme theme,int operation = 0)
     {
         XamlRoot=root;RequestedTheme=theme;Title=Loc.Get("protect_title");CloseButtonText=Loc.Get("Action_Cancel");
         Content=new ScrollViewer {Content=_form,MaxHeight=660,MinWidth=400,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};
         _operation.Header=Loc.Get("protect_operation");
         _method.Header=Loc.Get("protect_access_step");
         foreach(var key in new[]{"protect_encrypt","protect_decrypt","protect_remove"}) _operation.Items.Add(Loc.Get(key));
-        _operation.SelectedIndex=0;_form.Children.Add(_operation);
+        _operation.SelectedIndex=operation;_form.Children.Add(_operation);
         _form.Children.Add(new TextBlock {Text=Loc.Get("protect_file_step")});
         _choose.Content=Loc.Get("protect_choose_file");_form.Children.Add(_choose);_form.Children.Add(_file);
-        foreach(var key in new[]{"protect_password","protect_certificate"}) _method.Items.Add(Loc.Get(key));
+        foreach(var key in new[]{"protect_password"}) _method.Items.Add(Loc.Get(key));
         _method.SelectedIndex=0;_form.Children.Add(_method);_form.Children.Add(_guide);
         _password.Header=Loc.Get("protect_password");_confirmation.Header=Loc.Get("protect_confirm_password");_pin.Header=Loc.Get("protect_card_pin");
         _form.Children.Add(_password);_form.Children.Add(_confirmation);
@@ -101,20 +102,20 @@ internal sealed class FileProtectionDialog : ContentDialog
 #if DEBUG
         if(DemoMode.ScreenshotCapture && AppSettings.IsolatedTestPreferences && Environment.GetEnvironmentVariable("MSIGN_CAPTURE_DIALOG") is { } scenario && scenario.StartsWith("protect-",StringComparison.Ordinal)) {
             _operation.SelectedIndex=scenario.Contains("remove")?2:scenario.Contains("decrypt")?1:0;
-            _method.SelectedIndex=scenario.Contains("certificate")?1:0;_file.Text="Contract.pdf";
+            _method.SelectedIndex=0;_file.Text=_operation.SelectedIndex==1 ? "Contract.pdf"+PasswordFileProtection.Suffix : "Contract.pdf";
         }
 #endif
         Refresh();
     }
     private void SecretChanged(){if(!_busy)ClearOutput();Refresh();}
-    private void ClearOutput(){if(_output!=null)CryptographicOperations.ZeroMemory(_output);_output=null;_notice.Text="";}
+    private void ClearOutput(){_completed=false;if(_output!=null)CryptographicOperations.ZeroMemory(_output);_output=null;_notice.Text="";}
     private void ResetSelection(){ClearOutput();_password.Password="";_confirmation.Password="";_pin.Password="";_removeConfirmation.IsChecked=false;Refresh();}
     private void SetBusy(bool value){_busy=value;foreach(var control in _form.Children.OfType<Control>())control.IsEnabled=!value;IsPrimaryButtonEnabled=!value;Refresh();}
     private void Error()=>_notice.Text=Loc.Get("protect_error");
     private void Refresh(){
         var remove=_operation.SelectedIndex==2;var decrypt=_operation.SelectedIndex==1;var card=_method.SelectedIndex==1;
         static Visibility Visible(bool v)=>v?Visibility.Visible:Visibility.Collapsed;
-        _method.Visibility=Visible(!remove);_password.Visibility=Visible(!remove&&!card);_confirmation.Visibility=Visible(!remove&&!card&&!decrypt);
+        _method.Visibility=Visibility.Collapsed;_password.Visibility=Visible(!remove&&!card);_confirmation.Visibility=Visible(!remove&&!card&&!decrypt);
         _chooseCertificate.Visibility=Visible(!remove&&card&&!decrypt);_readCard.Visibility=Visible(!remove&&card);_identities.Visibility=Visible(!remove&&card&&_identities.Items.Count>1);
         _recipientSummary.Visibility=Visible(!remove&&card&&_certificate!=null);
         _recipientSummary.Text=_certificate?.GetNameInfo(X509NameType.SimpleName,false)??"";
@@ -127,7 +128,8 @@ internal sealed class FileProtectionDialog : ContentDialog
         _exportCertificate.Visibility=Visible(!remove&&card&&_identities.SelectedItem is CardEncryptionIdentity);
         _pin.Visibility=Visible(!remove&&card&&decrypt&&_identities.SelectedItem!=null);_removeConfirmation.Visibility=Visible(remove);
         _warning.Text=Loc.Get(remove?"protect_removal_warning":"protect_original");
-        PrimaryButtonText=_output!=null?Loc.Get("protect_save"):Loc.Get(remove?"protect_remove":decrypt?"protect_decrypt":"protect_encrypt");
+        CloseButtonText=Loc.Get(_completed || _output!=null ? "saved_close" : "Action_Cancel");
+        PrimaryButtonText=_completed ? "" : _output!=null?Loc.Get("protect_save_file"):Loc.Get(remove?"protect_remove":decrypt?"protect_decrypt":"protect_encrypt");
         IsPrimaryButtonEnabled=!_busy&&(_output!=null||_source!=null&&(remove?_removeConfirmation.IsChecked==true:card?(decrypt?_identities.SelectedItem!=null&&_pin.Password.Length>0:_certificate!=null):_password.Password.Length>0&&(decrypt||_password.Password==_confirmation.Password)));
 
     }
@@ -143,7 +145,7 @@ internal sealed class FileProtectionDialog : ContentDialog
                 if(operation==0)return CertificateFileProtection.Encrypt(bytes,certificate??throw new InvalidOperationException());
                 return App.Current.Services.Signing.DecryptFile(bytes,identity??throw new InvalidOperationException(),pin,_reader);
             });
-            _notice.Text=Loc.Get(operation==2?"protect_removed":"protect_ready");
+            _notice.Text=Loc.Get(operation==2?"protect_removed":"protect_ready");_completed=operation==2;
             if(operation==2){_source=null;_file.Text="";}
         }catch{Error();}finally{password="";pin="";SetBusy(false);}
     }
@@ -155,7 +157,8 @@ internal sealed class FileProtectionDialog : ContentDialog
         if(_operation.SelectedIndex==0)name+=_method.SelectedIndex==0?PasswordFileProtection.Suffix:CertificateFileProtection.Suffix;
         else{foreach(var suffix in new[]{PasswordFileProtection.Suffix,CertificateFileProtection.Suffix})if(name.EndsWith(suffix,StringComparison.OrdinalIgnoreCase))name=name[..^suffix.Length];name="decrypted-"+name;}
         var destination=Path.Combine(folder.Path,name);SetBusy(true);
-        try{await Task.Run(()=>ProtectedFileIO.SaveNew(destination,_output));ClearOutput();_notice.Text=Loc.Get("protect_saved");}
+        try{await Task.Run(()=>ProtectedFileIO.SaveNew(destination,_output));ClearOutput();_completed=true;_notice.Text=Loc.Get("protect_saved");
+            AppState.Current.AddActivity(new ActivityItem(Path.GetFileName(destination), Loc.Get(_operation.SelectedIndex==0 ? "protect_encrypted" : "protect_decrypted"), DateTimeOffset.Now, true, destination, SignedOutput:false, ProtectionOperation:_operation.SelectedIndex==0 ? "encrypted" : "decrypted"));}
         catch{Error();}finally{SetBusy(false);}
     }
 }

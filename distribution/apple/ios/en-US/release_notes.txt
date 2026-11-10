@@ -1,1 +1,1 @@
-Delete individual or all saved signed documents with confirmation. Clearing History continues to keep your saved files. XML verification now reads the original document selected in Files correctly. Signing errors clear when the document list changes. The share extension now shows saved filenames and clearer next steps.
+Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.

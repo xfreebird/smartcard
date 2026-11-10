@@ -71,6 +71,12 @@ final class MainWindow {
         adw_header_bar_set_title_widget(header.opaque, switcher)
 
         let menu = g_menu_new()
+        let protection = g_menu_new()
+        g_menu_append(protection, L10n.text(.protect_encrypt), "app.encrypt")
+        g_menu_append(protection, L10n.text(.protect_decrypt), "app.decrypt")
+        g_menu_append(protection, L10n.text(.protect_remove), "app.remove-file")
+        g_menu_append_submenu(menu, L10n.text(.protect_title), protection?.cast())
+        g_object_unref(protection?.raw)
         let section = g_menu_new()
         g_menu_append(section, L10n.text(.ui_preferences), "app.preferences")
         g_menu_append(section, L10n.text(.ui_about_esemnbun), "app.about")

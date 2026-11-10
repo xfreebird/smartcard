@@ -17,6 +17,10 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ProtectionMenu.Content = Loc.Get("protect_title");
+        EncryptMenuItem.Text = Loc.Get("protect_encrypt");
+        DecryptMenuItem.Text = Loc.Get("protect_decrypt");
+        RemoveMenuItem.Text = Loc.Get("protect_remove");
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(AppTitleBar);
         if (Content is FrameworkElement root)
@@ -34,6 +38,11 @@ public sealed partial class MainWindow : Window
         ContentFrame.Navigate(typeof(SignPage));
         _initializingNavigation = false;
     }
+
+    private async void OnEncryptClick(object sender, RoutedEventArgs e) => await ShowProtection(0);
+    private async void OnDecryptClick(object sender, RoutedEventArgs e) => await ShowProtection(1);
+    private async void OnRemoveClick(object sender, RoutedEventArgs e) => await ShowProtection(2);
+    private async Task ShowProtection(int operation) => await new FileProtectionDialog(Content.XamlRoot, ((FrameworkElement)Content).ActualTheme, operation).ShowAsync();
 
     public AppState State => AppState.Current;
 

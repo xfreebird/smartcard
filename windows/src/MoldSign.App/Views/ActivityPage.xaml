@@ -35,7 +35,6 @@
                 </StackPanel>
             </Button>
         </Grid>
-            <Button x:Name="ProtectButton" Click="OnProtectClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" />
             <ComboBox x:Name="DocumentFilter" SelectionChanged="OnFilterChanged" SelectedIndex="0" HorizontalAlignment="Stretch">
                 <ComboBoxItem x:Name="SignedFilter" />
                 <ComboBoxItem x:Name="HistoryFilter" />
@@ -62,7 +61,7 @@
                         <StackPanel Grid.Column="1">
                             <TextBlock Text="{x:Bind FileName}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind ActionLabel}" />
-                            <Button Content="{x:Bind VerifyLabel}" IsEnabled="{x:Bind CanVerify}" Click="OnVerifyClick" Margin="0,4,0,0" />
+                            <Button Content="{x:Bind VerifyLabel}" Visibility="{x:Bind VerifyVisibility}" Click="OnVerifyClick" Margin="0,4,0,0" />
                             <TextBlock Text="{x:Bind OpenLabel}" Foreground="{ThemeResource BrandBrush}" FontSize="12" />
                         </StackPanel>
                         <TextBlock

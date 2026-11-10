@@ -25,7 +25,7 @@ enum Store {
         // One-time migration while the original history still contains its signing records.
         var seen = Set<String>()
         let migrated = (load([ActivityItem].self, from: historyURL) ?? []).filter {
-            guard $0.isSignedDocument, $0.isShowable, let path = $0.filePath else { return false }
+            guard $0.isSavedDocument, $0.isShowable, let path = $0.filePath else { return false }
             return seen.insert(path).inserted
         }
         saveSignedDocuments(migrated, to: libraryURL)

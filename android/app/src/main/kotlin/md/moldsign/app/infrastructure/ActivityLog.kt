@@ -57,8 +57,8 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
         save()
     }
 
-    fun document(name: String, uri: Uri, ok: Boolean, subtitle: String, signedOutput: Boolean = false) = add(
-        ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Document, name, subtitle, ok, System.currentTimeMillis(), uri.toString(), signedOutput),
+    fun document(name: String, uri: Uri, ok: Boolean, subtitle: String, signedOutput: Boolean = false, protectionOperation: String? = null) = add(
+        ActivityEntry(UUID.randomUUID().toString(), ActivityEntry.Kind.Document, name, subtitle, ok, System.currentTimeMillis(), uri.toString(), signedOutput, protectionOperation),
     )
 
     /** A signing request from a website: no file, the entry stays in the list. */
@@ -100,7 +100,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
             "content" -> {
                 val resolver = appContext.contentResolver
                 // a file this app saved to MediaStore belongs to it: no persisted permission exists or is needed
-                val permitted = uri.authority == MediaStore.AUTHORITY ||
+                val permitted = uri.authority == "${appContext.packageName}.protected-files" || uri.authority == MediaStore.AUTHORITY ||
                     resolver.persistedUriPermissions.any { it.uri == uri && it.isReadPermission }
                 permitted && runCatching {
                     resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { it.moveToFirst() } == true
@@ -122,6 +122,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
                 ok = o.optBoolean("ok", true),
                 timeMillis = o.optLong("time"),
                 documentUri = o.optString("uri").takeIf { it.isNotEmpty() },
+                protectionOperation = o.optString("protectionOperation").takeIf { it in setOf("encrypt", "decrypt") },
                 signedOutput = o.optBoolean("signedOutput", o.optString("title").contains("-semnat")),
             )
         }
@@ -142,7 +143,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
             array.put(
                 JSONObject()
                     .put("id", e.id).put("kind", e.kind.name).put("title", e.title).put("subtitle", e.subtitle)
-                    .put("signedOutput", e.signedOutput).put("ok", e.ok).put("time", e.timeMillis).put("uri", e.documentUri ?: ""),
+                    .put("protectionOperation", e.protectionOperation).put("signedOutput", e.signedOutput).put("ok", e.ok).put("time", e.timeMillis).put("uri", e.documentUri ?: ""),
             )
         }
         return array.toString()

@@ -292,10 +292,10 @@ eSemnBun</string>
   <string name="batch_automatic">Format potrivit fiecărui fișier</string>
   <string name="batch_remove">Elimină grupul</string>
   <string name="saved_title">Documente</string>
-  <string name="saved_signed">Documente semnate</string>
+  <string name="saved_signed">Documente salvate</string>
   <string name="saved_history">Istoric</string>
-  <string name="saved_empty">Niciun document semnat încă</string>
-  <string name="saved_hint">Documentele semnate în aplicație apar aici. Pentru cererile de pe site-uri, descarcă rezultatul de pe site.</string>
+  <string name="saved_empty">Niciun document salvat încă</string>
+  <string name="saved_hint">Fișierele semnate, criptate și decriptate salvate în aplicație apar aici. Descarcă rezultatele semnării pe site de pe site-ul respectiv.</string>
   <string name="saved_browse">Vezi documentele semnate</string>
   <string name="results_clear">Ascunde rezultatele</string>
   <string name="results_hint">Fișierele rămân disponibile în Documente.</string>
@@ -381,7 +381,7 @@ eSemnBun</string>
   <string name="protect_recipient">Destinatar</string>
   <string name="protect_card_pin">PIN-ul cardului</string>
   <string name="protect_no_key">Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.</string>
-  <string name="protect_original">Fișierul original rămâne neschimbat. Salvează rezultatul într-un fișier nou.</string>
+  <string name="protect_original">Fișierul original rămâne neschimbat.</string>
   <string name="protect_compatibility">Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.</string>
   <string name="protect_ready">Gata de salvat</string>
   <string name="protect_save">Salvează o copie</string>
@@ -398,7 +398,7 @@ eSemnBun</string>
   <string name="protect_export_certificate">Exportă certificatul de criptare</string>
   <string name="protect_export_certificate_hint">Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.</string>
   <string name="protect_file_step">1. Fișier</string>
-  <string name="protect_access_step">2. Metoda de acces</string>
+  <string name="protect_access_step">2. Parolă</string>
   <string name="protect_help">De ce am nevoie?</string>
   <string name="protect_details">Detalii și export certificat</string>
   <string name="protect_password_encrypt_guide">Creează o parolă pentru acest fișier.</string>
@@ -413,4 +413,10 @@ eSemnBun</string>
   <string name="saved_delete_all">Șterge toate documentele semnate</string>
   <string name="saved_delete_warning">Fișierele salvate selectate vor fi șterse din stocare. Acțiunea nu poate fi anulată. Alte copii sunt păstrate.</string>
   <string name="saved_delete_failed">Unele documente nu au putut fi șterse și rămân în listă. Verifică accesul la fișiere și încearcă din nou.</string>
+  <string name="saved_files">Documente salvate</string>
+  <string name="protect_encrypted">Criptat</string>
+  <string name="protect_decrypted">Decriptat</string>
+  <string name="protect_saved_library">Salvat în Documente</string>
+  <string name="protect_save_copy">Salvează o copie…</string>
+  <string name="protect_encrypted_hint">Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.</string>
 </resources>

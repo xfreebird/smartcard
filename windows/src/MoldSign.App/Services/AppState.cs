@@ -14,17 +14,21 @@ namespace MoldSign.App.Services;
 /// ActivityRow: status, file, action ("Semnat" / "Verificat" / "Cerere msign.gov.md"), time, path. File entries carry
 /// the document's <see cref="Path"/> (shown only while that file exists); browser requests have none.
 /// </summary>
-public sealed record ActivityItem(string FileName, string Action, DateTimeOffset When, bool Success, string? Path, bool? SignedOutput = null)
+public sealed record ActivityItem(string FileName, string Action, DateTimeOffset When, bool Success, string? Path, bool? SignedOutput = null, string? ProtectionOperation = null)
 {
-    public string ActionLabel => SignatureLabels.Human(Action);
-    public bool CanVerify => Path is not null;
+    public string ActionLabel => ProtectionOperation is "encrypted" ? Loc.Get("protect_encrypted") : ProtectionOperation is "decrypted" ? Loc.Get("protect_decrypted") : SignatureLabels.Human(Action);
+    public bool CanVerify => Path is not null && ProtectionOperation != "encrypted" && (System.IO.Path.GetExtension(Path).Equals(".pdf", StringComparison.OrdinalIgnoreCase) || System.IO.Path.GetExtension(Path).Equals(".xml", StringComparison.OrdinalIgnoreCase));
+    public bool IsProtectionOutput => ProtectionOperation is "encrypted" or "decrypted";
+    [JsonIgnore]
+    public bool IsSavedDocument => IsSignedDocument || (Success && Path is not null && IsProtectionOutput);
+    public Visibility VerifyVisibility => CanVerify ? Visibility.Visible : Visibility.Collapsed;
     public string VerifyLabel => Loc.Get("Action_Verify");
-    public string OpenLabel => Path is null ? "" : Loc.Get("saved_details");
+    public string OpenLabel => Path is null ? "" : Loc.Get(IsProtectionOutput ? "saved_files" : "saved_details");
     [JsonIgnore]
     public bool IsSignedDocument => Success && Path is not null &&
         (SignedOutput == true || (SignedOutput is null && System.IO.Path.GetFileName(Path).Contains("-semnat", StringComparison.OrdinalIgnoreCase)));
     [JsonIgnore]
-    public string Glyph => Success ? "\uE73E" : "\uE783"; // CheckMark / Error
+    public string Glyph => IsProtectionOutput ? "\uE8B7" : Success ? "\uE73E" : "\uE783"; // CheckMark / Error
 
     [JsonIgnore]
     public string WhenText => When.ToLocalTime().ToString("g", CultureInfo.CurrentCulture);
@@ -248,7 +252,7 @@ public sealed class AppState : INotifyPropertyChanged
 
     public void AddActivity(ActivityItem item)
     {
-        if (item.IsSignedDocument)
+        if (item.IsSavedDocument)
         {
             for (var i = SignedDocuments.Count - 1; i >= 0; i--)
                 if (string.Equals(SignedDocuments[i].Path, item.Path, StringComparison.OrdinalIgnoreCase)) SignedDocuments.RemoveAt(i);
@@ -267,7 +271,7 @@ public sealed class AppState : INotifyPropertyChanged
         _recentsClearedAt = snapshot.RecentsClearedAt;
         Activity.Clear();
         SignedDocuments.Clear();
-        foreach (var item in snapshot.SignedDocuments.Where(i => i.IsSignedDocument && !i.IsMissingFile)
+        foreach (var item in snapshot.SignedDocuments.Where(i => i.IsSavedDocument && !i.IsMissingFile)
             .DistinctBy(i => i.Path, StringComparer.OrdinalIgnoreCase)) SignedDocuments.Add(item);
         foreach (var item in snapshot.Items.Where(i => !i.IsMissingFile).Take(ActivityLog.MaxItems)) Activity.Add(item);
         RefreshRecents();

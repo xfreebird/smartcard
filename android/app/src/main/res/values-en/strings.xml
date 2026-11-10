@@ -289,10 +289,10 @@ eSemnBun</string>
   <string name="batch_automatic">Best format for each file</string>
   <string name="batch_remove">Remove group</string>
   <string name="saved_title">Documents</string>
-  <string name="saved_signed">Signed documents</string>
+  <string name="saved_signed">Saved documents</string>
   <string name="saved_history">History</string>
-  <string name="saved_empty">No signed documents yet</string>
-  <string name="saved_hint">Documents signed in the app appear here. For website requests, download the result from that website.</string>
+  <string name="saved_empty">No saved documents yet</string>
+  <string name="saved_hint">Signed, encrypted and decrypted files saved in the app appear here. Download website signing results from that website.</string>
   <string name="saved_browse">View signed documents</string>
   <string name="results_clear">Clear results</string>
   <string name="results_hint">Your files remain available in Documents.</string>
@@ -378,7 +378,7 @@ eSemnBun</string>
   <string name="protect_recipient">Recipient</string>
   <string name="protect_card_pin">Card PIN</string>
   <string name="protect_no_key">No supported encryption key found. Signing-only keys cannot decrypt files.</string>
-  <string name="protect_original">Your original file stays unchanged. Save the result as a new file.</string>
+  <string name="protect_original">Your original file stays unchanged.</string>
   <string name="protect_compatibility">Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.</string>
   <string name="protect_ready">Ready to save</string>
   <string name="protect_save">Save a copy</string>
@@ -395,7 +395,7 @@ eSemnBun</string>
   <string name="protect_export_certificate">Export encryption certificate</string>
   <string name="protect_export_certificate_hint">Share this public certificate so others can encrypt files for you. No PIN or private key is shared.</string>
   <string name="protect_file_step">1. File</string>
-  <string name="protect_access_step">2. Access method</string>
+  <string name="protect_access_step">2. Password</string>
   <string name="protect_help">What do I need?</string>
   <string name="protect_details">Certificate details and export</string>
   <string name="protect_password_encrypt_guide">Create a password for this file.</string>
@@ -410,4 +410,10 @@ eSemnBun</string>
   <string name="saved_delete_all">Delete all signed documents</string>
   <string name="saved_delete_warning">The selected saved files will be deleted from storage. This cannot be undone. Other copies are kept.</string>
   <string name="saved_delete_failed">Some documents could not be deleted. They remain in the list. Check file access and try again.</string>
+  <string name="saved_files">Saved documents</string>
+  <string name="protect_encrypted">Encrypted</string>
+  <string name="protect_decrypted">Decrypted</string>
+  <string name="protect_saved_library">Saved in Documents</string>
+  <string name="protect_save_copy">Save a copy…</string>
+  <string name="protect_encrypted_hint">Use Decrypt in the Documents menu and enter the password to open this file.</string>
 </resources>

@@ -62,6 +62,9 @@ final class MoldSignApp {
         addAction("preferences", accels: ["<Control>comma"]) { [unowned self] in
             presentPreferences(parent: mainWindow.window.widget, controller: controller)
         }
+        addAction("encrypt") { [unowned self] in mainWindow.activityPage.showProtection(operation: 0) }
+        addAction("decrypt") { [unowned self] in mainWindow.activityPage.showProtection(operation: 1) }
+        addAction("remove-file") { [unowned self] in mainWindow.activityPage.showProtection(operation: 2) }
         addAction("check-updates") { [unowned self] in checkUpdates(automatic: false) }
         addAction("about") { [unowned self] in presentAbout(parent: mainWindow.window.widget) }
         addAction("quit", accels: ["<Control>q"]) { [unowned self] in quit() }
