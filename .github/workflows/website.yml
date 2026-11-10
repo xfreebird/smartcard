@@ -30,8 +30,14 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
+        if: inputs.runner != 'esemnbun-recovery'
         with:
           python-version: '3.12'
+      - name: Use owner-managed recovery Python
+        if: inputs.runner == 'esemnbun-recovery'
+        run: echo "$(dirname "$(uv python find 3.12)")" >> "$GITHUB_PATH"
+      - name: Check Python version
+        run: python3 -c 'import sys; assert sys.version_info >= (3, 12)'
       - uses: actions/setup-node@v6
         with:
           node-version: 22

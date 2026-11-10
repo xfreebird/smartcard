@@ -111,3 +111,5 @@ References: [GitHub concurrency](https://docs.github.com/en/actions/how-tos/writ
 ### Temporary website runner recovery
 
 If a hosted Actions spending limit blocks Pages deployment, the Website manual dispatch accepts `runner=esemnbun-recovery`. Automatic pushes and pull requests still use `ubuntu-latest`. Start a repository-scoped ephemeral runner with that label on an owner-controlled Mac; register a fresh ephemeral runner for each of the build and deployment jobs, then remove its local workspace and credentials. Do not install a persistent service or use this label for untrusted pull requests. The workflow retains its Pages environment and OIDC permissions. No signing or Store secrets are needed. Verify the final Pages job and live routes; successful local rendering alone is not publication.
+
+The recovery host needs `uv` with an existing managed Python3.12 (`uv python find 3.12`), Node tooling prerequisites, `gh`, `gpg` and `gpgv`. Hosted runners use `setup-python`; recovery selects the existing managed interpreter without creating a system-wide hosted tool cache.
