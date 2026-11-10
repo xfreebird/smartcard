@@ -26,3 +26,5 @@ actionlint
 ```
 
 Test changed publishing guards with simulated API responses. Do not dispatch a real upload as a smoke test. After an authorized push, inspect the exact head's selected/skipped jobs and aggregate; distinguish local checks, hosted CI and real store outcomes. Update `PLAN.md`, the workflow guide and affected release/build skills in the same change.
+
+For a hosted-budget Pages outage, `website.yml` supports an explicitly selected `esemnbun-recovery` runner label on manual dispatch. Use a trusted, repository-scoped ephemeral runner per job and clean its credentials/workspace afterward; never install a persistent service or route untrusted PRs to an owner machine. Automatic jobs remain hosted.

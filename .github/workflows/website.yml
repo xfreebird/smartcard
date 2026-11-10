@@ -6,6 +6,12 @@ on:
   pull_request:
     paths: ['website/**', 'scripts/docs/**', 'docs/user-guide/content/**', 'spec/mcp.md', 'spec/cli.md', 'scripts/packages/**', '.github/workflows/website.yml']
   workflow_dispatch:
+    inputs:
+      runner:
+        description: Hosted runner, or an owner-started temporary recovery runner
+        type: choice
+        options: [ubuntu-latest, esemnbun-recovery]
+        default: ubuntu-latest
   workflow_run:
     workflows: [Release, CLI package repositories]
     types: [completed]
@@ -17,7 +23,7 @@ concurrency:
 jobs:
   build:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
     env:
       SITE_URL: https://esemnbun.md
       BASE_URL: /
@@ -62,7 +68,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
     steps:
       - uses: actions/deploy-pages@v5
         id: deployment
