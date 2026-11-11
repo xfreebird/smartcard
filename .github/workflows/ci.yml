@@ -205,6 +205,11 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      - name: Release build memory before emulator startup
+        run: |
+          android/gradlew -p android --stop
+          free -h
+          nproc
       - name: Reserve disk space for the Android system image
         run: |
           # Disposable Android-only runner: .NET is not used by this job.

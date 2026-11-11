@@ -54,20 +54,12 @@ final class MockWorkflowUITests: XCTestCase {
         // Desktop and wide layouts expose per-file options when no collapsed group is needed.
         if menu.waitForExistence(timeout: 3) {
             menu.activateControl()
-            // System menus on some OS releases preserve the label but omit SwiftUI identifiers.
-            let format = app.descendants(matching: .any).matching(NSPredicate(
-                format: "identifier == %@ OR label == %@", "sign.format.xadesBES", "XML signature")).firstMatch
-            XCTAssertTrue(format.waitForExistence(timeout: 5))
-            format.activateControl()
+            selectXMLFormat(in: app)
             expand(app)
         } else {
             expand(app)
             app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
-            // System menus on some OS releases preserve the label but omit SwiftUI identifiers.
-            let format = app.descendants(matching: .any).matching(NSPredicate(
-                format: "identifier == %@ OR label == %@", "sign.format.xadesBES", "XML signature")).firstMatch
-            XCTAssertTrue(format.waitForExistence(timeout: 5))
-            format.activateControl()
+            selectXMLFormat(in: app)
         }
         XCTAssertTrue(app.descendants(matching: .any)["sign.selectedFormat.xadesBES"].firstMatch.waitForExistence(timeout: 5))
         for name in ["Sample-contract.pdf", "Sample-request.txt"] {
@@ -142,6 +134,17 @@ final class MockWorkflowUITests: XCTestCase {
         }
     }
 
+    private func selectXMLFormat(in app: XCUIApplication) {
+        #if os(macOS)
+        // AppKit menu titles survive even when SwiftUI's item identifiers are replaced.
+        let format = app.menuItems["XML signature"].firstMatch
+        #else
+        let format = app.descendants(matching: .any).matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", "sign.format.xadesBES", "XML signature")).firstMatch
+        #endif
+        XCTAssertTrue(format.waitForExistence(timeout: 5))
+        format.activateControl()
+    }
     private func expand(_ app: XCUIApplication) {
         let expand = app.buttons["sign.expandBatch"].firstMatch
         if expand.waitForExistence(timeout: 2) { expand.activateControl() }

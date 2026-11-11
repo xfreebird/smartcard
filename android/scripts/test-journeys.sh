@@ -8,6 +8,18 @@ adb=${ADB:-adb}
 [[ "$serial" == emulator-* ]] || { echo 'A dedicated emulator serial is required.' >&2; exit 2; }
 [[ ! -e "$out" ]] || { echo 'Use a fresh output directory.' >&2; exit 2; }
 mkdir -p "$out"
+capture_failure() {
+    status=$?
+    trap - EXIT
+    if [[ "$status" != 0 ]]; then
+        "$adb" -s "$serial" logcat -d -t 2000 > "$out/logcat.txt" 2>&1 || true
+        "$adb" -s "$serial" shell dumpsys activity lastanr > "$out/last-anr.txt" 2>&1 || true
+        "$adb" -s "$serial" shell dumpsys meminfo > "$out/memory.txt" 2>&1 || true
+        "$adb" -s "$serial" exec-out screencap -p > "$out/failure.png" 2>/dev/null || true
+    fi
+    exit "$status"
+}
+trap capture_failure EXIT
 "$adb" -s "$serial" install -r "$app"
 "$adb" -s "$serial" install -r "$tests"
 "$adb" -s "$serial" shell am instrument -w -r -e suite journeys \

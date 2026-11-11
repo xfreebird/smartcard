@@ -116,6 +116,8 @@ def workflow(scenario, app, root, process, title):
         assert outputs, "The fixture must own a saved output"
         click("saved_history")
         click("ui_clear_the_list"); click("ui_cancel")
+        wait(lambda: visible_named(app, title("ui_cancel")) is None
+             and visible_named(app, title("ui_clear_list")) is None, "cancelled dialog dismissed", process)
         wait(lambda: visible_named(app, "Contract-result.pdf"), "cancel retains history", process)
         click("ui_clear_the_list"); click("ui_clear_list")
         wait(lambda: visible_named(app, title("ui_no_activity_yet")), "empty history", process)
@@ -216,6 +218,7 @@ def run(binary, output, selected=None):
                 env["MSIGN_UI_TEST_SCENARIO"] = scenario
             with (output / f"{scenario}.log").open("w") as log:
                 process = subprocess.Popen([binary], env=env, stdout=log, stderr=log)
+                app = None
                 try:
                     wait(lambda: (root / "ready.json").exists(), "readiness marker", process)
                     ready = json.loads((root / "ready.json").read_text())
@@ -248,6 +251,14 @@ def run(binary, output, selected=None):
                         action_name = "cancel PIN without entering a credential"
                     results.append({"scenario": scenario, "status": "passed", "action": action_name})
                 except Exception as error:
+                    if app is not None:
+                        try:
+                            tree = [{"role": node.getRoleName(), "name": node.name,
+                                     "showing": node.getState().contains(pyatspi.STATE_SHOWING)}
+                                    for node in descendants(app)]
+                            (output / f"{scenario}-accessibility.json").write_text(json.dumps(tree, indent=2))
+                        except Exception as diagnostic_error:
+                            log.write(f"Accessibility capture failed: {diagnostic_error}\n")
                     results.append({"scenario": scenario, "status": "failed", "error": str(error)})
                     raise
                 finally:
