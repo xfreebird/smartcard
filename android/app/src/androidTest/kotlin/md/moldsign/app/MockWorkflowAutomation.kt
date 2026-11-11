@@ -97,16 +97,18 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
             ui.await("verification result before disclosure scrolling") {
                 ui.text(activity.getString(R.string.verdict_valid)) != null
             }
-            for ((label, content) in listOf(R.string.sig_certificate_details to "verify.certificateContents",
-                                            R.string.sig_details to "verify.technicalContents")) {
-                val title = activity.getString(label)
-                ui.reveal(title) { ui.text(title) }
-                ui.clickText(title)
-                ui.reveal("expanded details") { ui.id(content) }
-                // Return to the disclosure button before collapse; the certificate can be taller than a phone screen.
-                ui.revealUp(title) { ui.text(title) }
-                ui.clickText(title)
-                ui.await("collapsed details") { ui.id(content) == null }
+            for ((toggle, content) in listOf("verify.certificateToggle" to "verify.certificateContents",
+                                            "verify.technicalToggle" to "verify.technicalContents")) {
+                ui.clickId(toggle)
+                ui.await("expanded $toggle") {
+                    ui.id(toggle)?.stateDescription?.toString() == activity.getString(R.string.state_expanded)
+                }
+                ui.reveal("expanded $content") { ui.id(content) }
+                ui.revealUp(toggle) { ui.id(toggle) }
+                ui.clickId(toggle)
+                ui.await("collapsed $toggle") {
+                    ui.id(toggle)?.stateDescription?.toString() == activity.getString(R.string.state_collapsed) && ui.id(content) == null
+                }
             }
         }
         results += "mock-verification-disclosures:pass"
@@ -119,7 +121,8 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
     private fun withActivity(page: String = "sign", scenario: String = "documents", action: (Activity) -> Unit) {
         val activity = runner.startActivitySync(Intent(runner.targetContext, MainActivity::class.java)
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            .putExtra("demo", scenario).putExtra("demo_page", page).putExtra("store_capture", true))
+            .putExtra("demo", scenario).putExtra("demo_page", page).putExtra("store_capture", true)
+            .putExtra("capture_expand", "none"))
         try { action(activity) }
         finally { runner.runOnMainSync { activity.finish() }; runner.waitForIdleSync() }
     }

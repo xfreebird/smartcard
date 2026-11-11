@@ -11,6 +11,7 @@ namespace MoldSign.App.Views;
 
 internal sealed class FileProtectionDialog : ContentDialog
 {
+    private readonly IPasswordFileProcessor _processor;
     private readonly ComboBox _operation=new(){HorizontalAlignment=HorizontalAlignment.Stretch};
     private readonly ComboBox _method=new(){HorizontalAlignment=HorizontalAlignment.Stretch};
     private readonly ComboBox _identities=new(){HorizontalAlignment=HorizontalAlignment.Stretch,DisplayMemberPath="Label"};
@@ -28,8 +29,9 @@ internal sealed class FileProtectionDialog : ContentDialog
     private byte[]? _output;
     private bool _busy;
     private bool _completed;
-    public FileProtectionDialog(XamlRoot root,ElementTheme theme,int operation = 0)
+    public FileProtectionDialog(XamlRoot root,ElementTheme theme,int operation = 0, ProtectionPreview? preview = null, IPasswordFileProcessor? processor = null)
     {
+        _processor = processor ?? App.Current.Services.FileProtection;
         XamlRoot=root;RequestedTheme=theme;Title=Loc.Get("protect_title");CloseButtonText=Loc.Get("Action_Cancel");
         Content=new ScrollViewer {Content=_form,MaxHeight=660,MinWidth=400,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};
         _operation.Header=Loc.Get("protect_operation");
@@ -100,12 +102,13 @@ internal sealed class FileProtectionDialog : ContentDialog
         PrimaryButtonClick+=async(_,e)=>{e.Cancel=true;if(_busy)return;if(_output!=null)await Save();else await Process();};
         Closing+=(_,e)=>{if(_busy)e.Cancel=true;};
         Closed+=(_,_)=>{_password.Password="";_confirmation.Password="";_pin.Password="";ClearOutput();_certificate?.Dispose();};
-#if DEBUG
-        if(DemoMode.ScreenshotCapture && AppSettings.IsolatedTestPreferences && Environment.GetEnvironmentVariable("MSIGN_CAPTURE_DIALOG") is { } scenario && scenario.StartsWith("protect-",StringComparison.Ordinal)) {
-            _operation.SelectedIndex=scenario.Contains("remove")?2:scenario.Contains("decrypt")?1:0;
-            _method.SelectedIndex=0;_file.Text=_operation.SelectedIndex==1 ? "Contract.pdf"+PasswordFileProtection.Suffix : "Contract.pdf";
+        preview ??= ProtectionPreview.Selected;
+        if (preview is not null)
+        {
+            _operation.SelectedIndex = (int)preview.Operation;
+            _method.SelectedIndex = 0;
+            _file.Text = preview.Filename;
         }
-#endif
         Refresh();
     }
     private void SecretChanged(){if(!_busy)ClearOutput();Refresh();}
@@ -141,7 +144,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         try{
             _output=await Task.Run(()=>{
                 if(!card || operation==2)
-                    return App.Current.Services.FileProtection.Process(source, (FileProtectionOperation)operation, password);
+                    return _processor.Process(source, (FileProtectionOperation)operation, password);
                 var bytes=ProtectedFileIO.Read(source);
                 if(operation==0)return CertificateFileProtection.Encrypt(bytes,certificate??throw new InvalidOperationException());
                 return App.Current.Services.Signing.DecryptFile(bytes,identity??throw new InvalidOperationException(),pin,_reader);

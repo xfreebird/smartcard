@@ -40,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.graphics.Color
@@ -131,6 +132,8 @@ internal fun SignatureCard(report: ValidationReport) {
     val captureExpand = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_expand") else null
     var certificateExpanded by remember(captureExpand) { mutableStateOf(captureExpand == "certificate") }
     var details by remember(captureExpand) { mutableStateOf(captureExpand == "technical") }
+    val expandedState = stringResource(R.string.state_expanded)
+    val collapsedState = stringResource(R.string.state_collapsed)
     val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales.get(0)
     val dateTime = remember(locale) { DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, locale) }
     Card(
@@ -151,7 +154,8 @@ internal fun SignatureCard(report: ValidationReport) {
                 CheckChip(R.string.sig_chain, report.chainOk)
             }
             if (report.certificateDetails.isNotEmpty()) {
-                TextButton(onClick = { certificateExpanded = !certificateExpanded }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sig_certificate_details)) }
+                TextButton(onClick = { certificateExpanded = !certificateExpanded }, modifier = Modifier.fillMaxWidth()
+                    .testTag("verify.certificateToggle").semantics { stateDescription = if (certificateExpanded) expandedState else collapsedState }) { Text(stringResource(R.string.sig_certificate_details)) }
                 if (certificateExpanded) Column(Modifier.testTag("verify.certificateContents")) {
                     report.certificateDetails.forEach { (key, value) ->
                         Text("${CertificateLabels.label(key)}: $value", style = MaterialTheme.typography.bodySmall)
@@ -159,7 +163,8 @@ internal fun SignatureCard(report: ValidationReport) {
                 }
             }
             if (report.details.isNotEmpty()) {
-                TextButton(onClick = { details = !details }, modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = 0.dp)) {
+                TextButton(onClick = { details = !details }, modifier = Modifier.fillMaxWidth()
+                    .testTag("verify.technicalToggle").semantics { stateDescription = if (details) expandedState else collapsedState }, contentPadding = PaddingValues(horizontal = 0.dp)) {
                     Text(stringResource(R.string.sig_details))
                     Icon(if (details) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, contentDescription = null)
                 }

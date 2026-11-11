@@ -57,14 +57,15 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, onDismiss:
     LaunchedEffect(Unit) {
         if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) {
             val scenario = captureIntent?.getStringExtra("capture_dialog") ?: ""
-            if (scenario.startsWith("protect-")) {
-                sourceName = if (scenario.contains("decrypt")) "Contract.pdf.symmetric.p7m" else "Contract.pdf"
-                decrypt = scenario.contains("decrypt")
-                if (scenario == "protect-complete" || scenario == "protect-decrypt-complete") {
+            val preview = vm.protectionPreviewState(scenario)
+            if (preview != null) {
+                sourceName = preview.sourceName
+                decrypt = preview.decrypt
+                if (preview.completed) {
                     busy = true
                     try {
                         output = vm.protectionPreview(decrypt)
-                        sourceName = if (decrypt) "Contract.txt" + PasswordFileProtection.SUFFIX else "Contract.txt"
+                        sourceName = preview.completionSourceName
                         saved = true; notice = R.string.protect_saved
                     } finally { busy = false }
                 }

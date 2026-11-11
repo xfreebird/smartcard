@@ -84,6 +84,7 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
             results += "demo-sign-storage-integration:pass"
             results += SigningWorkflowIntegration.run()
             results += ProtectionWorkflowIntegration.run()
+            results += DocumentImportIntegration.run()
             results += MockWorkflowAutomation(runner, app).run()
         } finally {
             try { firstLaunch.restore() }

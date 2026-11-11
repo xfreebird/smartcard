@@ -25,7 +25,7 @@ with Path(os.environ['CALLS']).open('a') as stream:
 if os.environ.get('FAIL_PHASE') == phase:
     print('INSTRUMENTATION_CODE: 0')
 elif phase == 'journeys':
-    print('INSTRUMENTATION_RESULT: result=' + '\\n'.join(f'case-{i}:pass' for i in range(33)))
+    print('INSTRUMENTATION_RESULT: result=' + '\\n'.join(f'case-{i}:pass' for i in range(34)))
     print('INSTRUMENTATION_CODE: -1')
 else:
     print('INSTRUMENTATION_RESULT: result=PASS: complete')

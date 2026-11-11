@@ -29,7 +29,7 @@ python3 - "$out/journeys.log" <<'PY'
 import pathlib, sys
 s=pathlib.Path(sys.argv[1]).read_text()
 assert 'INSTRUMENTATION_CODE: -1' in s and 'FAIL:' not in s, s
-assert s.count(':pass') == 33, 'Missing scenario completions: '+s
+assert s.count(':pass') == 34, 'Missing scenario completions: '+s
 PY
 
 # Separate instrumentation launches prove persisted files survive process death.

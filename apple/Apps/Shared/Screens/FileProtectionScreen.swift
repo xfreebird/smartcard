@@ -139,16 +139,10 @@ struct FileProtectionScreen: View {
             .onAppear { if input == nil { input = initialURL } }
             #if DEBUG
             .onAppear {
-                if model.isScreenshotCapture {
-                    let scenario = ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? ""
-                    if scenario.hasPrefix("protect-") {
-                        input = URL(fileURLWithPath: scenario.contains("decrypt") ? "/FictionalDocuments/Contract.pdf.symmetric.p7m" : "/FictionalDocuments/Contract.pdf")
-                        operation = scenario.contains("remove") ? 2 : scenario.contains("decrypt") ? 1 : 0
-                        if scenario.hasSuffix("complete") {
-                            // Isolated screenshot-only presentation; no production file or card access.
-                            completedURL = URL(fileURLWithPath: operation == 1 ? "/FictionalDocuments/decrypted-Contract.pdf" : "/FictionalDocuments/Contract.pdf.symmetric.p7m")
-                        }
-                    }
+                if let preview = model.protectionPreview {
+                    input = preview.input
+                    operation = preview.operation
+                    completedURL = preview.completed
                 }
             }
             #endif

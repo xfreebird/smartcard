@@ -16,6 +16,16 @@ class DemoDataProvider : PreviewDataProvider {
         return "DEMO-$name-NOT-SIGNED.pdf"
     }
     override fun outputBytes() = DemoOutputRenderer.render()
+    override fun protectionPreview(scenario: String): md.moldsign.app.application.ProtectionPreview? {
+        if (!scenario.startsWith("protect-")) return null
+        val decrypt = scenario.contains("decrypt")
+        return md.moldsign.app.application.ProtectionPreview(
+            sourceName = if (decrypt) "Contract.pdf.symmetric.p7m" else "Contract.pdf",
+            completionSourceName = if (decrypt) "Contract.txt.symmetric.p7m" else "Contract.txt",
+            decrypt = decrypt,
+            completed = scenario.endsWith("complete"),
+        )
+    }
     override fun protectedOutputBytes(decrypt: Boolean): ByteArray {
         val password = "Example-only-2026".toCharArray()
         try {

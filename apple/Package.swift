@@ -16,7 +16,7 @@ let package = Package(
                 exclude: ["SelectedReader.swift", "BridgeDecisionBox.swift", "StampDecisionBox.swift", "PinVault.swift", "ReaderMonitor.swift", "MockReaderMonitor.swift", "MemoryPinVault.swift", "Activity", "Documents", "L10n.swift", "AppPreferencesStore.swift", "Demo"],
                 sources: ["CancellableRequestScope.swift", "DecisionChannel.swift", "DroppedDocumentLoader.swift", "SigningBatchRunner.swift", "ReaderSelectionPolicy.swift", "UpdateManifest.swift", "BrowserBookmark.swift", "ProcessShutdown.swift"]),
         .target(name: "DemoModePolicy", path: "Apps/Shared/Services/Demo",
-                exclude: ["ScenarioDocumentSigner.swift", "DemoScenarioState.swift", "GatedCardTransport.swift", "DemoDocumentSigner.swift", "DemoDocumentVerifier.swift", "DemoServiceProviding.swift", "DemoServices.swift", "ScreenshotFixtures.swift"], sources: ["DemoHardwareGate.swift", "DemoDocumentProviding.swift", "DemoDocumentFiles.swift"]),
+                exclude: ["ProtectionPreview.swift", "ScenarioDocumentSigner.swift", "DemoScenarioState.swift", "GatedCardTransport.swift", "DemoDocumentSigner.swift", "DemoDocumentVerifier.swift", "DemoServiceProviding.swift", "DemoServices.swift", "ScreenshotFixtures.swift"], sources: ["DemoHardwareGate.swift", "DemoDocumentProviding.swift", "DemoDocumentFiles.swift"]),
         .testTarget(name: "DemoModePolicyTests", dependencies: ["DemoModePolicy"], path: "Tests/DemoModePolicyTests"),
         .testTarget(name: "AppBatchTests", dependencies: ["AppBatch"], path: "Tests/AppBatchTests"),
         .target(name: "DocumentLibrary", path: "Apps/Shared/Services/Activity"),

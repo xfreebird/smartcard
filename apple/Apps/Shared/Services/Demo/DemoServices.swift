@@ -17,6 +17,8 @@ struct DemoServices: DemoServiceProviding {
             .appendingPathComponent("eSemnBun-demo-\(UUID().uuidString)", isDirectory: true), notice: L10n.text(.demo_output_notice))
     }
 
+    func protectionPreview(scenario: String) -> ProtectionPreview? { ProtectionPreview(scenario: scenario) }
+
     func cards(count: Int, certificates: [SigningService.CertificateSummary]?) -> [CardSlot] {
         let holders = ["Popescu Ion", L10n.text(.ui_mindru_stefan), "Rusu Ana"]
         return (0..<max(0, count)).map { index in

@@ -7,5 +7,6 @@ protocol DemoServiceProviding {
     var files: any DemoDocumentProviding { get }
     var signer: any DocumentSigning { get }
     var verifier: any DocumentVerifying { get }
+    func protectionPreview(scenario: String) -> ProtectionPreview?
     func cards(count: Int, certificates: [SigningService.CertificateSummary]?) -> [CardSlot]
 }

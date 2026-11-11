@@ -21,8 +21,11 @@ public static class CardScrollInput {
     public static void Wheel(int delta) { mouse_event(0x0800,0,0,unchecked((uint)delta),UIntPtr.Zero); }
     [DllImport("user32.dll")] private static extern void keybd_event(byte key,byte scan,uint flags,UIntPtr extra);
     public static void ScrollKey(byte key) {
-        keybd_event(0x11,0,0,UIntPtr.Zero); keybd_event(key,0,0,UIntPtr.Zero);
-        keybd_event(key,0,2,UIntPtr.Zero); keybd_event(0x11,0,2,UIntPtr.Zero);
+        if (key != 0x24 && key != 0x23) throw new ArgumentOutOfRangeException("key");
+        byte scan = key == 0x24 ? (byte)0x47 : (byte)0x4f;
+        // Home/End are extended navigation keys, not NumLock-sensitive keypad keys.
+        keybd_event(0x11,0x1d,0,UIntPtr.Zero); keybd_event(key,scan,1,UIntPtr.Zero);
+        keybd_event(key,scan,3,UIntPtr.Zero); keybd_event(0x11,0x1d,2,UIntPtr.Zero);
     }
     [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
 }

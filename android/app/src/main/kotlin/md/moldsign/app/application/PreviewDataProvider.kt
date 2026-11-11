@@ -7,6 +7,7 @@ interface PreviewDataProvider : DocumentDataProvider {
     fun completedNames(): List<String>
     fun outputName(inputName: String): String
     fun outputBytes(): ByteArray
+    fun protectionPreview(scenario: String): ProtectionPreview?
     fun protectedOutputBytes(decrypt: Boolean): ByteArray
     fun verificationPreview(name: String): PickedDocument
 }

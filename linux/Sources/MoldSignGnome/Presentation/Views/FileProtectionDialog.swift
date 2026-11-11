@@ -42,7 +42,7 @@ final class FileProtectionDialog {
     private var completed = false
     private var open = true
 
-    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, processor: any PasswordFileProcessing = PasswordFileProcessor(), closed: @escaping () -> Void) {
+    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, processor: any PasswordFileProcessing = PasswordFileProcessor(), preview: ProtectionPreview? = .selected, closed: @escaping () -> Void) {
         self.processor = processor
         self.controller = controller; self.parent = parent; self.operation = initialOperation
         dialog = adw_dialog_new()!
@@ -121,14 +121,11 @@ final class FileProtectionDialog {
             if self.completed { _ = adw_dialog_close(self.dialog) } else { self.process() }
         }
         onSignal(save,"clicked") { [weak self] in self?.saveOutput() }
-        #if MOLDSIGN_DEMO
-        if controller.isDemo && DemoMode.screenshotCapture,
-           let scenario=ProcessInfo.processInfo.environment["MSIGN_CAPTURE_DIALOG"],scenario.hasPrefix("protect-") {
-            operation=scenario.contains("remove") ? 2:scenario.contains("decrypt") ? 1:0
-            certificateMode=false
-            gtk_label_set_text(fileLabel.opaque,operation==1 ? "Contract.pdf"+PasswordFileProtection.suffix : "Contract.pdf")
+        if controller.isDemo, let preview {
+            operation = preview.operation
+            certificateMode = false
+            gtk_label_set_text(fileLabel.opaque, preview.filename)
         }
-        #endif
         refresh();adw_dialog_present(dialog,parent.widget)
     }
     private func text(_ entry: Widget) -> String {String(cString:gtk_editable_get_text(entry.opaque))}

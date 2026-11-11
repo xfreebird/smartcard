@@ -172,6 +172,11 @@ final class AppModel {
         return false
     }
 
+    var protectionPreview: ProtectionPreview? {
+        guard isScreenshotCapture else { return nil }
+        return demoServices.protectionPreview(scenario: ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "")
+    }
+
     var showsDemoNotice: Bool { demoMode && !isScreenshotCapture }
 
     var trayLabel: String {

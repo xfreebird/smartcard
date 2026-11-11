@@ -1,5 +1,8 @@
 package md.moldsign.app.presentation
 
+import md.moldsign.app.application.DocumentProtection
+import md.moldsign.app.application.ProtectDocument
+import md.moldsign.app.application.ImportDocuments
 import md.moldsign.app.application.AppContainer
 
 import md.moldsign.app.MoldSignApp
@@ -56,13 +59,17 @@ class MainViewModel @JvmOverloads constructor(
     private val documentData: DocumentDataProvider =
         if (container.userDemoMode) container.previewData else LiveDocumentDataProvider(documents),
     private val signDocuments: SignDocuments = container.signingWorkflow(documentData),
-    protection: md.moldsign.app.application.DocumentProtection? = null,
+    protection: DocumentProtection? = null,
 ) : AndroidViewModel(app) {
 
-    private val protection = protection ?: md.moldsign.app.application.ProtectDocument(documents, ::saveProtectedDocument)
+    private val importer = ImportDocuments(documents)
+    private val protection = protection ?: ProtectDocument(documents, ::saveProtectedDocument)
 
     suspend fun protectDocument(uri: Uri, password: CharArray, decrypt: Boolean): Uri =
         protection.process(uri, password, decrypt)
+
+    fun protectionPreviewState(scenario: String) =
+        if (container.isDemo && md.moldsign.app.DemoMode.supportsResultPreview) container.previewData.protectionPreview(scenario) else null
 
     suspend fun protectionPreview(decrypt: Boolean): Uri = withContext(Dispatchers.IO) {
         check(container.isDemo && md.moldsign.app.DemoMode.supportsResultPreview)
@@ -224,7 +231,7 @@ class MainViewModel @JvmOverloads constructor(
     fun receiveDroppedForSigning(uris: List<Uri>, releasePermission: () -> Unit = {}) {
         if (demoMode) { releasePermission(); seedPreviewDocuments(); return }
         viewModelScope.launch {
-            val copies = try { withContext(Dispatchers.IO) { uris.mapNotNull(documents::copyToCache) } }
+            val copies = try { withContext(Dispatchers.IO) { importer.copyShared(uris) } }
             finally { releasePermission() }
             if (copies.isEmpty()) _message.value = UiMessage.Text(R.string.share_unreadable)
             else addForSigning(copies)
@@ -235,9 +242,7 @@ class MainViewModel @JvmOverloads constructor(
         if (demoMode) { seedPreviewDocuments(); return }
         if (uris.isEmpty()) return
         viewModelScope.launch {
-            val unique = uris.distinct()
-            unique.forEach(documents::keepAccess)
-            val docs = unique.map { documents.describe(it) }
+            val docs = importer.pick(uris)
             _signItems.update { items -> items + docs.filter { d -> items.none { it.doc.uri == d.uri } }.map(::SignItem) }
         }
     }
@@ -249,7 +254,7 @@ class MainViewModel @JvmOverloads constructor(
     fun receiveShared(uris: List<Uri>) {
         if (demoMode) { seedPreviewDocuments(); showSignEvents.trySend(Unit); return }
         viewModelScope.launch {
-            val copies = withContext(Dispatchers.IO) { uris.mapNotNull(documents::copyToCache) }
+            val copies = withContext(Dispatchers.IO) { importer.copyShared(uris) }
             if (copies.isEmpty()) {
                 _message.value = UiMessage.Text(R.string.share_unreadable)
                 return@launch
@@ -412,9 +417,7 @@ documents.copy(source, target)
         if (uris.isEmpty() || _verifyDoc.value == null) return
         verifyJob?.cancel()
         verifyJob = viewModelScope.launch {
-            val unique = uris.distinct()
-            unique.forEach(documents::keepAccess)
-            val docs = unique.map { documents.describe(it) }
+            val docs = importer.pick(uris)
             _verifyDetached.update { list -> list.filterNot { existing -> docs.any { it.name == existing.name } } + docs.distinctBy { it.name } }
             runVerify(firstRun = false)
         }
