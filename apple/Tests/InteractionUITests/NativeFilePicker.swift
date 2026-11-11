@@ -72,7 +72,11 @@ struct NativeFilePicker {
     private func pickerSnapshot() throws -> (any XCUIElementSnapshot)? {
         let root = try app.snapshot()
         // Files can place its toolbar beside the Browse view, rather than inside it.
-        return descendants(of: root).contains { $0.identifier == "Browse View (Picker)" } ? root : nil
+        if descendants(of: root).contains(where: { $0.identifier == "Browse View (Picker)" }) { return root }
+        // The iPad remote hierarchy can omit attributes in a whole-app snapshot.
+        // Resolving its named root requests a complete snapshot of that subtree.
+        let picker = app.filePicker
+        return picker.exists ? try picker.snapshot() : nil
     }
 
     private func descendants(of root: any XCUIElementSnapshot) -> [any XCUIElementSnapshot] {

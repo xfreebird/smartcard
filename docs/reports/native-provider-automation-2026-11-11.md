@@ -72,3 +72,10 @@ source/restored byte equality, private output modes, migration/history and detac
 The local iOS 27.0 iPad Files snapshot omitted native accessibility labels and identifiers, so that
 attempt failed rather than using unnamed coordinates. The updated tablet driver and final source
 still require hosted validation. Evidence remains under `.local/validation-20261111/`.
+
+The tablet diagnosis subsequently isolated the missing attributes to whole-application snapshots.
+The named Browse subtree supplies the native labels and frames. A targeted snapshot fallback now
+passes the iPad/iOS 26.5 protection flow, including both output files, exact restored bytes, unchanged
+source and owner-only permissions. This supersedes the earlier tablet control-resolution failure;
+all three Documents methods and migration/history/fixture post-checks also pass on that tablet.
+Hosted validation remains required on the final pushed source.
