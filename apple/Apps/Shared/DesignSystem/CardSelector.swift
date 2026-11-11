@@ -495,9 +495,9 @@ struct IDCardFace: View {
     }
 
     static func accessibilityLabel(_ card: CardSlot) -> String {
+        if let problem = card.problem { return "\(card.certificate?.holder ?? card.reader), \(problem)" }
         guard let cert = card.certificate else { return L10n.text(.ui_card_in_value_reading, card.reader) }
         let until = cert.notAfter.map { $0.formatted(date: .abbreviated, time: .omitted) } ?? "—"
-        if let problem = card.problem { return "\(cert.holder), \(problem)" }
         return L10n.text(.ui_value_identity_card_valid_until_value, cert.holder, until)
     }
 }

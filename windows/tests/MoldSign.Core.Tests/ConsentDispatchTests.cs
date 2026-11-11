@@ -12,13 +12,24 @@ public sealed class ConsentDispatchTests
         var queued = new TaskCompletionSource<Func<Task>>(TaskCreationOptions.RunContinuationsAsynchronously);
         var dispatcher = new ConsentDispatch(action => { queued.SetResult(action); return true; });
         var presented = false;
-        var worker = Task.Run(() => dispatcher.Request(_ => { presented = true; return Task.FromResult(ConsentResult.Cancelled); }, cancellation.Token));
-        var delayed = await queued.Task.WaitAsync(TimeSpan.FromSeconds(3));
-        cancellation.Cancel();
-        var result = await worker.WaitAsync(TimeSpan.FromSeconds(3));
-        Assert.True(result.IsCancelled);
-        await delayed();
-        Assert.False(presented);
+        // Request deliberately blocks a worker. A dedicated thread avoids testing thread-pool
+        // availability when other integration tests also have synchronous waits.
+        var worker = Task.Factory.StartNew(
+            () => dispatcher.Request(_ => { presented = true; return Task.FromResult(ConsentResult.Cancelled); }, cancellation.Token),
+            CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+        try
+        {
+            var delayed = await queued.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            cancellation.Cancel();
+            var result = await worker.WaitAsync(TimeSpan.FromSeconds(3));
+            Assert.True(result.IsCancelled);
+            await delayed();
+            Assert.False(presented);
+        }
+        finally
+        {
+            cancellation.Cancel();
+        }
     }
 
     [Fact]

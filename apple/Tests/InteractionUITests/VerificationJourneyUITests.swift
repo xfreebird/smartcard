@@ -16,7 +16,7 @@ final class VerificationJourneyUITests: XCTestCase {
             let clear = app.buttons["verify.clearResults"].firstMatch
             XCTAssertTrue(clear.waitForExistence(timeout: 5), scenario)
             XCTAssertTrue(clear.isEnabled)
-            clear.tap()
+            clear.activateControl()
             XCTAssertTrue(app.descendants(matching: .any)["verify.dropZone"].firstMatch.exists)
             XCTAssertFalse(app.staticTexts[title].exists, "Cleared verdict must disappear: \(scenario)")
             XCTAssertFalse(app.buttons["verify.clearResults"].exists)
@@ -38,10 +38,10 @@ final class VerificationJourneyUITests: XCTestCase {
             for _ in 0..<5 where !disclosure.isHittable { app.swipeUp() }
             #endif
             XCTAssertEqual(disclosure.value as? String, "Collapsed")
-            disclosure.tap()
+            disclosure.activateControl()
             XCTAssertEqual(disclosure.value as? String, "Expanded")
             if name != "signature" {
-                disclosure.tap()
+                disclosure.activateControl()
                 XCTAssertEqual(disclosure.value as? String, "Collapsed")
             }
         }
@@ -53,7 +53,7 @@ final class VerificationJourneyUITests: XCTestCase {
         defer { app.terminate() }
         let clear = app.buttons["verify.clearResults"].firstMatch
         XCTAssertTrue(clear.waitForExistence(timeout: 15))
-        clear.tap()
+        clear.activateControl()
         XCTAssertFalse(clear.exists)
         XCTAssertFalse(app.progressIndicators.firstMatch.exists)
     }
@@ -64,7 +64,14 @@ final class VerificationJourneyUITests: XCTestCase {
                                   ("error", "The card does not respond")] {
             let app = launch(scenario, tab: "sign")
             defer { app.terminate() }
+            #if os(macOS)
+            // Native cards expose one combined accessibility label on desktop.
+            let label = scenario == "reading" ? "reading" : title
+            let state = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@", label)).firstMatch
+            XCTAssertTrue(state.waitForExistence(timeout: 15), scenario)
+            #else
             XCTAssertTrue(app.staticTexts[title].firstMatch.waitForExistence(timeout: 15), scenario)
+            #endif
             XCTAssertFalse(app.secureTextFields.firstMatch.exists)
         }
     }
@@ -76,7 +83,7 @@ final class VerificationJourneyUITests: XCTestCase {
             XCTAssertTrue(app.secureTextFields.firstMatch.waitForExistence(timeout: 15))
             let cancel = app.buttons["Cancel"].firstMatch
             XCTAssertTrue(cancel.exists)
-            cancel.tap()
+            cancel.activateControl()
             XCTAssertTrue(app.secureTextFields.firstMatch.waitForNonExistence(timeout: 5))
         }
     }
@@ -87,12 +94,15 @@ final class VerificationJourneyUITests: XCTestCase {
         #else
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
         #endif
-        app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
+        app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1", "MSIGN_DEMO_PREVIEW": "0",
             "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.verify.\(UUID().uuidString)",
             "MSIGN_DEMO_CARDS": "2", "MSIGN_DEMO_SCENARIO": scenario, "MSIGN_DEMO_TAB": tab]
         app.launchArguments = ["-appLanguage", "en", "-AppleLanguages", "(en)", "-bridgeEnabled", "NO", "-mainSection", tab]
         #if os(iOS)
         XCUIDevice.shared.orientation = .portrait
+        #endif
+        #if os(macOS)
+        app.launchArguments.append("--show-main-window")
         #endif
         app.launch()
         return app

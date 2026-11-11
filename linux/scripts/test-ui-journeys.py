@@ -26,6 +26,9 @@ def wait(predicate, description, process, timeout=20):
 
 
 def descendants(node):
+    # GTK may remove a child between reading the child count and fetching that child.
+    if node is None:
+        return
     yield node
     for child in node:
         yield from descendants(child)
