@@ -37,6 +37,9 @@ class AndroidReadiness(unittest.TestCase):
     def test_healthy_launcher_needs_no_recovery(self):
         self.assertEqual([], self.run_readiness([READY] * 3))
 
+    def test_absent_initial_accessibility_root_is_not_a_healthy_observation(self):
+        self.assertEqual([], self.run_readiness(['cat: no such file'] + [READY] * 3))
+
     def test_only_initial_system_ui_dialog_can_be_acknowledged(self):
         taps = self.run_readiness([BOOT_DIALOG] + [READY] * 3)
         self.assertEqual(1, len(taps))

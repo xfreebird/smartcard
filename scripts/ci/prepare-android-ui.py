@@ -34,6 +34,7 @@ def prepare(serial, output, adb='adb'):
     output.mkdir(parents=True, exist_ok=False)
     def command(*args):
         return subprocess.check_output([adb, '-s', serial, *args], timeout=20)
+    command('shell', 'wm', 'dismiss-keyguard')
     command('shell', 'input', 'keyevent', 'KEYCODE_HOME')
     deadline = time.monotonic() + 90
     recovered_at = None
@@ -41,10 +42,16 @@ def prepare(serial, output, adb='adb'):
     events = []
     try:
         while time.monotonic() < deadline:
+            # A failed dump must not leave a previous healthy hierarchy to reuse.
+            command('shell', 'rm', '-f', '/sdcard/ci-boot.xml')
             command('shell', 'uiautomator', 'dump', '/sdcard/ci-boot.xml')
             xml = command('exec-out', 'cat', '/sdcard/ci-boot.xml').decode()
             (output / f'hierarchy-{len(events):02d}.xml').write_text(xml)
-            state, point = inspect_hierarchy(xml)
+            try:
+                state, point = inspect_hierarchy(xml)
+            except ET.ParseError:
+                # Boot completion precedes the first accessible window on cold images.
+                state, point = 'waiting-accessibility', None
             events.append(state)
             if state == 'system-ui':
                 if recovered_at is None:
@@ -52,6 +59,8 @@ def prepare(serial, output, adb='adb'):
                     command('shell', 'input', 'tap', str(point[0]), str(point[1]))
                     recovered_at = time.monotonic()
                     stable = 0
+                    command('shell', 'wm', 'dismiss-keyguard')
+                    command('shell', 'input', 'keyevent', 'KEYCODE_HOME')
                     print('Acknowledged the initial System UI cold-boot dialog before app installation.', flush=True)
                 elif stable or time.monotonic() - recovered_at > 15:
                     raise RuntimeError('System UI did not recover; application tests were not started')
