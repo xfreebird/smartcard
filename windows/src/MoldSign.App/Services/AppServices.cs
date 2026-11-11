@@ -50,6 +50,7 @@ public sealed class AppServices : IAsyncDisposable
             ? _ => throw new InvalidOperationException("Demo mode never opens a card transport.")
             : dependencies.Transport ?? (reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
         Signing = new SigningService(transport);
+        FileProtection = dependencies.FileProtection ?? new PasswordFileProcessor();
         _documentSigner = IsDemo ? _demo! : dependencies.Documents ?? Signing;
 #if DEBUG
         if (IsDemo) _documentSigner = ScenarioDocumentSigner.Wrap(_documentSigner);
@@ -140,6 +141,7 @@ public sealed class AppServices : IAsyncDisposable
     private void OnWalletChanged(object? sender, EventArgs args) => Volatile.Write(ref _bridgeCards, State.BridgeCards);
     public ConsentCoordinator Consent { get; }
     public SigningService Signing { get; }
+    public IPasswordFileProcessor FileProtection { get; }
     public BridgeHost Bridge { get; }
     public IBrowserConnectionController BrowserConnection { get; }
 

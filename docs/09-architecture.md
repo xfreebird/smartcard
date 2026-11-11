@@ -311,3 +311,17 @@ length parser. Protocol tests protect output bytes; malformed-input tests protec
 Test commands, journey acceptance criteria, edge cases and current coverage limits are maintained in
 [the testing guide](testing/README.md) and `tests/journeys/catalog.json`. A source file or fixture capture
 is not runtime evidence. The strict coverage gate must remain failing while any required journey is partial.
+
+### File protection boundary
+
+Password transformation is an application service, not view logic. Apple injects
+`FileProtectionProcessing` for private output storage; Linux injects `PasswordFileProcessing` for its
+separate native Save step. Both use the same Swift password processor and existing format/I/O guards.
+Android's `DocumentProtection` workflow depends on document access and an output callback; it bounds
+reads and clears working buffers even after failed saves. Its screenshot sample bytes come from the
+preview provider. Windows injects `IPasswordFileProcessor` through `AppServiceDependencies` into the
+Desktop workflow. Native views retain picker presentation, confirmation and localized outcome display.
+
+The vendor password format uses unauthenticated CBC. A successful decrypt is not an authentication
+claim. Malformed-envelope and failure-cleanup tests must not assume every wrong password rejects
+padding. Native round-trip tests compare restored bytes with their synthetic original explicitly.

@@ -5,6 +5,7 @@ import MoldSignKit
 final class FileProtectionDialog {
     private let dialog: UnsafeMutablePointer<AdwDialog>
     private let parent: UnsafeMutablePointer<GtkWindow>
+    private let processor: any PasswordFileProcessing
     private let controller: AppController
     private let form: Widget
     private let fileLabel: Widget
@@ -41,7 +42,8 @@ final class FileProtectionDialog {
     private var completed = false
     private var open = true
 
-    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, closed: @escaping () -> Void) {
+    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, processor: any PasswordFileProcessing = PasswordFileProcessor(), closed: @escaping () -> Void) {
+        self.processor = processor
         self.controller = controller; self.parent = parent; self.operation = initialOperation
         dialog = adw_dialog_new()!
         adw_dialog_set_title(dialog, L10n.text(.protect_title))
@@ -188,9 +190,11 @@ final class FileProtectionDialog {
         reset();setBusy(true);clearSecrets()
         DispatchQueue.global(qos:.userInitiated).async {
             let result=Result<Data?,Error> {
-                if operation==2{try ProtectedFileIO.overwriteAndRemove(source);return nil}
+                if !certificateMode || operation == 2 {
+                    let action: FileProtectionOperation = operation == 0 ? .encrypt : operation == 1 ? .decrypt : .remove
+                    return try self.processor.process(source, operation: action, password: password)
+                }
                 let bytes=try ProtectedFileIO.read(source)
-                if !certificateMode{return try operation==0 ? PasswordFileProtection.encrypt(bytes,password:password):PasswordFileProtection.decrypt(bytes,password:password)}
                 if operation==0,let certificate{return try CertificateFileProtection.encrypt(bytes,certificate:certificate)}
                 guard let identity else{throw FileProtectionError.cannotDecrypt}
                 return try self.controller.service.withCard(reader:reader){try $0.decryptFile(bytes,identity:identity,pin:pin)}

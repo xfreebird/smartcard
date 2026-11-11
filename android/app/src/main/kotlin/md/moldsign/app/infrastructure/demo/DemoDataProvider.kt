@@ -16,6 +16,15 @@ class DemoDataProvider : PreviewDataProvider {
         return "DEMO-$name-NOT-SIGNED.pdf"
     }
     override fun outputBytes() = DemoOutputRenderer.render()
+    override fun protectedOutputBytes(decrypt: Boolean): ByteArray {
+        val password = "Example-only-2026".toCharArray()
+        try {
+            val encrypted = md.moldsign.core.protection.PasswordFileProtection.encrypt("Example document".toByteArray(), password)
+            if (!decrypt) return encrypted
+            return try { md.moldsign.core.protection.PasswordFileProtection.decrypt(encrypted, password) }
+            finally { encrypted.fill(0) }
+        } finally { password.fill('\u0000') }
+    }
     override fun verificationPreview(name: String) = PickedDocument(
         Uri.parse("demo://capture/$name"), name, 39_142,
         if (name.endsWith(".xml")) "application/xml" else "application/pdf",

@@ -40,7 +40,7 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
                 .forEach { it.performAction(direction) }
             Thread.sleep(150)
         }
-        error("Missing control after scrolling: $description")
+        error("Missing control after scrolling: $description; ${describe()}")
     }
     fun await(description: String, condition: () -> Boolean) {
         val deadline = android.os.SystemClock.uptimeMillis() + 15_000

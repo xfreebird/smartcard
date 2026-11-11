@@ -94,6 +94,9 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
         }
         install(ScriptedSigner("success"))
         withActivity(page = "verify", scenario = "verify-valid") { activity ->
+            ui.await("verification result before disclosure scrolling") {
+                ui.text(activity.getString(R.string.verdict_valid)) != null
+            }
             for ((label, content) in listOf(R.string.sig_certificate_details to "verify.certificateContents",
                                             R.string.sig_details to "verify.technicalContents")) {
                 val title = activity.getString(label)

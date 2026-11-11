@@ -21,6 +21,7 @@ name=$(basename "$MSIGN_UI_TEST_SOURCE" .swift)
 echo "$name" >> "$CALLS"
 if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 65; fi
 ''')
+            shutil.copy(scripts / 'run-verification-ui-tests.sh', scripts / 'run-protection-ui-tests.sh')
             checks = root / 'scripts/ci'
             checks.mkdir(parents=True)
             (checks / 'check-xctest-result.py').write_text('import sys\nassert sys.argv[2] in ("1", "2", "5", "6")\n')
@@ -31,7 +32,7 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
                                     capture_output=True, text=True)
             self.assertEqual(calls.read_text().splitlines(),
                              ['VerificationJourneyUITests', 'MockWorkflowUITests'] +
-                             (['CardCarouselUITests', 'DemoModeUITests'] if platform == 'ios' else []))
+                             (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests'] if platform == 'ios' else []))
             return result.returncode
 
     def test_all_passing_suites_succeed(self):

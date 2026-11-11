@@ -147,3 +147,5 @@ installers, actual drag/drop/providers, system sharing, Shortcuts, Spotlight, Ha
 and live portal integration still need their catalogued runtime checks. Do not report these as covered
 by demo fixtures. No PIN guessing, real wrong-PIN attempt, credential capture or publishing belongs in
 the automated baseline.
+
+The iOS batch additionally runs `ProtectionFlowUITests` using the real Files picker and a synthetic PDF, with post-run plaintext and file-permission checks. Android adds four injected protection workflow cases and requires separate-process storage persistence. The legacy vendor CBC envelope cannot authenticate passwords or content; tests must not assert that every wrong password necessarily fails padding.

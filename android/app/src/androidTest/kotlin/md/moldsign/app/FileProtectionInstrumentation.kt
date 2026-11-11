@@ -19,7 +19,7 @@ class FileProtectionInstrumentation : Instrumentation() {
     override fun onStart() {
         val result = Bundle()
         try {
-            require(suite == null || suite == "journeys") { "Unknown integration suite: $suite" }
+            require(suite == null || suite == "journeys" || suite == "protection") { "Unknown integration suite: $suite" }
             require(suite == null || phase == null) { "A journey suite cannot select a persistence phase" }
             val message = when {
                 suite == "journeys" -> JourneyAutomation(this).run()

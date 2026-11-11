@@ -56,7 +56,22 @@ class MainViewModel @JvmOverloads constructor(
     private val documentData: DocumentDataProvider =
         if (container.userDemoMode) container.previewData else LiveDocumentDataProvider(documents),
     private val signDocuments: SignDocuments = container.signingWorkflow(documentData),
+    protection: md.moldsign.app.application.DocumentProtection? = null,
 ) : AndroidViewModel(app) {
+
+    private val protection = protection ?: md.moldsign.app.application.ProtectDocument(documents, ::saveProtectedDocument)
+
+    suspend fun protectDocument(uri: Uri, password: CharArray, decrypt: Boolean): Uri =
+        protection.process(uri, password, decrypt)
+
+    suspend fun protectionPreview(decrypt: Boolean): Uri = withContext(Dispatchers.IO) {
+        check(container.isDemo && md.moldsign.app.DemoMode.supportsResultPreview)
+        val bytes = container.previewData.protectedOutputBytes(decrypt)
+        val name = if (decrypt) "decrypted-Contract.txt" else "Contract.txt.symmetric.p7m"
+        try { saveProtectedDocument(name, bytes, decrypt) } finally { bytes.fill(0) }
+    }
+
+    suspend fun protectionDocumentName(uri: Uri): String = documents.describe(uri).name
 
     suspend fun encryptionIdentities(): Pair<String?,List<md.moldsign.core.protection.CardEncryptionIdentity>> = withContext(Dispatchers.IO) {
         check(!demoMode)

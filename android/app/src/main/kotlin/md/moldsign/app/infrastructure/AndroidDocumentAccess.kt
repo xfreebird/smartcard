@@ -50,6 +50,19 @@ class AndroidDocumentAccess(private val app: Application) : DocumentAccess {
         app.contentResolver.openInputStream(uri)?.use { it.readBytes() }
             ?: throw CardError.Format("Cannot open the document")
 
+    override fun readBytes(uri: Uri, maximumSize: Int): ByteArray =
+        app.contentResolver.openInputStream(uri)?.use { input ->
+            val output = java.io.ByteArrayOutputStream()
+            val buffer = ByteArray(65536)
+            while (true) {
+                val count = input.read(buffer)
+                if (count < 0) break
+                require(count <= maximumSize - output.size()) { "Document exceeds the size limit" }
+                output.write(buffer, 0, count)
+            }
+            output.toByteArray()
+        } ?: throw CardError.Format("Cannot open the document")
+
     override suspend fun describe(uri: Uri): PickedDocument = withContext(Dispatchers.IO) {
         val resolver = app.contentResolver
         var name = uri.lastPathSegment ?: "document"

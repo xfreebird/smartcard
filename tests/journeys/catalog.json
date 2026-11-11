@@ -9,7 +9,7 @@
         "ios"
       ],
       "level": "ui-interaction",
-      "execution": "ios-iphone-ipad-passed-macos-runner-initialization-blocked-2026-11-11"
+      "execution": "passed-all-apple-platforms-ci-43040752719"
     },
     "apple-documents": {
       "path": "apple/Tests/InteractionUITests/DocumentsUITests.swift",
@@ -234,7 +234,7 @@
         "ios"
       ],
       "level": "ui-interaction",
-      "execution": "ios-iphone-ipad-passed-macos-runner-initialization-blocked-2026-11-11",
+      "execution": "passed-all-apple-platforms-ci-43040752719",
       "boundary": "Injected mock signer and fictional inputs; production controls and batch policy."
     },
     "android-mock-workflows": {
@@ -254,6 +254,22 @@
       "level": "ui-interaction",
       "execution": "passed-2026-11-11",
       "boundary": "Injected mock signer and fictional inputs; production controls and batch policy."
+    },
+    "apple-protection": {
+      "path": "apple/Tests/InteractionUITests/ProtectionFlowUITests.swift",
+      "platforms": [
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "pending-hosted-validation"
+    },
+    "android-protection-workflow": {
+      "path": "android/app/src/androidTest/kotlin/md/moldsign/app/ProtectionWorkflowIntegration.kt",
+      "platforms": [
+        "android"
+      ],
+      "level": "integration",
+      "execution": "pending-hosted-validation"
     }
   },
   "journeys": [
@@ -1380,7 +1396,9 @@
         "swift-core",
         "android-protection",
         "windows-core",
-        "linux-app"
+        "linux-app",
+        "apple-protection",
+        "android-protection-workflow"
       ],
       "acceptance": "Native Documents action encrypts into a separate output and persists its library entry.",
       "edge_cases": [
@@ -1407,9 +1425,11 @@
         "swift-core",
         "android-protection",
         "windows-core",
-        "linux-app"
+        "linux-app",
+        "apple-protection",
+        "android-protection-workflow"
       ],
-      "acceptance": "Correct password restores identical bytes; wrong password creates no plaintext output.",
+      "acceptance": "Correct password restores identical bytes; malformed or rejected envelopes create no plaintext output. Legacy CBC cannot authenticate the password or content; accidental valid padding is not proof of correctness.",
       "edge_cases": [
         "wrong password",
         "corrupt envelope",

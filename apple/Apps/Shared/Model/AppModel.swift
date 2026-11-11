@@ -104,6 +104,7 @@ final class AppModel {
     @ObservationIgnored var presentInsertedCard: (() -> Void)?
     @ObservationIgnored var presentAuthUI: (() -> Void)?
 
+    @ObservationIgnored let fileProtection: any FileProtectionProcessing
     @ObservationIgnored let service: SigningService
     @ObservationIgnored private let certificateReader: any CertificateReading
     @ObservationIgnored private let liveDocumentSigner: any DocumentSigning
@@ -208,7 +209,11 @@ final class AppModel {
          documentVerifier: (any DocumentVerifying)? = nil,
          activityStore: (any ActivityStoring)? = nil,
          demoServices: (any DemoServiceProviding)? = nil,
+         fileProtection: (any FileProtectionProcessing)? = nil,
          transportFactory: @escaping (String?) throws -> CardTransport = AppModel.defaultTransport) {
+        self.fileProtection = fileProtection ?? FileProtectionService(outputDirectory:
+            FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+                .appendingPathComponent("Protected", isDirectory: true))
         self.service = service
         self.certificateReader = certificateReader ?? CoreCertificateReader(service: service)
         self.liveDocumentSigner = documentSigner ?? CoreDocumentSigner(service: service)

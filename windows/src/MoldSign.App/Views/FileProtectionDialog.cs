@@ -2,6 +2,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MoldSign.App.Services;
 using MoldSign.Core.Protection;
+using MoldSign.Desktop;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using Windows.Storage.Pickers;
@@ -139,9 +140,9 @@ internal sealed class FileProtectionDialog : ContentDialog
         SetBusy(true);ClearOutput();_password.Password="";_confirmation.Password="";_pin.Password="";
         try{
             _output=await Task.Run(()=>{
-                if(operation==2){ProtectedFileIO.OverwriteAndRemove(source);return null;}
+                if(!card || operation==2)
+                    return App.Current.Services.FileProtection.Process(source, (FileProtectionOperation)operation, password);
                 var bytes=ProtectedFileIO.Read(source);
-                if(!card)return operation==0?PasswordFileProtection.Encrypt(bytes,password):PasswordFileProtection.Decrypt(bytes,password);
                 if(operation==0)return CertificateFileProtection.Encrypt(bytes,certificate??throw new InvalidOperationException());
                 return App.Current.Services.Signing.DecryptFile(bytes,identity??throw new InvalidOperationException(),pin,_reader);
             });

@@ -106,7 +106,7 @@ struct FileProtectionScreen: View {
                             } label: {
                                 Text(L10n.text(operation == 0 ? .protect_encrypt : operation == 1 ? .protect_decrypt : .protect_remove))
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                            }.buttonStyle(.borderedProminent).disabled(!ready)
+                            }.buttonStyle(.borderedProminent).disabled(!ready).accessibilityIdentifier("protect.submit")
                         }.padding(16).background(.bar)
                     }
                 }
@@ -163,23 +163,8 @@ struct FileProtectionScreen: View {
         password = ""; confirmation = ""
         Task {
             do {
-                let output: URL? = try await Task.detached {
-                    let access = url.startAccessingSecurityScopedResource()
-                    defer { if access { url.stopAccessingSecurityScopedResource() } }
-                    if operation == 2 { try ProtectedFileIO.overwriteAndRemove(url); return nil }
-                    let bytes = try ProtectedFileIO.read(url)
-                    let protected = try operation == 0 ? PasswordFileProtection.encrypt(bytes, password: secret) : PasswordFileProtection.decrypt(bytes, password: secret)
-                    let folder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                        .appendingPathComponent("Protected", isDirectory: true)
-                        .appendingPathComponent(UUID().uuidString, isDirectory: true)
-                    try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
-                    let name = url.lastPathComponent
-                    let filename = operation == 0 ? name + PasswordFileProtection.suffix : "decrypted-" + (name.hasSuffix(PasswordFileProtection.suffix) ? String(name.dropLast(PasswordFileProtection.suffix.count)) : name)
-                    let destination = folder.appendingPathComponent(filename)
-                    do { try ProtectedFileIO.saveNew(protected, to: destination) }
-                    catch { try? FileManager.default.removeItem(at: folder); throw error }
-                    return destination
-                }.value
+                let action: FileProtectionOperation = operation == 0 ? .encrypt : operation == 1 ? .decrypt : .remove
+                let output = try await model.fileProtection.process(url, operation: action, password: secret)
                 if let output {
                     model.log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(operation == 0 ? .protect_encrypted : .protect_decrypted), ok: true, fileURL: output, signedOutput: false, protectionOperation: operation == 0 ? "encrypt" : "decrypt"))
                     completedURL = output

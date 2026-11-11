@@ -10,6 +10,7 @@ public sealed record AppServiceDependencies
     public ICardDataProvider? CardData { get; init; }
     public IReaderSource? Readers { get; init; }
     public Func<string?, ICardTransport>? Transport { get; init; }
+    public IPasswordFileProcessor? FileProtection { get; init; }
     public IDocumentSigner? Documents { get; init; }
     public IDocumentVerifier? Verifier { get; init; }
     public Func<string, Task<CertificateSummary>>? Certificates { get; init; }

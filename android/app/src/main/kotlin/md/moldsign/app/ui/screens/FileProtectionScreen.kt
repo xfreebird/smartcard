@@ -2,7 +2,6 @@ package md.moldsign.app.ui.screens
 
 import md.moldsign.app.hostActivity
 import android.net.Uri
-import android.provider.OpenableColumns
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -23,9 +22,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import md.moldsign.app.R
 import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.core.protection.PasswordFileProtection
@@ -49,10 +46,13 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, onDismiss:
     var helpExpanded by remember { mutableStateOf(false) }
     val guide = if (decrypt) R.string.protect_password_decrypt_guide else R.string.protect_password_encrypt_guide
     val help = if (decrypt) R.string.protect_password_decrypt_help else R.string.protect_password_encrypt_help
-    fun displayName(uri: Uri): String = context.contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)?.use { c ->
-        if (c.moveToFirst()) c.getString(0) else null
-    } ?: "document"
-    LaunchedEffect(initialFile) { initialFile?.let { sourceName = displayName(it) } }
+    LaunchedEffect(source) {
+        source?.let { uri ->
+            try { sourceName = vm.protectionDocumentName(uri) }
+            catch (cancelled: kotlinx.coroutines.CancellationException) { throw cancelled }
+            catch (_: Exception) { notice = R.string.protect_error; failed = true }
+        }
+    }
     val captureIntent = context.hostActivity()?.intent
     LaunchedEffect(Unit) {
         if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) {
@@ -62,38 +62,19 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, onDismiss:
                 decrypt = scenario.contains("decrypt")
                 if (scenario == "protect-complete" || scenario == "protect-decrypt-complete") {
                     busy = true
-                    val secret = "Example-only-2026".toCharArray()
                     try {
-                        val bytes = withContext(Dispatchers.IO) {
-                            val encrypted = PasswordFileProtection.encrypt("Example document".toByteArray(), secret)
-                            if (decrypt) try { PasswordFileProtection.decrypt(encrypted, secret) } finally { encrypted.fill(0) } else encrypted
-                        }
+                        output = vm.protectionPreview(decrypt)
                         sourceName = if (decrypt) "Contract.txt" + PasswordFileProtection.SUFFIX else "Contract.txt"
-                        val name = if (decrypt) "decrypted-Contract.txt" else sourceName + PasswordFileProtection.SUFFIX
-                        try { output = vm.saveProtectedDocument(name, bytes, decrypt) } finally { bytes.fill(0) }
                         saved = true; notice = R.string.protect_saved
-                    } finally { secret.fill('\u0000'); busy = false }
+                    } finally { busy = false }
                 }
             }
         }
     }
     fun reset() { output = null; notice = null; failed = false; saved = false }
     fun fail() { notice = R.string.protect_error; failed = true }
-    suspend fun read(uri: Uri): ByteArray = withContext(Dispatchers.IO) {
-        context.contentResolver.openInputStream(uri)?.use { stream ->
-            val out = java.io.ByteArrayOutputStream()
-            val buffer = ByteArray(65536)
-            while (true) {
-                val count = stream.read(buffer)
-                if (count < 0) break
-                require(out.size() + count <= PasswordFileProtection.MAXIMUM_SIZE + 8192)
-                out.write(buffer, 0, count)
-            }
-            out.toByteArray()
-        } ?: error("Cannot read document")
-    }
     val pickFile = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        if (uri != null) { reset(); source = uri; sourceName = displayName(uri); password = ""; confirmation = "" }
+        if (uri != null) { reset(); source = uri; password = ""; confirmation = "" }
     }
     val save = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
         vm.saveCopy(output, uri)
@@ -159,17 +140,11 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, onDismiss:
                     scope.launch {
                         busy = true; reset()
                         try {
-                            val bytes = read(uri)
-                            val result = try {
-                                withContext(Dispatchers.IO) {
-                                    if (decrypt) PasswordFileProtection.decrypt(bytes, secret) else PasswordFileProtection.encrypt(bytes, secret)
-                                }
-                            } finally { bytes.fill(0) }
-                            val name = if (decrypt) "decrypted-" + sourceName.removeSuffix(PasswordFileProtection.SUFFIX) else sourceName + PasswordFileProtection.SUFFIX
-                            try { output = vm.saveProtectedDocument(name, result, decrypt) } finally { result.fill(0) }
+                            output = vm.protectDocument(uri, secret, decrypt)
                             saved = true
                             notice = R.string.protect_saved
-                        } catch (_: Exception) { fail() }
+                        } catch (cancelled: kotlinx.coroutines.CancellationException) { throw cancelled }
+                        catch (_: Exception) { fail() }
                         finally { secret.fill('\u0000'); busy = false }
                     }
                 }) { Text(stringResource(if (decrypt) R.string.protect_decrypt else R.string.protect_encrypt)) }

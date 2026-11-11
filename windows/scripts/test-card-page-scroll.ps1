@@ -11,6 +11,7 @@ using System;
 using System.Runtime.InteropServices;
 public static class CardScrollInput {
     [StructLayout(LayoutKind.Sequential)] public struct Rect { public int Left,Top,Right,Bottom; }
+    [DllImport("user32.dll")] public static extern uint GetDpiForWindow(IntPtr hwnd);
     [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr hwnd,IntPtr after,int x,int y,int w,int h,uint flags);
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr hwnd,out Rect rect);
     [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr hwnd);
@@ -99,7 +100,12 @@ try {
                     Capture $handle ("card-resize-failure-$($size.Height)-$theme")
                     throw "Selected card is not centered after resizing. Card=$r Viewport=$v Delta=$delta"
                 }
-                if($r.Width -gt 330) {throw 'Card face has not been reduced to the requested size.'}
+                # UIAutomation rectangles are physical pixels. The large wallet's current
+                # layout contract is a maximum 360 DIPs, including its horizontal padding.
+                $scale=[CardScrollInput]::GetDpiForWindow($handle)/96.0
+                if($scale -le 0) {throw 'Window DPI is unavailable'}
+                $cardWidthDip=$r.Width/$scale
+                if($cardWidthDip -gt 360) {throw "Card exceeds 360 DIPs: $cardWidthDip ($($r.Width) pixels)"}
                 Capture $handle ("card-top-$($size.Height)-$theme")
                 # Real wheel events over the selected card exercise nested horizontal/vertical scroll chaining.
                 [CardScrollInput]::SetCursorPos([int](($r.Left+$r.Right)/2),[int](($r.Top+$r.Bottom)/2))|Out-Null
@@ -119,7 +125,7 @@ try {
                 Assert-Visible $button $scroll 'Saved-PIN action after keyboard scrolling'
                 Assert-Visible $tips $scroll 'Last help text after keyboard scrolling'
                 Capture $handle ("card-bottom-$($size.Height)-$theme")
-                $proof += @{Theme=$theme;Width=$size.Width;Height=$size.Height;SelectedSecondCardFullAndCentered=$true;
+                $proof += @{Theme=$theme;CardWidthDip=$cardWidthDip;DpiScale=$scale;Width=$size.Width;Height=$size.Height;SelectedSecondCardFullAndCentered=$true;
                     MouseWheelReachedEnd=$true;KeyboardReachedEnd=$true;PinActionFullyVisible=$true;LastHelpFullyVisible=$true;
                     WheelScrollPercent=$wheelOffset;KeyboardScrollPercent=$pattern.Current.VerticalScrollPercent}
             }

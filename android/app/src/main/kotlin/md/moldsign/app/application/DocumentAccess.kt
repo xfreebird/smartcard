@@ -7,6 +7,9 @@ interface DocumentAccess {
     fun keepAccess(uri: Uri)
     suspend fun describe(uri: Uri): PickedDocument
     fun readBytes(uri: Uri): ByteArray
+    fun readBytes(uri: Uri, maximumSize: Int): ByteArray = readBytes(uri).also {
+        require(it.size <= maximumSize) { "Document exceeds the size limit" }
+    }
     fun copyToCache(uri: Uri): Uri?
     fun delete(uri: Uri): Boolean = false
     fun copy(source: Uri, target: Uri): Boolean

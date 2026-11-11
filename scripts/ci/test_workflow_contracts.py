@@ -69,3 +69,12 @@ class WorkflowContracts(unittest.TestCase):
         self.assertNotIn('reserve-android-version', ci)
         self.assertNotIn('fastlane', ci)
         self.assertNotIn('gh release', ci)
+
+    def test_lifecycle_suites_remain_in_commit_ci(self):
+        ci = (ROOT / '.github/workflows/ci.yml').read_text()
+        for script in ('test-first-launch.ps1', 'test-demo-mode.ps1',
+                       'test-card-page-scroll.ps1', 'test-insertion-helper.ps1'):
+            self.assertIn(script, ci)
+        apple = (ROOT / 'apple/scripts/run-mock-ui-tests.sh').read_text()
+        for suite in ('CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests'):
+            self.assertIn(suite, apple)
