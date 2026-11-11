@@ -23,6 +23,16 @@ class MoldSignApp : Application() {
         return true
     }
 
+    /** Instrumentation replaces the entire graph before launching a fresh activity. Release always rejects it. */
+    internal fun installTestContainer(replacement: AppContainer) {
+        check(BuildConfig.DEBUG && replacement.userDemoMode)
+        check(!container.busy.value && container.consentBroker.pending.value == null && container.stampBroker.pending.value == null)
+        stopService(Intent(this, BridgeService::class.java))
+        container.stop()
+        container = replacement
+        container.start()
+    }
+
     override fun onCreate() {
         super.onCreate()
         container = AppContainer(this, userDemoMode = demoModeEnabled)

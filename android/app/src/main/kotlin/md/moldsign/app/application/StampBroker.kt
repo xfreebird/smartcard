@@ -21,14 +21,22 @@ class StampBroker(private val app: Application) {
         get() = app.getSharedPreferences("pdf-stamps", 0).getBoolean("browser", false)
         set(value) { app.getSharedPreferences("pdf-stamps", 0).edit().putBoolean("browser", value).apply() }
 
+    fun cancelPending() { state.value?.answer(PdfStampDecision.Cancel) }
+
     fun obtain(document: Document, certificate: CertificateSummary, requester: String?): PdfStampDecision {
         if (!enabled) return PdfStampDecision.Proceed(null)
         val file = File.createTempFile("bridge-pdf-", ".pdf", app.cacheDir)
+        val answer = CompletableDeferred<PdfStampDecision>()
+        var prompt: Pending? = null
         try {
             file.writeBytes(document.bytes)
-            val answer = CompletableDeferred<PdfStampDecision>()
-            state.value = Pending(SignItem(PickedDocument(Uri.fromFile(file), document.name, file.length(), "application/pdf"), stamp = PdfStampPlacement()), certificate.commonName, requester, answer)
+            prompt = Pending(SignItem(PickedDocument(Uri.fromFile(file), document.name, file.length(), "application/pdf"), stamp = PdfStampPlacement()), certificate.commonName, requester, answer)
+            if (!state.compareAndSet(null, prompt)) return PdfStampDecision.Cancel
             return runBlocking { withTimeoutOrNull(120_000) { answer.await() } ?: PdfStampDecision.Cancel }
-        } finally { state.value = null; file.delete() }
+        } finally {
+            if (prompt != null) state.compareAndSet(prompt, null)
+            answer.cancel()
+            file.delete()
+        }
     }
 }

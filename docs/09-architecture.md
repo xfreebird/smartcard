@@ -238,3 +238,76 @@ Considered and rejected for now (D-01):
 
 The core is ~3.5k lines. Translating it twice, with byte-exact vectors as the gate, costs less than
 an FFI layer and keeps every app 100% native. Revisit if the formats grow (ASiC, encryption).
+
+## 6. Replaceable application dependencies
+
+Application code consumes feature-sized ports. Construct platform adapters at composition time; keep fixture
+bytes, fictional identities and persistence decisions inside their providers. A new implementation should
+satisfy the existing port without requiring controller branches keyed on its concrete type.
+
+| Platform | Boundary | Implementations / composition |
+| --- | --- | --- |
+| iOS/macOS | `DocumentSigning`, `DocumentVerifying`, `CertificateReading` | Core adapters and demo adapters; `AppModel` selects the active session's ports. |
+| iOS/macOS | `DemoServiceProviding`, `DemoDocumentProviding` | Demo card fixtures and isolated files, injected independently of UI orchestration. |
+| iOS/macOS | `ActivityStoring` | Preferences and memory stores, consumed by `DocumentLibraryModel`; store changes replace the discovery callback too. |
+| Android | `DocumentDataProvider` | `LiveDocumentDataProvider` reads through `DocumentAccess`; `DemoDataProvider` supplies fixed sample bytes. |
+| Android | `PreviewDataProvider` | Injected through `AppContainer`; owns preview metadata, output naming and sample output bytes. |
+| Linux | `CardDataProviding` | Live provider owns the worker queue and vault lookup; demo provider owns the delayed fixture result. Completion arrives on the GTK main loop. |
+| Linux | `ActivityStoring` | JSON and memory implementations; demo selects memory before any history load or migration. |
+| Windows | `ICardDataProvider` | Live provider adapts certificate operations; demo provider returns pending/error/ready states. `AppServiceDependencies.CardData` replaces the live implementation. |
+
+Keep safety and lifecycle policy in the application layer: generation checks, selected-card identity,
+mode-switch guards, cancellation, and hardware/bridge isolation still apply regardless of provider.
+A preview provider is not a substitute for cryptographic validation. Provider substitutions must preserve
+threading contracts and must not silently fall back to a live transport or credential store.
+
+Find domain types in their named files under Apple's `Shared/Model` and Linux's `Domain`; Android screens
+are grouped by destination with shared layout and verification components. Closely related test doubles
+can remain beside their tests. File splitting alone does not replace responsibility separation.
+
+### Platform presentation patterns
+
+Use one direction of dependency: view → presentation state/commands → application workflow → ports.
+Infrastructure implements the ports. Composition chooses adapters; workflow code must not inspect a
+concrete adapter type to decide behavior. Keep existing narrow core interfaces instead of introducing
+an interface for every class.
+
+- **Apple:** SwiftUI with `@MainActor @Observable` feature models (MVVM). `DocumentLibraryModel` owns
+  library state and `DocumentVerificationModel` owns verification state/request lifetime. `AppModel`
+  remains the app-level coordinator. Views render state and send commands; file/crypto work uses ports.
+- **Android:** Compose with ViewModel-owned `StateFlow` state (MVVM, unidirectional state/events).
+  Application use cases such as `SignDocuments` own workflow policy and report typed events. The
+  ViewModel maps events to state, localized messages and history. `DocumentOutputStore` and
+  `DocumentDataProvider` keep storage implementations outside the use case. Invoke blocking workflows
+  on the existing worker dispatcher; do not create a second competing coroutine scope.
+- **Linux:** GTK passive views with a main-loop presenter and feature state objects.
+  `VerificationWorkspace` is a toolkit-independent state reducer. Platform adapters/controller
+  dispatch results back to the GTK main loop before changing it; generation tokens reject stale work.
+- **Windows:** thin WinUI views backed by observable app state and application workflows.
+  `VerifyDocument` lives in the toolkit-independent Desktop assembly, consumes `IDocumentVerifier`,
+  and returns typed results. The app adapter owns dispatching, localization and activity presentation.
+
+Extract a collaborator when it owns a coherent policy or lifecycle, not just to meet a file-length
+limit. Avoid generic repositories, service locators, mandatory base view models or dependency containers
+that hide dependencies. Existing shell coordinators can delegate incrementally without changing public
+view bindings. A view-specific state model need not be reusable on another platform; the workflow and
+ports should remain independently replaceable and testable.
+
+### Request lifetimes and parsing boundaries
+
+Consent is a request with an owner and an end, not a mutable global continuation. Apple's
+`DecisionChannel` installs the continuation before presenting; `CancellableRequestScope` owns bridge
+requests across listener shutdown. Apple/Linux bridge coordinators own ephemeral origin trust through
+`BridgeConsentPolicy`. Android brokers reject overlapping prompts and clear only their own pending state.
+Windows `ConsentDispatch` releases the worker even when the dispatcher has stopped processing messages.
+Cancellation must also invalidate delayed credential reads and prevent old results from authorizing work.
+
+Presentation fixtures are assembled in providers/`DemoScenarioState`; the application coordinator applies
+state and presents the requested view. Never let a screenshot fixture start a live listener or transport.
+Shared protocol formatting belongs in `BridgeWireFormat`, bounded ASN.1 reads in `DER`/`CertFields`, and
+XML signature parsing in `XMLSignatureValidator`. Reuse checked readers before adding another offset or
+length parser. Protocol tests protect output bytes; malformed-input tests protect the rejection paths.
+
+Test commands, journey acceptance criteria, edge cases and current coverage limits are maintained in
+[the testing guide](testing/README.md) and `tests/journeys/catalog.json`. A source file or fixture capture
+is not runtime evidence. The strict coverage gate must remain failing while any required journey is partial.

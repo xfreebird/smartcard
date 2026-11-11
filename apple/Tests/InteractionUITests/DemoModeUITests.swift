@@ -5,14 +5,14 @@ final class DemoModeUITests: XCTestCase {
     func testDemoRequiresDisclaimerPersistsAndSharesSampleWithoutHardware() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
+        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.user-demo.\(UUID().uuidString)"
         app.launchArguments = ["-AppleLanguages", "(en)"]
         app.launch()
         app.tabBars.buttons["Card"].tap()
         app.buttons["card.settings"].tap()
-        let toggle = app.switches["settings.demoMode"]
-        XCTAssertTrue(toggle.waitForExistence(timeout: 10))
+        let toggle = demoToggle(in: app)
         XCTAssertEqual(toggle.value as? String, "0")
         XCTAssertTrue(toggle.isEnabled)
         print("DEMO_SWITCH_FRAME \(toggle.frame)")
@@ -25,9 +25,11 @@ final class DemoModeUITests: XCTestCase {
         app.buttons["Done"].tap()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
         app.tabBars.buttons["Sign"].tap()
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "Sample-contract.pdf")).firstMatch.waitForExistence(timeout: 5))
+        let expand = app.buttons["sign.expandBatch"]
+        if expand.exists { expand.tap() }
+        XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].waitForExistence(timeout: 5))
         attach(app, "02-demo-ready")
-        app.buttons.matching(NSPredicate(format: "label == %@", "Sign 2 documents")).firstMatch.tap()
+        app.buttons["sign.submit"].tap()
         XCTAssertTrue(app.staticTexts["Demo signing completed"].firstMatch.waitForExistence(timeout: 10))
         XCTAssertFalse(app.secureTextFields.firstMatch.exists, "Simulation must not request a real PIN")
         attach(app, "03-demo-completed")
@@ -44,7 +46,7 @@ final class DemoModeUITests: XCTestCase {
         attach(app, "05-persisted-demo")
         app.tabBars.buttons["Card"].tap()
         app.buttons["card.settings"].tap()
-        let persisted = app.switches["settings.demoMode"]
+        let persisted = demoToggle(in: app)
         XCTAssertEqual(persisted.value as? String, "1")
         persisted.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
         XCTAssertEqual(persisted.value as? String, "0")
@@ -52,6 +54,18 @@ final class DemoModeUITests: XCTestCase {
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
         attach(app, "06-return-to-live-mock")
         app.terminate()
+    }
+
+    private func demoToggle(in app: XCUIApplication) -> XCUIElement {
+        let toggle = app.switches["settings.demoMode"]
+        let form = app.collectionViews.firstMatch
+        XCTAssertTrue(form.waitForExistence(timeout: 10))
+        for _ in 0..<6 where !toggle.exists || !toggle.isHittable {
+            form.swipeUp()
+        }
+        XCTAssertTrue(toggle.waitForExistence(timeout: 5), app.debugDescription)
+        XCTAssertTrue(toggle.isHittable)
+        return toggle
     }
 
     private func attach(_ app: XCUIApplication, _ name: String) {

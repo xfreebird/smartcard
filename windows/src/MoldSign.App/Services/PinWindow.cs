@@ -45,6 +45,8 @@ internal sealed partial class PinWindow : Window
             "dark" => ElementTheme.Dark,
             _ => ElementTheme.Default,
         });
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(_box, "SigningPin");
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(_sign, "PinSubmit");
         Title = Loc.Get("Pin_Title");
         AppWindow.Title = Loc.Get("Pin_Title");
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets", "AppIcon.ico"));
@@ -109,6 +111,7 @@ internal sealed partial class PinWindow : Window
         }
 
         var cancel = new Button { Content = Loc.Get("Action_Cancel"), MinWidth = 120 };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(cancel, "PinCancel");
         cancel.Click += (_, _) => Finish(null);
         _sign.Style = WindowHelpers.ButtonStyle(accent: true);
         _sign.Click += (_, _) => Submit();

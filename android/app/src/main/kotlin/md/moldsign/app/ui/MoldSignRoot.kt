@@ -77,6 +77,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -128,7 +131,7 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
  * compact windows use the navigation bar and a floating primary action. Classification follows the
  * current window constraints, including split screen and rotation, rather than the device model.
  */
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
     val captureIntent = LocalContext.current.hostActivity()?.intent
@@ -139,6 +142,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     var confirmDemoEnable by remember { mutableStateOf(false) }
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
+    val navigationReady = backStack != null
     val dest = Dest.entries.firstOrNull { it.route == backStack?.destination?.route } ?: Dest.Sign
     val liveStatus by vm.status.collectAsStateWithLifecycle()
     val captureProgress = DemoMode.screenshotCapture(captureIntent) && captureIntent?.hasExtra("capture_step") == true
@@ -177,7 +181,8 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
             }
         }
     }
-    LaunchedEffect(shortcutRequest?.id, activeShortcut, working, pending, stamp) {
+    LaunchedEffect(shortcutRequest?.id, activeShortcut, working, pending, stamp, navigationReady) {
+        if (!navigationReady) return@LaunchedEffect
         val request = shortcutRequest ?: return@LaunchedEffect
         // Do not replace a consent sheet, signature operation or another system picker.
         if (working || pending != null || stamp != null || activeShortcut != null) return@LaunchedEffect
@@ -203,7 +208,8 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         }
     }
 
-    LaunchedEffect(demoPage) {
+    LaunchedEffect(demoPage, navigationReady) {
+        if (!navigationReady) return@LaunchedEffect
         Dest.entries.firstOrNull { it.route == demoPage }?.let { nav.go(it) }
     }
 
@@ -219,7 +225,8 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         }
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(navigationReady) {
+        if (!navigationReady) return@LaunchedEffect
         vm.showSign.collect { nav.go(Dest.Sign) }
     }
 
@@ -306,6 +313,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     exit = scaleOut(tween(150)) + fadeOut(tween(150)),
                 ) {
                     ExtendedFloatingActionButton(
+                        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("sign.submit"),
                         onClick = vm::sign,
                         icon = { Icon(Icons.Rounded.Draw, contentDescription = null) },
                         text = { Text(pluralStringResource(R.plurals.sign_n, items.size, items.size)) },

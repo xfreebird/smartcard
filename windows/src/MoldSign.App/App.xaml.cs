@@ -151,7 +151,7 @@ public partial class App : Application
             ownerWindow: () => _main is null ? 0 : WindowHelpers.Handle(_main),
             dependencies: new AppServiceDependencies
             {
-                Readers = DemoMode.Scenario is { } demo ? new DemoReaderSource(demo) : null,
+                DemoScenario = DemoMode.Scenario,
             });
 
         AppLog.Stage("before tray flyout");
@@ -258,7 +258,7 @@ public partial class App : Application
             DemoMode.Configure(enabled);
             Services = new AppServices(DispatcherQueue.GetForCurrentThread(),
                 () => _main is null ? 0 : WindowHelpers.Handle(_main),
-                new AppServiceDependencies { Readers = enabled ? new DemoReaderSource("2") : null });
+                new AppServiceDependencies { DemoScenario = enabled ? "2" : null });
             Services.CardInserted += (_, _) => EnsureMainWindow(activate: true);
             Services.Start();
             _main?.ResetForServices();

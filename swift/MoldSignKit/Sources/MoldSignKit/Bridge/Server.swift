@@ -5,62 +5,6 @@ import Network
 import CPCSC
 #endif
 
-/// What a bridge caller asks for: shown in the consent UI (SEC-02).
-public struct BridgeRequest: Sendable {
-    public enum Operation: String, Sendable { case signData, signPDF, signFile }
-    public let origin: String?
-    public let operation: Operation
-    public let documentName: String?
-    /// Individual names are retained for the host consent sheet.  Older callers
-    /// which only supplied `documentName` remain source-compatible.
-    public let documentNames: [String]
-    /// Exact request content size, when the bridge receives bytes or can inspect a
-    /// local file.  The authorization UI must not claim a size it cannot establish.
-    public let contentBytes: Int?
-    public let format: String?
-    /// The caller already sent a PIN (typed into the web page); the host should not ask for one.
-    public let pinIncluded: Bool
-    /// Requested digest ("SHA-1" / "SHA-256"); honoured for XAdES (R-11).
-    public internal(set) var algorithm: String? = nil
-    /// `use_pin_session` of a multi-document portal batch: the first document's session id (MAC-19).
-    public internal(set) var batchSession: String? = nil
-    /// The certificate the page picked from `/certificates` (several cards may be connected): SHA-1 + holder.
-    /// Consent and PIN must be for this card; the server signs with the reader that holds it.
-    public internal(set) var certificateSHA1: String? = nil
-    public internal(set) var certificateHolder: String? = nil
-
-    public var documentCount: Int { max(1, documentNames.count) }
-
-    public init(origin: String?, operation: Operation, documentName: String?,
-                documentNames: [String] = [], contentBytes: Int? = nil,
-                format: String?, pinIncluded: Bool, algorithm: String? = nil,
-                batchSession: String? = nil) {
-        self.origin = origin
-        self.operation = operation
-        self.documentName = documentName
-        self.documentNames = documentNames
-        self.contentBytes = contentBytes
-        self.format = format
-        self.pinIncluded = pinIncluded
-        self.algorithm = algorithm
-        self.batchSession = batchSession
-    }
-}
-
-public enum BridgeDecision: Sendable {
-    case deny
-    /// `pin`: the PIN to use when the request carries none (nil → host fallback: env / dialog / tty).
-    /// `certificateSHA1`: the card that PIN belongs to; the server refuses a different card before VERIFY.
-    case allow(pin: String?, certificateSHA1: String? = nil)
-}
-
-public struct BridgeEvent: Sendable {
-    public let origin: String?
-    public let method: String
-    public let path: String
-    public let status: Int
-}
-
 /// Drop-in replica of the MoldSign Server (127.0.0.1:18480) protocol so the
 /// msign.gov.md browser "Sign with MoldSign" flow works without the Java suite.
 ///
@@ -363,36 +307,33 @@ public final class MoldSignServer {
     }
     #endif
 
-    static func httpComplete(_ d: Data) -> Bool {
-        guard let r = d.range(of: Data("\r\n\r\n".utf8)) else { return false }
-        let head = String(decoding: d[d.startIndex..<r.lowerBound], as: UTF8.self)
-        var len = 0
-        for line in head.split(separator: "\r\n") {
-            if line.lowercased().hasPrefix("content-length:") {
-                len = Int(line.dropFirst(15).trimmingCharacters(in: .whitespaces)) ?? 0
-            }
-        }
-        return d.count >= r.upperBound + len
-    }
+    static func httpComplete(_ data: Data) -> Bool { BridgeWireFormat.httpComplete(data) }
+    static func queryItems(_ path: String) -> [String: String] { BridgeWireFormat.queryItems(path) }
 
     // MARK: - Routing
 
     private func route(_ raw: Data, isTLS: Bool, reply: @escaping (Data) -> Void) {
         guard let headEnd = raw.range(of: Data("\r\n\r\n".utf8)) else {
-            reply(respond(400, "", contentType: "text/plain", origin: nil)); return
+            reply(BridgeWireFormat.respond(400, "", contentType: "text/plain", origin: nil)); return
         }
         let head = String(decoding: raw[raw.startIndex..<headEnd.lowerBound], as: UTF8.self)
         let body = raw.subdata(in: headEnd.upperBound..<raw.endIndex)
+        guard BridgeWireFormat.contentLength(head) == body.count else {
+            reply(BridgeWireFormat.respond(400, "", contentType: "text/plain", origin: nil)); return
+        }
         let lines = head.split(separator: "\r\n")
         let parts = lines.first?.split(separator: " ") ?? []
-        guard parts.count >= 2 else { reply(respond(400, "", contentType: "text/plain", origin: nil)); return }
+        guard parts.count >= 2 else { reply(BridgeWireFormat.respond(400, "", contentType: "text/plain", origin: nil)); return }
         let method = String(parts[0])
         let fullPath = String(parts[1])
         MSLog.info("[REQ] \(method) \(fullPath) body=\(body.count)B")
         // Request bodies may carry PINs or document content; never emit them to diagnostics.
-        let path = fullPath.split(separator: "?")[0].description
+        let path = fullPath.split(separator: "?", maxSplits: 1, omittingEmptySubsequences: false)[0].description
+        guard path.hasPrefix("/") else {
+            reply(BridgeWireFormat.respond(400, "", contentType: "text/plain", origin: nil)); return
+        }
         let query = Self.queryItems(fullPath)
-        let caller = headerValue(head, "Origin")
+        let caller = BridgeWireFormat.headerValue(head, "Origin")
         // Never reflect a caller-controlled authority into the async result Location.
         let host = isTLS ? "https://localhost.cts.md:\(httpsPort)" : "http://localhost.cts.md:\(httpPort)"
         let reply: (Data) -> Void = { [weak self] resp in
@@ -403,17 +344,17 @@ public final class MoldSignServer {
 
         // SEC-01: vendor allow-list on Origin; header-only auth for non-browser clients
         let legacyDesktop = allowsLegacyDesktopClient && allowsFileSystemRoutes && authorize != nil
-            && caller == nil && headerValue(head, "Sec-Fetch-Site") == nil
+            && caller == nil && BridgeWireFormat.headerValue(head, "Sec-Fetch-Site") == nil
             && Self.isLegacyDesktopRoute(method: method, path: path)
-        guard policy.allows(origin: caller, moldSignHeader: headerValue(head, "moldSign")) || legacyDesktop else {
+        guard policy.allows(origin: caller, moldSignHeader: BridgeWireFormat.headerValue(head, "moldSign")) || legacyDesktop else {
             MSLog.info("[DENY] origin=\(caller ?? "-")")
-            reply(respondJSON(403, #"{"error":"origin not allowed"}"#, origin: nil))
+            reply(BridgeWireFormat.respondJSON(403, #"{"error":"origin not allowed"}"#, origin: nil))
             return
         }
         let origin = caller ?? "*"
 
         if method == "OPTIONS" {
-            reply(respond(200, "", contentType: "text/plain", origin: origin,
+            reply(BridgeWireFormat.respond(200, "", contentType: "text/plain", origin: origin,
                           extra: ["Access-Control-Allow-Methods: GET, POST, OPTIONS",
                                   "Access-Control-Allow-Private-Network: true"]))
             return
@@ -422,7 +363,7 @@ public final class MoldSignServer {
         // Explicit certificate previews are enumeration-only and never touch a card or sign data.
         if previewCertificates != nil && !((method == "GET" && ["/hello", "/certificates", "/certificates/"].contains(path))
             || (method == "POST" && path == "/certificates/refresh")) {
-            reply(respondJSON(403, #"{"error":"Demo identities: signing is disabled"}"#, origin: origin))
+            reply(BridgeWireFormat.respondJSON(403, #"{"error":"Demo identities: signing is disabled"}"#, origin: origin))
             return
         }
 
@@ -430,7 +371,7 @@ public final class MoldSignServer {
         // Check before parsing payloads, creating sessions, or reaching consent/card operations.
         if previewCertificates == nil && !allowsFileSystemRoutes && !(path == "/certificates" || path == "/certificates/"
             || path == "/sign/data" || path.hasPrefix("/sign/data/PKCS11/")) {
-            reply(respondJSON(403, #"{"error":"filesystem routes disabled"}"#, origin: origin))
+            reply(BridgeWireFormat.respondJSON(403, #"{"error":"filesystem routes disabled"}"#, origin: origin))
             return
         }
 
@@ -439,24 +380,24 @@ public final class MoldSignServer {
         let isFileSystemRoute = path == "/sign/pdf" || path.hasPrefix("/sign/pdf/")
             || path == "/sign/file" || path.hasPrefix("/sign/file/")
             || path == "/verify/pdf" || path.hasPrefix("/verify/pdf/")
-        if isFileSystemRoute && (caller != nil || headerValue(head, "Sec-Fetch-Site") != nil) {
-            reply(respondJSON(403, #"{"error":"filesystem routes require a native client"}"#, origin: origin))
+        if isFileSystemRoute && (caller != nil || BridgeWireFormat.headerValue(head, "Sec-Fetch-Site") != nil) {
+            reply(BridgeWireFormat.respondJSON(403, #"{"error":"filesystem routes require a native client"}"#, origin: origin))
             return
         }
 
         switch (method, path) {
         case ("GET", "/hello"):
-            reply(respond(200, "Hello world", contentType: "text/plain", origin: origin))
+            reply(BridgeWireFormat.respond(200, "Hello world", contentType: "text/plain", origin: origin))
         case ("POST", "/certificates/refresh"):
             // listCards reads inserted certificates on every request; there is no stale provider cache.
-            reply(respond(200, "", contentType: "application/json", origin: origin))
+            reply(BridgeWireFormat.respond(200, "", contentType: "application/json", origin: origin))
         case ("GET", "/certificates"), ("GET", "/certificates/"):
             workQueue.async { [weak self] in
                 guard let self else { return }
-                reply(self.respondJSON(200, self.certificatesJSON(), origin: origin))
+                reply(BridgeWireFormat.respondJSON(200, self.certificatesJSON(), origin: origin))
             }
         case ("POST", "/sign/data"):
-            let accept = headerValue(head, "Accept") ?? "application/json"
+            let accept = BridgeWireFormat.headerValue(head, "Accept") ?? "application/json"
             reply(startSignData(body: body, accept: accept, caller: caller, origin: origin, host: host,
                                 usePinSession: query["use_pin_session"]))
         case ("GET", _) where path.hasPrefix("/sign/data/PKCS11/"):
@@ -478,7 +419,7 @@ public final class MoldSignServer {
         case ("GET", _) where path.hasPrefix("/sign/pdf/verify/"):
             poll(path: path, origin: origin, keepPinSession: query["keep_pin_session"] == "1", reply: reply)
         default:
-            reply(respondJSON(404, #"{"error":"not found"}"#, origin: origin))
+            reply(BridgeWireFormat.respondJSON(404, #"{"error":"not found"}"#, origin: origin))
         }
     }
 
@@ -496,46 +437,13 @@ public final class MoldSignServer {
         return method == "POST" && ["/certificates/refresh", "/sign/pdf", "/sign/file"].contains(path)
     }
 
-    private func headerValue(_ head: String, _ name: String) -> String? {
-        for line in head.split(separator: "\r\n") {
-            if line.lowercased().hasPrefix(name.lowercased() + ":") {
-                return line.dropFirst(name.count + 1).trimmingCharacters(in: .whitespaces)
-            }
-        }
-        return nil
-    }
-
     // MARK: - Responses
 
     /// `origin` nil → no CORS headers (denied callers get nothing a browser could read).
-    private func respond(_ status: Int, _ body: String, contentType: String,
-                         origin: String?, extra: [String] = []) -> Data {
-        let statusText = [200: "OK", 201: "Created", 303: "See Other", 400: "Bad Request", 401: "Unauthorized",
-                          403: "Forbidden", 404: "Not Found", 500: "Internal Server Error"][status] ?? "OK"
-        var head = "HTTP/1.1 \(status) \(statusText)\r\n" +
-            "Content-Type: \(contentType)\r\n" +
-            "Content-Length: \(body.utf8.count)\r\n"
-        if let origin {
-            head += "Access-Control-Allow-Origin: \(origin)\r\n" +
-                "Access-Control-Allow-Headers: Origin, x-requested-with, content-type, accept, error, Location\r\n" +
-                "Access-Control-Expose-Headers: Origin, x-requested-with, content-type, accept, error, Location\r\n"
-        }
-        head += "Connection: close\r\n"
-        for e in extra { head += e + "\r\n" }
-        head += "\r\n"
-        return Data(head.utf8) + Data(body.utf8)
-    }
 
     /// `201 Created` exactly like the vendor's Jersey `Response.created(uri).header("sessionId", id)`: no body.
     /// mpass's jQuery login code continues only from `.fail`, i.e. when the empty body doesn't parse as JSON;
     /// a JSON body sends it to `.done`, where it does nothing (stuck on "Introduceți PIN-ul semnăturii").
-    private func respondCreated(sessionId: String, origin: String?, location: String) -> Data {
-        respond(201, "", contentType: "text/plain", origin: origin, extra: ["Location: \(location)", "sessionId: \(sessionId)"])
-    }
-
-    private func respondJSON(_ status: Int, _ json: String, origin: String?, extra: [String] = []) -> Data {
-        respond(status, json, contentType: "application/json", origin: origin, extra: extra)
-    }
 
     // MARK: - /certificates
 
@@ -564,29 +472,7 @@ public final class MoldSignServer {
         return body.map { String(decoding: $0, as: UTF8.self) } ?? #"{"certificateModel":[]}"#
     }
 
-    private func jsonEsc(_ s: String) -> String {
-        s.replacingOccurrences(of: "\\", with: "\\\\")
-         .replacingOccurrences(of: "\"", with: "\\\"")
-    }
-
     // MARK: - Small helpers
-
-    private func xmlField(_ body: Data, _ name: String) -> String? {
-        let t = String(decoding: body, as: UTF8.self)
-        guard let r = t.range(of: "<\(name)>"), let e = t.range(of: "</\(name)>", range: r.upperBound..<t.endIndex) else { return nil }
-        return String(t[r.upperBound..<e.lowerBound])
-    }
-
-    private func xmlFields(_ body: Data, _ name: String) -> [String] {
-        let t = String(decoding: body, as: UTF8.self)
-        var out: [String] = []
-        guard let re = try? NSRegularExpression(pattern: "<\(name)>([^<]*)</\(name)>") else { return out }
-        let ns = t as NSString
-        for m in re.matches(in: t, range: NSRange(location: 0, length: ns.length)) {
-            out.append(ns.substring(with: m.range(at: 1)))
-        }
-        return out
-    }
 
     // MARK: - Signing sessions
 
@@ -618,7 +504,7 @@ public final class MoldSignServer {
     private func poll(path: String, origin: String, keepPinSession: Bool, reply: @escaping (Data) -> Void) {
         let id = path.split(separator: "/").dropFirst(3).first.map(String.init) ?? ""
         guard let session = sessions[id], session.origin == origin else {
-            reply(respondJSON(404, #"{"error":"unknown session"}"#, origin: origin, extra: ["error: unknown session"]))
+            reply(BridgeWireFormat.respondJSON(404, #"{"error":"unknown session"}"#, origin: origin, extra: ["error: unknown session"]))
             return
         }
         let answer: (Session) -> Void = { [weak self] s in
@@ -636,20 +522,10 @@ public final class MoldSignServer {
     }
 
     private func sessionResponse(_ s: Session, origin: String) -> Data {
-        guard let error = s.error else { return respond(200, s.payload, contentType: s.contentType, origin: origin) }
+        guard let error = s.error else { return BridgeWireFormat.respond(200, s.payload, contentType: s.contentType, origin: origin) }
         // header values must stay on one line and ASCII
         let headerSafe = String(error.unicodeScalars.map { $0.isASCII && $0.value >= 0x20 ? Character($0) : " " })
-        return respond(400, s.payload, contentType: s.contentType, origin: origin, extra: ["error: \(headerSafe)"])
-    }
-
-    private func parseJSON(_ body: Data) -> [String: Any] {
-        (try? JSONSerialization.jsonObject(with: body)) as? [String: Any] ?? [:]
-    }
-
-    private func certModel(fromJSON m: [String: Any]) -> Data? {
-        guard let c = m["certificate"] as? [String: Any],
-              let b64 = c["certificateBase64"] as? String, !b64.isEmpty else { return nil }
-        return Data(base64Encoded: b64)
+        return BridgeWireFormat.respond(400, s.payload, contentType: s.contentType, origin: origin, extra: ["error: \(headerSafe)"])
     }
 
     struct Denied: Error, CustomStringConvertible {
@@ -691,16 +567,6 @@ public final class MoldSignServer {
     private func forgetPIN(session: String) {
         pinLock.lock(); defer { pinLock.unlock() }
         pinSessions[session] = nil
-    }
-
-    static func queryItems(_ fullPath: String) -> [String: String] {
-        guard let q = fullPath.split(separator: "?", maxSplits: 1).dropFirst().first else { return [:] }
-        var out: [String: String] = [:]
-        for pair in q.split(separator: "&") {
-            let kv = pair.split(separator: "=", maxSplits: 1).map(String.init)
-            out[kv[0]] = kv.count > 1 ? (kv[1].removingPercentEncoding ?? kv[1]) : ""
-        }
-        return out
     }
 
     /// What the browser sees in the `error` header / body.
@@ -768,9 +634,9 @@ public final class MoldSignServer {
 
     private func startSignData(body: Data, accept: String, caller: String?, origin: String, host: String,
                                usePinSession: String? = nil) -> Data {
-        let m = parseJSON(body)
+        let m = BridgeWireFormat.parseJSON(body)
         guard let dataB64 = m["data"] as? String, let raw = Data(base64Encoded: dataB64) else {
-            return respondJSON(400, #"{"error":"missing data"}"#, origin: origin)
+            return BridgeWireFormat.respondJSON(400, #"{"error":"missing data"}"#, origin: origin)
         }
         let contentType = (m["contentType"] as? String) ?? ""
         let signFormat = (m["signFormat"] as? String) ?? "XAdES-T"
@@ -781,7 +647,7 @@ public final class MoldSignServer {
                                                     format: contentType.lowercased() == "pdf" ? "PAdES-T" : signFormat,
                                                     pinIncluded: !((m["pin"] as? String) ?? "").isEmpty,
                                                     algorithm: algorithm, batchSession: usePinSession),
-                                      certModel(fromJSON: m))
+                                      BridgeWireFormat.certModel(fromJSON: m))
         let sessionId = newSession(origin: origin) { [weak self] id, s in
             guard let self = self else { return }
             do {
@@ -795,7 +661,7 @@ public final class MoldSignServer {
                     let outURL = tmp.appendingPathComponent("msa-out-\(UUID().uuidString).pdf")
                     try raw.write(to: inURL)
                     defer { try? FileManager.default.removeItem(at: inURL); try? FileManager.default.removeItem(at: outURL) }
-                    let out = try self.signPDFFile(inURL, outURL, certJSON: certModel(fromJSON: m), auth: auth,
+                    let out = try self.signPDFFile(inURL, outURL, certJSON: BridgeWireFormat.certModel(fromJSON: m), auth: auth,
                                                    reader: try self.reader(for: auth, request), appearance: placement)
                     auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1)
                     s.payload = #"{"base64File":""# + out.data.base64EncodedString() + "\"}"
@@ -809,7 +675,7 @@ public final class MoldSignServer {
                     let out = try self.signXAdESData(raw, format: format,
                                                      embedded: (m["signatureType"] as? String) != "Detached",
                                                      digest: XAdESSigner.DigestAlgorithm(requested: algorithm),
-                                                     certJSON: certModel(fromJSON: m), auth: auth,
+                                                     certJSON: BridgeWireFormat.certModel(fromJSON: m), auth: auth,
                                                      reader: try self.reader(for: auth, request))
                     auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1)
                     s.payload = #"{"base64File":""# + out.data.base64EncodedString() + "\"}"
@@ -819,24 +685,24 @@ public final class MoldSignServer {
             } catch {
                 MSLog.info("[ERR] \(error)")
                 s.error = Self.message(for: error)
-                s.payload = #"{"error":""# + self.jsonEsc(s.error!) + "\"}"
+                s.payload = #"{"error":""# + BridgeWireFormat.jsonEsc(s.error!) + "\"}"
                 self.onSignResult?(request, error)
             }
         }
-        return respondCreated(sessionId: sessionId, origin: origin,
+        return BridgeWireFormat.respondCreated(sessionId: sessionId, origin: origin,
                            location: "\(host)/sign/data/PKCS11/\(sessionId)/Any")
     }
 
     private func startSignPDF(body: Data, caller: String?, origin: String, host: String, usePinSession: String?) -> Data {
-        var m = parseJSON(body)
+        var m = BridgeWireFormat.parseJSON(body)
         if m.isEmpty, body.contains("originalFile".data(using: .utf8)!) {
-            m = ["originalFile": xmlField(body, "originalFile") ?? "",
-                 "signedFile": xmlField(body, "signedFile") ?? "",
-                 "pin": xmlField(body, "pin") ?? "",
-                 "certificate": ["certificateBase64": xmlField(body, "certificateBase64") ?? ""]]
+            m = ["originalFile": BridgeWireFormat.xmlField(body, "originalFile") ?? "",
+                 "signedFile": BridgeWireFormat.xmlField(body, "signedFile") ?? "",
+                 "pin": BridgeWireFormat.xmlField(body, "pin") ?? "",
+                 "certificate": ["certificateBase64": BridgeWireFormat.xmlField(body, "certificateBase64") ?? ""]]
         }
         guard let origPath = m["originalFile"] as? String, !origPath.isEmpty else {
-            return respondJSON(400, #"{"error":"missing originalFile"}"#, origin: origin)
+            return BridgeWireFormat.respondJSON(400, #"{"error":"missing originalFile"}"#, origin: origin)
         }
         let outPath: String
         if let sp = m["signedFile"] as? String, !sp.isEmpty { outPath = sp }
@@ -846,7 +712,7 @@ public final class MoldSignServer {
         let request = withCertificate(BridgeRequest(origin: caller, operation: .signPDF,
                                                     documentName: documentName, documentNames: [documentName], contentBytes: contentBytes,
                                                     format: "PAdES-T", pinIncluded: !((m["pin"] as? String) ?? "").isEmpty),
-                                      certModel(fromJSON: m))
+                                      BridgeWireFormat.certModel(fromJSON: m))
         let sessionId = newSession(origin: origin) { [weak self] id, s in
             guard let self = self else { return }
             do {
@@ -855,33 +721,33 @@ public final class MoldSignServer {
                 let bytes = try Data(contentsOf: URL(fileURLWithPath: origPath))
                 let placement = try self.stampPlacement(request, bytes, batch: usePinSession ?? id)
                 let output = try self.signPDFFile(URL(fileURLWithPath: origPath), URL(fileURLWithPath: outPath),
-                                         certJSON: certModel(fromJSON: m), auth: auth, reader: try self.reader(for: auth, request), appearance: placement)
+                                         certJSON: BridgeWireFormat.certModel(fromJSON: m), auth: auth, reader: try self.reader(for: auth, request), appearance: placement)
                 auth = Authorization(pin: auth.pin, certificateSHA1: output.certificateSHA1)
                 self.rememberPIN(auth, session: id, origin: caller)
-                s.payload = #"{"path":""# + self.jsonEsc(outPath) + "\"}"
+                s.payload = #"{"path":""# + BridgeWireFormat.jsonEsc(outPath) + "\"}"
                 self.onSignResult?(request, nil)
             } catch {
                 MSLog.info("[ERR] \(error)")
                 s.error = Self.message(for: error)
-                s.payload = #"{"error":""# + self.jsonEsc(s.error!) + "\"}"
+                s.payload = #"{"error":""# + BridgeWireFormat.jsonEsc(s.error!) + "\"}"
                 self.onSignResult?(request, error)
             }
         }
-        return respondCreated(sessionId: sessionId, origin: origin,
+        return BridgeWireFormat.respondCreated(sessionId: sessionId, origin: origin,
                            location: "\(host)/sign/pdf/PKCS11/\(sessionId)")
     }
 
     private func startSignFile(body: Data, caller: String?, origin: String, host: String, usePinSession: String?) -> Data {
-        let json = parseJSON(body)
+        let json = BridgeWireFormat.parseJSON(body)
         let wantsJSON = !json.isEmpty
-        let files = json["filesToSign"] as? [String] ?? xmlFields(body, "filesToSign")
-        guard !files.isEmpty else { return respondJSON(400, #"{"error":"missing filesToSign"}"#, origin: origin) }
-        let signFormat = json["signFormat"] as? String ?? xmlField(body, "signFormat") ?? "XAdES-T"
-        let sigType = (json["type"] as? String ?? xmlField(body, "type") ?? "Detached").lowercased() == "embedded" ? XAdESSigner.SigType.enveloping : .detached
-        let certB64 = (json["certificate"] as? [String: Any])?["certificateBase64"] as? String ?? xmlField(body, "certificateBase64")
-        let pinField = json["pin"] as? String ?? xmlField(body, "pin") ?? ""
-        let dest = json["destinationFile"] as? String ?? xmlField(body, "destinationFile") ?? ""
-        let signAlgorithm = json["signAlgorithm"] as? String ?? xmlField(body, "signAlgorithm")
+        let files = json["filesToSign"] as? [String] ?? BridgeWireFormat.xmlFields(body, "filesToSign")
+        guard !files.isEmpty else { return BridgeWireFormat.respondJSON(400, #"{"error":"missing filesToSign"}"#, origin: origin) }
+        let signFormat = json["signFormat"] as? String ?? BridgeWireFormat.xmlField(body, "signFormat") ?? "XAdES-T"
+        let sigType = (json["type"] as? String ?? BridgeWireFormat.xmlField(body, "type") ?? "Detached").lowercased() == "embedded" ? XAdESSigner.SigType.enveloping : .detached
+        let certB64 = (json["certificate"] as? [String: Any])?["certificateBase64"] as? String ?? BridgeWireFormat.xmlField(body, "certificateBase64")
+        let pinField = json["pin"] as? String ?? BridgeWireFormat.xmlField(body, "pin") ?? ""
+        let dest = json["destinationFile"] as? String ?? BridgeWireFormat.xmlField(body, "destinationFile") ?? ""
+        let signAlgorithm = json["signAlgorithm"] as? String ?? BridgeWireFormat.xmlField(body, "signAlgorithm")
         let digest = XAdESSigner.DigestAlgorithm(requested: signAlgorithm)
         let documentNames = files.map { URL(fileURLWithPath: $0).lastPathComponent }
         let sizes: [Int?] = files.map { path in
@@ -925,25 +791,25 @@ public final class MoldSignServer {
                 auth = Authorization(pin: auth.pin, certificateSHA1: signed.certificateSHA1)
                 self.rememberPIN(auth, session: id, origin: caller)
                 if wantsJSON {
-                    s.payload = "{\"fileLocation\":\"\(self.jsonEsc(outPath))\",\"signatures\":[]}"
+                    s.payload = "{\"fileLocation\":\"\(BridgeWireFormat.jsonEsc(outPath))\",\"signatures\":[]}"
                 } else {
-                    s.payload = "<XadesSignatureModelContainer><fileLocation>\(self.xmlEsc(outPath))</fileLocation><signatures/></XadesSignatureModelContainer>"
+                    s.payload = "<XadesSignatureModelContainer><fileLocation>\(BridgeWireFormat.xmlEsc(outPath))</fileLocation><signatures/></XadesSignatureModelContainer>"
                 }
                 self.onSignResult?(request, nil)
             } catch {
                 MSLog.info("[ERR] \(error)")
                 s.error = Self.message(for: error)
-                s.payload = wantsJSON ? "{\"error\":\"\(self.jsonEsc(s.error!))\"}" : "<error>\(self.xmlEsc(s.error!))</error>"
+                s.payload = wantsJSON ? "{\"error\":\"\(BridgeWireFormat.jsonEsc(s.error!))\"}" : "<error>\(BridgeWireFormat.xmlEsc(s.error!))</error>"
                 self.onSignResult?(request, error)
             }
         }
-        return respondCreated(sessionId: sessionId, origin: origin,
+        return BridgeWireFormat.respondCreated(sessionId: sessionId, origin: origin,
                            location: "\(host)/sign/file/PKCS11/\(sessionId)")
     }
 
     private func startVerifyFile(body: Data, origin: String, host: String) -> Data {
-        let files = xmlFields(body, "signedFiles")
-        let sigPath = xmlField(body, "signature") ?? ""
+        let files = BridgeWireFormat.xmlFields(body, "signedFiles")
+        let sigPath = BridgeWireFormat.xmlField(body, "signature") ?? ""
         MSLog.debug("[VFY-REQ] signedFiles=\(files) sig=\(sigPath)")
         let sessionId = newSession(origin: origin) { _, s in
             var filesMap: [String: Data] = [:]
@@ -960,12 +826,12 @@ public final class MoldSignServer {
             s.contentType = "application/xml"
             s.payload = "<verifySignedFileResponseModel><valid>\(valid)</valid></verifySignedFileResponseModel>"
         }
-        return respondCreated(sessionId: sessionId, origin: origin,
+        return BridgeWireFormat.respondCreated(sessionId: sessionId, origin: origin,
                            location: "\(host)/sign/file/verify/\(sessionId)")
     }
 
     private func startVerifyPDF(body: Data, origin: String, host: String) -> Data {
-        let pdfPath = xmlField(body, "signedFile") ?? xmlField(body, "originalFile") ?? ""
+        let pdfPath = BridgeWireFormat.xmlField(body, "signedFile") ?? BridgeWireFormat.xmlField(body, "originalFile") ?? ""
         let sessionId = newSession(origin: origin) { _, s in
             var valid = false
             if let d = try? Data(contentsOf: URL(fileURLWithPath: pdfPath)) {
@@ -975,14 +841,8 @@ public final class MoldSignServer {
             s.contentType = "application/xml"
             s.payload = "<verifyPdfResponseModel><valid>\(valid)</valid></verifyPdfResponseModel>"
         }
-        return respondCreated(sessionId: sessionId, origin: origin,
+        return BridgeWireFormat.respondCreated(sessionId: sessionId, origin: origin,
                            location: "\(host)/sign/pdf/verify/\(sessionId)")
-    }
-
-    private func xmlEsc(_ s: String) -> String {
-        s.replacingOccurrences(of: "&", with: "&amp;")
-         .replacingOccurrences(of: "<", with: "&lt;")
-         .replacingOccurrences(of: ">", with: "&gt;")
     }
 
     // MARK: - Signing drivers

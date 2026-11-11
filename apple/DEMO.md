@@ -27,7 +27,7 @@ exit, and resumes normal behavior on the next reader/card insertion.
 - `DesignSystem/DemoModeSettings.swift`: shared native toggle, disclaimer, banner.
 - `Services/Demo/DemoHardwareGate.swift`: synchronous connection/transition interlock.
 - `Services/Demo/DemoDocumentFiles.swift`: deterministic unsigned PDF/sample inputs.
-- `Services/Demo/DemoAppServices.swift`: simulated signer/verifier and gated transport wrapper.
+- `Services/Demo/DemoServices.swift`: injectable demo-session provider; `DemoDocumentSigner.swift`, `DemoDocumentVerifier.swift` and `GatedCardTransport.swift` contain the individual adapters.
 - `MemoryPinVault` / `MemoryActivityStore`: isolated volatile dependencies, available in Release.
 - `AppModel`: orchestration and mode transitions; the production card protocol remains unchanged.
 - `MobileSettingsView`: iOS native settings entry point; macOS uses General Settings.

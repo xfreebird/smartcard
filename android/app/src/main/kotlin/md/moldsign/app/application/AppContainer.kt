@@ -45,6 +45,8 @@ class AppContainer(
     val userDemoMode: Boolean = false,
     signingFactory: ((ReaderGateway) -> SigningService)? = null,
     readerFactory: (Application, CoroutineScope) -> ReaderGateway = ::UsbReaderGateway,
+    val previewData: PreviewDataProvider = md.moldsign.app.infrastructure.demo.DemoDataProvider(),
+    demoSigningFactory: (() -> SigningService)? = null,
 ) {
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     val readerMonitor: ReaderGateway = if (userDemoMode) DemoReaderGateway() else readerFactory(app, scope)
@@ -54,10 +56,17 @@ class AppContainer(
     val activity = ActivityLog(app, scope, if (userDemoMode) "demo-activity" else "activity")
     val signedFiles = SignedFileStore(app)
 
+    /** Both modes execute the same batch policy; demo persistence accepts only provider-owned sample bytes. */
+    fun signingWorkflow(data: DocumentDataProvider): SignDocuments = if (userDemoMode) {
+        SignDocuments(signingService, previewData,
+            DocumentOutputStore { name, _, _ -> signedFiles.save(name, "application/pdf", previewData.outputBytes()) },
+            outputName = { previewData.outputName(it.doc.name) })
+    } else SignDocuments(signingService, data, signedFiles)
+
     private val trust = MdTrustServices()
 
     /** Never log keys, PINs or SM payloads here (F-06 / SEC-04): CosmoXCard only emits step names. */
-    val signingService: SigningService = if (userDemoMode) DemoSigningService() else signingFactory?.invoke(readerMonitor) ?: CardSigningService(
+    val signingService: SigningService = if (userDemoMode) demoSigningFactory?.invoke() ?: DemoSigningService() else signingFactory?.invoke(readerMonitor) ?: CardSigningService(
         transports = readerMonitor.transportProvider,
         readerState = readerMonitor.state,
         pades = PadesCmsSigner(trust),
@@ -168,6 +177,8 @@ class AppContainer(
     }
 
     fun stop() {
+        consentBroker.cancelPending()
+        stampBroker.cancelPending()
         readerMonitor.stop()
         followMonitor = false
         scope.cancel()

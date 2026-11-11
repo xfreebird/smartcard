@@ -101,6 +101,7 @@ final class ActivityPage {
         adw_preferences_group_set_title(group.cast(), L10n.text(history ? .saved_history : .saved_files))
         gtk_widget_set_visible(clearButton, 1)
         gtk_widget_set_tooltip_text(clearButton, L10n.text(history ? .ui_clear_the_list : .saved_delete_all))
+        setAccessibleLabel(clearButton, L10n.text(history ? .ui_clear_the_list : .saved_delete_all))
         let items = (history ? controller.activity : controller.signedDocuments).filter(\.isShowable)
         gtk_widget_set_sensitive(clearButton, items.isEmpty ? 0 : 1)
         adw_status_page_set_title(empty.opaque, L10n.text(history ? .ui_no_activity_yet : .saved_empty))

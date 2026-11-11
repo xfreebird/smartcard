@@ -43,25 +43,50 @@ final class AppModel {
     var browserURL: URL?
 
     // Verify
-    var verifyFile: URL?
-    var verifiedDocuments: [(url: URL, reports: [Validator.Report])] = []
-    var verifyReports: [Validator.Report]?
+    private let verification = DocumentVerificationModel()
+    var verifyFile: URL? {
+        get { verification.file }
+        set { verification.file = newValue }
+    }
+    var verifiedDocuments: [(url: URL, reports: [Validator.Report])] {
+        get { verification.documents }
+        set { verification.documents = newValue }
+    }
+    var verifyReports: [Validator.Report]? {
+        get { verification.reports }
+        set { verification.reports = newValue }
+    }
 
     // Sheets
-    var pinRequest: PinRequest?
-    var consentRequest: ConsentRequest?
+    private let pinCoordinator = PINCoordinator()
+    var pinRequest: PinRequest? {
+        get { pinCoordinator.request }
+        set { pinCoordinator.request = newValue }
+    }
+    private let authorization = BridgeAuthorizationCoordinator()
+    var consentRequest: ConsentRequest? {
+        get { authorization.request }
+        set { authorization.request = newValue }
+    }
     struct BridgeStampRequest: Identifiable { let id = UUID(); let url: URL; let holder: String; let origin: String? }
     var bridgeStampRequest: BridgeStampRequest?
     @ObservationIgnored private var pendingStampDecision: PDFStampDecision?
-    @ObservationIgnored private var stampContinuation: CheckedContinuation<PDFStampDecision, Never>?
+    @ObservationIgnored private let stampDecision = DecisionChannel<PDFStampDecision>()
     var browserStampsEnabled: Bool {
         get { AppPreferencesStore.defaults.bool(forKey: "browserStampsEnabled") }
         set { AppPreferencesStore.defaults.set(newValue, forKey: "browserStampsEnabled") }
     }
 
     // Activity + bridge
-    var activity: [ActivityItem] = []
-    private(set) var savedDocuments: [ActivityItem] = []
+    private let library: DocumentLibraryModel
+    var activity: [ActivityItem] {
+        get { library.activity }
+        set { library.activity = newValue }
+    }
+    private(set) var savedDocuments: [ActivityItem] {
+        get { library.savedDocuments }
+        set { library.savedDocuments = newValue }
+    }
     var bridgeState: BridgeState = .stopped
     var bridgeEnabled: Bool {
         didSet {
@@ -81,8 +106,10 @@ final class AppModel {
 
     @ObservationIgnored let service: SigningService
     @ObservationIgnored private let certificateReader: any CertificateReading
-    @ObservationIgnored private let documentSigner: any DocumentSigning
-    @ObservationIgnored private let documentVerifier: any DocumentVerifying
+    @ObservationIgnored private let liveDocumentSigner: any DocumentSigning
+    private var documentSigner: any DocumentSigning { demoMode ? demoServices.signer : liveDocumentSigner }
+    @ObservationIgnored private let liveDocumentVerifier: any DocumentVerifying
+    private var documentVerifier: any DocumentVerifying { demoMode ? demoServices.verifier : liveDocumentVerifier }
     @ObservationIgnored private let liveActivityStore: any ActivityStoring
     @ObservationIgnored private let demoActivityStore = MemoryActivityStore()
     private var activityStore: any ActivityStoring { demoMode ? demoActivityStore : liveActivityStore }
@@ -93,22 +120,24 @@ final class AppModel {
     @ObservationIgnored private let transportFactory: (String?) throws -> CardTransport
     @ObservationIgnored private let selectedReader = SelectedReader()
     @ObservationIgnored private var server: MoldSignServer?
+    @ObservationIgnored private let bridgeRequests = CancellableRequestScope()
     @ObservationIgnored private var bridgeRecovery: Task<Void, Never>?
-    @ObservationIgnored private var pinContinuation: CheckedContinuation<(pin: String, remember: Bool)?, Never>?
-    @ObservationIgnored private var consentContinuation: CheckedContinuation<(approved: Bool, trust: Bool), Never>?
-    @ObservationIgnored private var trustedUntil: [String: Date] = [:]
     private(set) var readers: [String] = []
     private var muteCard = false
     private var signing = false
-    private var obtainingPIN = false
+    private var obtainingPIN: Bool { pinCoordinator.isObtaining }
     @ObservationIgnored private let batchRunner = SigningBatchRunner()
     private(set) var demoMode = false
     private var fixtureMode = false
     private var started = false
     private var readingCount = 0
-    private var verifying = false
+    private var verifying: Bool {
+        get { verification.isVerifying }
+        set { verification.isVerifying = newValue }
+    }
     @ObservationIgnored private let hardwareGate: DemoHardwareGate
-    @ObservationIgnored private let demoFiles: DemoDocumentFiles
+    @ObservationIgnored private let demoServices: any DemoServiceProviding
+    private var demoFiles: any DemoDocumentProviding { demoServices.files }
     @ObservationIgnored private let liveReaders: () -> [String]
 
     var canChangeDemoMode: Bool {
@@ -178,11 +207,12 @@ final class AppModel {
          documentSigner: (any DocumentSigning)? = nil,
          documentVerifier: (any DocumentVerifying)? = nil,
          activityStore: (any ActivityStoring)? = nil,
+         demoServices: (any DemoServiceProviding)? = nil,
          transportFactory: @escaping (String?) throws -> CardTransport = AppModel.defaultTransport) {
         self.service = service
         self.certificateReader = certificateReader ?? CoreCertificateReader(service: service)
-        self.documentSigner = documentSigner ?? CoreDocumentSigner(service: service)
-        self.documentVerifier = documentVerifier ?? CoreDocumentVerifier(service: service)
+        self.liveDocumentSigner = documentSigner ?? CoreDocumentSigner(service: service)
+        self.liveDocumentVerifier = documentVerifier ?? CoreDocumentVerifier(service: service)
         #if DEBUG
         let offlineQA = ProcessInfo.processInfo.environment["MSIGN_QA_NO_HARDWARE"] == "1" &&
             ProcessInfo.processInfo.environment["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true
@@ -199,8 +229,7 @@ final class AppModel {
         fixtureMode = fixture
         demoMode = demo
         hardwareGate = DemoHardwareGate(demo: demo)
-        demoFiles = DemoDocumentFiles(directory: FileManager.default.temporaryDirectory
-            .appendingPathComponent("eSemnBun-demo-\(UUID().uuidString)", isDirectory: true), notice: L10n.text(.demo_output_notice))
+        self.demoServices = demoServices ?? DemoServices()
         #if DEBUG
         liveReaders = offlineQA ? { [] } : service.readersWithCards
         #else
@@ -214,9 +243,8 @@ final class AppModel {
         self.transportFactory = transportFactory
         #endif
         bridgeEnabled = AppDistribution.browserBridge && (AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true)
-        activity = self.activityStore.load()
-        loadDocumentLibrary()
-        recentsClearedAt = self.activityStore.recentsClearedAt
+        library = DocumentLibraryModel(store: demo ? demoActivityStore : self.liveActivityStore,
+                                       onDocumentsChanged: demo ? {} : { DocumentDiscovery.refresh() })
         pruneMissingFiles()
     }
 
@@ -284,16 +312,15 @@ final class AppModel {
         monitor.stop()
         monitor.onChange = nil
         stopBridge()
-        trustedUntil.removeAll()
+        authorization.resetTrust()
         demoMode = enabled
         AppPreferencesStore.defaults.set(enabled, forKey: "demoModeEnabled")
         cards = []; readers = []; selectedReaderName = nil
         signItems = []; lastSigned = []; lastError = nil
-        verifyFile = nil; verifyReports = nil; verifiedDocuments = []; browserURL = nil
+        verification.clear(); browserURL = nil
         vaultRevision += 1
-        activity = activityStore.load()
-        loadDocumentLibrary()
-        recentsClearedAt = activityStore.recentsClearedAt
+        library.reload(store: activityStore,
+                       onDocumentsChanged: enabled ? {} : { DocumentDiscovery.refresh() })
         if enabled {
             loadDemoCards(2)
             signItems = (try? demoFiles.inputs().map(SignItem.init)) ?? []
@@ -381,18 +408,8 @@ final class AppModel {
 
     private func loadDemoCards(_ count: Int) {
         demoMode = true
-        let holders = ["Popescu Ion", L10n.text(.ui_mindru_stefan), "Rusu Ana"]   // CN order on Moldovan certificates
-        readers = (0..<count).map { $0 == 0 ? "bit4id miniLector POCKET EVO" : "bit4id miniLector POCKET EVO 0\($0)" }
-        cards = readers.enumerated().map { index, reader in
-            let sha = String(format: "%02x", Int(UInt8(truncatingIfNeeded: index * 97 + 20))) + String(repeating: "0", count: 38)
-            let cert = SigningService.CertificateSummary(
-                der: Data(), holder: holders[index % holders.count], subjectDN: "CN=\(holders[index % holders.count]),C=MD",
-                issuer: "CN=MDQSign,C=MD", issuerName: "MDQSign", serialDecimal: "1298074214877499210738125554536943",
-                sha1Hex: sha, notAfter: Calendar.current.date(byAdding: .year, value: 4 - index, to: Date()))
-            let preview = simulatorBridgeCertificates
-            return CardSlot(reader: reader, generation: 1,
-                            certificate: preview.flatMap { index < $0.count ? $0[index] : nil } ?? cert)
-        }
+        cards = demoServices.cards(count: count, certificates: simulatorBridgeCertificates)
+        readers = cards.map(\.reader)
         #if DEBUG
         if let files = ProcessInfo.processInfo.environment["MSIGN_DEMO_FILES"] {
             if ["fixture", "fixture-single"].contains(files), isScreenshotCapture {
@@ -446,65 +463,32 @@ final class AppModel {
 
     /// Presentation fixtures never connect a reader, start a listener, or submit a PIN.
     private func applyDemoScenario(_ scenario: String) {
-        if isScreenshotCapture {
-            if scenario.hasPrefix("verify-") && scenario != "verify-empty" {
-                let url = URL(fileURLWithPath: scenario.contains("incomplete") ? "/capture/Contract.xml" : "/capture/Contract-semnat.pdf")
-                let reports = ScreenshotFixtures.reports(scenario)
-                verifyFile = url
-                verifyReports = reports
-                verifiedDocuments = [(url, reports)]
-                if scenario == "verify-loading" { verifyReports = nil; verifiedDocuments = []; verifying = true }
-            }
-            if scenario.hasPrefix("documents-") && scenario != "documents-empty" || scenario == "history-populated" {
-                let urls = ScreenshotFixtures.documents(in: demoFiles.directory, unavailable: scenario.contains("unavailable"), xml: scenario.contains("incomplete"))
-                var records = urls.map { ActivityItem(title: $0.lastPathComponent, subtitle: L10n.text(.ui_verified), ok: true,
-                    fileURL: $0, signedOutput: true) }
-                if scenario == "documents-protection" {
-                    records += ["encrypt", "decrypt"].map { operation in
-                        let name = operation == "encrypt" ? "Contract.pdf.symmetric.p7m" : "decrypted-Contract.pdf"
-                        return ActivityItem(title: name, subtitle: L10n.text(operation == "encrypt" ? .protect_encrypted : .protect_decrypted), ok: true,
-                                            fileURL: demoFiles.directory.appendingPathComponent(name), signedOutput: false, protectionOperation: operation)
-                    }
-                }
-                savedDocuments = records
-                activity = records
-                demoActivityStore.save(records)
-                demoActivityStore.saveDocuments(records)
-            }
+        let state = DemoScenarioState(scenario: scenario, screenshot: isScreenshotCapture,
+            cards: cards, readers: readers, status: status, items: signItems,
+            holder: certificate?.holder, directory: demoFiles.directory)
+        cards = state.cards
+        readers = state.readers
+        status = state.status
+        signItems = state.signItems
+        if state.recomputeReaderStatus { recomputeStatus() }
+        if let step = state.currentStep { currentStep = step }
+        if let outputs = state.lastSigned { lastSigned = outputs }
+        if let preview = state.verification {
+            verifyFile = preview.url
+            verifyReports = preview.loading ? nil : preview.reports
+            verifiedDocuments = preview.loading ? [] : [(preview.url, preview.reports)]
+            verifying = preview.loading
         }
-        switch scenario {
-        case "no-reader": cards = []; readers = []; status = .noReader
-        case "empty-reader": cards = []; readers = ["USB demo reader"]; status = .empty(reader: readers[0])
-        case "unavailable": cards = []; readers = []; status = .unavailable
-        case "reading":
-            if !cards.isEmpty { cards[0].certificate = nil; recomputeStatus() }
-        case "error":
-            if !cards.isEmpty {
-                cards[0].certificate = nil
-                cards[0].problemText = .localized(.ui_the_card_does_not_respond)
-                recomputeStatus()
-            }
-        case "sign-failure":
-            if !signItems.isEmpty { signItems[0].signingError = L10n.text(.ui_failed_value_value, L10n.text(.format_pdf), "No /Root in trailer") }
-        case "signing": currentStep = .timestamping
-        case "success":
-            lastSigned = signItems.map(\.url)
-            signItems = []
-        case "consent", "consent-batch":
-            if isScreenshotCapture {
-                let names = scenario == "consent-batch" ? (1...8).map { "Document-\($0).pdf" } : ["Contract.pdf"]
-                consentRequest = ConsentRequest(request: BridgeRequest(origin: "https://msign.gov.md", operation: .signPDF,
-                    documentName: names.first, documentNames: names, contentBytes: 65536, format: "PAdES-T", pinIncluded: false),
-                    holder: "Popescu Ion", hasStoredPIN: false)
-                presentAuthUI?()
-            }
-        case "pin", "pin-warning", "pin-empty":
-            pinRequest = PinRequest(holder: certificate?.holder ?? "Popescu Ion", attemptsLeft: scenario == "pin-warning" ? 1 : 3, canRemember: true,
-                                    documentNames: scenario == "pin-empty" ? [] : signItems.map { $0.url.lastPathComponent })
-            presentAuthUI?()
-        default: break
+        if let records = state.activity {
+            savedDocuments = records
+            activity = records
+            demoActivityStore.save(records)
+            demoActivityStore.saveDocuments(records)
         }
+        if let consent = state.consent { consentRequest = consent; presentAuthUI?() }
+        if let pin = state.pin { pinRequest = pin; presentAuthUI?() }
     }
+
     #endif
 
     /// "Recitește cardul": forget what we know about the inserted cards and read them again.
@@ -662,21 +646,32 @@ final class AppModel {
         lastError = nil
         if itemID == nil { lastSigned = [] }
         let batch = signItems.filter { itemID == nil || $0.id == itemID }
-        let signer = DemoDocumentSigner(files: demoFiles)
+        let signer = documentSigner
         defer { signing = false; currentStep = nil; recomputeStatus() }
-        for item in batch {
-            do {
-                let output = try await signer.sign(item, pin: "", reader: "", certificateSHA1: "") { [weak self] step in
+        _ = await batchRunner.run(
+            items: batch, context: (), authorize: { _, _ in Optional(()) },
+            sign: { item, _, _ in
+                try await signer.sign(item, pin: "", reader: "", certificateSHA1: "") { [weak self] step in
                     Task { @MainActor in self?.currentStep = step }
                 }
-                lastSigned.append(output)
-                remove(item)
-                log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(.demo_simulation_complete), ok: true, fileURL: output, signedOutput: true))
-            } catch {
-                lastError = PresentedError(messageText: .localized(.ui_demo_mode), recoveryText: .localized(.demo_output_notice))
-                break
+            },
+            didSign: { item, output, _ in
+                self.lastSigned.append(output)
+                self.remove(item)
+                self.log(ActivityItem(title: output.lastPathComponent, subtitle: L10n.text(.demo_simulation_complete), ok: true, fileURL: output, signedOutput: true))
+            },
+            didFail: { item, error in
+                if let index = self.signItems.firstIndex(where: { $0.id == item.id }) {
+                    self.signItems[index].signingError = Self.describe(error).message
+                }
+                self.lastError = Self.describe(error)
+                self.log(ActivityItem(title: item.url.lastPathComponent, subtitle: Self.describe(error).message, ok: false))
+            },
+            shouldContinue: { error in
+                if case CardError.signFailed = error { return true }
+                return error is CocoaError || error is TrustServices.NetworkError
             }
-        }
+        )
     }
 
     private struct BatchContext {
@@ -703,42 +698,13 @@ final class AppModel {
 
     private func obtainPIN(certID: String, holder: String, allowRemember: Bool,
                            documentNames: [String] = []) async -> (pin: String, remember: Bool)? {
-        // A browser request may arrive while the manual batch is authorizing. Never replace its continuation.
-        guard !obtainingPIN else { return nil }
-        obtainingPIN = true
-        defer { obtainingPIN = false }
-        let reason: String
-        if documentNames.isEmpty {
-            reason = L10n.text(.ui_signing_with_certificate_value, holder)
-        } else {
-            let action = documentNames.count == 1 ? L10n.text(.ui_sign)
-                : L10n.text(.ui_sign_count_documents, documentNames.count)
-            reason = [action, documentNames.joined(separator: ", "), holder].joined(separator: " · ")
-        }
-        if vault.hasPIN(certID: certID) {
-            // Cancelling device-owner authentication cancels this batch instead of opening another prompt.
-            guard let stored = await vault.load(certID: certID, reason: reason) else { return nil }
-            return (stored, false)
-        }
-        return await withCheckedContinuation { continuation in
-            pinContinuation = continuation
-            pinRequest = PinRequest(holder: holder, attemptsLeft: lastAttemptsLeft,
-                                    canRemember: allowRemember, documentNames: documentNames)
-            presentAuthUI?()
-        }
+        await pinCoordinator.obtain(certID: certID, holder: holder, allowRemember: allowRemember,
+                                    documentNames: documentNames, vault: vault, attemptsLeft: lastAttemptsLeft,
+                                    present: { [weak self] in self?.presentAuthUI?() })
     }
 
-    func submitPIN(_ pin: String, remember: Bool) {
-        pinRequest = nil
-        pinContinuation?.resume(returning: (pin, remember))
-        pinContinuation = nil
-    }
-
-    func cancelPIN() {
-        pinRequest = nil
-        pinContinuation?.resume(returning: nil)
-        pinContinuation = nil
-    }
+    func submitPIN(_ pin: String, remember: Bool) { pinCoordinator.submitPIN(pin, remember: remember) }
+    func cancelPIN() { pinCoordinator.cancelPIN() }
 
     func forgetPIN() {
         if let cert = certificate { forgetPIN(certID: cert.sha1Hex) }
@@ -756,31 +722,15 @@ final class AppModel {
 
     // MARK: - Verify
 
-    private(set) var verificationGeneration = UUID()
-    func clearVerification() {
-        verificationGeneration = UUID()
-        verifying = false
-        verifiedDocuments = []
-        verifyFile = nil
-        verifyReports = nil
-    }
+    var verificationGeneration: UUID { verification.generation }
+    func clearVerification() { verification.clear() }
 
     func verifyFiles(_ urls: [URL]) async {
-        clearVerification()
-        let generation = verificationGeneration
-        verifying = true
-        defer { if verificationGeneration == generation { verifying = false } }
-        for url in urls {
-            guard verificationGeneration == generation else { return }
-            verifyFile = url
-            verifyReports = nil
-            let reports = demoMode ? await DemoDocumentVerifier().verify(url) : await documentVerifier.verify(url)
-            guard verificationGeneration == generation else { return }
-            verifyReports = reports
-            verifiedDocuments.append((url, reports))
+        await verification.verify(urls, using: documentVerifier) { [weak self] url, reports in
             let verdict = Verdict(reports)
-            log(ActivityItem(title: url.lastPathComponent, subtitle: L10n.text(.ui_verified),
-                             ok: { if case .valid = verdict { return true } else { return false } }(), fileURL: url, signedOutput: false))
+            self?.log(ActivityItem(title: url.lastPathComponent, subtitle: L10n.text(.ui_verified),
+                                  ok: { if case .valid = verdict { return true } else { return false } }(),
+                                  fileURL: url, signedOutput: false))
         }
     }
 
@@ -808,20 +758,26 @@ final class AppModel {
         #endif
         // UserDefaults reads are thread-safe; the setting must also apply to cached batches.
         server.previewPDFEnabled = { AppPreferencesStore.defaults.bool(forKey: "browserStampsEnabled") }
-        server.previewPDF = { [weak self] request, data in
+        server.previewPDF = { [weak self, weak server] request, data in
             let answer = StampDecisionBox()
             let done = DispatchSemaphore(value: 0)
             Task { @MainActor in
-                answer.value = await self?.previewBridgePDF(request, data: data) ?? .cancel
+                if let self, let server, self.server === server {
+                    answer.value = await self.bridgeRequests.run(fallback: .cancel) {
+                        await self.previewBridgePDF(request, data: data)
+                    }
+                }
                 done.signal()
             }
             done.wait(); return answer.value
         }
-        server.authorize = { [weak self] request in
-            let box = DecisionBox()
+        server.authorize = { [weak self, weak server] request in
+            let box = BridgeDecisionBox()
             let done = DispatchSemaphore(value: 0)
             Task { @MainActor in
-                box.value = await self?.authorize(request) ?? .deny
+                if let self, let server, self.server === server {
+                    box.value = await self.bridgeRequests.run(fallback: .deny) { await self.authorize(request) }
+                }
                 done.signal()
             }
             done.wait()
@@ -832,9 +788,9 @@ final class AppModel {
                 guard let self, !self.demoMode else { return }
                 self.log(Self.bridgeActivity(request, error))   // MAC-10: outcome, not just "request received"
                 // A stored PIN the card rejected during a browser request must go, like in the UI flow (MAC-05).
-                guard let error, let cert = self.certificate else { return }
+                guard let error, let certID = request.certificateSHA1 ?? self.certificate?.sha1Hex else { return }
                 switch error {
-                case CardError.wrongPIN, CardError.pinBlocked: self.handleCardError(error, certID: cert.sha1Hex)
+                case CardError.wrongPIN, CardError.pinBlocked: self.handleCardError(error, certID: certID)
                 default: break
                 }
             }
@@ -873,6 +829,8 @@ final class AppModel {
     }
 
     func stopBridge() {
+        bridgeRequests.cancelAll()
+        pendingStampDecision = nil
         answerBridgeStamp(.cancel)
         bridgeRecovery?.cancel()
         bridgeRecovery = nil
@@ -884,7 +842,7 @@ final class AppModel {
     /// Consent (unless the origin is trusted for 10 minutes), then the PIN unless the page sent one.
     private func previewBridgePDF(_ request: BridgeRequest, data: Data) async -> PDFStampDecision {
         guard browserStampsEnabled else { return .proceed(nil) }
-        guard !demoMode, !signing, stampContinuation == nil, pinRequest == nil, consentRequest == nil else { return .cancel }
+        guard !demoMode, !signing, !stampDecision.isPending, pinRequest == nil, consentRequest == nil else { return .cancel }
         let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         do {
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true, attributes: [.posixPermissions: 0o700])
@@ -892,40 +850,28 @@ final class AppModel {
             let url = folder.appendingPathComponent("document.pdf")
             try data.write(to: url)
             try FileManager.default.setAttributes([.posixPermissions: 0o600], ofItemAtPath: url.path)
-            return await withCheckedContinuation { continuation in
-                stampContinuation = continuation
+            return await stampDecision.request(fallback: .cancel, present: {
                 bridgeStampRequest = BridgeStampRequest(url: url, holder: request.certificateHolder ?? certificate?.holder ?? "", origin: request.origin)
                 presentAuthUI?()
-            }
+            }, dismiss: { [weak self] in self?.bridgeStampRequest = nil })
         } catch { return .cancel }
     }
 
     func answerBridgeStamp(_ decision: PDFStampDecision, afterDismissal: Bool = false) {
         if afterDismissal { pendingStampDecision = decision; bridgeStampRequest = nil; return }
-        let continuation = stampContinuation; stampContinuation = nil; bridgeStampRequest = nil
-        continuation?.resume(returning: decision)
+        bridgeStampRequest = nil
+        stampDecision.resolve(decision)
     }
 
     private func authorize(_ request: BridgeRequest) async -> BridgeDecision {
         guard !demoMode, !signing, !obtainingPIN, consentRequest == nil else { return .deny }
-        let origin = request.origin ?? "local"
-        // the page picked a certificate from /certificates (several cards may be connected): consent + PIN for THAT card
         let target = request.certificateSHA1.flatMap { sha in cards.first { $0.certificate?.sha1Hex == sha }?.certificate }
             ?? (request.certificateSHA1 == nil ? certificate : nil)
-        let certID = request.certificateSHA1 ?? target?.sha1Hex
-        let holder = target?.holder ?? request.certificateHolder ?? "—"
-        if (trustedUntil[origin] ?? .distantPast) < Date() {
-            consentRequest = ConsentRequest(request: request, holder: holder,
-                                            hasStoredPIN: certID.map { vault.hasPIN(certID: $0) } ?? false)
-            presentAuthUI?()
-            let answer = await withCheckedContinuation { consentContinuation = $0 }
-            consentRequest = nil
-            guard answer.approved else { return .deny }
-            if answer.trust { trustedUntil[origin] = Date().addingTimeInterval(600) }
-        }
-        if request.pinIncluded { return .allow(pin: nil, certificateSHA1: certID) }
-        guard let certID, let entry = await obtainPIN(certID: certID, holder: holder, allowRemember: false) else { return .deny }
-        return .allow(pin: entry.pin, certificateSHA1: certID)
+        return await authorization.authorize(request, target: target, vault: vault,
+            present: { [weak self] in self?.presentAuthUI?() },
+            obtainPIN: { [weak self] certID, holder in
+                await self?.obtainPIN(certID: certID, holder: holder, allowRemember: false)?.pin
+            })
     }
 
     func finishBridgeStampDismissal() {
@@ -947,15 +893,10 @@ final class AppModel {
     }
 
     func answerConsent(approved: Bool, trust: Bool) {
-        consentContinuation?.resume(returning: (approved, trust))
-        consentContinuation = nil
+        authorization.answer(approved: approved, trust: trust)
     }
 
     // MARK: - Activity
-
-    private func loadDocumentLibrary() {
-        savedDocuments = activityStore.loadOrMigrateDocuments()
-    }
 
     /// Details are checked independently of the Verify workspace and do not create a history entry.
     func inspectDocument(_ url: URL, companions: [URL] = []) async throws -> [Validator.Report] {
@@ -964,79 +905,16 @@ final class AppModel {
             return ScreenshotFixtures.reports(ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "documents-valid")
         }
         #endif
-        if demoMode { return await DemoDocumentVerifier().verify(url) }
         return try await documentVerifier.inspect(url, companions: companions)
     }
 
-    func log(_ item: ActivityItem) {
-        if item.isSavedDocument, let url = item.fileURL {
-            savedDocuments.removeAll { $0.fileURL?.standardizedFileURL == url.standardizedFileURL }
-            savedDocuments.insert(item, at: 0)
-            activityStore.saveDocuments(savedDocuments)
-            if !demoMode { DocumentDiscovery.refresh() }
-        }
-        activity.insert(item, at: 0)
-        if activity.count > 100 { activity.removeLast(activity.count - 100) }
-        saveActivity()
-    }
-
-    /// Recent documents: signed/verified files that are still on disk (browser requests have no file), newer than the
-    /// last "Golește" in the popover. Clearing recents keeps the Activity history; that one has its own clear.
-    var recentDocuments: [ActivityItem] {
-        activity.filter { item in
-            item.date > recentsClearedAt && (item.fileURL.map(Self.fileExists) ?? false)
-        }
-    }
-
-    private(set) var recentsClearedAt = Date.distantPast
-
-    func clearRecents() {
-        recentsClearedAt = Date()
-        activityStore.recentsClearedAt = recentsClearedAt
-    }
-
-    /// Forget entries whose file was moved or deleted (called when a list of them is shown).
-    func pruneMissingFiles() {
-        let kept = activity.filter { $0.fileURL.map(Self.fileExists) ?? true }
-        guard kept.count != activity.count else { return }
-        activity = kept
-        saveActivity()
-    }
-
-    /// Called only after the user confirms the selected saved outputs.
-    func deleteSavedDocuments(_ items: [ActivityItem]) -> Bool {
-        var failed = false
-        for item in items {
-            guard savedDocuments.contains(where: { $0.id == item.id }), let url = item.fileURL else { continue }
-            let scoped = url.startAccessingSecurityScopedResource()
-            defer { if scoped { url.stopAccessingSecurityScopedResource() } }
-            do {
-                let values = try url.resourceValues(forKeys: [.isRegularFileKey, .isSymbolicLinkKey])
-                guard values.isRegularFile == true, values.isSymbolicLink != true else { failed = true; continue }
-                try FileManager.default.removeItem(at: url)
-                savedDocuments.removeAll { $0.id == item.id }
-            } catch let error as NSError where error.domain == NSCocoaErrorDomain &&
-                (error.code == NSFileNoSuchFileError || error.code == NSFileReadNoSuchFileError) {
-                savedDocuments.removeAll { $0.id == item.id }
-            } catch { failed = true }
-        }
-        activityStore.saveDocuments(savedDocuments)
-        if !demoMode { DocumentDiscovery.refresh() }
-        return !failed
-    }
-
-    func clearActivity() {
-        activity.removeAll()
-        saveActivity()
-    }
-
-    private func saveActivity() {
-        activityStore.save(activity)
-    }
-
-    private static func fileExists(_ url: URL) -> Bool {
-        FileManager.default.fileExists(atPath: url.path(percentEncoded: false))
-    }
+    func log(_ item: ActivityItem) { library.log(item) }
+    var recentDocuments: [ActivityItem] { library.recentDocuments }
+    var recentsClearedAt: Date { library.recentsClearedAt }
+    func clearRecents() { library.clearRecents() }
+    func pruneMissingFiles() { library.pruneMissingFiles() }
+    func deleteSavedDocuments(_ items: [ActivityItem]) -> Bool { library.deleteSavedDocuments(items) }
+    func clearActivity() { library.clearActivity() }
 
     // MARK: - Errors (docs/09 §3.3)
 
@@ -1067,19 +945,3 @@ final class AppModel {
         }
     }
 }
-
-/// Reader chosen by the monitor, read by the transport factory on the card queue.
-private final class SelectedReader: @unchecked Sendable {
-    private let lock = NSLock()
-    private var value: String?
-    var name: String? {
-        get { lock.lock(); defer { lock.unlock() }; return value }
-        set { lock.lock(); value = newValue; lock.unlock() }
-    }
-}
-
-private final class DecisionBox: @unchecked Sendable {
-    var value: BridgeDecision = .deny
-}
-
-private final class StampDecisionBox: @unchecked Sendable { var value: PDFStampDecision = .cancel }

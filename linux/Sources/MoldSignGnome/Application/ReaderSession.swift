@@ -17,18 +17,19 @@ final class ReaderSession {
     private var lastSnapshot = ReaderSnapshot()
     private var hasReceivedSnapshot = false
     private let service: SigningService
-    private let vault: any PINStoring
+    private let cardData: any CardDataProviding
     private let monitor: any CardMonitoring
     private let transportFactory: ((String?) throws -> CardTransport)?
     private let selectedReader = SelectedReader()
-    private let cardQueue = DispatchQueue(label: "md.moldsign.reader")
     #if MOLDSIGN_DEMO
     private let demo = DemoMode.current
     #endif
 
     init(service: SigningService, vault: any PINStoring, monitor: any CardMonitoring,
-         transportFactory: ((String?) throws -> CardTransport)?) {
-        self.service = service; self.vault = vault; self.monitor = monitor; self.transportFactory = transportFactory
+         transportFactory: ((String?) throws -> CardTransport)?,
+         cardData: (any CardDataProviding)? = nil) {
+        self.service = service; self.monitor = monitor; self.transportFactory = transportFactory
+        self.cardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
     }
 
     func start() {
@@ -75,40 +76,14 @@ final class ReaderSession {
 
     /// PIN-less certificate read so the UI can greet the holder (MAC-02 equivalent). Ignored if the card changed meanwhile.
     func readCertificate(of card: CardSlot) {
-        #if MOLDSIGN_DEMO
-        if let demo {
-            // a short "reading" phase, like a real PIN-less read
-            after(milliseconds: 700) { [weak self] in
-                guard let self,
-                      let index = self.cards.firstIndex(where: { $0.reader == card.reader && $0.generation == card.generation })
-                else { return }
-                self.cards[index].certificate = demo.certificates[card.reader]
-                self.cards[index].problem = demo.certificates[card.reader] == nil ? demo.failure : nil
-                self.recomputeStatus()
-            }
-            return
-        }
-        #endif
-        let service = self.service
-        let vault = self.vault
-        let reader = card.reader
-        cardQueue.async { [weak self] in
-            let result = Result { try service.readCertificate(reader: reader) }
-            let stored = (try? result.get()).map { vault.hasPIN(certID: $0.sha1Hex) } ?? false
-            onMain { [weak self] in
-                guard let self,
-                      let index = self.cards.firstIndex(where: { $0.reader == reader && $0.generation == card.generation })
-                else { return }
-                switch result {
-                case .success(let cert):
-                    self.cards[index].certificate = cert
-                    self.cards[index].problem = nil
-                    self.cards[index].hasStoredPIN = stored
-                case .failure(let error):
-                    self.cards[index].problem = UserFacingError.describe(error).message
-                }
-                self.recomputeStatus()
-            }
+        cardData.read(reader: card.reader) { [weak self] result in
+            guard let self,
+                  let index = self.cards.firstIndex(where: { $0.reader == card.reader && $0.generation == card.generation })
+            else { return }
+            self.cards[index].certificate = result.certificate
+            self.cards[index].problem = result.problem
+            self.cards[index].hasStoredPIN = result.hasStoredPIN
+            self.recomputeStatus()
         }
     }
 

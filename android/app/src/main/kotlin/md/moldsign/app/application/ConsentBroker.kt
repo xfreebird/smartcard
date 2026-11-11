@@ -20,8 +20,24 @@ import md.moldsign.core.ConsentResult
  */
 class ConsentBroker {
     class PendingConsent(val request: ConsentRequest, private val result: CompletableDeferred<ConsentResult>) {
-        fun answer(value: ConsentResult) {
-            result.complete(value)
+        private var closed = false
+        private var submitted: ConsentResult? = null
+        private var delivered: ConsentResult? = null
+
+        @Synchronized fun answer(value: ConsentResult) {
+            if (closed || !result.complete(value)) {
+                if (value is ConsentResult.Pin && value.pin !== (submitted as? ConsentResult.Pin)?.pin &&
+                    value.pin !== (delivered as? ConsentResult.Pin)?.pin) value.pin.fill('\u0000')
+            } else submitted = value
+        }
+
+        @Synchronized internal fun finish(consumed: ConsentResult) {
+            closed = true
+            val unused = submitted
+            if (unused is ConsentResult.Pin && unused !== consumed) unused.pin.fill('\u0000')
+            delivered = consumed
+            submitted = null
+            result.cancel()
         }
     }
 
@@ -34,15 +50,24 @@ class ConsentBroker {
      */
     fun obtain(request: ConsentRequest, timeoutMs: Long? = null): ConsentResult {
         val deferred = CompletableDeferred<ConsentResult>()
-        _pending.value = PendingConsent(request, deferred)
+        val prompt = PendingConsent(request, deferred)
+        if (!_pending.compareAndSet(null, prompt)) {
+            deferred.cancel()
+            return ConsentResult.Cancelled
+        }
+        var answer: ConsentResult = ConsentResult.Cancelled
         try {
-            return runBlocking {
+            answer = runBlocking {
                 if (timeoutMs == null) deferred.await() else withTimeoutOrNull(timeoutMs) { deferred.await() } ?: ConsentResult.Cancelled
             }
+            return answer
         } finally {
-            _pending.value = null
+            prompt.finish(answer)
+            _pending.compareAndSet(prompt, null)
         }
     }
+
+    fun cancelPending() { _pending.value?.answer(ConsentResult.Cancelled) }
 
     val consent = Consent { request -> obtain(request) }
 }

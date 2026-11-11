@@ -6,6 +6,8 @@ namespace MoldSign.App.Services;
 /// <summary>Composition-time substitutions for hardware, documents, credentials, consent and browser lifecycle.</summary>
 public sealed record AppServiceDependencies
 {
+    public string? DemoScenario { get; init; }
+    public ICardDataProvider? CardData { get; init; }
     public IReaderSource? Readers { get; init; }
     public Func<string?, ICardTransport>? Transport { get; init; }
     public IDocumentSigner? Documents { get; init; }

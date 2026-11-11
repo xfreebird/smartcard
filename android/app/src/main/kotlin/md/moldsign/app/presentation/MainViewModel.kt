@@ -5,18 +5,18 @@ import md.moldsign.app.application.AppContainer
 import md.moldsign.app.MoldSignApp
 import md.moldsign.app.R
 import md.moldsign.app.application.AppStatus
+import md.moldsign.app.application.DocumentDataProvider
+import md.moldsign.app.infrastructure.LiveDocumentDataProvider
 import md.moldsign.app.application.DocumentAccess
 import md.moldsign.app.application.PickedDocument
 import md.moldsign.app.application.SignItem
 import md.moldsign.app.application.VerifyOutcome
 import md.moldsign.app.infrastructure.AndroidDocumentAccess
 import md.moldsign.app.infrastructure.SignedFileStore
-import md.moldsign.app.infrastructure.demo.DemoFixtures
-import md.moldsign.app.infrastructure.demo.DemoOutputRenderer
 import md.moldsign.core.Consent
 import md.moldsign.core.ConsentResult
 
-import md.moldsign.core.BatchConsent
+import md.moldsign.app.application.SignDocuments
 
 import android.app.Application
 import android.content.Intent
@@ -49,21 +49,13 @@ import md.moldsign.core.Verdict
 import java.io.File
 import java.util.UUID
 
-sealed interface UiMessage {
-    data class Error(val error: Throwable) : UiMessage
-    data class Text(@StringRes val res: Int) : UiMessage
-
-    /** A signed document was saved at [uri]: the snackbar offers to open it. */
-    data class Saved(@StringRes val res: Int, val uri: Uri) : UiMessage
-
-    /** "Why can't I sign": the status light's text. */
-    data class Status(val status: AppStatus) : UiMessage
-}
-
 class MainViewModel @JvmOverloads constructor(
     app: Application,
     private val documents: DocumentAccess = AndroidDocumentAccess(app),
     private val container: AppContainer = (app as MoldSignApp).container,
+    private val documentData: DocumentDataProvider =
+        if (container.userDemoMode) container.previewData else LiveDocumentDataProvider(documents),
+    private val signDocuments: SignDocuments = container.signingWorkflow(documentData),
 ) : AndroidViewModel(app) {
 
     suspend fun encryptionIdentities(): Pair<String?,List<md.moldsign.core.protection.CardEncryptionIdentity>> = withContext(Dispatchers.IO) {
@@ -118,9 +110,9 @@ class MainViewModel @JvmOverloads constructor(
     internal fun previewCompletedResults() {
         if (!md.moldsign.app.DemoMode.supportsResultPreview || !container.isDemo) return
         runJob(busyLight = true) {
-            _signedResults.value = listOf("Application", "Invoice", "Agreement").map { name ->
-                val fileName = "DEMO-$name-NOT-SIGNED.pdf"
-                fileName to container.signedFiles.save(fileName, "application/pdf", DemoOutputRenderer.render())
+            _signedResults.value = container.previewData.completedNames().map { name ->
+                val fileName = container.previewData.outputName(name)
+                fileName to container.signedFiles.save(fileName, "application/pdf", container.previewData.outputBytes())
             }
         }
     }
@@ -130,7 +122,7 @@ class MainViewModel @JvmOverloads constructor(
     internal fun previewVerification(name: String, reports: List<md.moldsign.core.ValidationReport>) {
         if (!md.moldsign.app.DemoMode.supportsResultPreview || !container.isDemo) return
         verifyJob?.cancel()
-        val doc = PickedDocument(Uri.parse("demo://capture/" + name), name, 39_142, if (name.endsWith(".xml")) "application/xml" else "application/pdf")
+        val doc = container.previewData.verificationPreview(name)
         val outcome = VerifyOutcome(reports)
         _verifyDoc.value = doc
         _verifyDetached.value = emptyList()
@@ -195,9 +187,7 @@ class MainViewModel @JvmOverloads constructor(
     init { if (demoMode) seedPreviewDocuments() }
 
     private fun seedPreviewDocuments() {
-        _signItems.value = listOf("DEMO-contract.pdf", "DEMO-request.pdf").map {
-            SignItem(PickedDocument(Uri.parse("demo://sample/$it"), it, DemoFixtures.samplePdf.size.toLong(), "application/pdf"))
-        }
+        _signItems.value = container.previewData.inputs().map(::SignItem)
     }
 
     fun consumeMessage() {
@@ -311,30 +301,7 @@ documents.copy(source, target)
     private fun signItems(items: List<SignItem>) {
         if (items.isEmpty() || _working.value) return
         _signedResults.value = emptyList()
-        if (demoMode) {
-            if (_signItems.value.isEmpty()) return
-            runJob(busyLight = true) {
-                // Input comes from a fixed fixture, never from a picked/shared real document or the vault.
-                val card = container.wallet.value.selectedCard
-                var lastPreview: Uri? = null
-                items.forEach { item ->
-                    container.signingService.sign(
-                        Document(item.doc.name, DemoFixtures.samplePdf), item.format,
-                        Consent { ConsentResult.Cancelled }, reader = card?.readerId,
-                    )
-                    val fixtureName = item.doc.name.removePrefix("DEMO-").substringBeforeLast('.')
-                    val outputName = "DEMO-$fixtureName-NOT-SIGNED.pdf"
-                    val saved = container.signedFiles.save(outputName, "application/pdf", DemoOutputRenderer.render())
-                    container.activity.document(outputName, saved, ok = true, text(R.string.demo_mode_result), signedOutput = true)
-                    _signedResults.update { it + (outputName to saved) }
-                    lastPreview = saved
-                    _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
-                }
-                lastPreview?.let { _message.value = UiMessage.Saved(R.string.demo_mode_result, it) }
-            }
-            return
-        }
-        if (container.isDemo) return
+        if (container.isDemo && !demoMode) return
         val status = container.status.value
         val card = status.wallet.selectedCard
         val certificate = card?.certificate
@@ -343,39 +310,28 @@ documents.copy(source, target)
             return
         }
         runJob(busyLight = true) {
-            val service = container.signingService
             var lastSaved: Uri? = null
-            BatchConsent(
-                container.consentBroker.consent,
-                documentNames = items.map { it.doc.name },
-                batchFormat = items.map { it.format.label }.distinct().joinToString(" · "),
-                expectedCertificateSha1 = certificate.sha1Hex,
-                allowedFormats = items.map { it.format.label }.toSet(),
-            ).use { consent ->
-                for (item in items) {
-                    _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = null) else it } }
-                    try {
-                        val input = Document(item.doc.name, documents.readBytes(item.doc.uri))
-                        val result = service.sign(input, item.format, consent, reader = card.readerId, expectedCertificateSha1 = certificate.sha1Hex, placement = item.stamp)
-                        val outputName = SignFormat.outputName(item.doc.name, item.format)
-                        val saved = container.signedFiles.save(outputName, if (item.format.xadesLevel == null) "application/pdf" else "application/xml", result.output)
-                        container.activity.document(outputName, saved, ok = true, text(R.string.activity_signed, item.format.label), signedOutput = true)
-                        _signedResults.update { it + (outputName to saved) }
-                        lastSaved = saved
-                    } catch (e: CancellationException) {
-                        throw e
-                    } catch (e: CardError.Cancelled) {
-                        throw e
-                    } catch (e: Throwable) {
-                        _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = e) else it } }
-                        log(item.doc, ok = false, text(R.string.activity_failed, item.format.label, errorText(getApplication(), e)))
-                        if (e is CardError.Format || e is CardError.Network || e is java.io.IOException) continue
-                        throw e
+            val consent = if (demoMode) Consent { ConsentResult.Cancelled } else container.consentBroker.consent
+            signDocuments.execute(items, card.readerId, certificate.sha1Hex, consent) { event ->
+                val item = event.item
+                when (event) {
+                    is SignDocuments.Event.Started -> _signItems.update { list ->
+                        list.map { if (it.doc.uri == item.doc.uri) it.copy(error = null) else it }
                     }
-                    _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
+                    is SignDocuments.Event.Saved -> {
+                        container.activity.document(event.name, event.uri, ok = true,
+                            if (demoMode) text(R.string.demo_mode_result) else text(R.string.activity_signed, item.format.label), signedOutput = true)
+                        _signedResults.update { it + (event.name to event.uri) }
+                        lastSaved = event.uri
+                        _signItems.update { list -> list.filterNot { it.doc.uri == item.doc.uri } }
+                    }
+                    is SignDocuments.Event.Failed -> {
+                        _signItems.update { list -> list.map { if (it.doc.uri == item.doc.uri) it.copy(error = event.error) else it } }
+                        log(item.doc, ok = false, text(R.string.activity_failed, item.format.label, errorText(getApplication(), event.error)))
+                    }
                 }
             }
-            lastSaved?.let { _message.value = UiMessage.Saved(if (SignedFileStore.inDownloads) R.string.signed_saved else R.string.signed_saved_app, it) }
+            lastSaved?.let { _message.value = UiMessage.Saved(if (demoMode) R.string.demo_mode_result else if (SignedFileStore.inDownloads) R.string.signed_saved else R.string.signed_saved_app, it) }
         }
     }
 
@@ -385,9 +341,9 @@ documents.copy(source, target)
     fun pickForVerify(uri: Uri?) {
         uri ?: return
         if (demoMode) {
-            _verifyDoc.value = PickedDocument(Uri.parse("demo://sample/DEMO-contract.pdf"), "DEMO-contract.pdf", DemoFixtures.samplePdf.size.toLong(), "application/pdf")
+            _verifyDoc.value = container.previewData.verificationInput()
             _verifyDetached.value = emptyList()
-            _verifyOutcome.value = VerifyOutcome(container.signingService.verify(Document("DEMO-contract.pdf", DemoFixtures.samplePdf)))
+            _verifyOutcome.value = VerifyOutcome(container.signingService.verify(documentData.document(container.previewData.verificationInput())))
             return
         }
         documents.keepAccess(uri)
@@ -452,8 +408,8 @@ documents.copy(source, target)
         val before = _verifyOutcome.value
         try {
             val outcome = withContext(Dispatchers.IO) {
-                val attached = _verifyDetached.value.map { Document(it.name, documents.readBytes(it.uri)) }
-                VerifyOutcome(container.signingService.verify(Document(doc.name, documents.readBytes(doc.uri)), attached))
+                val attached = _verifyDetached.value.map { documentData.document(it) }
+                VerifyOutcome(container.signingService.verify(documentData.document(doc), attached))
             }
             _verifyOutcome.value = outcome
             _verifiedDocuments.update { entries -> entries.filterNot { it.first.uri == doc.uri } + (doc to outcome) }
@@ -485,9 +441,9 @@ documents.copy(source, target)
             val doc = documents.describe(uri)
             val companions = detached.map { companion ->
                 val described = documents.describe(companion)
-                Document(described.name, documents.readBytes(companion))
+                documentData.document(described)
             }
-            VerifyOutcome(container.signingService.verify(Document(doc.name, documents.readBytes(uri)), companions))
+            VerifyOutcome(container.signingService.verify(documentData.document(doc), companions))
         }
 
     /** Re-checks that every document entry is still reachable (called when the list is shown). */

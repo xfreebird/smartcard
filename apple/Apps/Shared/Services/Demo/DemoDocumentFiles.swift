@@ -1,7 +1,7 @@
 import Foundation
 
 /// Outputs are visibly unsigned samples, never copies/modifications of the user's imported bytes.
-struct DemoDocumentFiles: Sendable {
+struct DemoDocumentFiles: DemoDocumentProviding {
     let directory: URL
     let notice: String
 

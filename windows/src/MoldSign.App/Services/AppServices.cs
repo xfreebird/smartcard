@@ -6,18 +6,6 @@ using MoldSign.Desktop;
 
 namespace MoldSign.App.Services;
 
-/// <summary>Result of a UI-triggered operation, ready for an InfoBar.</summary>
-public sealed record OperationOutcome(bool Success, string Message, IReadOnlyList<string> Outputs)
-{
-    public IReadOnlyDictionary<string, string> FailedInputs { get; init; } = new Dictionary<string, string>();
-    public IReadOnlyList<VerificationReport>? Reports { get; init; }
-    public IReadOnlyList<string> CompletedInputs { get; init; } = [];
-    public string? FailedInput { get; init; }
-}
-
-/// <summary>One document to sign and the format chosen for it on the Sign page (PDF: PAdES-T or XAdES; others: XAdES).</summary>
-public sealed record DocumentJob(string Path, SignatureFormat Format, PdfStampPlacement? Stamp = null);
-
 /// <summary>
 /// Composition root of the tray app: SigningService (Core) + ReaderWatcher + PinVault + BridgeHost +
 /// ConsentCoordinator. Card work runs on the thread pool; AppState is only touched on the UI thread.
@@ -39,9 +27,9 @@ public sealed class AppServices : IAsyncDisposable
     private readonly DemoSession? _demo;
     private bool _demoSelectionApplied;
     private readonly IDocumentSigner _documentSigner;
-    private readonly IDocumentVerifier _verifier;
+    private readonly VerifyDocument _verifyDocument;
     private readonly DocumentBatchSigner _batches;
-    private readonly Func<string, Task<CertificateSummary>> _certificates;
+    private readonly ICardDataProvider _cardData;
     private readonly ConsentProvider _authorize;
 
     /// <param name="ui">UI-thread dispatcher.</param>
@@ -51,18 +39,26 @@ public sealed class AppServices : IAsyncDisposable
         dependencies ??= new AppServiceDependencies();
         _ui = ui;
         Settings = AppSettings.Load();
-        Readers = DemoMode.Scenario is { } scenario ? new DemoReaderSource(scenario) : dependencies.Readers ?? new ReaderWatcher();
-        Pins = Readers is DemoReaderSource ? new DemoPinVault() : dependencies.Pins ?? new PinVault(ownerWindow);
+        var demoScenario = dependencies.DemoScenario ?? DemoMode.Scenario;
+        IsDemo = demoScenario is not null;
+        Readers = demoScenario is { } scenario ? new DemoReaderSource(scenario) : dependencies.Readers ?? new ReaderWatcher();
+        Pins = IsDemo ? new DemoPinVault() : dependencies.Pins ?? new PinVault(ownerWindow);
         Consent = new ConsentCoordinator(ui, Pins, Settings);
         // Every operation names its PC/SC reader (the wallet selection); null = the first reader with a card.
-        _demo = Readers is DemoReaderSource ? new DemoSession() : null;
+        _demo = IsDemo ? new DemoSession() : null;
         Func<string?, ICardTransport> transport = IsDemo
             ? _ => throw new InvalidOperationException("Demo mode never opens a card transport.")
             : dependencies.Transport ?? (reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
         Signing = new SigningService(transport);
         _documentSigner = IsDemo ? _demo! : dependencies.Documents ?? Signing;
-        _verifier = IsDemo ? _demo! : dependencies.Verifier ?? Signing;
-        _certificates = dependencies.Certificates ?? (reader => Task.Run(() => Signing.Certificate(reader)));
+#if DEBUG
+        if (IsDemo) _documentSigner = ScenarioDocumentSigner.Wrap(_documentSigner);
+#endif
+        _verifyDocument = new VerifyDocument(IsDemo ? _demo! : dependencies.Verifier ?? Signing,
+            path => !IsDemo || IsDemoDocument(path));
+        _cardData = IsDemo ? new DemoCardDataProvider(demoScenario)
+            : dependencies.CardData ?? new LiveCardDataProvider(
+                dependencies.Certificates ?? (reader => Task.Run(() => Signing.Certificate(reader))));
         var authorization = dependencies.Authorize ?? Consent.Request;
         _authorize = IsDemo ? _ => throw new InvalidOperationException("Demo mode never requests a real PIN.")
             : request => _disposed ? ConsentResult.Cancelled : authorization(request);
@@ -137,7 +133,7 @@ public sealed class AppServices : IAsyncDisposable
     internal UpdateChecker Updates { get; } = new();
     public IPinVault Pins { get; }
     public IReaderSource Readers { get; }
-    public bool IsDemo => Readers is DemoReaderSource;
+    public bool IsDemo { get; }
     public bool IsOperationActive => State.IsBusy || Volatile.Read(ref _activeOperations) > 0;
     public IReadOnlyList<string> DemoDocuments => _demo?.Documents ?? [];
     public bool IsDemoDocument(string path) => _demo?.Owns(path) == true;
@@ -289,22 +285,14 @@ public sealed class AppServices : IAsyncDisposable
     /// <summary>docs/09 §3.7: PIN-less certificate read so the wallet can greet the holder (full mutual auth, card lock).</summary>
     private async Task ReadCertificateAsync(WalletCard card)
     {
-        if (IsDemo)
-        {
-            var scenario = DemoMode.Scenario;
-            if (scenario == "reading") return;
-            if (scenario == "blocked") State.FailRead(card, CardErrorKind.PinBlocked);
-            else if (scenario == "stuck") State.FailRead(card, CardErrorKind.CardStateStuck);
-            else State.CompleteRead(card, DemoReaderSource.Certificate(card.Reader));
-            if (scenario == "signing") State.SetBusy(true);
-            return;
-        }
         Interlocked.Increment(ref _activeOperations);
         try
         {
-            var certificate = await _certificates(card.Reader);
+            var result = await _cardData.ReadAsync(card.Reader);
             if (_disposed) return;
-            State.CompleteRead(card, certificate); // ignored when the card changed meanwhile
+            if (result.Problem is { } problem) State.FailRead(card, problem);
+            else if (result.Certificate is { } certificate) State.CompleteRead(card, certificate);
+            if (result.Busy) State.SetBusy(true);
         }
         catch (CardException e)
         {
@@ -400,41 +388,43 @@ public sealed class AppServices : IAsyncDisposable
 
     public Task<OperationOutcome> VerifyAsync(string path, IReadOnlyList<string>? detachedDocs = null, bool recordActivity = true)
     {
-        if (IsDemo && (!IsDemoDocument(path) || detachedDocs?.Any(file => !IsDemoDocument(file)) == true))
-            return Task.FromResult(new OperationOutcome(false, Loc.Get("demo_fixture_only"), []));
         Interlocked.Increment(ref _activeOperations);
         return Task.Run(() =>
-    {
-        try
         {
-            var reports = _verifier.Verify(path, detachedDocs);
-            var verdict = Validator.OverallVerdict(reports);
-            var allValid = verdict == Verdict.Valid;
-            if (recordActivity) Record(Path.GetFileName(path), IsDemo ? Loc.Get("demo_verify_success") : Loc.Get("Activity_Verified"), allValid, path);
-            var key = verdict switch
+            try
             {
-                Verdict.Valid => "Verdict_Valid",
-                Verdict.Invalid => "Verdict_Invalid",
-                Verdict.Indeterminate => "Verdict_Unknown",
-                _ => "Verdict_Unsigned",
-            };
-            return new OperationOutcome(allValid, IsDemo && !DemoMode.ScreenshotCapture ? Loc.Get("demo_verify_success") : Loc.Get(key), []) { Reports = reports };
-        }
-        catch (NotImplementedException)
-        {
-            return new OperationOutcome(false, Loc.Get("Error_NotImplemented"), []);
-        }
-        catch (IOException e)
-        {
-            return new OperationOutcome(false, e.Message, []);
-        }
-        catch (Exception e)
-        {
-            AppLog.Error(e);
-            return new OperationOutcome(false, Loc.Get("Verify_Failed"), []);
-        }
-        finally { Interlocked.Decrement(ref _activeOperations); }
-    });
+                var result = _verifyDocument.Execute(path, detachedDocs);
+                if (result.Status != VerificationStatus.Completed)
+                {
+                    if (result.Status == VerificationStatus.Failed && result.Error is { } error) AppLog.Error(error);
+                    var message = result.Status switch
+                    {
+                        VerificationStatus.Rejected => Loc.Get("demo_fixture_only"),
+                        VerificationStatus.Unsupported => Loc.Get("Error_NotImplemented"),
+                        VerificationStatus.Unreadable => result.Error!.Message,
+                        _ => Loc.Get("Verify_Failed"),
+                    };
+                    return new OperationOutcome(false, message, []);
+                }
+                var allValid = result.Verdict == Verdict.Valid;
+                if (recordActivity) Record(Path.GetFileName(path), IsDemo ? Loc.Get("demo_verify_success") : Loc.Get("Activity_Verified"), allValid, path);
+                var key = result.Verdict switch
+                {
+                    Verdict.Valid => "Verdict_Valid",
+                    Verdict.Invalid => "Verdict_Invalid",
+                    Verdict.Indeterminate => "Verdict_Unknown",
+                    _ => "Verdict_Unsigned",
+                };
+                return new OperationOutcome(allValid, IsDemo && !DemoMode.ScreenshotCapture
+                    ? Loc.Get("demo_verify_success") : Loc.Get(key), []) { Reports = result.Reports };
+            }
+            catch (Exception error)
+            {
+                AppLog.Error(error);
+                return new OperationOutcome(false, Loc.Get("Verify_Failed"), []);
+            }
+            finally { Interlocked.Decrement(ref _activeOperations); }
+        });
     }
 
     public async ValueTask DisposeAsync()

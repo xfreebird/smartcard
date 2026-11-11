@@ -24,7 +24,7 @@
                 Style="{StaticResource MsTitleTextStyle}"
                 Text="Documente" />
             <Button
-                x:Name="ClearButton"
+                x:Name="ClearButton" AutomationProperties.AutomationId="ClearDocuments"
                 Grid.Row="1" HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Click="OnClearClick"
@@ -35,9 +35,9 @@
                 </StackPanel>
             </Button>
         </Grid>
-            <ComboBox x:Name="DocumentFilter" SelectionChanged="OnFilterChanged" SelectedIndex="0" HorizontalAlignment="Stretch">
-                <ComboBoxItem x:Name="SignedFilter" />
-                <ComboBoxItem x:Name="HistoryFilter" />
+            <ComboBox x:Name="DocumentFilter" AutomationProperties.AutomationId="DocumentFilter" SelectionChanged="OnFilterChanged" SelectedIndex="0" HorizontalAlignment="Stretch">
+                <ComboBoxItem x:Name="SignedFilter" AutomationProperties.AutomationId="SignedFilter" />
+                <ComboBoxItem x:Name="HistoryFilter" AutomationProperties.AutomationId="HistoryFilter" />
             </ComboBox>
         </StackPanel>
 
@@ -59,7 +59,7 @@
                         </Grid.ColumnDefinitions>
                         <FontIcon VerticalAlignment="Center" Glyph="{x:Bind Glyph}" />
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="{x:Bind FileName}" TextTrimming="CharacterEllipsis" />
+                            <TextBlock AutomationProperties.AutomationId="SavedDocumentName" Text="{x:Bind FileName}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind ActionLabel}" />
                             <Button Content="{x:Bind VerifyLabel}" Visibility="{x:Bind VerifyVisibility}" Click="OnVerifyClick" Margin="0,4,0,0" />
                             <TextBlock Text="{x:Bind OpenLabel}" Foreground="{ThemeResource BrandBrush}" FontSize="12" />

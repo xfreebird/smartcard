@@ -9,10 +9,17 @@ import md.moldsign.core.protection.PasswordFileProtection
 /** Runs inside Android's runtime: legacy-provider support cannot be inferred from JVM tests. */
 class FileProtectionInstrumentation : Instrumentation() {
     private var phase: String? = null
-    override fun onCreate(arguments: Bundle?) { super.onCreate(arguments); phase = arguments?.getString("phase"); start() }
+    private var suite: String? = null
+    override fun onCreate(arguments: Bundle?) { super.onCreate(arguments); phase = arguments?.getString("phase"); suite = arguments?.getString("suite"); start() }
     override fun onStart() {
         val result=Bundle()
         try {
+            if (suite == "journeys") {
+                result.putString("result", JourneyAutomation(this).run())
+                finish(Activity.RESULT_OK, result)
+                return
+            }
+            check(suite == null) { "Unknown integration suite: $suite" }
             if (phase != null) {
                 val scope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.Default)
                 val preferences = "protection-relaunch-integration"
@@ -79,6 +86,7 @@ class FileProtectionInstrumentation : Instrumentation() {
             finish(Activity.RESULT_OK,result)
         } catch(error:Throwable) {
             result.putString("result","FAIL: "+error.javaClass.simpleName+": "+error.message)
+            result.putString("stack", error.stackTraceToString())
             finish(Activity.RESULT_CANCELED,result)
         }
     }

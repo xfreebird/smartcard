@@ -83,7 +83,7 @@ struct PDFStampEditor: View {
             .navigationBarTitleDisplayMode(.inline)
             #endif
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button(L10n.text(.ui_cancel)) { answered = true; onCancel?(); dismiss() } }
+                ToolbarItem(placement: .cancellationAction) { Button(L10n.text(.ui_cancel)) { answered = true; onCancel?(); dismiss() }.accessibilityIdentifier("stamp.cancel") }
                 ToolbarItem(placement: .confirmationAction) {
                     Button(L10n.text(.stamp_save)) {
                         answered = true
@@ -186,7 +186,7 @@ struct PDFStampEditor: View {
                     Spacer()
                     Button { answered = true; onCancel?(); dismiss() } label: {
                         Text(L10n.text(.ui_cancel)).frame(minWidth: 64)
-                    }.keyboardShortcut(.cancelAction)
+                    }.accessibilityIdentifier("stamp.cancel").keyboardShortcut(.cancelAction)
                     Button {
                         answered = true
                         let value = enabled ? placement : nil

@@ -192,6 +192,7 @@ struct ConsentView: View {
             Toggle(L10n.text(.ui_trust_this_site_for_10_minutes), isOn: $trust)
             HStack {
                 Button(L10n.text(.ui_refuse), role: .cancel) { onAnswer(false, false) }
+                    .accessibilityIdentifier("consent.refuse")
                     .keyboardShortcut(.cancelAction)
                 Spacer()
                 Button {

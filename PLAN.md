@@ -1183,3 +1183,58 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 - Budget recovery completed: CLI package repositories42818811932 passed and published0.2.10 feeds/Chocolatey; hosted Website42819453689 passed and deployed the refreshed docs/download metadata. Verified96 public image hashes,21 EN/RO/RU protection-guide pages and0.2.10 update/package feeds. Enlarged iPhone guide callouts inspected outside the screenshot UI. All15 release asset hashes match. Huawei remains the only pending release replacement action, awaiting displayed-CAPTCHA confirmation.
 
 - Owner-requested preproduction GitHub cleanup: removed 152 older Actions artifacts (9.64 GB) and 122 downloads from ten older releases (3.18 GB). Retained all 16 v0.2.10 release files with unchanged IDs, sizes and digests, plus nine current release/store/package/Pages Actions artifacts. Release notes, tags, workflow logs and store submissions are preserved.
+
+## 2026-11-11 — Replaceable app providers and responsibility separation
+
+- Apple (iOS/macOS): route demo signing, verification, card fixtures and fixture files through injected provider contracts; extract observable document-library state, persistence and deletion policy from `AppModel`. Separate domain models, core adapters and memory/live stores into named files.
+- Android: introduce live/demo `DocumentDataProvider` implementations and an injectable `PreviewDataProvider`; remove fixture bytes and preview-document construction from `MainViewModel`. Split combined screens by destination/shared component and split demo adapters from fixture data.
+- Linux: inject certificate/credential reads through `CardDataProviding`, preserving generation checks in `ReaderSession`; inject JSON/in-memory history through `ActivityStoring`. Demo initialization no longer loads or migrates real document history. Split domain types into named files.
+- Windows: use `ICardDataProvider` for both live and demo certificate results; make demo selection explicit in composition instead of inferring it from a reader's concrete type. Separate operation models, reader interface and demo providers.
+- Added regression coverage for document-store switching, deletion boundaries, stale card completions, independent memory stores and Windows certificate-provider failures/scenarios. Tests and native builds are intentionally unrun under the owner's standing rule. Swift syntax parsing, source-move token inventories and `git diff --check` passed; these do not establish type correctness or runtime behavior.
+- Remaining scope and validation handoff: `docs/reports/service-boundaries-refactor-2026-11-11.md`. The larger application/bridge controllers still warrant further coordinator extraction; this change does not claim repository-wide SOLID compliance.
+
+### 2026-11-11 — Second architecture review
+
+- Extracted Apple verification state/request lifetime into an observable feature model with cancellation and generation guards.
+- Fixed Linux verification results appearing under another file's name using a toolkit-independent workspace reducer; reset rejects stale completions.
+- Extracted Android batch consent/sign/save/retry policy into `SignDocuments`, with typed presentation events and a replaceable output store. Presentation failures no longer masquerade as signing failures.
+- Extracted Windows verification/file-admission policy into the Desktop assembly; localization and UI operation accounting remain in the app adapter.
+- Documented consistent platform-native presentation patterns and dependency direction in docs/09. Added Linux/Windows regression cases. Swift syntax and diff whitespace checks passed; builds/tests/runtime validation remain unrun under the owner's rule. Review: `docs/reports/architecture-review-second-pass-2026-11-11.md`.
+
+### 2026-11-11 — Remaining review areas and cross-platform test harnesses
+
+- Extracted Apple PIN/bridge consent, cancellable request lifetime and Apple/Linux demo scenario assembly; added Linux duplicate/stale-consent guards, Android exclusive consent/stamp admission and unused-PIN cleanup, and Windows cancellation independent of UI queue execution. Fixed bridge rejection cleanup to target the requested certificate.
+- Separated shared bridge wire encoding, XML signature parsing, DER and certificate fields. Fixed content-length overflow, empty query-key indexing, control-character JSON escaping, malformed DER slicing/fixed certificate header assumptions, and reversed XML closing-tag ranges. Added regression cases; signing protocol output expectations remain protected by the existing core suites.
+- Added native UI automation runners for macOS/iOS, Android, Linux and Windows, plus integration batches and lifecycle/storage/failure tests. Added a traceability catalog for all 47 documented journeys and three current protection/removal journeys; missing platform/OS automation is explicit, and the strict coverage gate deliberately fails until it is complete.
+- Static syntax/metadata/whitespace checks only. Builds, type checking, all tests and native runtime checks remain unrun under the owner's instruction. Full UI automation coverage is not complete: actual installers, hardware/OS services, file providers/drag-drop/share, Shortcuts/Spotlight/Handoff and live portal flows still require their catalogued checks. No release or push.
+- Review findings, implementation and exact outstanding validation: `docs/reports/architecture-and-test-review-2026-11-11.md`. Execution commands: `docs/testing/README.md`.
+
+
+### 2026-11-11 — Interactive mock UI workflows
+
+- Added injected signing scenarios for success, recoverable document failure and fatal stop across all native platforms. Apple, Android and Linux demo execution now reuses the production batch workflow; mock providers own fictional outputs and do not access credentials or transports.
+- Added native queue/format/stamp/history interactions, verification detail expansion/collapse and cancellation checks. Fixed Apple consent fixture dismissal and Linux history-button accessibility labels exposed by source review.
+- Apple wrapper covers both XCTest suites; Android expects 28 completion records; Linux has 20 scenarios; Windows has 12 across verification/workflow runners. These are authored paths, not passing execution results.
+- Updated journey catalog with eight shared mock scenario groups and linked suites. Static parsing/metadata/whitespace validation only; native builds and tests remain unrun as instructed. Runbook: docs/testing/README.md; implementation and remaining external-integration limits: docs/reports/mock-ui-workflows-2026-11-11.md.
+
+
+### 2026-11-11 — Owner-authorized native build and test execution
+
+- Built macOS/iOS Debug apps, Android Debug/instrumentation and Release APKs, Fedora native GTK/CLI/MCP and Windows WinUI x64 Debug. All builds passed after correcting extracted Swift bridge calls, Android BuildConfig generation and an orphan annotation.
+- Integration batches passed: Apple core/application/MCP plus CLI processes, Android core/USB/application, Fedora core/application/MCP plus CLI processes, and Windows 254 tests. Opt-in live PKI and absent vendor-reference checks remain explicitly skipped; the Linux application suite passed all 31 without skips after resolving an occupied-port prerequisite.
+- Native UI passed on iPhone and iPad (24 paths each), Android (28 completion records plus protection/persistence), Linux (20 scenarios on isolated Xvfb), and Windows (12 cases). Existing iPhone carousel and demo/share/persistence tests also passed. Fixed Android startup navigation before NavHost graph readiness, compact sign identifiers, Apple confirmation/popover test behavior, Windows runner environment encoding, and Linux native menu/disclosure drivers.
+- macOS UI remains blocked before the first test: XCTest times out enabling automation mode. Developer Tools permission is off and logs show denials. Temporary activation/retry/restoration requires the owner's pending confirmation under the computer-use permission policy; no permission has been changed. Do not claim all platform UI tests passed.
+- Evidence and exclusions: docs/reports/native-test-validation-2026-11-11.md; local logs/results in `.local/validation-20261111/`. No commit, push, publishing, real-card attempt or distribution-signing validation.
+
+- Final Android repetition exposed a replaced Compose accessibility node during format selection. The driver now re-queries rejected actions and requires menu dismissal before validating the selected format; failure reports retain stack traces. Both subsequent complete 28-case runs passed. Debug/Release builds and unit tests remain passing.
+
+- macOS authorization follow-up: owner granted full permission. Enabled Terminal Developer Tools through System Settings; retry `mac-ui-r5` still times out before tests. Apple's automation-mode tool reports authentication required, and noninteractive sudo requires an administrator password. A local Terminal authentication prompt is pending; no credential was accessed or stored. Temporary Terminal permission must be restored after the handoff/test session.
+
+- Owner is away from the machine. Cancelled the Terminal administrator prompt and the unresolved System Settings authentication sheet. Terminal Developer Tools is confirmed off; automation mode remains disabled/authentication required. The earlier toggle-on observation was provisional, not a completed permission grant. No temporary security change remains active. macOS UI execution remains pending local administrator authentication; other platform evidence is preserved.
+
+### 2026-11-11 — Commit validation and publishing boundaries
+
+- Connected the native mock UI suites to each selected CI platform job: macOS XCTest, iPhone and iPad simulators, Android emulator instrumentation, Linux GTK under isolated Xvfb/D-Bus, and Windows UIAutomation. Added Apple/Linux application integration tests and Android application unit tests. UI failures remain required by `CI result`; evidence uploads run even after failure.
+- Added a CI Apple launcher that discovers simulator targets, checks the existing macOS XCTest authorization without changing security settings, and ad-hoc signs the Debug mock app without distribution credentials. XCTest result checks reject empty, incomplete, skipped and failed runs.
+- Removed the branch-push trigger from the signed Android builder. Branch pushes now validate without reserving Android versions, signing distribution artifacts or uploading Store versions. Release remains explicit manual dispatch or version-tag push; documentation deployment is unchanged.
+- Local validation: 18 CI/routing/result-contract tests and 12 publisher tests passed; journey traceability, shell syntax, Ruby syntax, whitespace checks and pinned actionlint validation passed. XCTest result checks also passed against the saved iPad verification/workflow bundles. Hosted results are recorded separately after push; prior native validation remains in `docs/reports/native-test-validation-2026-11-11.md`.

@@ -209,7 +209,9 @@ public sealed partial class VerifyPage : Page
         var certificate = new StackPanel { Spacing = 8 };
         foreach (var field in report.CertificateDetails)
             certificate.Children.Add(new TextBlock { Text = $"{CertificateLabels.Label(field.Key)}: {field.Value}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true });
-        content.Children.Add(new Expander { Header = Loc.Get("cert_label_certificate_details"), Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch });
+        var certificateDisclosure = new Expander { Header = Loc.Get("cert_label_certificate_details"), Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(certificateDisclosure, "VerifyCertificateDetails");
+        content.Children.Add(certificateDisclosure);
         var details = new StackPanel { Spacing = 12 };
         details.Children.Add(Field("Verify_Format", SignatureLabels.Human(report.Kind)));
         details.Children.Add(Field("Verify_Identifier", report.Name));
@@ -219,11 +221,13 @@ public sealed partial class VerifyPage : Page
         details.Children.Add(Field("Verify_TsaSignature", Loc.Get(report.TimestampSignatureValidated ? "Verify_Checked" : "Verify_NotChecked")));
         details.Children.Add(Field("Verify_Revocation", Loc.Get(report.RevocationValidated ? "Verify_Checked" : "Verify_NotChecked")));
         if (!string.IsNullOrWhiteSpace(report.Notes)) details.Children.Add(Field("Verify_Notes", report.Notes));
-        content.Children.Add(new Expander
+        var technicalDisclosure = new Expander
         {
             Header = Loc.Get("Verify_Details"), Content = details, HorizontalAlignment = HorizontalAlignment.Stretch,
             HorizontalContentAlignment = HorizontalAlignment.Stretch,
-        });
+        };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(technicalDisclosure, "VerifyTechnicalDetails");
+        content.Children.Add(technicalDisclosure);
         return new Border
         {
             Child = content, Padding = new Thickness(16), CornerRadius = new CornerRadius(14),

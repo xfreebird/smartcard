@@ -33,6 +33,21 @@ enum ScreenshotFixtures {
         return [report]
     }
 
+    @MainActor
+    static func activityRecords(_ scenario: String, in directory: URL) -> [ActivityItem] {
+        let urls = ScreenshotFixtures.documents(in: directory, unavailable: scenario.contains("unavailable"), xml: scenario.contains("incomplete"))
+        var records = urls.map { ActivityItem(title: $0.lastPathComponent, subtitle: L10n.text(.ui_verified), ok: true,
+            fileURL: $0, signedOutput: true) }
+        if scenario == "documents-protection" {
+            records += ["encrypt", "decrypt"].map { operation in
+                let name = operation == "encrypt" ? "Contract.pdf.symmetric.p7m" : "decrypted-Contract.pdf"
+                return ActivityItem(title: name, subtitle: L10n.text(operation == "encrypt" ? .protect_encrypted : .protect_decrypted), ok: true,
+                            fileURL: directory.appendingPathComponent(name), signedOutput: false, protectionOperation: operation)
+            }
+        }
+        return records
+    }
+
     static func documents(in directory: URL, unavailable: Bool = false, xml: Bool = false) -> [URL] {
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         let names = unavailable ? ["Document-indisponibil.pdf"] : xml ? ["Contract-semnat.xml"] :

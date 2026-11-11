@@ -83,7 +83,7 @@
                 <NavigationViewItem
                     x:Uid="NavActivity"
                     Content="Activitate"
-                    Tag="activity">
+                    AutomationProperties.AutomationId="NavDocuments" Tag="activity">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </NavigationViewItem.Icon>

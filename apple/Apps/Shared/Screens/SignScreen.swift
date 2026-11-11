@@ -192,6 +192,7 @@ struct SignScreen: View {
             }
             .buttonStyle(.plain)
             .accessibilityLabel(L10n.text(stackExpanded ? .batch_collapse : .batch_expand))
+            .accessibilityIdentifier("sign.expandBatch")
             Menu {
                 Section(L10n.text(.batch_options)) {
                     Button(L10n.text(.batch_automatic)) {
@@ -200,7 +201,7 @@ struct SignScreen: View {
                     ForEach(SignFormat.allCases.filter { format in model.signItems.allSatisfy { SignFormat.choices(for: $0.url).contains(format) } }) { format in
                         Button(format.label) {
                             for i in model.signItems.indices { model.signItems[i].format = format }
-                        }
+                        }.accessibilityIdentifier("sign.format." + format.rawValue)
                     }
                 }
                 if let source = model.signItems.first(where: { $0.format == .padesT }) {
@@ -210,6 +211,7 @@ struct SignScreen: View {
                 Button(L10n.text(.batch_remove), role: .destructive, action: removeFileGroup)
             } label: { Image(systemName: "ellipsis.circle").frame(width: 44, height: 44) }
                 .accessibilityLabel(L10n.text(.batch_options))
+                .accessibilityIdentifier("sign.batchOptions")
                 .disabled(model.currentStep != nil)
         }
         .padding(16)
@@ -280,6 +282,7 @@ struct SignScreen: View {
                     Spacer(minLength: 8)
                     Button { model.lastSigned = [] } label: { Image(systemName: "xmark.circle.fill").font(.title3).foregroundStyle(.secondary).frame(width: 44, height: 44) }
                         .accessibilityLabel(L10n.text(.results_clear))
+                        .accessibilityIdentifier("sign.clearResults")
                         .disabled(model.currentStep != nil)
                 }
                 ForEach(model.lastSigned, id: \.self) { url in
@@ -391,7 +394,7 @@ struct SignScreen: View {
     }
 
     private func styled(_ button: some View) -> some View {
-        button.controlSize(.regular)
+        button.accessibilityIdentifier("sign.submit").controlSize(.regular)
             .keyboardShortcut(.return, modifiers: .command)
             .disabled(!canSign)
             .help(Text(model.status.canSign ? L10n.text(.ui_sign_the_documents_with_the_selected_card) : model.status.title))
@@ -446,6 +449,7 @@ private struct DocumentRow: View {
             selectionTags
             if let error = item.signingError {
                 Label(error, systemImage: "exclamationmark.triangle.fill")
+                    .accessibilityIdentifier("sign.error." + item.url.lastPathComponent)
                     .font(.caption).foregroundStyle(.red)
                     .fixedSize(horizontal: false, vertical: true)
             }
@@ -468,6 +472,7 @@ private struct DocumentRow: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             if let error = item.signingError {
                 Label(error, systemImage: "exclamationmark.triangle.fill")
+                    .accessibilityIdentifier("sign.error." + item.url.lastPathComponent)
                     .font(.caption).foregroundStyle(.red).padding(.leading, 28)
             }
         }
@@ -486,6 +491,7 @@ private struct DocumentRow: View {
                 selectionTags.padding(.top, 4).frame(maxWidth: .infinity, alignment: .leading)
                 if let error = item.signingError {
                     Label(error, systemImage: "exclamationmark.triangle.fill")
+                    .accessibilityIdentifier("sign.error." + item.url.lastPathComponent)
                         .font(.callout).foregroundStyle(.red)
                         .fixedSize(horizontal: false, vertical: true)
                 }
@@ -506,6 +512,7 @@ private struct DocumentRow: View {
     }
     @ViewBuilder private var tags: some View {
         Label(item.format.label, systemImage: item.format == .padesT ? "doc.richtext" : "doc.badge.gearshape")
+            .accessibilityIdentifier("sign.selectedFormat." + item.format.rawValue)
             .font(.caption2).foregroundStyle(Color.blue).padding(.horizontal, 6).padding(.vertical, 3).background(Color.blue.opacity(0.1), in: Capsule())
         if item.format == .padesT {
             Label(stampSummary, systemImage: "signature")
@@ -519,16 +526,17 @@ private struct DocumentRow: View {
                     Button { format.wrappedValue = choice } label: {
                         if choice == item.format { Label(choice.label, systemImage: "checkmark") }
                         else { Text(choice.label) }
-                    }
+                    }.accessibilityIdentifier("sign.format." + choice.rawValue)
                 }
             }
             if item.format == .padesT {
                 Button { editingStamp = true } label: {
                     Label(L10n.text(item.stamp == nil ? .stamp_add : .stamp_edit), systemImage: "signature")
-                }
+                }.accessibilityIdentifier("sign.editStamp")
             }
             Divider()
             Button(L10n.text(.file_remove), role: .destructive) { model.remove(item) }
+                .accessibilityIdentifier("sign.remove")
         } label: {
             Image(systemName: "ellipsis.circle").frame(minWidth: 44, minHeight: 44)
         }
@@ -538,6 +546,7 @@ private struct DocumentRow: View {
             #endif
             .fixedSize()
             .accessibilityLabel(L10n.text(.file_options))
+            .accessibilityIdentifier("sign.options." + item.url.lastPathComponent)
             .disabled(model.currentStep != nil)
                     #if DEBUG
                     .onAppear {
@@ -613,6 +622,8 @@ struct SignedRow: View {
         }
         .buttonStyle(.plain)
         .onHover { hovered = $0 }
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("sign.result")
     }
 
     private var rowContents: some View {

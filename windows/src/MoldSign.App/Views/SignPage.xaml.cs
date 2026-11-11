@@ -66,16 +66,19 @@ public sealed partial class SignPage : Page
         for (var index=0;index<row.FormatLabels.Count;index++) {
             var selection=index;
             var option=new ToggleMenuFlyoutItem { Text=row.FormatLabels[index], IsChecked=row.FormatIndex==index };
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(option, "SignFormat" + index);
             option.Click += (_,_) => row.FormatIndex=selection;
             menu.Items.Add(option);
         }
         menu.Items.Add(new MenuFlyoutSeparator());
         if (row.Format==SignatureFormat.PadesT) {
             var stamp=new MenuFlyoutItem { Text=row.StampLabel, Tag=row.Path };
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(stamp, "EditStamp");
             stamp.Click += OnStampClick; menu.Items.Add(stamp);
         }
         menu.Items.Add(new MenuFlyoutSeparator());
         var remove=new MenuFlyoutItem { Text=Loc.Get("file_remove"), Tag=row.Path, Icon=new SymbolIcon(Symbol.Delete) };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(remove, "RemoveSigningFile");
         remove.Click += OnRemoveClick; menu.Items.Add(remove);
         menu.ShowAt(anchor);
     }
@@ -126,6 +129,7 @@ public sealed partial class SignPage : Page
                 HorizontalContentAlignment = HorizontalAlignment.Stretch,
                 Tag = path, HorizontalAlignment = HorizontalAlignment.Stretch,
             };
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(button, "SignedOutput");
             ToolTipService.SetToolTip(button, path);
             button.Click += OnSignedFileClick;
             SignedFiles.Children.Insert(0, button);

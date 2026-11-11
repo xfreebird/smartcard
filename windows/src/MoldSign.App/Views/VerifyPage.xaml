@@ -26,7 +26,7 @@
 
             <controls:DropZone x:Name="FileDrop" />
 
-            <Button x:Name="ClearResults" x:Uid="VerifyClearResults" Click="OnClearResultsClick" Content="Clear results" Visibility="Collapsed" />
+            <Button x:Name="ClearResults" AutomationProperties.AutomationId="VerifyClearResults" x:Uid="VerifyClearResults" Click="OnClearResultsClick" Content="Clear results" Visibility="Collapsed" />
 
             <StackPanel x:Name="DocumentInfo" Spacing="8" Visibility="Collapsed">
                 <TextBlock x:Name="DocumentName" IsTextSelectionEnabled="True" TextWrapping="Wrap" />

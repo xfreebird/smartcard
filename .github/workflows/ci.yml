@@ -38,6 +38,7 @@ jobs:
         run: |
           python3 -m unittest discover -s scripts/ci -p 'test_*.py'
           python3 -m unittest discover -s scripts -p test_play_publish.py
+          python3 scripts/check-journey-coverage.py
   localization:
     timeout-minutes: 10
     needs: changes
@@ -67,26 +68,43 @@ jobs:
         run: scripts/test-portable-macos.sh
 
   apple-apps:
-    timeout-minutes: 40
+    timeout-minutes: 90
     needs: changes
     if: needs.changes.outputs.macos == 'true'
-    name: Xcode project (macOS app, CLI)
+    name: macOS build, integration and mock UI
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v6
       - run: bash apple/scripts/require-siri-sdk.sh
-      - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS CODE_SIGN_IDENTITY=- build
+      - name: Build mock-capable macOS app
+        run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Debug -derivedDataPath "$RUNNER_TEMP/macos-build" CODE_SIGNING_ALLOWED=NO build
+      - name: Application integration tests
+        run: swift test --package-path apple
+      - name: Native macOS mock UI journeys
+        run: |
+          command -v xcodegen >/dev/null || brew install xcodegen
+          bash scripts/ci/test-apple-ui.sh macos "$RUNNER_TEMP/macos-build/Build/Products/Debug/eSemnBun.app" "$RUNNER_TEMP/macos-ui"
+      - name: macOS UI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-ui-${{ github.sha }}
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/macos-ui/**/*.xcresult
+            ${{ runner.temp }}/macos-ui/**/test.log
+          if-no-files-found: warn
       - name: macOS App Store variant (unsigned sandbox build)
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS-AppStore CODE_SIGNING_ALLOWED=NO build
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
 
   ios-app:
-    timeout-minutes: 40
+    timeout-minutes: 90
     needs: changes
     if: needs.changes.outputs.ios == 'true'
-    name: iOS app (iPhone Duo SDK)
+    name: iOS build and iPhone + iPad mock UI
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
@@ -95,10 +113,24 @@ jobs:
       - name: Require iPhone Duo SDK
         run: bash apple/scripts/require-ios-sdk.sh
       - name: Build iOS and share extension
-        run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Release -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
+        run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" CODE_SIGNING_ALLOWED=NO build
+      - name: Native iPhone and iPad mock UI journeys
+        run: |
+          command -v xcodegen >/dev/null || brew install xcodegen
+          bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui"
+      - name: iOS UI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ui-${{ github.sha }}
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/ios-ui/**/*.xcresult
+            ${{ runner.temp }}/ios-ui/**/test.log
+          if-no-files-found: warn
 
   linux:
-    timeout-minutes: 45
+    timeout-minutes: 60
     needs: changes
     if: needs.changes.outputs.linux == 'true'
     name: Linux (Swift core, CLI, GNOME app, packages)
@@ -111,7 +143,8 @@ jobs:
           apt-get update
           apt-get install -y --no-install-recommends pkg-config libpcsclite-dev libssl-dev \
             libpoppler-glib-dev libadwaita-1-dev libgtk-4-dev libsecret-1-dev \
-            dpkg-dev debhelper rpm binutils desktop-file-utils appstream
+            dpkg-dev debhelper rpm binutils desktop-file-utils appstream \
+            python3-pyatspi gir1.2-atspi-2.0 dbus-x11 xvfb xauth xdotool
       - name: Core + CLI tests
         working-directory: swift/MoldSignKit
         run: swift test
@@ -120,6 +153,22 @@ jobs:
       - name: GNOME app (debug, includes the MSIGN_DEMO_CARDS demo mode)
         working-directory: linux
         run: swift build
+      - name: GNOME application integration tests
+        run: swift test --package-path linux
+      - name: Native GTK mock UI journeys
+        env:
+          GDK_BACKEND: x11
+          GTK_A11Y: atspi
+          NO_AT_BRIDGE: '0'
+        run: dbus-run-session -- xvfb-run -a -s "-screen 0 1440x1080x24" python3 linux/scripts/test-ui-journeys.py linux/.build/debug/esemnbun-gnome "$RUNNER_TEMP/linux-ui"
+      - name: Linux UI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-ui-${{ github.sha }}
+          retention-days: 7
+          path: ${{ runner.temp }}/linux-ui/
+          if-no-files-found: warn
       # Release builds (static Swift stdlib) of the CLI and the GNOME app, then the CLI tarball, .deb and .rpm
       # (LNX-07, LNX-15). The Flatpak bundle is skipped here: flatpak-builder needs a privileged container.
       - name: Packages
@@ -132,10 +181,10 @@ jobs:
           if-no-files-found: error
 
   android:
-    timeout-minutes: 30
+    timeout-minutes: 60
     needs: changes
     if: needs.changes.outputs.android == 'true'
-    name: Android (core vectors, CCID, app)
+    name: Android integration and mock UI
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
@@ -149,11 +198,36 @@ jobs:
             android/gradle.properties
             android/gradle/wrapper/gradle-wrapper.properties
       - name: Build and test Android (bounded dependency-download retries)
-        run: scripts/gradle-ci.sh :core:test :transport-usb:testDebugUnitTest :app:assembleDebug
+        run: scripts/gradle-ci.sh :core:test :transport-usb:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Enable KVM for the test emulator
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Native Android mock UI journeys
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          target: google_apis
+          arch: x86_64
+          profile: pixel_8
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          script: bash android/scripts/test-journeys.sh emulator-5554 android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk "$RUNNER_TEMP/android-ui"
+      - name: Android test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-tests-${{ github.sha }}
+          retention-days: 7
+          path: |
+            ${{ runner.temp }}/android-ui/
+            android/**/build/test-results/
+          if-no-files-found: warn
 
   windows:
-    timeout-minutes: 45
+    timeout-minutes: 60
     needs: changes
     if: needs.changes.outputs.windows == 'true'
     name: Windows (C# core + CLI tests; eSemnBun MSI + MSIX)
@@ -175,12 +249,22 @@ jobs:
             windows/global.json
       - working-directory: windows
         run: dotnet test MoldSign.Portable.slnf
-      - name: Azure Trusted Signing client (only when configured)
-        if: env.MOLDSIGN_TS_ENDPOINT != ''
-        shell: pwsh
+      - name: Build mock-capable Windows app
+        run: dotnet build windows/src/MoldSign.App -c Debug -p:Platform=x64
+      - name: Native Windows mock UI journeys
+        shell: powershell
         run: |
-          nuget install Microsoft.Trusted.Signing.Client -OutputDirectory "$env:RUNNER_TEMP\ts" -ExcludeVersion -NonInteractive
-          "MOLDSIGN_TS_DLIB=$env:RUNNER_TEMP\ts\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll" >> $env:GITHUB_ENV
+          $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
+          & windows/scripts/test-verification-journeys.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-verification"
+          & windows/scripts/test-mock-workflows.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-workflows"
+      - name: Windows UI evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-ui-${{ github.sha }}
+          retention-days: 7
+          path: ${{ runner.temp }}/windows-ui-*/
+          if-no-files-found: warn
       - name: Package (Native AOT CLI, WinUI app, MSI, MSIX, winget manifests)
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64

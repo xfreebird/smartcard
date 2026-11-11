@@ -73,6 +73,14 @@ final class BridgeEndToEndTests: XCTestCase {
             let forged = Data("<doc>alt text</doc>".utf8).base64EncodedString()
             let tampered = Data(String(decoding: xml, as: UTF8.self).replacingOccurrences(of: original, with: forged).utf8)
             XCTAssertFalse(try XCTUnwrap(Validator.validateXAdES(tampered, referencedFiles: [:]).first).contentIntact)
+
+            // SignedInfo still verifies, but removing the properties it references must invalidate integrity.
+            let missingProperties = Data(String(decoding: xml, as: UTF8.self)
+                .replacingOccurrences(of: "<xades:SignedProperties", with: "<xades:RemovedProperties")
+                .replacingOccurrences(of: "</xades:SignedProperties>", with: "</xades:RemovedProperties>").utf8)
+            let missingReport = try XCTUnwrap(Validator.validateXAdES(missingProperties, referencedFiles: [:]).first)
+            XCTAssertTrue(missingReport.signatureValid)
+            XCTAssertFalse(missingReport.contentIntact)
         }
         XCTAssertEqual(card.verifyAttempts, 2)
     }

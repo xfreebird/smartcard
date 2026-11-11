@@ -63,6 +63,8 @@ internal static class PdfStampEditor
         var completion = new TaskCompletionSource<bool>();
         var apply = new Button { Content=Loc.Get(previewOnly ? "Action_Sign" : "Stamp_Save"), MinWidth=100, IsEnabled=false, Style=(Style)Application.Current.Resources["AccentButtonStyle"] };
         var cancel = new Button { Content=Loc.Get("Action_Cancel"), MinWidth=100 };
+        AutomationProperties.SetAutomationId(cancel, "StampCancel");
+        AutomationProperties.SetAutomationId(apply, "StampSave");
         var footer = new StackPanel { Orientation=Orientation.Horizontal, Spacing=12, HorizontalAlignment=HorizontalAlignment.Right, Margin=new Thickness(24,16,24,20) };
         footer.Children.Add(cancel); footer.Children.Add(apply);
         var chrome = (Grid)XamlReader.Load("""

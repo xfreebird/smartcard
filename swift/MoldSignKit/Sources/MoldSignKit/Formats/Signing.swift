@@ -23,20 +23,7 @@ public final class PAdESSigner {
 
     // MARK: - DER helpers
 
-    private func der(_ tag: UInt8, _ content: Data) -> Data {
-        var out = Data([tag])
-        let len = content.count
-        if len < 0x80 {
-            out.append(UInt8(len))
-        } else if len < 0x100 {
-            out.append(0x81); out.append(UInt8(len))
-        } else if len < 0x10000 {
-            out.append(0x82); out.append(UInt8(len >> 8)); out.append(UInt8(len & 0xFF))
-        } else {
-            out.append(0x83); out.append(UInt8(len >> 16)); out.append(UInt8((len >> 8) & 0xFF)); out.append(UInt8(len & 0xFF))
-        }
-        return out + content
-    }
+    private func der(_ tag: UInt8, _ content: Data) -> Data { DER.tlv(tag, content) }
 
     private func seq(_ c: Data) -> Data { der(0x30, c) }
     private func set(_ c: Data) -> Data { der(0x31, c) }
@@ -240,28 +227,22 @@ public final class PAdESSigner {
         } catch {
             throw CardError.signFailed("TSA request failed (\(error.localizedDescription))")
         }
-        guard tsResp.count > 10 else { throw CardError.signFailed("TSA request failed (empty response)") }
-        // TimeStampResponse { status, timeStampToken ContentInfo OPTIONAL } — take 2nd element
-        var pos = skipTLVHeaderStatic(tsResp, at: 0)
-        pos += skipTLVStatic(tsResp, at: pos)
-        guard pos < tsResp.count else { throw CardError.signFailed("TSA response has no token") }
-        let tokenLen = skipTLVStatic(tsResp, at: pos)
-        return tsResp.subdata(in: pos..<(pos + tokenLen))
+        return try timestampToken(from: tsResp)
     }
 
-    private static func skipTLVStatic(_ d: Data, at off: Int) -> Int {
-        let l1 = Int(d[off + 1])
-        if l1 < 0x80 { return 2 + l1 }
-        if l1 == 0x81 { return 3 + Int(d[off + 2]) }
-        if l1 == 0x82 { return 4 + Int(d[off + 2]) * 256 + Int(d[off + 3]) }
-        return 2
-    }
-    private static func skipTLVHeaderStatic(_ d: Data, at off: Int) -> Int {
-        let l1 = Int(d[off + 1])
-        if l1 < 0x80 { return 2 }
-        if l1 == 0x81 { return 3 }
-        if l1 == 0x82 { return 4 }
-        return 2
+    static func timestampToken(from response: Data) throws -> Data {
+        let data = Data(response)
+        let outer = try DER.element(data, at: 0)
+        guard outer.tag == 0x30 else { throw CardError.signFailed("TSA response is not a sequence") }
+        let status = try DER.element(data, at: outer.content.lowerBound)
+        guard status.tag == 0x30, status.range.upperBound < outer.content.upperBound else {
+            throw CardError.signFailed("TSA response has no token")
+        }
+        let token = try DER.element(data, at: status.range.upperBound)
+        guard token.tag == 0x30, token.range.upperBound <= outer.content.upperBound else {
+            throw CardError.signFailed("TSA response has no token")
+        }
+        return data.subdata(in: token.range)
     }
 
     private func buildTimestampUnsignedAttr(signature: Data) throws -> Data {
@@ -317,41 +298,8 @@ public final class PAdESSigner {
     }
 
     private func parseCertInfo(_ der: Data) throws -> CertInfo {
-        let d = der
-        var pos = 4 // skip Certificate SEQ header
-        pos += 4 // skip TBS SEQUENCE header
-        if d[pos] == 0xA0 { pos += skipTLV(d, at: pos) } // [0] version
-        let serialStart = pos
-        let serialLen = skipTLV(d, at: pos)
-        let serial = d.subdata(in: serialStart..<(serialStart + serialLen))
-        pos += serialLen
-        pos += skipTLV(d, at: pos) // signature AlgorithmIdentifier
-        let issuerStart = pos
-        let issuerLen = skipTLV(d, at: pos)
-        let issuer = d.subdata(in: issuerStart..<(issuerStart + issuerLen))
-        return CertInfo(issuer: issuer, serial: serial)
-    }
-
-    /// Full TLV length (tag+len+content) at offset.
-    private func skipTLV(_ d: Data, at offset: Int) -> Int {
-        guard offset + 1 < d.count else { return 0 }
-        let l1 = Int(d[offset + 1])
-        if l1 < 0x80 { return 2 + l1 }
-        if l1 == 0x81 { return 3 + Int(d[offset + 2]) }
-        if l1 == 0x82 { return 4 + Int(d[offset + 2]) * 256 + Int(d[offset + 3]) }
-        if l1 == 0x83 { return 5 + Int(d[offset + 2]) * 65536 + Int(d[offset + 3]) * 256 + Int(d[offset + 4]) }
-        return 2
-    }
-
-    /// Length of just the TLV header (tag+length bytes).
-    private func skipTLVHeader(_ d: Data, at offset: Int) -> Int {
-        guard offset + 1 < d.count else { return 0 }
-        let l1 = Int(d[offset + 1])
-        if l1 < 0x80 { return 2 }
-        if l1 == 0x81 { return 3 }
-        if l1 == 0x82 { return 4 }
-        if l1 == 0x83 { return 5 }
-        return 2
+        let fields = try CertFields(der)
+        return CertInfo(issuer: fields.issuerDER, serial: fields.serialTLV)
     }
 
     // MARK: - Helpers

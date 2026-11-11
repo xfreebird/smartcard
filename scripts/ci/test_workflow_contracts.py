@@ -30,3 +30,42 @@ class WorkflowContracts(unittest.TestCase):
         publish=(ROOT/'.github/workflows/android-play-publish.yml').read_text()
         self.assertIn('group: android-play-version-code',publish)
         self.assertNotIn('cancel-in-progress: true',publish)
+
+    def test_branch_pushes_only_validate_or_deploy_documentation(self):
+        for path in (ROOT/'.github/workflows').glob('*.yml'):
+            text = path.read_text()
+            triggers = text.split('\non:\n', 1)[1].split('\npermissions:', 1)[0]
+            if path.name not in ('ci.yml', 'website.yml', 'release.yml'):
+                self.assertNotRegex(triggers, r'(?m)^  push:', path.name)
+            if path.name == 'release.yml':
+                push = triggers.split('  push:', 1)[1].split('  workflow_dispatch:', 1)[0]
+                self.assertIn('tags: ["v*"]', push)
+                self.assertNotIn('branches:', push)
+            if '  workflow_run:' in triggers:
+                self.assertIn('workflows: [', triggers)
+                # Only explicit Release/feed completion can chain delivery workflows.
+                sources = re.search(r'workflows: \[([^\]]+)\]', triggers).group(1)
+                self.assertTrue(set(s.strip() for s in sources.split(',')) <=
+                                {'Release', 'CLI package repositories'}, path.name)
+
+    def test_every_native_job_runs_mock_ui_and_remains_required(self):
+        ci = (ROOT/'.github/workflows/ci.yml').read_text()
+        commands = {
+            'apple-apps': 'test-apple-ui.sh macos',
+            'ios-app': 'test-apple-ui.sh ios',
+            'linux': 'linux/scripts/test-ui-journeys.py',
+            'android': 'android/scripts/test-journeys.sh',
+            'windows': 'windows/scripts/test-mock-workflows.ps1',
+        }
+        aggregate = ci.split('\n  result:', 1)[1]
+        for job, command in commands.items():
+            body = ci.split(f'\n  {job}:', 1)[1]
+            body = re.split(r'\n  [a-z][a-z-]*:', body, maxsplit=1)[0]
+            self.assertIn(command, body, job)
+            self.assertNotIn('continue-on-error:', body, job)
+            self.assertIn('if: always()', body, job)
+            self.assertIn(job, re.search(r'needs: \[([^\]]+)\]', aggregate).group(1))
+        self.assertIn('windows/scripts/test-verification-journeys.ps1', ci)
+        self.assertNotIn('reserve-android-version', ci)
+        self.assertNotIn('fastlane', ci)
+        self.assertNotIn('gh release', ci)

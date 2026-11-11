@@ -1,0 +1,1616 @@
+{
+  "version": 1,
+  "source": "docs/user-guide/journey-inventory.md",
+  "suites": {
+    "apple-journeys": {
+      "path": "apple/Tests/InteractionUITests/VerificationJourneyUITests.swift",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "ios-iphone-ipad-passed-macos-runner-initialization-blocked-2026-11-11"
+    },
+    "apple-documents": {
+      "path": "apple/Tests/InteractionUITests/DocumentsUITests.swift",
+      "platforms": [
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "not-run-in-this-change"
+    },
+    "apple-carousel": {
+      "path": "apple/Tests/InteractionUITests/CardCarouselUITests.swift",
+      "platforms": [
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-2026-11-11"
+    },
+    "apple-demo": {
+      "path": "apple/Tests/InteractionUITests/DemoModeUITests.swift",
+      "platforms": [
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-2026-11-11"
+    },
+    "apple-presentation": {
+      "path": "apple/Tests/InteractionUITests/ScreenshotReviewUITests.swift",
+      "platforms": [
+        "ios"
+      ],
+      "level": "presentation-capture",
+      "execution": "not-run-in-this-change"
+    },
+    "apple-library": {
+      "path": "apple/Tests/DocumentLibraryTests",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "apple-batch": {
+      "path": "apple/Tests/AppBatchTests",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "apple-verification": {
+      "path": "apple/Tests/VerificationPoliciesTests",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "apple-insertion": {
+      "path": "apple/Tests/ReaderInsertionPolicyTests",
+      "platforms": [
+        "macos"
+      ],
+      "level": "policy",
+      "execution": "passed-2026-11-11"
+    },
+    "android-journeys": {
+      "path": "android/app/src/androidTest/kotlin/md/moldsign/app/JourneyAutomation.kt",
+      "platforms": [
+        "android"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-2026-11-11"
+    },
+    "android-batch": {
+      "path": "android/app/src/androidTest/kotlin/md/moldsign/app/SigningWorkflowIntegration.kt",
+      "platforms": [
+        "android"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "android-app": {
+      "path": "android/app/src/test/kotlin/md/moldsign/app",
+      "platforms": [
+        "android"
+      ],
+      "level": "policy",
+      "execution": "passed-2026-11-11"
+    },
+    "android-core": {
+      "path": "android/core/src/test/kotlin/md/moldsign/core",
+      "platforms": [
+        "android"
+      ],
+      "level": "integration",
+      "execution": "passed-with-documented-skips-2026-11-11"
+    },
+    "android-usb": {
+      "path": "android/transport-usb/src/test/kotlin/md/moldsign/transport/usb",
+      "platforms": [
+        "android"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "android-protection": {
+      "path": "android/app/src/androidTest/kotlin/md/moldsign/app/FileProtectionInstrumentation.kt",
+      "platforms": [
+        "android"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "linux-journeys": {
+      "path": "linux/scripts/test-ui-journeys.py",
+      "platforms": [
+        "linux"
+      ],
+      "level": "ui-interaction-and-presentation",
+      "execution": "passed-20-scenarios-xvfb-2026-11-11"
+    },
+    "linux-app": {
+      "path": "linux/Tests/MoldSignGnomeTests",
+      "platforms": [
+        "linux"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "windows-journeys": {
+      "path": "windows/scripts/test-verification-journeys.ps1",
+      "platforms": [
+        "windows"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-2026-11-11"
+    },
+    "windows-demo": {
+      "path": "windows/scripts/test-demo-mode.ps1",
+      "platforms": [
+        "windows"
+      ],
+      "level": "ui-interaction",
+      "execution": "not-run-in-this-change"
+    },
+    "windows-card": {
+      "path": "windows/scripts/test-card-page-scroll.ps1",
+      "platforms": [
+        "windows"
+      ],
+      "level": "ui-interaction",
+      "execution": "not-run-in-this-change"
+    },
+    "windows-launch": {
+      "path": "windows/scripts/test-first-launch.ps1",
+      "platforms": [
+        "windows"
+      ],
+      "level": "ui-interaction",
+      "execution": "not-run-in-this-change"
+    },
+    "windows-insertion": {
+      "path": "windows/scripts/test-insertion-helper.ps1",
+      "platforms": [
+        "windows"
+      ],
+      "level": "integration",
+      "execution": "not-run-in-this-change"
+    },
+    "windows-core": {
+      "path": "windows/tests/MoldSign.Core.Tests",
+      "platforms": [
+        "windows"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "swift-core": {
+      "path": "swift/MoldSignKit/Tests/MoldSignKitTests",
+      "platforms": [
+        "macos",
+        "ios",
+        "linux"
+      ],
+      "level": "integration",
+      "execution": "passed-with-documented-skips-2026-11-11"
+    },
+    "swift-mcp": {
+      "path": "swift/MoldSignKit/Tests/MoldSignMCPTests",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "level": "integration",
+      "execution": "passed-2026-11-11"
+    },
+    "cli-json": {
+      "path": "scripts/test-cli-json.py",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "level": "process-integration",
+      "execution": "passed-2026-11-11"
+    },
+    "mcp-process": {
+      "path": "scripts/test-mcp-process.py",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "level": "process-integration",
+      "execution": "passed-2026-11-11"
+    },
+    "apple-mock-workflows": {
+      "path": "apple/Tests/InteractionUITests/MockWorkflowUITests.swift",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "ios-iphone-ipad-passed-macos-runner-initialization-blocked-2026-11-11",
+      "boundary": "Injected mock signer and fictional inputs; production controls and batch policy."
+    },
+    "android-mock-workflows": {
+      "path": "android/app/src/androidTest/kotlin/md/moldsign/app/MockWorkflowAutomation.kt",
+      "platforms": [
+        "android"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-2026-11-11",
+      "boundary": "Injected mock signer and fictional inputs; production controls and batch policy."
+    },
+    "windows-mock-workflows": {
+      "path": "windows/scripts/test-mock-workflows.ps1",
+      "platforms": [
+        "windows"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-2026-11-11",
+      "boundary": "Injected mock signer and fictional inputs; production controls and batch policy."
+    }
+  },
+  "journeys": [
+    {
+      "id": "G01",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Install and open",
+      "suites": [
+        "windows-launch",
+        "linux-app",
+        "apple-presentation"
+      ],
+      "acceptance": "Correct package opens primary navigation on a clean profile.",
+      "edge_cases": [
+        "first launch",
+        "second launch",
+        "corrupt settings",
+        "unsupported package"
+      ],
+      "runtime_check": "Install the signed package on a clean OS profile; app test binaries do not validate the installer or store channel.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G02",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Connect reader",
+      "suites": [
+        "apple-journeys",
+        "android-journeys",
+        "android-usb",
+        "linux-app",
+        "windows-core"
+      ],
+      "acceptance": "No reader, empty reader, permission and loaded identity remain distinct.",
+      "edge_cases": [
+        "disconnect during read",
+        "permission denied",
+        "permission revoked",
+        "unresponsive card"
+      ],
+      "runtime_check": "Exercise actual USB/PCSC insertion and permission grants on dedicated devices; fixtures only prove presentation.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G03",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Select and inspect identity",
+      "suites": [
+        "apple-carousel",
+        "apple-batch",
+        "android-core",
+        "linux-app",
+        "windows-card",
+        "windows-core"
+      ],
+      "acceptance": "Selection remains stable during read, resize and removal; reread refreshes only matching card.",
+      "edge_cases": [
+        "selected card removed",
+        "late old certificate",
+        "one to zero cards",
+        "multiple readers"
+      ],
+      "runtime_check": "Execute the listed suites on every applicable target; inspect the native interaction and output artifacts.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G04",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Import and remove signing documents",
+      "suites": [
+        "apple-batch",
+        "apple-presentation",
+        "android-batch",
+        "linux-journeys",
+        "windows-demo",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "windows-mock-workflows"
+      ],
+      "acceptance": "Imported names and formats are visible; removing a queued input leaves its source untouched.",
+      "edge_cases": [
+        "duplicate URI",
+        "unreadable file",
+        "empty selection",
+        "revoked provider access"
+      ],
+      "runtime_check": "Exercise system picker, share import and desktop/tablet drag-drop; fixture-seeded queues do not prove these OS paths.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G05",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Choose signature format",
+      "suites": [
+        "swift-core",
+        "android-core",
+        "windows-core",
+        "apple-presentation",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "acceptance": "PDF defaults to PAdES-T and other files to detached XAdES-T; explicit format is honored.",
+      "edge_cases": [
+        "PAdES on non-PDF",
+        "mixed batch",
+        "empty content",
+        "unsupported format"
+      ],
+      "runtime_check": "Select each offered format in the native menu and confirm output extension/content after simulated signing.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G06",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Edit visible PDF stamp",
+      "suites": [
+        "swift-core",
+        "android-core",
+        "windows-core",
+        "apple-presentation",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "acceptance": "Saved placement/page selection is used by signing and cancellation preserves prior settings.",
+      "edge_cases": [
+        "rotated page",
+        "all pages",
+        "out-of-bounds placement",
+        "invalid PDF"
+      ],
+      "runtime_check": "Exercise each native stamp editor, keyboard and pointer resizing; crypto placement tests do not prove editor interaction.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G07",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Sign batch with consent",
+      "suites": [
+        "apple-batch",
+        "android-batch",
+        "android-app",
+        "linux-app",
+        "windows-core",
+        "swift-core",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "acceptance": "One batch authorization uses the frozen certificate; outputs correspond to accepted inputs.",
+      "edge_cases": [
+        "cancel before PIN",
+        "wrong PIN stops immediately",
+        "swapped card",
+        "overlapping consent",
+        "shutdown awaiting consent"
+      ],
+      "runtime_check": "Full real-card/OS credential success remains an explicit device check; use simulated cards for automatic failure tests.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G08",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Open save and share outputs",
+      "suites": [
+        "apple-demo",
+        "apple-documents",
+        "android-journeys",
+        "android-batch",
+        "windows-demo",
+        "linux-journeys"
+      ],
+      "acceptance": "Output names and bytes survive closing result presentation; export does not overwrite source.",
+      "edge_cases": [
+        "destination denied",
+        "name collision",
+        "missing output",
+        "cancel export"
+      ],
+      "runtime_check": "Exercise actual share/save/reveal destination; fixture output creation alone does not establish delivery.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G09",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Recover failed batch item",
+      "suites": [
+        "apple-batch",
+        "android-batch",
+        "linux-app",
+        "windows-core",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "acceptance": "Recoverable input/output failures preserve successes; card/security failures stop without retry.",
+      "edge_cases": [
+        "network failure",
+        "storage IOException",
+        "wrong PIN",
+        "consumer callback failure",
+        "cancel after first success"
+      ],
+      "runtime_check": "Execute the listed suites on every applicable target; inspect the native interaction and output artifacts.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G10",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Verify PDF",
+      "suites": [
+        "apple-journeys",
+        "apple-verification",
+        "android-journeys",
+        "linux-journeys",
+        "windows-journeys",
+        "swift-core",
+        "android-core",
+        "windows-core",
+        "android-mock-workflows"
+      ],
+      "acceptance": "Verdict and filename match, details expand, clear removes result, verification requests no PIN.",
+      "edge_cases": [
+        "malformed PDF",
+        "tampered bytes",
+        "clear during work",
+        "new input before old completion"
+      ],
+      "runtime_check": "Execute the listed suites on every applicable target; inspect the native interaction and output artifacts.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G11",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Verify detached XML",
+      "suites": [
+        "apple-documents",
+        "apple-verification",
+        "android-journeys",
+        "swift-core",
+        "android-core",
+        "windows-core",
+        "linux-app"
+      ],
+      "acceptance": "Missing original is incomplete; correct original resolves it; changed original is invalid.",
+      "edge_cases": [
+        "missing companion",
+        "duplicate basename",
+        "wrong original",
+        "path traversal",
+        "symlink escape"
+      ],
+      "runtime_check": "Exercise native companion-file selection on every platform; Android demo report fixtures are presentation only.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G12",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Interpret verification results",
+      "suites": [
+        "apple-journeys",
+        "android-journeys",
+        "linux-journeys",
+        "windows-journeys",
+        "swift-core",
+        "android-core",
+        "windows-core",
+        "android-mock-workflows"
+      ],
+      "acceptance": "Valid, invalid, untrusted, unsigned and multiple-signature states remain distinguishable.",
+      "edge_cases": [
+        "unsigned input",
+        "untrusted issuer",
+        "mixed signatures",
+        "no timestamp",
+        "incomplete references"
+      ],
+      "runtime_check": "Execute the listed suites on every applicable target; inspect the native interaction and output artifacts.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G13",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Saved documents and details",
+      "suites": [
+        "apple-documents",
+        "apple-library",
+        "android-core",
+        "linux-app",
+        "windows-core"
+      ],
+      "acceptance": "Details reread selected saved file without appending duplicate history.",
+      "edge_cases": [
+        "deleted file",
+        "unavailable provider",
+        "unreadable output",
+        "protected file entry"
+      ],
+      "runtime_check": "Exercise details/open/share/reveal on each native document list; library tests establish persistence policy only.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G14",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Clear history",
+      "suites": [
+        "apple-documents",
+        "apple-library",
+        "android-core",
+        "linux-app",
+        "windows-core",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "acceptance": "Clearing history preserves saved document entries and output files across relaunch.",
+      "edge_cases": [
+        "cancel confirmation",
+        "empty history",
+        "relaunch",
+        "separate demo store"
+      ],
+      "runtime_check": "Execute the listed suites on every applicable target; inspect the native interaction and output artifacts.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G15",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Website bridge and consent",
+      "suites": [
+        "swift-core",
+        "android-core",
+        "android-app",
+        "linux-app",
+        "windows-core",
+        "apple-batch",
+        "apple-mock-workflows"
+      ],
+      "acceptance": "Only admitted origins reach consent; deny/cancel/timeout never signs; stopped hosts ignore late answers.",
+      "edge_cases": [
+        "foreign origin",
+        "port busy",
+        "malformed request",
+        "expired batch",
+        "certificate mismatch",
+        "duplicate answer"
+      ],
+      "runtime_check": "Exercise a local controlled browser page and native foreground/background transitions; live government portal is a separate opt-in integration check.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G16",
+      "platforms": [
+        "macos",
+        "ios",
+        "android"
+      ],
+      "goal": "Bookmarks and browser data",
+      "suites": [
+        "apple-batch",
+        "android-app",
+        "apple-presentation"
+      ],
+      "acceptance": "Valid edited URLs persist, invalid schemes are rejected, selected browser data clears.",
+      "edge_cases": [
+        "blank URL",
+        "unsafe scheme",
+        "duplicate bookmark",
+        "cancel clear"
+      ],
+      "runtime_check": "Exercise native bookmark forms, actual navigation and data removal in WebKit/WebView.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G17",
+      "platforms": [
+        "macos",
+        "ios",
+        "linux"
+      ],
+      "goal": "Saved PIN management",
+      "suites": [
+        "apple-batch",
+        "linux-app"
+      ],
+      "acceptance": "Saved credentials stay certificate-bound; cancellation stops signing; deletion removes only intended entry.",
+      "edge_cases": [
+        "locked vault",
+        "unavailable keyring",
+        "biometric cancellation",
+        "wrong-PIN deletion",
+        "mode switch"
+      ],
+      "runtime_check": "Use OS keychain/keyring authentication and an explicitly supplied session credential; no actual card PIN belongs in the test catalog.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G18",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Language and appearance",
+      "suites": [
+        "linux-app",
+        "apple-presentation",
+        "windows-card"
+      ],
+      "acceptance": "Language/theme changes persist and native text/layout remains readable.",
+      "edge_cases": [
+        "en ro ru",
+        "light dark",
+        "long localized labels",
+        "narrow window"
+      ],
+      "runtime_check": "Run presentation cases in all three locales and both themes on phone/tablet and desktop; default new journey assertions use English.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G19",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Demo help about update",
+      "suites": [
+        "apple-demo",
+        "apple-batch",
+        "android-app",
+        "windows-demo",
+        "linux-app"
+      ],
+      "acceptance": "Demo is explicit and isolated from live documents, credentials, readers and listeners.",
+      "edge_cases": [
+        "restart demo",
+        "leave demo",
+        "malformed update manifest",
+        "cancel disclaimer"
+      ],
+      "runtime_check": "Open actual Help/About/update controls; distribution-channel updates need installed package validation.",
+      "coverage": "partial"
+    },
+    {
+      "id": "G20",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Reader and browser recovery",
+      "suites": [
+        "apple-journeys",
+        "android-journeys",
+        "android-app",
+        "linux-app",
+        "windows-core",
+        "swift-core"
+      ],
+      "acceptance": "Recovery distinguishes environmental failures and never automatically retries a rejected PIN.",
+      "edge_cases": [
+        "reading to removed",
+        "blocked PIN",
+        "stuck card",
+        "port conflict",
+        "cancelled consent",
+        "stale callback"
+      ],
+      "runtime_check": "Execute the listed suites on every applicable target; inspect the native interaction and output artifacts.",
+      "coverage": "partial"
+    },
+    {
+      "id": "M01",
+      "platforms": [
+        "macos"
+      ],
+      "goal": "Menu bar lifecycle",
+      "suites": [
+        "apple-batch"
+      ],
+      "acceptance": "Close/reopen/menu Quit follows the documented background lifetime.",
+      "edge_cases": [
+        "close last window",
+        "reopen from menu",
+        "quit with pending consent"
+      ],
+      "runtime_check": "Exercise menu bar and window actions in the signed desktop app.",
+      "coverage": "partial"
+    },
+    {
+      "id": "M02",
+      "platforms": [
+        "macos"
+      ],
+      "goal": "Login and insertion helper",
+      "suites": [
+        "apple-insertion"
+      ],
+      "acceptance": "Launch preferences and insertion deduplication are honored.",
+      "edge_cases": [
+        "helper disabled",
+        "repeated insertion",
+        "removed reader",
+        "unapproved login item"
+      ],
+      "runtime_check": "Validate macOS Login Items approval and helper launch using installed standalone artifact; Store controls differ.",
+      "coverage": "partial"
+    },
+    {
+      "id": "M03",
+      "platforms": [
+        "macos"
+      ],
+      "goal": "Browser settings and conflicts",
+      "suites": [
+        "swift-core",
+        "apple-batch"
+      ],
+      "acceptance": "Browser enable/stamps/legacy toggles enforce capabilities and recover from port conflicts.",
+      "edge_cases": [
+        "competing listener",
+        "missing TLS identity",
+        "disabled bridge",
+        "late stopped callback"
+      ],
+      "runtime_check": "Toggle native preferences and inspect loopback listener ownership; test standalone and Store capability differences.",
+      "coverage": "partial"
+    },
+    {
+      "id": "M04",
+      "platforms": [
+        "macos"
+      ],
+      "goal": "Foreground agent approval",
+      "suites": [
+        "swift-mcp",
+        "apple-batch"
+      ],
+      "acceptance": "Private spool request requires explicit approval and output retrieval; cancelled request never signs.",
+      "edge_cases": [
+        "public spool",
+        "path escape",
+        "cancel after prepare",
+        "expired approval"
+      ],
+      "runtime_check": "Exercise signed helper plus native approval broker; use simulated signing for automatic protocol cases.",
+      "coverage": "partial"
+    },
+    {
+      "id": "A01",
+      "platforms": [
+        "ios"
+      ],
+      "goal": "Files share and export",
+      "suites": [
+        "apple-documents",
+        "apple-presentation",
+        "apple-batch"
+      ],
+      "acceptance": "Import through system Files/share extension and export through system share UI.",
+      "edge_cases": [
+        "provider revoked",
+        "large input",
+        "cancel sheet",
+        "multiple documents"
+      ],
+      "runtime_check": "Run on both dedicated iPhone and iPad; app sandbox copies do not prove provider interaction.",
+      "coverage": "partial"
+    },
+    {
+      "id": "A02",
+      "platforms": [
+        "ios"
+      ],
+      "goal": "Phone and tablet adaptation",
+      "suites": [
+        "apple-carousel",
+        "apple-documents",
+        "apple-presentation"
+      ],
+      "acceptance": "Wide and compact layouts retain selection and queue through rotation/resize.",
+      "edge_cases": [
+        "landscape",
+        "Duo narrow/wide",
+        "keyboard visible",
+        "split view"
+      ],
+      "runtime_check": "Run the same cases on explicit phone/tablet/Duo devices and perform genuine split-view drag/drop.",
+      "coverage": "partial"
+    },
+    {
+      "id": "A03",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "goal": "Shortcuts",
+      "suites": [
+        "swift-core",
+        "apple-library"
+      ],
+      "acceptance": "Prepare opens foreground approval; Verify returns offline result; input limit enforced.",
+      "edge_cases": [
+        "over 32 MiB",
+        "empty input",
+        "cancel activation",
+        "unsupported file"
+      ],
+      "runtime_check": "Invoke the installed App Intents through Shortcuts; policy tests do not execute Siri or system routing.",
+      "coverage": "partial"
+    },
+    {
+      "id": "A04",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "goal": "Document discovery",
+      "suites": [
+        "apple-library"
+      ],
+      "acceptance": "Only readable app-owned signed metadata appears and deleted/disabled entries disappear.",
+      "edge_cases": [
+        "external path",
+        "protected file",
+        "missing file",
+        "discovery disabled"
+      ],
+      "runtime_check": "Search/open through actual Spotlight on an installed signed app; verify returned document and foreground navigation.",
+      "coverage": "partial"
+    },
+    {
+      "id": "A05",
+      "platforms": [
+        "macos",
+        "ios"
+      ],
+      "goal": "Handoff navigation",
+      "suites": [],
+      "acceptance": "Handoff resumes Documents only, without transferring data or authorization.",
+      "edge_cases": [
+        "missing local file",
+        "handoff disabled",
+        "pending PIN",
+        "different device"
+      ],
+      "runtime_check": "Requires two eligible signed-in devices; verify no document/PIN/certificate state transfer.",
+      "coverage": "runtime-required"
+    },
+    {
+      "id": "D01",
+      "platforms": [
+        "android"
+      ],
+      "goal": "USB and foreground service",
+      "suites": [
+        "android-usb",
+        "android-core",
+        "android-app"
+      ],
+      "acceptance": "USB grants and external-browser notification route to a single consent prompt.",
+      "edge_cases": [
+        "denied USB",
+        "background app",
+        "service shutdown",
+        "duplicate browser request"
+      ],
+      "runtime_check": "Use Android hardware/USB and notification permissions; emulator fixtures do not validate physical CCID.",
+      "coverage": "partial"
+    },
+    {
+      "id": "D02",
+      "platforms": [
+        "android"
+      ],
+      "goal": "Tablet window adaptation",
+      "suites": [
+        "android-journeys"
+      ],
+      "acceptance": "Rail/compact layout retains queue/card when resized.",
+      "edge_cases": [
+        "landscape",
+        "split screen",
+        "large font",
+        "keyboard visible"
+      ],
+      "runtime_check": "Run journey instrumentation on explicit phone and tablet emulators, then resize and drag/drop in split screen.",
+      "coverage": "partial"
+    },
+    {
+      "id": "L01",
+      "platforms": [
+        "linux"
+      ],
+      "goal": "Install and PCSC",
+      "suites": [],
+      "acceptance": "Installed package starts in the desktop session with PCSC/CCID configured.",
+      "edge_cases": [
+        "missing pcscd",
+        "missing reader group",
+        "Flatpak sandbox",
+        "SSH without desktop"
+      ],
+      "runtime_check": "Use a disposable package-test VM and actual DEB/RPM/Flatpak; never infer installation success from a Swift build.",
+      "coverage": "runtime-required"
+    },
+    {
+      "id": "L02",
+      "platforms": [
+        "linux"
+      ],
+      "goal": "Startup and external browser",
+      "suites": [
+        "linux-app"
+      ],
+      "acceptance": "Startup/background preferences persist and system browser remains external.",
+      "edge_cases": [
+        "first launch background flag",
+        "explicit launch",
+        "disabled bridge"
+      ],
+      "runtime_check": "Verify desktop autostart and external browser handoff in native GNOME.",
+      "coverage": "partial"
+    },
+    {
+      "id": "L03",
+      "platforms": [
+        "linux"
+      ],
+      "goal": "Bridge identity import",
+      "suites": [
+        "swift-core",
+        "linux-app"
+      ],
+      "acceptance": "Valid replacement identity enables HTTPS; malformed identity fails before listeners start.",
+      "edge_cases": [
+        "invalid PKCS12",
+        "missing file",
+        "unreadable file",
+        "old listener still running"
+      ],
+      "runtime_check": "Exercise native preference import and TLS handshake with test identity, including Flatpak storage.",
+      "coverage": "partial"
+    },
+    {
+      "id": "L04",
+      "platforms": [
+        "linux"
+      ],
+      "goal": "Secret Service PIN behavior",
+      "suites": [
+        "linux-app"
+      ],
+      "acceptance": "Locked/unavailable vault differs from incorrect card PIN and cancelled lookup cannot show a late prompt.",
+      "edge_cases": [
+        "keyring unavailable",
+        "cancel while lookup pending",
+        "failed save",
+        "delete only selected certificate"
+      ],
+      "runtime_check": "Use an isolated Secret Service collection; actual keyring unlock remains native runtime validation.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C01",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "Install and discover capabilities",
+      "suites": [
+        "cli-json",
+        "windows-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "missing executable",
+        "unsupported command"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C02",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "List readers and certificate",
+      "suites": [
+        "swift-core",
+        "windows-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "no reader",
+        "multiple readers",
+        "card removed"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C03",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "goal": "Sign PDF",
+      "suites": [
+        "swift-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "existing output",
+        "malformed PDF",
+        "wrong identity"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C04",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "goal": "Sign XAdES",
+      "suites": [
+        "swift-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "missing original",
+        "unsupported digest",
+        "empty input"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C05",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "PIN input precedence",
+      "suites": [
+        "swift-core",
+        "windows-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "stdin EOF",
+        "empty PIN",
+        "wrong PIN no retry"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C06",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "goal": "Verify document and JSON",
+      "suites": [
+        "cli-json",
+        "swift-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "tampered file",
+        "missing companion",
+        "unsigned input"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C07",
+      "platforms": [
+        "macos",
+        "linux"
+      ],
+      "goal": "Run loopback bridge",
+      "suites": [
+        "swift-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "port busy",
+        "missing identity",
+        "shutdown during poll"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C08",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "MCP trusted roots",
+      "suites": [
+        "swift-mcp",
+        "mcp-process",
+        "windows-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "untrusted root",
+        "symlink escape",
+        "oversized input"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C09",
+      "platforms": [
+        "macos"
+      ],
+      "goal": "Foreground broker protocol",
+      "suites": [
+        "swift-mcp",
+        "mcp-process"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "cancel request",
+        "expired job",
+        "public spool"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C10",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "Unattended signing opt-in",
+      "suites": [
+        "swift-mcp",
+        "windows-core",
+        "mcp-process"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "failure lock",
+        "wrong cert",
+        "unsafe output permissions"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C11",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "Exit and error contracts",
+      "suites": [
+        "cli-json",
+        "swift-core",
+        "windows-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "invalid arguments",
+        "blocked PIN",
+        "network error"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "C12",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "Advanced signing commands",
+      "suites": [
+        "swift-core",
+        "windows-core"
+      ],
+      "acceptance": "Run the documented command and assert exit code, structured output, output bytes and absence of unintended writes.",
+      "edge_cases": [
+        "bad hex",
+        "wrong digest length",
+        "unsupported capability"
+      ],
+      "runtime_check": "Validate installed executable capabilities first. Real-card success, OS credential providers and package-manager installation require explicit runtime evidence; automated core cases use synthetic identities.",
+      "coverage": "partial"
+    },
+    {
+      "id": "P01",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Password encryption",
+      "suites": [
+        "swift-core",
+        "android-protection",
+        "windows-core",
+        "linux-app"
+      ],
+      "acceptance": "Native Documents action encrypts into a separate output and persists its library entry.",
+      "edge_cases": [
+        "empty password",
+        "confirmation mismatch",
+        "existing output",
+        "cancel save",
+        "relaunch"
+      ],
+      "runtime_check": "Exercise native picker/password/save flow on all platforms; crypto/storage tests alone do not prove the UI.",
+      "coverage": "partial"
+    },
+    {
+      "id": "P02",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "windows",
+        "linux"
+      ],
+      "goal": "Password decryption",
+      "suites": [
+        "swift-core",
+        "android-protection",
+        "windows-core",
+        "linux-app"
+      ],
+      "acceptance": "Correct password restores identical bytes; wrong password creates no plaintext output.",
+      "edge_cases": [
+        "wrong password",
+        "corrupt envelope",
+        "truncated data",
+        "cancel",
+        "output write failure"
+      ],
+      "runtime_check": "Exercise native decrypt selection and destination step, then compare original/restored bytes without recording passwords.",
+      "coverage": "partial"
+    },
+    {
+      "id": "P03",
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "goal": "Remove local file",
+      "suites": [
+        "swift-core",
+        "windows-core",
+        "linux-app"
+      ],
+      "acceptance": "Only the selected app-owned file is removed after confirmation; other outputs and history stay consistent.",
+      "edge_cases": [
+        "cancel confirmation",
+        "symlink",
+        "missing file",
+        "outside library"
+      ],
+      "runtime_check": "Exercise native confirmation and filesystem readback in a disposable document library. Mobile removal is not applicable.",
+      "coverage": "partial"
+    }
+  ],
+  "mock_scenarios": [
+    {
+      "id": "sign-success",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "Press the native Sign action",
+        "Both sample inputs complete and leave the queue",
+        "No PIN entry is requested"
+      ]
+    },
+    {
+      "id": "sign-mixed",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "First sample fails with a document error",
+        "Second sample completes",
+        "Failed input remains visible without automatic retry"
+      ]
+    },
+    {
+      "id": "sign-fatal",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "Mock credential failure stops the batch",
+        "No outputs are produced",
+        "Both inputs remain queued"
+      ]
+    },
+    {
+      "id": "queue-and-format",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "Choose XML through native file or batch options",
+        "Confirm the chosen format",
+        "Remove queued inputs without producing outputs"
+      ]
+    },
+    {
+      "id": "stamp-cancel",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "Open the actual stamp editor over a sample PDF",
+        "Cancel and return to the intact queue"
+      ]
+    },
+    {
+      "id": "history-clear",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "Cancel history clearing and retain entries",
+        "Confirm history clearing",
+        "Saved output library remains accessible"
+      ]
+    },
+    {
+      "id": "verification-disclosures",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-journeys",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-journeys"
+      ],
+      "assertions": [
+        "Expand certificate and technical sections",
+        "Collapse them again",
+        "Verification uses fictional reports without card access"
+      ]
+    },
+    {
+      "id": "consent-cancel",
+      "platforms": [
+        "macos",
+        "ios",
+        "android",
+        "linux",
+        "windows"
+      ],
+      "suites": [
+        "apple-journeys",
+        "apple-mock-workflows",
+        "android-mock-workflows",
+        "linux-journeys",
+        "windows-mock-workflows"
+      ],
+      "assertions": [
+        "Dismiss a native consent or PIN prompt without entering credentials",
+        "Prompt closes and no signing starts"
+      ]
+    }
+  ],
+  "execution_report": "docs/reports/native-test-validation-2026-11-11.md"
+}

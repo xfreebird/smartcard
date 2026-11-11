@@ -28,14 +28,25 @@ final class AppController {
     private(set) var lastError: (message: String, recovery: String)?
 
     // Verify
-    private(set) var verifiedDocuments: [(url: URL, reports: [SignatureReport])] = []
-    private(set) var verifyFile: URL?
-    private(set) var verifyReports: [SignatureReport]?
+    private let verification = VerificationWorkspace()
+    private(set) var verifiedDocuments: [(url: URL, reports: [SignatureReport])] {
+        get { verification.documents }
+        set { verification.documents = newValue }
+    }
+    private(set) var verifyFile: URL? {
+        get { verification.file }
+        set { verification.file = newValue }
+    }
+    private(set) var verifyReports: [SignatureReport]? {
+        get { verification.reports }
+        set { verification.reports = newValue }
+    }
 
     // Activity, settings, bridge, PIN vault
     /// Pruned on load: entries whose file was deleted or moved are dropped (browser requests stay).
-    private(set) var activity: [ActivityItem] = Store.loadActivity().filter(\.isShowable)
-    private(set) var signedDocuments: [ActivityItem] = Store.loadSignedDocuments().filter(\.isShowable)
+    private(set) var activity: [ActivityItem]
+    private(set) var signedDocuments: [ActivityItem]
+    private let activityStore: any ActivityStoring
     var settings: AppSettings { preferences.settings }
     private let preferences: SettingsCoordinator
     var bridgeState: BridgeState { bridge.state }
@@ -73,20 +84,53 @@ final class AppController {
     private let vault: any PINStoring
     private let readers: ReaderSession
     private let batchSigner: any BatchSigning
+    private let allowsDemoSigning: Bool
     private let documentVerifier: any DocumentVerifying
 
     init(service: SigningService = .shared, vault: any PINStoring = PinVault(),
          monitor: any CardMonitoring = ReaderMonitor(),
          transportFactory: ((String?) throws -> CardTransport)? = nil,
          batchSigner: (any BatchSigning)? = nil, documentVerifier: (any DocumentVerifying)? = nil,
+         cardData: (any CardDataProviding)? = nil, activityStore: (any ActivityStoring)? = nil,
          settingsStore: any SettingsStoring = JSONSettingsStore(), bridge: any BridgeHosting = BridgeHost()) {
+        #if MOLDSIGN_DEMO
+        let resolvedActivityStore: any ActivityStoring = activityStore ??
+            (DemoMode.current != nil ? MemoryActivityStore() as any ActivityStoring : JSONActivityStore())
+        #else
+        let resolvedActivityStore: any ActivityStoring = activityStore ?? JSONActivityStore()
+        #endif
+        self.activityStore = resolvedActivityStore
+        activity = resolvedActivityStore.loadActivity().filter(\.isShowable)
+        signedDocuments = resolvedActivityStore.loadDocuments().filter(\.isShowable)
         self.bridge = bridge
         self.preferences = SettingsCoordinator(store: settingsStore)
+        #if MOLDSIGN_DEMO
+        if let scenario = ScenarioDocumentSigner.selected {
+            self.allowsDemoSigning = true
+            self.batchSigner = batchSigner ?? BatchSigningService(signer: ScenarioDocumentSigner(scenario), vault: DemoPINStore())
+        } else {
+            self.allowsDemoSigning = false
+            self.batchSigner = batchSigner ?? BatchSigningService(signer: DocumentSigner(service: service), vault: vault)
+        }
+        #else
+        self.allowsDemoSigning = false
         self.batchSigner = batchSigner ?? BatchSigningService(signer: DocumentSigner(service: service), vault: vault)
+        #endif
         self.documentVerifier = documentVerifier ?? DocumentVerifier(service: service)
         self.service = service
         self.vault = vault
-        self.readers = ReaderSession(service: service, vault: vault, monitor: monitor, transportFactory: transportFactory)
+        let resolvedCardData: any CardDataProviding
+        #if MOLDSIGN_DEMO
+        if let demo = DemoMode.current {
+            resolvedCardData = cardData ?? DemoCardDataProvider(demo: demo)
+        } else {
+            resolvedCardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
+        }
+        #else
+        resolvedCardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
+        #endif
+        self.readers = ReaderSession(service: service, vault: vault, monitor: monitor,
+                                     transportFactory: transportFactory, cardData: resolvedCardData)
         readers.isBusy = { [weak self] in self?.isSigning ?? false }
         readers.onChange = { [weak self] in self?.changed() }
         readers.onInsertion = { [weak self] in self?.presentWindow?() }
@@ -94,7 +138,7 @@ final class AppController {
         readers.showOnCardInsertion = { [weak self] in self?.settings.showOnCardInsertion ?? false }
     }
     private let bridge: any BridgeHosting
-    private var trustedUntil: [String: Date] = [:]
+    private let authorization = BridgeAuthorizationCoordinator()
     private var observers: [Int: () -> Void] = [:]
     private var nextObserver = 0
     private var renderScheduled = false
@@ -179,44 +223,17 @@ final class AppController {
         do {
             let files = try DemoDocuments()
             demoDocuments = files
-            let now = Date()
-            switch scenario {
-            case .documents, .signing, .pin, .pinError, .signingError:
-                signItems = [SignItem(url: files.input), SignItem(url: files.text)]
-            default: break
-            }
-            switch scenario {
-            case .signing:
-                isSigning = true
-                currentStep = .timestamp
-            case .pin, .pinError:
-                lastAttemptsLeft = scenario == .pinError ? 2 : nil
-            case .signingError:
-                signItems[0].error = L10n.text(.ui_the_card_does_not_respond)
-                lastError = (L10n.text(.ui_the_card_does_not_respond), L10n.text(.ui_remove_and_re_insert_the_card))
-            case .success:
-                lastSigned = [files.result]
-            case .verifyChecking:
-                verifyFile = files.input
-                verifyReports = nil
-            case .verifyValid, .verifyInvalid, .verifyUnknown:
-                verifyFile = files.result
-                verifyReports = [scenario.report()]
-            case .verifyUnsigned:
-                verifyFile = files.input
-                verifyReports = []
-            case .activity:
-                activity = [
-                    ActivityItem(kind: .signed, title: files.result.lastPathComponent,
-                        subtitle: L10n.text(.ui_demo_result_document_is_unsigned), ok: true, date: now.addingTimeInterval(-120), filePath: files.result.path),
-                    ActivityItem(kind: .verified, title: files.input.lastPathComponent,
-                        subtitle: L10n.text(.ui_valid_signature), ok: true, date: now.addingTimeInterval(-300), filePath: files.input.path),
-                    ActivityItem(kind: .bridge, title: "msign.gov.md · DEMO",
-                        subtitle: L10n.text(.ui_demo_request_cancelled), ok: false, date: now.addingTimeInterval(-600)),
-                ]
-                signedDocuments = activity.filter(\.isSignedDocument)
-            case .settings, .documents: break
-            }
+            let state = DemoScenarioState(scenario: scenario, files: files)
+            signItems = state.signItems
+            isSigning = state.isSigning
+            currentStep = state.currentStep
+            lastAttemptsLeft = state.lastAttemptsLeft
+            lastError = state.lastError
+            lastSigned = state.lastSigned
+            verifyFile = state.verifyFile
+            verifyReports = state.verifyReports
+            activity = state.activity
+            signedDocuments = state.signedDocuments
             showDemoPage?(scenario.page)
             changed()
             if scenario == .pin || scenario == .pinError {
@@ -293,6 +310,15 @@ final class AppController {
     private func signBatch(_ items: [SignItem]) {
         guard canSign, let card = selectedCard, let cert = card.certificate else { return }
         if isDemo {
+            #if MOLDSIGN_DEMO
+            if allowsDemoSigning {
+                isSigning = true
+                lastError = nil
+                lastSigned = []
+                runSigning(items, pin: "", remember: false, cert: cert, reader: card.reader)
+                return
+            }
+            #endif
             toast?(L10n.text(.ui_demo_mode_signing_is_disabled))
             return
         }
@@ -395,12 +421,13 @@ final class AppController {
     /// Stored PIN (after a confirmation when `confirmStored` is set) or the PIN dialog.
     private func obtainPIN(certID: String, holder: String, purpose: String,
                            confirmStored: (heading: String, body: String)?, allowRemember: Bool,
+                           isCurrent: @escaping () -> Bool = { true },
                            completion: @escaping (PinEntry?) -> Void) {
         let vault = self.vault
         vaultQueue.async { [weak self] in
             let lookup = vault.load(certID: certID)
             onMain { [weak self] in
-                guard let self else { return completion(nil) }
+                guard let self, isCurrent() else { return completion(nil) }
                 if case .unavailable = lookup {} else { self.vaultProblem = nil }   // the service answered
                 switch lookup {
                 case .found(let pin):
@@ -408,7 +435,7 @@ final class AppController {
                     self.presentWindow?()
                     guard let ask = self.askConfirm else { return completion(nil) }
                     ask(confirm.heading, confirm.body, L10n.text(.ui_sign)) { ok in
-                        completion(ok ? PinEntry(pin: pin, remember: false) : nil)
+                        completion(ok && isCurrent() ? PinEntry(pin: pin, remember: false) : nil)
                     }
                 case .missing, .unavailable:
                     if case .unavailable = lookup {
@@ -419,7 +446,7 @@ final class AppController {
                                              vaultProblem: allowRemember ? self.vaultProblem : nil)
                     self.presentWindow?()
                     guard let ask = self.askPIN else { return completion(nil) }
-                    ask(request, completion)
+                    ask(request) { entry in completion(isCurrent() ? entry : nil) }
                 }
             }
         }
@@ -456,13 +483,12 @@ final class AppController {
 
     // MARK: - Verify
 
-    private var verificationGeneration = UUID()
     func verify(path: String) { verify(paths: [path]) }
 
     func verify(paths: [String]) {
-        verificationGeneration = UUID()
-        verifiedDocuments = []
-        for path in paths { verifyDocument(path: path, generation: verificationGeneration) }
+        let generation = verification.begin(clearDocuments: true)
+        changed()
+        for path in paths { verifyDocument(path: path, generation: generation) }
     }
 
     /// Inspect a saved document without replacing Verify's selection or creating history.
@@ -481,17 +507,13 @@ final class AppController {
 
     private func verifyDocument(path: String, generation: UUID, companions: [URL] = []) {
         let url = URL(fileURLWithPath: path)
-        verifyFile = url
-        verifyReports = nil
+        verification.select(url)
         changed()
         let verifier = documentVerifier
         verifyQueue.async { [weak self] in
             let reports = verifier.verify(url, companions: companions)
             onMain { [weak self] in
-                guard let self, self.verificationGeneration == generation else { return }
-                self.verifyReports = reports
-                self.verifiedDocuments.removeAll { $0.url == url }
-                self.verifiedDocuments.append((url, reports))
+                guard let self, self.verification.complete(reports, for: url, generation: generation) else { return }
                 self.log(ActivityItem(kind: .verified, title: url.lastPathComponent, subtitle: localized(.linux_verified_result, Verdict(reports).title),
                                       ok: Verdict(reports).isValid, filePath: url.path))
                 self.changed()
@@ -500,15 +522,12 @@ final class AppController {
     }
 
     func verifyOriginals(path: String, companions: [URL]) {
-        verificationGeneration = UUID()
-        verifyDocument(path: path, generation: verificationGeneration, companions: companions)
+        let generation = verification.begin(clearDocuments: false)
+        verifyDocument(path: path, generation: generation, companions: companions)
     }
 
     func resetVerify() {
-        verificationGeneration = UUID()
-        verifiedDocuments = []
-        verifyFile = nil
-        verifyReports = nil
+        verification.begin(clearDocuments: true)
         changed()
     }
 
@@ -724,7 +743,7 @@ final class AppController {
         bridge.start()
     }
 
-    private func stopBridge() { cancelStamp?(); cancelStamp = nil; bridge.stop() }
+    private func stopBridge() { authorization.cancel(); cancelStamp?(); cancelStamp = nil; bridge.stop() }
 
     /// `certID`: the card the page picked (nil → the selected card, the one the bridge signed with).
     private func forgetRejectedPIN(remaining: Int, certID: String?) {
@@ -740,40 +759,26 @@ final class AppController {
     /// Consent (unless the origin is trusted for 10 minutes), then the PIN unless the page sent one.
     private func authorize(_ request: BridgeRequest, completion: @escaping (BridgeDecision) -> Void) {
         guard !isSigning else { completion(.deny); return }
-        let origin = request.origin ?? "local"
-        // the page picked a certificate from /certificates (several cards may be connected): consent + PIN for THAT card
         let target: CardSlot? = request.certificateSHA1.map { sha in cards.first { $0.certificate?.sha1Hex == sha } }
             ?? selectedCard
         let certID = request.certificateSHA1 ?? target?.certificate?.sha1Hex
         let holder = target?.certificate?.holder ?? request.certificateHolder ?? "—"
-        let proceed: () -> Void = { [weak self] in
-            guard let self else { return completion(.deny) }
-            if request.pinIncluded {
-                self.markBridgeSigning()
-                return completion(.allow(pin: nil, certificateSHA1: certID))
-            }
-            guard let certID else {
-                self.toast?(L10n.text(.ui_insert_the_card_into_the_reader_and_try_again))
-                return completion(.deny)
-            }
-            let host = ConsentRequest(request: request, holder: holder, hasStoredPIN: false).originHost
-            let purpose = request.documentName.map { "\(host) · \($0)" } ?? localized(.ui_value_document, host)
-            self.obtainPIN(certID: certID, holder: holder, purpose: purpose,
-                           confirmStored: nil, allowRemember: false) { [weak self] entry in
-                guard let entry else { return completion(.deny) }
-                self?.markBridgeSigning()
-                completion(.allow(pin: entry.pin, certificateSHA1: certID))
-            }
-        }
-        if (trustedUntil[origin] ?? .distantPast) > Date() { return proceed() }
-        let consent = ConsentRequest(request: request, holder: holder, hasStoredPIN: target?.hasStoredPIN ?? false)
-        presentWindow?()
-        guard let ask = askConsent else { return completion(.deny) }
-        ask(consent) { [weak self] approved, trust in
-            guard approved else { return completion(.deny) }
-            if trust { self?.trustedUntil[origin] = Date().addingTimeInterval(600) }
-            proceed()
-        }
+        authorization.authorize(request, certID: certID, holder: holder,
+            hasStoredPIN: target?.hasStoredPIN ?? false,
+            ask: { [weak self] consent, answer in
+                guard let self, let ask = self.askConsent else { answer(false, false); return }
+                self.presentWindow?()
+                ask(consent, answer)
+            }, obtainPIN: { [weak self] certID, holder, isCurrent, answer in
+                guard let self else { answer(nil); return }
+                let host = ConsentRequest(request: request, holder: holder, hasStoredPIN: false).originHost
+                let purpose = request.documentName.map { "\(host) · \($0)" } ?? localized(.ui_value_document, host)
+                self.obtainPIN(certID: certID, holder: holder, purpose: purpose,
+                               confirmStored: nil, allowRemember: false, isCurrent: isCurrent) { answer($0?.pin) }
+            }, completion: { [weak self] decision in
+                if case .allow = decision { self?.markBridgeSigning() }
+                completion(decision)
+            })
     }
 
     /// Approved browser request: the card is about to sign (cleared by `onSignResult`).
@@ -797,13 +802,6 @@ final class AppController {
         return ActivityItem(kind: .failed, title: host, subtitle: localized(.ui_failed_value_value, what, describe(error).message), ok: false)
     }
 
-    private var shouldPersistActivity: Bool {
-        #if MOLDSIGN_DEMO
-        if demo != nil { return false }
-        #endif
-        return true
-    }
-
     func recordProtectionOutput(path: String, encrypted: Bool) {
         log(ActivityItem(kind: encrypted ? .encrypted : .decrypted, title: URL(fileURLWithPath: path).lastPathComponent,
                          subtitle: L10n.text(encrypted ? .protect_encrypted : .protect_decrypted), ok: true, filePath: path))
@@ -813,11 +811,11 @@ final class AppController {
         if item.isSavedDocument {
             signedDocuments.removeAll { $0.filePath == item.filePath }
             signedDocuments.insert(item, at: 0)
-            if shouldPersistActivity { Store.saveSignedDocuments(signedDocuments) }
+            activityStore.saveDocuments(signedDocuments)
         }
         activity.insert(item, at: 0)
         if activity.count > Store.activityLimit { activity.removeLast(activity.count - Store.activityLimit) }
-        if shouldPersistActivity { Store.save(activity) }
+        activityStore.saveActivity(activity)
         changed()
     }
 
@@ -839,7 +837,7 @@ final class AppController {
                 signedDocuments.removeAll { $0.id == item.id }
             } catch { failed = true }
         }
-        if shouldPersistActivity, !Store.saveSignedDocuments(signedDocuments) {
+        if !activityStore.saveDocuments(signedDocuments) {
             toast?(L10n.text(.saved_library_save_failed))
         } else if failed { toast?(L10n.text(.saved_delete_failed)) }
         changed()
@@ -847,12 +845,12 @@ final class AppController {
 
     func clearActivity() {
         // Do not discard migration sources if the independent library cannot be made durable.
-        guard !shouldPersistActivity || Store.saveSignedDocuments(signedDocuments) else {
+        guard activityStore.saveDocuments(signedDocuments) else {
             toast?(L10n.text(.saved_library_save_failed))
             return
         }
         activity.removeAll()
-        if shouldPersistActivity { Store.save(activity) }
+        activityStore.saveActivity(activity)
         changed()
     }
 

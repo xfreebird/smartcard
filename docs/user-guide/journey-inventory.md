@@ -110,7 +110,7 @@ Use Debug APK and explicit emulator serial only. Existing driver `android/script
 
 Exact Debug scenarios in `android/app/src/debug/kotlin/md/moldsign/app/DemoMode.kt`: `one`, `cards`, `reading`, `error`, `empty`, `permission`, `noreader`, `documents`, `batch`, `results`, `sign-failure`, `pin`, `pin-warning`, `activity-empty`, `verify-valid`, `verify-invalid`, `verify-unconfirmed`, `verify-none`, `verify-xml-missing`, `verify-xml-complete`. Activity is seeded by default. Documents detail modal, format picker, settings, browser and certificates may require interaction. Set native app locale/preferences before capture and verify the visible labels.
 
-Sources: `ui/screens/Screens.kt`, `ui/components/Documents.kt`, `presentation/MainViewModel.kt`, `MainActivity.kt` and Debug DemoMode. Do not use release APK fake extras or a physical device for the isolated scenario workflow.
+Sources: `ui/screens/SignScreen.kt`, `VerifyScreen.kt`, `ActivityScreen.kt`, `ui/components/Documents.kt`, `presentation/MainViewModel.kt`, `MainActivity.kt` and Debug DemoMode. Do not use release APK fake extras or a physical device for the isolated scenario workflow.
 
 ### Linux
 
@@ -143,3 +143,7 @@ Recaptured the native screens separately in EN/RO/RU. Numbers and pointer lines 
 ## File protection revision — 10 November 2026
 
 Native apps expose password encryption/decryption from the Documents navigation menu. The Moldovan ID card has no supported encryption key, so native certificate/card journeys are removed. CLI compatibility commands remain documented with this restriction. Capture the menu entry, clearly bordered password/confirmation fields, completion with Done, and saved encrypted/decrypted entries. Apple and Android save app-managed outputs automatically; Windows and Linux use a save-location step. Captures must reflect the final platform behavior, including each locale.
+
+## Test traceability
+
+The [test catalog](../../tests/journeys/catalog.json) maps every journey above to acceptance criteria, edge cases, existing/new automated suites and explicit native runtime requirements. See [test commands and coverage limits](../testing/README.md). Fixture captures do not establish end-to-end or hardware coverage.

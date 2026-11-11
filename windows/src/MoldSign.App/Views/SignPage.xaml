@@ -43,7 +43,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <ListView
-                    x:Name="FileList"
+                    x:Name="FileList" AutomationProperties.AutomationId="SignQueue"
                     MaxHeight="240"
                     Padding="0"
                     HorizontalContentAlignment="Stretch"
@@ -72,7 +72,7 @@
                                 </Grid.ColumnDefinitions>
                                 <StackPanel Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4" Spacing="8"
                                     Visibility="{x:Bind ErrorVisibility, Mode=OneWay}">
-                                    <TextBlock Text="{x:Bind Error, Mode=OneWay}" TextWrapping="Wrap" Foreground="{ThemeResource DangerBrush}" />
+                                    <TextBlock AutomationProperties.AutomationId="SignFileError" Text="{x:Bind Error, Mode=OneWay}" TextWrapping="Wrap" Foreground="{ThemeResource DangerBrush}" />
                                 </StackPanel>
                                 <FontIcon VerticalAlignment="Center" Glyph="&#xE8A5;" />
                                 <TextBlock
@@ -95,7 +95,7 @@
                                     </Border>
                                 </StackPanel>
                                 <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
-                                    <Button Click="OnFileOptionsClick" Tag="{x:Bind Path}" AutomationProperties.Name="{x:Bind OptionsLabel}">
+                                    <Button AutomationProperties.AutomationId="SignFileOptions" Click="OnFileOptionsClick" Tag="{x:Bind Path}" AutomationProperties.Name="{x:Bind OptionsLabel}">
                                         <FontIcon Glyph="&#xE712;" FontSize="16" />
                                     </Button>
                                 </StackPanel>

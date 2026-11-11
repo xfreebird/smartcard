@@ -209,6 +209,7 @@ private struct FullWidthDisclosure<Title: View, Content: View>: View {
             }
             .buttonStyle(.plain)
             .accessibilityValue(expanded ? "Expanded" : "Collapsed")
+            .accessibilityIdentifier("verify.disclosure." + (captureKey ?? "section"))
             if expanded { content().padding(.leading, 24) }
         }
         .onAppear {
@@ -306,6 +307,7 @@ struct ActivityScreen: View {
                 Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash")
             }
             .labelStyle(.iconOnly)
+            .accessibilityIdentifier("documents.clear")
             .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
             .help(L10n.text(history ? .ui_clear_history_documents_remain_on_disk : .saved_delete_all))
             #endif
@@ -421,6 +423,7 @@ struct ActivityScreen: View {
                 if history { confirmClear = true }
                 else { deleting = model.savedDocuments; confirmDelete = true }
             } label: { Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash") }
+                    .accessibilityIdentifier("documents.clear")
                     .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
             }
         }
@@ -438,6 +441,9 @@ struct ActivityScreen: View {
         }
         .confirmationDialog(L10n.text(.ui_clear_the_activity_list), isPresented: $confirmClear, titleVisibility: .visible) {
             Button(L10n.text(.ui_clear_list), role: .destructive) { model.clearActivity() }
+                .accessibilityIdentifier("documents.confirmClear")
+            Button(L10n.text(.ui_cancel), role: .cancel) {}
+                .accessibilityIdentifier("documents.cancelClear")
         } message: {
             Text(L10n.text(.ui_signed_documents_remain_on_disk_only_the_history_is_cleared))
         }

@@ -1,13 +1,6 @@
+# Signed artifacts and version reservation require explicit manual dispatch.
 name: Android build + Play testing
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'android/**'
-      - 'scripts/gradle-ci.sh'
-      - 'scripts/ci/reserve-android-version.sh'
-      - 'scripts/package-android.sh'
-      - '.github/workflows/android-build.yml'
   workflow_dispatch:
     inputs:
       build_number:

@@ -30,23 +30,8 @@ public sealed class ConsentCoordinator(DispatcherQueue ui, IPinVault pins, AppSe
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_shutdown.Token, cancellationToken);
         if (request.Requester != "Tu") timeout.CancelAfter(TimeSpan.FromMinutes(2));
         LastCertificateSha1 = request.Certificate.Sha1;
-        var answer = new TaskCompletionSource<ConsentResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var queued = ui.TryEnqueue(async () =>
-        {
-            try
-            {
-                answer.SetResult(await RequestOnUiThreadAsync(request, timeout.Token));
-            }
-            catch (OperationCanceledException)
-            {
-                answer.SetResult(ConsentResult.Cancelled);
-            }
-            catch (Exception e)
-            {
-                answer.SetException(e);
-            }
-        });
-        return queued ? answer.Task.GetAwaiter().GetResult() : ConsentResult.Cancelled;
+        var dispatch = new ConsentDispatch(action => ui.TryEnqueue(async () => await action()));
+        return dispatch.Request(token => RequestOnUiThreadAsync(request, token), timeout.Token);
     }
 
     private async Task<ConsentResult> RequestOnUiThreadAsync(ConsentRequest request, CancellationToken cancellationToken)

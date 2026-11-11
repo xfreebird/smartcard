@@ -1,0 +1,57 @@
+#!/bin/bash
+# CI-only preparation; platform suites also remain directly runnable on developer machines.
+set -euo pipefail
+platform=${1:?ios|macos}
+app=${2:?Debug app required}
+out=${3:?Fresh output directory required}
+repo=$(cd "$(dirname "$0")/../.." && pwd)
+[[ ! -e "$out" ]] || { echo 'Use a fresh output directory.' >&2; exit 2; }
+case "$platform" in
+    macos)
+        # Hosted images preauthorize XCTest. Do not prompt or change the host's security settings.
+        if ! /usr/bin/automationmodetool | grep -q 'DOES NOT REQUIRE'; then
+            echo 'The runner must preauthorize XCTest Automation Mode; no UI tests were run.' >&2
+            exit 1
+        fi
+        entitlements=$(mktemp)
+        trap 'rm -f "$entitlements"' EXIT
+        cat > "$entitlements" <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>com.apple.security.smartcard</key><true/>
+<key>com.apple.security.get-task-allow</key><true/>
+</dict></plist>
+PLIST
+        codesign --force --deep --sign - --entitlements "$entitlements" "$app"
+        codesign --verify --deep --strict "$app"
+        bash "$repo/apple/scripts/run-mock-ui-tests.sh" macos "$app" mac "$out"
+        ;;
+    ios)
+        mkdir -p "$out"
+        xcrun simctl list devices available -j > "$out/devices.json"
+        python3 - "$out/devices.json" > "$out/targets.tsv" <<'PY'
+import json, re, sys
+with open(sys.argv[1]) as source:
+    groups = json.load(source)['devices']
+runtimes = sorted((key for key in groups if '.iOS-' in key),
+                  key=lambda key: tuple(map(int, re.findall(r'\d+', key))), reverse=True)
+for family in ('iPhone', 'iPad'):
+    choices = [device for runtime in runtimes for device in groups[runtime]
+               if device.get('isAvailable') and device['name'].startswith(family)]
+    if not choices:
+        raise SystemExit(f'No available {family} simulator; refusing to skip UI coverage')
+    print(f"{family}\t{choices[0]['udid']}")
+PY
+        device=''
+        trap '[[ -z "$device" ]] || xcrun simctl shutdown "$device" || true' EXIT
+        while IFS=$'\t' read -r family device; do
+            xcrun simctl boot "$device"
+            xcrun simctl bootstatus "$device" -b
+            bash "$repo/apple/scripts/run-mock-ui-tests.sh" ios "$app" "$device" "$out/$family"
+            xcrun simctl shutdown "$device"
+            device=''
+        done < "$out/targets.tsv"
+        ;;
+    *) echo 'Unsupported platform.' >&2; exit 2 ;;
+esac

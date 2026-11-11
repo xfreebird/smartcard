@@ -15,9 +15,9 @@ import java.io.IOException
  * `Downloads/eSemnBun/` through MediaStore on Android 10+ (no permission needed; a name that exists gets " (1)"),
  * the app's own Documents folder below that. "Salvează ca…" (Activity rows) copies a result anywhere through the system save dialog.
  */
-class SignedFileStore(private val context: Context) {
+class SignedFileStore(private val context: Context) : md.moldsign.app.application.DocumentOutputStore {
     /** Writes [bytes] as [name] (`<name>-semnat.<ext>`) and returns the URI of the new file. */
-    fun save(name: String, mime: String, bytes: ByteArray): Uri =
+    override fun save(name: String, mime: String, bytes: ByteArray): Uri =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) saveToDownloads(name, mime, bytes) else saveToAppFolder(name, bytes)
 
     @RequiresApi(Build.VERSION_CODES.Q)
