@@ -102,8 +102,9 @@ jobs:
 
   ios-app:
     timeout-minutes: 90
-    needs: changes
-    if: needs.changes.outputs.ios == 'true'
+    # The Xcode 27 pool can service one Apple job at a time. Avoid expiring queued acquisitions.
+    needs: [changes, apple-apps]
+    if: ${{ !cancelled() && needs.changes.result == 'success' && needs.changes.outputs.ios == 'true' }}
     name: iOS build and iPhone + iPad mock UI
     runs-on: xcode-27
     env:

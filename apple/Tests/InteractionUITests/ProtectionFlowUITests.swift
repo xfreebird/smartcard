@@ -14,14 +14,14 @@ final class ProtectionFlowUITests: XCTestCase {
         let documents = app.buttons["Documents"].firstMatch
         XCTAssertTrue(documents.waitForExistence(timeout: 20))
         documents.tap()
-        app.buttons["documents.menu"].tap()
-        app.buttons["documents.protectFiles"].tap()
+        app.openProtection()
         XCTAssertFalse(app.buttons["Certificate / card"].exists)
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
 
-        app.buttons["protect.chooseFile"].tap()
-        XCTAssertTrue(app.buttons["Cancel"].waitForExistence(timeout: 10))
-        app.buttons["Cancel"].tap()
+        app.buttons["protect.chooseFile"].tapWhenReady()
+        XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 10))
+        try XCTUnwrap(app.buttons.matching(identifier: "Cancel").allElementsBoundByIndex.last(where: \.isHittable)).tapWhenReady()
+        XCTAssertTrue(app.collectionViews["File View"].waitForNonExistence(timeout: 10))
         XCTAssertTrue(app.buttons["protect.chooseFile"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         try chooseSource(in: app)
@@ -65,10 +65,10 @@ final class ProtectionFlowUITests: XCTestCase {
     }
 
     private func chooseSource(in app: XCUIApplication) throws {
-        app.buttons["protect.chooseFile"].tap()
-        XCTAssertTrue(app.buttons["Cancel"].waitForExistence(timeout: 10))
+        app.buttons["protect.chooseFile"].tapWhenReady()
+        XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 10))
         let browse = app.buttons["Browse"].firstMatch
-        if browse.exists { browse.tap() }
+        if browse.exists { browse.tapWhenReady() }
         let container = app.cells["eSemnBun, Container"]
         for _ in 0..<5 where !container.isHittable {
             let back = app.navigationBars.buttons["BackButton"].firstMatch
@@ -80,10 +80,10 @@ final class ProtectionFlowUITests: XCTestCase {
             }
         }
         XCTAssertTrue(container.waitForExistence(timeout: 5), app.debugDescription)
-        container.tap()
+        container.tapWhenReady()
         let file = app.cells.matching(NSPredicate(format: "label BEGINSWITH %@", "ProtectionSource")).firstMatch
         XCTAssertTrue(file.waitForExistence(timeout: 8), app.debugDescription)
-        file.tap()
+        file.tapWhenReady()
         if app.buttons["Open"].waitForExistence(timeout: 2) { app.buttons["Open"].tap() }
     }
 

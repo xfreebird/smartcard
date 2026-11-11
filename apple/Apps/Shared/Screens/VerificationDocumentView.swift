@@ -2,6 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import MoldSignKit
 
+/// Shared current-file verification presentation for Verify and saved-document details.
 struct VerificationDocumentView: View {
     let url: URL
     let reports: [Validator.Report]

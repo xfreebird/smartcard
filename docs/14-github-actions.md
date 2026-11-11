@@ -2,6 +2,11 @@
 
 This is the decision guide for `xfreebird/smartcard`. Workflow files and scripts are authoritative. Store state, highest uploaded build numbers, credential availability and pending reviews must be read live. A green build, an uploaded artifact, a review submission and availability to users are different outcomes.
 
+The macOS and iOS validation jobs share the Xcode 27 runner pool. iOS waits for the macOS
+job to finish or be skipped, then runs whenever iOS is selected and the workflow was not cancelled.
+A macOS failure does not suppress iOS evidence. This avoids hosted runner-acquisition expiry while a
+longer Apple UI batch occupies the available runner; neither job changes host automation permissions.
+
 ## Choose the smallest operation
 
 | Need | Workflow and inputs | What changes externally |

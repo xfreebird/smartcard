@@ -105,5 +105,3 @@ struct VerifyScreen: View {
         })
     }
 }
-
-/// Shared current-file verification presentation for Verify and saved-document details.

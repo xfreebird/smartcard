@@ -1,0 +1,29 @@
+#!/bin/bash
+# Native persisted-library and detached-original tests on a dedicated simulator.
+set -euo pipefail
+platform=${1:?ios}; app=${2:?Debug app}; device=${3:?Dedicated simulator}; out=${4:?Fresh output}
+[[ "$platform" == ios ]] || { echo 'Documents provider suite requires iOS.' >&2; exit 2; }
+[[ ! -e "$out" ]] || { echo 'Use a fresh output directory.' >&2; exit 2; }
+repo=$(cd "$(dirname "$0")/../.." && pwd)
+mkdir -p "$out"
+out=$(cd "$out" && pwd)
+MSIGN_TEST_EXPORT_DIRECTORY="$out/fixtures" swift test --package-path "$repo/swift/MoldSignKit" \
+    --filter BridgeEndToEndTests/testDetachedMissingOriginalIsIncompleteAndSelectedBytesResolveIt > "$out/fixture-generation.log" 2>&1
+xcrun simctl install "$device" "$app"
+container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
+python3 "$repo/apple/scripts/seed-documents-ui-tests.py" "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf"
+MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/DocumentsUITests.swift" \
+    bash "$repo/apple/scripts/run-verification-ui-tests.sh" ios "$app" "$device" "$out/native"
+ln -s native/GestureProof.xcresult "$out/GestureProof.xcresult"
+python3 - "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf" <<'PY'
+import json, pathlib, plistlib, sys
+root, fixtures, sample = map(pathlib.Path, sys.argv[1:])
+assert (root / 'Documents/QA-synthetic-semnat.pdf').read_bytes() == sample.read_bytes()
+assert (root / 'Documents/detached-signature.xml').read_bytes() == (fixtures / 'detached-signature.xml').read_bytes()
+for source in fixtures.glob('*.txt'):
+    assert (root / 'Documents/Originals' / source.name).read_bytes() == source.read_bytes()
+prefs = plistlib.loads((root / 'Library/Preferences/md.esemnbun.qa.documents.history.plist').read_bytes())
+assert json.loads(prefs['activity']) == [], 'History clear must persist across relaunch'
+assert len(json.loads(prefs['signedDocuments'])) == 2, 'History clear must preserve migrated saved documents'
+print('Documents migration, history clear and detached original selection preserved all fixture bytes.')
+PY

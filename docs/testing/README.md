@@ -107,7 +107,7 @@ omitting them runs all 20 cases. Its GTK disclosure fallback uses native X11 key
 GTK exposes expansion state without an AT-SPI activation action. An isolated Xvfb display avoids
 Wayland input-portal restrictions; this validates GTK controls, not GNOME shell integration.
 
-Additional suites required by commit CI include iOS `CardCarouselUITests` and `DemoModeUITests` on both phone and tablet; Android crypto/storage and separate `prepare`/`verify` processes; and Windows first-launch, demo-mode, card-scroll and synthetic reader-helper scripts. Documents/provider fixtures and screenshot presentation suites retain their own prerequisites below.
+Additional suites required by commit CI include iOS `CardCarouselUITests`, `DemoModeUITests`, `ProtectionFlowUITests` and seeded `DocumentsUITests` on both phone and tablet; Android crypto/storage and separate `prepare`/`verify` processes; and Windows first-launch, demo-mode, card-scroll and synthetic reader-helper scripts. The protection suite drives the native Files picker and checks restored bytes and private permissions. The Documents runner generates a genuine detached signature using the simulated card, seeds isolated legacy history, and checks migration, history clear/relaunch and original-file selection. Screenshot presentation suites retain their own prerequisites below.
 
 Existing UI suites remain part of the review:
 

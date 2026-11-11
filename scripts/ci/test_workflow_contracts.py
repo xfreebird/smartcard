@@ -76,5 +76,12 @@ class WorkflowContracts(unittest.TestCase):
                        'test-card-page-scroll.ps1', 'test-insertion-helper.ps1'):
             self.assertIn(script, ci)
         apple = (ROOT / 'apple/scripts/run-mock-ui-tests.sh').read_text()
-        for suite in ('CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests'):
+        for suite in ('CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests'):
             self.assertIn(suite, apple)
+
+    def test_ios_runs_after_macos_without_requiring_macos_success(self):
+        ci = (ROOT / '.github/workflows/ci.yml').read_text()
+        ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
+        self.assertIn('needs: [changes, apple-apps]', ios)
+        self.assertIn("!cancelled() && needs.changes.result == 'success'", ios)
+        self.assertNotIn("needs.apple-apps.result == 'success'", ios)

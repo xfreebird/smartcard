@@ -7,10 +7,11 @@ repo=$(cd "$(dirname "$0")/../.." && pwd)
 mkdir -p "$out"
 status=0
 suites=(VerificationJourneyUITests MockWorkflowUITests)
-if [[ "$platform" == ios ]]; then suites+=(CardCarouselUITests DemoModeUITests ProtectionFlowUITests); fi
+if [[ "$platform" == ios ]]; then suites+=(CardCarouselUITests DemoModeUITests ProtectionFlowUITests DocumentsUITests); fi
 for suite in "${suites[@]}"; do
     runner="$repo/apple/scripts/run-verification-ui-tests.sh"
     [[ "$suite" != ProtectionFlowUITests ]] || runner="$repo/apple/scripts/run-protection-ui-tests.sh"
+    [[ "$suite" != DocumentsUITests ]] || runner="$repo/apple/scripts/run-documents-ui-tests.sh"
     if ! MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/$suite.swift" \
         bash "$runner" "$platform" "$app" "$device" "$out/$suite"; then
         status=1
@@ -22,6 +23,7 @@ for suite in "${suites[@]}"; do
         VerificationJourneyUITests) expected=5 ;;
         MockWorkflowUITests) expected=6 ;;
         CardCarouselUITests) expected=2 ;;
+        DocumentsUITests) expected=3 ;;
         DemoModeUITests|ProtectionFlowUITests) expected=1 ;;
     esac
     python3 "$repo/scripts/ci/check-xctest-result.py" "$out/$suite/$result" "$expected" || status=1

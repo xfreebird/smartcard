@@ -149,25 +149,7 @@ final class MockWorkflowUITests: XCTestCase {
         let expand = app.buttons["sign.expandBatch"].firstMatch
         if expand.waitForExistence(timeout: 2) { expand.activateControl() }
     }
-    private func openHistoryClear(in app: XCUIApplication) {
-        let direct = app.buttons["documents.clear"].firstMatch
-        if direct.waitForExistence(timeout: 3) {
-            XCTAssertTrue(direct.isEnabled)
-            direct.activateControl()
-            return
-        }
-        #if os(iOS)
-        // iPad can move primary toolbar actions into its native overflow menu.
-        let overflow = app.buttons["TopOverflowBarButtonItem"].firstMatch
-        XCTAssertTrue(overflow.waitForExistence(timeout: 5))
-        overflow.activateControl()
-        #endif
-        let clear = app.descendants(matching: .any).matching(NSPredicate(
-            format: "identifier == %@ OR label == %@", "documents.clear", "Clear list")).firstMatch
-        XCTAssertTrue(clear.waitForExistence(timeout: 5))
-        XCTAssertTrue(clear.isEnabled)
-        clear.activateControl()
-    }
+    private func openHistoryClear(in app: XCUIApplication) { app.openHistoryClear() }
     private func wait(_ message: String, in app: XCUIApplication, condition: @escaping () -> Bool) {
         let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: app)
         XCTAssertEqual(XCTWaiter.wait(for: [expectation], timeout: 15), .completed, message)
