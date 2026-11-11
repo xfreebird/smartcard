@@ -51,6 +51,7 @@ jobs:
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |
+            python3 scripts/ci/prepare-android-ui.py emulator-5554 "$RUNNER_TEMP/android-ui-boot"
             ADB="$ANDROID_HOME/platform-tools/adb" android/scripts/capture-screenshots.sh android/app/build/outputs/apk/debug/app-debug.apk "$RUNNER_TEMP/esemnbun-phone" emulator-5554
             adb shell wm size 2560x1600
             adb shell wm density 240
@@ -63,6 +64,7 @@ jobs:
           name: android-runtime-screenshots-${{ github.run_id }}
           retention-days: 7
           path: |
+            ${{ runner.temp }}/android-ui-boot/
             ${{ runner.temp }}/esemnbun-phone/
             ${{ runner.temp }}/esemnbun-tablet/
           if-no-files-found: warn
