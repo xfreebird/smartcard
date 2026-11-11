@@ -16,7 +16,8 @@ It follows the architecture, service-provider and native-component refactors alr
   permissions, and removal only after explicit confirmation. Native-driver helpers are separate from
   journey assertions. GTK path fields are set atomically to avoid autocomplete changing synthetic input.
 - Android permits one framework cold-boot Wait action before installation, followed by three healthy
-  launcher observations. App ANRs, recurrence and a second framework failure remain fatal.
+  launcher observations. Pre-install accessibility connection failures reset the healthy count and
+  have at most three attempts. App ANRs, recurrence and a second framework failure remain fatal.
 
 ## Executed evidence
 
@@ -27,7 +28,7 @@ It follows the architecture, service-provider and native-component refactors alr
 | Final iPad Documents runner, iOS 26.5 | All 3 methods and migration/history/fixture post-checks passed |
 | iPad demo activation/share/relaunch test | Passed after adding the state wait |
 | iPhone provider checks, iOS 26.5 | Protection and 3 Documents methods passed; byte/persistence checks passed after resolving the relocated container |
-| CI helper regressions | 38 passed |
+| CI helper regressions | 41 passed |
 | Script syntax, journey references, diff whitespace | Passed |
 
 The final folder-icon adjustment was rechecked on iPad. Hosted validation must still check the final
@@ -42,3 +43,10 @@ reserve distribution versions, or upload to stores. Release workflows remain tag
 The journey catalog retains explicit partial coverage for remaining OS/hardware acceptance paths.
 GTK fallback pickers do not establish sandbox portal behavior; simulated signing and synthetic files
 are not physical-card, credential-prompt, Store installation or live-government-portal evidence.
+
+The subsequent hosted run [43069650641](https://github.com/xfreebird/smartcard/actions/runs/43069650641)
+passed Windows and shared checks. Its Linux removal test correctly encountered the container's unsupported
+overlay filesystem; the fixture now uses tmpfs, matching the core removal test, and passes locally there.
+Android's UiAutomation connection timed out before installation; bounded readiness retries now cover
+that startup state without counting it as a healthy check. The failed validation run was canceled while
+Apple was still queued, before starting a fresh run with these fixes.

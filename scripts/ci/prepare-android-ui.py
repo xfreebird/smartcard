@@ -42,12 +42,25 @@ def prepare(serial, output, adb='adb'):
     recovered_at = None
     recovered_state = None
     stable = 0
+    dump_failures = 0
     events = []
     try:
         while time.monotonic() < deadline:
             # A failed dump must not leave a previous healthy hierarchy to reuse.
             command('shell', 'rm', '-f', '/sdcard/ci-boot.xml')
-            command('shell', 'uiautomator', 'dump', '/sdcard/ci-boot.xml')
+            try:
+                command('shell', 'uiautomator', 'dump', '/sdcard/ci-boot.xml')
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as error:
+                # Cold boot may report completion before UiAutomation can connect.
+                # No app is installed yet; a failed dump is never a healthy observation.
+                dump_failures += 1
+                stable = 0
+                events.append('waiting-accessibility-command')
+                (output / f'dump-error-{len(events):02d}.txt').write_text(str(error))
+                if dump_failures >= 3:
+                    raise RuntimeError('Accessibility dump failed repeatedly before app installation') from error
+                time.sleep(2)
+                continue
             xml = command('exec-out', 'cat', '/sdcard/ci-boot.xml').decode()
             (output / f'hierarchy-{len(events):02d}.xml').write_text(xml)
             try:

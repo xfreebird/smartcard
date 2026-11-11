@@ -109,7 +109,9 @@ Wayland input-portal restrictions; this validates GTK controls, not GNOME shell 
 The isolated runner sets `GDK_DEBUG=no-portals` so file dialogs stay inside its Xvfb session;
 [GTK documents this portal override](https://docs.gtk.org/gtk4/func.disable_portals.html).
 The protection fixture opens the real dialog, then uses native controls and the production processor.
-File and save selections remain inside the temporary fixture directory. The packaged app retains normal portal behavior.
+File and save selections remain inside the temporary fixture directory. The removal fixture uses
+`/dev/shm` (tmpfs), matching the core tests; production removal deliberately refuses unknown filesystems
+such as a container overlay. The packaged app retains normal portal behavior.
 
 Additional suites required by commit CI include iOS `CardCarouselUITests`, `DemoModeUITests`, `ProtectionFlowUITests` and seeded `DocumentsUITests` on both phone and tablet; Android crypto/storage and separate `prepare`/`verify` processes; and Windows first-launch, demo-mode, card-scroll and synthetic reader-helper scripts. The protection suite drives the native Files picker and checks restored bytes and private permissions. The Documents runner generates a genuine detached signature using the simulated card, seeds isolated legacy history, and checks migration, history clear/relaunch and original-file selection. Screenshot presentation suites retain their own prerequisites below.
 

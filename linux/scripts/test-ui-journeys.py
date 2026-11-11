@@ -117,7 +117,10 @@ def run(binary, output, selected=None):
     assert b"MSIGN_DEMO_READY_FILE" in Path(binary).read_bytes(), "Debug demo binary required"
     results = []
     for scenario, (page, verdict) in scenarios.items():
-        with tempfile.TemporaryDirectory(prefix="esemnbun-ui-") as folder:
+        # Explicit removal allows known local filesystems; container /tmp may be overlayfs.
+        # Match ProtectedFileIOTests by keeping this small disposable fixture on tmpfs.
+        fixture_base = "/dev/shm" if scenario == "protection-roundtrip" else None
+        with tempfile.TemporaryDirectory(prefix="esemnbun-ui-", dir=fixture_base) as folder:
             root = Path(folder)
             token = str(uuid.uuid4())
             fixture = "activity" if scenario in ("history-clear", "protection-roundtrip") else "documents" if scenario in workflow_cases else scenario
