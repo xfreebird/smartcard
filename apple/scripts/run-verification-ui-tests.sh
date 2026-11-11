@@ -37,6 +37,7 @@ host=$(mktemp -d "${TMPDIR:-/tmp}/esemnbun-ui-host.XXXXXX")
 mkdir -p "$host/Host" "$host/Tests"
 cp "$source_file" "$host/Tests/"
 cp "$repo/apple/Tests/InteractionUITests/NativeUITestActions.swift" "$host/Tests/"
+cp "$repo/apple/Tests/InteractionUITests/NativeFilePicker.swift" "$host/Tests/"
 cat > "$host/Host/Host.swift" <<'SWIFT'
 import SwiftUI
 @main struct Host: App { var body: some Scene { WindowGroup { Color.clear } } }

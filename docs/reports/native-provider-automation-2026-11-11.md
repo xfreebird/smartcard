@@ -50,3 +50,25 @@ overlay filesystem; the fixture now uses tmpfs, matching the core removal test, 
 Android's UiAutomation connection timed out before installation; bounded readiness retries now cover
 that startup state without counting it as a healthy check. The failed validation run was canceled while
 Apple was still queued, before starting a fresh run with these fixes.
+
+## iOS Files accessibility follow-up
+
+Hosted run [43071414969](https://github.com/xfreebird/smartcard/actions/runs/43071414969)
+passed macOS, Android, Windows, Linux, localization and Swift. Android completed all 34 journeys,
+storage integration and both persistence launches; Linux completed 21 native scenarios; Windows
+passed 257 integration tests and its required native suites. iOS built successfully and passed
+16 of 18 methods on each device family. The remaining failures were Files cancellation and folder
+selection in Documents/protection, rather than cryptographic or persistence assertions.
+
+The native Files driver now resolves controls from one public XCTest snapshot and taps their observed
+frames. This avoids re-querying a remote picker control as an obscured application control. Empty
+folders use the Browse root to establish picker presence, and toolbar controls are resolved outside
+that root where Files places them as siblings. Folder icons and document cells share the same driver.
+Protection waits for the result sheet's Done action, and native overflow accepts both observed OS
+identifiers. No scenario or assertion was removed.
+
+On the local iPhone Duo with iOS 27.1, protection and all three Documents methods pass, including
+source/restored byte equality, private output modes, migration/history and detached-original checks.
+The local iOS 27.0 iPad Files snapshot omitted native accessibility labels and identifiers, so that
+attempt failed rather than using unnamed coordinates. The updated tablet driver and final source
+still require hosted validation. Evidence remains under `.local/validation-20261111/`.

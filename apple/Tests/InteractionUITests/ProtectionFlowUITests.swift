@@ -19,7 +19,7 @@ final class ProtectionFlowUITests: XCTestCase {
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
 
         app.buttons["protect.chooseFile"].tapWhenReady()
-        XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 10))
         try app.cancelFilePicker()
         XCTAssertTrue(app.buttons["protect.chooseFile"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
@@ -65,25 +65,9 @@ final class ProtectionFlowUITests: XCTestCase {
 
     private func chooseSource(in app: XCUIApplication) throws {
         app.buttons["protect.chooseFile"].tapWhenReady()
-        XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 10))
-        let browse = app.buttons["Browse"].firstMatch
-        if browse.exists { browse.tapWhenReady() }
-        let container = app.cells["eSemnBun, Container"]
-        for _ in 0..<5 where !container.isHittable {
-            let back = app.navigationBars.buttons["BackButton"].firstMatch
-            if back.exists {
-                back.tap()
-            } else {
-                let local = app.staticTexts.matching(NSPredicate(format: "label IN %@", ["On My iPhone", "On My iPad"])).firstMatch
-                if local.waitForExistence(timeout: 3) { local.tap() }
-            }
-        }
-        XCTAssertTrue(container.waitForExistence(timeout: 5), app.debugDescription)
-        container.openFilePickerFolder()
-        let file = app.cells.matching(NSPredicate(format: "label BEGINSWITH %@", "ProtectionSource")).firstMatch
-        XCTAssertTrue(file.waitForExistence(timeout: 8), app.debugDescription)
-        file.tapWhenReady()
-        if app.buttons["Open"].waitForExistence(timeout: 2) { app.buttons["Open"].tap() }
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 10))
+        try NativeFilePicker(app: app).selectFile(in: ["eSemnBun, Container"],
+            namePrefix: "ProtectionSource", confirmSelection: false)
     }
 
     private func document(_ name: String, in app: XCUIApplication) -> XCUIElement {
@@ -96,7 +80,11 @@ final class ProtectionFlowUITests: XCTestCase {
     }
 
     private func closeDetails(in app: XCUIApplication) throws {
-        try XCTUnwrap(app.buttons.matching(identifier: "Done").allElementsBoundByIndex.first(where: \.isHittable)).tap()
+        let buttons = app.buttons.matching(identifier: "Done")
+        let ready = NSPredicate { _, _ in buttons.allElementsBoundByIndex.contains(where: \.isHittable) }
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: app)], timeout: 10), .completed,
+                       app.debugDescription)
+        try XCTUnwrap(buttons.allElementsBoundByIndex.last(where: \.isHittable)).tap()
     }
 
     private func attach(_ app: XCUIApplication, _ name: String) {

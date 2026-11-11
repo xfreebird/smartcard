@@ -13,20 +13,14 @@ extension XCUIElement {
 
 @MainActor
 extension XCUIApplication {
+    var filePicker: XCUIElement { otherElements["Browse View (Picker)"].firstMatch }
+    private var toolbarOverflow: XCUIElement {
+        buttons.matching(NSPredicate(format: "identifier IN %@",
+            ["TopOverflowBarButtonItem", "OverflowBarButtonItem"])).firstMatch
+    }
+
     func cancelFilePicker() throws {
-        let picker = collectionViews["File View"]
-        XCTAssertTrue(picker.waitForExistence(timeout: 10))
-        let navigation = navigationBars.matching(NSPredicate(format: "identifier IN %@",
-            ["FullDocumentManagerViewControllerNavigationBar", "DOCSidebarView"]))
-        let cancel = navigation.buttons.matching(NSPredicate(format: "label IN %@", ["Cancel", "Close"])).firstMatch
-        XCTAssertTrue(cancel.waitForExistence(timeout: 10), debugDescription)
-        // Files overlays its toolbar with a second accessibility proxy on some runtimes.
-        // Tap the observed native control's center; do not target the underlying form's Cancel.
-        let point = cancel.frame
-        XCTAssertFalse(point.isEmpty)
-        XCTAssertTrue(frame.contains(point))
-        coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: point.midX, dy: point.midY)).tap()
-        XCTAssertTrue(picker.waitForNonExistence(timeout: 10))
+        try NativeFilePicker(app: self).cancel()
     }
 
     func openProtection() {
@@ -34,7 +28,7 @@ extension XCUIApplication {
         if menu.waitForExistence(timeout: 3) {
             menu.tapWhenReady()
         } else {
-            let overflow = buttons["TopOverflowBarButtonItem"].firstMatch
+            let overflow = toolbarOverflow
             XCTAssertTrue(overflow.waitForExistence(timeout: 5))
             overflow.tapWhenReady()
             let action = descendants(matching: .any).matching(NSPredicate(
@@ -54,7 +48,7 @@ extension XCUIApplication {
         }
         #if os(iOS)
         // iPad can move primary toolbar actions into its native overflow menu.
-        let overflow = buttons["TopOverflowBarButtonItem"].firstMatch
+        let overflow = toolbarOverflow
         XCTAssertTrue(overflow.waitForExistence(timeout: 5))
         overflow.activateControl()
         #endif
@@ -71,15 +65,6 @@ extension XCUIElement {
     func tapWhenReady(file: StaticString = #filePath, line: UInt = #line) {
         guard waitUntilReady(file: file, line: line) else { return }
         activateControl()
-    }
-
-    @MainActor
-    func openFilePickerFolder(file: StaticString = #filePath, line: UInt = #line) {
-        guard waitUntilReady(file: file, line: line) else { return }
-        let icon = images.firstMatch
-        // Files can include metadata below the tappable folder icon in the cell's frame.
-        let target = icon.exists && !icon.frame.isEmpty ? icon : self
-        target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
     }
 
     @MainActor

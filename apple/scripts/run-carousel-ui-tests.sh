@@ -27,6 +27,7 @@ mkdir -p "$probe_dir/Host" "$probe_dir/Tests"
 test_source=${MSIGN_UI_TEST_SOURCE:-$repo/apple/Tests/InteractionUITests/CardCarouselUITests.swift}
 cp "$test_source" "$probe_dir/Tests/"
 cp "$repo/apple/Tests/InteractionUITests/NativeUITestActions.swift" "$probe_dir/Tests/"
+cp "$repo/apple/Tests/InteractionUITests/NativeFilePicker.swift" "$probe_dir/Tests/"
 cat > "$probe_dir/Host/ProbeHost.swift" <<'SWIFT'
 import SwiftUI
 @main struct ProbeHost: App {

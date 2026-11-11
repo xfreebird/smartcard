@@ -65,40 +65,15 @@ final class DocumentsUITests: XCTestCase {
         let choose = app.buttons["verify.chooseOriginals"]
         XCTAssertTrue(choose.waitForExistence(timeout: 10))
         choose.tap()
-        XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 15), app.debugDescription)
         attach(app, "06-original-picker")
         try app.cancelFilePicker()
         XCTAssertTrue(choose.waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Cannot be confirmed"].exists)
         choose.tap()
-        XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 10))
-        let browse = app.buttons["Browse"].firstMatch
-        if browse.exists { browse.tapWhenReady() }
-        let container = app.cells["eSemnBun, Container"]
-        for _ in 0..<4 where !container.isHittable {
-            let back = app.navigationBars.buttons["BackButton"].firstMatch
-            if back.exists { back.tap() }
-            else {
-                let local = app.staticTexts.matching(NSPredicate(format: "label IN %@", ["On My iPhone", "On My iPad"])).firstMatch
-                XCTAssertTrue(local.waitForExistence(timeout: 5), app.debugDescription)
-                local.tap()
-            }
-        }
-        XCTAssertTrue(container.waitForExistence(timeout: 5))
-        container.openFilePickerFolder()
-        let folder = app.cells["Originals, Folder"]
-        let visibleFolder = NSPredicate { _, _ in
-            folder.isHittable && folder.frame.minX >= 0 && folder.frame.maxX <= app.frame.width
-        }
-        expectation(for: visibleFolder, evaluatedWith: app)
-        waitForExpectations(timeout: 10)
-        folder.openFilePickerFolder()
-        let original = app.cells.matching(NSPredicate(format: "label BEGINSWITH %@ AND label CONTAINS %@", "detached-", "txt")).firstMatch
-        XCTAssertTrue(original.waitForExistence(timeout: 5), app.debugDescription)
-        original.tapWhenReady()
-        let open = app.buttons["Open"]
-        XCTAssertTrue(open.waitForExistence(timeout: 5), app.debugDescription)
-        open.tap()
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 10))
+        try NativeFilePicker(app: app).selectFile(in: ["eSemnBun, Container", "Originals, Folder"],
+            namePrefix: "detached-", labelContains: "txt", confirmSelection: true)
         XCTAssertTrue(choose.waitForExistence(timeout: 10))
         let missing = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Verification is incomplete."))
         let resolved = NSPredicate { _, _ in missing.count == 0 && !app.activityIndicators.firstMatch.exists }
