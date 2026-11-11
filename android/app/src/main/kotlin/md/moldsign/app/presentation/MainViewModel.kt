@@ -220,8 +220,9 @@ class MainViewModel @JvmOverloads constructor(
         if (demoMode) { seedPreviewDocuments(); return }
         if (uris.isEmpty()) return
         viewModelScope.launch {
-            uris.forEach(documents::keepAccess)
-            val docs = uris.map { documents.describe(it) }
+            val unique = uris.distinct()
+            unique.forEach(documents::keepAccess)
+            val docs = unique.map { documents.describe(it) }
             _signItems.update { items -> items + docs.filter { d -> items.none { it.doc.uri == d.uri } }.map(::SignItem) }
         }
     }
@@ -396,8 +397,9 @@ documents.copy(source, target)
         if (uris.isEmpty() || _verifyDoc.value == null) return
         verifyJob?.cancel()
         verifyJob = viewModelScope.launch {
-            uris.forEach(documents::keepAccess)
-            val docs = uris.map { documents.describe(it) }
+            val unique = uris.distinct()
+            unique.forEach(documents::keepAccess)
+            val docs = unique.map { documents.describe(it) }
             _verifyDetached.update { list -> list.filterNot { existing -> docs.any { it.name == existing.name } } + docs.distinctBy { it.name } }
             runVerify(firstRun = false)
         }

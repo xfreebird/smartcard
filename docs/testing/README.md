@@ -107,6 +107,8 @@ omitting them runs all 20 cases. Its GTK disclosure fallback uses native X11 key
 GTK exposes expansion state without an AT-SPI activation action. An isolated Xvfb display avoids
 Wayland input-portal restrictions; this validates GTK controls, not GNOME shell integration.
 
+Additional suites required by commit CI include iOS `CardCarouselUITests` and `DemoModeUITests` on both phone and tablet; Android crypto/storage and separate `prepare`/`verify` processes; and Windows first-launch, demo-mode, card-scroll and synthetic reader-helper scripts. Documents/provider fixtures and screenshot presentation suites retain their own prerequisites below.
+
 Existing UI suites remain part of the review:
 
 - iOS `DocumentsUITests`, `CardCarouselUITests`, `DemoModeUITests` and `ScreenshotReviewUITests` run through

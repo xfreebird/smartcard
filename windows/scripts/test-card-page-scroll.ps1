@@ -125,6 +125,9 @@ try {
             }
         } finally {
             if(-not $process.HasExited) {Stop-Process -Id $process.Id -Force}
+            if(-not $process.WaitForExit(10000)) {throw "Owned app did not exit"}
+            $process.Dispose()
+            $process=$null
             Remove-Item $ready -ErrorAction SilentlyContinue
         }
     }

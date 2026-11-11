@@ -281,6 +281,29 @@ jobs:
         run: |
           $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
           & windows/scripts/test-mock-workflows.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-workflows"
+      - name: Native Windows first launch
+        shell: powershell
+        run: |
+          $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
+          & windows/scripts/test-first-launch.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-first-launch"
+      - name: Native Windows demo persistence
+        shell: powershell
+        run: |
+          $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
+          & windows/scripts/test-demo-mode.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-demo"
+      - name: Native Windows card scrolling
+        shell: powershell
+        run: |
+          $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
+          & windows/scripts/test-card-page-scroll.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-card"
+      - name: Native Windows reader helper lifecycle
+        shell: powershell
+        run: |
+          dotnet build windows/src/MoldSign.Watcher -c Debug
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
+          $helper = (Resolve-Path 'windows/src/MoldSign.Watcher/bin/Debug/net10.0-windows/eSemnBun.Watcher.exe').Path
+          & windows/scripts/test-insertion-helper.ps1 -App $app -Helper $helper -Output "$env:RUNNER_TEMP/windows-ui-helper"
       - name: Windows UI evidence
         if: always()
         uses: actions/upload-artifact@v4

@@ -17,12 +17,15 @@ public static class DemoCapture {
 New-Item -ItemType Directory -Force $Output|Out-Null
 [xml]$resources=Get-Content (Join-Path $PSScriptRoot '../src/MoldSign.App/Strings/en-US/Resources.resw') -Raw -Encoding UTF8
 $strings=@{};foreach($entry in $resources.root.data){$strings[$entry.name]=[string]$entry.value}
-$prefs=Join-Path $env:LOCALAPPDATA 'MoldSign/settings.json'
-$history=Join-Path $env:LOCALAPPDATA 'MoldSign/activity.json'
-$backup=@{};foreach($file in $prefs,$history){$backup[$file]=$(if(Test-Path $file){[IO.File]::ReadAllBytes($file)}else{$null})}
+# Debug automation uses a dedicated profile; never back up/overwrite the developer's live files.
+$profile=Join-Path $Output ('profile-'+[Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Force $profile|Out-Null
+$prefs=Join-Path $profile 'settings.json'
+$history=Join-Path $profile 'activity.json'
 $original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES'){
  $original[$name]=[Environment]::GetEnvironmentVariable($name);[Environment]::SetEnvironmentVariable($name,$null)
 }
+$env:MSIGN_TEST_PREFERENCES=$prefs
 $beforeDirs=@(Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Select-Object -ExpandProperty FullName)
 $process=$null
 function Elements($property,$value){
@@ -90,12 +93,12 @@ function Launch{
  for($i=0;$i -lt 180;$i++){$process.Refresh();if($process.MainWindowHandle -ne 0){return};Start-Sleep -Milliseconds 100}
  throw 'App did not show its main window'
 }
-function Stop-Owned{if($process -and -not $process.HasExited){Stop-Process -Id $process.Id -Force};$script:process=$null}
+function Stop-Owned{if($process){if(-not $process.HasExited){Stop-Process -Id $process.Id -Force};if(-not $process.WaitForExit(10000)){throw 'Owned app did not exit'};$process.Dispose()};$script:process=$null}
 function History-Hash{if(Test-Path $history){return (Get-FileHash $history).Hash};return 'absent'}
 try{
  if(Get-Process eSemnBun -ErrorAction SilentlyContinue){throw 'Close running eSemnBun before this isolated guest test'}
  New-Item -ItemType Directory -Force (Split-Path $prefs)|Out-Null
- @{Language='en-US';BridgeEnabled=$false;DemoModeEnabled=$false;RememberPin=$true}|ConvertTo-Json|Set-Content $prefs
+ @{Language='en-US';BridgeEnabled=$false;DemoModeEnabled=$false;RememberPin=$true;FirstRunDone=$true}|ConvertTo-Json|Set-Content $prefs
  Launch;Navigate $strings['SettingsPageTitle.Text'];$toggle=Find 'DemoModeToggle'
  $historyHash=History-Hash
  Toggle $toggle;$null=Find 'DemoModeConfirmation';Capture 'release-demo-confirmation';Invoke (Find 'CloseButton')
@@ -121,7 +124,7 @@ try{
  if($connections.Count -ne 0){throw 'Demo unexpectedly opened a network connection'}
  Scroll 0;Toggle (Find 'DemoModeToggle');Wait-Demo $false;Capture 'release-normal-restored'
  if(-not (Read-Prefs).RememberPin){throw 'Real-mode preferences changed unexpectedly'}
- @{passed=$true;releaseApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true}|
+ @{passed=$true;isolatedDebugApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true}|
  ConvertTo-Json|Set-Content (Join-Path $Output 'release-demo-validation.json')
 }catch{
  try{Capture 'failure-context'}catch{}
@@ -129,7 +132,7 @@ try{
  throw
 }finally{
  Stop-Owned
- foreach($file in $backup.Keys){if($null -eq $backup[$file]){Remove-Item $file -ErrorAction SilentlyContinue}else{[IO.File]::WriteAllBytes($file,$backup[$file])}}
+ Remove-Item -LiteralPath $profile -Recurse -Force -ErrorAction SilentlyContinue
  foreach($name in $original.Keys){[Environment]::SetEnvironmentVariable($name,$original[$name])}
  foreach($directory in (Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Where-Object {$_.FullName -notin $beforeDirs})){Remove-Item -LiteralPath $directory.FullName -Recurse -Force}
 }

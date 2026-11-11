@@ -31,3 +31,17 @@ s=pathlib.Path(sys.argv[1]).read_text()
 assert 'INSTRUMENTATION_CODE: -1' in s and 'FAIL:' not in s, s
 assert s.count(':pass') == 29, 'Missing scenario completions: '+s
 PY
+
+# Separate instrumentation launches prove persisted files survive process death.
+for phase in storage prepare verify; do
+    args=()
+    [[ "$phase" == storage ]] || args=(-e phase "$phase")
+    "$adb" -s "$serial" shell am instrument -w -r "${args[@]}" \
+        md.esemnbun.app.test/md.moldsign.app.FileProtectionInstrumentation | tee "$out/protection-$phase.log"
+    python3 - "$out/protection-$phase.log" <<'PYTHON'
+import pathlib, re, sys
+s = pathlib.Path(sys.argv[1]).read_text()
+assert re.search(r'^INSTRUMENTATION_CODE: -1\s*$', s, re.M), s
+assert 'INSTRUMENTATION_RESULT: result=PASS:' in s and 'FAIL:' not in s, s
+PYTHON
+done

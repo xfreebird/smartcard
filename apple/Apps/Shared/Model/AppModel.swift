@@ -528,8 +528,7 @@ final class AppModel {
     // MARK: - Signing
 
     func addFiles(_ urls: [URL]) {
-        let known = Set(signItems.map(\.url))
-        signItems += urls.filter { !known.contains($0) && !$0.hasDirectoryPath }.map(SignItem.init)
+        signItems += DocumentImportPolicy.newFiles(urls, excluding: signItems.map(\.url)).map(SignItem.init)
     }
 
     func remove(_ item: SignItem) {

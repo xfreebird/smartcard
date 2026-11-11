@@ -268,13 +268,14 @@ final class AppController {
     // MARK: - Signing
 
     func addFiles(_ paths: [String]) {
-        let known = Set(signItems.map(\.url.path))
-        var isDir: ObjCBool = false
-        let fresh = paths.filter { path in
-            !known.contains(path) && FileManager.default.fileExists(atPath: path, isDirectory: &isDir) && !isDir.boolValue
+        let candidates = DocumentImportPolicy.newFiles(paths.map { URL(fileURLWithPath: $0) },
+                                                       excluding: signItems.map(\.url))
+        let fresh = candidates.filter { url in
+            var isDirectory: ObjCBool = false
+            return FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) && !isDirectory.boolValue
         }
         guard !fresh.isEmpty else { return }
-        signItems += fresh.map { SignItem(url: URL(fileURLWithPath: $0)) }
+        signItems += fresh.map { SignItem(url: $0) }
         lastSigned = []
         lastError = nil
         changed()
