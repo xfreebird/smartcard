@@ -105,6 +105,7 @@ try {
         } catch { $results += @{scenario=$scenario;status='failed';error=$_.Exception.Message}; throw }
         finally {
             if (-not $process.HasExited) { Stop-Process -Id $process.Id }
+            if (-not $process.WaitForExit(10000)) { throw 'Test app did not terminate during cleanup' }
             ConvertTo-Json -InputObject @($results) -Depth 5 | Set-Content (Join-Path $Output 'results.json')
         }
     }

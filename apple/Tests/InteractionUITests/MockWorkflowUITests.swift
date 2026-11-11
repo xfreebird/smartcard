@@ -105,9 +105,7 @@ final class MockWorkflowUITests: XCTestCase {
         #endif
         let app = launch("sign-success", fixture: "history-populated", tab: tab)
         defer { app.terminate() }
-        let clear = app.buttons["documents.clear"].firstMatch
-        XCTAssertTrue(clear.waitForExistence(timeout: 15)); XCTAssertTrue(clear.isEnabled)
-        clear.activateControl()
+        openHistoryClear(in: app)
         let confirm = app.buttons["documents.confirmClear"].firstMatch
         XCTAssertTrue(confirm.waitForExistence(timeout: 5))
         let cancel = app.buttons["documents.cancelClear"].firstMatch
@@ -120,8 +118,9 @@ final class MockWorkflowUITests: XCTestCase {
             app.coordinate(withNormalizedOffset: CGVector(dx: 0.05, dy: 0.75)).tap()
             #endif
         }
-        XCTAssertTrue(confirm.waitForNonExistence(timeout: 5)); XCTAssertTrue(clear.isEnabled)
-        clear.activateControl()
+        XCTAssertTrue(confirm.waitForNonExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Contract-semnat.pdf"].exists, "Cancel must retain history")
+        openHistoryClear(in: app)
         XCTAssertTrue(confirm.waitForExistence(timeout: 5)); confirm.activateControl()
         XCTAssertTrue(app.staticTexts["No activity yet"].waitForExistence(timeout: 5))
         app.descendants(matching: .any)["Saved documents"].firstMatch.activateControl()
@@ -146,6 +145,25 @@ final class MockWorkflowUITests: XCTestCase {
     private func expand(_ app: XCUIApplication) {
         let expand = app.buttons["sign.expandBatch"].firstMatch
         if expand.waitForExistence(timeout: 2) { expand.activateControl() }
+    }
+    private func openHistoryClear(in app: XCUIApplication) {
+        let direct = app.buttons["documents.clear"].firstMatch
+        if direct.waitForExistence(timeout: 3) {
+            XCTAssertTrue(direct.isEnabled)
+            direct.activateControl()
+            return
+        }
+        #if os(iOS)
+        // iPad can move primary toolbar actions into its native overflow menu.
+        let overflow = app.buttons["TopOverflowBarButtonItem"].firstMatch
+        XCTAssertTrue(overflow.waitForExistence(timeout: 5))
+        overflow.activateControl()
+        #endif
+        let clear = app.descendants(matching: .any).matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", "documents.clear", "Clear list")).firstMatch
+        XCTAssertTrue(clear.waitForExistence(timeout: 5))
+        XCTAssertTrue(clear.isEnabled)
+        clear.activateControl()
     }
     private func wait(_ message: String, in app: XCUIApplication, condition: @escaping () -> Bool) {
         let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: app)

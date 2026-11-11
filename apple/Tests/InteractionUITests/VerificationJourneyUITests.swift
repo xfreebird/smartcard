@@ -67,7 +67,7 @@ final class VerificationJourneyUITests: XCTestCase {
             #if os(macOS)
             // Native cards expose one combined accessibility label on desktop.
             let label = scenario == "reading" ? "reading" : title
-            let state = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@", label)).firstMatch
+            let state = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@ OR value CONTAINS[c] %@", label, label)).firstMatch
             XCTAssertTrue(state.waitForExistence(timeout: 15), scenario)
             #else
             XCTAssertTrue(app.staticTexts[title].firstMatch.waitForExistence(timeout: 15), scenario)

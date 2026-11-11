@@ -44,14 +44,16 @@ for family in ('iPhone', 'iPad'):
     print(f"{family}\t{choices[0]['udid']}")
 PY
         device=''
+        status=0
         trap '[[ -z "$device" ]] || xcrun simctl shutdown "$device" || true' EXIT
         while IFS=$'\t' read -r family device; do
             xcrun simctl boot "$device"
             xcrun simctl bootstatus "$device" -b
-            bash "$repo/apple/scripts/run-mock-ui-tests.sh" ios "$app" "$device" "$out/$family"
+            bash "$repo/apple/scripts/run-mock-ui-tests.sh" ios "$app" "$device" "$out/$family" || status=1
             xcrun simctl shutdown "$device"
             device=''
         done < "$out/targets.tsv"
+        exit "$status"
         ;;
     *) echo 'Unsupported platform.' >&2; exit 2 ;;
 esac
