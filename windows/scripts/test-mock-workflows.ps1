@@ -9,7 +9,8 @@ $App = (Resolve-Path $App).Path
 $assembly = Join-Path (Split-Path $App) 'eSemnBun.dll'
 $marker = [BitConverter]::ToString([Text.Encoding]::Unicode.GetBytes('MSIGN_UI_TEST_SCENARIO'))
 if (-not [BitConverter]::ToString([IO.File]::ReadAllBytes($assembly)).Contains($marker)) { throw 'A Debug scenario-enabled app is required.' }
-if (Get-Process eSemnBun -ErrorAction SilentlyContinue) { throw 'Close eSemnBun before the isolated suite.' }
+$runningApps = @(Get-Process eSemnBun -ErrorAction SilentlyContinue | Where-Object { -not $_.HasExited })
+if ($runningApps.Count -gt 0) { throw "Close eSemnBun before the isolated suite. Running PIDs: $($runningApps.Id -join ', ')" }
 $names = @('MSIGN_TEST_PREFERENCES','MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_SCREENSHOT_CAPTURE','MSIGN_UI_TEST_SCENARIO','MSIGN_DEMO_PIN_ONLY')
 $before = @{}; foreach ($name in $names) { $before[$name] = [Environment]::GetEnvironmentVariable($name) }
 $results = @()
@@ -106,6 +107,7 @@ try {
         finally {
             if (-not $process.HasExited) { Stop-Process -Id $process.Id }
             if (-not $process.WaitForExit(10000)) { throw 'Test app did not terminate during cleanup' }
+            $process.Dispose()
             ConvertTo-Json -InputObject @($results) -Depth 5 | Set-Content (Join-Path $Output 'results.json')
         }
     }

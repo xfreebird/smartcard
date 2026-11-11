@@ -27,6 +27,11 @@ jobs:
         working-directory: android
         run: ../scripts/gradle-ci.sh :core:test :app:assembleDebug
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
+      - name: Reserve disk space for the Android system image
+        run: |
+          # Disposable Android-only runner: .NET is not used by this job.
+          sudo rm -rf /usr/share/dotnet
+          df -h "$HOME"
       - name: Phone and tablet mock runtime (no reader or PIN)
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -36,6 +41,7 @@ jobs:
           profile: pixel_2
           disk-size: 2048M
           emulator-boot-timeout: 300
+          pre-emulator-launch-script: python3 scripts/ci/check-emulator-disk.py
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: |

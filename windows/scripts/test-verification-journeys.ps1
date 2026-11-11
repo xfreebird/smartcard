@@ -54,7 +54,8 @@ function Wait-Element($id, $process) {
 }
 function Invoke-Element($node) { $node.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke() }
 try {
-    if (Get-Process eSemnBun -ErrorAction SilentlyContinue) { throw 'Close eSemnBun before running the isolated desktop suite.' }
+    $runningApps = @(Get-Process eSemnBun -ErrorAction SilentlyContinue | Where-Object { -not $_.HasExited })
+    if ($runningApps.Count -gt 0) { throw "Close eSemnBun before the isolated suite. Running PIDs: $($runningApps.Id -join ', ')" }
     foreach ($state in @('valid','invalid','unknown','unsigned')) {
         $work = Join-Path $Output $state
         New-Item -ItemType Directory $work | Out-Null
@@ -97,6 +98,7 @@ try {
         } finally {
             if (-not $process.HasExited) { Stop-Process -Id $process.Id }
             if (-not $process.WaitForExit(10000)) { throw 'Test app did not terminate during cleanup' }
+            $process.Dispose()
             ConvertTo-Json -InputObject @($results) -Depth 5 | Set-Content (Join-Path $Output 'results.json')
         }
     }

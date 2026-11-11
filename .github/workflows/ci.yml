@@ -205,6 +205,11 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+      - name: Reserve disk space for the Android system image
+        run: |
+          # Disposable Android-only runner: .NET is not used by this job.
+          sudo rm -rf /usr/share/dotnet
+          df -h "$HOME"
       - name: Native Android mock UI journeys
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -214,6 +219,7 @@ jobs:
           profile: pixel_2
           disk-size: 2048M
           emulator-boot-timeout: 300
+          pre-emulator-launch-script: python3 scripts/ci/check-emulator-disk.py
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: bash android/scripts/test-journeys.sh emulator-5554 android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk "$RUNNER_TEMP/android-ui"
@@ -253,11 +259,15 @@ jobs:
         run: dotnet test MoldSign.Portable.slnf
       - name: Build mock-capable Windows app
         run: dotnet build windows/src/MoldSign.App -c Debug -p:Platform=x64
-      - name: Native Windows mock UI journeys
+      - name: Native Windows verification UI journeys
         shell: powershell
         run: |
           $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
           & windows/scripts/test-verification-journeys.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-verification"
+      - name: Native Windows mock workflow UI journeys
+        shell: powershell
+        run: |
+          $app = (Resolve-Path 'windows/src/MoldSign.App/bin/x64/Debug/net10.0-windows10.0.19041.0/eSemnBun.exe').Path
           & windows/scripts/test-mock-workflows.ps1 -App $app -Output "$env:RUNNER_TEMP/windows-ui-workflows"
       - name: Windows UI evidence
         if: always()

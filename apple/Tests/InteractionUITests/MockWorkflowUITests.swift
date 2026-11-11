@@ -14,7 +14,7 @@ final class MockWorkflowUITests: XCTestCase {
             XCTAssertTrue(sign.isEnabled)
             sign.activateControl()
             let results = app.descendants(matching: .any).matching(identifier: "sign.result")
-            let options = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "sign.options."))
+            let options = app.descendants(matching: .any).matching(NSPredicate(format: "identifier BEGINSWITH %@", "sign.options."))
             wait("\(scenario) completes", in: app) {
                 results.count == outputs && options.count == queued && (queued == 0 ||
                     app.descendants(matching: .any)["sign.error.Sample-contract.pdf"].firstMatch.exists)
@@ -22,10 +22,10 @@ final class MockWorkflowUITests: XCTestCase {
             XCTAssertFalse(app.secureTextFields.firstMatch.exists, "Mock signer must never acquire a real credential")
             if queued > 0 {
                 XCTAssertTrue(app.descendants(matching: .any)["sign.error.Sample-contract.pdf"].firstMatch.exists)
-                XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].exists)
+                XCTAssertTrue(app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].exists)
             }
             if scenario == "sign-mixed" {
-                XCTAssertFalse(app.buttons["sign.options.Sample-request.txt"].exists)
+                XCTAssertFalse(app.descendants(matching: .any)["sign.options.Sample-request.txt"].exists)
             }
             attach(app, name: scenario)
         }
@@ -35,14 +35,14 @@ final class MockWorkflowUITests: XCTestCase {
         let app = launch("sign-success")
         defer { app.terminate() }
         expand(app)
-        let options = app.buttons["sign.options.Sample-contract.pdf"].firstMatch
+        let options = app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch
         XCTAssertTrue(options.waitForExistence(timeout: 10))
         options.activateControl()
         let remove = app.descendants(matching: .any)["sign.remove"].firstMatch
         XCTAssertTrue(remove.waitForExistence(timeout: 5))
         remove.activateControl()
         wait("removed document", in: app) { !options.exists }
-        XCTAssertTrue(app.buttons["sign.options.Sample-request.txt"].firstMatch.exists)
+        XCTAssertTrue(app.descendants(matching: .any)["sign.options.Sample-request.txt"].firstMatch.exists)
         XCTAssertEqual(app.descendants(matching: .any).matching(identifier: "sign.result").count, 0)
         attach(app, name: "remove-queue-item")
     }
@@ -62,7 +62,7 @@ final class MockWorkflowUITests: XCTestCase {
             expand(app)
         } else {
             expand(app)
-            app.buttons["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
+            app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
             // System menus on some OS releases preserve the label but omit SwiftUI identifiers.
             let format = app.descendants(matching: .any).matching(NSPredicate(
                 format: "identifier == %@ OR label == %@", "sign.format.xadesBES", "XML signature")).firstMatch
@@ -71,7 +71,7 @@ final class MockWorkflowUITests: XCTestCase {
         }
         XCTAssertTrue(app.descendants(matching: .any)["sign.selectedFormat.xadesBES"].firstMatch.waitForExistence(timeout: 5))
         for name in ["Sample-contract.pdf", "Sample-request.txt"] {
-            let options = app.buttons["sign.options." + name].firstMatch
+            let options = app.descendants(matching: .any)["sign.options." + name].firstMatch
             XCTAssertTrue(options.exists)
             options.activateControl()
             let remove = app.descendants(matching: .any)["sign.remove"].firstMatch
@@ -87,13 +87,13 @@ final class MockWorkflowUITests: XCTestCase {
         let app = launch("sign-success")
         defer { app.terminate() }
         expand(app)
-        app.buttons["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
+        app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
         let edit = app.descendants(matching: .any)["sign.editStamp"].firstMatch
         XCTAssertTrue(edit.waitForExistence(timeout: 5)); edit.activateControl()
         let cancel = app.buttons["stamp.cancel"].firstMatch
         XCTAssertTrue(cancel.waitForExistence(timeout: 10)); cancel.activateControl()
         XCTAssertTrue(cancel.waitForNonExistence(timeout: 5))
-        XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].exists)
+        XCTAssertTrue(app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].exists)
         XCTAssertEqual(app.descendants(matching: .any).matching(identifier: "sign.result").count, 0)
     }
 

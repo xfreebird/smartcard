@@ -236,9 +236,10 @@ def run(binary, output, selected=None):
                         clear = wait(lambda: visible_named(app, title("verify_clear_results")), "clear action", process)
                         action = clear.queryAction()
                         assert action.nActions > 0 and action.doAction(0), "Clear action failed"
-                        wait(lambda: visible_named(app, title("ui_choose_file")), "empty verification state", process)
-                        assert visible_named(app, verdict) is None, "Stale verdict after clear"
-                        assert visible_named(app, title("verify_clear_results")) is None
+                        wait(lambda: visible_named(app, verdict) is None
+                             and visible_named(app, title("verify_clear_results")) is None
+                             and visible_named(app, title("ui_choose_file")),
+                             "cleared verdict and empty verification state", process)
                         action_name = "expand/collapse signed details, then clear verification"
                     elif scenario in ("pin", "pin-error"):
                         cancel = wait(lambda: visible_named(app, title("ui_cancel")), "cancel PIN", process)
