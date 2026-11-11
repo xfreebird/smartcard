@@ -221,24 +221,29 @@ public sealed class BridgeHostTests : IAsyncLifetime
     [Fact]
     public async Task PortalGetsEmptyCreatedThenOneLongPollNotRedirects()
     {
-        using var entered = new ManualResetEventSlim();
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var release = new ManualResetEventSlim();
         _connect = () =>
         {
-            entered.Set();
-            if (!release.Wait(TimeSpan.FromSeconds(5))) throw new TimeoutException();
+            entered.TrySetResult();
+            // The test controls completion. A separate short deadline here races the
+            // HTTP client's continuation under load and changes the expected error.
+            release.Wait();
             throw new IOException("Test transport unavailable");
         };
-        using var created = await PostAsync("""{"data":"PGRvYy8+","contentType":"Xml","signFormat":"XAdES-BES","certificate":{"certificateBase64":""}}""");
-        Assert.Equal(HttpStatusCode.Created, created.StatusCode);
-        Assert.Empty(await created.Content.ReadAsByteArrayAsync());
-        Assert.NotNull(created.Headers.Location);
-        Assert.True(created.Headers.Location.IsAbsoluteUri);
-        Assert.Contains("/sign/data/PKCS11/", created.Headers.Location.AbsolutePath);
-        var poll = _client.GetAsync(created.Headers.Location);
+        Task<HttpResponseMessage> poll;
+        Uri location;
         try
         {
-            Assert.True(entered.Wait(TimeSpan.FromSeconds(3)));
+            using var created = await PostAsync("""{"data":"PGRvYy8+","contentType":"Xml","signFormat":"XAdES-BES","certificate":{"certificateBase64":""}}""");
+            Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+            Assert.Empty(await created.Content.ReadAsByteArrayAsync());
+            Assert.NotNull(created.Headers.Location);
+            Assert.True(created.Headers.Location.IsAbsoluteUri);
+            Assert.Contains("/sign/data/PKCS11/", created.Headers.Location.AbsolutePath);
+            location = created.Headers.Location;
+            poll = _client.GetAsync(location);
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(30));
             await Task.Delay(100);
             Assert.False(poll.IsCompleted);
         }
@@ -246,7 +251,7 @@ public sealed class BridgeHostTests : IAsyncLifetime
         using var result = await poll;
         Assert.Equal(HttpStatusCode.BadRequest, result.StatusCode);
         Assert.Contains("Test transport unavailable", Assert.Single(result.Headers.GetValues("error")));
-        using var repeated = await _client.GetAsync(created.Headers.Location);
+        using var repeated = await _client.GetAsync(location);
         Assert.Equal(HttpStatusCode.NotFound, repeated.StatusCode);
     }
 

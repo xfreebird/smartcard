@@ -41,7 +41,8 @@ jobs:
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 36
-          target: google_apis
+          # Native mock journeys do not need Google Play services or first-boot updates.
+          target: default
           arch: x86_64
           profile: pixel_2
           disk-size: 2048M
