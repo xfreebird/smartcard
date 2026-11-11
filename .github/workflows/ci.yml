@@ -198,7 +198,7 @@ jobs:
             android/gradle.properties
             android/gradle/wrapper/gradle-wrapper.properties
       - name: Build and test Android (bounded dependency-download retries)
-        run: scripts/gradle-ci.sh :core:test :transport-usb:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
+        run: scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :core:test :transport-usb:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
       - name: Enable KVM for the test emulator
         run: |
@@ -224,7 +224,7 @@ jobs:
           profile: pixel_2
           disk-size: 2048M
           emulator-boot-timeout: 300
-          pre-emulator-launch-script: python3 scripts/ci/check-emulator-disk.py
+          pre-emulator-launch-script: python3 scripts/ci/check-emulator-resources.py
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           script: bash android/scripts/test-journeys.sh emulator-5554 android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk "$RUNNER_TEMP/android-ui"
