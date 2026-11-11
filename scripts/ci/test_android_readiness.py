@@ -1,4 +1,4 @@
-"""Boot recovery cannot dismiss an app failure or hide recurring System UI failures."""
+"""Boot recovery cannot dismiss an app failure or hide recurring framework failures."""
 import importlib.util
 from pathlib import Path
 import tempfile
@@ -14,6 +14,7 @@ BOOT_DIALOG = '''<hierarchy>
 <node text="System UI isn't responding" />
 <node text="Wait" resource-id="android:id/aerr_wait" bounds="[10,20][110,60]" />
 </hierarchy>'''
+SYSTEM_DIALOG = BOOT_DIALOG.replace('System UI', 'Process system')
 APP_DIALOG = BOOT_DIALOG.replace('System UI', 'eSemnBun')
 
 
@@ -58,3 +59,12 @@ class AndroidReadiness(unittest.TestCase):
     def test_physical_device_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'dedicated emulator'):
             module.prepare('phone', Path('unused'))
+
+    def test_initial_framework_process_anr_requires_a_stable_launcher(self):
+        self.assertEqual(1, len(self.run_readiness([SYSTEM_DIALOG] + [READY] * 3)))
+
+    def test_different_framework_failure_after_recovery_still_fails(self):
+        self.assertEqual(1, len(self.run_readiness([SYSTEM_DIALOG, READY, BOOT_DIALOG], 'did not recover')))
+
+    def test_second_framework_failure_before_healthy_observation_still_fails(self):
+        self.assertEqual(1, len(self.run_readiness([SYSTEM_DIALOG, BOOT_DIALOG], "did not recover")))

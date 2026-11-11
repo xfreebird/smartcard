@@ -20,8 +20,8 @@ final class DemoModeUITests: XCTestCase {
         let accept = app.buttons["Use demo mode"]
         XCTAssertTrue(accept.waitForExistence(timeout: 5), "A disclaimer must precede activation")
         attach(app, "01-enable-disclaimer")
-        accept.tap()
-        XCTAssertEqual(toggle.value as? String, "1")
+        accept.tapWhenReady()
+        waitForValue("1", on: toggle)
         app.buttons["Done"].tap()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
         navigate("Sign", in: app)
@@ -49,11 +49,16 @@ final class DemoModeUITests: XCTestCase {
         let persisted = demoToggle(in: app)
         XCTAssertEqual(persisted.value as? String, "1")
         persisted.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
-        XCTAssertEqual(persisted.value as? String, "0")
+        waitForValue("0", on: persisted)
         app.buttons["Done"].tap()
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
         attach(app, "06-return-to-live-mock")
         app.terminate()
+    }
+
+    private func waitForValue(_ value: String, on element: XCUIElement) {
+        let expected = NSPredicate(format: "value == %@", value)
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: expected, object: element)], timeout: 10), .completed)
     }
 
     private func navigate(_ title: String, in app: XCUIApplication) {

@@ -15,6 +15,8 @@ python3 "$repo/apple/scripts/seed-documents-ui-tests.py" "$container" "$out/fixt
 MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/DocumentsUITests.swift" \
     bash "$repo/apple/scripts/run-verification-ui-tests.sh" ios "$app" "$device" "$out/native"
 ln -s native/GestureProof.xcresult "$out/GestureProof.xcresult"
+# Installing the native runner may relocate the app data container.
+container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 - "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf" <<'PY'
 import json, pathlib, plistlib, sys
 root, fixtures, sample = map(pathlib.Path, sys.argv[1:])

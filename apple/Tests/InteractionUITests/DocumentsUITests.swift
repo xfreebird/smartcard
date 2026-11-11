@@ -67,8 +67,7 @@ final class DocumentsUITests: XCTestCase {
         choose.tap()
         XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 15), app.debugDescription)
         attach(app, "06-original-picker")
-        try XCTUnwrap(app.buttons.matching(identifier: "Cancel").allElementsBoundByIndex.last(where: \.isHittable)).tapWhenReady()
-        XCTAssertTrue(app.collectionViews["File View"].waitForNonExistence(timeout: 10))
+        try app.cancelFilePicker()
         XCTAssertTrue(choose.waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Cannot be confirmed"].exists)
         choose.tap()
@@ -86,14 +85,14 @@ final class DocumentsUITests: XCTestCase {
             }
         }
         XCTAssertTrue(container.waitForExistence(timeout: 5))
-        container.tapWhenReady()
+        container.openFilePickerFolder()
         let folder = app.cells["Originals, Folder"]
         let visibleFolder = NSPredicate { _, _ in
             folder.isHittable && folder.frame.minX >= 0 && folder.frame.maxX <= app.frame.width
         }
         expectation(for: visibleFolder, evaluatedWith: app)
         waitForExpectations(timeout: 10)
-        folder.tapWhenReady()
+        folder.openFilePickerFolder()
         let original = app.cells.matching(NSPredicate(format: "label BEGINSWITH %@ AND label CONTAINS %@", "detached-", "txt")).firstMatch
         XCTAssertTrue(original.waitForExistence(timeout: 5), app.debugDescription)
         original.tapWhenReady()

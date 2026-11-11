@@ -11,15 +11,17 @@ from pathlib import Path
 
 def inspect_hierarchy(xml):
     nodes = list(ET.fromstring(xml).iter('node'))
-    if any(node.get('text') == "System UI isn't responding" for node in nodes):
+    system_errors = {"System UI isn't responding": "system-ui", "Process system isn't responding": "system-process"}
+    system_error = next((system_errors[node.get('text')] for node in nodes if node.get('text') in system_errors), None)
+    if system_error:
         wait = next((node for node in nodes if node.get('resource-id') == 'android:id/aerr_wait'), None)
         if wait is None:
-            raise RuntimeError('System UI boot dialog has no native Wait action')
+            raise RuntimeError('Android framework boot dialog has no native Wait action')
         bounds = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', wait.get('bounds', ''))
         if bounds is None:
-            raise RuntimeError('System UI Wait action has no usable bounds')
+            raise RuntimeError('Android framework Wait action has no usable bounds')
         left, top, right, bottom = map(int, bounds.groups())
-        return 'system-ui', ((left + right) // 2, (top + bottom) // 2)
+        return system_error, ((left + right) // 2, (top + bottom) // 2)
     # An unrelated ANR or permission dialog must never be dismissed by this setup step.
     if any(node.get('resource-id', '').startswith('android:id/aerr_') for node in nodes):
         raise RuntimeError('Unexpected application error before test installation')
@@ -38,6 +40,7 @@ def prepare(serial, output, adb='adb'):
     command('shell', 'input', 'keyevent', 'KEYCODE_HOME')
     deadline = time.monotonic() + 90
     recovered_at = None
+    recovered_state = None
     stable = 0
     events = []
     try:
@@ -53,17 +56,18 @@ def prepare(serial, output, adb='adb'):
                 # Boot completion precedes the first accessible window on cold images.
                 state, point = 'waiting-accessibility', None
             events.append(state)
-            if state == 'system-ui':
+            if state in ('system-ui', 'system-process'):
                 if recovered_at is None:
                     (output / 'boot-dialog.png').write_bytes(command('exec-out', 'screencap', '-p'))
                     command('shell', 'input', 'tap', str(point[0]), str(point[1]))
                     recovered_at = time.monotonic()
+                    recovered_state = state
                     stable = 0
                     command('shell', 'wm', 'dismiss-keyguard')
                     command('shell', 'input', 'keyevent', 'KEYCODE_HOME')
-                    print('Acknowledged the initial System UI cold-boot dialog before app installation.', flush=True)
-                elif stable or time.monotonic() - recovered_at > 15:
-                    raise RuntimeError('System UI did not recover; application tests were not started')
+                    print('Acknowledged one Android framework cold-boot dialog before app installation.', flush=True)
+                elif state != recovered_state or stable or time.monotonic() - recovered_at > 15:
+                    raise RuntimeError('Android framework did not recover; application tests were not started')
             elif state == 'ready':
                 stable += 1
                 if stable == 3:

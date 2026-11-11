@@ -92,7 +92,7 @@ outputs are explicitly unsigned and no physical reader, network signing service 
 | --- | --- | --- |
 | macOS / iOS | 24 scenario paths across two XCTest suites | Six verification verdicts and clear, loading clear, certificate/technical disclosure, five reader states, two PIN cancellations; signing success/mixed/fatal, queue removal, format change, stamp cancellation, history cancel/clear preserving the library, single/batch website refusal |
 | Android | 34 completions: 21 UI paths and 13 integration cases, plus three storage/persistence launches | First-launch disclosure acceptance and activity relaunch; six verdict/clear flows, four reader states, result hiding, signing success/mixed/fatal with stored-output assertions, format/removal, stamp cancellation, history cancel/clear, two PIN cancellations, certificate/technical disclosures; demo-storage integration, seven batch policy cases, four protection workflow cases and duplicate import handling |
-| Linux | 20 scenarios | Existing 13 fixtures (including clear, PIN cancel and signed-detail disclosures), plus signing success/mixed/fatal, removal, format change, stamp cancellation and history cancel/clear with unchanged output bytes |
+| Linux | 21 scenarios | Existing 13 fixtures (including clear, PIN cancel and signed-detail disclosures), plus signing success/mixed/fatal, removal, format change, stamp cancellation and history cancel/clear with unchanged output bytes; native protection picker/save cancellation, mismatch rejection, encrypt/decrypt byte round trip, private permissions and confirmed removal |
 | Windows | 12 scenarios across two runners | Four choose/verify/clear flows with signed-detail disclosures; signing success/mixed/fatal, removal, format change, stamp cancellation, history cancel/clear preserving saved names, and empty-PIN cancellation |
 
 Apple launches use independent preferences and disable hardware. Android uses a dedicated emulator,
@@ -103,9 +103,13 @@ process. These runners fail on missing controls, unexpected outcomes or absent c
 See the validation report for executed targets, skips and outstanding prerequisites. Existing
 noninteractive Linux fixtures remain presentation checks; the table does not turn them into
 end-to-end signing tests. Linux accepts repeated `--scenario NAME` arguments for focused retries;
-omitting them runs all 20 cases. Its GTK disclosure fallback uses native X11 keyboard input because
+omitting them runs all 21 cases. Its GTK disclosure fallback uses native X11 keyboard input because
 GTK exposes expansion state without an AT-SPI activation action. An isolated Xvfb display avoids
 Wayland input-portal restrictions; this validates GTK controls, not GNOME shell integration.
+The isolated runner sets `GDK_DEBUG=no-portals` so file dialogs stay inside its Xvfb session;
+[GTK documents this portal override](https://docs.gtk.org/gtk4/func.disable_portals.html).
+The protection fixture opens the real dialog, then uses native controls and the production processor.
+File and save selections remain inside the temporary fixture directory. The packaged app retains normal portal behavior.
 
 Additional suites required by commit CI include iOS `CardCarouselUITests`, `DemoModeUITests`, `ProtectionFlowUITests` and seeded `DocumentsUITests` on both phone and tablet; Android crypto/storage and separate `prepare`/`verify` processes; and Windows first-launch, demo-mode, card-scroll and synthetic reader-helper scripts. The protection suite drives the native Files picker and checks restored bytes and private permissions. The Documents runner generates a genuine detached signature using the simulated card, seeds isolated legacy history, and checks migration, history clear/relaunch and original-file selection. Screenshot presentation suites retain their own prerequisites below.
 
@@ -132,7 +136,7 @@ visual review; new native journey assertions deliberately use stable English fix
 [user-guide inventory](../user-guide/journey-inventory.md), plus the current password-protection/removal
 journeys P01–P03. Each row includes applicable platforms, test-suite paths, acceptance criteria, edge
 cases and the remaining native runtime check. The `mock_scenarios` section maps eight shared scenario
-groups to the five native targets and records their actual assertions. The coverage classification is conservative: a unit test
+groups to the five native targets, plus the iOS/Linux password round trip, and records their actual assertions. The coverage classification is conservative: a unit test
 or screenshot cannot stand in for the whole user journey.
 
 ```sh

@@ -20,8 +20,7 @@ final class ProtectionFlowUITests: XCTestCase {
 
         app.buttons["protect.chooseFile"].tapWhenReady()
         XCTAssertTrue(app.collectionViews["File View"].waitForExistence(timeout: 10))
-        try XCTUnwrap(app.buttons.matching(identifier: "Cancel").allElementsBoundByIndex.last(where: \.isHittable)).tapWhenReady()
-        XCTAssertTrue(app.collectionViews["File View"].waitForNonExistence(timeout: 10))
+        try app.cancelFilePicker()
         XCTAssertTrue(app.buttons["protect.chooseFile"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         try chooseSource(in: app)
@@ -80,7 +79,7 @@ final class ProtectionFlowUITests: XCTestCase {
             }
         }
         XCTAssertTrue(container.waitForExistence(timeout: 5), app.debugDescription)
-        container.tapWhenReady()
+        container.openFilePickerFolder()
         let file = app.cells.matching(NSPredicate(format: "label BEGINSWITH %@", "ProtectionSource")).firstMatch
         XCTAssertTrue(file.waitForExistence(timeout: 8), app.debugDescription)
         file.tapWhenReady()

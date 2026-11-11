@@ -17,7 +17,7 @@
         "ios"
       ],
       "level": "ui-interaction",
-      "execution": "not-run-in-this-change"
+      "execution": "passed-local-iphone-ipad-2026-11-11"
     },
     "apple-carousel": {
       "path": "apple/Tests/InteractionUITests/CardCarouselUITests.swift",
@@ -132,7 +132,7 @@
         "linux"
       ],
       "level": "ui-interaction-and-presentation",
-      "execution": "passed-20-scenarios-xvfb-2026-11-11"
+      "execution": "passed-21-scenarios-xvfb-2026-11-11"
     },
     "linux-app": {
       "path": "linux/Tests/MoldSignGnomeTests",
@@ -261,7 +261,7 @@
         "ios"
       ],
       "level": "ui-interaction",
-      "execution": "pending-hosted-validation"
+      "execution": "passed-local-iphone-ipad-2026-11-11"
     },
     "android-protection-workflow": {
       "path": "android/app/src/androidTest/kotlin/md/moldsign/app/ProtectionWorkflowIntegration.kt",
@@ -269,7 +269,15 @@
         "android"
       ],
       "level": "integration",
-      "execution": "pending-hosted-validation"
+      "execution": "passed-local-api36-2026-11-11"
+    },
+    "linux-protection": {
+      "path": "linux/scripts/ui_protection_journey.py",
+      "platforms": [
+        "linux"
+      ],
+      "level": "ui-interaction-and-integration",
+      "execution": "passed-local-fedora-21-scenario-batch-2026-11-11"
     }
   },
   "journeys": [
@@ -1398,7 +1406,8 @@
         "windows-core",
         "linux-app",
         "apple-protection",
-        "android-protection-workflow"
+        "android-protection-workflow",
+        "linux-protection"
       ],
       "acceptance": "Native Documents action encrypts into a separate output and persists its library entry.",
       "edge_cases": [
@@ -1427,7 +1436,8 @@
         "windows-core",
         "linux-app",
         "apple-protection",
-        "android-protection-workflow"
+        "android-protection-workflow",
+        "linux-protection"
       ],
       "acceptance": "Correct password restores identical bytes; malformed or rejected envelopes create no plaintext output. Legacy CBC cannot authenticate the password or content; accidental valid padding is not proof of correctness.",
       "edge_cases": [
@@ -1451,7 +1461,8 @@
       "suites": [
         "swift-core",
         "windows-core",
-        "linux-app"
+        "linux-app",
+        "linux-protection"
       ],
       "acceptance": "Only the selected app-owned file is removed after confirmation; other outputs and history stay consistent.",
       "edge_cases": [
@@ -1630,6 +1641,24 @@
       "assertions": [
         "Dismiss a native consent or PIN prompt without entering credentials",
         "Prompt closes and no signing starts"
+      ]
+    },
+    {
+      "id": "password-file-roundtrip",
+      "platforms": [
+        "ios",
+        "linux"
+      ],
+      "suites": [
+        "apple-protection",
+        "linux-protection"
+      ],
+      "assertions": [
+        "Cancel native source selection without producing an output",
+        "Reject empty input and mismatched password confirmation",
+        "Encrypt and decrypt a synthetic file through native controls",
+        "Compare restored bytes and preserve the original",
+        "Check owner-only output permissions"
       ]
     }
   ],

@@ -13,6 +13,22 @@ extension XCUIElement {
 
 @MainActor
 extension XCUIApplication {
+    func cancelFilePicker() throws {
+        let picker = collectionViews["File View"]
+        XCTAssertTrue(picker.waitForExistence(timeout: 10))
+        let navigation = navigationBars.matching(NSPredicate(format: "identifier IN %@",
+            ["FullDocumentManagerViewControllerNavigationBar", "DOCSidebarView"]))
+        let cancel = navigation.buttons.matching(NSPredicate(format: "label IN %@", ["Cancel", "Close"])).firstMatch
+        XCTAssertTrue(cancel.waitForExistence(timeout: 10), debugDescription)
+        // Files overlays its toolbar with a second accessibility proxy on some runtimes.
+        // Tap the observed native control's center; do not target the underlying form's Cancel.
+        let point = cancel.frame
+        XCTAssertFalse(point.isEmpty)
+        XCTAssertTrue(frame.contains(point))
+        coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: point.midX, dy: point.midY)).tap()
+        XCTAssertTrue(picker.waitForNonExistence(timeout: 10))
+    }
+
     func openProtection() {
         let menu = buttons["documents.menu"].firstMatch
         if menu.waitForExistence(timeout: 3) {
@@ -53,6 +69,21 @@ extension XCUIApplication {
 extension XCUIElement {
     @MainActor
     func tapWhenReady(file: StaticString = #filePath, line: UInt = #line) {
+        guard waitUntilReady(file: file, line: line) else { return }
+        activateControl()
+    }
+
+    @MainActor
+    func openFilePickerFolder(file: StaticString = #filePath, line: UInt = #line) {
+        guard waitUntilReady(file: file, line: line) else { return }
+        let icon = images.firstMatch
+        // Files can include metadata below the tappable folder icon in the cell's frame.
+        let target = icon.exists && !icon.frame.isEmpty ? icon : self
+        target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+    }
+
+    @MainActor
+    private func waitUntilReady(file: StaticString, line: UInt) -> Bool {
         var previous = CGRect.null
         var stable = 0
         let ready = NSPredicate { _, _ in
@@ -63,7 +94,6 @@ extension XCUIElement {
         }
         let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: self)], timeout: 10)
         XCTAssertEqual(result, .completed, "Control must be visible and stable before tapping: \(self)", file: file, line: line)
-        guard result == .completed else { return }
-        activateControl()
+        return result == .completed
     }
 }

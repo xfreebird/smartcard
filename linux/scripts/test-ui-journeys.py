@@ -4,113 +4,24 @@ import argparse
 import json
 import os
 import re
+import shutil
 from pathlib import Path
 import subprocess
 import tempfile
-import time
 import uuid
 import pyatspi
-from gi.repository import Atspi, GLib
+from gi.repository import Atspi
 
 
-def wait(predicate, description, process, timeout=20):
-    end = time.monotonic() + timeout
-    while time.monotonic() < end:
-        if process.poll() is not None:
-            raise AssertionError(f"App exited during {description}")
-        value = predicate()
-        if value:
-            return value
-        time.sleep(.1)
-    raise AssertionError(f"Timed out: {description}")
-
-
-def descendants(node):
-    # GTK may remove a child between reading the child count and fetching that child.
-    if node is None:
-        return
-    yield node
-    for child in node:
-        yield from descendants(child)
-
-
-def visible_named(app, name):
-    for node in descendants(app):
-        if node.name == name and node.getState().contains(pyatspi.STATE_SHOWING):
-            return node
-    return None
-
-
-
-def reveal_named(app, name):
-    visible = visible_named(app, name)
-    if visible is not None:
-        return visible
-    for node in descendants(app):
-        if node.name == name:
-            try:
-                node.queryComponent().scrollTo(pyatspi.SCROLL_ANYWHERE)
-            except (NotImplementedError, GLib.GError):
-                continue
-    return visible_named(app, name)
-
-
-def invoke(node):
-    while node is not None and node.getRole() not in (pyatspi.ROLE_APPLICATION, pyatspi.ROLE_FRAME, pyatspi.ROLE_WINDOW):
-        # GtkMenuButton exposes its click action on a same-labelled child toggle.
-        candidates = descendants(node) if node.getRole() == pyatspi.ROLE_PUSH_BUTTON else [node]
-        for candidate in candidates:
-            if candidate != node and candidate.name != node.name:
-                continue
-            try:
-                action = candidate.queryAction()
-                for index in range(action.nActions):
-                    name = action.getName(index).lower()
-                    if name in ("click", "press", "activate", "toggle") or name.endswith(".activate"):
-                        assert action.doAction(index), "Native action rejected"
-                        return
-            except NotImplementedError:
-                pass
-        if node.getState().contains(pyatspi.STATE_EXPANDABLE):
-            # GTK 4 exposes expansion state but not an AT-SPI activation/focus action.
-            # Use the native keyboard focus chain; GTK also scrolls the focused row into view.
-            if os.environ.get("GDK_BACKEND") != "x11":
-                raise RuntimeError("GTK disclosure automation requires GDK_BACKEND=x11 and xdotool")
-            windows = subprocess.check_output(["xdotool", "search", "--onlyvisible", "--pid",
-                                                str(node.get_process_id()), "--name", "eSemnBun"], text=True).split()
-            assert windows, "No native application window"
-            subprocess.run(["xdotool", "windowfocus", "--sync", windows[0]], check=True, timeout=5)
-            for _ in range(80):
-                if any(child.getState().contains(pyatspi.STATE_FOCUSED) for child in descendants(node)):
-                    subprocess.run(["xdotool", "key", "--clearmodifiers", "space"], check=True, timeout=5)
-                    return
-                subprocess.run(["xdotool", "key", "--clearmodifiers", "Tab"], check=True, timeout=5)
-                time.sleep(.05)
-            raise AssertionError("Disclosure never received native keyboard focus")
-
-        node = node.parent
-    raise AssertionError("No native activation action on control")
-
-
-def expand_and_collapse(app, name, process):
-    def control():
-        node = reveal_named(app, name)
-        while node is not None and node != app:
-            if node.getState().contains(pyatspi.STATE_EXPANDABLE):
-                return node
-            node = node.parent
-        return None
-    row = wait(control, name, process)
-    assert not row.getState().contains(pyatspi.STATE_EXPANDED), "Disclosure unexpectedly open"
-    invoke(row)
-    wait(lambda: control() is not None and control().getState().contains(pyatspi.STATE_EXPANDED), "expanded " + name, process)
-    invoke(control())
-    wait(lambda: control() is not None and not control().getState().contains(pyatspi.STATE_EXPANDED), "collapsed " + name, process)
+from ui_automation import wait, descendants, visible_named, reveal_named, invoke, expand_and_collapse
+from ui_protection_journey import protection_workflow
 
 
 def workflow(scenario, app, root, process, title):
     def click(key):
         invoke(wait(lambda: reveal_named(app, title(key)), key, process))
+    if scenario == "protection-roundtrip":
+        return protection_workflow(app, root, process, title)
     if scenario == "history-clear":
         outputs = {path: path.read_bytes() for path in root.rglob("Contract-result.pdf")}
         assert outputs, "The fixture must own a saved output"
@@ -196,6 +107,8 @@ def run(binary, output, selected=None):
     scenarios.update({name: ("sign", "Contract.pdf") for name in workflow_cases})
     workflow_cases.append("history-clear")
     scenarios["history-clear"] = ("activity", "Contract-result.pdf")
+    workflow_cases.append("protection-roundtrip")
+    scenarios["protection-roundtrip"] = ("activity", title("protect_choose_file"))
     if selected:
         unknown = set(selected) - scenarios.keys()
         if unknown:
@@ -207,13 +120,17 @@ def run(binary, output, selected=None):
         with tempfile.TemporaryDirectory(prefix="esemnbun-ui-") as folder:
             root = Path(folder)
             token = str(uuid.uuid4())
-            fixture = "activity" if scenario == "history-clear" else "documents" if scenario in workflow_cases else scenario
+            fixture = "activity" if scenario in ("history-clear", "protection-roundtrip") else "documents" if scenario in workflow_cases else scenario
             env = dict(os.environ, XDG_CONFIG_HOME=str(root / "config"), XDG_DATA_HOME=str(root / "data"),
                        MSIGN_DEMO_CARDS="1", MSIGN_DEMO_SCENARIO=fixture, MSIGN_DEMO_PAGE=page,
                        MSIGN_DEMO_LANGUAGE="en", MSIGN_SCREENSHOT_CAPTURE="1", GTK_A11Y="atspi",
+                       GDK_DEBUG="no-portals",
                        MSIGN_DEMO_WORK_DIR=folder, MSIGN_DEMO_RUN_ID=token,
                        MSIGN_DEMO_READY_FILE=str(root / "ready.json"))
             env.pop("MSIGN_UI_TEST_SCENARIO", None)
+            env.pop("MSIGN_CAPTURE_DIALOG", None)
+            if scenario == "protection-roundtrip":
+                env["MSIGN_CAPTURE_DIALOG"] = "protect-encrypt"
             if scenario.startswith("sign-") and scenario in workflow_cases:
                 env["MSIGN_UI_TEST_SCENARIO"] = scenario
             with (output / f"{scenario}.log").open("w") as log:
@@ -225,7 +142,7 @@ def run(binary, output, selected=None):
                     assert ready["run"] == token and ready["scenario"] == fixture and ready["page"] == page
                     app = wait(lambda: next((a for a in pyatspi.Registry.getDesktop(0)
                                               if a.get_process_id() == process.pid), None), "AT-SPI app", process)
-                    # This polling driver has no GLib event loop to invalidate AT-SPI caches.
+                    # Query fresh state while bounded waits drain native accessibility events.
                     app.set_cache_mask(Atspi.Cache.NONE)
                     app.clear_cache()
                     wait(lambda: visible_named(app, verdict), verdict, process)
@@ -251,6 +168,8 @@ def run(binary, output, selected=None):
                         action_name = "cancel PIN without entering a credential"
                     results.append({"scenario": scenario, "status": "passed", "action": action_name})
                 except Exception as error:
+                    if os.environ.get("GDK_BACKEND") == "x11" and shutil.which("import"):
+                        subprocess.run(["import", "-window", "root", str(output / f"{scenario}-failure.png")], timeout=10)
                     if app is not None:
                         try:
                             tree = [{"role": node.getRoleName(), "name": node.name,

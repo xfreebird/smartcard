@@ -15,17 +15,19 @@ if source.exists():
     raise SystemExit('Use a fresh dedicated simulator: protection fixture already exists')
 source.parent.mkdir(parents=True, exist_ok=True)
 shutil.copyfile(sample, source)
-(out / 'existing-outputs.json').write_text(json.dumps([str(p) for p in (root / 'Documents/Protected').rglob('*') if p.is_file()]))
+(out / 'existing-outputs.json').write_text(json.dumps([str(p.relative_to(root)) for p in (root / 'Documents/Protected').rglob('*') if p.is_file()]))
 PY
 MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/ProtectionFlowUITests.swift" \
     bash "$repo/apple/scripts/run-verification-ui-tests.sh" ios "$app" "$device" "$out/native"
 # Keep the generic batch result validator pointed at the actual bundle.
 ln -s native/GestureProof.xcresult "$out/GestureProof.xcresult"
+# Installing the native runner may relocate the app data container.
+container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 - "$container" "$out" "$repo/swift/MoldSignKit/Resources/test.pdf" <<'PY'
 import hashlib, json, pathlib, stat, sys
 root, out, sample = map(pathlib.Path, sys.argv[1:])
 existing = set(json.loads((out / 'existing-outputs.json').read_text()))
-outputs = [p for p in (root / 'Documents/Protected').rglob('*') if p.is_file() and str(p) not in existing]
+outputs = [p for p in (root / 'Documents/Protected').rglob('*') if p.is_file() and str(p.relative_to(root)) not in existing]
 restored = [p for p in outputs if p.name == 'decrypted-ProtectionSource.pdf']
 encrypted = [p for p in outputs if p.name == 'ProtectionSource.pdf.symmetric.p7m']
 assert len(restored) == len(encrypted) == 1, outputs
