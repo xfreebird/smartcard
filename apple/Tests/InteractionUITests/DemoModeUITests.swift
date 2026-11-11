@@ -8,9 +8,9 @@ final class DemoModeUITests: XCTestCase {
         defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.user-demo.\(UUID().uuidString)"
-        app.launchArguments = ["-AppleLanguages", "(en)"]
+        app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en"]
         app.launch()
-        app.tabBars.buttons["Card"].tap()
+        navigate("Card", in: app)
         app.buttons["card.settings"].tap()
         let toggle = demoToggle(in: app)
         XCTAssertEqual(toggle.value as? String, "0")
@@ -24,7 +24,7 @@ final class DemoModeUITests: XCTestCase {
         XCTAssertEqual(toggle.value as? String, "1")
         app.buttons["Done"].tap()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
-        app.tabBars.buttons["Sign"].tap()
+        navigate("Sign", in: app)
         let expand = app.buttons["sign.expandBatch"]
         if expand.exists { expand.tap() }
         XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].waitForExistence(timeout: 5))
@@ -44,7 +44,7 @@ final class DemoModeUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 10))
         attach(app, "05-persisted-demo")
-        app.tabBars.buttons["Card"].tap()
+        navigate("Card", in: app)
         app.buttons["card.settings"].tap()
         let persisted = demoToggle(in: app)
         XCTAssertEqual(persisted.value as? String, "1")
@@ -54,6 +54,12 @@ final class DemoModeUITests: XCTestCase {
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
         attach(app, "06-return-to-live-mock")
         app.terminate()
+    }
+
+    private func navigate(_ title: String, in app: XCUIApplication) {
+        let destination = app.buttons[title].firstMatch
+        XCTAssertTrue(destination.waitForExistence(timeout: 20), app.debugDescription)
+        destination.tap()
     }
 
     private func demoToggle(in app: XCUIApplication) -> XCUIElement {

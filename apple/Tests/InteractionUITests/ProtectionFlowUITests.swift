@@ -11,7 +11,7 @@ final class ProtectionFlowUITests: XCTestCase {
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.protection.\(UUID().uuidString)"
         app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en", "-appTheme", "light"]
         app.launch()
-        let documents = app.tabBars.buttons["Documents"]
+        let documents = app.buttons["Documents"].firstMatch
         XCTAssertTrue(documents.waitForExistence(timeout: 20))
         documents.tap()
         app.buttons["documents.menu"].tap()
@@ -67,7 +67,8 @@ final class ProtectionFlowUITests: XCTestCase {
     private func chooseSource(in app: XCUIApplication) throws {
         app.buttons["protect.chooseFile"].tap()
         XCTAssertTrue(app.buttons["Cancel"].waitForExistence(timeout: 10))
-        app.tabBars.buttons["Browse"].tap()
+        let browse = app.buttons["Browse"].firstMatch
+        if browse.exists { browse.tap() }
         let container = app.cells["eSemnBun, Container"]
         for _ in 0..<5 where !container.isHittable {
             let back = app.navigationBars.buttons["BackButton"].firstMatch
