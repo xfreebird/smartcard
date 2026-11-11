@@ -29,5 +29,5 @@ python3 - "$out/journeys.log" <<'PY'
 import pathlib, sys
 s=pathlib.Path(sys.argv[1]).read_text()
 assert 'INSTRUMENTATION_CODE: -1' in s and 'FAIL:' not in s, s
-assert s.count(':pass') == 28, 'Missing scenario completions: '+s
+assert s.count(':pass') == 29, 'Missing scenario completions: '+s
 PY

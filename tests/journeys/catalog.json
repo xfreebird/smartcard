@@ -270,7 +270,8 @@
       "suites": [
         "windows-launch",
         "linux-app",
-        "apple-presentation"
+        "apple-presentation",
+        "android-journeys"
       ],
       "acceptance": "Correct package opens primary navigation on a clean profile.",
       "edge_cases": [

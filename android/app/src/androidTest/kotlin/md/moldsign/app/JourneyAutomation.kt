@@ -24,8 +24,10 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
         val app = runner.targetContext.applicationContext as MoldSignApp
         val originalDemo = app.demoModeEnabled
         val results = mutableListOf<String>()
+        val firstLaunch = FirstLaunchAutomation(runner)
         runner.runOnMainSync { check(app.changeDemoMode(true)) }
         try {
+            results += firstLaunch.run()
             for ((scenario, verdict) in listOf(
                 "verify-valid" to R.string.verdict_valid,
                 "verify-invalid" to R.string.verdict_invalid,
@@ -83,7 +85,8 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
             results += SigningWorkflowIntegration.run()
             results += MockWorkflowAutomation(runner, app).run()
         } finally {
-            runner.runOnMainSync { check(app.changeDemoMode(originalDemo)) }
+            try { firstLaunch.restore() }
+            finally { runner.runOnMainSync { check(app.changeDemoMode(originalDemo)) } }
         }
         return results.joinToString("\n")
     }
