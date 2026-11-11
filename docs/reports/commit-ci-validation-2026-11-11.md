@@ -1,25 +1,28 @@
 # Commit CI validation — 11 November 2026
 
-[CI run 43040752719](https://github.com/xfreebird/smartcard/actions/runs/43040752719)
-passed all nine jobs for pushed source commit
-`8244e5f42d3327630fa78ec4549c53e213e917c9`. No platform job was skipped.
-The aggregate `CI result` completed successfully at 14:58 UTC.
+[CI run 43088408745](https://github.com/xfreebird/smartcard/actions/runs/43088408745)
+validates pushed source commit `b61890f577eb8a0b298b377859a83b14ef54a23f`.
+Seven jobs passed. The iOS native test and evidence-upload steps failed. The job/log APIs subsequently returned repeated HTTP 502 errors with inconsistent run status, so the failing assertions have not been recovered. A fresh run with immediate suite/assertion annotations is required; this revision is not reported as green.
+
+The earlier [run 43040752719](https://github.com/xfreebird/smartcard/actions/runs/43040752719)
+passed all nine jobs for `8244e5f42d3327630fa78ec4549c53e213e917c9` at 14:58 UTC.
+The current run includes the subsequent lifecycle, protection, import and Files automation changes.
 
 ## Hosted results
 
 | Platform | Required validation that passed |
 | --- | --- |
 | macOS | Debug app, application integration tests, 5 verification + 6 workflow UI methods, unsigned App Store variant and CLI build |
-| iPhone and iPad | Simulator build; each device family passed 5 verification + 6 workflow UI methods |
-| Android | Debug app and instrumentation APKs; 29 journey completions (21 UI paths and 8 workflow integration cases); JVM suites: core 137 tests with 1 opt-in skip, USB transport 21, application 11, zero failures/errors |
-| Linux | Swift core, CLI and application integration tests; 20 GTK UI scenarios under Xvfb/D-Bus; packages |
-| Windows | 254 integration tests, zero skips; WinUI build; 4 verification + 8 workflow UI cases; CLI, MSI and MSIX packaging |
+| iPhone and iPad | App/share-extension build passed; native batch failed, awaiting completed evidence for its 18 methods per family |
+| Android | Debug app and instrumentation APKs; 34 journey completions (21 UI paths and 13 workflow integration cases), plus storage and separate prepare/verify launches; JVM suites: core 137 tests with 1 opt-in skip, USB transport 21, application 11, zero failures/errors |
+| Linux | Swift core, CLI and application integration tests; 21 GTK UI scenarios, including native protection under Xvfb/D-Bus; packages |
+| Windows | 257 integration tests, zero skips; WinUI build; 4 verification + 8 workflow UI cases, first launch, isolated demo persistence, card scrolling and synthetic reader helper; CLI, MSI and MSIX packaging |
 | Shared | Swift Apple and portable backends, localization exports, CI routing/result contracts, publisher guards and journey traceability |
 
-The native mock UI suites had no skipped or failed scenarios. Counts are suite-specific:
+Completed native mock UI suites had no skipped or failed scenarios. Counts are suite-specific:
 an XCTest method can exercise multiple paths and is not equivalent to one documented journey.
 Downloaded Android, Linux and Windows result artifacts and completed platform logs are retained
-locally in `.local/validation-20261111/ci-final-evidence/` and the adjacent `*-ci-final.log` files.
+locally in `.local/validation-20261111/ci-43088408745/` and the adjacent `*-ci-43088408745.log` files.
 GitHub test artifacts have seven-day retention.
 
 ## Commit and publishing behavior
@@ -32,7 +35,7 @@ GitHub test artifacts have seven-day retention.
   propagate to the aggregate; test evidence is uploaded on failure as well as success.
 - The signed Android builder is manual-only. Branch commits do not reserve Android version codes
   or trigger release/store publishing. Release remains an explicit manual operation or `v*` tag push.
-- The source commit triggered only the `CI` workflow. No release or store workflow was dispatched.
+- The source commit triggered only the `CI` workflow; the manual full validation superseded its affected-platform run. No release or store workflow was dispatched.
   Existing documentation deployment behavior is unchanged.
 
 ## Fixes established by hosted execution
@@ -41,16 +44,23 @@ The final run incorporates native Apple menu/toolbar discovery, macOS click hand
 UI process isolation, deterministic completion gates in Windows bridge/MCP tests, and Linux
 dialog-state synchronization. Android now bounds build-process resources, checks emulator
 accessibility readiness before installing the app, and tests first-launch disclosure acceptance
-and retention explicitly. Its readiness gate permits one initial System UI recovery before app
-installation, rejects recurrence or other app errors, and never retries application scenarios.
+and retention explicitly. Its readiness gate permits one initial framework/System UI recovery before app
+installation, bounds accessibility connection failures, rejects recurrence or application errors,
+and never retries application scenarios.
 Linux dependency setup uses explicit container DNS and fails on incomplete package indexes.
+The native protection fixture uses tmpfs because production removal refuses unknown filesystems.
+
+Files automation now resolves native controls from a single public XCTest snapshot, with a named
+subtree fallback for incomplete iPad snapshots. It verifies dismissal, output bytes, private permissions
+and persistence. Protection and three Documents methods pass locally on iPhone Duo/iOS 27.1 and on
+iPad/iOS 26.5 and 27.0. All task-owned simulators were shut down; unrelated devices were preserved.
 
 ## Coverage limits
 
 This establishes the implemented mock UI and integration suites on all supported native platforms.
 It does not establish complete acceptance coverage: the catalog's 47 documented journeys plus
 3 protection scenarios still have partial status. Physical USB/PCSC behavior, real-card signing,
-biometrics, live portal/PKI behavior, installer interaction, OS document providers, drag and drop,
+biometrics, live portal/PKI behavior, installer interaction, third-party document-provider combinations, drag and drop,
 and integrations such as Shortcuts, Spotlight and Handoff retain separate acceptance work.
 Opt-in external-service tests remain skipped where their prerequisites are absent.
 

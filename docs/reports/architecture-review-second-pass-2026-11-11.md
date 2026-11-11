@@ -1,5 +1,7 @@
 # Architecture review — second pass
 
+Current build, native test and delivery evidence is tracked in [commit CI validation](commit-ci-validation-2026-11-11.md). The unrun/pending statements below describe the earlier review checkpoint.
+
 Follow-up implementation and current test status: [architecture and test review](architecture-and-test-review-2026-11-11.md). The remaining-scope section below records the state at this earlier pass.
 
 ## Findings fixed

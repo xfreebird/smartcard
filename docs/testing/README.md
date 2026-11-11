@@ -4,8 +4,8 @@ The native suites exercise application interactions against explicit Debug demo 
 workflow suites exercise real policy, persistence and cryptography using synthetic inputs or simulated
 cards. A fixture verdict is **not** evidence of a valid cryptographic signature or physical reader support.
 
-Build and runtime results from the owner-authorized 11 November batch are recorded in
-[the validation report](../reports/native-test-validation-2026-11-11.md). The commands below are
+Current hosted results are recorded in [commit CI validation](../reports/commit-ci-validation-2026-11-11.md);
+the earlier local batch remains in [the validation report](../reports/native-test-validation-2026-11-11.md). The commands below are
 repeatable entry points; source checks alone do not establish compilation or runtime behavior.
 
 ## Commit validation

@@ -1,5 +1,7 @@
 # Architecture and test review follow-up
 
+Current build, native test and delivery evidence is tracked in [commit CI validation](commit-ci-validation-2026-11-11.md). The unrun/pending statements below describe the earlier review checkpoint.
+
 This follow-up implements the concrete remaining areas identified in the two earlier review reports:
 consent/PIN lifecycle, signing-session policy, screenshot orchestration and core parser decomposition.
 It adds native automation entry points for macOS, iOS, Android, Linux and Windows, integration regression

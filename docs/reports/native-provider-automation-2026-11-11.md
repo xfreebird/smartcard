@@ -79,3 +79,8 @@ passes the iPad/iOS 26.5 protection flow, including both output files, exact res
 source and owner-only permissions. This supersedes the earlier tablet control-resolution failure;
 all three Documents methods and migration/history/fixture post-checks also pass on that tablet.
 Hosted validation remains required on the final pushed source.
+
+The final picker source (`b61890f`) also passes protection and all three Documents methods on the
+local iPad mini/iOS 27.0 runtime that originally exposed the missing attributes. Both wrapper
+post-checks passed. Task-owned simulators were shut down after validation; unrelated simulators and
+all test evidence were preserved. No OS automation permissions were changed.

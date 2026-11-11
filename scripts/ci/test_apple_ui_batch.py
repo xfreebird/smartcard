@@ -29,11 +29,15 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
             calls = root / 'calls'
             result = subprocess.run(['bash', str(scripts / 'run-mock-ui-tests.sh'),
                                      platform, '/unused/app', 'mac', str(root / 'results')],
-                                    env=dict(os.environ, CALLS=str(calls), FAIL_FIRST=str(int(fail_first))),
+                                    env=dict(os.environ, CALLS=str(calls), FAIL_FIRST=str(int(fail_first)), GITHUB_ACTIONS="true"),
                                     capture_output=True, text=True)
             self.assertEqual(calls.read_text().splitlines(),
                              ['VerificationJourneyUITests', 'MockWorkflowUITests'] +
                              (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests'] if platform == 'ios' else []))
+            if fail_first:
+                self.assertIn(f"::error title=Native UI failure::{platform}/VerificationJourneyUITests failed", result.stdout)
+            else:
+                self.assertNotIn("::error", result.stdout)
             return result.returncode
 
     def test_all_passing_suites_succeed(self):
