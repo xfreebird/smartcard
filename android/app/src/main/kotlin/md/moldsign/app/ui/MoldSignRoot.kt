@@ -79,6 +79,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -404,14 +405,17 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     )
 
     pending?.let { p ->
-        PinSheet(
-            request = p.request.toPinPromptContent(),
-            rememberAvailable = false,
-            onConfirm = { pin, _ ->
-                // TODO(AND-06): if "Ține minte PIN-ul" is on, PinVault.save(...) after a successful VERIFY.
-                p.answer(ConsentResult.Pin(pin))
-            },
-            onDismiss = { p.answer(ConsentResult.Cancelled) },
-        )
+        // Consent identity belongs to the feature host: identical display text can be a new request.
+        key(p) {
+            PinSheet(
+                request = p.request.toPinPromptContent(),
+                rememberAvailable = false,
+                onConfirm = { pin, _ ->
+                    // TODO(AND-06): if "Ține minte PIN-ul" is on, PinVault.save(...) after a successful VERIFY.
+                    p.answer(ConsentResult.Pin(pin))
+                },
+                onDismiss = { p.answer(ConsentResult.Cancelled) },
+            )
+        }
     }
 }

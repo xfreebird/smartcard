@@ -1366,6 +1366,8 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Windows controls receive wallet/status data through bindings and emit selection callbacks. File
   selection uses an injected UI interface; core certificate mapping and live/demo behavior stay in
   presentation adapters. Linux card/placeholder widgets accept display content mapped by features.
+- Android consent lifetime is keyed by the pending request at the feature host, so identical display
+  text from a new request cannot retain a previous prompt's input after removing core models from UI.
 - Added cross-platform boundary guards, an isolated GTK compilation check and Android/Linux mapper
   regressions. Local Apple/macOS/iOS and Android builds and Fedora tests are passing; final native
   CI validation is pending. Commit triggers remain validation-only; no release publishing changed.
