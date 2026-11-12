@@ -128,6 +128,7 @@ jobs:
           path: |
             ${{ runner.temp }}/ios-ui/**/*.xcresult
             ${{ runner.temp }}/ios-ui/**/test.log
+            ${{ runner.temp }}/ios-ui/**/roundtrip.json
             ${{ runner.temp }}/ios-ui/*.json
             ${{ runner.temp }}/ios-ui/*.tsv
           if-no-files-found: warn

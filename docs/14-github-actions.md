@@ -38,6 +38,9 @@ Selected native jobs run the Debug mock UI suites on macOS, iPhone and iPad simu
 
 The iOS batch also requires native carousel gestures, demo/share/restart tests, and a Files-picker protection round trip with byte/permission readback on both device families. Android runs crypto/storage and two separate persistence phases after its UI journeys. Windows additionally requires ordinary first launch, isolated demo transitions, card scrolling and synthetic reader-helper activation. These checks use separate profiles/processes and do not modify developer data.
 
+The iOS evidence artifact retains each protection suite's `roundtrip.json` alongside XCTest bundles,
+test logs and simulator inventories, so restored-byte hashes and private output permissions remain reviewable.
+
 Branch commits cannot create application releases, reserve Android version codes or upload Store versions. The signed Android builder is manual-only; Release remains an explicit `v*` tag or manual action. Website source pushes can still deploy documentation, and scheduled CLI feed refreshes reuse an existing release. No CI completion triggers a publisher.
 
 The Apple CI entry point discovers available iPhone/iPad simulators and uses an ad-hoc signed Debug macOS app without distribution credentials. It requires the runner image's existing XCTest authorization and never changes host security settings. GitHub documents this preauthorization in its [macOS image configuration](https://github.com/actions/runner-images/blob/main/images/macos/scripts/build/configure-machine.sh); Windows UI tests use a [hosted graphical runner](https://learn.microsoft.com/en-us/windows/apps/develop/ai-assisted/testing#run-tests-in-ci).

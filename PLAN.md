@@ -1341,3 +1341,7 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   disabled after a stale local Kotlin symbol-cache error. Fedora application build and all 35 tests pass,
   including deletion, missing-file and symlink checks. The Mac Linux probe lacked Poppler headers; it
   does not replace the successful Fedora execution. Hosted validation of this follow-up is pending.
+- Baseline full CI `43171823518` passed every job and all 18 XCTest methods on each selected iPhone/iPad.
+  Artifact inspection verified every required count with no skips. The protection postchecks passed but
+  their nested JSON proof was omitted from upload patterns; CI now retains `roundtrip.json` alongside
+  XCTest bundles, logs and simulator inventories for direct byte/permission evidence.
