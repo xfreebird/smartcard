@@ -26,18 +26,22 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
         }
         return null
     }
-    private fun performClick(description: String, find: () -> AccessibilityNodeInfo?): Boolean {
+    private fun performClick(description: String, find: () -> AccessibilityNodeInfo?) {
         var target: AccessibilityNodeInfo? = null
         await("clickable $description") { target = clickTarget(find()); target != null }
         // Retry lookup, never an already dispatched action: a timed-out click can arrive late.
-        return checkNotNull(target).performAction(AccessibilityNodeInfo.ACTION_CLICK)
+        checkNotNull(target).performAction(AccessibilityNodeInfo.ACTION_CLICK)
+        runner.waitForIdleSync()
     }
-    fun clickText(value: String) {
-        check(performClick(value) { text(value) }) { "Click was not acknowledged: $value; ${describe()}" }
-    }
+    // Callers verify the resulting screen/domain state; the IPC acknowledgement is not completion.
+    fun clickText(value: String) { performClick(value) { text(value) } }
     fun clickId(value: String) {
         reveal(value) { id(value) }
-        check(performClick(value) { id(value) }) { "Click was not acknowledged: $value; ${describe()}" }
+        performClick(value) { id(value) }
+    }
+    fun clickTextAndAwait(value: String, description: String, condition: () -> Boolean) {
+        clickText(value)
+        await(description, condition)
     }
     fun clickIdAndAwait(value: String, description: String, condition: () -> Boolean) {
         reveal(value) { id(value) }

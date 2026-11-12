@@ -28,8 +28,7 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
                     val saved = app.container.activity.signedDocuments.value.filter { it.title.contains("NOT-SIGNED") }
                     check(saved.size >= successes)
                     val count = app.container.activity.signedDocuments.value.size
-                    ui.clickText(activity.getString(R.string.results_clear))
-                    ui.await("results hidden") { ui.text(output) == null }
+                    ui.clickTextAndAwait(activity.getString(R.string.results_clear), "results hidden") { ui.text(output) == null }
                     check(app.container.activity.signedDocuments.value.size == count) { "Hiding results removed saved documents" }
                 }
                 if (scenario != "success") {
@@ -69,6 +68,8 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
             ui.await("history cleared") { app.container.activity.entries.value.isEmpty() }
             check(app.container.activity.signedDocuments.value.map { it.id }.toSet() == saved)
             ui.clickText(activity.getString(R.string.saved_signed))
+            val savedTitle = app.container.activity.signedDocuments.value.first().title
+            ui.reveal("saved library after history clear") { ui.text(savedTitle) }
             check(ui.text(activity.getString(R.string.saved_empty)) == null)
         }
         results += "mock-history-cancel-and-clear:pass"

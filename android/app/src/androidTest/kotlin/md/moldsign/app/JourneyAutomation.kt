@@ -3,7 +3,6 @@ package md.moldsign.app
 import android.app.Instrumentation
 import android.content.Intent
 import android.os.Build
-import android.view.accessibility.AccessibilityNodeInfo
 import md.moldsign.app.application.AppContainer
 import md.moldsign.app.application.DocumentOutputStore
 import md.moldsign.app.application.SignDocuments
@@ -13,6 +12,7 @@ import md.moldsign.core.ConsentResult
 
 /** Native accessibility interactions. Run only on a dedicated emulator, never a working phone. */
 internal class JourneyAutomation(private val runner: Instrumentation) {
+    private val ui = NativeJourneyDriver(runner)
     fun run(): String {
         check(Build.FINGERPRINT.contains("generic") || Build.MODEL.contains("sdk", true) || Build.HARDWARE in listOf("ranchu", "goldfish")) {
             "A dedicated emulator is required"
@@ -41,12 +41,10 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
                     .putExtra("demo", scenario).putExtra("demo_page", "verify").putExtra("store_capture", true))
                 try {
                     val title = activity.getString(verdict)
-                    await(title) { node(title) != null }
+                    ui.await(title) { ui.text(title) != null }
                     val clear = activity.getString(R.string.clear_results)
-                    await("clear button") { node(clear) != null }
-                    click(requireNotNull(node(clear)))
-                    await("cleared verdict") { node(title) == null && node(clear) == null }
-                    check(node(activity.getString(R.string.action_choose_document)) != null)
+                    ui.clickTextAndAwait(clear, "cleared verdict") { ui.text(title) == null && ui.text(clear) == null }
+                    check(ui.text(activity.getString(R.string.action_choose_document)) != null)
                     results += "$scenario:pass"
                 } finally {
                     runner.runOnMainSync { activity.finish() }
@@ -63,7 +61,7 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     .putExtra("demo", scenario).putExtra("demo_page", "card").putExtra("store_capture", true))
                 try {
-                    await("reader state $scenario") { node(activity.getString(expected)) != null }
+                    ui.await("reader state $scenario") { ui.text(activity.getString(expected)) != null }
                     check(app.container.consentBroker.pending.value == null)
                     check(!app.container.signingService.progress.value.toString().contains("Signing"))
                     results += "$scenario:pass"
@@ -74,9 +72,7 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
                 .putExtra("demo", "results").putExtra("demo_page", "sign").putExtra("store_capture", true))
             try {
                 val clear = activity.getString(R.string.results_clear)
-                await("completed demo results") { node(clear) != null }
-                click(requireNotNull(node(clear)))
-                await("hidden completed results") { node(clear) == null }
+                ui.clickTextAndAwait(clear, "hidden completed results") { ui.text(clear) == null }
                 check(app.container.consentBroker.pending.value == null)
                 results += "hide-signing-results:pass"
             } finally { runner.runOnMainSync { activity.finish() }; runner.waitForIdleSync() }
@@ -113,26 +109,4 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
         } finally { container.stop() }
     }
 
-    private fun node(text: String): AccessibilityNodeInfo? = NativeJourneyDriver(runner).text(text)
-
-    private fun click(start: AccessibilityNodeInfo) {
-        var current: AccessibilityNodeInfo? = start
-        while (current != null) {
-            if (current.isClickable) {
-                check(current.performAction(AccessibilityNodeInfo.ACTION_CLICK))
-                return
-            }
-            current = current.parent
-        }
-        error("No clickable ancestor")
-    }
-
-    private fun await(description: String, condition: () -> Boolean) {
-        val deadline = android.os.SystemClock.uptimeMillis() + 15_000
-        while (android.os.SystemClock.uptimeMillis() < deadline) {
-            if (condition()) return
-            Thread.sleep(100)
-        }
-        error("Timed out: $description; " + NativeJourneyDriver(runner).describe())
-    }
 }
