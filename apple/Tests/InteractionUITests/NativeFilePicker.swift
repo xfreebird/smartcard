@@ -28,7 +28,7 @@ struct NativeFilePicker {
             guard node.elementType == .cell, node.label.hasPrefix(namePrefix) else { return false }
             return labelContains.map { node.label.contains($0) } ?? true
         }
-        tap(document.frame)
+        tapItem(document)
         if confirmSelection {
             let open = try waitForControl("Open") { $0.elementType == .button && $0.label == "Open" && $0.isEnabled }
             tap(open.frame)
@@ -45,8 +45,20 @@ struct NativeFilePicker {
 
     private func openFolder(_ identifier: String) throws {
         let folder = try waitForControl(identifier) { $0.elementType == .cell && $0.identifier == identifier }
-        let icon = descendants(of: folder).first { $0.elementType == .image && valid($0.frame) }
-        tap((icon ?? folder).frame)
+        tapItem(folder)
+    }
+
+    private func tapItem(_ item: any XCUIElementSnapshot) {
+        if let icon = descendants(of: item).first(where: { $0.elementType == .image && valid($0.frame) }) {
+            tap(icon.frame)
+            return
+        }
+        // Files grid cells include name/date metadata below the actionable thumbnail.
+        // Some remote snapshots omit thumbnail nodes; use the cell's upper square.
+        // List rows keep their normal center because their height is the shorter edge.
+        var target = item.frame
+        target.size.height = min(target.width, target.height)
+        tap(target)
     }
 
     private func waitForControl(_ name: String, matching matches: @escaping (any XCUIElementSnapshot) -> Bool) throws -> any XCUIElementSnapshot {
