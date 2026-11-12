@@ -1442,5 +1442,12 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Local macOS/iOS Debug builds, 42 application tests, 56 CI guards, all macOS UI suite compilation,
   26 website tests, guide checks, three locale builds and SEO checks pass. Native mock clicking produced
   two sample outputs and removed the action. XCTest execution remains blocked by administrator
-  authentication for Automation Mode on both Macs. Push and new-head CI validation await the local
-  UI pass; no app version was published. See `docs/reports/macos-floating-sign-2026-11-12.md`.
+  authentication for Automation Mode on both Macs. The owner subsequently requested push after this
+  limitation was disclosed; `1cb9067` is delivered. Website deployment passed and all 12 live image
+  hashes plus all three localized instructions match. No app version was published.
+- First hosted CI passed Linux, Android, Swift and localization, but found two test-driver assumptions:
+  macOS resize growth exceeded the hosted display, and Windows Home checked transient UIA state.
+  The follow-up shrinks within the display and waits for stable top offset plus full card visibility.
+  All 56 guards and macOS UI suite compilation pass; the native Windows scroll driver passes locally
+  in four size/theme combinations. Hosted validation of the adjusted drivers follows the push.
+  See `docs/reports/macos-floating-sign-2026-11-12.md`.

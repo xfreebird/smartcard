@@ -54,6 +54,19 @@ function Assert-Visible($element,$viewport,[string]$label) {
     }
 }
 function Is-Bottom($pattern) {return -not $pattern.Current.VerticallyScrollable -or $pattern.Current.VerticalScrollPercent -ge 99.5}
+function Wait-Top($pattern,$viewport,$card) {
+    # UIA scroll state can change between property reads while Home is animating.
+    # Require consecutive observations from one snapshot per poll, as for the bottom.
+    $stable=0
+    for($attempt=0;$attempt -lt 60;$attempt++) {
+        $state=$pattern.Current
+        $atTop=(-not $state.VerticallyScrollable -or $state.VerticalScrollPercent -le 1)
+        if($atTop -and (Test-Visible $card $viewport)) {$stable++} else {$stable=0}
+        if($stable -ge 3) {return}
+        Start-Sleep -Milliseconds 100
+    }
+    throw "Home did not settle at the top. ScrollPercent=$($state.VerticalScrollPercent)"
+}
 function Focus-Scroll($scroll,[IntPtr]$window) {
     [CardScrollInput]::SetForegroundWindow($window)|Out-Null
     $scroll.SetFocus()
@@ -109,7 +122,8 @@ try {
                 [CardScrollInput]::SetWindowPos($handle,[IntPtr]::Zero,0,0,$size.Width,$size.Height,0x0006)|Out-Null
                 Start-Sleep -Milliseconds 400
                 Focus-Scroll $scroll $handle
-                [CardScrollInput]::ScrollKey(0x24);Start-Sleep -Milliseconds 250
+                [CardScrollInput]::ScrollKey(0x24)
+                Wait-Top $pattern $scroll (Find-Id $window 'WalletCard2')
                 # NavigationView animates its pane when crossing the compact-width breakpoint. Wait for stable geometry.
                 $stable=0
                 for($attempt=0;$attempt -lt 60;$attempt++) {
@@ -144,10 +158,9 @@ try {
                 $wheelOffset=$pattern.Current.VerticalScrollPercent
                 Focus-Scroll $scroll $handle
                 [CardScrollInput]::ScrollKey(0x24)
-                for($attempt=0;$attempt -lt 60 -and $pattern.Current.VerticallyScrollable -and $pattern.Current.VerticalScrollPercent -gt 1;$attempt++) {Start-Sleep -Milliseconds 100}
-                if($pattern.Current.VerticallyScrollable -and $pattern.Current.VerticalScrollPercent -gt 1) {
+                try {Wait-Top $pattern $scroll (Find-Id $window 'WalletCard2')} catch {
                     Capture $handle ("card-home-failure-$($size.Height)-$theme")
-                    throw "Home did not return to the top. ScrollPercent=$($pattern.Current.VerticalScrollPercent) Focus=$($scroll.Current.HasKeyboardFocus)"
+                    throw
                 }
                 [CardScrollInput]::ScrollKey(0x23)
                 Wait-Bottom $pattern $scroll @($button,$tips)

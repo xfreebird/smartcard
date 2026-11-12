@@ -12,7 +12,7 @@ final class MacFloatingActionUITests: XCTestCase {
             let window = app.windows.firstMatch
             let sign = app.buttons["sign.submit"].firstMatch
             assertFloating(sign, in: window)
-            // Restored windows can fill the display; create room before testing growth.
+            // Restored windows can fill the display; start with a bounded workspace.
             resize(window, width: 900, height: 650)
             wait("Window reaches compact size", in: app) { abs(window.frame.width - 900) < 10 }
             assertFloating(sign, in: window)
@@ -31,10 +31,9 @@ final class MacFloatingActionUITests: XCTestCase {
             attach(window, name: "floating-sign-\(language)-\(theme)")
 
             let before = window.frame
-            let corner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
-                .withOffset(CGVector(dx: -2, dy: -2))
-            corner.click(forDuration: 0.2, thenDragTo: corner.withOffset(CGVector(dx: 120, dy: 60)))
-            wait("Window grows", in: app) { window.frame.width > before.width + 80 }
+            // Shrink toward the supported minimum. Growing can hit a hosted display's edge.
+            resize(window, width: 860, height: 620)
+            wait("Window shrinks", in: app) { window.frame.width < before.width - 30 }
             assertFloating(sign, in: window)
             XCTAssertEqual(window.frame.maxX - sign.frame.maxX, before.maxX - position.maxX, accuracy: 3)
             XCTAssertEqual(window.frame.maxY - sign.frame.maxY, before.maxY - position.maxY, accuracy: 3)
