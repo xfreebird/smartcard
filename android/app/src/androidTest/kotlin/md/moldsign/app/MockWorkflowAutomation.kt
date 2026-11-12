@@ -99,14 +99,12 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
             }
             for ((toggle, content) in listOf("verify.certificateToggle" to "verify.certificateContents",
                                             "verify.technicalToggle" to "verify.technicalContents")) {
-                ui.clickId(toggle)
-                ui.await("expanded $toggle") {
+                ui.clickIdAndAwait(toggle, "expanded $toggle") {
                     ui.id(toggle)?.stateDescription?.toString() == activity.getString(R.string.state_expanded)
                 }
                 ui.reveal("expanded $content") { ui.id(content) }
                 ui.revealUp(toggle) { ui.id(toggle) }
-                ui.clickId(toggle)
-                ui.await("collapsed $toggle") {
+                ui.clickIdAndAwait(toggle, "collapsed $toggle") {
                     ui.id(toggle)?.stateDescription?.toString() == activity.getString(R.string.state_collapsed) && ui.id(content) == null
                 }
             }

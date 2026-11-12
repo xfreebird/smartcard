@@ -18,18 +18,34 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
     fun id(value: String) = all(runner.uiAutomation.rootInActiveWindow).firstOrNull {
         it.isVisibleToUser && it.viewIdResourceName == value
     }
-    private fun tryClick(node: AccessibilityNodeInfo?): Boolean {
-        var target: AccessibilityNodeInfo? = node
+    private fun clickTarget(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {
+        var target = node
         while (target != null) {
-            if (target.isClickable) return target.performAction(AccessibilityNodeInfo.ACTION_CLICK)
+            if (target.isClickable && target.isEnabled) return target
             target = target.parent
         }
-        return false
+        return null
     }
-    // A node can be replaced between lookup and activation during a Compose transition.
-    // Retry only rejected actions, re-querying the current tree each time.
-    fun clickText(value: String) { await("click $value") { tryClick(text(value)) } }
-    fun clickId(value: String) { reveal(value) { id(value) }; await("click $value") { tryClick(id(value)) } }
+    private fun performClick(description: String, find: () -> AccessibilityNodeInfo?): Boolean {
+        var target: AccessibilityNodeInfo? = null
+        await("clickable $description") { target = clickTarget(find()); target != null }
+        // Retry lookup, never an already dispatched action: a timed-out click can arrive late.
+        return checkNotNull(target).performAction(AccessibilityNodeInfo.ACTION_CLICK)
+    }
+    fun clickText(value: String) {
+        check(performClick(value) { text(value) }) { "Click was not acknowledged: $value; ${describe()}" }
+    }
+    fun clickId(value: String) {
+        reveal(value) { id(value) }
+        check(performClick(value) { id(value) }) { "Click was not acknowledged: $value; ${describe()}" }
+    }
+    fun clickIdAndAwait(value: String, description: String, condition: () -> Boolean) {
+        reveal(value) { id(value) }
+        // A timed-out accessibility action can still reach the main thread later.
+        // Dispatch a toggle once and observe its result instead of queuing another click.
+        performClick(value) { id(value) }
+        await(description, condition)
+    }
     fun revealUp(description: String, find: () -> AccessibilityNodeInfo?) = reveal(description, AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD, find)
     fun reveal(description: String, find: () -> AccessibilityNodeInfo?) = reveal(description, AccessibilityNodeInfo.ACTION_SCROLL_FORWARD, find)
     private fun reveal(description: String, direction: Int, find: () -> AccessibilityNodeInfo?) {
