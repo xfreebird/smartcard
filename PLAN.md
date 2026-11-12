@@ -1454,3 +1454,15 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   the aggregate result. Linux, Android and Swift had already passed in the preceding full selection.
   Local macOS XCTest still requires administrator authentication; hosted success is separate evidence.
   See `docs/reports/macos-floating-sign-2026-11-12.md`.
+
+
+### 2026-11-12 — Remove the iOS Sign navigation title
+
+- Made the shared Sign navigation title macOS-only. iPhone and iPad keep the Sign tab and floating
+  signing action, with no duplicate navigation-bar title.
+- Local iOS Simulator Debug build passed. Native captures confirm the title-free phone/tablet
+  workspace. The existing floating-action suite passed all four methods on iPhone iOS 26.3 and
+  iPadOS 26.5, with complete result bundles and no failures or skips.
+- The iOS 27.1 simulator logged four passing methods, but Xcode produced an empty result summary;
+  that run is not counted as a validated suite pass. Logs, captures and results are retained under
+  `.local/ios-sign-title-*`.

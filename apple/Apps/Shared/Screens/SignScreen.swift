@@ -95,11 +95,10 @@ struct SignScreen: View {
         }
         #if os(iOS)
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
-        #endif
-        .navigationTitle(L10n.text(.ui_sign))
-        #if os(iOS)
         // Keep the workspace height stable on short and landscape displays.
         .navigationBarTitleDisplayMode(.inline)
+        #else
+        .navigationTitle(L10n.text(.ui_sign))
         #endif
         .onDrop(of: [.fileURL, .pdf, .xml, .data, .item], isTargeted: $dropTargeted) { providers in
             Task { model.addFiles(await DroppedDocumentLoader.load(providers)) }
