@@ -1371,3 +1371,7 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Added cross-platform boundary guards, an isolated GTK compilation check and Android/Linux mapper
   regressions. Local Apple/macOS/iOS and Android builds and Fedora tests are passing; final native
   CI validation is pending. Commit triggers remain validation-only; no release publishing changed.
+
+- Android history automation now targets explicit accessibility identifiers and waits for tab/dialog
+  transitions. The updated native suite passes all 34 journeys and storage/restart checks locally;
+  timeout diagnostics also report visibility, clickability and enabled state.

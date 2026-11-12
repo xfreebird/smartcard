@@ -16,7 +16,7 @@ Plan items: LNX-06…LNX-15, UX-01, UX-02, UX-07, UX-09…UX-12 in [`../PLAN.md`
 
 ## Design (docs/10 §0, §0.2b)
 
-* **ID-card face (UX-09).** The inserted card is drawn with cairo + Pango (`Presentation/Views/CardArt.swift`) as a stylized
+* **ID-card face (UX-09).** The inserted card is drawn with cairo + Pango (`Presentation/DesignSystem/CardArt.swift`) as a stylized
   illustration of the Moldovan identity card: pastel paper, guilloche waves and a rosette (hue rotated ±20° per
   card from the certificate SHA-1), "REPUBLICA MOLDOVA / REPUBLIC OF MOLDOVA" and "CARTE DE IDENTITATE / IDENTITY
   CARD", a **neutral shield outline** (never the coat of arms), the gold chip, a grey portrait frame with a

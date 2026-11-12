@@ -56,18 +56,21 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
         results += "mock-remove-batch:pass"
         install(ScriptedSigner("success"))
         withActivity(page = "activity", scenario = "cards") { activity ->
-            ui.clickText(activity.getString(R.string.saved_history))
-            runner.waitForIdleSync()
+            ui.clickIdAndAwait("documents.historyTab", "history controls displayed") {
+                ui.id("documents.clearHistory") != null
+            }
             val saved = app.container.activity.signedDocuments.value.map { it.id }.toSet()
             check(saved.isNotEmpty())
-            ui.clickText(activity.getString(R.string.activity_clear))
-            ui.clickText(activity.getString(R.string.action_cancel))
+            ui.clickId("documents.clearHistory")
+            ui.clickIdAndAwait("documents.clearHistory.cancel", "history dialog dismissed") {
+                ui.id("documents.clearHistory.cancel") == null
+            }
             check(app.container.activity.entries.value.isNotEmpty())
-            ui.clickText(activity.getString(R.string.activity_clear))
-            ui.clickText(activity.getString(R.string.activity_clear_confirm))
+            ui.clickId("documents.clearHistory")
+            ui.clickId("documents.clearHistory.confirm")
             ui.await("history cleared") { app.container.activity.entries.value.isEmpty() }
             check(app.container.activity.signedDocuments.value.map { it.id }.toSet() == saved)
-            ui.clickText(activity.getString(R.string.saved_signed))
+            ui.clickId("documents.savedTab")
             val savedTitle = app.container.activity.signedDocuments.value.first().title
             ui.reveal("saved library after history clear") { ui.text(savedTitle) }
             check(ui.text(activity.getString(R.string.saved_empty)) == null)

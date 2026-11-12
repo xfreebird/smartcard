@@ -5,6 +5,9 @@ import md.moldsign.app.ui.components.signatureLabels
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.FilterChip
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTagsAsResourceId
 import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -126,8 +129,8 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     }
     ScreenColumn(padding) {
         Row(Gutter.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            FilterChip(selected = !history, onClick = { history = false }, label = { Text(stringResource(R.string.saved_signed)) })
-            FilterChip(selected = history, onClick = { history = true }, label = { Text(stringResource(R.string.saved_history)) })
+            FilterChip(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("documents.savedTab"), selected = !history, onClick = { history = false }, label = { Text(stringResource(R.string.saved_signed)) })
+            FilterChip(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("documents.historyTab"), selected = history, onClick = { history = true }, label = { Text(stringResource(R.string.saved_history)) })
         }
         if (entries.isEmpty()) {
             Column(
@@ -147,7 +150,8 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
         } else {
             Column {
                 SectionHeader(stringResource(if (history) R.string.activity_recent else R.string.saved_signed)) {
-                    TextButton(onClick = { if (history) confirm = true else deleting = savedDocuments.toList() }) {
+                    TextButton(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(if (history) "documents.clearHistory" else "documents.deleteAll"),
+                        onClick = { if (history) confirm = true else deleting = savedDocuments.toList() }) {
                         Icon(Icons.Outlined.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(Tokens.S2))
                         Text(stringResource(if (history) R.string.activity_clear else R.string.saved_delete_all))
@@ -189,12 +193,12 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
             title = { Text(stringResource(R.string.activity_clear_title)) },
             text = { Text(stringResource(R.string.activity_clear_body)) },
             confirmButton = {
-                TextButton(onClick = {
+                TextButton(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("documents.clearHistory.confirm"), onClick = {
                     confirm = false
                     vm.clearActivity()
                 }) { Text(stringResource(R.string.activity_clear_confirm)) }
             },
-            dismissButton = { TextButton(onClick = { confirm = false }) { Text(stringResource(R.string.action_cancel)) } },
+            dismissButton = { TextButton(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("documents.clearHistory.cancel"), onClick = { confirm = false }) { Text(stringResource(R.string.action_cancel)) } },
         )
     }
 }

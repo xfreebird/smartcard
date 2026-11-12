@@ -11,7 +11,10 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
         for (index in 0 until node.childCount) yieldAll(all(node.getChild(index)))
     }
     fun describe(): String = all(runner.uiAutomation.rootInActiveWindow).filter { !it.isPassword }
-        .mapNotNull { it.text?.toString() ?: it.contentDescription?.toString() }.take(40).joinToString(" | ")
+        .mapNotNull { node ->
+            val text = node.text?.toString() ?: node.contentDescription?.toString() ?: node.viewIdResourceName ?: return@mapNotNull null
+            "$text [id=${node.viewIdResourceName}, visible=${node.isVisibleToUser}, clickable=${node.isClickable}, enabled=${node.isEnabled}]"
+        }.take(40).joinToString(" | ")
     fun text(value: String) = all(runner.uiAutomation.rootInActiveWindow).firstOrNull {
         it.isVisibleToUser && (it.text?.toString()?.lines()?.contains(value) == true || it.contentDescription?.toString()?.lines()?.contains(value) == true)
     }
