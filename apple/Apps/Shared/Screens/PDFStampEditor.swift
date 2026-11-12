@@ -53,15 +53,29 @@ struct PDFStampEditor: View {
                     VStack(spacing: 4) {
                         HStack(spacing: 24) {
                             Button { withAnimation { visiblePage = max(0, placement.page - 1) } } label: {
+                                #if os(iOS)
+                                Image(systemName: "chevron.left").font(.title3.weight(.semibold)).nativeButtonIconFrame(legacySize: 48)
+                                #else
                                 Image(systemName: "chevron.left").font(.title3.weight(.semibold)).frame(width: 48, height: 48)
                                     .background(placement.page == 0 ? Color.secondary.opacity(0.12) : Color.accentColor.opacity(0.12), in: Circle())
+                                #endif
                             }.disabled(placement.page == 0).accessibilityLabel(L10n.text(.stamp_previous_page))
                             Text("\(L10n.text(.stamp_page_label)) \(placement.page + 1) / \(document.pageCount)").monospacedDigit()
                             Button { withAnimation { visiblePage = min(document.pageCount - 1, placement.page + 1) } } label: {
+                                #if os(iOS)
+                                Image(systemName: "chevron.right").font(.title3.weight(.semibold)).nativeButtonIconFrame(legacySize: 48)
+                                #else
                                 Image(systemName: "chevron.right").font(.title3.weight(.semibold)).frame(width: 48, height: 48)
                                     .background(placement.page + 1 >= document.pageCount ? Color.secondary.opacity(0.12) : Color.accentColor.opacity(0.12), in: Circle())
+                                #endif
                             }.disabled(placement.page + 1 >= document.pageCount).accessibilityLabel(L10n.text(.stamp_next_page))
-                        }.buttonStyle(.plain).frame(maxWidth: .infinity).padding(.top, 12)
+                        }
+                            #if os(iOS)
+                            .nativeButtonStyle(.borderless).buttonBorderShape(.circle).controlSize(.large)
+                            #else
+                            .buttonStyle(.plain)
+                            #endif
+                            .frame(maxWidth: .infinity).padding(.top, 12)
                         Picker(L10n.text(.stamp_visible), selection: Binding(
                             get: { !enabled ? 0 : (placement.allPages ? 2 : 1) },
                             set: { mode in enabled = mode != 0; if mode != 0 { placement.allPages = mode == 2 } }

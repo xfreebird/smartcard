@@ -380,3 +380,22 @@ Full keyboard paths (⌘O open, ⌘↩ sign, ⌘⇧V verify; Esc cancels sheets)
 labels on every icon-only control, Dynamic Type / font scaling up to XXL without truncating primary
 actions, WCAG AA contrast (tokens above pass on both themes), and no information carried by color alone
 (icons accompany every status color).
+
+### Native iOS action styling
+
+Use `NativeButtonStyle` for standalone actions. On iOS 26 and later it delegates to SwiftUI's
+[`glass`](https://developer.apple.com/documentation/swiftui/primitivebuttonstyle/glass) or
+[`glassProminent`](https://developer.apple.com/documentation/swiftui/primitivebuttonstyle/glassprominent)
+style; older iOS and macOS retain the specified native fallback. Do not paint another fill or border
+behind the button, or switch styles when disabling it. The system owns disabled/pressed appearance.
+Toolbar, alert and menu-item styling is supplied by their native context; content rows remain full-row
+interactions rather than floating action surfaces.
+
+Use `nativeButtonIconFrame` inside icon-only action labels. Glass supplies native padding; the
+fallback keeps an explicit 44-point target for older borderless controls. The share extension uses
+UIKit's [`prominentGlass()`](https://developer.apple.com/documentation/UIKit/UIButton/Configuration-swift.struct/prominentGlass%28%29)
+configuration on supported versions.
+
+The iOS Sign action sits at the trailing bottom safe area, above tab navigation. Reserve its space
+with a safe-area inset so documents remain scrollable and unobscured. Keep a single action in all
+window widths and orientations, with a capsule shape and a 44-point minimum touch target.

@@ -24,7 +24,7 @@ report_failure() {
     status=1
 }
 suites=(VerificationJourneyUITests MockWorkflowUITests)
-if [[ "$platform" == ios ]]; then suites+=(CardCarouselUITests DemoModeUITests ProtectionFlowUITests DocumentsUITests); fi
+if [[ "$platform" == ios ]]; then suites+=(CardCarouselUITests DemoModeUITests ProtectionFlowUITests DocumentsUITests FloatingActionUITests); fi
 for suite in "${suites[@]}"; do
     result=Journeys.xcresult
     [[ "$platform" != ios ]] || result=GestureProof.xcresult
@@ -41,6 +41,7 @@ for suite in "${suites[@]}"; do
         MockWorkflowUITests) expected=6 ;;
         CardCarouselUITests) expected=2 ;;
         DocumentsUITests) expected=3 ;;
+        FloatingActionUITests) expected=4 ;;
         DemoModeUITests|ProtectionFlowUITests) expected=1 ;;
     esac
     if ! python3 "$repo/scripts/ci/check-xctest-result.py" "$out/$suite/$result" "$expected"; then

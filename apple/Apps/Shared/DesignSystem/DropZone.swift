@@ -18,19 +18,19 @@ struct DropZone: View {
                     Label(labels.choose, systemImage: verification ? "checkmark.seal" : "arrow.down.doc")
                         .frame(maxWidth: .infinity, minHeight: 44)
                 }
-                .buttonStyle(.borderless)
+                .nativeButtonStyle(.borderless)
                 .padding(.horizontal, Theme.Space.s)
             } else if compact {
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: Theme.Space.s) {
                         Image(systemName: "arrow.down.doc")
                         Text(labels.addMore).fixedSize()
-                        Button(labels.choose, action: choose).buttonStyle(.bordered).fixedSize()
+                        Button(labels.choose, action: choose).nativeButtonStyle().fixedSize()
                     }
                     VStack(spacing: Theme.Space.s) {
                         Label(labels.addMore, systemImage: "arrow.down.doc")
                             .multilineTextAlignment(.center)
-                        Button(labels.choose, action: choose).buttonStyle(.bordered)
+                        Button(labels.choose, action: choose).nativeButtonStyle()
                     }
                     .padding(.vertical, Theme.Space.s)
                 }
@@ -48,7 +48,7 @@ struct DropZone: View {
                     Text(labels.hint)
                         .font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
                     Button(labels.choose, action: choose)
-                        .buttonStyle(.bordered)
+                        .nativeButtonStyle()
                         .controlSize(.large)
                         .padding(.top, Theme.Space.xs)
                 }

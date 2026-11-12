@@ -71,6 +71,7 @@ struct BookmarkManager: View {
                 Text(L10n.text(.browser_bookmark_manage)).font(.title2.bold())
                 Spacer()
                 Button(L10n.text(.ui_done)) { dismiss() }
+                    .nativeButtonStyle(.automatic)
             }
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
@@ -81,6 +82,7 @@ struct BookmarkManager: View {
             }
             HStack {
                 Button(L10n.text(.browser_bookmark_add)) { reset() }
+                    .nativeButtonStyle(.automatic)
                 Spacer()
                 Button(L10n.text(.browser_bookmark_save)) {
                     guard var item = candidate else { return }
@@ -88,7 +90,7 @@ struct BookmarkManager: View {
                     bookmarks.save(item)
                     reset()
                 }
-                .buttonStyle(.borderedProminent)
+                .nativeButtonStyle(.prominent)
                 .disabled(candidate == nil)
                 .accessibilityIdentifier("bookmark.save")
             }
@@ -124,7 +126,7 @@ struct BookmarkManager: View {
                         bookmarks.remove(item)
                         if editing?.id == item.id { reset() }
                     } label: { Image(systemName: "trash").frame(minWidth: 44, minHeight: 44) }
-                        .buttonStyle(.borderless)
+                        .nativeButtonStyle(.borderless)
                         .accessibilityLabel("\(L10n.text(.ui_delete)): \(item.title)")
                 }.padding(.vertical, 4)
             }

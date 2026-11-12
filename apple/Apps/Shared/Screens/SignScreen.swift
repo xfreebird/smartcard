@@ -36,7 +36,6 @@ struct SignScreen: View {
                         ScrollView {
                             VStack(spacing: 24) {
                                 CardSelector(size: .phone)
-                                if verticalSizeClass != .compact && !model.signItems.isEmpty { signButton.frame(maxWidth: .infinity, alignment: .center) }
                                 resultContent
                             }
                             .padding(verticalSizeClass == .compact ? 16 : 24)
@@ -45,14 +44,8 @@ struct SignScreen: View {
                         Divider()
                         ScrollView {
                             documentContent.padding(verticalSizeClass == .compact ? 16 : 24)
-                                .padding(.bottom, verticalSizeClass == .compact ? 48 : 0)
                         }
                         .frame(maxWidth: .infinity)
-                    }
-                    .toolbar {
-                        if verticalSizeClass == .compact && !model.signItems.isEmpty {
-                            ToolbarItem(placement: .primaryAction) { signButton }
-                        }
                     }
                     .accessibilityIdentifier("signing.wideWorkspace")
                 } else {
@@ -65,12 +58,16 @@ struct SignScreen: View {
                         }
                         .padding(24)
                     }
-                        .toolbar {
-                            if !model.signItems.isEmpty {
-                                ToolbarItem(placement: .primaryAction) { signButton }
-                            }
-                        }
                         .accessibilityIdentifier("signing.compactWorkspace")
+                }
+            }
+            .safeAreaInset(edge: .bottom, alignment: .trailing, spacing: 0) {
+                if !model.signItems.isEmpty {
+                    signButton
+                        .controlSize(.large)
+                        .buttonBorderShape(.capsule)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
                 }
             }
             #else
@@ -91,16 +88,12 @@ struct SignScreen: View {
             }
             #endif
         }
-        .formStyle(.grouped)
-        #if os(iOS)
-        .listSectionSpacing(16)
-        #endif
         #if os(iOS)
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_sign))
         #if os(iOS)
-        // A compact title leaves room for the document action on shorter outer displays.
+        // Keep the workspace height stable on short and landscape displays.
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .onDrop(of: [.fileURL, .pdf, .xml, .data, .item], isTargeted: $dropTargeted) { providers in
@@ -209,7 +202,18 @@ struct SignScreen: View {
                 }
                 Divider()
                 Button(L10n.text(.batch_remove), role: .destructive, action: removeFileGroup)
-            } label: { Image(systemName: "ellipsis.circle").frame(width: 44, height: 44) }
+            } label: {
+                #if os(iOS)
+                Image(systemName: "ellipsis").nativeButtonIconFrame()
+                #else
+                Image(systemName: "ellipsis.circle").frame(width: 44, height: 44)
+                #endif
+            }
+                #if os(iOS)
+                .nativeButtonStyle(.automatic)
+                .buttonBorderShape(.circle)
+                .controlSize(.large)
+                #endif
                 .accessibilityLabel(L10n.text(.batch_options))
                 .accessibilityIdentifier("sign.batchOptions")
                 .disabled(model.currentStep != nil)
@@ -280,7 +284,18 @@ struct SignScreen: View {
                     Label(L10n.text(model.demoMode ? .demo_simulation_complete : .saved_signed), systemImage: "checkmark.circle.fill")
                         .font(.headline).foregroundStyle(.green)
                     Spacer(minLength: 8)
-                    Button { model.lastSigned = [] } label: { Image(systemName: "xmark.circle.fill").font(.title3).foregroundStyle(.secondary).frame(width: 44, height: 44) }
+                    Button { model.lastSigned = [] } label: {
+                        #if os(iOS)
+                        Image(systemName: "xmark").nativeButtonIconFrame()
+                        #else
+                        Image(systemName: "xmark.circle.fill").font(.title3).foregroundStyle(.secondary).frame(width: 44, height: 44)
+                        #endif
+                    }
+                        #if os(iOS)
+                        .nativeButtonStyle()
+                        .buttonBorderShape(.circle)
+                        .controlSize(.large)
+                        #endif
                         .accessibilityLabel(L10n.text(.results_clear))
                         .accessibilityIdentifier("sign.clearResults")
                         .disabled(model.currentStep != nil)
@@ -295,7 +310,7 @@ struct SignScreen: View {
                 Button(action: onOpenDocuments) {
                     Label(L10n.text(.results_documents), systemImage: "folder")
                         .frame(maxWidth: .infinity, minHeight: 32)
-                }.buttonStyle(.bordered)
+                }.nativeButtonStyle()
             }
             .padding(16)
             .background(Color.green.opacity(0.06), in: RoundedRectangle(cornerRadius: 20))
@@ -310,91 +325,40 @@ struct SignScreen: View {
         }
     }
 
-    private var cardSection: some View {
-        Section {
-            CardSelector(size: cardSize)
-                .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-        }
-    }
-
-    @ViewBuilder private var documentSection: some View {
-        let items = model.signItems
-        if !model.signItems.isEmpty {
-            Section {
-                ForEach(items) { item in DocumentRow(item: item) }
-                    .onDelete { offsets in
-                        // Delete from the snapshot used to construct these rows, not a queue
-                        // that may have changed while a signing operation completed.
-                        let removed = offsets.compactMap { items.indices.contains($0) ? items[$0] : nil }
-                        for item in removed { model.remove(item) }
-                    }
-            } header: { Text(L10n.text(.ui_documents)) }
-        }
-        // An independent section keeps the last document's native bottom corners rounded.
-        // Its native section inset aligns the drop area with the document card above it.
-        Section {
-            DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { shortcutPDFOnly = false; importing = true }
-                .padding(12)
-                .listRowInsets(EdgeInsets())
-                .listRowBackground(Color.clear)
-                .listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
-        } header: {
-            if model.signItems.isEmpty { Text(L10n.text(.ui_documents)) }
-        } footer: {
-            if !model.signItems.isEmpty {
-                Text(L10n.text(.ui_pades_signs_inside_the_pdf_xades_creates_a_separate_xml_file_sha_256_algorithm))
-            }
-        }
-    }
-
-    @ViewBuilder private var resultSections: some View {
-        if let step = model.currentStep {
-            Section { StepProgressView(current: step).frame(maxWidth: .infinity) }
-        }
-        if let error = model.lastError, !model.signItems.contains(where: { $0.signingError == error.message }) {
-            Section {
-                Label {
-                    VStack(alignment: .leading) {
-                        Text(error.message).fontWeight(.semibold)
-                        if !error.recovery.isEmpty { Text(error.recovery).font(.callout).foregroundStyle(.secondary) }
-                    }
-                } icon: { Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.red) }
-            }
-        }
-        if !model.lastSigned.isEmpty {
-            Section(L10n.text(model.demoMode ? .demo_simulation_complete : .ui_signed_successfully)) {
-                if model.demoMode { Text(L10n.text(.demo_output_notice)).foregroundStyle(.secondary) }
-                ForEach(model.lastSigned, id: \.self) { url in SignedRow(url: url) }
-            }
-        }
-    }
-
-    private var cardSize: CardSelector.Size {
-        #if os(macOS)
-        return .large
-        #else
-        return .phone
-        #endif
-    }
-
     private var canSign: Bool { model.status.canSign && !model.signItems.isEmpty && model.currentStep == nil }
+
+    private var signActionTitle: String {
+        model.signItems.count > 1 ? L10n.text(.ui_sign_count_documents, model.signItems.count) : L10n.text(.ui_sign)
+    }
 
     @ViewBuilder private var signButton: some View {
         let button = Button { Task { await model.signAll() } } label: {
-            Label(model.signItems.count > 1 ? L10n.text(.ui_sign_count_documents, model.signItems.count) : L10n.text(.ui_sign), systemImage: "signature")
+            #if os(iOS)
+            Label(dynamicTypeSize.isAccessibilitySize ? L10n.text(.ui_sign) : signActionTitle, systemImage: "signature")
                 .labelStyle(.titleAndIcon)
-                #if os(iOS)
+                .lineLimit(1)
+                .minimumScaleFactor(0.75)
                 .frame(minHeight: 32)
-                #endif
+            #else
+            Label(signActionTitle, systemImage: "signature")
+                .labelStyle(.titleAndIcon)
+            #endif
         }
+        #if os(iOS)
+        // One style owns enabled, pressed and disabled rendering; no nested toolbar background.
+        styled(button.nativeButtonStyle(.prominent))
+        #else
         if canSign { styled(button.buttonStyle(.borderedProminent)) }
         else { styled(button.buttonStyle(.bordered)) }
+        #endif
     }
 
     private func styled(_ button: some View) -> some View {
-        button.accessibilityIdentifier("sign.submit").controlSize(.regular)
+        button.accessibilityIdentifier("sign.submit")
+            #if os(macOS)
+            .controlSize(.regular)
+            #endif
+            .accessibilityLabel(signActionTitle)
             .keyboardShortcut(.return, modifiers: .command)
             .disabled(!canSign)
             .help(Text(model.status.canSign ? L10n.text(.ui_sign_the_documents_with_the_selected_card) : model.status.title))

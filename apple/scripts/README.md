@@ -32,3 +32,8 @@ swift test --package-path apple --scratch-path /tmp/esemnbun-app-policy-tests
 The package also tests the exact insertion transition policy compiled into the separate reader watcher: initial state/removals are silent, reader/card insertions each emit once.
 
 The app uses the same `SigningBatchRunner.swift` tested by this small package. Tests suspend authorization and mutate the queue/card selection, attempt a concurrent batch, cancel and reauthorize, and inject a rejected credential/disconnection. They assert one authorization per immutable batch, no automatic retries, and preservation of pending/new documents after partial failure. No card transport, keychain or production PIN is used.
+
+`FloatingActionUITests.swift` uses the same runner and isolated mock services. It checks the Sign
+action above bottom navigation on phone/tablet, fixed placement while scrolling, portrait/landscape,
+accessibility text, light/dark appearance and disabled states. It also checks minimum browser touch targets. Commit CI requires all four methods.
+Run the suite on iOS 26+ for Liquid Glass and an older supported runtime for the native fallback.

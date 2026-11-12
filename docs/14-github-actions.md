@@ -49,6 +49,12 @@ Simulator selection uses runtime version metadata and the selected `iphonesimula
 
 Routing and publisher guard tests always run, even for docs-only changes. `CI result` is the stable aggregate status: selected failures/cancellations fail it; intentionally skipped jobs are accepted. Use this aggregate if configuring a required branch check rather than requiring every platform to run on every commit. CI has read-only repository permissions and no signing/Store secrets.
 
+Design-system boundary tests also run on every commit. They reject signing-core and application
+dependencies in the reusable UI folders on Apple, Android, Windows and Linux. Selected Apple and
+Linux jobs additionally compile those components independently of the application and signing core;
+native mock journeys exercise the presentation adapters in the complete apps. See the
+[architecture contract](09-architecture.md) for the component boundaries and mapping responsibilities.
+
 Superseded CI runs are cancelled per PR/branch. Store/release/version-counter jobs use non-cancelling concurrency groups: cancelling an upload can leave an uncertain outcome or consume a build number. Apple Store jobs serialize per platform across both TestFlight entry points and Release's optional iOS upload. GitHub's normal concurrency queue retains one pending run, not an unlimited FIFO; dispatch publishing operations deliberately instead of enqueueing many replacements.
 
 Gradle and NuGet caches contain dependency downloads only. NuGet keys include project/SDK inputs. Ruby uses Bundler's dependency cache; the website caches npm downloads. Recurring validation/intermediate artifacts are retained for seven days, signed build/publishing-result artifacts for 30 days. GitHub Release assets are independent of Actions artifact retention. Android runtime smoke uploads its phone/tablet captures for inspection. Do not cache signing keychains, temporary keys, credentials, mutable store edits or signed output as validation results. SDK guards require the supported Siri/iPhone Duo toolchains before Apple builds. `scripts/gradle-ci.sh` retries bounded dependency transport failures, never compiler/tests or publishing. The Windows compiler download similarly has bounded retries and a mandatory digest check.

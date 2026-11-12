@@ -33,7 +33,7 @@ struct FileProtectionScreen: View {
                         Text(L10n.text(operation == 0 ? .protect_encrypted : .protect_decrypted)).foregroundStyle(.secondary)
                         ShareLink(item: completedURL) {
                             Label(L10n.text(.protect_save_copy), systemImage: "square.and.arrow.up")
-                        }.buttonStyle(.bordered)
+                        }.nativeButtonStyle()
                     }.padding(24).frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     Form {
@@ -51,7 +51,7 @@ struct FileProtectionScreen: View {
                                 Label(input?.lastPathComponent ?? L10n.text(.protect_choose_file), systemImage: "doc.badge.plus")
                                     .frame(maxWidth: .infinity, minHeight: 36, alignment: .leading)
                                     .contentShape(Rectangle())
-                            }.buttonStyle(.bordered).accessibilityIdentifier("protect.chooseFile")
+                            }.nativeButtonStyle().accessibilityIdentifier("protect.chooseFile")
                         }
                         if operation != 2 {
                             Section {
@@ -106,7 +106,7 @@ struct FileProtectionScreen: View {
                             } label: {
                                 Text(L10n.text(operation == 0 ? .protect_encrypt : operation == 1 ? .protect_decrypt : .protect_remove))
                                     .frame(maxWidth: .infinity, minHeight: 40)
-                            }.buttonStyle(.borderedProminent).disabled(!ready).accessibilityIdentifier("protect.submit")
+                            }.nativeButtonStyle(.prominent).disabled(!ready).accessibilityIdentifier("protect.submit")
                         }.padding(16).background(.bar)
                     }
                 }

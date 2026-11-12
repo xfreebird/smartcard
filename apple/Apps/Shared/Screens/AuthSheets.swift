@@ -49,6 +49,7 @@ struct PinEntryView: View {
                                 Label(L10n.text(.ui_pin_documents_selected_count, request.documentNames.count),
                                       systemImage: documentsExpanded ? "chevron.up" : "chevron.down")
                             }
+                            .nativeButtonStyle(.automatic)
                         } else {
                             Text(L10n.text(.ui_pin_documents_selected_count, request.documentNames.count))
                                 .font(.subheadline.weight(.semibold))
@@ -115,10 +116,11 @@ struct PinEntryView: View {
                 if !keyboardVisible {
                     HStack {
                         Button(L10n.text(.ui_cancel), role: .cancel, action: onCancel)
+                            .nativeButtonStyle(.automatic)
                             .keyboardShortcut(.cancelAction)
                         Spacer()
                         Button(L10n.text(.ui_sign)) { onSubmit(pin, remember && request.canRemember) }
-                            .buttonStyle(.borderedProminent)
+                            .nativeButtonStyle(.prominent)
                             .keyboardShortcut(.defaultAction)
                             .disabled(!valid)
                     }
@@ -192,6 +194,7 @@ struct ConsentView: View {
             Toggle(L10n.text(.ui_trust_this_site_for_10_minutes), isOn: $trust)
             HStack {
                 Button(L10n.text(.ui_refuse), role: .cancel) { onAnswer(false, false) }
+                    .nativeButtonStyle(.automatic)
                     .accessibilityIdentifier("consent.refuse")
                     .keyboardShortcut(.cancelAction)
                 Spacer()
@@ -200,7 +203,7 @@ struct ConsentView: View {
                 } label: {
                     Label(L10n.text(.ui_sign), systemImage: consent.hasStoredPIN ? "touchid" : "lock")
                 }
-                .buttonStyle(.borderedProminent)
+                .nativeButtonStyle(.prominent)
                 .keyboardShortcut(.defaultAction)
             }
         }

@@ -19,6 +19,7 @@ struct EmptyCardFace: View {
                 .fixedSize(horizontal: false, vertical: true)
             if let actionTitle = content.actionTitle {
                 Button(actionTitle, action: onAction)
+                    .nativeButtonStyle(.automatic)
                     .font(.caption.weight(.semibold))
             }
         }

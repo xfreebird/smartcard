@@ -49,6 +49,7 @@ struct SavedDocumentDetails: View {
                             HStack(spacing: 16) { fileActions }
                             VStack(alignment: .leading, spacing: 16) { fileActions }
                         }
+                        .nativeButtonStyle(.automatic)
                         if url.pathExtension.lowercased() == "xml" {
                             Text(L10n.text(.saved_xml_hint)).font(.caption).foregroundStyle(.secondary)
                         }

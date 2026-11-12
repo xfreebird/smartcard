@@ -141,11 +141,19 @@ struct DocumentRow: View {
             Button(L10n.text(.file_remove), role: .destructive) { model.remove(item) }
                 .accessibilityIdentifier("sign.remove")
         } label: {
+            #if os(iOS)
+            Image(systemName: "ellipsis").nativeButtonIconFrame()
+            #else
             Image(systemName: "ellipsis.circle").frame(minWidth: 44, minHeight: 44)
+            #endif
         }
             #if os(macOS)
             .menuStyle(.borderlessButton)
             .menuIndicator(.hidden)
+            #else
+            .nativeButtonStyle(.automatic)
+            .buttonBorderShape(.circle)
+            .controlSize(.large)
             #endif
             .fixedSize()
             .accessibilityLabel(L10n.text(.file_options))

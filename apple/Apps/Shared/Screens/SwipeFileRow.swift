@@ -17,9 +17,11 @@ struct SwipeFileRow<Content: View>: View {
         ZStack(alignment: .trailing) {
             Button(role: .destructive, action: onRemove) {
                 Label(removeLabel, systemImage: "trash").labelStyle(.iconOnly)
-                    .frame(width: 76).frame(maxHeight: .infinity)
-                    .foregroundStyle(.white).background(.red)
-            }.disabled(!enabled).opacity(offset < 0 ? 1 : 0).accessibilityHidden(offset == 0)
+                    .nativeButtonIconFrame()
+            }
+            .nativeButtonStyle(.prominent).tint(.red).buttonBorderShape(.circle).controlSize(.large)
+            .frame(width: 76).frame(maxHeight: .infinity)
+            .disabled(!enabled).opacity(offset < 0 ? 1 : 0).accessibilityHidden(offset == 0)
             content().frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color(uiColor: .secondarySystemGroupedBackground))
                 .offset(x: offset)

@@ -49,7 +49,8 @@ struct CardScreen: View {
                             Button {
                                 copy(cert.sha1Hex)
                             } label: { Image(systemName: copied ? "checkmark" : "doc.on.doc") }
-                                .buttonStyle(.borderless)
+                                .nativeButtonStyle(.borderless)
+                                .buttonBorderShape(.circle)
                                 .accessibilityLabel(L10n.text(.ui_copy_sha_1))
                         }
                     }

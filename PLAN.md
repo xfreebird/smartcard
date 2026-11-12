@@ -1369,9 +1369,23 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Android consent lifetime is keyed by the pending request at the feature host, so identical display
   text from a new request cannot retain a previous prompt's input after removing core models from UI.
 - Added cross-platform boundary guards, an isolated GTK compilation check and Android/Linux mapper
-  regressions. Local Apple/macOS/iOS and Android builds and Fedora tests are passing; final native
-  CI validation is pending. Commit triggers remain validation-only; no release publishing changed.
+  regressions. Full CI `43192144735` passes on `a3ce7d7`, including all native jobs and the aggregate.
+  The 36 iPhone/iPad methods pass without skips; retained protection and Documents postchecks pass.
+  Commit triggers remain validation-only; no release publishing changed.
 
 - Android history automation now targets explicit accessibility identifiers and waits for tab/dialog
   transitions. The updated native suite passes all 34 journeys and storage/restart checks locally;
   timeout diagnostics also report visibility, clickability and enabled state.
+
+### 2026-11-12 — Native iOS actions and floating Sign control
+
+- Keep one floating Sign action above the bottom safe area in compact, wide and landscape layouts.
+  Its enabled and disabled states use the same native prominent style.
+- Reusable action styling uses system Liquid Glass on iOS 26 and later with native fallback styles.
+  Standalone actions, file menus, stamp paging and swipe removal use these styles; toolbars, alerts,
+  menu items and interactive content rows retain their system context. The design system stays core-free.
+- Added native phone/tablet checks for scrolling, rotation, large accessibility text, light/dark
+  appearance, unavailable/busy reader states and legacy browser touch targets. Local builds, 42 app
+  tests, 56 guards and all 44 phone/tablet UI methods pass, plus eight iOS 18/26 compatibility checks.
+  The phone verification suite passed an isolated rerun after a simulator launch timeout.
+  Local validation is complete before push; final hosted checks are pending.

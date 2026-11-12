@@ -26,7 +26,7 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
             shutil.copy(scripts / 'run-verification-ui-tests.sh', scripts / 'run-documents-ui-tests.sh')
             checks = root / 'scripts/ci'
             checks.mkdir(parents=True)
-            (checks / 'check-xctest-result.py').write_text('import sys\nassert sys.argv[2] in ("1", "2", "3", "5", "6")\n')
+            (checks / 'check-xctest-result.py').write_text('import sys\nassert sys.argv[2] in ("1", "2", "3", "4", "5", "6")\n')
             binaries = root / 'bin'
             binaries.mkdir()
             installer = binaries / 'xcrun'
@@ -41,7 +41,7 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
                                     capture_output=True, text=True)
             self.assertEqual(calls.read_text().splitlines(),
                              ['VerificationJourneyUITests', 'MockWorkflowUITests'] +
-                             (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests'] if platform == 'ios' else []))
+                             (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests', 'FloatingActionUITests'] if platform == 'ios' else []))
             if platform == 'ios':
                 self.assertEqual(installs.read_text().splitlines(), ['simctl install mac /unused/app'])
             else:

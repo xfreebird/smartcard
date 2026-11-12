@@ -76,7 +76,7 @@ class WorkflowContracts(unittest.TestCase):
                        'test-card-page-scroll.ps1', 'test-insertion-helper.ps1'):
             self.assertIn(script, ci)
         apple = (ROOT / 'apple/scripts/run-mock-ui-tests.sh').read_text()
-        for suite in ('CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests'):
+        for suite in ('CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests', 'FloatingActionUITests'):
             self.assertIn(suite, apple)
 
     def test_ios_runs_after_macos_without_requiring_macos_success(self):

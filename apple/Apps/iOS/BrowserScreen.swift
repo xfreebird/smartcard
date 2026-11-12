@@ -48,29 +48,31 @@ struct BrowserScreen: View {
                     HStack {
                         Button { browser.webView.goBack() } label: {
                             Label(L10n.text(.ui_back), systemImage: "chevron.left")
-                                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                                .nativeButtonIconFrame()
                         }
                         .disabled(model.demoMode || !browser.canGoBack)
                         Button { browser.webView.goForward() } label: {
                             Label(L10n.text(.ui_forward), systemImage: "chevron.right")
-                                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                                .nativeButtonIconFrame()
                         }
                         .disabled(model.demoMode || !browser.canGoForward)
                         Spacer()
                         Button { browser.webView.reload() } label: {
                             Label(L10n.text(.ui_reload), systemImage: "arrow.clockwise")
-                                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                                .nativeButtonIconFrame()
                         }
                         .disabled(model.demoMode)
                         if let url = browser.url {
                             ShareLink(item: url) {
                                 Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up")
-                                    .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+                                    .nativeButtonIconFrame()
                             }
                         }
                     }
                     .labelStyle(.iconOnly)
-                    .buttonStyle(.plain)
+                    .nativeButtonStyle(.borderless)
+                    .buttonBorderShape(.circle)
+                    .controlSize(.large)
                     .frame(minHeight: 50)
                     .padding(.horizontal, 20)
                 }

@@ -39,6 +39,7 @@ struct VerificationDocumentView: View {
                 Button { importingOriginals = true } label: {
                     Label(L10n.text(.verify_choose_originals), systemImage: "doc.badge.plus")
                 }
+                .nativeButtonStyle(.automatic)
                 .accessibilityIdentifier("verify.chooseOriginals")
                 if checking { ProgressView(L10n.text(.ui_verifying)).accessibilityIdentifier("verify.originalsLoading") }
                 if unavailable { Text(L10n.text(.saved_unavailable)).foregroundStyle(.secondary) }

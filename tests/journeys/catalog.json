@@ -278,6 +278,15 @@
       ],
       "level": "ui-interaction-and-integration",
       "execution": "passed-local-fedora-21-scenario-batch-2026-11-11"
+    },
+    "apple-floating-actions": {
+      "path": "apple/Tests/InteractionUITests/FloatingActionUITests.swift",
+      "platforms": [
+        "ios"
+      ],
+      "level": "ui-interaction",
+      "execution": "passed-local-phone-tablet-ios18-ios26-2026-11-12",
+      "boundary": "Native action placement and enabled state with fictional cards; retained light/dark and accessibility screenshots."
     }
   },
   "journeys": [
@@ -960,14 +969,17 @@
       "suites": [
         "apple-carousel",
         "apple-documents",
-        "apple-presentation"
+        "apple-presentation",
+        "apple-floating-actions"
       ],
       "acceptance": "Wide and compact layouts retain selection and queue through rotation/resize.",
       "edge_cases": [
         "landscape",
         "Duo narrow/wide",
         "keyboard visible",
-        "split view"
+        "split view",
+        "largest accessibility text",
+        "disabled floating action"
       ],
       "runtime_check": "Run the same cases on explicit phone/tablet/Duo devices and perform genuine split-view drag/drop.",
       "coverage": "partial"

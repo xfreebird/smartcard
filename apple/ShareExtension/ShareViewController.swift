@@ -63,9 +63,14 @@ final class ShareViewController: UIViewController {
         stack.spacing = 20
         stack.translatesAutoresizingMaskIntoConstraints = false
         scroll.addSubview(stack)
-        var configuration = UIButton.Configuration.filled()
+        var configuration: UIButton.Configuration
+        if #available(iOS 26, *) {
+            configuration = .prominentGlass()
+        } else {
+            configuration = .filled()
+        }
         configuration.title = NSLocalizedString("share_done", comment: "")
-        configuration.cornerStyle = .large
+        configuration.cornerStyle = .capsule
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
         done.configuration = configuration
         done.isEnabled = false
