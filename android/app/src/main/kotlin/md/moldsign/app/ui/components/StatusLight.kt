@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
@@ -29,12 +28,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import md.moldsign.app.application.AppStatus
-import md.moldsign.app.presentation.statusChipText
-import md.moldsign.app.presentation.statusLabel
 import md.moldsign.app.ui.theme.LocalStatusColors
-import md.moldsign.app.ui.theme.forLight
-import md.moldsign.core.StatusLight
+import md.moldsign.app.ui.theme.forTone
+import md.moldsign.app.ui.theme.StatusTone
 
 /**
  * The status light in the top app bar (docs/10 §0.1, UX-01): a colored dot plus text in an M3 assist chip.
@@ -42,20 +38,19 @@ import md.moldsign.core.StatusLight
  * glyph). The chip text is short; its accessibility label is the full status line, announced on change.
  */
 @Composable
-fun StatusLightChip(status: AppStatus, onClick: () -> Unit, modifier: Modifier = Modifier, compact: Boolean = false) {
-    val context = LocalContext.current
-    val full = statusLabel(context, status)
+fun StatusLightChip(status: StatusContent, onClick: () -> Unit, modifier: Modifier = Modifier, compact: Boolean = false) {
+    val full = status.description
     if (compact) {
         IconButton(onClick = onClick, modifier = modifier.semantics(mergeDescendants = true) {
             contentDescription = full
             liveRegion = LiveRegionMode.Polite
-        }) { StatusDot(status.light, size = 14.dp) }
+        }) { StatusDot(status.tone, size = 14.dp) }
         return
     }
     AssistChip(
         onClick = onClick,
-        label = { Text(statusChipText(context, status), maxLines = 1, overflow = TextOverflow.Ellipsis) },
-        leadingIcon = { StatusDot(status.light) },
+        label = { Text(status.label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        leadingIcon = { StatusDot(status.tone) },
         colors = AssistChipDefaults.assistChipColors(containerColor = MaterialTheme.colorScheme.surfaceContainerHigh),
         border = null,
         modifier = modifier.semantics(mergeDescendants = true) {
@@ -67,8 +62,8 @@ fun StatusLightChip(status: AppStatus, onClick: () -> Unit, modifier: Modifier =
 
 /** The dot alone (wallet header, lists). Idle shows the dimmed reader glyph instead of a dot. */
 @Composable
-fun StatusDot(light: StatusLight, size: Dp = 10.dp) {
-    val color = LocalStatusColors.current.forLight(light)
+fun StatusDot(light: StatusTone, size: Dp = 10.dp) {
+    val color = LocalStatusColors.current.forTone(light)
     if (color == null) {
         Icon(
             Icons.Outlined.UsbOff,
@@ -78,7 +73,7 @@ fun StatusDot(light: StatusLight, size: Dp = 10.dp) {
         )
         return
     }
-    val pulse = if (light == StatusLight.Busy) {
+    val pulse = if (light == StatusTone.Busy) {
         // Compose scales this with the system animator duration scale ("Remove animations" stops it).
         val transition = rememberInfiniteTransition(label = "busy")
         val a by transition.animateFloat(1f, 0.35f, infiniteRepeatable(tween(800), RepeatMode.Reverse), label = "pulse")

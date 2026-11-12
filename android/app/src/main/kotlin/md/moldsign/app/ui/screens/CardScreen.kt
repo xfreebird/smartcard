@@ -1,5 +1,7 @@
 package md.moldsign.app.ui.screens
 
+import md.moldsign.app.presentation.toCardWalletContent
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.Column
@@ -35,7 +37,7 @@ fun CardScreen(vm: MainViewModel, padding: PaddingValues) {
     val status by vm.status.collectAsStateWithLifecycle()
     val wallet = status.wallet
     ScreenColumn(padding, fullWidth = true) {
-        CardWallet(wallet, onSelect = vm::selectCard, onReread = vm::rereadCards, onAllowUsb = vm::requestUsbPermission, large = true, selectionEnabled = !status.busy)
+        CardWallet(wallet.toCardWalletContent(), onSelect = vm::selectCard, onReread = vm::rereadCards, onAllowUsb = vm::requestUsbPermission, large = true, selectionEnabled = !status.busy)
         Column(Modifier.widthIn(max = 680.dp).fillMaxWidth().then(Gutter), verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
             val card = wallet.selectedCard
             if (card != null) CardDetails(card)

@@ -28,7 +28,7 @@
                         x:Uid="CardPageTitle"
                         Style="{StaticResource MsTitleTextStyle}"
                         Text="Card" />
-                    <controls:StatusLightPill />
+                    <controls:StatusLightPill Label="{x:Bind State.LightLabel, Mode=OneWay}" DotBrush="{x:Bind State.LightBrush, Mode=OneWay}" DotVisibility="{x:Bind State.LightDotVisibility, Mode=OneWay}" />
                 </StackPanel>
                 <Button
                     Grid.Column="1"
@@ -41,7 +41,7 @@
                 </Button>
             </Grid>
 
-            <controls:CardWallet IsCompact="False" />
+            <controls:CardWallet Wallet="{x:Bind State.WalletContent, Mode=OneWay}" CardSelected="OnCardSelected" IsCompact="False" />
 
             <Border x:Name="CertificateProperties" Visibility="Collapsed" Style="{StaticResource MsCardBorderStyle}">
                 <Grid ColumnSpacing="16" RowSpacing="8">

@@ -1,5 +1,4 @@
 import SwiftUI
-import MoldSignKit
 
 /// Use the native behavior directly so SwiftUI registers view-aligned scroll targets as well as snapping.
 struct CardPaging: ViewModifier {

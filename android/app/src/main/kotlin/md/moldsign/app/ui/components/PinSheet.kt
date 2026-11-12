@@ -35,7 +35,6 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import md.moldsign.app.R
 import md.moldsign.app.ui.theme.LocalStatusColors
-import md.moldsign.core.ConsentRequest
 
 private const val PIN_MIN = 4
 private const val PIN_MAX = 8
@@ -43,7 +42,7 @@ private const val PIN_MAX = 8
 /** Keyboard-aware consent dialog: scrollable details/field, with actions outside the scroll viewport. */
 @Composable
 fun PinSheet(
-    request: ConsentRequest,
+    request: PinPromptContent,
     rememberAvailable: Boolean,
     onConfirm: (pin: CharArray, remember: Boolean) -> Unit,
     onDismiss: () -> Unit,
@@ -93,7 +92,7 @@ fun PinSheet(
                     ) {
                         Icon(Icons.Outlined.Lock, contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
-                        Text(stringResource(R.string.pin_for, request.certificate.commonName),
+                        Text(stringResource(R.string.pin_for, request.holder),
                             textAlign = TextAlign.Center, style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant)
                         Text(

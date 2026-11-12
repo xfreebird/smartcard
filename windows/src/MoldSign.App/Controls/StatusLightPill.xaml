@@ -11,18 +11,18 @@
     <Grid
         VerticalAlignment="Center"
         ColumnSpacing="6"
-        ToolTipService.ToolTip="{x:Bind State.LightLabel, Mode=OneWay}">
+        ToolTipService.ToolTip="{x:Bind Label, Mode=OneWay}">
         <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
         <Ellipse
             Width="8"
             Height="8"
             VerticalAlignment="Center"
             AutomationProperties.AccessibilityView="Raw"
-            Fill="{x:Bind State.LightBrush, Mode=OneWay}"
-            Visibility="{x:Bind State.LightDotVisibility, Mode=OneWay}" />
+            Fill="{x:Bind DotBrush, Mode=OneWay}"
+            Visibility="{x:Bind DotVisibility, Mode=OneWay}" />
         <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis"
             VerticalAlignment="Center"
             Style="{StaticResource MsCaptionTextStyle}"
-            Text="{x:Bind State.LightLabel, Mode=OneWay}" />
+            Text="{x:Bind Label, Mode=OneWay}" />
     </Grid>
 </UserControl>

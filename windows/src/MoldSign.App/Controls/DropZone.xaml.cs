@@ -1,7 +1,6 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
-using MoldSign.App.Services;
 using Windows.ApplicationModel.DataTransfer;
 
 namespace MoldSign.App.Controls;
@@ -17,6 +16,7 @@ public sealed partial class DropZone : UserControl
     }
 
     public event EventHandler<IReadOnlyList<string>>? FilesChosen;
+    public IFileSelectionProvider? FileSelection { get; set; }
 
     /// <summary>Compact one-row zone (≈ 56 epx) under a document list; large (≈ 170 epx) otherwise.</summary>
     public bool IsCompact
@@ -35,7 +35,7 @@ public sealed partial class DropZone : UserControl
 
     private void OnDragOver(object sender, DragEventArgs e)
     {
-        if (App.Current.Services.IsDemo || !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
+        if (FileSelection?.AcceptsDrops != true || !e.DataView.Contains(StandardDataFormats.StorageItems)) return;
         e.AcceptedOperation = DataPackageOperation.Copy;
         e.Handled = true;
         SetHover(true);
@@ -47,21 +47,21 @@ public sealed partial class DropZone : UserControl
     {
         SetHover(false);
         e.Handled = true;
-        if (App.Current.Services.IsDemo)
+        if (FileSelection is not { } selection) return;
+        if (!selection.AcceptsDrops)
         {
-            Failure.Message = Loc.Get("demo_fixture_only"); Failure.IsOpen = true; return;
+            Failure.Message = selection.DropUnavailableMessage; Failure.IsOpen = true; return;
         }
         var deferral = e.GetDeferral();
         try
         {
             Failure.IsOpen = false;
-            var paths = await WindowHelpers.DroppedPathsAsync(e.DataView);
+            var paths = await selection.ReadDropAsync(e.DataView);
             if (paths.Count > 0) FilesChosen?.Invoke(this, paths);
         }
         catch (Exception error)
         {
-            AppLog.Error(error);
-            Failure.Message = Loc.Format("Error_FileSelection", error.Message);
+            Failure.Message = selection.DescribeFailure(error);
             Failure.IsOpen = true;
         }
         finally
@@ -72,21 +72,16 @@ public sealed partial class DropZone : UserControl
 
     private async void OnBrowseClick(object sender, RoutedEventArgs e)
     {
+        if (FileSelection is not { } selection) return;
         try
         {
             Failure.IsOpen = false;
-            if (App.Current.Services.IsDemo)
-            {
-                FilesChosen?.Invoke(this, App.Current.Services.DemoDocuments); return;
-            }
-            if (XamlRoot is null) throw new InvalidOperationException(Loc.Get("Error_PickerWindow"));
-            var paths = await WindowHelpers.PickFilesAsync(XamlRoot, [.. Extensions]);
+            var paths = await selection.PickAsync(XamlRoot, [.. Extensions]);
             if (paths.Count > 0) FilesChosen?.Invoke(this, paths);
         }
         catch (Exception error)
         {
-            AppLog.Error(error);
-            Failure.Message = Loc.Format("Error_FileSelection", error.Message);
+            Failure.Message = selection.DescribeFailure(error);
             Failure.IsOpen = true;
         }
     }
@@ -94,7 +89,7 @@ public sealed partial class DropZone : UserControl
     private void SetHover(bool hover)
     {
         _idleStroke ??= Outline.Stroke;
-        Outline.Fill = hover ? WindowHelpers.ThemeBrush("BrandSoftBrush") : WindowHelpers.ThemeBrush("SubtleFillColorSecondaryBrush");
-        Outline.Stroke = hover ? WindowHelpers.ThemeBrush("BrandBrush") : _idleStroke;
+        Outline.Fill = hover ? ControlTheme.Brush("BrandSoftBrush") : ControlTheme.Brush("SubtleFillColorSecondaryBrush");
+        Outline.Stroke = hover ? ControlTheme.Brush("BrandBrush") : _idleStroke;
     }
 }

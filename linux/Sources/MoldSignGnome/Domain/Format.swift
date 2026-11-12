@@ -1,5 +1,4 @@
 import Foundation
-import MoldSignKit
 
 enum Format {
     static func monthYear(_ date: Date) -> String {

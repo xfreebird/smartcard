@@ -26,6 +26,8 @@ public sealed partial class CardPage : Page
         Unloaded += (_, _) => State.WalletChanged -= OnWalletChanged;
     }
 
+    private void OnCardSelected(object? sender, string reader) => App.Current.Services.SelectCard(reader);
+
     public AppState State => AppState.Current;
 
     private void OnWalletChanged(object? sender, EventArgs e) => ShowSelectedCard();

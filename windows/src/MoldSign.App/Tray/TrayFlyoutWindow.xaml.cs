@@ -36,6 +36,8 @@ public sealed partial class TrayFlyoutWindow : Window
         UpdateSignButton();
     }
 
+    private void OnCardSelected(object? sender, string reader) => App.Current.Services.SelectCard(reader);
+
     public AppState State => AppState.Current;
 
     private void OnStatePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateSignButton();

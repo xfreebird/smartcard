@@ -34,7 +34,7 @@
                 <TextBlock x:Name="SignedResultsTitle" Style="{StaticResource MsSectionHeaderTextStyle}" />
                 <StackPanel x:Name="SignedFiles" Spacing="4" />
             </StackPanel>
-                <controls:CardWallet HorizontalAlignment="Stretch" IsCompact="True" />
+                <controls:CardWallet Wallet="{x:Bind State.WalletContent, Mode=OneWay}" CardSelected="OnCardSelected" HorizontalAlignment="Stretch" IsCompact="True" />
 
             <!-- Documents follow the selected card, in one vertical reading order. -->
             <Grid RowSpacing="12">
@@ -173,7 +173,7 @@
                     Style="{StaticResource MsCaptionTextStyle}"
                     Text="{x:Bind State.ProgressText, Mode=OneWay}" TextWrapping="Wrap" />
             </StackPanel>
-            <controls:StatusLightPill Visibility="{x:Bind State.NotBusyVisibility, Mode=OneWay}" />
+            <controls:StatusLightPill Label="{x:Bind State.LightLabel, Mode=OneWay}" DotBrush="{x:Bind State.LightBrush, Mode=OneWay}" DotVisibility="{x:Bind State.LightDotVisibility, Mode=OneWay}" Visibility="{x:Bind State.NotBusyVisibility, Mode=OneWay}" />
             <!-- Style set from code: accent only while enabled (a disabled accent button reads as broken). -->
             <Button
                 x:Name="SignButton" AutomationProperties.AutomationId="SignDocuments"

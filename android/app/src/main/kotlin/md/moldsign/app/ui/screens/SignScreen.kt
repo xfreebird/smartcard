@@ -1,5 +1,7 @@
 package md.moldsign.app.ui.screens
 
+import md.moldsign.app.presentation.toCardWalletContent
+
 import md.moldsign.app.hostActivity
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material3.OutlinedButton
@@ -68,7 +70,7 @@ import md.moldsign.app.presentation.statusLabel
 import md.moldsign.app.presentation.stepText
 import md.moldsign.app.ui.components.CardWallet
 import md.moldsign.app.ui.components.DocumentAddTile
-import md.moldsign.app.ui.components.DocumentList
+import md.moldsign.app.ui.features.DocumentList
 import md.moldsign.app.ui.components.DocumentPickZone
 import md.moldsign.app.ui.theme.LocalStatusColors
 import md.moldsign.app.ui.theme.Tokens
@@ -119,7 +121,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
 
     val walletContent: @Composable () -> Unit = {
         CardWallet(
-            status.wallet,
+            status.wallet.toCardWalletContent(),
             onSelect = vm::selectCard,
             onReread = vm::rereadCards,
             onAllowUsb = vm::requestUsbPermission,

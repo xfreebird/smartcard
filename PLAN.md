@@ -1354,3 +1354,18 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   proofs confirm two outputs, unchanged originals, private permissions and exact restored-byte hashes;
   Documents migration/history/original-selection postchecks pass on both families. iOS 27.2 Files
   automation and full hardware/OS catalog acceptance remain explicit open limits.
+
+### 2026-11-12 — Decouple native design systems from signing models
+
+- Apple card/empty-state/progress/verdict/activity/drop controls now receive display values. Domain
+  mappings live in `Shared/Presentation`; feature settings, bookmarks and wallet coordination live
+  under screens. A dependency-free SwiftPM target compiles the reusable source boundary.
+- Android card wallet/art, status tones and PIN prompts now use presentation data. Core status and
+  notification mapping moved out of the theme; settings and document orchestration are explicit
+  features, while generic document picker tiles remain reusable components.
+- Windows controls receive wallet/status data through bindings and emit selection callbacks. File
+  selection uses an injected UI interface; core certificate mapping and live/demo behavior stay in
+  presentation adapters. Linux card/placeholder widgets accept display content mapped by features.
+- Added cross-platform boundary guards, an isolated GTK compilation check and Android/Linux mapper
+  regressions. Local Apple/macOS/iOS and Android builds and Fedora tests are passing; final native
+  CI validation is pending. Commit triggers remain validation-only; no release publishing changed.

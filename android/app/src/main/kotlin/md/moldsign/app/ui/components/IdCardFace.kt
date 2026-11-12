@@ -42,11 +42,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import md.moldsign.app.R
-import md.moldsign.app.presentation.errorText
 import md.moldsign.app.ui.theme.Tokens
-import md.moldsign.core.WalletCard
-import java.text.SimpleDateFormat
-import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.max
 import kotlin.math.sin
@@ -103,18 +99,17 @@ private enum class Strip { Ready, Used, Reading, Problem }
  */
 @Composable
 fun IdCardFace(
-    card: WalletCard,
+    card: IdentityCardContent,
     modifier: Modifier = Modifier,
     showReader: Boolean = true,
     reserveDisclosure: Boolean = false,
     usedForSigning: Boolean = false,
 ) {
     val measurer = rememberTextMeasurer()
-    val cert = card.certificate
     val problem = card.problem
     val strip = when {
         problem != null -> Strip.Problem
-        cert == null -> Strip.Reading
+        !card.hasIdentity -> Strip.Reading
         usedForSigning -> Strip.Used
         else -> Strip.Ready
     }
@@ -122,14 +117,15 @@ fun IdCardFace(
         Strip.Ready -> stringResource(R.string.card_ready_to_sign)
         Strip.Used -> stringResource(R.string.wallet_used_for_signing)
         Strip.Reading -> stringResource(R.string.status_reading)
-        Strip.Problem -> errorText(problem!!)
+        Strip.Problem -> problem!!
     }
-    val (surname, given) = cert?.nameParts ?: ("" to "")
+    val surname = card.surname
+    val given = card.givenNames
     val surnameLabel = stringResource(R.string.card_surname)
     val givenNamesLabel = stringResource(R.string.card_given_names)
-    val validUntil = cert?.let { SimpleDateFormat("dd MM yyyy", Locale.ROOT).format(it.notAfter) }.orEmpty()
-    val issuer = cert?.issuerCommonName ?: "MDQSign"
-    val hueShift = guillocheShift(cert?.sha1Hex)
+    val validUntil = card.validUntil
+    val issuer = card.issuer
+    val hueShift = card.hueShift
     // Placeholder bars pulse while the certificate is read (stops with "Remove animations").
     val pulse = if (strip == Strip.Reading) {
         val t = rememberInfiniteTransition(label = "reading")
@@ -151,15 +147,9 @@ fun IdCardFace(
                     measurer, surname.uppercase(), given.uppercase(), validUntil, issuer.uppercase(), statusText,
                     card.readerName.takeIf { showReader }, reserveDisclosure, hueShift, surnameLabel, givenNamesLabel,
                 )
-                onDrawBehind { drawFace(face, strip, cert == null, pulse) }
+                onDrawBehind { drawFace(face, strip, !card.hasIdentity, pulse) }
             },
     )
-}
-
-/** First certificate byte → guilloche hue rotation in [-20°, +20°]. */
-private fun guillocheShift(sha1Hex: String?): Float {
-    val b = sha1Hex?.takeIf { it.length >= 2 }?.substring(0, 2)?.toIntOrNull(16) ?: return 0f
-    return b / 255f * 40f - 20f
 }
 
 private fun Color.rotateHue(degrees: Float): Color {

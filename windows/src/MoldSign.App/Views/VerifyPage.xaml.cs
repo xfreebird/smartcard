@@ -25,6 +25,7 @@ public sealed partial class VerifyPage : Page
         InitializeComponent();
         FileDrop.Extensions.Add(".pdf");
         FileDrop.Extensions.Add(".xml");
+        FileDrop.FileSelection = new Presentation.DocumentSelectionProvider(App.Current.Services);
         FileDrop.FilesChosen += OnFilesChosen;
         if (detailsMode)
         {

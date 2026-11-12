@@ -1,4 +1,6 @@
-package md.moldsign.app.ui.components
+package md.moldsign.app.ui.features
+
+import md.moldsign.app.ui.components.*
 
 import md.moldsign.app.hostActivity
 
@@ -139,72 +141,6 @@ fun FormatChip(doc: PickedDocument, format: SignFormat, onSelect: (SignFormat) -
                         open = false
                         onSelect(option)
                     },
-                )
-            }
-        }
-    }
-}
-
-/** "Alege documentele": the phone's drop zone (docs/10 DropZone), an outlined card that opens the picker. */
-@Composable
-fun DocumentPickZone(
-    onPick: () -> Unit,
-    modifier: Modifier = Modifier,
-    title: String = stringResource(R.string.sign_choose_title),
-    body: String = stringResource(R.string.sign_choose_body),
-    compact: Boolean = false,
-) {
-    val outline = MaterialTheme.colorScheme.primary.copy(alpha = 0.58f)
-    OutlinedCard(
-        onClick = onPick,
-        modifier = modifier.fillMaxWidth().drawWithContent {
-            drawContent()
-            drawRoundRect(outline, topLeft = androidx.compose.ui.geometry.Offset(1.dp.toPx(), 1.dp.toPx()), size = androidx.compose.ui.geometry.Size(size.width - 2.dp.toPx(), size.height - 2.dp.toPx()), cornerRadius = androidx.compose.ui.geometry.CornerRadius(Tokens.RadiusCard.toPx()), style = Stroke(width = 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 4.dp.toPx()))))
-        },
-        shape = RoundedCornerShape(Tokens.RadiusCard),
-        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-        border = BorderStroke(0.dp, androidx.compose.ui.graphics.Color.Transparent),
-    ) {
-        Row(Modifier.fillMaxWidth().padding(if (compact) Tokens.S3 else Tokens.S6), verticalAlignment = Alignment.CenterVertically) {
-            if (compact) Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = Tokens.S3).size(32.dp))
-            Column(Modifier.weight(1f), horizontalAlignment = if (compact) Alignment.Start else Alignment.CenterHorizontally) {
-                if (!compact) {
-                    Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(32.dp))
-                    Spacer(Modifier.height(Tokens.S2))
-                }
-                Text(title, style = MaterialTheme.typography.titleMedium)
-                Text(body, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = if (compact) TextAlign.Start else TextAlign.Center)
-            }
-        }
-    }
-}
-
-/** The "Alege documentele" tile shrunk to one row, under the list once documents are added. */
-@Composable
-fun DocumentAddTile(onPick: () -> Unit, modifier: Modifier = Modifier) {
-    val outline = MaterialTheme.colorScheme.primary.copy(alpha = 0.58f)
-    OutlinedCard(
-        onClick = onPick,
-        modifier = modifier.fillMaxWidth().drawWithContent {
-            drawContent()
-            drawRoundRect(outline, topLeft = androidx.compose.ui.geometry.Offset(1.dp.toPx(), 1.dp.toPx()), size = androidx.compose.ui.geometry.Size(size.width - 2.dp.toPx(), size.height - 2.dp.toPx()), cornerRadius = androidx.compose.ui.geometry.CornerRadius(Tokens.RadiusCard.toPx()), style = Stroke(width = 1.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 4.dp.toPx()))))
-        },
-        shape = RoundedCornerShape(Tokens.RadiusCard),
-        // This remains a live document-picker action after the queue is populated. A full
-        // container color makes that affordance distinct from disabled list content.
-        colors = CardDefaults.outlinedCardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-        border = BorderStroke(0.dp, androidx.compose.ui.graphics.Color.Transparent),
-    ) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = Tokens.S4, vertical = Tokens.S3), verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Outlined.UploadFile, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
-            Spacer(Modifier.width(Tokens.S3))
-            Column {
-                Text(stringResource(R.string.sign_add_more), style = MaterialTheme.typography.titleSmall)
-                Text(
-                    stringResource(R.string.sign_choose_body),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

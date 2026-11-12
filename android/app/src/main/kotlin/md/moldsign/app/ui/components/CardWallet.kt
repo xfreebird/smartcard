@@ -109,13 +109,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.times
 import md.moldsign.app.R
-import md.moldsign.app.presentation.errorText
 import md.moldsign.app.ui.theme.Tokens
-import md.moldsign.core.ReaderSlot
-import md.moldsign.core.WalletCard
-import md.moldsign.core.WalletState
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 private val ON_CARD = Color.White
 private val ON_CARD_DIM = Color.White.copy(alpha = 0.82f)
@@ -139,7 +133,7 @@ private const val MOTION_MS = 250
  */
 @Composable
 fun CardWallet(
-    wallet: WalletState,
+    wallet: CardWalletContent,
     onSelect: (readerId: String) -> Unit,
     onReread: () -> Unit,
     onAllowUsb: (readerId: String?) -> Unit,
@@ -152,14 +146,14 @@ fun CardWallet(
     val maxCard = if (large) 480.dp else 420.dp
     if (cards.isEmpty()) {
         BoxWithConstraints(modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Box(Modifier.width(min(maxWidth - 2 * Tokens.S6, maxCard))) { EmptyWalletCard(wallet, onAllowUsb) }
+            Box(Modifier.width(min(maxWidth - 2 * Tokens.S6, maxCard))) { EmptyWalletCard(wallet.empty, onAllowUsb) }
         }
         return
     }
 
     key(cards.map { it.readerId }) {
-    val selectedIndex = cards.indexOfFirst { it.readerId == wallet.selectedCard?.readerId }.coerceAtLeast(0)
-    val currentSelectedId by rememberUpdatedState(wallet.selectedCard?.readerId)
+    val selectedIndex = cards.indexOfFirst { it.readerId == wallet.selectedId }.coerceAtLeast(0)
+    val currentSelectedId by rememberUpdatedState(wallet.selectedId)
     val pager = rememberPagerState(initialPage = selectedIndex, pageCount = { cards.size })
     // A swipe commits the card only after settling, never midway through an interrupted gesture.
     LaunchedEffect(pager, cards.map { it.readerId }) {
@@ -220,9 +214,9 @@ fun CardWallet(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun WalletCardItem(
-    card: WalletCard,
+    card: IdentityCardContent,
     index: Int,
-    cards: List<WalletCard>,
+    cards: List<IdentityCardContent>,
     selected: Boolean,
     expanded: Boolean,
     large: Boolean,
@@ -243,7 +237,7 @@ private fun WalletCardItem(
     val description = if (expanded) {
         stringResource(R.string.action_sign_with, holderOrReader(card))
     } else {
-        cardDescription(card, index, cards.size)
+        card.description
     }
     val nextLabel = stringResource(R.string.action_next_card)
     val previousLabel = stringResource(R.string.action_previous_card)
@@ -375,26 +369,7 @@ private fun DisclosureButton(expanded: Boolean, count: Int, diameter: Dp, onTogg
     }
 }
 
-@Composable
-private fun holderOrReader(card: WalletCard): String = card.certificate?.commonName ?: card.readerName
-
-/** "{holder}, card de identitate, valabil până la …, {i} din {n}" (+ the reading / problem line). */
-@Composable
-private fun cardDescription(card: WalletCard, index: Int, count: Int): String {
-    val cert = card.certificate
-    val problem = card.problem
-    return when {
-        problem != null -> stringResource(R.string.wallet_problem_description, card.readerName, errorText(problem), index + 1, count)
-        cert == null -> stringResource(R.string.wallet_reading_description, card.readerName, index + 1, count)
-        else -> stringResource(
-            R.string.wallet_card_description,
-            cert.commonName,
-            SimpleDateFormat("dd.MM.yyyy", Locale.ROOT).format(cert.notAfter),
-            index + 1,
-            count,
-        )
-    }
-}
+private fun holderOrReader(card: IdentityCardContent): String = card.holder
 
 /** Gold contact chip, drawn (no bitmap). */
 @Composable
@@ -420,21 +395,18 @@ private fun ChipGraphic(modifier: Modifier = Modifier, outline: Color? = null) {
 // ------------------------------------------------------------------ empty states (cards too)
 
 @Composable
-private fun EmptyWalletCard(wallet: WalletState, onAllowUsb: (String?) -> Unit) {
-    val permission = wallet.readers.firstOrNull { it.state == ReaderSlot.State.PermissionRequired }
-    val empty = wallet.readers.firstOrNull { it.state == ReaderSlot.State.Empty }
-    val broken = wallet.readers.firstOrNull { it.state == ReaderSlot.State.Error }
-    when {
-        wallet.readers.isEmpty() -> ConnectReaderCard()
-        permission != null -> PlaceholderCard {
+private fun EmptyWalletCard(empty: EmptyWalletContent, onAllowUsb: (String?) -> Unit) {
+    when (empty) {
+        EmptyWalletContent.Connect -> ConnectReaderCard()
+        is EmptyWalletContent.Permission -> PlaceholderCard {
             ChipGraphic(Modifier.size(width = 42.dp, height = 32.dp), outline = MaterialTheme.colorScheme.outline)
             Spacer(Modifier.weight(1f))
             Text(stringResource(R.string.usb_permission_title), style = MaterialTheme.typography.titleMedium)
-            Text(permission.name, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(empty.name, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(Modifier.height(Tokens.S2))
-            Button(onClick = { onAllowUsb(permission.id) }) { Text(stringResource(R.string.action_allow)) }
+            Button(onClick = { onAllowUsb(empty.id) }) { Text(stringResource(R.string.action_allow)) }
         }
-        empty != null -> PlaceholderCard {
+        is EmptyWalletContent.Insert -> PlaceholderCard {
             ChipGraphic(Modifier.size(width = 42.dp, height = 32.dp), outline = MaterialTheme.colorScheme.outline)
             Spacer(Modifier.weight(1f))
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -448,12 +420,11 @@ private fun EmptyWalletCard(wallet: WalletState, onAllowUsb: (String?) -> Unit) 
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
-        broken != null -> ErrorFace(
+        is EmptyWalletContent.Error -> ErrorFace(
             title = stringResource(R.string.wallet_reader_error_title),
             body = stringResource(R.string.wallet_reader_error_body),
-            caption = broken.name,
+            caption = empty.name,
         )
-        else -> ConnectReaderCard()
     }
 }
 

@@ -16,6 +16,7 @@ public sealed partial class SignPage : Page
         DetachedOption.Content = Loc.Get("Packaging_Detached");
         EnvelopingOption.Content = Loc.Get("Packaging_Enveloping");
         SignedResultsTitle.Text = Loc.Get("saved_signed");
+        DocumentDrop.FileSelection = new Presentation.DocumentSelectionProvider(App.Current.Services);
         DocumentDrop.FilesChosen += OnFilesChosen;
         Files.CollectionChanged += (_, _) =>
         {
@@ -32,6 +33,8 @@ public sealed partial class SignPage : Page
     }
 
     public ObservableCollection<FileRow> Files { get; } = [];
+
+    private void OnCardSelected(object? sender, string reader) => App.Current.Services.SelectCard(reader);
 
     public AppState State => AppState.Current;
 

@@ -52,7 +52,7 @@ fun AboutContent() {
         ).forEach { (label, url) ->
             TextButton(onClick = { uriHandler.openUri(url) }, modifier = Modifier.fillMaxWidth()) { Text(stringResource(label)) }
         }
-        md.moldsign.app.ui.components.GovernmentSources()
+        md.moldsign.app.ui.features.GovernmentSources()
         Text("Nicolae Ghimbovschi")
         TextButton(onClick = { uriHandler.openUri("https://esemnbun.md") }) { Text("esemnbun.md") }
     }

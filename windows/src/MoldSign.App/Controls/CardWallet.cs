@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
-using MoldSign.App.Services;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -62,7 +61,7 @@ public sealed partial class CardWallet : UserControl
         _scroller.ViewChanged += (_, e) =>
         {
             if (e.IsIntermediate || _rendering || _width <= 0 || _alignSelection) return;
-            var cards = State.WalletItems.Where(c => c.Kind == WalletItemKind.Card).ToList();
+            var cards = Wallet.Items.Where(c => c.IsCard).ToList();
             if (cards.Count < 2) return;
             var index = Math.Clamp((int)Math.Round(_scroller.HorizontalOffset / _pageWidth), 0, cards.Count - 1);
             Select(cards[index]);
@@ -74,18 +73,31 @@ public sealed partial class CardWallet : UserControl
             if (RouteVerticalWheel(e)) e.Handled = true;
         }), handledEventsToo: true);
         _scroller.SizeChanged += (_, _) => AlignSelection();
-        Loaded += (_, _) => { State.WalletChanged += OnWalletChanged; Render(); };
-        Unloaded += (_, _) => State.WalletChanged -= OnWalletChanged;
+        Loaded += (_, _) => Render();
     }
 
-    public AppState State => AppState.Current;
+    public static readonly DependencyProperty WalletProperty = DependencyProperty.Register(
+        nameof(Wallet), typeof(CardWalletContent), typeof(CardWallet),
+        new PropertyMetadata(CardWalletContent.Empty, (sender, _) =>
+        {
+            var control = (CardWallet)sender;
+            control.InvalidateMeasure();
+            control.Render();
+        }));
+
+    public CardWalletContent Wallet
+    {
+        get => (CardWalletContent)GetValue(WalletProperty);
+        set => SetValue(WalletProperty, value);
+    }
+    public event EventHandler<string>? CardSelected;
     public bool IsCompact { get; set; } = true;
     // Kept for existing tray sizing: the carousel never expands vertically.
     public double MaxExpandedHeight { get; set; } = double.PositiveInfinity;
     public bool IsExpanded => false;
-    public bool IsSelectionCentered => State.CardCount < 2 || Math.Abs(_scroller.HorizontalOffset - TargetOffset) < 1;
-    private double TargetOffset => Math.Max(0, State.SelectedIndex) * _pageWidth;
-    public double CollapsedHeight => _width / IdCardFace.AspectRatio + 2 * Pad + (State.CardCount > 1 ? 34 : 0);
+    public bool IsSelectionCentered => Wallet.CardCount < 2 || Math.Abs(_scroller.HorizontalOffset - TargetOffset) < 1;
+    private double TargetOffset => Math.Max(0, Wallet.SelectedIndex) * _pageWidth;
+    public double CollapsedHeight => _width / IdCardFace.AspectRatio + 2 * Pad + (Wallet.CardCount > 1 ? 34 : 0);
     public double ExpandedExtraHeight => 0;
     public event EventHandler? ExpandedChanged;
     public event EventHandler? CardActivated;
@@ -97,7 +109,7 @@ public sealed partial class CardWallet : UserControl
         var outer = double.IsInfinity(availableSize.Width) ? fallback : Math.Max(1, availableSize.Width);
         // Each card occupies a full viewport page. Neighbours are never clipped into decorative slivers.
         // The card itself stays readable and centered; hover arrows live in the surrounding gutters.
-        var gutter = State.CardCount > 1 ? Math.Min(88, Math.Max(0, outer - 120)) : 8;
+        var gutter = Wallet.CardCount > 1 ? Math.Min(88, Math.Max(0, outer - 120)) : 8;
         var width = Math.Max(1, Math.Floor(Math.Min(IsCompact ? 288 : 360, outer - gutter) - 2 * Pad));
         _cards.Padding = new Thickness(0);
         if (Math.Abs(width - _width) > 0.5 || Math.Abs(outer - _pageWidth) > 0.5)
@@ -111,20 +123,22 @@ public sealed partial class CardWallet : UserControl
         return base.MeasureOverride(new Size(outer, availableSize.Height));
     }
 
-    private void OnWalletChanged(object? sender, EventArgs e) { InvalidateMeasure(); Render(); }
-
     private void Render()
     {
         if (_width <= 0) return;
         _rendering = true;
+        AutomationProperties.SetName(_previous, Wallet.PreviousLabel);
+        AutomationProperties.SetName(_next, Wallet.NextLabel);
+        ToolTipService.SetToolTip(_previous, Wallet.PreviousLabel);
+        ToolTipService.SetToolTip(_next, Wallet.NextLabel);
         _cards.Children.Clear();
-        var items = State.WalletItems.ToList();
+        var items = Wallet.Items.ToList();
         foreach (var item in items)
         {
-            if (item.Kind != WalletItemKind.Card)
+            if (!item.IsCard)
             {
                 // Reader instructions are a static dotted rectangle, not another button/group box.
-                var empty = new IdCardFace(item, _width, false, false, false) { Margin = new Thickness(Pad), HorizontalAlignment = HorizontalAlignment.Center };
+                var empty = new IdCardFace(item, _width) { Margin = new Thickness(Pad), HorizontalAlignment = HorizontalAlignment.Center };
                 _cards.Children.Add(new Grid
                 {
                     Width = _pageWidth, Height = _width / IdCardFace.AspectRatio + 2 * Pad,
@@ -137,23 +151,23 @@ public sealed partial class CardWallet : UserControl
                 Width = _width + 2 * Pad,
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Height = _width / IdCardFace.AspectRatio + 2 * Pad,
-                Padding = new Thickness(item.IsSelected && State.CardCount > 1 ? Pad - 2 : Pad),
-                Opacity = item.IsSelected || State.CardCount < 2 ? 1 : 0.65,
+                Padding = new Thickness(item.IsSelected && Wallet.CardCount > 1 ? Pad - 2 : Pad),
+                Opacity = item.IsSelected || Wallet.CardCount < 2 ? 1 : 0.65,
                 RenderTransformOrigin = new Point(0.5, 0.5),
                 RenderTransform = new ScaleTransform { ScaleX = item.IsSelected ? 1 : 0.94, ScaleY = item.IsSelected ? 1 : 0.94 },
-                BorderThickness = new Thickness(item.IsSelected && State.CardCount > 1 ? 2 : 0),
-                BorderBrush = WindowHelpers.ThemeBrush("SystemControlHighlightAccentBrush"),
+                BorderThickness = new Thickness(item.IsSelected && Wallet.CardCount > 1 ? 2 : 0),
+                BorderBrush = ControlTheme.Brush("SystemControlHighlightAccentBrush"),
                 Background = new SolidColorBrush(Microsoft.UI.Colors.Transparent),
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
-                Content = new IdCardFace(item, _width, State.IsBusy && item.IsSelected, false, item.IsSelected && State.CardCount > 1),
+                Content = new IdCardFace(item, _width),
             };
             AutomationProperties.SetAutomationId(button, $"WalletCard{items.IndexOf(item) + 1}");
-            AutomationProperties.SetItemStatus(button, item.IsSelected ? Loc.Get("Wallet_UsedForSigning") : "");
-            AutomationProperties.SetName(button, item.AccessibleName(items.IndexOf(item) + 1, Math.Max(1, State.CardCount)));
+            AutomationProperties.SetItemStatus(button, item.IsSelected ? Wallet.SelectedLabel : "");
+            AutomationProperties.SetName(button, item.AccessibilityLabel);
             button.Click += (_, _) =>
             {
-                if (item.IsSelected || item.Kind != WalletItemKind.Card) CardActivated?.Invoke(this, EventArgs.Empty);
+                if (item.IsSelected || !item.IsCard) CardActivated?.Invoke(this, EventArgs.Empty);
                 else Select(item);
             };
             _cards.Children.Add(new Grid
@@ -162,15 +176,15 @@ public sealed partial class CardWallet : UserControl
                 Children = { button },
             });
         }
-        _navigation.Visibility = State.CardCount > 1 ? Visibility.Visible : Visibility.Collapsed;
+        _navigation.Visibility = Wallet.CardCount > 1 ? Visibility.Visible : Visibility.Collapsed;
         _navigation.Children.Clear();
-        for (var index = 0; index < State.CardCount; index++)
+        for (var index = 0; index < Wallet.CardCount; index++)
         {
             var dot = new Microsoft.UI.Xaml.Shapes.Ellipse
             {
                 Width = 7, Height = 7,
-                Fill = WindowHelpers.ThemeBrush("SystemControlHighlightAccentBrush"),
-                Opacity = index == State.SelectedIndex ? 1 : 0.3,
+                Fill = ControlTheme.Brush("SystemControlHighlightAccentBrush"),
+                Opacity = index == Wallet.SelectedIndex ? 1 : 0.3,
             };
             AutomationProperties.SetAccessibilityView(dot, AccessibilityView.Raw);
             var cardIndex = index;
@@ -182,9 +196,9 @@ public sealed partial class CardWallet : UserControl
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
             };
-            var cards = State.WalletItems.Where(c => c.Kind == WalletItemKind.Card).ToList();
+            var cards = Wallet.Items.Where(c => c.IsCard).ToList();
             if (cardIndex < cards.Count)
-                AutomationProperties.SetName(button, cards[cardIndex].AccessibleName(cardIndex + 1, cards.Count));
+                AutomationProperties.SetName(button, cards[cardIndex].AccessibilityLabel);
             button.Click += (_, _) => { if (cardIndex < cards.Count) Select(cards[cardIndex]); };
             _navigation.Children.Add(button);
         }
@@ -216,19 +230,19 @@ public sealed partial class CardWallet : UserControl
             HorizontalContentAlignment = HorizontalAlignment.Center, VerticalContentAlignment = VerticalAlignment.Center,
             Content = new FontIcon { Glyph = glyph, FontSize = 12 }, Visibility = Visibility.Collapsed,
         };
-        AutomationProperties.SetName(button, Loc.Get(labelKey));
+        AutomationProperties.SetName(button, labelKey);
         AutomationProperties.SetAutomationId(button, automationId);
-        ToolTipService.SetToolTip(button, Loc.Get(labelKey));
+        ToolTipService.SetToolTip(button, labelKey);
         return button;
     }
 
     private void UpdateArrows()
     {
-        var visibility = _pointerOverCard && State.CardCount > 1 ? Visibility.Visible : Visibility.Collapsed;
+        var visibility = _pointerOverCard && Wallet.CardCount > 1 ? Visibility.Visible : Visibility.Collapsed;
         _previous.Visibility = visibility;
         _next.Visibility = visibility;
-        _previous.IsEnabled = !State.IsBusy && State.SelectedIndex > 0;
-        _next.IsEnabled = !State.IsBusy && State.SelectedIndex < State.CardCount - 1;
+        _previous.IsEnabled = !Wallet.IsBusy && Wallet.SelectedIndex > 0;
+        _next.IsEnabled = !Wallet.IsBusy && Wallet.SelectedIndex < Wallet.CardCount - 1;
     }
 
     private bool RouteVerticalWheel(PointerRoutedEventArgs e)
@@ -247,16 +261,16 @@ public sealed partial class CardWallet : UserControl
 
     private void Step(int delta)
     {
-        var cards = State.WalletItems.Where(c => c.Kind == WalletItemKind.Card).ToList();
-        if (cards.Count < 2 || State.IsBusy) return;
-        var current = Math.Clamp(State.SelectedIndex, 0, cards.Count - 1);
+        var cards = Wallet.Items.Where(c => c.IsCard).ToList();
+        if (cards.Count < 2 || Wallet.IsBusy) return;
+        var current = Math.Clamp(Wallet.SelectedIndex, 0, cards.Count - 1);
         var target = Math.Clamp(current + delta, 0, cards.Count - 1);
         if (target != current) Select(cards[target]);
     }
 
-    private static void Select(WalletCardItem item)
+    private void Select(IdentityCardContent item)
     {
-        if (item.Reader is { } reader) App.Current.Services.SelectCard(reader);
+        if (!Wallet.IsBusy && item.Reader is { } reader) CardSelected?.Invoke(this, reader);
     }
 
     protected override void OnKeyDown(KeyRoutedEventArgs e)

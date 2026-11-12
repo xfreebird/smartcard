@@ -325,3 +325,26 @@ Desktop workflow. Native views retain picker presentation, confirmation and loca
 The vendor password format uses unauthenticated CBC. A successful decrypt is not an authentication
 claim. Malformed-envelope and failure-cleanup tests must not assume every wrong password rejects
 padding. Native round-trip tests compare restored bytes with their synthetic original explicitly.
+
+### Design-system dependency boundary
+
+Reusable UI consumes render-ready values and callbacks. Core models, certificates, readers, signing
+steps, application state and live/demo selection belong to the presentation adapters or feature hosts.
+Do not add convenience initializers or extensions accepting domain types inside the design-system folders.
+
+| Platform | Reusable UI | Domain mapping / feature orchestration |
+| --- | --- | --- |
+| macOS / iOS | `apple/Apps/Shared/DesignSystem` | `Shared/Presentation` maps core values; `Screens/Components` owns settings, bookmarks and card selection |
+| Android | `app/ui/components`, `app/ui/theme` | `app/presentation` maps card/status/consent values; `ui/features` owns document and settings workflows |
+| Windows | `MoldSign.App/Controls` | `MoldSign.App/Presentation` maps wallet values and supplies `IFileSelectionProvider`; pages bind display state and handle selection callbacks |
+| Linux | `Presentation/DesignSystem` | `Presentation` maps card/reader states; `Presentation/Views` owns controller-driven features |
+
+Presentation values contain strings, numbers, UI tones and selection/accessibility data. They do not
+wrap a core object. A new signer or data provider therefore does not require changes in card drawing,
+progress, status or file-selection controls. Platform drawing, localization and accessibility APIs
+remain appropriate UI dependencies.
+
+CI checks every boundary on each commit. Apple also compiles the `DesignSystem` SwiftPM target with
+zero dependencies. Linux compiles the exact reusable sources in an isolated temporary package with
+only GTK, Foundation and localization support. Native mock UI suites validate that the feature
+adapters preserve card selection, status updates, consent and document workflows.

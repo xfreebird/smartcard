@@ -81,7 +81,9 @@ jobs:
       - name: Build mock-capable macOS app
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Debug -derivedDataPath "$RUNNER_TEMP/macos-build" CODE_SIGNING_ALLOWED=NO build
       - name: Application integration tests
-        run: swift test --package-path apple
+        run: |
+          swift build --package-path apple --target DesignSystem
+          swift test --package-path apple
       - name: Native macOS mock UI journeys
         run: |
           command -v xcodegen >/dev/null || brew install xcodegen
@@ -161,7 +163,9 @@ jobs:
         working-directory: linux
         run: swift build
       - name: GNOME application integration tests
-        run: swift test --package-path linux
+        run: |
+          python3 scripts/ci/check-linux-design-system.py
+          swift test --package-path linux
       - name: Native GTK mock UI journeys
         env:
           GDK_BACKEND: x11

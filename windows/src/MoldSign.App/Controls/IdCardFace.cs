@@ -1,4 +1,3 @@
-using System.Globalization;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
@@ -6,7 +5,6 @@ using Microsoft.UI.Xaml.Automation.Peers;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
-using MoldSign.App.Services;
 using Windows.Foundation;
 using Windows.UI;
 using Path = Microsoft.UI.Xaml.Shapes.Path;
@@ -25,26 +23,21 @@ internal sealed class IdCardFace : Grid
 {
     public const double AspectRatio = 1.61803398875;
 
-    private static readonly CultureInfo s_ro = CultureInfo.GetCultureInfo("ro-RO");
-
     /// <param name="item">The slot to draw.</param>
     /// <param name="width">W in effective pixels.</param>
-    /// <param name="signing">The app is signing with this card (blue status).</param>
-    /// <param name="withDisclosure">The disclosure button sits on this card (centre 0.935 W): values stop at 0.88 W.</param>
-    /// <param name="usedForSigning">Selected card in the expanded list: a ready card shows "✓ Folosit pentru semnare".</param>
-    public IdCardFace(WalletCardItem item, double width, bool signing, bool withDisclosure, bool usedForSigning)
+    public IdCardFace(IdentityCardContent item, double width)
     {
         var height = width / AspectRatio;
         Width = width;
         Height = height;
         AutomationProperties.SetAccessibilityView(this, AccessibilityView.Raw);
-        if (item.Kind == WalletItemKind.Card) BuildCard(item, width, height, signing, withDisclosure, usedForSigning);
+        if (item.IsCard) BuildCard(item, width, height);
         else BuildPlaceholder(item, width);
     }
 
     // MARK: - ID card
 
-    private void BuildCard(WalletCardItem item, double w, double h, bool signing, bool withDisclosure, bool usedForSigning)
+    private void BuildCard(IdentityCardContent item, double w, double h)
     {
         var canvas = new Canvas { Width = w, Height = h, Clip = new RectangleGeometry { Rect = new Rect(0, 0, w, h) } };
         Children.Add(new Border
@@ -56,14 +49,13 @@ internal sealed class IdCardFace : Grid
             Child = canvas,
         });
 
-        var certificate = item.Certificate;
-        AddGuilloche(canvas, w, h, CardArt.HueOffset(certificate?.Sha1));
+        AddGuilloche(canvas, w, h, item.HueOffset);
 
         // Headings: left navy, right burgundy, the neutral shield centred between them, the chip centred on the right margin.
-        Place(canvas, Heading(Loc.Get("Card_CountryPrimary"), Loc.Get("Card_CountrySecondary"), CardArt.Navy, w, 0.37 * w), 0.045 * w, 0.06 * h);
+        Place(canvas, Heading(item.Labels.CountryPrimary, item.Labels.CountrySecondary, CardArt.Navy, w, 0.37 * w), 0.045 * w, 0.06 * h);
         var shieldHeight = 0.07 * w;
         Place(canvas, Shield(shieldHeight), 0.48 * w - shieldHeight * 0.41, 0.06 * h);
-        Place(canvas, Heading(Loc.Get("Card_TypePrimary"), Loc.Get("Card_TypeSecondary"), CardArt.Burgundy, w, 0.32 * w), 0.52 * w, 0.06 * h);
+        Place(canvas, Heading(item.Labels.TypePrimary, item.Labels.TypeSecondary, CardArt.Burgundy, w, 0.32 * w), 0.52 * w, 0.06 * h);
         Place(canvas, Chip(w), 0.855 * w, 0.50 * h - 0.0375 * w);
         // Portrait frame is 3:5; head/body are drawn independently without stretching to the frame.
         var portraitWidth = 0.20 * w;
@@ -73,15 +65,12 @@ internal sealed class IdCardFace : Grid
         // With the disclosure button on the card, values stop at 0.88 W so they never run under it.
         var x = 0.28 * w;
         var right = 0.82 * w; // reserve the right-centre chip area for both name rows
-        var (surname, given) = certificate?.NameParts() ?? ("", "");
-        var until = certificate?.NotAfter.ToLocalTime().ToString("dd MM yyyy", CultureInfo.InvariantCulture);
-        AddField(canvas, w, Loc.Get("Card_LabelSurname"), certificate is null ? null : surname, x, 0.30 * h, right - x, 0.42);
-        AddField(canvas, w, Loc.Get("Card_LabelGivenNames"), certificate is null ? null : given, x, 0.47 * h, right - x, 0.32);
-        AddField(canvas, w, Loc.Get("Card_LabelValidUntil"), until, x, 0.64 * h, 0.33 * w, 0.22);
-        // The disclosure (0.43–0.57 H) only shares rows with the names; the issuer row keeps the full width.
-        AddField(canvas, w, Loc.Get("Card_LabelIssuer"), certificate?.IssuerName, 0.66 * w, 0.64 * h, 0.955 * w - 0.66 * w, 0.2);
+        AddField(canvas, w, item.Labels.Surname, item.Surname, x, 0.30 * h, right - x, 0.42);
+        AddField(canvas, w, item.Labels.GivenNames, item.GivenNames, x, 0.47 * h, right - x, 0.32);
+        AddField(canvas, w, item.Labels.ValidUntil, item.ValidUntil, x, 0.64 * h, 0.33 * w, 0.22);
+        AddField(canvas, w, item.Labels.Issuer, item.Issuer, 0.66 * w, 0.64 * h, 0.955 * w - 0.66 * w, 0.2);
 
-        AddStatusStrip(canvas, item, w, h, x, signing, usedForSigning);
+        AddStatusStrip(canvas, item, w, h, x);
     }
 
     /// <summary>12 sine waves alternating rose/blue at 35 %, and a gold rosette of 8 ellipses at 25 %.</summary>
@@ -266,15 +255,19 @@ internal sealed class IdCardFace : Grid
     /// Status strip: dot + one line (ready / reading / signing / the problem), the reader on large sizes. The selected
     /// card of the expanded list shows the check badge "✓ Folosit pentru semnare" instead of "Pregătit pentru semnare".
     /// </summary>
-    private static void AddStatusStrip(Canvas canvas, WalletCardItem item, double w, double h, double x, bool signing,
-                                       bool usedForSigning)
+    private static void AddStatusStrip(Canvas canvas, IdentityCardContent item, double w, double h, double x)
     {
-        var ready = item.Problem is null && !signing && item.Certificate is not null;
-        var (dot, text, textColor) = item.Problem is { } problem
-            ? (CardArt.StatusProblem, AppState.ErrorText(problem), CardArt.StatusProblem)
-            : signing ? (CardArt.StatusBusy, Loc.Get("Light_Busy"), CardArt.Value)
-            : item.Certificate is null ? (CardArt.StatusReading, Loc.Get("Light_Reading"), CardArt.Value)
-            : (CardArt.StatusReady, Loc.Get(usedForSigning ? "Wallet_UsedForSigning" : "Wallet_StatusReady"), CardArt.Value);
+        var usedForSigning = item.UsedForSigning;
+        var ready = item.Tone == CardStatusTone.Ready;
+        var dot = item.Tone switch
+        {
+            CardStatusTone.Error => CardArt.StatusProblem,
+            CardStatusTone.Busy => CardArt.StatusBusy,
+            CardStatusTone.Reading => CardArt.StatusReading,
+            _ => CardArt.StatusReady,
+        };
+        var text = item.StatusText;
+        var textColor = item.Tone == CardStatusTone.Error ? CardArt.StatusProblem : CardArt.Value;
 
         // The selected-card caption uses the full bottom edge, below the portrait.
         // This keeps longer translations readable in the compact tray card.
@@ -325,7 +318,7 @@ internal sealed class IdCardFace : Grid
 
     // MARK: - Empty states (theme colors: they are not the physical card)
 
-    private void BuildPlaceholder(WalletCardItem item, double w)
+    private void BuildPlaceholder(IdentityCardContent item, double w)
     {
         var radius = 0.045 * w;
         // Resolve from the element's active theme; Application resources can be in the light scope.
@@ -335,13 +328,13 @@ internal sealed class IdCardFace : Grid
             HorizontalAlignment = HorizontalAlignment.Center,
         };
         Rectangle? outline = null;
-        if (item.Kind == WalletItemKind.MuteCard)
+        if (item.IsErrorPlaceholder)
         {
             Children.Add(new Border
             {
                 CornerRadius = new CornerRadius(radius),
-                Background = WindowHelpers.ThemeBrush("DangerSoftBrush"),
-                BorderBrush = WindowHelpers.ThemeBrush("DangerBrush"),
+                Background = ControlTheme.Brush("DangerSoftBrush"),
+                BorderBrush = ControlTheme.Brush("DangerBrush"),
                 BorderThickness = new Thickness(1.5),
             });
         }

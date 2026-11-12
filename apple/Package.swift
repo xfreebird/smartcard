@@ -7,6 +7,8 @@ let package = Package(
     platforms: [.macOS(.v15)],
     dependencies: [.package(path: "../swift/MoldSignKit")],
     targets: [
+        // Compiles reusable UI without access to the signing core or application models.
+        .target(name: "DesignSystem", path: "Apps/Shared/DesignSystem"),
         .target(name: "VerificationPolicies", dependencies: [.product(name: "MoldSignKit", package: "MoldSignKit")],
                 path: "Apps/Shared/Services/Documents",
                 exclude: ["CoreCertificateReader.swift", "CoreDocumentSigner.swift", "DocumentWorkflows.swift"],

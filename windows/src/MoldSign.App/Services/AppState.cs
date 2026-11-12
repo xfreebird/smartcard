@@ -368,6 +368,8 @@ public sealed class AppState : INotifyPropertyChanged
     /// <summary>Reconciles <see cref="WalletItems"/> with the model (in place, so selection and animations survive).</summary>
     public void RefreshLanguage() => Refresh();
 
+    public Controls.CardWalletContent WalletContent => Presentation.CardWalletContentMapper.From(this);
+
     private void Refresh()
     {
         var desired = new List<(WalletItemKind Kind, string? Reader, WalletCard? Card)>();

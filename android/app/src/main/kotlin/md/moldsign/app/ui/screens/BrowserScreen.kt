@@ -1,5 +1,7 @@
 package md.moldsign.app.ui.screens
 
+import md.moldsign.app.presentation.toCardWalletContent
+
 import md.moldsign.app.hostActivity
 import android.Manifest
 import android.content.Intent
@@ -67,7 +69,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
 
     ScreenColumn(padding, fullWidth = true) {
         CardWallet(
-            wallet.wallet,
+            wallet.wallet.toCardWalletContent(),
             selectionEnabled = !wallet.busy,
             onSelect = vm::selectCard,
             onReread = vm::rereadCards,
@@ -111,7 +113,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
                     modifier = Modifier.padding(start = Tokens.S4, end = Tokens.S4, bottom = Tokens.S4),
                 )
             }
-            md.moldsign.app.ui.components.GovernmentDisclosureLink()
+            md.moldsign.app.ui.features.GovernmentDisclosureLink()
             Button(onClick = { inAppBrowser = true }, enabled = !vm.demoMode, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.browser_open_in_app))
             }

@@ -87,7 +87,7 @@ enum CardArt {
         enum State: Equatable { case ready, reading, busy, problem(String) }
         var surname: String?
         var givenNames: String?
-        var validUntil: Date?
+        var validUntil: String?
         var issuer: String?
         var state: State
         var reader: String
@@ -289,7 +289,7 @@ enum CardArt {
     /// Numele/Surname, Prenumele/Given name(s), Valabil până la/Valid until + Emitent/Issuer.
     private static func drawFields(_ cr: OpaquePointer, W: Double, H: Double, face: Face, font: OpaquePointer?) {
         let x = 0.32 * W, column2 = 0.64 * W, right = 0.83 * W
-        let date = face.validUntil.map(Format.cardDate)
+        let date = face.validUntil
         let rows: [(y: Double, label: String, value: String?, x: Double, maxX: Double, bar: Double)] = [
             (0.30, L10n.text(.ui_surname), face.surname, x, right, 0.34),
             (0.47, L10n.text(.ui_given_names), face.givenNames, x, right, 0.26),

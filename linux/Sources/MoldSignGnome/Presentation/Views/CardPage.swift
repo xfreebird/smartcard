@@ -82,7 +82,7 @@ final class CardPage {
         let c = controller
         guard !c.cards.isEmpty else {
             let status = c.status
-            emptyArt.show(status: status, retry: nil)
+            emptyArt.show(content: .init(status: status), retry: nil)
             let title: String
             let description: String
             switch status {

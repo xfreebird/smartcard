@@ -1,5 +1,8 @@
 package md.moldsign.app.ui
 
+import md.moldsign.app.presentation.toStatusContent
+import md.moldsign.app.presentation.toPinPromptContent
+
 import md.moldsign.app.hostActivity
 import md.moldsign.app.AppShortcuts
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -136,7 +139,7 @@ private fun NavHostController.go(d: Dest) = navigate(d.route) {
 fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demoGeneration: Int = 0) {
     val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureDialog = if (DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
-    md.moldsign.app.ui.components.GovernmentDisclosure(forceVisible = captureDialog == "disclosure")
+    md.moldsign.app.ui.features.GovernmentDisclosure(forceVisible = captureDialog == "disclosure")
     var settingsOpen by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
     var settingsTab by androidx.compose.runtime.saveable.rememberSaveable { mutableIntStateOf(0) }
     var confirmDemoEnable by remember { mutableStateOf(false) }
@@ -278,7 +281,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                                 Icon(Icons.Rounded.Refresh, contentDescription = stringResource(R.string.action_reread))
                             }
                         }
-                        StatusLightChip(status, onClick = { nav.go(Dest.Card) }, compact = compactStatus)
+                        StatusLightChip(status.toStatusContent(context), onClick = { nav.go(Dest.Card) }, compact = compactStatus)
                         Spacer(Modifier.width(Tokens.S3))
                     },
                     scrollBehavior = scrollBehavior,
@@ -365,7 +368,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 Spacer(Modifier.size(12.dp))
                 if (settingsTab == 0) {
                     Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
-                        md.moldsign.app.ui.components.AppSettings(vm, enabled = !working && !status.busy && pending == null && stamp == null)
+                        md.moldsign.app.ui.features.AppSettings(vm, enabled = !working && !status.busy && pending == null && stamp == null)
                         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                             Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
                             Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null && stamp == null,
@@ -402,7 +405,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
 
     pending?.let { p ->
         PinSheet(
-            request = p.request,
+            request = p.request.toPinPromptContent(),
             rememberAvailable = false,
             onConfirm = { pin, _ ->
                 // TODO(AND-06): if "Ține minte PIN-ul" is on, PinVault.save(...) after a successful VERIFY.

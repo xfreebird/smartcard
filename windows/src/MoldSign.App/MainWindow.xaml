@@ -41,7 +41,7 @@
                     Style="{StaticResource CaptionTextBlockStyle}"
                     Text="eSemnBun" />
             </StackPanel>
-            <controls:StatusLightPill Grid.Column="1" />
+            <controls:StatusLightPill Label="{x:Bind State.LightLabel, Mode=OneWay}" DotBrush="{x:Bind State.LightBrush, Mode=OneWay}" DotVisibility="{x:Bind State.LightDotVisibility, Mode=OneWay}" Grid.Column="1" />
         </Grid>
 
         <NavigationView

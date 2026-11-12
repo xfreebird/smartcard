@@ -18,6 +18,7 @@ struct CardSelector: View {
     @Environment(AppModel.self) private var model
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var size: Size = .large
+    @State private var showGuide = false
     @State private var width: CGFloat = 288
     @State private var visibleReader: String?
     @State private var userIsScrolling = false
@@ -49,7 +50,7 @@ struct CardSelector: View {
     var body: some View {
         VStack(spacing: 10) {
             if model.displayedCards.isEmpty {
-                EmptyCardFace(status: model.status, size: size)
+                EmptyCardFace(content: .init(status: model.status), compact: size == .compact) { showGuide = true }
                     .frame(width: cardWidth, height: cardHeight)
             } else {
                 #if os(iOS)
@@ -142,7 +143,7 @@ struct CardSelector: View {
                             }
                             .buttonStyle(.plain)
                             .disabled(model.currentStep != nil)
-                            .accessibilityLabel(IDCardFace.accessibilityLabel(card))
+                            .accessibilityLabel(IdentityCardContent(card: card).accessibilityLabel)
                             .accessibilityAddTraits(card.reader == model.selectedCard?.reader ? .isSelected : [])
                         }
                     }
@@ -151,6 +152,9 @@ struct CardSelector: View {
                 #endif
             }
         }
+        #if os(iOS)
+        .sheet(isPresented: $showGuide) { ConnectionGuideView() }
+        #endif
         .frame(maxWidth: selectorMaxWidth ?? .infinity)
         .onGeometryChange(for: CGFloat.self) { $0.size.width } action: { width = $0 }
         .frame(maxWidth: .infinity)
@@ -170,11 +174,11 @@ struct CardSelector: View {
     }
 
     private func cardFace(_ card: CardSlot) -> some View {
-        IDCardFace(card: card, busy: model.currentStep != nil && card.reader == model.selectedCard?.reader,
+        IDCardFace(card: .init(card: card), busy: model.currentStep != nil && card.reader == model.selectedCard?.reader,
                    inUse: model.displayedCards.count > 1 && card.reader == model.selectedCard?.reader)
             .frame(width: cardWidth, height: cardHeight)
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel(IDCardFace.accessibilityLabel(card))
+            .accessibilityLabel(IdentityCardContent(card: card).accessibilityLabel)
             .accessibilityAddTraits(card.reader == model.selectedCard?.reader ? .isSelected : [])
             .contextMenu {
                 Button { model.rereadCards() } label: { Label(L10n.text(.ui_read_the_card_again), systemImage: "arrow.clockwise") }

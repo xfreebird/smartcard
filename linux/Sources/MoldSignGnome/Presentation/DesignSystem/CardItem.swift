@@ -99,59 +99,21 @@ final class CardItem {
         revealed = on
     }
 
-    func update(_ card: CardSlot, index: Int, count: Int, busy: Bool, selected: Bool, expanded: Bool) {
-        var next = face
-        let cert = card.certificate
-        next.surname = cert?.surname
-        next.givenNames = cert?.givenNames
-        next.validUntil = cert?.notAfter
-        next.issuer = cert?.issuerName
-        next.hueShift = CardArt.hueShift(sha1Hex: cert?.sha1Hex, fallback: card.reader)
-        next.reservesDisclosure = false
-        next.chosen = selected && expanded
-        if cert != nil {
-            next.state = busy ? .busy : .ready
-        } else if let problem = card.problem {
-            next.state = .problem(problem)
-        } else {
-            next.state = .reading
-        }
+    func update(_ content: CardItemContent) {
+        var next = content.face
+        next.showsReader = !compact
         if next != face {
             face = next
             gtk_widget_queue_draw(area)
         }
-
-        // disclosure on the selected card (more than one card); outline (and the blue status strip) while expanded
         setVisible(disclosure, false)
-        gtk_button_set_icon_name(disclosure.cast(), expanded ? "pan-down-symbolic" : "pan-end-symbolic")
-        setAccessibleLabel(disclosure, localized(.linux_choose_card_count, String(count)))
-        setAccessibleState(disclosure, GTK_ACCESSIBLE_STATE_EXPANDED, expanded)
-        gtk_widget_set_tooltip_text(disclosure, expanded ? L10n.text(.ui_close_list) : localized(.linux_choose_card_count, String(count)))
-        setClass(button, "chosen", selected && expanded)
-
-        // accessibility: collapsed, one element "{holder}, card de identitate, valabil până la …, {i} din {n}";
-        // expanded, each card is a button "Semnează cu {holder}" and the selected one reports selected
-        let holder = cert?.holder
-        if expanded {
-            setAccessibleLabel(button, holder.map { localized(.linux_sign_with_holder, $0) } ?? localized(.linux_card_in_reader, card.reader))
-            setAccessibleState(button, GTK_ACCESSIBLE_STATE_SELECTED, selected)
-            gtk_widget_set_tooltip_text(button, selected ? L10n.text(.ui_selected_for_signing) : (holder.map { localized(.linux_sign_with_holder, $0) } ?? ""))
-            return
-        }
-        var parts: [String]
-        switch next.state {
-        case .ready, .busy:
-            parts = [localized(.linux_identity_holder, holder ?? "—")]
-            if let until = cert?.notAfter { parts.append(localized(.linux_valid_until, Format.monthYear(until))) }
-            parts.append(next.state == .busy ? L10n.text(.ui_signing_2) : L10n.text(.ui_ready_to_sign_2))
-        case .reading:
-            parts = [localized(.linux_identity_in_reader, card.reader), L10n.text(.ui_reading)]
-        case .problem(let problem):
-            parts = [localized(.linux_identity_in_reader, card.reader), problem, L10n.text(.ui_remove_and_reinsert_the_card)]
-        }
-        if count > 1 { parts.append(localized(.linux_card_position, String(index + 1), String(count))) }
-        setAccessibleLabel(button, parts.joined(separator: ", "))
-        setAccessibleState(button, GTK_ACCESSIBLE_STATE_SELECTED, false)
-        gtk_widget_set_tooltip_text(button, count > 1 ? L10n.text(.ui_card_details_switches_cards) : L10n.text(.linux_card_details))
+        gtk_button_set_icon_name(disclosure.cast(), content.expanded ? "pan-down-symbolic" : "pan-end-symbolic")
+        setAccessibleLabel(disclosure, content.disclosureLabel)
+        setAccessibleState(disclosure, GTK_ACCESSIBLE_STATE_EXPANDED, content.expanded)
+        gtk_widget_set_tooltip_text(disclosure, content.disclosureTooltip)
+        setClass(button, "chosen", content.selected && content.expanded)
+        setAccessibleLabel(button, content.label)
+        setAccessibleState(button, GTK_ACCESSIBLE_STATE_SELECTED, content.selected && content.expanded)
+        gtk_widget_set_tooltip_text(button, content.tooltip)
     }
 }

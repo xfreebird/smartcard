@@ -35,7 +35,7 @@ import md.moldsign.app.presentation.appString
 import md.moldsign.app.R
 import md.moldsign.app.presentation.errorText
 import md.moldsign.app.presentation.trayText
-import md.moldsign.app.ui.theme.notificationArgb
+import md.moldsign.app.presentation.notificationArgb
 import md.moldsign.core.BridgeObserver
 import md.moldsign.core.BridgeOriginPolicy
 import md.moldsign.core.BridgeServer

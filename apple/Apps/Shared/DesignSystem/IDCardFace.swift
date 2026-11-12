@@ -1,5 +1,4 @@
 import SwiftUI
-import MoldSignKit
 
 /// One card drawn as the Moldovan identity card (docs/10 §0.2b): an illustration of the user's own card with
 /// certificate data only (no photo, coat of arms, document number or IDNP). Fixed colors in light and dark, like a
@@ -12,7 +11,7 @@ struct IDCardFace: View {
     private static let navy = Color(rgb: 0x283A8C)
     private static let burgundy = Color(rgb: 0x9E2A3F)
 
-    let card: CardSlot
+    let card: IdentityCardContent
     var busy = false
     /// Field values stop at 0.88 W so they never run under the disclosure button.
     var reservesDisclosure = false
@@ -65,18 +64,17 @@ struct IDCardFace: View {
     }
 
     @ViewBuilder private func fields(w: CGFloat, h: CGFloat) -> some View {
-        let cert = card.certificate
         let nameWidth = w * 0.50
-        field(L10n.text(.ui_surname), cert?.surname, w: w)
+        field(card.labels.surname, card.surname, w: w)
             .frame(width: nameWidth, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.29)
-        field(L10n.text(.ui_given_names), cert?.givenNames, w: w)
+        field(card.labels.givenNames, card.givenNames, w: w)
             .frame(width: nameWidth, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.46)
-        field(L10n.text(.ui_valid_until_2), cert.map { $0.notAfter.map(Self.cardDate) ?? "—" }, w: w)
+        field(card.labels.validUntil, card.validUntil, w: w)
             .frame(width: w * 0.32, alignment: .leading)
             .offset(x: w * 0.32, y: h * 0.63)
-        field(L10n.text(.ui_issuer), cert?.issuerName, w: w)
+        field(card.labels.issuer, card.issuer, w: w)
             .frame(width: w * 0.29, alignment: .leading)
             .offset(x: w * 0.665, y: h * 0.63)
     }
@@ -98,7 +96,7 @@ struct IDCardFace: View {
 
     private func status(w: CGFloat) -> some View {
         let (text, color, isProblem) = statusLine
-        let checked = inUse && !isProblem && !busy && card.certificate != nil
+        let checked = inUse && !isProblem && !busy && card.hasIdentity
         return HStack(spacing: w * 0.015) {
             if checked {
                 Image(systemName: "checkmark.circle.fill")
@@ -107,7 +105,7 @@ struct IDCardFace: View {
             } else {
                 Circle().fill(color).frame(width: w * 0.024, height: w * 0.024)
             }
-            Text(checked ? L10n.text(.ui_used_for_signing) : text)
+            Text(checked ? card.labels.selected : text)
                 .foregroundStyle(isProblem ? color : checked ? Color(rgb: 0x2350D8) : Self.ink)
                 .font(.system(size: w * 0.033, weight: .medium))
                 .lineLimit(1)
@@ -117,18 +115,14 @@ struct IDCardFace: View {
 
     private var statusLine: (String, Color, Bool) {
         if let problem = card.problem { return (problem, Color(rgb: 0xC62828), true) }
-        if card.certificate == nil { return (L10n.text(.ui_reading_the_card), Color(rgb: 0xD08A00), false) }
-        if busy { return (L10n.text(.ui_signing), Color(rgb: 0x2350D8), false) }
-        return (L10n.text(.ui_ready_to_sign), Color(rgb: 0x1E9E55), false)
+        if !card.hasIdentity { return (card.labels.reading, Color(rgb: 0xD08A00), false) }
+        if busy { return (card.labels.signing, Color(rgb: 0x2350D8), false) }
+        return (card.labels.ready, Color(rgb: 0x1E9E55), false)
     }
 
     // MARK: Drawing
 
-    /// Guilloche hue nudged per card (±20°, from the certificate SHA-1) so two cards differ at a glance.
-    private var hueShift: Double {
-        let byte = card.certificate.flatMap { UInt8($0.sha1Hex.prefix(2), radix: 16) } ?? 128
-        return Double(byte) / 255 * 40 - 20
-    }
+    private var hueShift: Double { card.hueShift }
 
     private static func drawPaper(_ context: GraphicsContext, _ size: CGSize, hueShift: Double) {
         let w = size.width, h = size.height
@@ -209,19 +203,7 @@ struct IDCardFace: View {
         context.stroke(frame, with: .color(.black.opacity(0.12)), lineWidth: line)
     }
 
-    private static func cardDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        formatter.dateFormat = "dd MM yyyy"
-        return formatter.string(from: date)
-    }
 
-    static func accessibilityLabel(_ card: CardSlot) -> String {
-        if let problem = card.problem { return "\(card.certificate?.holder ?? card.reader), \(problem)" }
-        guard let cert = card.certificate else { return L10n.text(.ui_card_in_value_reading, card.reader) }
-        let until = cert.notAfter.map { $0.formatted(date: .abbreviated, time: .omitted) } ?? "—"
-        return L10n.text(.ui_value_identity_card_valid_until_value, cert.holder, until)
-    }
 }
 
 /// Rounded rectangle whose corner radius follows the width (ID-1 corners scale with the card).

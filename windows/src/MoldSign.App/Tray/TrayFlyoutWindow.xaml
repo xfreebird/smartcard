@@ -35,7 +35,7 @@
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center" Spacing="2">
                 <TextBlock Style="{StaticResource MsHeadlineTextStyle}" Text="eSemnBun" />
-                <controls:StatusLightPill />
+                <controls:StatusLightPill Label="{x:Bind State.LightLabel, Mode=OneWay}" DotBrush="{x:Bind State.LightBrush, Mode=OneWay}" DotVisibility="{x:Bind State.LightDotVisibility, Mode=OneWay}" />
                 <TextBlock Text="{x:Bind State.DemoDisclaimer, Mode=OneWay}" MaxWidth="260" TextWrapping="Wrap"
                     Style="{StaticResource MsCaptionTextStyle}" Visibility="{x:Bind State.DemoVisibility, Mode=OneWay}" />
             </StackPanel>
@@ -60,7 +60,7 @@
         </Grid>
 
         <!-- Card wallet: the inserted cards are the selector (docs/10 §0.2) -->
-        <controls:CardWallet x:Name="Wallet" Grid.Row="1" IsCompact="True" />
+        <controls:CardWallet Wallet="{x:Bind State.WalletContent, Mode=OneWay}" CardSelected="OnCardSelected" x:Name="Wallet" Grid.Row="1" IsCompact="True" />
 
         <Grid Grid.Row="2" ColumnSpacing="8">
             <Grid.ColumnDefinitions>

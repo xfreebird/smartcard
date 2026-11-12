@@ -175,7 +175,7 @@ final class CardWallet {
             if !items.isEmpty { rebuild([]) }
             expanded = false
             lastSelected = nil
-            placeholder.show(status: c.status, retry: { [weak self] in self?.controller.retryCard() })
+            placeholder.show(content: .init(status: c.status), retry: { [weak self] in self?.controller.retryCard() })
             gtk_stack_set_visible_child_name(stack, "placeholder")
             return
         }
@@ -220,8 +220,8 @@ final class CardWallet {
         let busy = controller.isSigning || controller.bridgeSigning
         for (index, (item, card)) in zip(items, cards).enumerated() {
             let isSelected = card.reader == selected
-            item.update(card, index: index, count: cards.count, busy: busy && isSelected,
-                        selected: isSelected, expanded: true)
+            item.update(.init(card: card, index: index, count: cards.count, busy: busy && isSelected,
+                        selected: isSelected, expanded: true))
             item.setRevealed(true, animated: false)
         }
     }

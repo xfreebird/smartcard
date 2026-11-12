@@ -31,7 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.app.R
 import md.moldsign.app.ui.components.DocumentPickZone
-import md.moldsign.app.ui.components.DocumentRow
+import md.moldsign.app.ui.features.DocumentRow
 import md.moldsign.app.ui.theme.Tokens
 
 @Composable

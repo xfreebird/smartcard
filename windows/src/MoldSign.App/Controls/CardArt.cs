@@ -1,6 +1,6 @@
 using Windows.UI;
 
-namespace MoldSign.App.Services;
+namespace MoldSign.App.Controls;
 
 /// <summary>
 /// Fixed colors of the ID-card illustration (docs/10 §0.2b, UX-09). They depict a physical object, so they are the

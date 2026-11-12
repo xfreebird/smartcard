@@ -24,7 +24,7 @@ exit, and resumes normal behavior on the next reader/card insertion.
 
 ## Implementation boundaries
 
-- `DesignSystem/DemoModeSettings.swift`: shared native toggle, disclaimer, banner.
+- `Screens/Components/DemoModeSettings.swift`: shared native toggle, disclaimer, banner.
 - `Services/Demo/DemoHardwareGate.swift`: synchronous connection/transition interlock.
 - `Services/Demo/DemoDocumentFiles.swift`: deterministic unsigned PDF/sample inputs.
 - `Services/Demo/DemoServices.swift`: injectable demo-session provider; `DemoDocumentSigner.swift`, `DemoDocumentVerifier.swift` and `GatedCardTransport.swift` contain the individual adapters.

@@ -1,4 +1,6 @@
-package md.moldsign.app.ui.components
+package md.moldsign.app.ui.features
+
+import md.moldsign.app.ui.components.*
 
 import md.moldsign.app.hostActivity
 

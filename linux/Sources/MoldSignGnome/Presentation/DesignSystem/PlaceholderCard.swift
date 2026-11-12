@@ -62,25 +62,10 @@ final class PlaceholderCard {
         gtk_widget_queue_draw(area)
     }
 
-    /// Picks the placeholder for a no-card status (`.noReader`, `.empty`, `.error`).
-    func show(status: ReaderStatus, retry: (() -> Void)?) {
-        let next: CardArt.Placeholder
-        let titleText: String
-        let captionText: String
-        switch status {
-        case .error(let message, let recovery):
-            next = .error
-            titleText = message
-            captionText = recovery
-        case .empty(let reader):
-            next = .insertCard
-            titleText = L10n.text(.linux_insert_card)
-            captionText = reader
-        default:
-            next = .noReader
-            titleText = L10n.text(.ui_connect_the_reader)
-            captionText = L10n.text(.ui_usb_smart_card_reader_e_g_bit4id_minilector)
-        }
+    func show(content: PlaceholderContent, retry: (() -> Void)?) {
+        let next = content.kind
+        let titleText = content.title
+        let captionText = content.caption
         self.retry = retry
         if next != kind {
             kind = next
