@@ -18,7 +18,7 @@ Add files, choose the format and stamp, approve and save the output.
 
 Open Sign and choose files from Files or a cloud provider. Download cloud-only documents first if access fails. You can also send files from another app through its share sheet to the eSemnBun extension. Expand the file list, inspect each name, remove unintended files from its options, and choose the requested format. PDFs use PAdES-T; other files use XAdES. Detached XML must travel with its unchanged original. XAdES-BES has no timestamp, T adds one, and C adds certificate/status references. Enveloping XML includes its source content. Timestamped signing requires the public trust services.
 
-<GuideScreenshot src="/img/guide/iphone/en/sign.png" alt="Confirm the selected holder before signing." steps={[{"text": "Confirm the selected holder before signing.", "x": 31, "y": 27}, {"text": "Choose files, or add more documents to the current queue.", "x": 29, "y": 69}, {"text": "Expand the queue, then open an individual file’s options to choose its format, stamp or removal.", "x": 78, "y": 53}, {"text": "Choose Sign only after reviewing the complete queue.", "x": 78, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/en/sign.png" alt="Confirm the selected holder before signing." steps={[{"text": "Confirm the selected holder before signing.", "x": 45, "y": 28}, {"text": "Choose files, or add more documents to the current queue.", "x": 50, "y": 69}, {"text": "Expand the queue, then open an individual file’s options to choose its format, stamp or removal.", "x": 78, "y": 53}, {"text": "Review the complete queue, then tap the floating Sign button near the bottom.", "x": 68, "y": 85.5}]} />
 
 ## Place a visible stamp in a PDF
 

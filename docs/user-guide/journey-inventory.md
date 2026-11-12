@@ -94,6 +94,15 @@ MCP requires operator-selected physical roots, no symlink/traversal grant, no PI
 
 ## Capture hooks for platform agents
 
+### 2026-11-12 signing-action refresh
+
+Refresh G03/G04/G06/G07/G08/G09 signing-flow images for native iPhone and iPad in English,
+Romanian and Russian. The primary Sign action now floats above the bottom safe area; updated
+callouts must point to that visible action and retain the complete viewport on iPad. Include
+card selection, stamp, consent/PIN, progress, completion and failed-item screens that show the
+signing workspace or its native actions. Use the validated Debug build, isolated fictional fixtures
+and per-asset capture provenance; these images do not establish real-card signing.
+
 ### Apple
 
 Authoritative capture driver: `apple/scripts/capture-screenshots.sh macos|ios APP_PATH OUTPUT_DIR [SIMULATOR_UDID]`. It requires Debug binary. Set `MSIGN_CAPTURE_LANGUAGE=en|ro|ru` and optionally `MSIGN_CAPTURE_THEMES=light` for localized documentation captures. Keep dedicated simulator IDs/preferences suites.

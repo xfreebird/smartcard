@@ -27,3 +27,12 @@ Windows desktop captures are recorded in `windows-evidence.json`; `windows-panel
 Current refresh: 231 focused task pages and 546 numbered panels. The 8 November settings/stamp refresh captured 54 native images in English, Romanian and Russian across all seven app forms; 48 PNG assets changed and six recaptures were pixel-identical. Per-asset evidence identifies current Debug fixtures and their limits. Native images do not establish real MCP signing or credential-provider authorization.
 
 File-protection guides cover password encryption/decryption in every native app and retained certificate compatibility commands in the desktop CLIs. The 10 November refresh removes unavailable native certificate/card tasks and contains 327 focused localized pages and 702 numbered panels. All 96 native protection screenshots were refreshed separately in English, Romanian and Russian. `file-protection-evidence.json` records hashes, dimensions, binaries and evidence limits. Follow [the protection refresh checklist](file-protection-refresh.md) for future captures. Numbered anchors and connecting lines stay entirely in the reserved image gutters, including enlarged views. Never place annotation pixels over application content.
+
+The 12 November iOS signing-action refresh replaces 48 native screenshots: eight signing states on
+both iPhone and iPad, separately captured in English, Romanian and Russian. The signing instructions
+point to the floating bottom action. These iPad images retain the full native viewport, including
+sheet backgrounds and the bottom action. `ios-signing-refresh-evidence.json` records the exact
+validated Debug binary, image hashes and fixture limitations; the existing mobile manifests retain
+current per-asset provenance. To refresh only these panels without replacing newer guide prose, run
+`python3 scripts/documentation/generate-apple-mobile-guides.py --only-screenshots sign,cards,stamp,consent,pin,progress,success,file-error`,
+then regenerate the focused task pages. Importing the panel generator no longer rewrites guides.

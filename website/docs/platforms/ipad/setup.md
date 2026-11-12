@@ -25,7 +25,7 @@ The signing certificate is read without a PIN. An empty-reader prompt means the 
 
 When several cards are connected, swipe the card carousel to centre the intended holder. The selected card is used for the operation. Open Card to check the certificate or re-read the card after reconnecting it. The neutral portrait is an illustration, not a photograph read from the ID.
 
-<GuideScreenshot src="/img/guide/ipad/en/cards.png" alt="Swipe the card carousel to choose the intended holder." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 20.0, "y": 42.9}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 73.0, "y": 11.9}]} />
+<GuideScreenshot src="/img/guide/ipad/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 20, "y": 18}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 73, "y": 5}]} />
 <GuideScreenshot src="/img/guide/ipad/en/card.png" alt="Check the holder, certificate validity and connected reader." steps={[{"text": "Check the holder, certificate validity and connected reader.", "x": 7, "y": 37}, {"text": "Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.", "x": 95, "y": 5}]} />
 
 ## Use iPad windows and Files alongside signing

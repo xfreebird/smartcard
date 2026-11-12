@@ -6,8 +6,8 @@
       "locale": "en",
       "name": "stamp",
       "path": "website/static/img/guide/iphone/en/stamp.png",
-      "sha256": "16b7ddd63b2c09c9c6d18fe1787687eb2dc1d6eb02690e179eae10c889d9bf69",
-      "rawSha256": "16b7ddd63b2c09c9c6d18fe1787687eb2dc1d6eb02690e179eae10c889d9bf69",
+      "sha256": "ae67eec5f16ef7c32f4d94637f993fbcd407cec7b41bda365a2f3728b5dbb9c3",
+      "rawSha256": "ae67eec5f16ef7c32f4d94637f993fbcd407cec7b41bda365a2f3728b5dbb9c3",
       "dimensions": [
         1206,
         2622
@@ -17,15 +17,23 @@
         2622
       ],
       "cropPixels": null,
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
-      "sourceIncludesWorkingTree": true,
+      "sourceCommit": "7d9a5a6a5eaeb6fde700fcf7565b450241ee4759",
+      "sourceIncludesWorkingTree": false,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "MacBook Air",
-      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
-      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
+      "binarySha256": "3ad543c29e9ebb147a70239b8e39f7088d2b847c88da0d72ef8a8f8358e0b6b2",
+      "debugDylibSha256": "48b4e9c4f5d7098ec48108b2991cddb0581f3a8ee4fda535e25fe448819eb473",
+      "scenario": "ready",
+      "tab": "sign",
+      "date": "2026-11-12",
+      "device": "0372B895-0627-4C38-B023-7ABCB18F4ADE",
+      "deviceName": "iPhone 16 Pro",
+      "runtime": "iOS 27.0",
+      "builtSourceCommit": "4c9a006ed667df1caae4cc6b07fd1184e5825822",
+      "assetSha256": "ae67eec5f16ef7c32f4d94637f993fbcd407cec7b41bda365a2f3728b5dbb9c3"
     },
     {
       "platform": "iphone",
@@ -58,8 +66,8 @@
       "locale": "ro",
       "name": "stamp",
       "path": "website/static/img/guide/iphone/ro/stamp.png",
-      "sha256": "601317d840498e5b737ce036547e3a334b49d37252589d292e5719dca44d68bb",
-      "rawSha256": "601317d840498e5b737ce036547e3a334b49d37252589d292e5719dca44d68bb",
+      "sha256": "30c5947de7c5e012f963350e12eb6513606720ba8aea0754a3d5266334ae3622",
+      "rawSha256": "30c5947de7c5e012f963350e12eb6513606720ba8aea0754a3d5266334ae3622",
       "dimensions": [
         1206,
         2622
@@ -69,15 +77,23 @@
         2622
       ],
       "cropPixels": null,
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
-      "sourceIncludesWorkingTree": true,
+      "sourceCommit": "7d9a5a6a5eaeb6fde700fcf7565b450241ee4759",
+      "sourceIncludesWorkingTree": false,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "MacBook Air",
-      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
-      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
+      "binarySha256": "3ad543c29e9ebb147a70239b8e39f7088d2b847c88da0d72ef8a8f8358e0b6b2",
+      "debugDylibSha256": "48b4e9c4f5d7098ec48108b2991cddb0581f3a8ee4fda535e25fe448819eb473",
+      "scenario": "ready",
+      "tab": "sign",
+      "date": "2026-11-12",
+      "device": "0372B895-0627-4C38-B023-7ABCB18F4ADE",
+      "deviceName": "iPhone 16 Pro",
+      "runtime": "iOS 27.0",
+      "builtSourceCommit": "4c9a006ed667df1caae4cc6b07fd1184e5825822",
+      "assetSha256": "30c5947de7c5e012f963350e12eb6513606720ba8aea0754a3d5266334ae3622"
     },
     {
       "platform": "iphone",
@@ -110,8 +126,8 @@
       "locale": "ru",
       "name": "stamp",
       "path": "website/static/img/guide/iphone/ru/stamp.png",
-      "sha256": "28f9eb2dab758105c96ce967f3564abecb0c2f088ae463cc64f17e03188de846",
-      "rawSha256": "28f9eb2dab758105c96ce967f3564abecb0c2f088ae463cc64f17e03188de846",
+      "sha256": "775d5d294d5cd160e20c5fb8f7dc2a3814d5d2d6eb68ad863037db7cc4a8d6ec",
+      "rawSha256": "775d5d294d5cd160e20c5fb8f7dc2a3814d5d2d6eb68ad863037db7cc4a8d6ec",
       "dimensions": [
         1206,
         2622
@@ -121,15 +137,23 @@
         2622
       ],
       "cropPixels": null,
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
-      "sourceIncludesWorkingTree": true,
+      "sourceCommit": "7d9a5a6a5eaeb6fde700fcf7565b450241ee4759",
+      "sourceIncludesWorkingTree": false,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "MacBook Air",
-      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
-      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
+      "binarySha256": "3ad543c29e9ebb147a70239b8e39f7088d2b847c88da0d72ef8a8f8358e0b6b2",
+      "debugDylibSha256": "48b4e9c4f5d7098ec48108b2991cddb0581f3a8ee4fda535e25fe448819eb473",
+      "scenario": "ready",
+      "tab": "sign",
+      "date": "2026-11-12",
+      "device": "0372B895-0627-4C38-B023-7ABCB18F4ADE",
+      "deviceName": "iPhone 16 Pro",
+      "runtime": "iOS 27.0",
+      "builtSourceCommit": "4c9a006ed667df1caae4cc6b07fd1184e5825822",
+      "assetSha256": "775d5d294d5cd160e20c5fb8f7dc2a3814d5d2d6eb68ad863037db7cc4a8d6ec"
     },
     {
       "platform": "iphone",
@@ -162,31 +186,34 @@
       "locale": "en",
       "name": "stamp",
       "path": "website/static/img/guide/ipad/en/stamp.png",
-      "sha256": "3ccaf84ec78888c16e95d9452ca7416bef6f087224798347294127cb2484ed5c",
-      "rawSha256": "e7c6be4f25a24bc57de88d69aa75481e90b07643ddea27fdc6fe29341d9b70d8",
+      "sha256": "b9efe9121054a9e3456e5b5b64d37674381e45ef43305a9daadae2c77a7439d3",
+      "rawSha256": "b9efe9121054a9e3456e5b5b64d37674381e45ef43305a9daadae2c77a7439d3",
       "dimensions": [
-        1444,
-        1569
+        1668,
+        2420
       ],
       "sourceDimensions": [
-        2064,
-        2752
+        1668,
+        2420
       ],
-      "cropPixels": [
-        310,
-        633,
-        1754,
-        2202
-      ],
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
-      "sourceIncludesWorkingTree": true,
+      "cropPixels": null,
+      "sourceCommit": "7d9a5a6a5eaeb6fde700fcf7565b450241ee4759",
+      "sourceIncludesWorkingTree": false,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "MacBook Air",
-      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
-      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
+      "binarySha256": "3ad543c29e9ebb147a70239b8e39f7088d2b847c88da0d72ef8a8f8358e0b6b2",
+      "debugDylibSha256": "48b4e9c4f5d7098ec48108b2991cddb0581f3a8ee4fda535e25fe448819eb473",
+      "scenario": "ready",
+      "tab": "sign",
+      "date": "2026-11-12",
+      "device": "D06C1BED-7B1E-4DD4-8C9C-50690EE8109F",
+      "deviceName": "iPad Pro 11-inch (M5)",
+      "runtime": "iOS 27.0",
+      "builtSourceCommit": "4c9a006ed667df1caae4cc6b07fd1184e5825822",
+      "assetSha256": "b9efe9121054a9e3456e5b5b64d37674381e45ef43305a9daadae2c77a7439d3"
     },
     {
       "platform": "ipad",
@@ -224,31 +251,34 @@
       "locale": "ro",
       "name": "stamp",
       "path": "website/static/img/guide/ipad/ro/stamp.png",
-      "sha256": "c01ed72d7a06bb75a33bb3e98b78c57005ea7ab551bde0353d055424bf73868b",
-      "rawSha256": "9937e80f139abfd16694d43e1da6a23490db1d7f1cadf2c4fab929d123724ad9",
+      "sha256": "43d929b29d9050381bef9b898d52cfbf0a5d5700c2f80af985d69cb1ac1fe0c9",
+      "rawSha256": "43d929b29d9050381bef9b898d52cfbf0a5d5700c2f80af985d69cb1ac1fe0c9",
       "dimensions": [
-        1444,
-        1569
+        1668,
+        2420
       ],
       "sourceDimensions": [
-        2064,
-        2752
+        1668,
+        2420
       ],
-      "cropPixels": [
-        310,
-        633,
-        1754,
-        2202
-      ],
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
-      "sourceIncludesWorkingTree": true,
+      "cropPixels": null,
+      "sourceCommit": "7d9a5a6a5eaeb6fde700fcf7565b450241ee4759",
+      "sourceIncludesWorkingTree": false,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "MacBook Air",
-      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
-      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
+      "binarySha256": "3ad543c29e9ebb147a70239b8e39f7088d2b847c88da0d72ef8a8f8358e0b6b2",
+      "debugDylibSha256": "48b4e9c4f5d7098ec48108b2991cddb0581f3a8ee4fda535e25fe448819eb473",
+      "scenario": "ready",
+      "tab": "sign",
+      "date": "2026-11-12",
+      "device": "D06C1BED-7B1E-4DD4-8C9C-50690EE8109F",
+      "deviceName": "iPad Pro 11-inch (M5)",
+      "runtime": "iOS 27.0",
+      "builtSourceCommit": "4c9a006ed667df1caae4cc6b07fd1184e5825822",
+      "assetSha256": "43d929b29d9050381bef9b898d52cfbf0a5d5700c2f80af985d69cb1ac1fe0c9"
     },
     {
       "platform": "ipad",
@@ -286,31 +316,34 @@
       "locale": "ru",
       "name": "stamp",
       "path": "website/static/img/guide/ipad/ru/stamp.png",
-      "sha256": "6fd14e717ba095823f10747aa4b0e597c45525de3e9849f9db877b183eca82c9",
-      "rawSha256": "21a6460f220119c18024794336c36fec0f96ba656a699c091fd36fe74938c52f",
+      "sha256": "37bf3900d6cb91a787ececdc3c76cac60d3b718a3143c404e6bf52a9140869a5",
+      "rawSha256": "37bf3900d6cb91a787ececdc3c76cac60d3b718a3143c404e6bf52a9140869a5",
       "dimensions": [
-        1444,
-        1569
+        1668,
+        2420
       ],
       "sourceDimensions": [
-        2064,
-        2752
+        1668,
+        2420
       ],
-      "cropPixels": [
-        310,
-        633,
-        1754,
-        2202
-      ],
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
-      "sourceIncludesWorkingTree": true,
+      "cropPixels": null,
+      "sourceCommit": "7d9a5a6a5eaeb6fde700fcf7565b450241ee4759",
+      "sourceIncludesWorkingTree": false,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "MacBook Air",
-      "binarySha256": "a8a03b45499870259e1625435acf1a08351d7e23d44ab9c3ee8b0f746c025edd",
-      "debugDylibSha256": "a45fd12c24f0335c3323052927422b9d92c395001a828911c27cc9f14dd60a76"
+      "binarySha256": "3ad543c29e9ebb147a70239b8e39f7088d2b847c88da0d72ef8a8f8358e0b6b2",
+      "debugDylibSha256": "48b4e9c4f5d7098ec48108b2991cddb0581f3a8ee4fda535e25fe448819eb473",
+      "scenario": "ready",
+      "tab": "sign",
+      "date": "2026-11-12",
+      "device": "D06C1BED-7B1E-4DD4-8C9C-50690EE8109F",
+      "deviceName": "iPad Pro 11-inch (M5)",
+      "runtime": "iOS 27.0",
+      "builtSourceCommit": "4c9a006ed667df1caae4cc6b07fd1184e5825822",
+      "assetSha256": "37bf3900d6cb91a787ececdc3c76cac60d3b718a3143c404e6bf52a9140869a5"
     },
     {
       "platform": "ipad",
@@ -504,5 +537,13 @@
     "Fictional native Debug fixtures; no PIN, real reader or credential access.",
     "macOS compiled on Air and development-signed on Main with smart-card entitlements retained.",
     "Source includes uncommitted localization/settings/MCP changes; original evidence remains on unchanged assets."
+  ],
+  "refreshes": [
+    {
+      "date": "2026-11-12",
+      "scope": "iOS signing actions",
+      "updatedRecords": 6,
+      "evidence": "ios-signing-refresh-evidence.json"
+    }
   ]
 }

@@ -44,7 +44,8 @@ for lang in ['en','ro','ru']:
    if proc.poll() is not None:break
   if not ready:
    proc.terminate();raise RuntimeError('not ready '+name+''.join(lines)[-2000:])
-  time.sleep(2.5 if name in ['stamp','settings','details','certificate','pin','consent'] else 1.3)
+  # Fixture readiness precedes SwiftUI's first rendered frame on a freshly booted device.
+  time.sleep(10 if not records else 5)
   path=folder/(name+'.png')
   subprocess.run(['xcrun','simctl','io',args.device,'screenshot',str(path)],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
   records.append({'locale':lang,'name':name,'scenario':scenario,'tab':tab,'readiness':'MSIGN_DEMO_READY','sha256':hashlib.sha256(path.read_bytes()).hexdigest()})

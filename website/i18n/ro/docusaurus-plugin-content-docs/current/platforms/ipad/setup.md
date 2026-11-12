@@ -25,7 +25,7 @@ Certificatul de semnare este citit fără PIN. Mesajul despre cititorul gol indi
 
 Dacă sunt conectate mai multe carduri, glisează caruselul pentru a centra titularul dorit. Cardul selectat este folosit la operație. Deschide Card pentru certificat sau pentru recitire după reconectare. Portretul neutru este o ilustrație, nu fotografia citită din act.
 
-<GuideScreenshot src="/img/guide/ipad/ro/cards.png" alt="Glisează caruselul pentru a alege titularul dorit." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Glisează caruselul pentru a alege titularul dorit.", "x": 20.0, "y": 42.9}, {"text": "Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.", "x": 73.0, "y": 11.9}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/cards.png" alt="Glisează caruselul pentru a alege titularul dorit." steps={[{"text": "Glisează caruselul pentru a alege titularul dorit.", "x": 20, "y": 18}, {"text": "Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.", "x": 73, "y": 5}]} />
 <GuideScreenshot src="/img/guide/ipad/ro/card.png" alt="Verifică titularul, valabilitatea certificatului și cititorul." steps={[{"text": "Verifică titularul, valabilitatea certificatului și cititorul.", "x": 7, "y": 37}, {"text": "Recitește după corectarea conexiunii; ștergerea PIN-ului salvat nu schimbă PIN-ul cardului.", "x": 95, "y": 5}]} />
 
 ## Folosește ferestrele iPad și Fișiere alături de semnare

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Rebuild localized mobile how-to pages from reviewed native screenshot callouts."""
-import json
+import argparse, json, re
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 L={
@@ -13,7 +13,7 @@ L={
 'cardsSteps':['Swipe the card carousel to choose the intended holder.','Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.'],
 'cardSteps':['Check the holder, certificate validity and connected reader.','Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.'],
 'signTitle':'Add documents and choose a signature format','signBody':'Open Sign and choose files from Files or a cloud provider. Download cloud-only documents first if access fails. You can also send files from another app through its share sheet to the eSemnBun extension. Expand the file list, inspect each name, remove unintended files from its options, and choose the requested format. PDFs use PAdES-T; other files use XAdES. Detached XML must travel with its unchanged original. XAdES-BES has no timestamp, T adds one, and C adds certificate/status references. Enveloping XML includes its source content. Timestamped signing requires the public trust services.',
-'signSteps':['Confirm the selected holder before signing.','Choose files, or add more documents to the current queue.','Expand the queue, then open an individual file’s options to choose its format, stamp or removal.','Choose Sign only after reviewing the complete queue.'],
+'signSteps':['Confirm the selected holder before signing.','Choose files, or add more documents to the current queue.','Expand the queue, then open an individual file’s options to choose its format, stamp or removal.','Review the complete queue, then tap the floating Sign button near the bottom.'],
 'stampTitle':'Place a visible stamp in a PDF','stampBody':'Open a queued PDF’s options and choose Add/Edit stamp. A visible stamp is optional artwork; the cryptographic signature remains the actual signing proof. Position the stamp away from existing text. Stamp text follows the selected app language (Romanian, English or Russian).',
 'stampSteps':['Drag the stamp to move it; drag its corner handles to resize it.','Select the page and choose Off, One page or All pages.','Optionally apply the placement to all queued PDFs, then choose Apply.'],
 'approveTitle':'Review the request and authorize signing','approveBody':'For website requests, inspect the requesting origin and the whole document list before allowing the operation. Cancel unexpected requests. For a local batch, review the queued documents and PIN sheet. Each new batch needs approval; a batch session covers only the listed documents and selected card.',
@@ -60,7 +60,7 @@ L={
 'cardsSteps':['Glisează caruselul pentru a alege titularul dorit.','Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.'],
 'cardSteps':['Verifică titularul, valabilitatea certificatului și cititorul.','Recitește după corectarea conexiunii; ștergerea PIN-ului salvat nu schimbă PIN-ul cardului.'],
 'signTitle':'Adaugă documente și alege formatul semnăturii','signBody':'Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. Descarcă întâi documentele disponibile doar în cloud dacă accesul eșuează. Poți trimite fișiere și din meniul de partajare al altei aplicații către extensia eSemnBun. Extinde lista, verifică numele, elimină fișierele nedorite din opțiunile lor și alege formatul cerut. PDF-urile folosesc PAdES-T; celelalte fișiere folosesc XAdES. XML-ul detașat trebuie păstrat împreună cu originalul nemodificat. XAdES-BES nu are marcă temporală, T o adaugă, iar C include referințe la certificate și stare. XML-ul încorporat include conținutul original. Formatele cu marcă temporală necesită serviciile publice de încredere.',
-'signSteps':['Confirmă titularul selectat înainte de semnare.','Alege fișiere sau adaugă alte documente în listă.','Extinde lista și deschide opțiunile unui fișier pentru format, ștampilă sau eliminare.','Apasă Semnează numai după verificarea întregii liste.'],
+'signSteps':['Confirmă titularul selectat înainte de semnare.','Alege fișiere sau adaugă alte documente în listă.','Extinde lista și deschide opțiunile unui fișier pentru format, ștampilă sau eliminare.','Verifică întreaga listă, apoi apasă butonul flotant Semnează din partea de jos.'],
 'stampTitle':'Plasează o ștampilă vizibilă într-un PDF','stampBody':'Deschide opțiunile unui PDF și alege Adaugă/Editează ștampila. Ștampila vizibilă este opțională; dovada semnării rămâne semnătura criptografică. Evită acoperirea textului existent. Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).',
 'stampSteps':['Trage ștampila pentru mutare și colțurile pentru redimensionare.','Alege pagina și modul Oprit, O pagină sau Toate paginile.','Opțional, aplică poziția tuturor PDF-urilor din listă, apoi apasă Aplică.'],
 'approveTitle':'Verifică cererea și autorizează semnarea','approveBody':'Pentru o cerere de pe un site, verifică originea și întreaga listă de documente înainte de acceptare. Anulează cererile neașteptate. Pentru un lot local, verifică lista și fereastra PIN. Fiecare lot nou necesită aprobare; sesiunea acoperă doar documentele afișate și cardul ales.',
@@ -107,7 +107,7 @@ L={
 'cardsSteps':['Проведите по карусели и выберите нужного владельца.','Откройте Карту для сертификата и считывателя; используйте меню дополнительных вкладок, если Карта скрыта.'],
 'cardSteps':['Проверьте владельца, срок сертификата и считыватель.','Повторите чтение после исправления подключения; удаление сохранённого PIN не меняет PIN карты.'],
 'signTitle':'Добавьте документы и выберите формат подписи','signBody':'Откройте Подписать и выберите файлы в Файлах или облачном хранилище. Если доступ к облачному документу не удался, сначала загрузите его. Можно также отправить файлы из меню «Поделиться» другого приложения в расширение eSemnBun. Разверните список, проверьте имена, удалите лишнее через параметры файла и выберите нужный формат. PDF использует PAdES-T, другие файлы — XAdES. Отделённый XML нужно хранить с неизменённым оригиналом. XAdES-BES не содержит метку времени, T добавляет её, C включает ссылки на сертификаты и статус. Включённый XML содержит исходный документ. Форматы с меткой времени требуют публичных служб доверия.',
-'signSteps':['Проверьте выбранного владельца перед подписанием.','Выберите файлы или добавьте документы в текущий список.','Разверните список и откройте параметры файла для формата, штампа или удаления.','Нажмите Подписать после проверки всего списка.'],
+'signSteps':['Проверьте выбранного владельца перед подписанием.','Выберите файлы или добавьте документы в текущий список.','Разверните список и откройте параметры файла для формата, штампа или удаления.','Проверьте весь список, затем нажмите плавающую кнопку Подписать внизу.'],
 'stampTitle':'Разместите видимый штамп в PDF','stampBody':'Откройте параметры PDF и выберите добавление или редактирование штампа. Видимый штамп необязателен; доказательством подписи остаётся криптографическая подпись. Не закрывайте существующий текст. Текст штампа соответствует выбранному языку приложения: румынскому, английскому или русскому.',
 'stampSteps':['Перемещайте штамп перетаскиванием, меняйте размер за углы.','Выберите страницу и режим Выкл., Одна страница или Все страницы.','При необходимости примените размещение ко всем PDF в очереди, затем нажмите Применить.'],
 'approveTitle':'Проверьте запрос и разрешите подписание','approveBody':'Для запроса сайта проверьте источник и весь список документов перед разрешением. Отменяйте неожиданные запросы. Для локального пакета проверьте очередь и окно PIN. Каждый новый пакет требует подтверждения; сеанс относится только к показанным документам и выбранной карте.',
@@ -147,8 +147,8 @@ L={
 }}
 # Coordinates reviewed against clean native captures; per-form overrides are applied below.
 COORDS={
-'connect':[(25,28)],'empty-reader':[(25,29)],'sign':[(31,27),(29,69),(78,53),(78,9)],
-'cards':[(28,27),(90,94)],'card':[(6,50),(90,9)],'stamp':[(30,61),(25,86),(87,12)],
+'connect':[(25,28)],'empty-reader':[(25,29)],'sign':[(45,28),(50,69),(78,53),(68,85.5)],
+'cards':[(28,27),(84,94)],'card':[(6,50),(90,9)],'stamp':[(30,61),(25,86),(87,12)],
 'consent':[(16,52),(86,91)],'pin':[(49,23),(8,34),(86,40),(88,63)],
 'progress':[(10,45)],'success':[(35,49)],'file-error':[(50,72)],
 'verify':[(26,24),(8,48)],'certificate':[(9,87)],'incomplete':[(8,50),(8,55)],
@@ -157,23 +157,22 @@ COORDS={
 'history':[(91,29),(80,9)],'browser':[(8,15),(88,9),(77,9),(18,87)],
 'settings':[(95,29),(86,65),(68,12)]}
 IPAD_COORDS={
-'connect':[(10,16)],'empty-reader':[(10,17)],'sign':[(12,15),(79,30),(93,16),(10,28)],
+'connect':[(10,16)],'empty-reader':[(10,17)],'sign':[(20,16),(85,30),(93,16),(85,95)],
 'cards':[(20,18),(73,5)],'card':[(7,37),(95,5)],'stamp':[(42,55),(25,70),(79,26)],
-'consent':[(20,50),(79,74)],'pin':[(50,19),(30,27),(73,31),(94,70)],
-'progress':[(9,33)],'success':[(9,29)],'file-error':[(47,19)],
+'consent':[(20,50),(79,74)],'pin':[(50,21),(30,28),(73,32.5),(94,70)],
+'progress':[(9,26.5)],'success':[(9,29)],'file-error':[(47,19)],
 'verify':[(37,15),(11,33)],'certificate':[(13,59)],'incomplete':[(20,33),(10,35)],
 'invalid':[(13,27)],'untrusted':[(13,27)],'unsigned':[(13,27)],
 'documents':[(7,22),(97,5)],'details':[(22,40),(19,49),(80,26)],
 'history':[(74,14),(91,5)],'browser':[(5,8),(97,5),(91,5),(6,97)],
 'settings':[(19,38),(78,63),(80,26)]}
 IPAD_CROPS={
-'connect':(0,0,1,.29),'empty-reader':(0,0,1,.29),'sign':(0,0,1,.40),
-'cards':(0,0,1,.42),'progress':(0,0,1,.40),'file-error':(0,0,1,.44),
-'success':(0,0,1,.70),'verify':(0,0,1,.41),'invalid':(0,0,1,.41),
+'connect':(0,0,1,.29),'empty-reader':(0,0,1,.29),
+'verify':(0,0,1,.41),'invalid':(0,0,1,.41),
 'untrusted':(0,0,1,.41),'incomplete':(0,0,1,.50),'unsigned':(0,0,1,.37),
 'documents':(0,0,1,.43),'history':(0,0,1,.43),
-'details':(.15,.22,.85,.56),'consent':(.15,.46,.85,.78),
-'settings':(.15,.23,.85,.80),'stamp':(.15,.23,.85,.80)}
+'details':(.15,.22,.85,.56),
+'settings':(.15,.23,.85,.80)}
 # Trim repeated instructions: the following native image shows the next state.
 for lang in L:
  L[lang]['emptySteps']=[L[lang]['connectSteps'][1]]
@@ -184,8 +183,14 @@ def shot(form,lang,name,stepkey,caption=None):
  if caption is None and form=='ipad' and name in IPAD_CROPS:
   caption={'en':'Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility.','ro':'Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate.','ru':'Родной портретный снимок iPad; пустое поле или пространство вокруг окна обрезано для читаемости.'}[lang]
  d=L[lang];coords=list((IPAD_COORDS if form=='ipad' else COORDS)[name]);steps=[]
- if form=='ipad' and lang=='ru' and name=='cards':coords[1]=(83,5)
+ if form=='ipad' and lang=='ru' and name=='cards':coords[1]=(78.5,4.5)
+ if form=='ipad' and lang=='ru' and name=='sign':coords[1]=(70,32.5)
+ if form=='iphone' and lang=='ru' and name=='sign':coords[1]=(50,71)
  for i,text in enumerate(d[stepkey]):
+  if form=='ipad' and name=='sign' and i==2:
+   text={'en':'Open an individual file’s options to choose its format, stamp or removal.',
+         'ro':'Deschide opțiunile unui fișier pentru format, ștampilă sau eliminare.',
+         'ru':'Откройте параметры файла для выбора формата, штампа или удаления.'}[lang]
   item={'text':text}
   if i<len(coords):
    x,y=coords[i]
@@ -230,5 +235,29 @@ def build(form,lang):
  key='ipad' if form=='ipad' else 'phone';out+=section(key)
  out+=section('help')+f'\n## {d["other"]}\n\n[iPhone](./ios.md) · [iPad](./ipad.md) · [macOS](./macos.md) · [Android](./android.md) · [Linux](./linux.md)\n'
  base=ROOT/'docs/user-guide/content'/lang;path=base/('ios.md' if form=='iphone' else 'ipad.md');path.parent.mkdir(parents=True,exist_ok=True);path.write_text(out)
-for form in ['iphone','ipad']:
- for lang in ['en','ro','ru']:build(form,lang)
+def refresh_screenshots(names):
+ """Replace selected panels without overwriting subsequently edited guide prose."""
+ keys={'sign':'signSteps','cards':'cardsSteps','stamp':'stampSteps',
+       'consent':'consentSteps','pin':'pinSteps','progress':'progressSteps',
+       'success':'successSteps','file-error':'errorSteps'}
+ unknown=set(names)-keys.keys()
+ if unknown: raise ValueError('Unknown screenshot names: '+','.join(sorted(unknown)))
+ for form in ['iphone','ipad']:
+  for lang in ['en','ro','ru']:
+   path=ROOT/'docs/user-guide/content'/lang/('ios.md' if form=='iphone' else 'ipad.md')
+   content=path.read_text()
+   for name in names:
+    pattern=rf'<GuideScreenshot src="/img/guide/{form}/{lang}/{name}\.png"[^\n]* />\n'
+    content,count=re.subn(pattern,lambda _:shot(form,lang,name,keys[name]),content)
+    if count!=1: raise ValueError(f'Expected one {name} panel in {path}, found {count}')
+   path.write_text(content)
+
+if __name__=='__main__':
+ parser=argparse.ArgumentParser(description=__doc__)
+ parser.add_argument('--only-screenshots',help='Comma-separated panel names; preserve all other content')
+ args=parser.parse_args()
+ if args.only_screenshots:
+  refresh_screenshots(args.only_screenshots.split(','))
+ else:
+  for form in ['iphone','ipad']:
+   for lang in ['en','ro','ru']:build(form,lang)

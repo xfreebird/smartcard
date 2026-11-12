@@ -1411,3 +1411,20 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   confirms all 34 native journeys, three storage/restart phases, 16 app and 21 USB tests pass;
   the 137-case core suite has no failures/errors and one existing opt-in live-TSA skip. Unchanged platforms
   retain the successful `43211044835` evidence. Commit validation publishes no application version.
+
+### 2026-11-12 — Localized iOS signing documentation
+
+- Refreshed 48 native signing-flow screenshots across iPhone/iPad and English, Romanian and Russian,
+  including card selection, the floating Sign action, stamp, consent, PIN, progress, completion and
+  document errors. iPad assets retain the complete viewport so the bottom action stays visible.
+- Updated the six canonical guides and 12 generated setup/signing pages with matching localized
+  instructions and reviewed callout positions. Retained all other canonical guide content.
+- Recorded binary identity, source equivalence, image hashes, dimensions and mock limitations in
+  `docs/user-guide/ios-signing-refresh-evidence.json`; updated existing per-asset evidence. Dedicated
+  guide simulators are shut down. No real reader, PIN or signing operation was used for these images.
+- Added targeted panel regeneration and removed import-time guide rewriting. Capture waits for the
+  first rendered frame after fixture readiness; the initial blank phone image was rejected and retaken.
+- Local validation: 48 image hashes/dimensions, 327 task pages/702 panels, 26 website tests, 56 CI guards,
+  all three production-configured locale builds and SEO checks pass before push. Enlarged guide images
+  were checked in Safari in each locale; the action remains visible and labels stay outside the UI. This documentation
+  change uses the existing Website deployment and validation CI; it does not publish an app version.

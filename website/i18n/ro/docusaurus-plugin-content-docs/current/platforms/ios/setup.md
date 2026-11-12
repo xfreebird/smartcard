@@ -25,7 +25,7 @@ Certificatul de semnare este citit fără PIN. Mesajul despre cititorul gol indi
 
 Dacă sunt conectate mai multe carduri, glisează caruselul pentru a centra titularul dorit. Cardul selectat este folosit la operație. Deschide Card pentru certificat sau pentru recitire după reconectare. Portretul neutru este o ilustrație, nu fotografia citită din act.
 
-<GuideScreenshot src="/img/guide/iphone/ro/cards.png" alt="Glisează caruselul pentru a alege titularul dorit." steps={[{"text": "Glisează caruselul pentru a alege titularul dorit.", "x": 28, "y": 27}, {"text": "Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.", "x": 90, "y": 94}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/cards.png" alt="Glisează caruselul pentru a alege titularul dorit." steps={[{"text": "Glisează caruselul pentru a alege titularul dorit.", "x": 28, "y": 27}, {"text": "Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.", "x": 84, "y": 94}]} />
 <GuideScreenshot src="/img/guide/iphone/ro/card.png" alt="Verifică titularul, valabilitatea certificatului și cititorul." steps={[{"text": "Verifică titularul, valabilitatea certificatului și cititorul.", "x": 6, "y": 50}, {"text": "Recitește după corectarea conexiunii; ștergerea PIN-ului salvat nu schimbă PIN-ul cardului.", "x": 90, "y": 9}]} />
 
 ## Folosește o fereastră iPhone mai mică sau mai largă

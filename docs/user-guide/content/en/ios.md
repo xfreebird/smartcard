@@ -21,14 +21,14 @@ The signing certificate is read without a PIN. An empty-reader prompt means the 
 
 When several cards are connected, swipe the card carousel to centre the intended holder. The selected card is used for the operation. Open Card to check the certificate or re-read the card after reconnecting it. The neutral portrait is an illustration, not a photograph read from the ID.
 
-<GuideScreenshot src="/img/guide/iphone/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 28, "y": 27}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 90, "y": 94}]} />
+<GuideScreenshot src="/img/guide/iphone/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 28, "y": 27}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 84, "y": 94}]} />
 <GuideScreenshot src="/img/guide/iphone/en/card.png" alt="Check the holder, certificate validity and connected reader." steps={[{"text": "Check the holder, certificate validity and connected reader.", "x": 6, "y": 50}, {"text": "Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.", "x": 90, "y": 9}]} />
 
 ## Add documents and choose a signature format
 
 Open Sign and choose files from Files or a cloud provider. Download cloud-only documents first if access fails. You can also send files from another app through its share sheet to the eSemnBun extension. Expand the file list, inspect each name, remove unintended files from its options, and choose the requested format. PDFs use PAdES-T; other files use XAdES. Detached XML must travel with its unchanged original. XAdES-BES has no timestamp, T adds one, and C adds certificate/status references. Enveloping XML includes its source content. Timestamped signing requires the public trust services.
 
-<GuideScreenshot src="/img/guide/iphone/en/sign.png" alt="Confirm the selected holder before signing." steps={[{"text": "Confirm the selected holder before signing.", "x": 31, "y": 27}, {"text": "Choose files, or add more documents to the current queue.", "x": 29, "y": 69}, {"text": "Expand the queue, then open an individual file’s options to choose its format, stamp or removal.", "x": 78, "y": 53}, {"text": "Choose Sign only after reviewing the complete queue.", "x": 78, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/en/sign.png" alt="Confirm the selected holder before signing." steps={[{"text": "Confirm the selected holder before signing.", "x": 45, "y": 28}, {"text": "Choose files, or add more documents to the current queue.", "x": 50, "y": 69}, {"text": "Expand the queue, then open an individual file’s options to choose its format, stamp or removal.", "x": 78, "y": 53}, {"text": "Review the complete queue, then tap the floating Sign button near the bottom.", "x": 68, "y": 85.5}]} />
 
 ## Place a visible stamp in a PDF
 
