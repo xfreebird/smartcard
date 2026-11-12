@@ -1388,10 +1388,16 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   appearance, unavailable/busy reader states and legacy browser touch targets. Local builds, 42 app
   tests, 56 guards and all 44 phone/tablet UI methods pass, plus eight iOS 18/26 compatibility checks.
   The phone verification suite passed an isolated rerun after a simulator launch timeout.
-  Local validation is complete before push; final hosted checks are pending.
+  Local validation completed before push. Hosted run `43211044835` passes all 44 iPhone/iPad methods
+  with zero skips, both protection/Documents postchecks, macOS, Linux, Windows and Swift checks.
 
 - The first hosted run exposed an Android result-clearing automation failure. Give that action an
   explicit identifier and require identifier-based clicks to target the enabled action owner;
   disabled controls never redirect clicks to an ancestor. Both APK builds, 16 app tests and two
   complete 34-journey native batches (including storage/restart checks) pass locally. The fix is
-  ready for hosted validation after the ongoing Apple run completes.
+  pushed as `15b7d5d` after Apple evidence readback. Hosted Android validation exposed an additional
+  one-way scrolling assumption. Add a regression that returns from the failed document to Clear
+  results; search in both directions and wait for accessibility layout stability before clicking.
+  Invalidate cached accessibility children before lookup so changed Compose identifiers are current.
+  Both APK builds, 16 app unit tests, 56 guards and two complete 34-journey local batches plus storage/
+  restart checks pass with the regression. Hosted validation of the final correction is pending.

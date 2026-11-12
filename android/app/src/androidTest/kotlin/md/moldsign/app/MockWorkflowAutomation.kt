@@ -28,7 +28,12 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
                     val saved = app.container.activity.signedDocuments.value.filter { it.title.contains("NOT-SIGNED") }
                     check(saved.size >= successes)
                     val count = app.container.activity.signedDocuments.value.size
-                    ui.clickIdAndAwait("sign.clearResults", "results hidden") { ui.text(output) == null }
+                    // The mixed result leaves a failed document below the results. Return to the
+                    // clear action from the bottom, as happens after reading that error on a phone.
+                    if (scenario == "mixed") ui.scrollToBottom()
+                    ui.clickIdAndAwait("sign.clearResults", "results hidden") {
+                        ui.id("sign.clearResults") == null && ui.text(output) == null
+                    }
                     check(app.container.activity.signedDocuments.value.size == count) { "Hiding results removed saved documents" }
                 }
                 if (scenario != "success") {

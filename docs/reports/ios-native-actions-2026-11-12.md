@@ -20,7 +20,8 @@ padding. Landscape evidence uses a complete display capture to avoid cropped win
 
 ## Validation
 
-The local gate passed before pushing. Hosted validation is pending.
+The local gate passed before pushing. Hosted Apple, Linux, Windows and Swift validation also passes
+on `4c9a006`; the Android follow-up is recorded below.
 
 - iOS Simulator (app and extensions) and macOS Debug builds pass.
 - The independent Apple design-system target and all 42 application tests pass.
@@ -40,7 +41,7 @@ The unchanged five-method verification suite then passed in isolation. An earlie
 correctly refused existing fixture profiles; complete fixture runs used reset task-created devices.
 No assertions were removed and no tests were skipped. The evidence summary retains the recovery.
 Local macOS UI automation was unavailable on the developer hosts; macOS builds and application tests
-passed, and the hosted native suite remains required. Its existing control appearance is preserved.
+passed, and all 11 hosted native UI methods pass. Its existing control appearance is preserved.
 
 Evidence is retained in `.local/ios-glass-local/` and the developer-host test directory. The final
 phone/tablet app binary SHA-256 is
@@ -49,6 +50,25 @@ phone/tablet app binary SHA-256 is
 All UI inputs and identities are fictional. These checks do not exercise a physical card or live PKI.
 Existing broader hardware/OS journey limits remain in the testing plan. Ordinary commits run
 validation and do not publish application versions.
+
+## Hosted native evidence
+
+[Run 43211044835](https://github.com/xfreebird/smartcard/actions/runs/43211044835) validates the Apple,
+Linux, Windows and Swift source in `4c9a006`. All those jobs pass. Its aggregate failed only because
+of the Android automation issue described below.
+
+- iPhone and iPad: all 44 expected methods pass with zero failures or skips. Both retained protection
+  proofs show two outputs, unchanged originals, private permissions and the exact restored-byte hash.
+  Both Documents migration/history/original-selection postchecks preserve every fixture byte.
+- macOS: all 42 application tests and 11 native UI methods pass, including the existing control flows.
+- Linux: all 38 application tests and 21 native UI journeys pass, alongside the isolated design-system
+  compilation and package builds.
+- Windows: all 257 core/integration tests, eight workflow and four verification scenarios pass;
+  first-launch, demo, card scrolling, browser helper and package checks also pass.
+- Swift Apple/portable backends and shared localization pass.
+
+Downloaded evidence is retained in `.local/ios-glass-ci-43211044835/`. The strict iOS result readback
+is `ios/verified-results.json`; it checks the complete suite counts without counting duplicate bundle paths.
 
 ## Android automation follow-up
 
@@ -60,4 +80,18 @@ disabled ancestor. The driver still dispatches each action once and verifies the
 Both Android APK builds and all 16 app unit tests pass locally. Two complete native batches each
 pass all 34 journey completions plus storage, prepare and restart verification. The saved-library
 preservation assertion remains intact. Evidence is in `.local/ios-glass-android-native-1/` and
-`.local/ios-glass-android-native-2/`. Hosted validation of this follow-up is pending.
+`.local/ios-glass-android-native-2/`.
+
+[Run 43217346170](https://github.com/xfreebird/smartcard/actions/runs/43217346170) then exposed the
+remaining scroll-position assumption: the Clear results action was above the visible mixed-result
+viewport, while the driver searched only forward. A regression deliberately scrolls to the failed
+document before returning to Clear results; it reproduces a results-clearing failure with the old
+driver. The driver now searches backward and forward and re-queries controls after accessibility
+scroll/layout events settle. It clears the accessibility cache on API 34+ and refreshes nodes on older
+versions: a new root alone could still return the previous history-control identifier after the UI
+changed. The API availability follows [Android's UiAutomation reference](https://developer.android.com/reference/android/app/UiAutomation#clearCache()).
+It still dispatches each click once. The regression checks that the clear action and output disappear
+while saved documents remain. Both APK builds, all 16 app unit tests and all 56 guards pass. Two final
+local batches each pass all 34 journeys and the three storage/restart phases, including the new scroll
+regression and history transitions. Evidence is in `.local/ios-glass-scroll-fresh-native-1/` and
+`.local/ios-glass-scroll-fresh-native-2/`. Hosted validation of the final correction is pending.
