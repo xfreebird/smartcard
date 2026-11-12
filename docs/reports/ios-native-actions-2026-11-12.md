@@ -72,26 +72,31 @@ is `ios/verified-results.json`; it checks the complete suite counts without coun
 
 ## Android automation follow-up
 
-The first hosted run on `4c9a006` reported that signed results remained visible after a text-based
-Clear results action. The action now has the stable `sign.clearResults` identifier. Identifier-based
-clicks wait for that exact node to be clickable and enabled, while text-based lookup stops at a
-disabled ancestor. The driver still dispatches each action once and verifies the resulting state.
+The native driver now waits for an enabled action owner, refreshes accessibility state after layout
+changes, and searches above and below the current viewport. Clear results has a stable identifier.
+Each click is dispatched once; the resulting UI and saved-document state are asserted separately.
 
-Both Android APK builds and all 16 app unit tests pass locally. Two complete native batches each
-pass all 34 journey completions plus storage, prepare and restart verification. The saved-library
-preservation assertion remains intact. Evidence is in `.local/ios-glass-android-native-1/` and
-`.local/ios-glass-android-native-2/`.
+The driver identifies vertical panes by their advertised scroll actions, then makes short overlapping
+touch drags. This avoids moving the horizontal card carousel or jumping past a control between the
+fixed toolbar, snackbar and bottom navigation. A separate `NativeVerticalScroller` owns the gesture.
+The mixed-signing regression scrolls to the failed document, preserves the selected reader, returns
+to Clear results and verifies that hiding results leaves the saved library intact.
 
-[Run 43217346170](https://github.com/xfreebird/smartcard/actions/runs/43217346170) then exposed the
-remaining scroll-position assumption: the Clear results action was above the visible mixed-result
-viewport, while the driver searched only forward. A regression deliberately scrolls to the failed
-document before returning to Clear results; it reproduces a results-clearing failure with the old
-driver. The driver now searches backward and forward and re-queries controls after accessibility
-scroll/layout events settle. It clears the accessibility cache on API 34+ and refreshes nodes on older
-versions: a new root alone could still return the previous history-control identifier after the UI
-changed. The API availability follows [Android's UiAutomation reference](https://developer.android.com/reference/android/app/UiAutomation#clearCache()).
-It still dispatches each click once. The regression checks that the clear action and output disappear
-while saved documents remain. Both APK builds, all 16 app unit tests and all 56 guards pass. Two final
-local batches each pass all 34 journeys and the three storage/restart phases, including the new scroll
-regression and history transitions. Evidence is in `.local/ios-glass-scroll-fresh-native-1/` and
-`.local/ios-glass-scroll-fresh-native-2/`. Hosted validation of the final correction is pending.
+Three-button navigation reproduced the hosted failure locally; the prior gesture-navigation setup
+had a different usable viewport. The strengthened regression also reproduced unintended card
+selection with generic forward/backward scrolling. Both failures were fixed before the next push.
+Failure screenshots are now captured before Activity cleanup so retained evidence shows the failing
+app state. Diagnostics include advertised actions and dispatched input acknowledgements.
+
+Accessibility cache invalidation uses API 34+ `clearCache`, with node refresh on older versions,
+following [Android's UiAutomation reference](https://developer.android.com/reference/android/app/UiAutomation#clearCache()).
+This prevents a new root from returning a previous Compose control identifier through cached children.
+
+Both APK builds, all 16 app unit tests, all 56 guards and shell syntax checks pass. Complete batches
+in both three-button and gesture navigation each pass all 34 journeys and the three storage/restart
+phases. Evidence is in `.local/ios-glass-drag-threebutton-1/` and `.local/ios-glass-drag-gestural/`.
+Hosted validation is pending.
+
+Earlier failed hosted runs are retained for the investigation:
+[43217346170](https://github.com/xfreebird/smartcard/actions/runs/43217346170) and
+[43219827912](https://github.com/xfreebird/smartcard/actions/runs/43219827912).

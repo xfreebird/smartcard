@@ -30,7 +30,13 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
                     val count = app.container.activity.signedDocuments.value.size
                     // The mixed result leaves a failed document below the results. Return to the
                     // clear action from the bottom, as happens after reading that error on a phone.
-                    if (scenario == "mixed") ui.scrollToBottom()
+                    if (scenario == "mixed") {
+                        val reader = app.container.status.value.wallet.selectedCard?.readerId
+                        ui.scrollToBottom()
+                        check(app.container.status.value.wallet.selectedCard?.readerId == reader) {
+                            "Scrolling documents changed the selected card"
+                        }
+                    }
                     ui.clickIdAndAwait("sign.clearResults", "results hidden") {
                         ui.id("sign.clearResults") == null && ui.text(output) == null
                     }

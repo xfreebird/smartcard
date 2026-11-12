@@ -15,13 +15,15 @@ capture_failure() {
         "$adb" -s "$serial" logcat -d -t 2000 > "$out/logcat.txt" 2>&1 || true
         "$adb" -s "$serial" shell dumpsys activity lastanr > "$out/last-anr.txt" 2>&1 || true
         "$adb" -s "$serial" shell dumpsys meminfo > "$out/memory.txt" 2>&1 || true
-        "$adb" -s "$serial" exec-out screencap -p > "$out/failure.png" 2>/dev/null || true
+        "$adb" -s "$serial" exec-out run-as md.esemnbun.app cat cache/native-ui-failure.png > "$out/failure.png" 2>/dev/null ||
+            "$adb" -s "$serial" exec-out screencap -p > "$out/failure.png" 2>/dev/null || true
     fi
     exit "$status"
 }
 trap capture_failure EXIT
 "$adb" -s "$serial" install -r "$app"
 "$adb" -s "$serial" install -r "$tests"
+"$adb" -s "$serial" shell run-as md.esemnbun.app rm -f cache/native-ui-failure.png
 "$adb" -s "$serial" shell am instrument -w -r -e suite journeys \
     md.esemnbun.app.test/md.moldsign.app.FileProtectionInstrumentation | tee "$out/journeys.log"
 # am instrument can exit successfully even when Instrumentation reports failure.

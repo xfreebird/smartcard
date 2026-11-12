@@ -1400,4 +1400,11 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   results; search in both directions and wait for accessibility layout stability before clicking.
   Invalidate cached accessibility children before lookup so changed Compose identifiers are current.
   Both APK builds, 16 app unit tests, 56 guards and two complete 34-journey local batches plus storage/
-  restart checks pass with the regression. Hosted validation of the final correction is pending.
+  restart checks pass with the regression. Hosted run `43219827912` then exposed generic scroll
+  actions moving the horizontal card carousel. A strengthened local regression reproduces the
+  identity change. CI's three-button navigation also reproduced the missing control locally: page
+  scrolling jumped past it between fixed chrome and a snackbar. Use short vertical touch drags in
+  advertised vertical panes and assert that scrolling preserves the selected reader and saved library.
+  Capture failure screenshots before Activity cleanup. Both navigation modes pass all 34 journeys
+  and storage/restart checks; APK builds, 16 app tests, 56 guards and shell checks pass before push.
+  Hosted validation is pending.

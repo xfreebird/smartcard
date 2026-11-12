@@ -3,9 +3,11 @@ package md.moldsign.app
 import android.app.Instrumentation
 import android.os.Build
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction
 
 /** Always re-query after an action; Compose replaces accessibility nodes as state changes. */
 internal class NativeJourneyDriver(private val runner: Instrumentation) {
+    private val scroller = NativeVerticalScroller(runner)
     private fun currentNodes(): Sequence<AccessibilityNodeInfo> {
         // Fetching a new root can still return cached children after Compose changes a tag/label.
         if (Build.VERSION.SDK_INT >= 34) runner.uiAutomation.clearCache()
@@ -19,8 +21,8 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
     }
     fun describe(): String = currentNodes().filter { !it.isPassword }
         .mapNotNull { node ->
-            val text = node.text?.toString() ?: node.contentDescription?.toString() ?: node.viewIdResourceName ?: return@mapNotNull null
-            "$text [id=${node.viewIdResourceName}, visible=${node.isVisibleToUser}, clickable=${node.isClickable}, enabled=${node.isEnabled}]"
+            val text = node.text?.toString() ?: node.contentDescription?.toString() ?: node.viewIdResourceName ?: node.className ?: return@mapNotNull null
+            "$text [id=${node.viewIdResourceName}, visible=${node.isVisibleToUser}, clickable=${node.isClickable}, enabled=${node.isEnabled}, scrollable=${node.isScrollable}, actions=${node.actionList.map { it.id }}]"
         }.take(40).joinToString(" | ")
     fun text(value: String) = currentNodes().firstOrNull {
         it.isVisibleToUser && (it.text?.toString()?.lines()?.contains(value) == true || it.contentDescription?.toString()?.lines()?.contains(value) == true)
@@ -72,18 +74,29 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
         await(description, condition)
     }
     fun revealUp(description: String, find: () -> AccessibilityNodeInfo?) =
-        reveal(description, listOf(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD), find)
+        reveal(description, listOf(AccessibilityAction.ACTION_SCROLL_UP.id), find)
     fun reveal(description: String, find: () -> AccessibilityNodeInfo?) =
-        reveal(description, listOf(AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD, AccessibilityNodeInfo.ACTION_SCROLL_FORWARD), find)
+        reveal(description, listOf(AccessibilityAction.ACTION_SCROLL_UP.id, AccessibilityAction.ACTION_SCROLL_DOWN.id), find)
     fun scrollToBottom() {
         repeat(20) {
-            val moved = currentNodes()
-                .filter { it.isScrollable && it.isVisibleToUser }
-                .map { it.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD) }.toList().any { it }
-            if (!moved) return
-            settleAccessibility()
+            if (!scrollVertically(AccessibilityAction.ACTION_SCROLL_DOWN.id)) return
         }
-        error("Scroll did not reach the bottom; ${describe()}")
+        fail("Scroll did not reach the bottom")
+    }
+    private fun scrollVertically(direction: Int): Boolean {
+        var moved = false
+        // Forward/backward also scrolls horizontal pagers. Use the advertised vertical action
+        // so revealing a document action cannot change the selected signing identity.
+        val targets = currentNodes()
+            .filter { it.isVisibleToUser && it.actionList.any { action -> action.id == direction } }.toList()
+        for (target in targets) {
+            scroller.scroll(target, down = direction == AccessibilityAction.ACTION_SCROLL_DOWN.id)
+            android.util.Log.i("MoldSignUiTest", "Vertical drag $direction on ${target.className}")
+            moved = true
+        }
+        if (targets.isEmpty()) android.util.Log.i("MoldSignUiTest", "No visible target for vertical scroll $direction")
+        settleAccessibility()
+        return moved
     }
     private fun reveal(description: String, directions: List<Int>, find: () -> AccessibilityNodeInfo?) {
         await("application window") { runner.uiAutomation.rootInActiveWindow != null }
@@ -92,13 +105,11 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
         for (direction in directions) {
             repeat(20) {
                 if (find() != null) return
-                currentNodes().filter { it.isScrollable && it.isVisibleToUser }
-                    .forEach { it.performAction(direction) }
-                settleAccessibility()
+                scrollVertically(direction)
             }
         }
         if (find() != null) return
-        error("Missing control after scrolling: $description; ${describe()}")
+        fail("Missing control after scrolling: $description")
     }
     fun await(description: String, condition: () -> Boolean) {
         val deadline = android.os.SystemClock.uptimeMillis() + 15_000
@@ -106,6 +117,18 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
             if (condition()) return
             Thread.sleep(100)
         }
-        error("Timed out: $description; ${describe()}")
+        fail("Timed out: $description")
+    }
+    private fun fail(description: String): Nothing {
+        // Capture before Activity cleanup; the outer shell trap otherwise sees only the launcher.
+        runCatching {
+            runner.uiAutomation.takeScreenshot()?.let { screenshot ->
+                java.io.File(runner.targetContext.cacheDir, "native-ui-failure.png").outputStream().use {
+                    screenshot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, it)
+                }
+                screenshot.recycle()
+            }
+        }
+        error("$description; ${describe()}")
     }
 }
