@@ -1449,5 +1449,8 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   macOS resize growth exceeded the hosted display, and Windows Home checked transient UIA state.
   The follow-up shrinks within the display and waits for stable top offset plus full card visibility.
   All 56 guards and macOS UI suite compilation pass; the native Windows scroll driver passes locally
-  in four size/theme combinations. Hosted validation of the adjusted drivers follows the push.
+  in four size/theme combinations. Hosted CI `43243483172` passed for `7629f8e`: all 15 macOS
+  UI methods, 22 iPhone plus 22 iPad methods, Windows native UI/helper/packaging, localization and
+  the aggregate result. Linux, Android and Swift had already passed in the preceding full selection.
+  Local macOS XCTest still requires administrator authentication; hosted success is separate evidence.
   See `docs/reports/macos-floating-sign-2026-11-12.md`.

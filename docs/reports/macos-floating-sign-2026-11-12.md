@@ -83,7 +83,22 @@ on the local Windows 11 ARM64 VM with the x64 Debug app: both 1100 × 720 and 90
 light and dark themes, native wheel and Home/End input, centered selected card, and fully visible
 final controls. Proof and eight screenshots are in `.local/mac-floating-windows-local/`.
 The temporary interactive test task was removed after completion. No application source was changed
-by this follow-up. The next hosted run must validate the adjusted drivers before CI is reported green.
+by this follow-up.
+
+[CI run 43243483172](https://github.com/xfreebird/smartcard/actions/runs/43243483172) passed for
+`7629f8e28511f0d488f0df369954ce1d9ead594a`, including the aggregate `CI result`:
+
+| Hosted validation | Result |
+| --- | --- |
+| macOS app/integration/UI, unsigned App Store variant and CLI build | Passed; all 15 native UI methods, zero failures |
+| iOS app/share-extension and native UI | Passed; 22 methods on iPhone and 22 on iPad, zero failures |
+| Windows core, native UI, helper and MSI/MSIX packaging | Passed, including the adjusted card scrolling driver |
+| Localization and routing/publishing guards | Passed |
+
+The unchanged Linux, Android and Swift core/CLI jobs were correctly omitted from this follow-up;
+they passed in the preceding full selection. The hosted macOS pass does not remove the local
+Automation Mode authentication prerequisite. CI logs and exact-head result metadata are retained
+under `.local/mac-floating-followup-*`.
 
 No release or store-publishing workflow was dispatched. CI still runs native tests on main commits;
 app releases remain tag/manual operations.
