@@ -30,19 +30,10 @@ PLIST
     ios)
         mkdir -p "$out"
         xcrun simctl list devices available -j > "$out/devices.json"
-        python3 - "$out/devices.json" > "$out/targets.tsv" <<'PY'
-import json, re, sys
-with open(sys.argv[1]) as source:
-    groups = json.load(source)['devices']
-runtimes = sorted((key for key in groups if '.iOS-' in key),
-                  key=lambda key: tuple(map(int, re.findall(r'\d+', key))), reverse=True)
-for family in ('iPhone', 'iPad'):
-    choices = [device for runtime in runtimes for device in groups[runtime]
-               if device.get('isAvailable') and device['name'].startswith(family)]
-    if not choices:
-        raise SystemExit(f'No available {family} simulator; refusing to skip UI coverage')
-    print(f"{family}\t{choices[0]['udid']}")
-PY
+        xcrun simctl list runtimes -j > "$out/runtimes.json"
+        sdk_version=$(xcrun --sdk iphonesimulator --show-sdk-version)
+        python3 "$repo/scripts/ci/select_apple_ui_targets.py" "$out/devices.json" "$out/runtimes.json" "$sdk_version" > "$out/targets.tsv"
+        cat "$out/targets.tsv"
         device=''
         status=0
         trap '[[ -z "$device" ]] || xcrun simctl shutdown "$device" || true' EXIT

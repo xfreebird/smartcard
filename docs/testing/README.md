@@ -12,6 +12,8 @@ repeatable entry points; source checks alone do not establish compilation or run
 
 `CI` runs the affected platforms on main pushes and pull requests, and every platform on manual dispatch.
 Native platform jobs include the mock UI suites listed below, with iPhone and iPad targets for iOS.
+CI selects both families within the active SDK's major/minor release line and retains the selection
+inventory. Newer runtime compatibility checks use explicitly chosen simulator IDs.
 A missing runner prerequisite or failed/incomplete suite fails `CI result`. Logs and XCTest result
 bundles are uploaded on failure as well as success. Signed builds and Store uploads are separate
 manual workflows; ordinary branch pushes do not publish app versions or reserve version codes.
