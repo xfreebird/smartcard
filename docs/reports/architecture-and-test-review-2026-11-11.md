@@ -81,4 +81,5 @@ and persistence. Windows already compares the complete immutable record, includi
 Regression tests exercise substituted locations, valid confirmed deletion, unrelated-file preservation,
 duplicate/foreign selections, missing files, failed deletion and symbolic links. Local validation passed:
 42 Apple application cases, 14 Android application cases and app/instrumentation builds, and 35 Fedora
-application cases with the native app build. Hosted native validation of this follow-up remains pending.
+application cases with the native app build. Full hosted validation of this follow-up passed in
+[CI 43176745714](https://github.com/xfreebird/smartcard/actions/runs/43176745714), including every native platform suite.

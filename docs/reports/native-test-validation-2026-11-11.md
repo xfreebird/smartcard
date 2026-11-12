@@ -1,7 +1,7 @@
 # Native build and test validation — 11 November 2026
 
-Subsequent committed-source validation passed on every hosted platform, including macOS UI:
-see [commit CI validation](commit-ci-validation-2026-11-11.md). The local results below are
+Current committed-source and hosted results are recorded in
+[commit CI validation](commit-ci-validation-2026-11-11.md). The local results below are
 preserved as the earlier execution record.
 
 The owner explicitly authorized executing builds and tests after the earlier source-only reviews.

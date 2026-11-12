@@ -1,5 +1,8 @@
 # Native provider automation follow-up
 
+Current hosted results and remaining limits are in [commit CI validation](commit-ci-validation-2026-11-11.md).
+The implementation and execution checkpoints below are preserved as history.
+
 This batch makes the seeded iOS Documents and protection suites usable across native Files layouts,
 adds a Linux protection journey, and corrects Android emulator readiness before app installation.
 It follows the architecture, service-provider and native-component refactors already on main.

@@ -1296,8 +1296,10 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 
 ### 2026-11-12 — Native test lifecycle and CI follow-up
 
-Current source: `af30422`. [Full CI 43171823518](https://github.com/xfreebird/smartcard/actions/runs/43171823518)
-has passed every selected job except iOS, which is still running; the aggregate remains pending.
+Baseline source `af30422` passed every platform and the aggregate in
+[full CI 43171823518](https://github.com/xfreebird/smartcard/actions/runs/43171823518).
+The deletion/evidence follow-up `d9383ec` also passed every platform and the aggregate in
+[full CI 43176745714](https://github.com/xfreebird/smartcard/actions/runs/43176745714).
 The authoritative results and coverage limits are in [commit CI validation](docs/reports/commit-ci-validation-2026-11-11.md).
 
 - iOS installs once before fixture seeding and preserves that container across nested runners. Picker
@@ -1309,7 +1311,7 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Hosted runs `43098447037`, `43160305562` and diagnostic `43165580460` exposed Files navigation failures.
   Native-activation diagnostic `43168869669` also failed on the newer hosted 27.2 combination. The
   unchanged driver passed all eight methods on hosted iPhone 27.1/iPad 27.0 in `43168468861`.
-  **The iOS 27.2 compatibility failure remains unresolved.** Runtime selection is not a claimed fix for it.
+  **The iOS 27.2 Files automation failure remains unresolved.** Runtime selection is not a claimed fix for it.
 - Commit CI now selects each device family within the active SDK's major/minor release line, using
   runtime and hardware metadata. It retains inventories/targets, handles renamed devices and patch
   releases, prefers iPhone Duo at the selected version, and fails if either family is missing. All
@@ -1340,8 +1342,15 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   three deletion regressions), and Debug app/instrumentation builds pass with incremental compilation
   disabled after a stale local Kotlin symbol-cache error. Fedora application build and all 35 tests pass,
   including deletion, missing-file and symlink checks. The Mac Linux probe lacked Poppler headers; it
-  does not replace the successful Fedora execution. Hosted validation of this follow-up is pending.
+  does not replace the successful Fedora execution. Full hosted CI `43176745714` passes on final source
+  `d9383ec`, including 42 Apple, 14 Android and 35 Linux application cases and every native platform suite.
 - Baseline full CI `43171823518` passed every job and all 18 XCTest methods on each selected iPhone/iPad.
   Artifact inspection verified every required count with no skips. The protection postchecks passed but
   their nested JSON proof was omitted from upload patterns; CI now retains `roundtrip.json` alongside
   XCTest bundles, logs and simulator inventories for direct byte/permission evidence.
+
+- Final evidence readback confirms all nine jobs passed on `d9383ec`, including `CI result`. The 12 iOS
+  result bundles contain all 36 expected methods with zero failures/skips. Both retained protection
+  proofs confirm two outputs, unchanged originals, private permissions and exact restored-byte hashes;
+  Documents migration/history/original-selection postchecks pass on both families. iOS 27.2 Files
+  automation and full hardware/OS catalog acceptance remain explicit open limits.

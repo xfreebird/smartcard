@@ -1,78 +1,128 @@
-# Commit CI validation — 11 November 2026
+# Commit CI validation — 11–12 November 2026
 
-[CI run 43088408745](https://github.com/xfreebird/smartcard/actions/runs/43088408745)
-validates pushed source commit `b61890f577eb8a0b298b377859a83b14ef54a23f`.
-Seven jobs passed. The iOS native test and evidence-upload steps failed. The job/log APIs subsequently returned repeated HTTP 502 errors with inconsistent run status. The assertions were later recovered: Files navigation failed in protection and detached-original selection. This revision is not reported as green.
+[Full CI 43176745714](https://github.com/xfreebird/smartcard/actions/runs/43176745714) passed every
+platform job and `CI result` on pushed source `d9383ec2395b54412de958b34570ae7f4117723e`.
+This includes the final deletion-boundary fixes and protection evidence retention. The earlier
+[full baseline 43171823518](https://github.com/xfreebird/smartcard/actions/runs/43171823518) also passed.
 
-The follow-up [run 43098447037](https://github.com/xfreebird/smartcard/actions/runs/43098447037) at `0a706bc26389bebf091ecbb6ea0ee2012cfcac87` passed macOS, Android, Linux and shared validation. Windows failed a native scroll-visibility assertion, and iOS failed four Files methods across phone/tablet. Their logs and result bundles were recovered. A new validation is required after the setup and synchronization fixes below.
+## Final hosted validation
 
-The earlier [run 43040752719](https://github.com/xfreebird/smartcard/actions/runs/43040752719)
-passed all nine jobs for `8244e5f42d3327630fa78ec4549c53e213e917c9` at 14:58 UTC.
-The current run includes the subsequent lifecycle, protection, import and Files automation changes.
-
-## Hosted results
-
-| Platform | Required validation that passed |
+| Platform | Required validation |
 | --- | --- |
-| macOS | Debug app, application integration tests, 5 verification + 6 workflow UI methods, unsigned App Store variant and CLI build |
-| iPhone and iPad | App/share-extension build passed; native batch failed in Files navigation; 18 methods are required per family |
-| Android | Debug app and instrumentation APKs; 34 journey completions (21 UI paths and 13 workflow integration cases), plus storage and separate prepare/verify launches; JVM suites: core 137 tests with 1 opt-in skip, USB transport 21, application 11, zero failures/errors |
-| Linux | Swift core, CLI and application integration tests; 21 GTK UI scenarios, including native protection under Xvfb/D-Bus; packages |
-| Windows | 257 integration tests, zero skips; WinUI build; 4 verification + 8 workflow UI cases, first launch, isolated demo persistence, card scrolling and synthetic reader helper; CLI, MSI and MSIX packaging |
-| Shared | Swift Apple and portable backends, localization exports, CI routing/result contracts, publisher guards and journey traceability |
+| macOS | Passed: Debug app, 42 application integration cases, 5 verification + 6 workflow UI methods, unsigned App Store variant and CLI build |
+| iPhone and iPad | Passed: app/share-extension build and all 18 native UI methods per family, including protection/Documents postchecks; iPhone Duo 27.1 and iPad Pro 13-inch (M5) 27.0 selected within the active SDK release line |
+| Android | Passed: Debug app/instrumentation builds, 34 journey completions, storage and separate-process persistence; JVM core 137 tests with 1 opt-in skip, USB transport 21, application 14; zero failures/errors |
+| Linux | Passed: Swift core, CLI and 35 application tests, 21 GTK UI scenarios including native protection, and packages |
+| Windows | Passed: 257 integration tests with zero skips, WinUI build, 4 verification + 8 workflow UI cases, first launch, demo persistence/isolation, 4 scroll theme/size cases, synthetic reader-helper lifecycle, CLI/MSI/MSIX packaging |
+| Shared | Passed: Swift Apple/portable backends, localization, CI routing/result contracts, publisher guards and journey traceability |
 
-Completed native mock UI suites had no skipped or failed scenarios. Counts are suite-specific:
-an XCTest method can exercise multiple paths and is not equivalent to one documented journey.
-Downloaded Android, Linux and Windows result artifacts and completed platform logs are retained
-locally in `.local/validation-20261111/ci-43088408745/` and the adjacent `*-ci-43088408745.log` files.
-GitHub test artifacts have seven-day retention.
+Counts are suite-specific: one XCTest method can exercise several paths and is not equivalent to one
+catalog journey. Required native suite counts are enforced; a missing result, skipped method or failed
+postcheck fails CI. External-service tests remain opt-in where their prerequisites are absent.
+
+Final-source logs and downloaded UI results are retained locally under
+`.local/validation-20261111/ci-43176745714/` and adjacent `*-ci-43176745714.log` files.
+`verified-results.json` records checked artifact counts and hashes. Earlier baseline evidence remains
+under `ci-43171823518/`. GitHub test artifacts have seven-day retention.
+
+## Final deletion review
+
+A copied saved entry could retain its library ID but replace its file location. Apple, Android and
+Linux now require the confirmed location to match the stored entry before deletion. Android/Linux
+policy lives in application workflows; Windows already compares the complete immutable record.
+Regression tests preserve both files for mismatched selections and check valid deletion, foreign/duplicate
+selections, missing locations, deletion failure and symlink preservation.
+
+Local follow-up checks passed: 42 Apple application cases, 14 Android application cases and Debug
+app/instrumentation builds, and the Fedora app build plus 35 application cases. Evidence and binary/source
+hashes are in `.local/validation-20261111/e47b2bc-deletion-validation.json`. The Mac Linux probe lacked
+Poppler headers; the Fedora execution supplies the native build/test result. A local incremental Kotlin
+symbol-cache error cleared with a full compile; no source workaround was needed.
+
+Baseline artifacts include all 12 required iOS result bundles, verified for exact counts and zero skips.
+The protection postchecks passed, but the upload pattern omitted their nested JSON proof. The final
+workflow retains each `roundtrip.json`. Both downloaded proofs report two outputs, unchanged source
+bytes, private permissions and restored SHA-256
+`9a9b6d0344b2f57eba88ed57b5fb1e45ed3cd16dc839950ab4abab2d032b0090`.
+All 36 final iPhone/iPad methods passed with no skips, and both Documents postchecks passed.
+
+## Local native checks
+
+- iPhone Duo/iOS 27.1 and iPad mini/iOS 27.0 each passed the protection round trip and all three
+  Documents methods. The result-bundle checker confirmed the expected method counts with no skips.
+- Postchecks proved exact original/restored bytes, owner-only protection output permissions, migration,
+  history clearing that preserves the library, relaunch persistence and detached-original selection.
+- Windows 11 ARM64 passed scrolling in light/dark at both 1100×720 and 900×580, including keyboard
+  focus, wheel/Home/End, selected-card centering and full visibility of the PIN action and help text.
+- Android passed all 34 journeys, storage integration and both persistence launches after the final action-handling change.
+- All 52 CI-helper tests, 12 publishing-guard tests, actionlint 1.7.12, shell/Ruby syntax and whitespace checks passed. The temporary Windows test task was removed. Unrelated devices and VM state were preserved.
+
+The local evidence uses `protection-{iphone,ipad}-native-cell-v2/`, `documents-{iphone,ipad}-native-cell-v2/`,
+`android-disclosure-v3/`
+and `windows-card-scroll-final/` below the same validation directory. `a416d54-validation.json`
+records the source revision, Apple binary hashes and file/persistence results.
+
+## Automation fixes and follow-up
+
+The iOS batch now installs once before fixture seeding and keeps one data container through all nested
+runners. This removes repeated installation between Files-provider operations. Native Files actions use
+public accessibility snapshots; a named subtree supplies attributes omitted from whole-app iPad
+snapshots. Grid navigation/selection targets the thumbnail rather than the name/date metadata. Picker
+presentation and control readiness are bounded waits; cancellation, dismissal and file-result assertions
+remain required. Failed suites emit method/assertion diagnostics before artifact upload.
+
+Android dispatches accessibility actions once and waits for resulting UI/domain state. The driver no longer
+queues another toggle on a delayed acknowledgement. Verification uses the shared driver, and returning
+to the saved library must reveal a saved document. Hosted Android run
+[43170798943](https://github.com/xfreebird/smartcard/actions/runs/43170798943) passed all 34 journeys,
+storage integration and separate-process persistence on the same Android source.
+
+Windows waits for native keyboard focus before Home/End and for visible control geometry as well as
+scroll percentage before asserting completion. No scenario or assertion was removed to make tests pass.
+
+Earlier hosted failures included remote Files navigation, a stale Windows scroll assertion and test
+startup prerequisites. Their fixes and intermediate evidence are recorded in `PLAN.md`. The earlier
+all-green run `43040752719` predates the expanded protection/Documents suites and is not used as final
+proof for this revision.
+
+## Runtime compatibility limit
+
+The automatic selector previously adopted iOS 27.2 even though the selected build SDK is 27.1.
+The same Files driver passed all eight targeted methods on hosted iPhone 27.1 and iPad 27.0 in
+[43168468861](https://github.com/xfreebird/smartcard/actions/runs/43168468861). Both coordinate and
+native cell activation failed folder navigation on the newer hosted 27.2 combination in
+[43165580460](https://github.com/xfreebird/smartcard/actions/runs/43165580460) and
+[43168869669](https://github.com/xfreebird/smartcard/actions/runs/43168869669).
+
+**The iOS 27.2 Files automation failure remains unresolved.** SDK-line CI does not establish a fix
+or a pass on that runtime. CI now uses runtime/hardware metadata to select the newest available runtime
+within the active SDK's major/minor line for each family, including patch releases. It rejects a missing
+family, prefers iPhone Duo at the selected version, and retains inventories/targets. All 18 methods per
+family remain required. Newer-runtime checks can be run with explicitly selected simulator IDs.
 
 ## Commit and publishing behavior
 
-- Main-branch pushes and pull requests run validation for affected platforms. Every selected
-  native platform job includes its mock UI suite and is required by `CI result`.
-- Documentation-only changes run routing and contract checks without rebuilding native apps.
-  Manual CI dispatch selects all platforms.
-- Validation has read-only repository permissions and no distribution secrets. Test failures
-  propagate to the aggregate; test evidence is uploaded on failure as well as success.
-- The signed Android builder is manual-only. Branch commits do not reserve Android version codes
-  or trigger release/store publishing. Release remains an explicit manual operation or `v*` tag push.
-- The source commit triggered only the `CI` workflow; the manual full validation superseded its affected-platform run. No release or store workflow was dispatched.
-  Existing documentation deployment behavior is unchanged.
-
-## Fixes established by hosted execution
-
-The final run incorporates native Apple menu/toolbar discovery, macOS click handling, Windows
-UI process isolation, deterministic completion gates in Windows bridge/MCP tests, and Linux
-dialog-state synchronization. Android now bounds build-process resources, checks emulator
-accessibility readiness before installing the app, and tests first-launch disclosure acceptance
-and retention explicitly. Its readiness gate permits one initial framework/System UI recovery before app
-installation, bounds accessibility connection failures, rejects recurrence or application errors,
-and never retries application scenarios.
-Linux dependency setup uses explicit container DNS and fails on incomplete package indexes.
-The native protection fixture uses tmpfs because production removal refuses unknown filesystems.
-
-Files automation now resolves native controls from a single public XCTest snapshot, with a named
-subtree fallback for incomplete iPad snapshots. It verifies dismissal, output bytes, private permissions
-and persistence. Protection and three Documents methods pass locally on iPhone Duo/iOS 27.1 and on
-iPad/iOS 26.5 and 27.0. Task-owned simulators are used for the follow-up; unrelated devices are preserved.
-
-## 12 November follow-up
-
-The iOS batch installs once before fixture seeding and keeps the same data container across its suites. Nested runners no longer reinstall after seeding. Picker presentation has a bounded 30-second wait, and app taps require enabled, stable, hittable controls. Updated protection passes on iPad/iOS 27.0 with byte and permission postchecks. The preceding complete local iPhone/iOS 27.1 batch passed all 18 methods. Updated Documents and hosted execution remain pending.
-
-Windows waits for native keyboard focus before Home/End and for both scroll percentage and visible control geometry before asserting completion. The updated runner passes all four theme/window-size combinations on Windows 11 ARM64. All 43 CI-helper tests and shell syntax checks pass.
+- Main-branch pushes and pull requests run affected-platform validation. Every selected native job
+  includes required UI tests and contributes to the stable `CI result` aggregate.
+- Documentation-only commits run routing/contract checks; manual CI dispatch selects all platforms.
+  The runtime-selection commit selects full CI, including every platform.
+- Validation has read-only repository permissions and no distribution signing or Store secrets.
+  Evidence is uploaded for failed as well as successful native runs.
+- Branch commits do not reserve release version codes or publish app/CLI versions. The signed Android
+  builder and Store workflows are manual. Release requires an explicit manual operation or `v*` tag.
+- Only validation CI was triggered/dispatched for these source commits. No release, tag, Store
+  submission or real-card signing was performed. Existing documentation deployment behavior is unchanged.
 
 ## Coverage limits
 
-This establishes the implemented mock UI and integration suites on all supported native platforms.
-It does not establish complete acceptance coverage: the catalog's 47 documented journeys plus
-3 protection scenarios still have partial status. Physical USB/PCSC behavior, real-card signing,
-biometrics, live portal/PKI behavior, installer interaction, third-party document-provider combinations, drag and drop,
-and integrations such as Shortcuts, Spotlight and Handoff retain separate acceptance work.
-Opt-in external-service tests remain skipped where their prerequisites are absent.
+The reviewed architecture changes and implemented mock UI/integration suites are documented in
+[architecture and test review](architecture-and-test-review-2026-11-11.md),
+[native provider automation](native-provider-automation-2026-11-11.md) and
+[test instructions](../testing/README.md).
 
-No real-card PIN, distribution signing or store submission was used. Hosted macOS UI passed;
-the earlier local macOS automation authorization limitation remains a local limitation, with
-no security setting change left active. The earlier local validation record remains in
-[native-test-validation-2026-11-11.md](native-test-validation-2026-11-11.md).
+Full catalog acceptance remains incomplete. The 47 documented journeys plus 3 protection
+journeys retain partial/runtime-required classifications in `tests/journeys/catalog.json`. Physical
+USB/PCSC, actual credential/biometric prompts, signed installer/Store interaction, live portal/PKI,
+third-party provider and drag/drop combinations, Shortcuts, Spotlight, Handoff and desktop autostart
+have separate catalogued runtime checks. Fixtures are not represented as evidence for those OS/hardware
+paths. The strict full-automation coverage command still fails until those requirements are covered.

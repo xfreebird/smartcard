@@ -55,4 +55,5 @@ parser is now fully decomposed. No cryptographic protocol or release automation 
 ## Subsequent runtime validation
 
 The owner subsequently authorized builds and tests. See [native test validation](native-test-validation-2026-11-11.md)
-for executed targets, discovered fixes, passing evidence, skips and the remaining macOS runner blocker.
+for the earlier local execution record. See [commit CI validation](commit-ci-validation-2026-11-11.md)
+for current hosted builds, native UI results and remaining coverage limits.

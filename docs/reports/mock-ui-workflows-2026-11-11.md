@@ -1,5 +1,8 @@
 # Mock service UI workflow implementation
 
+Current hosted results and remaining limits are in [commit CI validation](commit-ci-validation-2026-11-11.md).
+The implementation and execution checkpoints below are preserved as history.
+
 The native suites now invoke Sign and observe success, mixed document failure and fatal failure, using
 injected scenario signers. The application batch policy, queue updates, activity history and output
 presentation remain in the production workflow. The samples are explicitly unsigned; these tests do
