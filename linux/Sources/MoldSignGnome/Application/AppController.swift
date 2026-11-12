@@ -821,26 +821,11 @@ final class AppController {
     }
 
     func deleteSignedDocuments(_ items: [ActivityItem]) {
-        var failed = false
-        for item in items {
-            guard signedDocuments.contains(where: { $0.id == item.id }) else { continue }
-            guard let path = item.filePath else { failed = true; continue }
-            do {
-                let url = URL(fileURLWithPath: path)
-                let values = try url.resourceValues(forKeys: [.isRegularFileKey, .isSymbolicLinkKey])
-                guard values.isRegularFile == true, values.isSymbolicLink != true else {
-                    failed = true; continue
-                }
-                try FileManager.default.removeItem(at: url)
-                signedDocuments.removeAll { $0.id == item.id }
-            } catch let error as NSError where error.domain == NSCocoaErrorDomain &&
-                (error.code == NSFileNoSuchFileError || error.code == NSFileReadNoSuchFileError) {
-                signedDocuments.removeAll { $0.id == item.id }
-            } catch { failed = true }
-        }
+        let result = DeleteSavedDocuments().execute(items, saved: signedDocuments)
+        signedDocuments = result.documents
         if !activityStore.saveDocuments(signedDocuments) {
             toast?(L10n.text(.saved_library_save_failed))
-        } else if failed { toast?(L10n.text(.saved_delete_failed)) }
+        } else if result.failed { toast?(L10n.text(.saved_delete_failed)) }
         changed()
     }
 

@@ -36,4 +36,32 @@ final class DocumentLibraryModelTests: XCTestCase {
         XCTAssertTrue(model.deleteSavedDocuments([foreign]))
         XCTAssertEqual(try Data(contentsOf: url), Data("keep".utf8))
     }
+
+    @MainActor
+    func testDeletionRejectsSubstitutedURLForSavedIdentifier() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let savedURL = root.appendingPathComponent("saved.pdf")
+        let otherURL = root.appendingPathComponent("other.pdf")
+        try Data("saved".utf8).write(to: savedURL)
+        try Data("keep".utf8).write(to: otherURL)
+        let store = MemoryActivityStore()
+        let model = DocumentLibraryModel(store: store, onDocumentsChanged: {})
+        let saved = ActivityItem(title: "saved.pdf", subtitle: "", ok: true,
+                                 fileURL: savedURL, signedOutput: true)
+        model.log(saved)
+        var substituted = saved
+        substituted.fileURL = otherURL
+
+        XCTAssertFalse(model.deleteSavedDocuments([substituted]))
+        XCTAssertEqual(try Data(contentsOf: otherURL), Data("keep".utf8))
+        XCTAssertEqual(try Data(contentsOf: savedURL), Data("saved".utf8))
+        XCTAssertEqual(store.loadOrMigrateDocuments(), [saved])
+
+        XCTAssertTrue(model.deleteSavedDocuments([saved]))
+        XCTAssertFalse(FileManager.default.fileExists(atPath: savedURL.path))
+        XCTAssertEqual(try Data(contentsOf: otherURL), Data("keep".utf8))
+        XCTAssertTrue(store.loadOrMigrateDocuments().isEmpty)
+    }
 }

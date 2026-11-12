@@ -1294,21 +1294,50 @@ Store upload evidence: docs/reports/store-uploads-2026-11-01.md and Desktop/esem
 
 - Run43088408745's iOS evidence upload also failed after ten minutes. Its job/log APIs then returned repeated HTTP502 responses and inconsistent queued/in-progress metadata; cancellation returned409. No iOS pass is claimed. Native failure reporting now emits the failed XCTest method and escaped assertion before artifact upload, including nested protection/Documents bundles. All43CI-helper tests pass, and extraction was checked against a saved failed bundle. A fresh hosted reproduction is required to recover the unresolved failure details.
 
-### 2026-11-12 — Native test lifecycle follow-up
+### 2026-11-12 — Native test lifecycle and CI follow-up
 
-- Recovered the hosted Files failures from run43098447037: phone/tablet navigation did not enter the expected location or app folder. The batch and fixture wrappers repeatedly reinstalled the app after seeding files, allowing Files provider URLs to outlive a relocated data container. iOS runners now install once per batch, seed afterward, and preserve that installation through the nested runner. Four CI-helper cases enforce one installation even when a suite fails; all43helper tests pass. Hosted confirmation remains required.
-- Native picker presentation now has a30second bounded wait, and app control taps require enabled, stable, hittable controls. On iPad/iOS27.0 the protection round trip passes with exact original/restored bytes and owner-only output permissions. The prior complete local iPhone batch passed18methods and postchecks; the updated Documents runner is being validated against the shared installation.
-- Windows scrolling now waits for actual UIAutomation geometry as well as bottom percentage, and confirms keyboard focus before Home/End. The native Windows11ARM64 VM passes all four light/dark and1100x720/900x580 combinations, including wheel/keyboard end, full PIN/help visibility and selected-card centering. No scenario or assertion was removed.
-- Run43158720907 at a74eaf9 passed macOS, Android, Windows, Linux, Swift and localization; iOS remains in progress. The updated local iPad Documents suite passes all3methods and persistence/fixture checks. A fresh local iPhone run exposed a separate grid-cell hit target: tapping a file's metadata can leave Files open. File selection now uses its thumbnail, or the observed cell's upper square when remote accessibility omits thumbnail nodes. The corrected iPhone protection round trip and all3Documents methods pass, including byte/permission/persistence postchecks; all43CI-helper checks pass. Final hosted validation remains required.
+Current source: `af30422`. [Full CI 43171823518](https://github.com/xfreebird/smartcard/actions/runs/43171823518)
+has passed every selected job except iOS, which is still running; the aggregate remains pending.
+The authoritative results and coverage limits are in [commit CI validation](docs/reports/commit-ci-validation-2026-11-11.md).
 
-- Full run43160305562 at9c82cae passed macOS, Android, Windows, Linux, Swift and localization, but both iOS families passed16/18methods: protection and detached-original selection failed in Files navigation. The captured tree showed Browse restoring the local root directly, and app-coordinate taps leaving the container closed. The driver now prefers visible destinations, honors restored folders, and anchors thumbnail taps to the exact native Files cell. Stability checks compare identity as well as frame and query app bounds once per snapshot. The local iPhone protection and all3Documents methods pass, including postchecks. iPad protection also passes its native and byte/permission checks; iPad Documents and hosted confirmation remain in progress.
+- iOS installs once before fixture seeding and preserves that container across nested runners. Picker
+  presentation and control interaction use bounded readiness waits. The shared Files driver honors
+  restored locations and anchors thumbnail taps to uniquely identified native cells. Snapshot checks
+  compare identity/frame and read application bounds once. All eight targeted protection/Documents
+  methods pass locally on iPhone 27.1 and iPad 27.0, including exact restored bytes, private output modes,
+  migration, history clearing, relaunch persistence and detached-original selection.
+- Hosted runs `43098447037`, `43160305562` and diagnostic `43165580460` exposed Files navigation failures.
+  Native-activation diagnostic `43168869669` also failed on the newer hosted 27.2 combination. The
+  unchanged driver passed all eight methods on hosted iPhone 27.1/iPad 27.0 in `43168468861`.
+  **The iOS 27.2 compatibility failure remains unresolved.** Runtime selection is not a claimed fix for it.
+- Commit CI now selects each device family within the active SDK's major/minor release line, using
+  runtime and hardware metadata. It retains inventories/targets, handles renamed devices and patch
+  releases, prefers iPhone Duo at the selected version, and fails if either family is missing. All
+  18 native methods remain required per family. Nine selector regressions bring the helper suite to
+  52 passing tests; 12 publishing guards, actionlint 1.7.12, syntax checks and journey traceability pass.
+- Windows scrolling waits for native focus before Home/End and for visible control geometry as well as
+  scroll percentage. All four light/dark and 1100×720/900×580 cases pass on the Windows 11 ARM64 VM and
+  hosted CI, including selected-card centering, wheel/keyboard end and full PIN/help visibility.
+- Android runs `43166922439` and `43168937646` exposed ambiguous accessibility acknowledgements during
+  disclosure and result clearing. The driver now retries lookup only, dispatches actions once, waits
+  for the UI thread and checks the resulting UI/domain state. Verification uses the shared driver;
+  returning to the library must reveal a saved document. All 34 local journeys, storage integration
+  and process-restart checks pass. Commit `215df80` is green in hosted run `43170798943`; the same
+  Android source also passes the current full CI run.
+- Temporary diagnostic branches/worktree and the Windows test task were removed. Task-owned simulators
+  and the disposable Android emulator were stopped; unrelated devices, VM state and untracked reports
+  were preserved. No release, Store submission, tag or real-card operation was performed.
 
-- The final native-cell driver passes all8targeted methods locally across iPhone27.1 and iPad27.0, plus exact-byte, permissions and document persistence checks. Hosted diagnostic43165580460 still fails folder entry on27.2. Separate diagnostics compare the same driver on27.1/27.0 and native cell activation on27.2; no main CI assertion is removed.
-- Full run43166922439 at a416d54 passed macOS, Windows, Linux, Swift and localization. Android exposed a disclosure failure on a slow emulator: retrying a rejected accessibility click can queue a second toggle. The driver now retries control lookup only, dispatches once, and waits for the requested disclosure state. The local Android build, all34journeys, storage integration and separate-process persistence pass. Hosted validation of this correction remains required. The already-failing full run was canceled while iOS diagnostics continued separately.
+### 2026-11-12 — Bind deletion confirmation to the saved file
 
-- Hosted Android run43168937646 rejected a Clear results accessibility acknowledgement before the visible postcondition could be checked. Native actions now dispatch once, wait for the UI thread, and leave success to the existing screen/domain assertions. Verification journeys share the same driver; the history test additionally requires a saved document title after returning to the library. All34localjourneys and storage/process-restart checks pass on this source; no expected completion or application assertion was removed.
-- Hosted comparison43168468861 passes all8targeted Files methods on iPhone27.1 and iPad27.0 with the same native-cell driver that fails on the newer hosted27.2 combination. Native element activation on27.2 remains under separate test; no main runtime policy has changed.
-
-- Native-activation diagnostic43168869669 also fails Files navigation on27.2; it is not a coordinate-only issue. Commit CI now selects runtime versions from the active SDK's major/minor release line, using runtime and hardware metadata, with both families mandatory. The unchanged driver already passed all8targeted methods on the hosted27.1phone/27.0tablet comparison43168468861. The27.2compatibility failure remains unresolved and is not represented as fixed by this CI policy. Runtime inventories/targets join CI artifacts. Nine selector regressions cover newer runtimes, patches, device-specific versions, renamed devices, unavailable/missing families and invalid SDKs; all52CI-helper tests,12publishing guards, syntax checks, journey traceability and actionlint1.7.12 pass.
-
-- Android commit215df80 is green in hosted CI43170798943:34nativejourneys, storage integration, separate-process persistence, unit/build checks and the aggregate passed. The runtime-selection commit now proceeds to full cross-platform CI; publishing remains disabled for branch commits.
+- Final review found that Apple, Android and Linux checked library membership by identifier but used
+  the caller-provided file location for deletion. They now require the confirmed location to match the
+  stored entry. Foreign identifiers remain ignored; altered locations fail without deleting either file.
+- Android and Linux deletion policy now has its own application workflow, separate from presentation
+  and persistence. Android uses the existing document-access adapter for I/O. Windows already checks
+  the complete immutable activity record, including its path, and needed no behavior change.
+- Local Apple application tests pass (42 cases). Android application tests pass (14 cases, including
+  three deletion regressions), and Debug app/instrumentation builds pass with incremental compilation
+  disabled after a stale local Kotlin symbol-cache error. Fedora application build and all 35 tests pass,
+  including deletion, missing-file and symlink checks. The Mac Linux probe lacked Poppler headers; it
+  does not replace the successful Fedora execution. Hosted validation of this follow-up is pending.

@@ -61,7 +61,9 @@ final class DocumentLibraryModel {
     func deleteSavedDocuments(_ items: [ActivityItem]) -> Bool {
         var failed = false
         for item in items {
-            guard savedDocuments.contains(where: { $0.id == item.id }), let url = item.fileURL else { continue }
+            guard let saved = savedDocuments.first(where: { $0.id == item.id }) else { continue }
+            // A confirmation belongs to the stored file, not merely an entry identifier.
+            guard let url = saved.fileURL, url == item.fileURL else { failed = true; continue }
             let scoped = url.startAccessingSecurityScopedResource()
             defer { if scoped { url.stopAccessingSecurityScopedResource() } }
             do {

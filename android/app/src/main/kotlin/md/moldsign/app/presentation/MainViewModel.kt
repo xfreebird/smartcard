@@ -3,6 +3,7 @@ package md.moldsign.app.presentation
 import md.moldsign.app.application.DocumentProtection
 import md.moldsign.app.application.ProtectDocument
 import md.moldsign.app.application.ImportDocuments
+import md.moldsign.app.application.DeleteSavedDocuments
 import md.moldsign.app.application.AppContainer
 
 import md.moldsign.app.MoldSignApp
@@ -63,6 +64,7 @@ class MainViewModel @JvmOverloads constructor(
 ) : AndroidViewModel(app) {
 
     private val importer = ImportDocuments(documents)
+    private val deletion = DeleteSavedDocuments { documents.delete(it.toUri()) }
     private val protection = protection ?: ProtectDocument(documents, ::saveProtectedDocument)
 
     suspend fun protectDocument(uri: Uri, password: CharArray, decrypt: Boolean): Uri =
@@ -473,13 +475,12 @@ documents.copy(source, target)
 
     /** "Golește lista", after the confirmation dialog. */
     fun deleteSavedDocuments(entries: List<ActivityEntry>) = viewModelScope.launch {
-        val current = savedDocuments.value.map { it.id }.toSet()
-        val selected = entries.filter { it.id in current }
-        val deleted = withContext(Dispatchers.IO) {
-            selected.filter { entry -> entry.documentUri?.toUri()?.let(documents::delete) == true }.map { it.id }.toSet()
+        val current = savedDocuments.value
+        val result = withContext(Dispatchers.IO) {
+            deletion.execute(entries, current)
         }
-        container.activity.removeSignedDocuments(deleted)
-        if (deleted.size != selected.size) _message.value = UiMessage.Text(R.string.saved_delete_failed)
+        container.activity.removeSignedDocuments(result.deletedIds)
+        if (result.failed) _message.value = UiMessage.Text(R.string.saved_delete_failed)
     }
 
     suspend fun saveProtectedDocument(name: String, bytes: ByteArray, decrypted: Boolean): Uri = withContext(Dispatchers.IO) {

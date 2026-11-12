@@ -66,4 +66,19 @@ runtime evidence were preserved.
 ## Subsequent runtime validation
 
 The owner subsequently authorized builds and tests. See [native test validation](native-test-validation-2026-11-11.md)
-for executed targets, discovered fixes, passing evidence, skips and the remaining macOS runner blocker.
+for the earlier local execution record. See [commit CI validation](commit-ci-validation-2026-11-11.md)
+for current hosted builds, native UI results and remaining coverage limits.
+
+## Additional deletion review — 12 November
+
+Apple, Android and Linux validated selected library entries by ID but then deleted the location supplied
+by the caller. A copied entry with the same ID and a different location could target a file outside the
+saved library. Deletion now requires the confirmed location to match the stored entry. The UI receives
+a failure for mismatches; neither file is deleted. Foreign IDs remain ignored. Android and Linux now
+own this policy in application workflows, keeping file selection/deletion separate from presentation
+and persistence. Windows already compares the complete immutable record, including its path.
+
+Regression tests exercise substituted locations, valid confirmed deletion, unrelated-file preservation,
+duplicate/foreign selections, missing files, failed deletion and symbolic links. Local validation passed:
+42 Apple application cases, 14 Android application cases and app/instrumentation builds, and 35 Fedora
+application cases with the native app build. Hosted native validation of this follow-up remains pending.
