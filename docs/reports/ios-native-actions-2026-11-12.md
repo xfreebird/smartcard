@@ -20,8 +20,8 @@ padding. Landscape evidence uses a complete display capture to avoid cropped win
 
 ## Validation
 
-The local gate passed before pushing. Hosted Apple, Linux, Windows and Swift validation also passes
-on `4c9a006`; the Android follow-up is recorded below.
+The local gate passed before each source push. Hosted Apple, Linux, Windows and Swift validation
+passes on `4c9a006`; final Android validation and the aggregate pass on `ea6ac0b`.
 
 - iOS Simulator (app and extensions) and macOS Debug builds pass.
 - The independent Apple design-system target and all 42 application tests pass.
@@ -95,7 +95,13 @@ This prevents a new root from returning a previous Compose control identifier th
 Both APK builds, all 16 app unit tests, all 56 guards and shell syntax checks pass. Complete batches
 in both three-button and gesture navigation each pass all 34 journeys and the three storage/restart
 phases. Evidence is in `.local/ios-glass-drag-threebutton-1/` and `.local/ios-glass-drag-gestural/`.
-Hosted validation is pending.
+[Run 43223891446](https://github.com/xfreebird/smartcard/actions/runs/43223891446) passes on `ea6ac0b`,
+including Android and the stable `CI result` aggregate. Artifact readback confirms all 34 native
+journeys, all three storage/restart phases, all 16 app tests and all 21 USB tests pass. The 137-case
+core suite has zero failures/errors and one existing opt-in live-TSA skip. Shared checks pass. Unchanged
+Apple, Linux, Windows and Swift jobs are intentionally skipped by changed-platform selection;
+their passing native evidence is recorded above. Downloaded final proof is retained in
+`.local/ios-glass-ci-43223891446/verified-results.json`.
 
 Earlier failed hosted runs are retained for the investigation:
 [43217346170](https://github.com/xfreebird/smartcard/actions/runs/43217346170) and

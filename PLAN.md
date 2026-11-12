@@ -1407,4 +1407,7 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   advertised vertical panes and assert that scrolling preserves the selected reader and saved library.
   Capture failure screenshots before Activity cleanup. Both navigation modes pass all 34 journeys
   and storage/restart checks; APK builds, 16 app tests, 56 guards and shell checks pass before push.
-  Hosted validation is pending.
+  Final hosted run `43223891446` passes on `ea6ac0b`, including the aggregate. Artifact readback
+  confirms all 34 native journeys, three storage/restart phases, 16 app and 21 USB tests pass;
+  the 137-case core suite has no failures/errors and one existing opt-in live-TSA skip. Unchanged platforms
+  retain the successful `43211044835` evidence. Commit validation publishes no application version.
