@@ -19,6 +19,7 @@ class AppleUIBatchTests(unittest.TestCase):
             (scripts / 'run-verification-ui-tests.sh').write_text('''#!/bin/bash
 name=$(basename "$MSIGN_UI_TEST_SOURCE" .swift)
 echo "$name" >> "$CALLS"
+if [[ "$PLATFORM" == ios && ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then exit 99; fi
 if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 65; fi
 ''')
             shutil.copy(scripts / 'run-verification-ui-tests.sh', scripts / 'run-protection-ui-tests.sh')
@@ -26,14 +27,25 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
             checks = root / 'scripts/ci'
             checks.mkdir(parents=True)
             (checks / 'check-xctest-result.py').write_text('import sys\nassert sys.argv[2] in ("1", "2", "3", "5", "6")\n')
+            binaries = root / 'bin'
+            binaries.mkdir()
+            installer = binaries / 'xcrun'
+            installer.write_text('#!/bin/bash\nprintf "%s\\n" "$*" >> "$INSTALLS"\n')
+            installer.chmod(0o755)
+            installs = root / 'installs'
             calls = root / 'calls'
             result = subprocess.run(['bash', str(scripts / 'run-mock-ui-tests.sh'),
                                      platform, '/unused/app', 'mac', str(root / 'results')],
-                                    env=dict(os.environ, CALLS=str(calls), FAIL_FIRST=str(int(fail_first)), GITHUB_ACTIONS="true"),
+                                    env=dict(os.environ, CALLS=str(calls), INSTALLS=str(installs), PLATFORM=platform,
+                                             PATH=str(binaries) + os.pathsep + os.environ['PATH'], FAIL_FIRST=str(int(fail_first)), GITHUB_ACTIONS="true"),
                                     capture_output=True, text=True)
             self.assertEqual(calls.read_text().splitlines(),
                              ['VerificationJourneyUITests', 'MockWorkflowUITests'] +
                              (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests'] if platform == 'ios' else []))
+            if platform == 'ios':
+                self.assertEqual(installs.read_text().splitlines(), ['simctl install mac /unused/app'])
+            else:
+                self.assertFalse(installs.exists())
             if fail_first:
                 self.assertIn(f"::error title=Native UI failure::{platform}/VerificationJourneyUITests failed", result.stdout)
             else:

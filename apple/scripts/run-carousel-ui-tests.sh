@@ -76,7 +76,9 @@ schemes:
         - GestureTests
 YAML
 xcodegen generate --spec "$probe_dir/project.yml"
-xcrun simctl install "$device" "$app"
+if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then
+    xcrun simctl install "$device" "$app"
+fi
 python3 "$repo/apple/scripts/capture-test-display.py" "$device" "$out/active-display" \
     xcodebuild test -project "$probe_dir/GestureProbe.xcodeproj" -scheme GestureProbe \
     -destination "id=$device" -parallel-testing-enabled NO \

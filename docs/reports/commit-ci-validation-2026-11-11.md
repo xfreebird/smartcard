@@ -2,7 +2,9 @@
 
 [CI run 43088408745](https://github.com/xfreebird/smartcard/actions/runs/43088408745)
 validates pushed source commit `b61890f577eb8a0b298b377859a83b14ef54a23f`.
-Seven jobs passed. The iOS native test and evidence-upload steps failed. The job/log APIs subsequently returned repeated HTTP 502 errors with inconsistent run status, so the failing assertions have not been recovered. A fresh run with immediate suite/assertion annotations is required; this revision is not reported as green.
+Seven jobs passed. The iOS native test and evidence-upload steps failed. The job/log APIs subsequently returned repeated HTTP 502 errors with inconsistent run status. The assertions were later recovered: Files navigation failed in protection and detached-original selection. This revision is not reported as green.
+
+The follow-up [run 43098447037](https://github.com/xfreebird/smartcard/actions/runs/43098447037) at `0a706bc26389bebf091ecbb6ea0ee2012cfcac87` passed macOS, Android, Linux and shared validation. Windows failed a native scroll-visibility assertion, and iOS failed four Files methods across phone/tablet. Their logs and result bundles were recovered. A new validation is required after the setup and synchronization fixes below.
 
 The earlier [run 43040752719](https://github.com/xfreebird/smartcard/actions/runs/43040752719)
 passed all nine jobs for `8244e5f42d3327630fa78ec4549c53e213e917c9` at 14:58 UTC.
@@ -13,7 +15,7 @@ The current run includes the subsequent lifecycle, protection, import and Files 
 | Platform | Required validation that passed |
 | --- | --- |
 | macOS | Debug app, application integration tests, 5 verification + 6 workflow UI methods, unsigned App Store variant and CLI build |
-| iPhone and iPad | App/share-extension build passed; native batch failed, awaiting completed evidence for its 18 methods per family |
+| iPhone and iPad | App/share-extension build passed; native batch failed in Files navigation; 18 methods are required per family |
 | Android | Debug app and instrumentation APKs; 34 journey completions (21 UI paths and 13 workflow integration cases), plus storage and separate prepare/verify launches; JVM suites: core 137 tests with 1 opt-in skip, USB transport 21, application 11, zero failures/errors |
 | Linux | Swift core, CLI and application integration tests; 21 GTK UI scenarios, including native protection under Xvfb/D-Bus; packages |
 | Windows | 257 integration tests, zero skips; WinUI build; 4 verification + 8 workflow UI cases, first launch, isolated demo persistence, card scrolling and synthetic reader helper; CLI, MSI and MSIX packaging |
@@ -53,7 +55,13 @@ The native protection fixture uses tmpfs because production removal refuses unkn
 Files automation now resolves native controls from a single public XCTest snapshot, with a named
 subtree fallback for incomplete iPad snapshots. It verifies dismissal, output bytes, private permissions
 and persistence. Protection and three Documents methods pass locally on iPhone Duo/iOS 27.1 and on
-iPad/iOS 26.5 and 27.0. All task-owned simulators were shut down; unrelated devices were preserved.
+iPad/iOS 26.5 and 27.0. Task-owned simulators are used for the follow-up; unrelated devices are preserved.
+
+## 12 November follow-up
+
+The iOS batch installs once before fixture seeding and keeps the same data container across its suites. Nested runners no longer reinstall after seeding. Picker presentation has a bounded 30-second wait, and app taps require enabled, stable, hittable controls. Updated protection passes on iPad/iOS 27.0 with byte and permission postchecks. The preceding complete local iPhone/iOS 27.1 batch passed all 18 methods. Updated Documents and hosted execution remain pending.
+
+Windows waits for native keyboard focus before Home/End and for both scroll percentage and visible control geometry before asserting completion. The updated runner passes all four theme/window-size combinations on Windows 11 ARM64. All 43 CI-helper tests and shell syntax checks pass.
 
 ## Coverage limits
 

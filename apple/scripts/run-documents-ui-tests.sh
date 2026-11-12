@@ -9,13 +9,15 @@ mkdir -p "$out"
 out=$(cd "$out" && pwd)
 MSIGN_TEST_EXPORT_DIRECTORY="$out/fixtures" swift test --package-path "$repo/swift/MoldSignKit" \
     --filter BridgeEndToEndTests/testDetachedMissingOriginalIsIncompleteAndSelectedBytesResolveIt > "$out/fixture-generation.log" 2>&1
-xcrun simctl install "$device" "$app"
+if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then
+    xcrun simctl install "$device" "$app"
+fi
 container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 "$repo/apple/scripts/seed-documents-ui-tests.py" "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf"
-MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/DocumentsUITests.swift" \
+MSIGN_UI_APP_INSTALLED=1 MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/DocumentsUITests.swift" \
     bash "$repo/apple/scripts/run-verification-ui-tests.sh" ios "$app" "$device" "$out/native"
 ln -s native/GestureProof.xcresult "$out/GestureProof.xcresult"
-# Installing the native runner may relocate the app data container.
+# Resolve the live container again for post-run filesystem checks.
 container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 - "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf" <<'PY'
 import json, pathlib, plistlib, sys

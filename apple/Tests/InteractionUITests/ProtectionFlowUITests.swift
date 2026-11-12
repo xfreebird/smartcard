@@ -19,7 +19,7 @@ final class ProtectionFlowUITests: XCTestCase {
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
 
         app.buttons["protect.chooseFile"].tapWhenReady()
-        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 30))
         try app.cancelFilePicker()
         XCTAssertTrue(app.buttons["protect.chooseFile"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
@@ -35,7 +35,7 @@ final class ProtectionFlowUITests: XCTestCase {
         confirmation.typeText("sample-roundtrip")
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled, "A mismatched confirmation must not encrypt")
         confirmation.typeText("-2026")
-        app.buttons["protect.submit"].tap()
+        app.buttons["protect.submit"].tapWhenReady()
         assertSaved(in: app)
         attach(app, "encrypted-saved")
         try closeDetails(in: app)
@@ -48,7 +48,7 @@ final class ProtectionFlowUITests: XCTestCase {
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         password.tap()
         password.typeText("sample-roundtrip-2026")
-        app.buttons["protect.submit"].tap()
+        app.buttons["protect.submit"].tapWhenReady()
         assertSaved(in: app)
         attach(app, "decrypted-saved")
         try closeDetails(in: app)
@@ -65,7 +65,7 @@ final class ProtectionFlowUITests: XCTestCase {
 
     private func chooseSource(in app: XCUIApplication) throws {
         app.buttons["protect.chooseFile"].tapWhenReady()
-        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 30))
         try NativeFilePicker(app: app).selectFile(in: ["eSemnBun, Container"],
             namePrefix: "ProtectionSource", confirmSelection: false)
     }

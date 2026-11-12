@@ -65,13 +65,13 @@ final class DocumentsUITests: XCTestCase {
         let choose = app.buttons["verify.chooseOriginals"]
         XCTAssertTrue(choose.waitForExistence(timeout: 10))
         choose.tap()
-        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 30), app.debugDescription)
         attach(app, "06-original-picker")
         try app.cancelFilePicker()
         XCTAssertTrue(choose.waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Cannot be confirmed"].exists)
         choose.tap()
-        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 30))
         try NativeFilePicker(app: app).selectFile(in: ["eSemnBun, Container", "Originals, Folder"],
             namePrefix: "detached-", labelContains: "txt", confirmSelection: true)
         XCTAssertTrue(choose.waitForExistence(timeout: 10))

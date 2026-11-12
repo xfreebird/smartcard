@@ -72,7 +72,7 @@ extension XCUIElement {
         var previous = CGRect.null
         var stable = 0
         let ready = NSPredicate { _, _ in
-            guard self.exists, self.isHittable, !self.frame.isEmpty else { stable = 0; return false }
+            guard self.exists, self.isEnabled, self.isHittable, !self.frame.isEmpty else { stable = 0; return false }
             if self.frame == previous { stable += 1 } else { stable = 0 }
             previous = self.frame
             return stable >= 2

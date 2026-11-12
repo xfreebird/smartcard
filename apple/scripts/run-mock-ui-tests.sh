@@ -5,6 +5,11 @@ platform=${1:?ios|macos}; app=${2:?Debug app}; device=${3:?Simulator UUID or mac
 repo=$(cd "$(dirname "$0")/../.." && pwd)
 [[ ! -e "$out" ]] || { echo 'Use a fresh output directory' >&2; exit 2; }
 mkdir -p "$out"
+if [[ "$platform" == ios ]]; then
+    # Files retains provider URLs. Keep one app data container for all seeded suites.
+    xcrun simctl install "$device" "$app"
+    export MSIGN_UI_APP_INSTALLED=1
+fi
 status=0
 report_failure() {
     printf 'Native UI failure: %s/%s on %s\n' "$platform" "$suite" "$device" >&2

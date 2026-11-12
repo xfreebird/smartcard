@@ -64,8 +64,12 @@ struct NativeFilePicker {
             result = control
             return stable >= 2
         }
-        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: app)], timeout: 15), .completed,
-                       "Native Files control did not become stable: \(name)")
+        let outcome = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: app)], timeout: 15)
+        if outcome != .completed {
+            let tree = app.filePicker.exists ? app.filePicker.debugDescription : app.debugDescription
+            print("Native Files failure (\(name)):\n\(tree)")
+        }
+        XCTAssertEqual(outcome, .completed, "Native Files control did not become stable: \(name)")
         return try XCTUnwrap(result)
     }
 

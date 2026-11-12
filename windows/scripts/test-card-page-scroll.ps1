@@ -43,17 +43,38 @@ function Find-Id($parent,[string]$id) {
     if($null -eq $element) {throw "Missing native UI element: $id"}
     return $element
 }
-function Assert-Visible($element,$viewport,[string]$label) {
+function Test-Visible($element,$viewport) {
     $r=$element.Current.BoundingRectangle;$v=$viewport.Current.BoundingRectangle
-    if($element.Current.IsOffscreen -or $r.Width -le 0 -or $r.Height -le 0 -or
-       $r.Top -lt $v.Top-1 -or $r.Bottom -gt $v.Bottom+1 -or $r.Left -lt $v.Left-1 -or $r.Right -gt $v.Right+1) {
-        throw "$label is not fully visible in its viewport."
+    return -not ($element.Current.IsOffscreen -or $r.Width -le 0 -or $r.Height -le 0 -or
+       $r.Top -lt $v.Top-1 -or $r.Bottom -gt $v.Bottom+1 -or $r.Left -lt $v.Left-1 -or $r.Right -gt $v.Right+1)
+}
+function Assert-Visible($element,$viewport,[string]$label) {
+    if(-not (Test-Visible $element $viewport)) {
+        throw "$label is not fully visible in its viewport. Element=$($element.Current.BoundingRectangle) Viewport=$($viewport.Current.BoundingRectangle) Offscreen=$($element.Current.IsOffscreen)"
     }
 }
 function Is-Bottom($pattern) {return -not $pattern.Current.VerticallyScrollable -or $pattern.Current.VerticalScrollPercent -ge 99.5}
-function Wait-Bottom($pattern) {
-    for($attempt=0;$attempt -lt 60;$attempt++) {if(Is-Bottom $pattern) {return};Start-Sleep -Milliseconds 100}
-    throw 'Native scrolling did not reach the bottom.'
+function Focus-Scroll($scroll,[IntPtr]$window) {
+    [CardScrollInput]::SetForegroundWindow($window)|Out-Null
+    $scroll.SetFocus()
+    for($attempt=0;$attempt -lt 60;$attempt++) {
+        if([CardScrollInput]::GetForegroundWindow() -eq $window -and $scroll.Current.HasKeyboardFocus) {return}
+        Start-Sleep -Milliseconds 100
+    }
+    throw 'Card scroll viewport did not acquire native keyboard focus.'
+}
+function Wait-Bottom($pattern,$viewport,$controls) {
+    # ScrollPercent can update before the animated content's UIA rectangles settle.
+    $stable=0
+    for($attempt=0;$attempt -lt 60;$attempt++) {
+        $visible=(Is-Bottom $pattern)
+        foreach($control in $controls) {if(-not (Test-Visible $control $viewport)) {$visible=$false}}
+        if($visible) {$stable++} else {$stable=0}
+        if($stable -ge 3) {return}
+        Start-Sleep -Milliseconds 100
+    }
+    foreach($control in $controls) {Assert-Visible $control $viewport $control.Current.AutomationId}
+    throw "Native scrolling did not settle at the bottom. ScrollPercent=$($pattern.Current.VerticalScrollPercent)"
 }
 function Capture([IntPtr]$window,[string]$name) {
     if([CardScrollInput]::GetForegroundWindow() -ne $window) {throw 'Capture window is obscured.'}
@@ -87,7 +108,8 @@ try {
             foreach($size in @(@{Width=1100;Height=720},@{Width=900;Height=580})) {
                 [CardScrollInput]::SetWindowPos($handle,[IntPtr]::Zero,0,0,$size.Width,$size.Height,0x0006)|Out-Null
                 Start-Sleep -Milliseconds 400
-                $scroll.SetFocus();Start-Sleep -Milliseconds 150;[CardScrollInput]::ScrollKey(0x24);Start-Sleep -Milliseconds 250
+                Focus-Scroll $scroll $handle
+                [CardScrollInput]::ScrollKey(0x24);Start-Sleep -Milliseconds 250
                 # NavigationView animates its pane when crossing the compact-width breakpoint. Wait for stable geometry.
                 $stable=0
                 for($attempt=0;$attempt -lt 60;$attempt++) {
@@ -115,16 +137,20 @@ try {
                 for($attempt=0;$attempt -lt 25 -and -not (Is-Bottom $pattern);$attempt++) {
                     [CardScrollInput]::Wheel(-600);Start-Sleep -Milliseconds 150
                 }
-                Wait-Bottom $pattern
+                Wait-Bottom $pattern $scroll @($button,$tips)
                 Assert-Visible $button $scroll 'Saved-PIN action after wheel scrolling'
                 Assert-Visible $tips $scroll 'Last help text after wheel scrolling'
                 if([string]::IsNullOrEmpty((Find-Id $window 'WalletCard2').Current.ItemStatus)) {throw 'Wheel scrolling changed the selected card.'}
                 $wheelOffset=$pattern.Current.VerticalScrollPercent
-                [CardScrollInput]::SetForegroundWindow($handle)|Out-Null;$scroll.SetFocus();Start-Sleep -Milliseconds 150;[CardScrollInput]::ScrollKey(0x24)
+                Focus-Scroll $scroll $handle
+                [CardScrollInput]::ScrollKey(0x24)
                 for($attempt=0;$attempt -lt 60 -and $pattern.Current.VerticallyScrollable -and $pattern.Current.VerticalScrollPercent -gt 1;$attempt++) {Start-Sleep -Milliseconds 100}
-                if($pattern.Current.VerticallyScrollable -and $pattern.Current.VerticalScrollPercent -gt 1) {throw 'Home did not return to the top.'}
+                if($pattern.Current.VerticallyScrollable -and $pattern.Current.VerticalScrollPercent -gt 1) {
+                    Capture $handle ("card-home-failure-$($size.Height)-$theme")
+                    throw "Home did not return to the top. ScrollPercent=$($pattern.Current.VerticalScrollPercent) Focus=$($scroll.Current.HasKeyboardFocus)"
+                }
                 [CardScrollInput]::ScrollKey(0x23)
-                Wait-Bottom $pattern
+                Wait-Bottom $pattern $scroll @($button,$tips)
                 Assert-Visible $button $scroll 'Saved-PIN action after keyboard scrolling'
                 Assert-Visible $tips $scroll 'Last help text after keyboard scrolling'
                 Capture $handle ("card-bottom-$($size.Height)-$theme")
