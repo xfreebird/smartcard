@@ -81,9 +81,14 @@ struct SignScreen: View {
                 .padding(24)
                 .frame(maxWidth: .infinity)
             }
-            .toolbar {
+            .accessibilityIdentifier("signing.workspace")
+            .safeAreaInset(edge: .bottom, alignment: .trailing, spacing: 0) {
                 if !model.signItems.isEmpty {
-                    ToolbarItem(placement: .primaryAction) { signButton }
+                    signButton
+                        .controlSize(.large)
+                        .buttonBorderShape(.capsule)
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 16)
                 }
             }
             #endif
@@ -342,22 +347,15 @@ struct SignScreen: View {
             #else
             Label(signActionTitle, systemImage: "signature")
                 .labelStyle(.titleAndIcon)
+                .frame(minWidth: 120, minHeight: 32)
             #endif
         }
-        #if os(iOS)
-        // One style owns enabled, pressed and disabled rendering; no nested toolbar background.
+        // One native style owns enabled, pressed and disabled rendering on each platform.
         styled(button.nativeButtonStyle(.prominent))
-        #else
-        if canSign { styled(button.buttonStyle(.borderedProminent)) }
-        else { styled(button.buttonStyle(.bordered)) }
-        #endif
     }
 
     private func styled(_ button: some View) -> some View {
         button.accessibilityIdentifier("sign.submit")
-            #if os(macOS)
-            .controlSize(.regular)
-            #endif
             .accessibilityLabel(signActionTitle)
             .keyboardShortcut(.return, modifiers: .command)
             .disabled(!canSign)

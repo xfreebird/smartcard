@@ -1,6 +1,6 @@
 # 10 — Design System and Screens
 
-## Current adjustments (31 October 2026)
+## Current adjustments (12 November 2026)
 
 These decisions supersede earlier vertical expand/collapse wallet descriptions below:
 
@@ -20,10 +20,10 @@ These decisions supersede earlier vertical expand/collapse wallet descriptions b
 - Android tablets use the desktop vertical hierarchy: centered card, documents/picker below, then a compact
   centered signing action. From 600dp window width, keep the native navigation rail and bounded 680dp content
   with 24dp gutters; narrower multitasking windows use the compact layout.
-- iOS compact layouts use a compact toolbar signing action. At wide widths (iPad and expanded iPhone Duo),
+- iOS and macOS use one floating Sign action at the trailing bottom safe area. At wide iOS widths (iPad and expanded iPhone Duo),
   signing/card controls sit left and document browsing/selection/operations sit right. Adapt to available width,
   including rotation and window resizing. Wide pane contents use symmetric 24pt inner/outer gutters; the primary
-  action centers under the card. macOS and Windows reader-empty states use one dotted rectangle without an
+  action stays outside the scrolling content. macOS and Windows reader-empty states use one dotted rectangle without an
   additional titled panel; Windows keeps the document drop area below it. Signed results expose native sharing/export.
 - iOS browser has address entry, navigation and share controls. Connectivity guidance refers only to mobile
   readers/adapters. Browser requests still require the normal origin and consent checks.
@@ -399,3 +399,8 @@ configuration on supported versions.
 The iOS Sign action sits at the trailing bottom safe area, above tab navigation. Reserve its space
 with a safe-area inset so documents remain scrollable and unobscured. Keep a single action in all
 window widths and orientations, with a capsule shape and a 44-point minimum touch target.
+
+On macOS, use the native prominent capsule at large control size, with a minimum 120-point label
+width and 44-point control height. Reserve 24-point side and 16-point bottom gutters. Keep ⌘Return,
+the document count and the existing readiness rules. Hide the action only when the queue is empty;
+keep the same native style while disabled. Scrolling and window resizing must preserve its placement.

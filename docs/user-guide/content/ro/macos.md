@@ -33,7 +33,7 @@ Imaginea cardului folosește datele certificatului și un avatar neutru, nu foto
 
 Un PDF folosește în mod normal PAdES-T: semnătura rămâne în PDF. Alte fișiere folosesc de obicei XAdES-T detașat: păstrează XML-ul împreună cu originalul nemodificat. Folosește controlul de format al fișierului dacă destinatarul cere un alt format acceptat. Meniul rândului permite eliminarea unui fișier adăugat din greșeală.
 
-<GuideScreenshot src="/img/guide/macos/ro/sign.png" alt="Adaugă documentele și alege formatul" steps={[{"x": 7, "y": 11, "text": "Deschide Semnează."}, {"x": 69, "y": 71, "text": "Alege fișiere sau trage-le în zona punctată. Adaugă întregul lot înainte de semnare."}, {"x": 36, "y": 53, "text": "Verifică numele și formatul fiecărui fișier. Controlul ștampilei PDF este lângă format."}, {"x": 92, "y": 3, "text": "Verifică cardul selectat, apoi alege Semnează. Butonul arată numărul documentelor."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/sign.png" alt="Adaugă documentele și alege formatul" steps={[{"x": 8, "y": 9, "text": "Deschide Semnează."}, {"x": 67, "y": 73, "text": "Alege fișiere sau trage-le în zona punctată. Adaugă întregul lot înainte de semnare."}, {"x": 45, "y": 54, "text": "Verifică numele și formatul fiecărui fișier. Controlul ștampilei PDF este lângă format."}, {"x": 90, "y": 95, "text": "Verifică cardul selectat, apoi apasă butonul flotant Semnează din dreapta jos sau ⌘Return. Butonul arată numărul documentelor și rămâne vizibil în timpul derulării."}]} />
 
 ## Aplică o ștampilă vizibilă pe PDF
 
@@ -41,7 +41,7 @@ Deschide controlul Ștampilă oprită/Editează ștampila al unui PDF din listă
 
 Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
 
-<GuideScreenshot src="/img/guide/macos/ro/stamp.png" alt="Aplică o ștampilă vizibilă pe PDF" steps={[{"x": 83, "y": 17, "text": "Activează Ștampilă vizibilă."}, {"x": 21, "y": 49, "text": "Trage ștampila pentru poziționare și un colț pentru redimensionare."}, {"x": 83, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică setarea tuturor PDF-urilor din lot."}, {"x": 81, "y": 84, "text": "Alege Aplică pentru a reveni la lista de semnare."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/stamp.png" alt="Aplică o ștampilă vizibilă pe PDF" steps={[{"x": 94, "y": 6, "text": "Activează Ștampilă vizibilă."}, {"x": 11, "y": 49, "text": "Trage ștampila pentru poziționare și un colț pentru redimensionare."}, {"x": 94, "y": 28, "text": "Alege pagina selectată sau toate paginile; opțional, aplică setarea tuturor PDF-urilor din lot."}, {"x": 92, "y": 95, "text": "Alege Aplică pentru a reveni la lista de semnare."}]} />
 
 ## Autorizează lotul afișat
 
@@ -53,7 +53,7 @@ Folosește PIN-ul de semnare al cardului fizic selectat, nu parola de autentific
 
 Lasă cititorul conectat în timpul semnării și obținerii mărcii temporale. Erorile de rețea/marcă temporală și fișierele nevalide diferă de un PIN incorect. Citește eroarea înainte de următorul pas.
 
-<GuideScreenshot src="/img/guide/macos/ro/progress.png" alt="Așteaptă semnarea și marca temporală" steps={[{"x": 60, "y": 42, "text": "Așteaptă încheierea etapei curente."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/progress.png" alt="Așteaptă semnarea și marca temporală" steps={[{"x": 50, "y": 45, "text": "Așteaptă încheierea etapei curente."}]} />
 
 ## Găsește, previzualizează și partajează rezultatul
 
@@ -65,7 +65,7 @@ Ediția macOS independentă scrie de obicei un fișier nou lângă sursă, cu su
 
 Un lot poate conține elemente reușite și eșuate. Păstrează rezultatele finalizate. Corectează fișierul sau conexiunea înainte de o nouă operațiune deliberată; PIN-ul nu se reîncearcă automat. Un PDF nevalid și nemodificat va eșua din nou.
 
-<GuideScreenshot src="/img/guide/macos/ro/file-error.png" alt="Rezolvă o eroare de document" steps={[{"x": 57, "y": 54, "text": "Citește eroarea fișierului afectat; elimină-l din meniul rândului dacă este necesar."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/file-error.png" alt="Rezolvă o eroare de document" steps={[{"x": 50, "y": 56, "text": "Citește eroarea fișierului afectat; elimină-l din meniul rândului dacă este necesar."}]} />
 
 ## Verifică un PDF și fiecare semnătură
 

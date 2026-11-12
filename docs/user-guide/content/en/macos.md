@@ -33,7 +33,7 @@ The card artwork uses certificate data and a neutral avatar, not a photograph re
 
 A PDF normally uses PAdES-T: the signature stays inside the PDF. Other files normally use detached XAdES-T: the XML and unchanged original belong together. Use the format control on a queued file when a recipient requires a different supported format. The row menu removes an unintended file.
 
-<GuideScreenshot src="/img/guide/macos/en/sign.png" alt="Add documents and choose their format" steps={[{"x": 7, "y": 11, "text": "Open Sign."}, {"x": 69, "y": 71, "text": "Choose files, or drop files into the dashed area. Add the whole batch before signing."}, {"x": 36, "y": 53, "text": "Check each filename and its format. The PDF stamp control sits beside its format."}, {"x": 92, "y": 3, "text": "Check the selected card, then choose Sign. The button shows the batch size."}]} />
+<GuideScreenshot src="/img/guide/macos/en/sign.png" alt="Add documents and choose their format" steps={[{"x": 8, "y": 9, "text": "Open Sign."}, {"x": 67, "y": 73, "text": "Choose files, or drop files into the dashed area. Add the whole batch before signing."}, {"x": 45, "y": 54, "text": "Check each filename and its format. The PDF stamp control sits beside its format."}, {"x": 90, "y": 95, "text": "Check the selected card, then choose the floating Sign button at the bottom-right, or press ⌘Return. The button shows the batch size and stays visible while you scroll."}]} />
 
 ## Place a visible stamp on a PDF
 
@@ -41,7 +41,7 @@ Open Stamp off/Edit stamp on a queued PDF. A visible stamp is optional and does 
 
 Stamp text follows the selected app language (Romanian, English or Russian).
 
-<GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 83, "y": 17, "text": "Enable Visible stamp."}, {"x": 21, "y": 49, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 83, "y": 34, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 81, "y": 84, "text": "Choose Apply to return to the signing queue."}]} />
+<GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 94, "y": 6, "text": "Enable Visible stamp."}, {"x": 11, "y": 49, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 94, "y": 28, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 92, "y": 95, "text": "Choose Apply to return to the signing queue."}]} />
 
 ## Authorize the displayed batch
 
@@ -53,7 +53,7 @@ Use the signing PIN of the selected physical card, not your Mac login password. 
 
 Leave the reader connected while the app signs and obtains a timestamp. Timestamp/network failures and malformed input are different from an incorrect PIN. Read the actual error before deciding what to do next.
 
-<GuideScreenshot src="/img/guide/macos/en/progress.png" alt="Wait for signing and the timestamp" steps={[{"x": 60, "y": 42, "text": "Wait for the current signing step to finish."}]} />
+<GuideScreenshot src="/img/guide/macos/en/progress.png" alt="Wait for signing and the timestamp" steps={[{"x": 50, "y": 45, "text": "Wait for the current signing step to finish."}]} />
 
 ## Find, preview and share the completed output
 
@@ -65,7 +65,7 @@ Standalone macOS normally writes a new file beside the source, with a signed suf
 
 A batch can contain successful and failed items. Keep completed outputs. Correct the failed input or connection before starting another deliberate operation; there is no automatic PIN retry. An unchanged malformed PDF will fail again.
 
-<GuideScreenshot src="/img/guide/macos/en/file-error.png" alt="Recover from a failed document" steps={[{"x": 57, "y": 54, "text": "Read the error on the affected file; use its row menu to remove it if necessary."}]} />
+<GuideScreenshot src="/img/guide/macos/en/file-error.png" alt="Recover from a failed document" steps={[{"x": 50, "y": 56, "text": "Read the error on the affected file; use its row menu to remove it if necessary."}]} />
 
 ## Verify a PDF and every signature
 

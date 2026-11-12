@@ -287,6 +287,15 @@
       "level": "ui-interaction",
       "execution": "passed-local-phone-tablet-ios18-ios26-2026-11-12",
       "boundary": "Native action placement and enabled state with fictional cards; retained light/dark and accessibility screenshots."
+    },
+    "macos-floating-actions": {
+      "path": "apple/Tests/InteractionUITests/MacFloatingActionUITests.swift",
+      "platforms": [
+        "macos"
+      ],
+      "level": "ui-interaction",
+      "execution": "compiled-local-runtime-blocked-automation-authentication-2026-11-12",
+      "boundary": "Four XCTest methods; injected signing services and fictional cards. Native execution pending local administrator authentication."
     }
   },
   "journeys": [
@@ -389,7 +398,8 @@
         "windows-demo",
         "apple-mock-workflows",
         "android-mock-workflows",
-        "windows-mock-workflows"
+        "windows-mock-workflows",
+        "macos-floating-actions"
       ],
       "acceptance": "Imported names and formats are visible; removing a queued input leaves its source untouched.",
       "edge_cases": [
@@ -481,7 +491,8 @@
         "apple-mock-workflows",
         "android-mock-workflows",
         "linux-journeys",
-        "windows-mock-workflows"
+        "windows-mock-workflows",
+        "macos-floating-actions"
       ],
       "acceptance": "One batch authorization uses the frozen certificate; outputs correspond to accepted inputs.",
       "edge_cases": [
@@ -540,7 +551,8 @@
         "apple-mock-workflows",
         "android-mock-workflows",
         "linux-journeys",
-        "windows-mock-workflows"
+        "windows-mock-workflows",
+        "macos-floating-actions"
       ],
       "acceptance": "Recoverable input/output failures preserve successes; card/security failures stop without retry.",
       "edge_cases": [

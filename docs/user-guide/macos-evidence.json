@@ -96,9 +96,25 @@
       "file": "website/static/img/guide/macos/en/file-error.png",
       "language": "en",
       "scenario": "file-error",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "e20e7787d31a915102eb9650a5d4bc765c4b1a9f5731ba8379040d8b1bfe899c"
+      "width": 2560,
+      "height": 1600,
+      "sha256": "41f017ec300a7ee6eafab097ebbb4389cc96191db58542565b1b01de2928f461",
+      "sourceScenario": "sign-failure",
+      "rawSha256": "41f017ec300a7ee6eafab097ebbb4389cc96191db58542565b1b01de2928f461",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/en/history.png",
@@ -120,9 +136,25 @@
       "file": "website/static/img/guide/macos/en/progress.png",
       "language": "en",
       "scenario": "progress",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "d29150d5fbe8b654ef70b242c7ffbc355a1ada1f437e309b58343b9a3bf906e0"
+      "width": 2560,
+      "height": 1600,
+      "sha256": "c794a1bf1bcbcaa5316278056e3c4731a8716cfbdcb78f327e2ec58a2043e906",
+      "sourceScenario": "signing",
+      "rawSha256": "c794a1bf1bcbcaa5316278056e3c4731a8716cfbdcb78f327e2ec58a2043e906",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/en/reader-error.png",
@@ -167,40 +199,63 @@
       "file": "website/static/img/guide/macos/en/sign.png",
       "language": "en",
       "scenario": "sign",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "0cc994024ff552d2918b99c0d003b3753f39c5f602dd3fbaae2d1d790090f8fb"
+      "width": 2560,
+      "height": 1600,
+      "sha256": "f98e50f7a9e1db5bbb15a41310719ab7b31ee17935d4ab9718a7c1e571c85784",
+      "sourceScenario": "ready",
+      "rawSha256": "f98e50f7a9e1db5bbb15a41310719ab7b31ee17935d4ab9718a7c1e571c85784",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/en/stamp.png",
       "language": "en",
       "scenario": "stamp",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "289b16ac16337d0f684f650be7f56a405ec9f94d282a2d4240bbc950b1fd24ef",
+      "width": 1640,
+      "height": 1240,
+      "sha256": "38cae37ebf8e38d6af3c73d7d899a5e80e97f1a4d692dd63393ef98492f87149",
       "platform": "macos",
       "locale": "en",
       "name": "stamp",
       "path": "website/static/img/guide/macos/en/stamp.png",
-      "rawSha256": "289b16ac16337d0f684f650be7f56a405ec9f94d282a2d4240bbc950b1fd24ef",
+      "rawSha256": "5df979a08b3d13deda78374e3d8cd7a2ddbc6d315b15af88919f57d9cdd1da65",
       "dimensions": [
-        2200,
-        1640
+        1640,
+        1240
       ],
       "sourceDimensions": [
-        2200,
-        1640
+        2560,
+        1600
       ],
-      "cropPixels": null,
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "cropPixels": [
+        460,
+        180,
+        1640,
+        1240
+      ],
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
       "sourceIncludesWorkingTree": true,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "Main MacBook Pro",
-      "binarySha256": "49cfd45ec600c11bac3536b1cb424365f155910d37632538acd7722029a7a71f",
-      "debugDylibSha256": "bebdad2214a9490921beaa5d703027e81c7b8d7b4c8bea6a7b7549dcf7a2fcd7"
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "sourceScenario": "stamp",
+      "capturedAt": "2026-11-12"
     },
     {
       "file": "website/static/img/guide/macos/en/success.png",
@@ -318,9 +373,25 @@
       "file": "website/static/img/guide/macos/ro/file-error.png",
       "language": "ro",
       "scenario": "file-error",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "1a5265e18d9acfc0c3624d2fa0c29924185cea823ea7471d73650b872ab233f5"
+      "width": 2560,
+      "height": 1600,
+      "sha256": "158f49f7d28c22f4d0e073a03cc2ade503ea652ed72c4d48735637009f70ac8c",
+      "sourceScenario": "sign-failure",
+      "rawSha256": "158f49f7d28c22f4d0e073a03cc2ade503ea652ed72c4d48735637009f70ac8c",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/ro/history.png",
@@ -342,9 +413,25 @@
       "file": "website/static/img/guide/macos/ro/progress.png",
       "language": "ro",
       "scenario": "progress",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "b088d7ef00cdead3dfecdf078315281837eb0f169826ee1b5a539f3a36063bc3"
+      "width": 2560,
+      "height": 1600,
+      "sha256": "b2215be4d2720c54324e7e03f525fdea2b4cc2177d01bf4985d5f39637e331ab",
+      "sourceScenario": "signing",
+      "rawSha256": "b2215be4d2720c54324e7e03f525fdea2b4cc2177d01bf4985d5f39637e331ab",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/ro/reader-error.png",
@@ -389,40 +476,63 @@
       "file": "website/static/img/guide/macos/ro/sign.png",
       "language": "ro",
       "scenario": "sign",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "c378d0b79d797af8ee0e694e910422b6dd3857332ed4bb7bcaec9e23be217481"
+      "width": 2560,
+      "height": 1600,
+      "sha256": "f67fe0a74e96eb3e318e715b3c6864d5b00d12a779d322a0c0e6dba3e0ba0084",
+      "sourceScenario": "ready",
+      "rawSha256": "f67fe0a74e96eb3e318e715b3c6864d5b00d12a779d322a0c0e6dba3e0ba0084",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/ro/stamp.png",
       "language": "ro",
       "scenario": "stamp",
-      "width": 2200,
-      "height": 1640,
-      "sha256": "66e3397b1cfbf84f02bcbb03cc2850c450d227fd3203123a1e49735e63268256",
+      "width": 1640,
+      "height": 1240,
+      "sha256": "23976cdeaad8f4ed0b6f96531e372894e8b796eb5097dc3c2347adca134c6026",
       "platform": "macos",
       "locale": "ro",
       "name": "stamp",
       "path": "website/static/img/guide/macos/ro/stamp.png",
-      "rawSha256": "66e3397b1cfbf84f02bcbb03cc2850c450d227fd3203123a1e49735e63268256",
+      "rawSha256": "28138dfaa20f422b9235dae07d432af648ce17099777c3fae6bd157f93379147",
       "dimensions": [
-        2200,
-        1640
+        1640,
+        1240
       ],
       "sourceDimensions": [
-        2200,
-        1640
+        2560,
+        1600
       ],
-      "cropPixels": null,
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "cropPixels": [
+        460,
+        180,
+        1640,
+        1240
+      ],
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
       "sourceIncludesWorkingTree": true,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "Main MacBook Pro",
-      "binarySha256": "49cfd45ec600c11bac3536b1cb424365f155910d37632538acd7722029a7a71f",
-      "debugDylibSha256": "bebdad2214a9490921beaa5d703027e81c7b8d7b4c8bea6a7b7549dcf7a2fcd7"
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "sourceScenario": "stamp",
+      "capturedAt": "2026-11-12"
     },
     {
       "file": "website/static/img/guide/macos/ro/success.png",
@@ -542,7 +652,23 @@
       "scenario": "file-error",
       "width": 2560,
       "height": 1600,
-      "sha256": "bc90aa49b513f58f34558d0268eeccce31728d80dafdff25d6d1d86388c1d564"
+      "sha256": "1c93c2378c55e0e4d5bf17993df23202110ee9a066cfe2b3d48141d83e8df9b5",
+      "sourceScenario": "sign-failure",
+      "rawSha256": "1c93c2378c55e0e4d5bf17993df23202110ee9a066cfe2b3d48141d83e8df9b5",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/ru/history.png",
@@ -566,7 +692,23 @@
       "scenario": "progress",
       "width": 2560,
       "height": 1600,
-      "sha256": "ea2f0411eb6f38b6ff6712a84e12011565943c457bd6007fb52c42ea8759506e"
+      "sha256": "5cb23bc4a05c00325793f4df27e41050a49916535d911531a25395db3558d3cd",
+      "sourceScenario": "signing",
+      "rawSha256": "5cb23bc4a05c00325793f4df27e41050a49916535d911531a25395db3558d3cd",
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": null,
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
     },
     {
       "file": "website/static/img/guide/macos/ru/reader-error.png",
@@ -613,38 +755,61 @@
       "scenario": "sign",
       "width": 2560,
       "height": 1600,
-      "sha256": "0fd1c19241d8bc80e6a429bcf9c4158e31d67b803b722913114ff7ef8a2440c7"
-    },
-    {
-      "file": "website/static/img/guide/macos/ru/stamp.png",
-      "language": "ru",
-      "scenario": "stamp",
-      "width": 2560,
-      "height": 1600,
-      "sha256": "4f84ff1834d15b745dcaa7a72a19c0e57885986208331303f5a4d2b138f08de7",
-      "platform": "macos",
-      "locale": "ru",
-      "name": "stamp",
-      "path": "website/static/img/guide/macos/ru/stamp.png",
-      "rawSha256": "4f84ff1834d15b745dcaa7a72a19c0e57885986208331303f5a4d2b138f08de7",
-      "dimensions": [
-        2560,
-        1600
-      ],
+      "sha256": "266fad641086fcdcffb43f11249cc971844733e60bd73515eacdbea4a008844d",
+      "sourceScenario": "ready",
+      "rawSha256": "266fad641086fcdcffb43f11249cc971844733e60bd73515eacdbea4a008844d",
       "sourceDimensions": [
         2560,
         1600
       ],
       "cropPixels": null,
-      "sourceCommit": "f9eba4fd170587cd5e9f88bb2cbcd4e0d58e30de",
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "sourceIncludesWorkingTree": true,
+      "capturedAt": "2026-11-12",
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "dimensions": [
+        2560,
+        1600
+      ]
+    },
+    {
+      "file": "website/static/img/guide/macos/ru/stamp.png",
+      "language": "ru",
+      "scenario": "stamp",
+      "width": 1640,
+      "height": 1240,
+      "sha256": "bf3af10d760218405f148590a783de7c1c89b1f9f63c484b66b5be5e694010ea",
+      "platform": "macos",
+      "locale": "ru",
+      "name": "stamp",
+      "path": "website/static/img/guide/macos/ru/stamp.png",
+      "rawSha256": "656f0f579949ee3188efdf4790fd364f4eb4402f9b1e56e090e1e39d9a28c719",
+      "dimensions": [
+        1640,
+        1240
+      ],
+      "sourceDimensions": [
+        2560,
+        1600
+      ],
+      "cropPixels": [
+        460,
+        180,
+        1640,
+        1240
+      ],
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
       "sourceIncludesWorkingTree": true,
       "mock": true,
       "bannerHidden": true,
       "theme": "light",
       "readiness": "MSIGN_DEMO_READY",
       "captureHost": "Main MacBook Pro",
-      "binarySha256": "49cfd45ec600c11bac3536b1cb424365f155910d37632538acd7722029a7a71f",
-      "debugDylibSha256": "bebdad2214a9490921beaa5d703027e81c7b8d7b4c8bea6a7b7549dcf7a2fcd7"
+      "binarySha256": "673fc86a0720bbb3d68c19c526ee848cdc50236f010418e59653f0485212c3a7",
+      "debugDylibSha256": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+      "sourceScenario": "stamp",
+      "capturedAt": "2026-11-12"
     },
     {
       "file": "website/static/img/guide/macos/ru/success.png",
@@ -709,6 +874,27 @@
         "website/static/img/guide/macos/ru/settings.png"
       ],
       "limitations": "Native fictional captures; no real signing, Siri or MCP authorization exercised."
+    },
+    {
+      "date": "2026-11-12",
+      "sourceCommit": "fc98b4bb08649f8ad92b8af44e05a77159cc57a2",
+      "workingTree": true,
+      "assets": [
+        "website/static/img/guide/macos/en/sign.png",
+        "website/static/img/guide/macos/en/progress.png",
+        "website/static/img/guide/macos/en/file-error.png",
+        "website/static/img/guide/macos/en/stamp.png",
+        "website/static/img/guide/macos/ro/sign.png",
+        "website/static/img/guide/macos/ro/progress.png",
+        "website/static/img/guide/macos/ro/file-error.png",
+        "website/static/img/guide/macos/ro/stamp.png",
+        "website/static/img/guide/macos/ru/sign.png",
+        "website/static/img/guide/macos/ru/progress.png",
+        "website/static/img/guide/macos/ru/file-error.png",
+        "website/static/img/guide/macos/ru/stamp.png"
+      ],
+      "evidence": "docs/user-guide/macos-signing-refresh-evidence.json",
+      "limitations": "Native fictional captures and mock signing interaction; local XCTest execution blocked by Automation Mode authentication."
     }
   ]
 }

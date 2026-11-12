@@ -1428,3 +1428,19 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   all three production-configured locale builds and SEO checks pass before push. Enlarged guide images
   were checked in Safari in each locale; the action remains visible and labels stay outside the UI. This documentation
   change uses the existing Website deployment and validation CI; it does not publish an app version.
+
+### 2026-11-12 — Floating macOS signing action
+
+- Moved Sign from the compact toolbar to a large native bottom-right capsule, reserving space outside
+  the scrolling documents. Preserved batch count, Command-Return, readiness checks and empty-queue hiding.
+  The same native style now handles enabled and disabled appearance.
+- Added four macOS floating-action XCTest methods and required them in the commit batch (15 macOS
+  methods total). They cover actual document scrolling, resizing, EN/RO/RU, light/dark appearance,
+  unavailable/busy states, click/keyboard mock signing and an empty queue.
+- Refreshed 12 native macOS guide images and localized steps in EN/RO/RU, including the stamp sheet.
+  Recorded source/binary/image hashes and capture boundaries; reviewed the generated guides in a browser.
+- Local macOS/iOS Debug builds, 42 application tests, 56 CI guards, all macOS UI suite compilation,
+  26 website tests, guide checks, three locale builds and SEO checks pass. Native mock clicking produced
+  two sample outputs and removed the action. XCTest execution remains blocked by administrator
+  authentication for Automation Mode on both Macs. Push and new-head CI validation await the local
+  UI pass; no app version was published. See `docs/reports/macos-floating-sign-2026-11-12.md`.

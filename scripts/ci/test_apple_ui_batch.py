@@ -41,7 +41,7 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
                                     capture_output=True, text=True)
             self.assertEqual(calls.read_text().splitlines(),
                              ['VerificationJourneyUITests', 'MockWorkflowUITests'] +
-                             (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests', 'FloatingActionUITests'] if platform == 'ios' else []))
+                             (['CardCarouselUITests', 'DemoModeUITests', 'ProtectionFlowUITests', 'DocumentsUITests', 'FloatingActionUITests'] if platform == 'ios' else ['MacFloatingActionUITests']))
             if platform == 'ios':
                 self.assertEqual(installs.read_text().splitlines(), ['simctl install mac /unused/app'])
             else:

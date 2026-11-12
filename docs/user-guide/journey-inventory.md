@@ -2,6 +2,10 @@
 
 Source audit: 8 November 2026, current working tree. This is the production plan for end-user documentation, not a claim that every hardware or system integration has been exercised. Screenshots must use isolated fictional data. Do not describe the sample data in public guides and do not display a demo banner inside documentation captures.
 
+## macOS signing refresh — 12 November 2026
+
+Refresh Sign, progress, per-file error and PDF stamp screenshots in EN/RO/RU after moving Sign to the trailing bottom safe area. Capture the production main window and native stamp sheet with isolated fictional data. Check the action stays readable with the complete batch count, the busy state remains disabled, and localized step markers match the new placement. Native XCTest execution is recorded separately from these visual captures.
+
 ## Deliverables and languages
 
 Publish English (`en`), Romanian (`ro`) and Russian (`ru`) guides. The website already declares those three locales in `website/docusaurus.config.js`; all three native interfaces are localized. Capture each language natively: translated prose around an English screenshot is insufficient.
