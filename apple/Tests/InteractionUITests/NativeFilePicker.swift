@@ -14,20 +14,32 @@ struct NativeFilePicker {
 
     func selectFile(in folders: [String], namePrefix: String, labelContains: String? = nil,
                     confirmSelection: Bool) throws {
+        let isDocument: (any XCUIElementSnapshot) -> Bool = { node in
+            node.elementType == .cell && node.label.hasPrefix(namePrefix)
+                && (labelContains.map { node.label.contains($0) } ?? true)
+        }
         let isLocal: (any XCUIElementSnapshot) -> Bool = {
             $0.elementType == .cell && ["On My iPhone", "On My iPad"].contains($0.label)
         }
-        var location = try waitForControl("local storage or Browse") { isLocal($0) || ($0.elementType == .button && $0.label == "Browse") }
-        if !isLocal(location) {
-            tap(location.frame)
-            location = try waitForControl("local storage", matching: isLocal)
+        let isBrowse: (any XCUIElementSnapshot) -> Bool = { $0.elementType == .button && $0.label == "Browse" }
+        let targets: [(any XCUIElementSnapshot) -> Bool] = [isDocument] + folders.reversed().map { folder in
+            { $0.elementType == .cell && $0.identifier == folder }
         }
-        tap(location.frame)
-        for folder in folders { try openFolder(folder) }
-        let document = try waitForControl("document \(namePrefix)") { node in
-            guard node.elementType == .cell, node.label.hasPrefix(namePrefix) else { return false }
-            return labelContains.map { node.label.contains($0) } ?? true
+        // Browse can restore its previous location directly, without a Locations list.
+        // Prefer the deepest visible destination so an already-open container is honored.
+        var destination = try waitForControl("file location", priorities: targets + [isLocal, isBrowse])
+        if isBrowse(destination) {
+            tap(destination.frame)
+            destination = try waitForControl("local location or restored folder", priorities: targets + [isLocal])
         }
+        if isLocal(destination) {
+            tap(destination.frame)
+            destination = try waitForControl("app folder or restored file", priorities: targets)
+        }
+        if let index = folders.firstIndex(of: destination.identifier) {
+            for folder in folders[index...] { try openFolder(folder) }
+        }
+        let document = try waitForControl("document \(namePrefix)", matching: isDocument)
         tapItem(document)
         if confirmSelection {
             let open = try waitForControl("Open") { $0.elementType == .button && $0.label == "Open" && $0.isEnabled }
@@ -49,30 +61,47 @@ struct NativeFilePicker {
     }
 
     private func tapItem(_ item: any XCUIElementSnapshot) {
-        if let icon = descendants(of: item).first(where: { $0.elementType == .image && valid($0.frame) }) {
-            tap(icon.frame)
-            return
-        }
-        // Files grid cells include name/date metadata below the actionable thumbnail.
-        // Some remote snapshots omit thumbnail nodes; use the cell's upper square.
-        // List rows keep their normal center because their height is the shorter edge.
+        let cell = app.filePicker.cells.matching(NSPredicate(format: "identifier == %@ AND label == %@",
+            item.identifier, item.label)).firstMatch
+        let ready = NSPredicate { _, _ in cell.exists && cell.isEnabled && cell.isHittable }
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: cell)], timeout: 10), .completed,
+                       "Files item must be hittable: \(item.label)")
         var target = item.frame
-        target.size.height = min(target.width, target.height)
-        tap(target)
+        if let icon = descendants(of: item).first(where: { $0.elementType == .image && valid($0.frame) }) {
+            target = icon.frame
+        } else {
+            // Grid cells include metadata below the thumbnail; list rows keep their center.
+            target.size.height = min(target.width, target.height)
+        }
+        // Anchor the event to the remote Files cell, not the presenting application.
+        cell.coordinate(withNormalizedOffset: CGVector(
+            dx: (target.midX - item.frame.minX) / item.frame.width,
+            dy: (target.midY - item.frame.minY) / item.frame.height)).tap()
     }
 
     private func waitForControl(_ name: String, matching matches: @escaping (any XCUIElementSnapshot) -> Bool) throws -> any XCUIElementSnapshot {
+        try waitForControl(name, priorities: [matches])
+    }
+
+    private func waitForControl(_ name: String, priorities: [(any XCUIElementSnapshot) -> Bool]) throws -> any XCUIElementSnapshot {
         var result: (any XCUIElementSnapshot)?
         var previous = CGRect.null
+        var previousIdentity = ""
         var stable = 0
         let ready = NSPredicate { _, _ in
-            guard let picker = try? self.pickerSnapshot(),
-                  let control = self.descendants(of: picker).last(where: { matches($0) && self.valid($0.frame) }) else {
+            guard let picker = try? self.pickerSnapshot() else { stable = 0; return false }
+            let bounds = self.app.frame
+            let controls = self.descendants(of: picker)
+            guard let control = priorities.lazy.compactMap({ matches in
+                controls.last { matches($0) && self.valid($0.frame, within: bounds) }
+            }).first else {
                 stable = 0
                 return false
             }
-            stable = control.frame == previous ? stable + 1 : 0
+            let identity = control.identifier + "\n" + control.label
+            stable = control.frame == previous && identity == previousIdentity ? stable + 1 : 0
             previous = control.frame
+            previousIdentity = identity
             result = control
             return stable >= 2
         }
@@ -99,8 +128,8 @@ struct NativeFilePicker {
         [root] + root.children.flatMap { descendants(of: $0) }
     }
 
-    private func valid(_ frame: CGRect) -> Bool {
-        !frame.isEmpty && !frame.isInfinite && !frame.isNull && app.frame.contains(frame)
+    private func valid(_ frame: CGRect, within bounds: CGRect? = nil) -> Bool {
+        !frame.isEmpty && !frame.isInfinite && !frame.isNull && (bounds ?? app.frame).contains(frame)
     }
 
     private func tap(_ frame: CGRect) {
