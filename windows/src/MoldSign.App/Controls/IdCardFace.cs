@@ -1,3 +1,4 @@
+using System.Globalization;
 using Microsoft.UI.Text;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Automation;
@@ -22,6 +23,7 @@ namespace MoldSign.App.Controls;
 internal sealed class IdCardFace : Grid
 {
     public const double AspectRatio = 1.61803398875;
+    private static readonly CultureInfo s_ro = CultureInfo.GetCultureInfo("ro-RO");
 
     /// <param name="item">The slot to draw.</param>
     /// <param name="width">W in effective pixels.</param>
