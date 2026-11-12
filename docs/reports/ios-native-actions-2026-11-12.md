@@ -49,3 +49,15 @@ phone/tablet app binary SHA-256 is
 All UI inputs and identities are fictional. These checks do not exercise a physical card or live PKI.
 Existing broader hardware/OS journey limits remain in the testing plan. Ordinary commits run
 validation and do not publish application versions.
+
+## Android automation follow-up
+
+The first hosted run on `4c9a006` reported that signed results remained visible after a text-based
+Clear results action. The action now has the stable `sign.clearResults` identifier. Identifier-based
+clicks wait for that exact node to be clickable and enabled, while text-based lookup stops at a
+disabled ancestor. The driver still dispatches each action once and verifies the resulting state.
+
+Both Android APK builds and all 16 app unit tests pass locally. Two complete native batches each
+pass all 34 journey completions plus storage, prepare and restart verification. The saved-library
+preservation assertion remains intact. Evidence is in `.local/ios-glass-android-native-1/` and
+`.local/ios-glass-android-native-2/`. Hosted validation of this follow-up is pending.

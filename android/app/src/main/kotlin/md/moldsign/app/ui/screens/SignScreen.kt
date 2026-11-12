@@ -156,7 +156,8 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                         Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.saved_signed), style = MaterialTheme.typography.titleMedium)
                     }
-                    TextButton(onClick = vm::clearSignedResults, enabled = !working, modifier = Modifier.align(Alignment.End)) { Text(stringResource(R.string.results_clear)) }
+                    TextButton(onClick = vm::clearSignedResults, enabled = !working,
+                        modifier = Modifier.align(Alignment.End).testTag("sign.clearResults")) { Text(stringResource(R.string.results_clear)) }
                 }
                 signedResults.forEach { (name, uri) ->
                     Card(onClick = {

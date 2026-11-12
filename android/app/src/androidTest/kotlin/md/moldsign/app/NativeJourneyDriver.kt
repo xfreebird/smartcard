@@ -24,23 +24,26 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
     private fun clickTarget(node: AccessibilityNodeInfo?): AccessibilityNodeInfo? {
         var target = node
         while (target != null) {
-            if (target.isClickable && target.isEnabled) return target
+            if (!target.isEnabled) return null
+            if (target.isClickable) return target
             target = target.parent
         }
         return null
     }
     private fun performClick(description: String, find: () -> AccessibilityNodeInfo?) {
         var target: AccessibilityNodeInfo? = null
-        await("clickable $description") { target = clickTarget(find()); target != null }
+        await("clickable $description") { target = find(); target != null }
         // Retry lookup, never an already dispatched action: a timed-out click can arrive late.
         checkNotNull(target).performAction(AccessibilityNodeInfo.ACTION_CLICK)
         runner.waitForIdleSync()
     }
     // Callers verify the resulting screen/domain state; the IPC acknowledgement is not completion.
-    fun clickText(value: String) { performClick(value) { text(value) } }
+    fun clickText(value: String) { performClick(value) { clickTarget(text(value)) } }
+    // IDs identify the action owner. Never redirect a disabled action to a clickable ancestor.
+    private fun clickableId(value: String) = id(value)?.takeIf { it.isClickable && it.isEnabled }
     fun clickId(value: String) {
         reveal(value) { id(value) }
-        performClick(value) { id(value) }
+        performClick(value) { clickableId(value) }
     }
     fun clickTextAndAwait(value: String, description: String, condition: () -> Boolean) {
         clickText(value)
@@ -50,7 +53,7 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
         reveal(value) { id(value) }
         // A timed-out accessibility action can still reach the main thread later.
         // Dispatch a toggle once and observe its result instead of queuing another click.
-        performClick(value) { id(value) }
+        performClick(value) { clickableId(value) }
         await(description, condition)
     }
     fun revealUp(description: String, find: () -> AccessibilityNodeInfo?) = reveal(description, AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD, find)

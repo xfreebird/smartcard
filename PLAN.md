@@ -1389,3 +1389,9 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   tests, 56 guards and all 44 phone/tablet UI methods pass, plus eight iOS 18/26 compatibility checks.
   The phone verification suite passed an isolated rerun after a simulator launch timeout.
   Local validation is complete before push; final hosted checks are pending.
+
+- The first hosted run exposed an Android result-clearing automation failure. Give that action an
+  explicit identifier and require identifier-based clicks to target the enabled action owner;
+  disabled controls never redirect clicks to an ancestor. Both APK builds, 16 app tests and two
+  complete 34-journey native batches (including storage/restart checks) pass locally. The fix is
+  ready for hosted validation after the ongoing Apple run completes.

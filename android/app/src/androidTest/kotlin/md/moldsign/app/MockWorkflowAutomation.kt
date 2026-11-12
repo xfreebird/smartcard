@@ -16,7 +16,7 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
         for ((scenario, successes, calls) in listOf(Triple("success", 2, 2), Triple("mixed", 1, 2), Triple("fatal", 0, 1))) {
             val signer = ScriptedSigner(scenario)
             install(signer)
-            withActivity { activity ->
+            withActivity {
                 val before = app.container.activity.signedDocuments.value.map { it.id }.toSet()
                 ui.clickId("sign.submit")
                 ui.await("scripted signing completes") { signer.calls.get() == calls && !app.container.busy.value }
@@ -28,7 +28,7 @@ internal class MockWorkflowAutomation(private val runner: Instrumentation, priva
                     val saved = app.container.activity.signedDocuments.value.filter { it.title.contains("NOT-SIGNED") }
                     check(saved.size >= successes)
                     val count = app.container.activity.signedDocuments.value.size
-                    ui.clickTextAndAwait(activity.getString(R.string.results_clear), "results hidden") { ui.text(output) == null }
+                    ui.clickIdAndAwait("sign.clearResults", "results hidden") { ui.text(output) == null }
                     check(app.container.activity.signedDocuments.value.size == count) { "Hiding results removed saved documents" }
                 }
                 if (scenario != "success") {
