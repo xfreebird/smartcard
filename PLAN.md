@@ -1502,3 +1502,5 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Completed and visually reviewed all 36 additions on the Air, uploaded them and their overview sheets, and verified Drive filenames/byte sizes plus native source hashes. The review folder now contains 132 images. Removed the task-owned Duo simulator after capture; original 96 accepted, additions awaiting approval.
 
 - Owner approved all 132 images and authorized replacing the pending Mac review. Prepare 0.2.11 with Apple/Windows build 213 and Android version code 1793624694; submit approved assets with automatic publishing where supported. Preserve Android internal testing and use the existing Alpha track.
+
+- 2026-11-13: Corrected Linux AppStream release metadata to 0.2.11 before rebuilding Linux packages and Flatpak for the shared release; Apple, Android and Windows build identities remain 213 / 1793624694.
