@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+OVERVIEW_METADATA = json.loads((ROOT/'docs/user-guide/content/overview-metadata.json').read_text())
 LOCALES = ('en', 'ro', 'ru')
 def tr(en, ro, ru): return dict(zip(LOCALES, (en, ro, ru)))
 TOPICS = {
@@ -118,10 +119,12 @@ def organize(check=False):
     outputs[doc_root(lang)/'platforms'/platform/f'{topic}.md']=text+content
    assert new_panels==original_panels,(platform,lang,new_panels,original_panels)
    entry['anchors'][lang]=aliases
-   overview_title=(NAMES[platform][lang]+' '+{'en':'guides','ro':'— ghiduri','ru':'— руководства'}[lang])
-   overview=frontmatter({'title':overview_title,'sidebar_label':NAMES[platform][lang],'hide_table_of_contents':True,'pagination_prev':None,'pagination_next':f'platforms/{platform}/setup'})
+   search=OVERVIEW_METADATA.get(platform,{}).get(lang,{})
+   overview_title=search.get('title',NAMES[platform][lang]+' '+{'en':'guides','ro':'— ghiduri','ru':'— руководства'}[lang])
+   overview=frontmatter({'title':overview_title,**({'description':search['description']} if search else {}),'sidebar_label':NAMES[platform][lang],'hide_table_of_contents':True,'pagination_prev':None,'pagination_next':f'platforms/{platform}/setup'})
    overview+="import GuideDirectory from '@site/src/components/GuideDirectory';\nimport GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';\n\n"
-   overview+=f'# {overview_title}\n\n{WORDS["overview"][lang]}\n\n<GuideDirectory platform="{platform}" />\n<GuideAnchorRedirect platform="{platform}" />\n\n## {WORDS["before"][lang]}\n\n{intro}\n'
+   search_intro=search.get('intro','')
+   overview+=f'# {overview_title}\n\n'+(f'{search_intro}\n\n' if search_intro else '')+f'{WORDS["overview"][lang]}\n\n<GuideDirectory platform="{platform}" />\n<GuideAnchorRedirect platform="{platform}" />\n\n## {WORDS["before"][lang]}\n\n{intro}\n'
    for index in mapping.get('_overview',[]): overview+=f'\n## {titles[index]}\n\n{sections[index][1].strip()}\n'
    outputs[doc_root(lang)/'platforms'/f'{platform}.md']=overview
    audit.append({'platform':platform,'locale':lang,'topics':len(topic_ids),'panels':new_panels,'originalSections':len(sections),'redirects':len(aliases)})

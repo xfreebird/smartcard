@@ -1,0 +1,53 @@
+{
+  "windows": {
+    "en": {
+      "title": "MoldSign alternative for Windows — electronic signatures",
+      "description": "Use eSemnBun on Windows to sign PDFs with a Moldovan electronic ID, verify signatures, connect MSign and configure local MCP agents.",
+      "intro": "**eSemnBun is an independent MoldSign alternative for Windows.** Sign PDFs with a supported Moldovan electronic identity card and USB reader, verify files, and connect compatible websites through the local browser bridge. Choose the desktop installer for the graphical app or the separate [Windows CLI and MCP tools](./windows-cli.md) for terminal and agent setup. eSemnBun is not affiliated with STISC."
+    },
+    "ro": {
+      "title": "Alternativă MoldSign pentru Windows — semnătură electronică",
+      "description": "Semnătură electronică pe Windows cu eSemnBun și cartea de identitate din Moldova. Instalare, semnare PDF, verificare, MSign și configurare MCP.",
+      "intro": "**eSemnBun este o alternativă independentă la MoldSign pentru Windows.** Semnează PDF-uri cu o carte de identitate electronică acceptată din Moldova și un cititor USB, verifică fișiere și conectează site-uri compatibile prin serviciul local pentru browser. Alege instalatorul desktop pentru aplicația grafică sau [instrumentele Windows CLI și MCP](./windows-cli.md) pentru terminal și agenți. eSemnBun nu este afiliat cu STISC."
+    },
+    "ru": {
+      "title": "Альтернатива MoldSign для Windows — электронная подпись",
+      "description": "eSemnBun для Windows: электронная подпись с ID-картой Молдовы, подписание PDF, проверка файлов, подключение MSign и настройка локального MCP.",
+      "intro": "**eSemnBun — независимая альтернатива MoldSign для Windows.** Подписывайте PDF совместимой электронной ID-картой Молдовы через USB-считыватель, проверяйте файлы и подключайте совместимые сайты через локальный мост. Для графического приложения выберите настольный установщик; для терминала и агентов — [инструменты Windows CLI и MCP](./windows-cli.md). eSemnBun не связан со STISC."
+    }
+  },
+  "macos": {
+    "en": {
+      "title": "MoldSign alternative for Mac — electronic signatures on macOS",
+      "description": "Sign PDFs on Mac with eSemnBun and a Moldovan electronic ID. Compare the DMG, Mac App Store and separate CLI/MCP setup, with illustrated guides.",
+      "intro": "**eSemnBun is an independent MoldSign alternative for Mac (macOS).** Use a supported Moldovan electronic ID and USB reader to sign PDFs, create XAdES signatures and verify documents. The standalone DMG and sandboxed Mac App Store edition have different browser workflows. [CLI and MCP tools](./macos-cli.md) are installed separately; a Homebrew CLI package is not the desktop app. eSemnBun is not affiliated with STISC."
+    },
+    "ro": {
+      "title": "Alternativă MoldSign pentru Mac — semnătură electronică pe macOS",
+      "description": "Semnează PDF-uri pe Mac cu eSemnBun și cartea de identitate din Moldova. Ghiduri pentru DMG, Mac App Store, verificarea semnăturii și CLI/MCP.",
+      "intro": "**eSemnBun este o alternativă independentă la MoldSign pentru Mac (macOS).** Folosește o carte de identitate electronică acceptată din Moldova și un cititor USB pentru semnare PDF, semnături XAdES și verificarea documentelor. Ediția DMG și ediția Mac App Store folosesc fluxuri diferite pentru browser. [Instrumentele CLI și MCP](./macos-cli.md) se instalează separat; pachetul CLI din Homebrew nu este aplicația desktop. eSemnBun nu este afiliat cu STISC."
+    },
+    "ru": {
+      "title": "Альтернатива MoldSign для Mac — электронная подпись на macOS",
+      "description": "Подписывайте PDF на Mac с eSemnBun и ID-картой Молдовы. Руководства по DMG, Mac App Store, проверке подписи и отдельной установке CLI/MCP.",
+      "intro": "**eSemnBun — независимая альтернатива MoldSign для Mac (macOS).** Подписывайте PDF, создавайте XAdES и проверяйте документы с поддерживаемой ID-картой Молдовы и USB-считывателем. DMG и версия Mac App Store используют разные способы подключения браузера. [Инструменты CLI и MCP](./macos-cli.md) устанавливаются отдельно; CLI-пакет Homebrew не является настольным приложением. eSemnBun не связан со STISC."
+    }
+  },
+  "linux": {
+    "en": {
+      "title": "MoldSign alternative for Linux — electronic signatures",
+      "description": "Use eSemnBun on Linux for Moldovan electronic-ID signing. Set up the GNOME app, PC/SC reader, PDF verification, browser bridge and CLI/MCP tools.",
+      "intro": "**eSemnBun is an independent MoldSign alternative for Linux.** The native GNOME app signs PDFs and XAdES with a supported Moldovan electronic ID and USB reader, verifies files and handles compatible browser requests. Desktop DEB, RPM and Flatpak packages differ from [Linux CLI and MCP tools](./linux-cli.md). Reader access requires the host PC/SC service and CCID driver. eSemnBun is not affiliated with STISC."
+    },
+    "ro": {
+      "title": "Alternativă MoldSign pentru Linux — semnătură electronică",
+      "description": "Semnătură electronică pe Linux cu eSemnBun și cartea de identitate din Moldova. Aplicație GNOME, cititor PC/SC, verificare PDF, browser și CLI/MCP.",
+      "intro": "**eSemnBun este o alternativă independentă la MoldSign pentru Linux.** Aplicația nativă GNOME semnează PDF și XAdES cu o carte de identitate electronică acceptată și un cititor USB, verifică fișiere și procesează cereri web compatibile. Pachetele desktop DEB, RPM și Flatpak diferă de [instrumentele Linux CLI și MCP](./linux-cli.md). Accesul la cititor necesită serviciul PC/SC și driverul CCID. eSemnBun nu este afiliat cu STISC."
+    },
+    "ru": {
+      "title": "Альтернатива MoldSign для Linux — электронная подпись",
+      "description": "eSemnBun для Linux: подпись с ID-картой Молдовы, приложение GNOME, USB-считыватель PC/SC, проверка PDF, подключение браузера и CLI/MCP.",
+      "intro": "**eSemnBun — независимая альтернатива MoldSign для Linux.** Нативное приложение GNOME подписывает PDF и XAdES совместимой ID-картой Молдовы через USB-считыватель, проверяет файлы и обрабатывает запросы совместимых сайтов. Настольные DEB, RPM и Flatpak отличаются от [инструментов Linux CLI и MCP](./linux-cli.md). Для считывателя нужны служба PC/SC и драйвер CCID. eSemnBun не связан со STISC."
+    }
+  }
+}

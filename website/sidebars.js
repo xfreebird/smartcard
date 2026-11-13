@@ -8,6 +8,7 @@ const taskCategory = (id,label) => {
 export default {
   guide: [
     'start',
+    'mcp-moldsign',
     'integrations/mcp-agents',
     {type:'category',label:'Platform guides',link:{type:'doc',id:'platforms'},items:[
       {...taskCategory('macos','Mac'),items:[...taskCategory('macos','Mac').items,taskCategory('macos-cli','Command line (CLI) — Mac')]},

@@ -1,5 +1,6 @@
 ---
-title: "Linux — ghiduri"
+title: "Alternativă MoldSign pentru Linux — semnătură electronică"
+description: "Semnătură electronică pe Linux cu eSemnBun și cartea de identitate din Moldova. Aplicație GNOME, cititor PC/SC, verificare PDF, browser și CLI/MCP."
 sidebar_label: "Linux"
 hide_table_of_contents: true
 pagination_prev: null
@@ -9,7 +10,9 @@ pagination_next: "platforms/linux/setup"
 import GuideDirectory from '@site/src/components/GuideDirectory';
 import GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';
 
-# Linux — ghiduri
+# Alternativă MoldSign pentru Linux — semnătură electronică
+
+**eSemnBun este o alternativă independentă la MoldSign pentru Linux.** Aplicația nativă GNOME semnează PDF și XAdES cu o carte de identitate electronică acceptată și un cititor USB, verifică fișiere și procesează cereri web compatibile. Pachetele desktop DEB, RPM și Flatpak diferă de [instrumentele Linux CLI și MCP](./linux-cli.md). Accesul la cititor necesită serviciul PC/SC și driverul CCID. eSemnBun nu este afiliat cu STISC.
 
 Alege ce vrei să faci. Fiecare activitate are un ghid ilustrat separat.
 

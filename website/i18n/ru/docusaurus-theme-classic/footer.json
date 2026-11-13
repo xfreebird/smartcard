@@ -45,5 +45,11 @@
   },
   "link.item.label.Devices": {
     "message": "Устройства"
+  },
+  "link.item.label.MoldSign alternative": {
+    "message": "Альтернатива MoldSign для вашего компьютера"
+  },
+  "link.item.label.MCP and AI agents": {
+    "message": "MoldSign MCP: подключите локального ИИ-агента"
   }
 }

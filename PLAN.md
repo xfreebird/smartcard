@@ -1466,3 +1466,28 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - The iOS 27.1 simulator logged four passing methods, but Xcode produced an empty result summary;
   that run is not counted as a validated suite pass. Logs, captures and results are retained under
   `.local/ios-sign-title-*`.
+
+### 2026-11-13 — Website search and agent discovery
+
+- Strengthened Romanian, English and Russian homepage metadata and visible links for electronic
+  signatures, MoldSign alternatives on Windows/Mac/Linux and local MCP integrations. Platform
+  overview copy is maintained in the guide generator's metadata source; nine generated indexes
+  were refreshed without changing the illustrated tasks.
+- Added a localized MoldSign MCP overview with actual platform commands, tool capabilities,
+  approval requirements and the distinction between local stdio and the browser bridge.
+- Production canonicals now default to esemnbun.md. Removed automatic language redirects;
+  visitors choose a translation explicitly. Added stable WebSite/SoftwareApplication identities.
+  Confirmed the source repository is private and removed it from public sameAs metadata.
+- Extended the discovery plugin to generate localized llms.txt, llms-full.txt, a site-specific
+  JSON catalog and 24 Markdown references from the same public documentation. HTML links expose
+  the alternative formats; wildcard crawler access and three locale sitemaps remain enabled.
+- Expanded the existing SEO checker for 18 entry pages, exact language/canonical links,
+  structured data, homepage navigation and generated discovery files. JavaScript/JSX/Python
+  syntax, seven JSON sources, relative Markdown links in 24 localized references and whitespace
+  checks passed. All 26 website tests, guide organization (327 tasks/702 panels), the three-language
+  production build and SEO checks passed. Build validation corrected an inherited translated-page
+  Markdown link and aligned discovery URLs with the HTML canonical trailing-slash policy.
+- Desktop browser review confirmed the new homepage section, Windows guide link, MCP navigation
+  and Romanian language switch. Direct HTTPS access to the production domain succeeded.
+  Publication uses the existing Website workflow. Indexing, ranking and search-console submission
+  remain separate from deployment; see website/README.md for the operational steps.

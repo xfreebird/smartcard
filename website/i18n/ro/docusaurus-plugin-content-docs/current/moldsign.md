@@ -1,5 +1,5 @@
 ---
-title: Alternativă MoldSign — semnătură cu cartea de identitate
+title: Semnătură electronică în Moldova — alternativă la MoldSign
 description: Semnătură electronică cu cartea de identitate din Moldova. Instalează eSemnBun, alternativa gratuită la MoldSign, și semnează PDF-uri pe calculator sau telefon.
 sidebar_label: Alternativă la MoldSign
 ---
@@ -9,6 +9,17 @@ sidebar_label: Alternativă la MoldSign
 **eSemnBun** este o aplicație gratuită, cu codul sursă deschis, pentru semnarea documentelor cu o carte de identitate electronică acceptată din Republica Moldova. O poți folosi pe calculator sau de pe telefon, cu un cititor USB compatibil și adaptorul potrivit.
 
 Semnătura este creată cu cheia de pe card după autorizarea cu PIN-ul. Cheia privată rămâne pe cartea de identitate.
+
+Semnătura leagă documentul de certificatul de semnare și permite detectarea modificărilor conținutului semnat. O imagine a semnăturii de mână sau o ștampilă vizibilă în PDF nu oferă singură această verificare criptografică. Consultă [semnarea și verificarea](./signing.md) pentru interpretarea rezultatului.
+
+## Alege alternativa la MoldSign pentru dispozitivul tău
+
+- [Alternativă MoldSign pentru Windows](./platforms/windows.md): instalare desktop, cititor USB și integrare cu browserul.
+- [Alternativă MoldSign pentru Mac](./platforms/macos.md): ediții DMG și Mac App Store, cu instrumente CLI separate.
+- [Alternativă MoldSign pentru Linux](./platforms/linux.md): aplicație GNOME, configurare PC/SC și linie de comandă.
+- [MoldSign MCP pentru agenți AI](./mcp-moldsign.md): verificare locală și semnare PDF configurată explicit pe Windows, Mac și Linux.
+
+Alege ediția din [Descărcări](/downloads/). Ghidul platformei precizează cerințele și funcțiile disponibile.
 
 ## Care este diferența dintre MoldSign, MSign și eSemnBun?
 

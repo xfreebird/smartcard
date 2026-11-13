@@ -11,6 +11,17 @@ sidebar_position: 2
 
 In Romanian, this workflow is called **semnătură electronică cu cartea de identitate**. You authorize a signing operation with the card PIN; the private signing key stays on the card.
 
+The signature binds the document to the signing certificate and lets a verifier detect changes to the signed content. A picture of a handwritten signature or a visible PDF stamp alone does not provide that cryptographic check. See [signing and verification](./signing.md) for how to inspect the result.
+
+## Choose your MoldSign alternative
+
+- [MoldSign alternative for Windows](./platforms/windows.md): desktop installation, USB reader setup and browser integration.
+- [MoldSign alternative for Mac](./platforms/macos.md): DMG and Mac App Store workflows, with separate CLI tools.
+- [MoldSign alternative for Linux](./platforms/linux.md): native GNOME packages, PC/SC setup and command-line tools.
+- [MoldSign MCP for AI agents](./mcp-moldsign.md): local verification and explicitly configured PDF signing on Windows, Mac and Linux.
+
+Get the appropriate edition from [Downloads](/downloads/). The platform guide lists its requirements and available features.
+
 ## MoldSign, MSign, and eSemnBun
 
 These names describe different things:

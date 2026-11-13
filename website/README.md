@@ -2,7 +2,7 @@
 
 Docusaurus source lives here. `npm ci && npm run build` compiles it into **website/pages/** (generated output, not committed). `npm start` develops locally; `npm run serve` previews the production build.
 
-GitHub Actions builds and deploys that directory through GitHub Pages at **https://esemnbun.md/**. Website CI sets `SITE_URL=https://esemnbun.md` and `BASE_URL=/`; local builds retain the GitHub project-path defaults unless those variables are supplied. Store links use `/`, `/support/`, `/privacy/` and `/terms/` on the custom domain.
+GitHub Actions builds and deploys that directory through GitHub Pages at **https://esemnbun.md/**. Both local builds and Website CI default to `SITE_URL=https://esemnbun.md` and `BASE_URL=/`, so omitting environment variables cannot publish GitHub-project canonical URLs accidentally. Alternate deployments can explicitly override both values. Store links use `/`, `/support/`, `/privacy/` and `/terms/` on the custom domain.
 
 App Store / Play / Microsoft listing links are included with availability labels while review/testing is pending. Direct installer downloads lead to the latest GitHub Release. Store listing URL updates are separate from website deployment.
 
@@ -31,7 +31,7 @@ Device illustration geometry lives in `src/components/deviceGeometry.js`: the ph
 
 ## Languages
 
-English uses the root route; Romanian uses `/ro/` and Russian `/ru/`. All three are emitted into `pages/` by one build. The language menu is available in the navigation bar. On a first unlocalized visit in a tab, the browser's language list selects Romanian, English or Russian (regional variants supported; English fallback). Explicit localized links and subsequent manual language switches are respected. No locale redirect is performed without browser storage access.
+English uses the root route; Romanian uses `/ro/` and Russian `/ru/`. All three are emitted into `pages/` by one build. The requested URL determines the language; the navigation menu lets visitors choose a translation. There is no automatic language redirect, so shared URLs and crawler visits stay on the requested page.
 
 Landing-page UI strings use stable keys in `src/i18n/catalog.json`; Docusaurus navigation/theme translations and translated Markdown live in `i18n/ro` and `i18n/ru`.
 
@@ -109,13 +109,42 @@ Store links are kept separate from direct downloads; review or testing access ca
 
 ## Search visibility
 
-Home-page titles/descriptions and visible copy are localized for Romanian, English and Russian. The linked `/docs/moldsign/` guide explains electronic-ID signing and eSemnBun's independent relationship to MoldSign/MSign. Use natural wording around semnătură electronică and carte de identitate; do not add repeated keyword lists or imply official affiliation. The homepage emits factual SoftwareApplication JSON-LD without invented reviews or ratings. This does not guarantee a rich result or ranking.
+Home-page titles/descriptions, platform introductions and the MCP overview are localized for Romanian, English and Russian. The same HTML is delivered to visitors and crawlers, with visible content and links available before JavaScript. Use natural wording around semnătură electronică and carte de identitate; do not add repeated keyword lists, alternate spellings solely for search, hidden instructions or claims of official affiliation. The homepage emits factual SoftwareApplication and WebSite JSON-LD without invented reviews or ratings.
 
-Docusaurus generates canonical URLs, language alternates and a sitemap for every locale. The build plugin generates `robots.txt` with sitemap links using the actual `SITE_URL`/`BASE_URL`. On GitHub project Pages, `/smartcard/robots.txt` is not the host-root robots file; submit the sitemap URLs directly to Search Console. On a custom domain served at `/`, the generated robots file is at the correct root.
+| Search intent | Canonical English entry page (also available under `/ro/` and `/ru/`) |
+| --- | --- |
+| MoldSign, semnatura, semnatura electronica | `/docs/moldsign/` |
+| MoldSign Windows | `/docs/platforms/windows/` |
+| MoldSign Mac / macOS | `/docs/platforms/macos/` |
+| MoldSign Linux | `/docs/platforms/linux/` |
+| MCP MoldSign | `/docs/mcp-moldsign/` |
 
-After `npm run build`, run `npm run verify:seo` (also in Website CI). It inspects generated HTML for descriptions, canonical/language links, social images, app metadata, target-language content, and sitemap entries.
+These are useful existing platform guides and a localized MCP introduction, not duplicate keyword pages. Homepage links and documentation navigation expose them directly. Platform overview titles, descriptions and introductory copy live in `docs/user-guide/content/overview-metadata.json`; run `python3 scripts/docs/organize-user-guides.py` from the repository root after editing that source. Do not hand-edit generated platform indexes.
 
-After deployment and HTTPS issuance, verify the live domain returns 200, add `esemnbun.md` in Google Search Console, verify ownership, and submit `https://esemnbun.md/sitemap.xml`, `https://esemnbun.md/ro/sitemap.xml`, and `https://esemnbun.md/ru/sitemap.xml`. Check indexing and query impressions for MoldSign, semnatura electronica, and carte de identitate after publishing; rankings are not immediate or guaranteed.
+Docusaurus generates canonical URLs, language alternates and a sitemap for every locale. The build plugin generates `robots.txt` with sitemap links using the actual deployment configuration. Its wildcard allow rule permits search crawlers, including AI search retrieval crawlers. Allowing a crawler does not force indexing, recommendation or training. Keep any CDN/firewall rules consistent with this public access. On GitHub project Pages, `/smartcard/robots.txt` is not the host-root robots file; submit the sitemap URLs directly. On the production domain served at `/`, the generated robots file is at the correct root.
+
+The `search-discovery` build plugin also emits the following at `/`, `/ro/` and `/ru/`:
+
+- `llms.txt`: a compact index with Markdown and canonical HTML links.
+- `llms-full.txt`: combined text of the selected public guides.
+- `discovery.json`: a versioned, site-specific JSON document catalog; this is not a standardized MCP manifest or a remote MCP endpoint.
+- `markdown/<document-id>.md`: plain Markdown alternatives for the eight guides listed in `src/data/search-discovery.json`.
+
+These representations come from the same localized documentation sources and Docusaurus metadata. Generation fails if a selected translation is missing. Markdown links resolve to public URLs; platform exports include their task links. HTML advertises the index and JSON catalog, and selected guides advertise their Markdown alternative. Do not maintain a second set of product claims in these files. They are conveniences for tools that use them; Google does not use `llms.txt` as a ranking signal.
+
+The owner runs the verification batch from `website/` after dependencies are installed:
+
+```sh
+node --test tests/*.test.mjs
+npm run build
+npm run verify:seo
+```
+
+The existing Website CI also runs these commands. The SEO checker covers 18 localized entry pages: unique titles/descriptions, one main heading, exact canonical/hreflang targets, social images, app/site identity, homepage links and sitemap entries. It also checks the 24 Markdown exports and their text/JSON discovery links against the generated HTML.
+
+After deployment, verify the live pages and discovery files return 200 over HTTPS. In the owner's verified Google Search Console and Bing Webmaster Tools properties, submit `https://esemnbun.md/sitemap.xml`, `https://esemnbun.md/ro/sitemap.xml`, and `https://esemnbun.md/ru/sitemap.xml`. Inspect the priority URLs and track query impressions, clicks and indexing for the intents above. Account verification, sitemap submission and measured rankings are separate from publishing source changes; do not report them as completed without evidence. Search engines and recommendation systems decide inclusion and ordering, so first position cannot be guaranteed.
+
+References: [Google Search Essentials](https://developers.google.com/search/docs/essentials), [Google's generative AI search guidance](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide), [multilingual URL guidance](https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites), and [search crawler controls](https://developers.openai.com/api/docs/bots).
 
 ## Download catalog
 

@@ -45,5 +45,11 @@
   },
   "link.item.label.Devices": {
     "message": "Dispozitive"
+  },
+  "link.item.label.MoldSign alternative": {
+    "message": "Alternativă la MoldSign pentru calculatorul tău"
+  },
+  "link.item.label.MCP and AI agents": {
+    "message": "MoldSign MCP: conectează un agent AI local"
   }
 }

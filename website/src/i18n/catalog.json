@@ -36,9 +36,9 @@
   "cliGuides": {"en":"Command-line guides", "ro":"Ghiduri pentru linia de comandă", "ru":"Инструкции для командной строки"},
   "beforeDownload": {"en":"Before you connect", "ro":"Înainte de conectare", "ru":"Перед подключением"},
   "title": {
-    "en": "MoldSign alternative for Moldova’s electronic ID",
-    "ro": "Semnătură electronică cu cartea de identitate",
-    "ru": "Электронная подпись с ID-картой — альтернатива MoldSign"
+    "en": "MoldSign alternative — electronic signatures in Moldova",
+    "ro": "Semnătură electronică în Moldova — alternativă MoldSign",
+    "ru": "Электронная подпись в Молдове — альтернатива MoldSign"
   },
   "project": {
     "en": "eSemnBun · Free and open source",
@@ -326,9 +326,9 @@
     "ru": "Автоматически"
   },
   "seoDescription": {
-    "en": "Sign PDFs with your Moldovan electronic ID card using eSemnBun, a free, open-source alternative to MoldSign for desktop and mobile. Setup and verification guides.",
-    "ro": "Semnează PDF-uri cu cartea de identitate electronică din Moldova. eSemnBun: alternativă gratuită la MoldSign, pe calculator și telefon. Ghiduri de instalare și verificare.",
-    "ru": "Подписывайте PDF электронной ID-картой Молдовы. eSemnBun — бесплатная альтернатива MoldSign для компьютера и телефона. Установка и проверка подписи."
+    "en": "eSemnBun: free MoldSign alternative for Windows, Mac and Linux. Sign PDFs with a Moldovan electronic ID, verify signatures and connect local MCP agents.",
+    "ro": "eSemnBun: semnătură electronică în Moldova, alternativă gratuită la MoldSign pentru Windows, Mac și Linux. Semnare PDF, verificare și agenți MCP.",
+    "ru": "eSemnBun — бесплатная альтернатива MoldSign для Windows, Mac и Linux. Подпись PDF с ID-картой Молдовы, проверка документов и локальные MCP-агенты."
   },
   "searchTitle": {
     "en": "Electronic signatures with Moldova’s identity card",
@@ -379,5 +379,60 @@
     "en": "How to sign and verify a PDF",
     "ro": "Cum semnezi și verifici un PDF",
     "ru": "Как подписать и проверить PDF"
+  },
+  "platformSearchTitle": {
+    "en": "A MoldSign alternative for your computer",
+    "ro": "Alternativă la MoldSign pentru calculatorul tău",
+    "ru": "Альтернатива MoldSign для вашего компьютера"
+  },
+  "platformSearchBody": {
+    "en": "Choose a platform for installation, electronic-ID signing, PDF verification and compatible browser services. eSemnBun is independent software, not affiliated with STISC.",
+    "ro": "Alege platforma pentru instalare, semnătură electronică cu cartea de identitate, verificare PDF și servicii web compatibile. eSemnBun este software independent, neafiliat cu STISC.",
+    "ru": "Выберите платформу для установки, подписи с ID-картой, проверки PDF и совместимых веб-сервисов. eSemnBun — независимое ПО, не связанное со STISC."
+  },
+  "windowsSearchTitle": {
+    "en": "MoldSign alternative for Windows",
+    "ro": "Alternativă MoldSign pentru Windows",
+    "ru": "Альтернатива MoldSign для Windows"
+  },
+  "windowsSearchBody": {
+    "en": "Install the desktop app, connect your USB reader and sign or verify documents. Separate CLI tools support local MCP agents.",
+    "ro": "Instalează aplicația desktop, conectează cititorul USB și semnează sau verifică documente. Instrumentele CLI separate acceptă agenți MCP locali.",
+    "ru": "Установите настольное приложение, подключите USB-считыватель и подписывайте или проверяйте документы. Отдельный CLI поддерживает локальных MCP-агентов."
+  },
+  "macosSearchTitle": {
+    "en": "MoldSign alternative for Mac",
+    "ro": "Alternativă MoldSign pentru Mac",
+    "ru": "Альтернатива MoldSign для Mac"
+  },
+  "macosSearchBody": {
+    "en": "Choose the standalone DMG or Mac App Store edition. Follow the matching browser setup and install CLI/MCP tools separately.",
+    "ro": "Alege ediția DMG sau Mac App Store. Urmează configurarea browserului pentru ediția ta și instalează separat instrumentele CLI/MCP.",
+    "ru": "Выберите DMG или версию Mac App Store. Настройте браузер для своей версии и установите инструменты CLI/MCP отдельно."
+  },
+  "linuxSearchTitle": {
+    "en": "MoldSign alternative for Linux",
+    "ro": "Alternativă MoldSign pentru Linux",
+    "ru": "Альтернатива MoldSign для Linux"
+  },
+  "linuxSearchBody": {
+    "en": "Use the native GNOME app or terminal tools. Set up PC/SC and the CCID driver for your reader, with separate desktop and CLI packages.",
+    "ro": "Folosește aplicația nativă GNOME sau terminalul. Configurează PC/SC și driverul CCID pentru cititor; pachetele desktop și CLI sunt separate.",
+    "ru": "Используйте нативное приложение GNOME или терминал. Настройте PC/SC и драйвер CCID; пакеты настольного приложения и CLI различаются."
+  },
+  "mcpSearchTitle": {
+    "en": "MoldSign MCP: connect a local AI agent",
+    "ro": "MoldSign MCP: conectează un agent AI local",
+    "ru": "MoldSign MCP: подключите локального ИИ-агента"
+  },
+  "mcpSearchBody": {
+    "en": "Give an agent access to a selected folder to verify PDF or XML signatures. Signing requires separately configured approval or an explicitly enabled unattended setup. The website is not a remote signing server.",
+    "ro": "Oferă agentului acces la un dosar ales pentru verificarea semnăturilor PDF sau XML. Semnarea necesită aprobare configurată separat sau un mod nesupravegheat activat explicit. Site-ul nu este un server de semnare la distanță.",
+    "ru": "Предоставьте агенту доступ к выбранной папке для проверки подписей PDF или XML. Подпись требует отдельной настройки подтверждения или явно включённого режима без присутствия. Сайт не является удалённым сервером подписи."
+  },
+  "mcpSearchLink": {
+    "en": "MCP setup, tools and agent-readable documentation",
+    "ro": "Configurare MCP, instrumente și documentație pentru agenți",
+    "ru": "Настройка MCP, инструменты и документация для агентов"
   }
 }

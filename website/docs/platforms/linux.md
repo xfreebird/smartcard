@@ -1,5 +1,6 @@
 ---
-title: "Linux guides"
+title: "MoldSign alternative for Linux — electronic signatures"
+description: "Use eSemnBun on Linux for Moldovan electronic-ID signing. Set up the GNOME app, PC/SC reader, PDF verification, browser bridge and CLI/MCP tools."
 sidebar_label: "Linux"
 hide_table_of_contents: true
 pagination_prev: null
@@ -9,7 +10,9 @@ pagination_next: "platforms/linux/setup"
 import GuideDirectory from '@site/src/components/GuideDirectory';
 import GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';
 
-# Linux guides
+# MoldSign alternative for Linux — electronic signatures
+
+**eSemnBun is an independent MoldSign alternative for Linux.** The native GNOME app signs PDFs and XAdES with a supported Moldovan electronic ID and USB reader, verifies files and handles compatible browser requests. Desktop DEB, RPM and Flatpak packages differ from [Linux CLI and MCP tools](./linux-cli.md). Reader access requires the host PC/SC service and CCID driver. eSemnBun is not affiliated with STISC.
 
 Choose what you want to do. Each task has its own short illustrated guide.
 

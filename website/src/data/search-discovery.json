@@ -1,0 +1,12 @@
+{
+  "documents": [
+    "moldsign",
+    "platforms/windows",
+    "platforms/macos",
+    "platforms/linux",
+    "mcp-moldsign",
+    "signing",
+    "browser",
+    "troubleshooting"
+  ]
+}

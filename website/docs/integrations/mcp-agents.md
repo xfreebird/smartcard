@@ -1,12 +1,14 @@
 ---
-title: Connect your AI agent
+title: "MoldSign MCP setup — connect an AI agent to eSemnBun"
 sidebar_label: AI agents and MCP
-description: Configure ten local MCP clients with eSemnBun skills, workflows and a Claude Code plugin.
+description: "Configure local AI agents for eSemnBun, an independent MoldSign alternative with MCP tools for PDF verification and approved signing on Windows, Mac and Linux."
 ---
 
 import AgentConfigurator from '@site/src/components/AgentConfigurator';
 
 # Connect your AI agent
+
+Start with the [MoldSign MCP overview](/docs/mcp-moldsign/) for platform commands, available tools and signing requirements. This page provides the detailed client configurations.
 
 Use eSemnBun to verify document signatures or prepare a PDF for smartcard signing from your
 agent. Start with offline verification; add native approval or unattended signing separately.
