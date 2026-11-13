@@ -27,7 +27,7 @@ android {
             "BUILD_NUMBER must be a positive whole number no greater than 2100000000"
         }
         versionCode = buildNumber?.toInt() ?: 2
-        versionName = "0.2.10"
+        versionName = "0.2.11"
     }
 
     buildTypes {

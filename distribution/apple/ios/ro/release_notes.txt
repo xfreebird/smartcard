@@ -1,1 +1,1 @@
-Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.
+Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.

@@ -13,16 +13,19 @@ guard NSWorkspace.shared.frontmostApplication?.processIdentifier==hub.processIde
 func value(_ element:AXUIElement,_ key:String)->CFTypeRef? { var result:CFTypeRef?;AXUIElementCopyAttributeValue(element,key as CFString,&result);return result }
 func nodes(_ element:AXUIElement)->[AXUIElement] { [element]+((value(element,kAXChildrenAttribute) as? [AXUIElement]) ?? []).flatMap { nodes($0) } }
 let root=AXUIElementCreateApplication(hub.processIdentifier)
-guard let row=nodes(root).first(where:{ element in
- value(element,kAXRoleAttribute) as? String==kAXRowRole && [kAXTitleAttribute,kAXDescriptionAttribute,kAXValueAttribute].contains { key in
- (value(element,key) as? String)?.components(separatedBy:.newlines).first==name
+let windowNodes=((value(root,kAXWindowsAttribute) as? [AXUIElement]) ?? []).flatMap { nodes($0) }
+guard let row=windowNodes.first(where:{ element in
+ value(element,kAXRoleAttribute) as? String==kAXRowRole && nodes(element).contains { child in
+ [kAXTitleAttribute,kAXDescriptionAttribute,kAXValueAttribute].contains { key in
+ (value(child,key) as? String)?.components(separatedBy:.newlines).first==name
+ }
  }
 }),value(row,kAXSelectedAttribute) as? Bool==true else { fail("Select the exact prepared task simulator in Device Hub: "+name) }
-if let notice=nodes(root).first(where:{ element in value(element,kAXRoleAttribute) as? String==kAXButtonRole && [kAXTitleAttribute,kAXDescriptionAttribute].contains { key in value(element,key) as? String=="Not Now" } }) {
+if let notice=windowNodes.first(where:{ element in value(element,kAXRoleAttribute) as? String==kAXButtonRole && [kAXTitleAttribute,kAXDescriptionAttribute].contains { key in value(element,key) as? String=="Not Now" } }) {
  AXUIElementPerformAction(notice,kAXPressAction as CFString)
  Thread.sleep(forTimeInterval:1)
 }
-guard let button=nodes(root).first(where:{ element in value(element,kAXRoleAttribute) as? String==kAXButtonRole && [kAXTitleAttribute,kAXDescriptionAttribute].contains { key in value(element,key) as? String=="Screenshot" } }),let p=value(button,kAXPositionAttribute),let s=value(button,kAXSizeAttribute) else { fail("Native Screenshot control unavailable; verify the task device is selected and no menu is open") }
+guard let button=windowNodes.first(where:{ element in value(element,kAXRoleAttribute) as? String==kAXButtonRole && [kAXTitleAttribute,kAXDescriptionAttribute].contains { key in value(element,key) as? String=="Screenshot" } }),let p=value(button,kAXPositionAttribute),let s=value(button,kAXSizeAttribute) else { fail("Native Screenshot control unavailable; verify the task device is selected and no menu is open") }
 var point=CGPoint.zero;var size=CGSize.zero
 AXValueGetValue(p as! AXValue,.cgPoint,&point);AXValueGetValue(s as! AXValue,.cgSize,&size)
 point.x += size.width/2;point.y += size.height/2

@@ -22,7 +22,8 @@ SAFE_AREAS = {
     'header': (1097, 493, 2743, 1154),
     'search-results': (836, 765, 3004, 1795),
 }
-CARD_CROP = (86, 434, 1234, 1140)
+# Single-card face after removal of the redundant iOS navigation title.
+CARD_CROP = (86, 270, 1234, 976)
 CARD_SCALE = 2
 
 FONT_REGULAR = '/System/Library/Fonts/Supplemental/Arial.ttf'

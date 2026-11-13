@@ -1,1 +1,1 @@
-Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.
+Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.

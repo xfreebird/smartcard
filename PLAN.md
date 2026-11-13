@@ -1491,3 +1491,14 @@ The authoritative results and coverage limits are in [commit CI validation](docs
   and Romanian language switch. Direct HTTPS access to the production domain succeeded.
   Publication uses the existing Website workflow. Indexing, ranking and search-console submission
   remain separate from deployment; see website/README.md for the operational steps.
+
+### 2026-11-13 — Store screenshot refresh and Mac listing name
+
+- Prepare the separate Mac listing as `eSemnBun Desktop`; retain the iOS listing name.
+- Capture fresh Apple, Windows and Android store screenshots from current source.
+- Upload the review pack to the owner's Google Drive; store screenshot replacement and release submission are pending explicit screenshot approval.
+- Captured and visually reviewed 96 images in EN/RO/RU: iPhone 15, iPad 15, Mac 18, Windows 12, Android 36. Heavy Apple/Android work ran on the Air and Windows captures in its VM. Android captures now acknowledge the first-launch disclosure and reject wrong-language or still-obscured frames. Corrected all Android images before Drive upload; verified all uploaded names and byte sizes. Approval remains pending.
+- Owner accepted the initial images and requested the missing Duo and iOS Header/Search Results assets. Prepare 30 compact/expanded Duo screenshots and six creative images for the same Drive review folder. Corrected the creative card crop for the removed iOS navigation title and the Device Hub capture helper's selected-row lookup. Store submission remains on hold for review of these additions.
+- Completed and visually reviewed all 36 additions on the Air, uploaded them and their overview sheets, and verified Drive filenames/byte sizes plus native source hashes. The review folder now contains 132 images. Removed the task-owned Duo simulator after capture; original 96 accepted, additions awaiting approval.
+
+- Owner approved all 132 images and authorized replacing the pending Mac review. Prepare 0.2.11 with Apple/Windows build 213 and Android version code 1793624694; submit approved assets with automatic publishing where supported. Preserve Android internal testing and use the existing Alpha track.

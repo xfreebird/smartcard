@@ -33,7 +33,8 @@ try:
     time.sleep(1)
    else:raise RuntimeError("Mock presentation did not become ready")
    readyLog.unlink(missing_ok=True)
-   time.sleep(2)
+   # Allow extra settling time on first launch; visually reject any system banners.
+   time.sleep(12 if key == '01-sign' else 2)
    dest=out/lang/a.family/(key+'.png');dest.parent.mkdir(parents=True,exist_ok=True)
    if a.devicehub_helper:
     desktop=pathlib.Path.home()/'Desktop'; before=set(desktop.glob('Screenshot '+deviceName+'*.png'))

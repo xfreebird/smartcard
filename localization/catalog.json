@@ -15323,7 +15323,7 @@
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
       "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
-      "releaseNotes": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
+      "releaseNotes": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
       "features": [
         "Semnare PDF și XAdES",
@@ -15339,11 +15339,11 @@
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
-        "macos": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
-        "android": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
-        "windows": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate.",
-        "linux": "Criptarea și decriptarea cu parolă sunt mai ușor de folosit din meniul Documente. Câmpuri de parolă și acțiuni de finalizare mai clare. Fișierele criptate și decriptate apar în Documente salvate. Am eliminat opțiunea de criptare nesuportată de cartea de identitate."
+        "ios": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
+        "macos": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
+        "android": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
+        "windows": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
+        "linux": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin."
       }
     },
     "en": {
@@ -15352,7 +15352,7 @@
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
       "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
-      "releaseNotes": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
+      "releaseNotes": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
       "features": [
         "PDF and XAdES signing",
@@ -15368,11 +15368,11 @@
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
-        "macos": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
-        "android": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
-        "windows": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option.",
-        "linux": "Password encryption and decryption are easier to use from the Documents menu. Clearer password fields and completion actions. Encrypted and decrypted files now appear in Saved documents. Removed the unsupported ID-card encryption option."
+        "ios": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
+        "macos": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
+        "android": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
+        "windows": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
+        "linux": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots."
       }
     },
     "ru": {
@@ -15381,7 +15381,7 @@
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
       "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
-      "releaseNotes": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
+      "releaseNotes": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
       "features": [
         "Подписание PDF и XAdES",
@@ -15397,11 +15397,11 @@
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
-        "macos": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
-        "android": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
-        "windows": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой.",
-        "linux": "Шифрование и расшифровка паролем теперь доступны из меню Документов. Более понятные поля пароля и действия после завершения. Зашифрованные и расшифрованные файлы появляются в Сохранённых документах. Убрана неподдерживаемая функция шифрования ID-картой."
+        "ios": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
+        "macos": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
+        "android": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
+        "windows": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
+        "linux": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине."
       }
     }
   },

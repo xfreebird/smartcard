@@ -18,11 +18,13 @@ The default Apple driver covers standard iPhone, iPad and Mac. Duo orientation c
 
 ## Uploading prepared drafts
 
-Apple listing and screenshot uploads use `bundle exec ruby distribution/tools/upload-apple-draft.rb ios|macos PACK` with `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_PATH` from the owner's offline secrets. An app record must exist first. This uploads localized draft assets, skips duplicate images and never submits or releases. Set `REVIEW_CONTACT_PHONE` only when uploading the owner's approved review contact; do not commit the number. The separate Mac record uses `eSemnBun for Mac` to avoid localized name collisions with the iOS bundle, with English artwork also supplied for its primary en-GB locale.
+Apple listing and screenshot uploads use `bundle exec ruby distribution/tools/upload-apple-draft.rb ios|macos PACK` with `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_PATH` from the owner's offline secrets. An app record must exist first. This uploads localized draft assets, skips duplicate images and never submits or releases. Set `REVIEW_CONTACT_PHONE` only when uploading the owner's approved review contact; do not commit the number. The separate Mac record uses `eSemnBun Desktop` to avoid localized name collisions with the iOS bundle, with English artwork also supplied for its primary en-GB locale.
 
 Microsoft: export the current listing CSV from Partner Center, then run `python3 distribution/tools/prepare-microsoft-import.py --template EXPORTED.csv --pack PACK --output /absolute/path/microsoft`. Import the **whole output folder**, which contains the CSV and its referenced images. The selected root folder name is included in image paths as required by Partner Center. Upload the current MSIX separately and verify the portal's validation result before saving.
 
 Android promotional compositions use 1440×2560 portrait and 2560×1440 landscape canvases for the Play Console's 9:16/16:9 slots. Actual application UI remains proportional within each composition. Native captures remain separately available.
+
+The Android capture driver acknowledges the first-launch independence notice through its Continue button and checks the accessibility hierarchy before each screenshot. It rejects a visible notice or a mismatched navigation language. Use a dedicated emulator with Romanian as its system locale: Romanian strings are the unqualified resources, so an English system fallback can otherwise override them even with the app locale set to `ro`. Inspect every rendered image for overlays, clipping and language consistency before upload; readiness markers alone do not prove a clean screen.
 
 The 1 November Google upload uses `PACK/promotional/android/{en,ro,ru}/{phone,seven-inch,ten-inch}`, four images per slot, plus localized `PACK/google/assets/android/{locale}/feature-graphic.png` and the shared icon. The native captures remain available for audit. Windows uploads use the native `microsoft/assets` sets.
 

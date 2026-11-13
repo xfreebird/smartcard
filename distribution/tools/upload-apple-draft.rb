@@ -20,7 +20,7 @@ abort "No editable #{platform} App Store version" unless version
 if platform == 'macos'
   # Separate bundle IDs need distinct localized Store names within this team.
   app.fetch_edit_app_info.get_app_info_localizations.each do |locale|
-    locale.update(attributes: { name: 'eSemnBun for Mac' })
+    locale.update(attributes: { name: 'eSemnBun Desktop' })
   end
 end
 Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
@@ -28,7 +28,7 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
   FileUtils.cp_r(File.join(root, 'apple', platform), metadata)
   if platform == 'macos'
     FileUtils.cp_r(File.join(metadata, 'en-US'), File.join(metadata, 'en-GB'))
-    Dir.glob(File.join(metadata, '*', 'name.txt')).each { |file| File.write(file, "eSemnBun for Mac\n") }
+    Dir.glob(File.join(metadata, '*', 'name.txt')).each { |file| File.write(file, "eSemnBun Desktop\n") }
   end
   screenshots = File.join(stage, 'screenshots')
   %w[ro en ru].each do |locale|
