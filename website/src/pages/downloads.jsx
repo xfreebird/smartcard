@@ -7,13 +7,14 @@ import PlatformIcon from '../components/PlatformIcon';
 import useText from '../i18n/useText';
 import release from '../data/release.json';
 import PackageDownloads from '../components/PackageDownloads';
+import {isCLI, platformAssets} from '../components/downloadAssets.mjs';
 
 const platforms = release.platforms.filter(platform => platform.id !== 'linux-cli');
 
 function StoreBadge({store, locale}) {
- const src = useBaseUrl(store.badges[locale] || store.badges.en);
+ const src = useBaseUrl(store.badges?.[locale] || store.badges?.en || '/');
  return <a className="download-store-badge" href={store.url} aria-label={store.name}>
-  <img src={src} alt={store.name}/>
+  {store.badges ? <img src={src} alt={store.name}/> : <span>{store.name} ↗</span>}
  </a>;
 }
 
@@ -85,15 +86,19 @@ export default function DownloadsPage() {
      <div className="download-platform-heading">
       <span className="download-platform-symbol"><PlatformIcon name={platform.icon}/></span>
       <div className="download-platform-title"><h2 id={`${platform.id}-title`}>{text(platform.name)}</h2><p>{platform.id === 'linux' ? text({en: 'Desktop app and command-line tools · x86-64', ro: 'Aplicație desktop și instrumente în linia de comandă · x86-64', ru: 'Настольное приложение и инструменты командной строки · x86-64'}) : text(platform.requirements)}</p></div>
-      {platform.store && <StoreBadge store={platform.store} locale={currentLocale}/>}
+      <div className="download-stores">{[platform.store, ...(platform.additionalStores || [])].filter(Boolean).map(store => <StoreBadge key={store.url} store={store} locale={currentLocale}/>)}</div>
      </div>
      <div className="download-installers">
-      {release.assets.filter(asset => (asset.platform === 'linux-cli' ? 'linux' : asset.platform) === platform.id).map(asset => {const info=installerInfo(asset);return <a className="download-installer" href={asset.url} key={asset.name} title={asset.name}>
+      {platformAssets(release.assets, platform.id).map((asset, index, assets) => {const info=installerInfo(asset);return <React.Fragment key={asset.name}>
+       {(index === 0 || isCLI(asset) !== isCLI(assets[index - 1])) && <h3 className="download-group-label">{isCLI(asset)
+        ? text({en: 'Command-line tools', ro: 'Instrumente în linia de comandă', ru: 'Инструменты командной строки'})
+        : text({en: 'Standalone app', ro: 'Aplicație independentă', ru: 'Отдельное приложение'})}</h3>}
+       <a className="download-installer" href={asset.url} key={asset.name} title={asset.name}>
        <PlatformIcon name="download"/><span><b>{info.label}</b>
        {info.description && <small>{info.description}</small>}
        <small>{[asset.version, asset.architecture, `${(asset.size / 1_000_000).toFixed(1)} MB`].filter(Boolean).join(' · ')}</small></span>
        <PlatformIcon name="external"/>
-      </a>;})}
+      </a></React.Fragment>;})}
       {platform.alternatives?.map(option => <a className="download-installer" href={option.url} key={option.url}>
        <PlatformIcon name="github"/><span><b>{text(option.label)}</b><small>{text(option.hint)}</small></span>
       </a>)}

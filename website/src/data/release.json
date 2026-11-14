@@ -228,7 +228,13 @@
           "ro": "/img/badges/google-play-ro.png",
           "ru": "/img/badges/google-play-ru.png"
         }
-      }
+      },
+      "additionalStores": [
+        {
+          "name": "Huawei AppGallery",
+          "url": "https://appgallery.huawei.com/app/C119651007"
+        }
+      ]
     },
     {
       "id": "linux",

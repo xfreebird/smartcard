@@ -64,8 +64,11 @@ def package_key(asset):
     return (info.get('platform'), info.get('format'), info.get('architecture'))
 
 current_packages = {package_key(asset) for asset in assets}
-assets.extend(asset for asset in previous['assets']
-              if family(asset['name']) and package_key(asset) not in current_packages)
+for asset in previous['assets']:
+    key = package_key(asset)
+    if family(asset['name']) and key not in current_packages:
+        assets.append(asset)
+        current_packages.add(key)
 args.out.parent.mkdir(parents=True, exist_ok=True)
 args.out.write_text(json.dumps({**previous, 'version': version, 'url': release['html_url'],
                                'assets': [describe(asset) for asset in assets]}, ensure_ascii=False, indent=2) + '\n')

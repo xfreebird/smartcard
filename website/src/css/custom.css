@@ -306,3 +306,12 @@ button.guide-screenshot-image:focus-visible{outline:3px solid var(--ifm-color-pr
 .guide-device-option li{margin:0;font-size:.9rem}
 .guide-directory-count{color:var(--ifm-color-emphasis-700);font-size:.9rem}
 @media(max-width:640px){.guide-directory-grid{grid-template-columns:1fr}}
+
+/* Keep all store choices ahead of standalone installers, including on phones. */
+.download-stores{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto;max-width:45%}
+.download-stores .download-store-badge{flex:0 1 auto;max-width:100%;min-height:44px}
+.download-store-badge span{font-weight:600}
+.platform-store > .download-store-badge{display:flex;max-width:100%;justify-content:center;min-height:44px}
+@media(max-width:600px){.download-platform-heading{flex-wrap:wrap}.download-stores{flex-basis:100%;max-width:100%;margin-left:0;justify-content:flex-start}}
+
+.download-group-label{font-size:14px;color:var(--site-muted);margin:16px 0 4px}

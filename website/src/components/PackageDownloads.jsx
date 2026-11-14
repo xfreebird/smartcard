@@ -39,10 +39,10 @@ sudo apt install esemnbun-cli`}</CodeBlock>
    </details>
    <details><summary>{text('Arch & other Linux systems','Arch și alte sisteme Linux','Arch и другие системы Linux')} <small>CLI &amp; MCP · x86-64</small></summary>
     <p><a href="/packages/PKGBUILD">{text('Download Arch PKGBUILD','Descarcă Arch PKGBUILD','Скачать Arch PKGBUILD')}</a> — {text('inspect it, then run makepkg -si. Not listed in AUR.','verifică-l, apoi execută makepkg -si. Nu este listat în AUR.','проверьте файл, затем выполните makepkg -si. Не размещён в AUR.')}</p>
-    <p><a href={`${base}esemnbun-${packages.version}-linux-x86_64.tar.gz`}>{text('Download Linux CLI archive','Descarcă arhiva CLI pentru Linux','Скачать архив CLI для Linux')} · {packages.version}</a></p>
     <p>{text('Requires compatible glibc, OpenSSL, libcurl and PC/SC libraries. Not an Alpine/musl build.','Necesită biblioteci compatibile glibc, OpenSSL, libcurl și PC/SC. Nu este o versiune pentru Alpine/musl.','Требуются совместимые библиотеки glibc, OpenSSL, libcurl и PC/SC. Не предназначено для Alpine/musl.')}</p>
    </details>
    </>}
+  <h3 className="download-group-label">MCP</h3>
   <p><a href="/docs/integrations/mcp-agents/">{text('Connect your AI agent: configurations, skills and plugin','Conectează agentul AI: configurări, abilități și plugin','Подключите ИИ-агента: настройки, навыки и плагин')}</a></p>
   <p><a href="/packages/mcp.md">{text('MCP setup and signing policy','Configurarea MCP și politica de semnare','Настройка MCP и правила подписи')}</a></p>
  </div>;

@@ -15,6 +15,8 @@ export default function MobileStores({platform}){
   <a href={links[platform]} aria-label={store.name}>
    <img className={appleStore ? 'apple-store-badge' : 'google-store-badge'} src={badge} alt={store.name} width={appleStore ? 150 : 190} height={appleStore ? 50 : 74}/>
   </a>
+  {release.platforms.find(item => item.id === platform)?.additionalStores?.map(item =>
+   <a className="download-store-badge" key={item.url} href={item.url}>{item.name} ↗</a>)}
   <p>{t(`storeStatus_${platform}`)}</p>
   {platform==='macos' && <p className="store-version-limitations">{t('macAppStoreLimitations')}</p>}
  </div>;

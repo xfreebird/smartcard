@@ -1,0 +1,30 @@
+[
+  {
+    "target": "website/static/img/docs/v0.2.0/macos/ready-light.png",
+    "source": "apple/raw/en/macos/01-sign.png",
+    "captureDate": "2026-11-13",
+    "sha256": "6fd91208b7f69f1690557c982f5d0757e87c07497ba8cd77480f831df46e12cc",
+    "appearance": "light"
+  },
+  {
+    "target": "website/static/img/docs/v0.2.0/ios/ready-light.png",
+    "source": "apple/raw/en/iphone/01-sign.png",
+    "captureDate": "2026-11-13",
+    "sha256": "c0d208f0f261b30303204a7d5f82ecdf5bc6d4dbc7cfcc05f1b52a9c67c14829",
+    "appearance": "light"
+  },
+  {
+    "target": "website/static/img/docs/v0.2.0/windows/ready-light.png",
+    "source": "microsoft/assets/en/01-sign.png",
+    "captureDate": "2026-11-13",
+    "sha256": "a524bddddeeffd4f7550bed1f22ac9a0bdbb849c9e49d9b402a4dccc000a8371",
+    "appearance": "light"
+  },
+  {
+    "target": "website/static/img/docs/v0.2.0/android/ready-light.png",
+    "source": "google/assets/android/en/phone/01-sign.png",
+    "captureDate": "2026-11-13",
+    "sha256": "1b057922d6080ce3fdec645ad9bc669979a5ce807123b2866d608a92808db876",
+    "appearance": "light"
+  }
+]

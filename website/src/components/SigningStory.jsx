@@ -33,17 +33,28 @@ export default function SigningStory(){
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
   const selectedPlatform=()=>storyPlatform(debug?preview:'auto',ua,window.innerWidth);
   const selectedScreen=()=>selectedPlatform()==='android'?androidPhone.screen:selectedPlatform()==='iphone'?iphone.screen:desktopDisplay.screen;
-  let raf=0;
+  let raf=0, previousTime=0, displayed=0, target=0;
   const readViewport=()=>({width:window.innerWidth,height:root.current?.firstElementChild?.getBoundingClientRect().height || window.innerHeight});
   let measuredViewport=readViewport();
-  const update=()=>{
-   raf=0;const r=root.current?.getBoundingClientRect();if(!r)return;
-   const viewport=measuredViewport;
-   setProgress(storyScrollProgress(r,viewport,selectedScreen()));
-   document.documentElement.classList.toggle('story-active',!motion.matches && r.top<=1 && r.bottom>=viewport.height-1);
+  const measure=()=>{
+   const r=root.current?.getBoundingClientRect();if(!r)return;
+   target=storyScrollProgress(r,measuredViewport,selectedScreen());
+   document.documentElement.classList.toggle('story-active',!motion.matches && r.top<=1 && r.bottom>=measuredViewport.height-1);
   };
-  const resize=()=>{measuredViewport=readViewport();setPlatform(selectedPlatform());setViewport(measuredViewport);setReduced(motion.matches);update();};
-  const scroll=()=>{if(!raf)raf=requestAnimationFrame(update);};
+  const animate=time=>{
+   raf=0;
+   const elapsed=previousTime?Math.min(time-previousTime,64):16;previousTime=time;
+   // Time-based easing stays consistent on 60 Hz and 120 Hz displays.
+   displayed=motion.matches?target:displayed+(target-displayed)*(1-Math.exp(-elapsed/65));
+   if(Math.abs(target-displayed)<0.0001)displayed=target;
+   setProgress(displayed);
+   if(displayed!==target)raf=requestAnimationFrame(animate);else previousTime=0;
+  };
+  const scroll=()=>{measure();if(!raf)raf=requestAnimationFrame(animate);};
+  const resize=()=>{
+   measuredViewport=readViewport();setPlatform(selectedPlatform());setViewport(measuredViewport);setReduced(motion.matches);
+   measure();cancelAnimationFrame(raf);raf=0;previousTime=0;displayed=target;setProgress(displayed);
+  };
   const observer=new ResizeObserver(resize);
   if(root.current?.firstElementChild)observer.observe(root.current.firstElementChild);
   resize();window.addEventListener('scroll',scroll,{passive:true});window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);motion.addEventListener('change',resize);
