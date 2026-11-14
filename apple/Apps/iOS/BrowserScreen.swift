@@ -4,6 +4,7 @@ import WebKit
 /// Foreground browser: the signing connection remains available while a portal is open.
 struct BrowserScreen: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.locale) private var locale
     @State private var browser = PortalBrowser()
     @State private var editingAddress = false
     @State private var address = "https://msign.gov.md/#/"
@@ -75,6 +76,8 @@ struct BrowserScreen: View {
                     .controlSize(.large)
                     .frame(minHeight: 50)
                     .padding(.horizontal, 20)
+                    .padding(.top, 6)
+                    .padding(.bottom, 12)
                 }
                 .background(.bar)
             }
@@ -149,12 +152,14 @@ struct BrowserScreen: View {
                 }
                 .presentationDetents([.medium])
             }
+            .onChange(of: locale.identifier) { _, _ in browser.synchronizeLanguage() }
             .onChange(of: model.browserURL) { _, url in if !model.demoMode, let url { browser.open(url) } }
             .onChange(of: model.demoMode) { _, demo in
                 if demo { browser.webView.stopLoading(); browser = PortalBrowser() }
                 else if browser.url == nil { browser.open(URL(string: "https://msign.gov.md/#/")!) }
             }
             .onAppear {
+                browser.synchronizeLanguage()
                 if !model.demoMode, !initialPageRequested {
                     initialPageRequested = true
                     browser.open(model.browserURL ?? URL(string: "https://msign.gov.md/#/")!)
@@ -210,6 +215,7 @@ struct BrowserScreen: View {
 private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate {
     let id = UUID()
     let webView: WKWebView
+    private var language = BrowserLocale.language
     var url: URL?
     var canGoBack = false
     var canGoForward = false
@@ -219,6 +225,7 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     private let mpassHosts: Set<String> = ["mpass.gov.md", "testmpass.gov.md", "mpass.staging.egov.md"]
 
     init(configuration: WKWebViewConfiguration = WKWebViewConfiguration()) {
+        BrowserLocale.install(in: configuration, language: BrowserLocale.language)
         webView = WKWebView(frame: .zero, configuration: configuration)
         super.init()
         // A redirect or POST may reach MPass before navigation preferences are applied.
@@ -242,10 +249,22 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
         ]
     }
 
+    func synchronizeLanguage(reload: Bool = true) {
+        let selected = BrowserLocale.language
+        guard selected != language else { return }
+        language = selected
+        BrowserLocale.install(in: webView.configuration, language: selected)
+        // Use a new GET for the visible page; never replay a form's POST body.
+        if reload, let url = webView.url, ["https", "http"].contains(url.scheme?.lowercased() ?? "") {
+            webView.load(BrowserLocale.request(URLRequest(url: url), language: selected))
+        }
+    }
+
     func open(_ url: URL) {
+        synchronizeLanguage(reload: false)
         guard ["https", "http"].contains(url.scheme?.lowercased() ?? L10n.text(.ui_)), webView.url != url else { return }
         self.url = url
-        webView.load(URLRequest(url: url))
+        webView.load(BrowserLocale.request(URLRequest(url: url), language: BrowserLocale.language))
     }
 
     /// MPass's server omits the identity-card option for mobile user agents. Request its
@@ -282,7 +301,7 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     /// A portal's target=_blank links stay inside the foreground app.
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil { webView.load(navigationAction.request) }
+        if navigationAction.targetFrame == nil { webView.load(BrowserLocale.request(navigationAction.request, language: BrowserLocale.language)) }
         return nil
     }
 }

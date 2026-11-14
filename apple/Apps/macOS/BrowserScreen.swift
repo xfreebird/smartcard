@@ -6,6 +6,7 @@ import UniformTypeIdentifiers
 /// A persistent portal session hosted in the app, sharing the normal consent-protected bridge.
 struct MacBrowserScreen: View {
     @Environment(AppModel.self) private var model
+    @Environment(\.locale) private var locale
     let browser: MacPortalBrowser
     @State private var address = "https://msign.gov.md/#/"
     @State private var invalidAddress = false
@@ -123,7 +124,9 @@ struct MacBrowserScreen: View {
             browser.clearSessionNavigation()
             if !demo { openInitialPage() }
         }
+        .onChange(of: locale.identifier) { _, _ in browser.synchronizeLanguage() }
         .onAppear {
+            browser.synchronizeLanguage()
             openInitialPage()
             #if DEBUG
             let env = ProcessInfo.processInfo.environment
@@ -162,9 +165,10 @@ struct MacBrowserScreen: View {
 
 @MainActor @Observable
 final class MacPortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate, WKDownloadDelegate {
-    var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+    var webView: WKWebView
     var sessionID = UUID()
     var initialPageRequested = false
+    private var language = BrowserLocale.language
     var url: URL?
     var canGoBack = false
     var canGoForward = false
@@ -173,6 +177,9 @@ final class MacPortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate, WKDo
     private var downloads: [ObjectIdentifier: WKDownload] = [:]
 
     override init() {
+        let configuration = WKWebViewConfiguration()
+        BrowserLocale.install(in: configuration, language: BrowserLocale.language)
+        webView = WKWebView(frame: .zero, configuration: configuration)
         super.init()
         configureWebView()
     }
@@ -207,6 +214,7 @@ final class MacPortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate, WKDo
             webView.loadHTMLString("", baseURL: nil)
             for download in downloads.values { download.cancel { _ in } }
             downloads.removeAll()
+            BrowserLocale.install(in: configuration, language: BrowserLocale.language)
             webView = WKWebView(frame: .zero, configuration: configuration)
             configureWebView()
             sessionID = UUID()
@@ -242,12 +250,24 @@ final class MacPortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate, WKDo
         error = nil
     }
 
+    func synchronizeLanguage(reload: Bool = true) {
+        let selected = BrowserLocale.language
+        guard selected != language else { return }
+        language = selected
+        BrowserLocale.install(in: webView.configuration, language: selected)
+        // Use a new GET for the visible page; never replay a form's POST body.
+        if reload, let url = webView.url, ["https", "http"].contains(url.scheme?.lowercased() ?? "") {
+            webView.load(BrowserLocale.request(URLRequest(url: url), language: selected))
+        }
+    }
+
     func open(_ url: URL) {
+        synchronizeLanguage(reload: false)
         guard Self.isWebURL(url) else { return }
         initialPageRequested = true
         self.url = url
         error = nil
-        webView.load(URLRequest(url: url))
+        webView.load(BrowserLocale.request(URLRequest(url: url), language: BrowserLocale.language))
     }
 
     func webView(_ webView: WKWebView, decidePolicyFor action: WKNavigationAction,
@@ -302,7 +322,7 @@ final class MacPortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate, WKDo
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for action: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if action.targetFrame == nil, let url = action.request.url, Self.isWebURL(url) {
-            webView.load(action.request)
+            webView.load(BrowserLocale.request(action.request, language: BrowserLocale.language))
         }
         return nil
     }

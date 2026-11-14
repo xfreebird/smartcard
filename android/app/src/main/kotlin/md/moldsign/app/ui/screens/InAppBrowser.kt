@@ -32,6 +32,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.webkit.WebViewCompat
+import androidx.webkit.WebViewFeature
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.foundation.text.KeyboardOptions
@@ -55,6 +58,11 @@ private fun browserUrl(input: String): String? = BookmarkUrl.normalize(input)
 @Composable
 fun InAppBrowser(onClose: () -> Unit) {
     val context = LocalContext.current
+    val locales = LocalConfiguration.current.locales
+    // Match app resource selection, including Romanian as the unqualified fallback.
+    val language = (0 until locales.size()).asSequence().mapNotNull { locales[it]?.language }
+        .firstOrNull { it in setOf("ro", "en", "ru") } ?: "ro"
+    val languageHeaders = remember(language) { mapOf("Accept-Language" to language) }
     var address by remember { mutableStateOf("https://msign.gov.md/#/") }
     var servicesExpanded by remember { mutableStateOf(false) }
     val defaultBookmarks = PortalService.all.map { service ->
@@ -104,13 +112,20 @@ fun InAppBrowser(onClose: () -> Unit) {
         uploadGeneration[0] = if (accepted != null) pageGeneration[0] else -1
         callback?.onReceiveValue(accepted)
     }
-    val webView = remember(browserGeneration) {
+    val webView = remember(browserGeneration, language) {
+        val localeScript = BrowserLocaleScript.source(language)
+        val supportsDocumentStart = WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)
+        val localeReloads = mutableSetOf<String>()
+
         WebView(context).apply {
             // WebView has no pre-request callback for POST navigation. Set this before the first
             // request so MPASS receives it on redirects and form submissions without replaying POSTs.
             settings.userAgentString = DESKTOP_USER_AGENT
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
+            if (supportsDocumentStart) {
+                WebViewCompat.addDocumentStartJavaScript(this, localeScript, setOf("*"))
+            }
             settings.useWideViewPort = true
             settings.loadWithOverviewMode = true
             settings.builtInZoomControls = true
@@ -142,6 +157,7 @@ fun InAppBrowser(onClose: () -> Unit) {
                         .setTitle(URLUtil.guessFileName(url, disposition, mimeType))
                         .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     if (!userAgent.isNullOrBlank()) request.addRequestHeader("User-Agent", userAgent)
+                    request.addRequestHeader("Accept-Language", language)
                     if (!mimeType.isNullOrBlank()) request.setMimeType(mimeType)
                     (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
                 }.isSuccess
@@ -184,6 +200,14 @@ fun InAppBrowser(onClose: () -> Unit) {
                 }
                 override fun onPageFinished(view: WebView, url: String) {
                     if (uploadView[0] !== view) return
+                    if (!supportsDocumentStart) {
+                        // Old WebView providers lack document-start scripts. Seed MSign's
+                        // persisted locale, then reload at most once per URL in this session.
+                        view.evaluateJavascript(localeScript) { changed ->
+                            if (changed == "true" && uploadView[0] === view && view.url == url &&
+                                localeReloads.add(url)) view.loadUrl(url, languageHeaders)
+                        }
+                    }
                     if (uploadGeneration[0] >= 0 && pageGeneration[0] > uploadGeneration[0]) {
                         view.settings.allowContentAccess = false
                         uploadGeneration[0] = -1
@@ -194,7 +218,7 @@ fun InAppBrowser(onClose: () -> Unit) {
                 }
             }
             uploadView[0] = this
-            if (address.isNotBlank()) loadUrl(address)
+            if (address.isNotBlank()) loadUrl(address, languageHeaders)
         }
     }
     DisposableEffect(webView) {
@@ -211,7 +235,7 @@ fun InAppBrowser(onClose: () -> Unit) {
         val url = browserUrl(address)
         invalidAddress = url == null
         if (url != null) {
-            webView.loadUrl(url)
+            webView.loadUrl(url, languageHeaders)
         }
     }
     fun resetBrowsingData() {
@@ -336,7 +360,7 @@ fun InAppBrowser(onClose: () -> Unit) {
                                 servicesExpanded = false
                                 invalidAddress = false
                                 address = bookmark.url
-                                webView.loadUrl(bookmark.url)
+                                webView.loadUrl(bookmark.url, languageHeaders)
                             },
                         )
                     }
@@ -358,7 +382,7 @@ fun InAppBrowser(onClose: () -> Unit) {
         if (desktopLogin) Text(stringResource(R.string.browser_login_desktop), style = MaterialTheme.typography.labelSmall)
         if (loadFailed) Text(stringResource(R.string.browser_load_error), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
         Spacer(Modifier.height(8.dp))
-        key(browserGeneration) {
+        key(browserGeneration, language) {
             AndroidView(factory = { webView }, modifier = Modifier.fillMaxWidth().weight(1f))
         }
     }

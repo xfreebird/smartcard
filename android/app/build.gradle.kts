@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":transport-usb"))
 
     implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.webkit)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat) // Per-app locales on Android 12 and earlier
     implementation(libs.androidx.fragment) // FragmentActivity host for BiometricPrompt

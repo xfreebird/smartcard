@@ -1510,9 +1510,20 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Prioritize stores, standalone apps, CLI packages, then MCP setup. Add the released Huawei listing beside Google Play, deduplicate package/architecture entries, and remove the repeated Linux archive link.
 - Smooth the landing animation with frame-rate-independent easing while preserving reduced-motion behavior.
 - Refresh the light ready-state documentation captures for macOS, Windows, iPhone and Android from the approved 13 November native pack, retaining source hashes. The landing animation retains its matched native canvas set; replacing only ready frames with store captures would break alignment. Other states, dark captures and Linux still need a fresh capture batch.
-- Prepared locally, pending publication and runtime verification: initialize MSign's persisted browser locale from the app language, supply Accept-Language on opened URLs, and add vertical spacing between the iOS browser controls and app tab bar.
+- Initialize MSign's persisted browser locale from the app language, supply Accept-Language on opened URLs, and add vertical spacing between the iOS browser controls and app tab bar. Locale build/runtime validation is recorded below; no app release was requested.
 - Verify Android 0.2.11 / 1793624694 and its upload certificate; replace four Huawei English screenshots using the current OBS upload API. See docs/reports/website-huawei-2026-11-14 for actual submission status.
 - Google Play alpha was published manually by the owner and was left unchanged.
 - Website source published on main as 972d2695f0ff24ad7ce5af460e445736d488a7b0. Website workflow 43634978947 passed automated tests, guide validation, build and SEO checks, and deployed successfully. Verified the live download page exposes Huawei AppGallery and grouped downloads. GitHub CLI authentication remains unavailable; repository access is available through the connected GitHub integration. Native builds and runtime verification remain owner-run.
 
 - 2026-11-14: Replace the Huawei text link with the official AppGallery badge on the landing and download pages. Bundle Huawei's original English SVG with English fallback for RO/RU; preserve the existing app listing URL.
+
+### 2026-11-14 — Embedded browser follows app locale
+
+- Share one document-start locale policy across iOS, macOS and Android: browser language preferences and MSign persisted culture follow the effective app language. Preserve unrelated portal state, cookies and navigation request bodies.
+- Resolve System mode through supported app locales; replace scripts safely after browser-data resets. Android recreates its WebView when the selected language changes and supports a bounded MSign reload on older providers.
+- Windows and Linux keep their external-browser behavior by owner decision; their browser/site language remains controlled externally.
+- The owner authorized the validation batch; results and remaining coverage limits are recorded below.
+
+- Validation 14 November: 17 shared policy tests and 16 Android app tests passed; iOS/macOS/Android builds passed. Real WKWebView/WebView fixture checks passed EN/RO/RU; Apple System-mode resolution passed. Corrected blocked-storage handling and exact-origin isolation. Windows/Linux source remains unchanged. Live authentication and full settings-screen journeys remain untested; see docs/reports/browser-locale-2026-11-14.md.
+
+- Delivery: commit and push the validated browser-locale changes only. No version changes, release tags, release workflows or store submissions.
