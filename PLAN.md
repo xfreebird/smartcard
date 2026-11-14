@@ -1504,3 +1504,13 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Owner approved all 132 images and authorized replacing the pending Mac review. Prepare 0.2.11 with Apple/Windows build 213 and Android version code 1793624694; submit approved assets with automatic publishing where supported. Preserve Android internal testing and use the existing Alpha track.
 
 - 2026-11-13: Corrected Linux AppStream release metadata to 0.2.11 before rebuilding Linux packages and Flatpak for the shared release; Apple, Android and Windows build identities remain 213 / 1793624694.
+
+### 2026-11-14 — Website downloads, browser locale and Huawei refresh
+
+- Prioritize stores, standalone apps, CLI packages, then MCP setup. Add the released Huawei listing beside Google Play, deduplicate package/architecture entries, and remove the repeated Linux archive link.
+- Smooth the landing animation with frame-rate-independent easing while preserving reduced-motion behavior.
+- Refresh the light ready-state documentation captures for macOS, Windows, iPhone and Android from the approved 13 November native pack, retaining source hashes. The landing animation retains its matched native canvas set; replacing only ready frames with store captures would break alignment. Other states, dark captures and Linux still need a fresh capture batch.
+- Prepared locally, pending publication and runtime verification: initialize MSign's persisted browser locale from the app language, supply Accept-Language on opened URLs, and add vertical spacing between the iOS browser controls and app tab bar.
+- Verify Android 0.2.11 / 1793624694 and its upload certificate; replace four Huawei English screenshots using the current OBS upload API. See docs/reports/website-huawei-2026-11-14 for actual submission status.
+- Google Play alpha was published manually by the owner and was left unchanged.
+- Website source published on main as 972d2695f0ff24ad7ce5af460e445736d488a7b0. Website workflow 43634978947 passed automated tests, guide validation, build and SEO checks, and deployed successfully. Verified the live download page exposes Huawei AppGallery and grouped downloads. GitHub CLI authentication remains unavailable; repository access is available through the connected GitHub integration. Native builds and runtime verification remain owner-run.
