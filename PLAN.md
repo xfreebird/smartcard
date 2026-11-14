@@ -1514,3 +1514,5 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Verify Android 0.2.11 / 1793624694 and its upload certificate; replace four Huawei English screenshots using the current OBS upload API. See docs/reports/website-huawei-2026-11-14 for actual submission status.
 - Google Play alpha was published manually by the owner and was left unchanged.
 - Website source published on main as 972d2695f0ff24ad7ce5af460e445736d488a7b0. Website workflow 43634978947 passed automated tests, guide validation, build and SEO checks, and deployed successfully. Verified the live download page exposes Huawei AppGallery and grouped downloads. GitHub CLI authentication remains unavailable; repository access is available through the connected GitHub integration. Native builds and runtime verification remain owner-run.
+
+- 2026-11-14: Replace the Huawei text link with the official AppGallery badge on the landing and download pages. Bundle Huawei's original English SVG with English fallback for RO/RU; preserve the existing app listing URL.

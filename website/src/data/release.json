@@ -232,7 +232,10 @@
       "additionalStores": [
         {
           "name": "Huawei AppGallery",
-          "url": "https://appgallery.huawei.com/app/C119651007"
+          "url": "https://appgallery.huawei.com/app/C119651007",
+          "badges": {
+            "en": "/img/badges/appgallery-en.svg"
+          }
         }
       ]
     },
