@@ -96,6 +96,9 @@ timestamps. Prefer native captures; for existing images, the reviewed native clo
 edit rectangles in `static/img/screenshot-clocks.json` are applied by
 `python3 website/scripts/normalize-screenshot-clocks.py` (Pillow required). `--check` verifies hashes.
 The script preserves dimensions, alpha and all pixels outside the declared clock rectangle.
+The 15 legacy iPhone protection screenshots additionally replace only their top 40-pixel band with
+a native modern iPhone status-bar crop: 09:41 on the left, connectivity and battery on the right.
+Their `statusBar` records identify the donor, crop, input hash and edit band; app pixels stay unchanged.
 
 Crop desktop captures inside the visible app-window bounds: no wallpaper, taskbar, shadow or
 rounded-corner background may remain. Windows guide crops are recorded in

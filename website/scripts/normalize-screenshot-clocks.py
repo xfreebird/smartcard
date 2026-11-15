@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply reviewed native 09:41 clock crops, preserving every pixel outside the clock.
+"""Apply reviewed native 09:41 clock crops and optional status-bar strips.
 
 Requires Pillow. The manifest records original and resulting SHA-256 hashes, source
 crops and exact edit rectangles. Repeated runs skip already-normalized images.
@@ -61,6 +61,18 @@ def main():
         difference.paste(0, box)
         if difference.getbbox() is not None:
             raise SystemExit(f'Edit escaped the clock rectangle: {path}')
+        if status_bar := row.get('statusBar'):
+            source = ROOT / status_bar['source']
+            if sha(source) != status_bar['sourceSha256']:
+                raise SystemExit(f'Status-bar donor changed: {source}')
+            band = status_bar['rectangle']
+            strip = Image.open(source).convert('RGB').crop(status_bar['crop'])
+            strip = strip.resize((band[2]-band[0], band[3]-band[1]), Image.Resampling.LANCZOS)
+            image.paste(strip, (band[0], band[1]))
+            difference = ImageChops.difference(original.convert('RGB'), image)
+            difference.paste(0, band)
+            if difference.getbbox() is not None:
+                raise SystemExit(f'Edit escaped the status-bar band: {path}')
         if original.mode == 'RGBA':
             image.putalpha(original.getchannel('A'))
         image.save(path, optimize=True)

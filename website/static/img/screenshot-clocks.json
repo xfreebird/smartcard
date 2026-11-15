@@ -1,7 +1,7 @@
 {
   "date": "2026-11-15",
   "time": "09:41",
-  "method": "Clock glyphs cropped from native 09:41 captures, resized to the original status-clock height and composited only inside reviewed rectangles. App content, document timestamps, dimensions and annotation coordinates are unchanged.",
+  "method": "Clock glyphs cropped from native 09:41 captures and composited inside reviewed rectangles. Legacy iPhone images additionally use the recorded native status-bar strip. App content, document timestamps, dimensions and annotation coordinates are unchanged.",
   "nativeClockCrops": {
     "apple-phone": {
       "source": "website/static/img/guide/iphone/en/sign.png",
@@ -216,7 +216,25 @@
         62,
         19
       ],
-      "sha256": "59cb75974843be69bf6c7c3f8f729636221050f3911a013530d2c41c9569821d"
+      "sha256": "be18f91306fa5f4b63587100c6634e3fafcbd40d9da749978205aa7542c170a8",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "59cb75974843be69bf6c7c3f8f729636221050f3911a013530d2c41c9569821d",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ru/documents-protection-light.png",
@@ -243,7 +261,25 @@
         62,
         19
       ],
-      "sha256": "167325fdb668f86f24104e24a08ec1634483567ff196aacb30ce8bae92e4d36c"
+      "sha256": "a1d79e6be67ee5af7b510b5514e6903795599e12a428a60ca4d691a591f118f4",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/sign.png",
+        "sourceSha256": "8114669f10aa51e448687464e51790552a0f39c1c8dba3386d2a252b0926f0f6",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "167325fdb668f86f24104e24a08ec1634483567ff196aacb30ce8bae92e4d36c",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ru/empty-reader.png",
@@ -534,7 +570,25 @@
         62,
         19
       ],
-      "sha256": "ad28e64ea7c9390e09bfb7d6d21fdc94c7320da67eddd9fd70c5000b4151f112"
+      "sha256": "335412c09827ae47c18bbb3a4d6e1b92ffc0f6f7e7ac8d5da86f7b0b03865d62",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "ad28e64ea7c9390e09bfb7d6d21fdc94c7320da67eddd9fd70c5000b4151f112",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ru/protect-password-light.png",
@@ -561,7 +615,25 @@
         62,
         19
       ],
-      "sha256": "6d31bb2ebe9836d9e82355a70ba40f5b77c9047ef7a949bceaaf3fdc80af5189"
+      "sha256": "6201b4aa6b018241f0bcb689ffbec8a4c88bb2a7f4e6276f5111b092e7248f53",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "6d31bb2ebe9836d9e82355a70ba40f5b77c9047ef7a949bceaaf3fdc80af5189",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ru/consent.png",
@@ -612,7 +684,25 @@
         62,
         19
       ],
-      "sha256": "6db2e3086ef451c796faf6e49ecce4c718e16615b114de354afc42a50284d099"
+      "sha256": "86f15962ff780f6b5b037800597e46d315a7f1a36de7611fe1dbca898ce1f03b",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "6db2e3086ef451c796faf6e49ecce4c718e16615b114de354afc42a50284d099",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ru/browser.png",
@@ -852,7 +942,25 @@
         62,
         19
       ],
-      "sha256": "04084b1de9d89040bfde643fd94b8bd47651957bff2d5ab5259e2fa8dcf4507d"
+      "sha256": "08222e6b49d00573f58b732da5de08d108da5398c7fbea5fbc2a73bae7e54d2a",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "04084b1de9d89040bfde643fd94b8bd47651957bff2d5ab5259e2fa8dcf4507d",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ro/documents-protection-light.png",
@@ -879,7 +987,25 @@
         62,
         19
       ],
-      "sha256": "bc7124c5ebec139be15a92d62e9b2dfea5c6a2172170f3294239c1f5847faf78"
+      "sha256": "abc317f74af460d3d2852912d452a7d55cb71ac6fbb5d8406936c3711a3eb4ac",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/sign.png",
+        "sourceSha256": "8114669f10aa51e448687464e51790552a0f39c1c8dba3386d2a252b0926f0f6",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "bc7124c5ebec139be15a92d62e9b2dfea5c6a2172170f3294239c1f5847faf78",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ro/empty-reader.png",
@@ -1170,7 +1296,25 @@
         62,
         19
       ],
-      "sha256": "cb55b58ec2a4c8fe839f4a550e29ffa9b997fd3fea69015175f9e587c1bc95c3"
+      "sha256": "f2feb28029d354a9f3441b311e9fda7634e0c7120d8f5798b0ad366d9807136e",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "cb55b58ec2a4c8fe839f4a550e29ffa9b997fd3fea69015175f9e587c1bc95c3",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ro/protect-password-light.png",
@@ -1197,7 +1341,25 @@
         62,
         19
       ],
-      "sha256": "a89ddd831b6b475885307c6dfe3a79d3888dc7c05d0beefb0a4d11c553603977"
+      "sha256": "04af14fdcb036f08b3d35c8d7fdaffb682fa6204e01dbe200a004df441ee0773",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "a89ddd831b6b475885307c6dfe3a79d3888dc7c05d0beefb0a4d11c553603977",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ro/consent.png",
@@ -1248,7 +1410,25 @@
         62,
         19
       ],
-      "sha256": "927c1f4cf7af328c2c606adfe071beeb4baf85ed0ca93eb03bd74039352de1aa"
+      "sha256": "9b61d2454b64def8e04446bf68e7e1317a03b029329e529bdf50db834da17640",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "927c1f4cf7af328c2c606adfe071beeb4baf85ed0ca93eb03bd74039352de1aa",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/ro/browser.png",
@@ -1488,7 +1668,25 @@
         62,
         19
       ],
-      "sha256": "ca50451eb4730ce76f08093b286fc161e4c3c1f67013d31ea5647868d5b83d15"
+      "sha256": "b5233cb9b303a6e1b8d6f7547efa0fb8a0a1211fc04dd82799d9d1c0c561a20c",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "ca50451eb4730ce76f08093b286fc161e4c3c1f67013d31ea5647868d5b83d15",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/en/documents-protection-light.png",
@@ -1515,7 +1713,25 @@
         62,
         19
       ],
-      "sha256": "a01d3d50ae7360f94a5e55d8a18679e228cc30ba5c89731ed288b8a1c6f9d88c"
+      "sha256": "2bcb417febf12ec8bf6d78b72999f535b305753b23cf0f0f66d5964a7085ba00",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/sign.png",
+        "sourceSha256": "8114669f10aa51e448687464e51790552a0f39c1c8dba3386d2a252b0926f0f6",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "a01d3d50ae7360f94a5e55d8a18679e228cc30ba5c89731ed288b8a1c6f9d88c",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/en/empty-reader.png",
@@ -1806,7 +2022,25 @@
         62,
         19
       ],
-      "sha256": "9e6891287cfffa7ada1bfd69956118500093ce1725fe240b4f2c2b9baccf72ec"
+      "sha256": "0d549d82647f0b86e7f6776efdcb524e9d23594b81ada17b12126adca6e4b918",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "9e6891287cfffa7ada1bfd69956118500093ce1725fe240b4f2c2b9baccf72ec",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/en/protect-password-light.png",
@@ -1833,7 +2067,25 @@
         62,
         19
       ],
-      "sha256": "a501f38eb054907804e744568545136b1f6eee2517c93e824cd8ddea0a08a629"
+      "sha256": "f1e23538796c6f2807039fc7a386989adee41a29b98bdcadd5eb6d3a94668353",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "a501f38eb054907804e744568545136b1f6eee2517c93e824cd8ddea0a08a629",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/en/consent.png",
@@ -1884,7 +2136,25 @@
         62,
         19
       ],
-      "sha256": "03aabd011b94ec5efe6bb294d45e00ce1af6abf5e553effa4ed0a3fb0d26190d"
+      "sha256": "fa608ccc5e05ca2d7b862b5abc25f5e552af6f35b6f6f28d29170c5a421f41bb",
+      "statusBar": {
+        "source": "website/static/img/guide/iphone/en/pin.png",
+        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
+        "crop": [
+          0,
+          60,
+          1206,
+          124
+        ],
+        "rectangle": [
+          0,
+          0,
+          750,
+          40
+        ],
+        "inputSha256": "03aabd011b94ec5efe6bb294d45e00ce1af6abf5e553effa4ed0a3fb0d26190d",
+        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
+      }
     },
     {
       "path": "website/static/img/guide/iphone/en/browser.png",
