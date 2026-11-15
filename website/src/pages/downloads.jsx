@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
@@ -8,6 +8,7 @@ import useText from '../i18n/useText';
 import release from '../data/release.json';
 import PackageDownloads from '../components/PackageDownloads';
 import {isCLI, platformAssets} from '../components/downloadAssets.mjs';
+import useDownloadNavigation from '../components/useDownloadNavigation';
 
 const platforms = release.platforms.filter(platform => platform.id !== 'linux-cli');
 
@@ -21,21 +22,7 @@ function StoreBadge({store, locale}) {
 export default function DownloadsPage() {
  const t = useText();
  const {i18n: {currentLocale}} = useDocusaurusContext();
- const [selectedPlatform, setSelectedPlatform] = useState(release.platforms[0].id);
- useEffect(() => {
-  const selectFromHash = () => {
-   const hash = window.location.hash.slice(1);
-   const id = hash === 'linux-cli' ? 'linux' : hash === 'cli' ? 'macos' : hash;
-   setSelectedPlatform(platforms.some(platform => platform.id === id) ? id : platforms[0].id);
-   if (id !== hash) {
-    window.history.replaceState(null, '', `#${id}`);
-    document.getElementById(id)?.scrollIntoView();
-   }
-  };
-  selectFromHash();
-  window.addEventListener('hashchange', selectFromHash);
-  return () => window.removeEventListener('hashchange', selectFromHash);
- }, []);
+ const {navRef, selectedPlatform, selectCard, navigate} = useDownloadNavigation(platforms);
  const text = value => value[currentLocale] || value.en;
  const installerInfo = asset => {
   if ((asset.platform === 'macos' && asset.format === 'TAR.GZ') ||
@@ -62,25 +49,22 @@ export default function DownloadsPage() {
     <span className="downloads-eyebrow">eSemnBun <span aria-hidden="true">/</span> {release.version}</span>
     <h1>{t('downloadsTitle')}</h1><p>{t('downloadsDescription')}</p>
    </header>
-   <nav className="download-platform-nav" aria-label={t('choosePlatform')}>
+   <nav ref={navRef} className="download-platform-nav" aria-label={t('choosePlatform')}
+    style={{'--download-platform-count': platforms.length}}>
     {platforms.map(platform => <a key={platform.id} href={`#${platform.id}`}
      aria-current={selectedPlatform === platform.id ? 'location' : undefined}
-     onClick={() => setSelectedPlatform(platform.id)}>
-     <PlatformIcon name={platform.icon}/>{text(platform.name)}
+     onClick={event => navigate(event, platform.id)}>
+     <PlatformIcon name={platform.icon}/><span>{text(platform.name)}</span>
     </a>)}
    </nav>
    <div className="download-platform-grid">
     {platforms.map(platform => <section className={`download-platform-card${selectedPlatform === platform.id ? ' download-platform-card-selected' : ''}`} id={platform.id} key={platform.id} aria-labelledby={`${platform.id}-title`}
      tabIndex={0}
-     onClick={() => {
-      setSelectedPlatform(platform.id);
-      window.history.replaceState(null, '', `#${platform.id}`);
-     }}
+     onClick={() => selectCard(platform.id)}
      onKeyDown={event => {
       if (event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) {
        event.preventDefault();
-       setSelectedPlatform(platform.id);
-       window.history.replaceState(null, '', `#${platform.id}`);
+       selectCard(platform.id);
       }
      }}>
      <div className="download-platform-heading">

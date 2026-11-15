@@ -61,6 +61,14 @@ The signing illustration is continuously driven by normalized scroll progress (`
 
 Mobile download widgets use unmodified official Apple App Store and localized Google Play badge assets. Apple source: https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg . Google source: https://play.google.com/intl/en_us/badges/ .
 
+The downloads page keeps all five platform links visible in an equal-width sticky row, with icons
+above labels on phones. `useDownloadNavigation` follows the reading position below the sticky
+controls using the visual viewport, including mobile browser-chrome resizing. It measures the nav
+height for anchor offsets, keeps tall cards selected while reading, and retains the chosen desktop
+column when two cards share a row. Scroll updates replace the URL hash without adding history;
+platform links retain keyboard focus and direct-link navigation. Geometry and legacy-hash cases
+are covered by `tests/downloadNavigation.test.mjs`.
+
 ## Versioned platform documentation and screenshots
 
 The public documentation is split by delivery target under `docs/platforms/`. Each guide names the current marketing version and distinguishes the desktop, store, and CLI distributions where they differ. Do not state a feature as available in a store build unless that guide explicitly lists it.
