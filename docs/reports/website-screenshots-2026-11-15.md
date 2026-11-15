@@ -43,4 +43,24 @@ native transparency, with no captured desktop behind them; Linux captures contai
 
 The contact sheet is `website-screenshots-2026-11-15/animation-contact-sheet.jpg`.
 Native fixtures demonstrate presentation only; these images do not prove real card signing.
-Website CI, publication and live browser verification are pending.
+## Publication
+
+Published source: `023edbaad200ebb4e2b459ee91b3aed87aef92cb`.
+[Website workflow 43695852792](https://github.com/xfreebird/smartcard/actions/runs/43695852792)
+succeeded: 36 tests, guide organization/illustration checks, English/Romanian/Russian production
+build, SEO verification and Pages deployment. The repository CI run also passed.
+
+All **394 changed public PNGs** were fetched over HTTPS and their SHA-256 hashes matched the committed
+images. The full readback is `website-screenshots-2026-11-15/live-images.json`. Direct curl succeeded
+after Python's TLS client received connection resets; no image mismatch remained.
+
+Live Chrome verification covered desktop and 390×844 mobile scrolling, native light/dark artwork,
+09:41 on the mobile scene, cache revision URLs and the enlarged Windows guide with transformed
+callouts and clean window edges. No browser console errors were observed. Original system theme
+preference and normal browser viewport were restored. Physical Safari/Android browsers were not
+exercised; the five-platform native image sets were inspected separately.
+
+Screenshots: `live-desktop.jpg`, `live-desktop-dark.jpg`, `live-mobile.jpg`, and
+`live-windows-guide.jpg` in the adjacent evidence directory. The task-owned iPhone simulator,
+Android emulator session and Windows capture scheduled task were cleaned up; existing devices,
+VMs and unrelated working files were preserved.

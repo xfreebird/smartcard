@@ -1,0 +1,2766 @@
+{
+  "sourceCommit": "023edbaad200ebb4e2b459ee91b3aed87aef92cb",
+  "workflow": "https://github.com/xfreebird/smartcard/actions/runs/43695852792",
+  "images": [
+    {
+      "path": "website/static/img/android-disconnected.png",
+      "status": 200,
+      "bytes": 123113,
+      "sha256": "116e98f99725099d70b145f6380abf066a410153180fbcd7d40f86e3401cd63b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/android-reader.png",
+      "status": 200,
+      "bytes": 112037,
+      "sha256": "047bdb13d5789cb359d22035907ecc53c76b892669c0ab7cfa03e776ad88d5f2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/android.png",
+      "status": 200,
+      "bytes": 491325,
+      "sha256": "3739db05c82ce7ab9c429685c58df710b08a242b168bcbe238afb8462f97745d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/android/ready-dark.png",
+      "status": 200,
+      "bytes": 481917,
+      "sha256": "e89f20835052c41ca57a81b34c045f7835d6f4fd222d45ffbdfcacd95cb8b3d0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/android/ready-light.png",
+      "status": 200,
+      "bytes": 491325,
+      "sha256": "3739db05c82ce7ab9c429685c58df710b08a242b168bcbe238afb8462f97745d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/ios/ready-dark.png",
+      "status": 200,
+      "bytes": 1258752,
+      "sha256": "c81b557f2aa861c9d7cc588f16402b1fc4d151431a30775773b12dc032dfbe4d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/ios/ready-light.png",
+      "status": 200,
+      "bytes": 1302369,
+      "sha256": "c440a9c47dea31b336fead8c6a2b97522f12741642412ddd0ae367ad74c05286",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/linux/ready-dark.png",
+      "status": 200,
+      "bytes": 98095,
+      "sha256": "f29ed5a64d6c9479d68dcdc354b1b71a0430467c7b9ae9848c3f2dc26cecb109",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/linux/ready-light.png",
+      "status": 200,
+      "bytes": 97918,
+      "sha256": "f05f3e21623717fc0ee2214ffc9ed62a69bbed6ef033063a7b35746d2f5067be",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/macos/ready-dark.png",
+      "status": 200,
+      "bytes": 765478,
+      "sha256": "013fe80b8d0c9522fbdff55af9c6341cd9aa51d017b53d46fe0cd78ed0ee47b5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/macos/ready-light.png",
+      "status": 200,
+      "bytes": 786318,
+      "sha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/windows/ready-dark.png",
+      "status": 200,
+      "bytes": 82835,
+      "sha256": "4baa133f6fee2a786b1fbbcd9980e641078c0fe88a528ac75393d109c67dc54a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/docs/v0.2.0/windows/ready-light.png",
+      "status": 200,
+      "bytes": 83026,
+      "sha256": "f808da3362c939dc6b9eefe73a8e2eb31443ae1dd53117892c4f056b7ff2c51a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/about.png",
+      "status": 200,
+      "bytes": 270894,
+      "sha256": "bcb91203338e7463b40429f55d95f8fc65f6f47c809504c2d65eb6b5f02c1c58",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/bookmark.png",
+      "status": 200,
+      "bytes": 187437,
+      "sha256": "f1dcf621c206ec74bec01731803cfb916cace644f5ca36c6a0a82307746ed49d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/bookmarks.png",
+      "status": 200,
+      "bytes": 214341,
+      "sha256": "9150b9613f82c41af479632143f871f16eeffbbaf4f337174570c09425fb3a4e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/browser-data.png",
+      "status": 200,
+      "bytes": 255719,
+      "sha256": "bc49d05077007d8d25a05177031f2b39f304182dd28edc83b8093fc7adedc298",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/browser-menu.png",
+      "status": 200,
+      "bytes": 487574,
+      "sha256": "89abd2c45a785a287792876f30c9901a2f4aef18f8220b8920d455ecee617d0e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/browser.png",
+      "status": 200,
+      "bytes": 485092,
+      "sha256": "605fb872fdb7fd13211dea22f4e6b3a949ef8ccd285ce82941ad1b9060f1ac78",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/card.png",
+      "status": 200,
+      "bytes": 458658,
+      "sha256": "38b088d2641b84d01cbc1f6b4f03cbf812a3e4360b677f44a003e4d182aa2235",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/certificate.png",
+      "status": 200,
+      "bytes": 229486,
+      "sha256": "3874531d7527464ff00fd473d4846afad6ed6b3195d1a2519027b3993c45f614",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/connect.png",
+      "status": 200,
+      "bytes": 111276,
+      "sha256": "5da4e8c39be654f6e8e939585a19c88d2178200ad2fe4d718d66a838ed925677",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/details.png",
+      "status": 200,
+      "bytes": 192598,
+      "sha256": "a6332720bf28a3f7661dcae9a14a626b513fcdc820a40cb78ae3bcf44dd822bd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/documents.png",
+      "status": 200,
+      "bytes": 122706,
+      "sha256": "92917012cde3b6c1655775becbd3f657a96a88f823f0ff9d48841fab5c574935",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/format.png",
+      "status": 200,
+      "bytes": 285614,
+      "sha256": "b5531ad48da40bbe70a419f57ba6801dd915e71e1cbd02af4f47f8e81c1cca63",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/history.png",
+      "status": 200,
+      "bytes": 171403,
+      "sha256": "7a541c5d49637375d585bb92b92c4c80d4b4a2382a393b136e140af11a191e14",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/original.png",
+      "status": 200,
+      "bytes": 184251,
+      "sha256": "e6bd3fc969aeca2b4f13878213ffb0f2473322532a08531d3f2e642c9e427d2d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/pin.png",
+      "status": 200,
+      "bytes": 272539,
+      "sha256": "6e00a6ed63221623a1c916a8894d709899950fa5bffb16bc4ba8172d1ec76451",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 150778,
+      "sha256": "c667de0974ea961a33d1648c7f184447413f1bae1c0b400a40c5e80e48eb5866",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-complete-light.png",
+      "status": 200,
+      "bytes": 107480,
+      "sha256": "9a6840b3f324e4d5b634ccafb1364f7b975ca39937684287eea7f45e84e412c7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 106527,
+      "sha256": "7ae352fa7105cd65730eef391bb3e8e1a091845745c0366230f401379ddc7f17",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 120191,
+      "sha256": "e482fd432735971a2360ae5189979fefa6afcd4e7ea9bd223ef400aa426f086c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-menu-light.png",
+      "status": 200,
+      "bytes": 138253,
+      "sha256": "7e050be1ad6618c02355eb76742eaab200f95b3aa4bbec8052a49ad80bb33923",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-password-light.png",
+      "status": 200,
+      "bytes": 124257,
+      "sha256": "970862468e1853477d156988f4c832b50f8ce838eb52a04c9a6debade90d53d7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/results.png",
+      "status": 200,
+      "bytes": 477614,
+      "sha256": "f5d0abec86c05a60c94f611e1be4d2d56aa5cd439885f28e8b94b6943199fbcc",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/settings.png",
+      "status": 200,
+      "bytes": 206635,
+      "sha256": "e8ab45a842d32a35216849874497991bada3c23e070fb16ef887c3b50b00d674",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/sign-failure.png",
+      "status": 200,
+      "bytes": 473646,
+      "sha256": "3a32a5bee969feed0ebba86ec8db53ce28de8b25af3cd6322c4c00d39fcbfaa9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/sign-progress.png",
+      "status": 200,
+      "bytes": 449711,
+      "sha256": "f41fec86d84776966ea68ecd4a4ce9975de7eb53cf40bc2d7d7500d73191dfb2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/sign.png",
+      "status": 200,
+      "bytes": 445991,
+      "sha256": "7e7f07dc8a9f5c9422c04d1e763b6a036d372fb32cd60e4bdd6aa7543dc2e448",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/stamp.png",
+      "status": 200,
+      "bytes": 137676,
+      "sha256": "c503f4e145135c092a98e648a4a9d43c69dfcd8ecffd56f7fb430d6dd9dcb85c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-invalid.png",
+      "status": 200,
+      "bytes": 200037,
+      "sha256": "e87756d950179fd31062016ec751ab00065e7901da179970b80dba96848018bb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-none.png",
+      "status": 200,
+      "bytes": 127594,
+      "sha256": "decf7e6e5b8bb75e9f91e2fd0102e7b3a000a227389d3a5f4e8f35ac998e040e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-unconfirmed.png",
+      "status": 200,
+      "bytes": 201217,
+      "sha256": "b96f2998b2a48d2885fd32caadb06ec692b73c5d092a7172866675d57fd5384d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify.png",
+      "status": 200,
+      "bytes": 201984,
+      "sha256": "40af5f6f792d58f91162a6565eef99243c9ee013f31e69297c39aa9b6a07857f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/about.png",
+      "status": 200,
+      "bytes": 272517,
+      "sha256": "7e4115ca827f4d8593fe5fbed8f348be6cf219834e9b3b97b75b28009da48705",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/bookmark.png",
+      "status": 200,
+      "bytes": 194050,
+      "sha256": "5401a20f6595d9acb2b26a737ca28e150f9989ce818ce38f4e458a385e75130c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/bookmarks.png",
+      "status": 200,
+      "bytes": 223227,
+      "sha256": "647216ad0d1b4f42c0e0f09be68bde19d1b187479e284029415ff4907f3a4670",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser-data.png",
+      "status": 200,
+      "bytes": 241262,
+      "sha256": "7de083cdd78d156a3a1a2b1e6cc39a344409f60fbd32b713e18df537b6a11e6a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser-menu.png",
+      "status": 200,
+      "bytes": 473433,
+      "sha256": "9e129d5f83c85a56d348bd5d6c2b31398e610665b4fa84ee23e46f939182b850",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser.png",
+      "status": 200,
+      "bytes": 424806,
+      "sha256": "3056c0d8146955407f34d480e880c985ea963a705d3134c1af8fe4fead3d6248",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/card.png",
+      "status": 200,
+      "bytes": 467144,
+      "sha256": "1dc11d5cfb575f8a95d3febf6e2738649ae7cf922dce250bf5eaf9e68cb6b5ec",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/certificate.png",
+      "status": 200,
+      "bytes": 235528,
+      "sha256": "bc723798bceb1f5fce9dae29dacd193136eb20d78bc7f2b07750ae909ceb1f24",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/connect.png",
+      "status": 200,
+      "bytes": 112042,
+      "sha256": "eb3f2bbad10f4891224618e3b9679ef5ad47bafa7f337c0353c6a0e7ea1b288d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/details.png",
+      "status": 200,
+      "bytes": 190472,
+      "sha256": "89feab8d0a695d32b97d7777c48f7d5c061252ac93ba17b5a27e0cff482f71f8",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/documents.png",
+      "status": 200,
+      "bytes": 123978,
+      "sha256": "82d3d3c48f1282613dac8f81b3c5b2397197ae7247edacfad03fc7dad6481692",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/format.png",
+      "status": 200,
+      "bytes": 290968,
+      "sha256": "88fe24ec5894afbc4995a68a1454c58ed8047ecd5a02f14fdc79afd7679e9e1e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/history.png",
+      "status": 200,
+      "bytes": 177304,
+      "sha256": "6d70104ea6eb6746a532015fbd4cb5ea1adfb459b60e95672ab2ba803a59cd3d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/original.png",
+      "status": 200,
+      "bytes": 187683,
+      "sha256": "81350c7565323b3a173dc091c2b3b39979c7f3c4993de3ea98dcea33049d4dfb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/pin.png",
+      "status": 200,
+      "bytes": 280174,
+      "sha256": "6803871f304562bc6b5fc542573f62324ecc8db6ffad76ab459525e61842334a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 158880,
+      "sha256": "2655634c4be14485ef661cedae1373d960fe620c6c0dad0b360ef8219d13633c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-complete-light.png",
+      "status": 200,
+      "bytes": 111943,
+      "sha256": "81832d0da3110ee7b622477b9cd60a3a4dc3411b667e87541b01f62f37d9ebca",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 110997,
+      "sha256": "cf4863044dc519eb866844ac5a28fa931465fc684d8ead1e5e987e938d706abb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 120945,
+      "sha256": "8e09009df98748d7b0e53a5573d7ae8f7d5f03f07d09c5494b7e4d835607c2e8",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-menu-light.png",
+      "status": 200,
+      "bytes": 141730,
+      "sha256": "b27031ad449d96891f2c7f39620d6e7deedf15adbd8d05716c18950c56677831",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-password-light.png",
+      "status": 200,
+      "bytes": 125030,
+      "sha256": "6edba882e05a4c99d52876a5e6bc3c06b356731c229007dc8ca6f956e4113b30",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/results.png",
+      "status": 200,
+      "bytes": 493828,
+      "sha256": "c816d071304d77023c0b0c1e207b63455fa695d6c4cc117ade474bcc104f6baa",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/settings.png",
+      "status": 200,
+      "bytes": 216532,
+      "sha256": "495da71fc66c6d602b50e9871da48a0679fb5d72231031d7e70a0dc29e107c5c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/sign-failure.png",
+      "status": 200,
+      "bytes": 478457,
+      "sha256": "609572456c4b7f6521eb4f0f36f3c1c117223abd1101d972e39722f29be2a86b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/sign-progress.png",
+      "status": 200,
+      "bytes": 463930,
+      "sha256": "cf70ae6c13cbdf46364eff6815075599a4207f3d6ca12d1c3cce0d835b8f3531",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/sign.png",
+      "status": 200,
+      "bytes": 453535,
+      "sha256": "d2bfea326cc51f19104390c6852545860cb7515c97703e94f24378838d537dc2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/stamp.png",
+      "status": 200,
+      "bytes": 134165,
+      "sha256": "1c726abd7af47d625abdfc755c177a1dbc5ac94ca9c777868aba14e279b25f7a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-invalid.png",
+      "status": 200,
+      "bytes": 205324,
+      "sha256": "3583cf590f110435fdf9e41c85b2859afe3d5a5f2f40e836d8e551593e21dbfb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-none.png",
+      "status": 200,
+      "bytes": 137486,
+      "sha256": "86824b2e167f6a24076cf7206cc6789ba1bab00ea2448740e46a65b37cdbaa45",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-unconfirmed.png",
+      "status": 200,
+      "bytes": 207939,
+      "sha256": "6cb1a68419eccc91dc47ba91599e4e97df27676793b1b97f192ec12c4bec3b4f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify.png",
+      "status": 200,
+      "bytes": 210645,
+      "sha256": "320fadac98b23b7f2a77e8049598b9cacbfd7594f5f347872ac37e206d40fb70",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/about.png",
+      "status": 200,
+      "bytes": 278093,
+      "sha256": "77096154256c17b97bad69cf62d26d95d2eb366c3914e1629d19e8b84d04eb11",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/bookmark.png",
+      "status": 200,
+      "bytes": 197568,
+      "sha256": "8b5acdb40288af1a867d0c8fa54fb0de9bc8f9bd748265b09032ed99ef3ef290",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/bookmarks.png",
+      "status": 200,
+      "bytes": 212186,
+      "sha256": "503487f4723b581622b9bdee4ae969fee7e20d0986310814f60db057d62b0df8",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser-data.png",
+      "status": 200,
+      "bytes": 227701,
+      "sha256": "b541251920a9b5af34827ffc19bdccdf09da5d0f3795d95c21c391be90f412b5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser-menu.png",
+      "status": 200,
+      "bytes": 441738,
+      "sha256": "661353e51a7b30955d3178a33c76d754895a79d7d19d046aa8228c8875e7abcc",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser.png",
+      "status": 200,
+      "bytes": 396817,
+      "sha256": "ee36e50e48b7379f8c6631cb01466e964fbe609d1776bb6c7295609e14c6a43b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/card.png",
+      "status": 200,
+      "bytes": 466708,
+      "sha256": "9ecb4161baa9729bc2f69f8eb577b436e496ad33ffb05c72ec438be33ee644da",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/certificate.png",
+      "status": 200,
+      "bytes": 239113,
+      "sha256": "dfe214f64bbed27d316f468a20a7830eb41fe36a2346feda85b3bd96c0cec6fe",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/connect.png",
+      "status": 200,
+      "bytes": 117493,
+      "sha256": "d3700b97fd35ace4a7c8d8bf81abb19413d7c31b5f5a1aedfaa1a6d2cdfa1985",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/details.png",
+      "status": 200,
+      "bytes": 195276,
+      "sha256": "a097eebc36eb933e13a0599ce2b9f3a6b113540280638e770576770aeb50fa3d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/documents.png",
+      "status": 200,
+      "bytes": 126158,
+      "sha256": "cd79aff10ace6c9cb630313b5cbc5909172a74919322b4698792e3f48a9b91f5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/format.png",
+      "status": 200,
+      "bytes": 269039,
+      "sha256": "767c59b552b76aa9bc11bf345fff48d1b6951bd7181d27d37ca770231e6f4a15",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/history.png",
+      "status": 200,
+      "bytes": 179126,
+      "sha256": "0034c05308e71054ca0fe76e58923d94b463e01f2cfc55a90eb7dac0b6b1d2fc",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/original.png",
+      "status": 200,
+      "bytes": 181815,
+      "sha256": "8b0f5e3e84c36b99eea4aa44b2156e005224965678b1d033564f517c177b2060",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/pin.png",
+      "status": 200,
+      "bytes": 271309,
+      "sha256": "053c5544aed213f050b73df7aa0057c2a0a4259d258b96987a45778a38e873a1",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 169101,
+      "sha256": "cc36c712ebe6a8fd242d1a37adcfc9e7437c2dd67e64fa66b333fd928d06f1f0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-complete-light.png",
+      "status": 200,
+      "bytes": 116426,
+      "sha256": "0780bc73462bd0823549c699e8cb47af0f1a2df0dc07962abef331ba017edb3b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 115268,
+      "sha256": "11c421d31db3e6834bfa2abfe5d6af8530c5e45deb9b3c944d4ee4b27d5a59eb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 125398,
+      "sha256": "e4d31455678db54663d80c47f1eda89e0d5e3d21e3c037f6275d10852d57d3d2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-menu-light.png",
+      "status": 200,
+      "bytes": 146161,
+      "sha256": "c2f5493ef4f51910209cf44146fec31c06c913546b8a06ae83608ed144536cc7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-password-light.png",
+      "status": 200,
+      "bytes": 128753,
+      "sha256": "764ba355bef9c5b764447734f592e5fddba1c5eca125789decdadaeb9bff2abd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/results.png",
+      "status": 200,
+      "bytes": 484910,
+      "sha256": "6ba6979fac70c53319611bac69fcfc9bfb93b1a373f90ff61078893104ba4362",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/settings.png",
+      "status": 200,
+      "bytes": 221970,
+      "sha256": "3de3473143b91553f9f4fcd6b8c285e579ca5e63a9b63e472bb0f9a5086f46ec",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/sign-failure.png",
+      "status": 200,
+      "bytes": 476131,
+      "sha256": "74348e1448a4329ef6f13b9d4fdfdb47a4edc20726c4baf4ae03a1e58edd5403",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/sign-progress.png",
+      "status": 200,
+      "bytes": 453004,
+      "sha256": "ff0a73f551c6c74ff02f53bddf49bd7c362c57af2e7890dedca1593d773039b5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/sign.png",
+      "status": 200,
+      "bytes": 450439,
+      "sha256": "cde741afb907ba4110161e109809980dab32afe8f26982b6a507ec18b24eb9c3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/stamp.png",
+      "status": 200,
+      "bytes": 129507,
+      "sha256": "8216345331073e41847c7f86342075ded6d35b29868cc8b60807e83e205ad1dd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-invalid.png",
+      "status": 200,
+      "bytes": 193218,
+      "sha256": "54e76d70780d602428665600413b6549e7239513f036ad37c168fed4ef921952",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-none.png",
+      "status": 200,
+      "bytes": 136865,
+      "sha256": "430778d4461bae3edec6ddf1b8f7846774ceeabdb07ed3e0c8a7e7a2fe367c00",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-unconfirmed.png",
+      "status": 200,
+      "bytes": 197328,
+      "sha256": "0a77d76e0a3ee6f3dfbc60d6321e70daaabf216fa2f05aef02164ad4779e9956",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify.png",
+      "status": 200,
+      "bytes": 200035,
+      "sha256": "5c02ce975c22e8c00d3dfcc0ea287d2fc591471ab4be4f2126c242e4bf292cc6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/about.png",
+      "status": 200,
+      "bytes": 165977,
+      "sha256": "4a9b456b93f5915233a40f618ec43c6f82b9c74a86580320853b76108ee48474",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/bookmark.png",
+      "status": 200,
+      "bytes": 159316,
+      "sha256": "f00dd97af7ff02b3ea0430eb5c8c42e8013e8140893a2a0ee7571fb80542a57a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/bookmarks.png",
+      "status": 200,
+      "bytes": 167804,
+      "sha256": "a3065fd9355501a8ad445c1ce253b924cc1d32485c036fef235c87b95bdb24bd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser-data.png",
+      "status": 200,
+      "bytes": 177792,
+      "sha256": "e7e2c59eac499393521e5c681fef1dd7d62bc3a529465f34c574b1d7892e348a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser-menu.png",
+      "status": 200,
+      "bytes": 233515,
+      "sha256": "481c6faf39f798d11a723212444f308f2921e4ed21ce4a5fcbf69bde152e03c2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser.png",
+      "status": 200,
+      "bytes": 179161,
+      "sha256": "8fcd7a6d03a8b9d0abb59228328ce406bf9decada4c167a57b742385fc41ecac",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/card.png",
+      "status": 200,
+      "bytes": 186858,
+      "sha256": "2a6f5a3aeda5be4c24bbaefc0646a1f4bf0e2c9c6168694e53f734ea6501256f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/certificate.png",
+      "status": 200,
+      "bytes": 90602,
+      "sha256": "598d8548c93166912b9bcb90fa59c7ff15fa5003ca06ee3c376eaf4194ee4cf3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/connect.png",
+      "status": 200,
+      "bytes": 42351,
+      "sha256": "8f679475d8a555a36117a43c22d2f29d507dad14651cc3ee8f80ef8d72007318",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/details.png",
+      "status": 200,
+      "bytes": 77347,
+      "sha256": "ca45f4162b27572a90c42b3b2f08ed86d43df46cbed24c4574ab3e6e95749eb2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/documents.png",
+      "status": 200,
+      "bytes": 46588,
+      "sha256": "83480144a746993f75cc39b7ba6b328332907a0b74de5d92d16ea40f24377e6a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/format.png",
+      "status": 200,
+      "bytes": 172268,
+      "sha256": "52664e2c144b341f57bdfbbd7f5849915d1ce6ab8e44cfed90d8ba31b6533ee7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/history.png",
+      "status": 200,
+      "bytes": 61380,
+      "sha256": "3c6f9718ff31fc40b7e34e6ee8f4b1115f8ef54375186cb79de42ee74617b633",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/original.png",
+      "status": 200,
+      "bytes": 79552,
+      "sha256": "0f477a1547698b62581b57f657537cda44f0c5a72a2cbb146f7815879ab47d85",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/pin.png",
+      "status": 200,
+      "bytes": 138345,
+      "sha256": "842097a7bea9ea7e8836275dcd3637e75adfa02f53acce60536f6476c15fe6ab",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 170513,
+      "sha256": "205805b2a960304ba047fc84ff31fa750361f2d3b3c95371fe39ee5d16bd36a7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-complete-light.png",
+      "status": 200,
+      "bytes": 129587,
+      "sha256": "918a782a1fd8cc9421b544902f1d8a95e0311f357b74a275a77457e5fec6a22e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 128444,
+      "sha256": "169b43fd3e0214a6814d85caafbbfa065f3e70fb136746e6ae3410413e345eb4",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 140960,
+      "sha256": "d1dbd0581f999a2052d7659bb85f69565540f640c31a347afe2afb8d177bdc2f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-menu-light.png",
+      "status": 200,
+      "bytes": 139113,
+      "sha256": "c979fe2794a5ae1fe7e8ac2fc157aafe2ab67ef5b7b6df30b8b364b865766291",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-password-light.png",
+      "status": 200,
+      "bytes": 144392,
+      "sha256": "e4ce41da0848ebf8917b20481b283998732de129d1614e217a4897a883401c1c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/results.png",
+      "status": 200,
+      "bytes": 177391,
+      "sha256": "378b73255ca086b291ea032b3e8507fcf82f795f166b1b55a995206f46e7a5f5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/settings.png",
+      "status": 200,
+      "bytes": 133906,
+      "sha256": "2d9af1a992e30dc228fb762bdc3ee5c9f54766329a0a9de8200469228a612f05",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/sign-failure.png",
+      "status": 200,
+      "bytes": 174963,
+      "sha256": "9b9cb47ab7e1aacafc5f80cc50c9b374869784b2f1bf3a5c27d6ba76beb5b3d9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/sign-progress.png",
+      "status": 200,
+      "bytes": 157673,
+      "sha256": "5708e7f083095ed661e469eed68991db7e49d4a960b05d153c0805dc799b5539",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/sign.png",
+      "status": 200,
+      "bytes": 171977,
+      "sha256": "88affe0c6e60ded03319b0fe9c7c20d97fc559644d45ec44e69d9409f2e106d9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/stamp.png",
+      "status": 200,
+      "bytes": 56125,
+      "sha256": "1765782a498b1ad65f8a7a51135ffe1db87ca4c3b19cb798d97c3062e420b744",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-invalid.png",
+      "status": 200,
+      "bytes": 73304,
+      "sha256": "a073aba1eb4c30c9d7276f6ce8ec02b15a6b662ea894c7e0997131917375f0d7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-none.png",
+      "status": 200,
+      "bytes": 49032,
+      "sha256": "a5a7bffbb5bc9e952e7d4b4d1222ed87b3de6c3730d299f633ee940edba1d800",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-unconfirmed.png",
+      "status": 200,
+      "bytes": 74220,
+      "sha256": "f00a0a79040475ffadbdcfe840fd6523ded148fab09560fe5e9067c83dd63834",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify.png",
+      "status": 200,
+      "bytes": 73940,
+      "sha256": "b94fb1b8c00c8fa05b7318a872e254fc97a4ae663d984311f80888c3cd6545cc",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/about.png",
+      "status": 200,
+      "bytes": 164274,
+      "sha256": "221ea26545c1acb77157267d780f4964b526f1401f001c2301073e9b940d98d6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/bookmark.png",
+      "status": 200,
+      "bytes": 162112,
+      "sha256": "f0ad5ba8a13940274e4184a8decd55ca38958d78aca9503d4d8ec3fa0b520eae",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/bookmarks.png",
+      "status": 200,
+      "bytes": 169918,
+      "sha256": "7d6350bfcb037feedd44c1f02724b25b7a1275ed1c7091bb3ff75b5a5f4963e3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser-data.png",
+      "status": 200,
+      "bytes": 178630,
+      "sha256": "5d279ea08956b38a59b99ab5ef65639d3af578da61f055954679f5a64d95b7b9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser-menu.png",
+      "status": 200,
+      "bytes": 230623,
+      "sha256": "18b7a2c2e2c732241107f7fdda51bff46f50d44a1b02bfa05e99905d96fdd34e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser.png",
+      "status": 200,
+      "bytes": 187341,
+      "sha256": "e91131bc668fdd82657380de04b5b058273fbb4c8f16cd04bfa9ce4e97e5a41c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/card.png",
+      "status": 200,
+      "bytes": 191471,
+      "sha256": "e41e75e8ff8db2d2b0cf004ad1708ff84f83202e374038ed63164cb851a14f69",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/certificate.png",
+      "status": 200,
+      "bytes": 91000,
+      "sha256": "68ec9365a293f54f27b3e353720b0d9f76ce96c4eb9b0d05d8070c83783b31cf",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/connect.png",
+      "status": 200,
+      "bytes": 43037,
+      "sha256": "e8f06a4b5b8b29a61d3f381b8cebce80f645b3efa952fc31357aa1e2f728ccee",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/details.png",
+      "status": 200,
+      "bytes": 76033,
+      "sha256": "a8e404d3f398ed57ed0a6812048b986de29060f9e4d786a47b19e69267fd5f02",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/documents.png",
+      "status": 200,
+      "bytes": 46582,
+      "sha256": "9de4169e06361b17f6b7b4af8a4dbe9f6f75cb6fe9f00aa80186dab9f0360193",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/format.png",
+      "status": 200,
+      "bytes": 177339,
+      "sha256": "42e962e98e76ee057c3bd96c9cbe013017cba6d55f760fdb2b1a5eca591275f1",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/history.png",
+      "status": 200,
+      "bytes": 61845,
+      "sha256": "290014ae069fc6f56f02821559ca0c4e42e2a1d5bef2c140eb43bb9cc636179a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/original.png",
+      "status": 200,
+      "bytes": 79703,
+      "sha256": "20f5bfb3eb12f3fda0abbac0717116aa66740af554e09d6d8d04fe4e8efe2cef",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/pin.png",
+      "status": 200,
+      "bytes": 141110,
+      "sha256": "9b68071af89510fc7a49ed3bfa2f2d1517e9a4926d46d25d0c539f4cf549461c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 177115,
+      "sha256": "b9a4d5ca25d63a33b1119293ad9f8addd4f4c9b744049ab556077ccb5de734d0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-complete-light.png",
+      "status": 200,
+      "bytes": 135038,
+      "sha256": "5f747d8e07af2820e3958b108d95d1a489b2681fec272ff4e5488ac0e65e87f6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 133867,
+      "sha256": "3435df61bb9df36e221308f3ef962b7e5b1b61346e846a0ea5e3cb5c6c10ad85",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 142915,
+      "sha256": "da2972fc96e91187b58150304d34cc83d243679a3d919943a80dbb4a2abc4a7b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-menu-light.png",
+      "status": 200,
+      "bytes": 139360,
+      "sha256": "03e4a7011e96789882e5ffe34488f784c0e9609d1416651b222f680bda57a623",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-password-light.png",
+      "status": 200,
+      "bytes": 146459,
+      "sha256": "aa2c317ef250ac96fbe28397cf686d49a2cf656f50b789b6aecaae2f62c1e605",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/results.png",
+      "status": 200,
+      "bytes": 182455,
+      "sha256": "fb9d3d9e0fd94f6a2398312fc9d3f529393687ec84e09f68b8296f81e7196100",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/settings.png",
+      "status": 200,
+      "bytes": 138234,
+      "sha256": "ccc95da9a38202957bfad30406c45587dd320e0377dd49c5ddd5856e18852106",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/sign-failure.png",
+      "status": 200,
+      "bytes": 178721,
+      "sha256": "a3317508ff218d0c062c6d1b367bba962090ed640faf4647675ef07961e3503d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/sign-progress.png",
+      "status": 200,
+      "bytes": 162869,
+      "sha256": "e99b273d735e28c3fc9110fb4830858afc6fe7fd1e8c3913e6914e8f376d99db",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/sign.png",
+      "status": 200,
+      "bytes": 175520,
+      "sha256": "2ca0ace8efd45462691fda2a58a4c186bc7d8e21930c7e93d3dc7b9c74bed76e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/stamp.png",
+      "status": 200,
+      "bytes": 55039,
+      "sha256": "6e8b505cb8099487232797f9b8a389fdd475e7a213f643090d41e9b0d74b7296",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-invalid.png",
+      "status": 200,
+      "bytes": 73261,
+      "sha256": "374368d7c8bda67fbe0050f6d44048672ef5a35b75c84b08d1bd621bd905a60c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-none.png",
+      "status": 200,
+      "bytes": 51392,
+      "sha256": "c2b087be79ad7d47de773c00f2b4dd982fe35e7e77cb12d06628520d14367481",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-unconfirmed.png",
+      "status": 200,
+      "bytes": 74431,
+      "sha256": "437b89ad43d71c488af1e2c0029f9a8aec1468c313e0ec32df2ec5f42f438190",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify.png",
+      "status": 200,
+      "bytes": 74486,
+      "sha256": "4364a9bc26aa4afb7878f0d462a91cbb48eff9bd8dbbc850a0b362b3f2298c86",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/about.png",
+      "status": 200,
+      "bytes": 179877,
+      "sha256": "bc068af5e6fd0ecade39e0888413b13960afef71cb399f282f1a1b8b35fbd9d5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/bookmark.png",
+      "status": 200,
+      "bytes": 165417,
+      "sha256": "76983f402abdb5cc8f9a93734fd50412ba0c1c64eebb3a69e8b19f497ce71e01",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/bookmarks.png",
+      "status": 200,
+      "bytes": 170599,
+      "sha256": "dbe455e41a60a015263017db3d7da54cab0f05bb6dd28b56dba74cf75ae1740c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser-data.png",
+      "status": 200,
+      "bytes": 181491,
+      "sha256": "5db4b9ee07e9aa875742875f6a54700c74e0180788d6ee6b10698aa5c8832f0f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser-menu.png",
+      "status": 200,
+      "bytes": 230990,
+      "sha256": "f9d3d13b7b69219ceb746be7bac0b5a58ad47556707a90dfcd45c4b294b771db",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser.png",
+      "status": 200,
+      "bytes": 191620,
+      "sha256": "f18b9ce39664e684d9f9e214ebe2fb12d3ac042ecaec2b8a2d49e886d436ece3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/card.png",
+      "status": 200,
+      "bytes": 193350,
+      "sha256": "f926ad59d04a5cb76448ffe8fce124fcb86dcfd188a6745d0b364fd7a9abac97",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/certificate.png",
+      "status": 200,
+      "bytes": 96821,
+      "sha256": "2fffe2bbf22b072546dd2948c7d78f4d3a44a9cf2e76b5c835917268b8a3a28e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/connect.png",
+      "status": 200,
+      "bytes": 47098,
+      "sha256": "e930a42008fa5c6335be41d4359f4c696d41273ad9708ee9a5b42dbbc536fb96",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/details.png",
+      "status": 200,
+      "bytes": 80676,
+      "sha256": "14fdcb21579c067e439a79c82376bc483e834da328f3343ab32fe21a511f7c99",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/documents.png",
+      "status": 200,
+      "bytes": 49707,
+      "sha256": "da071b1170caf6a3434d2dcbf6c96b6dcd16ecd50accf2ecc8a3b3724c7e9037",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/format.png",
+      "status": 200,
+      "bytes": 176430,
+      "sha256": "b2abdf13bd180b95d2e63a591f1428579e64e86f4762f46a83af0cf1cee53d00",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/history.png",
+      "status": 200,
+      "bytes": 64467,
+      "sha256": "6faff909d2f5bcc6b29472c67b11cd7720a6e2244687600e9ea02bf7b0208bf6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/original.png",
+      "status": 200,
+      "bytes": 85001,
+      "sha256": "b26e9a96d96bb301a452ca03cfefdd917777d26c9044035de1efa18af8d41628",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/pin.png",
+      "status": 200,
+      "bytes": 140184,
+      "sha256": "b323611d989f6551c9af419927db045e41884d9f08bc66876bf56ce7a59bd4e5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 184696,
+      "sha256": "f6cc094e64213a622087047456cf320e3979ee5d899d3d3a1c099604e0780b60",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-complete-light.png",
+      "status": 200,
+      "bytes": 139145,
+      "sha256": "48332b3707be4e45d194606bf0459d9a10cfc3d1bcdae9657b3f4faedd941cc0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 138042,
+      "sha256": "2302ceaf3a007a609a4343779e9325d0b6639e28bf3f00c27a2786c4db445ca2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 146285,
+      "sha256": "2d52a796926ba00262fedf4616fb37bcca1ad939b480c1c01ac99785df469c04",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-menu-light.png",
+      "status": 200,
+      "bytes": 141599,
+      "sha256": "25575441e0b6d3f4c273b0974fb23cfc3fbda85c21fe7c2bb422230621c65da1",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-password-light.png",
+      "status": 200,
+      "bytes": 149078,
+      "sha256": "d69482964e7595ca264aa9b2a41e32e90de4757f09e3e7ecb85ef66783fd5615",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/results.png",
+      "status": 200,
+      "bytes": 183882,
+      "sha256": "9c43eaa702ac70da1b44e14c665dccd460fc3e5a5784eebd6cde870d194bc6e6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/settings.png",
+      "status": 200,
+      "bytes": 141818,
+      "sha256": "55559a59b4244949265561a38ad479e711d528152bbc2bc99cf2c5d1e3cf369a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/sign-failure.png",
+      "status": 200,
+      "bytes": 178160,
+      "sha256": "8515177254521e3c4f14e32b125832dc8cf0e7069d447703018c24c39ff0ac5d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/sign-progress.png",
+      "status": 200,
+      "bytes": 163274,
+      "sha256": "72a184036f4ebe513c45bc9e2346fad6a9e3511510945c3de1b4b09ca34e8c88",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/sign.png",
+      "status": 200,
+      "bytes": 174228,
+      "sha256": "635e857f5c8da1484a78b0feb156c53bf7b44b79c97f78b4be3a456968c88474",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/stamp.png",
+      "status": 200,
+      "bytes": 54468,
+      "sha256": "bc5fe62ea83118790c455a4388efa2c116c831753ee7114ec1f3b38179850e06",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-invalid.png",
+      "status": 200,
+      "bytes": 77502,
+      "sha256": "b48e0ef77d51a7e85a20c5313804d6e504b6926051784a3687b67f65bc8089b4",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-none.png",
+      "status": 200,
+      "bytes": 52383,
+      "sha256": "b6e231770d33ced9a28d8dde73919ed1e9b5cfa6b3febc0a6230a7634b58bf3e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-unconfirmed.png",
+      "status": 200,
+      "bytes": 78861,
+      "sha256": "df84e14f8e8c7d317bc512791161f199878633086ff1b05e5fa3f0edb6e68555",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify.png",
+      "status": 200,
+      "bytes": 79235,
+      "sha256": "9fc1113ae455857969e0550fd610b135c44f3d0f6aef6eb0ad87e9c923b45d1d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/browser.png",
+      "status": 200,
+      "bytes": 123774,
+      "sha256": "f7e706e46ac29a67e165fb45dc6843079cca824307060ce3c4bb3949726a5189",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/card.png",
+      "status": 200,
+      "bytes": 624555,
+      "sha256": "01a9c72ff891ffbc2f129b5630b80d828cdb3743cb86a5629d81937d038bc569",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/certificate.png",
+      "status": 200,
+      "bytes": 235883,
+      "sha256": "3ac9547d41266334c58251a10d5dfccd8011b92eff607df98c79ccb9a222f3e5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/connect.png",
+      "status": 200,
+      "bytes": 78884,
+      "sha256": "41c92db6c5d61cd00451b076e32ac53e424ff0c72bb6fbf15fa137fe50ad0e12",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/documents.png",
+      "status": 200,
+      "bytes": 101370,
+      "sha256": "bfdcc83b1a75a21915842feebf0b747b5b2fd3232ab936fbb91be6d56daac18b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/empty-reader.png",
+      "status": 200,
+      "bytes": 68910,
+      "sha256": "63a2b46d6e252ea3e54bf8a445aa1684da8385826c5504597c24beb39fefff52",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/history.png",
+      "status": 200,
+      "bytes": 98624,
+      "sha256": "db50f815cff44a99dd492b76efa5857614f380eec614e890275624be1bd52a2d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/incomplete.png",
+      "status": 200,
+      "bytes": 113242,
+      "sha256": "d350704723b2462651d161624a6c90511cd170dad4efb8b0ec77196eb6080d5a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/invalid.png",
+      "status": 200,
+      "bytes": 92599,
+      "sha256": "4adc3475d9dabee5f889b527fb7e36ac34e2e67325e830d8918ad870430168eb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 288833,
+      "sha256": "5cee3b0c1ac3ab6ea2e204707e39d8ac87ffcaf736076fcc25ec27e01704be4c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/unsigned.png",
+      "status": 200,
+      "bytes": 73885,
+      "sha256": "78793b53caf4a9d91b2743b281f2af632361e108808614ea810ca8ec5c39f85f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/untrusted.png",
+      "status": 200,
+      "bytes": 94940,
+      "sha256": "225904d9b11b3830992cb592133687276590f9bf7ab9fb7864f364d7a1fa5905",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/verify.png",
+      "status": 200,
+      "bytes": 88830,
+      "sha256": "f736abdf227ed644cecdf3c87a43b30d0d07eaf52e049a3287f77a8f002fe503",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/browser.png",
+      "status": 200,
+      "bytes": 124067,
+      "sha256": "de631b0f9cf66471c5802797d4d4b8e1a4df2a5eefa265ae7cae62124cb221e3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/card.png",
+      "status": 200,
+      "bytes": 633920,
+      "sha256": "97b71d3f9e63c49ed1d1f714b94ac4cf1b4ca913cb0a841ee9a380de13f6ec36",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/certificate.png",
+      "status": 200,
+      "bytes": 237312,
+      "sha256": "139910b864c204d61f9c9ec46e442bf650049bd4be2a64edbf7eed2001444dd9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/connect.png",
+      "status": 200,
+      "bytes": 85188,
+      "sha256": "4c77795258888ae8bd6a4390b5824b4d290097a4a2cdf5872b3163ae1abb0df0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/documents.png",
+      "status": 200,
+      "bytes": 101637,
+      "sha256": "4de5bdc6d697d11c46aee36978f16c514949feaccdde3396b6d982a28472475a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/empty-reader.png",
+      "status": 200,
+      "bytes": 72737,
+      "sha256": "74ddc1bab438e12d5cf1962c3f6940080f046ce1ea9d512d685d364297ff56f0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/history.png",
+      "status": 200,
+      "bytes": 99793,
+      "sha256": "e21ce8e2c85f652c2b04b70ba8cce235bd44095389b441dd30cf99be34d91417",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/incomplete.png",
+      "status": 200,
+      "bytes": 116146,
+      "sha256": "93640bc9299864f63def92396d587d884383f4e2d0889e0361c81997648ef9db",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/invalid.png",
+      "status": 200,
+      "bytes": 97165,
+      "sha256": "f71a0f21f926cf35ceade149cf2c4446752302cf4780ef88e430634a10d95727",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 301704,
+      "sha256": "d4589909b270dddb441001512f3866f693e954a8deb31b4158ba7379833c2bab",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/unsigned.png",
+      "status": 200,
+      "bytes": 78528,
+      "sha256": "76f549db655181a723fcdb63b3d0bfa351c77d6e6b43374a9c05911d9b5eae08",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/untrusted.png",
+      "status": 200,
+      "bytes": 97888,
+      "sha256": "b1fc025e5da633eddea8af368f0e90a5556989de08e839f6d7c154f17215acb4",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/verify.png",
+      "status": 200,
+      "bytes": 92226,
+      "sha256": "84dee101aad9f39f6284c58e06eaa9ec99f10855f0e8ee8811f401e1ee9a47ef",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/browser.png",
+      "status": 200,
+      "bytes": 124847,
+      "sha256": "07ef143a5979b01eb6ab0841d8bd50899783ea399b1077d27df70015a99dd55d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/card.png",
+      "status": 200,
+      "bytes": 640526,
+      "sha256": "03005697559618fd98cc95dfad14de2f0cd7176fda7789eb9d874e7ab8bda7f6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/certificate.png",
+      "status": 200,
+      "bytes": 249439,
+      "sha256": "3331539f00c563669d52aa1f6d22bef2a70ef8a3593bda6594030bdbb691645e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/connect.png",
+      "status": 200,
+      "bytes": 84200,
+      "sha256": "f05f994189b1489765df1b669dbf87cea06e4bd0df2ccd71a2456203d1a8096b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/documents.png",
+      "status": 200,
+      "bytes": 98009,
+      "sha256": "3f56dcd3acd85b7b80cadb78deaee6bda80d08302ae5c837d723f779a70922d6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/empty-reader.png",
+      "status": 200,
+      "bytes": 76303,
+      "sha256": "308b8abaa5736f3617ee08e941af8d9de1252472757fa5d1a8f43d9a5cfe0264",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/history.png",
+      "status": 200,
+      "bytes": 100915,
+      "sha256": "af764cf602787dffc4987ee1448efbdb765d8c44a6f5205fe2f67ca3698cbe13",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/incomplete.png",
+      "status": 200,
+      "bytes": 118935,
+      "sha256": "8ca0154d54aaeab3a7cfd34651bd16d488e3a5fd96bd5fb0505de41a94318909",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/invalid.png",
+      "status": 200,
+      "bytes": 96254,
+      "sha256": "802af40ce8a867ac675eb0ddd1da96a486bc64e6c6fc0aafb8921524d9d78c29",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 308809,
+      "sha256": "681b1c5b59361bbeb66c54f8890f8ea339456e383d6a0e86ca2d307e008b6457",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/unsigned.png",
+      "status": 200,
+      "bytes": 79195,
+      "sha256": "8778a46c27213dd7db2c18ee5550b69e54e300342200227060dbb8fb84f2ad2f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/untrusted.png",
+      "status": 200,
+      "bytes": 98593,
+      "sha256": "5e0ebf463e9ac9d6dfb9c4895aa5f4cd784f216addb002cb92a1ebd3d945197f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/verify.png",
+      "status": 200,
+      "bytes": 93475,
+      "sha256": "3c6e74360eb4a27fbaacf46da8b96b8b0db289a4a1be664424ec8ede6a7bd7b0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/browser.png",
+      "status": 200,
+      "bytes": 250887,
+      "sha256": "8eaf7e30f38f339b3dc85b2ec2130127436de3a69021053a47dd4072f13336e8",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/card.png",
+      "status": 200,
+      "bytes": 785838,
+      "sha256": "3474698262507b3f538a9413e055306375fff44590ed64bc4f11895afca06b4c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/certificate.png",
+      "status": 200,
+      "bytes": 252258,
+      "sha256": "5788c99809bf3d50113dcc38ba030220bd01c16ae018c047f7682fac32d87869",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/connect.png",
+      "status": 200,
+      "bytes": 129155,
+      "sha256": "e099e8c60d9ae8706198c447fa280f0ef05d45790d4a17f94e41277a2a94fdf2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/details.png",
+      "status": 200,
+      "bytes": 110841,
+      "sha256": "826cf3aed3bc749ffd9069d8c85ae7264c31686ab3c45f6b4313205e35b87fb2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/documents-protection-light.png",
+      "status": 200,
+      "bytes": 151293,
+      "sha256": "a01d3d50ae7360f94a5e55d8a18679e228cc30ba5c89731ed288b8a1c6f9d88c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/documents.png",
+      "status": 200,
+      "bytes": 177655,
+      "sha256": "7794fa667ca132d468d32a2fbb916d3da2d80f5d52c6c29866d943ec1fbd2a51",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/empty-reader.png",
+      "status": 200,
+      "bytes": 122709,
+      "sha256": "6aba5ff28ba1a6ac8e3f869edfa592da857a30607e6fb17dc70367dcd5daf821",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/history.png",
+      "status": 200,
+      "bytes": 167111,
+      "sha256": "69bd80ed1d5f805b4cb8ea1f5f21f25e79630117cf9ba14d36d1126c913022ed",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/incomplete.png",
+      "status": 200,
+      "bytes": 174983,
+      "sha256": "7a7927d8e6ccb8d44b235f8faf0fe2f94f3dad467fe6f438919050337efce126",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/invalid.png",
+      "status": 200,
+      "bytes": 150181,
+      "sha256": "1b4fbdb9c6ed3a9893d2d1be180a211c956c1b8c5dbf01b802881888f6248a3e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 257599,
+      "sha256": "e34c85d9462dd96e987de07aeab581c60aaf5367013f121f4a3aa65921459e01",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-complete-light.png",
+      "status": 200,
+      "bytes": 53507,
+      "sha256": "9e6891287cfffa7ada1bfd69956118500093ce1725fe240b4f2c2b9baccf72ec",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 52400,
+      "sha256": "ca50451eb4730ce76f08093b286fc161e4c3c1f67013d31ea5647868d5b83d15",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 123003,
+      "sha256": "03aabd011b94ec5efe6bb294d45e00ce1af6abf5e553effa4ed0a3fb0d26190d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-password-light.png",
+      "status": 200,
+      "bytes": 145148,
+      "sha256": "a501f38eb054907804e744568545136b1f6eee2517c93e824cd8ddea0a08a629",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/settings.png",
+      "status": 200,
+      "bytes": 185530,
+      "sha256": "831878305a6ac379cb1b8f4b31e4dde2de9f155421151d5064ffc3db073a373c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/unsigned.png",
+      "status": 200,
+      "bytes": 120022,
+      "sha256": "5b6f821a91ac9f49b1e0a601f52975f81a5642b2c6f1bcd0e0e44789d294a07b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/untrusted.png",
+      "status": 200,
+      "bytes": 152193,
+      "sha256": "389b91ca987548c30f8621e64465488919ac3360a99d150d20ba638140814049",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/verify.png",
+      "status": 200,
+      "bytes": 142584,
+      "sha256": "26cad2f57f4ca9d33223736a992ead107ab9ac5c596d11f42be2dbda11eda77f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/browser.png",
+      "status": 200,
+      "bytes": 256945,
+      "sha256": "b0eeee5d18ee8b8edad3e65b687b7777f7b8576d24b65b14259bdcfe12d3126f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/card.png",
+      "status": 200,
+      "bytes": 799426,
+      "sha256": "7e000a00a820c94c9bb3b8efc92dbae8ce2efd6f6e18bab9b023995a8acb8e23",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/certificate.png",
+      "status": 200,
+      "bytes": 254577,
+      "sha256": "205254a37a55f0804473716ac0750f02038ae402ce75bede6f6f08e543baedcb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/connect.png",
+      "status": 200,
+      "bytes": 137971,
+      "sha256": "ff6cfc8ccb56c41890b1ac7c11ff55f230c29d62f373a08e43ff1eeb273ea1a1",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/details.png",
+      "status": 200,
+      "bytes": 107979,
+      "sha256": "83e04e0b0c4604ffdb048f37cdca6f8a3a1a0db79965b4f7cbfb2b94882bf994",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/documents-protection-light.png",
+      "status": 200,
+      "bytes": 148026,
+      "sha256": "bc7124c5ebec139be15a92d62e9b2dfea5c6a2172170f3294239c1f5847faf78",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/documents.png",
+      "status": 200,
+      "bytes": 173830,
+      "sha256": "b947c849f2f6bbc839ccd19694adead73f07fa12345ce61f13053c8257ea6691",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/empty-reader.png",
+      "status": 200,
+      "bytes": 124763,
+      "sha256": "9335b1e5cce917ba182ca8eff9f0bd5810a8bb686cdd234b3bdca03768c5223f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/history.png",
+      "status": 200,
+      "bytes": 167856,
+      "sha256": "4eefcd2554ffe383b785c3c47a44070ab6c928b7c5c7c2f9a5ffc09840af573b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/incomplete.png",
+      "status": 200,
+      "bytes": 177173,
+      "sha256": "75ec43d746937c534b9c9a52e76469becf43e5b8ee05d667225396b21330450c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/invalid.png",
+      "status": 200,
+      "bytes": 152870,
+      "sha256": "a8d054804c4dd75d2e717381f18c057ec2ca7e9ef56dbce2717473d05c371d8f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 284251,
+      "sha256": "edf8be4966252fc2cee5cedc4326a570f08a6cb1e7cb2e8c47ae5d121fee404f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-complete-light.png",
+      "status": 200,
+      "bytes": 53399,
+      "sha256": "cb55b58ec2a4c8fe839f4a550e29ffa9b997fd3fea69015175f9e587c1bc95c3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 52964,
+      "sha256": "04084b1de9d89040bfde643fd94b8bd47651957bff2d5ab5259e2fa8dcf4507d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 123640,
+      "sha256": "927c1f4cf7af328c2c606adfe071beeb4baf85ed0ca93eb03bd74039352de1aa",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-password-light.png",
+      "status": 200,
+      "bytes": 141539,
+      "sha256": "a89ddd831b6b475885307c6dfe3a79d3888dc7c05d0beefb0a4d11c553603977",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/settings.png",
+      "status": 200,
+      "bytes": 196045,
+      "sha256": "9a46f1099dbb837c18b200f8934664538ad67089751e059724ee8e80abb2446e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/unsigned.png",
+      "status": 200,
+      "bytes": 127834,
+      "sha256": "e36e349dc30c42e6f10c0989bd8ba6ff967355174e5e4135ff95489bc82c29ac",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/untrusted.png",
+      "status": 200,
+      "bytes": 154937,
+      "sha256": "7df13078fa9e666dc213b51e99f54f0a84110a94a02ea5188c2b4f6f6ea79921",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/verify.png",
+      "status": 200,
+      "bytes": 147787,
+      "sha256": "88baff8e6aad06338ea572d29e0815216927f04a184715ce0e75478fe9a96ea2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/browser.png",
+      "status": 200,
+      "bytes": 254710,
+      "sha256": "c66588853f13e15af7331a7410baf36ff4bc5d1dd2edeb6b370dee99115b5245",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/card.png",
+      "status": 200,
+      "bytes": 796679,
+      "sha256": "e6f7218595143afdb0d695405360527d79e1ec2e212e33c01d0462b5cc1678ab",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/certificate.png",
+      "status": 200,
+      "bytes": 274667,
+      "sha256": "750868f8d624321596b9583284f85b16ee2d4e9e07db938c954eb1816a914bf9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/connect.png",
+      "status": 200,
+      "bytes": 141690,
+      "sha256": "3f2099f62b32b8439b1aec7fc5a1f4d18f1db0f07aebd24d6ece0c0b4d906155",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/details.png",
+      "status": 200,
+      "bytes": 107342,
+      "sha256": "4301f1968fd2ca418880349c47fb76755e97d875367ae3f4ba72850b26f37daa",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/documents-protection-light.png",
+      "status": 200,
+      "bytes": 151332,
+      "sha256": "167325fdb668f86f24104e24a08ec1634483567ff196aacb30ce8bae92e4d36c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/documents.png",
+      "status": 200,
+      "bytes": 172097,
+      "sha256": "94b315589a4c8eafe1652ef1738b33b226cd4de1d74baa0b05c33532e87dd14e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/empty-reader.png",
+      "status": 200,
+      "bytes": 128267,
+      "sha256": "61ee7d6ed379a80107dd53411f443e95b62328517283f42c7c8ad6f0ba6df17f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/history.png",
+      "status": 200,
+      "bytes": 167165,
+      "sha256": "f68d61d6bd7d12979c119952020338999f9dff3df23bf6b72410cd67985fd115",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/incomplete.png",
+      "status": 200,
+      "bytes": 184460,
+      "sha256": "3cd9359b2ffa13120fdf7e60c204fce8a6b73216efac35bedc51197bbf2c2c88",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/invalid.png",
+      "status": 200,
+      "bytes": 152689,
+      "sha256": "2cc640f88fbd9c995e3307b8a431ed6b50a865a623ee361607573dd89c112c47",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 297758,
+      "sha256": "cad6f82f0f748a1ae4e02da0e0cdbb0da07fc2bd047b4160254cb19808dae8cf",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-complete-light.png",
+      "status": 200,
+      "bytes": 54129,
+      "sha256": "ad28e64ea7c9390e09bfb7d6d21fdc94c7320da67eddd9fd70c5000b4151f112",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-decrypt-complete-light.png",
+      "status": 200,
+      "bytes": 52826,
+      "sha256": "59cb75974843be69bf6c7c3f8f729636221050f3911a013530d2c41c9569821d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 128108,
+      "sha256": "6db2e3086ef451c796faf6e49ecce4c718e16615b114de354afc42a50284d099",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-password-light.png",
+      "status": 200,
+      "bytes": 145391,
+      "sha256": "6d31bb2ebe9836d9e82355a70ba40f5b77c9047ef7a949bceaaf3fdc80af5189",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/settings.png",
+      "status": 200,
+      "bytes": 205090,
+      "sha256": "baeae266aabd576ba83f44b20dc95d4b8eb9e26ea4bc5585e90d65dea098c3ff",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/unsigned.png",
+      "status": 200,
+      "bytes": 126412,
+      "sha256": "bbffaffa943eff603b61aa7a0240c8edfc2a5cf3ccb83400b15143bd22cedcc2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/untrusted.png",
+      "status": 200,
+      "bytes": 155421,
+      "sha256": "10480044e045b46fe418bf0104dfd07828fe828d0acb85187c7bc710a7d93a04",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/verify.png",
+      "status": 200,
+      "bytes": 148650,
+      "sha256": "259db8f6a52eb01427bdb6e5d1a710cfe7b05c21f2b04a9c3de7c2b1ca701d9f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/about.png",
+      "status": 200,
+      "bytes": 31169,
+      "sha256": "6e5c942324319b38d3d1cc3686af7eebef4628a7af3030d78facb86909f652a0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/card.png",
+      "status": 200,
+      "bytes": 99471,
+      "sha256": "7a7be7e10121eabd010bd01a287b3e702ff620ee80ee8ca2ab0e57c9d6de2f12",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/details.png",
+      "status": 200,
+      "bytes": 56346,
+      "sha256": "b3a0228518f4cf49bc14113d2a503bb43871a8da4b6f36450dc949982104efef",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/documents.png",
+      "status": 200,
+      "bytes": 42394,
+      "sha256": "2de719549e6494cc0cc683faa7eaa745d01f1e7c7bb89e5a83718c9d4d1f52d4",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/lower.png",
+      "status": 200,
+      "bytes": 61137,
+      "sha256": "1438148854d2aea20506ec23fc6e530e961d9aa138ca1c6020e0deec3f743070",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/none.png",
+      "status": 200,
+      "bytes": 37262,
+      "sha256": "805d5d31b92bb509428d74a297230b027ffaf9d6c0e7990d2f360d964175918b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/pin.png",
+      "status": 200,
+      "bytes": 17977,
+      "sha256": "7570618a012633e8ce7e250c50fa8af239909d18ee643cced8d6dfd4676d0029",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 44986,
+      "sha256": "f161ee70a71652a1f6844b3797ee6d8cecb95766fa4f16f6d1166c62dab2515a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 40835,
+      "sha256": "2b7ce35cacb2e730fe1000efa09811d28d906379a65221022621b3af12c59e1f",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-password-light.png",
+      "status": 200,
+      "bytes": 40667,
+      "sha256": "3126eb41f3c008e8a219d97b2ab486c5db93bfea2843de2e6d60744d579efb70",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-remove-light.png",
+      "status": 200,
+      "bytes": 41243,
+      "sha256": "6ca10d8876fa763aea2a7cc04983578f96712c59818211561883003228cc78eb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/queue.png",
+      "status": 200,
+      "bytes": 82021,
+      "sha256": "0bdecab880559c84705e11ffea8d8ecf4ab7c23545664c4026068a141a1ab8fd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/results.png",
+      "status": 200,
+      "bytes": 54822,
+      "sha256": "16dc07df6d19ab1d20526732b35b07f41d611b27e05c96f0ceb1c7da555fdddd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/settings.png",
+      "status": 200,
+      "bytes": 44618,
+      "sha256": "5f5e6b2f2575d050f3b006d1b22398cfb46e0147a08bb27cde0dd202f2fb3daf",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/stamp.png",
+      "status": 200,
+      "bytes": 46942,
+      "sha256": "8bf3e4a0541d1494682658046b65ec07f5763ffb6eea16edeb718165e8dcbadd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/success.png",
+      "status": 200,
+      "bytes": 82505,
+      "sha256": "fd30f59cedbbfeafcdf5148c538a624d0911023c4aaa2f08c00a30ff4f9c30ff",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/summary.png",
+      "status": 200,
+      "bytes": 54205,
+      "sha256": "72ca0c16f98128620e90f90402ee5c612974c123a936fcdc8781be8e4826fdeb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/verify.png",
+      "status": 200,
+      "bytes": 27592,
+      "sha256": "eb883580575b780263a402a792131f921ff2f263d1b6f5fb1fd0e96c0e9c5423",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/about.png",
+      "status": 200,
+      "bytes": 32047,
+      "sha256": "7fe5c6fa15be48353973300c40cab9937d03fd3d058dc8f19a48665b4690d6f4",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/card.png",
+      "status": 200,
+      "bytes": 99215,
+      "sha256": "a70f1bf8b80c2881e66033bb4191885ed44fa4b976cb5b36752db0c3abc13f92",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/details.png",
+      "status": 200,
+      "bytes": 57507,
+      "sha256": "8c3e489fa937494fb0d6795c71c91600b96789a07886332a1c88cd39934f28f3",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/documents.png",
+      "status": 200,
+      "bytes": 41528,
+      "sha256": "c53e5690896770b58fe4ebff0dae1209354efbe73f961f93735a2d47e993713b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/lower.png",
+      "status": 200,
+      "bytes": 63898,
+      "sha256": "8f7c4e554c0aafb140d1b998785f3fb677e1ee414e4bcd506e9fe1c3efbc7a10",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/none.png",
+      "status": 200,
+      "bytes": 37777,
+      "sha256": "8bb21aeb328e728464193d18257ccfcb22966447ff68cf291037da3da4a8b8d0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/pin.png",
+      "status": 200,
+      "bytes": 19063,
+      "sha256": "26cdbdfe2c63c463ee604fdbda8f264cf31659e6ca486a3cb2a6a2fe84977dd7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 47202,
+      "sha256": "2aad4a8c1fa283b629616a246f5d66c5e6bd4223b324856521c01451533673d6",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 43142,
+      "sha256": "99ed35b8fa14ccf97357f790f454bb548a9d59c374604f06f3f0112d44de4445",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-password-light.png",
+      "status": 200,
+      "bytes": 43477,
+      "sha256": "49d83ce1672e68b8b6b09dac784d1f9e2324078cc0d5e39b6bc6766ffa74fcb5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-remove-light.png",
+      "status": 200,
+      "bytes": 43440,
+      "sha256": "20c1783f43780b23d07ff68165c4862c196f17be0cab470d697b70e272141a14",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/queue.png",
+      "status": 200,
+      "bytes": 84087,
+      "sha256": "09541dc73be35e14c50e709282e818ac9e652d7fe870bdc41f09e83f14a008dd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/results.png",
+      "status": 200,
+      "bytes": 56758,
+      "sha256": "e8c3f0b7f774711bebd40eeccef3fedfa1481a2dc6d0d38701c990a76618f1ea",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/settings.png",
+      "status": 200,
+      "bytes": 46611,
+      "sha256": "5b016944b5914ac3e47dc1be59fcbf067f695fd27efb623cc3a782341b1bdfeb",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/stamp.png",
+      "status": 200,
+      "bytes": 49294,
+      "sha256": "0f1fd17f356379c138c038cfcaf2543a638a9efea6bf3e66cc9a13e85894a8b1",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/success.png",
+      "status": 200,
+      "bytes": 84116,
+      "sha256": "4a1bc556d201ec2f38631e5c3a36ca8504cdd4dda09cf99c416cfc654a220fcc",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/summary.png",
+      "status": 200,
+      "bytes": 57579,
+      "sha256": "589ffc76cf355e2759f84acd301105d2e1a612e87affebe67f3c4ce2102d234e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/verify.png",
+      "status": 200,
+      "bytes": 28959,
+      "sha256": "6aa51d8c9c41913de658bf5e660892c2e19a31e40a7a3e1fa09a5fd6c682ee25",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/about.png",
+      "status": 200,
+      "bytes": 31305,
+      "sha256": "c14a7a6756d71e73fa57543863c5a8b4ce075f6050939875bfacd764579492e4",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/card.png",
+      "status": 200,
+      "bytes": 103510,
+      "sha256": "feb5fefabc719f6c1b63a42bbff46b6ba6d41cf106312c8f0783ca9820400940",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/details.png",
+      "status": 200,
+      "bytes": 56847,
+      "sha256": "b66fe5b9522bd9106555e2f7973b4f76275339b805a70b63ea6b2b08bbc6e73b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/documents.png",
+      "status": 200,
+      "bytes": 42014,
+      "sha256": "9fa3643e711bc504b6ddc8557c58292c52002ed4c8fa8cc595b1320f31ba2729",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/lower.png",
+      "status": 200,
+      "bytes": 65193,
+      "sha256": "1050fca0506cf7fd42867fadabbe3228226e7219a646b96c258d5b5cd69cdc74",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/none.png",
+      "status": 200,
+      "bytes": 41210,
+      "sha256": "2e4497a3e6ccbd4f3e15c2371f474b1e59df8dee31a415ca885a49cff95351d9",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/pin.png",
+      "status": 200,
+      "bytes": 19405,
+      "sha256": "56494b189d1dfe24ce1b58bb499ba8d5cb9ec007fb7e45addba664cedf39af10",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-certificate-light.png",
+      "status": 200,
+      "bytes": 46447,
+      "sha256": "8b72d9b02286cca8374b79d5788f14b1e3b5f5a2ebb8408660194c3e8a6eb9a0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-decrypt-light.png",
+      "status": 200,
+      "bytes": 44408,
+      "sha256": "64a364fc6678d64628e450dfd1d296949edd9cc2eeff89dbdfd6fcb0929b5ffe",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-password-light.png",
+      "status": 200,
+      "bytes": 44465,
+      "sha256": "0965cf5c0fb3fd48174ba3554d3492d70e8b2d94da8110b9c4105086c39bbac5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-remove-light.png",
+      "status": 200,
+      "bytes": 45149,
+      "sha256": "72d2c2c5d7d3a3f0af11e909e307e489d25f6a3c9241d146bc6cc23feecdf94e",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/queue.png",
+      "status": 200,
+      "bytes": 83855,
+      "sha256": "cc27ab3d6daf7094775c522e6035dae19615be8e7874c122d4a5b698dc6887ec",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/results.png",
+      "status": 200,
+      "bytes": 58933,
+      "sha256": "cc5d605df014d8a8312856756f29aef489507763d13a55aa615288c009682743",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/settings.png",
+      "status": 200,
+      "bytes": 48648,
+      "sha256": "4ff8883a1229150c0f515843d0e4df505bc5e1d489673f61276faf7067f45a0c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/stamp.png",
+      "status": 200,
+      "bytes": 49137,
+      "sha256": "5939f8eafd1cbae2e4604dea5c0f0c4c39b73a42d94ec2d4c4f8962c75bfa1bf",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/success.png",
+      "status": 200,
+      "bytes": 86206,
+      "sha256": "46a3a5c3665fd15f35cf46581ec704164027a56e563eddc3f006f3df38c25859",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/summary.png",
+      "status": 200,
+      "bytes": 57537,
+      "sha256": "2036acb787a0a07f970a2bd1556ec6b69690ed717da7685a2365baa5817b6a5a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/verify.png",
+      "status": 200,
+      "bytes": 28891,
+      "sha256": "5dcc927922f030a12cfc71a1b3ce09900446811d1e065a8721ff673cb1edc3e7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/iphone-disconnected.png",
+      "status": 200,
+      "bytes": 283612,
+      "sha256": "9040b0e4df48b88c146bb743499050de9ce91642a883c65c8fbbb05a64e2c259",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/iphone-reader.png",
+      "status": 200,
+      "bytes": 261234,
+      "sha256": "c0977414b26c89e80e0748fbe6e4425c88be8c8cacdbbeb930ac5217fe1a3ff7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/iphone.png",
+      "status": 200,
+      "bytes": 1302369,
+      "sha256": "c440a9c47dea31b336fead8c6a2b97522f12741642412ddd0ae367ad74c05286",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/android/disconnected-dark.png",
+      "status": 200,
+      "bytes": 123593,
+      "sha256": "897b7367aff401f884f828d5b5e9a3be91772115ea9322319458467a2baf2d60",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/android/disconnected-light.png",
+      "status": 200,
+      "bytes": 123113,
+      "sha256": "116e98f99725099d70b145f6380abf066a410153180fbcd7d40f86e3401cd63b",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/android/reader-dark.png",
+      "status": 200,
+      "bytes": 112244,
+      "sha256": "c6fa7814dd44870294dc61c4f1b3a6d14fcb8f5a97d4bac042add2a91d487670",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/android/reader-light.png",
+      "status": 200,
+      "bytes": 112037,
+      "sha256": "047bdb13d5789cb359d22035907ecc53c76b892669c0ab7cfa03e776ad88d5f2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/android/ready-dark.png",
+      "status": 200,
+      "bytes": 481917,
+      "sha256": "e89f20835052c41ca57a81b34c045f7835d6f4fd222d45ffbdfcacd95cb8b3d0",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/android/ready-light.png",
+      "status": 200,
+      "bytes": 491325,
+      "sha256": "3739db05c82ce7ab9c429685c58df710b08a242b168bcbe238afb8462f97745d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/iphone/disconnected-dark.png",
+      "status": 200,
+      "bytes": 257086,
+      "sha256": "bfa22d9cc567186bf876d208fb2e453587aa1c0da53b714df1e9443fa6ab8ada",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/iphone/disconnected-light.png",
+      "status": 200,
+      "bytes": 283612,
+      "sha256": "9040b0e4df48b88c146bb743499050de9ce91642a883c65c8fbbb05a64e2c259",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/iphone/reader-dark.png",
+      "status": 200,
+      "bytes": 239900,
+      "sha256": "2fb219e8abf6456a206dcb284a59038d74ec8d1991b7615a6caa85c6b104830d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/iphone/reader-light.png",
+      "status": 200,
+      "bytes": 261234,
+      "sha256": "c0977414b26c89e80e0748fbe6e4425c88be8c8cacdbbeb930ac5217fe1a3ff7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/iphone/ready-dark.png",
+      "status": 200,
+      "bytes": 1258752,
+      "sha256": "c81b557f2aa861c9d7cc588f16402b1fc4d151431a30775773b12dc032dfbe4d",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/iphone/ready-light.png",
+      "status": 200,
+      "bytes": 1302369,
+      "sha256": "c440a9c47dea31b336fead8c6a2b97522f12741642412ddd0ae367ad74c05286",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/linux/disconnected-dark.png",
+      "status": 200,
+      "bytes": 50494,
+      "sha256": "7a9feea8b6664c21feea7931e156035b9df414f19ad69af3303f1637a7f3426c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/linux/disconnected-light.png",
+      "status": 200,
+      "bytes": 50332,
+      "sha256": "5aff50bd8b2cc795d0a53bb94413e327d743a9b769e4793e0c5fc4653c6553ed",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/linux/reader-dark.png",
+      "status": 200,
+      "bytes": 50404,
+      "sha256": "8182a912381d9bd69c476985f4874ba9e8b7d5166c822bbc098fdb1cad0dde5c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/linux/reader-light.png",
+      "status": 200,
+      "bytes": 50281,
+      "sha256": "20dc9eda2d39abb64085fc79d634807d19f4ae7b1186f427ecbb09695272b6b2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/linux/ready-dark.png",
+      "status": 200,
+      "bytes": 98095,
+      "sha256": "f29ed5a64d6c9479d68dcdc354b1b71a0430467c7b9ae9848c3f2dc26cecb109",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/linux/ready-light.png",
+      "status": 200,
+      "bytes": 97918,
+      "sha256": "f05f3e21623717fc0ee2214ffc9ed62a69bbed6ef033063a7b35746d2f5067be",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/macos/disconnected-dark.png",
+      "status": 200,
+      "bytes": 219235,
+      "sha256": "6fdf530fb57ab424a6e4d6cd2b991ec604e7f1fa9159fe849e95adaae3b52966",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/macos/disconnected-light.png",
+      "status": 200,
+      "bytes": 226408,
+      "sha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/macos/reader-dark.png",
+      "status": 200,
+      "bytes": 220963,
+      "sha256": "2823e0d882ed94e592a2dcb4cef9516513b5318fafe9742e6ab8e80f075dcbb7",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/macos/reader-light.png",
+      "status": 200,
+      "bytes": 228172,
+      "sha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/macos/ready-dark.png",
+      "status": 200,
+      "bytes": 765478,
+      "sha256": "013fe80b8d0c9522fbdff55af9c6341cd9aa51d017b53d46fe0cd78ed0ee47b5",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/macos/ready-light.png",
+      "status": 200,
+      "bytes": 786318,
+      "sha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/windows/disconnected-dark.png",
+      "status": 200,
+      "bytes": 42840,
+      "sha256": "97f15bc249058e8ccbd5ae023a9b85c65f9a1629bfda632f3f4b2a155c9a1f70",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/windows/disconnected-light.png",
+      "status": 200,
+      "bytes": 43125,
+      "sha256": "f2cef479bcb367054808ebcfa777529e87a14bad8d43f5122852fd3a53860d89",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/windows/reader-dark.png",
+      "status": 200,
+      "bytes": 43246,
+      "sha256": "f79f8165054e5d067d68b4802f25d0fa793d84dff7df74fd49b35b67b599735c",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/windows/reader-light.png",
+      "status": 200,
+      "bytes": 43542,
+      "sha256": "dacd5a8407d5f6b6c414adc24a8e46203668bad963d5bcf9a272c1f854600523",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/windows/ready-dark.png",
+      "status": 200,
+      "bytes": 82835,
+      "sha256": "4baa133f6fee2a786b1fbbcd9980e641078c0fe88a528ac75393d109c67dc54a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/landing/windows/ready-light.png",
+      "status": 200,
+      "bytes": 83026,
+      "sha256": "f808da3362c939dc6b9eefe73a8e2eb31443ae1dd53117892c4f056b7ff2c51a",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/linux-disconnected.png",
+      "status": 200,
+      "bytes": 50332,
+      "sha256": "5aff50bd8b2cc795d0a53bb94413e327d743a9b769e4793e0c5fc4653c6553ed",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/linux-reader.png",
+      "status": 200,
+      "bytes": 50281,
+      "sha256": "20dc9eda2d39abb64085fc79d634807d19f4ae7b1186f427ecbb09695272b6b2",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/linux.png",
+      "status": 200,
+      "bytes": 97918,
+      "sha256": "f05f3e21623717fc0ee2214ffc9ed62a69bbed6ef033063a7b35746d2f5067be",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/macos-disconnected.png",
+      "status": 200,
+      "bytes": 226408,
+      "sha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/macos-reader.png",
+      "status": 200,
+      "bytes": 228172,
+      "sha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/macos.png",
+      "status": 200,
+      "bytes": 786318,
+      "sha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/windows-disconnected.png",
+      "status": 200,
+      "bytes": 43125,
+      "sha256": "f2cef479bcb367054808ebcfa777529e87a14bad8d43f5122852fd3a53860d89",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/windows-reader.png",
+      "status": 200,
+      "bytes": 43542,
+      "sha256": "dacd5a8407d5f6b6c414adc24a8e46203668bad963d5bcf9a272c1f854600523",
+      "matches": true
+    },
+    {
+      "path": "website/static/img/windows.png",
+      "status": 200,
+      "bytes": 83026,
+      "sha256": "f808da3362c939dc6b9eefe73a8e2eb31443ae1dd53117892c4f056b7ff2c51a",
+      "matches": true
+    }
+  ],
+  "verified": 394,
+  "total": 394
+}
