@@ -26,7 +26,7 @@ Mai multe carduri apar în caruselul orizontal. Selectează cardul centrat cu ca
 
 ### Alege și examinează cardul
 
-<GuideScreenshot src="/img/guide/windows/ro/card.png" alt="Alege și examinează cardul" steps={[{"x": 6, "y": 26, "text": "Deschide Card după conectarea cititorului și introducerea cardului."}, {"x": 60, "y": 31, "text": "Verifică titularul și expirarea; alege cardul dorit din carusel."}, {"x": 51, "y": 58, "text": "Examinează certificatul și cititorul înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/card.png" alt="Alege și examinează cardul" steps={[{"x": 5.351, "y": 26.15, "text": "Deschide Card după conectarea cititorului și introducerea cardului."}, {"x": 60.148, "y": 31.201, "text": "Verifică titularul și expirarea; alege cardul dorit din carusel."}, {"x": 51.015, "y": 58.474, "text": "Examinează certificatul și cititorul înainte de semnare."}]} />
 
 ## Semnează documente din aplicație sau Explorer
 
@@ -41,19 +41,19 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Pregătește lotul de semnare
 
-<GuideScreenshot src="/img/guide/windows/ro/queue.png" alt="Pregătește lotul de semnare" steps={[{"x": 90, "y": 68, "text": "Alege fișierele sau trage-le în zona punctată."}, {"x": 34, "y": 50, "text": "Verifică formatul; folosește Ștampilă dezactivată pentru o ștampilă PDF opțională."}, {"x": 88, "y": 95, "text": "Verifică cardul selectat și alege Semnează pentru lotul afișat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/queue.png" alt="Pregătește lotul de semnare" steps={[{"x": 90.59, "y": 68.575, "text": "Alege fișierele sau trage-le în zona punctată."}, {"x": 33.764, "y": 50.393, "text": "Verifică formatul; folosește Ștampilă dezactivată pentru o ștampilă PDF opțională."}, {"x": 88.561, "y": 95.847, "text": "Verifică cardul selectat și alege Semnează pentru lotul afișat."}]} />
 
 ### Poziționează ștampila PDF vizibilă
 
-<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF. Textul urmează limba aplicației."}, {"x": 69, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică poziția tuturor PDF-urilor din listă."}, {"x": 93, "y": 95, "text": "Alege Aplică pentru a salva poziția înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 18.542, "y": 85.746, "text": "Mută și redimensionează ștampila în previzualizarea PDF. Textul urmează limba aplicației."}, {"x": 69.28, "y": 34.231, "text": "Alege pagina selectată sau toate paginile; opțional, aplică poziția tuturor PDF-urilor din listă."}, {"x": 93.635, "y": 95.847, "text": "Alege Aplică pentru a salva poziția înainte de semnare."}]} />
 
 ### Verifică autorizarea semnării
 
-<GuideScreenshot src="/img/guide/windows/ro/pin.png" alt="Verifică autorizarea semnării" steps={[{"x": 50, "y": 42, "text": "Verifică identitatea selectată și lista completă de documente."}, {"x": 50, "y": 63, "text": "Introdu PIN-ul de semnare al cardului fizic doar după verificarea cererii. Nu ghici și nu repeta automat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/pin.png" alt="Verifică autorizarea semnării" steps={[{"x": 50, "y": 42.693, "text": "Verifică identitatea selectată și lista completă de documente."}, {"x": 50, "y": 64.165, "text": "Introdu PIN-ul de semnare al cardului fizic doar după verificarea cererii. Nu ghici și nu repeta automat."}]} />
 
 ### Găsește rezultatele finalizate
 
-<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90, "y": 23, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 44, "y": 23, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90.59, "y": 23.12, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 43.911, "y": 23.12, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />
 
 ## Verifică și consultă activitatea
 
@@ -63,15 +63,15 @@ Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O sem
 
 ### Alege documentul de verificat
 
-<GuideScreenshot src="/img/guide/windows/ro/verify.png" alt="Alege documentul de verificat" steps={[{"x": 6, "y": 17, "text": "Deschide Verifică. Verificarea nu necesită card sau PIN."}, {"x": 60, "y": 28, "text": "Alege sau trage PDF-ul ori XML-ul semnat. Pentru XML detașat, furnizează originalele nemodificate la solicitare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/verify.png" alt="Alege documentul de verificat" steps={[{"x": 5.351, "y": 17.059, "text": "Deschide Verifică. Verificarea nu necesită card sau PIN."}, {"x": 60.148, "y": 28.171, "text": "Alege sau trage PDF-ul ori XML-ul semnat. Pentru XML detașat, furnizează originalele nemodificate la solicitare."}]} />
 
 ### Citește rezultatul verificării
 
-<GuideScreenshot src="/img/guide/windows/ro/summary.png" alt="Citește rezultatul verificării" steps={[{"x": 37, "y": 40, "text": "Verifică rezultatul general, apoi autorul și momentul fiecărei semnături."}, {"x": 43, "y": 85, "text": "Citește separat integritatea, semnătura și încrederea. Derulează pentru limitele offline și detaliile certificatului."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/summary.png" alt="Citește rezultatul verificării" steps={[{"x": 36.808, "y": 40.292, "text": "Verifică rezultatul general, apoi autorul și momentul fiecărei semnături."}, {"x": 42.897, "y": 85.746, "text": "Citește separat integritatea, semnătura și încrederea. Derulează pentru limitele offline și detaliile certificatului."}]} />
 
 ### Examinează detaliile verificării
 
-<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60, "y": 14, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60, "y": 23, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60.148, "y": 14.029, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60.148, "y": 23.12, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />
 
 ## Configurări, PIN-uri și pictograma din zona de notificare
 
@@ -85,15 +85,15 @@ Modul demonstrativ necesită acceptare, arată carduri fictive și documente de 
 
 ### Schimbă limba și aspectul
 
-<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 7, "y": 96, "text": "Deschide Setări."}, {"x": 28, "y": 88, "text": "Alege limba și aspectul aplicației."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 6.365, "y": 96.857, "text": "Deschide Setări."}, {"x": 27.675, "y": 88.777, "text": "Alege limba și aspectul aplicației."}]} />
 
 ### Conexiune browser și cereri locale
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 24, "text": "Activează Conexiune browser pentru site-ul dorit pe acest computer."}, {"x": 25, "y": 36, "text": "Opțional, activează ștampilele vizibile pentru cererile din browser; alege poziția o dată pentru fiecare lot."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 24.631, "y": 24.13, "text": "Activează Conexiune browser pentru site-ul dorit pe acest computer."}, {"x": 24.631, "y": 36.251, "text": "Opțional, activează ștampilele vizibile pentru cererile din browser; alege poziția o dată pentru fiecare lot."}]} />
 
 ### Găsește versiunea instalată
 
-<GuideScreenshot src="/img/guide/windows/ro/about.png" alt="Găsește versiunea instalată" steps={[{"x": 61, "y": 35, "text": "Deschide Despre în Setări și notează versiunea instalată când raportezi o problemă."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/about.png" alt="Găsește versiunea instalată" steps={[{"x": 61.162, "y": 35.241, "text": "Deschide Despre în Setări și notează versiunea instalată când raportezi o problemă."}]} />
 
 ## Folosește conexiunea cu browserul
 
@@ -102,7 +102,7 @@ Activează **Browser connection (Conexiune cu browserul)** în Configurări. Des
 Dacă alt server MoldSign ocupă porturile, finalizează operațiunile active ale aplicației furnizorului și folosește acțiunea oferită pentru rezolvarea conflictului, dacă există. Un singur bridge poate folosi porturile 18480/18443 la un moment dat. Dacă browserul cere acces la rețeaua locală, acordă-l pentru serviciul dorit, ca să poată contacta bridge-ul local. Consultă [serviciile în browser](/docs/browser).
 
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Browser connection" steps={[{"x": 25.5, "y": 23.7, "text": "Activează Conexiunea browser doar când folosești un site compatibil."}, {"x": 25.5, "y": 36, "text": "Opțional, activează ștampilele pentru browser și verifică poziția înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Browser connection" steps={[{"x": 25.138, "y": 23.827, "text": "Activează Conexiunea browser doar când folosești un site compatibil."}, {"x": 25.138, "y": 36.251, "text": "Opțional, activează ștampilele pentru browser și verifică poziția înainte de semnare."}]} />
 
 ## Actualizează sau rezolvă o problemă
 
@@ -121,7 +121,7 @@ Oprește-te după un rezultat de PIN incorect și verifică PIN-ul, în loc să 
 
 ### Acționează când cititorul nu este detectat
 
-<GuideScreenshot src="/img/guide/windows/ro/none.png" alt="Acționează când cititorul nu este detectat" steps={[{"x": 60, "y": 34, "text": "Citește îndrumările de conectare, reconectează cititorul USB și introdu cardul."}, {"x": 88, "y": 13, "text": "Recitește cardul după corectarea conexiunii. La o eroare PIN oprește-te; nu încerca să ghicești."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/none.png" alt="Acționează când cititorul nu este detectat" steps={[{"x": 60.148, "y": 34.231, "text": "Citește îndrumările de conectare, reconectează cititorul USB și introdu cardul."}, {"x": 88.561, "y": 13.019, "text": "Recitește cardul după corectarea conexiunii. La o eroare PIN oprește-te; nu încerca să ghicești."}]} />
 
 ## Găsește și deschide documentele salvate
 
@@ -130,11 +130,11 @@ Deschide Documente și selectează lista documentelor semnate. Alege un element 
 
 ### Găsește documentele semnate
 
-<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"x": 51, "y": 18, "text": "Deschide Documente și selectează lista documentelor semnate."}, {"x": 33, "y": 31, "text": "Alege un document salvat pentru a deschide detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"x": 51.015, "y": 18.07, "text": "Deschide Documente și selectează lista documentelor semnate."}, {"x": 32.749, "y": 31.201, "text": "Alege un document salvat pentru a deschide detaliile semnării."}]} />
 
 ### Examinează un document salvat
 
-<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51, "y": 45, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51.015, "y": 45.342, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />
 
 ## Aprobă cereri locale de semnare (MCP)
 
@@ -151,7 +151,7 @@ Folosește dosarul afișat de instalarea ta, în locul exemplului de mai jos. Cl
 Captura folosește un profil demonstrativ izolat: calea este un exemplu, iar comutatorul MCP este dezactivat. Nu a fost executată nicio cerere MCP de semnare pentru această captură.
 
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 82, "text": "Găsește comutatorul MCP în Avansat. În afara modului demonstrativ, activează-l și copiază dosarul privat în configurația clientului."}, {"x": 48, "y": 92, "text": "Folosește dosarul afișat de instalarea ta, nu calea demonstrativă."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 24.631, "y": 82.716, "text": "Găsește comutatorul MCP în Avansat. În afara modului demonstrativ, activează-l și copiază dosarul privat în configurația clientului."}, {"x": 47.97, "y": 92.817, "text": "Folosește dosarul afișat de instalarea ta, nu calea demonstrativă."}]} />
 
 <!-- file-protection-guides -->
 
@@ -164,7 +164,7 @@ Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinat
 
 Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 40, "y": 18, "text": "Alege Criptează."}, {"x": 35, "y": 30, "text": "Alege fișierul sursă."}, {"x": 40, "y": 55, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 40, "y": 91, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 39.852, "y": 18.087, "text": "Alege Criptează."}, {"x": 34.779, "y": 30.239, "text": "Alege fișierul sursă."}, {"x": 39.852, "y": 55.556, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 39.852, "y": 92.011, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 Alege **Criptează** sau **Decriptează**, apoi **Salvează o copie** și alege un loc nou pentru rezultat. După salvare, fișierul apare în **Documente → Documente salvate**. Alege **Închide** pentru a închide operațiunea finalizată. Originalul este păstrat.
 
@@ -177,7 +177,7 @@ Deschide **Protejează fișiere** în partea de jos a barei de navigare și aleg
 
 Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 40, "y": 24, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 40, "y": 56, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 40, "y": 86, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 39.852, "y": 24.163, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 39.852, "y": 56.568, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 39.852, "y": 86.948, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
@@ -192,4 +192,4 @@ Deschide **Protejează fișiere** în partea de jos a barei de navigare și aleg
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 40, "y": 30, "text": "Alege Elimină fișierul."}, {"x": 35, "y": 42, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 40, "y": 63, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 39.852, "y": 30.239, "text": "Alege Elimină fișierul."}, {"x": 34.779, "y": 42.391, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 39.852, "y": 63.657, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />

@@ -31,4 +31,4 @@ Stop after an incorrect-PIN result and verify the PIN rather than guessing. Repo
 
 ### Recover when no reader is detected
 
-<GuideScreenshot src="/img/guide/windows/en/none.png" alt="Recover when no reader is detected" steps={[{"x": 60, "y": 34, "text": "Read the connection guidance, reconnect the USB reader and insert the card."}, {"x": 88, "y": 13, "text": "Read the card again after correcting the connection. A PIN error requires a deliberate stop, not another guess."}]} />
+<GuideScreenshot src="/img/guide/windows/en/none.png" alt="Recover when no reader is detected" steps={[{"x": 60.148, "y": 34.231, "text": "Read the connection guidance, reconnect the USB reader and insert the card."}, {"x": 88.561, "y": 13.019, "text": "Read the card again after correcting the connection. A PIN error requires a deliberate stop, not another guess."}]} />

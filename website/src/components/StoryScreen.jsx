@@ -1,16 +1,17 @@
 import React,{useEffect,useState} from 'react';
+import screenshots from '../data/screenshotRevision.json';
 
 // Change native app states atomically. Blending whole captures doubles text,
 // window edges and translucent chrome even when their canvases are identical.
 export default function StoryScreen({root,platform,appearance,stage,screen,clip}){
  const prefix=`${root}${platform}/`;
- const sources=['disconnected','reader','ready'].map(state=>`${prefix}${state}-${appearance}.png`);
+ const sources=['disconnected','reader','ready'].map(state=>`${prefix}${state}-${appearance}.png?v=${screenshots.revision}`);
  const identity=`${prefix}${appearance}`;
  const [decoded,setDecoded]=useState({identity:null,stages:[]});
  useEffect(()=>{
   let active=true;
   const images=['disconnected','reader','ready'].map(state=>{
-   const image=new Image();image.src=`${prefix}${state}-${appearance}.png`;
+   const image=new Image();image.src=`${prefix}${state}-${appearance}.png?v=${screenshots.revision}`;
    return image.decode();
   });
   Promise.allSettled(images).then(results=>{

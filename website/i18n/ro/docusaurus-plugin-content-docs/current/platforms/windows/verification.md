@@ -22,12 +22,12 @@ Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O sem
 
 ### Alege documentul de verificat
 
-<GuideScreenshot src="/img/guide/windows/ro/verify.png" alt="Alege documentul de verificat" steps={[{"x": 6, "y": 17, "text": "Deschide Verifică. Verificarea nu necesită card sau PIN."}, {"x": 60, "y": 28, "text": "Alege sau trage PDF-ul ori XML-ul semnat. Pentru XML detașat, furnizează originalele nemodificate la solicitare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/verify.png" alt="Alege documentul de verificat" steps={[{"x": 5.351, "y": 17.059, "text": "Deschide Verifică. Verificarea nu necesită card sau PIN."}, {"x": 60.148, "y": 28.171, "text": "Alege sau trage PDF-ul ori XML-ul semnat. Pentru XML detașat, furnizează originalele nemodificate la solicitare."}]} />
 
 ### Citește rezultatul verificării
 
-<GuideScreenshot src="/img/guide/windows/ro/summary.png" alt="Citește rezultatul verificării" steps={[{"x": 37, "y": 40, "text": "Verifică rezultatul general, apoi autorul și momentul fiecărei semnături."}, {"x": 43, "y": 85, "text": "Citește separat integritatea, semnătura și încrederea. Derulează pentru limitele offline și detaliile certificatului."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/summary.png" alt="Citește rezultatul verificării" steps={[{"x": 36.808, "y": 40.292, "text": "Verifică rezultatul general, apoi autorul și momentul fiecărei semnături."}, {"x": 42.897, "y": 85.746, "text": "Citește separat integritatea, semnătura și încrederea. Derulează pentru limitele offline și detaliile certificatului."}]} />
 
 ### Examinează detaliile verificării
 
-<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60, "y": 14, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60, "y": 23, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60.148, "y": 14.029, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60.148, "y": 23.12, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />

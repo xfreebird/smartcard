@@ -27,16 +27,16 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Pregătește lotul de semnare
 
-<GuideScreenshot src="/img/guide/windows/ro/queue.png" alt="Pregătește lotul de semnare" steps={[{"x": 90, "y": 68, "text": "Alege fișierele sau trage-le în zona punctată."}, {"x": 34, "y": 50, "text": "Verifică formatul; folosește Ștampilă dezactivată pentru o ștampilă PDF opțională."}, {"x": 88, "y": 95, "text": "Verifică cardul selectat și alege Semnează pentru lotul afișat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/queue.png" alt="Pregătește lotul de semnare" steps={[{"x": 90.59, "y": 68.575, "text": "Alege fișierele sau trage-le în zona punctată."}, {"x": 33.764, "y": 50.393, "text": "Verifică formatul; folosește Ștampilă dezactivată pentru o ștampilă PDF opțională."}, {"x": 88.561, "y": 95.847, "text": "Verifică cardul selectat și alege Semnează pentru lotul afișat."}]} />
 
 ### Poziționează ștampila PDF vizibilă
 
-<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 19, "y": 85, "text": "Mută și redimensionează ștampila în previzualizarea PDF. Textul urmează limba aplicației."}, {"x": 69, "y": 34, "text": "Alege pagina selectată sau toate paginile; opțional, aplică poziția tuturor PDF-urilor din listă."}, {"x": 93, "y": 95, "text": "Alege Aplică pentru a salva poziția înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/stamp.png" alt="Poziționează ștampila PDF vizibilă" steps={[{"x": 18.542, "y": 85.746, "text": "Mută și redimensionează ștampila în previzualizarea PDF. Textul urmează limba aplicației."}, {"x": 69.28, "y": 34.231, "text": "Alege pagina selectată sau toate paginile; opțional, aplică poziția tuturor PDF-urilor din listă."}, {"x": 93.635, "y": 95.847, "text": "Alege Aplică pentru a salva poziția înainte de semnare."}]} />
 
 ### Verifică autorizarea semnării
 
-<GuideScreenshot src="/img/guide/windows/ro/pin.png" alt="Verifică autorizarea semnării" steps={[{"x": 50, "y": 42, "text": "Verifică identitatea selectată și lista completă de documente."}, {"x": 50, "y": 63, "text": "Introdu PIN-ul de semnare al cardului fizic doar după verificarea cererii. Nu ghici și nu repeta automat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/pin.png" alt="Verifică autorizarea semnării" steps={[{"x": 50, "y": 42.693, "text": "Verifică identitatea selectată și lista completă de documente."}, {"x": 50, "y": 64.165, "text": "Introdu PIN-ul de semnare al cardului fizic doar după verificarea cererii. Nu ghici și nu repeta automat."}]} />
 
 ### Găsește rezultatele finalizate
 
-<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90, "y": 23, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 44, "y": 23, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90.59, "y": 23.12, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 43.911, "y": 23.12, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />

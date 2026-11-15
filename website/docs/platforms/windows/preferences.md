@@ -26,12 +26,12 @@ Demo mode requires acceptance, shows fictional cards and sample documents, and r
 
 ### Adjust language and appearance
 
-<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 7, "y": 96, "text": "Open Settings."}, {"x": 28, "y": 88, "text": "Choose the application language and appearance."}]} />
+<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 6.365, "y": 96.857, "text": "Open Settings."}, {"x": 27.675, "y": 88.777, "text": "Choose the application language and appearance."}]} />
 
 ### Browser connection and local requests
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 24, "text": "Enable Browser connection for the intended website on this computer."}, {"x": 25, "y": 36, "text": "Optionally enable visible PDF stamps for website requests; choose placement once per batch."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 24.631, "y": 24.13, "text": "Enable Browser connection for the intended website on this computer."}, {"x": 24.631, "y": 36.251, "text": "Optionally enable visible PDF stamps for website requests; choose placement once per batch."}]} />
 
 ### Find your installed version
 
-<GuideScreenshot src="/img/guide/windows/en/about.png" alt="Find your installed version" steps={[{"x": 61, "y": 35, "text": "Open About in Settings and note the installed app version when reporting a problem."}]} />
+<GuideScreenshot src="/img/guide/windows/en/about.png" alt="Find your installed version" steps={[{"x": 61.162, "y": 35.241, "text": "Open About in Settings and note the installed app version when reporting a problem."}]} />

@@ -1,0 +1,1032 @@
+{
+  "date": "2026-11-15",
+  "method": "Crop native Windows captures inside the visible window bounds to exclude desktop, shadows and rounded-corner background. Guide annotation coordinates are transformed into the cropped canvas.",
+  "images": [
+    {
+      "path": "website/static/img/guide/windows/en/about.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "16699dde3179bb7e4523934b8a110c2c17995bb75a1ff4364bdd1520ff7583ad",
+      "sha256": "6e5c942324319b38d3d1cc3686af7eebef4628a7af3030d78facb86909f652a0"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/card.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "1c5cea64283840775861fcdbe5870dd14d0fc56df4877330ad47f9f6acfc4ed1",
+      "sha256": "7a7be7e10121eabd010bd01a287b3e702ff620ee80ee8ca2ab0e57c9d6de2f12"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/details.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "028f09c8a49a434a495dcfa29b8fd645d196d0c6e3a767ab4e0c81b2d6c2405f",
+      "sha256": "b3a0228518f4cf49bc14113d2a503bb43871a8da4b6f36450dc949982104efef"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/documents.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "c3ac5e02e84f5c99c5a7a90679c01e80e33429827b5f6566ef44b83cfa39ddb5",
+      "sha256": "2de719549e6494cc0cc683faa7eaa745d01f1e7c7bb89e5a83718c9d4d1f52d4"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/lower.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "eadc807bbccd10fc8fde12fd0aed8d9de60698580679706fa22b9ecd7a2751b3",
+      "sha256": "1438148854d2aea20506ec23fc6e530e961d9aa138ca1c6020e0deec3f743070"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/none.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "c7a5f3b488d76a74f19517dd9138493d33bf623f956efb985533cef9d2ebf511",
+      "sha256": "805d5d31b92bb509428d74a297230b027ffaf9d6c0e7990d2f360d964175918b"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/pin.png",
+      "sourceDimensions": [
+        496,
+        410
+      ],
+      "cropPixels": [
+        8,
+        1,
+        488,
+        402
+      ],
+      "dimensions": [
+        480,
+        401
+      ],
+      "originalSha256": "b2f57e8544ccc763d35d74b778ab4b0518c8e2f00759df51b33fbdcd148d48af",
+      "sha256": "7570618a012633e8ce7e250c50fa8af239909d18ee643cced8d6dfd4676d0029"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-certificate-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "1b2b8965cfbcf73e3628b2c04402098d18652a4fb81b16e68688aeed12969cf8",
+      "sha256": "f161ee70a71652a1f6844b3797ee6d8cecb95766fa4f16f6d1166c62dab2515a"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-decrypt-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "9f08f069117bf4ff0b2ad68d96b53e191f2d3fe5ca7801c622e2b986d7394640",
+      "sha256": "2b7ce35cacb2e730fe1000efa09811d28d906379a65221022621b3af12c59e1f"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-password-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "842ad2ee770afa16d49e3838c45cdc2bd60c45554fc6f541c9d650ce1c2fc6c0",
+      "sha256": "3126eb41f3c008e8a219d97b2ab486c5db93bfea2843de2e6d60744d579efb70"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-remove-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "19ff98080d7141169884ebd693186f5df51bfd0b0df57c72843719f662021a00",
+      "sha256": "6ca10d8876fa763aea2a7cc04983578f96712c59818211561883003228cc78eb"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/queue.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "db9858c332c8ecfff164165c158346ff3d77b77f19ce91922ecd4ef0815fb70f",
+      "sha256": "0bdecab880559c84705e11ffea8d8ecf4ab7c23545664c4026068a141a1ab8fd"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/results.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "101bdd4f89c334bccb80263919c24cf661a55e8bca0606a349d8b1f866993dd1",
+      "sha256": "16dc07df6d19ab1d20526732b35b07f41d611b27e05c96f0ceb1c7da555fdddd"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/settings.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "2a9f382ca22da8aa77927d61e482e07c1c363608b212a228acae32af8b246a22",
+      "sha256": "5f5e6b2f2575d050f3b006d1b22398cfb46e0147a08bb27cde0dd202f2fb3daf"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/stamp.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "4dc82998528f14b854e717baf768756f90014d4203e7b15d6fd839d89f124242",
+      "sha256": "8bf3e4a0541d1494682658046b65ec07f5763ffb6eea16edeb718165e8dcbadd"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/success.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "82504f5da924165dbb3515a47ac573420ba3bb8fe03ced2cdf7d44584e0eeb38",
+      "sha256": "fd30f59cedbbfeafcdf5148c538a624d0911023c4aaa2f08c00a30ff4f9c30ff"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/summary.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "23ee51c278c9fccc45ec49c5ecb34b2448aa0ff6f5bb565a326ba79f279c8edb",
+      "sha256": "72ca0c16f98128620e90f90402ee5c612974c123a936fcdc8781be8e4826fdeb"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/verify.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "24b98c0ca81172ce50c974a2a26f2a36b8e13effb262a41eb75c81e052ca7d09",
+      "sha256": "eb883580575b780263a402a792131f921ff2f263d1b6f5fb1fd0e96c0e9c5423"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/about.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "017124d53bd19e1ae91c03dd9cf2124c42c620a72cc7a596f302d7a44e69335b",
+      "sha256": "7fe5c6fa15be48353973300c40cab9937d03fd3d058dc8f19a48665b4690d6f4"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/card.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "914b5534e438954aa3a3a0ca932ba91b87de5417bbc916c39f89331f60b01f85",
+      "sha256": "a70f1bf8b80c2881e66033bb4191885ed44fa4b976cb5b36752db0c3abc13f92"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/details.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "931bb2b41364f1403d500892d555b903627ded0f193a616f08ec7ce660bc2e7e",
+      "sha256": "8c3e489fa937494fb0d6795c71c91600b96789a07886332a1c88cd39934f28f3"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/documents.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "4bc9c52bce829003173bedaed3d0d7144e0af06021dc81ddf0e972d89a9ab286",
+      "sha256": "c53e5690896770b58fe4ebff0dae1209354efbe73f961f93735a2d47e993713b"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/lower.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "74319c83e92216e0fc8e92e32cbc6b65920952e3ad1542533331fb9515281363",
+      "sha256": "8f7c4e554c0aafb140d1b998785f3fb677e1ee414e4bcd506e9fe1c3efbc7a10"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/none.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "f6b8939967428c10364271b47db16fefc6e8a468c1651be3d67e2e1bcf71d043",
+      "sha256": "8bb21aeb328e728464193d18257ccfcb22966447ff68cf291037da3da4a8b8d0"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/pin.png",
+      "sourceDimensions": [
+        496,
+        410
+      ],
+      "cropPixels": [
+        8,
+        1,
+        488,
+        402
+      ],
+      "dimensions": [
+        480,
+        401
+      ],
+      "originalSha256": "0ccee7adfcadb53cfae932a4de0033e2a752a04ef210282fb664e22f6685d95d",
+      "sha256": "26cdbdfe2c63c463ee604fdbda8f264cf31659e6ca486a3cb2a6a2fe84977dd7"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-certificate-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "e913b7f5bc4b6a9f142370aab65e4b0e364fafaaf2d8a8fb0bc89c6ef47be568",
+      "sha256": "2aad4a8c1fa283b629616a246f5d66c5e6bd4223b324856521c01451533673d6"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-decrypt-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "b61341a2aef056f01c889cfabebd638aebe9f455387d7a791a07a80f067919a3",
+      "sha256": "99ed35b8fa14ccf97357f790f454bb548a9d59c374604f06f3f0112d44de4445"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-password-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "527622f6826fbc4f86614f3d7818d41f7645f15bc9fd9e16fd4464e7c5728590",
+      "sha256": "49d83ce1672e68b8b6b09dac784d1f9e2324078cc0d5e39b6bc6766ffa74fcb5"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-remove-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "540fe0227d214d514d023b4a806b0767f342fcdd81a1a01b5e73a9d43c0d605b",
+      "sha256": "20c1783f43780b23d07ff68165c4862c196f17be0cab470d697b70e272141a14"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/queue.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "8cd98213370f0815c49fc9f50be9e40094dfe7c9dfee5b67fa8ffa4a4a8b74de",
+      "sha256": "09541dc73be35e14c50e709282e818ac9e652d7fe870bdc41f09e83f14a008dd"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/results.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "06107027d558c655e3881f2a2620ef53c67d08cdfcb0ce92d98fc9d9521fb08d",
+      "sha256": "e8c3f0b7f774711bebd40eeccef3fedfa1481a2dc6d0d38701c990a76618f1ea"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/settings.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "5860861abeed0736975cd01224996b1e8695403d0346cab741ef84d4b29698b7",
+      "sha256": "5b016944b5914ac3e47dc1be59fcbf067f695fd27efb623cc3a782341b1bdfeb"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/stamp.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "4abfb9808a7eecd40329357d0c275dc6e5e09666768bad985fada29a30e5d699",
+      "sha256": "0f1fd17f356379c138c038cfcaf2543a638a9efea6bf3e66cc9a13e85894a8b1"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/success.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "20ddfd3517dbeb5a758ec9532364d1cb0783d8d3cfc355edde3fd5272a4d01d1",
+      "sha256": "4a1bc556d201ec2f38631e5c3a36ca8504cdd4dda09cf99c416cfc654a220fcc"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/summary.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "588e8698a14dd95d728fc611a9524abce3b14c7c227bae78d3104688707562fa",
+      "sha256": "589ffc76cf355e2759f84acd301105d2e1a612e87affebe67f3c4ce2102d234e"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/verify.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "fc6dc2dbed09009e94f5b97381b643e31ab3f6a96a818782ba0c0746a663a3d3",
+      "sha256": "6aa51d8c9c41913de658bf5e660892c2e19a31e40a7a3e1fa09a5fd6c682ee25"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/about.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "3ff1db7a209644e0f5308c5d57ffacef09ec5ac0f0e1ecb18c0b031b35f67a09",
+      "sha256": "c14a7a6756d71e73fa57543863c5a8b4ce075f6050939875bfacd764579492e4"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/card.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "1fb262385f15c093905a40920cb6a14323319407859f5ed24c40e262a3773858",
+      "sha256": "feb5fefabc719f6c1b63a42bbff46b6ba6d41cf106312c8f0783ca9820400940"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/details.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "61d62fdd59c2900bc3cb5fd8dff8bedce58e492975acc220e21183cd89097e7e",
+      "sha256": "b66fe5b9522bd9106555e2f7973b4f76275339b805a70b63ea6b2b08bbc6e73b"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/documents.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "dd115dbb15ad5f3bc29ee31390fb40bdee4adafdfb0c396724f29dd0d10beae3",
+      "sha256": "9fa3643e711bc504b6ddc8557c58292c52002ed4c8fa8cc595b1320f31ba2729"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/lower.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "7a2e6ea8f707e6da16179f394325f9704e4a2c94135cd8200e37228ae9133dea",
+      "sha256": "1050fca0506cf7fd42867fadabbe3228226e7219a646b96c258d5b5cd69cdc74"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/none.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "6c5a28e361ec0835bd5999d5f818acb34e76f947b6b13289dd01f1a17d3e7153",
+      "sha256": "2e4497a3e6ccbd4f3e15c2371f474b1e59df8dee31a415ca885a49cff95351d9"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/pin.png",
+      "sourceDimensions": [
+        496,
+        410
+      ],
+      "cropPixels": [
+        8,
+        1,
+        488,
+        402
+      ],
+      "dimensions": [
+        480,
+        401
+      ],
+      "originalSha256": "edf6bc881c5569cfd5ac282ae755bc1f37b492425ccf4718b7e345906dda2918",
+      "sha256": "56494b189d1dfe24ce1b58bb499ba8d5cb9ec007fb7e45addba664cedf39af10"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-certificate-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "1fd8eb5628a070d556ec93b0dc362ed443e194377f6a604e94b761e8fc67c710",
+      "sha256": "8b72d9b02286cca8374b79d5788f14b1e3b5f5a2ebb8408660194c3e8a6eb9a0"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-decrypt-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "e15e289074421f5b730e0413e7f28466861ae6bcec8ce5fe97afea4a8bd9d941",
+      "sha256": "64a364fc6678d64628e450dfd1d296949edd9cc2eeff89dbdfd6fcb0929b5ffe"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-password-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "fb87a7f38deff47a538b7929e3e124f741d8b9d5ef0242a7146d52c653a4b92f",
+      "sha256": "0965cf5c0fb3fd48174ba3554d3492d70e8b2d94da8110b9c4105086c39bbac5"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-remove-light.png",
+      "sourceDimensions": [
+        1100,
+        720
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        712
+      ],
+      "dimensions": [
+        1084,
+        711
+      ],
+      "originalSha256": "f93bf1cfc9a2922eb7c114ffee1c729e9dc0123a4feccaadffa719db1f7a2552",
+      "sha256": "72d2c2c5d7d3a3f0af11e909e307e489d25f6a3c9241d146bc6cc23feecdf94e"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/queue.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "26d3fae15093735a43ebbf7e43f8a3dfb6d947d34865fb70e75ba8bfe7dac6aa",
+      "sha256": "cc27ab3d6daf7094775c522e6035dae19615be8e7874c122d4a5b698dc6887ec"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/results.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "3ff8b146869d1cf6349e676fa87cb16234ed1efa627744b72f17b34a33e4f102",
+      "sha256": "cc5d605df014d8a8312856756f29aef489507763d13a55aa615288c009682743"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/settings.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "3fc3df07d265c5015f47262cc74ebc0a4ffd92b3a09ef2b9ae38cd3d3f8683be",
+      "sha256": "4ff8883a1229150c0f515843d0e4df505bc5e1d489673f61276faf7067f45a0c"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/stamp.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "31405c1935b0bfa13950fe313788eefabb86f8abd370fcd572518db77da780a1",
+      "sha256": "5939f8eafd1cbae2e4604dea5c0f0c4c39b73a42d94ec2d4c4f8962c75bfa1bf"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/success.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "7c36957b787b49548f576fae927b1daa699c0d4e9bd61e6812c18d02d1b1f2d1",
+      "sha256": "46a3a5c3665fd15f35cf46581ec704164027a56e563eddc3f006f3df38c25859"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/summary.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "d244a9e442df6e585f4facd1f83a7f1dd198c1edae2b0f54c5935a20a600a752",
+      "sha256": "2036acb787a0a07f970a2bd1556ec6b69690ed717da7685a2365baa5817b6a5a"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/verify.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        1,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        891
+      ],
+      "originalSha256": "f41b5199b596b003dd480467838b0d4d6ce7d17efe9f4e1790dcb48fff2235a4",
+      "sha256": "5dcc927922f030a12cfc71a1b3ce09900446811d1e065a8721ff673cb1edc3e7"
+    }
+  ]
+}

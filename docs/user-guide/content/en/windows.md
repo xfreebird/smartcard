@@ -24,7 +24,7 @@ Multiple cards appear in the horizontal carousel. Select the centred card you in
 
 ### Choose and inspect your card
 
-<GuideScreenshot src="/img/guide/windows/en/card.png" alt="Choose and inspect your card" steps={[{"x": 6, "y": 26, "text": "Open Card after connecting the reader and inserting the card."}, {"x": 60, "y": 31, "text": "Check the holder and expiry; select the intended card in the carousel."}, {"x": 51, "y": 58, "text": "Inspect the certificate and reader before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/card.png" alt="Choose and inspect your card" steps={[{"x": 5.351, "y": 26.15, "text": "Open Card after connecting the reader and inserting the card."}, {"x": 60.148, "y": 31.201, "text": "Check the holder and expiry; select the intended card in the carousel."}, {"x": 51.015, "y": 58.474, "text": "Inspect the certificate and reader before signing."}]} />
 
 ## Sign documents from the app or Explorer
 
@@ -39,19 +39,19 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Prepare the signing batch
 
-<GuideScreenshot src="/img/guide/windows/en/queue.png" alt="Prepare the signing batch" steps={[{"x": 90, "y": 68, "text": "Choose files or drop them into the dashed area."}, {"x": 34, "y": 50, "text": "Check the file format; use Stamp off to add an optional PDF stamp."}, {"x": 88, "y": 95, "text": "Check the selected card and choose Sign for the listed batch."}]} />
+<GuideScreenshot src="/img/guide/windows/en/queue.png" alt="Prepare the signing batch" steps={[{"x": 90.59, "y": 68.575, "text": "Choose files or drop them into the dashed area."}, {"x": 33.764, "y": 50.393, "text": "Check the file format; use Stamp off to add an optional PDF stamp."}, {"x": 88.561, "y": 95.847, "text": "Check the selected card and choose Sign for the listed batch."}]} />
 
 ### Position a visible PDF stamp
 
-<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 19, "y": 85, "text": "Drag the stamp to move it and a corner to resize it. Its text follows the application language."}, {"x": 69, "y": 34, "text": "Choose the selected page or all pages; optionally reuse the placement for all queued PDFs."}, {"x": 93, "y": 95, "text": "Choose Apply to save the placement before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 18.542, "y": 85.746, "text": "Drag the stamp to move it and a corner to resize it. Its text follows the application language."}, {"x": 69.28, "y": 34.231, "text": "Choose the selected page or all pages; optionally reuse the placement for all queued PDFs."}, {"x": 93.635, "y": 95.847, "text": "Choose Apply to save the placement before signing."}]} />
 
 ### Review signing authorization
 
-<GuideScreenshot src="/img/guide/windows/en/pin.png" alt="Review signing authorization" steps={[{"x": 50, "y": 42, "text": "Check the selected identity and the complete document list."}, {"x": 50, "y": 63, "text": "Enter the physical card’s signing PIN only after checking the request. Never guess or retry automatically."}]} />
+<GuideScreenshot src="/img/guide/windows/en/pin.png" alt="Review signing authorization" steps={[{"x": 50, "y": 42.693, "text": "Check the selected identity and the complete document list."}, {"x": 50, "y": 64.165, "text": "Enter the physical card’s signing PIN only after checking the request. Never guess or retry automatically."}]} />
 
 ### Locate completed outputs
 
-<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90, "y": 23, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 44, "y": 23, "text": "Keep detached XML together with its unchanged original."}]} />
+<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90.59, "y": 23.12, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 43.911, "y": 23.12, "text": "Keep detached XML together with its unchanged original."}]} />
 
 ## Verify and inspect activity
 
@@ -61,15 +61,15 @@ Open **Verify** and choose or drop in a signed PDF/XML file. A detached XML sign
 
 ### Choose a document to verify
 
-<GuideScreenshot src="/img/guide/windows/en/verify.png" alt="Choose a document to verify" steps={[{"x": 6, "y": 17, "text": "Open Verify. Verification needs no card or PIN."}, {"x": 60, "y": 28, "text": "Choose or drop the signed PDF or XML. Supply unchanged originals for detached XML when requested."}]} />
+<GuideScreenshot src="/img/guide/windows/en/verify.png" alt="Choose a document to verify" steps={[{"x": 5.351, "y": 17.059, "text": "Open Verify. Verification needs no card or PIN."}, {"x": 60.148, "y": 28.171, "text": "Choose or drop the signed PDF or XML. Supply unchanged originals for detached XML when requested."}]} />
 
 ### Read the verification outcome
 
-<GuideScreenshot src="/img/guide/windows/en/summary.png" alt="Read the verification outcome" steps={[{"x": 37, "y": 40, "text": "Check the overall outcome, then inspect each signature’s author and signing time."}, {"x": 43, "y": 85, "text": "Read the integrity, signature and trust checks individually. Scroll down for offline limits and certificate details."}]} />
+<GuideScreenshot src="/img/guide/windows/en/summary.png" alt="Read the verification outcome" steps={[{"x": 36.808, "y": 40.292, "text": "Check the overall outcome, then inspect each signature’s author and signing time."}, {"x": 42.897, "y": 85.746, "text": "Read the integrity, signature and trust checks individually. Scroll down for offline limits and certificate details."}]} />
 
 ### Inspect verification details
 
-<GuideScreenshot src="/img/guide/windows/en/results.png" alt="Inspect verification details" steps={[{"x": 60, "y": 14, "text": "Read the offline verification limits: timestamp trust and current revocation may remain unchecked."}, {"x": 60, "y": 23, "text": "Expand certificate and technical details to inspect the signer, validity dates and timestamp fields."}]} />
+<GuideScreenshot src="/img/guide/windows/en/results.png" alt="Inspect verification details" steps={[{"x": 60.148, "y": 14.029, "text": "Read the offline verification limits: timestamp trust and current revocation may remain unchecked."}, {"x": 60.148, "y": 23.12, "text": "Expand certificate and technical details to inspect the signer, validity dates and timestamp fields."}]} />
 
 ## Settings, PINs, and tray controls
 
@@ -83,15 +83,15 @@ Demo mode requires acceptance, shows fictional cards and sample documents, and r
 
 ### Adjust language and appearance
 
-<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 7, "y": 96, "text": "Open Settings."}, {"x": 28, "y": 88, "text": "Choose the application language and appearance."}]} />
+<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 6.365, "y": 96.857, "text": "Open Settings."}, {"x": 27.675, "y": 88.777, "text": "Choose the application language and appearance."}]} />
 
 ### Browser connection and local requests
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 24, "text": "Enable Browser connection for the intended website on this computer."}, {"x": 25, "y": 36, "text": "Optionally enable visible PDF stamps for website requests; choose placement once per batch."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 24.631, "y": 24.13, "text": "Enable Browser connection for the intended website on this computer."}, {"x": 24.631, "y": 36.251, "text": "Optionally enable visible PDF stamps for website requests; choose placement once per batch."}]} />
 
 ### Find your installed version
 
-<GuideScreenshot src="/img/guide/windows/en/about.png" alt="Find your installed version" steps={[{"x": 61, "y": 35, "text": "Open About in Settings and note the installed app version when reporting a problem."}]} />
+<GuideScreenshot src="/img/guide/windows/en/about.png" alt="Find your installed version" steps={[{"x": 61.162, "y": 35.241, "text": "Open About in Settings and note the installed app version when reporting a problem."}]} />
 
 ## Use the browser bridge
 
@@ -100,7 +100,7 @@ Enable **Browser connection** in Settings. Open a supported service in a browser
 If another MoldSign server owns the ports, finish active vendor operations and use the offered conflict-resolution action where available. Only one bridge can use ports 18480/18443 at a time. If the browser asks for local-network access, grant it for the intended service so it can contact the local bridge. See [browser services](/docs/browser).
 
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection" steps={[{"x": 25.5, "y": 23.7, "text": "Enable Browser connection only while using a supported website."}, {"x": 25.5, "y": 36, "text": "Optionally enable browser stamps to review their placement before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection" steps={[{"x": 25.138, "y": 23.827, "text": "Enable Browser connection only while using a supported website."}, {"x": 25.138, "y": 36.251, "text": "Optionally enable browser stamps to review their placement before signing."}]} />
 
 ## Update or resolve a problem
 
@@ -119,7 +119,7 @@ Stop after an incorrect-PIN result and verify the PIN rather than guessing. Repo
 
 ### Recover when no reader is detected
 
-<GuideScreenshot src="/img/guide/windows/en/none.png" alt="Recover when no reader is detected" steps={[{"x": 60, "y": 34, "text": "Read the connection guidance, reconnect the USB reader and insert the card."}, {"x": 88, "y": 13, "text": "Read the card again after correcting the connection. A PIN error requires a deliberate stop, not another guess."}]} />
+<GuideScreenshot src="/img/guide/windows/en/none.png" alt="Recover when no reader is detected" steps={[{"x": 60.148, "y": 34.231, "text": "Read the connection guidance, reconnect the USB reader and insert the card."}, {"x": 88.561, "y": 13.019, "text": "Read the card again after correcting the connection. A PIN error requires a deliberate stop, not another guess."}]} />
 
 ## Find and open saved documents
 
@@ -128,11 +128,11 @@ Open Documents and select the signed-document list. Choose an entry to open its 
 
 ### Find signed documents
 
-<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"x": 51, "y": 18, "text": "Open Documents, then select the signed-document list."}, {"x": 33, "y": 31, "text": "Choose a saved document to open its signing details."}]} />
+<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"x": 51.015, "y": 18.07, "text": "Open Documents, then select the signed-document list."}, {"x": 32.749, "y": 31.201, "text": "Choose a saved document to open its signing details."}]} />
 
 ### Inspect a saved document
 
-<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51, "y": 45, "text": "Review this document’s signing information before opening or sharing its file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51.015, "y": 45.342, "text": "Review this document’s signing information before opening or sharing its file."}]} />
 
 ## Approve local signing requests (MCP)
 
@@ -149,7 +149,7 @@ Use the actual directory displayed by your installation instead of the example b
 The screenshot uses an isolated demonstration profile: its directory is an example and its MCP switch is disabled. No MCP signing request was executed for this capture.
 
 
-<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 25, "y": 82, "text": "Find the MCP switch under Advanced. Outside demo mode, enable it and copy the private directory into your client configuration."}, {"x": 48, "y": 92, "text": "Use the directory shown by your installation, not the demonstration path."}]} />
+<GuideScreenshot src="/img/guide/windows/en/lower.png" alt="Browser connection and local requests" steps={[{"x": 24.631, "y": 82.716, "text": "Find the MCP switch under Advanced. Outside demo mode, enable it and copy the private directory into your client configuration."}, {"x": 47.97, "y": 92.817, "text": "Use the directory shown by your installation, not the demonstration path."}]} />
 
 <!-- file-protection-guides -->
 
@@ -162,7 +162,7 @@ No card is needed. Create a password for this file and send it to the recipient 
 
 File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 40, "y": 18, "text": "Choose Encrypt."}, {"x": 35, "y": 30, "text": "Choose the source file."}, {"x": 40, "y": 55, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 40, "y": 91, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 39.852, "y": 18.087, "text": "Choose Encrypt."}, {"x": 34.779, "y": 30.239, "text": "Choose the source file."}, {"x": 39.852, "y": 55.556, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 39.852, "y": 92.011, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Choose **Close** to close the completed operation. The original is kept.
 
@@ -175,7 +175,7 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 40, "y": 24, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 40, "y": 56, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 40, "y": 86, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 39.852, "y": 24.163, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 39.852, "y": 56.568, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 39.852, "y": 86.948, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
@@ -190,4 +190,4 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 40, "y": 30, "text": "Choose Remove file."}, {"x": 35, "y": 42, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 40, "y": 63, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 39.852, "y": 30.239, "text": "Choose Remove file."}, {"x": 34.779, "y": 42.391, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 39.852, "y": 63.657, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

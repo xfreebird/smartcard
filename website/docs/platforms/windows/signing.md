@@ -27,16 +27,16 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Prepare the signing batch
 
-<GuideScreenshot src="/img/guide/windows/en/queue.png" alt="Prepare the signing batch" steps={[{"x": 90, "y": 68, "text": "Choose files or drop them into the dashed area."}, {"x": 34, "y": 50, "text": "Check the file format; use Stamp off to add an optional PDF stamp."}, {"x": 88, "y": 95, "text": "Check the selected card and choose Sign for the listed batch."}]} />
+<GuideScreenshot src="/img/guide/windows/en/queue.png" alt="Prepare the signing batch" steps={[{"x": 90.59, "y": 68.575, "text": "Choose files or drop them into the dashed area."}, {"x": 33.764, "y": 50.393, "text": "Check the file format; use Stamp off to add an optional PDF stamp."}, {"x": 88.561, "y": 95.847, "text": "Check the selected card and choose Sign for the listed batch."}]} />
 
 ### Position a visible PDF stamp
 
-<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 19, "y": 85, "text": "Drag the stamp to move it and a corner to resize it. Its text follows the application language."}, {"x": 69, "y": 34, "text": "Choose the selected page or all pages; optionally reuse the placement for all queued PDFs."}, {"x": 93, "y": 95, "text": "Choose Apply to save the placement before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/stamp.png" alt="Position a visible PDF stamp" steps={[{"x": 18.542, "y": 85.746, "text": "Drag the stamp to move it and a corner to resize it. Its text follows the application language."}, {"x": 69.28, "y": 34.231, "text": "Choose the selected page or all pages; optionally reuse the placement for all queued PDFs."}, {"x": 93.635, "y": 95.847, "text": "Choose Apply to save the placement before signing."}]} />
 
 ### Review signing authorization
 
-<GuideScreenshot src="/img/guide/windows/en/pin.png" alt="Review signing authorization" steps={[{"x": 50, "y": 42, "text": "Check the selected identity and the complete document list."}, {"x": 50, "y": 63, "text": "Enter the physical card’s signing PIN only after checking the request. Never guess or retry automatically."}]} />
+<GuideScreenshot src="/img/guide/windows/en/pin.png" alt="Review signing authorization" steps={[{"x": 50, "y": 42.693, "text": "Check the selected identity and the complete document list."}, {"x": 50, "y": 64.165, "text": "Enter the physical card’s signing PIN only after checking the request. Never guess or retry automatically."}]} />
 
 ### Locate completed outputs
 
-<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90, "y": 23, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 44, "y": 23, "text": "Keep detached XML together with its unchanged original."}]} />
+<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90.59, "y": 23.12, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 43.911, "y": 23.12, "text": "Keep detached XML together with its unchanged original."}]} />

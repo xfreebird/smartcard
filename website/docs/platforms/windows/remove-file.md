@@ -20,4 +20,4 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 40, "y": 30, "text": "Choose Remove file."}, {"x": 35, "y": 42, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 40, "y": 63, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 39.852, "y": 30.239, "text": "Choose Remove file."}, {"x": 34.779, "y": 42.391, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 39.852, "y": 63.657, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

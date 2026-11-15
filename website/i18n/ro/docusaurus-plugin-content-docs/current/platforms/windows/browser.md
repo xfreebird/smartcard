@@ -21,4 +21,4 @@ Activează **Browser connection (Conexiune cu browserul)** în Configurări. Des
 Dacă alt server MoldSign ocupă porturile, finalizează operațiunile active ale aplicației furnizorului și folosește acțiunea oferită pentru rezolvarea conflictului, dacă există. Un singur bridge poate folosi porturile 18480/18443 la un moment dat. Dacă browserul cere acces la rețeaua locală, acordă-l pentru serviciul dorit, ca să poată contacta bridge-ul local. Consultă [serviciile în browser](/docs/browser).
 
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Browser connection" steps={[{"x": 25.5, "y": 23.7, "text": "Activează Conexiunea browser doar când folosești un site compatibil."}, {"x": 25.5, "y": 36, "text": "Opțional, activează ștampilele pentru browser și verifică poziția înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Browser connection" steps={[{"x": 25.138, "y": 23.827, "text": "Activează Conexiunea browser doar când folosești un site compatibil."}, {"x": 25.138, "y": 36.251, "text": "Opțional, activează ștampilele pentru browser și verifică poziția înainte de semnare."}]} />

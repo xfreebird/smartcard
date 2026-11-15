@@ -26,12 +26,12 @@ Modul demonstrativ necesită acceptare, arată carduri fictive și documente de 
 
 ### Schimbă limba și aspectul
 
-<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 7, "y": 96, "text": "Deschide Setări."}, {"x": 28, "y": 88, "text": "Alege limba și aspectul aplicației."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 6.365, "y": 96.857, "text": "Deschide Setări."}, {"x": 27.675, "y": 88.777, "text": "Alege limba și aspectul aplicației."}]} />
 
 ### Conexiune browser și cereri locale
 
-<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 25, "y": 24, "text": "Activează Conexiune browser pentru site-ul dorit pe acest computer."}, {"x": 25, "y": 36, "text": "Opțional, activează ștampilele vizibile pentru cererile din browser; alege poziția o dată pentru fiecare lot."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/lower.png" alt="Conexiune browser și cereri locale" steps={[{"x": 24.631, "y": 24.13, "text": "Activează Conexiune browser pentru site-ul dorit pe acest computer."}, {"x": 24.631, "y": 36.251, "text": "Opțional, activează ștampilele vizibile pentru cererile din browser; alege poziția o dată pentru fiecare lot."}]} />
 
 ### Găsește versiunea instalată
 
-<GuideScreenshot src="/img/guide/windows/ro/about.png" alt="Găsește versiunea instalată" steps={[{"x": 61, "y": 35, "text": "Deschide Despre în Setări și notează versiunea instalată când raportezi o problemă."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/about.png" alt="Găsește versiunea instalată" steps={[{"x": 61.162, "y": 35.241, "text": "Deschide Despre în Setări și notează versiunea instalată când raportezi o problemă."}]} />

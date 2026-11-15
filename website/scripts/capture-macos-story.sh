@@ -16,7 +16,7 @@ mkdir -p "$out"
 tmp=$(mktemp -d -t esemnbun-website-story)
 pid=
 trap 'if [[ -n "$pid" ]]; then kill "$pid" 2>/dev/null || true; fi; rm -rf "$tmp"' EXIT
-cp "$root/swift/MoldSignKit/Resources/test.pdf" "$tmp/Contract.pdf"
+cp "$root/swift/MoldSignKit/Resources/test.pdf" "$tmp/Sample-contract.pdf"
 cat > "$tmp/window.swift" <<'SWIFT'
 import Foundation
 import CoreGraphics
@@ -35,7 +35,7 @@ for scenario in no-reader empty-reader ready; do
     case "$scenario" in no-reader) name=macos-disconnected;; empty-reader) name=macos-reader;; ready) name=macos;; esac
     MSIGN_QA_NO_HARDWARE=1 MSIGN_QA_HIDE_TRAY=1 MSIGN_SCREENSHOT_CAPTURE=1 \
     MSIGN_DEMO_PREVIEW=0 MSIGN_DEMO_CARDS=1 MSIGN_DEMO_SCENARIO="$scenario" \
-    MSIGN_DEMO_FILES="$tmp/Contract.pdf" MSIGN_DEMO_PREFERENCES_SUITE="md.esemnbun.qa.website.$$.${language}" \
+    MSIGN_DEMO_FILES="$tmp/Sample-contract.pdf" MSIGN_DEMO_PREFERENCES_SUITE="md.esemnbun.qa.website.$$.${language}" \
         "$binary" --show-main-window -mainSection sign -appTheme light -appLanguage "$language" \
         -AppleLanguages "($language)" > "$tmp/ready.log" 2>&1 &
     pid=$!
@@ -63,6 +63,6 @@ for name in ['macos-disconnected','macos-reader','macos']:
 assert len({tuple(r['dimensions']) for r in records})==1, 'Capture dimensions changed between states'
 assert len({r['title'] for r in records})==1, 'Window title changed between states'
 assert all('preview' not in r['title'].lower() for r in records), 'Preview window was captured'
-(out/'macos-story.json').write_text(json.dumps({'locale':sys.argv[2],'theme':'light','document':'Contract.pdf','states':records},indent=2)+'\n')
+(out/'macos-story.json').write_text(json.dumps({'locale':sys.argv[2],'theme':'light','document':'Sample-contract.pdf','states':records},indent=2)+'\n')
 print(json.dumps(records))
 PY

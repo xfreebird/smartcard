@@ -20,7 +20,7 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 40, "y": 24, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 40, "y": 56, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 40, "y": 86, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 39.852, "y": 24.163, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 39.852, "y": 56.568, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 39.852, "y": 86.948, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 

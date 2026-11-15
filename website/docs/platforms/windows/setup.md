@@ -29,4 +29,4 @@ Multiple cards appear in the horizontal carousel. Select the centred card you in
 
 ### Choose and inspect your card
 
-<GuideScreenshot src="/img/guide/windows/en/card.png" alt="Choose and inspect your card" steps={[{"x": 6, "y": 26, "text": "Open Card after connecting the reader and inserting the card."}, {"x": 60, "y": 31, "text": "Check the holder and expiry; select the intended card in the carousel."}, {"x": 51, "y": 58, "text": "Inspect the certificate and reader before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/card.png" alt="Choose and inspect your card" steps={[{"x": 5.351, "y": 26.15, "text": "Open Card after connecting the reader and inserting the card."}, {"x": 60.148, "y": 31.201, "text": "Check the holder and expiry; select the intended card in the carousel."}, {"x": 51.015, "y": 58.474, "text": "Inspect the certificate and reader before signing."}]} />

@@ -1,0 +1,30 @@
+{"path":"website\/static\/img\/landing\/macos\/disconnected-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/macos\/reader-light.png","text":[{"box":[0.55232558417172095,0.26744186058583019,0.066860461235046409,0.011933139562606776],"confidence":1,"text":"USB demo reader"}]}
+{"path":"website\/static\/img\/landing\/macos\/ready-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/macos\/disconnected-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/macos\/reader-dark.png","text":[{"box":[0.55087209347876764,0.26744186078931853,0.068313950300216697,0.011933138966560342],"confidence":1,"text":"USB demo reader"}]}
+{"path":"website\/static\/img\/landing\/macos\/ready-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/iphone\/disconnected-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/iphone\/reader-light.png","text":[{"box":[0.38801261889039212,0.24407252456470785,0.22712934089429454,0.010460251046025104],"confidence":1,"text":"USB demo reader"}]}
+{"path":"website\/static\/img\/landing\/iphone\/ready-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/iphone\/disconnected-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/iphone\/reader-dark.png","text":[{"box":[0.38801261388513464,0.24407252460105089,0.22712934089429448,0.011854951185495177],"confidence":1,"text":"USB demo reader"}]}
+{"path":"website\/static\/img\/landing\/iphone\/ready-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/android\/disconnected-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/android\/reader-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/android\/ready-light.png","text":[{"box":[0.14516129599673963,0.51744186048006247,0.29032256514937793,0.015988372166951592],"confidence":1,"text":"demo-contract.pdf"}]}
+{"path":"website\/static\/img\/landing\/android\/disconnected-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/android\/reader-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/android\/ready-dark.png","text":[{"box":[0.14516130073176264,0.51744186129304748,0.29032256514937788,0.017441859245300284],"confidence":1,"text":"demo-contract.pdf"}]}
+{"path":"website\/static\/img\/landing\/linux\/disconnected-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/linux\/reader-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/linux\/ready-light.png","text":[]}
+{"path":"website\/static\/img\/landing\/linux\/disconnected-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/linux\/reader-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/linux\/ready-dark.png","text":[]}
+{"path":"website\/static\/img\/landing\/windows\/disconnected-light.png","text":[{"box":[0.21745562242973371,0.42222222208333327,0.090236686390532561,0.015555555555555656],"confidence":1,"text":"demo-contract.pdf"},{"box":[0.19674556645564392,0.51999999996296298,0.090236680747489278,0.020000000000000018],"confidence":1,"text":"demo-note.txt"}]}
+{"path":"website\/static\/img\/landing\/windows\/reader-light.png","text":[{"box":[0.21745562242973371,0.42222222208333327,0.090236686390532561,0.015555555555555656],"confidence":1,"text":"demo-contract.pdf"},{"box":[0.1965879154936758,0.51736263568750918,0.090387840948161297,0.023061639997694172],"confidence":1,"text":"demo-note.txt"},{"box":[0.55621301904585796,0.30444444438888896,0.05177514792899407,0.0066666666666665986],"confidence":1,"text":"Demo reader"}]}
+{"path":"website\/static\/img\/landing\/windows\/ready-light.png","text":[{"box":[0.21745562242973371,0.42222222208333327,0.090236686390532561,0.015555555555555656],"confidence":1,"text":"demo-contract.pdf"},{"box":[0.19674556645564392,0.51999999996296298,0.090236680747489278,0.020000000000000018],"confidence":1,"text":"demo-note.txt"},{"box":[0.61538461482988172,0.31555555566666671,0.044378698224852076,0.013333333333333197],"confidence":1,"text":"DEMO CA"}]}
+{"path":"website\/static\/img\/landing\/windows\/disconnected-dark.png","text":[{"box":[0.2189349155434151,0.42222222203703708,0.088757390806660841,0.015555555555555545],"confidence":1,"text":"demo-contract.pdf"},{"box":[0.21745562246055225,0.52444444433333337,0.069526627218934905,0.015555555555555545],"confidence":1,"text":"demo-note.txt"}]}
+{"path":"website\/static\/img\/landing\/windows\/reader-dark.png","text":[{"box":[0.2189349155434151,0.42222222203703708,0.088757390806660841,0.015555555555555545],"confidence":1,"text":"demo-contract.pdf"},{"box":[0.21745562246055225,0.52444444433333337,0.069526627218934905,0.015555555555555545],"confidence":1,"text":"demo-note.txt"},{"box":[0.55621301866370798,0.30222222211111116,0.05473372781065089,0.011111111111111183],"confidence":1,"text":"Demo reader"}]}
+{"path":"website\/static\/img\/landing\/windows\/ready-dark.png","text":[{"box":[0.21893491036982252,0.4222222223333334,0.087278106508875714,0.015555555555555545],"confidence":1,"text":"demo-contract.pdf"},{"box":[0.21745562246055225,0.52444444433333337,0.069526627218934905,0.015555555555555545],"confidence":1,"text":"demo-note.txt"},{"box":[0.61534414292384776,0.3152907123405615,0.044459642037837477,0.016085242695278668],"confidence":1,"text":"DEMO CA"}]}

@@ -75,28 +75,38 @@ The public documentation is split by delivery target under `docs/platforms/`. Ea
 
 Desktop and CLI guides have separate sidebar entries. Each desktop guide covers installation, reader setup, signing and output, verification, preferences, browser integration, updates, and platform-specific recovery. CLI guides include reader selection, formats, secure PIN input, verification, exit codes, and service setup. `PlatformScreenshots` renders one native image selected by Docusaurus `colorMode`; theme changes update it immediately. Documentation never displays light and dark captures side by side.
 
-Capture native documentation artwork into `~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/` with mock-only capture mode, then copy the curated `ready`, `reading`, and `no-reader` pairs into `static/img/landing/<platform>/`. The landing scene uses the light pair when the website is light and the dark pair when it is dark; it never recolours a screenshot with CSS.
+Capture native documentation artwork with the isolated Debug screenshot modes. The landing scene
+uses `static/img/landing/<platform>/{disconnected,reader,ready}-{light,dark}.png`. Keep one native
+canvas size per platform across all six states, and capture both appearances in the app. A connected
+reader without a card is the `reader` state. `static/img/docs/v0.2.0/` and the legacy root image paths
+remain compatibility mirrors of the same current set; the directory name is not the capture version.
 
-```sh
-# macOS and iOS (Debug app only)
-MSIGN_CAPTURE_SCENARIOS='no-reader reading ready' \
-  scripts/capture-screenshots.sh macos /path/to/eSemnBun.app ~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/macos
-MSIGN_CAPTURE_SCENARIOS='no-reader reading ready' \
-  scripts/capture-screenshots.sh ios /path/to/eSemnBun.app ~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/ios <simulator-udid>
+For Apple captures use `MSIGN_SCREENSHOT_CAPTURE=1`, `MSIGN_QA_NO_HARDWARE=1` and isolated
+preferences. macOS must also use `MSIGN_DEMO_PREVIEW=0` with `--show-main-window` so the real main
+window is captured. Android launches require both a Debug demo scenario and `--ez store_capture true`;
+check readiness and dismiss first-run disclosures in the isolated emulator before capture. Windows
+and Linux use `MSIGN_SCREENSHOT_CAPTURE=1` with their Debug fixture inputs. These modes hide the
+**demo-data banner** while keeping hardware, signing and bridge I/O isolated. Inspect every result;
+a readiness marker alone does not prove that a dialog or banner is absent.
 
-# Android emulator (Debug APK only)
-MSIGN_CAPTURE_SCENARIOS='no-reader reading ready' MSIGN_CAPTURE_PAGES=sign \
-  scripts/capture-screenshots.sh android android/app/build/outputs/apk/debug/app-debug.apk ~/Desktop/esemnbun-screenshots/docs/YYYY-MM-DD/android emulator-5554
+Set iOS simulator clocks with `xcrun simctl status_bar DEVICE override --time '09:41'` and Android
+System UI demo clock to `0941` with the 24-hour setting before capture. All visible status-bar clocks
+in website screenshots must read **09:41**. System clock overrides do not change document or certificate
+timestamps. Prefer native captures; for existing images, the reviewed native clock crops and exact
+edit rectangles in `static/img/screenshot-clocks.json` are applied by
+`python3 website/scripts/normalize-screenshot-clocks.py` (Pillow required). `--check` verifies hashes.
+The script preserves dimensions, alpha and all pixels outside the declared clock rectangle.
 
-# Linux and Windows: use the Air's running Fedora and Windows VMs.
-# The dedicated VM drivers validate a mock-ready marker before each capture.
-scripts/capture-screenshots.sh linux
-pwsh windows/scripts/capture-scenarios.ps1 -App <debug-eSemnBun.exe> -Scenarios none,reading,1 -Pages sign -Themes light,dark
-```
+Crop desktop captures inside the visible app-window bounds: no wallpaper, taskbar, shadow or
+rounded-corner background may remain. Windows guide crops are recorded in
+`static/img/screenshot-window-crops.json`; annotation coordinates in `docs/user-guide/content/`
+are transformed with the same crop, then regenerated with `scripts/docs/organize-user-guides.py`.
 
-The capture-only `MSIGN_SCREENSHOT_CAPTURE=1` path suppresses the demo notice, disables reader, bridge, PIN, and signing I/O, and is not included in release behaviour. Keep normal interactive demo mode visibly labelled.
-
-To replace the macOS story, build a Debug app from current source and run `website/scripts/capture-macos-story.sh APP OUTPUT_DIR en` from the repository root. It uses the normal app window, isolated mock preferences, light appearance and the same Contract.pdf in every state. It rejects preview windows or changed title/dimensions. Copy the three PNGs and macos-story.json together into static/img; CI verifies native dimensions and hashes so mixed capture sessions cannot slip back in.
+`static/img/screenshot-refresh.json` records all 30 reviewed animation captures. Replace the matching
+legacy aliases and documentation overview pairs together, including `macos-story.json`. Bump
+`src/data/screenshotRevision.json` when replacing image bytes so returning browsers request the
+new artwork. Website CI verifies image hashes, dimensions and complete light/dark state coverage.
+See `docs/reports/website-screenshots-2026-11-15.md` for capture provenance and visual audit details.
 
 The story uses the live dynamic viewport (including browser-chrome changes), with no inherited mobile minimum height. Its compact progress capsule keeps the current localized label and four continuous segments visible. Site navigation hides during scrolling and the pinned story; keyboard focus can reveal it, and reduced-motion mode keeps static navigation.
 

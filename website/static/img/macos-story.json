@@ -1,46 +1,49 @@
 {
   "locale": "en",
   "theme": "light",
-  "document": "Contract.pdf",
+  "document": "Sample-contract.pdf",
+  "captureDate": "2026-11-15",
+  "mock": true,
+  "bannerHidden": true,
   "states": [
     {
       "file": "macos-disconnected.png",
       "title": "Sign",
       "dimensions": [
-        2704,
-        1696
+        2560,
+        1600
       ],
       "windowSize": [
-        1352,
-        848
+        1280,
+        800
       ],
-      "sha256": "fcd29696f80b8e90d4b4af58a9bd0b88d41b26969cfe9691aa055c45a26b9cde"
+      "sha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54"
     },
     {
       "file": "macos-reader.png",
       "title": "Sign",
       "dimensions": [
-        2704,
-        1696
+        2560,
+        1600
       ],
       "windowSize": [
-        1352,
-        848
+        1280,
+        800
       ],
-      "sha256": "1e2b530be74fcded53441e95cb29ab8495ab48c9a4762dd2171dc9ea72420c11"
+      "sha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022"
     },
     {
       "file": "macos.png",
       "title": "Sign",
       "dimensions": [
-        2704,
-        1696
+        2560,
+        1600
       ],
       "windowSize": [
-        1352,
-        848
+        1280,
+        800
       ],
-      "sha256": "c05d8c639fd4b9d278dae1c93a0d03ae04c7168d2c350e8a6e855dd29581d6cf"
+      "sha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd"
     }
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-11-15",
+  "mode": "isolated Debug fixtures; no physical reader, PIN or signing",
+  "binaries": {
+    "macos": "cfc220412660f2cafe97fa0494d93372308693655c1a85c64e6922db221d5926",
+    "iphone": "3e7c366fe263472708ed82edfbea699dbbdb10ee69d13a3ff0be883b84143944",
+    "android": "fc4c129f667ea4b9026e68f6f3eb2445f2dc8e7c0d2bf43dd7d36d93c87e9743"
+  },
+  "linux": "fede712c45fb7eb9d6ecfc2117bc4a25997e404107a3e4f435532ab8fa9a1349",
+  "documentationClocks": {
+    "imagesWithClock": 348,
+    "edited": 285,
+    "already0941": 63,
+    "croppedSheetsWithoutClock": 6,
+    "ocrConfirmed": 347,
+    "visuallyConfirmedOcrMiss": "website/static/img/guide/android-tablet/ro/protect-menu-light.png"
+  },
+  "animationStates": 30,
+  "documentationOverviewMirrors": 10,
+  "legacyMirrors": 15,
+  "windowsGuideCrops": 54
+}

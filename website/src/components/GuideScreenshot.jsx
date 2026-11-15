@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import {layoutGuideCallouts} from './guideCallouts.mjs';
+import screenshots from '../data/screenshotRevision.json';
 
 /** The original image stays unobstructed; labels live in reserved outside gutters. */
 function AnnotatedImage({image, alt, steps, start}) {
@@ -47,7 +48,7 @@ function AnnotatedImage({image, alt, steps, start}) {
 
 /** Native screenshot plus accessible numbered instructions; coordinates are percentages. */
 export default function GuideScreenshot({src, alt, steps = [], caption, start = 1}) {
-  const image = useBaseUrl(src);
+  const image = `${useBaseUrl(src)}?v=${screenshots.revision}`;
   const dialog = useRef(null);
   const [actualSize, setActualSize] = useState(false);
   const {i18n} = useDocusaurusContext();

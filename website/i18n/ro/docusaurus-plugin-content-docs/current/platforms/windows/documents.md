@@ -21,8 +21,8 @@ Deschide Documente și selectează lista documentelor semnate. Alege un element 
 
 ### Găsește documentele semnate
 
-<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"x": 51, "y": 18, "text": "Deschide Documente și selectează lista documentelor semnate."}, {"x": 33, "y": 31, "text": "Alege un document salvat pentru a deschide detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"x": 51.015, "y": 18.07, "text": "Deschide Documente și selectează lista documentelor semnate."}, {"x": 32.749, "y": 31.201, "text": "Alege un document salvat pentru a deschide detaliile semnării."}]} />
 
 ### Examinează un document salvat
 
-<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51, "y": 45, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51.015, "y": 45.342, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />

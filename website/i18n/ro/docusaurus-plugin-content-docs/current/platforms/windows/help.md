@@ -31,4 +31,4 @@ Oprește-te după un rezultat de PIN incorect și verifică PIN-ul, în loc să 
 
 ### Acționează când cititorul nu este detectat
 
-<GuideScreenshot src="/img/guide/windows/ro/none.png" alt="Acționează când cititorul nu este detectat" steps={[{"x": 60, "y": 34, "text": "Citește îndrumările de conectare, reconectează cititorul USB și introdu cardul."}, {"x": 88, "y": 13, "text": "Recitește cardul după corectarea conexiunii. La o eroare PIN oprește-te; nu încerca să ghicești."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/none.png" alt="Acționează când cititorul nu este detectat" steps={[{"x": 60.148, "y": 34.231, "text": "Citește îndrumările de conectare, reconectează cititorul USB și introdu cardul."}, {"x": 88.561, "y": 13.019, "text": "Recitește cardul după corectarea conexiunii. La o eroare PIN oprește-te; nu încerca să ghicești."}]} />

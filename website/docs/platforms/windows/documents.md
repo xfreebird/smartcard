@@ -21,8 +21,8 @@ Open Documents and select the signed-document list. Choose an entry to open its 
 
 ### Find signed documents
 
-<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"x": 51, "y": 18, "text": "Open Documents, then select the signed-document list."}, {"x": 33, "y": 31, "text": "Choose a saved document to open its signing details."}]} />
+<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"x": 51.015, "y": 18.07, "text": "Open Documents, then select the signed-document list."}, {"x": 32.749, "y": 31.201, "text": "Choose a saved document to open its signing details."}]} />
 
 ### Inspect a saved document
 
-<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51, "y": 45, "text": "Review this document’s signing information before opening or sharing its file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51.015, "y": 45.342, "text": "Review this document’s signing information before opening or sharing its file."}]} />
