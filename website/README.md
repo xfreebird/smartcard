@@ -1,5 +1,27 @@
 # eSemnBun website
 
+## Developer handbook
+
+The public developer entry is `/docs/developers/overview/`, with a separate sidebar and navbar link.
+Its twelve English chapters cover architecture, card/reader bytes, formats/bridge, native design systems,
+builds, automated tests, release operations, website publishing, an agent reference and glossary.
+Edit `docs/developers/` directly. The English handbook falls back in other HTML locales; it is not a
+translated technical reference. Keep the English language notice in its overview and localized navigation.
+
+Regenerate the two accessible local SVG diagrams with
+`python3 website/scripts/generate-developer-diagrams.py` from the repository root. The explanatory
+text is also available to readers who cannot use the images. No external renderer is needed.
+
+`src/data/search-discovery.json` lists translated product documents separately from `englishDocuments`.
+The existing discovery plugin exports the handbook only in the English Markdown/text/JSON catalog;
+all locale indexes link to the English entry. Keep exports derived from the public source, and never
+include internal protocol captures, vendor authentication material or private reports.
+
+Run the verification batch documented below before publication, then inspect the developer sidebar,
+both diagrams and the agent Markdown links at desktop/mobile widths. See the handbook's
+`website.md` and `testing.md` for the complete workflow. Site builds/tests and deployment must be
+reported separately from static source checks.
+
 Docusaurus source lives here. `npm ci && npm run build` compiles it into **website/pages/** (generated output, not committed). `npm start` develops locally; `npm run serve` previews the production build.
 
 GitHub Actions builds and deploys that directory through GitHub Pages at **https://esemnbun.md/**. Both local builds and Website CI default to `SITE_URL=https://esemnbun.md` and `BASE_URL=/`, so omitting environment variables cannot publish GitHub-project canonical URLs accidentally. Alternate deployments can explicitly override both values. Store links use `/`, `/support/`, `/privacy/` and `/terms/` on the custom domain.
@@ -128,9 +150,9 @@ The `search-discovery` build plugin also emits the following at `/`, `/ro/` and 
 - `llms.txt`: a compact index with Markdown and canonical HTML links.
 - `llms-full.txt`: combined text of the selected public guides.
 - `discovery.json`: a versioned, site-specific JSON document catalog; this is not a standardized MCP manifest or a remote MCP endpoint.
-- `markdown/<document-id>.md`: plain Markdown alternatives for the eight guides listed in `src/data/search-discovery.json`.
+- `markdown/<document-id>.md`: plain Markdown alternatives for the eight translated product references and twelve English developer chapters listed in `src/data/search-discovery.json`.
 
-These representations come from the same localized documentation sources and Docusaurus metadata. Generation fails if a selected translation is missing. Markdown links resolve to public URLs; platform exports include their task links. HTML advertises the index and JSON catalog, and selected guides advertise their Markdown alternative. Do not maintain a second set of product claims in these files. They are conveniences for tools that use them; Google does not use `llms.txt` as a ranking signal.
+These representations come from the same documentation sources and Docusaurus metadata. Generation fails if a selected product translation is missing; the separate English developer list is exported only in English. All language indexes link to the English developer entry. Markdown links resolve to public URLs; platform exports include their task links. HTML advertises the index and JSON catalog, and selected references advertise their Markdown alternative. Do not maintain a second set of product claims in these files. They are conveniences for tools that use them; Google does not use `llms.txt` as a ranking signal.
 
 The owner runs the verification batch from `website/` after dependencies are installed:
 
@@ -140,7 +162,7 @@ npm run build
 npm run verify:seo
 ```
 
-The existing Website CI also runs these commands. The SEO checker covers 18 localized entry pages: unique titles/descriptions, one main heading, exact canonical/hreflang targets, social images, app/site identity, homepage links and sitemap entries. It also checks the 24 Markdown exports and their text/JSON discovery links against the generated HTML.
+The existing Website CI also runs these commands. The SEO checker covers 18 localized entry pages: unique titles/descriptions, one main heading, exact canonical/hreflang targets, social images, app/site identity, homepage links and sitemap entries. It also checks the 24 localized product and 12 English developer Markdown exports and their text/JSON discovery links against the generated HTML.
 
 After deployment, verify the live pages and discovery files return 200 over HTTPS. In the owner's verified Google Search Console and Bing Webmaster Tools properties, submit `https://esemnbun.md/sitemap.xml`, `https://esemnbun.md/ro/sitemap.xml`, and `https://esemnbun.md/ru/sitemap.xml`. Inspect the priority URLs and track query impressions, clicks and indexing for the intents above. Account verification, sitemap submission and measured rankings are separate from publishing source changes; do not report them as completed without evidence. Search engines and recommendation systems decide inclusion and ordering, so first position cannot be guaranteed.
 

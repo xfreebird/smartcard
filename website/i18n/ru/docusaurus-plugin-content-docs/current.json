@@ -23,5 +23,11 @@
   },
   "sidebar.guide.category.Command line (CLI) — Windows": {
     "message": "Командная строка (CLI) — Windows"
+  },
+  "sidebar.developers.category.How it works": {
+    "message": "Как это работает"
+  },
+  "sidebar.developers.category.Build and deliver": {
+    "message": "Сборка и публикация"
   }
 }

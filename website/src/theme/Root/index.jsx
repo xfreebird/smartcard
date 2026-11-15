@@ -5,7 +5,7 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import discovery from '../../data/search-discovery.json';
 
 export default function Root({children}) {
- const {siteConfig}=useDocusaurusContext();
+ const {siteConfig,i18n}=useDocusaurusContext();
  const {pathname}=useLocation();
  const root=new URL(siteConfig.baseUrl,siteConfig.url);
  const route=pathname.slice(root.pathname.length).replace(/\/$/,'');
@@ -15,6 +15,6 @@ export default function Root({children}) {
  return <><Head>
   <link rel="alternate" type="text/plain" href={new URL('llms.txt',root).href} title="eSemnBun documentation index"/>
   <link rel="describedby" type="application/json" href={new URL('discovery.json',root).href}/>
-  {discovery.documents.includes(documentId) && <link rel="alternate" type="text/markdown" href={new URL(`markdown/${documentId}.md`,root).href} title="Markdown"/>}
+  {(discovery.documents.includes(documentId) || (i18n.currentLocale === i18n.defaultLocale && discovery.englishDocuments.includes(documentId))) && <link rel="alternate" type="text/markdown" href={new URL(`markdown/${documentId}.md`,root).href} title="Markdown"/>}
  </Head>{children}</>;
 }

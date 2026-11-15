@@ -23,5 +23,11 @@
   },
   "sidebar.guide.category.Command line (CLI) — Windows": {
     "message": "Linia de comandă (CLI) — Windows"
+  },
+  "sidebar.developers.category.How it works": {
+    "message": "Cum funcționează"
+  },
+  "sidebar.developers.category.Build and deliver": {
+    "message": "Compilare și distribuire"
   }
 }

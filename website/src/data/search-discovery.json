@@ -8,5 +8,19 @@
     "signing",
     "browser",
     "troubleshooting"
+  ],
+  "englishDocuments": [
+    "developers/overview",
+    "developers/architecture",
+    "developers/card-protocol",
+    "developers/reader-protocol",
+    "developers/formats-and-bridge",
+    "developers/design-system",
+    "developers/build-and-run",
+    "developers/testing",
+    "developers/releasing",
+    "developers/website",
+    "developers/agents",
+    "developers/glossary"
   ]
 }

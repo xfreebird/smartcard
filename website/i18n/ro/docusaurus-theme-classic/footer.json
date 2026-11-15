@@ -51,5 +51,11 @@
   },
   "link.item.label.MCP and AI agents": {
     "message": "MoldSign MCP: conectează un agent AI local"
+  },
+  "link.item.label.Developer documentation": {
+    "message": "Documentație pentru dezvoltatori (engleză)"
+  },
+  "link.item.label.Agent reference": {
+    "message": "Referință pentru agenți (engleză)"
   }
 }

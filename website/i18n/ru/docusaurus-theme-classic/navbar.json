@@ -31,5 +31,8 @@
   },
   "item.label.MCP": {
     "message": "MCP"
+  },
+  "item.label.Developers": {
+    "message": "Разработчикам (EN)"
   }
 }

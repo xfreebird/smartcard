@@ -10,7 +10,8 @@ function markdownBody(source, documentId, root) {
     .replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '')
     .replace(/^import .+;?\r?\n/gm, '')
     .replace(/^<(?:GuideDirectory|GuideAnchorRedirect)\b[^\n]*\/>\s*$/gm, '')
-    .replace(/^# [^\n]+\n/m, '')
+    // Only remove a leading document heading; shell comments inside fences are content.
+    .replace(/^\s*# [^\n]+\n/, '')
     .replace(/\]\(([^\s)]+)\)/g, (match, href) => {
       if (/^(?:[a-z]+:|#|\/\/)/i.test(href)) return match;
       const url = href.startsWith('/') ? new URL(href.slice(1), root) : new URL(href, sourceURL);
@@ -41,7 +42,9 @@ module.exports = function searchDiscovery({i18n, siteDir}) {
       };
       const records = [];
       const markdown = [];
-      for (const id of discovery.documents) {
+      const selectedDocuments = [...discovery.documents,
+        ...(locale === i18n.defaultLocale ? discovery.englishDocuments : [])];
+      for (const id of selectedDocuments) {
         const doc = docs.get(id);
         if (!doc || doc.draft || doc.unlisted) throw new Error(`Missing public discovery doc: ${locale}/${id}`);
         // Require real translations; an English fallback is not a localized reference.
@@ -73,10 +76,13 @@ module.exports = function searchDiscovery({i18n, siteDir}) {
         ru: ['Документация', 'Языки', 'Дополнительные материалы', 'Полная документация в текстовом формате'],
       }[locale];
       const introduction = `# eSemnBun\n\n> ${catalog.seoDescription[locale]}\n`;
+      const english = i18n.localeConfigs[i18n.defaultLocale];
+      const developerURL = new URL('docs/developers/overview/', new URL(english.baseUrl, english.url)).href;
       const index = `${introduction}\n## ${labels[0]}\n\n`
         + records.map(doc => `- [${doc.title}](${doc.markdown}): ${doc.description} [HTML](${doc.url})`).join('\n')
         + `\n\n## ${labels[1]}\n\n` + languages.map(item => `- [${item.language}](${item.url})`).join('\n')
         + `\n\n## ${labels[2]}\n\n- [${labels[3]}](${new URL('llms-full.txt', root).href})\n`
+        + `- [Developer documentation (English)](${developerURL})\n`
         + `- [JSON](${new URL('discovery.json', root).href})\n`;
       const manifest = {
         schemaVersion: 1, name: 'eSemnBun', language: locale, url: root.href,

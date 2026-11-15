@@ -76,7 +76,8 @@ for (const locale of locales) {
   assert.equal(manifest.mcp.transport, 'stdio');
   assert.equal(manifest.mcp.remoteEndpoint, null);
   assert.equal(manifest.mcp.documentation, absolute(locale, 'docs/mcp-moldsign/'));
-  assert.deepEqual(manifest.documentation.map(doc => doc.id), discovery.documents);
+  const expectedDocuments = [...discovery.documents, ...(locale === 'en' ? discovery.englishDocuments : [])];
+  assert.deepEqual(manifest.documentation.map(doc => doc.id), expectedDocuments);
   for (const alternate of locales) assert.ok(manifest.languages.some(item => item.language === alternate && item.url === absolute(alternate, 'llms.txt')));
   for (const doc of manifest.documentation) {
     assert.equal(doc.url, absolute(locale, `docs/${doc.id}/`));
@@ -85,7 +86,8 @@ for (const locale of locales) {
     assert.ok(tags(html, 'link').some(t => t.rel === 'canonical' && t.href === doc.url), `Discovery canonical: ${doc.url}`);
     const markdown = await readOutput(doc.markdown);
     assert.ok(markdown.startsWith(`# ${doc.title}\n`));
-    assert.equal((markdown.match(/^# /gm) || []).length, 1, `Duplicate Markdown title: ${doc.id}`);
+    const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*(?:\n|$)/gm, '');
+    assert.equal((prose.match(/^# /gm) || []).length, 1, `Duplicate Markdown title: ${doc.id}`);
     assert.ok(markdown.includes(doc.url), `Missing source citation: ${doc.id}`);
     assert.doesNotMatch(markdown, /^import |<Guide(?:Directory|AnchorRedirect)|pathname:\/\//m);
     assert.ok(index.includes(doc.markdown) && index.includes(doc.url));
@@ -101,4 +103,4 @@ const robots = await readFile(path.join(root, 'robots.txt'), 'utf8');
 assert.match(robots, /User-agent: \*\nAllow: \/\n/);
 assert.doesNotMatch(robots, /Disallow:\s*\//);
 for (const locale of locales) assert.ok(robots.includes(new URL(`${locale === 'en' ? '' : `${locale}/`}sitemap.xml`, publicRoot).href));
-console.log('SEO checks passed: 18 localized entry pages, exact canonical/hreflang, homepage links, structured data, sitemaps and 24 Markdown references with text/JSON discovery.');
+console.log('SEO checks passed: localized entry pages, canonical/hreflang, homepage links, structured data, sitemaps and localized product plus English developer references with text/JSON discovery.');

@@ -17,6 +17,7 @@ const config = {
       {type:'localeDropdown', position:'right'},
       {to: '/downloads', label: 'Downloads', position: 'right'},
       {to: '/docs/platforms', label: 'Guides', position: 'right'},
+      {type: 'docSidebar', sidebarId: 'developers', label: 'Developers', position: 'right'},
       {to: '/docs/mcp-moldsign', label: 'MCP', position: 'right'},
       {to: '/devices', label: 'Devices', position: 'right'},
       {to: '/support', label: 'Support', position: 'right'},
@@ -24,7 +25,7 @@ const config = {
     footer: {style: 'dark', links: [
       {title: 'Get started', items: [{label: 'Documentation', to: '/docs/platforms'}, {label: 'MoldSign alternative', to: '/docs/moldsign'}, {label: 'MCP and AI agents', to: '/docs/mcp-moldsign'}, {label: 'Downloads', to: '/downloads'}, {label: 'Devices', to: '/devices'}]},
       {title: 'Here to help', items: [{label: 'Support', to: '/support'}, {label: 'Privacy', to: '/privacy'}, {label: 'Terms & conditions', to: '/terms'}]},
-      {title: 'Open source', items: [{label: 'GitHub', href: 'https://github.com/xfreebird/smartcard'}, {label: 'MIT license', href: 'https://github.com/xfreebird/smartcard/blob/main/LICENSE'}]}],
+      {title: 'Open source', items: [{label: 'Developer documentation', to: '/docs/developers/overview'}, {label: 'Agent reference', to: '/docs/developers/agents'}, {label: 'GitHub', href: 'https://github.com/xfreebird/smartcard'}, {label: 'MIT license', href: 'https://github.com/xfreebird/smartcard/blob/main/LICENSE'}]}],
       copyright: '© 2026 Nicolae Ghimbovschi. Independent software, made in Moldova.'}
   }
 };

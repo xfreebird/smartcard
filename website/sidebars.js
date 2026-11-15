@@ -6,8 +6,28 @@ const taskCategory = (id,label) => {
     items:platform.topics.map(topic=>`platforms/${id}/${topic.id}`)};
 };
 export default {
+  developers: [
+    'developers/overview',
+    {type:'category',label:'How it works',collapsed:false,items:[
+      'developers/architecture',
+      'developers/card-protocol',
+      'developers/reader-protocol',
+      'developers/formats-and-bridge',
+      'developers/design-system',
+    ]},
+    {type:'category',label:'Build and deliver',collapsed:false,items:[
+      'developers/build-and-run',
+      'developers/testing',
+      'developers/releasing',
+      'developers/website',
+    ]},
+    'developers/agents',
+    'developers/glossary',
+    {type:'link',label:'User guides',href:'/docs/platforms/'},
+  ],
   guide: [
     'start',
+    {type:'link',label:'Developer documentation (English)',href:'/docs/developers/overview/'},
     'mcp-moldsign',
     'integrations/mcp-agents',
     {type:'category',label:'Platform guides',link:{type:'doc',id:'platforms'},items:[

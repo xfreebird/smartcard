@@ -51,5 +51,11 @@
   },
   "link.item.label.MCP and AI agents": {
     "message": "MoldSign MCP: подключите локального ИИ-агента"
+  },
+  "link.item.label.Developer documentation": {
+    "message": "Документация для разработчиков (на английском)"
+  },
+  "link.item.label.Agent reference": {
+    "message": "Справочник для агентов (на английском)"
   }
 }
