@@ -1,0 +1,1772 @@
+{
+  "publishedSource": "13ff6b70531946cbd5680a0382c219ff32a1002c",
+  "checks": [
+    {
+      "case": "390px Linux direct selection",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1463.046875,
+            "id": "macos",
+            "selected": false,
+            "top": -2425.546875
+          },
+          {
+            "bottom": -505.7421875,
+            "id": "windows",
+            "selected": false,
+            "top": -1449.046875
+          },
+          {
+            "bottom": -196.5,
+            "id": "ios",
+            "selected": false,
+            "top": -491.7421875
+          },
+          {
+            "bottom": 164.2421875,
+            "id": "android",
+            "selected": false,
+            "top": -182.5
+          },
+          {
+            "bottom": 1662.2578125,
+            "id": "linux",
+            "selected": true,
+            "top": 178.2421875
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 390,
+        "width": 390
+      }
+    },
+    {
+      "case": "scroll up to iPhone and iPad",
+      "state": {
+        "active": "iPhone & iPad",
+        "cards": [
+          {
+            "bottom": -788.046875,
+            "id": "macos",
+            "selected": false,
+            "top": -1750.546875
+          },
+          {
+            "bottom": 169.2578125,
+            "id": "windows",
+            "selected": false,
+            "top": -774.046875
+          },
+          {
+            "bottom": 478.5,
+            "id": "ios",
+            "selected": true,
+            "top": 183.2578125
+          },
+          {
+            "bottom": 839.2421875,
+            "id": "android",
+            "selected": false,
+            "top": 492.5
+          },
+          {
+            "bottom": 2337.2578125,
+            "id": "linux",
+            "selected": false,
+            "top": 853.2421875
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 390,
+        "width": 390
+      }
+    },
+    {
+      "case": "scroll down to Android",
+      "state": {
+        "active": "Android",
+        "cards": [
+          {
+            "bottom": -999.046875,
+            "id": "macos",
+            "selected": false,
+            "top": -1961.546875
+          },
+          {
+            "bottom": -41.7421875,
+            "id": "windows",
+            "selected": false,
+            "top": -985.046875
+          },
+          {
+            "bottom": 267.5,
+            "id": "ios",
+            "selected": false,
+            "top": -27.7421875
+          },
+          {
+            "bottom": 628.2421875,
+            "id": "android",
+            "selected": true,
+            "top": 281.5
+          },
+          {
+            "bottom": 2126.2578125,
+            "id": "linux",
+            "selected": false,
+            "top": 642.2421875
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 390,
+        "width": 390
+      }
+    },
+    {
+      "case": "320px tap macOS",
+      "state": {
+        "active": "macOS",
+        "cards": [
+          {
+            "bottom": 1244.2890625,
+            "id": "macos",
+            "selected": true,
+            "top": 178.453125
+          },
+          {
+            "bottom": 2283.3359375,
+            "id": "windows",
+            "selected": false,
+            "top": 1258.2890625
+          },
+          {
+            "bottom": 2592.578125,
+            "id": "ios",
+            "selected": false,
+            "top": 2297.3359375
+          },
+          {
+            "bottom": 3005.3203125,
+            "id": "android",
+            "selected": false,
+            "top": 2606.578125
+          },
+          {
+            "bottom": 4664.8671875,
+            "id": "linux",
+            "selected": false,
+            "top": 3019.3203125
+          }
+        ],
+        "focus": "macos",
+        "nav": [
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "320px tap Windows",
+      "state": {
+        "active": "Windows",
+        "cards": [
+          {
+            "bottom": 164.2890625,
+            "id": "macos",
+            "selected": false,
+            "top": -901.546875
+          },
+          {
+            "bottom": 1203.3359375,
+            "id": "windows",
+            "selected": true,
+            "top": 178.2890625
+          },
+          {
+            "bottom": 1512.578125,
+            "id": "ios",
+            "selected": false,
+            "top": 1217.3359375
+          },
+          {
+            "bottom": 1925.3203125,
+            "id": "android",
+            "selected": false,
+            "top": 1526.578125
+          },
+          {
+            "bottom": 3584.8671875,
+            "id": "linux",
+            "selected": false,
+            "top": 1939.3203125
+          }
+        ],
+        "focus": "windows",
+        "nav": [
+          {
+            "color": "rgb(62, 93, 191)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(80, 99, 143)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "320px tap iPhone & iPad",
+      "state": {
+        "active": "iPhone & iPad",
+        "cards": [
+          {
+            "bottom": -874.7109375,
+            "id": "macos",
+            "selected": false,
+            "top": -1940.546875
+          },
+          {
+            "bottom": 164.3359375,
+            "id": "windows",
+            "selected": false,
+            "top": -860.7109375
+          },
+          {
+            "bottom": 473.578125,
+            "id": "ios",
+            "selected": true,
+            "top": 178.3359375
+          },
+          {
+            "bottom": 886.3203125,
+            "id": "android",
+            "selected": false,
+            "top": 487.578125
+          },
+          {
+            "bottom": 2545.8671875,
+            "id": "linux",
+            "selected": false,
+            "top": 900.3203125
+          }
+        ],
+        "focus": "ios",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "320px tap Android",
+      "state": {
+        "active": "Android",
+        "cards": [
+          {
+            "bottom": -1183.7109375,
+            "id": "macos",
+            "selected": false,
+            "top": -2249.546875
+          },
+          {
+            "bottom": -144.6640625,
+            "id": "windows",
+            "selected": false,
+            "top": -1169.7109375
+          },
+          {
+            "bottom": 164.578125,
+            "id": "ios",
+            "selected": false,
+            "top": -130.6640625
+          },
+          {
+            "bottom": 577.3203125,
+            "id": "android",
+            "selected": true,
+            "top": 178.578125
+          },
+          {
+            "bottom": 2236.8671875,
+            "id": "linux",
+            "selected": false,
+            "top": 591.3203125
+          }
+        ],
+        "focus": "android",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "320px tap Linux",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1596.7109375,
+            "id": "macos",
+            "selected": false,
+            "top": -2662.546875
+          },
+          {
+            "bottom": -557.6640625,
+            "id": "windows",
+            "selected": false,
+            "top": -1582.7109375
+          },
+          {
+            "bottom": -248.421875,
+            "id": "ios",
+            "selected": false,
+            "top": -543.6640625
+          },
+          {
+            "bottom": 164.3203125,
+            "id": "android",
+            "selected": false,
+            "top": -234.421875
+          },
+          {
+            "bottom": 1823.8671875,
+            "id": "linux",
+            "selected": true,
+            "top": 178.3203125
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "1280px keyboard navigation to Windows",
+      "state": {
+        "active": "Windows",
+        "cards": [
+          {
+            "bottom": 992.234375,
+            "id": "macos",
+            "selected": false,
+            "top": 146.0234375
+          },
+          {
+            "bottom": 992.234375,
+            "id": "windows",
+            "selected": true,
+            "top": 146.0234375
+          },
+          {
+            "bottom": 1271.4765625,
+            "id": "ios",
+            "selected": false,
+            "top": 1012.234375
+          },
+          {
+            "bottom": 1375.9765625,
+            "id": "android",
+            "selected": false,
+            "top": 1012.234375
+          },
+          {
+            "bottom": 2491.96875,
+            "id": "linux",
+            "selected": false,
+            "top": 1395.9765625
+          }
+        ],
+        "focus": "windows",
+        "nav": [
+          {
+            "color": "rgb(44, 51, 56)",
+            "current": null,
+            "height": 44,
+            "label": "macOS",
+            "left": 55,
+            "right": 285.796875
+          },
+          {
+            "color": "rgb(77, 98, 152)",
+            "current": "location",
+            "height": 44,
+            "label": "Windows",
+            "left": 289.796875,
+            "right": 520.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 44,
+            "label": "iPhone & iPad",
+            "left": 524.59375,
+            "right": 755.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 44,
+            "label": "Android",
+            "left": 759.3984375,
+            "right": 990.1953125
+          },
+          {
+            "color": "rgb(65, 94, 182)",
+            "current": null,
+            "height": 44,
+            "label": "Linux",
+            "left": 994.1953125,
+            "right": 1225
+          }
+        ],
+        "navBottom": 130,
+        "pageWidth": 1280,
+        "width": 1280
+      }
+    },
+    {
+      "case": "1280px scroll preserves selected Windows column",
+      "state": {
+        "active": "Windows",
+        "cards": [
+          {
+            "bottom": 812.234375,
+            "id": "macos",
+            "selected": false,
+            "top": -33.9765625
+          },
+          {
+            "bottom": 812.234375,
+            "id": "windows",
+            "selected": true,
+            "top": -33.9765625
+          },
+          {
+            "bottom": 1091.4765625,
+            "id": "ios",
+            "selected": false,
+            "top": 832.234375
+          },
+          {
+            "bottom": 1195.9765625,
+            "id": "android",
+            "selected": false,
+            "top": 832.234375
+          },
+          {
+            "bottom": 2311.96875,
+            "id": "linux",
+            "selected": false,
+            "top": 1215.9765625
+          }
+        ],
+        "focus": "windows",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 44,
+            "label": "macOS",
+            "left": 55,
+            "right": 285.796875
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 44,
+            "label": "Windows",
+            "left": 289.796875,
+            "right": 520.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 44,
+            "label": "iPhone & iPad",
+            "left": 524.59375,
+            "right": 755.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 44,
+            "label": "Android",
+            "left": 759.3984375,
+            "right": 990.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 44,
+            "label": "Linux",
+            "left": 994.1953125,
+            "right": 1225
+          }
+        ],
+        "navBottom": 130,
+        "pageWidth": 1280,
+        "width": 1280
+      }
+    },
+    {
+      "case": "long Linux card stays selected while scrolling",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -2222.546875,
+            "id": "macos",
+            "selected": false,
+            "top": -3185.046875
+          },
+          {
+            "bottom": -1265.2421875,
+            "id": "windows",
+            "selected": false,
+            "top": -2208.546875
+          },
+          {
+            "bottom": -956,
+            "id": "ios",
+            "selected": false,
+            "top": -1251.2421875
+          },
+          {
+            "bottom": -595.2578125,
+            "id": "android",
+            "selected": false,
+            "top": -942
+          },
+          {
+            "bottom": 902.7578125,
+            "id": "linux",
+            "selected": true,
+            "top": -581.2578125
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(179, 191, 202)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(179, 191, 202)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(179, 191, 202)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(179, 191, 202)",
+            "current": null,
+            "height": 73.3984375,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(145, 167, 255)",
+            "current": "location",
+            "height": 73.3984375,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 162.3984375,
+        "pageWidth": 390,
+        "width": 390
+      }
+    },
+    {
+      "case": "final 320px layout",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1600.3125,
+            "id": "macos",
+            "selected": false,
+            "top": -2666.1484375
+          },
+          {
+            "bottom": -561.265625,
+            "id": "windows",
+            "selected": false,
+            "top": -1586.3125
+          },
+          {
+            "bottom": -252.0234375,
+            "id": "ios",
+            "selected": false,
+            "top": -547.265625
+          },
+          {
+            "bottom": 160.71875,
+            "id": "android",
+            "selected": false,
+            "top": -238.0234375
+          },
+          {
+            "bottom": 1820.265625,
+            "id": "linux",
+            "selected": true,
+            "top": 174.71875
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(77, 98, 152)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(48, 75, 162)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 158.796875,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "Romanian 320px and legacy linux-cli anchor",
+      "url": "https://esemnbun.md/ro/downloads/#linux",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1714.09375,
+            "id": "macos",
+            "selected": false,
+            "top": -2849.9765625
+          },
+          {
+            "bottom": -585.8046875,
+            "id": "windows",
+            "selected": false,
+            "top": -1700.09375
+          },
+          {
+            "bottom": -251.8125,
+            "id": "ios",
+            "selected": false,
+            "top": -571.8046875
+          },
+          {
+            "bottom": 160.9296875,
+            "id": "android",
+            "selected": false,
+            "top": -237.8125
+          },
+          {
+            "bottom": 1920.2265625,
+            "id": "linux",
+            "selected": true,
+            "top": 174.9296875
+          }
+        ],
+        "focus": "",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 158.796875,
+        "pageWidth": 393,
+        "width": 320
+      }
+    },
+    {
+      "case": "Russian 320px direct Linux anchor",
+      "url": "https://esemnbun.md/ru/downloads/#linux",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1817.1015625,
+            "id": "macos",
+            "selected": false,
+            "top": -3009.4765625
+          },
+          {
+            "bottom": -586.125,
+            "id": "windows",
+            "selected": false,
+            "top": -1803.1015625
+          },
+          {
+            "bottom": -252.1328125,
+            "id": "ios",
+            "selected": false,
+            "top": -572.125
+          },
+          {
+            "bottom": 160.609375,
+            "id": "android",
+            "selected": false,
+            "top": -238.1328125
+          },
+          {
+            "bottom": 2089.046875,
+            "id": "linux",
+            "selected": true,
+            "top": 174.609375
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 112)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(49, 89, 222)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 158.796875,
+        "pageWidth": 451,
+        "width": 320
+      }
+    },
+    {
+      "case": "final Russian 320px footer wraps",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -4597.1015625,
+            "id": "macos",
+            "selected": false,
+            "top": -5789.4765625
+          },
+          {
+            "bottom": -3366.125,
+            "id": "windows",
+            "selected": false,
+            "top": -4583.1015625
+          },
+          {
+            "bottom": -3032.1328125,
+            "id": "ios",
+            "selected": false,
+            "top": -3352.125
+          },
+          {
+            "bottom": -2619.390625,
+            "id": "android",
+            "selected": false,
+            "top": -3018.1328125
+          },
+          {
+            "bottom": -690.953125,
+            "id": "linux",
+            "selected": true,
+            "top": -2605.390625
+          }
+        ],
+        "focus": "",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": -503.890625,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "final Romanian 320px layout and legacy link",
+      "url": "https://esemnbun.md/ro/downloads/#linux",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1714.09375,
+            "id": "macos",
+            "selected": false,
+            "top": -2849.9765625
+          },
+          {
+            "bottom": -585.8046875,
+            "id": "windows",
+            "selected": false,
+            "top": -1700.09375
+          },
+          {
+            "bottom": -251.8125,
+            "id": "ios",
+            "selected": false,
+            "top": -571.8046875
+          },
+          {
+            "bottom": 160.9296875,
+            "id": "android",
+            "selected": false,
+            "top": -237.8125
+          },
+          {
+            "bottom": 1920.2265625,
+            "id": "linux",
+            "selected": true,
+            "top": 174.9296875
+          }
+        ],
+        "focus": "",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 158.796875,
+        "pageWidth": 393,
+        "width": 320
+      }
+    },
+    {
+      "case": "final 390px upward scroll selects iPhone and iPad",
+      "state": {
+        "active": "iPhone & iPad",
+        "cards": [
+          {
+            "bottom": -788.625,
+            "id": "macos",
+            "selected": false,
+            "top": -1751.125
+          },
+          {
+            "bottom": 168.6796875,
+            "id": "windows",
+            "selected": false,
+            "top": -774.625
+          },
+          {
+            "bottom": 477.921875,
+            "id": "ios",
+            "selected": true,
+            "top": 182.6796875
+          },
+          {
+            "bottom": 838.6640625,
+            "id": "android",
+            "selected": false,
+            "top": 491.921875
+          },
+          {
+            "bottom": 2336.6796875,
+            "id": "linux",
+            "selected": false,
+            "top": 852.6640625
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(49, 89, 222)",
+            "current": "location",
+            "height": 72.8203125,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 161.8203125,
+        "pageWidth": 390,
+        "width": 390
+      }
+    },
+    {
+      "case": "final 390px downward scroll selects Android",
+      "state": {
+        "active": "Android",
+        "cards": [
+          {
+            "bottom": -999.625,
+            "id": "macos",
+            "selected": false,
+            "top": -1962.125
+          },
+          {
+            "bottom": -42.3203125,
+            "id": "windows",
+            "selected": false,
+            "top": -985.625
+          },
+          {
+            "bottom": 266.921875,
+            "id": "ios",
+            "selected": false,
+            "top": -28.3203125
+          },
+          {
+            "bottom": 627.6640625,
+            "id": "android",
+            "selected": true,
+            "top": 280.921875
+          },
+          {
+            "bottom": 2125.6796875,
+            "id": "linux",
+            "selected": false,
+            "top": 641.6640625
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 72.8203125,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 161.8203125,
+        "pageWidth": 390,
+        "width": 390
+      }
+    },
+    {
+      "case": "final Romanian 320px after deployment refresh",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1714.09375,
+            "id": "macos",
+            "selected": false,
+            "top": -2849.9765625
+          },
+          {
+            "bottom": -585.8046875,
+            "id": "windows",
+            "selected": false,
+            "top": -1700.09375
+          },
+          {
+            "bottom": -251.8125,
+            "id": "ios",
+            "selected": false,
+            "top": -571.8046875
+          },
+          {
+            "bottom": 160.9296875,
+            "id": "android",
+            "selected": false,
+            "top": -237.8125
+          },
+          {
+            "bottom": 1920.2265625,
+            "id": "linux",
+            "selected": true,
+            "top": 174.9296875
+          }
+        ],
+        "focus": "",
+        "nav": [
+          {
+            "color": "rgb(92, 103, 114)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(50, 89, 220)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 158.796875,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "final English 320px after deployment refresh",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1600.3125,
+            "id": "macos",
+            "selected": false,
+            "top": -2666.1484375
+          },
+          {
+            "bottom": -561.265625,
+            "id": "windows",
+            "selected": false,
+            "top": -1586.3125
+          },
+          {
+            "bottom": -252.0234375,
+            "id": "ios",
+            "selected": false,
+            "top": -547.265625
+          },
+          {
+            "bottom": 160.71875,
+            "id": "android",
+            "selected": false,
+            "top": -238.0234375
+          },
+          {
+            "bottom": 1820.265625,
+            "id": "linux",
+            "selected": true,
+            "top": 174.71875
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(92, 103, 113)",
+            "current": null,
+            "height": 69.796875,
+            "label": "macOS",
+            "left": 12,
+            "right": 69.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Windows",
+            "left": 71.59375,
+            "right": 129.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "iPhone & iPad",
+            "left": 131.1953125,
+            "right": 188.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 69.796875,
+            "label": "Android",
+            "left": 190.796875,
+            "right": 248.3984375
+          },
+          {
+            "color": "rgb(50, 89, 221)",
+            "current": "location",
+            "height": 69.796875,
+            "label": "Linux",
+            "left": 250.3984375,
+            "right": 307.9921875
+          }
+        ],
+        "navBottom": 158.796875,
+        "pageWidth": 320,
+        "width": 320
+      }
+    },
+    {
+      "case": "final English 390px",
+      "state": {
+        "active": "Linux",
+        "cards": [
+          {
+            "bottom": -1463.625,
+            "id": "macos",
+            "selected": false,
+            "top": -2426.125
+          },
+          {
+            "bottom": -506.3203125,
+            "id": "windows",
+            "selected": false,
+            "top": -1449.625
+          },
+          {
+            "bottom": -197.078125,
+            "id": "ios",
+            "selected": false,
+            "top": -492.3203125
+          },
+          {
+            "bottom": 163.6640625,
+            "id": "android",
+            "selected": false,
+            "top": -183.078125
+          },
+          {
+            "bottom": 1661.6796875,
+            "id": "linux",
+            "selected": true,
+            "top": 177.6640625
+          }
+        ],
+        "focus": "linux",
+        "nav": [
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "macOS",
+            "left": 12,
+            "right": 83.59375
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Windows",
+            "left": 85.59375,
+            "right": 157.1953125
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "iPhone & iPad",
+            "left": 159.1953125,
+            "right": 230.796875
+          },
+          {
+            "color": "rgb(93, 103, 111)",
+            "current": null,
+            "height": 72.8203125,
+            "label": "Android",
+            "left": 232.796875,
+            "right": 304.3984375
+          },
+          {
+            "color": "rgb(49, 89, 223)",
+            "current": "location",
+            "height": 72.8203125,
+            "label": "Linux",
+            "left": 306.3984375,
+            "right": 377.9921875
+          }
+        ],
+        "navBottom": 161.8203125,
+        "pageWidth": 390,
+        "width": 390
+      }
+    }
+  ]
+}
