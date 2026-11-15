@@ -1,0 +1,92 @@
+[
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ru/protect-decrypt-complete-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "be18f91306fa5f4b63587100c6634e3fafcbd40d9da749978205aa7542c170a8",
+    "actualSha256": "be18f91306fa5f4b63587100c6634e3fafcbd40d9da749978205aa7542c170a8",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ru/documents-protection-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "a1d79e6be67ee5af7b510b5514e6903795599e12a428a60ca4d691a591f118f4",
+    "actualSha256": "a1d79e6be67ee5af7b510b5514e6903795599e12a428a60ca4d691a591f118f4",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ru/protect-complete-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "335412c09827ae47c18bbb3a4d6e1b92ffc0f6f7e7ac8d5da86f7b0b03865d62",
+    "actualSha256": "335412c09827ae47c18bbb3a4d6e1b92ffc0f6f7e7ac8d5da86f7b0b03865d62",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ru/protect-password-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "6201b4aa6b018241f0bcb689ffbec8a4c88bb2a7f4e6276f5111b092e7248f53",
+    "actualSha256": "6201b4aa6b018241f0bcb689ffbec8a4c88bb2a7f4e6276f5111b092e7248f53",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ru/protect-decrypt-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "86f15962ff780f6b5b037800597e46d315a7f1a36de7611fe1dbca898ce1f03b",
+    "actualSha256": "86f15962ff780f6b5b037800597e46d315a7f1a36de7611fe1dbca898ce1f03b",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ro/protect-decrypt-complete-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "08222e6b49d00573f58b732da5de08d108da5398c7fbea5fbc2a73bae7e54d2a",
+    "actualSha256": "08222e6b49d00573f58b732da5de08d108da5398c7fbea5fbc2a73bae7e54d2a",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ro/documents-protection-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "abc317f74af460d3d2852912d452a7d55cb71ac6fbb5d8406936c3711a3eb4ac",
+    "actualSha256": "abc317f74af460d3d2852912d452a7d55cb71ac6fbb5d8406936c3711a3eb4ac",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ro/protect-complete-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "f2feb28029d354a9f3441b311e9fda7634e0c7120d8f5798b0ad366d9807136e",
+    "actualSha256": "f2feb28029d354a9f3441b311e9fda7634e0c7120d8f5798b0ad366d9807136e",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ro/protect-password-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "04af14fdcb036f08b3d35c8d7fdaffb682fa6204e01dbe200a004df441ee0773",
+    "actualSha256": "04af14fdcb036f08b3d35c8d7fdaffb682fa6204e01dbe200a004df441ee0773",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/ro/protect-decrypt-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "9b61d2454b64def8e04446bf68e7e1317a03b029329e529bdf50db834da17640",
+    "actualSha256": "9b61d2454b64def8e04446bf68e7e1317a03b029329e529bdf50db834da17640",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/en/protect-decrypt-complete-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "b5233cb9b303a6e1b8d6f7547efa0fb8a0a1211fc04dd82799d9d1c0c561a20c",
+    "actualSha256": "b5233cb9b303a6e1b8d6f7547efa0fb8a0a1211fc04dd82799d9d1c0c561a20c",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/en/documents-protection-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "2bcb417febf12ec8bf6d78b72999f535b305753b23cf0f0f66d5964a7085ba00",
+    "actualSha256": "2bcb417febf12ec8bf6d78b72999f535b305753b23cf0f0f66d5964a7085ba00",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/en/protect-complete-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "0d549d82647f0b86e7f6776efdcb524e9d23594b81ada17b12126adca6e4b918",
+    "actualSha256": "0d549d82647f0b86e7f6776efdcb524e9d23594b81ada17b12126adca6e4b918",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/en/protect-password-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "f1e23538796c6f2807039fc7a386989adee41a29b98bdcadd5eb6d3a94668353",
+    "actualSha256": "f1e23538796c6f2807039fc7a386989adee41a29b98bdcadd5eb6d3a94668353",
+    "matches": true
+  },
+  {
+    "url": "https://esemnbun.md/img/guide/iphone/en/protect-decrypt-light.png?v=2026-11-15-status-bar",
+    "expectedSha256": "fa608ccc5e05ca2d7b862b5abc25f5e552af6f35b6f6f28d29170c5a421f41bb",
+    "actualSha256": "fa608ccc5e05ca2d7b862b5abc25f5e552af6f35b6f6f28d29170c5a421f41bb",
+    "matches": true
+  }
+]

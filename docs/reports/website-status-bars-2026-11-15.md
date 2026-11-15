@@ -18,5 +18,17 @@ Evidence: [before/after strips](website-status-bars-2026-11-15/before-after.png)
 
 Local verification covered pixel boundaries, dimensions, status-bar appearance and all 348 manifest hashes.
 OCR confirmed 09:41 on the left in all 15 updated images (`clocks.jsonl`).
-No local application or website build/test suite was run. Publication checks are recorded below
-after deployment.
+No local application or website build/test suite was run. The authorized publishing workflow
+performed the website tests and build.
+
+## Publication
+
+Published source: `6ac86bad8211d4ce9010022fb8ed2165c9661a9f`.
+[Website workflow 43697200055](https://github.com/xfreebird/smartcard/actions/runs/43697200055)
+succeeded: 36 tests, guide checks, English/Romanian/Russian production build, SEO checks and Pages
+deployment. Repository CI also passed.
+
+All 15 public images matched the committed SHA-256 hashes over HTTPS; see
+[the live readback](website-status-bars-2026-11-15/live-images.json). Chrome showed the updated
+`2026-11-15-status-bar` image revision and the corrected left-hand 09:41 clock in the enlarged
+iPhone guide image. [Live page evidence](website-status-bars-2026-11-15/live-guide.jpg).
