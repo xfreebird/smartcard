@@ -177,8 +177,8 @@ body:has(.downloads-page) .navbar{position:sticky;top:0;transform:none!important
 @media(max-width:640px){.downloads-page{padding:40px 20px}.download-platform-grid{grid-template-columns:1fr;gap:14px}.download-platform-card{padding:24px}.downloads-header>p{font-size:16px}}
 @media(max-width:640px){
  .download-platform-nav{gap:2px;margin-inline:-20px;padding:8px 12px;border:0;border-bottom:1px solid var(--site-border);border-radius:0}
- .download-platform-nav a{flex-direction:column;gap:4px;min-height:68px;padding:7px 2px 10px;font-size:.75rem;line-height:1.2}
- .download-platform-nav a>span{display:flex;align-items:center;justify-content:center;min-height:2.4em;max-width:100%;overflow-wrap:anywhere}
+ .download-platform-nav a{flex-direction:column;gap:4px;min-height:68px;padding:7px 2px 10px;font-size:clamp(12px,3.4vw,14px);line-height:1.2}
+ .download-platform-nav a>span{display:flex;align-items:center;justify-content:center;min-height:2.4em;max-width:100%;overflow-wrap:normal}
  .download-platform-nav a[aria-current]::after{inset-inline:12px}
 }
 @media(prefers-reduced-motion:reduce){.download-installer{transition:none}}
