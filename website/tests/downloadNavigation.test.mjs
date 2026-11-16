@@ -1,10 +1,21 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {downloadPlatformFromHash, focusedDownloadPlatform} from '../src/components/downloadNavigation.mjs';
+import {platformAssets} from '../src/components/downloadAssets.mjs';
 
 const section = (id, top, bottom) => ({id, top, bottom});
 const choose = (sections, currentId = 'macos', top = 150, bottom = 750) =>
  focusedDownloadPlatform(sections, {currentId, top, bottom});
+
+test('downloads select the latest installer for each architecture and keep CLI packages separate', () => {
+ const assets = [
+  {name: 'esemnbun_0.2.9_amd64.deb', version: '0.2.9', platform: 'linux', format: 'DEB', architecture: 'x64'},
+  {name: 'esemnbun-cli_0.2.12_amd64.deb', version: '0.2.12', platform: 'linux-cli', format: 'DEB', architecture: 'x64'},
+  {name: 'esemnbun_0.2.12_amd64.deb', version: '0.2.12', platform: 'linux', format: 'DEB', architecture: 'x64'},
+  {name: 'esemnbun_0.2.11_arm64.deb', version: '0.2.11', platform: 'linux', format: 'DEB', architecture: 'ARM64'},
+ ];
+ assert.deepEqual(platformAssets(assets, 'linux'), [assets[2], assets[3], assets[1]]);
+});
 
 test('scrolling in either direction follows the card at the reading position', () => {
  assert.equal(choose([section('macos', -800, 200), section('windows', 220, 1200)]), 'windows');

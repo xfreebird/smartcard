@@ -14,6 +14,14 @@ The 0.2.0 review was canceled in AppGallery Connect and signed 0.2.5 APK
 was attached and submitted. The read-only API confirms `releaseState=4` for the
 new build: reviewing, not yet publicly available.
 
+On 16 November 2026, AppGallery Connect showed **Reviewing** for Android
+0.2.12 (1793624697). The signed APK came from GitHub Actions run 43928306135.
+The English, Romanian and Russian listings each have four verified screenshots,
+in NFC signing, USB card reader, verification and Settings order. The existing
+English screenshots were replaced. AppGallery requires an icon for each new
+language when submitting, so Romanian and Russian use the approved app icon.
+The reviewer remarks cover both signing methods and Demo mode.
+
 The AppGallery Connect Android record is `119651007` for package
 `md.esemnbun.app`. The iOS record is `101653523127320907` for bundle ID
 `md.esemnbun.ios`; it is a Huawei developer-services record, not an iOS

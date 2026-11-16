@@ -32,7 +32,8 @@ def describe(asset):
     platform = 'linux' if kind in ('flatpak', 'linux') else kind
     if kind == 'linux' and (name.startswith('esemnbun-cli') or name.endswith('.tar.gz')):
         platform = 'linux-cli'
-    version_match = re.search(r'/downloads?/v([^/]+)/', asset['url'])
+    version_match = (re.search(r'[-_](\d+\.\d+\.\d+)(?=[._-])', name)
+                     or re.search(r'/downloads?/v([^/]+)/', asset['url']))
     return {**asset, 'platform': platform,
             'version': version_match.group(1) if version_match else version,
             'format': 'TAR.GZ' if name.endswith('.tar.gz') else name.rsplit('.', 1)[1].upper(),
@@ -64,7 +65,11 @@ def package_key(asset):
     return (info.get('platform'), info.get('format'), info.get('architecture'))
 
 current_packages = {package_key(asset) for asset in assets}
-for asset in previous['assets']:
+def version_key(asset):
+    value = describe(asset).get('version', '0.0.0')
+    return tuple(map(int, value.split('.'))) if re.fullmatch(r'\d+\.\d+\.\d+', value) else (0, 0, 0)
+
+for asset in sorted(previous['assets'], key=version_key, reverse=True):
     key = package_key(asset)
     if family(asset['name']) and key not in current_packages:
         assets.append(asset)
