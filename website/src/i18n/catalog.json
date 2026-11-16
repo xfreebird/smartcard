@@ -161,9 +161,9 @@
     "ru": "Подпись вдали от рабочего места"
   },
   "feature2Body": {
-    "en": "Connect a compatible reader to your phone with a suitable adapter. Choose a document, enter your card PIN and share the signed file.",
-    "ro": "Conectează un cititor compatibil la telefon cu adaptorul potrivit. Alege documentul, introdu PIN-ul cardului și distribuie fișierul semnat.",
-    "ru": "Подключите совместимый считыватель к телефону через подходящий адаптер. Выберите документ, введите PIN-код карты и отправьте подписанный файл."
+    "en": "In eSemnBun 0.2.12 and later, sign over NFC on a compatible iPhone or Android device. You can also connect a compatible USB card reader.",
+    "ro": "În eSemnBun 0.2.12 sau mai nou, semnează prin NFC pe un iPhone sau dispozitiv Android compatibil. Poți conecta și un cititor de carduri USB compatibil.",
+    "ru": "В eSemnBun 0.2.12 и новее подписывайте документы по NFC на совместимом iPhone или Android-устройстве. Можно также подключить совместимый USB-считыватель."
   },
   "feature3": {
     "en": "A small, native tool",
@@ -351,9 +351,9 @@
     "ru": "Доступность в App Store зависит от проверки. Для Google Play может потребоваться доступ к тестированию."
   },
   "whyBody": {
-    "en": "The eSemnBun mobile app lets you sign documents directly on iPhone, iPad and Android using your electronic ID and a compatible USB reader.",
-    "ro": "Cu aplicația mobilă eSemnBun poți semna documente direct pe iPhone, iPad și Android, folosind cartea de identitate electronică și un cititor USB compatibil.",
-    "ru": "В мобильном приложении eSemnBun можно подписывать документы прямо на iPhone, iPad и Android с электронной ID-картой и совместимым USB-считывателем."
+    "en": "Sign on iPhone or Android using NFC or a compatible USB card reader. On iPad, connect a compatible USB reader.",
+    "ro": "Semnează pe iPhone sau Android prin NFC sau cu un cititor de carduri USB compatibil. Pe iPad, conectează un cititor USB compatibil.",
+    "ru": "Подписывайте документы на iPhone или Android по NFC либо через совместимый USB-считыватель. На iPad подключите совместимый USB-считыватель."
   },
   "debugPreview": {
     "en": "Preview platform",
@@ -376,9 +376,9 @@
     "ru": "Электронная подпись с ID-картой Молдовы"
   },
   "searchBody": {
-    "en": "Use eSemnBun to sign PDF documents, create XAdES signatures, and verify signed files with a compatible electronic identity card and USB reader. The same card can be used at your desk or on your phone.",
-    "ro": "Cu eSemnBun poți semna documente PDF, crea semnături XAdES și verifica fișiere semnate folosind o carte de identitate electronică compatibilă și un cititor USB. Folosești același card la calculator sau de pe telefon.",
-    "ru": "С eSemnBun можно подписывать PDF, создавать подписи XAdES и проверять подписанные файлы с совместимой электронной ID-картой и USB-считывателем. Одну карту можно использовать на компьютере и телефоне."
+    "en": "Sign PDFs, create XAdES signatures and verify signed files. Use a compatible Moldovan electronic identity card with a USB reader, or over NFC on a supported iPhone or Android device.",
+    "ro": "Semnează PDF-uri, creează semnături XAdES și verifică fișiere semnate. Folosește o carte de identitate electronică moldovenească compatibilă, cu un cititor USB sau prin NFC pe un iPhone ori dispozitiv Android compatibil.",
+    "ru": "Подписывайте PDF, создавайте подписи XAdES и проверяйте подписанные файлы. Используйте совместимую молдавскую электронную ID-карту через USB-считыватель или по NFC на поддерживаемом iPhone либо Android-устройстве."
   },
   "moldsignQuestion": {
     "en": "Is eSemnBun the official MoldSign app?",
