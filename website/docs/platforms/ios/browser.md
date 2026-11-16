@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Sign on websites — iPhone
 
-[Platform overview](../ios.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../ios.md) · [Get started](./setup.md)
 
 Connect a service, review requests and manage website sessions.
 

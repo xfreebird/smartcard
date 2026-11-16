@@ -29,4 +29,4 @@ Multiple cards appear in the horizontal carousel. Select the centred card you in
 
 ### Choose and inspect your card
 
-<GuideScreenshot src="/img/guide/windows/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader."}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader.", "x": 49, "y": 42}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />

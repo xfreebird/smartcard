@@ -10,20 +10,18 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Modifică setările — Tabletă Android
 
-[Ghidurile platformei](../android-tablet.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android-tablet.md) · [Primii pași](./setup.md)
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
+
+## Limbă, aspect, demonstrație și suport
 
 Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
 
 Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
-## Limbă, aspect, demonstrație și suport
-
 Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări"}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări", "x": 41, "y": 38}]} />
 
 Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.
-
-<GuideScreenshot src="/img/guide/android-tablet/ro/about.png" alt="În Despre găsești versiunea instalată." steps={[{"text": "În Despre găsești versiunea instalată."}]} />

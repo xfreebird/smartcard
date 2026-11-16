@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Use Shortcuts and automation — iPhone
 
-[Platform overview](../ios.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../ios.md) · [Get started](./setup.md)
 
 Set up Siri, Spotlight, Handoff and the supported approval workflow.
 

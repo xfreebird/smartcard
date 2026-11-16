@@ -24,7 +24,7 @@ Multiple cards appear in the horizontal carousel. Select the centred card you in
 
 ### Choose and inspect your card
 
-<GuideScreenshot src="/img/guide/windows/en/card.png" alt="Choose and inspect your card" steps={[{"x": 5.351, "y": 26.15, "text": "Open Card after connecting the reader and inserting the card."}, {"x": 60.148, "y": 31.201, "text": "Check the holder and expiry; select the intended card in the carousel."}, {"x": 51.015, "y": 58.474, "text": "Inspect the certificate and reader before signing."}]} />
+<GuideScreenshot src="/img/guide/windows/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader.", "x": 49, "y": 42}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />
 
 ## Sign documents from the app or Explorer
 
@@ -73,6 +73,8 @@ Open **Verify** and choose or drop in a signed PDF/XML file. A detached XML sign
 
 ## Settings, PINs, and tray controls
 
+Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
+
 Settings contains language (Romanian, English, Russian), appearance, saved-PIN management, startup and reader-opening preferences, browser connection, demo mode, and About. Some controls depend on the installed distribution.
 
 A saved PIN uses Windows security/authentication facilities. Deleting it removes the app's saved entry and does not change the physical card PIN. Check which card an entry belongs to before removing it.
@@ -83,7 +85,7 @@ Demo mode requires acceptance, shows fictional cards and sample documents, and r
 
 ### Adjust language and appearance
 
-<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 6.365, "y": 96.857, "text": "Open Settings."}, {"x": 27.675, "y": 88.777, "text": "Choose the application language and appearance."}]} />
+<GuideScreenshot src="/img/guide/windows/en/settings-current.png" alt="Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance." steps={[{"text": "Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.", "x": 32, "y": 18}]} />
 
 ### Browser connection and local requests
 

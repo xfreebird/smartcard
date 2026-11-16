@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Найдите сохранённые документы — Планшет Android
 
-[Все руководства платформы](../android-tablet.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android-tablet.md) · [Начало работы](./setup.md)
 
 Откройте сведения о подписи, отправьте файлы и очистите историю.
 

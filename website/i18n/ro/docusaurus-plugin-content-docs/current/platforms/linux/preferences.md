@@ -14,9 +14,9 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
-Deschide Preferințe din meniul aplicației. Modul demonstrativ este sus. Consultă cardurile în Carduri și cititoare și gestionează copiile PIN în PIN-uri salvate.
-
 ## Alege limba și aspectul
+
+Deschide Preferințe din meniul aplicației. Modul demonstrativ este sus. Consultă cardurile în Carduri și cititoare și gestionează copiile PIN în PIN-uri salvate.
 
 Deschide meniul aplicației → Preferințe. Alege aspectul Sistem, Deschis sau Întunecat și limba Sistem, Română, English sau Русский. Modificările se aplică interfeței. Capturile folosesc traducerile native.
 

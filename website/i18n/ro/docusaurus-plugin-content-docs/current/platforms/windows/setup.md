@@ -31,4 +31,4 @@ Mai multe carduri apar în caruselul orizontal. Selectează cardul centrat cu ca
 
 ### Alege și examinează cardul
 
-<GuideScreenshot src="/img/guide/windows/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat."}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat.", "x": 49, "y": 42}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />

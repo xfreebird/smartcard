@@ -6,25 +6,41 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # iPhone
 
-Urmează cercurile numerotate pentru fiecare obiectiv. Atinge imaginea pentru a o mări.
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare. Instalează sau actualizează aplicația prin canalul dispozitivului din [Descărcări](/downloads).
 
-Instalează eSemnBun prin canalul Apple disponibil din [Descărcări](/downloads), apoi deschide aplicația instalată. Ai nevoie de un act electronic activ acceptat, PIN-ul corect de semnare, un cititor cu fir compatibil și [adaptorul](/devices) potrivit. Dispozitivele USB-C necesită o conexiune USB adecvată; pentru Lightning poate fi necesar un adaptor alimentat. Semnarea prin NFC nu este disponibilă.
+Pentru USB, conectează cititorul cu [adaptorul](/devices) potrivit. Dispozitivele cu Lightning pot necesita un adaptor Lightning alimentat.
 
 ## Conectează cititorul și introdu cardul
 
-Certificatul de semnare este citit fără PIN. Mesajul despre cititorul gol indică un cititor detectat, dar fără un card pregătit. Așteaptă afișarea titularului și a valabilității înainte de semnare.
+Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare.
 
-<GuideScreenshot src="/img/guide/iphone/ro/connect.png" alt="Conectează cititorul USB prin adaptorul potrivit." steps={[{"text": "Conectează cititorul USB prin adaptorul potrivit.", "x": 25, "y": 28}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/empty-reader.png" alt="Introdu cardul când aplicația indică un cititor gol." steps={[{"text": "Introdu cardul când aplicația indică un cititor gol.", "x": 25, "y": 29}]} />
+### Semnează prin NFC
+
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a telefonului până când aplicația confirmă finalizarea.
+
+<GuideScreenshot src="/img/guide/iphone/ro/nfc-sign.png" alt="Ecranul Semnează cu opțiunea NFC selectată" steps={[{"text": "Ecranul Semnează cu opțiunea NFC selectată", "x": 36, "y": 56}]} />
+
+### Semnează cu un cititor USB
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua.
+
+<GuideScreenshot src="/img/guide/iphone/ro/reader-sign.png" alt="Ecranul Semnează cu cititorul de carduri USB selectat" steps={[{"text": "Ecranul Semnează cu cititorul de carduri USB selectat", "x": 38, "y": 59}]} />
 
 ## Alege identitatea care va semna
 
-Dacă sunt conectate mai multe carduri, glisează caruselul pentru a centra titularul dorit. Cardul selectat este folosit la operație. Deschide Card pentru certificat sau pentru recitire după reconectare. Portretul neutru este o ilustrație, nu fotografia citită din act.
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
-<GuideScreenshot src="/img/guide/iphone/ro/cards.png" alt="Glisează caruselul pentru a alege titularul dorit." steps={[{"text": "Glisează caruselul pentru a alege titularul dorit.", "x": 28, "y": 27}, {"text": "Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.", "x": 84, "y": 94}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/card.png" alt="Verifică titularul, valabilitatea certificatului și cititorul." steps={[{"text": "Verifică titularul, valabilitatea certificatului și cititorul.", "x": 6, "y": 50}, {"text": "Recitește după corectarea conexiunii; ștergerea PIN-ului salvat nu schimbă PIN-ul cardului.", "x": 90, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/cards-current.png" alt="Consultă identitatea selectată înainte de semnare." steps={[{"text": "Consultă identitatea selectată înainte de semnare.", "x": 29, "y": 34}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/batch-current.png" alt="Verifică documentul ales înainte de a apăsa Continuă." steps={[{"text": "Verifică documentul ales înainte de a apăsa Continuă.", "x": 37, "y": 28}]} />
 
 ## Adaugă documente și alege formatul semnăturii
+
+### Alege cum semnezi
+
+Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a telefonului până când aplicația confirmă finalizarea.
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua. Cu un cititor USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale.
 
 Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. Descarcă întâi documentele disponibile doar în cloud dacă accesul eșuează. Poți trimite fișiere și din meniul de partajare al altei aplicații către extensia eSemnBun. Extinde lista, verifică numele, elimină fișierele nedorite din opțiunile lor și alege formatul cerut. PDF-urile folosesc PAdES-T; celelalte fișiere folosesc XAdES. XML-ul detașat trebuie păstrat împreună cu originalul nemodificat. XAdES-BES nu are marcă temporală, T o adaugă, iar C include referințe la certificate și stare. XML-ul încorporat include conținutul original. Formatele cu marcă temporală necesită serviciile publice de încredere.
 
@@ -47,7 +63,7 @@ Pentru o cerere de pe un site, verifică originea și întreaga listă de docume
 
 ## Așteaptă finalizarea și salvează rezultatul semnat
 
-Păstrează cititorul și cardul conectate pe durata semnării și a obținerii mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
+Pentru NFC, ține cardul lângă telefon până se încheie scanarea. Pentru USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
 
 <GuideScreenshot src="/img/guide/iphone/ro/progress.png" alt="Așteaptă finalizarea etapei curente fără a scoate cardul." steps={[{"text": "Așteaptă finalizarea etapei curente fără a scoate cardul.", "x": 10, "y": 45}]} />
 <GuideScreenshot src="/img/guide/iphone/ro/success.png" alt="Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare." steps={[{"text": "Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare.", "x": 35, "y": 49}]} />
@@ -62,7 +78,7 @@ Citește eroarea documentului afectat. Păstrează rezultatele deja finalizate �
 
 Verificarea necesită fișierul, nu cititorul sau PIN-ul. În Verifică, alege PDF-ul ori XML-ul semnat. Extinde fiecare semnătură, apoi certificatul și detaliile tehnice. Verifică toate semnăturile unui document contrasemnat. Rezultatele offline separă integritatea, semnătura criptografică, încrederea în lanțul inclus și marca temporală; nu reprezintă verificarea revocării curente.
 
-<GuideScreenshot src="/img/guide/iphone/ro/verify.png" alt="Deschide Verifică și adaugă documentul semnat." steps={[{"text": "Deschide Verifică și adaugă documentul semnat.", "x": 26, "y": 24}, {"text": "Extinde rândul semnăturii pentru rezultat și semnatar.", "x": 8, "y": 48}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 50, "y": 87}]} />
 <GuideScreenshot src="/img/guide/iphone/ro/certificate.png" alt="Derulează semnătura extinsă la detaliile certificatului, apoi analizează identitatea, valabilitatea și amprenta separat de integritatea documentului." steps={[{"text": "Derulează semnătura extinsă la detaliile certificatului, apoi analizează identitatea, valabilitatea și amprenta separat de integritatea documentului.", "x": 9, "y": 87}]} />
 
 ## Furnizează originalul pentru XML detașat
@@ -104,11 +120,15 @@ Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează 
 
 ## Schimbă limba, aspectul și confidențialitatea
 
-Deschide Card, apoi Setări. Alege Română, English, Русский ori Sistem și tema Luminoasă, Întunecată ori Sistem. Activează ștampilele PDF din browser doar dacă le dorești pentru cererile acceptate. Modul demonstrativ obișnuit este etichetat intenționat și nu produce semnături reale. Despre afișează versiunea și informațiile utile. Actualizările vin prin canalul Apple folosit la instalare.
+Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
 
-<GuideScreenshot src="/img/guide/iphone/ro/settings.png" alt="Alege limba interfeței și tema." steps={[{"text": "Alege limba interfeței și tema.", "x": 95, "y": 29}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 86, "y": 65}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 88, "y": 12}]} />
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
-Pentru un PIN memorat, deschide Card pentru identitatea respectivă și Șterge PIN-ul salvat când opțiunea este disponibilă. Memorarea folosește seiful protejat al platformei și autentificarea dispozitivului; ștergerea copiei nu schimbă și nu deblochează PIN-ul fizic. Un alt card necesită propriul PIN.
+Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
+
+<GuideScreenshot src="/img/guide/iphone/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări", "x": 29, "y": 34}]} />
+
+Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.
 
 ## Folosește Scurtături, Siri, Spotlight și Handoff
 
@@ -126,11 +146,11 @@ Pentru căutare, activează Găsește documentele semnate în Siri și Spotlight
 
 În portret sunt folosite file compacte. Rotește telefonul sau extinde dispozitivul/fereastra acceptată pentru mai mult spațiu la card și fișiere. Derulează pentru opțiuni și verificarea PIN când tastatura reduce spațiul. Postura și rotația depind de iOS; o postură pliabilă nu este identică automat cu un telefon în peisaj.
 
-
 ## Cere ajutor fără a trimite secrete
 
 Fără cititor: verifică firul, adaptorul și alimentarea. Cititor gol: reintrodu cardul și așteaptă. Eroare repetată a cardului: oprește operația înainte de reconectare. PIN blocat: contactează furnizorul oficial. Pentru [asistență](/support), include versiunile aplicației/iOS, modelele cititorului și adaptorului și pașii cu un exemplu fictiv. Nu trimite PIN-ul, date private de identitate sau documente confidențiale.
 
+Dacă sesiunea NFC se întrerupe, ține cardul lângă antenă până se închide fereastra de scanare. Verifică cardul și PIN-ul selectate înainte de a reîncerca după un PIN greșit. Poți alege un cititor USB compatibil în Semnează.
 
 ## Alte ghiduri
 

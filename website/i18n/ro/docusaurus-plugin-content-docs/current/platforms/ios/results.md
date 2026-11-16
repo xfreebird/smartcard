@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Înțelege rezultatele verificării — iPhone
 
-[Ghidurile platformei](../ios.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../ios.md) · [Primii pași](./setup.md)
 
 Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.
 

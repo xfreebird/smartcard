@@ -10,17 +10,17 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Semnează documente — iPhone
 
-[Ghidurile platformei](../ios.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../ios.md) · [Primii pași](./setup.md)
 
 Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.
 
-## Alege cum semnezi
+## Adaugă documente și alege formatul semnăturii
 
-Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a telefonului până când aplicația confirmă finalizarea. Pe Android trebuie să activezi NFC.
+### Alege cum semnezi
+
+Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a telefonului până când aplicația confirmă finalizarea.
 
 Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua. Cu un cititor USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale.
-
-## Adaugă documente și alege formatul semnăturii
 
 Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. Descarcă întâi documentele disponibile doar în cloud dacă accesul eșuează. Poți trimite fișiere și din meniul de partajare al altei aplicații către extensia eSemnBun. Extinde lista, verifică numele, elimină fișierele nedorite din opțiunile lor și alege formatul cerut. PDF-urile folosesc PAdES-T; celelalte fișiere folosesc XAdES. XML-ul detașat trebuie păstrat împreună cu originalul nemodificat. XAdES-BES nu are marcă temporală, T o adaugă, iar C include referințe la certificate și stare. XML-ul încorporat include conținutul original. Formatele cu marcă temporală necesită serviciile publice de încredere.
 
@@ -43,7 +43,7 @@ Pentru o cerere de pe un site, verifică originea și întreaga listă de docume
 
 ## Așteaptă finalizarea și salvează rezultatul semnat
 
-Păstrează cititorul și cardul conectate pe durata semnării și a obținerii mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
+Pentru NFC, ține cardul lângă telefon până se încheie scanarea. Pentru USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
 
 <GuideScreenshot src="/img/guide/iphone/ro/progress.png" alt="Așteaptă finalizarea etapei curente fără a scoate cardul." steps={[{"text": "Așteaptă finalizarea etapei curente fără a scoate cardul.", "x": 10, "y": 45}]} />
 <GuideScreenshot src="/img/guide/iphone/ro/success.png" alt="Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare." steps={[{"text": "Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare.", "x": 35, "y": 49}]} />

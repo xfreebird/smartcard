@@ -10,19 +10,19 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Sign documents — Android tablet
 
-[Platform overview](../android-tablet.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android-tablet.md) · [Get started](./setup.md)
 
 Add files, choose the format and stamp, approve and save the output.
 
-## Choose how to sign
+## Add files and prepare a batch
 
-Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+### Choose how to sign
+
+Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the device’s NFC antenna until the app reports completion. Android devices need NFC enabled.
 
 For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing. With USB, keep the reader connected and the card inserted until the signature and timestamp are complete.
 
-## Add files and prepare a batch
-
-Keep the reader connected until every result appears. The original input remains separate from the signed output. You can also share documents from Files or another app to eSemnBun.
+For USB, keep the reader connected until every result appears. The original input remains separate from the signed output. You can also share documents from Files or another app to eSemnBun.
 
 <GuideScreenshot src="/img/guide/android-tablet/en/sign.png" alt="Add files and prepare a batch" steps={[{"text": "Swipe to the intended card and check the Used for signing indicator.", "x": 17.3, "y": 18.4}, {"text": "Tap Add documents and select one or several files in the system picker. Download cloud files first if they are unavailable.", "x": 47.4, "y": 46.5}, {"text": "Review the expanded document rows. Open each file menu to change its format, stamp, or remove it."}, {"text": "Tap Sign when the card and the full document list are correct.", "x": 66, "y": 53.5}]} />
 

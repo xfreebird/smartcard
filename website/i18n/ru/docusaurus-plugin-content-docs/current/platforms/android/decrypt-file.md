@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Расшифруйте полученный файл — Телефон Android
 
-[Все руководства платформы](../android.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android.md) · [Начало работы](./setup.md)
 
 Расшифруйте полученный файл
 

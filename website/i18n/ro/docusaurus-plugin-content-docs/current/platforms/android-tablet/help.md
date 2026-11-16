@@ -10,7 +10,7 @@ pagination_next: "platforms/android-tablet/encrypt-password"
 
 # Rezolvă o problemă — Tabletă Android
 
-[Ghidurile platformei](../android-tablet.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android-tablet.md) · [Primii pași](./setup.md)
 
 Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 

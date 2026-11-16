@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Зашифруйте файл паролем — Планшет Android
 
-[Все руководства платформы](../android-tablet.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android-tablet.md) · [Начало работы](./setup.md)
 
 Зашифруйте файл паролем
 

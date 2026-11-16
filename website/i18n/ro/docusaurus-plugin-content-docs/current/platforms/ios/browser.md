@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Semnează pe site-uri — iPhone
 
-[Ghidurile platformei](../ios.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../ios.md) · [Primii pași](./setup.md)
 
 Conectează un serviciu, verifică cererile și gestionează sesiunile web.
 

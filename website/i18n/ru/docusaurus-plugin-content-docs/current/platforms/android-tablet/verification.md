@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Проверьте подпись — Планшет Android
 
-[Все руководства платформы](../android-tablet.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android-tablet.md) · [Начало работы](./setup.md)
 
 Проверьте PDF или XML, сведения о подписанте и сертификате.
 
@@ -18,7 +18,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Для проверки карта и PIN не нужны. Зелёный результат относится к указанным проверкам, а не к имени файла или видимому штампу.
 
-<GuideScreenshot src="/img/guide/android-tablet/ru/verify-current.png" alt="Экран проверки" steps={[{"text": "Экран проверки"}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ru/verify-current.png" alt="Экран проверки" steps={[{"text": "Экран проверки", "x": 53, "y": 28}]} />
 
 ## Изучите сертификат и технические сведения
 

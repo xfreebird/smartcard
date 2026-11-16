@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Înțelege rezultatele verificării — Tabletă Android
 
-[Ghidurile platformei](../android-tablet.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android-tablet.md) · [Primii pași](./setup.md)
 
 Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nesemnate.
 

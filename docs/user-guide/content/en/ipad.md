@@ -6,25 +6,33 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # iPad
 
-Follow the numbered circles to complete each goal. Tap an image to enlarge it.
-
 Install eSemnBun through the available Apple distribution channel from [Downloads](/downloads). Launch the installed app. You need a supported active electronic ID, its correct signing PIN, a compatible wired reader and the appropriate [adapter](/devices). USB-C devices need a suitable USB connection; Lightning devices may need a powered Lightning adapter. NFC signing is not supported.
 
 ## Connect the reader and insert your card
 
-The signing certificate is read without a PIN. An empty-reader prompt means the reader is detected but the card is not ready. Wait for the holder and expiry before adding a signing request.
+Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
 
-<GuideScreenshot src="/img/guide/ipad/en/connect.png" alt="Connect the USB reader through the appropriate adapter." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Connect the USB reader through the appropriate adapter.", "x": 10.0, "y": 55.2}]} />
-<GuideScreenshot src="/img/guide/ipad/en/empty-reader.png" alt="Insert the card when the app reports an empty reader." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Insert the card when the app reports an empty reader.", "x": 10.0, "y": 58.6}]} />
+### Sign with a USB card reader
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
+<GuideScreenshot src="/img/guide/ipad/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected", "x": 40, "y": 39}]} />
 
 ## Choose the identity that will sign
 
-When several cards are connected, swipe the card carousel to centre the intended holder. The selected card is used for the operation. Open Card to check the certificate or re-read the card after reconnecting it. The neutral portrait is an illustration, not a photograph read from the ID.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
 
-<GuideScreenshot src="/img/guide/ipad/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 20, "y": 18}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 73, "y": 5}]} />
-<GuideScreenshot src="/img/guide/ipad/en/card.png" alt="Check the holder, certificate validity and connected reader." steps={[{"text": "Check the holder, certificate validity and connected reader.", "x": 7, "y": 37}, {"text": "Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.", "x": 95, "y": 5}]} />
+<GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing.", "x": 15, "y": 25}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/batch-current.png" alt="Review the selected document before tapping Continue." steps={[{"text": "Review the selected document before tapping Continue.", "x": 38, "y": 19}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/consent-current.png" alt="Review and approve the request in the PIN sheet." steps={[{"text": "Review and approve the request in the PIN sheet.", "x": 50, "y": 27}]} />
 
 ## Add documents and choose a signature format
+
+### Choose how to sign
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing. With USB, keep the reader connected and the card inserted until the signature and timestamp are complete.
 
 Open Sign and choose files from Files or a cloud provider. Download cloud-only documents first if access fails. You can also send files from another app through its share sheet to the eSemnBun extension. Expand the file list, inspect each name, remove unintended files from its options, and choose the requested format. PDFs use PAdES-T; other files use XAdES. Detached XML must travel with its unchanged original. XAdES-BES has no timestamp, T adds one, and C adds certificate/status references. Enveloping XML includes its source content. Timestamped signing requires the public trust services.
 
@@ -62,7 +70,7 @@ Read the error on the affected item. Keep outputs that already completed and cor
 
 Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF or XML. Expand each signature, then its certificate and technical sections. Check every signature when a file is countersigned. Offline results distinguish document integrity, cryptographic signature, embedded trust and timestamp information; they are not a current revocation check.
 
-<GuideScreenshot src="/img/guide/ipad/en/verify.png" alt="Open Verify and add the signed document." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Open Verify and add the signed document.", "x": 37.0, "y": 36.6}, {"text": "Expand the signature row to read its result and signer.", "x": 11.0, "y": 80.5}]} />
+<GuideScreenshot src="/img/guide/ipad/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 94}]} />
 <GuideScreenshot src="/img/guide/ipad/en/certificate.png" alt="Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity." steps={[{"text": "Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity.", "x": 13, "y": 59}]} />
 
 ## Supply the original for a detached XML signature
@@ -104,11 +112,15 @@ To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title,
 
 ## Change language, appearance and privacy preferences
 
-Open Card, then Settings. Choose Romanian, English, Russian or System, and Light, Dark or System appearance. Enable browser PDF stamps only if you want a visible stamp for supported website requests. Normal Demo mode is intentionally labelled; it is for exploration and does not produce real signatures. About shows the installed version and help information. Updates come through the Apple channel used to install the app.
+Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
 
-<GuideScreenshot src="/img/guide/ipad/en/settings.png" alt="Choose the interface language and appearance." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Choose the interface language and appearance.", "x": 82, "y": 29}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 82, "y": 67}, {"text": "Use About for the app version; close Settings with Done.", "x": 84, "y": 9}]} />
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
 
-To manage a saved PIN, open Card for that identity and use Delete saved PIN when available. Saving uses the platform’s protected vault and offered device authentication; deleting the saved copy does not change or unblock the physical card PIN. A different card needs its own PIN.
+Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
+
+<GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings", "x": 15, "y": 25}]} />
+
+Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.
 
 ## Use Shortcuts, Siri, Spotlight and Handoff
 
@@ -125,7 +137,6 @@ For document search, enable Find signed documents in Siri and Spotlight in Setti
 ## Use iPad windows and Files alongside signing
 
 This guide uses native iPad captures, not enlarged phone screenshots. The layout follows available window width. In a wider window, keep the card and file controls visible together; in a narrow window, expect compact navigation. Use Files beside eSemnBun to locate documents and choose or drag them where the system permits. If a split window hides controls, enlarge it or scroll before signing. Keep the app active for a website request. The captures below show the native portrait window; they do not establish that every multitasking gesture has been exercised.
-
 
 ## Get help without sharing secrets
 

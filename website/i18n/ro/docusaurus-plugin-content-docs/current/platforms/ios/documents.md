@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Găsește documentele salvate — iPhone
 
-[Ghidurile platformei](../ios.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../ios.md) · [Primii pași](./setup.md)
 
 Deschide detaliile semnării, distribuie fișierele și golește istoricul recent.
 

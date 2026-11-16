@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
-Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.
-
 ## Configurează limba, aspectul și descoperirea în sistem
 
 Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.

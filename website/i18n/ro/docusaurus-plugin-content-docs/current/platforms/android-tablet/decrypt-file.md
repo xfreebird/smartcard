@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Decriptează un fișier primit — Tabletă Android
 
-[Ghidurile platformei](../android-tablet.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android-tablet.md) · [Primii pași](./setup.md)
 
 Decriptează un fișier primit
 

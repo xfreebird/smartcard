@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Расшифруйте полученный файл — iPhone
 
-[Все руководства платформы](../ios.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../ios.md) · [Начало работы](./setup.md)
 
 Расшифруйте полученный файл
 

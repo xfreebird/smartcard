@@ -133,6 +133,8 @@ Treci la Istoric, alege Golește lista și citește confirmarea. Eliminarea isto
 
 ## 20. Alege limba și aspectul
 
+Deschide Preferințe din meniul aplicației. Modul demonstrativ este sus. Consultă cardurile în Carduri și cititoare și gestionează copiile PIN în PIN-uri salvate.
+
 Deschide meniul aplicației → Preferințe. Alege aspectul Sistem, Deschis sau Întunecat și limba Sistem, Română, English sau Русский. Modificările se aplică interfeței. Capturile folosesc traducerile native.
 
 <GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 69, "y": 41}, {"text": "Alege limba interfeței.", "x": 69, "y": 48}]} />
@@ -160,7 +162,6 @@ Deschide Preferințe → Despre eSemnBun pentru versiune și site. Folosește ve
 Meniul aplicației oferă Preferințe, Despre, Verifică actualizările și Ieșire. Pentru ajutor online deschide [depanarea](/docs/troubleshooting). Închiderea ferestrei poate lăsa aplicația în fundal; alege Ieșire pentru oprire. Pentru automatizare continuă cu ghidul CLI Linux.
 
 <GuideScreenshot src="/img/guide/linux/ro/menu.png" alt="Deschide ajutorul și comenzile aplicației" steps={[{"text": "Deschide meniul aplicației."}, {"text": "Alege Preferințe, Ajutor, actualizare sau Ieșire.", "x": 87, "y": 35}]} />
-
 
 ## 25. Aprobă o cerere locală de semnare MCP
 

@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
-Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
-
 ## Set language, appearance and system discovery
 
 Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.

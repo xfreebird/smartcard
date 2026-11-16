@@ -530,9 +530,9 @@
             "ru": "Начало работы"
           },
           "descriptions": {
-            "en": "Install, connect a reader and choose your card.",
-            "ro": "Instalează, conectează cititorul și alege cardul.",
-            "ru": "Установите приложение, подключите считыватель и выберите карту."
+            "en": "Install the app and set up NFC or a USB card reader.",
+            "ro": "Instalează aplicația și configurează NFC sau un cititor USB.",
+            "ru": "Установите приложение и настройте NFC или USB-считыватель."
           },
           "headings": {
             "en": [
@@ -1370,9 +1370,9 @@
             "ru": "Начало работы"
           },
           "descriptions": {
-            "en": "Install, connect a reader and choose your card.",
-            "ro": "Instalează, conectează cititorul și alege cardul.",
-            "ru": "Установите приложение, подключите считыватель и выберите карту."
+            "en": "Install the app and set up NFC or a USB card reader.",
+            "ro": "Instalează aplicația și configurează NFC sau un cititor USB.",
+            "ru": "Установите приложение и настройте NFC или USB-считыватель."
           },
           "headings": {
             "en": [
@@ -1611,9 +1611,9 @@
             ]
           },
           "panels": {
-            "en": 2,
-            "ro": 2,
-            "ru": 2
+            "en": 1,
+            "ro": 1,
+            "ru": 1
           }
         },
         {
@@ -1812,9 +1812,9 @@
             "ru": "Начало работы"
           },
           "descriptions": {
-            "en": "Install, connect a reader and choose your card.",
-            "ro": "Instalează, conectează cititorul și alege cardul.",
-            "ru": "Установите приложение, подключите считыватель и выберите карту."
+            "en": "Install the app and set up NFC or a USB card reader.",
+            "ro": "Instalează aplicația și configurează NFC sau un cititor USB.",
+            "ru": "Установите приложение и настройте NFC или USB-считыватель."
           },
           "headings": {
             "en": [
@@ -2053,9 +2053,9 @@
             ]
           },
           "panels": {
-            "en": 2,
-            "ro": 2,
-            "ru": 2
+            "en": 1,
+            "ro": 1,
+            "ru": 1
           }
         },
         {

@@ -10,7 +10,7 @@ pagination_next: "platforms/ios/encrypt-password"
 
 # Rezolvă o problemă — iPhone
 
-[Ghidurile platformei](../ios.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../ios.md) · [Primii pași](./setup.md)
 
 Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 

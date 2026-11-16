@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Understand verification results — Android phone
 
-[Platform overview](../android.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android.md) · [Get started](./setup.md)
 
 Distinguish invalid signatures, unconfirmed trust and unsigned files.
 

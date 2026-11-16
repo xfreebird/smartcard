@@ -10,7 +10,7 @@ pagination_next: "platforms/android/encrypt-password"
 
 # Rezolvă o problemă — Telefon Android
 
-[Ghidurile platformei](../android.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android.md) · [Primii pași](./setup.md)
 
 Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 

@@ -27,7 +27,7 @@ The certificate is read without a PIN. Wait for the holder and expiry before sta
 
 The card artwork uses certificate data and a neutral avatar, not a photograph read from your identity card. If the reader must be refreshed, use the top-right re-read control or the card context menu. Do not start another operation while one is in progress.
 
-<GuideScreenshot src="/img/guide/macos/en/cards.png" alt="Choose the identity and inspect its certificate" steps={[{"x": 7, "y": 31, "text": "Open Card."}, {"x": 60, "y": 42, "text": "With several cards, swipe horizontally or use the carousel arrows to centre the intended identity."}, {"x": 82, "y": 57, "text": "Check holder, issuer, expiry and reader in Signing certificate."}]} />
+<GuideScreenshot src="/img/guide/macos/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader.", "x": 21, "y": 45}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />
 
 ## Add documents and choose their format
 
@@ -137,7 +137,7 @@ Navigate to the service’s electronic-ID login/signing action. Read the request
 
 ## Set language, appearance and system discovery
 
-Open eSemnBun → Settings (⌘,). General offers Romanian, English, Russian and system language, plus light, dark or system appearance. Saved PINs has its own tab. Delete an entry there to remove only the stored copy; this never changes the physical card PIN.
+Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
 
 For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight. Only readable app-owned signed PDF/XML filenames and dates are exposed. Document bodies, certificate identities and PINs are not indexed. In standalone macOS this excludes arbitrary files beside your originals; only eligible app-owned imports qualify. Disable discovery to remove this index.
 

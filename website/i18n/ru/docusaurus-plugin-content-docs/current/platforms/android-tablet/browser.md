@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Подпишите на сайте — Планшет Android
 
-[Все руководства платформы](../android-tablet.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android-tablet.md) · [Начало работы](./setup.md)
 
 Подключите сервис, проверьте запросы и управляйте сеансами сайтов.
 

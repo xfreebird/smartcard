@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Check a signature — iPhone
 
-[Platform overview](../ios.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../ios.md) · [Get started](./setup.md)
 
 Verify a PDF or XML and inspect its signer and certificate.
 
@@ -18,7 +18,7 @@ Verify a PDF or XML and inspect its signer and certificate.
 
 Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF or XML. Expand each signature, then its certificate and technical sections. Check every signature when a file is countersigned. Offline results distinguish document integrity, cryptographic signature, embedded trust and timestamp information; they are not a current revocation check.
 
-<GuideScreenshot src="/img/guide/iphone/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen"}]} />
+<GuideScreenshot src="/img/guide/iphone/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 87}]} />
 <GuideScreenshot src="/img/guide/iphone/en/certificate.png" alt="Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity." steps={[{"text": "Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity.", "x": 9, "y": 87}]} />
 
 ## Supply the original for a detached XML signature

@@ -10,7 +10,7 @@ pagination_next: "platforms/android-tablet/encrypt-password"
 
 # Решите проблему — Планшет Android
 
-[Все руководства платформы](../android-tablet.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android-tablet.md) · [Начало работы](./setup.md)
 
 Безопасно решайте проблемы считывателя, PIN, документов и соединения.
 

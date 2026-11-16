@@ -25,6 +25,12 @@ TOPICS = {
  'unattended': (tr('Configure unattended signing','Configurează semnarea nesupravegheată','Настройте подпись без присутствия'), tr('Pin the certificate, choose a secret provider and restrict output.','Fixează certificatul, alege sursa secretului și restricționează rezultatele.','Закрепите сертификат, выберите источник секрета и ограничьте вывод.')),
  'service': (tr('Run the browser service','Pornește serviciul pentru browser','Запустите службу браузера'), tr('Start and stop the local bridge or supported user service.','Pornește și oprește conexiunea locală sau serviciul utilizatorului.','Запускайте и останавливайте локальный мост или службу пользователя.')),
 }
+CONTACTLESS_PLATFORMS = ('ios', 'android', 'android-tablet')
+CONTACTLESS_SETUP = tr(
+ 'Install the app and set up NFC or a USB card reader.',
+ 'Instalează aplicația și configurează NFC sau un cititor USB.',
+ 'Установите приложение и настройте NFC или USB-считыватель.',
+)
 MOBILE = {'setup':[0,1,15],'signing':[2,3,4,5,6],'verification':[7,8],'results':[9],'documents':[10,11],'browser':[12],'preferences':[13],'automation':[14],'help':[16],'_overview':[17]}
 ANDROID = {'setup':[0,22],'signing':[1,2,3,4,5,6,7],'verification':[8,12,13],'results':[9,10,11],'documents':[14,15,16],'browser':[17,18,19,20,21],'preferences':[23],'help':[24]}
 MAPS = {
@@ -83,6 +89,7 @@ def organize(check=False):
    if topic.startswith('_'): continue
    labels,descriptions=TOPICS[topic]
    if platform=='windows-cli' and topic=='verification': labels=tr('Verify with MCP','Verifică prin MCP','Проверьте через MCP')
+   if platform in CONTACTLESS_PLATFORMS and topic=='setup': descriptions=CONTACTLESS_SETUP
    entry['topics'].append({'id':topic,'labels':labels,'descriptions':descriptions,'headings':{},'panels':{}})
   for lang in LOCALES:
    source=ROOT/'docs/user-guide/content'/lang/f'{platform}.md'
@@ -110,7 +117,9 @@ def organize(check=False):
           'pagination_prev':f'platforms/{platform}/{topic_ids[position-1]}' if position else f'platforms/{platform}',
           'pagination_next':f'platforms/{platform}/{topic_ids[position+1]}' if position+1<len(topic_ids) else None}
     context=f'[{WORDS["all"][lang]}](../{platform}.md)'
-    if topic!='setup': context+=f' · [{WORDS["setup"][lang]}](./setup.md)'
+    if topic!='setup':
+     setup_label=TOPICS['setup'][0] if platform in CONTACTLESS_PLATFORMS else WORDS['setup']
+     context+=f' · [{setup_label[lang]}](./setup.md)'
     if topic in ('approval','unattended'):
      mcp_path='./mcp.md' if 'mcp' in mapping else f'../{platform}-cli/mcp.md'
      context+=f' · [{TOPICS["mcp"][0][lang]}]({mcp_path})'

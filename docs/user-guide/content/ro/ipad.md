@@ -6,25 +6,33 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # iPad
 
-Urmează cercurile numerotate pentru fiecare obiectiv. Atinge imaginea pentru a o mări.
-
 Instalează eSemnBun prin canalul Apple disponibil din [Descărcări](/downloads), apoi deschide aplicația instalată. Ai nevoie de un act electronic activ acceptat, PIN-ul corect de semnare, un cititor cu fir compatibil și [adaptorul](/devices) potrivit. Dispozitivele USB-C necesită o conexiune USB adecvată; pentru Lightning poate fi necesar un adaptor alimentat. Semnarea prin NFC nu este disponibilă.
 
 ## Conectează cititorul și introdu cardul
 
-Certificatul de semnare este citit fără PIN. Mesajul despre cititorul gol indică un cititor detectat, dar fără un card pregătit. Așteaptă afișarea titularului și a valabilității înainte de semnare.
+Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare.
 
-<GuideScreenshot src="/img/guide/ipad/ro/connect.png" alt="Conectează cititorul USB prin adaptorul potrivit." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Conectează cititorul USB prin adaptorul potrivit.", "x": 10.0, "y": 55.2}]} />
-<GuideScreenshot src="/img/guide/ipad/ro/empty-reader.png" alt="Introdu cardul când aplicația indică un cititor gol." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Introdu cardul când aplicația indică un cititor gol.", "x": 10.0, "y": 58.6}]} />
+### Semnează cu un cititor USB
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua.
+
+<GuideScreenshot src="/img/guide/ipad/ro/reader-sign.png" alt="Ecranul Semnează cu cititorul de carduri USB selectat" steps={[{"text": "Ecranul Semnează cu cititorul de carduri USB selectat", "x": 40, "y": 39}]} />
 
 ## Alege identitatea care va semna
 
-Dacă sunt conectate mai multe carduri, glisează caruselul pentru a centra titularul dorit. Cardul selectat este folosit la operație. Deschide Card pentru certificat sau pentru recitire după reconectare. Portretul neutru este o ilustrație, nu fotografia citită din act.
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**.
 
-<GuideScreenshot src="/img/guide/ipad/ro/cards.png" alt="Glisează caruselul pentru a alege titularul dorit." steps={[{"text": "Glisează caruselul pentru a alege titularul dorit.", "x": 20, "y": 18}, {"text": "Deschide Card pentru certificat și cititor; folosește meniul filelor dacă această filă este ascunsă.", "x": 73, "y": 5}]} />
-<GuideScreenshot src="/img/guide/ipad/ro/card.png" alt="Verifică titularul, valabilitatea certificatului și cititorul." steps={[{"text": "Verifică titularul, valabilitatea certificatului și cititorul.", "x": 7, "y": 37}, {"text": "Recitește după corectarea conexiunii; ștergerea PIN-ului salvat nu schimbă PIN-ul cardului.", "x": 95, "y": 5}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/cards-current.png" alt="Consultă identitatea selectată înainte de semnare." steps={[{"text": "Consultă identitatea selectată înainte de semnare.", "x": 15, "y": 25}]} />
+
+<GuideScreenshot src="/img/guide/ipad/ro/batch-current.png" alt="Verifică documentul ales înainte de a apăsa Continuă." steps={[{"text": "Verifică documentul ales înainte de a apăsa Continuă.", "x": 38, "y": 19}]} />
+
+<GuideScreenshot src="/img/guide/ipad/ro/consent-current.png" alt="Verifică și aprobă cererea în fereastra PIN." steps={[{"text": "Verifică și aprobă cererea în fereastra PIN.", "x": 50, "y": 27}]} />
 
 ## Adaugă documente și alege formatul semnăturii
+
+### Alege cum semnezi
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua. Cu un cititor USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale.
 
 Deschide Semnează și alege fișiere din Fișiere sau dintr-un furnizor cloud. Descarcă întâi documentele disponibile doar în cloud dacă accesul eșuează. Poți trimite fișiere și din meniul de partajare al altei aplicații către extensia eSemnBun. Extinde lista, verifică numele, elimină fișierele nedorite din opțiunile lor și alege formatul cerut. PDF-urile folosesc PAdES-T; celelalte fișiere folosesc XAdES. XML-ul detașat trebuie păstrat împreună cu originalul nemodificat. XAdES-BES nu are marcă temporală, T o adaugă, iar C include referințe la certificate și stare. XML-ul încorporat include conținutul original. Formatele cu marcă temporală necesită serviciile publice de încredere.
 
@@ -62,7 +70,7 @@ Citește eroarea documentului afectat. Păstrează rezultatele deja finalizate �
 
 Verificarea necesită fișierul, nu cititorul sau PIN-ul. În Verifică, alege PDF-ul ori XML-ul semnat. Extinde fiecare semnătură, apoi certificatul și detaliile tehnice. Verifică toate semnăturile unui document contrasemnat. Rezultatele offline separă integritatea, semnătura criptografică, încrederea în lanțul inclus și marca temporală; nu reprezintă verificarea revocării curente.
 
-<GuideScreenshot src="/img/guide/ipad/ro/verify.png" alt="Deschide Verifică și adaugă documentul semnat." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Deschide Verifică și adaugă documentul semnat.", "x": 37.0, "y": 36.6}, {"text": "Extinde rândul semnăturii pentru rezultat și semnatar.", "x": 11.0, "y": 80.5}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 50, "y": 94}]} />
 <GuideScreenshot src="/img/guide/ipad/ro/certificate.png" alt="Derulează semnătura extinsă la detaliile certificatului, apoi analizează identitatea, valabilitatea și amprenta separat de integritatea documentului." steps={[{"text": "Derulează semnătura extinsă la detaliile certificatului, apoi analizează identitatea, valabilitatea și amprenta separat de integritatea documentului.", "x": 13, "y": 59}]} />
 
 ## Furnizează originalul pentru XML detașat
@@ -104,11 +112,15 @@ Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează 
 
 ## Schimbă limba, aspectul și confidențialitatea
 
-Deschide Card, apoi Setări. Alege Română, English, Русский ori Sistem și tema Luminoasă, Întunecată ori Sistem. Activează ștampilele PDF din browser doar dacă le dorești pentru cererile acceptate. Modul demonstrativ obișnuit este etichetat intenționat și nu produce semnături reale. Despre afișează versiunea și informațiile utile. Actualizările vin prin canalul Apple folosit la instalare.
+Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
 
-<GuideScreenshot src="/img/guide/ipad/ro/settings.png" alt="Alege limba interfeței și tema." caption="Captură iPad nativă în portret; spațiul liber ori împrejurimile ferestrei au fost decupate pentru lizibilitate." steps={[{"text": "Alege limba interfeței și tema.", "x": 82, "y": 29}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 82, "y": 67}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 84, "y": 9}]} />
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**.
 
-Pentru un PIN memorat, deschide Card pentru identitatea respectivă și Șterge PIN-ul salvat când opțiunea este disponibilă. Memorarea folosește seiful protejat al platformei și autentificarea dispozitivului; ștergerea copiei nu schimbă și nu deblochează PIN-ul fizic. Un alt card necesită propriul PIN.
+Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
+
+<GuideScreenshot src="/img/guide/ipad/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări", "x": 15, "y": 25}]} />
+
+Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.
 
 ## Folosește Scurtături, Siri, Spotlight și Handoff
 
@@ -125,7 +137,6 @@ Pentru căutare, activează Găsește documentele semnate în Siri și Spotlight
 ## Folosește ferestrele iPad și Fișiere alături de semnare
 
 Ghidul folosește capturi iPad native, nu imagini de telefon mărite. Aspectul urmează lățimea ferestrei. Într-o fereastră largă, cardul și comenzile fișierelor pot rămâne vizibile împreună; într-una îngustă, navigarea devine compactă. Deschide Fișiere alături de eSemnBun și alege sau trage documentele unde sistemul permite. Mărește fereastra ori derulează dacă o comandă este ascunsă. Păstrează aplicația activă pentru cererile web. Capturile arată fereastra portret nativă, nu verificarea tuturor gesturilor de multitasking.
-
 
 ## Cere ajutor fără a trimite secrete
 

@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Decrypt a received file — Android phone
 
-[Platform overview](../android.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android.md) · [Get started](./setup.md)
 
 Decrypt a received file
 

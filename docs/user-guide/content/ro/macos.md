@@ -27,7 +27,7 @@ Certificatul se citește fără PIN. Așteaptă afișarea titularului și a expi
 
 Imaginea cardului folosește datele certificatului și un avatar neutru, nu fotografia citită din act. Pentru a reciti cardul, folosește butonul din dreapta sus sau meniul contextual al cardului. Nu porni o altă operațiune în timpul uneia active.
 
-<GuideScreenshot src="/img/guide/macos/ro/cards.png" alt="Alege identitatea și verifică certificatul" steps={[{"x": 7, "y": 31, "text": "Deschide Card."}, {"x": 60, "y": 42, "text": "Dacă sunt mai multe carduri, glisează orizontal sau folosește săgețile caruselului pentru a selecta identitatea dorită."}, {"x": 82, "y": 57, "text": "Verifică titularul, emitentul, expirarea și cititorul în Certificatul de semnare."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat.", "x": 21, "y": 45}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />
 
 ## Adaugă documentele și alege formatul
 
@@ -137,7 +137,7 @@ Navighează la autentificarea/semnarea cu act electronic a serviciului. Citește
 
 ## Configurează limba, aspectul și descoperirea în sistem
 
-Deschide eSemnBun → Configurări (⌘,). General oferă română, engleză, rusă și limba sistemului, plus aspect luminos, întunecat sau de sistem. PIN-urile salvate au o filă separată. Ștergerea unei intrări elimină numai copia salvată; nu schimbă PIN-ul cardului fizic.
+Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.
 
 Pentru descoperirea Spotlight/Siri activează Găsește documentele semnate în Siri și Spotlight. Sunt expuse numai numele și datele PDF/XML-urilor semnate, lizibile și deținute de aplicație. Conținutul, identitatea din certificat și PIN-ul nu sunt indexate. În ediția independentă, fișierele arbitrare de lângă originale nu sunt eligibile; sunt eligibile numai importurile deținute de aplicație. Dezactivează opțiunea pentru eliminarea indexului.
 

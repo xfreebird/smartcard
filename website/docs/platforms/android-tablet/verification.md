@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Check a signature — Android tablet
 
-[Platform overview](../android-tablet.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android-tablet.md) · [Get started](./setup.md)
 
 Verify a PDF or XML and inspect its signer and certificate.
 
@@ -18,7 +18,7 @@ Verify a PDF or XML and inspect its signer and certificate.
 
 Verification does not require the card or PIN. A green result refers to the checks shown, not to the filename or the presence of a visible stamp.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen"}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 53, "y": 28}]} />
 
 ## Inspect certificate and technical details
 

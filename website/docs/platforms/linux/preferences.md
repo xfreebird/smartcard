@@ -14,13 +14,13 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
-Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies.
-
 ## Choose language and appearance
+
+Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies.
 
 Open the application menu → Preferences. Choose System, Light or Dark appearance and System, Romanian, English or Russian language. Changes apply to the interface. These captures use native translated controls.
 
-<GuideScreenshot src="/img/guide/linux/en/settings-current.png" alt="Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies." steps={[{"text": "Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies."}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings-current.png" alt="Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies." steps={[{"text": "Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies.", "x": 75, "y": 18}]} />
 
 ## Manage saved PINs and website access
 

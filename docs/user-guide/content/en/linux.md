@@ -29,7 +29,7 @@ Insert your electronic ID and wait for the certificate read. Check the holder an
 
 With several cards, select the intended identity in the carousel. The card artwork uses certificate information and a neutral avatar, not a photograph read from your ID. Re-read the card with the refresh control if needed.
 
-<GuideScreenshot src="/img/guide/linux/en/cards.png" alt="Choose the intended identity" steps={[{"text": "Open Card.", "x": 68, "y": 3}, {"text": "Choose the dot for the intended card, or scroll the carousel.", "x": 50, "y": 37}, {"text": "Inspect the public certificate and reader details below.", "x": 57, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader.", "x": 48, "y": 28}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />
 
 ## 4. Add documents and prepare a batch
 
@@ -133,9 +133,11 @@ Switch to History, choose Clear list and read the confirmation before accepting 
 
 ## 20. Choose language and appearance
 
+Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies.
+
 Open the application menu → Preferences. Choose System, Light or Dark appearance and System, Romanian, English or Russian language. Changes apply to the interface. These captures use native translated controls.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Choose language and appearance" steps={[{"text": "Choose the appearance.", "x": 69, "y": 41}, {"text": "Choose the interface language.", "x": 69, "y": 48}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings-current.png" alt="Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies." steps={[{"text": "Open Preferences from the application menu. Demo mode is at the top. Use Cards and readers to inspect cards and Saved PINs to manage the stored copies.", "x": 75, "y": 18}]} />
 
 ## 21. Manage saved PINs and website access
 
@@ -160,7 +162,6 @@ Open Preferences → About eSemnBun to find the installed version and website. U
 The application menu contains Preferences, About, Check for Updates and Quit. Open [troubleshooting](/docs/troubleshooting) for online help. Closing the window may leave the app running when background mode is enabled; choose Quit to end it. For terminal automation continue with the Linux CLI guide.
 
 <GuideScreenshot src="/img/guide/linux/en/menu.png" alt="Open help and application commands" steps={[{"text": "Open the application menu."}, {"text": "Choose the intended Preferences, Help, update or Quit action.", "x": 87, "y": 35}]} />
-
 
 ## 25. Approve a local MCP signing request
 

@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Encrypt a file with a password — iPhone
 
-[Platform overview](../ios.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../ios.md) · [Get started](./setup.md)
 
 Encrypt a file with a password
 

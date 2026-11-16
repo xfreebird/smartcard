@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Зашифруйте файл паролем — Телефон Android
 
-[Все руководства платформы](../android.md) · [Установка и подключение считывателя](./setup.md)
+[Все руководства платформы](../android.md) · [Начало работы](./setup.md)
 
 Зашифруйте файл паролем
 

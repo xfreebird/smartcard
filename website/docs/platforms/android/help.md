@@ -10,7 +10,7 @@ pagination_next: "platforms/android/encrypt-password"
 
 # Fix a problem — Android phone
 
-[Platform overview](../android.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android.md) · [Get started](./setup.md)
 
 Resolve reader, PIN, document and connection problems safely.
 

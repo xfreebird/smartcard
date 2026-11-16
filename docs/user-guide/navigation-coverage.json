@@ -1,7 +1,7 @@
 {
   "overviews": 30,
   "taskPages": 327,
-  "panels": 702,
+  "panels": 696,
   "coverage": [
     {
       "platform": "macos",
@@ -79,7 +79,7 @@
       "platform": "android",
       "locale": "en",
       "topics": 10,
-      "panels": 31,
+      "panels": 30,
       "originalSections": 27,
       "redirects": 27
     },
@@ -87,7 +87,7 @@
       "platform": "android",
       "locale": "ro",
       "topics": 10,
-      "panels": 31,
+      "panels": 30,
       "originalSections": 27,
       "redirects": 27
     },
@@ -95,7 +95,7 @@
       "platform": "android",
       "locale": "ru",
       "topics": 10,
-      "panels": 31,
+      "panels": 30,
       "originalSections": 27,
       "redirects": 27
     },
@@ -103,7 +103,7 @@
       "platform": "android-tablet",
       "locale": "en",
       "topics": 10,
-      "panels": 31,
+      "panels": 30,
       "originalSections": 27,
       "redirects": 27
     },
@@ -111,7 +111,7 @@
       "platform": "android-tablet",
       "locale": "ro",
       "topics": 10,
-      "panels": 31,
+      "panels": 30,
       "originalSections": 27,
       "redirects": 27
     },
@@ -119,7 +119,7 @@
       "platform": "android-tablet",
       "locale": "ru",
       "topics": 10,
-      "panels": 31,
+      "panels": 30,
       "originalSections": 27,
       "redirects": 27
     },

@@ -10,7 +10,7 @@ pagination_next: "platforms/android-tablet/encrypt-password"
 
 # Fix a problem — Android tablet
 
-[Platform overview](../android-tablet.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android-tablet.md) · [Get started](./setup.md)
 
 Resolve reader, PIN, document and connection problems safely.
 

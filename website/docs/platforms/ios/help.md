@@ -10,7 +10,7 @@ pagination_next: "platforms/ios/encrypt-password"
 
 # Fix a problem — iPhone
 
-[Platform overview](../ios.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../ios.md) · [Get started](./setup.md)
 
 Resolve reader, PIN, document and connection problems safely.
 

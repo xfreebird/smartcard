@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Verifică o semnătură — Telefon Android
 
-[Ghidurile platformei](../android.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android.md) · [Primii pași](./setup.md)
 
 Verifică un PDF sau XML și inspectează semnatarul și certificatul.
 
@@ -18,7 +18,7 @@ Verifică un PDF sau XML și inspectează semnatarul și certificatul.
 
 Verificarea nu necesită card sau PIN. Rezultatul verde privește verificările afișate, nu numele fișierului sau prezența ștampilei vizibile.
 
-<GuideScreenshot src="/img/guide/android-phone/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică"}]} />
+<GuideScreenshot src="/img/guide/android-phone/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 47, "y": 21}]} />
 
 ## Consultă certificatul și detaliile tehnice
 

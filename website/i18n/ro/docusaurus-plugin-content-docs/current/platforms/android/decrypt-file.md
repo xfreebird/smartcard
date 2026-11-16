@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Decriptează un fișier primit — Telefon Android
 
-[Ghidurile platformei](../android.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android.md) · [Primii pași](./setup.md)
 
 Decriptează un fișier primit
 

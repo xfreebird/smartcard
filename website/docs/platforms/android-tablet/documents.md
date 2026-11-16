@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Find saved documents — Android tablet
 
-[Platform overview](../android-tablet.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android-tablet.md) · [Get started](./setup.md)
 
 Open signing details, share saved files and clear recent history.
 

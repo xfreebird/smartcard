@@ -26,7 +26,7 @@ Mai multe carduri apar în caruselul orizontal. Selectează cardul centrat cu ca
 
 ### Alege și examinează cardul
 
-<GuideScreenshot src="/img/guide/windows/ro/card.png" alt="Alege și examinează cardul" steps={[{"x": 5.351, "y": 26.15, "text": "Deschide Card după conectarea cititorului și introducerea cardului."}, {"x": 60.148, "y": 31.201, "text": "Verifică titularul și expirarea; alege cardul dorit din carusel."}, {"x": 51.015, "y": 58.474, "text": "Examinează certificatul și cititorul înainte de semnare."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat.", "x": 49, "y": 42}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />
 
 ## Semnează documente din aplicație sau Explorer
 
@@ -75,6 +75,8 @@ Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O sem
 
 ## Configurări, PIN-uri și pictograma din zona de notificare
 
+Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.
+
 Configurările includ limba (română, engleză, rusă), aspectul, administrarea PIN-urilor salvate, preferințe de pornire și deschidere la conectarea cititorului, conexiunea cu browserul, modul demonstrativ și informații despre aplicație. Unele controale depind de distribuția instalată.
 
 Un PIN salvat folosește facilitățile de securitate și autentificare Windows. Ștergerea lui elimină intrarea salvată de aplicație și nu modifică PIN-ul cardului fizic. Verifică cărui card îi aparține intrarea înainte de a o elimina.
@@ -85,7 +87,7 @@ Modul demonstrativ necesită acceptare, arată carduri fictive și documente de 
 
 ### Schimbă limba și aspectul
 
-<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 6.365, "y": 96.857, "text": "Deschide Setări."}, {"x": 27.675, "y": 88.777, "text": "Alege limba și aspectul aplicației."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/settings-current.png" alt="Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect." steps={[{"text": "Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.", "x": 32, "y": 18}]} />
 
 ### Conexiune browser și cereri locale
 

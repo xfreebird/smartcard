@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Android tablet
 
-Use a compatible USB/OTG reader and an active electronic ID with its signing PIN. Android 8 or later and USB host support are required. NFC signing is unavailable. Install from the channel listed on [Downloads](/downloads); an APK installs on a device, while an AAB is a store upload. Update through the same distribution channel.
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN. Install or update through your device’s channel on [Downloads](/downloads).
 
 Numbered circles point to the controls used in each journey. Tap an image to enlarge it.
 
@@ -15,13 +15,29 @@ A wide tablet window uses a left navigation rail and keeps signing controls in t
 
 ## 1. Connect the reader and card
 
-Connect the reader with the appropriate adapter. Permission is needed for the USB device, not broad access to every file. Reading the signing certificate does not require a PIN.
+Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/connect.png" alt="Connect the reader and card" steps={[{"text": "Tap Allow and accept Android’s USB-access prompt for this reader.", "x": 13.5, "y": 32.9}, {"text": "Insert the card, wait for Card ready, and check the holder and expiry before signing."}]} />
+### Sign over NFC
+
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the device’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+
+<GuideScreenshot src="/img/guide/android-tablet/en/nfc-sign.png" alt="The Sign screen with NFC selected" steps={[{"text": "The Sign screen with NFC selected", "x": 45, "y": 75}]} />
+
+### Sign with a USB card reader
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
+<GuideScreenshot src="/img/guide/android-tablet/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected", "x": 48, "y": 78}]} />
 
 ## 2. Add files and prepare a batch
 
-Keep the reader connected until every result appears. The original input remains separate from the signed output. You can also share documents from Files or another app to eSemnBun.
+### Choose how to sign
+
+Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the device’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing. With USB, keep the reader connected and the card inserted until the signature and timestamp are complete.
+
+For USB, keep the reader connected until every result appears. The original input remains separate from the signed output. You can also share documents from Files or another app to eSemnBun.
 
 <GuideScreenshot src="/img/guide/android-tablet/en/sign.png" alt="Add files and prepare a batch" steps={[{"text": "Swipe to the intended card and check the Used for signing indicator.", "x": 17.3, "y": 18.4}, {"text": "Tap Add documents and select one or several files in the system picker. Download cloud files first if they are unavailable.", "x": 47.4, "y": 46.5}, {"text": "Review the expanded document rows. Open each file menu to change its format, stamp, or remove it."}, {"text": "Tap Sign when the card and the full document list are correct.", "x": 66, "y": 53.5}]} />
 
@@ -67,7 +83,7 @@ On Android 10 and later, ordinary signed output is saved under Downloads/eSemnBu
 
 Verification does not require the card or PIN. A green result refers to the checks shown, not to the filename or the presence of a visible stamp.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify.png" alt="Check a signed document" steps={[{"text": "Open Verify, choose a signed PDF or XML, and wait for results. Use the system picker to select files from other apps or providers.", "x": 47.1, "y": 25.3}, {"text": "Read the verdict and each signature’s author, signing time, timestamp, integrity, signature, and trust-chain checks.", "x": 35.0, "y": 43.3}, {"text": "Remove an input with × to clear its result, or clear all results before a new check.", "x": 67.8, "y": 35.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 53, "y": 28}]} />
 
 ## Understand an invalid signature
 
@@ -151,17 +167,19 @@ Open Services → Clear browsing data. Clearing cookies signs you out. Removing 
 
 ## 14. Inspect or refresh the card
 
-The displayed card uses certificate information and a neutral avatar, not a photograph read from your ID. The signing key stays on the physical card.
-
-<GuideScreenshot src="/img/guide/android-tablet/en/card.png" alt="Inspect or refresh the card" steps={[{"text": "Open Card, select the intended identity, and inspect holder, issuer, validity, serial number, and fingerprint.", "x": 42.3, "y": 18.0}, {"text": "Use Re-read the card after reconnecting it; scroll down for the same action and certificate fields.", "x": 33.9, "y": 88.3}, {"text": "Delete stored PIN removes any previously saved app entry; it does not change the physical card PIN. Current Android approval does not offer saving a new PIN."}]} />
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
 ## 15. Language, appearance, demo, and support
 
-Open the gear → General. Choose App language: System, Romanian, English, or Russian; choose Theme: System, Light, or Dark. Choices apply to eSemnBun only and are remembered. Android 13+ also exposes the language choice in system Settings → Apps → eSemnBun → Language. General also controls browser stamps and lets you remove the selected card’s saved PIN.
+Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/settings.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open the gear → General. Tap App language and choose System, Romanian, English, or Russian.", "x": 38.3, "y": 39.5}, {"text": "Tap Theme and choose System, Light, or Dark. The app remembers both choices.", "x": 36.6, "y": 46.1}, {"text": "Enable browser stamps when needed. Remove a saved PIN only for the selected card; this does not change the card’s PIN.", "x": 43.1, "y": 52.5}, {"text": "Open the gear → General to enable demo mode after reading its explanation. Ordinary demo mode is labelled and produces samples, not valid signatures; disable it before real work.", "x": 48.4, "y": 64.8}]} />
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/about.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open About to find the version, official-source disclosure, and website. Include app/Android version, reader/adapter model, and reproduction steps in support requests.", "x": 45.3, "y": 29.8}]} />
+Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
+
+<GuideScreenshot src="/img/guide/android-tablet/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings", "x": 41, "y": 38}]} />
+
+Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.
 
 ## Troubleshooting
 
@@ -178,6 +196,7 @@ For background on result meanings, see [Signing and verification](/docs/signing)
 
 <!-- file-protection-guides -->
 
+If the NFC session is interrupted, keep the card near the antenna until the scan closes. Confirm the selected card and PIN before retrying a failed PIN entry. You can switch to a compatible USB reader in Sign.
 
 ## Encrypt a file with a password
 

@@ -1,7 +1,7 @@
 ---
 title: "Начало работы — Телефон Android"
 sidebar_label: "Начало работы"
-description: "Установите приложение, подключите считыватель и выберите карту."
+description: "Установите приложение и настройте NFC или USB-считыватель."
 pagination_prev: "platforms/android"
 pagination_next: "platforms/android/signing"
 ---
@@ -12,9 +12,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 [Все руководства платформы](../android.md)
 
-Установите приложение, подключите считыватель и выберите карту.
-
-
+Установите приложение и настройте NFC или USB-считыватель.
 
 ## Подключите считыватель и карту
 
@@ -24,13 +22,13 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Начиная с eSemnBun 0.2.12, на совместимом iPhone или Android-устройстве можно подписывать документы с совместимой бесконтактной картой по NFC. Можно также использовать совместимый USB-считыватель. На экране **Подписать** выберите **С телефона · NFC** и добавьте документ. Нажмите **Продолжить**, проверьте запрос и подтвердите PIN-код подписи. Держите карту возле NFC-антенны телефона до сообщения о завершении. На Android включите NFC.
 
-<GuideScreenshot src="/img/guide/android-phone/ru/nfc-sign.png" alt="Экран подписания с выбранным NFC" steps={[{"text": "Экран подписания с выбранным NFC"}]} />
+<GuideScreenshot src="/img/guide/android-phone/ru/nfc-sign.png" alt="Экран подписания с выбранным NFC" steps={[{"text": "Экран подписания с выбранным NFC", "x": 29, "y": 53}]} />
 
 ### Подпишите через USB-считыватель
 
 Для USB подключите считыватель через подходящий [адаптер](/devices), выберите **Со считывателем карт** на экране **Подписать** и вставьте карту. Если подключено несколько карт, выберите нужного владельца перед продолжением.
 
-<GuideScreenshot src="/img/guide/android-phone/ru/reader-sign.png" alt="Экран подписания с выбранным USB-считывателем" steps={[{"text": "Экран подписания с выбранным USB-считывателем"}]} />
+<GuideScreenshot src="/img/guide/android-phone/ru/reader-sign.png" alt="Экран подписания с выбранным USB-считывателем" steps={[{"text": "Экран подписания с выбранным USB-считывателем", "x": 29, "y": 53}]} />
 
 ## Просмотрите или перечитайте карту
 

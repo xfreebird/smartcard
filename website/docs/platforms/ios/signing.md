@@ -10,17 +10,17 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Sign documents — iPhone
 
-[Platform overview](../ios.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../ios.md) · [Get started](./setup.md)
 
 Add files, choose the format and stamp, approve and save the output.
 
-## Choose how to sign
+## Add documents and choose a signature format
 
-Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+### Choose how to sign
+
+Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion.
 
 For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing. With USB, keep the reader connected and the card inserted until the signature and timestamp are complete.
-
-## Add documents and choose a signature format
 
 Open Sign and choose files from Files or a cloud provider. Download cloud-only documents first if access fails. You can also send files from another app through its share sheet to the eSemnBun extension. Expand the file list, inspect each name, remove unintended files from its options, and choose the requested format. PDFs use PAdES-T; other files use XAdES. Detached XML must travel with its unchanged original. XAdES-BES has no timestamp, T adds one, and C adds certificate/status references. Enveloping XML includes its source content. Timestamped signing requires the public trust services.
 
@@ -43,7 +43,7 @@ For website requests, inspect the requesting origin and the whole document list 
 
 ## Wait for completion and save the signed output
 
-Keep the reader and card connected while signing and obtaining the timestamp. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
+For NFC, hold the card in place until the app completes the scan. For USB, keep the reader connected and the card inserted until signing and timestamping finish. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
 
 <GuideScreenshot src="/img/guide/iphone/en/progress.png" alt="Wait for the current signing stage to finish without removing the card." steps={[{"text": "Wait for the current signing stage to finish without removing the card.", "x": 10, "y": 45}]} />
 <GuideScreenshot src="/img/guide/iphone/en/success.png" alt="Check completion and the output name before opening or sharing the result." steps={[{"text": "Check completion and the output name before opening or sharing the result.", "x": 35, "y": 49}]} />

@@ -10,7 +10,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Criptează un fișier cu parolă — Telefon Android
 
-[Ghidurile platformei](../android.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android.md) · [Primii pași](./setup.md)
 
 Criptează un fișier cu parolă
 

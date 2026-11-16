@@ -10,19 +10,19 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Sign documents — Android phone
 
-[Platform overview](../android.md) · [Installation and reader setup](./setup.md)
+[Platform overview](../android.md) · [Get started](./setup.md)
 
 Add files, choose the format and stamp, approve and save the output.
 
-## Choose how to sign
+## Add files and prepare a batch
 
-Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+### Choose how to sign
+
+Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the device’s NFC antenna until the app reports completion. Android devices need NFC enabled.
 
 For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing. With USB, keep the reader connected and the card inserted until the signature and timestamp are complete.
 
-## Add files and prepare a batch
-
-Keep the reader connected until every result appears. The original input remains separate from the signed output. You can also share documents from Files or another app to eSemnBun.
+For USB, keep the reader connected until every result appears. The original input remains separate from the signed output. You can also share documents from Files or another app to eSemnBun.
 
 <GuideScreenshot src="/img/guide/android-phone/en/sign.png" alt="Add files and prepare a batch" steps={[{"text": "Swipe to the intended card and check the Used for signing indicator.", "x": 9.1, "y": 19.5}, {"text": "Tap Add documents and select one or several files in the system picker. Download cloud files first if they are unavailable.", "x": 14.1, "y": 65.1}, {"text": "Expand Show files to review each filename. Use the batch menu for shared settings or the row menu for one file.", "x": 13.6, "y": 58.5}, {"text": "Tap Sign when the card and the full document list are correct.", "x": 53, "y": 84}]} />
 

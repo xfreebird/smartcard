@@ -14,8 +14,6 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Install, connect a reader and choose your card.
 
-
-
 ## Connect the reader and insert your card
 
 Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
@@ -24,17 +22,17 @@ Use an active Moldovan electronic identity card with a valid signing certificate
 
 For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
 
-<GuideScreenshot src="/img/guide/ipad/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected"}]} />
+<GuideScreenshot src="/img/guide/ipad/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected", "x": 40, "y": 39}]} />
 
 ## Choose the identity that will sign
 
 Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
 
-<GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing.", "x": 15, "y": 25}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/batch-current.png" alt="Review the selected document before tapping Continue." steps={[{"text": "Review the selected document before tapping Continue."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/batch-current.png" alt="Review the selected document before tapping Continue." steps={[{"text": "Review the selected document before tapping Continue.", "x": 38, "y": 19}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/consent-current.png" alt="Review and approve the request in the PIN sheet." steps={[{"text": "Review and approve the request in the PIN sheet."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/consent-current.png" alt="Review and approve the request in the PIN sheet." steps={[{"text": "Review and approve the request in the PIN sheet.", "x": 50, "y": 27}]} />
 
 ## Use iPad windows and Files alongside signing
 

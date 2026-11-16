@@ -10,17 +10,17 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Semnează documente — Telefon Android
 
-[Ghidurile platformei](../android.md) · [Instalare și conectarea cititorului](./setup.md)
+[Ghidurile platformei](../android.md) · [Primii pași](./setup.md)
 
 Adaugă fișiere, alege formatul și ștampila, aprobă și salvează rezultatul.
 
-## Alege cum semnezi
+## Adaugă fișiere și pregătește un lot
 
-Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a telefonului până când aplicația confirmă finalizarea. Pe Android trebuie să activezi NFC.
+### Alege cum semnezi
+
+Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a dispozitivului până când aplicația confirmă finalizarea. Pe Android trebuie să activezi NFC.
 
 Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua. Cu un cititor USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale.
-
-## Adaugă fișiere și pregătește un lot
 
 Păstrează cititorul conectat până apar toate rezultatele. Originalul rămâne separat de fișierul semnat. Poți distribui documente din Fișiere sau altă aplicație către eSemnBun.
 

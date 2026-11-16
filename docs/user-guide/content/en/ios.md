@@ -6,25 +6,41 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # iPhone
 
-Follow the numbered circles to complete each goal. Tap an image to enlarge it.
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN. Install or update through your device’s channel on [Downloads](/downloads).
 
-Install eSemnBun through the available Apple distribution channel from [Downloads](/downloads). Launch the installed app. You need a supported active electronic ID, its correct signing PIN, a compatible wired reader and the appropriate [adapter](/devices). USB-C devices need a suitable USB connection; Lightning devices may need a powered Lightning adapter. NFC signing is not supported.
+For USB, connect the reader using the appropriate [adapter](/devices). Lightning devices may need a powered Lightning adapter.
 
 ## Connect the reader and insert your card
 
-The signing certificate is read without a PIN. An empty-reader prompt means the reader is detected but the card is not ready. Wait for the holder and expiry before adding a signing request.
+Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
 
-<GuideScreenshot src="/img/guide/iphone/en/connect.png" alt="Connect the USB reader through the appropriate adapter." steps={[{"text": "Connect the USB reader through the appropriate adapter.", "x": 25, "y": 28}]} />
-<GuideScreenshot src="/img/guide/iphone/en/empty-reader.png" alt="Insert the card when the app reports an empty reader." steps={[{"text": "Insert the card when the app reports an empty reader.", "x": 25, "y": 29}]} />
+### Sign over NFC
+
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion.
+
+<GuideScreenshot src="/img/guide/iphone/en/nfc-sign.png" alt="The Sign screen with NFC selected" steps={[{"text": "The Sign screen with NFC selected", "x": 36, "y": 56}]} />
+
+### Sign with a USB card reader
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
+<GuideScreenshot src="/img/guide/iphone/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected", "x": 38, "y": 59}]} />
 
 ## Choose the identity that will sign
 
-When several cards are connected, swipe the card carousel to centre the intended holder. The selected card is used for the operation. Open Card to check the certificate or re-read the card after reconnecting it. The neutral portrait is an illustration, not a photograph read from the ID.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
-<GuideScreenshot src="/img/guide/iphone/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 28, "y": 27}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 84, "y": 94}]} />
-<GuideScreenshot src="/img/guide/iphone/en/card.png" alt="Check the holder, certificate validity and connected reader." steps={[{"text": "Check the holder, certificate validity and connected reader.", "x": 6, "y": 50}, {"text": "Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.", "x": 90, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing.", "x": 29, "y": 34}]} />
+
+<GuideScreenshot src="/img/guide/iphone/en/batch-current.png" alt="Review the selected document before tapping Continue." steps={[{"text": "Review the selected document before tapping Continue.", "x": 37, "y": 28}]} />
 
 ## Add documents and choose a signature format
+
+### Choose how to sign
+
+Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion.
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing. With USB, keep the reader connected and the card inserted until the signature and timestamp are complete.
 
 Open Sign and choose files from Files or a cloud provider. Download cloud-only documents first if access fails. You can also send files from another app through its share sheet to the eSemnBun extension. Expand the file list, inspect each name, remove unintended files from its options, and choose the requested format. PDFs use PAdES-T; other files use XAdES. Detached XML must travel with its unchanged original. XAdES-BES has no timestamp, T adds one, and C adds certificate/status references. Enveloping XML includes its source content. Timestamped signing requires the public trust services.
 
@@ -47,7 +63,7 @@ For website requests, inspect the requesting origin and the whole document list 
 
 ## Wait for completion and save the signed output
 
-Keep the reader and card connected while signing and obtaining the timestamp. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
+For NFC, hold the card in place until the app completes the scan. For USB, keep the reader connected and the card inserted until signing and timestamping finish. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
 
 <GuideScreenshot src="/img/guide/iphone/en/progress.png" alt="Wait for the current signing stage to finish without removing the card." steps={[{"text": "Wait for the current signing stage to finish without removing the card.", "x": 10, "y": 45}]} />
 <GuideScreenshot src="/img/guide/iphone/en/success.png" alt="Check completion and the output name before opening or sharing the result." steps={[{"text": "Check completion and the output name before opening or sharing the result.", "x": 35, "y": 49}]} />
@@ -62,7 +78,7 @@ Read the error on the affected item. Keep outputs that already completed and cor
 
 Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF or XML. Expand each signature, then its certificate and technical sections. Check every signature when a file is countersigned. Offline results distinguish document integrity, cryptographic signature, embedded trust and timestamp information; they are not a current revocation check.
 
-<GuideScreenshot src="/img/guide/iphone/en/verify.png" alt="Open Verify and add the signed document." steps={[{"text": "Open Verify and add the signed document.", "x": 26, "y": 24}, {"text": "Expand the signature row to read its result and signer.", "x": 8, "y": 48}]} />
+<GuideScreenshot src="/img/guide/iphone/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 87}]} />
 <GuideScreenshot src="/img/guide/iphone/en/certificate.png" alt="Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity." steps={[{"text": "Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity.", "x": 9, "y": 87}]} />
 
 ## Supply the original for a detached XML signature
@@ -104,11 +120,15 @@ To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title,
 
 ## Change language, appearance and privacy preferences
 
-Open Card, then Settings. Choose Romanian, English, Russian or System, and Light, Dark or System appearance. Enable browser PDF stamps only if you want a visible stamp for supported website requests. Normal Demo mode is intentionally labelled; it is for exploration and does not produce real signatures. About shows the installed version and help information. Updates come through the Apple channel used to install the app.
+Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
 
-<GuideScreenshot src="/img/guide/iphone/en/settings.png" alt="Choose the interface language and appearance." steps={[{"text": "Choose the interface language and appearance.", "x": 95, "y": 29}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 86, "y": 65}, {"text": "Use About for the app version; close Settings with Done.", "x": 88, "y": 12}]} />
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
-To manage a saved PIN, open Card for that identity and use Delete saved PIN when available. Saving uses the platform’s protected vault and offered device authentication; deleting the saved copy does not change or unblock the physical card PIN. A different card needs its own PIN.
+Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
+
+<GuideScreenshot src="/img/guide/iphone/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings", "x": 29, "y": 34}]} />
+
+Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.
 
 ## Use Shortcuts, Siri, Spotlight and Handoff
 
@@ -126,11 +146,11 @@ For document search, enable Find signed documents in Siri and Spotlight in Setti
 
 Portrait uses compact tabs. Rotate the phone or expand a supported device/window when you need more space for the card and files. Scroll to reach document options and the PIN review when the keyboard reduces available space. Device posture and rotation support follow iOS; do not assume a foldable posture is identical to a standard landscape phone.
 
-
 ## Get help without sharing secrets
 
 For no reader, check the cable, adapter and power. For an empty reader, reinsert the card and wait. For a repeated card error, stop the operation before reconnecting. For a locked PIN, contact the official card provider. When requesting [support](/support), include app/iOS versions, reader and adapter models and reproduction steps with a fictional sample. Never send your PIN, private identity details or confidential documents.
 
+If the NFC session is interrupted, keep the card near the antenna until the scan closes. Confirm the selected card and PIN before retrying a failed PIN entry. You can switch to a compatible USB reader in Sign.
 
 ## Other guides
 

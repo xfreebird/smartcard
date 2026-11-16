@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Tabletă Android
 
-Folosește un cititor USB/OTG compatibil și un buletin electronic activ, cu PIN-ul de semnare. Sunt necesare Android 8 sau ulterior și suport USB host. Semnarea prin NFC nu este disponibilă. Instalează din canalul indicat în [Descărcări](/downloads); APK-ul se instalează pe dispozitiv, iar AAB-ul este destinat magazinului. Actualizează prin același canal.
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare. Instalează sau actualizează aplicația prin canalul dispozitivului din [Descărcări](/downloads).
 
 Cercurile numerotate indică comenzile din fiecare parcurs. Atinge o imagine pentru mărire.
 
@@ -15,11 +15,27 @@ Fereastra largă a tabletei folosește navigarea în stânga și comenzile de se
 
 ## 1. Conectează cititorul și cardul
 
-Conectează cititorul prin adaptorul potrivit. Permisiunea privește dispozitivul USB, nu accesul general la toate fișierele. Citirea certificatului de semnare nu necesită PIN.
+Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/connect.png" alt="Conectează cititorul și cardul" steps={[{"text": "Atinge Permite și acceptă solicitarea Android pentru acest cititor.", "x": 13.5, "y": 32.9}, {"text": "Introdu cardul, așteaptă starea Card pregătit și verifică titularul și valabilitatea înainte de semnare."}]} />
+### Semnează prin NFC
+
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a dispozitivului până când aplicația confirmă finalizarea. Pe Android trebuie să activezi NFC.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/nfc-sign.png" alt="Ecranul Semnează cu opțiunea NFC selectată" steps={[{"text": "Ecranul Semnează cu opțiunea NFC selectată", "x": 45, "y": 75}]} />
+
+### Semnează cu un cititor USB
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/reader-sign.png" alt="Ecranul Semnează cu cititorul de carduri USB selectat" steps={[{"text": "Ecranul Semnează cu cititorul de carduri USB selectat", "x": 48, "y": 78}]} />
 
 ## 2. Adaugă fișiere și pregătește un lot
+
+### Alege cum semnezi
+
+Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a dispozitivului până când aplicația confirmă finalizarea. Pe Android trebuie să activezi NFC.
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua. Cu un cititor USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale.
 
 Păstrează cititorul conectat până apar toate rezultatele. Originalul rămâne separat de fișierul semnat. Poți distribui documente din Fișiere sau altă aplicație către eSemnBun.
 
@@ -67,7 +83,7 @@ Pe Android 10 și ulterior, rezultatele obișnuite se salvează în Downloads/eS
 
 Verificarea nu necesită card sau PIN. Rezultatul verde privește verificările afișate, nu numele fișierului sau prezența ștampilei vizibile.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify.png" alt="Verifică un document semnat" steps={[{"text": "Deschide Verifică, alege PDF-ul sau XML-ul semnat și așteaptă rezultatul. Folosește selectorul sistemului pentru fișiere din alte aplicații sau furnizori.", "x": 47.5, "y": 25.3}, {"text": "Citește verdictul și, pentru fiecare semnătură, autorul, data, marca temporală, integritatea și lanțul de încredere.", "x": 35.0, "y": 43.3}, {"text": "Elimină intrarea cu × pentru a-i șterge rezultatul sau curăță toate rezultatele înainte de o verificare nouă.", "x": 67.8, "y": 35.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 53, "y": 28}]} />
 
 ## Înțelege semnătura invalidă
 
@@ -151,17 +167,19 @@ Deschide Servicii → Șterge datele de navigare. Ștergerea cookie-urilor te de
 
 ## 14. Consultă sau recitește cardul
 
-Cardul afișat folosește informații din certificat și un avatar neutru, nu fotografia din buletin. Cheia de semnare rămâne pe cardul fizic.
-
-<GuideScreenshot src="/img/guide/android-tablet/ro/card.png" alt="Consultă sau recitește cardul" steps={[{"text": "Deschide Card, selectează identitatea și consultă titularul, emitentul, valabilitatea, seria și amprenta.", "x": 42.3, "y": 18.0}, {"text": "Folosește Recitește cardul după reconectare; derulează pentru aceeași acțiune și câmpurile certificatului.", "x": 33.9, "y": 88.3}, {"text": "Șterge PIN-ul memorat elimină o intrare salvată anterior în aplicație; nu modifică PIN-ul cardului. Aprobarea Android actuală nu oferă memorarea unui PIN nou."}]} />
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
 ## 15. Limbă, aspect, demonstrație și suport
 
-Deschide rotița → General. Alege Limba aplicației: Sistem, română, engleză sau rusă; alege Tema: Sistem, Luminoasă sau Întunecată. Preferințele se aplică doar aplicației eSemnBun și sunt memorate. Android 13+ oferă aceeași alegere a limbii în Setări sistem → Aplicații → eSemnBun → Limbă. General include și ștampilele pentru browser și ștergerea PIN-ului salvat al cardului selectat.
+Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/settings.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide rotița → General. Atinge Limba aplicației și alege Sistem, română, engleză sau rusă.", "x": 38.8, "y": 39.5}, {"text": "Atinge Tema și alege Sistem, Luminoasă sau Întunecată. Aplicația memorează ambele alegeri.", "x": 36.3, "y": 46.1}, {"text": "Activează ștampilele pentru browser când ai nevoie. Ștergerea PIN-ului salvat se aplică doar cardului selectat și nu modifică PIN-ul cardului.", "x": 45.2, "y": 52.5}, {"text": "Deschide rotița → General pentru modul demonstrativ, după citirea explicației. Modul obișnuit este etichetat și produce exemple, nu semnături valide; dezactivează-l înainte de lucru real.", "x": 48.4, "y": 64.8}]} />
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/about.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide Despre pentru versiune, surse oficiale și site. În cererile de suport include versiunea aplicației și Android, cititorul/adaptorul și pașii de reproducere.", "x": 44.9, "y": 30.1}]} />
+Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări", "x": 41, "y": 38}]} />
+
+Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.
 
 ## Rezolvarea problemelor
 
@@ -178,6 +196,7 @@ Pentru explicația rezultatelor, vezi [Semnare și verificare](/docs/signing). P
 
 <!-- file-protection-guides -->
 
+Dacă sesiunea NFC se întrerupe, ține cardul lângă antenă până se închide fereastra de scanare. Verifică cardul și PIN-ul selectate înainte de a reîncerca după un PIN greșit. Poți alege un cititor USB compatibil în Semnează.
 
 ## Criptează un fișier cu parolă
 
