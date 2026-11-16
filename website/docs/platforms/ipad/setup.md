@@ -14,19 +14,27 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Install, connect a reader and choose your card.
 
+
+
 ## Connect the reader and insert your card
 
-The signing certificate is read without a PIN. An empty-reader prompt means the reader is detected but the card is not ready. Wait for the holder and expiry before adding a signing request.
+Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
 
-<GuideScreenshot src="/img/guide/ipad/en/connect.png" alt="Connect the USB reader through the appropriate adapter." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Connect the USB reader through the appropriate adapter.", "x": 10.0, "y": 55.2}]} />
-<GuideScreenshot src="/img/guide/ipad/en/empty-reader.png" alt="Insert the card when the app reports an empty reader." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Insert the card when the app reports an empty reader.", "x": 10.0, "y": 58.6}]} />
+### Sign with a USB card reader
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
+<GuideScreenshot src="/img/guide/ipad/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected"}]} />
 
 ## Choose the identity that will sign
 
-When several cards are connected, swipe the card carousel to centre the intended holder. The selected card is used for the operation. Open Card to check the certificate or re-read the card after reconnecting it. The neutral portrait is an illustration, not a photograph read from the ID.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
 
-<GuideScreenshot src="/img/guide/ipad/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 20, "y": 18}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 73, "y": 5}]} />
-<GuideScreenshot src="/img/guide/ipad/en/card.png" alt="Check the holder, certificate validity and connected reader." steps={[{"text": "Check the holder, certificate validity and connected reader.", "x": 7, "y": 37}, {"text": "Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.", "x": 95, "y": 5}]} />
+<GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing."}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/batch-current.png" alt="Review the selected document before tapping Continue." steps={[{"text": "Review the selected document before tapping Continue."}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/consent-current.png" alt="Review and approve the request in the PIN sheet." steps={[{"text": "Review and approve the request in the PIN sheet."}]} />
 
 ## Use iPad windows and Files alongside signing
 

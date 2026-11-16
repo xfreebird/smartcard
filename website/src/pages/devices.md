@@ -15,6 +15,8 @@ import DeviceVisual from '@site/src/components/DeviceVisual';
 
 Connect your USB-A smart-card reader with an adapter that matches your phone, tablet or computer. For eSemnBun on iPhone and iPad, use **iOS / iPadOS 17 or later**.
 
+<p>For NFC signing on a compatible iPhone or Android device, eSemnBun 0.2.12 or later can use a compatible contactless card directly. The adapters below are for the USB reader option.</p>
+
 <nav className="devices-jump" aria-label="Choose your connection"><a href="#usb-c">USB-C devices <span aria-hidden="true">↘</span></a><a href="#lightning">Lightning devices <span aria-hidden="true">↘</span></a></nav>
 </div>
 <div className="devices-hero-art" aria-hidden="true">

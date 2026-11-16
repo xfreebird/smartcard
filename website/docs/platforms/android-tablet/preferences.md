@@ -14,10 +14,16 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
+Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
+
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
+
 ## Language, appearance, demo, and support
 
-Open the gear → General. Choose App language: System, Romanian, English, or Russian; choose Theme: System, Light, or Dark. Choices apply to eSemnBun only and are remembered. Android 13+ also exposes the language choice in system Settings → Apps → eSemnBun → Language. General also controls browser stamps and lets you remove the selected card’s saved PIN.
+Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/settings.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open the gear → General. Tap App language and choose System, Romanian, English, or Russian.", "x": 38.3, "y": 39.5}, {"text": "Tap Theme and choose System, Light, or Dark. The app remembers both choices.", "x": 36.6, "y": 46.1}, {"text": "Enable browser stamps when needed. Remove a saved PIN only for the selected card; this does not change the card’s PIN.", "x": 43.1, "y": 52.5}, {"text": "Open the gear → General to enable demo mode after reading its explanation. Ordinary demo mode is labelled and produces samples, not valid signatures; disable it before real work.", "x": 48.4, "y": 64.8}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings"}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/about.png" alt="Language, appearance, demo, and support" steps={[{"text": "Open About to find the version, official-source disclosure, and website. Include app/Android version, reader/adapter model, and reproduction steps in support requests.", "x": 45.3, "y": 29.8}]} />
+Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.
+
+<GuideScreenshot src="/img/guide/android-tablet/en/about.png" alt="About shows the installed version." steps={[{"text": "About shows the installed version."}]} />

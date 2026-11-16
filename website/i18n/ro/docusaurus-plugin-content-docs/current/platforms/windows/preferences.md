@@ -14,6 +14,8 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
+Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.
+
 ## Configurări, PIN-uri și pictograma din zona de notificare
 
 Configurările includ limba (română, engleză, rusă), aspectul, administrarea PIN-urilor salvate, preferințe de pornire și deschidere la conectarea cititorului, conexiunea cu browserul, modul demonstrativ și informații despre aplicație. Unele controale depind de distribuția instalată.
@@ -26,7 +28,7 @@ Modul demonstrativ necesită acceptare, arată carduri fictive și documente de 
 
 ### Schimbă limba și aspectul
 
-<GuideScreenshot src="/img/guide/windows/ro/settings.png" alt="Schimbă limba și aspectul" steps={[{"x": 6.365, "y": 96.857, "text": "Deschide Setări."}, {"x": 27.675, "y": 88.777, "text": "Alege limba și aspectul aplicației."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/settings-current.png" alt="Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect." steps={[{"text": "Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect."}]} />
 
 ### Conexiune browser și cereri locale
 

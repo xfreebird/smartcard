@@ -9,11 +9,13 @@ sidebar_position: 1
 
 eSemnBun is free, open-source software by Nicolae Ghimbovschi. It works with supported Moldovan electronic identity cards and USB smart-card readers.
 
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available.
+
 ## What you need
 
 - An active electronic ID card with a valid signing certificate and its correct PIN.
-- A compatible reader, such as the bit4id miniLector POCKET EVO.
-- A suitable [USB-C, Lightning or Android OTG adapter](/devices) when required. NFC is not supported.
+- For USB signing, a compatible reader, such as the bit4id miniLector POCKET EVO.
+- A suitable [USB-C, Lightning or Android OTG adapter](/devices) when required.
 - The app for your device, available from [GitHub Releases](https://github.com/xfreebird/smartcard/releases) or the store links on the homepage when available.
 
 ## Install and connect

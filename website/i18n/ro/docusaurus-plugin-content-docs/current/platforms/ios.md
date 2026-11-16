@@ -18,7 +18,7 @@ Alege ce vrei să faci. Fiecare activitate are un ghid ilustrat separat.
 
 ## Înainte de a începe
 
-Urmează cercurile numerotate pentru fiecare obiectiv. Atinge imaginea pentru a o mări.
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare. Instalează sau actualizează aplicația prin canalul dispozitivului din [Descărcări](/downloads).
 
 Instalează eSemnBun prin canalul Apple disponibil din [Descărcări](/downloads), apoi deschide aplicația instalată. Ai nevoie de un act electronic activ acceptat, PIN-ul corect de semnare, un cititor cu fir compatibil și [adaptorul](/devices) potrivit. Dispozitivele USB-C necesită o conexiune USB adecvată; pentru Lightning poate fi necesar un adaptor alimentat. Semnarea prin NFC nu este disponibilă.
 

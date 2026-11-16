@@ -14,10 +14,14 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
+Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
+
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
+
 ## Schimbă limba, aspectul și confidențialitatea
 
-Deschide Card, apoi Setări. Alege Română, English, Русский ori Sistem și tema Luminoasă, Întunecată ori Sistem. Activează ștampilele PDF din browser doar dacă le dorești pentru cererile acceptate. Modul demonstrativ obișnuit este etichetat intenționat și nu produce semnături reale. Despre afișează versiunea și informațiile utile. Actualizările vin prin canalul Apple folosit la instalare.
+Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
 
-<GuideScreenshot src="/img/guide/iphone/ro/settings.png" alt="Alege limba interfeței și tema." steps={[{"text": "Alege limba interfeței și tema.", "x": 95, "y": 29}, {"text": "Verifică opțiunile pentru ștampilă în browser și descoperirea documentelor.", "x": 86, "y": 65}, {"text": "Folosește Despre pentru versiune și Gata pentru închiderea setărilor.", "x": 88, "y": 12}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări"}]} />
 
-Pentru un PIN memorat, deschide Card pentru identitatea respectivă și Șterge PIN-ul salvat când opțiunea este disponibilă. Memorarea folosește seiful protejat al platformei și autentificarea dispozitivului; ștergerea copiei nu schimbă și nu deblochează PIN-ul fizic. Un alt card necesită propriul PIN.
+Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.

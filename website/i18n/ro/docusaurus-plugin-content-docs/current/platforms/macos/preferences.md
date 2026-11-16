@@ -14,9 +14,11 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
+Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.
+
 ## Configurează limba, aspectul și descoperirea în sistem
 
-Deschide eSemnBun → Configurări (⌘,). General oferă română, engleză, rusă și limba sistemului, plus aspect luminos, întunecat sau de sistem. PIN-urile salvate au o filă separată. Ștergerea unei intrări elimină numai copia salvată; nu schimbă PIN-ul cardului fizic.
+Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, PIN-uri salvate, limbă sau aspect.
 
 Pentru descoperirea Spotlight/Siri activează Găsește documentele semnate în Siri și Spotlight. Sunt expuse numai numele și datele PDF/XML-urilor semnate, lizibile și deținute de aplicație. Conținutul, identitatea din certificat și PIN-ul nu sunt indexate. În ediția independentă, fișierele arbitrare de lângă originale nu sunt eligibile; sunt eligibile numai importurile deținute de aplicație. Dezactivează opțiunea pentru eliminarea indexului.
 

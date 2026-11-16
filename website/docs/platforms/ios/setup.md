@@ -14,19 +14,31 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Install, connect a reader and choose your card.
 
+
+
 ## Connect the reader and insert your card
 
-The signing certificate is read without a PIN. An empty-reader prompt means the reader is detected but the card is not ready. Wait for the holder and expiry before adding a signing request.
+Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
 
-<GuideScreenshot src="/img/guide/iphone/en/connect.png" alt="Connect the USB reader through the appropriate adapter." steps={[{"text": "Connect the USB reader through the appropriate adapter.", "x": 25, "y": 28}]} />
-<GuideScreenshot src="/img/guide/iphone/en/empty-reader.png" alt="Insert the card when the app reports an empty reader." steps={[{"text": "Insert the card when the app reports an empty reader.", "x": 25, "y": 29}]} />
+### Sign over NFC
+
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+
+<GuideScreenshot src="/img/guide/iphone/en/nfc-sign.png" alt="The Sign screen with NFC selected" steps={[{"text": "The Sign screen with NFC selected"}]} />
+
+### Sign with a USB card reader
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
+<GuideScreenshot src="/img/guide/iphone/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected"}]} />
 
 ## Choose the identity that will sign
 
-When several cards are connected, swipe the card carousel to centre the intended holder. The selected card is used for the operation. Open Card to check the certificate or re-read the card after reconnecting it. The neutral portrait is an illustration, not a photograph read from the ID.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
-<GuideScreenshot src="/img/guide/iphone/en/cards.png" alt="Swipe the card carousel to choose the intended holder." steps={[{"text": "Swipe the card carousel to choose the intended holder.", "x": 28, "y": 27}, {"text": "Open Card to inspect the certificate and reader; use the tab overflow if Card is hidden.", "x": 84, "y": 94}]} />
-<GuideScreenshot src="/img/guide/iphone/en/card.png" alt="Check the holder, certificate validity and connected reader." steps={[{"text": "Check the holder, certificate validity and connected reader.", "x": 6, "y": 50}, {"text": "Use re-read after correcting the connection; deleting a saved PIN does not change the physical card PIN.", "x": 90, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing."}]} />
+
+<GuideScreenshot src="/img/guide/iphone/en/batch-current.png" alt="Review the selected document before tapping Continue." steps={[{"text": "Review the selected document before tapping Continue."}]} />
 
 ## Use a smaller or wider iPhone window
 

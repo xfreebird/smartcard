@@ -15,6 +15,8 @@ import DeviceVisual from '@site/src/components/DeviceVisual';
 
 Conectează cititorul de carduri USB-A printr-un adaptor potrivit telefonului, tabletei sau calculatorului. eSemnBun necesită **iOS / iPadOS 17 sau o versiune ulterioară** pe iPhone și iPad.
 
+<p>Pentru semnarea prin NFC pe un iPhone sau dispozitiv Android compatibil, eSemnBun 0.2.12 sau mai nou poate folosi direct un card fără contact compatibil. Adaptoarele de mai jos sunt pentru cititorul USB.</p>
+
 <nav className="devices-jump" aria-label="Alege conexiunea"><a href="#usb-c">Dispozitive USB-C <span aria-hidden="true">↘</span></a><a href="#lightning">Dispozitive Lightning <span aria-hidden="true">↘</span></a></nav>
 </div>
 <div className="devices-hero-art" aria-hidden="true">

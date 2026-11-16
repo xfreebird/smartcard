@@ -39,12 +39,12 @@ eSemnBun este creat de Nicolae Ghimbovschi și nu este afiliat cu STISC. Nu emit
 - Adaptor potrivit pentru calculator, iPhone, iPad sau Android.
 - Conexiune la internet pentru marcarea temporală și serviciile de încredere online.
 
-Aplicația folosește un cititor conectat prin USB. NFC nu este acceptat. Instalarea aplicației nu activează certificatul de pe card.
+Începând cu eSemnBun 0.2.12, poți semna prin NFC pe iPhone și Android compatibile, cu un act electronic fără contact compatibil. Poți folosi și un cititor USB compatibil. Pentru NFC și USB ai nevoie de un certificat de semnare activ și de PIN-ul cardului.
 
 ## Cum semnezi un PDF cu cartea de identitate
 
 1. Instalează eSemnBun pentru dispozitivul tău și deschide aplicația.
-2. Conectează cititorul, introdu cardul și așteaptă citirea certificatului.
+2. Alege NFC sau un cititor USB în **Semnează**. Pentru NFC, urmează instrucțiunile de scanare după confirmarea PIN-ului. Pentru USB, conectează cititorul, introdu cardul și verifică titularul selectat.
 3. Verifică titularul, valabilitatea și cardul selectat.
 4. Adaugă documentul PDF și alege **PAdES-T** pentru semnătură în interiorul PDF-ului.
 5. Verifică cererea și autorizează semnarea cu PIN-ul.
@@ -78,7 +78,7 @@ Nu. Cardul trebuie să fie acceptat, să aibă un certificat de semnare activ ș
 
 ### Pot semna fără cititor?
 
-Nu. Este necesar cardul fizic și un cititor USB compatibil. NFC nu este acceptat.
+Începând cu eSemnBun 0.2.12, poți semna prin NFC pe iPhone și Android compatibile, cu un act electronic fără contact compatibil. Poți folosi și un cititor USB compatibil. Pentru NFC și USB ai nevoie de un certificat de semnare activ și de PIN-ul cardului.
 
 ### Cum verific o semnătură electronică?
 

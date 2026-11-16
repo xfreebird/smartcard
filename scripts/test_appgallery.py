@@ -56,10 +56,12 @@ class PublishingTests(unittest.TestCase):
         self.assertEqual(api.call.call_count, 1)
 
     def test_draft_automation_defers_during_active_review(self):
-        api = Mock()
-        api.call.return_value = {'appInfo': {'versionCode': 111, 'releaseState': 4}}
-        self.run_publish(api, draft=True, defer=True)
-        self.assertEqual(api.call.call_count, 1)
+        for state in (4, 5, 12):
+            with self.subTest(state=state):
+                api = Mock()
+                api.call.return_value = {'appInfo': {'versionCode': 111, 'releaseState': state}}
+                self.run_publish(api, draft=True, defer=True)
+                self.assertEqual(api.call.call_count, 1)
 
     def test_parsed_binary_must_match_before_submit(self):
         api = Mock()

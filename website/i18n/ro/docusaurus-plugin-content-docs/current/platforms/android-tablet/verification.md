@@ -18,7 +18,7 @@ Verifică un PDF sau XML și inspectează semnatarul și certificatul.
 
 Verificarea nu necesită card sau PIN. Rezultatul verde privește verificările afișate, nu numele fișierului sau prezența ștampilei vizibile.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify.png" alt="Verifică un document semnat" steps={[{"text": "Deschide Verifică, alege PDF-ul sau XML-ul semnat și așteaptă rezultatul. Folosește selectorul sistemului pentru fișiere din alte aplicații sau furnizori.", "x": 47.5, "y": 25.3}, {"text": "Citește verdictul și, pentru fiecare semnătură, autorul, data, marca temporală, integritatea și lanțul de încredere.", "x": 35.0, "y": 43.3}, {"text": "Elimină intrarea cu × pentru a-i șterge rezultatul sau curăță toate rezultatele înainte de o verificare nouă.", "x": 67.8, "y": 35.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică"}]} />
 
 ## Consultă certificatul și detaliile tehnice
 

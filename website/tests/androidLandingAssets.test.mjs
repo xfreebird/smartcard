@@ -5,7 +5,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 
 const root=resolve(fileURLToPath(new URL('..',import.meta.url)));
-const scenes=['disconnected','reader','ready'];
+const scenes=['disconnected','nfc','reader','card','ready'];
 const appearances=['light','dark'];
 
 function pngDimensions(path){

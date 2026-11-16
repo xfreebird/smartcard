@@ -42,12 +42,12 @@ eSemnBun is developed by Nicolae Ghimbovschi and is not affiliated with STISC. I
 - The appropriate adapter for your computer, iPhone, iPad, or Android device.
 - Internet access for timestamped signing and online trust services.
 
-A contactless/NFC reader is not the supported workflow. The app uses a wired USB card reader. An identity card without an active signing certificate cannot become a signing card just by installing the app.
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices support NFC signing with a compatible contactless electronic ID. You can also use a compatible USB reader. NFC or USB uses an active signing certificate and the card’s PIN.
 
 ## How to sign a PDF with your identity card
 
 1. Install eSemnBun for your device and open it.
-2. Connect the reader, insert the card, and wait for the certificate to load.
+2. Choose NFC or a USB reader in **Sign**. With NFC, follow the scan prompt after confirming the PIN. With USB, connect the reader, insert the card and check the selected holder.
 3. Check the holder, expiry, and selected card.
 4. Add your PDF and choose **PAdES-T** to embed the signature in the output PDF.
 5. Review the request and authorize using the card PIN.
@@ -77,7 +77,7 @@ No. You need a supported electronic card with an active signing certificate, a c
 
 ### Can I sign without a reader?
 
-No. This workflow requires the physical card and a wired compatible USB reader; NFC is not supported.
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices support NFC signing with a compatible contactless electronic ID. You can also use a compatible USB reader. NFC or USB uses an active signing certificate and the card’s PIN.
 
 ### Is a timestamp or a valid certificate enough to verify a file?
 

@@ -4,6 +4,10 @@ sidebar_position: 4
 ---
 # When something does not work
 
+## Sign over NFC
+
+If the NFC session is interrupted, keep the card near the antenna until the scan closes. Confirm the selected card and PIN before retrying a failed PIN entry. You can switch to a compatible USB reader in Sign.
+
 ## Reader or card is missing
 
 Reconnect the reader, check the adapter and reinsert the card. Try a direct connection rather than a hub. Confirm the operating system recognizes your reader. Desktop apps may offer a configurable insertion helper.

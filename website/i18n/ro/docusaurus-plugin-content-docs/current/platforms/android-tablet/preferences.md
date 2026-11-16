@@ -14,10 +14,16 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Gestionează limba, aspectul, PIN-urile salvate, pornirea și actualizările.
 
+Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
+
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
+
 ## Limbă, aspect, demonstrație și suport
 
-Deschide rotița → General. Alege Limba aplicației: Sistem, română, engleză sau rusă; alege Tema: Sistem, Luminoasă sau Întunecată. Preferințele se aplică doar aplicației eSemnBun și sunt memorate. Android 13+ oferă aceeași alegere a limbii în Setări sistem → Aplicații → eSemnBun → Limbă. General include și ștampilele pentru browser și ștergerea PIN-ului salvat al cardului selectat.
+Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/settings.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide rotița → General. Atinge Limba aplicației și alege Sistem, română, engleză sau rusă.", "x": 38.8, "y": 39.5}, {"text": "Atinge Tema și alege Sistem, Luminoasă sau Întunecată. Aplicația memorează ambele alegeri.", "x": 36.3, "y": 46.1}, {"text": "Activează ștampilele pentru browser când ai nevoie. Ștergerea PIN-ului salvat se aplică doar cardului selectat și nu modifică PIN-ul cardului.", "x": 45.2, "y": 52.5}, {"text": "Deschide rotița → General pentru modul demonstrativ, după citirea explicației. Modul obișnuit este etichetat și produce exemple, nu semnături valide; dezactivează-l înainte de lucru real.", "x": 48.4, "y": 64.8}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări"}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/about.png" alt="Limbă, aspect, demonstrație și suport" steps={[{"text": "Deschide Despre pentru versiune, surse oficiale și site. În cererile de suport include versiunea aplicației și Android, cititorul/adaptorul și pașii de reproducere.", "x": 44.9, "y": 30.1}]} />
+Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/about.png" alt="În Despre găsești versiunea instalată." steps={[{"text": "În Despre găsești versiunea instalată."}]} />

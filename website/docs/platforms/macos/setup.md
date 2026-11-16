@@ -32,4 +32,4 @@ The certificate is read without a PIN. Wait for the holder and expiry before sta
 
 The card artwork uses certificate data and a neutral avatar, not a photograph read from your identity card. If the reader must be refreshed, use the top-right re-read control or the card context menu. Do not start another operation while one is in progress.
 
-<GuideScreenshot src="/img/guide/macos/en/cards.png" alt="Choose the identity and inspect its certificate" steps={[{"x": 7, "y": 31, "text": "Open Card."}, {"x": 60, "y": 42, "text": "With several cards, swipe horizontally or use the carousel arrows to centre the intended identity."}, {"x": 82, "y": 57, "text": "Check holder, issuer, expiry and reader in Signing certificate."}]} />
+<GuideScreenshot src="/img/guide/macos/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader."}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />

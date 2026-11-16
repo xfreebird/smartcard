@@ -201,14 +201,14 @@
     "ru": "Скачайте приложение для своего устройства."
   },
   "requirements": {
-    "en": "You’ll need an active electronic ID card, its PIN, and a compatible USB reader.",
-    "ro": "Ai nevoie de o carte de identitate electronică activă, PIN-ul ei și un cititor USB compatibil.",
-    "ru": "Понадобятся действующая электронная ID-карта, её PIN-код и совместимый USB-считыватель."
+    "en": "You’ll need an active electronic ID card with a signing certificate and its PIN.",
+    "ro": "Ai nevoie de o carte de identitate electronică activă, cu certificat de semnare și PIN.",
+    "ru": "Понадобится действующее электронное удостоверение с сертификатом подписи и PIN-кодом."
   },
   "adapters": {
-    "en": "USB-C and Lightning adapters are supported. NFC is not supported.",
-    "ro": "Sunt acceptate adaptoare USB-C și Lightning. NFC nu este acceptat.",
-    "ru": "Поддерживаются адаптеры USB-C и Lightning. NFC не поддерживается."
+    "en": "Use NFC in version 0.2.12 and later on a compatible iPhone or Android device, or connect a compatible USB reader.",
+    "ro": "Folosește NFC în versiunea 0.2.12 sau mai nouă pe iPhone și Android compatibile sau conectează un cititor USB compatibil.",
+    "ru": "Используйте NFC в версии 0.2.12 и новее на совместимом iPhone или Android либо подключите совместимый USB-считыватель."
   },
   "guide": {
     "en": "Read the setup guide",
@@ -269,6 +269,46 @@
     "en": "Review the request and enter your PIN. Save or share the signed result.",
     "ro": "Verifică cererea și introdu PIN-ul. Salvează sau distribuie rezultatul semnat.",
     "ru": "Проверьте запрос и введите PIN-код. Сохраните или отправьте подписанный файл."
+  },
+  "nfc": {
+    "en": "NFC",
+    "ro": "NFC",
+    "ru": "NFC"
+  },
+  "card": {
+    "en": "Card",
+    "ro": "Card",
+    "ru": "Карта"
+  },
+  "stageNfc": {
+    "en": "Sign with a tap.",
+    "ro": "Semnează prin apropiere.",
+    "ru": "Подпишите, приложив карту."
+  },
+  "stageBodyNfc": {
+    "en": "On a compatible phone, choose NFC, confirm your PIN and hold the electronic ID near the phone until signing finishes.",
+    "ro": "Pe un telefon compatibil, alege NFC, confirmă PIN-ul și ține cartea de identitate lângă telefon până la final.",
+    "ru": "На совместимом телефоне выберите NFC, подтвердите PIN-код и держите электронное удостоверение у телефона до завершения."
+  },
+  "stageReader": {
+    "en": "Or connect a card reader.",
+    "ro": "Sau conectează un cititor de carduri.",
+    "ru": "Или подключите считыватель."
+  },
+  "stageBodyReader": {
+    "en": "Choose the card reader in Sign and plug it in using a compatible USB adapter if needed.",
+    "ro": "Alege cititorul în ecranul Semnează și conectează-l printr-un adaptor USB compatibil, dacă este necesar.",
+    "ru": "Выберите считыватель на экране подписания и подключите его через подходящий USB-адаптер, если он нужен."
+  },
+  "stageCard": {
+    "en": "Insert your electronic ID.",
+    "ro": "Introdu cartea de identitate.",
+    "ru": "Вставьте электронное удостоверение."
+  },
+  "stageBodyCard": {
+    "en": "Wait for the card to appear and check that the intended card is selected.",
+    "ro": "Așteaptă până apare cardul și verifică dacă ai selectat cardul corect.",
+    "ru": "Дождитесь появления карты и проверьте, что выбрана нужная карта."
   },
   "step": {
     "en": "Step",
@@ -356,9 +396,9 @@
     "ru": "Можно подписывать ID-картой на телефоне?"
   },
   "phoneAnswer": {
-    "en": "Yes, using the iPhone, iPad or Android app with a compatible USB reader and the appropriate adapter. You need an active signing certificate and the correct card PIN. NFC is not supported.",
-    "ro": "Da, folosind aplicația pentru iPhone, iPad sau Android, un cititor USB compatibil și adaptorul potrivit. Ai nevoie de un certificat de semnare activ și de PIN-ul corect al cardului. NFC nu este acceptat.",
-    "ru": "Да, с приложением для iPhone, iPad или Android, совместимым USB-считывателем и подходящим адаптером. Нужны действующий сертификат подписи и правильный PIN-код карты. NFC не поддерживается."
+    "en": "Yes. Starting with 0.2.12, compatible iPhones and Android devices can use NFC with a supported contactless card. You can also use a compatible USB reader on iPhone, iPad and Android. Both methods require the card’s active signing certificate and PIN.",
+    "ro": "Da. Începând cu 0.2.12, dispozitivele iPhone și Android compatibile pot folosi NFC cu un card fără contact acceptat. Poți folosi și un cititor USB compatibil pe iPhone, iPad și Android. Ambele metode necesită certificatul de semnare activ și PIN-ul cardului.",
+    "ru": "Да. Начиная с версии 0.2.12 на совместимых iPhone и Android можно использовать NFC с поддерживаемой бесконтактной картой. На iPhone, iPad и Android также можно использовать совместимый USB-считыватель. Для обоих способов нужны действующий сертификат подписи и PIN-код карты."
   },
   "simQuestion": {
     "en": "Is this the same as a mobile SIM signature?",

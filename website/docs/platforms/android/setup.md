@@ -14,14 +14,24 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Install, connect a reader and choose your card.
 
+
+
 ## Connect the reader and card
 
-Connect the reader with the appropriate adapter. Permission is needed for the USB device, not broad access to every file. Reading the signing certificate does not require a PIN.
+Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN.
 
-<GuideScreenshot src="/img/guide/android-phone/en/connect.png" alt="Connect the reader and card" steps={[{"text": "Tap Allow and accept Android’s USB-access prompt for this reader.", "x": 13.6, "y": 34.2}, {"text": "Insert the card, wait for Card ready, and check the holder and expiry before signing."}]} />
+### Sign over NFC
+
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+
+<GuideScreenshot src="/img/guide/android-phone/en/nfc-sign.png" alt="The Sign screen with NFC selected" steps={[{"text": "The Sign screen with NFC selected"}]} />
+
+### Sign with a USB card reader
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
+<GuideScreenshot src="/img/guide/android-phone/en/reader-sign.png" alt="The Sign screen with a USB card reader selected" steps={[{"text": "The Sign screen with a USB card reader selected"}]} />
 
 ## Inspect or refresh the card
 
-The displayed card uses certificate information and a neutral avatar, not a photograph read from your ID. The signing key stays on the physical card.
-
-<GuideScreenshot src="/img/guide/android-phone/en/card.png" alt="Inspect or refresh the card" steps={[{"text": "Open Card, select the intended identity, and inspect holder, issuer, validity, serial number, and fingerprint.", "x": 9.1, "y": 19.5}, {"text": "Use Re-read the card after reconnecting it; scroll down for the same action and certificate fields.", "x": 58.7, "y": 9.2}, {"text": "Delete stored PIN removes any previously saved app entry; it does not change the physical card PIN. Current Android approval does not offer saving a new PIN."}]} />
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.

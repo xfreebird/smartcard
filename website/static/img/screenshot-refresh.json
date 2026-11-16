@@ -96,210 +96,6 @@
     "sha256": "013fe80b8d0c9522fbdff55af9c6341cd9aa51d017b53d46fe0cd78ed0ee47b5"
   },
   {
-    "target": "website/static/img/landing/iphone/disconnected-light.png",
-    "captureDate": "2026-11-15",
-    "platform": "iphone",
-    "appearance": "light",
-    "state": "disconnected",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1320,
-      2868
-    ],
-    "originalSha256": "37fae5dbbdcb608dc5b3480aca38ca77ccfd188a66fb8259c01ee01e7c207670",
-    "sourceSha256": "9040b0e4df48b88c146bb743499050de9ce91642a883c65c8fbbb05a64e2c259",
-    "sha256": "9040b0e4df48b88c146bb743499050de9ce91642a883c65c8fbbb05a64e2c259",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/iphone/reader-light.png",
-    "captureDate": "2026-11-15",
-    "platform": "iphone",
-    "appearance": "light",
-    "state": "reader",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1320,
-      2868
-    ],
-    "originalSha256": "512cdb7811098fc7d701bc4317fb80ff130ef070ed1be9c60506b70c2305005b",
-    "sourceSha256": "c0977414b26c89e80e0748fbe6e4425c88be8c8cacdbbeb930ac5217fe1a3ff7",
-    "sha256": "c0977414b26c89e80e0748fbe6e4425c88be8c8cacdbbeb930ac5217fe1a3ff7",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/iphone/ready-light.png",
-    "captureDate": "2026-11-15",
-    "platform": "iphone",
-    "appearance": "light",
-    "state": "ready",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1320,
-      2868
-    ],
-    "originalSha256": "7a08475d50e8d9b01e77bbb212e36c6bc0f55a20e6e4d4792b7c1ef9f6d0537f",
-    "sourceSha256": "c440a9c47dea31b336fead8c6a2b97522f12741642412ddd0ae367ad74c05286",
-    "sha256": "c440a9c47dea31b336fead8c6a2b97522f12741642412ddd0ae367ad74c05286",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/iphone/disconnected-dark.png",
-    "captureDate": "2026-11-15",
-    "platform": "iphone",
-    "appearance": "dark",
-    "state": "disconnected",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1320,
-      2868
-    ],
-    "originalSha256": "d0f9a2585012497dc7275f59096c42d10a985f4ed6378d6ca316c6ea3168027b",
-    "sourceSha256": "bfa22d9cc567186bf876d208fb2e453587aa1c0da53b714df1e9443fa6ab8ada",
-    "sha256": "bfa22d9cc567186bf876d208fb2e453587aa1c0da53b714df1e9443fa6ab8ada",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/iphone/reader-dark.png",
-    "captureDate": "2026-11-15",
-    "platform": "iphone",
-    "appearance": "dark",
-    "state": "reader",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1320,
-      2868
-    ],
-    "originalSha256": "4bfee237a98545ed0bf4a3a4e1919f00248c2b1efc28a5718396982297cf5680",
-    "sourceSha256": "2fb219e8abf6456a206dcb284a59038d74ec8d1991b7615a6caa85c6b104830d",
-    "sha256": "2fb219e8abf6456a206dcb284a59038d74ec8d1991b7615a6caa85c6b104830d",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/iphone/ready-dark.png",
-    "captureDate": "2026-11-15",
-    "platform": "iphone",
-    "appearance": "dark",
-    "state": "ready",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1320,
-      2868
-    ],
-    "originalSha256": "bdbf41c3e0db0feda21271184c0676b572fb1f14f6e8b29d36e26ee78b9e4b7f",
-    "sourceSha256": "c81b557f2aa861c9d7cc588f16402b1fc4d151431a30775773b12dc032dfbe4d",
-    "sha256": "c81b557f2aa861c9d7cc588f16402b1fc4d151431a30775773b12dc032dfbe4d",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/android/disconnected-light.png",
-    "captureDate": "2026-11-15",
-    "platform": "android",
-    "appearance": "light",
-    "state": "disconnected",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1080,
-      2400
-    ],
-    "originalSha256": "2deafef32753a7915c2b4499138c9942ad31b6660f38403207de785cb65ceebb",
-    "sourceSha256": "116e98f99725099d70b145f6380abf066a410153180fbcd7d40f86e3401cd63b",
-    "sha256": "116e98f99725099d70b145f6380abf066a410153180fbcd7d40f86e3401cd63b",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/android/reader-light.png",
-    "captureDate": "2026-11-15",
-    "platform": "android",
-    "appearance": "light",
-    "state": "reader",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1080,
-      2400
-    ],
-    "originalSha256": "e0bb16cb840b991f519ba2188da79ff90ab4c32542856919c6fac021b27009a2",
-    "sourceSha256": "047bdb13d5789cb359d22035907ecc53c76b892669c0ab7cfa03e776ad88d5f2",
-    "sha256": "047bdb13d5789cb359d22035907ecc53c76b892669c0ab7cfa03e776ad88d5f2",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/android/ready-light.png",
-    "captureDate": "2026-11-15",
-    "platform": "android",
-    "appearance": "light",
-    "state": "ready",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1080,
-      2400
-    ],
-    "originalSha256": "b34b868f4659c5abea45211ecca03043d09725f59affcbaae493e89e31a4b529",
-    "sourceSha256": "3739db05c82ce7ab9c429685c58df710b08a242b168bcbe238afb8462f97745d",
-    "sha256": "3739db05c82ce7ab9c429685c58df710b08a242b168bcbe238afb8462f97745d",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/android/disconnected-dark.png",
-    "captureDate": "2026-11-15",
-    "platform": "android",
-    "appearance": "dark",
-    "state": "disconnected",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1080,
-      2400
-    ],
-    "originalSha256": "e27018c3e22e7892582f58883c75c7583b83c509538ffd5c3eedc4d34bce91bb",
-    "sourceSha256": "897b7367aff401f884f828d5b5e9a3be91772115ea9322319458467a2baf2d60",
-    "sha256": "897b7367aff401f884f828d5b5e9a3be91772115ea9322319458467a2baf2d60",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/android/reader-dark.png",
-    "captureDate": "2026-11-15",
-    "platform": "android",
-    "appearance": "dark",
-    "state": "reader",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1080,
-      2400
-    ],
-    "originalSha256": "e27018c3e22e7892582f58883c75c7583b83c509538ffd5c3eedc4d34bce91bb",
-    "sourceSha256": "c6fa7814dd44870294dc61c4f1b3a6d14fcb8f5a97d4bac042add2a91d487670",
-    "sha256": "c6fa7814dd44870294dc61c4f1b3a6d14fcb8f5a97d4bac042add2a91d487670",
-    "statusBarTime": "09:41"
-  },
-  {
-    "target": "website/static/img/landing/android/ready-dark.png",
-    "captureDate": "2026-11-15",
-    "platform": "android",
-    "appearance": "dark",
-    "state": "ready",
-    "mock": true,
-    "bannerHidden": true,
-    "dimensions": [
-      1080,
-      2400
-    ],
-    "originalSha256": "31e00d83f7eeffb07e41a1558a33726f115fbcb403763d6af3b8abc09c41942f",
-    "sourceSha256": "e89f20835052c41ca57a81b34c045f7835d6f4fd222d45ffbdfcacd95cb8b3d0",
-    "sha256": "e89f20835052c41ca57a81b34c045f7835d6f4fd222d45ffbdfcacd95cb8b3d0",
-    "statusBarTime": "09:41"
-  },
-  {
     "target": "website/static/img/landing/linux/disconnected-light.png",
     "captureDate": "2026-11-15",
     "platform": "linux",
@@ -526,5 +322,345 @@
       1360,
       901
     ]
+  },
+  {
+    "target": "website/static/img/landing/iphone/disconnected-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "light",
+    "state": "disconnected",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0",
+    "sourceSha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0",
+    "sha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0"
+  },
+  {
+    "target": "website/static/img/landing/iphone/nfc-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "light",
+    "state": "nfc",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "c6e9e468c0271256001fcbfb84b8f0ee6d7f910e86f0169fdcb43daf43223022",
+    "sourceSha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8",
+    "sha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8"
+  },
+  {
+    "target": "website/static/img/landing/iphone/reader-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "light",
+    "state": "reader",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "46459122aa479d487bfe9a7fd647bca0a259af6fdeea25337099754a92b1862d",
+    "sourceSha256": "46459122aa479d487bfe9a7fd647bca0a259af6fdeea25337099754a92b1862d",
+    "sha256": "46459122aa479d487bfe9a7fd647bca0a259af6fdeea25337099754a92b1862d"
+  },
+  {
+    "target": "website/static/img/landing/iphone/card-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "light",
+    "state": "card",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "d5b0ec09407112c25779ddc7f0c20736eea4bac0a336e2660f9b103544db92a9",
+    "sourceSha256": "d5b0ec09407112c25779ddc7f0c20736eea4bac0a336e2660f9b103544db92a9",
+    "sha256": "d5b0ec09407112c25779ddc7f0c20736eea4bac0a336e2660f9b103544db92a9"
+  },
+  {
+    "target": "website/static/img/landing/iphone/ready-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "light",
+    "state": "ready",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "a56bd89d8c6f9f56eb562b36f1085ec34f2ac422e89bf294aeaa36217b76b798",
+    "sourceSha256": "a56bd89d8c6f9f56eb562b36f1085ec34f2ac422e89bf294aeaa36217b76b798",
+    "sha256": "a56bd89d8c6f9f56eb562b36f1085ec34f2ac422e89bf294aeaa36217b76b798"
+  },
+  {
+    "target": "website/static/img/landing/iphone/disconnected-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "dark",
+    "state": "disconnected",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af",
+    "sourceSha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af",
+    "sha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af"
+  },
+  {
+    "target": "website/static/img/landing/iphone/nfc-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "dark",
+    "state": "nfc",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32",
+    "sourceSha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32",
+    "sha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32"
+  },
+  {
+    "target": "website/static/img/landing/iphone/reader-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "dark",
+    "state": "reader",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "152a86002f8bd2ceea40720b75d90db118e6950b51711c619efd1a839ca77c4d",
+    "sourceSha256": "152a86002f8bd2ceea40720b75d90db118e6950b51711c619efd1a839ca77c4d",
+    "sha256": "152a86002f8bd2ceea40720b75d90db118e6950b51711c619efd1a839ca77c4d"
+  },
+  {
+    "target": "website/static/img/landing/iphone/card-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "dark",
+    "state": "card",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "e4d283e8b910450f03c294e74a5aa523de57c48c9de2c846966b8651965c09dd",
+    "sourceSha256": "e4d283e8b910450f03c294e74a5aa523de57c48c9de2c846966b8651965c09dd",
+    "sha256": "e4d283e8b910450f03c294e74a5aa523de57c48c9de2c846966b8651965c09dd"
+  },
+  {
+    "target": "website/static/img/landing/iphone/ready-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "iphone",
+    "appearance": "dark",
+    "state": "ready",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1206,
+      2622
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "3700c57cb19824b78cd015b75b8987498af358b1aa8ebb5883381d106afb3597",
+    "sourceSha256": "3700c57cb19824b78cd015b75b8987498af358b1aa8ebb5883381d106afb3597",
+    "sha256": "3700c57cb19824b78cd015b75b8987498af358b1aa8ebb5883381d106afb3597"
+  },
+  {
+    "target": "website/static/img/landing/android/disconnected-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "light",
+    "state": "disconnected",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "2b66e4197363a5f5e72c4af81d862329789bd2caa2696f235e2905bbfbb7be20",
+    "sourceSha256": "be92b1a7167062b86190320a17c4e5621c7187f280fa85b43f803bca4086fb23",
+    "sha256": "2b66e4197363a5f5e72c4af81d862329789bd2caa2696f235e2905bbfbb7be20"
+  },
+  {
+    "target": "website/static/img/landing/android/nfc-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "light",
+    "state": "nfc",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "4f47aea6dadd895b105faec25ee457843723899bfa07288633aee1fe9907b1ce",
+    "sourceSha256": "61a826e00cae14f613d940e1e28da6615b94b834c3c681c75473668f296635e1",
+    "sha256": "4f47aea6dadd895b105faec25ee457843723899bfa07288633aee1fe9907b1ce"
+  },
+  {
+    "target": "website/static/img/landing/android/reader-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "light",
+    "state": "reader",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "280af2bdc7bdccbde403fb3edefb4ee24e50643db7087353cd250b7523ca6806",
+    "sourceSha256": "72b38dc6910772aa68fb893276619c899cad5c388b2c26df26f65aee0ef7094e",
+    "sha256": "280af2bdc7bdccbde403fb3edefb4ee24e50643db7087353cd250b7523ca6806"
+  },
+  {
+    "target": "website/static/img/landing/android/card-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "light",
+    "state": "card",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "56afe5199b7a99bf4a68df57e8760a859dd1444070dfa3fbd65911dc07caa9df",
+    "sourceSha256": "721df3879523219b87eb462e46cd4cf12bb2a963415a9f5f13831b4d64fb6d2b",
+    "sha256": "56afe5199b7a99bf4a68df57e8760a859dd1444070dfa3fbd65911dc07caa9df"
+  },
+  {
+    "target": "website/static/img/landing/android/ready-light.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "light",
+    "state": "ready",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "c224280cf0efc933568a0f52c63202c8f18ba7612ebc9f2d8eb0551be8b51a64",
+    "sourceSha256": "604343681468f581af40bcf61c42b683badf135270c2b4875e57a3d439dab874",
+    "sha256": "c224280cf0efc933568a0f52c63202c8f18ba7612ebc9f2d8eb0551be8b51a64"
+  },
+  {
+    "target": "website/static/img/landing/android/disconnected-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "dark",
+    "state": "disconnected",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "cf9b44ccce0246509dc6a4d60566a862b776c97a587960d905e6a02db4fcfc7a",
+    "sourceSha256": "2ce0d25d229be41a081d209eebdc28ad6a8a58047849b63aa166c5841a903137",
+    "sha256": "cf9b44ccce0246509dc6a4d60566a862b776c97a587960d905e6a02db4fcfc7a"
+  },
+  {
+    "target": "website/static/img/landing/android/nfc-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "dark",
+    "state": "nfc",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "2f151c9e59b2286bec475017db887811148302b0e0a6e1fe6e9812bce6afc88b",
+    "sourceSha256": "ee4b6edc4b46dfa4fdcb2d12287170ce0db3a96c3262fa2e2f0577a2051dfcb0",
+    "sha256": "2f151c9e59b2286bec475017db887811148302b0e0a6e1fe6e9812bce6afc88b"
+  },
+  {
+    "target": "website/static/img/landing/android/reader-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "dark",
+    "state": "reader",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "1e5e63bafb23d977e78a0e99671c174a9d60ca4b205cc23b7ff60b963bc9f556",
+    "sourceSha256": "9b122078e056e89f5adb748a2721b5e72f4bf3a4e082dc8fdb478768b9b86f12",
+    "sha256": "1e5e63bafb23d977e78a0e99671c174a9d60ca4b205cc23b7ff60b963bc9f556"
+  },
+  {
+    "target": "website/static/img/landing/android/card-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "dark",
+    "state": "card",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "558be9f03d80235580f70a32a3e41c94569a2cd25f8eccca62137866989352eb",
+    "sourceSha256": "9fe3a2d8ffd5becaf97405b66913091ddf8048e1505debb8a4526209850c8110",
+    "sha256": "558be9f03d80235580f70a32a3e41c94569a2cd25f8eccca62137866989352eb"
+  },
+  {
+    "target": "website/static/img/landing/android/ready-dark.png",
+    "captureDate": "2026-11-16",
+    "platform": "android",
+    "appearance": "dark",
+    "state": "ready",
+    "mock": true,
+    "bannerHidden": true,
+    "dimensions": [
+      1080,
+      2400
+    ],
+    "statusBarTime": "09:41",
+    "originalSha256": "40dee90021177d7d2fc4673d90c5495990a4b62e1d8ab3a69cf8873d8f73f8ec",
+    "sourceSha256": "e9635b22a8cdffb5cebc0f359c1a969b750c56e0a24ef04267d4012f3b9fb562",
+    "sha256": "40dee90021177d7d2fc4673d90c5495990a4b62e1d8ab3a69cf8873d8f73f8ec"
   }
 ]

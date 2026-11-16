@@ -30,4 +30,4 @@ Insert your electronic ID and wait for the certificate read. Check the holder an
 
 With several cards, select the intended identity in the carousel. The card artwork uses certificate information and a neutral avatar, not a photograph read from your ID. Re-read the card with the refresh control if needed.
 
-<GuideScreenshot src="/img/guide/linux/en/cards.png" alt="Choose the intended identity" steps={[{"text": "Open Card.", "x": 68, "y": 3}, {"text": "Choose the dot for the intended card, or scroll the carousel.", "x": 50, "y": 37}, {"text": "Inspect the public certificate and reader details below.", "x": 57, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader."}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />

@@ -18,7 +18,7 @@ Choose what you want to do. Each task has its own short illustrated guide.
 
 ## Before you begin
 
-Use a compatible USB/OTG reader and an active electronic ID with its signing PIN. Android 8 or later and USB host support are required. NFC signing is unavailable. Install from the channel listed on [Downloads](/downloads); an APK installs on a device, while an AAB is a store upload. Update through the same distribution channel.
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available. Use an active Moldovan electronic identity card with a valid signing certificate and its signing PIN. Install or update through your device’s channel on [Downloads](/downloads).
 
 Numbered circles point to the controls used in each journey. Tap an image to enlarge it.
 

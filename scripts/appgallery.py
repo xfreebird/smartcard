@@ -15,6 +15,8 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 BASE = 'https://connect-api.cloud.huawei.com/api/publish/v2/'
 APP_ID = '119651007'
+# Pending update review, active review, and pre-review all lock the draft.
+REVIEW_STATES = {'4', '5', '12'}
 
 
 def token(account):
@@ -74,11 +76,11 @@ def main():
     current = int(app.get('versionCode') or 0)
     state = str(app.get('releaseState'))
     on_shelf = int(app.get('onShelfVersionCode') or 0)
-    if current > args.version_code or on_shelf >= args.version_code or (current == args.version_code and state == '4'):
+    if current > args.version_code or on_shelf >= args.version_code or (current == args.version_code and state in REVIEW_STATES):
         print(f'Build {args.version_code} already uploaded or superseded; no submission needed.')
         return
     # Never cancel an active review to replace its binary.
-    if state == '4':
+    if state in REVIEW_STATES:
         if args.defer_if_reviewing:
             print('::warning::AppGallery has an active review; draft upload deferred without changing it.')
             return
@@ -118,7 +120,7 @@ def main():
     gallery.call('POST', 'app-submit', body={'releaseType': 1})
     for _ in range(12):
         state = gallery.call('GET', 'app-info', lang='en-US')['appInfo']
-        if str(state.get('releaseState')) == '4':
+        if str(state.get('releaseState')) in REVIEW_STATES:
             break
         time.sleep(10)
     else:

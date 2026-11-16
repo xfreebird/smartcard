@@ -28,3 +28,5 @@ Rezolvă în siguranță problemele de cititor, PIN, document și conexiune.
 Pentru explicația rezultatelor, vezi [Semnare și verificare](/docs/signing). Pentru cititoare și adaptoare, vezi [Dispozitive](/devices).
 
 <!-- file-protection-guides -->
+
+Dacă sesiunea NFC se întrerupe, ține cardul lângă antenă până se închide fereastra de scanare. Verifică cardul și PIN-ul selectate înainte de a reîncerca după un PIN greșit. Poți alege un cititor USB compatibil în Semnează.

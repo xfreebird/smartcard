@@ -14,6 +14,8 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
+Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
+
 ## Settings, PINs, and tray controls
 
 Settings contains language (Romanian, English, Russian), appearance, saved-PIN management, startup and reader-opening preferences, browser connection, demo mode, and About. Some controls depend on the installed distribution.
@@ -26,7 +28,7 @@ Demo mode requires acceptance, shows fictional cards and sample documents, and r
 
 ### Adjust language and appearance
 
-<GuideScreenshot src="/img/guide/windows/en/settings.png" alt="Adjust language and appearance" steps={[{"x": 6.365, "y": 96.857, "text": "Open Settings."}, {"x": 27.675, "y": 88.777, "text": "Choose the application language and appearance."}]} />
+<GuideScreenshot src="/img/guide/windows/en/settings-current.png" alt="Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance." steps={[{"text": "Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance."}]} />
 
 ### Browser connection and local requests
 

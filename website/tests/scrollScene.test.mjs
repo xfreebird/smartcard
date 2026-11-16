@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {sceneAt,cardGeometry,storyScrollProgress,mobileReaderGeometry,mobileSceneWidth,mobileSceneTop,readerConnectionOffset} from '../src/components/scrollScene.mjs';
+import {sceneAt,mobileSceneAt,mobileStoryStages,cardGeometry,storyScrollProgress,mobileReaderGeometry,mobileSceneWidth,mobileSceneTop,readerConnectionOffset} from '../src/components/scrollScene.mjs';
 test('scroll timeline continuously moves and reveals the card only after insertion',()=>{
  const keys=['shrink','frame','connect','reader','insert','app','signed'];
  for(let p=0;p<.999;p+=.001){
@@ -49,6 +49,17 @@ test('mobile reader remains fixed during connection and card insertion',()=>{
   assert.ok(x>=0);
   assert.ok(x+card.width<=650);
  }
+});
+
+test('the phone shows an NFC chapter before the USB reader enters',()=>{
+ const [,nfc,reader,card,signature]=mobileStoryStages;
+ assert.equal(mobileSceneAt(nfc).shrink,1);
+ assert.equal(mobileSceneAt((nfc+reader)/2).frame,1);
+ assert.equal(mobileSceneAt((nfc+reader)/2).connect,0);
+ assert.ok(mobileSceneAt((reader+card)/2).connect>0);
+ assert.equal(mobileSceneAt(card).insert,0);
+ assert.equal(mobileSceneAt(signature).insert,1);
+ assert.equal(mobileSceneAt(1).signed,1);
 });
 
 test('mobile zoom starts during entrance after ten percent is visible',()=>{

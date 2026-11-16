@@ -7,6 +7,14 @@ sidebar_position: 2
 
 This guide applies to **0.2.0**. Follow your [platform guide](./platforms.md) for installation, reader permissions, output locations, and system sharing.
 
+## Choose how to sign
+
+Starting with eSemnBun 0.2.12, compatible iPhones and Android devices can sign with a compatible contactless card over NFC. A compatible USB reader remains available.
+
+Choose **With your phone · NFC** in **Sign** and add your document. Tap **Continue**, review the request and confirm your signing PIN. Hold the card near the phone’s NFC antenna until the app reports completion. Android devices need NFC enabled.
+
+For USB, connect the reader with the appropriate [adapter](/devices), select **With a card reader** in **Sign**, and insert the card. When several cards are connected, select the intended holder before continuing.
+
 ## Prepare the signing workspace
 
 1. Connect the reader and insert the card. Wait for its certificate to load.

@@ -14,9 +14,11 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
+Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
+
 ## Set language, appearance and system discovery
 
-Open eSemnBun → Settings (⌘,). General offers Romanian, English, Russian and system language, plus light, dark or system appearance. Saved PINs has its own tab. Delete an entry there to remove only the stored copy; this never changes the physical card PIN.
+Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
 
 For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight. Only readable app-owned signed PDF/XML filenames and dates are exposed. Document bodies, certificate identities and PINs are not indexed. In standalone macOS this excludes arbitrary files beside your originals; only eligible app-owned imports qualify. Disable discovery to remove this index.
 

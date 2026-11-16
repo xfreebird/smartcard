@@ -30,4 +30,4 @@ Introdu actul electronic și așteaptă citirea certificatului. Verifică titula
 
 Dacă sunt mai multe carduri, selectează identitatea dorită în carusel. Ilustrația folosește datele certificatului și un avatar neutru, nu fotografia din act. Folosește reîmprospătarea pentru recitire când este necesar.
 
-<GuideScreenshot src="/img/guide/linux/ro/cards.png" alt="Alege identitatea corectă" steps={[{"text": "Deschide Card.", "x": 68, "y": 3}, {"text": "Alege punctul cardului dorit sau derulează caruselul.", "x": 50, "y": 37}, {"text": "Inspectează certificatul public și cititorul.", "x": 57, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/ro/cards.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat."}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />

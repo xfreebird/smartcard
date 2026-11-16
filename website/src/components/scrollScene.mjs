@@ -13,6 +13,17 @@ export function sceneAt(progress){
   progress:p,
  };
 }
+
+export const desktopStoryStages = [0,.24,.4,.84,1];
+export const mobileStoryStages = [0,.24,.44,.62,.84,1];
+
+export function mobileSceneAt(progress) {
+ const p=clamp(progress);
+ let readerProgress=p;
+ if(p>=.24 && p<.84) readerProgress=.38+.46*segment(p,.44,.84);
+ const state=sceneAt(readerProgress);
+ return {...state,frame:p>=.24?1:state.frame,progress:p};
+}
 // The white reader body spans y=44…977 in the 1536×1024 source image.
 // Size the card against that insertion height, not the transparent PNG canvas.
 export function cardGeometry(reader){

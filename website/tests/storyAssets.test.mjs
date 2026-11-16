@@ -33,22 +33,24 @@ test('published scenes, normalized clocks and window crops match the reviewed im
  }
 });
 
-test('each platform has three distinct refreshed states in both appearances',()=>{
+test('each platform has distinct refreshed states in both appearances',()=>{
  const rows=JSON.parse(readFileSync(new URL('screenshot-refresh.json',assets),'utf8'));
- assert.equal(rows.length,30);
+ assert.equal(rows.length,38);
  for(const platform of ['macos','windows','linux','iphone','android']){
   const captures=rows.filter(row=>row.platform===platform);
-  assert.equal(captures.length,6);
-  assert.equal(new Set(captures.map(row=>row.sha256)).size,6,platform);
+  const mobile=['iphone','android'].includes(platform);
+  assert.equal(captures.length,mobile?10:6);
+  assert.equal(new Set(captures.map(row=>row.sha256)).size,captures.length,platform);
   assert.ok(captures.every(row=>row.bannerHidden && row.mock));
-  if(['iphone','android'].includes(platform)) assert.ok(captures.every(row=>row.statusBarTime==='09:41'));
+  if(mobile) assert.ok(captures.every(row=>row.statusBarTime==='09:41'));
  }
 });
 
 test('every landing state shares the same capture canvas within its platform',()=>{
  for(const platform of ['macos','windows','linux','iphone','android']){
   let expected;
-  for(const appearance of ['light','dark'])for(const state of ['disconnected','reader','ready']){
+  const states=['iphone','android'].includes(platform)?['disconnected','nfc','reader','card','ready']:['disconnected','reader','ready'];
+  for(const appearance of ['light','dark'])for(const state of states){
    const file=`landing/${platform}/${state}-${appearance}.png`;
    const bytes=readFileSync(new URL(file,assets));
    const dimensions=[bytes.readUInt32BE(16),bytes.readUInt32BE(20)];

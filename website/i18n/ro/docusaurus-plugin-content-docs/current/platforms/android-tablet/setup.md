@@ -14,14 +14,24 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Instalează, conectează cititorul și alege cardul.
 
+
+
 ## Conectează cititorul și cardul
 
-Conectează cititorul prin adaptorul potrivit. Permisiunea privește dispozitivul USB, nu accesul general la toate fișierele. Citirea certificatului de semnare nu necesită PIN.
+Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/connect.png" alt="Conectează cititorul și cardul" steps={[{"text": "Atinge Permite și acceptă solicitarea Android pentru acest cititor.", "x": 13.5, "y": 32.9}, {"text": "Introdu cardul, așteaptă starea Card pregătit și verifică titularul și valabilitatea înainte de semnare."}]} />
+### Semnează prin NFC
+
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Alege **Cu telefonul · NFC** în **Semnează** și adaugă documentul. Apasă **Continuă**, verifică cererea și confirmă PIN-ul de semnare. Ține cardul lângă antena NFC a telefonului până când aplicația confirmă finalizarea. Pe Android trebuie să activezi NFC.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/nfc-sign.png" alt="Ecranul Semnează cu opțiunea NFC selectată" steps={[{"text": "Ecranul Semnează cu opțiunea NFC selectată"}]} />
+
+### Semnează cu un cititor USB
+
+Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **Cu un cititor de carduri** în **Semnează** și introdu cardul. Dacă sunt mai multe carduri conectate, selectează titularul dorit înainte de a continua.
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/reader-sign.png" alt="Ecranul Semnează cu cititorul de carduri USB selectat" steps={[{"text": "Ecranul Semnează cu cititorul de carduri USB selectat"}]} />
 
 ## Consultă sau recitește cardul
 
-Cardul afișat folosește informații din certificat și un avatar neutru, nu fotografia din buletin. Cheia de semnare rămâne pe cardul fizic.
-
-<GuideScreenshot src="/img/guide/android-tablet/ro/card.png" alt="Consultă sau recitește cardul" steps={[{"text": "Deschide Card, selectează identitatea și consultă titularul, emitentul, valabilitatea, seria și amprenta.", "x": 42.3, "y": 18.0}, {"text": "Folosește Recitește cardul după reconectare; derulează pentru aceeași acțiune și câmpurile certificatului.", "x": 33.9, "y": 88.3}, {"text": "Șterge PIN-ul memorat elimină o intrare salvată anterior în aplicație; nu modifică PIN-ul cardului. Aprobarea Android actuală nu oferă memorarea unui PIN nou."}]} />
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.

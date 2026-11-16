@@ -48,3 +48,11 @@ The owner requested review of the package before proceeding. There were no cance
 ## Verification
 
 The local review page groups all localized copy and 126 screenshots with the six Apple creative assets and three Play feature graphics. The validator compared every screenshot grouping to the previous approved dimensions and image counts and recorded SHA-256 for all 135 images. The Apple slot validator, localization completeness check, generated metadata check, and whitespace check passed. Screenshot sources include a simulator build with guarded fictional capture data, the previously reviewed Android debug build, the macOS review build, and a fresh Windows VM build. Signed distribution candidates for 0.2.12 remain a release step.
+
+## 0.2.12 release follow-up
+
+- iOS build 214 is waiting for App Review. App Store Connect verified 60 screenshots in the expected iPhone, iPad and Duo order across three languages. Both silent physical-iPhone clips are inside the single review attachment. The NFC review copy omits PIN entry and obscures printed card identifiers. The USB video shows reader connection and selection.
+- Google Play received signed bundle 1793624697 for Alpha. The three localized listings were saved in Play Console and read back by hash. All nine phone and tablet sets lead with NFC, then USB reader, verification and Settings. The case contains the NFC and reader reviewer instructions.
+- The macOS build 214 is valid in TestFlight. The preceding Mac App Store review remains pending while a separate Mac hardware video is outstanding.
+- The signed Android and Windows package jobs succeeded. The Android CI rerun after updating the native Settings journey passed. The initial Apple hosted runner did not start. The iOS and Mac Store packages were signed and uploaded locally instead.
+- The website includes a five-stage iPhone and Android sequence with native light and dark captures, and the localized guides describe both methods. The iPad guide describes the USB reader flow.

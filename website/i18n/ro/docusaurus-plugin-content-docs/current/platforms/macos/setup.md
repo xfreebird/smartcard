@@ -32,4 +32,4 @@ Certificatul se citește fără PIN. Așteaptă afișarea titularului și a expi
 
 Imaginea cardului folosește datele certificatului și un avatar neutru, nu fotografia citită din act. Pentru a reciti cardul, folosește butonul din dreapta sus sau meniul contextual al cardului. Nu porni o altă operațiune în timpul uneia active.
 
-<GuideScreenshot src="/img/guide/macos/ro/cards.png" alt="Alege identitatea și verifică certificatul" steps={[{"x": 7, "y": 31, "text": "Deschide Card."}, {"x": 60, "y": 42, "text": "Dacă sunt mai multe carduri, glisează orizontal sau folosește săgețile caruselului pentru a selecta identitatea dorită."}, {"x": 82, "y": 57, "text": "Verifică titularul, emitentul, expirarea și cititorul în Certificatul de semnare."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat."}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />

@@ -7,11 +7,13 @@ title: Primii pași
 
 eSemnBun este o aplicație gratuită, cu codul sursă deschis, creată de Nicolae Ghimbovschi pentru cărțile de identitate electronice compatibile din Moldova.
 
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil.
+
 ## Ai nevoie de
 
 - O carte electronică activă, un certificat de semnare valabil și PIN-ul corect.
 - Un cititor compatibil, de exemplu bit4id miniLector POCKET EVO.
-- Un adaptor USB-C, Lightning sau Android OTG potrivit. NFC nu este acceptat.
+- Un adaptor USB-C, Lightning sau Android OTG potrivit.
 
 ## Instalare
 

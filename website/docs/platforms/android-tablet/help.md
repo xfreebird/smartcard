@@ -28,3 +28,5 @@ Resolve reader, PIN, document and connection problems safely.
 For background on result meanings, see [Signing and verification](/docs/signing). For reader and adapter choices, see [Devices](/devices).
 
 <!-- file-protection-guides -->
+
+If the NFC session is interrupted, keep the card near the antenna until the scan closes. Confirm the selected card and PIN before retrying a failed PIN entry. You can switch to a compatible USB reader in Sign.

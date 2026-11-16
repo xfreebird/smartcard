@@ -15,6 +15,8 @@ import DeviceVisual from '@site/src/components/DeviceVisual';
 
 Подключите USB-A считыватель через адаптер, подходящий вашему телефону, планшету или компьютеру. Для eSemnBun на iPhone и iPad нужна **iOS / iPadOS 17 или новее**.
 
+<p>Для подписи по NFC на совместимом iPhone или Android приложение eSemnBun 0.2.12 и новее может читать совместимую бесконтактную карту напрямую. Адаптеры ниже нужны для USB-считывателя.</p>
+
 <nav className="devices-jump" aria-label="Выберите подключение"><a href="#usb-c">Устройства USB-C <span aria-hidden="true">↘</span></a><a href="#lightning">Устройства Lightning <span aria-hidden="true">↘</span></a></nav>
 </div>
 <div className="devices-hero-art" aria-hidden="true">

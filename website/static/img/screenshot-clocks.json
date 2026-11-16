@@ -8752,6 +8752,276 @@
         10
       ],
       "sha256": "52664e2c144b341f57bdfbbd7f5849915d1ce6ab8e44cfed90d8ba31b6533ee7"
+    },
+    {
+      "path": "website/static/img/landing/android/disconnected-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "be92b1a7167062b86190320a17c4e5621c7187f280fa85b43f803bca4086fb23",
+      "originalTime": "21:14",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        42,
+        2,
+        219,
+        65
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        45,
+        5
+      ],
+      "clockSize": [
+        171,
+        57
+      ],
+      "sha256": "2b66e4197363a5f5e72c4af81d862329789bd2caa2696f235e2905bbfbb7be20"
+    },
+    {
+      "path": "website/static/img/landing/android/nfc-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "61a826e00cae14f613d940e1e28da6615b94b834c3c681c75473668f296635e1",
+      "originalTime": "21:14",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        42,
+        2,
+        219,
+        65
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        45,
+        5
+      ],
+      "clockSize": [
+        171,
+        57
+      ],
+      "sha256": "4f47aea6dadd895b105faec25ee457843723899bfa07288633aee1fe9907b1ce"
+    },
+    {
+      "path": "website/static/img/landing/android/reader-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "72b38dc6910772aa68fb893276619c899cad5c388b2c26df26f65aee0ef7094e",
+      "originalTime": "21:14",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        42,
+        2,
+        219,
+        65
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        45,
+        5
+      ],
+      "clockSize": [
+        171,
+        57
+      ],
+      "sha256": "280af2bdc7bdccbde403fb3edefb4ee24e50643db7087353cd250b7523ca6806"
+    },
+    {
+      "path": "website/static/img/landing/android/card-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "721df3879523219b87eb462e46cd4cf12bb2a963415a9f5f13831b4d64fb6d2b",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        43,
+        2,
+        221,
+        65
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        47,
+        5
+      ],
+      "clockSize": [
+        171,
+        57
+      ],
+      "sha256": "56afe5199b7a99bf4a68df57e8760a859dd1444070dfa3fbd65911dc07caa9df"
+    },
+    {
+      "path": "website/static/img/landing/android/ready-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "604343681468f581af40bcf61c42b683badf135270c2b4875e57a3d439dab874",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        43,
+        2,
+        221,
+        65
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        47,
+        5
+      ],
+      "clockSize": [
+        171,
+        57
+      ],
+      "sha256": "c224280cf0efc933568a0f52c63202c8f18ba7612ebc9f2d8eb0551be8b51a64"
+    },
+    {
+      "path": "website/static/img/landing/android/disconnected-dark.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "2ce0d25d229be41a081d209eebdc28ad6a8a58047849b63aa166c5841a903137",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        34,
+        5,
+        196,
+        63
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        37,
+        8
+      ],
+      "clockSize": [
+        156,
+        52
+      ],
+      "sha256": "cf9b44ccce0246509dc6a4d60566a862b776c97a587960d905e6a02db4fcfc7a"
+    },
+    {
+      "path": "website/static/img/landing/android/nfc-dark.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "ee4b6edc4b46dfa4fdcb2d12287170ce0db3a96c3262fa2e2f0577a2051dfcb0",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        34,
+        5,
+        196,
+        63
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        37,
+        8
+      ],
+      "clockSize": [
+        156,
+        52
+      ],
+      "sha256": "2f151c9e59b2286bec475017db887811148302b0e0a6e1fe6e9812bce6afc88b"
+    },
+    {
+      "path": "website/static/img/landing/android/reader-dark.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "9b122078e056e89f5adb748a2721b5e72f4bf3a4e082dc8fdb478768b9b86f12",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        34,
+        5,
+        196,
+        63
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        37,
+        8
+      ],
+      "clockSize": [
+        156,
+        52
+      ],
+      "sha256": "1e5e63bafb23d977e78a0e99671c174a9d60ca4b205cc23b7ff60b963bc9f556"
+    },
+    {
+      "path": "website/static/img/landing/android/card-dark.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "9fe3a2d8ffd5becaf97405b66913091ddf8048e1505debb8a4526209850c8110",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        34,
+        5,
+        196,
+        63
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        37,
+        8
+      ],
+      "clockSize": [
+        156,
+        52
+      ],
+      "sha256": "558be9f03d80235580f70a32a3e41c94569a2cd25f8eccca62137866989352eb"
+    },
+    {
+      "path": "website/static/img/landing/android/ready-dark.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "e9635b22a8cdffb5cebc0f359c1a969b750c56e0a24ef04267d4012f3b9fb562",
+      "originalTime": "21:15",
+      "time": "09:41",
+      "edited": true,
+      "rectangle": [
+        34,
+        5,
+        196,
+        63
+      ],
+      "clockCrop": "website/scripts/screenshot-clocks/android.png",
+      "clockPosition": [
+        37,
+        8
+      ],
+      "clockSize": [
+        156,
+        52
+      ],
+      "sha256": "40dee90021177d7d2fc4673d90c5495990a4b62e1d8ab3a69cf8873d8f73f8ec"
     }
   ],
   "withoutStatusClock": [

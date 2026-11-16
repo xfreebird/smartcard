@@ -14,10 +14,14 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 Manage language, appearance, saved PINs, startup and updates.
 
+Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
+
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
+
 ## Change language, appearance and privacy preferences
 
-Open Card, then Settings. Choose Romanian, English, Russian or System, and Light, Dark or System appearance. Enable browser PDF stamps only if you want a visible stamp for supported website requests. Normal Demo mode is intentionally labelled; it is for exploration and does not produce real signatures. About shows the installed version and help information. Updates come through the Apple channel used to install the app.
+Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
 
-<GuideScreenshot src="/img/guide/ipad/en/settings.png" alt="Choose the interface language and appearance." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Choose the interface language and appearance.", "x": 82, "y": 29}, {"text": "Review the optional browser-stamp and document-discovery controls.", "x": 82, "y": 67}, {"text": "Use About for the app version; close Settings with Done.", "x": 84, "y": 9}]} />
+<GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings"}]} />
 
-To manage a saved PIN, open Card for that identity and use Delete saved PIN when available. Saving uses the platform’s protected vault and offered device authentication; deleting the saved copy does not change or unblock the physical card PIN. A different card needs its own PIN.
+Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.

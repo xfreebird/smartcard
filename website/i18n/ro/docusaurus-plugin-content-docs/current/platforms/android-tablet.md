@@ -18,7 +18,7 @@ Alege ce vrei să faci. Fiecare activitate are un ghid ilustrat separat.
 
 ## Înainte de a începe
 
-Folosește un cititor USB/OTG compatibil și un buletin electronic activ, cu PIN-ul de semnare. Sunt necesare Android 8 sau ulterior și suport USB host. Semnarea prin NFC nu este disponibilă. Instalează din canalul indicat în [Descărcări](/downloads); APK-ul se instalează pe dispozitiv, iar AAB-ul este destinat magazinului. Actualizează prin același canal.
+Începând cu eSemnBun 0.2.12, poți semna prin NFC de pe un iPhone sau dispozitiv Android compatibil, cu un card fără contact compatibil. Poți folosi și un cititor USB compatibil. Ai nevoie de o carte de identitate electronică moldovenească activă, cu certificat de semnare valabil și PIN-ul de semnare. Instalează sau actualizează aplicația prin canalul dispozitivului din [Descărcări](/downloads).
 
 Cercurile numerotate indică comenzile din fiecare parcurs. Atinge o imagine pentru mărire.
 

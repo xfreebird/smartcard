@@ -7,7 +7,11 @@ import StoryScreen from './StoryScreen';
 import PlatformPreview from './PlatformPreview';
 import {debugPreviewEnabled,previewChoice,storyPlatform} from './previewPlatformState.mjs';
 import {iphone, androidPhone, desktop as desktopDisplay} from './deviceGeometry';
-import {sceneAt,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mobileSceneWidth,storyScrollProgress,mobileSceneTop,readerConnectionOffset} from './scrollScene.mjs';
+import {sceneAt,mobileSceneAt,desktopStoryStages,mobileStoryStages,cardGeometry,clamp,desktopScreenFraction,mobileReaderGeometry,mobileSceneWidth,storyScrollProgress,mobileSceneTop,readerConnectionOffset} from './scrollScene.mjs';
+
+const desktopStages=['document','device','reader','signature'];
+const mobileStages=['document','nfc','reader','card','signature'];
+const mobileScreens=['disconnected','nfc','reader','card','ready'];
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
@@ -60,8 +64,11 @@ export default function SigningStory(){
   resize();window.addEventListener('scroll',scroll,{passive:true});window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);motion.addEventListener('change',resize);
   return()=>{cancelAnimationFrame(raf);observer.disconnect();document.documentElement.classList.remove('story-active');window.removeEventListener('scroll',scroll);window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize);motion.removeEventListener('change',resize);};
  },[debug,preview]);
- const state=sceneAt(reduced?1:progress);
- const step=reduced?3:progress<.24?0:progress<.4?1:progress<.84?2:3;
+ const p=reduced?1:progress;
+ const boundaries=mobile?mobileStoryStages:desktopStoryStages;
+ const stages=mobile?mobileStages:desktopStages;
+ const state=mobile?mobileSceneAt(p):sceneAt(p);
+ const step=boundaries.slice(0,-1).filter(start=>p>=start).length-1;
  const geometry=mobile?(platform==='android'?androidPhone:iphone):desktopDisplay;
  const {frame,screen,port}=geometry;
  const reader=mobile?mobileReaderGeometry(state):{x:600,y:520,width:330,height:220};
@@ -84,20 +91,21 @@ export default function SigningStory(){
  const sceneY=firstY+(centerY-firstY)*state.shrink-hardwareLift*state.connect;
  const left=mobile?(viewport.width/2-(frame.x+frame.width/2)*unit):(viewport.width/2-(screen.x+screen.width/2)*unit);
  const top=sceneY-screenCenter*unit;
- const titles=[1,2,3,4].map(i=>t(`stage${i}`));
- const copy=[1,2,3,4].map(i=>t(`stageBody${i}`));
+ const chapter=(mobile?['1','Nfc','Reader','Card','4']:['1','2','3','4'])[step];
+ const title=t(`stage${chapter}`);
+ const copy=t(`stageBody${chapter}`);
+ const screenStage=mobile?mobileScreens[step]:state.app>=.5?'ready':state.reader>=.5?'reader':'disconnected';
  return <>{debug && <PlatformPreview value={preview} onChange={changePreview}/>}
  <section className={`signing-story continuous-story ${reduced?'reduced-story':''}`} ref={root} aria-label={t('how')} data-platform={platform}>
   <div className="story-sticky continuous-sticky" data-progress={progress.toFixed(3)}>
-   <div className="story-heading continuous-heading"><span className="stage-count">{t('step')} {step+1} {t('of')} 4</span><h2>{titles[step]}</h2><p>{copy[step]}</p></div>
-   <svg className="continuous-scene" viewBox={mobile?'0 0 650 940':'0 0 1100 900'} style={{width:svgWidth,transform:`translate3d(${left}px, ${top}px, 0)`}} role="img" aria-label={`${titles[step]} ${copy[step]}`}>
+   <div className="story-heading continuous-heading"><span className="stage-count">{t('step')} {step+1} {t('of')} {stages.length}</span><h2>{title}</h2><p>{copy}</p></div>
+   <svg className="continuous-scene" viewBox={mobile?'0 0 650 940':'0 0 1100 900'} style={{width:svgWidth,transform:`translate3d(${left}px, ${top}px, 0)`}} role="img" aria-label={`${title} ${copy}`}>
     <defs><clipPath id={clip}><rect {...screen}/></clipPath></defs>
     <g opacity={state.frame}>
      <rect {...frame} fill="#303533" stroke="var(--site-hardware-border)" strokeWidth="1"/>
      {!mobile&&<><path d="M500 525 H600 L615 580 H485Z" fill="#bac0bd"/><rect x="450" y="576" width="200" height="10" rx="5" fill="#adb5b0"/></>}
     </g>
-    <StoryScreen root={landingRoot} platform={platform} appearance={appearance}
-     stage={state.app>=.5?2:state.reader>=.5?1:0} screen={screen} clip={clip}/>
+    <StoryScreen root={landingRoot} platform={platform} appearance={appearance} stage={screenStage} screen={screen} clip={clip}/>
     {mobile&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
     <g opacity={clamp(state.connect*4)}>
      <path className="connection-cable" style={{strokeWidth:mobile?6:10}} pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V635 Q${port.x} 646 ${port.x+20} 646 H445 Q467 646 467 624 V${cableY+14} Q467 ${cableY} ${cableX} ${cableY}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>
@@ -114,8 +122,7 @@ export default function SigningStory(){
      <text x="57" y="32" fontSize="15" fill="var(--ifm-font-color-base)">Contract-signed.pdf</text><text x="57" y="54" fontSize="12" fill="var(--site-muted)">{t('ready')}</text>
     </g>
    </svg>
-   <StoryProgress mobile={mobile} progress={state.progress} step={step} label={t('how')}
-    labels={['document','device','reader','signature'].map(key=>t(key))}/>
+   <StoryProgress progress={state.progress} step={step} label={t('how')} stages={stages} boundaries={boundaries} t={t}/>
   </div>
  </section></>;
 }

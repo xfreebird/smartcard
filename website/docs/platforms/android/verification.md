@@ -18,7 +18,7 @@ Verify a PDF or XML and inspect its signer and certificate.
 
 Verification does not require the card or PIN. A green result refers to the checks shown, not to the filename or the presence of a visible stamp.
 
-<GuideScreenshot src="/img/guide/android-phone/en/verify.png" alt="Check a signed document" steps={[{"text": "Open Verify, choose a signed PDF or XML, and wait for results. Use the system picker to select files from other apps or providers.", "x": 32.8, "y": 29.3}, {"text": "Read the verdict and each signature’s author, signing time, timestamp, integrity, signature, and trust-chain checks.", "x": 18.5, "y": 51.0}, {"text": "Remove an input with × to clear its result, or clear all results before a new check.", "x": 80.5, "y": 41.6}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen"}]} />
 
 ## Inspect certificate and technical details
 
