@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.app.R
-import md.moldsign.app.ui.components.ChoiceRow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
