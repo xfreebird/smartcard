@@ -54,14 +54,22 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
             for ((scenario, expected) in listOf(
                 "noreader" to R.string.wallet_connect_title,
                 "empty" to R.string.wallet_insert_title,
-                "reading" to R.string.status_reading,
+                "reading" to R.string.action_sign_with,
                 "permission" to R.string.usb_permission_title,
             )) {
                 val activity = runner.startActivitySync(Intent(runner.targetContext, MainActivity::class.java)
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     .putExtra("demo", scenario).putExtra("demo_page", "card").putExtra("store_capture", true))
                 try {
-                    ui.await("reader state $scenario") { ui.text(activity.getString(expected)) != null }
+                    val method = activity.getString(R.string.guided_method_caption)
+                    ui.clickTextAndAwait(activity.getString(R.string.settings_card_reader), "Cards and readers sheet") { ui.text(method) != null }
+                    ui.clickText(method)
+                    val readerState = if (scenario == "reading") {
+                        val card = app.container.status.value.wallet.cards.single()
+                        check(card.isReading)
+                        activity.getString(expected, card.readerName)
+                    } else activity.getString(expected)
+                    ui.clickTextAndAwait(activity.getString(R.string.guided_reader), "reader state $scenario") { ui.text(readerState) != null }
                     check(app.container.consentBroker.pending.value == null)
                     check(!app.container.signingService.progress.value.toString().contains("Signing"))
                     results += "$scenario:pass"
