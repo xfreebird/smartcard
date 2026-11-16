@@ -22,7 +22,7 @@ Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinat
 
 Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 27, "y": 17, "text": "Alege Criptează."}, {"x": 30, "y": 31, "text": "Alege fișierul sursă."}, {"x": 30, "y": 58, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 91, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 34, "y": 17, "text": "Alege Criptează."}, {"x": 50, "y": 28, "text": "Alege fișierul sursă."}, {"x": 36, "y": 53, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 90, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 Alege **Criptează** sau **Decriptează**, apoi **Salvează o copie** și alege un loc nou pentru rezultat. După salvare, fișierul apare în **Documente → Documente salvate**. Folosește butonul de închidere din antetul ferestrei la final. Originalul este păstrat.
 

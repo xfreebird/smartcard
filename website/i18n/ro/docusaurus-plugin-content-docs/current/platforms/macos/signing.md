@@ -26,7 +26,7 @@ Deschide controlul Ștampilă oprită/Editează ștampila al unui PDF din listă
 
 Textul ștampilei urmează limba aleasă în aplicație (română, engleză sau rusă).
 
-<GuideScreenshot src="/img/guide/macos/ro/stamp.png" alt="Aplică o ștampilă vizibilă pe PDF" steps={[{"x": 94, "y": 6, "text": "Activează Ștampilă vizibilă."}, {"x": 11, "y": 49, "text": "Trage ștampila pentru poziționare și un colț pentru redimensionare."}, {"x": 94, "y": 28, "text": "Alege pagina selectată sau toate paginile; opțional, aplică setarea tuturor PDF-urilor din lot."}, {"x": 92, "y": 95, "text": "Alege Aplică pentru a reveni la lista de semnare."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/stamp.png" alt="Aplică o ștampilă vizibilă pe PDF" steps={[{"x": 95, "y": 6, "text": "Activează Ștampilă vizibilă."}, {"x": 12, "y": 50, "text": "Trage ștampila pentru poziționare și un colț pentru redimensionare."}, {"x": 94, "y": 29, "text": "Alege pagina selectată sau toate paginile; opțional, aplică setarea tuturor PDF-urilor din lot."}, {"x": 92, "y": 95, "text": "Alege Aplică pentru a reveni la lista de semnare."}]} />
 
 ## Autorizează lotul afișat
 

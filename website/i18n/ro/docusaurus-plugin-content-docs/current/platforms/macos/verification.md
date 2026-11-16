@@ -24,7 +24,7 @@ Verificarea nu cere cititor sau PIN. Ea verifică fișierul selectat, nu ștampi
 
 Semnătura criptografică validă, documentul intact, lanțul de încredere și marca temporală sunt verificări distincte. Derulează pentru toate câmpurile certificatului și detaliile tehnice. Numărul de înregistrare al emitentului nu este identificatorul personal al semnatarului.
 
-<GuideScreenshot src="/img/guide/macos/ro/certificate.png" alt="Citește integritatea, încrederea și detaliile certificatului" steps={[{"x": 32, "y": 35, "text": "Extinde semnătura pentru semnatar, ora semnării și marca temporală."}, {"x": 34, "y": 57, "text": "Citește fiecare verificare de integritate, semnătură și lanț de încredere."}, {"x": 34, "y": 68, "text": "Extinde Detaliile certificatului și verifică subiectul, emitentul și cheia."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/certificate.png" alt="Citește integritatea, încrederea și detaliile certificatului" steps={[{"x": 33, "y": 28, "text": "Extinde semnătura pentru semnatar, ora semnării și marca temporală."}, {"x": 35, "y": 49, "text": "Citește fiecare verificare de integritate, semnătură și lanț de încredere."}, {"x": 35, "y": 55, "text": "Extinde Detaliile certificatului și verifică subiectul, emitentul și cheia."}]} />
 
 ## Verifică XML-ul detașat cu originalul
 

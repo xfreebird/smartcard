@@ -167,7 +167,7 @@ Meniul aplicației oferă Preferințe, Despre, Verifică actualizările și Ieș
 
 În Preferințe, activează cererile locale de semnare doar dacă intenționezi să folosești un client MCP. Copiază dosarul privat afișat în configurarea helperului. Păstrează aplicația desktop pornită. Fiecare cerere deschide PDF-ul pregătit pentru examinare: verifică documentul, cardul și operația, aprobă explicit, apoi introdu PIN-ul în dialogul nativ. Un PIN salvat nu înlocuiește aprobarea. Anulează cererile neașteptate.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" steps={[{"x": 71, "y": 26, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 50, "y": 27.4, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Aprobă o cerere locală de semnare MCP" steps={[{"x": 68, "y": 84, "text": "Activează cererile locale de semnare în aplicația desktop; fiecare PDF necesită verificare și aprobare."}, {"x": 43, "y": 86, "text": "Copiază dosarul privat afișat de propria instalare în configurarea de pornire MCP."}]} />
 
 
 ## Folosește site-urile în browserul tău
@@ -189,7 +189,7 @@ Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinat
 
 Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 27, "y": 17, "text": "Alege Criptează."}, {"x": 30, "y": 31, "text": "Alege fișierul sursă."}, {"x": 30, "y": 58, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 91, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 34, "y": 17, "text": "Alege Criptează."}, {"x": 50, "y": 28, "text": "Alege fișierul sursă."}, {"x": 36, "y": 53, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 90, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
 
 Alege **Criptează** sau **Decriptează**, apoi **Salvează o copie** și alege un loc nou pentru rezultat. După salvare, fișierul apare în **Documente → Documente salvate**. Folosește butonul de închidere din antetul ferestrei la final. Originalul este păstrat.
 
@@ -202,7 +202,7 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 
 Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 40, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 30, "y": 55, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 91, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 41, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 36, "y": 49, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 90, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
@@ -217,4 +217,4 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 50, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 30, "y": 31, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 30, "y": 84, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 49, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 50, "y": 28, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 31, "y": 84, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />

@@ -26,7 +26,7 @@ Open Stamp off/Edit stamp on a queued PDF. A visible stamp is optional and does 
 
 Stamp text follows the selected app language (Romanian, English or Russian).
 
-<GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 94, "y": 6, "text": "Enable Visible stamp."}, {"x": 11, "y": 49, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 94, "y": 28, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 92, "y": 95, "text": "Choose Apply to return to the signing queue."}]} />
+<GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 95, "y": 6, "text": "Enable Visible stamp."}, {"x": 12, "y": 50, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 94, "y": 29, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 92, "y": 95, "text": "Choose Apply to return to the signing queue."}]} />
 
 ## Authorize the displayed batch
 

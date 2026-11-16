@@ -20,7 +20,7 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 
 Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 40, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 30, "y": 55, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 91, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 41, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 36, "y": 49, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 90, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 

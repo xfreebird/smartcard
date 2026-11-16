@@ -22,7 +22,7 @@ No card is needed. Create a password for this file and send it to the recipient 
 
 File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 27, "y": 17, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 30, "y": 58, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 91, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 34, "y": 17, "text": "Choose Encrypt."}, {"x": 50, "y": 28, "text": "Choose the source file."}, {"x": 36, "y": 53, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 90, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Use the close button in the window header when finished. The original is kept.
 

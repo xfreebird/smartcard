@@ -136,6 +136,10 @@ For rotation, provision the replacement with the relevant store/provider, update
 
 References: [GitHub concurrency](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency), [GitHub secret use](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions), [Play commit/review behavior](https://developers.google.com/android-publisher/api-ref/rest/v3/edits/commit), [release skill](../.agents/skills/esemnbun-release-stores/SKILL.md), [signing details](../fastlane/SIGNING.md).
 
+### Website downloads
+
+The Website workflow reads the selected stable release files with its read-only GitHub token and verifies their listed SHA-256 digests. The public download page links to `/release-downloads/` on the website. The build also stages the signed package feeds and installers once at the site root for English, Romanian and Russian. When a release omits a platform, its existing standalone installer keeps its own version and comes from the matching stable release.
+
 ### Temporary website runner recovery
 
 If a hosted Actions spending limit blocks Pages deployment, the Website manual dispatch accepts `runner=esemnbun-recovery`. Automatic pushes and pull requests still use `ubuntu-latest`. Start a repository-scoped ephemeral runner with that label on an owner-controlled Mac; register a fresh ephemeral runner for each of the build and deployment jobs, then remove its local workspace and credentials. Do not install a persistent service or use this label for untrusted pull requests. The workflow retains its Pages environment and OIDC permissions. No signing or Store secrets are needed. Verify the final Pages job and live routes; successful local rendering alone is not publication.

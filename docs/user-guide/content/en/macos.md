@@ -41,7 +41,7 @@ Open Stamp off/Edit stamp on a queued PDF. A visible stamp is optional and does 
 
 Stamp text follows the selected app language (Romanian, English or Russian).
 
-<GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 94, "y": 6, "text": "Enable Visible stamp."}, {"x": 11, "y": 49, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 94, "y": 28, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 92, "y": 95, "text": "Choose Apply to return to the signing queue."}]} />
+<GuideScreenshot src="/img/guide/macos/en/stamp.png" alt="Place a visible stamp on a PDF" steps={[{"x": 95, "y": 6, "text": "Enable Visible stamp."}, {"x": 12, "y": 50, "text": "Drag the stamp to position it; drag a corner to resize it."}, {"x": 94, "y": 29, "text": "Choose the selected page or all pages; optionally apply the setting to all queued PDFs."}, {"x": 92, "y": 95, "text": "Choose Apply to return to the signing queue."}]} />
 
 ## Authorize the displayed batch
 
@@ -77,7 +77,7 @@ Verification does not require a reader or PIN. It checks the file you selected, 
 
 A valid cryptographic signature, intact document, trusted chain and timestamp are separate checks. Scroll for all certificate and technical fields. Do not interpret an issuer’s registration number as the signer’s personal identifier.
 
-<GuideScreenshot src="/img/guide/macos/en/certificate.png" alt="Read integrity, trust and certificate details" steps={[{"x": 32, "y": 35, "text": "Expand the signature to read signer, signing time and timestamp."}, {"x": 34, "y": 57, "text": "Read each integrity, signature and trust-chain check."}, {"x": 34, "y": 68, "text": "Expand Certificate details and inspect subject, issuer and key information."}]} />
+<GuideScreenshot src="/img/guide/macos/en/certificate.png" alt="Read integrity, trust and certificate details" steps={[{"x": 33, "y": 28, "text": "Expand the signature to read signer, signing time and timestamp."}, {"x": 35, "y": 49, "text": "Read each integrity, signature and trust-chain check."}, {"x": 35, "y": 55, "text": "Expand Certificate details and inspect subject, issuer and key information."}]} />
 
 ## Verify detached XML with its original
 

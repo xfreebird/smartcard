@@ -20,4 +20,4 @@ Open the main menu in the window header, then **Protect files → Encrypt**, **D
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 50, "y": 17, "text": "Choose Remove file."}, {"x": 30, "y": 31, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 30, "y": 84, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 49, "y": 17, "text": "Choose Remove file."}, {"x": 50, "y": 28, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 31, "y": 84, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

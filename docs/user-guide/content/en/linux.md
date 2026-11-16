@@ -167,7 +167,7 @@ The application menu contains Preferences, About, Check for Updates and Quit. Op
 
 In Preferences, enable local signing requests only when you intend to use an MCP client. Copy the private broker directory shown in the setting into the helper configuration. Keep the desktop app running. Each request opens a staged PDF for review: check the document, card and operation, approve it explicitly, then enter the PIN in the native dialog. A saved PIN never replaces approval. Cancel unexpected requests.
 
-<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Approve a local MCP signing request" steps={[{"x": 71, "y": 26, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 50, "y": 27.4, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
+<GuideScreenshot src="/img/guide/linux/en/settings.png" alt="Approve a local MCP signing request" steps={[{"x": 68, "y": 84, "text": "Enable local signing requests in the desktop app; each PDF still needs native review and approval."}, {"x": 43, "y": 86, "text": "Copy the private broker directory displayed by your own installation into the MCP launch configuration."}]} />
 
 
 ## Use government websites in your own browser
@@ -189,7 +189,7 @@ No card is needed. Create a password for this file and send it to the recipient 
 
 File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 27, "y": 17, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 30, "y": 58, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 91, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 34, "y": 17, "text": "Choose Encrypt."}, {"x": 50, "y": 28, "text": "Choose the source file."}, {"x": 36, "y": 53, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 90, "text": "Choose Encrypt, then save the new encrypted file."}]} />
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Use the close button in the window header when finished. The original is kept.
 
@@ -202,7 +202,7 @@ Open the main menu in the window header, then **Protect files → Encrypt**, **D
 
 Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 40, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 30, "y": 55, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 91, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 41, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 36, "y": 49, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 90, "text": "Choose Decrypt and save the result under a new filename."}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
@@ -217,4 +217,4 @@ Open the main menu in the window header, then **Protect files → Encrypt**, **D
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 50, "y": 17, "text": "Choose Remove file."}, {"x": 30, "y": 31, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 30, "y": 84, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 49, "y": 17, "text": "Choose Remove file."}, {"x": 50, "y": 28, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 31, "y": 84, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />

@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 """Fetch the release's digest-verified, signed package feeds for Pages."""
-import hashlib,io,json,subprocess,sys,tarfile,tempfile,urllib.request
+import argparse,hashlib,io,json,subprocess,tarfile,tempfile
 from pathlib import Path
-release=json.load(open(sys.argv[1]));name='esemnbun-package-repositories.tar.gz'
+root=Path(__file__).resolve().parents[2]
+parser=argparse.ArgumentParser(description=__doc__)
+parser.add_argument('release',type=Path)
+parser.add_argument('--destination',type=Path,default=root/'website/static/packages')
+args=parser.parse_args()
+release=json.loads(args.release.read_text());name='esemnbun-package-repositories.tar.gz'
 def complete(r):
  names={a['name'] for a in r['assets']}
  return not r.get('draft') and not r.get('prerelease') and name in names and 'esemnbun-package-definitions.zip' in names and any(n.endswith('.nupkg') for n in names)
@@ -17,7 +22,6 @@ url=f'https://github.com/xfreebird/smartcard/releases/download/{release["tag_nam
 assert a['browser_download_url']==url
 body=subprocess.check_output(['gh','api',a['url'],'-H','Accept: application/octet-stream'])
 assert a.get('digest')=='sha256:'+hashlib.sha256(body).hexdigest(),'Repository archive digest mismatch'
-root=Path(__file__).resolve().parents[2]
 with tempfile.TemporaryDirectory() as tmp:
  staging=Path(tmp)
  with tarfile.open(fileobj=io.BytesIO(body),mode='r:gz') as archive:
@@ -29,7 +33,7 @@ with tempfile.TemporaryDirectory() as tmp:
  for signature,payload in [('apt/dists/stable/Release.gpg','apt/dists/stable/Release'),('rpm/x86_64/repodata/repomd.xml.asc','rpm/x86_64/repodata/repomd.xml')]:
   subprocess.run(['gpgv','--keyring',str(keyring),str(repo/signature),str(repo/payload)],check=True)
  import shutil
- destination=root/'website/static/packages'
+ destination=args.destination
  if destination.exists():shutil.rmtree(destination)
  shutil.copytree(repo,destination)
  shutil.copyfile(root/'distribution/packages/index.html',destination/'index.html')
