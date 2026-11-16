@@ -1,1 +1,1 @@
-Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.
+Manage cards, readers, and saved PINs in Settings. Documents now offers direct access to file protection and deletion.

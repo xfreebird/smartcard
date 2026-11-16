@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using MoldSign.App.Services;
 using MoldSign.Core;
+using MoldSign.Desktop;
 
 namespace MoldSign.App.Views;
 
@@ -14,12 +15,11 @@ public sealed partial class CardPage : Page
     public CardPage()
     {
         InitializeComponent();
-        RememberToggle.IsEnabled = !App.Current.Services.IsDemo;
+        ForgetPinLabel.Text = Loc.Get("CardForgetPin/Content");
         ForgetPinButton.IsEnabled = !App.Current.Services.IsDemo;
         CardScroll.AddHandler(KeyDownEvent, new KeyEventHandler(OnScrollKeyDown), handledEventsToo: true);
         Loaded += (_, _) =>
         {
-            RememberToggle.IsOn = App.Current.Services.Settings.RememberPin;
             State.WalletChanged += OnWalletChanged;
             ShowSelectedCard();
         };
@@ -45,6 +45,7 @@ public sealed partial class CardPage : Page
         SerialText.Text = certificate?.SerialNumber ?? "—";
         Sha1Text.Text = certificate?.Sha1 ?? "—";
         ReaderText.Text = State.SelectedReader ?? "—";
+        ForgetPinButton.IsEnabled = !App.Current.Services.IsDemo && certificate is not null && App.Current.Services.Pins.Contains(certificate.Sha1);
     }
 
     private void OnScrollKeyDown(object sender, KeyRoutedEventArgs e)
@@ -64,20 +65,10 @@ public sealed partial class CardPage : Page
 
     private void OnRereadClick(object sender, RoutedEventArgs e) => App.Current.Services.RereadCards();
 
-    private void OnRememberToggled(object sender, RoutedEventArgs e)
-    {
-        if (App.Current.Services.IsDemo) return;
-        var settings = App.Current.Services.Settings;
-        if (settings.RememberPin == RememberToggle.IsOn) return;
-        settings.RememberPin = RememberToggle.IsOn;
-        if (!RememberToggle.IsOn) App.Current.Services.Pins.DeleteAll();
-        settings.Save();
-    }
-
     private void OnForgetClick(object sender, RoutedEventArgs e)
     {
-        if (App.Current.Services.IsDemo) return;
-        App.Current.Services.Pins.DeleteAll();
+        if (!SavedPinActions.ForgetSelected(App.Current.Services.Pins, State.Certificate?.Sha1, App.Current.Services.IsDemo)) return;
+        ShowSelectedCard();
         Result.Severity = InfoBarSeverity.Success;
         Result.Message = Loc.Get("Card_PinForgotten");
         Result.IsOpen = true;

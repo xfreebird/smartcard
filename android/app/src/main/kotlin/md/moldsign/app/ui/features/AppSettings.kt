@@ -10,12 +10,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ListItemDefaults
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.unit.dp
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,13 +31,11 @@ import md.moldsign.app.presentation.MainViewModel
 
 /** Shared mobile preferences; locale and night mode apply to this application only. */
 @Composable
-fun AppSettings(vm: MainViewModel, enabled: Boolean) {
+fun AppearanceSettings(enabled: Boolean) {
     val activity = LocalContext.current.hostActivity() as? MainActivity
     val system = stringResource(R.string.settings_system)
     var language by remember { mutableStateOf(AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "system") }
     val theme = activity?.themePreference ?: "system"
-    val status by vm.status.collectAsStateWithLifecycle()
-    Text(stringResource(R.string.settings_appearance_language), style = MaterialTheme.typography.titleSmall)
     PreferenceChoice(
         title = stringResource(R.string.settings_language),
         value = language,
@@ -52,9 +51,14 @@ fun AppSettings(vm: MainViewModel, enabled: Boolean) {
         choices = listOf("system" to system, "light" to stringResource(R.string.settings_light), "dark" to stringResource(R.string.settings_dark)),
         enabled = enabled,
     ) { activity?.changeAppTheme(it) }
+}
+
+@Composable
+fun DocumentSettings(enabled: Boolean) {
     val context = LocalContext.current
     var widgetRecents by remember { mutableStateOf(md.moldsign.app.widget.DocumentsWidget.showsRecents(context)) }
     ListItem(
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
         headlineContent = { Text(stringResource(R.string.widget_show_recents)) },
         supportingContent = { Text(stringResource(R.string.widget_recents_hint)) },
         trailingContent = { Switch(checked = widgetRecents, enabled = enabled, onCheckedChange = {
@@ -64,8 +68,13 @@ fun AppSettings(vm: MainViewModel, enabled: Boolean) {
             md.moldsign.app.widget.DocumentsWidget.refresh(context)
         }) },
     )
+}
+
+@Composable
+fun BrowserSigningSettings(vm: MainViewModel, enabled: Boolean) {
     var browserStamps by remember { mutableStateOf(vm.browserStampsEnabled) }
     ListItem(
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
         headlineContent = { Text(stringResource(R.string.stamp_browser)) },
         supportingContent = { Text(stringResource(R.string.stamp_batch_hint)) },
         trailingContent = {
@@ -75,9 +84,7 @@ fun AppSettings(vm: MainViewModel, enabled: Boolean) {
             })
         },
     )
-    TextButton(onClick = vm::deleteStoredPin, enabled = enabled && !vm.demoMode && status.wallet.selectedCard?.certificate != null) {
-        Text(stringResource(R.string.pin_stored_delete))
-    }
+
 }
 
 @Composable
@@ -85,6 +92,7 @@ private fun PreferenceChoice(title: String, value: String, choices: List<Pair<St
     var expanded by remember { mutableStateOf(false) }
     Box {
         ListItem(
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
             modifier = Modifier.fillMaxWidth().clickable(enabled = enabled) { expanded = true },
             headlineContent = { Text(title) },
             supportingContent = { Text(choices.firstOrNull { it.first == value }?.second ?: choices.first().second) },

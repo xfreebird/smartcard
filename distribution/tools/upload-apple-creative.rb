@@ -9,7 +9,7 @@ require 'pathname'
 args = ARGV.dup
 replace_existing = args.delete('--replace-existing') != nil
 abort 'Usage: upload-apple-creative.rb PACK [ro,en,ru] [--replace-existing]' if args.empty? || args.size > 2
-pack = Pathname(args.fetch(0))
+pack = Pathname(args.fetch(0)).expand_path
 locales = args.fetch(1, 'ro,en,ru').split(',')
 abort 'Unsupported locale' unless (locales - %w[ro en ru]).empty?
 TOKEN = Spaceship::ConnectAPI::Token.create(key_id: ENV.fetch('ASC_KEY_ID'), issuer_id: ENV.fetch('ASC_ISSUER_ID'), filepath: ENV.fetch('ASC_KEY_PATH'), duration: 1200)
@@ -83,6 +83,21 @@ placements = {
   'PRODUCT_PAGE_HEADER_ASSET' => ['header', 'header-reader-signing.png'],
   'APP_STORE_SEARCH_RESULTS_ASSET' => ['search-results', 'search-results-reader-signing.png']
 }
+creative = pack.join('apple/creative')
+manifest = creative.join('manifest.json')
+asset_paths = {}
+if manifest.file?
+  JSON.parse(manifest.read).each do |entry|
+    entry.fetch('placements').each do |type|
+      key = [entry.fetch('locale'), type]
+      abort "Duplicate artwork for #{key.join('/')}" if asset_paths.key?(key)
+      path = creative.join(entry.fetch('path')).cleanpath
+      abort "Artwork outside creative directory: #{path}" unless path.to_s.start_with?(creative.to_s + '/')
+      abort "Missing or changed artwork: #{path}" unless path.file? && Digest::SHA256.file(path).hexdigest == entry.fetch('sha256')
+      asset_paths[key] = path
+    end
+  end
+end
 placements.each_key do |type|
   abort "Unsupported #{type}" unless policies.any? { |policy| policy['placementType'] == type && policy['groupLimits'].any? { |group| group['groupIds'].include?('DEFAULT_PROFILE') } }
 end
@@ -93,7 +108,11 @@ locales.each do |locale|
   abort "Missing localization #{locale}" unless translation
   current = collection("/v1/appStoreVersionLocalizations/#{translation.id}/placements?include=image&limit=200")
   placements.each do |type, (layout, file_name)|
-    path = pack.join('apple/creative', locale, file_name)
+    path = if manifest.file?
+             asset_paths.fetch([locale, type]) { abort "Missing artwork for #{locale}/#{type}" }
+           else
+             creative.join(locale, file_name)
+           end
     abort "Missing #{path}" unless path.file?
     asset, bytes, stored_name = upload_asset(library, path, locale, layout)
     old = current.find { |item| item.dig('attributes', 'placementType') == type }

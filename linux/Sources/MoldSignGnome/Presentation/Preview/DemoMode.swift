@@ -1,8 +1,7 @@
-#if MOLDSIGN_DEMO
 import Foundation
 import MoldSignKit
 
-/// Debug builds only (`MOLDSIGN_DEMO` is defined for `-c debug` in Package.swift): fake readers and cards
+/// Interactive --demo session and Debug screenshot fixtures: fake readers and cards
 /// for screenshots and layout work, with no PC/SC, card, keyring or bridge I/O.
 ///
 ///     MSIGN_DEMO_CARDS=2 .build/debug/moldsign-gnome
@@ -13,9 +12,21 @@ import MoldSignKit
 /// sets the window size (narrow layouts).
 struct DemoMode {
     /// Only automated screenshot fixtures suppress the demo label; interactive demo remains labelled.
-    static var screenshotCapture: Bool { ProcessInfo.processInfo.environment["MSIGN_SCREENSHOT_CAPTURE"] == "1" }
+    static var screenshotCapture: Bool {
+        #if MOLDSIGN_DEMO
+        return !CommandLine.arguments.contains("--demo") && ProcessInfo.processInfo.environment["MSIGN_SCREENSHOT_CAPTURE"] == "1"
+        #else
+        return false
+        #endif
+    }
 
-    static var page: String? { DemoScenario.current?.page ?? ProcessInfo.processInfo.environment["MSIGN_DEMO_PAGE"] }
+    static var page: String? {
+        #if MOLDSIGN_DEMO
+        return DemoScenario.current?.page ?? ProcessInfo.processInfo.environment["MSIGN_DEMO_PAGE"]
+        #else
+        return nil
+        #endif
+    }
 
     static var windowSize: (width: Int32, height: Int32)? {
         guard let value = ProcessInfo.processInfo.environment["MSIGN_DEMO_WINDOW"] else { return nil }
@@ -29,6 +40,8 @@ struct DemoMode {
     let failure = L10n.text(.ui_the_card_does_not_respond)
 
     static let current: DemoMode? = {
+        if CommandLine.arguments.contains("--demo") { return DemoMode("2") }
+        #if MOLDSIGN_DEMO
         let environment = ProcessInfo.processInfo.environment
         guard let value = (environment["MSIGN_DEMO_CARDS"] ?? (environment["MSIGN_DEMO_SCENARIO"] != nil ? "1" : nil))?.lowercased(),
               !value.isEmpty else { return nil }
@@ -36,6 +49,9 @@ struct DemoMode {
         let demo = DemoMode(value)
         logInfo("demo mode (MSIGN_DEMO_CARDS=\(value)): fake cards, no card or bridge I/O")
         return demo
+        #else
+        return nil
+        #endif
     }()
 
     private static let readers = [
@@ -85,4 +101,3 @@ struct DemoMode {
         "MIIB2zCCAYKgAwIBAgICB9QwCgYIKoZIzj0EAwIwPzELMAkGA1UEBhMCTUQxHjAcBgNVBAoMFWVTZW1uQnVuIGRlbW8gZml4dHVyZTEQMA4GA1UEAwwHTURRU2lnbjAeFw0yNjEwMjUxMDU3NDNaFw0zMTAxMTQxMDU3NDNaMGsxCzAJBgNVBAYTAk1EMR4wHAYDVQQKDBVlU2VtbkJ1biBkZW1vIGZpeHR1cmUxEDAOBgNVBAQMB03Djk5EUlUxEDAOBgNVBCoMB8iYVEVGQU4xGDAWBgNVBAMMD03Djk5EUlUgyJhURUZBTjBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABKGfiD8oWDHd3yNUy8oX+nbarKEQ+IFp5KfkG2bGpvIc8+PtMGRiHupk3uDs2XJOwisDd74PwugcqWlKQdc6+GSjQjBAMB0GA1UdDgQWBBTpx5ufVV6QvSv/z7UJwzkMig0GeDAfBgNVHSMEGDAWgBQwBq4FMpeN/41slktiRMNyorYQZzAKBggqhkjOPQQDAgNHADBEAiA1v+PKvjw+utszYzYD8v5iGbWasnFeuGiomA+kDq4XvwIgC03ggPaf2cBPWcdimJNL/A+KfQStJybrkehktCubkk4=",
     ]
 }
-#endif

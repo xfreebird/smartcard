@@ -18,7 +18,7 @@ WHAT YOU CAN DO
 • Manage saved PINs and separately clear browser cache, cookies or history.
 
 REQUIREMENTS
-You need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.
+You need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. Internet access is needed for portals, timestamps and online certificate checks.
 
 Your private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.
 

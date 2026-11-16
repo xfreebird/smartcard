@@ -3,7 +3,7 @@
 import argparse, hashlib, json
 from pathlib import Path
 import shutil
-from PIL import Image, ImageOps
+from PIL import Image
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--output', type=Path, required=True)
 p.add_argument('--source',type=Path,default=Path(__file__).resolve().parents[1]/'apple/creative/source')
@@ -20,7 +20,7 @@ for locale in ('en','ro','ru'):
   if not path.exists():p.error(f'Missing localized artwork: {path}')
   image=Image.open(path).convert('RGB')
   if image.size != dimensions:p.error(f'Artwork must have exact placement dimensions; refusing to crop {path}: {image.size}')
-  dest=a.output/locale/f'{layout}-reader-signing.png';dest.parent.mkdir(parents=True,exist_ok=True)
+  dest=a.output/locale/f'{layout}-signing-methods.png';dest.parent.mkdir(parents=True,exist_ok=True)
   image.save(dest,optimize=True)
   assert Image.open(dest).mode=='RGB' and Image.open(dest).size == dimensions
   items.append({'locale':locale,'layout':layout,'path':str(dest.relative_to(a.output)),'dimensions':list(dimensions),'placements':[placement],'sha256':hashlib.sha256(dest.read_bytes()).hexdigest()})

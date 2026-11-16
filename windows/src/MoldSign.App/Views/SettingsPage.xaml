@@ -1,33 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings (docs/10 §4.2): General, Conexiune browser, Avansat. -->
-<Page
-    x:Class="MoldSign.App.Views.SettingsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <Grid>
-        <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="*" /></Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8" Margin="32,16,32,0">
-            <Button x:Name="GeneralTab" Click="OnGeneralTabClick" />
-            <Button x:Name="AboutTab" Content="About" Click="OnAboutTabClick" />
-        </StackPanel>
-        <ScrollViewer x:Name="SettingsScroll" Grid.Row="1">
-        <Grid>
-            <StackPanel x:Name="GeneralContent" MaxWidth="720" Padding="{StaticResource PagePadding}"
-                HorizontalAlignment="Left" Spacing="16">
-            <TextBlock
-                x:Uid="SettingsPageTitle" AutomationProperties.AutomationId="SettingsPageTitle"
-                Style="{StaticResource MsTitleTextStyle}"
-                Text="Setări" />
+<Page x:Class="MoldSign.App.Views.SettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Page.Resources>
+        <Style x:Key="SettingsRowStyle" TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="MinHeight" Value="64" />
+            <Setter Property="Padding" Value="20,16" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="Background" Value="{ThemeResource CardBackgroundFillColorDefaultBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
+        </Style>
+    </Page.Resources>
+    <Grid MaxWidth="868" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Spacing="12" Margin="24,24,24,16">
+                    <Button x:Name="SettingsBack" AutomationProperties.AutomationId="SettingsBack" Click="OnSettingsBack" Visibility="Collapsed">
+                        <FontIcon Glyph="&#xE72B;" />
+                    </Button>
+                    <TextBlock x:Name="CategoryTitle" AutomationProperties.AutomationId="SettingsPageTitle" Style="{StaticResource MsTitleTextStyle}" VerticalAlignment="Center" TextWrapping="Wrap" />
+                </StackPanel>
+        <ScrollViewer x:Name="SettingsScroll" Grid.Row="1" HorizontalContentAlignment="Stretch"
+                      HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+            <StackPanel x:Name="SectionHost" Padding="24,0,24,24" Spacing="24" HorizontalAlignment="Stretch">
+                <Border x:Name="DemoCard" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="12" Padding="16">
+                    <StackPanel Spacing="8">
 
             <ToggleSwitch x:Name="DemoModeToggle" AutomationProperties.AutomationId="DemoModeToggle" Toggled="OnDemoModeToggled" />
             <TextBlock x:Name="DemoModeDescription" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
             <TextBlock x:Name="DemoModeStatus" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
 
-            <TextBlock
-                x:Uid="SettingsGeneral"
-                Style="{StaticResource MsSectionHeaderTextStyle}"
-                Text="GENERAL" />
+
+                    </StackPanel>
+                </Border>
+                <StackPanel x:Name="SettingsRows" Spacing="8">
+                    <TextBlock x:Name="SigningHeading" Style="{StaticResource MsSectionHeaderTextStyle}" Margin="0,0,0,4" />
+                    <Button x:Name="CardDetailsButton" AutomationProperties.AutomationId="SettingsCardDetails" Style="{StaticResource SettingsRowStyle}" Click="OnCardDetailsClick">
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/></Grid.ColumnDefinitions>
+                            <FontIcon Glyph="&#xE8D4;" FontSize="20" />
+                            <TextBlock x:Name="CardDetailsLabel" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="12" />
+                        </Grid>
+                    </Button>
+                    <Button Tag="pins" AutomationProperties.AutomationId="SettingsPins" Style="{StaticResource SettingsRowStyle}" Click="OnCategoryClick">
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/></Grid.ColumnDefinitions>
+                            <FontIcon Glyph="&#xE72E;" FontSize="20" />
+                            <TextBlock x:Name="PinsCategoryLabel" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="12" />
+                        </Grid>
+                    </Button>
+                    <Button Tag="general" Margin="0,16,0,0" AutomationProperties.AutomationId="SettingsGeneral" Style="{StaticResource SettingsRowStyle}" Click="OnCategoryClick">
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/></Grid.ColumnDefinitions>
+                            <FontIcon Glyph="&#xE713;" FontSize="20" />
+                            <TextBlock x:Name="GeneralCategoryLabel" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="12" />
+                        </Grid>
+                    </Button>
+                    <Button Tag="browser" AutomationProperties.AutomationId="SettingsBrowser" Style="{StaticResource SettingsRowStyle}" Click="OnCategoryClick">
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/></Grid.ColumnDefinitions>
+                            <FontIcon Glyph="&#xE774;" FontSize="20" />
+                            <TextBlock x:Name="BrowserCategoryLabel" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="12" />
+                        </Grid>
+                    </Button>
+                    <Button Tag="advanced" AutomationProperties.AutomationId="SettingsAdvanced" Style="{StaticResource SettingsRowStyle}" Click="OnCategoryClick">
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/></Grid.ColumnDefinitions>
+                            <FontIcon Glyph="&#xE115;" FontSize="20" />
+                            <TextBlock x:Name="AdvancedCategoryLabel" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="12" />
+                        </Grid>
+                    </Button>
+                    <Button Tag="about" AutomationProperties.AutomationId="SettingsAbout" Style="{StaticResource SettingsRowStyle}" Click="OnCategoryClick">
+                        <Grid ColumnSpacing="16"><Grid.ColumnDefinitions><ColumnDefinition Width="28"/><ColumnDefinition Width="*"/><ColumnDefinition Width="16"/></Grid.ColumnDefinitions>
+                            <FontIcon Glyph="&#xE946;" FontSize="20" />
+                            <TextBlock x:Name="AboutCategoryLabel" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+                            <FontIcon Grid.Column="2" Glyph="&#xE76C;" FontSize="12" />
+                        </Grid>
+                    </Button>
+                </StackPanel>
+<StackPanel x:Name="GeneralSection" Spacing="16" Visibility="Collapsed">
             <!-- Start at sign-in: StartupTask under MSIX, HKCU Run key unpackaged; HKLM (MSI STARTATLOGIN=1) = managed. -->
             <ToggleSwitch
                 x:Name="StartAtLoginToggle"
@@ -61,17 +114,19 @@
                 <ComboBoxItem x:Uid="SettingsThemeLight" Content="Luminos" Tag="light" />
                 <ComboBoxItem x:Uid="SettingsThemeDark" Content="Întunecat" Tag="dark" />
             </ComboBox>
-            <TextBlock x:Uid="SettingsPins" Text="PIN-uri salvate" Style="{StaticResource MsSectionHeaderTextStyle}" />
+              </StackPanel>
+<StackPanel x:Name="PinsSection" Spacing="16" Visibility="Collapsed">
             <ToggleSwitch x:Name="RememberPinToggle" x:Uid="SettingsRememberPin" Header="Permite salvarea PIN-urilor"
                 Toggled="OnRememberPinToggled" />
+            <TextBlock x:Name="NoSavedPins" Style="{StaticResource MsCaptionTextStyle}" TextWrapping="Wrap" />
             <StackPanel x:Name="SavedPinsList" Spacing="8" />
-            <Button x:Name="DeleteAllPinsButton" x:Uid="SettingsDeletePins" Content="Șterge toate PIN-urile salvate" Click="OnDeletePinsClick" />
+            <Button x:Name="DeleteAllPinsButton" Click="OnDeletePinsClick">
+                <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE74D;" FontSize="16"/><TextBlock x:Name="DeleteAllPinsLabel" /></StackPanel>
+            </Button>
             <TextBlock x:Name="PinsStatus" Style="{StaticResource MsCaptionTextStyle}" />
 
-            <TextBlock
-                x:Uid="SettingsBridge"
-                Style="{StaticResource MsSectionHeaderTextStyle}"
-                Text="CONEXIUNE BROWSER" />
+              </StackPanel>
+<StackPanel x:Name="BrowserSection" Spacing="16" Visibility="Collapsed">
             <ToggleSwitch
                 x:Name="BridgeToggle"
                 x:Uid="SettingsBridgeToggle"
@@ -81,6 +136,8 @@
             <TextBlock Style="{StaticResource MsCaptionTextStyle}" Text="{x:Bind State.BridgeStatus, Mode=OneWay}" />
             <ToggleSwitch x:Name="BrowserStampsToggle" Toggled="OnBrowserStampsToggled" />
             <TextBlock x:Name="StampBatchHint" TextWrapping="Wrap" />
+            <Expander x:Name="BrowserAdvanced" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                <StackPanel Spacing="16">
             <ToggleSwitch x:Name="LegacyClientToggle" Toggled="OnLegacyClientToggled" />
             <TextBlock x:Name="LegacyClientDescription" TextWrapping="Wrap" />
             <Button x:Name="ResolveBridgeButton" Click="OnResolveBridgeClick" />
@@ -95,20 +152,19 @@
                 x:Uid="SettingsImportIdentity"
                 Click="OnImportIdentityClick"
                 Content="Importă identitatea HTTPS (localhost.p12)…" />
+                </StackPanel>
+            </Expander>
 
-            <TextBlock
-                x:Uid="SettingsAdvanced"
-                Style="{StaticResource MsSectionHeaderTextStyle}"
-                Text="AVANSAT" />
+              </StackPanel>
+<StackPanel x:Name="AdvancedSection" Spacing="16" Visibility="Collapsed">
             <ToggleSwitch x:Name="McpApprovalToggle" Toggled="OnMcpApprovalToggled" />
             <TextBlock x:Name="McpApprovalDescription" TextWrapping="Wrap" />
             <TextBlock x:Name="McpApprovalDirectory" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
             <TextBlock x:Name="McpApprovalStatus" TextWrapping="Wrap" />
             <!-- TODO(WIN-04): diagnostics export (no PIN, no session keys: SEC-04) and reset. -->
-            </StackPanel>
-            <StackPanel x:Name="AboutContent" MaxWidth="720" Padding="{StaticResource PagePadding}"
-                HorizontalAlignment="Center" Spacing="16" Visibility="Collapsed">
-                <TextBlock x:Name="AboutTitle" HorizontalAlignment="Center" Style="{StaticResource MsTitleTextStyle}" />
+              </StackPanel>
+<StackPanel x:Name="AboutContent" MaxWidth="720"
+                HorizontalAlignment="Stretch" Spacing="16" Visibility="Collapsed">
                 <Image Source="ms-appx:///Assets/Square150x150Logo.scale-200.png" Width="96" Height="96" Stretch="Uniform" />
                 <TextBlock x:Name="VersionText" HorizontalAlignment="Center" Style="{StaticResource MsCaptionTextStyle}" IsTextSelectionEnabled="True" />
                 <TextBlock x:Name="AboutDeveloper" HorizontalAlignment="Center" TextWrapping="Wrap" IsTextSelectionEnabled="True" />
@@ -121,7 +177,7 @@
                 <Button x:Name="CheckUpdatesButton" HorizontalAlignment="Center" Visibility="Collapsed" Click="OnCheckUpdatesClick" />
                 <TextBlock x:Name="UpdateStatus" TextAlignment="Center" TextWrapping="Wrap" />
             </StackPanel>
-        </Grid>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Page>

@@ -94,7 +94,7 @@ public sealed class PinVault(Func<nint> ownerWindow, bool isolated = false) : IP
         catch (Exception e) when (e.HResult == ElementNotFound) { return []; }
     }
 
-    /// <summary>"Șterge PIN-ul salvat": every stored PIN, all cards.</summary>
+    /// <summary>Remove every stored PIN only for explicit all-card actions.</summary>
     public void DeleteAll()
     {
         if (isolated) return;

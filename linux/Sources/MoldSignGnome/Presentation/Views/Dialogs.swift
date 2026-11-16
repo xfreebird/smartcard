@@ -229,9 +229,40 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let dialog = adw_preferences_dialog_new()!
     // The app language may differ from the desktop locale used by libadwaita's default title.
     adw_dialog_set_title(dialog, L10n.text(.ui_preferences))
+    adw_dialog_set_content_width(dialog, 640)
+    adw_dialog_set_content_height(dialog, 720)
     let page = adw_preferences_page_new()!
     adw_preferences_page_set_title(page.cast(), L10n.text(.linux_general))
     adw_preferences_page_set_icon_name(page.cast(), "preferences-system-symbolic")
+
+    let demoGroup = preferencesGroup(title: nil)
+    let demo = adw_switch_row_new()!
+    adw_preferences_row_set_title(demo.cast(), L10n.text(.linux_demo_mode))
+    adw_action_row_set_subtitle(demo.cast(), L10n.text(.ui_demo_data_no_real_card_pin_or_signatures))
+    adw_switch_row_set_active(demo.opaque, controller.isDemo ? 1 : 0)
+    gtk_widget_set_sensitive(demo, controller.isSigning || controller.bridgeSigning ? 0 : 1)
+    var updatingDemo = false
+    onSignal(demo, "notify::active") { _ in
+        guard !updatingDemo else { return }
+        let enabled = adw_switch_row_get_active(demo.opaque) != 0
+        controller.requestDemoMode?(enabled)
+        // The preview has its own window and cannot modify real settings or saved PINs.
+        updatingDemo = true
+        adw_switch_row_set_active(demo.opaque, controller.isDemo ? 1 : 0)
+        updatingDemo = false
+    }
+    groupAdd(demoGroup, demo)
+    adw_preferences_page_add(page.cast(), demoGroup.cast())
+
+    let cardsGroup = preferencesGroup(title: L10n.text(.settings_signing))
+    let cards = preferencesAction(title: L10n.text(.settings_card_reader), icon: "auth-smartcard-symbolic") {
+        presentCardSettings(parent: parent, controller: controller)
+    }
+    groupAdd(cardsGroup, cards)
+    groupAdd(cardsGroup, preferencesAction(title: L10n.text(.ui_saved_pins), icon: "dialog-password-symbolic") {
+        presentSavedPINSettings(parent: parent, controller: controller)
+    })
+    adw_preferences_page_add(page.cast(), cardsGroup.cast())
 
     let bridge = preferencesGroup(title: L10n.text(.ui_browser_connection),
                                   description: L10n.text(.ui_allows_government_sites_e_g_msign_gov_md_to_request_signatures) +
@@ -250,7 +281,9 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let legacy = adw_switch_row_new()!
     adw_preferences_row_set_title(legacy.cast(), L10n.text(.legacy_client_title))
     adw_action_row_set_subtitle(legacy.cast(), L10n.text(.legacy_client_description))
-    groupAdd(bridge, legacy)
+    let bridgeDetails = adw_expander_row_new()!
+    adw_preferences_row_set_title(bridgeDetails.cast(), L10n.text(.ui_technical_details))
+    adw_expander_row_add_row(bridgeDetails.cast(), legacy)
 
     let identityRow = actionRow(title: L10n.text(.ui_moldsign_https_identity),
         subtitle: L10n.text(.ui_the_bundled_identity_is_used_automatically_import_only_to_replace_it),
@@ -260,7 +293,8 @@ func presentPreferences(parent: Widget, controller: AppController) {
     }
     gtk_widget_set_valign(importIdentity, GTK_ALIGN_CENTER)
     adw_action_row_add_suffix(identityRow.cast(), importIdentity)
-    groupAdd(bridge, identityRow)
+    adw_expander_row_add_row(bridgeDetails.cast(), identityRow)
+    groupAdd(bridge, bridgeDetails)
 
     let automation = preferencesGroup(title: L10n.text(.automation_title),
                                       description: L10n.text(.automation_hint))
@@ -268,7 +302,6 @@ func presentPreferences(parent: Widget, controller: AppController) {
     adw_preferences_row_set_title(agents.cast(), L10n.text(.automation_enable))
     adw_action_row_set_subtitle(agents.cast(), AgentApprovalBroker.directory.path)
     groupAdd(automation, agents)
-    adw_preferences_page_add(page.cast(), automation.cast())
 
     let background = preferencesGroup(title: L10n.text(.ui_background))
     let backgroundRow = adw_switch_row_new()!
@@ -310,41 +343,22 @@ func presentPreferences(parent: Widget, controller: AppController) {
     }
     groupAdd(background, insertion)
 
-    let pins = preferencesGroup(title: L10n.text(.ui_saved_pins),
-        description: L10n.text(.ui_pins_remain_in_the_system_keyring))
-    let clear = button(L10n.text(.ui_delete_all_pins), classes: ["destructive-action"]) {
-        controller.askConfirm?(L10n.text(.ui_delete_all_saved_pins),
-            L10n.text(.ui_you_will_enter_the_pin_again_the_next_time_you_sign), L10n.text(.ui_delete)) { approved in
-                if approved { controller.forgetAllPINs() }
-            }
-    }
-    let pinRow = actionRow(title: L10n.text(.ui_all_cards), suffix: [clear])
-    groupAdd(pins, pinRow)
     adw_preferences_page_add(page.cast(), appearance.cast())
-    adw_preferences_page_add(page.cast(), pins.cast())
-
-    adw_preferences_page_add(page.cast(), bridge.cast())
     adw_preferences_page_add(page.cast(), background.cast())
-    adw_preferences_dialog_add(dialog.cast(), page.cast())
+    adw_preferences_page_add(page.cast(), bridge.cast())
+    adw_preferences_page_add(page.cast(), automation.cast())
 
-    let aboutPage = adw_preferences_page_new()!
-    adw_preferences_page_set_title(aboutPage.cast(), L10n.text(.ui_about_esemnbun))
-    adw_preferences_page_set_icon_name(aboutPage.cast(), "help-about-symbolic")
-    let about = preferencesGroup(title: "eSemnBun")
-    let appIcon = image("md.moldsign.MoldSign", size: 64)
-    gtk_widget_set_halign(appIcon, GTK_ALIGN_CENTER)
-    groupAdd(about, appIcon)
-    groupAdd(about, label(UpdateChecker.currentVersion, xalign: 0.5))
-    groupAdd(about, label("Nicolae Ghimbovschi", xalign: 0.5))
-    let website = gtk_link_button_new_with_label("https://esemnbun.md", "esemnbun.md")!
-    gtk_widget_set_halign(website, GTK_ALIGN_CENTER)
-    groupAdd(about, website)
-    adw_preferences_page_add(aboutPage.cast(), about.cast())
-    adw_preferences_dialog_add(dialog.cast(), aboutPage.cast())
+    let about = preferencesGroup(title: nil)
+    groupAdd(about, preferencesAction(title: L10n.text(.ui_about_esemnbun), icon: "help-about-symbolic") {
+        presentAbout(parent: parent)
+    })
+    adw_preferences_page_add(page.cast(), about.cast())
+    adw_preferences_dialog_add(dialog.cast(), page.cast())
 
     var updating = false
     let token = controller.observe {
         updating = true
+        adw_action_row_set_subtitle(cards.cast(), escapeMarkup(controller.status.title))
         adw_switch_row_set_active(agents.opaque, controller.settings.agentApprovalEnabled ? 1 : 0)
         gtk_widget_set_sensitive(agents, controller.isDemo ? 0 : 1)
         adw_switch_row_set_active(stamps.opaque, controller.settings.browserStampsEnabled ? 1 : 0)
@@ -385,6 +399,56 @@ func presentPreferences(parent: Widget, controller: AppController) {
     adw_dialog_present(dialog, parent)
 }
 
+/// A full-row action opens a focused native dialog without replacing the preferences page.
+private func preferencesAction(title: String, icon: String, action: @escaping () -> Void) -> Widget {
+    let row = actionRow(title: title, icon: icon, suffix: [image("go-next-symbolic")])
+    gtk_list_box_row_set_activatable(row.cast(), 1)
+    onSignal(row, "activated", action)
+    return row
+}
+
+private func presentSavedPINSettings(parent: Widget, controller: AppController) {
+    let dialog = adw_preferences_dialog_new()!
+    adw_dialog_set_title(dialog, L10n.text(.ui_saved_pins))
+    adw_dialog_set_content_width(dialog, 540)
+    adw_dialog_set_content_height(dialog, 360)
+    let page = adw_preferences_page_new()!
+    let pins = preferencesGroup(title: nil, description: L10n.text(.ui_pins_remain_in_the_system_keyring))
+    let cardList = boxedList()
+    groupAdd(pins, cardList)
+    let clear = iconButton("user-trash-symbolic", tooltip: L10n.text(.ui_delete_all_pins), classes: ["flat", "error"]) {
+        controller.askConfirm?(L10n.text(.ui_delete_all_saved_pins),
+            L10n.text(.ui_you_will_enter_the_pin_again_the_next_time_you_sign), L10n.text(.ui_delete)) { approved in
+                if approved { controller.forgetAllPINs() }
+            }
+    }
+    let clearGroup = preferencesGroup(title: nil)
+    groupAdd(clearGroup, actionRow(title: L10n.text(.ui_delete_all_pins), subtitle: L10n.text(.ui_all_cards), suffix: [clear]))
+    adw_preferences_page_add(page.cast(), pins.cast())
+    adw_preferences_page_add(page.cast(), clearGroup.cast())
+    adw_preferences_dialog_add(dialog.cast(), page.cast())
+    let token = controller.observe {
+        clearList(cardList)
+        var seen = Set<String>()
+        for card in controller.cards {
+            guard let certificate = card.certificate, seen.insert(certificate.sha1Hex).inserted else { continue }
+            let remove = iconButton("user-trash-symbolic", tooltip: L10n.text(.ui_delete_the_saved_pin), classes: ["flat", "error"]) {
+                controller.forgetPIN(forCertificateID: certificate.sha1Hex)
+            }
+            gtk_widget_set_sensitive(remove, card.hasStoredPIN ? 1 : 0)
+            let status = L10n.text(card.hasStoredPIN ? .ui_the_pin_is_saved_in_gnome_keyring : .linux_pin_not_saved)
+            gtk_list_box_append(cardList.opaque, actionRow(title: certificate.holder, subtitle: status,
+                icon: "auth-smartcard-symbolic", suffix: [remove]))
+        }
+        if seen.isEmpty {
+            gtk_list_box_append(cardList.opaque, actionRow(title: L10n.text(.ui_no_card_connected),
+                subtitle: L10n.text(.ui_connect_the_reader), icon: "auth-smartcard-symbolic"))
+        }
+    }
+    onSignal(dialog, "closed") { controller.unobserve(token) }
+    adw_dialog_present(dialog, parent)
+}
+
 func chooseBridgeIdentity(parent: Widget, controller: AppController) {
     chooseFiles(parent: parent.cast(), title: L10n.text(.ui_moldsign_https_identity), multiple: false,
                 filters: [(name: "PKCS#12", suffixes: ["p12", "pfx"])]) { paths in
@@ -412,4 +476,20 @@ func presentAbout(parent: Widget) {
     adw_about_dialog_add_link(about.opaque, L10n.text(.about_privacy), legalBase + "/privacy/")
     adw_about_dialog_add_link(about.opaque, L10n.text(.about_disclaimer), legalBase + "/terms/")
     adw_dialog_present(about, parent)
+}
+
+/// Card management is reachable from Preferences or the signing card without a main Card tab.
+func presentCardSettings(parent: Widget, controller: AppController) {
+    let dialog = adw_dialog_new()!
+    adw_dialog_set_title(dialog, L10n.text(.settings_card_reader))
+    adw_dialog_set_content_width(dialog, 620)
+    adw_dialog_set_content_height(dialog, 640)
+    let toolbar = adw_toolbar_view_new()!
+    adw_toolbar_view_add_top_bar(toolbar.opaque, adw_header_bar_new()!)
+    var cardPage: CardPage? = CardPage(controller: controller)
+    adw_toolbar_view_set_content(toolbar.opaque, cardPage!.root)
+    adw_dialog_set_child(dialog, toolbar)
+    // Retain the live page until its dialog closes; its model observer is weak.
+    onSignal(dialog, "closed") { cardPage = nil }
+    adw_dialog_present(dialog, parent)
 }

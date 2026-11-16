@@ -27,10 +27,18 @@ android {
             "BUILD_NUMBER must be a positive whole number no greater than 2100000000"
         }
         versionCode = buildNumber?.toInt() ?: 2
-        versionName = "0.2.11"
+        versionName = "0.2.12"
+        manifestPlaceholders["appLabel"] = "@string/app_name"
     }
 
     buildTypes {
+        debug {
+            // Opt-in separate install preserves the Play-signed app and its saved credentials.
+            if (providers.gradleProperty("nfcTestInstall").orNull == "true") {
+                applicationIdSuffix = ".nfctest"
+                manifestPlaceholders["appLabel"] = "@string/nfc_test_app_name"
+            }
+        }
         release {
             // TODO(AND-10): R8 + signing config for Play packaging.
             isMinifyEnabled = false

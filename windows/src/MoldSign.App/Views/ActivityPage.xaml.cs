@@ -11,6 +11,10 @@ public sealed partial class ActivityPage : Page
     public ActivityPage()
     {
         InitializeComponent();
+        ProtectionMenu.Content = Loc.Get("protect_title");
+        EncryptMenuItem.Text = Loc.Get("protect_encrypt");
+        DecryptMenuItem.Text = Loc.Get("protect_decrypt");
+        RemoveMenuItem.Text = Loc.Get("protect_remove");
         DocumentList.ItemsSource = DisplayItems;
         SignedFilter.Content = Loc.Get("saved_files");
         HistoryFilter.Content = Loc.Get("saved_history");
@@ -33,6 +37,19 @@ public sealed partial class ActivityPage : Page
         };
     }
 
+
+    private async void OnEncryptClick(object sender, RoutedEventArgs e) => await new FileProtectionDialog(XamlRoot, ActualTheme, 0).ShowAsync();
+    private async void OnDecryptClick(object sender, RoutedEventArgs e) => await new FileProtectionDialog(XamlRoot, ActualTheme, 1).ShowAsync();
+    private async void OnRemoveClick(object sender, RoutedEventArgs e) => await new FileProtectionDialog(XamlRoot, ActualTheme, 2).ShowAsync();
+    private void OnFileActions(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement { DataContext: ActivityItem { Path: { } path } } anchor) return;
+        var menu = new MenuFlyout();
+        var protect = new MenuFlyoutItem { Text = Loc.Get("protect_title") };
+        protect.Click += async (_, _) => await new FileProtectionDialog(XamlRoot, ActualTheme, initialSource: path).ShowAsync();
+        menu.Items.Add(protect);
+        menu.ShowAt(anchor);
+    }
 
     public AppState State => AppState.Current;
 

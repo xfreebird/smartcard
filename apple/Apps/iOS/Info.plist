@@ -63,6 +63,13 @@
 	</dict>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Deblochează PIN-ul salvat pentru semnare.</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>Citește cartea de identitate și semnează documentele alese folosind NFC.</string>
+	<key>com.apple.developer.nfc.readersession.iso7816.select-identifiers</key>
+	<array>
+		<string>A000000077030C60000000FE00000500</string>
+		<string>E828BD080FD25047656E65726963</string>
+	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

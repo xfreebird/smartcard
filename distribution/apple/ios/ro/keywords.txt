@@ -1,1 +1,1 @@
-semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin
+NFC,semnătură,PDF,PAdES,XAdES,Moldova,identitate

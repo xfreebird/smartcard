@@ -29,7 +29,7 @@ internal sealed class FileProtectionDialog : ContentDialog
     private byte[]? _output;
     private bool _busy;
     private bool _completed;
-    public FileProtectionDialog(XamlRoot root,ElementTheme theme,int operation = 0, ProtectionPreview? preview = null, IPasswordFileProcessor? processor = null)
+    public FileProtectionDialog(XamlRoot root,ElementTheme theme,int operation = 0, ProtectionPreview? preview = null, IPasswordFileProcessor? processor = null, string? initialSource = null)
     {
         _processor = processor ?? App.Current.Services.FileProtection;
         XamlRoot=root;RequestedTheme=theme;Title=Loc.Get("protect_title");CloseButtonText=Loc.Get("Action_Cancel");
@@ -109,6 +109,7 @@ internal sealed class FileProtectionDialog : ContentDialog
             _method.SelectedIndex = 0;
             _file.Text = preview.Filename;
         }
+        if (initialSource is not null && File.Exists(initialSource)) { _source = initialSource; _file.Text = Path.GetFileName(initialSource); }
         Refresh();
     }
     private void SecretChanged(){if(!_busy)ClearOutput();Refresh();}

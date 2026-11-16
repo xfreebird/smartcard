@@ -12,7 +12,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import md.moldsign.core.ActivityEntry
 import md.moldsign.core.CardError
-import md.moldsign.core.ConsentRequest
+import md.moldsign.app.application.PinRequest
 import md.moldsign.core.ConsentResult
 import md.moldsign.core.CertificateSummary
 import md.moldsign.core.ReaderSlot
@@ -47,9 +47,10 @@ internal object DemoMode {
     private val ionPopescu = certificate("ION POPESCU", "POPESCU", "ION", "1A4C9E21B07D33F0A1C2E5D6B7F8091A2B3C4D5E", notAfterYear = 2030, month = 3)
     private val anaMindru = certificate("ANA-MARIA MÎNDRU", "MÎNDRU", "ANA-MARIA", "E47B02C9D1F0A3B5C6D7E8F9012345678ABCDEF0", notAfterYear = 2029, month = 11)
     private var fakePinJob: Job? = null
-    private var fakePinRequest: ConsentRequest? = null
+    private var fakePinRequest: PinRequest? = null
 
     fun apply(container: AppContainer, intent: Intent?, viewModel: MainViewModel) {
+        NfcTestSetup.apply(container, intent, viewModel)
         val scenario = intent?.getStringExtra(EXTRA)
         stampPreview = screenshotCapture(intent) && intent?.getBooleanExtra("stamp_preview", false) == true
         if (scenario == null) {
@@ -112,7 +113,7 @@ internal object DemoMode {
     /** Publishes a fictional consent request for UI evidence; no signing service or PIN vault is called. */
     private fun showFakePin(container: AppContainer, attemptsLeft: Int? = null) {
         val previous = cancelFakePin(container)
-        val request = ConsentRequest(
+        val request = PinRequest(
             requester = null,
             documentNames = listOf("demo-contract.pdf", "demo-cerere.txt", "demo-invoice.pdf"),
             format = "PAdES-T / XAdES-T",
@@ -122,7 +123,7 @@ internal object DemoMode {
         fakePinRequest = request
         val job = container.scope.launch(Dispatchers.IO) {
             previous?.join()
-            val result = container.consentBroker.obtain(request, timeoutMs = 30_000)
+            val result = container.consentBroker.obtainPin(request, timeoutMs = 30_000)
             if (result is ConsentResult.Pin) result.pin.fill('\u0000')
         }
         fakePinJob = job

@@ -24,6 +24,11 @@ extension XCUIApplication {
     }
 
     func openProtection() {
+        let direct = buttons["documents.protectFiles"].firstMatch
+        if direct.waitForExistence(timeout: 3), direct.isHittable {
+            direct.tapWhenReady()
+            return
+        }
         let menu = buttons["documents.menu"].firstMatch
         if menu.waitForExistence(timeout: 3) {
             menu.tapWhenReady()
@@ -46,6 +51,9 @@ extension XCUIApplication {
             direct.activateControl()
             return
         }
+        #if os(macOS)
+        buttons["documents.menu"].firstMatch.tapWhenReady()
+        #endif
         #if os(iOS)
         // iPad can move primary toolbar actions into its native overflow menu.
         let overflow = toolbarOverflow
@@ -82,3 +90,13 @@ extension XCUIElement {
         return result == .completed
     }
 }
+
+#if os(iOS)
+@MainActor
+extension XCUIApplication {
+    func selectSigningMethod(_ method: String) {
+        buttons["signing.method"].tapWhenReady()
+        buttons["signing.method." + method].tapWhenReady()
+    }
+}
+#endif

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "product": "eSemnBun",
-  "version": "0.2.8",
+  "version": "0.2.12",
   "locales": [
     "ro",
     "en",
@@ -54,10 +54,10 @@
     "apkSHA256": "e3eb8ba6696b9977e8ad8c08c55050bf26e44c7261d632c25fb99c5f1e506276",
     "versionID": "2075889243518969152"
   },
-  "usesPlaceholderURLs": true,
+  "usesPlaceholderURLs": false,
   "marketingURL": "https://esemnbun.md/",
   "termsURL": "https://esemnbun.md/terms",
-  "urlStatus": "Reserved production-domain paths. Content and public reachability must be verified before submission.",
+  "urlStatus": "Production URLs returned HTTP 200 on 16 November 2026. The localized NFC privacy revision is prepared locally and awaits publication.",
   "storeLocales": {
     "apple": {
       "ro": "ro",

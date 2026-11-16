@@ -251,6 +251,7 @@ private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, on
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; open() })
                             if (e.protectionOperation == "encrypt") DropdownMenuItem(text = { Text(stringResource(R.string.protect_decrypt)) }, onClick = { menu = false; onDecrypt(uri) })
                             else DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
+                            DropdownMenuItem(text = { Text(stringResource(R.string.protect_title)) }, onClick = { menu = false; onDecrypt(uri) })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; share() })
                             DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
                             }

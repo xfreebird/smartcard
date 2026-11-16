@@ -23,6 +23,7 @@ final class CardCarouselUITests: XCTestCase {
 
     func testNativeSwipeSelectsCenteredCards() throws {
         app.launch()
+        selectReader()
         let first = card(0)
         XCTAssertTrue(first.waitForExistence(timeout: 20))
         let center = first.frame.midX
@@ -50,11 +51,17 @@ final class CardCarouselUITests: XCTestCase {
     func testInitialSecondCardIsCenteredWithoutGesture() {
         app.launchEnvironment["MSIGN_DEMO_SELECTED"] = "1"
         app.launch()
+        selectReader()
         let second = card(1)
         XCTAssertTrue(second.waitForExistence(timeout: 20))
         XCTAssertTrue(second.isHittable)
         XCTAssertTrue(second.isSelected)
         attach("initial-selected-card-2")
+    }
+
+    private func selectReader() {
+        app.selectSigningMethod("reader")
+        app.buttons["signing.reader.cards"].tapWhenReady()
     }
 
     private func card(_ index: Int) -> XCUIElement {

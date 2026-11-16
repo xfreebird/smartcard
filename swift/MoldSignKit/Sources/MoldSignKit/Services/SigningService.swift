@@ -161,6 +161,8 @@ public final class SigningService: @unchecked Sendable {
                 try card.selectGenericADF()
                 progress?(.verifyingPIN)
                 try card.verifyPIN(pin)
+                try card.selectMF()
+                try card.selectGenericADF()
                 progress?(.signing)
                 let signature = try card.sign(digestInfo: digestInfo)
                 progress?(.timestamping)
@@ -179,6 +181,8 @@ public final class SigningService: @unchecked Sendable {
         try withCard(reader: reader, progress: progress) { card in
             progress?(.readingCertificate)
             let cert = try card.prepareForSigning(pin: pin, expectedCertificateSHA1: expectedCertificateSHA1)
+            try card.selectMF()
+            try card.selectGenericADF()
             progress?(.signing)
             let xml = try XAdESSigner().sign(
                 files: files, format: format, type: type, digest: digest, certDER: cert, chainDER: [ChainCerts.mdQSign],

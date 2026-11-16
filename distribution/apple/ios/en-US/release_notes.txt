@@ -1,1 +1,1 @@
-Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.
+Sign with a compatible Moldovan electronic identity card over NFC, or use a card reader. A simpler Sign screen guides you to the next step. Settings now brings cards, saved PINs and preferences together.

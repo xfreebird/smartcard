@@ -7,7 +7,7 @@ import Foundation
 g_set_application_name("eSemnBun")
 var arguments = CommandLine.arguments
 let background = arguments.contains("--background")
-arguments.removeAll { $0 == "--background" }
+arguments.removeAll { $0 == "--background" || $0 == "--demo" }
 
 let application = MoldSignApp(startHidden: background)
 let exitCode = application.run(arguments: arguments)

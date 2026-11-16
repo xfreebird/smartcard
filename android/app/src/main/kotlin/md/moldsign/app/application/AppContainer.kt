@@ -53,6 +53,8 @@ class AppContainer(
     val consentBroker = ConsentBroker()
     val stampBroker = StampBroker(app)
     val pinVault = PinVault(app)
+    val savedCardIdentities = md.moldsign.app.pin.SavedCardIdentities(app)
+    val nfc = md.moldsign.app.nfc.NfcSigningController(app)
     val activity = ActivityLog(app, scope, if (userDemoMode) "demo-activity" else "activity")
     val signedFiles = SignedFileStore(app)
 
@@ -177,6 +179,8 @@ class AppContainer(
     }
 
     fun stop() {
+        nfc.cancel()
+        consentBroker.discardRemembered()
         consentBroker.cancelPending()
         stampBroker.cancelPending()
         readerMonitor.stop()

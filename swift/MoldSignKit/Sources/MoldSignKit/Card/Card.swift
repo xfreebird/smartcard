@@ -80,14 +80,15 @@ public final class CosmoXCard {
 
     func transmitFull(_ apdu: Data) throws -> (data: Data, sw: Data) {
         var result = Data()
-        var (data, sw) = try transmit(apdu)
-        while sw.count == 2 && sw[0] == 0x61 {
+        var request = apdu
+        for _ in 0..<64 {
+            let (data, sw) = try transmit(request)
             result += data
-            let getResp = Data([0x00, 0xC0, 0x00, 0x00, sw[1]])
-            (data, sw) = try transmit(getResp)
+            guard result.count <= 65536 else { throw CardError.cardNotResponding }
+            guard sw.count == 2 && sw[0] == 0x61 else { return (result, sw) }
+            request = Data([0x00, 0xC0, 0x00, 0x00, sw[1]])
         }
-        result += data
-        return (result, sw)
+        throw CardError.cardNotResponding
     }
 
     func checkSW(_ sw: Data, context: String = "") throws {
@@ -103,14 +104,14 @@ public final class CosmoXCard {
         guard var ch = channel else { throw CardError.cardNotResponding }
         let wrapped = try ch.wrap(apdu)
         channel = ch
-        MSLog.debug("  SM TX: \(wrapped.hexString.prefix(80))\(wrapped.count > 40 ? "..." : "")")
         let (rawResp, rawSW) = try transmitFull(wrapped)
-        MSLog.debug("    SM RX raw(\(rawResp.count)B): \(rawResp.hexString.prefix(60))... SW=\(rawSW.hexString)")
         if rawResp.isEmpty {
             // Card advances SSC for the response even when returning SW only.
             // We must increment to stay in sync.
             _ = ch.incSSCPublic()
             channel = ch
+            // A bare success cannot prove a secure response (especially for VERIFY PIN).
+            guard rawSW != Data([0x90, 0]) else { throw CardError.macVerificationFailed }
             return (Data(), rawSW)
         }
         ch = channel!
@@ -129,6 +130,12 @@ public final class CosmoXCard {
     // MARK: - Mutual Authentication
 
     public func authenticate() throws {
+        channel = nil
+        func checked(_ command: Data) throws -> Data {
+            let (data, status) = try transmitFull(command)
+            try checkSW(status)
+            return data
+        }
         // 1. SELECT IAS AID
         var selectAID = Data([0x00, 0xA4, 0x04, 0x00, UInt8(Self.iasAID.count), 0x00])
         selectAID.insert(contentsOf: Self.iasAID, at: 5)
@@ -136,20 +143,19 @@ public final class CosmoXCard {
         try checkSW(sw)
 
         // 2. SELECT MF
-        _ = try transmitFull(Data([0x00, 0xA4, 0x00, 0x0C, 0x02, 0x3F, 0x00, 0x00]))
-        try checkSW(sw)
+        _ = try checked(Data([0x00, 0xA4, 0x00, 0x0C, 0x02, 0x3F, 0x00, 0x00]))
 
         // 3. Read serial (D003)
-        _ = try transmitFull(Data([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x03, 0x00]))
-        let (serData, _) = try transmitFull(Data([0x00, 0xB0, 0x00, 0x00, 0x00]))
-        serialNumber = serData.dropFirst(2).prefix(16)
-        MSLog.info("Serial: \(String(data: serialNumber, encoding: .ascii) ?? "??")")
+        _ = try checked(Data([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x03, 0x00]))
+        let serData = try checked(Data([0x00, 0xB0, 0x00, 0x00, 18]))
+        guard serData.count == 18 else { throw CardError.cardNotResponding }
+        serialNumber = Data(serData.dropFirst(2))
 
         // 4. Read seed (D004)
-        _ = try transmitFull(Data([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x04, 0x00]))
-        let (seedData, _) = try transmitFull(Data([0x00, 0xB0, 0x00, 0x00, 0x10]))
-        randomSeed = seedData.prefix(16)
-        MSLog.debug("Seed: \(String(data: randomSeed, encoding: .ascii) ?? "??")")
+        _ = try checked(Data([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x04, 0x00]))
+        let seedData = try checked(Data([0x00, 0xB0, 0x00, 0x00, 0x10]))
+        guard seedData.count == 16 else { throw CardError.cardNotResponding }
+        randomSeed = seedData
 
         // 5. Derive admin keys
         let base = randomSeed + serialNumber + Self.mkClass
@@ -161,12 +167,15 @@ public final class CosmoXCard {
         try checkSW(swMSE)
 
         // 7. GET CHALLENGE
-        let (challenge, _) = try transmitFull(Data([0x00, 0x84, 0x00, 0x00, 0x10]))
-        let rndICC = challenge.prefix(16)
+        let rndICC = try checked(Data([0x00, 0x84, 0x00, 0x00, 0x10]))
+        guard rndICC.count == 16 else { throw CardError.cardNotResponding }
+        var generator = SystemRandomNumberGenerator()
+        let terminalRandom = Data((0..<16).map { _ in UInt8.random(in: .min ... .max, using: &generator) })
+        let terminalKey = Data((0..<32).map { _ in UInt8.random(in: .min ... .max, using: &generator) })
 
         // 8. Build and send EXTERNAL AUTHENTICATE
         let snICC = serialNumber.suffix(8)
-        let plainBuf = Self.rndIFD + Self.snIFD + rndICC + snICC + Self.kIFD
+        let plainBuf = terminalRandom + Self.snIFD + rndICC + snICC + terminalKey
         let aesKenc = AES(key: kenc)
         let ct = try aesKenc.cbcEncrypt(plainBuf, iv: Data(repeating: 0, count: 16))
         let mac = AES.cmac(key: kmac, message: ct)
@@ -174,29 +183,36 @@ public final class CosmoXCard {
         extAuth += ct + mac.prefix(16)
         let (respData, swEA) = try transmitFull(extAuth)
         try checkSW(swEA)
-        guard respData.count == 96 else { throw CardError.signFailed("Bad ext auth response: \(respData.count)") }
+        guard respData.count == 96 else { throw CardError.cardNotResponding }
 
         // 9. Verify response MAC and decode
         let respCT = respData.prefix(80)
         let respMAC = respData.dropFirst(80).prefix(16)
-        guard AES.cmac(key: kmac, message: respCT).prefix(16) == respMAC else {
+        guard Self.authenticationBytesEqual(Data(AES.cmac(key: kmac, message: respCT).prefix(16)), Data(respMAC)) else {
             throw CardError.macVerificationFailed
         }
         let respPlain = try aesKenc.cbcDecrypt(respCT, iv: Data(repeating: 0, count: 16))
+        let expectedBinding = rndICC + snICC + terminalRandom + Self.snIFD
+        guard Self.authenticationBytesEqual(Data(respPlain.prefix(48)), expectedBinding) else {
+            throw CardError.macVerificationFailed
+        }
         let kICC = respPlain.subdata(in: 48..<80)
 
         // 10. Derive session keys
-        let secret = AES.xorBytes(kICC, Self.kIFD)
+        let secret = AES.xorBytes(kICC, terminalKey)
         let sessENC = (secret + Data(hex: "00000001")).sha256()
         let sessMAC = (secret + Data(hex: "00000002")).sha256()
-        let ssc = Data([UInt8](respPlain.prefix(16).suffix(8)) + [UInt8](Self.rndIFD.suffix(8)))
+        let ssc = Data([UInt8](rndICC.suffix(8)) + [UInt8](terminalRandom.suffix(8)))
 
-        MSLog.debug("  K_ICC:   \(kICC.hexString)")
-        MSLog.debug("  sessENC:  \(sessENC.hexString)")
-        MSLog.debug("  sessMAC:  \(sessMAC.hexString)")
-        MSLog.debug("  SSC:      \(ssc.hexString)")
         channel = SecureChannel(sessENC: sessENC, sessMAC: sessMAC, ssc: ssc)
         MSLog.info("Secure channel established")
+    }
+
+    private static func authenticationBytesEqual(_ a: Data, _ b: Data) -> Bool {
+        guard a.count == b.count else { return false }
+        var difference: UInt8 = 0
+        for (x, y) in zip(a, b) { difference |= x ^ y }
+        return difference == 0
     }
 
     // MARK: - SM Operations
@@ -271,7 +287,6 @@ public final class CosmoXCard {
         _ = try smTransmit(Data([0x00, 0xA4, 0x02, 0x04, 0x02, 0x00, 0x01, 0x00]))
 
         let header = try readBinary(offset: 0, length: 16)
-        MSLog.debug("    Cert header(\(header.count)B): \(header.hexString.prefix(32))")
         guard header.count >= 4, header[0] == 0x30, header[1] == 0x82 else {
             throw CardError.signFailed("Cert file doesn't start with SEQUENCE")
         }

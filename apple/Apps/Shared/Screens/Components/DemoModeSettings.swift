@@ -23,6 +23,7 @@ struct DemoModeSettings: View {
             Button(L10n.text(.ui_done)) {}
         } message: { Text(L10n.text(.demo_switch_unavailable)) }
 
+        } footer: {
             Text(L10n.text(.demo_settings_description)).font(.caption).foregroundStyle(.secondary)
         }
 

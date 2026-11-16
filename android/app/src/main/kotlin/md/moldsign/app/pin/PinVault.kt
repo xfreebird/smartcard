@@ -33,8 +33,8 @@ private val Context.pinStore by preferencesDataStore(name = "pin_vault")
  * Only the ciphertext (IV ‖ ct, Base64) is stored, in DataStore, keyed by the card certificate SHA-1,
  * so another card never receives this card's PIN. The PIN is never logged.
  *
- * TODO(AND-06): wire into the signing flow: "Ține minte PIN-ul" → [save] after a successful VERIFY,
- *  [load] before showing the PIN sheet, [delete] on CardError.WrongPin; device-credential fallback on API 30+.
+ * Local reader/NFC signing uses [save] after a successful document signature, [load] from the shared
+ * consent dialog and [delete] on CardError.WrongPin. Device-credential fallback remains future work.
  */
 class PinVault(context: Context) {
     private val appContext = context.applicationContext

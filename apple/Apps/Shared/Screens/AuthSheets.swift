@@ -12,7 +12,6 @@ struct PinEntryView: View {
     @State private var pin = L10n.text(.ui_)
     @State private var remember = true
     @State private var documentsExpanded = false
-    @State private var keyboardVisible = false
     #if os(iOS)
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     #endif
@@ -72,7 +71,7 @@ struct PinEntryView: View {
                     .font(.caption)
                 }
                 ZStack {
-                    // Invisible key catcher behind the boxes: no system focus ring or bezel, the boxes show focus instead.
+                    // Native secure input remains accessible and tappable; the boxes render its masked value.
                     SecureField(L10n.text(.ui_), text: $pin)
                         .focused($focused)
                         #if os(iOS)
@@ -82,11 +81,11 @@ struct PinEntryView: View {
                         .focusEffectDisabled()
                         .foregroundStyle(.clear)
                         .tint(.clear)
-                        .frame(width: 1, height: 1)
-                        .opacity(0.01)
+                        .frame(maxWidth: 376, minHeight: 48, maxHeight: 48)
                         .accessibilityLabel(L10n.text(.ui_pin))
+                        .accessibilityIdentifier("pin.input")
                         .onChange(of: pin) { _, value in pin = String(value.filter(\.isNumber).prefix(8)) }
-                        .onSubmit { if valid { onSubmit(pin, remember && request.canRemember) } }
+                        .onSubmit { submit() }
                     HStack(spacing: 6) {
                         ForEach(0..<8, id: \.self) { i in
                             RoundedRectangle(cornerRadius: 6)
@@ -113,18 +112,9 @@ struct PinEntryView: View {
                         .foregroundStyle(left <= 2 ? Theme.warning : .secondary)
                         .font(.subheadline)
                 }
-                if !keyboardVisible {
-                    HStack {
-                        Button(L10n.text(.ui_cancel), role: .cancel, action: onCancel)
-                            .nativeButtonStyle(.automatic)
-                            .keyboardShortcut(.cancelAction)
-                        Spacer()
-                        Button(L10n.text(.ui_sign)) { onSubmit(pin, remember && request.canRemember) }
-                            .nativeButtonStyle(.prominent)
-                            .keyboardShortcut(.defaultAction)
-                            .disabled(!valid)
-                    }
-                }
+                #if os(macOS)
+                actions
+                #endif
             }
             .multilineTextAlignment(.center)
             .padding(shortViewport ? 12 : Theme.Space.xl)
@@ -135,18 +125,39 @@ struct PinEntryView: View {
         #if os(macOS)
         .frame(minWidth: 340, idealHeight: 440)
         #else
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)) { _ in keyboardVisible = true }
-        .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)) { _ in keyboardVisible = false }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Button(L10n.text(.ui_cancel), role: .cancel, action: onCancel)
-                Spacer()
-                Button(L10n.text(.ui_sign)) { onSubmit(pin, remember && request.canRemember) }
-                    .disabled(!valid)
-            }
+        .scrollDismissesKeyboard(.interactively)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            actions
+                .controlSize(.large)
+                .frame(maxWidth: 480)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 12)
+                .frame(maxWidth: .infinity)
+                .background(.bar)
         }
         #endif
         .onAppear { focused = true }
+    }
+
+    private var actions: some View {
+        HStack {
+            Button(L10n.text(.ui_cancel), role: .cancel) { focused = false; onCancel() }
+                .nativeButtonStyle(.automatic)
+                .keyboardShortcut(.cancelAction)
+                .accessibilityIdentifier("pin.cancel")
+            Spacer()
+            Button(L10n.text(.ui_sign)) { submit() }
+                .nativeButtonStyle(.prominent)
+                .keyboardShortcut(.defaultAction)
+                .disabled(!valid)
+                .accessibilityIdentifier("pin.submit")
+        }
+    }
+
+    private func submit() {
+        guard valid else { return }
+        focused = false
+        onSubmit(pin, remember && request.canRemember)
     }
 }
 

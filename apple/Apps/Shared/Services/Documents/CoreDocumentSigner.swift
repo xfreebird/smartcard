@@ -8,7 +8,9 @@ struct CoreDocumentSigner: DocumentSigning {
               progress: @escaping @Sendable (SigningService.Step) -> Void) async throws -> URL {
         let scoped = item.url.startAccessingSecurityScopedResource()
         defer { if scoped { item.url.stopAccessingSecurityScopedResource() } }
-        return try await Task.detached {
+        try Task.checkCancellation()
+        let operation = Task.detached {
+            try Task.checkCancellation()
             let output = Self.outputURL(for: item.url, format: item.format)
             let signed: Data
             if let format = item.format.xades {
@@ -19,9 +21,13 @@ struct CoreDocumentSigner: DocumentSigning {
                                              expectedCertificateSHA1: certificateSHA1, appearance: item.stamp, progress: progress)
             }
             progress(.writing)
+            try Task.checkCancellation()
             try signed.write(to: output, options: .withoutOverwriting)
             return output
-        }.value
+        }
+        return try await withTaskCancellationHandler {
+            try await operation.value
+        } onCancel: { operation.cancel() }
     }
 
     private static func outputURL(for input: URL, format: SignFormat) -> URL {

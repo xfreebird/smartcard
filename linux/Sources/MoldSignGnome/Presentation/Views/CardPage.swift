@@ -38,7 +38,7 @@ final class CardPage {
         addClasses(empty, ["card-empty"])
 
         // Cards
-        wallet = CardWallet(controller: controller)
+        wallet = CardWallet(controller: controller, opensDetailsOnSelectedCard: false)
 
         certGroup = preferencesGroup(title: L10n.text(.ui_signing_certificate))
         let certList = boxedList()
@@ -56,13 +56,15 @@ final class CardPage {
 
         pinGroup = preferencesGroup(title: L10n.text(.ui_pin), description: L10n.text(.ui_a_saved_pin_is_stored_in_gnome_keyring_and_linked_to_this_card) +
                                                               L10n.text(.ui_pin_confirmation_scope_help))
-        forget = button(L10n.text(.ui_delete_the_saved_pin), classes: ["destructive-action"]) { controller.forgetPIN() }
+        forget = iconButton("user-trash-symbolic", tooltip: L10n.text(.ui_delete_the_saved_pin), classes: ["flat", "error"]) {
+            controller.forgetPIN()
+        }
         pinRow = actionRow(title: "", icon: "dialog-password-symbolic", suffix: [forget])
         let pinList = boxedList()
         gtk_list_box_append(pinList.opaque, pinRow)
         groupAdd(pinGroup, pinList)
 
-        let content = vbox(spacing: 24, [certGroup, pinGroup, tipsGroup()])
+        let content = vbox(spacing: 24, [pinGroup, certGroup, tipsGroup()])
         gtk_widget_set_margin_top(wallet.root, 12)
         gtk_widget_set_margin_top(content, 6)
         gtk_widget_set_margin_bottom(content, 24)
@@ -119,7 +121,8 @@ final class CardPage {
         adw_action_row_set_subtitle(readerRow.cast(), escapeMarkup(card.reader))
 
         let pinText: String
-        if let problem = c.vaultProblem {
+        // Demo's disabled vault is a global mode, not a problem or option for each card.
+        if !c.isDemo, let problem = c.vaultProblem {
             pinText = problem
         } else {
             pinText = c.hasStoredPIN ? L10n.text(.ui_the_pin_is_saved_in_gnome_keyring) : L10n.text(.linux_pin_not_saved)
@@ -131,8 +134,11 @@ final class CardPage {
 
 /// "Probleme cu cardul?" (shown under the wallet and on the empty state).
 private func tipsGroup() -> Widget {
-    let tips = preferencesGroup(title: L10n.text(.ui_card_problems))
+    let tips = preferencesGroup(title: nil)
     let tipsList = boxedList()
+    let disclosure = adw_expander_row_new()!
+    adw_preferences_row_set_title(disclosure.cast(), L10n.text(.ui_card_problems))
+    adw_expander_row_add_prefix(disclosure.cast(), image("help-browser-symbolic"))
     let tipRows: [(String, String, String)] = [
         (L10n.text(.ui_signing_fails_repeatedly), L10n.text(.ui_remove_and_reinsert_the_card_then_try_again), "view-refresh-symbolic"),
         (L10n.text(.ui_the_pin_is_not_retried_automatically), L10n.text(.ui_after_3_incorrect_attempts_the_card_is_blocked), "dialog-warning-symbolic"),
@@ -141,8 +147,9 @@ private func tipsGroup() -> Widget {
          "auth-smartcard-symbolic"),
     ]
     for (title, subtitle, icon) in tipRows {
-        gtk_list_box_append(tipsList.opaque, actionRow(title: title, subtitle: subtitle, icon: icon, subtitleSelectable: true))
+        adw_expander_row_add_row(disclosure.cast(), actionRow(title: title, subtitle: subtitle, icon: icon, subtitleSelectable: true))
     }
+    gtk_list_box_append(tipsList.opaque, disclosure)
     groupAdd(tips, tipsList)
     return tips
 }

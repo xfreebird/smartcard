@@ -15314,6 +15314,1104 @@
         "ro": "Salvează fișierul",
         "ru": "Сохранить файл"
       }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_method",
+      "translations": {
+        "ro": "Metoda de semnare",
+        "en": "Signing method",
+        "ru": "Способ подписания"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_method_reader",
+      "translations": {
+        "ro": "Cititor de carduri",
+        "en": "Card reader",
+        "ru": "Картридер"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_method_nfc",
+      "translations": {
+        "ro": "NFC",
+        "en": "NFC",
+        "ru": "NFC"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_card_title",
+      "translations": {
+        "ro": "Semnează cu cartea de identitate",
+        "en": "Sign with your identity card",
+        "ru": "Подпишите удостоверением личности"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_signing_instructions",
+      "translations": {
+        "ro": "Alege documentele și confirmă PIN-ul. Apoi ține cardul lângă partea de sus a iPhone-ului până la confirmarea finală. O singură apropiere pentru fiecare document.",
+        "en": "Choose your documents and confirm your PIN. Then hold your card against the top of your iPhone until the final confirmation. One tap for each document.",
+        "ru": "Выберите документы и подтвердите PIN. Затем держите карту у верхней части iPhone до окончательного подтверждения. Одно прикладывание для каждого документа."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_unavailable",
+      "translations": {
+        "ro": "NFC nu este disponibil pe acest dispozitiv. Folosește un cititor de carduri.",
+        "en": "NFC is unavailable on this device. Use a card reader.",
+        "ru": "NFC недоступен на этом устройстве. Используйте картридер."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_connection_lost",
+      "translations": {
+        "ro": "Conexiunea NFC s-a întrerupt. Apasă din nou Semnează și ține cardul nemișcat până la confirmarea finală.",
+        "en": "The NFC connection ended. Tap Sign again and keep the card still until the final confirmation.",
+        "ru": "Соединение NFC прервано. Нажмите «Подписать» снова и держите карту неподвижно до окончательного подтверждения."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_one_card",
+      "translations": {
+        "ro": "Apropie o singură carte de identitate de iPhone.",
+        "en": "Hold one identity card against your iPhone.",
+        "ru": "Поднесите к iPhone только одно удостоверение личности."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_busy",
+      "translations": {
+        "ro": "O citire NFC este deja în curs. Așteaptă finalizarea ei.",
+        "en": "An NFC scan is already in progress. Wait for it to finish.",
+        "ru": "Сканирование NFC уже выполняется. Дождитесь его завершения."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_card_step_complete",
+      "translations": {
+        "ro": "Semnătura a fost primită. Poți îndepărta cardul.",
+        "en": "Card signature received. You can remove the card.",
+        "ru": "Подпись получена. Карту можно убрать."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_cancelled",
+      "translations": {
+        "ro": "Scanare anulată.",
+        "en": "Scan cancelled.",
+        "ru": "Сканирование отменено."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_hold_to_sign",
+      "translations": {
+        "ro": "Ține cardul lângă partea de sus a iPhone-ului până la confirmarea finală. Se semnează: %@",
+        "en": "Hold your card against the top of your iPhone until the final confirmation. Signing: %@",
+        "ru": "Держите карту у верхней части iPhone до окончательного подтверждения. Подписание: %@"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_card_changed",
+      "translations": {
+        "ro": "Ai apropiat un alt card. PIN-ul nu a fost trimis.",
+        "en": "A different card was scanned. Your PIN was not sent.",
+        "ru": "Отсканирована другая карта. PIN не был отправлен."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_pin_for_card",
+      "translations": {
+        "ro": "Cardul pe care îl vei apropia de iPhone",
+        "en": "The card you will hold against your iPhone",
+        "ru": "Карта, которую вы приложите к iPhone"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_use_another_card",
+      "translations": {
+        "ro": "Folosește alt card",
+        "en": "Use another card",
+        "ru": "Использовать другую карту"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "pin_shared_channels",
+      "translations": {
+        "ro": "Același PIN salvat este folosit prin NFC și prin cititor pentru acest card. Îl deblochezi cu Face ID, Touch ID sau codul dispozitivului. Ștergerea se aplică ambelor metode.",
+        "en": "This card uses the same saved PIN with NFC and a card reader. Unlock it with Face ID, Touch ID or your device passcode. Deleting it applies to both methods.",
+        "ru": "Для этой карты NFC и считыватель используют один сохранённый PIN. Разблокируйте его с помощью Face ID, Touch ID или кода устройства. Удаление действует для обоих способов."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "sign_method",
+      "translations": {
+        "ro": "Semnează cu",
+        "en": "Sign with",
+        "ru": "Способ подписания"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "sign_reader",
+      "translations": {
+        "ro": "Cititor de card",
+        "en": "Card reader",
+        "ru": "Картридер"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "sign_nfc",
+      "translations": {
+        "ro": "NFC",
+        "en": "NFC",
+        "ru": "NFC"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_choose",
+      "translations": {
+        "ro": "Schimbă",
+        "en": "Change",
+        "ru": "Выбрать"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_choose_card",
+      "translations": {
+        "ro": "Alege cardul",
+        "en": "Choose a card",
+        "ru": "Выберите карту"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_another_card",
+      "translations": {
+        "ro": "Alt card",
+        "en": "Another card",
+        "ru": "Другая карта"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_pin_first",
+      "translations": {
+        "ro": "Introdu PIN-ul, apoi ține cardul lângă telefon.",
+        "en": "Enter the PIN, then hold the card against your phone.",
+        "ru": "Введите PIN, затем приложите карту к телефону."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_scan_title",
+      "translations": {
+        "ro": "Semnare prin NFC",
+        "en": "Sign with NFC",
+        "ru": "Подписание по NFC"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_scan_hold",
+      "translations": {
+        "ro": "Ține cardul lipit de spatele telefonului, lângă antena NFC.",
+        "en": "Hold the card against the back of your phone, near the NFC antenna.",
+        "ru": "Держите карту у задней панели телефона, рядом с антенной NFC."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_scan_keep",
+      "translations": {
+        "ro": "Păstrează cardul pe loc până se închide această fereastră.",
+        "en": "Keep the card in place until this window closes.",
+        "ru": "Не убирайте карту, пока это окно не закроется."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_enable",
+      "translations": {
+        "ro": "Activează NFC în setările telefonului, apoi încearcă din nou.",
+        "en": "Turn on NFC in your phone settings, then try again.",
+        "ru": "Включите NFC в настройках телефона и повторите попытку."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_lost",
+      "translations": {
+        "ro": "Conexiunea NFC s-a întrerupt. Apasă din nou pe Semnează și ține cardul pe loc până se închide fereastra NFC.",
+        "en": "The NFC connection was lost. Tap Sign again and keep the card in place until the NFC window closes.",
+        "ru": "Связь NFC прервана. Нажмите «Подписать» ещё раз и не убирайте карту, пока окно NFC не закроется."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_timeout",
+      "translations": {
+        "ro": "Nu s-a găsit un card. Apasă din nou pe Semnează și apropie cardul de antena NFC.",
+        "en": "No card was found. Tap Sign again and move the card near the NFC antenna.",
+        "ru": "Карта не найдена. Нажмите «Подписать» ещё раз и приложите карту к антенне NFC."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_unsupported",
+      "translations": {
+        "ro": "Acest card nu acceptă conexiunea NFC necesară pentru semnare.",
+        "en": "This card does not support the NFC connection needed for signing.",
+        "ru": "Эта карта не поддерживает подключение NFC для подписания."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pin_use_saved",
+      "translations": {
+        "ro": "Folosește PIN-ul salvat",
+        "en": "Use saved PIN",
+        "ru": "Использовать сохранённый PIN"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pin_saved_title",
+      "translations": {
+        "ro": "PIN-uri salvate",
+        "en": "Saved PINs",
+        "ru": "Сохранённые PIN-коды"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pin_shared_methods",
+      "translations": {
+        "ro": "Același PIN este folosit pentru card, prin NFC sau cititor. Ștergerea se aplică ambelor metode.",
+        "en": "The same card PIN works with NFC and the reader. Deleting it applies to both methods.",
+        "ru": "Один PIN карты используется для NFC и картридера. Удаление действует для обоих способов."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pin_saved_empty",
+      "translations": {
+        "ro": "Niciun PIN salvat. Poți salva PIN-ul când semnezi.",
+        "en": "No saved PINs. You can save a PIN when signing.",
+        "ru": "Нет сохранённых PIN-кодов. Вы можете сохранить PIN при подписании."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pin_save_failed",
+      "translations": {
+        "ro": "Documentul este semnat, dar PIN-ul nu a putut fi salvat.",
+        "en": "The document is signed, but the PIN could not be saved.",
+        "ru": "Документ подписан, но сохранить PIN не удалось."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_test_app_name",
+      "translations": {
+        "ro": "eSemnBun NFC Test",
+        "en": "eSemnBun NFC Test",
+        "ru": "eSemnBun NFC Test"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_hero_title",
+      "translations": {
+        "ro": "Semnează prin NFC",
+        "en": "Sign with NFC",
+        "ru": "Подписание по NFC"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_hero_subtitle",
+      "translations": {
+        "ro": "Doar telefonul și cartea de identitate.",
+        "en": "Just your phone and ID card.",
+        "ru": "Только телефон и удостоверение личности."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_how_it_works",
+      "translations": {
+        "ro": "Cum funcționează",
+        "en": "How it works",
+        "ru": "Как это работает"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_step_document",
+      "translations": {
+        "ro": "Document",
+        "en": "Document",
+        "ru": "Документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_step_pin",
+      "translations": {
+        "ro": "PIN",
+        "en": "PIN",
+        "ru": "PIN"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_step_tap",
+      "translations": {
+        "ro": "Apropie cardul",
+        "en": "Tap card",
+        "ru": "Приложите карту"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_step_signed",
+      "translations": {
+        "ro": "Semnat",
+        "en": "Signed",
+        "ru": "Подписано"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_next_document",
+      "translations": {
+        "ro": "Alege documentul pe care vrei să-l semnezi.",
+        "en": "Choose the document you want to sign.",
+        "ru": "Выберите документ для подписания."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "signing_next_pin",
+      "translations": {
+        "ro": "Apasă Semnează. Îți vom cere PIN-ul cardului.",
+        "en": "Tap Sign. We’ll ask for your card PIN.",
+        "ru": "Нажмите «Подписать». Затем введите PIN карты."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_document",
+      "translations": {
+        "ro": "Alege documentul",
+        "en": "Choose your document",
+        "ru": "Выберите документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_document_body",
+      "translations": {
+        "ro": "În Semnează, alege un PDF sau alt fișier.",
+        "en": "In Sign, choose a PDF or another file.",
+        "ru": "В разделе «Подписать» выберите PDF или другой файл."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_pin",
+      "translations": {
+        "ro": "Confirmă PIN-ul",
+        "en": "Confirm your PIN",
+        "ru": "Подтвердите PIN"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_pin_body",
+      "translations": {
+        "ro": "Apasă Semnează și introdu PIN-ul cardului. Dacă l-ai salvat, îl poți debloca folosind biometria.",
+        "en": "Tap Sign and enter your card PIN. If you saved it, you can unlock it with biometrics.",
+        "ru": "Нажмите «Подписать» и введите PIN карты. Сохранённый PIN можно разблокировать с помощью биометрии."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_tap",
+      "translations": {
+        "ro": "Apropie și ține cardul",
+        "en": "Tap and hold your card",
+        "ru": "Приложите и удерживайте карту"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_tap_ios",
+      "translations": {
+        "ro": "Ține cardul lipit de partea de sus a iPhone-ului. Nu-l mișca până se închide fereastra NFC.",
+        "en": "Hold the card against the top of your iPhone. Keep it still until the NFC window closes.",
+        "ru": "Держите карту у верхней части iPhone. Не убирайте её, пока окно NFC не закроется."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_guide_result",
+      "translations": {
+        "ro": "Documentul semnat apare în Documente.",
+        "en": "Your signed file appears in Documents.",
+        "ru": "Подписанный файл появится в разделе «Документы»."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "nfc_card_any",
+      "translations": {
+        "ro": "Cardul pe care îl apropii",
+        "en": "The card you tap",
+        "ru": "Карта, которую вы приложите"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "card_details_title",
+      "translations": {
+        "ro": "Detalii card",
+        "en": "Card details",
+        "ru": "Сведения о карте"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "card_help_title",
+      "translations": {
+        "ro": "Ajutor pentru card",
+        "en": "Card help",
+        "ru": "Помощь с картой"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_hero_title",
+      "translations": {
+        "ro": "Semnează prin NFC",
+        "en": "Sign with NFC",
+        "ru": "Подписание по NFC"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_hero_subtitle",
+      "translations": {
+        "ro": "Doar telefonul și cartea de identitate.",
+        "en": "Just your phone and ID card.",
+        "ru": "Только телефон и удостоверение личности."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_how_it_works",
+      "translations": {
+        "ro": "Cum funcționează",
+        "en": "How it works",
+        "ru": "Как это работает"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signing_step_document",
+      "translations": {
+        "ro": "Document",
+        "en": "Document",
+        "ru": "Документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signing_step_pin",
+      "translations": {
+        "ro": "PIN",
+        "en": "PIN",
+        "ru": "PIN"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signing_step_tap",
+      "translations": {
+        "ro": "Apropie cardul",
+        "en": "Tap card",
+        "ru": "Приложите карту"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signing_step_signed",
+      "translations": {
+        "ro": "Semnat",
+        "en": "Signed",
+        "ru": "Подписано"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signing_next_document",
+      "translations": {
+        "ro": "Alege documentul pe care vrei să-l semnezi.",
+        "en": "Choose the document you want to sign.",
+        "ru": "Выберите документ для подписания."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "signing_next_pin",
+      "translations": {
+        "ro": "Apasă Semnează. Îți vom cere PIN-ul cardului.",
+        "en": "Tap Sign. We’ll ask for your card PIN.",
+        "ru": "Нажмите «Подписать». Затем введите PIN карты."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_document",
+      "translations": {
+        "ro": "Alege documentul",
+        "en": "Choose your document",
+        "ru": "Выберите документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_document_body",
+      "translations": {
+        "ro": "În Semnează, alege un PDF sau alt fișier.",
+        "en": "In Sign, choose a PDF or another file.",
+        "ru": "В разделе «Подписать» выберите PDF или другой файл."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_pin",
+      "translations": {
+        "ro": "Confirmă PIN-ul",
+        "en": "Confirm your PIN",
+        "ru": "Подтвердите PIN"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_pin_body",
+      "translations": {
+        "ro": "Apasă Semnează și introdu PIN-ul cardului. Dacă l-ai salvat, îl poți debloca folosind biometria.",
+        "en": "Tap Sign and enter your card PIN. If you saved it, you can unlock it with biometrics.",
+        "ru": "Нажмите «Подписать» и введите PIN карты. Сохранённый PIN можно разблокировать с помощью биометрии."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_tap",
+      "translations": {
+        "ro": "Apropie și ține cardul",
+        "en": "Tap and hold your card",
+        "ru": "Приложите и удерживайте карту"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_tap_android",
+      "translations": {
+        "ro": "Ține cardul lipit de spatele telefonului, lângă antena NFC. Nu-l mișca până se închide fereastra NFC.",
+        "en": "Hold the card against the back of your phone, near the NFC antenna. Keep it still until the NFC window closes.",
+        "ru": "Держите карту у задней панели телефона, рядом с антенной NFC. Не убирайте её, пока окно NFC не закроется."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_guide_result",
+      "translations": {
+        "ro": "Documentul semnat apare în Fișiere.",
+        "en": "Your signed file appears in Files.",
+        "ru": "Подписанный файл появится в разделе «Файлы»."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "nfc_card_any",
+      "translations": {
+        "ro": "Cardul pe care îl apropii",
+        "en": "The card you tap",
+        "ru": "Карта, которую вы приложите"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "card_details_title",
+      "translations": {
+        "ro": "Detalii card",
+        "en": "Card details",
+        "ru": "Сведения о карте"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "card_help_title",
+      "translations": {
+        "ro": "Ajutor pentru card",
+        "en": "Card help",
+        "ru": "Помощь с картой"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_start",
+      "translations": {
+        "ro": "Hai să semnăm",
+        "en": "Let’s sign your document",
+        "ru": "Подпишем документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_start_body",
+      "translations": {
+        "ro": "Alege un document sau trage-l aici. Te ghidăm la fiecare pas.",
+        "en": "Choose a document or drop it here. We’ll guide you from there.",
+        "ru": "Выберите документ или перетащите его сюда. Мы подскажем следующие шаги."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_ready",
+      "translations": {
+        "ro": "Gata de semnat",
+        "en": "Ready when you are",
+        "ru": "Всё готово к подписанию"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_ready_body",
+      "translations": {
+        "ro": "Verifică documentul, apoi continuă la PIN.",
+        "en": "Review your document, then continue to your PIN.",
+        "ru": "Проверьте документ и переходите к PIN-коду."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_choose",
+      "translations": {
+        "ro": "Alege un document",
+        "en": "Choose a document",
+        "ru": "Выбрать документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_continue",
+      "translations": {
+        "ro": "Continuă",
+        "en": "Continue",
+        "ru": "Продолжить"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_add",
+      "translations": {
+        "ro": "Adaugă alt document",
+        "en": "Add another document",
+        "ru": "Добавить документ"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_card_title",
+      "translations": {
+        "ro": "Cartea ta de identitate",
+        "en": "Your identity card",
+        "ru": "Ваше удостоверение личности"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_card_body",
+      "translations": {
+        "ro": "Același card, două moduri simple de a semna.",
+        "en": "One card. Two simple ways to sign.",
+        "ru": "Одна карта. Два простых способа подписать."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_contactless",
+      "translations": {
+        "ro": "Cu telefonul · NFC",
+        "en": "With your phone · NFC",
+        "ru": "Телефоном · NFC"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_reader",
+      "translations": {
+        "ro": "Cu un cititor de carduri",
+        "en": "With a card reader",
+        "ru": "Через картридер"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_method",
+      "translations": {
+        "ro": "Cum vrei să semnezi?",
+        "en": "How would you like to sign?",
+        "ru": "Как вы хотите подписать?"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_change",
+      "translations": {
+        "ro": "Schimbă",
+        "en": "Change",
+        "ru": "Изменить"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_reader_card",
+      "translations": {
+        "ro": "Alege cardul din cititor",
+        "en": "Choose your reader card",
+        "ru": "Выбрать карту в картридере"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_reader_wait",
+      "translations": {
+        "ro": "Conectează cititorul și introdu cardul.",
+        "en": "Connect your reader and insert the card.",
+        "ru": "Подключите картридер и вставьте карту."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_next_nfc",
+      "translations": {
+        "ro": "Mai întâi PIN-ul, apoi apropii cardul.",
+        "en": "Your PIN comes next. Then tap your card.",
+        "ru": "Сначала PIN-код. Затем приложите карту."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_next_reader",
+      "translations": {
+        "ro": "Confirmă PIN-ul pentru a semna.",
+        "en": "Confirm your PIN to sign.",
+        "ru": "Подтвердите PIN-код для подписания."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_method_caption",
+      "translations": {
+        "ro": "Mod de semnare",
+        "en": "Signing with",
+        "ru": "Способ подписания"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_start",
+      "translations": {
+        "ro": "Hai să semnăm",
+        "en": "Let’s sign your document",
+        "ru": "Подпишем документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_start_body",
+      "translations": {
+        "ro": "Alege un document sau trage-l aici. Te ghidăm la fiecare pas.",
+        "en": "Choose a document or drop it here. We’ll guide you from there.",
+        "ru": "Выберите документ или перетащите его сюда. Мы подскажем следующие шаги."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_ready",
+      "translations": {
+        "ro": "Gata de semnat",
+        "en": "Ready when you are",
+        "ru": "Всё готово к подписанию"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_ready_body",
+      "translations": {
+        "ro": "Verifică documentul, apoi continuă la PIN.",
+        "en": "Review your document, then continue to your PIN.",
+        "ru": "Проверьте документ и переходите к PIN-коду."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_choose",
+      "translations": {
+        "ro": "Alege un document",
+        "en": "Choose a document",
+        "ru": "Выбрать документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_continue",
+      "translations": {
+        "ro": "Continuă",
+        "en": "Continue",
+        "ru": "Продолжить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_add",
+      "translations": {
+        "ro": "Adaugă alt document",
+        "en": "Add another document",
+        "ru": "Добавить документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_card_title",
+      "translations": {
+        "ro": "Cartea ta de identitate",
+        "en": "Your identity card",
+        "ru": "Ваше удостоверение личности"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_card_body",
+      "translations": {
+        "ro": "Același card, două moduri simple de a semna.",
+        "en": "One card. Two simple ways to sign.",
+        "ru": "Одна карта. Два простых способа подписать."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_contactless",
+      "translations": {
+        "ro": "Cu telefonul · NFC",
+        "en": "With your phone · NFC",
+        "ru": "Телефоном · NFC"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_reader",
+      "translations": {
+        "ro": "Cu un cititor de carduri",
+        "en": "With a card reader",
+        "ru": "Через картридер"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_method",
+      "translations": {
+        "ro": "Cum vrei să semnezi?",
+        "en": "How would you like to sign?",
+        "ru": "Как вы хотите подписать?"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_change",
+      "translations": {
+        "ro": "Schimbă",
+        "en": "Change",
+        "ru": "Изменить"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_reader_card",
+      "translations": {
+        "ro": "Alege cardul din cititor",
+        "en": "Choose your reader card",
+        "ru": "Выбрать карту в картридере"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_reader_wait",
+      "translations": {
+        "ro": "Conectează cititorul și introdu cardul.",
+        "en": "Connect your reader and insert the card.",
+        "ru": "Подключите картридер и вставьте карту."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_next_nfc",
+      "translations": {
+        "ro": "Mai întâi PIN-ul, apoi apropii cardul.",
+        "en": "Your PIN comes next. Then tap your card.",
+        "ru": "Сначала PIN-код. Затем приложите карту."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_next_reader",
+      "translations": {
+        "ro": "Confirmă PIN-ul pentru a semna.",
+        "en": "Confirm your PIN to sign.",
+        "ru": "Подтвердите PIN-код для подписания."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_method_caption",
+      "translations": {
+        "ro": "Mod de semnare",
+        "en": "Signing with",
+        "ru": "Способ подписания"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "guided_reader_swipe",
+      "translations": {
+        "ro": "Glisează pentru a alege cardul pe care vrei să-l folosești.",
+        "en": "Swipe to choose the card you want to use.",
+        "ru": "Смахните, чтобы выбрать нужную карту."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "guided_reader_swipe",
+      "translations": {
+        "ro": "Glisează pentru a alege cardul pe care vrei să-l folosești.",
+        "en": "Swipe to choose the card you want to use.",
+        "ru": "Смахните, чтобы выбрать нужную карту."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "settings_signing",
+      "translations": {
+        "ro": "Semnare",
+        "en": "Signing",
+        "ru": "Подписание"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "settings_card_reader",
+      "translations": {
+        "ro": "Carduri și cititoare",
+        "en": "Cards and readers",
+        "ru": "Карты и считыватели"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_signing",
+      "translations": {
+        "ro": "Semnare",
+        "en": "Signing",
+        "ru": "Подписание"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "settings_card_reader",
+      "translations": {
+        "ro": "Carduri și cititoare",
+        "en": "Cards and readers",
+        "ru": "Карты и считыватели"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "settings_signing",
+      "translations": {
+        "ro": "Semnare",
+        "en": "Signing",
+        "ru": "Подписание"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "settings_card_reader",
+      "translations": {
+        "ro": "Carduri și cititoare",
+        "en": "Cards and readers",
+        "ru": "Карты и считыватели"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "settings_signing",
+      "translations": {
+        "ro": "Semnare",
+        "en": "Signing",
+        "ru": "Подписание"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "settings_card_reader",
+      "translations": {
+        "ro": "Carduri și cititoare",
+        "en": "Cards and readers",
+        "ru": "Карты и считыватели"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "demo_enable_title",
+      "translations": {
+        "ro": "Activezi modul demonstrativ?",
+        "en": "Enable demo mode?",
+        "ru": "Включить демонстрационный режим?"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "demo_enable_action",
+      "translations": {
+        "ro": "Folosește modul demonstrativ",
+        "en": "Use demo mode",
+        "ru": "Включить демонстрационный режим"
+      }
     }
   ],
   "storeMetadata": {
@@ -15321,7 +16419,7 @@
       "name": "eSemnBun",
       "subtitle": "Semnează cu ID-ul electronic",
       "shortDescription": "Semnează și verifică documente cu buletinul electronic al Republicii Moldova.",
-      "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
+      "description": "ID-ul tău electronic. Documentele tale. Un flux simplu de semnare.\n\neSemnBun te ajută să semnezi PDF-uri și alte fișiere cu certificatul de pe cartea de identitate electronică a Republicii Moldova.\n\nCUM ÎNCEPI\n1. Conectează un cititor compatibil și introdu cardul.\n2. Alege cardul și adaugă documentele.\n3. Confirmă cererea de semnare și autorizează utilizarea PIN-ului.\n4. Verifică rezultatul și salvează sau distribuie fișierele semnate.\n\nCE POȚI FACE\n• Semnează PDF-uri în format PAdES și alte fișiere în format XAdES.\n• Pregătește mai multe documente într-un lot și autorizează lotul o singură dată.\n• Verifică semnături și consultă detaliile certificatului.\n• Folosește browserul integrat pentru semnare și autentificare cu ID-ul pe servicii compatibile.\n• Deschide rapid MSign, EVO, eVMS și MPay.\n• Alege româna, engleza sau rusa și o temă deschisă ori întunecată.\n• Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.\n\nNECESAR\nAi nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.\n\nCheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice. Disponibilitatea portalurilor și metodele de autentificare depind de furnizorii lor.",
       "keywords": "semnătură,documente,PDF,PAdES,XAdES,Moldova,buletin",
       "releaseNotes": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
       "promotionalText": "Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.",
@@ -15333,24 +16431,43 @@
         "Română, engleză și rusă"
       ],
       "platformNotes": {
-        "ios": "Pentru iPhone și iPad: cititor conectat prin USB-C sau adaptor Lightning compatibil, import din Fișiere și extensie de partajare. Browserul integrat ține aplicația activă în timpul semnării.",
+        "ios": "Pe iPhone: NFC este disponibil pe modelele compatibile. Pe iPad, folosește un cititor extern compatibil. Importă documente din Fișiere, prin tragere sau extensia de partajare. Semnarea NFC folosește o singură apropiere a cardului după confirmarea PIN-ului.",
         "macos": "Versiunea Mac App Store folosește CryptoTokenKit și sandbox. Rezultatele se exportă într-o locație aleasă. Helperul extern de pornire la inserarea cardului, controlul aplicației furnizorului și rutele web cu căi arbitrare de fișiere nu sunt incluse.",
-        "android": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.\n\nSURSE OFICIALE\nSursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nPentru telefoane și tablete Android: cititor USB compatibil prin OTG, import prin partajare și salvare sau distribuire prin opțiunile sistemului.",
+        "android": "eSemnBun este o aplicație independentă cu codul sursă deschis, creată de Nicolae Ghimbovschi. Nu reprezintă Guvernul Republicii Moldova sau vreo instituție publică și nu este afiliată, aprobată ori autorizată de acestea. Este un instrument pentru semnarea documentelor, nu un serviciu guvernamental.\n\nSURSE OFICIALE\nSursele oficiale pentru informații despre semnare, autentificare, servicii publice și plăți sunt mai jos. Serviciile externe sunt gestionate de furnizorii lor; eSemnBun nu emite acte de identitate sau certificate, nu stabilește eligibilitatea și nu garantează accesul. Verifică cerințele și informațiile actuale pe site-urile oficiale.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nPe telefoane sau tablete cu NFC, activează NFC și ține cardul lângă antena dispozitivului. Dispozitivele fără NFC pot folosi un cititor USB compatibil prin OTG. Importă, salvează și distribuie cu opțiunile sistemului.",
         "windows": "Pentru Windows: conectează un cititor compatibil; adaugă documente prin glisare, selector sau comanda eSemnBun din Explorer. Poziția comenzii depinde de versiunea Windows și pachetul instalat."
       },
       "releaseNotesByPlatform": {
-        "ios": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
-        "macos": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
-        "android": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
-        "windows": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.",
-        "linux": "Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin."
+        "ios": "Semnează prin NFC cu o carte de identitate electronică moldovenească compatibilă sau folosește un cititor. Ecranul Semnează te ghidează la pasul următor. Cardurile, PIN-urile salvate și preferințele sunt reunite în Setări.",
+        "macos": "Cardurile, cititoarele și PIN-urile salvate se gestionează acum din Configurări. În Documente, protejarea fișierelor și ștergerea sunt accesibile direct.",
+        "android": "Semnează prin NFC cu o carte de identitate electronică moldovenească compatibilă sau folosește un cititor. Ecranul Semnează te ghidează la pasul următor. Cardurile, PIN-urile salvate și preferințele sunt reunite în Setări.",
+        "windows": "Cardurile, cititoarele și PIN-urile salvate se gestionează acum din Setări. Opțiunile sunt grupate pe categorii, iar fereastra din zona de notificare rămâne stabilă.",
+        "linux": "Cardurile și cititoarele sunt acum în Setări, alături de PIN-urile salvate și preferințe. Semnează are un selector compact și permite în continuare tragerea documentelor."
+      },
+      "descriptionByPlatform": {
+        "ios": "Cartea ta de identitate. Documentele tale. Semnare simplă, pas cu pas.\n\nÎNCEPE\n1. Alege un document sau trage-l pe ecranul Semnează.\n2. Alege NFC sau un cititor de carduri compatibil.\n3. Continuă, confirmă PIN-ul și ține cardul lângă telefon până la final. Cu un cititor, lasă cardul introdus.\n4. Verifică, salvează sau distribuie documentul semnat.\n\nSemnează PDF-uri cu PAdES și alte fișiere cu XAdES. Verifică semnăturile și consultă certificatele. Gestionează cardurile și PIN-urile salvate în Setări. Identitatea cardului și PIN-ul salvat sunt comune pentru NFC și cititor. Alege româna, engleza sau rusa și aspectul luminos sau întunecat. Portalurile compatibile sunt accesibile în browserul integrat; semnarea documentelor prin NFC nu garantează autentificarea NFC pe orice portal.\n\nAi nevoie de o carte de identitate electronică moldovenească acceptată, cu certificat de semnare valabil, și de PIN-ul ei. Semnarea NFC necesită un card fără contact compatibil și un dispozitiv cu NFC. Compatibilitatea poate varia între generațiile de carduri și dispozitive; poți folosi în continuare un cititor extern compatibil. Internetul este necesar pentru mărci temporale, verificări online ale certificatelor și portaluri.\n\nCheia privată rămâne pe card. Un PIN incorect nu este reîncercat automat. Modul demonstrativ folosește date fictive și nu creează semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice.",
+        "android": "Cartea ta de identitate. Documentele tale. Semnare simplă, pas cu pas.\n\nÎNCEPE\n1. Alege un document sau trage-l pe ecranul Semnează.\n2. Alege NFC sau un cititor de carduri compatibil.\n3. Continuă, confirmă PIN-ul și ține cardul lângă telefon până la final. Cu un cititor, lasă cardul introdus.\n4. Verifică, salvează sau distribuie documentul semnat.\n\nSemnează PDF-uri cu PAdES și alte fișiere cu XAdES. Verifică semnăturile și consultă certificatele. Gestionează cardurile și PIN-urile salvate în Setări. Identitatea cardului și PIN-ul salvat sunt comune pentru NFC și cititor. Alege româna, engleza sau rusa și aspectul luminos sau întunecat. Portalurile compatibile sunt accesibile în browserul integrat; semnarea documentelor prin NFC nu garantează autentificarea NFC pe orice portal.\n\nAi nevoie de o carte de identitate electronică moldovenească acceptată, cu certificat de semnare valabil, și de PIN-ul ei. Semnarea NFC necesită un card fără contact compatibil și un dispozitiv cu NFC. Compatibilitatea poate varia între generațiile de carduri și dispozitive; poți folosi în continuare un cititor extern compatibil. Internetul este necesar pentru mărci temporale, verificări online ale certificatelor și portaluri.\n\nCheia privată rămâne pe card. Un PIN incorect nu este reîncercat automat. Modul demonstrativ folosește date fictive și nu creează semnături reale.\n\neSemnBun este o aplicație independentă și nu reprezintă Guvernul Republicii Moldova sau operatorii serviciilor publice."
+      },
+      "promotionalTextByPlatform": {
+        "ios": "Alege documentul, confirmă PIN-ul și apropie cartea de identitate electronică compatibilă pentru semnare NFC. Poți folosi și un cititor."
+      },
+      "subtitleByPlatform": {
+        "ios": "Semnare cu NFC sau cititor"
+      },
+      "keywordsByPlatform": {
+        "ios": "NFC,semnătură,PDF,PAdES,XAdES,Moldova,identitate"
+      },
+      "shortDescriptionByPlatform": {
+        "android": "Semnează documente cu actul de identitate moldovenesc prin NFC sau USB."
+      },
+      "nameByPlatform": {
+        "macos": "eSemnBun Desktop"
       }
     },
     "en": {
       "name": "eSemnBun",
       "subtitle": "Sign with your electronic ID",
       "shortDescription": "Sign and verify documents with the Moldovan electronic identity card.",
-      "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
+      "description": "Your electronic ID. Your documents. A straightforward signing workflow.\n\neSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.\n\nGET STARTED\n1. Connect a compatible reader and insert your card.\n2. Choose your card and add documents.\n3. Approve the signing request and authorize PIN use.\n4. Verify the result, then save or share your signed files.\n\nWHAT YOU CAN DO\n• Sign PDFs with PAdES and other files with XAdES.\n• Prepare a batch of documents and authorize that batch once.\n• Verify signatures and inspect certificate details.\n• Use the built-in browser for card signing and login on compatible services.\n• Open MSign, EVO, eVMS and MPay from service shortcuts.\n• Choose Romanian, English or Russian and a light or dark appearance.\n• Manage saved PINs and separately clear browser cache, cookies or history.\n\nREQUIREMENTS\nYou need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. Internet access is needed for portals, timestamps and online certificate checks.\n\nYour private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.\n\neSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.",
       "keywords": "signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID",
       "releaseNotes": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
       "promotionalText": "Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.",
@@ -15362,24 +16479,43 @@
         "Romanian, English and Russian"
       ],
       "platformNotes": {
-        "ios": "For iPhone and iPad: connect a compatible reader over USB-C or a supported Lightning adapter. Import from Files or the share extension. The built-in browser keeps the app active while signing.",
+        "ios": "For iPhone: NFC is available on supported models. On iPad, use a compatible external reader. Import documents from Files, drag-and-drop or the share extension. NFC signing uses one card presentation after PIN confirmation.",
         "macos": "The Mac App Store version uses CryptoTokenKit and App Sandbox. Export results to a chosen location. The external card-insertion helper, vendor-app process control and browser routes accepting arbitrary filesystem paths are not included.",
-        "android": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.\n\nOFFICIAL SOURCES\nOfficial sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nFor Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.",
+        "android": "eSemnBun is an independent open-source app by Nicolae Ghimbovschi. It does not represent, and is not affiliated with, endorsed by or authorized by the Government of Moldova or any government entity. It is a document-signing tool, not a government service.\n\nOFFICIAL SOURCES\nOfficial sources for signing, authentication, public-service and payment information are linked below. External services are operated by their respective providers; eSemnBun does not issue identity cards or certificates and cannot decide eligibility or guarantee access. Check requirements and current information on the official sites.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nOn NFC-capable phones or tablets, enable NFC and hold the card near the device’s antenna. Devices without NFC can use a compatible USB reader through OTG. Import, save and share with system controls.",
         "windows": "For Windows: connect a compatible reader and add documents by drag-and-drop, the file picker or the eSemnBun Explorer command. Command placement depends on the Windows version and installed package."
       },
       "releaseNotesByPlatform": {
-        "ios": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
-        "macos": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
-        "android": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
-        "windows": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots.",
-        "linux": "Clearer document actions and signing controls. Improved saved-document handling and PIN prompt behavior. Refreshed store screenshots."
+        "ios": "Sign with a compatible Moldovan electronic identity card over NFC, or use a card reader. A simpler Sign screen guides you to the next step. Settings now brings cards, saved PINs and preferences together.",
+        "macos": "Manage cards, readers, and saved PINs in Settings. Documents now offers direct access to file protection and deletion.",
+        "android": "Sign with a compatible Moldovan electronic identity card over NFC, or use a card reader. A simpler Sign screen guides you to the next step. Settings now brings cards, saved PINs and preferences together.",
+        "windows": "Manage cards, readers, and saved PINs in Settings. Options are grouped by category, and the tray window stays in place while open.",
+        "linux": "Cards and readers now live in Settings alongside saved PINs and preferences. Sign uses a compact card selector and keeps document drag-and-drop available."
+      },
+      "descriptionByPlatform": {
+        "ios": "Your electronic ID. Your documents. A straightforward signing workflow.\n\nGET STARTED\n1. Choose a document or drop it onto Sign.\n2. Choose NFC or a compatible card reader.\n3. Continue, confirm your PIN, then hold the card near your phone until signing finishes. With a reader, leave the card inserted.\n4. Verify, save or share the signed document.\n\nSign PDFs with PAdES and other files with XAdES. Verify signatures and view certificate details. Manage cards and saved PINs in Settings. The same card identity and saved PIN work with NFC and a reader. Choose Romanian, English or Russian and a light or dark appearance. Compatible portals are available in the built-in browser; NFC document signing does not imply NFC login support for every portal.\n\nYou need a supported Moldovan electronic identity card with an active signing certificate and its PIN. NFC signing requires a compatible contactless card and an NFC-capable device. Card generations and devices can differ; a compatible external reader remains available. Internet access is needed for timestamps, online certificate checks and portals.\n\nThe private key stays on your card. An incorrect PIN is never retried automatically. Demo mode uses fictional data and does not create real signatures.\n\neSemnBun is an independent app and does not represent the Government of Moldova or public-service operators.",
+        "android": "Your electronic ID. Your documents. A straightforward signing workflow.\n\nGET STARTED\n1. Choose a document or drop it onto Sign.\n2. Choose NFC or a compatible card reader.\n3. Continue, confirm your PIN, then hold the card near your phone until signing finishes. With a reader, leave the card inserted.\n4. Verify, save or share the signed document.\n\nSign PDFs with PAdES and other files with XAdES. Verify signatures and view certificate details. Manage cards and saved PINs in Settings. The same card identity and saved PIN work with NFC and a reader. Choose Romanian, English or Russian and a light or dark appearance. Compatible portals are available in the built-in browser; NFC document signing does not imply NFC login support for every portal.\n\nYou need a supported Moldovan electronic identity card with an active signing certificate and its PIN. NFC signing requires a compatible contactless card and an NFC-capable device. Card generations and devices can differ; a compatible external reader remains available. Internet access is needed for timestamps, online certificate checks and portals.\n\nThe private key stays on your card. An incorrect PIN is never retried automatically. Demo mode uses fictional data and does not create real signatures.\n\neSemnBun is an independent app and does not represent the Government of Moldova or public-service operators."
+      },
+      "promotionalTextByPlatform": {
+        "ios": "Choose a document, confirm your PIN and tap your compatible electronic ID to sign with NFC. A card reader remains available."
+      },
+      "subtitleByPlatform": {
+        "ios": "Sign with NFC or a reader"
+      },
+      "keywordsByPlatform": {
+        "ios": "NFC,signature,documents,PDF,PAdES,XAdES,Moldova,electronic ID"
+      },
+      "shortDescriptionByPlatform": {
+        "android": "Sign and verify documents with a Moldovan electronic ID over NFC or USB."
+      },
+      "nameByPlatform": {
+        "macos": "eSemnBun Desktop"
       }
     },
     "ru": {
       "name": "eSemnBun",
       "subtitle": "Подпись с электронным ID",
       "shortDescription": "Подписывайте и проверяйте документы с электронной ID-картой Молдовы.",
-      "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. NFC не поддерживается. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
+      "description": "Ваша электронная ID-карта. Ваши документы. Понятный процесс подписания.\n\neSemnBun помогает подписывать PDF и другие файлы сертификатом электронной ID-карты Республики Молдова.\n\nКАК НАЧАТЬ\n1. Подключите совместимый считыватель и вставьте карту.\n2. Выберите карту и добавьте документы.\n3. Подтвердите запрос на подпись и использование PIN-кода.\n4. Проверьте результат, затем сохраните подписанные файлы или поделитесь ими.\n\nВОЗМОЖНОСТИ\n• Подписывайте PDF в формате PAdES и другие файлы в формате XAdES.\n• Подготовьте пакет документов и разрешите его подписание один раз.\n• Проверяйте подписи и просматривайте сведения о сертификате.\n• Подписывайте документы и входите на совместимые сайты во встроенном браузере.\n• Открывайте MSign, EVO, eVMS и MPay через быстрые ссылки.\n• Выберите румынский, английский или русский язык и светлую либо тёмную тему.\n• Управляйте сохранёнными PIN-кодами и отдельно удаляйте кэш, cookie или историю браузера.\n\nТРЕБОВАНИЯ\nНужны действующая электронная ID-карта Молдовы, сертификат подписи и совместимый считыватель. При необходимости используйте подходящий адаптер. Интернет нужен для порталов, меток времени и онлайн-проверки сертификатов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN-код не вводится повторно автоматически. Деморежим позволяет изучить интерфейс без оборудования; его результаты не являются настоящими подписями.\n\neSemnBun — независимое приложение. Оно не представляет Правительство Молдовы или операторов государственных сервисов. Доступность порталов и способы входа определяют их поставщики.",
       "keywords": "подпись,документы,PDF,PAdES,XAdES,Молдова",
       "releaseNotes": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
       "promotionalText": "Подключите считыватель, выберите документы и подпишите их электронной ID-картой. Проверяйте результат и открывайте сервисы во встроенном браузере.",
@@ -15391,17 +16527,36 @@
         "Румынский, английский и русский"
       ],
       "platformNotes": {
-        "ios": "Для iPhone и iPad: подключите совместимый считыватель через USB-C или поддерживаемый адаптер Lightning. Импортируйте из «Файлов» или расширения общего доступа. Встроенный браузер сохраняет приложение активным при подписании.",
+        "ios": "На iPhone NFC доступен на поддерживаемых моделях. На iPad используйте совместимый внешний считыватель. Импортируйте документы из Файлов, перетаскиванием или через меню Поделиться. Для подписи NFC достаточно одного прикладывания карты после подтверждения PIN.",
         "macos": "Версия Mac App Store использует CryptoTokenKit и App Sandbox. Экспортируйте результаты в выбранную папку. Внешний помощник запуска при вставке карты, управление процессом приложения поставщика и веб-маршруты с произвольными путями файлов не включены.",
-        "android": "eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис.\n\nОФИЦИАЛЬНЫЕ ИСТОЧНИКИ\nНиже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nДля телефонов и планшетов Android: подключите совместимый USB-считыватель через OTG, импортируйте файлы из меню общего доступа и используйте системное сохранение или отправку.",
+        "android": "eSemnBun — независимое приложение с открытым исходным кодом, разработанное Nicolae Ghimbovschi. Оно не представляет Правительство Республики Молдова или другие государственные органы, не связано с ними, не одобрено и не уполномочено ими. Это инструмент для подписания документов, а не государственный сервис.\n\nОФИЦИАЛЬНЫЕ ИСТОЧНИКИ\nНиже приведены официальные источники информации о подписании, аутентификации, государственных услугах и платежах. Внешними сервисами управляют их поставщики; eSemnBun не выдаёт удостоверения личности или сертификаты, не определяет право на услуги и не гарантирует доступ. Проверяйте требования и актуальную информацию на официальных сайтах.\nMSign — https://msign.gov.md/\nMPass — https://mpass.gov.md/\nEVO — https://evo.gov.md/\neVMS — https://evms.md/\nMPay — https://mpay.gov.md/\n\nНа телефоне или планшете с NFC включите NFC и удерживайте карту у антенны устройства. Устройства без NFC могут использовать совместимый USB-считыватель через OTG. Импортируйте, сохраняйте и отправляйте файлы средствами системы.",
         "windows": "Для Windows: подключите совместимый считыватель и добавляйте файлы перетаскиванием, через диалог выбора или команду eSemnBun в Проводнике. Расположение команды зависит от версии Windows и установленного пакета."
       },
       "releaseNotesByPlatform": {
-        "ios": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
-        "macos": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
-        "android": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
-        "windows": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине.",
-        "linux": "Более понятные действия с документами и элементы управления подписью. Улучшена работа с сохранёнными документами и диалогом PIN. Обновлены снимки экрана в магазине."
+        "ios": "Подписывайте через NFC с совместимым электронным удостоверением личности Молдовы или используйте считыватель. Экран Подписать подсказывает следующий шаг. Карты, сохранённые PIN и параметры объединены в Настройках.",
+        "macos": "Карты, считыватели и сохранённые PIN-коды теперь доступны в настройках. В разделе «Документы» появились отдельные кнопки защиты и удаления.",
+        "android": "Подписывайте через NFC с совместимым электронным удостоверением личности Молдовы или используйте считыватель. Экран Подписать подсказывает следующий шаг. Карты, сохранённые PIN и параметры объединены в Настройках.",
+        "windows": "Карты, считыватели и сохранённые PIN-коды теперь доступны в настройках. Параметры сгруппированы по категориям, а открытое окно в области уведомлений остаётся на месте.",
+        "linux": "Карты и считыватели перенесены в Настройки вместе с сохранёнными PIN и параметрами. На экране Подписать — компактный выбор карты и перетаскивание документов."
+      },
+      "descriptionByPlatform": {
+        "ios": "Ваше удостоверение личности. Ваши документы. Понятные шаги для подписания.\n\nНАЧАЛО РАБОТЫ\n1. Выберите документ или перетащите его на экран Подписать.\n2. Выберите NFC или совместимый считыватель.\n3. Нажмите Продолжить, подтвердите PIN и удерживайте карту у телефона до завершения. При работе со считывателем оставьте карту вставленной.\n4. Проверьте, сохраните или отправьте подписанный документ.\n\nПодписывайте PDF в формате PAdES и другие файлы в XAdES. Проверяйте подписи и просматривайте сертификаты. Управляйте картами и сохранёнными PIN в Настройках. Данные одной карты и сохранённый PIN доступны для NFC и считывателя. Выбирайте румынский, английский или русский язык, светлую или тёмную тему. Совместимые порталы доступны во встроенном браузере; подпись документов через NFC не означает поддержку входа через NFC на всех порталах.\n\nНужны поддерживаемое электронное удостоверение личности Молдовы с действующим сертификатом подписи и его PIN. Для NFC нужны совместимая бесконтактная карта и устройство с NFC. Совместимость поколений карт и устройств может различаться; совместимый внешний считыватель остаётся доступным. Интернет нужен для меток времени, онлайн-проверок сертификатов и порталов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN не вводится повторно автоматически. Деморежим использует вымышленные данные и не создаёт настоящих подписей.\n\neSemnBun — независимое приложение, не представляющее Правительство Молдовы или операторов государственных услуг.",
+        "android": "Ваше удостоверение личности. Ваши документы. Понятные шаги для подписания.\n\nНАЧАЛО РАБОТЫ\n1. Выберите документ или перетащите его на экран Подписать.\n2. Выберите NFC или совместимый считыватель.\n3. Нажмите Продолжить, подтвердите PIN и удерживайте карту у телефона до завершения. При работе со считывателем оставьте карту вставленной.\n4. Проверьте, сохраните или отправьте подписанный документ.\n\nПодписывайте PDF в формате PAdES и другие файлы в XAdES. Проверяйте подписи и просматривайте сертификаты. Управляйте картами и сохранёнными PIN в Настройках. Данные одной карты и сохранённый PIN доступны для NFC и считывателя. Выбирайте румынский, английский или русский язык, светлую или тёмную тему. Совместимые порталы доступны во встроенном браузере; подпись документов через NFC не означает поддержку входа через NFC на всех порталах.\n\nНужны поддерживаемое электронное удостоверение личности Молдовы с действующим сертификатом подписи и его PIN. Для NFC нужны совместимая бесконтактная карта и устройство с NFC. Совместимость поколений карт и устройств может различаться; совместимый внешний считыватель остаётся доступным. Интернет нужен для меток времени, онлайн-проверок сертификатов и порталов.\n\nЗакрытый ключ остаётся на карте. Неверный PIN не вводится повторно автоматически. Деморежим использует вымышленные данные и не создаёт настоящих подписей.\n\neSemnBun — независимое приложение, не представляющее Правительство Молдовы или операторов государственных услуг."
+      },
+      "promotionalTextByPlatform": {
+        "ios": "Выберите документ, подтвердите PIN и приложите совместимое удостоверение личности для подписи через NFC. Можно использовать и считыватель."
+      },
+      "subtitleByPlatform": {
+        "ios": "Подпись по NFC и с ридером"
+      },
+      "keywordsByPlatform": {
+        "ios": "NFC,подпись,документы,PDF,PAdES,XAdES,Молдова,ID"
+      },
+      "shortDescriptionByPlatform": {
+        "android": "Подписывайте и проверяйте документы с молдавской ID-картой по NFC или USB."
+      },
+      "nameByPlatform": {
+        "macos": "eSemnBun Desktop"
       }
     }
   },
@@ -15435,6 +16590,16 @@
       "ro": "Cheia de semnare rămâne pe cardul tău.",
       "en": "Your signing key stays on your card.",
       "ru": "Ключ подписи остаётся на вашей карте."
+    },
+    "mobileSigningHeadline": {
+      "ro": "Semnează prin NFC sau cu un cititor",
+      "en": "Sign with NFC or a card reader",
+      "ru": "Подпись по NFC или через считыватель"
+    },
+    "mobileSigningSummary": {
+      "ro": "Apropie cartea de identitate de iPhone sau conectează un cititor compatibil.",
+      "en": "Hold your ID card to your iPhone or connect a compatible reader.",
+      "ru": "Приложите ID-карту к iPhone или подключите совместимый считыватель."
     }
   }
 }

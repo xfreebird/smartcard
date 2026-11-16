@@ -1,1 +1,1 @@
-Conectează cititorul, alege documentele și semnează cu ID-ul electronic. Verifică rezultatul și folosește servicii publice în browserul integrat.
+Alege documentul, confirmă PIN-ul și apropie cartea de identitate electronică compatibilă pentru semnare NFC. Poți folosi și un cititor.

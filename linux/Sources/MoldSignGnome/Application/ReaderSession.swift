@@ -21,9 +21,7 @@ final class ReaderSession {
     private let monitor: any CardMonitoring
     private let transportFactory: ((String?) throws -> CardTransport)?
     private let selectedReader = SelectedReader()
-    #if MOLDSIGN_DEMO
     private let demo = DemoMode.current
-    #endif
 
     init(service: SigningService, vault: any PINStoring, monitor: any CardMonitoring,
          transportFactory: ((String?) throws -> CardTransport)?,
@@ -109,9 +107,7 @@ final class ReaderSession {
 
     /// "Reîncearcă" / the header's re-read button: re-read the inserted cards, or re-poll the readers when there are none.
     func retryCard() {
-        #if MOLDSIGN_DEMO
         if let demo, cards.isEmpty { return apply(demo.snapshot) }
-        #endif
         if cards.isEmpty { monitor.refresh() } else { rereadCards() }
     }
 

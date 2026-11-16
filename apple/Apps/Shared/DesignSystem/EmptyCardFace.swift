@@ -4,6 +4,7 @@ import SwiftUI
 struct EmptyCardFace: View {
     let content: EmptyCardContent
     var compact = false
+    var showsAction = true
     var onAction: () -> Void = {}
 
     var body: some View {
@@ -17,7 +18,7 @@ struct EmptyCardFace: View {
             Text(content.subtitle).font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
                 .lineLimit(3)
                 .fixedSize(horizontal: false, vertical: true)
-            if let actionTitle = content.actionTitle {
+            if showsAction, let actionTitle = content.actionTitle {
                 Button(actionTitle, action: onAction)
                     .nativeButtonStyle(.automatic)
                     .font(.caption.weight(.semibold))

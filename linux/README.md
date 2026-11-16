@@ -58,10 +58,21 @@ Plan items: LNX-06…LNX-15, UX-01, UX-02, UX-07, UX-09…UX-12 in [`../PLAN.md`
   (`AdwAlertDialog`, destructive); signed documents stay on disk.
 * GNOME HIG: `AdwToast` for outcomes ("Document semnat" · "Arată"), one suggested-action pill (Semnează),
   `AdwPreferencesDialog`, `AdwAlertDialog` for PIN and consent, `AdwBanner` only for the bridge's busy ports.
+* **Preferences.** Demo mode comes first. Signing groups Cards and readers (with live connection or holder
+  status) with Saved PINs. Both open focused native dialogs; closing returns to the same Preferences
+  position. Card management keeps the actual card artwork and carousel, puts the selected card's PIN
+  status before its certificate, and folds troubleshooting into a disclosure. Saved PINs shows connected
+  identities with individual trash actions plus the existing confirmed delete-all action; deleting another
+  card's saved PIN does not change the signing selection. Appearance and background behavior remain inline;
+  browser compatibility and HTTPS identity import are under Technical details. About opens the native dialog.
 
-### Demo mode (debug builds only)
+### Demo mode
 
-`MOLDSIGN_DEMO` is defined for `swift build` (debug) only, so release builds and packages don't contain it.
+Preferences offers an interactive demo in a separate window (`esemnbun-gnome --demo`). The window is clearly
+labelled and uses in-memory preferences, activity and PIN storage. It cannot read a real card, use the keyring,
+or start the browser/automation services. Closing the preview returns to the original app and its settings.
+
+The screenshot scenario environment variables below require `MOLDSIGN_DEMO`, defined only for Debug builds.
 
 ```bash
 MSIGN_DEMO_CARDS=2 .build/debug/esemnbun-gnome          # two fake, readable cards (1…4)

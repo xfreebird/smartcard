@@ -76,7 +76,7 @@ import md.moldsign.app.ui.theme.LocalStatusColors
 import md.moldsign.app.ui.theme.Tokens
 import md.moldsign.core.SigningStep
 
-/** Wide windows keep the identity and document workflow visible in independently scrolling panes. */
+/** A document-first journey with one persistent next action and secondary method selection. */
 @OptIn(androidx.compose.ui.ExperimentalComposeUiApi::class)
 @Composable
 fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit, onOpenDocuments: () -> Unit, expanded: Boolean = false) {
@@ -105,7 +105,8 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
     val progress = captureStep ?: liveProgress
     val working = liveWorking || captureStep != null
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenMultipleDocuments()) { vm.addForSigning(it) }
-    val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
+    val method by vm.signingMethod.collectAsStateWithLifecycle()
+    val canSign = items.isNotEmpty() && (method == MainViewModel.SigningMethod.NFC || status.wallet.selectedCard?.isReady == true) && !status.busy && !working
     val pick = { picker.launch(arrayOf("*/*")) }
     var editingStamp by remember { mutableStateOf<md.moldsign.app.application.SignItem?>(null) }
     var editingBatchStamp by remember { mutableStateOf(false) }
@@ -119,26 +120,16 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
     editingStamp?.let { item -> PdfStampEditor(item, holder = status.wallet.selectedCard?.certificate?.commonName ?: "", onDismiss = { editingStamp = null },
         onSave = { stamp -> if (editingBatchStamp) vm.setBatchStamp(item, stamp) else vm.setStamp(item, stamp); editingStamp = null }, requester = if (editingBatchStamp) stringResource(R.string.batch_stamp) else null, onBatch = if (editingBatchStamp) null else { stamp -> vm.setBatchStamp(item, stamp) }) }
 
-    val walletContent: @Composable () -> Unit = {
-        CardWallet(
-            status.wallet.toCardWalletContent(),
-            onSelect = vm::selectCard,
-            onReread = vm::rereadCards,
-            onAllowUsb = vm::requestUsbPermission,
-            onOpen = onOpenCard,
-            selectionEnabled = !status.busy,
-        )
-    }
     val documentContent: @Composable () -> Unit = {
         Column {
-            SectionHeader(stringResource(R.string.sign_documents), modifier = if (expanded) Modifier else Gutter)
-            Column(if (expanded) Modifier else Gutter, verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
+            Column(Modifier, verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
                 if (items.isEmpty()) {
                     DocumentPickZone(onPick = pick, compact = LocalConfiguration.current.screenHeightDp < 400)
                 } else {
                     DocumentList(items, onFormat = vm::setFormat, onRemove = vm::remove, onRetry = vm::retry, retryEnabled = !working, onStamp = { editingBatchStamp = false; editingStamp = it }, onBatchStamp = { editingBatchStamp = true; editingStamp = it }, onRemoveGroup = vm::removeGroup)
-                    if (!canSign && !working) SignBlockedHint(statusLabel(LocalContext.current, status))
-                    DocumentAddTile(onPick = pick)
+                    TextButton(onClick = pick, modifier = Modifier.testTag("sign.addFiles")) {
+                        Text(stringResource(R.string.guided_add))
+                    }
                 }
             }
         }
@@ -147,7 +138,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
     val resultContent: @Composable () -> Unit = {
         val context = LocalContext.current
         if (signedResults.isNotEmpty()) {
-            Column((if (expanded) Modifier.widthIn(max = 680.dp).fillMaxWidth() else Gutter)
+            Column(Modifier.fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surfaceContainerLow, RoundedCornerShape(20.dp)).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
                 Column(Modifier.fillMaxWidth()) {
@@ -183,57 +174,40 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
         }
     }
 
-    val signAction: @Composable () -> Unit = {
-        if (items.isNotEmpty()) {
-            Button(onClick = vm::sign, enabled = canSign, modifier = Modifier.heightIn(min = 48.dp).testTag("sign.submit")) {
-                Icon(Icons.Rounded.Draw, contentDescription = null, modifier = Modifier.size(20.dp))
-                Spacer(Modifier.width(Tokens.S2))
-                Text(pluralStringResource(R.plurals.sign_n, items.size, items.size))
-            }
-        }
-    }
-    BoxWithConstraints(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }.dragAndDropTarget(shouldStartDragAndDrop = { true }, target = signDropTarget)) {
-    val shortWindow = maxHeight < 360.dp
-    val sideBySide = expanded && maxWidth >= 700.dp && maxWidth > maxHeight
-    if (sideBySide) {
-        Row(Modifier.fillMaxSize().padding(padding).padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Column(Modifier.weight(0.42f).fillMaxHeight().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Tokens.S4), horizontalAlignment = Alignment.CenterHorizontally) {
-                walletContent()
-                if (working) StepCard(progress, modifier = Modifier)
-            }
-            Column(Modifier.weight(0.58f).fillMaxHeight().verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(Tokens.S4), horizontalAlignment = Alignment.CenterHorizontally) {
-                resultContent()
-                documentContent()
-                signAction()
-            }
-        }
-    } else if (expanded) {
-        Box(Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.TopCenter) {
-            Column(
-                Modifier.fillMaxWidth()
-                    .verticalScroll(rememberScrollState()).padding(if (shortWindow) 8.dp else 24.dp),
-                verticalArrangement = Arrangement.spacedBy(Tokens.S4),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                if (!shortWindow) walletContent()
-                if (working) StepCard(progress, modifier = Modifier)
-                resultContent()
-                Box(Modifier.widthIn(max = 680.dp).fillMaxWidth()) { documentContent() }
-                if (shortWindow) walletContent()
-                signAction()
-            }
-        }
-    } else {
-        ScreenColumn(padding) {
-            walletContent()
-            if (working) StepCard(progress)
+    Column(Modifier.fillMaxSize().padding(padding).semantics { testTagsAsResourceId = true }
+        .dragAndDropTarget(shouldStartDragAndDrop = { true }, target = signDropTarget), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(Modifier.weight(1f).widthIn(max = 608.dp).fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal = if (items.isEmpty() && !expanded) 16.dp else 24.dp, vertical = if (items.isEmpty() && !expanded) 8.dp else 24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+            if (working) StepCard(progress, modifier = Modifier)
             resultContent()
-            documentContent()
-            Spacer(Modifier.height(72.dp)) // keep the phone's floating action clear of the final document
+            if (items.isEmpty()) {
+                if (signedResults.isEmpty()) md.moldsign.app.ui.components.SigningMethodPicker(vm, signing = true)
+            } else {
+                Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(stringResource(R.string.guided_ready), style = MaterialTheme.typography.headlineLarge,
+                        fontWeight = androidx.compose.ui.text.font.FontWeight.Bold)
+                    Text(stringResource(R.string.guided_ready_body), style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.testTag("sign.nextStep"))
+                }
+                documentContent()
+                md.moldsign.app.ui.components.SigningMethodPicker(vm, compact = true, signing = true)
+            }
         }
-    }
+        androidx.compose.material3.Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)) {
+            Column(Modifier.widthIn(max = 608.dp).fillMaxWidth().padding(horizontal = 24.dp, vertical = 12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (items.isNotEmpty()) Text(if (method == MainViewModel.SigningMethod.Reader && status.wallet.selectedCard?.isReady != true)
+                    statusLabel(context, status) else stringResource(if (method == MainViewModel.SigningMethod.NFC) R.string.guided_next_nfc else R.string.guided_next_reader),
+                    style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = androidx.compose.ui.text.style.TextAlign.Center)
+                Button(onClick = { if (items.isEmpty()) pick() else vm.sign() },
+                    enabled = if (items.isEmpty()) !working else canSign,
+                    shape = RoundedCornerShape(28.dp),
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp).testTag(if (items.isEmpty()) "sign.pickFiles" else "sign.submit")) {
+                    Text(stringResource(if (items.isEmpty()) R.string.guided_choose else R.string.guided_continue), style = MaterialTheme.typography.titleMedium)
+                }
+            }
+        }
     }
 }
 

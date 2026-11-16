@@ -1,6 +1,6 @@
 [
-  "Choose a document and signature format.",
-  "Select the card used for signing.",
+  "Choose NFC signing or a USB card reader.",
+  "Connect the USB reader and insert your card.",
   "Check document signatures.",
-  "Use your card on compatible portals."
+  "Manage cards and saved PINs in Settings."
 ]

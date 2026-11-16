@@ -409,4 +409,6 @@ eSemnBun</value></data>
   <data name="protect_save_copy" xml:space="preserve"><value>Save a copy…</value></data>
   <data name="protect_encrypted_hint" xml:space="preserve"><value>Use Decrypt in the Documents menu and enter the password to open this file.</value></data>
   <data name="protect_save_file" xml:space="preserve"><value>Save file</value></data>
+  <data name="settings_signing" xml:space="preserve"><value>Signing</value></data>
+  <data name="settings_card_reader" xml:space="preserve"><value>Cards and readers</value></data>
 </root>

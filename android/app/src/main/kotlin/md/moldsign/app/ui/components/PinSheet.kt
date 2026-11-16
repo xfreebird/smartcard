@@ -46,12 +46,14 @@ fun PinSheet(
     rememberAvailable: Boolean,
     onConfirm: (pin: CharArray, remember: Boolean) -> Unit,
     onDismiss: () -> Unit,
+    onUseSaved: (() -> Unit)? = null,
+    loadingSaved: Boolean = false,
 ) {
     var pin by remember(request) { mutableStateOf("") }
     var rememberPin by remember(request) { mutableStateOf(false) }
     val focus = remember { FocusRequester() }
     val field = remember { BringIntoViewRequester() }
-    val valid = pin.length in PIN_MIN..PIN_MAX
+    val valid = pin.length in PIN_MIN..PIN_MAX && !loadingSaved
     val status = LocalStatusColors.current
 
     fun confirm() {
@@ -105,7 +107,7 @@ fun PinSheet(
                         val description = stringResource(R.string.pin_field_description, pin.length)
                         BasicTextField(
                             value = pin,
-                            onValueChange = { value -> pin = value.filter(Char::isDigit).take(PIN_MAX) },
+                            onValueChange = { value -> pin = value.filter { it in '0'..'9' }.take(PIN_MAX) },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword, imeAction = ImeAction.Done),
                             keyboardActions = KeyboardActions(onDone = { confirm() }),
@@ -122,6 +124,11 @@ fun PinSheet(
                                 Spacer(Modifier.width(4.dp))
                                 Text(stringResource(R.string.pin_attempts, left), color = color,
                                     style = MaterialTheme.typography.bodyMedium)
+                            }
+                        }
+                        if (onUseSaved != null) {
+                            TextButton(onClick = onUseSaved, enabled = !loadingSaved, modifier = Modifier.testTag("pin.useSaved")) {
+                                Text(stringResource(R.string.pin_use_saved))
                             }
                         }
                         if (rememberAvailable) {

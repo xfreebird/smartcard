@@ -34,6 +34,9 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -114,7 +117,72 @@ class MainViewModel @JvmOverloads constructor(
 
     val demoMode: Boolean = container.userDemoMode
     val status: StateFlow<AppStatus> = container.status
-    val progress = container.signingService.progress
+    enum class SigningMethod { NFC, Reader }
+    private val _signingMethod = MutableStateFlow(if (container.isDemo || container.nfc.available) SigningMethod.NFC else SigningMethod.Reader)
+    val signingMethod = _signingMethod.asStateFlow()
+    private val _nfcIdentity = MutableStateFlow<md.moldsign.core.CertificateSummary?>(null)
+    val nfcIdentity = _nfcIdentity.asStateFlow()
+    private val _learnedCards = MutableStateFlow<List<md.moldsign.core.CertificateSummary>>(emptyList())
+    val knownCards = combine(container.wallet, _learnedCards) { wallet, learned ->
+        if (container.isDemo) emptyList() else (wallet.cards.mapNotNull { it.certificate } + learned).distinctBy { it.sha1Hex }
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+    private val _savedPinIds = MutableStateFlow<Set<String>>(emptySet())
+    val savedPinIds = _savedPinIds.asStateFlow()
+    private val _pendingPinSave = MutableStateFlow<md.moldsign.app.application.PinToSave?>(null)
+    val pendingPinSave = _pendingPinSave.asStateFlow()
+    val nfcPhase = container.nfc.phase
+    val nfcAvailable get() = container.isDemo || container.nfc.available
+    val progress = combine(signingMethod, container.signingService.progress, container.nfc.progress) { method, usb, nfc ->
+        if (method == SigningMethod.NFC && !container.isDemo) nfc else usb
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, md.moldsign.core.SigningStep.Idle)
+    fun selectSigningMethod(method: SigningMethod) {
+        if (working.value || container.busy.value || (method == SigningMethod.NFC && !nfcAvailable)) return
+        if (method == SigningMethod.NFC && _signingMethod.value != method && _nfcIdentity.value == null && !choseAnotherCard)
+            _nfcIdentity.value = container.wallet.value.selectedCard?.certificate ?: knownCards.value.singleOrNull()
+        _signingMethod.value = method
+    }
+    private var choseAnotherCard = false
+    fun selectNfcCard(card: md.moldsign.core.CertificateSummary?) {
+        if (working.value || container.busy.value || container.isDemo) return
+        choseAnotherCard = card == null
+        _nfcIdentity.value = card
+    }
+    fun cancelNfc() { container.nfc.cancel() }
+    private fun learned(certificate: md.moldsign.core.CertificateSummary) {
+        _learnedCards.update { cards -> (cards + certificate).distinctBy { it.sha1Hex } }
+        _nfcIdentity.value = certificate
+    }
+    private suspend fun refreshSavedPins() {
+        _savedPinIds.value = knownCards.value.filter { container.pinVault.has(it.sha1Hex) }.map { it.sha1Hex }.toSet()
+    }
+    suspend fun useSavedPin(activity: androidx.fragment.app.FragmentActivity, prompt: md.moldsign.app.application.ConsentBroker.PendingConsent) {
+        val certificate = prompt.request.certificate ?: return
+        if (container.isDemo) return
+        val pin = runCatching { container.pinVault.load(activity, certificate.sha1Hex, text(R.string.pin_use_saved), certificate.commonName) }.getOrNull()
+        if (pin != null) prompt.answer(ConsentResult.Pin(pin))
+        refreshSavedPins()
+    }
+    suspend fun savePin(activity: androidx.fragment.app.FragmentActivity, pending: md.moldsign.app.application.PinToSave) {
+        try {
+            if (!container.isDemo && container.pinVault.save(activity, pending.certificate.sha1Hex, pending.pin,
+                text(R.string.pin_remember), pending.certificate.commonName)) {
+                container.savedCardIdentities.save(pending.certificate)
+                _learnedCards.update { cards -> (cards + pending.certificate).distinctBy { it.sha1Hex } }
+                _savedPinIds.update { it + pending.certificate.sha1Hex }
+            }
+        } catch (_: Exception) {
+            _message.value = UiMessage.Text(R.string.pin_save_failed)
+        } finally { pending.pin.fill('\u0000'); _pendingPinSave.compareAndSet(pending, null) }
+    }
+    fun deletePin(id: String) {
+        if (container.isDemo || working.value) return
+        viewModelScope.launch {
+            container.pinVault.delete(id)
+            container.savedCardIdentities.delete(id)
+            _savedPinIds.update { it - id }
+            _message.value = UiMessage.Text(R.string.pin_stored_deleted)
+        }
+    }
     val pendingConsent = container.consentBroker.pending
     val pendingStamp = container.stampBroker.pending
     var browserStampsEnabled: Boolean
@@ -208,7 +276,15 @@ class MainViewModel @JvmOverloads constructor(
     /** One event per batch of files from the share sheet: the UI goes to the Semnează tab (delivered once, even if late). */
     val showSign: Flow<Unit> = showSignEvents.receiveAsFlow()
 
-    init { if (demoMode) seedPreviewDocuments() }
+    init {
+        if (demoMode) seedPreviewDocuments()
+        else viewModelScope.launch {
+            _learnedCards.value = container.savedCardIdentities.read().filter { container.pinVault.has(it.sha1Hex) }
+            if (_signingMethod.value == SigningMethod.NFC && !choseAnotherCard && _nfcIdentity.value == null)
+                _nfcIdentity.value = _learnedCards.value.singleOrNull()
+            knownCards.collect { refreshSavedPins() }
+        }
+    }
 
     private fun seedPreviewDocuments() {
         _signItems.value = container.previewData.inputs().map(::SignItem)
@@ -301,7 +377,8 @@ documents.copy(source, target)
      * The format chosen per file goes to the core as is (`SigningService.sign`): a PDF can be PAdES-T or a detached
      * XAdES over its bytes. Each outcome is logged in the activity list.
      * The result is saved by `SignedFileStore` and the activity entry points at it; "Salvează ca…" in Activity copies it elsewhere.
-     * TODO(AND-06): load the stored PIN (BiometricPrompt) before the sheet; delete it on CardError.WrongPin.
+     * NFC collects the same consent first, then binds the public certificate before any PIN command.
+     * Both methods use the certificate-keyed biometric vault and delete invalid saved PINs.
      */
     fun setBatchStamp(source: SignItem, stamp: md.moldsign.core.PdfStampPlacement?) {
         if (_working.value) return
@@ -328,20 +405,28 @@ documents.copy(source, target)
         val status = container.status.value
         val card = status.wallet.selectedCard
         val certificate = card?.certificate
-        if (card == null || certificate == null || status.busy) {
+        // Demo explores both choices through the isolated simulated signing service.
+        // It must never open a real NFC session or request a real PIN.
+        val nfc = signingMethod.value == SigningMethod.NFC && !container.isDemo
+        val selectedNfc = nfcIdentity.value
+        if ((!nfc && (card == null || certificate == null)) || status.busy) {
             _message.value = UiMessage.Status(status)
             return
         }
+        if (nfc && !container.nfc.enabled) { _message.value = UiMessage.Text(R.string.nfc_enable); return }
         runJob(busyLight = true) {
             var lastSaved: Uri? = null
+            var successfulCertificate: md.moldsign.core.CertificateSummary? = null
+            var attemptedCertificate = if (nfc) selectedNfc else certificate
             val consent = if (demoMode) Consent { ConsentResult.Cancelled } else container.consentBroker.consent
-            signDocuments.execute(items, card.readerId, certificate.sha1Hex, consent) { event ->
+            val emit: (SignDocuments.Event) -> Unit = { event ->
                 val item = event.item
                 when (event) {
                     is SignDocuments.Event.Started -> _signItems.update { list ->
                         list.map { if (it.doc.uri == item.doc.uri) it.copy(error = null) else it }
                     }
                     is SignDocuments.Event.Saved -> {
+                        successfulCertificate = event.certificate
                         container.activity.document(event.name, event.uri, ok = true,
                             if (demoMode) text(R.string.demo_mode_result) else text(R.string.activity_signed, item.format.label), signedOutput = true)
                         _signedResults.update { it + (event.name to event.uri) }
@@ -354,6 +439,24 @@ documents.copy(source, target)
                     }
                 }
             }
+            try {
+                if (nfc) md.moldsign.app.nfc.NfcSignDocuments(container.nfc, container.consentBroker, documentData, container.signedFiles)
+                    .execute(items, selectedNfc, { attemptedCertificate = it; learned(it) }, emit)
+                else signDocuments.execute(items, card!!.readerId, certificate!!.sha1Hex, consent, emit)
+                successfulCertificate?.let { cert ->
+                    container.consentBroker.afterSuccess(cert)?.let { candidate ->
+                        _pendingPinSave.value?.pin?.fill('\u0000')
+                        _pendingPinSave.value = candidate
+                    }
+                }
+            } catch (error: CardError.WrongPin) {
+                attemptedCertificate?.sha1Hex?.let { id ->
+                    container.pinVault.delete(id)
+                    container.savedCardIdentities.delete(id)
+                    _savedPinIds.update { it - id }
+                }
+                throw error
+            } finally { container.consentBroker.discardRemembered() }
             lastSaved?.let { _message.value = UiMessage.Saved(if (demoMode) R.string.demo_mode_result else if (SignedFileStore.inDownloads) R.string.signed_saved else R.string.signed_saved_app, it) }
         }
     }
@@ -505,12 +608,16 @@ documents.copy(source, target)
     }
 
     fun deleteStoredPin() {
-        if (container.isDemo) return
-        val certId = container.wallet.value.selectedCard?.certificate?.sha1Hex ?: return
-        viewModelScope.launch {
-            container.pinVault.delete(certId)
-            _message.value = UiMessage.Text(R.string.pin_stored_deleted)
-        }
+        val certificate = if (signingMethod.value == SigningMethod.NFC) nfcIdentity.value else container.wallet.value.selectedCard?.certificate
+        certificate?.sha1Hex?.let(::deletePin)
+    }
+
+    override fun onCleared() {
+        container.nfc.cancel()
+        container.consentBroker.cancelPending()
+        container.consentBroker.discardRemembered()
+        _pendingPinSave.value?.pin?.fill('\u0000')
+        super.onCleared()
     }
 
     private fun runJob(busyLight: Boolean, block: suspend () -> Unit) {
@@ -528,14 +635,15 @@ documents.copy(source, target)
             } catch (e: CardError.CardChanged) {
                 // Another card is in the reader now: nothing was sent to it; show who is there and let the user retry.
                 if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
-                container.rereadCards()
+                if (signingMethod.value == SigningMethod.Reader) container.rereadCards()
             } catch (e: CardError) {
                 Log.w(TAG, "card operation failed: ${e.javaClass.simpleName}")
                 if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
             } catch (e: NotImplementedError) {
                 if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
             } catch (e: Exception) {
-                Log.w(TAG, "operation failed", e)
+                if (signingMethod.value == SigningMethod.NFC) Log.w(TAG, "NFC operation failed: ${e.javaClass.simpleName}")
+                else Log.w(TAG, "operation failed", e)
                 if (_signItems.value.none { it.error === e }) _message.value = UiMessage.Error(e)
             } finally {
                 _working.value = false

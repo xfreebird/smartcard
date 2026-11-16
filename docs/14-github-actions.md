@@ -49,6 +49,10 @@ Simulator selection uses runtime version metadata and the selected `iphonesimula
 
 Routing and publisher guard tests always run, even for docs-only changes. `CI result` is the stable aggregate status: selected failures/cancellations fail it; intentionally skipped jobs are accepted. Use this aggregate if configuring a required branch check rather than requiring every platform to run on every commit. CI has read-only repository permissions and no signing/Store secrets.
 
+The iOS mock batch includes `NFCSigningChoiceUITests`: selecting NFC with synthetic reader cards,
+returning to the reader, and NFC demo signing without a reader. It never opens a real NFC session
+or collects a real PIN. `PINActionsUITests` checks visible, reachable PIN actions in portrait/landscape using a synthetic PIN with hardware disabled. `SharedCardPINUITests` checks shared reader/NFC PIN management, another-card selection and disconnected accounts using only an in-memory fixture vault. Physical acceptance is tracked in [the NFC guide](16-ios-nfc.md).
+
 Design-system boundary tests also run on every commit. They reject signing-core and application
 dependencies in the reusable UI folders on Apple, Android, Windows and Linux. Selected Apple and
 Linux jobs additionally compile those components independently of the application and signing core;

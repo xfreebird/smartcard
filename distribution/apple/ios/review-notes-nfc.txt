@@ -1,0 +1,16 @@
+eSemnBun is an independent document-signing app. It is not a government app and does not issue identity cards or signing certificates. No app account or subscription is required.
+
+NFC document signing requires a compatible Moldovan electronic identity card with an active signing certificate, its owner's PIN and a supported physical iPhone. The verified card family is IDEMIA CosmoX ID-A (IAS/ECC). NFC is unavailable in the simulator. iPad and devices without NFC can use a supported external smart-card reader. Reader and NFC remain separate selectable methods even when a reader is connected.
+
+NFC review steps:
+1. Open Sign and choose a sample PDF from Files (or share it into eSemnBun).
+2. Select NFC in the compact signing-method row, then Continue.
+3. Enter the card owner's PIN directly on the device and confirm signing.
+4. Hold the card at the top back of the iPhone until the NFC sheet closes and the app confirms the result. The card is identified and used for signing in one NFC session after PIN confirmation. Keep holding after an initial vibration or checkmark.
+5. Save/share the result or open Verify to inspect the signature.
+
+Settings contains Cards and readers, Saved PINs, language, appearance, document preferences and About. Saved PINs belong to the card certificate and are shared across reader/NFC. Choosing a different card does not reuse another card's saved PIN. PIN/authentication failures are not retried automatically.
+
+Without hardware: enable Demo mode in Settings and accept its explanation. Demo uses fictional cards and documents, performs no card/PIN operation and produces no valid signatures. It is a UI preview, not evidence of NFC signing.
+
+The app reads the signing certificate, not passport travel data, fingerprints or a photograph. The private key stays on the card. Local document contents and PINs are not sent to the developer. Timestamp/certificate-status requests and user-selected browser services have the disclosures in the privacy policy.

@@ -25,7 +25,7 @@ report_failure() {
 }
 suites=(VerificationJourneyUITests MockWorkflowUITests)
 if [[ "$platform" == macos ]]; then suites+=(MacFloatingActionUITests); fi
-if [[ "$platform" == ios ]]; then suites+=(CardCarouselUITests DemoModeUITests ProtectionFlowUITests DocumentsUITests FloatingActionUITests); fi
+if [[ "$platform" == ios ]]; then suites+=(CardCarouselUITests NFCSigningChoiceUITests PINActionsUITests SharedCardPINUITests SettingsNavigationUITests DemoModeUITests ProtectionFlowUITests DocumentsUITests FloatingActionUITests); fi
 for suite in "${suites[@]}"; do
     result=Journeys.xcresult
     [[ "$platform" != ios ]] || result=GestureProof.xcresult
@@ -40,10 +40,11 @@ for suite in "${suites[@]}"; do
     case "$suite" in
         VerificationJourneyUITests) expected=5 ;;
         MockWorkflowUITests) expected=6 ;;
-        CardCarouselUITests) expected=2 ;;
-        DocumentsUITests) expected=3 ;;
+        CardCarouselUITests|PINActionsUITests) expected=2 ;;
+        DocumentsUITests|SharedCardPINUITests) expected=3 ;;
+        NFCSigningChoiceUITests) expected=7 ;;
         FloatingActionUITests|MacFloatingActionUITests) expected=4 ;;
-        DemoModeUITests|ProtectionFlowUITests) expected=1 ;;
+        DemoModeUITests|ProtectionFlowUITests|SettingsNavigationUITests) expected=1 ;;
     esac
     if ! python3 "$repo/scripts/ci/check-xctest-result.py" "$out/$suite/$result" "$expected"; then
         report_failure

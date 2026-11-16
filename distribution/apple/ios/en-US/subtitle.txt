@@ -1,1 +1,1 @@
-Sign with your electronic ID
+Sign with NFC or a reader

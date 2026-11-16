@@ -8,6 +8,7 @@ struct DocumentRow: View {
     // SwiftUI can keep a row alive during removal animations. Keep its display value
     // instead of a collection-index Binding that becomes invalid when signing dequeues it.
     let item: SignItem
+    var onAddDocument: (() -> Void)? = nil
     @State private var editingStamp = false
     @Environment(AppModel.self) private var model
 
@@ -124,6 +125,13 @@ struct DocumentRow: View {
     }
     private var rowOptions: some View {
         Menu {
+            #if os(iOS)
+            if let onAddDocument {
+                Button(action: onAddDocument) { Label(L10n.text(.guided_add), systemImage: "plus") }
+                    .accessibilityIdentifier("sign.addFiles")
+                Divider()
+            }
+            #endif
             Section(L10n.text(.file_signing_type)) {
                 ForEach(SignFormat.choices(for: item.url)) { choice in
                     Button { format.wrappedValue = choice } label: {
@@ -168,7 +176,7 @@ struct DocumentRow: View {
                     }
                     #endif
                     .sheet(isPresented: $editingStamp) {
-                        PDFStampEditor(url: item.url, initial: item.stamp, holder: model.certificate?.holder ?? "", save: { value in
+                        PDFStampEditor(url: item.url, initial: item.stamp, holder: model.signingCertificate?.holder ?? "", save: { value in
                             guard let index = model.signItems.firstIndex(where: { $0.id == item.id }) else { return }
                             model.signItems[index].stamp = value
                         }, onBatch: { value in

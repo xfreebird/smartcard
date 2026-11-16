@@ -19,7 +19,7 @@ class SignDocuments(
     sealed interface Event {
         val item: SignItem
         data class Started(override val item: SignItem) : Event
-        data class Saved(override val item: SignItem, val name: String, val uri: Uri) : Event
+        data class Saved(override val item: SignItem, val name: String, val uri: Uri, val certificate: md.moldsign.core.CertificateSummary? = null) : Event
         data class Failed(override val item: SignItem, val error: Throwable) : Event
     }
 
@@ -39,7 +39,7 @@ class SignDocuments(
                         reader = reader, expectedCertificateSha1 = certificateSHA1, placement = item.stamp)
                     val name = outputName(item)
                     val uri = outputs.save(name, if (item.format.xadesLevel == null) "application/pdf" else "application/xml", result.output)
-                    Event.Saved(item, name, uri)
+                    Event.Saved(item, name, uri, result.certificate)
                 } catch (error: CancellationException) {
                     throw error
                 } catch (error: CardError.Cancelled) {

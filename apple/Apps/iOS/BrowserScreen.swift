@@ -319,6 +319,16 @@ struct ConnectionGuideView: View {
 
     var body: some View {
         NavigationStack {
+            ReaderGuideContent()
+            .navigationTitle(L10n.text(.ui_connect_the_reader))
+            .toolbar { Button(L10n.text(.ui_done)) { dismiss() } }
+        }
+    }
+
+}
+
+struct ReaderGuideContent: View {
+    var body: some View {
             List {
                 Section {
                     Text(L10n.text(.ui_iphone_ipad_os_17_or_later))
@@ -335,9 +345,6 @@ struct ConnectionGuideView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            .navigationTitle(L10n.text(.ui_connect_the_reader))
-            .toolbar { Button(L10n.text(.ui_done)) { dismiss() } }
-        }
     }
 
     private func tile(_ symbol: String, _ title: String, _ text: String) -> some View {

@@ -42,7 +42,7 @@ final class FileProtectionDialog {
     private var completed = false
     private var open = true
 
-    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, processor: any PasswordFileProcessing = PasswordFileProcessor(), preview: ProtectionPreview? = .selected, closed: @escaping () -> Void) {
+    init(controller: AppController, parent: UnsafeMutablePointer<GtkWindow>, operation initialOperation: Int = 0, initialSource: URL? = nil, processor: any PasswordFileProcessing = PasswordFileProcessor(), preview: ProtectionPreview? = .selected, closed: @escaping () -> Void) {
         self.processor = processor
         self.controller = controller; self.parent = parent; self.operation = initialOperation
         dialog = adw_dialog_new()!
@@ -125,6 +125,10 @@ final class FileProtectionDialog {
             operation = preview.operation
             certificateMode = false
             gtk_label_set_text(fileLabel.opaque, preview.filename)
+        }
+        if let initialSource, FileManager.default.fileExists(atPath: initialSource.path) {
+            source = initialSource
+            gtk_label_set_text(fileLabel.opaque, initialSource.lastPathComponent)
         }
         refresh();adw_dialog_present(dialog,parent.widget)
     }

@@ -52,7 +52,8 @@ def main():
         if platform == 'google' and 'android' not in platforms: continue
         if platform == 'microsoft' and 'windows' not in platforms: continue
         shutil.copytree(ROOT / 'distribution' / platform, output / 'metadata' / platform,
-                        dirs_exist_ok=True, ignore=shutil.ignore_patterns('assets', 'screenshots', 'creative'))
+                        dirs_exist_ok=True, ignore=shutil.ignore_patterns(
+                            'assets', 'screenshots', 'supplemental', 'submission-screenshots', 'screenshots-manifest.json', 'creative'))
     # Carry optional store artwork/captions without replacing fresh native screenshots.
     extras = []
     if 'android' in platforms:
@@ -63,8 +64,8 @@ def main():
         extras += [f'microsoft/assets/{lang}/captions.json' for lang in ('ro','en','ru')]
     for relative in extras:
         source = ROOT / 'distribution' / relative
-        if source.exists():
-            target = output / relative
+        target = output / relative
+        if source.exists() and not target.exists():
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(source, target)
     for name in ('REGENERATING-SCREENSHOTS.md', 'STORE-ASSET-GUIDELINES.md', 'SUBMISSION-METADATA.md'):

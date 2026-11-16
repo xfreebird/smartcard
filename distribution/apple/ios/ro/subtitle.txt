@@ -1,1 +1,1 @@
-Semnează cu ID-ul electronic
+Semnare cu NFC sau cititor

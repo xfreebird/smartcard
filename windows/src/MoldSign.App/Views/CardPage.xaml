@@ -64,25 +64,21 @@
                     <TextBlock x:Uid="CardValidity" Grid.Row="2" Style="{StaticResource MsCaptionTextStyle}" Text="Valabil" />
                     <TextBlock x:Name="ValidityText" Grid.Row="2" Grid.Column="1" />
                     <TextBlock x:Uid="CardSerial" Grid.Row="3" Style="{StaticResource MsCaptionTextStyle}" Text="Număr de serie" />
-                    <TextBlock x:Name="SerialText" Grid.Row="3" Grid.Column="1" IsTextSelectionEnabled="True" />
+                    <TextBlock x:Name="SerialText" TextWrapping="Wrap" Grid.Row="3" Grid.Column="1" IsTextSelectionEnabled="True" />
                     <TextBlock x:Uid="CardSha1" Grid.Row="4" Style="{StaticResource MsCaptionTextStyle}" Text="SHA-1" />
-                    <TextBlock x:Name="Sha1Text" Grid.Row="4" Grid.Column="1" IsTextSelectionEnabled="True" />
+                    <TextBlock x:Name="Sha1Text" TextWrapping="Wrap" Grid.Row="4" Grid.Column="1" IsTextSelectionEnabled="True" />
                     <TextBlock x:Uid="CardReader" Grid.Row="5" Style="{StaticResource MsCaptionTextStyle}" Text="Cititor" />
-                    <TextBlock x:Name="ReaderText" Grid.Row="5" Grid.Column="1" IsTextSelectionEnabled="True" />
+                    <TextBlock x:Name="ReaderText" TextWrapping="Wrap" Grid.Row="5" Grid.Column="1" IsTextSelectionEnabled="True" />
                 </Grid>
             </Border>
 
-            <ToggleSwitch
-                x:Name="RememberToggle"
-                x:Uid="CardRememberPin"
-                Header="Ține minte PIN-ul (Windows Hello)"
-                Toggled="OnRememberToggled" />
             <Button
                 x:Name="ForgetPinButton"
                 AutomationProperties.AutomationId="CardForgetPin"
-                x:Uid="CardForgetPin"
                 Click="OnForgetClick"
-                Content="Șterge PIN-ul salvat" />
+                >
+                <StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE74D;" FontSize="16"/><TextBlock x:Name="ForgetPinLabel" /></StackPanel>
+            </Button>
 
             <InfoBar
                 x:Name="Result"

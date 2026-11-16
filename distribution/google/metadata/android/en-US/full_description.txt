@@ -8,30 +8,20 @@ EVO — https://evo.gov.md/
 eVMS — https://evms.md/
 MPay — https://mpay.gov.md/
 
-For Android phones and tablets: connect a compatible USB reader through OTG, import from the share sheet, and save or share using system controls.
+On NFC-capable phones or tablets, enable NFC and hold the card near the device’s antenna. Devices without NFC can use a compatible USB reader through OTG. Import, save and share with system controls.
 
 Your electronic ID. Your documents. A straightforward signing workflow.
 
-eSemnBun helps you sign PDFs and other files using the certificate on your Moldovan electronic identity card.
-
 GET STARTED
-1. Connect a compatible reader and insert your card.
-2. Choose your card and add documents.
-3. Approve the signing request and authorize PIN use.
-4. Verify the result, then save or share your signed files.
+1. Choose a document or drop it onto Sign.
+2. Choose NFC or a compatible card reader.
+3. Continue, confirm your PIN, then hold the card near your phone until signing finishes. With a reader, leave the card inserted.
+4. Verify, save or share the signed document.
 
-WHAT YOU CAN DO
-• Sign PDFs with PAdES and other files with XAdES.
-• Prepare a batch of documents and authorize that batch once.
-• Verify signatures and inspect certificate details.
-• Use the built-in browser for card signing and login on compatible services.
-• Open MSign, EVO, eVMS and MPay from service shortcuts.
-• Choose Romanian, English or Russian and a light or dark appearance.
-• Manage saved PINs and separately clear browser cache, cookies or history.
+Sign PDFs with PAdES and other files with XAdES. Verify signatures and view certificate details. Manage cards and saved PINs in Settings. The same card identity and saved PIN work with NFC and a reader. Choose Romanian, English or Russian and a light or dark appearance. Compatible portals are available in the built-in browser; NFC document signing does not imply NFC login support for every portal.
 
-REQUIREMENTS
-You need an active Moldovan electronic identity card, a valid signing certificate and a compatible card reader. Use an appropriate adapter for your device when needed. NFC is not supported. Internet access is needed for portals, timestamps and online certificate checks.
+You need a supported Moldovan electronic identity card with an active signing certificate and its PIN. NFC signing requires a compatible contactless card and an NFC-capable device. Card generations and devices can differ; a compatible external reader remains available. Internet access is needed for timestamps, online certificate checks and portals.
 
-Your private key stays on the card. An incorrect PIN is never retried automatically. Demo mode lets you explore the interface without hardware; its outputs are not real signatures.
+The private key stays on your card. An incorrect PIN is never retried automatically. Demo mode uses fictional data and does not create real signatures.
 
-eSemnBun is an independent app. It does not represent the Government of Moldova or public-service operators. Portal availability and authentication methods are controlled by their providers.
+eSemnBun is an independent app and does not represent the Government of Moldova or public-service operators.

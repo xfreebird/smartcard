@@ -1,0 +1,12 @@
+App: eSemnBun (md.esemnbun.app)
+No app account, login credentials or subscription are required. This is an independent app, not an official government service.
+
+Hardware access: use an NFC-enabled device with NFC switched on and a compatible Moldovan electronic identity card containing an active signing certificate. The verified family is IDEMIA CosmoX ID-A (IAS/ECC). The card owner enters the PIN only on the device. A compatible USB CCID reader through OTG is an alternative; devices without NFC are not filtered out of the listing.
+
+Review: Sign > choose a synthetic PDF > select NFC > Continue > enter the card PIN > hold the card at the NFC antenna until signing finishes. Keep holding through initial vibrations. Open Verify with the output. NFC document signing does not imply NFC authentication support for every browser portal. Use the reader option for supported reader-based portal operations.
+
+Settings > Cards and readers manages connected cards. Settings > Saved PINs manages saved identities across NFC and USB. Other cards remain selectable when a reader is attached. There is no automatic PIN retry.
+
+Hardware-free UI preview: Settings > Demo mode > confirm. Use only the supplied fictional documents/cards. Demo does not produce real signatures or exercise NFC.
+
+NFC uses android.permission.NFC with android.hardware.nfc required=false and foreground reader mode. It does not use payment/card emulation, background NFC collection, location, contacts or camera permissions. The existing connected-device foreground service is for the browser/reader feature, not an additional NFC permission declaration.

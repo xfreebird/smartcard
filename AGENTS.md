@@ -109,6 +109,58 @@ Run with `java -cp "/Applications/STISC/MoldSign/lib/*" Probe.java file.pdf`.
   (stuck state / counter — physically re-insert the card; do NOT keep blindly probing auth —
   the retry counter was already burned once this way).
 
+### iOS NFC knowledge (2026-11-16)
+
+The owner's Moldovan eID produced a verified RSA-4096 diagnostic signature over Core NFC on
+iPhone 11 Pro / iOS 27.2. OpenSSL independently accepted the detached CMS and rejected tampering.
+The main app has a working-tree implementation of an explicit **Card reader / NFC** choice in Sign,
+using the same PIN coordinator/vault and document pipeline. Builds and automated checks passed;
+main-app card acceptance remains open after an intermittent pre-PIN scan failure. The probe does not
+establish production PAdES, timestamp or trust validation. The owner requested one presentation per
+document: collect PIN first, then identify and sign in one NFC session. Known saved-PIN identities
+must match; use another card clears the selection. Debug-only metadata diagnostics are retrievable.
+Card identity and saved PIN accounts are shared across reader/NFC using the existing certificate SHA-1,
+never a transport-specific key. NFC can select a card learned through the reader; exact DER is checked
+before VERIFY. Saved certificate metadata allows reuse after restart; deleting a PIN removes it for
+both methods. The iOS Card screen and Saved PINs page manage the same identities, including disconnected
+cards. Demo/real identity selections must not cross modes.
+
+Sign and Card are NFC-first on capable iOS/Android phones. Sign guides document selection,
+review, Continue, PIN and one card presentation. Keep a single prominent next action;
+method/known-NFC-card choices are compact and the numbered details live in How it works.
+Selecting Reader shows connection/insertion guidance or the connected-card carousel inline
+on Sign and Card, with a swipe hint for multiple cards. NFC keeps its blue illustration;
+both methods share neutral surfaces and Android uses the shared brand palette by default.
+Card details and Saved PINs are secondary destinations. Reader choice stays
+available with connected cards and devices without NFC start with the reader.
+
+Read [docs/16-ios-nfc.md](docs/16-ios-nfc.md) before changing NFC signing. Keep both choices available
+with a reader connected, bind the scanned certificate before VERIFY, stop on errors without automatic
+authentication/PIN retry, and preserve the probe's one-attempt lock. The proven path uses IAS discovery,
+direct Generic ADF/EF0001 public certificate reading, D003 **18 bytes, skip 2** (no assumed prefix),
+D004 16 bytes, mutual authentication and protected PIN ref03. Hold the card until final confirmation.
+Certificate metadata is readable; photo/fingerprint/travel data and other card generations remain unproved.
+Private reports/CMS stay in ignored `.local/`; PINs, session keys and raw protocol traces must not enter logs.
+
+### Android NFC knowledge (2026-11-16)
+
+The owner signed a real PDF using NFC on the connected Android 14 / 22126RN91Y phone.
+Independent OpenSSL verification accepted the RSA-4096 CMS and rejected a changed document;
+the RFC3161 timestamp CMS verified and its message imprint matched the card signature.
+This proves the tested card/device PAdES-T path, not certificate-chain trust, revocation,
+other card generations or every Android device. An earlier scan lost connection near VERIFY;
+no response was received, so its PIN-command outcome is unknown. Never automatically retry it.
+
+Android uses explicit Card reader / NFC selection, the same PIN dialog and certificate SHA-1
+vault account, exact DER binding before authentication/PIN, and one foreground IsoDep connection
+per document. PIN is collected first; another-card selection requires manual entry. Both methods
+remain available with USB connected. Saved certificate metadata is public, separate from encrypted
+PIN records; deleting a PIN applies to both methods. See [docs/17-android-nfc.md](docs/17-android-nfc.md).
+Debug metadata collection: `android/scripts/collect-nfc-diagnostics.sh SERIAL [PACKAGE]`.
+A separate `-PnfcTestInstall=true` Debug application preserves a Play-signed app and its data;
+it has independent PIN storage. Do not uninstall the Play app to resolve signer mismatch.
+Physical biometric reuse, cross-transport saved-PIN reuse and additional NFC formats remain open.
+
 ## 2. PAdES signing (the PDF that msign.gov.md accepts)
 
 The winning recipe (proved on the live portal):

@@ -18,6 +18,7 @@ struct CardSelector: View {
     @Environment(AppModel.self) private var model
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     var size: Size = .large
+    var showsConnectionHelp = true
     @State private var showGuide = false
     @State private var width: CGFloat = 288
     @State private var visibleReader: String?
@@ -50,8 +51,12 @@ struct CardSelector: View {
     var body: some View {
         VStack(spacing: 10) {
             if model.displayedCards.isEmpty {
-                EmptyCardFace(content: .init(status: model.status), compact: size == .compact) { showGuide = true }
-                    .frame(width: cardWidth, height: cardHeight)
+                EmptyCardFace(content: .init(status: model.status), compact: size == .compact,
+                              showsAction: showsConnectionHelp) { showGuide = true }
+                    .frame(width: cardWidth)
+                    // Empty-state text and its action can be taller than an ID card in a narrow pane.
+                    .frame(minHeight: cardHeight)
+                    .fixedSize(horizontal: false, vertical: true)
             } else {
                 #if os(iOS)
                 TabView(selection: Binding(get: { model.selectedCard?.reader ?? "" }, set: { reader in

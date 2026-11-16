@@ -57,7 +57,7 @@ try {
                     if ($process.MainWindowHandle -eq 0) { throw 'No demo window; run this script in the interactive desktop session.' }
                     if (-not (Test-Path $readyFile)) { throw "Requested page did not render: $scenario/$page/$theme" }
                     $ready = Get-Content $readyFile -Raw | ConvertFrom-Json
-                    $expectedPage = @{sign='SignPage';card='CardPage';settings='SettingsPage';verify='VerifyPage';activity='ActivityPage';pin='PinWindow'}[$page]
+                    $expectedPage = @{sign='SignPage';card='SettingsPage';settings='SettingsPage';verify='VerifyPage';activity='ActivityPage';pin='PinWindow'}[$page]
                     if ($ready.ProcessId -ne $process.Id -or $ready.Page -ne $page -or $ready.ActualPage -ne $expectedPage -or $ready.Scenario -ne $scenario -or -not $ready.CarouselsCentered) {
                         throw "Capture readiness mismatch for $scenario/$page/$theme"
                     }

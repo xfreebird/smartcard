@@ -31,35 +31,73 @@ struct VerifyScreen: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: shortViewport ? 12 : 24) {
+                #if os(iOS)
+                if model.verifiedDocuments.isEmpty && model.verifyFile == nil {
+                    VStack(spacing: 24) {
+                        Image(systemName: "checkmark.seal")
+                            .font(.system(size: 72, weight: .light)).foregroundStyle(Theme.brand)
+                            .frame(height: 175).accessibilityHidden(true)
+                        Text(L10n.text(.ui_choose_the_signed_document)).font(.largeTitle.bold())
+                        Text(L10n.text(.ui_or_drop_it_here_signed_pdf_or_xades_signature_xml))
+                            .font(.body).foregroundStyle(.secondary)
+                    }
+                    .multilineTextAlignment(.center).frame(maxWidth: .infinity)
+                    .accessibilityIdentifier("verify.dropZone")
+                }
+                #else
                 DropZone(verification: true, compact: compactChooser, short: compactChooser, targeted: dropTargeted) { shortcutPDFOnly = false; importing = true }
                     .accessibilityIdentifier("verify.dropZone")
+                #endif
                 if let file = model.verifyFile, model.verifyReports == nil {
                     ProgressView(L10n.text(.ui_verifying) + " · " + file.lastPathComponent)
                 }
-                if !shortViewport && (!model.verifiedDocuments.isEmpty || model.verifyFile != nil) {
+                #if os(macOS)
+                if !model.verifiedDocuments.isEmpty || model.verifyFile != nil {
                     Button(L10n.text(.ui_clear_results), role: .destructive) { model.clearVerification() }
                         .accessibilityIdentifier("verify.clearResults")
                 }
+                #endif
                 ForEach(model.verifiedDocuments, id: \.url) { document in
                     VerificationDocumentView(url: document.url, reports: document.reports)
                         .id(model.verificationGeneration)
                 }
             }
+            #if os(iOS)
+            .frame(maxWidth: 560)
+            #else
             .frame(maxWidth: 680)
+            #endif
             .padding(shortViewport ? 12 : 24)
             .frame(maxWidth: .infinity)
         }
         #if os(iOS)
+        .background(Color(uiColor: .systemGroupedBackground))
+        .navigationBarTitleDisplayMode(.inline)
+        .safeAreaInset(edge: .bottom, spacing: 0) {
+            Button { shortcutPDFOnly = false; importing = true } label: {
+                Text(L10n.text(model.verifiedDocuments.isEmpty ? .guided_choose : .ui_choose_another_document))
+                    .font(.headline).frame(maxWidth: .infinity, minHeight: 32)
+            }
+            .buttonStyle(.borderedProminent).controlSize(.large).buttonBorderShape(.capsule).tint(Theme.brand)
+            .accessibilityIdentifier("verify.pickFiles")
+            .frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 12)
+            .frame(maxWidth: .infinity).background(Color(uiColor: .systemGroupedBackground))
+        }
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         #endif
         .navigationTitle(L10n.text(.ui_verify))
+        #if os(iOS)
         .toolbar {
-            if shortViewport && (!model.verifiedDocuments.isEmpty || model.verifyFile != nil) {
+            if !model.verifiedDocuments.isEmpty || model.verifyFile != nil {
                 ToolbarItem(placement: .primaryAction) {
-                    Button(L10n.text(.ui_clear_results), role: .destructive) { model.clearVerification() }
+                    Button(role: .destructive) { model.clearVerification() } label: {
+                        Label(L10n.text(.ui_clear_results), systemImage: "trash")
+                    }
+                    .accessibilityIdentifier("verify.clearResults")
                 }
             }
         }
+        #endif
         .overlay {
             if dropTargeted {
                 RoundedRectangle(cornerRadius: 12).strokeBorder(Color.accentColor, lineWidth: 2).padding(4).allowsHitTesting(false)

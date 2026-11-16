@@ -1,7 +1,6 @@
 import SwiftUI
 
-/// docs/10 §3 DropZone: a clear, solid file action with its own "choose" button. Large while the list
-/// is empty, one compact line once documents are queued. On iPhone it's simply a big tile (drag works on iPad).
+/// A roomy drop target while empty, or one full-width picker action in short layouts.
 struct DropZone: View {
     let labels: DropZoneLabels
     var verification = false
@@ -11,16 +10,34 @@ struct DropZone: View {
     let choose: () -> Void
 
     var body: some View {
-        let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
         Group {
             if short {
                 Button(action: choose) {
                     Label(labels.choose, systemImage: verification ? "checkmark.seal" : "arrow.down.doc")
+                        .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity, minHeight: 44)
                 }
-                .nativeButtonStyle(.borderless)
-                .padding(.horizontal, Theme.Space.s)
-            } else if compact {
+                .nativeButtonStyle()
+                .controlSize(.large)
+                .buttonBorderShape(.capsule)
+                // The native button owns the outline. Keep its glass and shadow unclipped.
+                .overlay {
+                    if targeted {
+                        Capsule().strokeBorder(Color.accentColor, lineWidth: 2)
+                            .allowsHitTesting(false)
+                    }
+                }
+            } else {
+                dropArea
+            }
+        }
+        .animation(.easeOut(duration: 0.15), value: targeted)
+    }
+
+    private var dropArea: some View {
+        let shape = RoundedRectangle(cornerRadius: 14, style: .continuous)
+        return Group {
+            if compact {
                 ViewThatFits(in: .horizontal) {
                     HStack(spacing: Theme.Space.s) {
                         Image(systemName: "arrow.down.doc")

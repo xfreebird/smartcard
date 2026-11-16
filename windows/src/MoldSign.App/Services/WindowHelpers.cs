@@ -127,18 +127,30 @@ internal static partial class WindowHelpers
         var area = DisplayArea.Primary.WorkArea;
         var margin = (int)(12 * scale);
         var width = (int)(FlyoutWidth * scale);
+        var frameWidth = 0;
+        var frameHeight = 0;
+        if (GetClientRect(Handle(window), out var client))
+        {
+            frameWidth = Math.Max(0, window.AppWindow.Size.Width - (client.Right - client.Left));
+            frameHeight = Math.Max(0, window.AppWindow.Size.Height - (client.Bottom - client.Top));
+        }
         double measuredHeight = FlyoutHeight + Math.Max(0, extraHeight);
         if (window.Content is FrameworkElement content)
         {
-            content.Measure(new Windows.Foundation.Size(FlyoutWidth, double.PositiveInfinity));
+            // XAML lays out in the client area. Measuring at the outer window width makes
+            // the card carousel alternate widths and request another resize on every render.
+            content.Measure(new Windows.Foundation.Size(Math.Max(1, width - frameWidth) / scale, double.PositiveInfinity));
             if (content.DesiredSize.Height > 0) measuredHeight = content.DesiredSize.Height;
         }
-        var height = (int)Math.Min(Math.Ceiling(measuredHeight * scale), area.Height - 2 * margin);
-        window.AppWindow.MoveAndResize(new RectInt32(
+        var height = (int)Math.Min(Math.Ceiling(measuredHeight * scale) + frameHeight, area.Height - 2 * margin);
+        var bounds = new RectInt32(
             area.X + area.Width - width - margin,
             area.Y + area.Height - height - margin,
             width,
-            height));
+            height);
+        if (window.AppWindow.Position.X == bounds.X && window.AppWindow.Position.Y == bounds.Y &&
+            window.AppWindow.Size.Width == bounds.Width && window.AppWindow.Size.Height == bounds.Height) return;
+        window.AppWindow.MoveAndResize(bounds);
     }
 
     /// <summary>Tallest flyout that fits in the primary work area (epx).</summary>
@@ -199,6 +211,16 @@ internal static partial class WindowHelpers
 
     [LibraryImport("user32.dll")]
     private static partial uint GetDpiForWindow(nint hwnd);
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct ClientRect
+    {
+        public int Left, Top, Right, Bottom;
+    }
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool GetClientRect(nint hwnd, out ClientRect rect);
 
     [LibraryImport("user32.dll")]
     private static partial int SetForegroundWindow(nint hwnd);

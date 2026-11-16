@@ -409,4 +409,6 @@ eSemnBun</value></data>
   <data name="protect_save_copy" xml:space="preserve"><value>Salvează o copie…</value></data>
   <data name="protect_encrypted_hint" xml:space="preserve"><value>Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.</value></data>
   <data name="protect_save_file" xml:space="preserve"><value>Salvează fișierul</value></data>
+  <data name="settings_signing" xml:space="preserve"><value>Semnare</value></data>
+  <data name="settings_card_reader" xml:space="preserve"><value>Carduri și cititoare</value></data>
 </root>

@@ -52,14 +52,14 @@ struct MoldSigniOSApp: App {
 }
 
 struct RootTabView: View {
-    enum TabID: String { case sign, verify, documents, browser, card }
+    enum TabID: String { case sign, verify, documents, browser; case settings = "card" }
 
     @Environment(AppModel.self) private var model
     @State private var shortcutNavigation = ShortcutNavigation.shared
     @State private var tab: TabID = {
         #if DEBUG
-        // design QA: MSIGN_DEMO_TAB=card opens on the Card tab (debug builds only)
-        if let raw = ProcessInfo.processInfo.environment["MSIGN_DEMO_TAB"], let tab = TabID(rawValue: raw) { return tab }
+        // Keep the previous card route as an alias for Settings in debug captures.
+        if let raw = ProcessInfo.processInfo.environment["MSIGN_DEMO_TAB"], let tab = TabID(rawValue: raw == "settings" ? "card" : raw) { return tab }
         #endif
         return .sign
     }()
@@ -79,10 +79,11 @@ struct RootTabView: View {
             NavigationStack { BrowserScreen() }
                 .tabItem { Label(L10n.text(.ui_browser), systemImage: "globe") }
                 .tag(TabID.browser)
-            NavigationStack { CardScreen() }
-                .tabItem { Label(L10n.text(.ui_card), systemImage: "person.text.rectangle") }
-                .tag(TabID.card)
+            NavigationStack { MobileSettingsView() }
+                .tabItem { Label(L10n.text(.ui_settings), systemImage: "gearshape") }
+                .tag(TabID.settings)
         }
+        .modifier(AdaptiveTabNavigation())
         .onContinueUserActivity(DocumentDiscovery.activityType, perform: DocumentDiscovery.resume)
         .onContinueUserActivity(CSSearchableItemActionType, perform: DocumentDiscovery.resume)
         .userActivity(DocumentDiscovery.activityType, isActive: tab == .documents) { activity in
@@ -146,5 +147,13 @@ struct RootTabView: View {
             if let id = request.documentID { shortcutNavigation.selectedDocumentID = id }
             tab = .documents
         }
+    }
+}
+
+/// Native sidebar adaptation keeps every destination reachable in narrow iPad windows.
+private struct AdaptiveTabNavigation: ViewModifier {
+    @ViewBuilder func body(content: Content) -> some View {
+        if #available(iOS 18.0, *) { content.tabViewStyle(.sidebarAdaptable) }
+        else { content }
     }
 }

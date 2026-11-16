@@ -101,13 +101,13 @@ private val BrandLightScheme: ColorScheme = lightColorScheme(
     tertiaryContainer = Color(0xFFFFDEA0),
     onTertiaryContainer = Color(0xFF261900),
     error = Tokens.DangerLight,
-    background = Color(0xFFFBF8FF),
-    surface = Color(0xFFFBF8FF),
+    background = Color(0xFFF5F5F7),
+    surface = Color(0xFFF5F5F7),
     surfaceContainerLowest = Color.White,
-    surfaceContainerLow = Color(0xFFF5F2FA),
-    surfaceContainer = Color(0xFFEFEDF4),
-    surfaceContainerHigh = Color(0xFFE9E7EF),
-    surfaceContainerHighest = Color(0xFFE4E1E9),
+    surfaceContainerLow = Color(0xFFF2F2F5),
+    surfaceContainer = Color(0xFFEDEDF0),
+    surfaceContainerHigh = Color(0xFFE7E7EB),
+    surfaceContainerHighest = Color(0xFFE1E1E6),
     outline = Color(0xFF757680),
     outlineVariant = Color(0xFFC5C6D0),
 )
@@ -150,13 +150,13 @@ private val AppShapes = Shapes(
 )
 
 /**
- * Material 3 theme: Material You dynamic color on Android 12+, brand scheme otherwise (AND-10).
+ * One brand palette for NFC, reader and document journeys. Dynamic color remains opt-in.
  * The semantic status colors stay on brand tokens either way.
  */
 @Composable
 fun MoldSignTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val scheme = when {

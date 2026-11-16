@@ -7,12 +7,31 @@ namespace MoldSign.App.Views;
 
 public sealed partial class SettingsPage : Page
 {
+    private async void OnCardDetailsClick(object sender, RoutedEventArgs e)
+    {
+        var dialog = new ContentDialog {
+            XamlRoot = XamlRoot, RequestedTheme = ActualTheme, Title = Loc.Get("settings_card_reader"),
+            Content = new CardPage { MaxHeight = 480 }, CloseButtonText = Loc.Get("saved_close")
+        };
+        await dialog.ShowAsync();
+    }
+
     private bool _loadingStartup;
     private bool _loadingPreferences = true;
 
     public SettingsPage()
     {
         InitializeComponent();
+        SigningHeading.Text = Loc.Get("settings_signing");
+        DeleteAllPinsLabel.Text = Loc.Get("SettingsDeletePins/Content");
+        NoSavedPins.Text = Loc.Get("ui_no_saved_pins");
+        GeneralCategoryLabel.Text = Loc.Get("Settings_General");
+        CardDetailsLabel.Text = Loc.Get("settings_card_reader");
+        PinsCategoryLabel.Text = Loc.Get("SettingsPins/Text");
+        BrowserCategoryLabel.Text = Loc.Get("BridgeLabel/Text");
+        AdvancedCategoryLabel.Text = Loc.Get("SignAdvanced/Header");
+        BrowserAdvanced.Header = AdvancedCategoryLabel.Text;
+        AboutCategoryLabel.Text = Loc.Get("about_app_title");
         // WinUI's built-in state text follows the OS resources, which may differ from the app language.
         foreach (var toggle in new[] { DemoModeToggle, StartAtLoginToggle, ToastsToggle,
             OpenOnInsertionToggle, OpenOnReaderInsertionToggle, RememberPinToggle,
@@ -21,9 +40,8 @@ public sealed partial class SettingsPage : Page
             toggle.OnContent = Loc.Get("toggle_on");
             toggle.OffContent = Loc.Get("toggle_off");
         }
-        GeneralTab.Content = Loc.Get("Settings_General");
-        AboutTab.Content = Loc.Get("about_app_title");
-        ShowTab(about: false);
+        ShowCategory(null);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(SettingsBack, Loc.Get("SettingsPageTitle/Text"));
         var settings = App.Current.Services.Settings;
         DemoModeToggle.Header = Loc.Get("demo_mode_title");
         DemoModeToggle.IsOn = App.Current.Services.IsDemo;
@@ -57,7 +75,6 @@ public sealed partial class SettingsPage : Page
         Loaded += async (_, _) => ShowStartup(await StartupRegistration.GetAsync());
         AllowedSitesText.Text = Loc.Format("Settings_AllowedSites", BridgeOriginPolicy.Default.Patterns.Count);
         VersionText.Text = $"{AppInfo.ProductName} {typeof(App).Assembly.GetName().Version} · .NET {Environment.Version}";
-        AboutTitle.Text = Loc.Get("about_app_title");
         AboutLegalTitle.Text = Loc.Get("about_legal_title");
         AboutDisclaimerBody.Text = Loc.Get("about_disclaimer_body");
         var language = App.Current.Services.Settings.Language;
@@ -72,6 +89,7 @@ public sealed partial class SettingsPage : Page
         AboutDeveloper.Text = $"{Loc.Get("about_developer")}: Nicolae Ghimbovschi";
         ResolveBridgeButton.Content = Loc.Get("Bridge_Resolve");
     }
+
 
     private async void OnCheckUpdatesClick(object sender, RoutedEventArgs e)
     {
@@ -113,16 +131,63 @@ public sealed partial class SettingsPage : Page
 
     public AppState State => AppState.Current;
 
-    private void OnGeneralTabClick(object sender, RoutedEventArgs e) => ShowTab(about: false);
-
-    private void OnAboutTabClick(object sender, RoutedEventArgs e) => ShowTab(about: true);
-
-    private void ShowTab(bool about)
+    private async void OnCategoryClick(object sender, RoutedEventArgs e)
     {
-        GeneralContent.Visibility = about ? Visibility.Collapsed : Visibility.Visible;
-        AboutContent.Visibility = about ? Visibility.Visible : Visibility.Collapsed;
-        GeneralTab.IsEnabled = about;
-        AboutTab.IsEnabled = !about;
+        var category = (sender as Button)?.Tag as string;
+        if (category == "pins")
+        {
+            ShowSavedPins();
+            await ShowDetailsAsync(PinsSection, PinsCategoryLabel.Text, "SettingsPinsDialog");
+        }
+        else if (category == "about") await ShowDetailsAsync(AboutContent, AboutCategoryLabel.Text, "SettingsAboutDialog");
+        else ShowCategory(category);
+    }
+
+    private async Task ShowDetailsAsync(FrameworkElement content, string title, string automationId)
+    {
+        // Focused tasks return to the same Settings position when dismissed.
+        var index = SectionHost.Children.IndexOf(content);
+        SectionHost.Children.Remove(content);
+        content.Visibility = Visibility.Visible;
+        var previousWidth = content.Width;
+        if (content == AboutContent) content.Width = Math.Max(200, Math.Min(480, XamlRoot.Size.Width - 96));
+        var scroll = new ScrollViewer {
+            Width = content.Width,
+            Content = content, VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch, HorizontalScrollMode = ScrollMode.Disabled,
+            HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+            MaxHeight = Math.Max(200, XamlRoot.Size.Height - 220)
+        };
+        var dialog = new ContentDialog {
+            XamlRoot = XamlRoot, RequestedTheme = ActualTheme, Title = title, Content = scroll, CloseButtonText = Loc.Get("saved_close")
+        };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(dialog, automationId);
+        try { await dialog.ShowAsync(); }
+        finally
+        {
+            scroll.Content = null;
+            content.Width = previousWidth;
+            content.Visibility = Visibility.Collapsed;
+            SectionHost.Children.Insert(index, content);
+        }
+    }
+    private void OnSettingsBack(object sender, RoutedEventArgs e) => ShowCategory(null);
+
+    private void ShowCategory(string? category)
+    {
+        SettingsRows.Visibility = category is null ? Visibility.Visible : Visibility.Collapsed;
+        DemoCard.Visibility = SettingsRows.Visibility;
+        SettingsBack.Visibility = category is null ? Visibility.Collapsed : Visibility.Visible;
+        GeneralSection.Visibility = category == "general" ? Visibility.Visible : Visibility.Collapsed;
+        PinsSection.Visibility = category == "pins" ? Visibility.Visible : Visibility.Collapsed;
+        BrowserSection.Visibility = category == "browser" ? Visibility.Visible : Visibility.Collapsed;
+        AdvancedSection.Visibility = category == "advanced" ? Visibility.Visible : Visibility.Collapsed;
+        AboutContent.Visibility = category == "about" ? Visibility.Visible : Visibility.Collapsed;
+        CategoryTitle.Text = category switch {
+            "general" => GeneralCategoryLabel.Text, "pins" => PinsCategoryLabel.Text,
+            "browser" => BrowserCategoryLabel.Text, "advanced" => AdvancedCategoryLabel.Text,
+            "about" => AboutCategoryLabel.Text, _ => Loc.Get("SettingsPageTitle/Text")
+        };
         SettingsScroll.UpdateLayout();
         SettingsScroll.ChangeView(null, 0, null, disableAnimation: true);
     }
@@ -135,7 +200,7 @@ public sealed partial class SettingsPage : Page
         {
             var dialog = new ContentDialog
             {
-                XamlRoot = XamlRoot, Title = Loc.Get("demo_enable_title"), Content = Loc.Get("demo_mode_confirm"),
+                XamlRoot = XamlRoot, RequestedTheme = ActualTheme, Title = Loc.Get("demo_enable_title"), Content = Loc.Get("demo_mode_confirm"),
                 PrimaryButtonText = Loc.Get("demo_mode_enable"), CloseButtonText = Loc.Get("Action_Cancel"),
                 DefaultButton = ContentDialogButton.Close,
             };
@@ -181,7 +246,7 @@ public sealed partial class SettingsPage : Page
             var details = string.Join("\n", vendorOwners.Select(owner => $"{owner.Path} (PID {owner.Id})"));
             var dialog = new ContentDialog
             {
-                XamlRoot = XamlRoot, Title = Loc.Get("Bridge_ResolveTitle"),
+                XamlRoot = XamlRoot, RequestedTheme = ActualTheme, Title = Loc.Get("Bridge_ResolveTitle"),
                 Content = new TextBlock { Text = $"{Loc.Get("Bridge_ResolveBody")}\n\n{details}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true },
                 PrimaryButtonText = Loc.Get("Bridge_CloseAndRetry"), CloseButtonText = Loc.Get("Action_Cancel"),
                 DefaultButton = ContentDialogButton.Close,
@@ -298,7 +363,10 @@ public sealed partial class SettingsPage : Page
     private void ShowSavedPins()
     {
         SavedPinsList.Children.Clear();
-        foreach (var key in App.Current.Services.Pins.SavedCards())
+        var keys = App.Current.Services.Pins.SavedCards();
+        NoSavedPins.Visibility = keys.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+        DeleteAllPinsButton.IsEnabled = !App.Current.Services.IsDemo && keys.Count > 0;
+        foreach (var key in keys)
         {
             var holder = State.WalletItems.FirstOrDefault(card => card.Certificate?.Sha1 == key)?.Holder;
             var row = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 12 };

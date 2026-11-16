@@ -419,6 +419,10 @@ enum L10n {
         case protect_save_copy
         case protect_encrypted_hint
         case protect_save_file
+        case settings_signing
+        case settings_card_reader
+        case demo_enable_title
+        case demo_enable_action
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2507,6 +2511,26 @@ enum L10n {
     "en": "Save file",
     "ro": "Salvează fișierul",
     "ru": "Сохранить файл"
+  },
+  "settings_signing": {
+    "ro": "Semnare",
+    "en": "Signing",
+    "ru": "Подписание"
+  },
+  "settings_card_reader": {
+    "ro": "Carduri și cititoare",
+    "en": "Cards and readers",
+    "ru": "Карты и считыватели"
+  },
+  "demo_enable_title": {
+    "ro": "Activezi modul demonstrativ?",
+    "en": "Enable demo mode?",
+    "ru": "Включить демонстрационный режим?"
+  },
+  "demo_enable_action": {
+    "ro": "Folosește modul demonstrativ",
+    "en": "Use demo mode",
+    "ru": "Включить демонстрационный режим"
   }
 }
 """#.utf8)

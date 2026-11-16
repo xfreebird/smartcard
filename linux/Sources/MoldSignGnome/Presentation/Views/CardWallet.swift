@@ -6,6 +6,7 @@ import Foundation
 final class CardWallet {
     let root: Widget
     private let controller: AppController
+    private let opensDetailsOnSelectedCard: Bool
     private let stack: OpaquePointer
     private let list: Widget
     private let carousel: Widget
@@ -30,8 +31,9 @@ final class CardWallet {
     private let selectAction: OpaquePointer    // "s": "Semnează cu …" in the context menu
     private let rereadAction: OpaquePointer    // the context-menu card
 
-    init(controller: AppController) {
+    init(controller: AppController, opensDetailsOnSelectedCard: Bool = true) {
         self.controller = controller
+        self.opensDetailsOnSelectedCard = opensDetailsOnSelectedCard
 
         list = hbox(spacing: 12, classes: ["wallet-list"])
         leadingSpace = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0)!
@@ -55,7 +57,9 @@ final class CardWallet {
         gtk_widget_set_margin_start(carousel, 24)
         gtk_widget_set_margin_end(carousel, 24)
         gtk_widget_set_halign(carousel, GTK_ALIGN_CENTER)
-        gtk_scrolled_window_set_policy(carousel.opaque, GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER)
+        // Dots and arrows show the position; an overlay scrollbar would cross the card's bottom edge.
+        // EXTERNAL preserves horizontal scrolling and the bounded viewport without drawing that bar.
+        gtk_scrolled_window_set_policy(carousel.opaque, GTK_POLICY_EXTERNAL, GTK_POLICY_NEVER)
         gtk_scrolled_window_set_propagate_natural_width(carousel.opaque, 1)
         gtk_scrolled_window_set_max_content_width(carousel.opaque, 444)
         gtk_scrolled_window_set_min_content_width(carousel.opaque, 444)
@@ -285,11 +289,12 @@ final class CardWallet {
         keys = cards.map(\.key)
     }
 
-    /// Expanded: pick this card (or keep the selected one) and collapse. Collapsed: open the Card page.
+    /// Pick another card in place. Only the signing wallet opens details for the selected card;
+    /// the card-management wallet already displays those details below it.
     private func cardClicked(_ reader: String) {
         if reader != controller.selectedCard?.reader {
             controller.selectCard(reader)
-        } else {
+        } else if opensDetailsOnSelectedCard {
             _ = gtk_widget_activate_action_variant(root, "app.page", g_variant_new_string("card"))
         }
     }

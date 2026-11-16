@@ -1,6 +1,6 @@
 eSemnBun Privacy Policy
 
-Draft updated: 1 November 2026; publish an effective date when the policy goes live.
+Draft updated: 16 November 2026; publish an effective date when the policy goes live.
 Developer: Nicolae Ghimbovschi, Republic of Moldova
 Contact: nicolae.ghimbovschi@gmail.com
 
@@ -18,10 +18,10 @@ SUMMARY
 INFORMATION THE APP PROCESSES ON YOUR DEVICE
 
 - The certificate on your ID card (your name, certificate number, issuer, validity): read from the card to show which
-  card is inserted and to create signatures. It is not sent to the developer.
+  card is selected and to create signatures. It is read through a compatible reader or NFC on supported mobile devices. It is not sent to the developer. NFC signing does not read a card photograph, fingerprints or passport travel records.
 - Your PIN: sent only to your ID card, over the card's encrypted channel, to unlock the signing key. If you choose
   "remember PIN", it is kept in your operating system's secure credential store (Apple Keychain, Android Keystore,
-  Windows credential storage or GNOME Keyring), using platform-specific protection where supported and tied to that card. Saved-PIN use may ask for device authentication or confirmation; behavior differs across platforms. You can delete it at any time in the app.
+  Windows credential storage or GNOME Keyring), using platform-specific protection where supported and tied to that card. Saved-PIN use may ask for device authentication or confirmation; behavior differs across platforms. You can delete it at any time in Settings > Saved PINs. The same card identity and PIN record are used for reader and NFC; deleting it removes access through both methods. When you remember a PIN, certificate metadata is retained locally so that you can recognize the card after restarting.
 - Documents you sign or verify: processed locally to compute and check signatures. Signed copies are saved next to the
   original where allowed, or in the app's storage for sandboxed/mobile workflows. Save As, export and sharing may place copies in locations you choose.
 - Activity list (file names, dates, results): stored only on your device so you can find recent documents. You can

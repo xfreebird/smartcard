@@ -5,7 +5,7 @@ package md.moldsign.core
  * No GET RESPONSE handling here: [CosmoXCard] loops on `61xx` itself.
  *
  * Implementations: `md.moldsign.transport.usb.CcidTransport` (Android USB host, module
- * `:transport-usb`); NFC `IsoDep` is research item R-03 / AND-09.
+ * `:transport-usb`); the app NFC controller owns one Android `IsoDep` connection (AND-09).
  */
 interface ApduTransport : java.io.Closeable {
     val readerName: String

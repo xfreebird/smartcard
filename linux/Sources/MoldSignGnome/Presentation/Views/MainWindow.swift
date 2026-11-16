@@ -26,7 +26,6 @@ final class MainWindow {
     let signPage: SignPage
     let verifyPage: VerifyPage
     let activityPage: ActivityPage
-    let cardPage: CardPage
 
     init(app: UnsafeMutablePointer<AdwApplication>, controller: AppController) {
         self.controller = controller
@@ -43,7 +42,6 @@ final class MainWindow {
         signPage = SignPage(controller: controller, window: parent)
         verifyPage = VerifyPage(controller: controller, window: parent)
         activityPage = ActivityPage(controller: controller, window: parent)
-        cardPage = CardPage(controller: controller)
 
         stack = OpaquePointer(adw_view_stack_new()!)
         adw_view_stack_set_hhomogeneous(stack, 0)
@@ -51,7 +49,6 @@ final class MainWindow {
             (signPage.root, "sign", L10n.text(.ui_sign), "document-edit-symbolic"),
             (verifyPage.root, "verify", L10n.text(.ui_verify), "security-high-symbolic"),
             (activityPage.root, "activity", L10n.text(.ui_activity), "folder-documents-symbolic"),
-            (cardPage.root, "card", L10n.text(.ui_card), "auth-smartcard-symbolic"),
         ]
         for (widget, name, title, icon) in pages {
             adw_view_stack_add_titled_with_icon(stack, widget, name, title, icon)
@@ -71,12 +68,6 @@ final class MainWindow {
         adw_header_bar_set_title_widget(header.opaque, switcher)
 
         let menu = g_menu_new()
-        let protection = g_menu_new()
-        g_menu_append(protection, L10n.text(.protect_encrypt), "app.encrypt")
-        g_menu_append(protection, L10n.text(.protect_decrypt), "app.decrypt")
-        g_menu_append(protection, L10n.text(.protect_remove), "app.remove-file")
-        g_menu_append_submenu(menu, L10n.text(.protect_title), protection?.cast())
-        g_object_unref(protection?.raw)
         let section = g_menu_new()
         g_menu_append(section, L10n.text(.ui_preferences), "app.preferences")
         g_menu_append(section, L10n.text(.ui_about_esemnbun), "app.about")
@@ -123,7 +114,7 @@ final class MainWindow {
             setBreakpointBool(breakpoint, switcherBar, "reveal", true)
             setBreakpointBool(breakpoint, switcher, "visible", false)
             if compactCards {
-                let wallets = [signPage.wallet, cardPage.wallet]
+                let wallets = [signPage.wallet]
                 let signing = signPage
                 onSignal(breakpoint, "apply") { wallets.forEach { $0.setCompact(true) }; signing.setCompact(true) }
                 onSignal(breakpoint, "unapply") { wallets.forEach { $0.setCompact(false) }; signing.setCompact(false) }
@@ -141,7 +132,13 @@ final class MainWindow {
     }
 
     func show(page: String) {
-        adw_view_stack_set_visible_child_name(stack, page)
+        if page == "card" {
+            presentCardSettings(parent: window.cast(), controller: controller)
+        } else if page == "settings" {
+            presentPreferences(parent: window.cast(), controller: controller)
+        } else {
+            adw_view_stack_set_visible_child_name(stack, page)
+        }
     }
 
     func present() {
@@ -170,9 +167,7 @@ final class MainWindow {
         var buttonLabel: String?
         bannerAction = nil
         if controller.isDemo {
-            #if MOLDSIGN_DEMO
             if !DemoMode.screenshotCapture { title = L10n.text(.ui_demo_data_no_real_card_pin_or_signatures) }
-            #endif
         } else if controller.settings.bridgeEnabled, controller.bridgeState == .portBusy {
             title = localized(.linux_bridge_ports_banner, String(MoldSignServer.defaultHTTPPort), String(MoldSignServer.defaultHTTPSPort))
             buttonLabel = L10n.text(.linux_vendor_resolve)

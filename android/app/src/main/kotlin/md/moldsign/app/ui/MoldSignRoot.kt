@@ -74,12 +74,17 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.key
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.launch
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -121,7 +126,7 @@ private enum class Dest(val route: String, @StringRes val label: Int, val icon: 
     Verify("verify", R.string.nav_verify, Icons.Outlined.VerifiedUser),
     Activity("activity", R.string.nav_activity, Icons.Outlined.FolderOpen),
     Browser("browser", R.string.nav_browser, Icons.Outlined.Language),
-    Card("card", R.string.nav_card, Icons.Outlined.CreditCard),
+    Settings("settings", R.string.demo_mode_settings, Icons.Outlined.Settings),
 }
 
 private fun NavHostController.go(d: Dest) = navigate(d.route) {
@@ -141,9 +146,11 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureDialog = if (DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_dialog") else null
     md.moldsign.app.ui.features.GovernmentDisclosure(forceVisible = captureDialog == "disclosure")
-    var settingsOpen by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
-    var settingsTab by androidx.compose.runtime.saveable.rememberSaveable { mutableIntStateOf(0) }
     var confirmDemoEnable by remember { mutableStateOf(false) }
+    var settingsPage by rememberSaveable { mutableStateOf(if (captureDialog == "about") "about" else "settings") }
+    var cardDetails by remember { mutableStateOf(false) }
+    val nfcIdentity by vm.nfcIdentity.collectAsStateWithLifecycle()
+    if (cardDetails) md.moldsign.app.ui.screens.CardDetailsSheet(vm) { cardDetails = false }
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val navigationReady = backStack != null
@@ -152,6 +159,10 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val captureProgress = DemoMode.screenshotCapture(captureIntent) && captureIntent?.hasExtra("capture_step") == true
     val status = if (captureProgress) liveStatus.copy(light = md.moldsign.core.StatusLight.Busy, busy = true) else liveStatus
     val items by vm.signItems.collectAsStateWithLifecycle()
+    val signingMethod by vm.signingMethod.collectAsStateWithLifecycle()
+    val savedPinIds by vm.savedPinIds.collectAsStateWithLifecycle()
+    val pendingPinSave by vm.pendingPinSave.collectAsStateWithLifecycle()
+    val nfcPhase by vm.nfcPhase.collectAsStateWithLifecycle()
     val working by vm.working.collectAsStateWithLifecycle()
     val pending by vm.pendingConsent.collectAsStateWithLifecycle()
     val stamp by vm.pendingStamp.collectAsStateWithLifecycle()
@@ -190,7 +201,6 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         val request = shortcutRequest ?: return@LaunchedEffect
         // Do not replace a consent sheet, signature operation or another system picker.
         if (working || pending != null || stamp != null || activeShortcut != null) return@LaunchedEffect
-        settingsOpen = false
         vm.selectWidgetDocument(request.documentID)
         when (request.destination) {
             AppShortcuts.Destination.Verify -> nav.go(Dest.Verify)
@@ -204,17 +214,16 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         }
     }
 
-    LaunchedEffect(demoGeneration, captureDialog) {
+    LaunchedEffect(demoGeneration, captureDialog, navigationReady) {
         if (DemoMode.screenshotCapture(captureIntent)) {
-            settingsOpen = captureDialog == "settings" || captureDialog == "about"
-            settingsTab = if (captureDialog == "about") 1 else 0
+            if (navigationReady && captureDialog in listOf("settings", "about")) nav.go(Dest.Settings)
             confirmDemoEnable = captureDialog == "demo-confirm"
         }
     }
 
     LaunchedEffect(demoPage, navigationReady) {
         if (!navigationReady) return@LaunchedEffect
-        Dest.entries.firstOrNull { it.route == demoPage }?.let { nav.go(it) }
+        Dest.entries.firstOrNull { it.route == (if (demoPage == "card") "settings" else demoPage) }?.let { nav.go(it) }
     }
 
     LaunchedEffect(dest.route, status.wallet, items, working, pending, demoGeneration) {
@@ -259,6 +268,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         val expanded = maxWidth >= 600.dp || (maxWidth >= 480.dp && maxWidth > maxHeight)
         val shortLandscape = maxHeight < 400.dp && maxWidth > maxHeight
         val compactStatus = maxWidth < 400.dp
+        val showsNfcChoice = signingMethod == MainViewModel.SigningMethod.NFC && (dest == Dest.Sign || dest == Dest.Settings)
         val navigationLabelWidth = maxWidth / Dest.entries.size - 4.dp
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -266,23 +276,27 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 Column {
                 TopAppBar(
                     // Home shows the public name (UX-12); the other destinations their own title.
-                    title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label), maxLines = 1, overflow = TextOverflow.Ellipsis) },
+                    title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label),
+                        maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     actions = {
-                        Box {
+                        if (dest == Dest.Sign) IconButton(onClick = { cardDetails = true },
+                            enabled = (if (signingMethod == MainViewModel.SigningMethod.NFC) nfcIdentity else status.wallet.selectedCard?.certificate) != null,
+                            modifier = Modifier.testTag("sign.cardDetails")) {
+                            Icon(Icons.Outlined.Info, stringResource(R.string.card_details_title))
+                        }
+                        if (dest == Dest.Activity) Box {
                             IconButton(onClick = { toolsOpen = true }) { Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more)) }
                             DropdownMenu(expanded = toolsOpen, onDismissRequest = { toolsOpen = false }) {
                                 DropdownMenuItem(text = { Text(stringResource(R.string.protect_title)) }, onClick = { toolsOpen = false; protectionOpen = true })
                             }
                         }
-                        IconButton(onClick = { settingsOpen = true }) {
-                            Icon(Icons.Outlined.Settings, contentDescription = stringResource(R.string.demo_mode_settings))
-                        }
-                        if ((dest == Dest.Sign || dest == Dest.Card || dest == Dest.Browser) && status.wallet.cards.isNotEmpty()) {
+                        if (dest == Dest.Browser && status.wallet.cards.isNotEmpty()) {
                             IconButton(onClick = vm::rereadCards, enabled = !status.busy) {
                                 Icon(Icons.Rounded.Refresh, contentDescription = stringResource(R.string.action_reread))
                             }
                         }
-                        StatusLightChip(status.toStatusContent(context), onClick = { nav.go(Dest.Card) }, compact = compactStatus)
+                        if (dest == Dest.Browser) StatusLightChip(status.toStatusContent(context),
+                            onClick = { nav.go(Dest.Settings) }, compact = compactStatus)
                         Spacer(Modifier.width(Tokens.S3))
                     },
                     scrollBehavior = scrollBehavior,
@@ -307,23 +321,6 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     }
                 }
             },
-            floatingActionButton = {
-                // Never an accent FAB while signing is impossible: only with documents and a ready, idle card. Otherwise
-                // the Semnează screen says why under the list, and the step card shows a running signature.
-                val canSign = items.isNotEmpty() && status.wallet.selectedCard?.isReady == true && !status.busy && !working
-                AnimatedVisibility(
-                    visible = !expanded && dest == Dest.Sign && canSign,
-                    enter = scaleIn(tween(200)) + fadeIn(tween(200)),
-                    exit = scaleOut(tween(150)) + fadeOut(tween(150)),
-                ) {
-                    ExtendedFloatingActionButton(
-                        modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("sign.submit"),
-                        onClick = vm::sign,
-                        icon = { Icon(Icons.Rounded.Draw, contentDescription = null) },
-                        text = { Text(pluralStringResource(R.plurals.sign_n, items.size, items.size)) },
-                    )
-                }
-            },
             snackbarHost = { SnackbarHost(snackbar) },
         ) { padding ->
             Row(Modifier.fillMaxSize().padding(padding)) {
@@ -346,48 +343,23 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 // Scaffold insets are consumed once around the rail and destination, never once per pane.
                 NavHost(nav, startDestination = Dest.Sign.route, modifier = Modifier.weight(1f).fillMaxHeight()) {
                     composable(Dest.Sign.route) {
-                        SignScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }, onOpenDocuments = { nav.go(Dest.Activity) }, expanded = expanded)
+                        SignScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Settings) }, onOpenDocuments = { nav.go(Dest.Activity) }, expanded = expanded)
                     }
                     composable(Dest.Verify.route) { VerifyScreen(vm, PaddingValues(0.dp)) }
                     composable(Dest.Activity.route) { ActivityScreen(vm, PaddingValues(0.dp), onVerify = { uri -> nav.go(Dest.Verify); vm.pickForVerify(uri) }) }
-                    composable(Dest.Browser.route) { BrowserScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Card) }) }
-                    composable(Dest.Card.route) { CardScreen(vm, PaddingValues(0.dp)) }
+                    composable(Dest.Browser.route) { BrowserScreen(vm, PaddingValues(0.dp), onOpenCard = { nav.go(Dest.Settings) }) }
+                    composable(Dest.Settings.route) {
+                        md.moldsign.app.ui.screens.SettingsScreen(vm,
+                            enabled = !working && !status.busy && pending == null && stamp == null,
+                            page = settingsPage, onPageChange = { settingsPage = it }, onDemoChange = { enabled ->
+                                if (enabled) confirmDemoEnable = true
+                                else (context.hostActivity() as? MainActivity)?.changeDemoMode(false)
+                            })
+                    }
                 }
             }
         }
     }
-
-    if (settingsOpen) AlertDialog(
-        onDismissRequest = { settingsOpen = false },
-        title = { Text(stringResource(R.string.demo_mode_settings)) },
-        text = {
-            Column(Modifier.heightIn(max = 480.dp)) {
-                androidx.compose.material3.TabRow(selectedTabIndex = settingsTab) {
-                    androidx.compose.material3.Tab(selected = settingsTab == 0, onClick = { settingsTab = 0 }, text = { Text(stringResource(R.string.settings_general)) })
-                    androidx.compose.material3.Tab(selected = settingsTab == 1, onClick = { settingsTab = 1 }, text = { Text(stringResource(R.string.about_title)) })
-                }
-                Spacer(Modifier.size(12.dp))
-                if (settingsTab == 0) {
-                    Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) {
-                        md.moldsign.app.ui.features.AppSettings(vm, enabled = !working && !status.busy && pending == null && stamp == null)
-                        Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-                            Text(stringResource(R.string.demo_mode_title), modifier = Modifier.weight(1f))
-                            Switch(checked = vm.demoMode, enabled = !working && !status.busy && pending == null && stamp == null,
-                                onCheckedChange = { enabled ->
-                                    settingsOpen = false
-                                    if (enabled) confirmDemoEnable = true
-                                    else (context.hostActivity() as? MainActivity)?.changeDemoMode(false)
-                                })
-                        }
-                        Text(stringResource(R.string.demo_mode_description), style = MaterialTheme.typography.bodyMedium)
-                    }
-                } else {
-                    Column(Modifier.weight(1f, fill = false).verticalScroll(rememberScrollState())) { AboutContent() }
-                }
-            }
-        },
-        confirmButton = { TextButton(onClick = { settingsOpen = false }) { Text(stringResource(R.string.action_close)) } },
-    )
 
     if (confirmDemoEnable) AlertDialog(
         onDismissRequest = { confirmDemoEnable = false },
@@ -404,17 +376,37 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         dismissButton = { TextButton(onClick = { confirmDemoEnable = false }) { Text(stringResource(R.string.action_cancel)) } },
     )
 
+    nfcPhase?.let { phase ->
+        AlertDialog(onDismissRequest = vm::cancelNfc,
+            title = { Text(stringResource(R.string.nfc_scan_title)) },
+            text = { Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                androidx.compose.material3.CircularProgressIndicator()
+                Text(stringResource(if (phase == md.moldsign.app.nfc.NfcSigningController.Phase.Waiting) R.string.nfc_scan_hold else R.string.nfc_scan_keep))
+            } },
+            confirmButton = { TextButton(onClick = vm::cancelNfc) { Text(stringResource(R.string.action_cancel)) } })
+    }
+    pendingPinSave?.let { candidate ->
+        LaunchedEffect(candidate) {
+            (context.hostActivity() as? androidx.fragment.app.FragmentActivity)?.let { vm.savePin(it, candidate) }
+        }
+    }
     pending?.let { p ->
-        // Consent identity belongs to the feature host: identical display text can be a new request.
         key(p) {
+            val pinScope = rememberCoroutineScope()
+            var loadingSaved by remember { mutableStateOf(false) }
             PinSheet(
-                request = p.request.toPinPromptContent(),
-                rememberAvailable = false,
-                onConfirm = { pin, _ ->
-                    // TODO(AND-06): if "Ține minte PIN-ul" is on, PinVault.save(...) after a successful VERIFY.
-                    p.answer(ConsentResult.Pin(pin))
-                },
+                request = p.request.toPinPromptContent(stringResource(R.string.nfc_another_card)),
+                rememberAvailable = vm.pinVaultAvailable && p.request.requester == null,
+                onConfirm = { pin, remember -> p.answer(ConsentResult.Pin(pin), remember) },
                 onDismiss = { p.answer(ConsentResult.Cancelled) },
+                loadingSaved = loadingSaved,
+                onUseSaved = if (p.request.certificate?.sha1Hex in savedPinIds) ({
+                    pinScope.launch {
+                        loadingSaved = true
+                        try { (context.hostActivity() as? androidx.fragment.app.FragmentActivity)?.let { vm.useSavedPin(it, p) } }
+                        finally { loadingSaved = false }
+                    }
+                }) else null,
             )
         }
     }

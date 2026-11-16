@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Stage current source, build and capture fictional Windows UI in the Air VM's interactive session."""
-import argparse,base64,json,subprocess,tarfile,tempfile,time,zipfile,shutil,hashlib
+import argparse,base64,json,subprocess,tarfile,tempfile,time,zipfile,hashlib
 from pathlib import Path
+from PIL import Image
 ROOT=Path(__file__).resolve().parents[2]
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--air',default='user@192.168.50.126');p.add_argument('--guest',default='user@127.0.0.1');p.add_argument('--port',default='2223');p.add_argument('--stage',default='C:/Users/user/store-screenshot-refresh');p.add_argument('--timeout',type=int,default=1500);a=p.parse_args()
 a.output=a.output/'microsoft/assets'
@@ -64,7 +65,9 @@ try {{
   manifest=[]
   for tag,locale in [('ro-RO','ro'),('en-US','en'),('ru-RU','ru')]:
    for i,page in enumerate(('sign','card','verify','settings'),1):
-    source=unpack/tag/f'{page}.png';target=a.output/locale/f'{i:02}-{page}.png';target.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(source,target)
+    source=unpack/tag/f'{page}.png';target=a.output/locale/f'{i:02}-{page}.png';target.parent.mkdir(parents=True,exist_ok=True)
+    with Image.open(source) as picture:
+     picture.convert('RGB').save(target, optimize=True)
     manifest.append({'file':str(target),'locale':locale,'page':page,'sourceBuild':f'{a.stage}/publish/eSemnBun.exe','sourceArchiveSha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'sha256':hashlib.sha256(target.read_bytes()).hexdigest(),'fixture':'two fictional cards','hardware':False})
   (a.output/'capture-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n');print(f'Captured {len(manifest)} Windows screenshots; build retained at {a.stage}/publish')
  finally:ps(f"Unregister-ScheduledTask -TaskName '{task}' -Confirm:$false -ErrorAction SilentlyContinue",check=False)

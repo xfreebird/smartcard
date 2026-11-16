@@ -18,7 +18,7 @@ CE POȚI FACE
 • Gestionează PIN-urile salvate și șterge separat cache-ul, cookie-urile sau istoricul browserului.
 
 NECESAR
-Ai nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. NFC nu este acceptat. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.
+Ai nevoie de o carte de identitate electronică moldovenească activă, un certificat de semnare valabil și un cititor compatibil. Folosește un adaptor potrivit dispozitivului, dacă este necesar. Internetul este necesar pentru portaluri, marcarea temporală și verificări online ale certificatelor.
 
 Cheia privată rămâne pe card. Un PIN greșit nu este reîncercat automat. Modul demonstrativ permite explorarea interfeței fără hardware; rezultatele lui nu sunt semnături reale.
 

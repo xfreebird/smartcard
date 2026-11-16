@@ -22,10 +22,10 @@ SUMMARY
 INFORMATION THE APP PROCESSES ON YOUR DEVICE
 
 - The certificate on your ID card (your name, certificate number, issuer, validity): read from the card to show which
-  card is inserted and to create signatures. It is not sent to the developer.
+  card is selected and to create signatures. The app reads the certificate through a reader or NFC on supported mobile devices. NFC signing does not read a card photograph, fingerprints or passport travel records. The app does not send the certificate to the developer.
 - Your PIN: sent only to your ID card, over the card's encrypted channel, to unlock the signing key. If you choose
   "remember PIN", it is kept in your operating system's secure credential store (Apple Keychain, Android Keystore,
-  Windows credential storage or GNOME Keyring), using platform-specific protection where supported and tied to that card. Saved-PIN use may ask for device authentication or confirmation; behavior differs across platforms. You can delete it at any time in the app.
+  Windows credential storage or GNOME Keyring), using platform-specific protection where supported and tied to that card. Saved-PIN use may ask for device authentication or confirmation; behavior differs across platforms. If you save a PIN, the app also keeps certificate details on your device so it can recognize that card later. The saved PIN belongs to the card and works over NFC or a reader on supported devices. Delete it in Settings under Saved PINs.
 - Documents you sign or verify: processed locally to compute and check signatures. Signed copies are saved next to the
   original where allowed, or in the app's storage for sandboxed/mobile workflows. Save As, export and sharing may place copies in locations you choose.
 - Activity list (file names, dates, results): stored only on your device so you can find recent documents. You can
@@ -68,6 +68,7 @@ WHAT WE DO NOT DO
 PERMISSIONS
 
 - USB / smart-card access: to talk to your card reader.
+- NFC: to read the signing certificate and communicate with the card during signing on supported mobile devices.
 - Network: for timestamping, certificate-status checks, websites opened in the embedded browser and the optional loopback browser connection. Website requests reveal ordinary connection data such as IP address to the receiving service. Uploads, login assertions and downloads are processed by the selected service under its own policy.
 - Notifications (Android): to show the status of the browser connection.
 - Face ID / Touch ID / Windows Hello: only if you choose to remember your PIN, to unlock it.

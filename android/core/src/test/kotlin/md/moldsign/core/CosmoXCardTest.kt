@@ -77,7 +77,7 @@ class CosmoXCardTest {
             "00A404001" + "0" + v.obj("constants").str("ias_aid") + "00",
             "00A4000C023F0000",
             "00A4020402D00300",
-            "00B0000000",
+            "00B0000012",
             "00A4020402D00400",
             "00B0000010",
             v.obj("constants").str("mse_sm_apdu"),
@@ -154,31 +154,40 @@ internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduT
                 val n = apdu.u8(4).let { if (it == 0) 256 else it }
                 chunk(n)
             }
-            hex.startsWith("00A40400") -> ok()
+            hex.startsWith("00A40400") || hex.startsWith("00A40404") -> ok()
+            hex == "00A4020402000100" -> { selectedFile = "0001"; ok() }
+            hex.startsWith("00B0") && selectedFile == "0001" -> {
+                val offset = apdu.u8(2) * 256 + apdu.u8(3)
+                certificate.copyOfRange(offset, minOf(certificate.size, offset + apdu.u8(4))) + ok()
+            }
             hex == "00A4000C023F0000" -> ok()
             hex == "00A4020402D00300" -> { selectedFile = "D003"; ok() }
             hex == "00A4020402D00400" -> { selectedFile = "D004"; ok() }
-            hex == "00B0000000" && selectedFile == "D003" -> bytesOf(0x04, 0x10) + serial + ok()
+            hex == "00B0000012" && selectedFile == "D003" -> bytesOf(0x04, 0x10) + serial + ok()
             hex == "00B0000010" && selectedFile == "D004" -> seed + ok()
             hex == "0022C1A4098004FF40108C830104" -> ok()
             hex == "0084000010" -> ea.hex("rnd_icc") + ok()
             hex.startsWith("0082000060") -> {
                 val payload = apdu.copyOfRange(5, apdu.size)
-                assertEquals("EXTERNAL AUTHENTICATE payload", ea.str("ciphertext") + ea.str("cmac"), payload.toHex())
-                openSession()
-                authResponse + ok()
+                val (kenc, kmac) = CosmoXCard.deriveAdminKeys(seed, serial)
+                val ct = payload.copyOf(80)
+                assertArrayEquals(Cmac.aesCmac(kmac, ct), payload.copyOfRange(80, 96))
+                val plain = Aes(kenc).cbcDecrypt(ct, ByteArray(16))
+                assertArrayEquals(ea.hex("rnd_icc"), plain.copyOfRange(24, 40))
+                assertArrayEquals(serial.takeLast(8).toByteArray(), plain.copyOfRange(40, 48))
+                val terminalRandom = plain.copyOfRange(0, 16)
+                val terminalKey = plain.copyOfRange(48, 80)
+                val cardPlain = Aes(kenc).cbcDecrypt(authResponse.copyOf(80), ByteArray(16))
+                val kIcc = cardPlain.copyOfRange(48, 80)
+                val response = ea.hex("rnd_icc") + serial.takeLast(8).toByteArray() + terminalRandom + CosmoXCard.SN_IFD + kIcc
+                val responseCt = Aes(kenc).cbcEncrypt(response, ByteArray(16))
+                val (enc, mac) = CosmoXCard.deriveSessionKeys(kIcc, terminalKey)
+                sessEnc = Aes(enc); sessMac = mac
+                ssc = ea.hex("rnd_icc").copyOfRange(8, 16) + terminalRandom.copyOfRange(8, 16)
+                responseCt + Cmac.aesCmac(kmac, responseCt) + ok()
             }
             else -> sw(0x6D00)
         }
-    }
-
-    private fun openSession() {
-        val (kenc, _) = CosmoXCard.deriveAdminKeys(seed, serial)
-        val plain = Aes(kenc).cbcDecrypt(authResponse.copyOfRange(0, 80), ByteArray(16))
-        val secret = xorBytes(plain.copyOfRange(48, 80), CosmoXCard.K_IFD)
-        sessEnc = Aes(Sha.sha256(secret, bytesOf(0, 0, 0, 1)))
-        sessMac = Sha.sha256(secret, bytesOf(0, 0, 0, 2))
-        ssc = plain.copyOfRange(8, 16) + CosmoXCard.RND_IFD.copyOfRange(8, 16)
     }
 
     private fun inc() {
@@ -268,7 +277,10 @@ internal class SimulatedCard(v: Any?, certificateDer: ByteArray? = null) : ApduT
     /** SW-only reply: the card still advances its SSC. */
     private fun swOnly(code: Int): ByteArray {
         inc()
-        return sw(code)
+        if (code != 0x9000) return sw(code)
+        val status = SecureChannel.tlv(0x99, bytesOf(0x90, 0))
+        val mac = Cmac.aesCmac(sessMac, Iso9797.pad(ssc + status)).copyOf(8)
+        return status + SecureChannel.tlv(0x8E, mac) + ok()
     }
 
     /** 87 / 99 / 8E reply, split with 61xx when longer than 256 bytes. */

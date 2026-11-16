@@ -1,4 +1,4 @@
-# Native mouse-wheel and keyboard scroll proof. No card, PIN, credential or signing action is invoked.
+# Native Settings category navigation proof. No card, PIN, credential or signing action is invoked.
 param([Parameter(Mandatory=$true)][string]$App,[Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference='Stop'
 Add-Type -AssemblyName UIAutomationClient
@@ -43,52 +43,6 @@ function Find-Id($parent,[string]$id) {
     if($null -eq $element) {throw "Missing native UI element: $id"}
     return $element
 }
-function Test-Visible($element,$viewport) {
-    $r=$element.Current.BoundingRectangle;$v=$viewport.Current.BoundingRectangle
-    return -not ($element.Current.IsOffscreen -or $r.Width -le 0 -or $r.Height -le 0 -or
-       $r.Top -lt $v.Top-1 -or $r.Bottom -gt $v.Bottom+1 -or $r.Left -lt $v.Left-1 -or $r.Right -gt $v.Right+1)
-}
-function Assert-Visible($element,$viewport,[string]$label) {
-    if(-not (Test-Visible $element $viewport)) {
-        throw "$label is not fully visible in its viewport. Element=$($element.Current.BoundingRectangle) Viewport=$($viewport.Current.BoundingRectangle) Offscreen=$($element.Current.IsOffscreen)"
-    }
-}
-function Is-Bottom($pattern) {return -not $pattern.Current.VerticallyScrollable -or $pattern.Current.VerticalScrollPercent -ge 99.5}
-function Wait-Top($pattern,$viewport,$card) {
-    # UIA scroll state can change between property reads while Home is animating.
-    # Require consecutive observations from one snapshot per poll, as for the bottom.
-    $stable=0
-    for($attempt=0;$attempt -lt 60;$attempt++) {
-        $state=$pattern.Current
-        $atTop=(-not $state.VerticallyScrollable -or $state.VerticalScrollPercent -le 1)
-        if($atTop -and (Test-Visible $card $viewport)) {$stable++} else {$stable=0}
-        if($stable -ge 3) {return}
-        Start-Sleep -Milliseconds 100
-    }
-    throw "Home did not settle at the top. ScrollPercent=$($state.VerticalScrollPercent)"
-}
-function Focus-Scroll($scroll,[IntPtr]$window) {
-    [CardScrollInput]::SetForegroundWindow($window)|Out-Null
-    $scroll.SetFocus()
-    for($attempt=0;$attempt -lt 60;$attempt++) {
-        if([CardScrollInput]::GetForegroundWindow() -eq $window -and $scroll.Current.HasKeyboardFocus) {return}
-        Start-Sleep -Milliseconds 100
-    }
-    throw 'Card scroll viewport did not acquire native keyboard focus.'
-}
-function Wait-Bottom($pattern,$viewport,$controls) {
-    # ScrollPercent can update before the animated content's UIA rectangles settle.
-    $stable=0
-    for($attempt=0;$attempt -lt 60;$attempt++) {
-        $visible=(Is-Bottom $pattern)
-        foreach($control in $controls) {if(-not (Test-Visible $control $viewport)) {$visible=$false}}
-        if($visible) {$stable++} else {$stable=0}
-        if($stable -ge 3) {return}
-        Start-Sleep -Milliseconds 100
-    }
-    foreach($control in $controls) {Assert-Visible $control $viewport $control.Current.AutomationId}
-    throw "Native scrolling did not settle at the bottom. ScrollPercent=$($pattern.Current.VerticalScrollPercent)"
-}
 function Capture([IntPtr]$window,[string]$name) {
     if([CardScrollInput]::GetForegroundWindow() -ne $window) {throw 'Capture window is obscured.'}
     $rect=New-Object CardScrollInput+Rect
@@ -98,89 +52,84 @@ function Capture([IntPtr]$window,[string]$name) {
     try {$graphics.CopyFromScreen($rect.Left,$rect.Top,0,0,$bitmap.Size);$bitmap.Save((Join-Path $Output ($name+'.png')),[System.Drawing.Imaging.ImageFormat]::Png)}
     finally {$graphics.Dispose();$bitmap.Dispose()}
 }
+# Retained script name for CI compatibility: Card is now removed from navigation.
+# Verify its replacement Settings route, category selection, and top-level Demo access.
 try {
     foreach($theme in 'light','dark') {
-        $ready=Join-Path $env:TEMP ('card-scroll-ready-'+[Guid]::NewGuid().ToString('N')+'.json')
-        $env:MSIGN_DEMO_CARDS='3';$env:MSIGN_DEMO_PAGE='card';$env:MSIGN_DEMO_SELECTED='1'
+        $ready=Join-Path $env:TEMP ('settings-ready-'+[Guid]::NewGuid().ToString('N')+'.json')
+        $env:MSIGN_DEMO_CARDS='3';$env:MSIGN_DEMO_PAGE='settings';$env:MSIGN_DEMO_SELECTED='1'
         $env:MSIGN_DEMO_DARK=if($theme -eq 'dark') {'1'} else {'0'}
         $env:MSIGN_DEMO_READY_FILE=$ready;$env:MSIGN_DEMO_PIN_ONLY=$null
         $process=Start-Process $App -PassThru
         try {
             for($attempt=0;$attempt -lt 150 -and -not (Test-Path $ready);$attempt++) {
-                if($process.HasExited) {throw 'Mock app exited before readiness.'};Start-Sleep -Milliseconds 200
+                if($process.HasExited) {throw 'App exited before readiness'};Start-Sleep -Milliseconds 200
             }
-            if(-not (Test-Path $ready)) {throw 'Mock Card page did not become ready.'}
+            if(-not (Test-Path $ready)) {throw 'Settings did not become ready'}
             $state=Get-Content $ready -Raw|ConvertFrom-Json
-            if($state.ActualPage -ne 'CardPage' -or -not $state.CarouselsCentered) {throw 'Wrong or uncentered page.'}
+            if($state.ActualPage -ne 'SettingsPage') {throw 'Wrong page'}
             $handle=[IntPtr]([long]$state.Window)
             [CardScrollInput]::SetForegroundWindow($handle)|Out-Null
             $window=[System.Windows.Automation.AutomationElement]::FromHandle($handle)
-            $scroll=Find-Id $window 'CardScroll'
-            $pattern=$scroll.GetCurrentPattern([System.Windows.Automation.ScrollPattern]::Pattern)
-            $button=Find-Id $window 'CardForgetPin';$tips=Find-Id $window 'CardTips'
             foreach($size in @(@{Width=1100;Height=720},@{Width=900;Height=580})) {
                 [CardScrollInput]::SetWindowPos($handle,[IntPtr]::Zero,0,0,$size.Width,$size.Height,0x0006)|Out-Null
-                Start-Sleep -Milliseconds 400
-                Focus-Scroll $scroll $handle
-                [CardScrollInput]::ScrollKey(0x24)
-                Wait-Top $pattern $scroll (Find-Id $window 'WalletCard2')
-                # NavigationView animates its pane when crossing the compact-width breakpoint. Wait for stable geometry.
-                $stable=0
-                for($attempt=0;$attempt -lt 60;$attempt++) {
-                    $viewport=Find-Id $window 'CardCarouselViewport';$card=Find-Id $window 'WalletCard2'
-                    $r=$card.Current.BoundingRectangle;$v=$viewport.Current.BoundingRectangle
-                    $delta=[Math]::Abs(($r.Left+$r.Right-$v.Left-$v.Right)/2)
-                    if($delta -le 2) {$stable++} else {$stable=0}
-                    if($stable -ge 3) {break}
-                    Start-Sleep -Milliseconds 100
+                Start-Sleep -Milliseconds 700
+                # Modal dismissal intentionally preserves root scroll position. Reset through
+                # category Back before testing the top of Settings at the next window size.
+                $general=Find-Id $window 'SettingsGeneral'
+                $scrollItem=$null
+                if($general.TryGetCurrentPattern([System.Windows.Automation.ScrollItemPattern]::Pattern,[ref]$scrollItem)) {$scrollItem.ScrollIntoView()}
+                $general.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                Start-Sleep -Milliseconds 200
+                (Find-Id $window 'SettingsBack').GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                Start-Sleep -Milliseconds 250
+                $demo=Find-Id $window 'DemoModeToggle'
+                if($demo.Current.IsOffscreen) {throw 'Demo is not visible at the top'}
+                Capture $handle ("settings-root-$($size.Height)-$theme")
+                foreach($category in 'General','Browser','Advanced') {
+                    $item=Find-Id $window ('Settings'+$category)
+                    $scrollItem=$null
+                    if($item.TryGetCurrentPattern([System.Windows.Automation.ScrollItemPattern]::Pattern,[ref]$scrollItem)) {$scrollItem.ScrollIntoView()}
+                    $item.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                    Start-Sleep -Milliseconds 350
+                    $back=Find-Id $window 'SettingsBack'
+                    if($back.Current.IsOffscreen) {throw "Back is hidden in $category"}
+                    Capture $handle ("settings-$category-$($size.Height)-$theme")
+                    $back.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                    Start-Sleep -Milliseconds 250
+                    $proof+=@{Theme=$theme;Width=$size.Width;Height=$size.Height;Category=$category;Opened=$true;BackVisible=$true}
                 }
-                Assert-Visible $card $viewport 'Selected second card'
-                if($stable -lt 3) {
-                    Capture $handle ("card-resize-failure-$($size.Height)-$theme")
-                    throw "Selected card is not centered after resizing. Card=$r Viewport=$v Delta=$delta"
+                foreach($category in 'Pins','About') {
+                    $item=Find-Id $window ('Settings'+$category)
+                    $scrollItem=$null
+                    if($item.TryGetCurrentPattern([System.Windows.Automation.ScrollItemPattern]::Pattern,[ref]$scrollItem)) {$scrollItem.ScrollIntoView()}
+                    $item.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                    Start-Sleep -Milliseconds 400
+                    $dialog=Find-Id $window ('Settings'+$category+'Dialog')
+                    if($dialog.Current.IsOffscreen) {throw "Dialog is hidden: $category"}
+                    Capture $handle ("settings-$category-dialog-$($size.Height)-$theme")
+                    [System.Windows.Forms.SendKeys]::SendWait('{ESC}')
+                    Start-Sleep -Milliseconds 300
+                    $rootItem=Find-Id $window ('Settings'+$category)
+                    if($rootItem.Current.IsOffscreen) {throw "Dismissal lost Settings position: $category"}
+                    $proof+=@{Theme=$theme;Width=$size.Width;Height=$size.Height;Category=$category;Opened=$true;Modal=$true;ReturnedToRow=$true}
                 }
-                # UIAutomation rectangles are physical pixels. The large wallet's current
-                # layout contract is a maximum 360 DIPs, including its horizontal padding.
-                $scale=[CardScrollInput]::GetDpiForWindow($handle)/96.0
-                if($scale -le 0) {throw 'Window DPI is unavailable'}
-                $cardWidthDip=$r.Width/$scale
-                if($cardWidthDip -gt 360) {throw "Card exceeds 360 DIPs: $cardWidthDip ($($r.Width) pixels)"}
-                Capture $handle ("card-top-$($size.Height)-$theme")
-                # Real wheel events over the selected card exercise nested horizontal/vertical scroll chaining.
-                [CardScrollInput]::SetCursorPos([int](($r.Left+$r.Right)/2),[int](($r.Top+$r.Bottom)/2))|Out-Null
-                for($attempt=0;$attempt -lt 25 -and -not (Is-Bottom $pattern);$attempt++) {
-                    [CardScrollInput]::Wheel(-600);Start-Sleep -Milliseconds 150
-                }
-                Wait-Bottom $pattern $scroll @($button,$tips)
-                Assert-Visible $button $scroll 'Saved-PIN action after wheel scrolling'
-                Assert-Visible $tips $scroll 'Last help text after wheel scrolling'
-                if([string]::IsNullOrEmpty((Find-Id $window 'WalletCard2').Current.ItemStatus)) {throw 'Wheel scrolling changed the selected card.'}
-                $wheelOffset=$pattern.Current.VerticalScrollPercent
-                Focus-Scroll $scroll $handle
-                [CardScrollInput]::ScrollKey(0x24)
-                try {Wait-Top $pattern $scroll (Find-Id $window 'WalletCard2')} catch {
-                    Capture $handle ("card-home-failure-$($size.Height)-$theme")
-                    throw
-                }
-                [CardScrollInput]::ScrollKey(0x23)
-                Wait-Bottom $pattern $scroll @($button,$tips)
-                Assert-Visible $button $scroll 'Saved-PIN action after keyboard scrolling'
-                Assert-Visible $tips $scroll 'Last help text after keyboard scrolling'
-                Capture $handle ("card-bottom-$($size.Height)-$theme")
-                $proof += @{Theme=$theme;CardWidthDip=$cardWidthDip;DpiScale=$scale;Width=$size.Width;Height=$size.Height;SelectedSecondCardFullAndCentered=$true;
-                    MouseWheelReachedEnd=$true;KeyboardReachedEnd=$true;PinActionFullyVisible=$true;LastHelpFullyVisible=$true;
-                    WheelScrollPercent=$wheelOffset;KeyboardScrollPercent=$pattern.Current.VerticalScrollPercent}
+                $cardButton=Find-Id $window 'SettingsCardDetails'
+                $cardButton.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+                Start-Sleep -Milliseconds 600
+                $cardScroll=Find-Id $window 'CardScroll'
+                if($cardScroll.Current.IsOffscreen) {throw 'Card details did not open'}
+                Capture $handle ("settings-card-details-$($size.Height)-$theme")
+                [System.Windows.Forms.SendKeys]::SendWait('{ESC}')
+                Start-Sleep -Milliseconds 300
             }
         } finally {
             if(-not $process.HasExited) {Stop-Process -Id $process.Id -Force}
-            if(-not $process.WaitForExit(10000)) {throw "Owned app did not exit"}
-            $process.Dispose()
-            $process=$null
+            $null=$process.WaitForExit(10000);$process.Dispose();$process=$null
             Remove-Item $ready -ErrorAction SilentlyContinue
         }
     }
-    Get-ChildItem $Output -Filter 'card-resize-failure-*.png'|Remove-Item
-    $proof|ConvertTo-Json|Set-Content (Join-Path $Output 'card-scroll-proof.json') -Encoding UTF8
+    $proof|ConvertTo-Json|Set-Content (Join-Path $Output 'settings-navigation-proof.json') -Encoding UTF8
 } finally {
     if($null -ne $process -and -not $process.HasExited) {Stop-Process -Id $process.Id -Force}
     foreach($name in $original.Keys) {[Environment]::SetEnvironmentVariable($name,$original[$name])}

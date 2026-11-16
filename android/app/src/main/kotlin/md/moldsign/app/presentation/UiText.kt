@@ -23,6 +23,10 @@ fun Context.appString(@StringRes res: Int, vararg args: Any): String =
  * Raw status words never reach the UI text; they stay in logs / technical details.
  */
 fun errorText(context: Context, e: Throwable): String = when (e) {
+    is md.moldsign.app.nfc.NfcUnavailable -> context.appString(R.string.nfc_enable)
+    is md.moldsign.app.nfc.NfcConnectionLost -> context.appString(R.string.nfc_lost)
+    is md.moldsign.app.nfc.NfcScanTimeout -> context.appString(R.string.nfc_timeout)
+    is md.moldsign.app.nfc.NfcUnsupportedCard -> context.appString(R.string.nfc_unsupported)
     is CardError.NoReader -> context.appString(R.string.error_no_reader)
     is CardError.NoCard -> context.appString(R.string.error_no_card)
     is CardError.WrongPin -> context.appString(R.string.error_wrong_pin, e.remaining)

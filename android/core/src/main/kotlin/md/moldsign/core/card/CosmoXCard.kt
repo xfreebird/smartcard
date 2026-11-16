@@ -41,13 +41,15 @@ class CosmoXCard(
     /** Transmit with the plain GET RESPONSE loop on `61xx` (Swift `transmitFull`). */
     fun transmitFull(apdu: ByteArray): ApduResponse {
         val result = ByteArrayOutputStream()
-        var resp = transmit(apdu)
-        while (resp.sw1 == 0x61) {
+        var command = apdu
+        repeat(64) {
+            val resp = transmit(command)
             result.write(resp.data)
-            resp = transmit(bytesOf(0x00, 0xC0, 0x00, 0x00, resp.sw2))
+            if (result.size() > 65536) throw CardError.Protocol("Response too large")
+            if (resp.sw1 != 0x61) return ApduResponse(result.toByteArray(), resp.sw)
+            command = bytesOf(0, 0xC0, 0, 0, resp.sw2)
         }
-        result.write(resp.data)
-        return ApduResponse(result.toByteArray(), resp.sw)
+        throw CardError.Protocol("Too many response fragments")
     }
 
     private fun checkSw(sw: Int, context: String) {
@@ -64,6 +66,7 @@ class CosmoXCard(
         if (raw.data.isEmpty()) {
             // The card advances the SSC for its response even when it returns a bare SW.
             ch.incrementSsc()
+            if (raw.sw == 0x9000) throw CardError.SmOutOfSync("Unauthenticated secure success")
             return ApduResponse(ByteArray(0), raw.sw)
         }
         val swBytes = bytesOf(raw.sw1, raw.sw2)
@@ -80,18 +83,18 @@ class CosmoXCard(
         val selectAid = bytesOf(0x00, 0xA4, 0x04, 0x00, IAS_AID.size) + IAS_AID + bytesOf(0x00)
         checkSw(transmitFull(selectAid).sw, "SELECT IAS AID")
 
-        // 2. SELECT MF. The Swift reference re-checks the AID's SW here, i.e. it ignores this SW;
-        //    kept identical so we behave the same on cards that answer it oddly.
-        transmitFull(bytesOf(0x00, 0xA4, 0x00, 0x0C, 0x02, 0x3F, 0x00, 0x00))
-
-        // 3. Serial number: EF D003, 2-byte header then 16 ASCII bytes.
-        transmitFull(bytesOf(0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x03, 0x00))
-        val serData = transmitFull(bytesOf(0x00, 0xB0, 0x00, 0x00, 0x00)).data
-        serialNumber = serData.drop(2).take(16).toByteArray()
-
-        // 4. Random seed: EF D004, 16 ASCII bytes.
-        transmitFull(bytesOf(0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x04, 0x00))
-        randomSeed = transmitFull(bytesOf(0x00, 0xB0, 0x00, 0x00, 0x10)).data.take(16).toByteArray()
+        fun checked(command: ByteArray, length: Int? = null): ByteArray {
+            val response = transmitFull(command)
+            checkSw(response.sw, "Mutual authentication setup")
+            if (length != null && response.data.size != length) throw CardError.Protocol("Unexpected authentication data length")
+            return response.data
+        }
+        checked("00A4000C023F0000".decodeHex())
+        checked("00A4020402D00300".decodeHex())
+        // D003 has two leading bytes; their value is not a fixed TLV prefix.
+        serialNumber = checked("00B0000012".decodeHex(), 18).copyOfRange(2, 18)
+        checked("00A4020402D00400".decodeHex())
+        randomSeed = checked("00B0000010".decodeHex(), 16)
 
         // 5. Admin keys.
         val (kenc, kmac) = deriveAdminKeys(randomSeed, serialNumber)
@@ -100,11 +103,14 @@ class CosmoXCard(
         checkSw(transmitFull(MSE_SM_APDU).sw, "MSE SET SM")
 
         // 7. GET CHALLENGE.
-        val rndIcc = transmitFull(bytesOf(0x00, 0x84, 0x00, 0x00, 0x10)).data.take(16).toByteArray()
+        val rndIcc = checked(bytesOf(0x00, 0x84, 0x00, 0x00, 0x10), 16)
+        val random = java.security.SecureRandom()
+        val terminalRandom = ByteArray(16).also(random::nextBytes)
+        val terminalKey = ByteArray(32).also(random::nextBytes)
 
         // 8. EXTERNAL AUTHENTICATE: ct(80) ‖ CMAC(16).
         val snIcc = serialNumber.takeLast(8).toByteArray()
-        val (ct, mac) = externalAuthPayload(kenc, kmac, rndIcc, snIcc)
+        val (ct, mac) = externalAuthPayload(kenc, kmac, rndIcc, snIcc, terminalRandom, terminalKey)
         val extAuth = bytesOf(0x00, 0x82, 0x00, 0x00, 0x60) + ct + mac
         log("authenticate: EXTERNAL AUTHENTICATE")
         val ea = transmitFull(extAuth)
@@ -112,7 +118,10 @@ class CosmoXCard(
         if (ea.data.size != 96) throw CardError.Protocol("Bad EXTERNAL AUTHENTICATE response: ${ea.data.size} B")
 
         // 9. Verify the card's MAC and decode its response.
-        channel = decodeAuthResponse(kenc, kmac, ea.data)
+        try {
+            channel = decodeAuthResponse(kenc, kmac, ea.data, terminalRandom, terminalKey,
+                rndIcc + snIcc + terminalRandom + SN_IFD)
+        } finally { terminalKey.fill(0); kenc.fill(0); kmac.fill(0) }
         log("authenticate: secure channel established")
     }
 
@@ -137,10 +146,7 @@ class CosmoXCard(
             val chunk = minOf(remaining, READ_CHUNK)
             val resp = smTransmit(bytesOf(0x00, 0xB0, (off ushr 8) and 0x7F, off and 0xFF, chunk))
             checkSw(resp.sw, "READ BINARY")
-            // NOTE: Swift `readBinary` calls iso9797Unpad() a SECOND time here, on data that
-            // SecureChannel.unwrap() already unpadded. That silently truncates any chunk whose last
-            // byte is 00 or 80. The port appends the unwrapped data as is (identical output
-            // whenever the reference is correct). Reported for a Swift fix.
+            if (resp.data.size != chunk) throw CardError.Protocol("Short certificate read")
             result.write(resp.data)
             off += chunk
             remaining -= chunk
@@ -183,13 +189,14 @@ class CosmoXCard(
     fun readCertificate(): ByteArray {
         selectMF()
         selectGenericADF()
-        smTransmit(bytesOf(0x00, 0xA4, 0x02, 0x04, 0x02, 0x00, 0x01, 0x00)) // SELECT EF 0001 (SW unchecked, as in Swift)
+        checkSw(smTransmit(bytesOf(0x00, 0xA4, 0x02, 0x04, 0x02, 0x00, 0x01, 0x00)).sw, "SELECT certificate")
 
         val header = readBinary(0, 16)
         if (header.size < 4 || header.u8(0) != 0x30 || header.u8(1) != 0x82) {
             throw CardError.Protocol("Certificate file doesn't start with SEQUENCE")
         }
         val outerLen = 4 + (header.u8(2) shl 8) + header.u8(3)
+        if (outerLen !in 16..4096) throw CardError.Protocol("Invalid certificate size")
         val body = readBinary(4, outerLen - 4)
         val file = header.copyOf(4) + body
         if (file.size <= 8 || file.u8(4) != 0x30 || file.u8(5) != 0x82) {
@@ -249,16 +256,16 @@ class CosmoXCard(
         }
 
         /** plain = RND.IFD ‖ SN.IFD ‖ RND.ICC ‖ SN.ICC ‖ K.IFD; ct = AES-CBC(kenc, IV=0); mac = CMAC(kmac, ct). */
-        fun externalAuthPayload(kenc: ByteArray, kmac: ByteArray, rndIcc: ByteArray, snIcc: ByteArray): Pair<ByteArray, ByteArray> {
-            val plain = RND_IFD + SN_IFD + rndIcc + snIcc + K_IFD
+        fun externalAuthPayload(kenc: ByteArray, kmac: ByteArray, rndIcc: ByteArray, snIcc: ByteArray, terminalRandom: ByteArray = RND_IFD, terminalKey: ByteArray = K_IFD): Pair<ByteArray, ByteArray> {
+            val plain = terminalRandom + SN_IFD + rndIcc + snIcc + terminalKey
             if (plain.size % 16 != 0) throw CardError.Protocol("Unexpected challenge/serial length (${plain.size} B payload)")
             val ct = Aes(kenc).cbcEncrypt(plain, Aes.ZERO_IV)
             return ct to Cmac.aesCmac(kmac, ct)
         }
 
         /** Session keys from K.ICC: secret = K.ICC ⊕ K.IFD; sessENC/sessMAC = SHA256(secret ‖ 00000001/2). */
-        fun deriveSessionKeys(kIcc: ByteArray): Pair<ByteArray, ByteArray> {
-            val secret = xorBytes(kIcc, K_IFD)
+        fun deriveSessionKeys(kIcc: ByteArray, terminalKey: ByteArray = K_IFD): Pair<ByteArray, ByteArray> {
+            val secret = xorBytes(kIcc, terminalKey)
             return Sha.sha256(secret, bytesOf(0, 0, 0, 1)) to Sha.sha256(secret, bytesOf(0, 0, 0, 2))
         }
 
@@ -266,17 +273,19 @@ class CosmoXCard(
          * Verifies the 96-byte EXTERNAL AUTHENTICATE response (ct(80) ‖ CMAC(16)), decrypts it and
          * builds the secure channel: K.ICC = plain[48..80), SSC = plain[8..16) ‖ RND.IFD[8..16).
          */
-        fun decodeAuthResponse(kenc: ByteArray, kmac: ByteArray, response: ByteArray): SecureChannel {
+        fun decodeAuthResponse(kenc: ByteArray, kmac: ByteArray, response: ByteArray, terminalRandom: ByteArray = RND_IFD, terminalKey: ByteArray = K_IFD, expectedBinding: ByteArray? = null): SecureChannel {
             require(response.size == 96) { "EXTERNAL AUTHENTICATE response must be 96 bytes" }
             val respCt = response.copyOfRange(0, 80)
             val respMac = response.copyOfRange(80, 96)
-            if (!Cmac.aesCmac(kmac, respCt).contentEquals(respMac)) {
+            if (!java.security.MessageDigest.isEqual(Cmac.aesCmac(kmac, respCt), respMac)) {
                 throw CardError.SmOutOfSync("mutual authentication MAC mismatch")
             }
             val plain = Aes(kenc).cbcDecrypt(respCt, Aes.ZERO_IV)
+            if (expectedBinding != null && !java.security.MessageDigest.isEqual(plain.copyOfRange(0, 48), expectedBinding))
+                throw CardError.SmOutOfSync("Mutual authentication binding mismatch")
             val kIcc = plain.copyOfRange(48, 80)
-            val (sessEnc, sessMac) = deriveSessionKeys(kIcc)
-            val ssc = plain.copyOfRange(8, 16) + RND_IFD.copyOfRange(8, 16)
+            val (sessEnc, sessMac) = deriveSessionKeys(kIcc, terminalKey)
+            val ssc = plain.copyOfRange(8, 16) + terminalRandom.copyOfRange(8, 16)
             return SecureChannel(sessEnc, sessMac, ssc)
         }
     }

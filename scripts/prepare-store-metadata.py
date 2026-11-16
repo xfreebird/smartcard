@@ -26,7 +26,8 @@ def validate_platform_text(text, platform, label):
         raise SystemExit(f'{label}: mentions another platform ({match.group(0)})')
 
 def platform_copy(m, platform):
-    text = (m['platformNotes'][platform] + '\n\n' + m['description']) if platform == 'android' else (m['description'] + '\n\n' + m['platformNotes'][platform])
+    description = m.get('descriptionByPlatform', {}).get(platform, m['description'])
+    text = (m['platformNotes'][platform] + '\n\n' + description) if platform == 'android' else (description + '\n\n' + m['platformNotes'][platform])
     validate_platform_text(text, platform, f'{platform}/description')
     return text
 
@@ -34,6 +35,10 @@ def validate_text(value, limit, label, byte_limit=False):
     length = len(value.encode('utf-8')) if byte_limit else len(value)
     if not value or length > limit:
         raise SystemExit(f'{label}: {length} exceeds {limit} or is empty')
+
+def localized_field(metadata, field, platform):
+    return metadata.get(field + 'ByPlatform', {}).get(platform, metadata[field])
+
 outputs = {}
 for lang in config['locales']:
     m = metadata[lang]
@@ -52,8 +57,10 @@ for lang in config['locales']:
     for platform in ['ios', 'macos']:
         folder = f'distribution/apple/{platform}/{locales[lang]}'
         for key, source in {'name': 'name', 'subtitle': 'subtitle', 'description': 'description', 'keywords': 'keywords', 'release_notes': 'releaseNotes', 'promotional_text': 'promotionalText'}.items():
-            value = platform_copy(m, platform) if source == 'description' else m.get('releaseNotesByPlatform', {}).get(platform, m[source]) if source == 'releaseNotes' else m[source]
-            validate_text(value, 4000, f'{lang}/{platform}/{source}') if source == 'releaseNotes' else None
+            value = platform_copy(m, platform) if source == 'description' else localized_field(m, source, platform)
+            limits = {'name': 30, 'subtitle': 30, 'keywords': 100, 'promotionalText': 170, 'releaseNotes': 4000}
+            if source in limits:
+                validate_text(value, limits[source], f'{lang}/{platform}/{source}', byte_limit=source == 'keywords')
             outputs[f'{folder}/{key}.txt'] = value + '\n'
         for field, target in {'supportURL': 'support_url', 'privacyPolicyURL': 'privacy_url', 'marketingURL': 'marketing_url'}.items():
             if config[field]:
@@ -61,14 +68,25 @@ for lang in config['locales']:
     google_locale = config.get('storeLocales', {}).get('google', {}).get(lang, locales[lang])
     folder = f'distribution/google/metadata/android/{google_locale}'
     for key, source in {'title': 'name', 'short_description': 'shortDescription', 'full_description': 'description'}.items():
-        outputs[f'{folder}/{key}.txt'] = (platform_copy(m, 'android') if source == 'description' else m[source]) + '\n'
+        value = platform_copy(m, 'android') if source == 'description' else localized_field(m, source, 'android')
+        if source == 'shortDescription':
+            validate_text(value, 80, f'{lang}/android/shortDescription')
+        outputs[f'{folder}/{key}.txt'] = value + '\n'
+    validate_text(m['releaseNotesByPlatform']['android'], 500, f'{lang}/android/changelog')
+    outputs[f'{folder}/changelogs/default.txt'] = m['releaseNotesByPlatform']['android'] + '\n'
     for store in ['microsoft', 'huawei']:
         platform = 'windows' if store == 'microsoft' else 'android'
-        listing = dict({key: value for key, value in m.items() if key != 'platformNotes'}, platform=platform, description=platform_copy(m, platform), languageCode=config.get('storeLocales', {}).get(store, {}).get(lang, locales[lang]), website=config['marketingURL'], supportURL=config['supportURL'], privacyPolicyURL=config['privacyPolicyURL'], termsURL=config['termsURL'], searchTerms=m['keywords'].split(',')[:7])
+        listing = dict({key: value for key, value in m.items() if key != 'platformNotes' and not key.endswith('ByPlatform')}, platform=platform, description=platform_copy(m, platform), languageCode=config.get('storeLocales', {}).get(store, {}).get(lang, locales[lang]), website=config['marketingURL'], supportURL=config['supportURL'], privacyPolicyURL=config['privacyPolicyURL'], termsURL=config['termsURL'], searchTerms=m['keywords'].split(',')[:7])
         listing['releaseNotes'] = m.get('releaseNotesByPlatform', {}).get(platform, m['releaseNotes'])
         if any(len(term) > 40 for term in listing['searchTerms']):
             raise SystemExit(f'{lang}: Microsoft search term exceeds 40 characters')
         outputs[f'distribution/{store}/listings/{lang}.json'] = json.dumps(listing, ensure_ascii=False, indent=2) + '\n'
+
+# Match both English localizations of the existing Mac App Store listing.
+for path, body in list(outputs.items()):
+    if path.startswith('distribution/apple/macos/en-US/'):
+        outputs[path.replace('/en-US/', '/en-GB/')] = body
+
 failed = []
 for path, body in outputs.items():
     file = ROOT / path

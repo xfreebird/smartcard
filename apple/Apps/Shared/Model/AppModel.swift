@@ -1,4 +1,5 @@
 import SwiftUI
+import Security
 import MoldSignKit
 #if APP_STORE
 import CryptoTokenKit
@@ -17,6 +18,7 @@ final class AppModel {
         didSet { selectedReader.name = selectedCard?.reader; recomputeStatus() }
     }
     var lastAttemptsLeft: Int?
+    private var lastPINCertificateID: String?
 
     /// The card the UI signs with: the user's pick, else the first inserted one.
     var selectedCard: CardSlot? {
@@ -26,6 +28,94 @@ final class AppModel {
         return cards.first { $0.reader == reader }
     }
     var certificate: SigningService.CertificateSummary? { selectedCard?.certificate }
+
+    private var knownCertificates: [SigningService.CertificateSummary] = []
+    @ObservationIgnored private let savedCardIdentities = SavedCardIdentityStore(defaults: AppPreferencesStore.defaults)
+    /// One identity per signing certificate, regardless of how it was read.
+    var knownSigningCertificates: [SigningService.CertificateSummary] {
+        var seen = Set<String>()
+        return (displayedCards.compactMap(\.certificate) + knownCertificates)
+            .filter { seen.insert($0.sha1Hex).inserted }
+            .sorted { ($0.holder, $0.sha1Hex) < ($1.holder, $1.sha1Hex) }
+    }
+
+    private func rememberCard(_ certificate: SigningService.CertificateSummary) {
+        knownCertificates.removeAll { $0.sha1Hex == certificate.sha1Hex }
+        knownCertificates.append(certificate)
+        if !demoMode, vault.hasPIN(certID: certificate.sha1Hex) {
+            savedCardIdentities.remember(certificate.der)
+        }
+    }
+
+    private func restoreSavedCards() {
+        guard !demoMode else { return }
+        knownCertificates = savedCardIdentities.certificates(hasSavedPIN: vault.hasPIN).compactMap { der in
+            guard SecCertificateCreateWithData(nil, der as CFData) != nil else { return nil }
+            return SigningService.CertificateSummary(der: der)
+        }
+    }
+
+    #if os(iOS)
+    enum SigningMethod: String, CaseIterable { case nfc, reader }
+    private(set) var signingMethod: SigningMethod = .reader
+    private(set) var nfcCertificate: SigningService.CertificateSummary?
+    private var hasChosenNFCCard = false
+    var nfcAvailable: Bool {
+        #if DEBUG
+        if isScreenshotCapture, ProcessInfo.processInfo.environment["MSIGN_STORE_READER_ONLY"] == "1" {
+            return false
+        }
+        #endif
+        if demoMode { return true }
+        #if DEBUG
+        let env = ProcessInfo.processInfo.environment
+        if env["MSIGN_QA_NO_HARDWARE"] == "1" && env["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true {
+            return false
+        }
+        #endif
+        return NFCSigningSession.available
+    }
+    func selectSigningMethod(_ method: SigningMethod) {
+        guard canChangeSigningMethod else { return }
+        if method == .nfc, !hasChosenNFCCard {
+            // Reuse the reader's selected identity, or the only remembered card. The NFC
+            // signer still checks exact DER before sending that identity's PIN.
+            nfcCertificate = certificate ?? (knownSigningCertificates.count == 1 ? knownSigningCertificates.first : nil)
+            hasChosenNFCCard = true
+        }
+        signingMethod = method
+        lastError = nil
+    }
+    func selectNFCCard(_ certificateID: String) {
+        guard canChangeSigningMethod else { return }
+        guard let certificate = knownSigningCertificates.first(where: { $0.sha1Hex == certificateID }) else { return }
+        nfcCertificate = certificate
+        hasChosenNFCCard = true
+        lastError = nil
+    }
+    func useAnotherNFCCard() {
+        guard canChangeSigningMethod else { return }
+        nfcCertificate = nil
+        hasChosenNFCCard = true
+        lastError = nil
+    }
+    #endif
+    var canChangeSigningMethod: Bool {
+        !signing && !obtainingPIN && consentRequest == nil && bridgeStampRequest == nil && currentStep == nil
+    }
+    var signingCertificate: SigningService.CertificateSummary? {
+        #if os(iOS)
+        if signingMethod == .nfc { return nfcCertificate }
+        #endif
+        return certificate
+    }
+    var canSignDocuments: Bool {
+        guard canChangeSigningMethod, !signItems.isEmpty else { return false }
+        #if os(iOS)
+        if signingMethod == .nfc { return nfcAvailable }
+        #endif
+        return status.canSign
+    }
 
     // Sign
     var signItems: [SignItem] = [] {
@@ -255,6 +345,11 @@ final class AppModel {
         bridgeEnabled = AppDistribution.browserBridge && (AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true)
         library = DocumentLibraryModel(store: demo ? demoActivityStore : self.liveActivityStore,
                                        onDocumentsChanged: demo ? {} : { DocumentDiscovery.refresh() })
+        restoreSavedCards()
+        #if os(iOS)
+        signingMethod = nfcAvailable ? .nfc : .reader
+        nfcCertificate = knownSigningCertificates.count == 1 ? knownSigningCertificates.first : nil
+        #endif
         pruneMissingFiles()
     }
 
@@ -326,6 +421,11 @@ final class AppModel {
         demoMode = enabled
         AppPreferencesStore.defaults.set(enabled, forKey: "demoModeEnabled")
         cards = []; readers = []; selectedReaderName = nil
+        knownCertificates = []
+        #if os(iOS)
+        nfcCertificate = nil; hasChosenNFCCard = false; signingMethod = nfcAvailable ? .nfc : .reader
+        #endif
+        restoreSavedCards()
         signItems = []; lastSigned = []; lastError = nil
         verification.clear(); browserURL = nil
         vaultRevision += 1
@@ -390,7 +490,9 @@ final class AppModel {
         catch { result = .failure(error) }
         guard let index = cards.firstIndex(where: { $0.reader == reader && $0.generation == card.generation }) else { return }
         switch result {
-        case .success(let summary): cards[index].certificate = summary; cards[index].problemText = nil
+        case .success(let summary):
+            cards[index].certificate = summary; cards[index].problemText = nil
+            rememberCard(summary)
         case .failure(let error): cards[index].problemText = Self.describe(error).messageText
         }
         recomputeStatus()
@@ -433,6 +535,16 @@ final class AppModel {
         selectedReaderName = cards.isEmpty ? nil : cards[min(max(selected, 0), cards.count - 1)].reader
         bridgeState = fixtureMode && AppDistribution.browserBridge ? .running : .stopped
         recomputeStatus()
+        if isScreenshotCapture, ProcessInfo.processInfo.environment["MSIGN_DEMO_SHARED_PINS"] == "1" {
+            // Fictional accounts only; exercises disconnected card management without Keychain access.
+            for card in demoServices.cards(count: 2, certificates: nil) {
+                if let certificate = card.certificate {
+                    try? demoVault.save("1234", certID: certificate.sha1Hex)
+                    rememberCard(certificate)
+                }
+            }
+            vaultRevision += 1
+        }
         applyDemoScenario(ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "ready")
         if simulatorBridgeCertificates != nil {
             bridgeState = .stopped
@@ -549,19 +661,17 @@ final class AppModel {
     /// completed files leave the queue, additions remain queued, and document failures continue without retry; card and credential failures stop.
     func signAll(only itemID: UUID? = nil) async {
         if demoMode { await signDemoBatch(only: itemID); return }
-        guard bridgeStampRequest == nil, !signing, !batchRunner.isRunning, let card = selectedCard, let cert = card.certificate,
-              status.canSign, !signItems.isEmpty else { return }
+        guard canSignDocuments, !batchRunner.isRunning else { return }
         let items = signItems.filter { itemID == nil || $0.id == itemID }
         guard !items.isEmpty else { return }
         for index in signItems.indices where items.contains(where: { $0.id == signItems[index].id }) {
             signItems[index].signingError = nil
         }
-        let context = BatchContext(reader: card.reader, certificate: cert)
         lastError = nil
         if itemID == nil { lastSigned = [] }
         signingCards = cards
         signing = true
-        status = .busy(reader: context.reader, holder: cert.holder)
+        currentStep = .connecting
         defer {
             currentStep = nil
             signing = false
@@ -569,37 +679,73 @@ final class AppModel {
             signingCards = nil
             recomputeStatus()
         }
+        let context: BatchContext
+        do {
+            context = try prepareSigningContext()
+        } catch is CancellationError {
+            return
+        } catch {
+            lastError = Self.describe(error)
+            return
+        }
+        defer {
+            #if os(iOS)
+            if context.contactless {
+                nfcCertificate = context.resolvedCertificate
+                if let certificate = context.resolvedCertificate { rememberCard(certificate) }
+            }
+            #endif
+        }
+        currentStep = nil
+        status = .busy(reader: context.reader, holder: context.certificate?.holder ?? L10n.text(.nfc_card_title))
         var didAttemptPINStorage = false
         _ = await batchRunner.run(
             items: items, context: context,
             authorize: { context, batch in
-                await self.obtainPIN(certID: context.certificate.sha1Hex, holder: context.certificate.holder,
+                await self.obtainPIN(certID: context.certificate?.sha1Hex,
+                                     holder: context.certificate?.holder ?? L10n.text(.nfc_pin_for_card),
                                      allowRemember: true, documentNames: batch.map { $0.url.lastPathComponent })
             },
             sign: { item, context, entry in
                 // The core checks this original certificate before every VERIFY, including after a card swap.
-                try await self.sign(item, pin: entry.pin, reader: context.reader,
-                                    certificateSHA1: context.certificate.sha1Hex)
+                try Task.checkCancellation()
+                return try await context.signer.sign(item, pin: entry.pin, reader: context.reader,
+                                                     certificateSHA1: context.certificate?.sha1Hex ?? "") { [weak self] step in
+                    Task { @MainActor in self?.currentStep = step }
+                }
             },
             didSign: { item, output, entry in
                 self.lastSigned.append(output)
                 self.remove(item)
                 self.log(ActivityItem(title: output.lastPathComponent,
                                       subtitle: L10n.text(.ui_signed_value, item.format.label), ok: true, fileURL: output, signedOutput: true))
-                if entry.remember && !didAttemptPINStorage {
+                if entry.remember && !didAttemptPINStorage, let certificate = context.resolvedCertificate {
                     didAttemptPINStorage = true
-                    try? self.vault.save(entry.pin, certID: context.certificate.sha1Hex)
+                    do {
+                        try self.vault.save(entry.pin, certID: certificate.sha1Hex)
+                        self.vaultRevision += 1
+                        self.rememberCard(certificate)
+                    } catch { /* Signing succeeded; a PIN that could not be saved is requested next time. */ }
                 }
             },
             didFail: { item, error in
-                self.handleCardError(error, certID: context.certificate.sha1Hex)
+                if error is CancellationError { return }
+                self.handleCardError(error, certID: context.resolvedCertificate?.sha1Hex)
+                #if os(iOS)
+                if context.contactless, case CardError.cardChanged = error {
+                    self.lastError = PresentedError(messageText: .localized(.nfc_card_changed),
+                                                    recoveryText: .localized(.ui_check_the_holder_and_sign_again))
+                }
+                #endif
                 if let index = self.signItems.firstIndex(where: { $0.id == item.id }) {
                     self.signItems[index].signingError = self.lastError?.message
                 }
                 self.log(ActivityItem(title: item.url.lastPathComponent, subtitle: self.lastError?.message ?? L10n.text(.ui_), ok: false))
-                if case CardError.cardChanged = error { self.rereadCards() }
+                if !context.contactless, case CardError.cardChanged = error { self.rereadCards() }
             },
             shouldContinue: { error in
+                // A new NFC authentication must always be initiated by the owner after a failure.
+                guard !context.contactless else { return false }
                 if case CardError.signFailed = error { return true }
                 return error is CocoaError || error is TrustServices.NetworkError
             }
@@ -650,7 +796,7 @@ final class AppModel {
     #endif
 
     private func signDemoBatch(only itemID: UUID? = nil) async {
-        guard !signing, status.canSign, !signItems.isEmpty else { return }
+        guard canSignDocuments else { return }
         signing = true
         lastError = nil
         if itemID == nil { lastSigned = [] }
@@ -685,29 +831,46 @@ final class AppModel {
 
     private struct BatchContext {
         let reader: String
-        let certificate: SigningService.CertificateSummary
+        let certificate: SigningService.CertificateSummary?
+        let signer: any DocumentSigning
+        var contactless = false
+        var scannedCertificate: @Sendable () -> SigningService.CertificateSummary? = { nil }
+        var resolvedCertificate: SigningService.CertificateSummary? { scannedCertificate() ?? certificate }
     }
 
-    private func sign(_ item: SignItem, pin: String, reader: String, certificateSHA1: String) async throws -> URL {
-        try await documentSigner.sign(item, pin: pin, reader: reader, certificateSHA1: certificateSHA1) { [weak self] step in
-            Task { @MainActor in self?.currentStep = step }
+    private func prepareSigningContext() throws -> BatchContext {
+        #if os(iOS)
+        if signingMethod == .nfc {
+            guard nfcAvailable else { throw NFCSigningError.unavailable }
+            let identity = NFCSigningIdentity(expectedCertificate: nfcCertificate?.der)
+            return BatchContext(reader: "Core NFC", certificate: nfcCertificate,
+                                signer: NFCDocumentSigner(hardwareGate: hardwareGate, identity: identity),
+                                contactless: true, scannedCertificate: {
+                identity.certificateDER.map { SigningService.CertificateSummary(der: $0) }
+            })
         }
+        #endif
+        guard let card = selectedCard, let cert = card.certificate else { throw CardError.cardNotResponding }
+        return BatchContext(reader: card.reader, certificate: cert, signer: documentSigner)
     }
 
-    private func handleCardError(_ error: Error, certID: String) {
+    private func handleCardError(_ error: Error, certID: String?) {
         if case CardError.wrongPIN(let remaining) = error {
+            lastPINCertificateID = certID
             lastAttemptsLeft = remaining
-            vault.delete(certID: certID)
+            if let certID { forgetPIN(certID: certID) }
         }
-        if case CardError.pinBlocked = error { vault.delete(certID: certID) }
+        if case CardError.pinBlocked = error, let certID { forgetPIN(certID: certID) }
         lastError = Self.describe(error)
     }
 
     // MARK: - PIN
 
-    private func obtainPIN(certID: String, holder: String, allowRemember: Bool,
+    private func obtainPIN(certID: String?, holder: String, allowRemember: Bool,
                            documentNames: [String] = []) async -> (pin: String, remember: Bool)? {
-        await pinCoordinator.obtain(certID: certID, holder: holder, allowRemember: allowRemember,
+        if lastPINCertificateID != certID { lastAttemptsLeft = nil }
+        lastPINCertificateID = certID
+        return await pinCoordinator.obtain(certID: certID, holder: holder, allowRemember: allowRemember,
                                     documentNames: documentNames, vault: vault, attemptsLeft: lastAttemptsLeft,
                                     present: { [weak self] in self?.presentAuthUI?() })
     }
@@ -716,17 +879,29 @@ final class AppModel {
     func cancelPIN() { pinCoordinator.cancelPIN() }
 
     func forgetPIN() {
-        if let cert = certificate { forgetPIN(certID: cert.sha1Hex) }
+        if let cert = signingCertificate { forgetPIN(certID: cert.sha1Hex) }
     }
 
     func forgetPIN(certID: String) {
         vault.delete(certID: certID)
+        if !demoMode { savedCardIdentities.remove(account: certID) }
         vaultRevision += 1
     }
 
     var hasStoredPIN: Bool {
+        signingCertificate.map { hasStoredPIN(certID: $0.sha1Hex) } ?? false
+    }
+
+    func hasStoredPIN(certID: String) -> Bool {
         _ = vaultRevision
-        return certificate.map { vault.hasPIN(certID: $0.sha1Hex) } ?? false
+        return vault.hasPIN(certID: certID)
+    }
+
+    var savedPINAccounts: [String] {
+        _ = vaultRevision
+        return Set(vault.savedAccounts() + knownSigningCertificates.filter {
+            vault.hasPIN(certID: $0.sha1Hex)
+        }.map(\.sha1Hex)).sorted()
     }
 
     // MARK: - Verify

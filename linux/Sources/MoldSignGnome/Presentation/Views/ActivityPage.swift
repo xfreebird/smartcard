@@ -43,6 +43,16 @@ final class ActivityPage {
         gtk_stack_add_named(stack, scrolledPage(group), "list")
         filterButton = button(L10n.text(.saved_history), classes: ["flat"]) {}
         let navigation = hbox(spacing: 12, [label(L10n.text(.saved_title), classes: ["title-2"]), filterButton])
+        let actions = gtk_menu_button_new()!
+        gtk_menu_button_set_icon_name(actions.opaque, "view-more-symbolic")
+        setAccessibleLabel(actions, L10n.text(.protect_title))
+        let menu = g_menu_new()!
+        g_menu_append(menu, L10n.text(.protect_encrypt), "app.encrypt")
+        g_menu_append(menu, L10n.text(.protect_decrypt), "app.decrypt")
+        g_menu_append(menu, L10n.text(.protect_remove), "app.remove-file")
+        gtk_menu_button_set_menu_model(actions.opaque, menu.cast())
+        g_object_unref(menu.raw)
+        append(navigation, actions)
         margins(navigation, 18)
         root = vbox(spacing: 0, [navigation, stack.widget])
         onSignal(list, "row-activated") { [weak self] row in
@@ -92,9 +102,9 @@ final class ActivityPage {
         }
     }
 
-    func showProtection(operation: Int = 0) {
+    func showProtection(operation: Int = 0, source: URL? = nil) {
         guard let parent = window(), protection == nil else { return }
-        protection = FileProtectionDialog(controller: controller, parent: parent, operation: operation) { [weak self] in self?.protection = nil }
+        protection = FileProtectionDialog(controller: controller, parent: parent, operation: operation, initialSource: source) { [weak self] in self?.protection = nil }
     }
 
     private func render() {
@@ -137,6 +147,9 @@ final class ActivityPage {
             if let path = item.filePath {
                 append(content, hbox(spacing: 8, [
                     button(L10n.text(item.isProtectionOutput ? .saved_files : .saved_details), classes: ["flat"]) { [weak self] in self?.presentDetails(path) },
+                    iconButton("document-encrypt-symbolic", tooltip: L10n.text(.protect_title)) { [weak self] in
+                        self?.showProtection(source: URL(fileURLWithPath: path))
+                    },
                     iconButton("folder-open-symbolic", tooltip: L10n.text(.ui_open_folder)) { [weak self] in
                         revealInFolder(path, parent: self?.window())
                     }

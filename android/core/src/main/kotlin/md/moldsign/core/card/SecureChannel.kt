@@ -102,79 +102,63 @@ class SecureChannel(sessEnc: ByteArray, sessMac: ByteArray, ssc: ByteArray) {
         return out.toByteArray()
     }
 
-    /**
-     * Unwraps an SM response (`TLVs ‖ SW1 SW2`). Increments the SSC once, verifies tag 8E when
-     * present, decrypts tag 87/85 and returns (plain data, SW from tag 99 or the transport SW).
-     *
-     * Throws [CardError.SmOutOfSync] on a MAC mismatch or an undecryptable payload.
-     */
+    /** Authenticates the complete response before decrypting; status and MAC are mandatory. */
     fun unwrap(response: ByteArray): ApduResponse {
-        if (response.size <= 2) return ApduResponse.parse(response)
-
-        val swTail = response.copyOfRange(response.size - 2, response.size)
-        val body = response.copyOfRange(0, response.size - 2)
-
-        var resultData = ByteArray(0)
-        var resultSw = ByteArray(0)
-        var respMac = ByteArray(0)
         val ssc1 = incrementSsc()
-        val calcMac = ByteArrayOutputStream()
-        calcMac.write(ssc1)
-
+        fun invalid(): Nothing = throw CardError.SmOutOfSync("Malformed or unauthenticated secure response")
+        if (response.size < 2) invalid()
+        if (response.size == 2) {
+            val parsed = ApduResponse.parse(response)
+            if (parsed.sw == 0x9000) invalid()
+            return parsed
+        }
+        if (response.takeLast(2) != listOf(0x90.toByte(), 0.toByte())) invalid()
+        val body = response.copyOf(response.size - 2)
         var pos = 0
+        var encrypted: ByteArray? = null
+        var status: Int? = null
+        var mac: ByteArray? = null
+        var macStart = 0
         while (pos < body.size) {
-            if (pos + 1 >= body.size) break
-            val tag = body.u8(pos)
-            val l1 = body.u8(pos + 1)
-            val len: Int
-            val hdrLen: Int
-            when {
-                l1 < 0x80 -> { len = l1; hdrLen = 2 }
-                l1 == 0x81 && pos + 2 < body.size -> { len = body.u8(pos + 2); hdrLen = 3 }
-                l1 == 0x82 && pos + 3 < body.size -> { len = (body.u8(pos + 2) shl 8) or body.u8(pos + 3); hdrLen = 4 }
-                else -> break
+            val start = pos
+            if (pos + 2 > body.size) invalid()
+            val tag = body.u8(pos++)
+            var len = body.u8(pos++)
+            if (len >= 128) {
+                val n = len and 127
+                if (n !in 1..2 || pos + n > body.size || body.u8(pos) == 0) invalid()
+                len = 0
+                repeat(n) { len = len * 256 + body.u8(pos++) }
+                if (len < 128 || (n == 2 && len < 256)) invalid()
             }
-            val contentStart = pos + hdrLen
-            val contentEnd = contentStart + len
-            if (contentEnd > body.size) break
-            val content = body.copyOfRange(contentStart, contentEnd)
-            val fullTlv = body.copyOfRange(pos, contentEnd)
-
+            if (pos + len > body.size || mac != null) invalid()
+            val value = body.copyOfRange(pos, pos + len)
+            pos += len
             when (tag) {
-                0x87 -> {
-                    calcMac.write(fullTlv)
-                    val enc = if (content.size > 1) content.copyOfRange(1, content.size) else content
-                    resultData = decrypt(enc, ssc1)
+                0x87, 0x85 -> {
+                    if (encrypted != null || status != null) invalid()
+                    encrypted = if (tag == 0x87) {
+                        if (value.isEmpty() || value[0] != 1.toByte()) invalid()
+                        value.copyOfRange(1, value.size)
+                    } else value
+                    if (encrypted.isEmpty() || encrypted.size % 16 != 0) invalid()
                 }
-                0x85 -> {
-                    calcMac.write(fullTlv)
-                    resultData = decrypt(content, ssc1)
-                }
-                0x99 -> {
-                    calcMac.write(fullTlv)
-                    resultSw = content
-                }
-                0x8E -> respMac = content
+                0x99 -> { if (status != null || len != 2) invalid(); status = value.u8(0) * 256 + value.u8(1) }
+                0x8E -> { if (status == null || len != 8 || pos != body.size) invalid(); mac = value; macStart = start }
+                else -> invalid()
             }
-            pos = contentEnd
         }
-
-        // Like the reference, a response without tag 8E is not MAC-checked.
-        if (respMac.isNotEmpty()) {
-            val expected = Cmac.aesCmac(sessMac, Iso9797.pad(calcMac.toByteArray())).copyOf(8)
-            if (!expected.contentEquals(respMac)) throw CardError.SmOutOfSync("response MAC mismatch")
-        }
-
-        if (resultData.isNotEmpty()) resultData = Iso9797.unpad(resultData)
-
-        val swBytes = if (resultSw.isEmpty()) swTail else resultSw
-        if (swBytes.size != 2) throw CardError.CardNotResponding("Malformed SW in tag 99 (${swBytes.size} B)")
-        return ApduResponse(resultData, (swBytes.u8(0) shl 8) or swBytes.u8(1))
-    }
-
-    private fun decrypt(enc: ByteArray, ssc1: ByteArray): ByteArray {
-        if (enc.size % Aes.BLOCK != 0) throw CardError.SmOutOfSync("encrypted SM payload is ${enc.size} B, not a multiple of 16")
-        return aesEnc.cbcDecrypt(enc, aesEnc.ecbEncryptBlock(ssc1))
+        if (status == null || mac == null) invalid()
+        val expected = Cmac.aesCmac(sessMac, Iso9797.pad(ssc1 + body.copyOf(macStart))).copyOf(8)
+        if (!java.security.MessageDigest.isEqual(expected, mac)) invalid()
+        val plain = encrypted?.let {
+            val padded = aesEnc.cbcDecrypt(it, aesEnc.ecbEncryptBlock(ssc1))
+            var end = padded.lastIndex
+            while (end >= 0 && padded[end] == 0.toByte()) end--
+            if (end < 0 || padded[end] != 0x80.toByte()) invalid()
+            padded.copyOf(end)
+        } ?: ByteArray(0)
+        return ApduResponse(plain, status)
     }
 
     companion object {

@@ -11,8 +11,8 @@ final class TestIdentity {
     let privateKey: SecKey
     let certDER: Data
 
-    init(commonName: String = "TEST SEMNATAR", encryption: Bool = false) throws {
-        let attrs: [String: Any] = [kSecAttrKeyType as String: kSecAttrKeyTypeRSA, kSecAttrKeySizeInBits as String: 2048]
+    init(commonName: String = "TEST SEMNATAR", encryption: Bool = false, keySize: Int = 2048) throws {
+        let attrs: [String: Any] = [kSecAttrKeyType as String: kSecAttrKeyTypeRSA, kSecAttrKeySizeInBits as String: keySize]
         var error: Unmanaged<CFError>?
         guard let key = SecKeyCreateRandomKey(attrs as CFDictionary, &error),
               let pub = SecKeyCopyPublicKey(key),

@@ -9,7 +9,12 @@ import CoreGraphics
 let p=Int(CommandLine.arguments[1])!
 for i in (CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]] ?? []) where i[kCGWindowOwnerPID as String] as? Int == p {
  let b=i[kCGWindowBounds as String] as? [String:Double] ?? [:]
- if CommandLine.arguments[2] == "pin" ? (i[kCGWindowLayer as String] as? Int == 3) : ((i[kCGWindowLayer as String] as? Int)==0 && (b["Width"] ?? 0)>600) { print(i[kCGWindowNumber as String]!);break }
+ let title = i[kCGWindowName as String] as? String ?? ""
+ let scenario = CommandLine.arguments[2]
+ let matches = scenario == "pin" ? (i[kCGWindowLayer as String] as? Int == 3) :
+    scenario == "settings" ? title == "Settings preview" :
+    ((i[kCGWindowLayer as String] as? Int)==0 && (b["Width"] ?? 0)>600)
+ if matches { print(i[kCGWindowNumber as String]!);break }
 }
 ''');helper=t/'windows';subprocess.check_call(['swiftc',str(sw),'-o',str(helper)])
  app=pathlib.Path(a.app);binary=app/'Contents/MacOS/eSemnBun';assert b'MSIGN_DEMO_SCENARIO' in (binary.parent/'eSemnBun.debug.dylib').read_bytes()
@@ -18,10 +23,12 @@ for i in (CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElement
   names={'ro':['Contract','Cerere','Declaratie'],'en':['Contract','Application','Declaration'],'ru':['Договор','Заявление','Декларация']}[lang];docs=[]
   for name in names:
    file=t/(name+'.pdf');shutil.copyfile(R/'swift/MoldSignKit/Resources/test.pdf',file);docs.append(str(file))
-  for key,scenario,tab,count,theme in [('01-sign','ready','sign','1','light'),('02-batch','multiple','sign','3','dark'),('03-consent','pin','sign','1','light'),('04-verify','ready','verify','1','light'),('05-card','multiple','card','3','dark'),('06-browser','ready','browser','1','light')]:
+  for key,scenario,tab,count,theme in [('01-sign','ready','sign','1','light'),('02-batch','multiple','sign','3','dark'),('03-consent','pin','sign','1','light'),('04-verify','ready','verify','1','light'),('05-card','settings','sign','3','dark'),('06-browser','ready','browser','1','light')]:
    if a.browser_only and tab!='browser':continue
    env=os.environ.copy();env.update({'MSIGN_DEMO_CARDS':count,'MSIGN_DEMO_SCENARIO':scenario,'MSIGN_DEMO_PREFERENCES_SUITE':'md.esemnbun.qa.store.assets','MSIGN_QA_NO_HARDWARE':'1','MSIGN_SCREENSHOT_CAPTURE':'1','MSIGN_QA_HIDE_TRAY':'1','MSIGN_DEMO_PREVIEW':'0','MSIGN_BROWSER_URL':'https://msign.gov.md/#/','MSIGN_DEMO_FILES':':'.join(docs if scenario=='multiple' else docs[:1])})
    if theme=='dark':env['MSIGN_DEMO_DARK']='1'
+   if scenario=='settings':
+    env.update(MSIGN_DEMO_PREVIEW='1', MSIGN_DEMO_SETTINGS='1')
    process=subprocess.Popen([str(binary),'--show-main-window','-mainSection',tab,'-appLanguage',lang,'-appTheme',theme,'-AppleLanguages',f'({lang})'],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
    try:
     window=''
@@ -30,7 +37,7 @@ for i in (CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElement
      if window:break
      time.sleep(.5)
     if not window:raise RuntimeError('No mock app window')
-    if scenario != 'pin':
+    if scenario not in ('pin','settings'):
      script=f'tell application "System Events" to tell (first application process whose unix id is {process.pid}) to set size of first window to {{1280, 800}}'
      subprocess.run(['osascript','-e',script],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     time.sleep(8 if tab=='browser' else 2)

@@ -1,1 +1,1 @@
-Semnează și verifică documente cu buletinul electronic al Republicii Moldova.
+Semnează documente cu actul de identitate moldovenesc prin NFC sau USB.

@@ -16,7 +16,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Spacing="12"><Grid RowSpacing="8">
+        <StackPanel Spacing="12">
+            <DropDownButton x:Name="ProtectionMenu" AutomationProperties.AutomationId="DocumentsActions" HorizontalAlignment="Right">
+                <DropDownButton.Flyout><MenuFlyout>
+                    <MenuFlyoutItem x:Name="EncryptMenuItem" Click="OnEncryptClick" />
+                    <MenuFlyoutItem x:Name="DecryptMenuItem" Click="OnDecryptClick" />
+                    <MenuFlyoutItem x:Name="RemoveMenuItem" Click="OnRemoveClick" />
+                </MenuFlyout></DropDownButton.Flyout>
+            </DropDownButton>
+            <Grid RowSpacing="8">
             <Grid.RowDefinitions><RowDefinition Height="Auto" /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
             <TextBlock
                 x:Uid="ActivityPageTitle"
@@ -64,11 +72,15 @@
                             <Button Content="{x:Bind VerifyLabel}" Visibility="{x:Bind VerifyVisibility}" Click="OnVerifyClick" Margin="0,4,0,0" />
                             <TextBlock Text="{x:Bind OpenLabel}" Foreground="{ThemeResource BrandBrush}" FontSize="12" />
                         </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                            <Button Click="OnFileActions" Visibility="{x:Bind FileActionsVisibility}" AutomationProperties.AutomationId="DocumentActions">
+                                <FontIcon Glyph="&#xE712;" />
+                            </Button>
                         <TextBlock
-                            Grid.Column="2"
                             VerticalAlignment="Center"
                             Style="{StaticResource MsCaptionTextStyle}"
                             Text="{x:Bind WhenText}" />
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

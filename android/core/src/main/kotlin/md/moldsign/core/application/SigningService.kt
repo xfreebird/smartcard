@@ -103,6 +103,8 @@ class CardSigningService(
     /** Issuer chain (MDQSign CA, mdtrustca) as DER: [ChainCerts.chain]. */
     private val chainDer: List<ByteArray> = emptyList(),
     private val log: (String) -> Unit = {},
+    private val onCardSignature: () -> Unit = {},
+    private val onProgress: (SigningStep) -> Unit = {},
 ) : SigningService {
     private val progressFlow = MutableStateFlow(SigningStep.Idle)
     override val progress: StateFlow<SigningStep> = progressFlow.asStateFlow()
@@ -217,7 +219,9 @@ class CardSigningService(
             card.selectGenericADF()
             card.verifyPin(pin)
             step(SigningStep.Signing)
-            card.sign(digestInfo)
+            card.selectMF()
+            card.selectGenericADF()
+            card.sign(digestInfo).also { onCardSignature() }
         } finally {
             pin.fill('\u0000')
         }
@@ -225,6 +229,7 @@ class CardSigningService(
 
     private fun step(s: SigningStep) {
         progressFlow.value = s
+        onProgress(s)
     }
 
     companion object {

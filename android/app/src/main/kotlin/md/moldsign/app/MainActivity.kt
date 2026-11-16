@@ -78,9 +78,7 @@ class MainActivity : AppCompatActivity() {
         // The launch window is cosmetic; the running activity keeps its regular theme.
         setTheme(R.style.Theme_MoldSign)
         enableEdgeToEdge()
-        if (savedInstanceState == null && android.os.Build.VERSION.SDK_INT >= 31) {
-            configureLaunchTransition()
-        }
+        // Let Android dismiss its launch window; a custom exit overlay can outlive a cancelled animation.
         // A recreated activity (rotation, dark mode, locale) must not replay the launch intent.
         if (savedInstanceState == null) handleIntent(intent)
         setContent {
@@ -113,24 +111,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @androidx.annotation.RequiresApi(31)
-    private fun configureLaunchTransition() {
-        splashScreen.setOnExitAnimationListener { splash ->
-            // Reuse the system splash surface: no second activity or startup timer.
-            splash.removeAllViews()
-            splash.setBackgroundResource(R.drawable.launch_gradient)
-            val artwork = android.widget.ImageView(this).apply {
-                setImageResource(R.drawable.launch_branding)
-                scaleType = android.widget.ImageView.ScaleType.FIT_CENTER
-                importantForAccessibility = android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO
-            }
-            val density = resources.displayMetrics.density
-            splash.addView(artwork, android.widget.FrameLayout.LayoutParams(
-                (160 * density).toInt(), (220 * density).toInt(), android.view.Gravity.CENTER))
-            splash.animate().alpha(0f)
-                .setDuration(if (android.animation.ValueAnimator.areAnimatorsEnabled()) 350 else 0)
-                .withEndAction { splash.remove() }.start()
-        }
+    override fun onResume() {
+        super.onResume()
+        (application as MoldSignApp).container.nfc.resumed(this)
+    }
+
+    override fun onPause() {
+        (application as MoldSignApp).container.nfc.paused(this)
+        super.onPause()
     }
 
     override fun onStart() {

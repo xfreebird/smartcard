@@ -4,7 +4,9 @@ import argparse, json, os, pathlib, subprocess, time, shutil, tempfile
 from PIL import Image
 R=pathlib.Path(__file__).resolve().parents[2]
 def run(*a,**kw): return subprocess.check_output(a,text=True,**kw).strip()
-p=argparse.ArgumentParser();p.add_argument('--app',required=True);p.add_argument('--device',required=True);p.add_argument('--family',choices=['iphone','ipad','duo-compact','duo-expanded'],required=True);p.add_argument('--output',required=True);p.add_argument('--display',default='internal');p.add_argument('--devicehub-helper');p.add_argument('--keep-booted',action='store_true');p.add_argument('--stories',default='01-sign,02-batch,03-consent,04-verify,05-card');p.add_argument('--languages',default='ro,en,ru');a=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--app',required=True);p.add_argument('--device',required=True);p.add_argument('--family',choices=['iphone','ipad','duo-compact','duo-expanded'],required=True);p.add_argument('--output',required=True);p.add_argument('--display',default='internal');p.add_argument('--devicehub-helper');p.add_argument('--keep-booted',action='store_true');p.add_argument('--stories');p.add_argument('--languages',default='ro,en,ru');a=p.parse_args()
+stories = a.stories.split(',') if a.stories else [
+ '01-sign', '02-batch' if a.family == 'ipad' else '02-reader', '03-consent', '04-verify', '05-card']
 app=pathlib.Path(a.app); assert any(b'MSIGN_DEMO_SCENARIO' in f.read_bytes() for f in app.iterdir() if f.is_file() and f.suffix in ('','.dylib')), 'Debug fixture app required'
 d=a.device; out=pathlib.Path(a.output);out.mkdir(parents=True,exist_ok=True)
 allDevices=json.loads(run('xcrun','simctl','list','devices','--json'))['devices'];device=next(x for v in allDevices.values() for x in v if x['udid']==d);deviceName=device['name']
@@ -21,11 +23,15 @@ try:
   docs=[]
   for n in names:
    f=files/(n+'.pdf');shutil.copyfile(R/'swift/MoldSignKit/Resources/test.pdf',f);docs.append(str(f))
-  for key,scenario,tab,count,theme in [('01-sign','ready','sign','1','light'),('02-batch','multiple','sign','3','dark'),('03-consent','pin','sign','1','light'),('04-verify','ready','verify','1','light'),('05-card','multiple','card','3','dark')]:
-   if key not in a.stories.split(','):continue
+  for key,scenario,tab,count,theme in [('01-sign','ready','sign','1','light'),('02-batch','multiple','sign','3','dark'),('02-reader','ready','sign','2','light'),('03-consent','pin','sign','1','light'),('04-verify','ready','verify','1','light'),('05-card','multiple','card','3','dark')]:
+   if key not in stories:continue
    subprocess.run(['xcrun','simctl','terminate',d,'md.esemnbun.ios'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
    run('xcrun','simctl','ui',d,'appearance',theme)
    env=os.environ.copy();env.update({f'SIMCTL_CHILD_{k}':v for k,v in {'MSIGN_DEMO_CARDS':count,'MSIGN_DEMO_SCENARIO':scenario,'MSIGN_DEMO_PREFERENCES_SUITE':'md.esemnbun.qa.store.capture','MSIGN_QA_NO_HARDWARE':'1','MSIGN_SCREENSHOT_CAPTURE':'1','MSIGN_DEMO_TAB':tab,'MSIGN_DEMO_FILES':':'.join(docs if scenario=='multiple' else docs[:1]),'MSIGN_DEMO_SELECTED':'0'}.items()})
+   if a.family == 'ipad' or key == '02-reader':
+    env['SIMCTL_CHILD_MSIGN_STORE_READER_ONLY'] = '1'
+   if key in ('01-sign', '02-reader'):
+    env.pop('SIMCTL_CHILD_MSIGN_DEMO_FILES')
    readyPath='/tmp/esemnbun-store-'+d+'.log';readyLog=pathlib.Path(str(container).split('/Containers/Data/Application/')[0]+readyPath);readyLog.unlink(missing_ok=True)
    run('xcrun','simctl','launch','--stdout='+readyPath,d,'md.esemnbun.ios','-appLanguage',lang,'-appTheme',theme,'-AppleLanguages',f'({lang})',env=env)
    for attempt in range(90):
@@ -34,7 +40,7 @@ try:
    else:raise RuntimeError("Mock presentation did not become ready")
    readyLog.unlink(missing_ok=True)
    # Allow extra settling time on first launch; visually reject any system banners.
-   time.sleep(12 if key == '01-sign' else 2)
+   time.sleep(8 if key in ('01-sign', '02-reader', '02-batch', '03-consent') else 2)
    dest=out/lang/a.family/(key+'.png');dest.parent.mkdir(parents=True,exist_ok=True)
    if a.devicehub_helper:
     desktop=pathlib.Path.home()/'Desktop'; before=set(desktop.glob('Screenshot '+deviceName+'*.png'))

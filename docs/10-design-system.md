@@ -1,6 +1,26 @@
 # 10 — Design System and Screens
 
-## Current adjustments (12 November 2026)
+## Guided mobile signing (16 November 2026)
+
+The owner requested a fluid, uncluttered iOS-like journey on both mobile platforms. These
+rules supersede the older mobile configuration layout and floating-action guidance below:
+
+- One prominent action for the current stage: Choose a document, then Continue to the PIN.
+  The selected file becomes the focus after import; the large illustration collapses away.
+- NFC is the default where supported. The method and known NFC identity stay in compact
+  choices, available even with a reader connected. Selecting Reader reveals connection,
+  insertion and card-reading guidance inline on Sign and Card. Connected identities use the
+  existing card carousel, with a swipe hint for multiple cards; no extra picker is required.
+- NFC uses a blue identity-card illustration; Reader shows its live card information instead.
+  Both share neutral surfaces, rounded rows and spacing. Android uses the brand palette by
+  default instead of wallpaper colors. The Continue hint reflects a missing reader/card.
+- How it works explains the three steps on demand. Card management does not repeat a signing
+  stepper. Certificate details and saved PINs open as secondary destinations.
+- The primary action remains above the bottom navigation, including larger text sizes.
+  Transitions respect reduced-motion preferences. Do not change authentication/PIN policy
+  to implement a presentation change.
+
+## Previous adjustments (12 November 2026)
 
 These decisions supersede earlier vertical expand/collapse wallet descriptions below:
 
@@ -183,7 +203,7 @@ protocol, `/Reason(MoldSign Signature)` in PDFs, "Porturi ocupate de MoldSign (J
 |---|---|---|
 | macOS (HIG) | `MenuBarExtra(.window)`, sidebar `NavigationSplitView`, `Form(.grouped)`, `.borderedProminent` default action, toolbar items, SF Symbols, materials (`.regularMaterial`), Settings scene | custom-drawn buttons, colored menu-bar glyphs (only the dot is colored) |
 | iOS (HIG) | `NavigationStack` large titles, `List(.insetGrouped)`, bottom prominent action, sheets with detents, Dynamic Type, haptics | dense desktop layouts |
-| Android (Material 3) | dynamic color, `TopAppBar` + `NavigationBar`, `ExtendedFloatingActionButton` for Sign, carousel, `ModalBottomSheet` for PIN, edge-to-edge | iOS-style chevrons, custom toggles |
+| Android (Material 3) | shared brand color, `TopAppBar` + `NavigationBar`, bottom primary action for Sign, `ModalBottomSheet`, edge-to-edge | dense setup forms, custom toggles |
 | Windows (Fluent 2) | `NavigationView`, Mica, `InfoBar` for status/errors, accent `Button` style, `TeachingTip` for first run, tray flyout with acrylic | custom title bars without Snap support |
 | GNOME (HIG) | `AdwApplicationWindow`, `AdwHeaderBar` + `AdwViewSwitcher`, `AdwStatusPage` empty states, `AdwPreferencesDialog`, `AdwToast`, suggested-action pill, background portal | tray icons, custom chrome |
 
@@ -218,7 +238,7 @@ Contrast notes from the mock-up review (F-15): `warning` text reaches 4.5:1 only
 its soft fill, so never put it on the grey window background. Light-mode secondary text is `#5F636B` (6:1)
 where the platform grey is too light. `accent` (1.8:1 on white) is decoration only, never text.
 
-Android: dynamic color (Material You) on Android 12+, falling back to a scheme generated from `brand`.
+Android: the shared `brand` scheme is the default on all supported versions. Dynamic color is opt-in; it must not recolor NFC independently of card-reader UI.
 Windows: the system accent color for selection, `brand` for the primary button. Mica backdrop.
 
 | Token | Value |
@@ -404,3 +424,18 @@ On macOS, use the native prominent capsule at large control size, with a minimum
 width and 44-point control height. Reserve 24-point side and 16-point bottom gutters. Keep ⌘Return,
 the document count and the existing readiness rules. Hide the action only when the queue is empty;
 keep the same native style while disabled. Scrolling and window resizing must preserve its placement.
+
+
+### 16 November 2026 — Settings and the document workspace
+
+Mobile navigation is Sign, Verify, Documents, Browser, Settings. Settings starts with Demo mode. Its Signing group contains three standard navigation rows: Cards and readers, Saved PINs, and How it works. Method selection appears in card management and Sign, not twice on the Settings root. iOS uses native grouped Forms. Focused card, PIN, help and About tasks open in dismissible native modal surfaces. Multi-option Settings categories may use native Back navigation where appropriate.
+
+On phones and tablets, empty Sign reserves the same hero area for NFC artwork and the reader's live connect/insert/card state. The method selector and document action stay in place when switching methods. Reader cards remain pageable. Card details open through the top-right info button or Settings; saved-PIN deletion includes the trash icon. NFC saved-card selection is available during document review and in card management. PIN entry and stored identities remain shared across transports.
+
+On iOS, the card uses the available content width, up to 400 points. Phone headings and spacing leave Help visible above the fixed document action. Once documents are selected, Add another document belongs in the existing ellipsis menu, for both a single document and a batch.
+
+Use centered readable content on tablets/foldable windows and native tab/rail adaptation. Sign and Verify have matching mobile backgrounds and persistent document actions. Their external-file drop handlers remain on the content areas; imported provider data must be copied before temporary access expires. File protection is offered only in Documents and per-file actions. Apple exposes a direct shield action; on macOS it sits beside the Saved documents/History selector, followed by a direct trash action. Clearing or deleting still requires confirmation.
+
+Desktop Sign retains its original layout. Remove Card from primary navigation while keeping Cards and readers inside Settings/Preferences. macOS retains its native Settings tabs; Linux retains its Preferences dialog; Windows uses full-width category rows for General, Browser and Advanced, with fixed Back/title navigation; focused card, saved-PIN and About tasks use dialogs. Demo mode is first. Linux opens an isolated, clearly labelled preview window, with in-memory settings/activity/PIN storage and no real card, bridge or automation access.
+
+macOS card management uses compact 288-point artwork, with PIN actions before expandable certificate and troubleshooting details. This size applies to the Settings sheet; the original desktop Sign card retains its dimensions.

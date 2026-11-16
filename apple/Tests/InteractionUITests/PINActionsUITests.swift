@@ -1,0 +1,54 @@
+#if os(iOS)
+import XCTest
+
+@MainActor
+final class PINActionsUITests: XCTestCase {
+    override func setUp() { continueAfterFailure = false }
+    override func tearDown() { XCUIDevice.shared.orientation = .portrait; super.tearDown() }
+
+    func testPINActionsRemainVisibleWithKeyboardInPortrait() { checkActions(landscape: false) }
+    func testPINActionsRemainVisibleWithKeyboardInLandscape() { checkActions(landscape: true) }
+
+    private func checkActions(landscape: Bool) {
+        XCUIDevice.shared.orientation = landscape ? .landscapeLeft : .portrait
+        let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
+        app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
+            "MSIGN_DEMO_CARDS": "2", "MSIGN_DEMO_FILES": "fixture", "MSIGN_DEMO_SCENARIO": "pin",
+            "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.pin-actions.\(UUID())"]
+        app.launchArguments = ["-appLanguage", "ro", "-AppleLanguages", "(ro)", "-bridgeEnabled", "NO"]
+        app.launch()
+        defer { app.terminate() }
+        let geometry = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
+            (app.frame.width > app.frame.height) == landscape
+        }, object: app)
+        XCTAssertEqual(XCTWaiter.wait(for: [geometry], timeout: 5), .completed)
+        let submit = app.buttons["pin.submit"]
+        let cancel = app.buttons["pin.cancel"]
+        XCTAssertTrue(submit.waitForExistence(timeout: 15))
+        XCTAssertTrue(cancel.isHittable)
+        XCTAssertFalse(submit.isEnabled)
+        XCTAssertGreaterThanOrEqual(submit.frame.minY, app.frame.minY)
+        XCTAssertLessThanOrEqual(submit.frame.maxY, app.frame.maxY)
+        let input = app.secureTextFields["pin.input"]
+        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        input.tap()
+        let keyboard = app.keyboards.firstMatch
+        XCTAssertTrue(keyboard.waitForExistence(timeout: 5), "This regression requires the software keyboard.")
+        input.typeText("1234") // Synthetic fixture only; the hardware gate forbids real card access.
+        XCTAssertTrue(submit.isEnabled)
+        XCTAssertTrue(submit.isHittable)
+        XCTAssertLessThanOrEqual(submit.frame.maxY, app.frame.maxY)
+        XCTAssertTrue(keyboard.exists)
+        XCTAssertLessThanOrEqual(submit.frame.maxY, keyboard.frame.minY + 1)
+        // Capture after submission: XCTest's secure-input screenshot can temporarily hide the
+        // keyboard and invalidate the button's cached position just before the synthesized tap.
+        app.buttons["pin.submit"].tapWhenReady()
+        let dismissed = XCTNSPredicateExpectation(predicate: NSPredicate(format: "exists == false"), object: submit)
+        XCTAssertEqual(XCTWaiter.wait(for: [dismissed], timeout: 5), .completed)
+        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        attachment.name = landscape ? "pin-submitted-landscape" : "pin-submitted-portrait"
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+}
+#endif

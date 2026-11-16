@@ -89,10 +89,6 @@ struct SecureChannel {
 
         // MAC: SSC1 + calcMac, ISO padded, AES-CMAC truncated to 8
         let toMac = AES.iso9797Pad(ssc1 + calcMac)
-        MSLog.debug("    SM DEBUG: SSC1=\(ssc1.hexString)")
-        MSLog.debug("    SM DEBUG: IV=\(aesENC.ecbEncrypt(ssc1).hexString)")
-        MSLog.debug("    SM DEBUG: toMac(\(toMac.count)B)=\(toMac.hexString)")
-        MSLog.debug("    SM DEBUG: MAC=\(AES.cmac(key: sessMAC, message: toMac).prefix(8).hexString)")
         let fullMac = AES.cmac(key: sessMAC, message: toMac)
         let mac8 = fullMac.prefix(8)
         dataField += buildTLV(0x8E, mac8)
@@ -108,82 +104,49 @@ struct SecureChannel {
 
     /// Unwrap an SM response
     mutating func unwrap(_ response: Data) throws -> (data: Data, sw: Data) {
-        guard response.count > 2 else { return (Data(), response) }
-
-        let swFromTail = response.suffix(2)
-        var body = Data(response.dropLast(2))
-
-        // Parse TLVs
-        var resultData = Data()
-        var resultSW = Data()
-        var respMac = Data()
-        var calcMac = Data()
+        guard response.count >= 2 else { throw CardError.cardNotResponding }
         let ssc1 = incSSC()
-        calcMac = ssc1
-
-        var pos = body.startIndex
-        while pos < body.endIndex {
-            let tag = body[pos]
-            var len: Int
-            var hdrLen: Int
-            let l1 = body[body.index(after: pos)]
-
-            if l1 < 0x80 {
-                len = Int(l1)
-                hdrLen = 2
-            } else if l1 == 0x81 {
-                len = Int(body[body.index(pos, offsetBy: 2)])
-                hdrLen = 3
-            } else if l1 == 0x82 {
-                len = Int(body[body.index(pos, offsetBy: 2)]) << 8 | Int(body[body.index(pos, offsetBy: 3)])
-                hdrLen = 4
-            } else {
-                break
-            }
-
-            let contentStart = body.index(pos, offsetBy: hdrLen)
-            let contentEnd = body.index(pos, offsetBy: hdrLen + len)
-            guard contentEnd <= body.endIndex else { break }
-            let content = body.subdata(in: contentStart..<contentEnd)
-            let fullTLV = body.subdata(in: pos..<contentEnd)
-
-            switch tag {
-            case 0x87:
-                calcMac += fullTLV
-                let enc = content.count > 1 ? content.dropFirst() : content
-                let iv = aesENC.ecbEncrypt(ssc1)
-                resultData = try aesENC.cbcDecrypt(enc, iv: iv)
-            case 0x85:
-                calcMac += fullTLV
-                let iv = aesENC.ecbEncrypt(ssc1)
-                resultData = try aesENC.cbcDecrypt(content, iv: iv)
-            case 0x99:
-                calcMac += fullTLV
-                resultSW = content
-            case 0x8E:
-                respMac = content
-            default:
-                break
-            }
-
-            pos = contentEnd
+        let outer = Data(response.suffix(2))
+        if response.count == 2 {
+            guard outer != Data([0x90, 0]) else { throw CardError.macVerificationFailed }
+            return (Data(), outer)
         }
-
-        // Verify MAC
-        if !respMac.isEmpty {
-            let toMac = AES.iso9797Pad(calcMac)
-            let expected = AES.cmac(key: sessMAC, message: toMac).prefix(8)
-            guard expected == respMac else {
+        guard outer == Data([0x90, 0]) else { throw CardError.cardNotResponding }
+        let body = Data(response.dropLast(2))
+        var parts: [DER.Element] = []
+        var offset = 0
+        while offset < body.count {
+            guard let element = try? DER.element(body, at: offset), element.range.upperBound > offset else {
                 throw CardError.macVerificationFailed
             }
+            parts.append(element)
+            offset = element.range.upperBound
         }
-
-        // Unpad decrypted data
-        if !resultData.isEmpty {
-            resultData = AES.iso9797Unpad(resultData)
+        let tags = parts.map(\.tag)
+        guard tags == [0x99, 0x8E] || tags == [0x87, 0x99, 0x8E] || tags == [0x85, 0x99, 0x8E],
+              let status = parts.first(where: { $0.tag == 0x99 }), status.content.count == 2,
+              let mac = parts.last, mac.content.count == 8 else { throw CardError.macVerificationFailed }
+        let authenticated = body.subdata(in: 0..<mac.range.lowerBound)
+        let expected = Data(AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc1 + authenticated)).prefix(8))
+        let actual = body.subdata(in: mac.content)
+        var difference: UInt8 = 0
+        for (a, b) in zip(expected, actual) { difference |= a ^ b }
+        guard difference == 0 else { throw CardError.macVerificationFailed }
+        var result = Data()
+        if let encrypted = parts.first, encrypted.tag == 0x87 || encrypted.tag == 0x85 {
+            let content = body.subdata(in: encrypted.content)
+            if encrypted.tag == 0x87 {
+                guard content.first == 1 else { throw CardError.macVerificationFailed }
+            }
+            let ciphertext = encrypted.tag == 0x87 ? Data(content.dropFirst()) : content
+            guard !ciphertext.isEmpty, ciphertext.count % 16 == 0 else { throw CardError.macVerificationFailed }
+            var plain = [UInt8](try aesENC.cbcDecrypt(ciphertext, iv: aesENC.ecbEncrypt(ssc1)))
+            while plain.last == 0 { plain.removeLast() }
+            guard plain.last == 0x80 else { throw CardError.macVerificationFailed }
+            plain.removeLast()
+            result = Data(plain)
         }
-
-        return (resultData, resultSW.isEmpty ? swFromTail : resultSW)
+        return (result, body.subdata(in: status.content))
     }
 
     private func buildTLV(_ tag: UInt8, _ content: Data) -> Data {

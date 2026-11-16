@@ -29,6 +29,14 @@ try {
    $launched.Refresh();$h=$launched.MainWindowHandle
    if(!$h){throw 'No QA main window'}
    [StoreWindow]::ShowWindow($h,9)|Out-Null;[StoreWindow]::MoveWindow($h,20,20,1382,916,$true)|Out-Null;[StoreWindow]::SetForegroundWindow($h)|Out-Null;Start-Sleep -Milliseconds 1500
+   if($page -eq 'card') {
+    $element=[System.Windows.Automation.AutomationElement]::FromHandle($h)
+    $condition=[System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty,'SettingsCardDetails')
+    $button=$element.FindFirst([System.Windows.Automation.TreeScope]::Descendants,$condition)
+    if(!$button){throw 'Cards and readers action is missing from Settings'}
+    $button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
+    Start-Sleep -Milliseconds 1200
+   }
    if($page -eq 'sign') {
     $element=[System.Windows.Automation.AutomationElement]::FromHandle($h)
     $condition=[System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ControlTypeProperty,[System.Windows.Automation.ControlType]::Button)

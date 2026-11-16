@@ -93,17 +93,15 @@ final class AppController {
          batchSigner: (any BatchSigning)? = nil, documentVerifier: (any DocumentVerifying)? = nil,
          cardData: (any CardDataProviding)? = nil, activityStore: (any ActivityStoring)? = nil,
          settingsStore: any SettingsStoring = JSONSettingsStore(), bridge: any BridgeHosting = BridgeHost()) {
-        #if MOLDSIGN_DEMO
+        let demoSession = DemoMode.current != nil
+        let vault: any PINStoring = demoSession ? DemoPINStore() : vault
         let resolvedActivityStore: any ActivityStoring = activityStore ??
-            (DemoMode.current != nil ? MemoryActivityStore() as any ActivityStoring : JSONActivityStore())
-        #else
-        let resolvedActivityStore: any ActivityStoring = activityStore ?? JSONActivityStore()
-        #endif
+            (demoSession ? MemoryActivityStore() as any ActivityStoring : JSONActivityStore())
         self.activityStore = resolvedActivityStore
         activity = resolvedActivityStore.loadActivity().filter(\.isShowable)
         signedDocuments = resolvedActivityStore.loadDocuments().filter(\.isShowable)
         self.bridge = bridge
-        self.preferences = SettingsCoordinator(store: settingsStore)
+        self.preferences = SettingsCoordinator(store: demoSession ? MemorySettingsStore(settingsStore.load()) : settingsStore)
         #if MOLDSIGN_DEMO
         if let scenario = ScenarioDocumentSigner.selected {
             self.allowsDemoSigning = true
@@ -120,15 +118,11 @@ final class AppController {
         self.service = service
         self.vault = vault
         let resolvedCardData: any CardDataProviding
-        #if MOLDSIGN_DEMO
         if let demo = DemoMode.current {
             resolvedCardData = cardData ?? DemoCardDataProvider(demo: demo)
         } else {
             resolvedCardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
         }
-        #else
-        resolvedCardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
-        #endif
         self.readers = ReaderSession(service: service, vault: vault, monitor: monitor,
                                      transportFactory: transportFactory, cardData: resolvedCardData)
         readers.isBusy = { [weak self] in self?.isSigning ?? false }
@@ -148,16 +142,15 @@ final class AppController {
     private let vaultQueue = DispatchQueue(label: "md.moldsign.vault")
     private let verifyQueue = DispatchQueue(label: "md.moldsign.verify")
 
-    #if MOLDSIGN_DEMO
-    /// `MSIGN_DEMO_CARDS` (debug builds only): fake cards, no card/keyring/bridge I/O.
+    /// The interactive demo has no card, keyring or bridge I/O.
     private let demo = DemoMode.current
+    var isDemo: Bool { demo != nil }
+    var requestDemoMode: ((Bool) -> Void)?
+    #if MOLDSIGN_DEMO
     private var demoDocuments: DemoDocuments?
     private(set) var demoPrepared = false
     var showDemoPage: ((String) -> Void)?
     var showDemoPreferences: (() -> Void)?
-    var isDemo: Bool { demo != nil }
-    #else
-    var isDemo: Bool { false }
     #endif
 
     /// Registers a re-render callback (called once now, then after state changes). Returns a token for `unobserve`.
@@ -187,21 +180,21 @@ final class AppController {
 
     func start() {
         MSLog.sink = nil   // SEC-04: core traces contain SM session keys
-        #if MOLDSIGN_DEMO
         if let demo {
             vaultProblem = DemoMode.screenshotCapture ? nil : L10n.text(.linux_demo_mode)
             activity = []
             signedDocuments = []
             preferences.update { $0.bridgeEnabled = false }
             readers.apply(demo.snapshot)
+            #if MOLDSIGN_DEMO
             after(milliseconds: 900) { [weak self] in self?.prepareDemoScenario() }
             if let value = ProcessInfo.processInfo.environment["MSIGN_DEMO_SELECTED"], let index = Int(value),
                cards.indices.contains(index) {
                 selectCard(cards[index].reader)
             }
+            #endif
             return
         }
-        #endif
         readers.start()
         if settings.agentApprovalEnabled { setAgentApprovalEnabled(true) }
         agentBroker.start()
@@ -455,11 +448,16 @@ final class AppController {
 
     func forgetPIN() {
         guard let cert = certificate else { return }
+        forgetPIN(forCertificateID: cert.sha1Hex)
+    }
+
+    /// PIN management targets its displayed card without changing the signing selection.
+    func forgetPIN(forCertificateID certID: String) {
         let vault = self.vault
         vaultQueue.async { [weak self] in
-            vault.delete(certID: cert.sha1Hex)
+            vault.delete(certID: certID)
             onMain { [weak self] in
-                self?.setStoredPIN(false, certID: cert.sha1Hex)
+                self?.setStoredPIN(false, certID: certID)
                 self?.toast?(L10n.text(.ui_the_saved_pin_was_deleted))
                 self?.changed()
             }

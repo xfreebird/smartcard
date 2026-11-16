@@ -10,6 +10,8 @@ platform, pack, *flags = ARGV
 abort "Unknown options: #{flags.join(' ')}" unless (flags - %w[--screenshots-only --replace-screenshots --replace-changed-screenshot-sets]).empty?
 abort 'Usage: bundle exec ruby distribution/tools/upload-apple-draft.rb ios|macos PACK' unless %w[ios macos].include?(platform) && pack
 root = File.expand_path('..', __dir__)
+prepared_metadata = File.join(File.expand_path(pack), 'metadata', 'apple')
+apple_metadata = File.directory?(File.join(prepared_metadata, platform)) ? prepared_metadata : File.join(root, 'apple')
 key = { key_id: ENV.fetch('ASC_KEY_ID'), issuer_id: ENV.fetch('ASC_ISSUER_ID'), key: File.read(ENV.fetch('ASC_KEY_PATH')), in_house: false }
 Spaceship::ConnectAPI.token = Spaceship::ConnectAPI::Token.create(key_id: key[:key_id], issuer_id: key[:issuer_id], key: key[:key])
 identifier = platform == 'ios' ? 'md.esemnbun.ios' : 'md.esemnbun.mac'
@@ -17,19 +19,9 @@ app = Spaceship::ConnectAPI::App.find(identifier)
 abort "Create #{identifier} in App Store Connect first; Apple's public API cannot create app records" unless app
 version = app.get_edit_app_store_version(platform: platform == 'ios' ? 'IOS' : 'MAC_OS')
 abort "No editable #{platform} App Store version" unless version
-if platform == 'macos'
-  # Separate bundle IDs need distinct localized Store names within this team.
-  app.fetch_edit_app_info.get_app_info_localizations.each do |locale|
-    locale.update(attributes: { name: 'eSemnBun Desktop' })
-  end
-end
 Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
   metadata = File.join(stage, 'metadata')
-  FileUtils.cp_r(File.join(root, 'apple', platform), metadata)
-  if platform == 'macos'
-    FileUtils.cp_r(File.join(metadata, 'en-US'), File.join(metadata, 'en-GB'))
-    Dir.glob(File.join(metadata, '*', 'name.txt')).each { |file| File.write(file, "eSemnBun Desktop\n") }
-  end
+  FileUtils.cp_r(File.join(apple_metadata, platform), metadata)
   screenshots = File.join(stage, 'screenshots')
   %w[ro en ru].each do |locale|
     target = File.join(screenshots, locale == 'en' ? 'en-US' : locale)
@@ -69,10 +61,11 @@ Dir.mktmpdir('esemnbun-apple-upload-') do |stage|
     force: true, overwrite_screenshots: flags.include?('--replace-screenshots'), run_precheck_before_submit: false,
     screenshot_processing_timeout: 600
   })
-  if ENV['REVIEW_CONTACT_PHONE']
+  if ENV['REVIEW_CONTACT_PHONE'] && !flags.include?('--screenshots-only')
+    review_notes = platform == 'ios' ? 'ios/review-notes-nfc.txt' : 'review_notes.txt'
     options[:app_review_information] = { first_name: 'Nicolae', last_name: 'Ghimbovschi',
       email_address: 'nicolae.ghimbovschi@gmail.com', phone_number: ENV.fetch('REVIEW_CONTACT_PHONE'),
-      notes: File.read(File.join(root, 'apple/review_notes.txt')) }
+      notes: File.read(File.join(apple_metadata, review_notes)) }
   end
   Deliver::Runner.new(options).run
 end

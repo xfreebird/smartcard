@@ -409,4 +409,6 @@ eSemnBun</value></data>
   <data name="protect_save_copy" xml:space="preserve"><value>Сохранить копию…</value></data>
   <data name="protect_encrypted_hint" xml:space="preserve"><value>Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл.</value></data>
   <data name="protect_save_file" xml:space="preserve"><value>Сохранить файл</value></data>
+  <data name="settings_signing" xml:space="preserve"><value>Подписание</value></data>
+  <data name="settings_card_reader" xml:space="preserve"><value>Карты и считыватели</value></data>
 </root>

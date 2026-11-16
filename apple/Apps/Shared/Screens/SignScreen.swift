@@ -4,8 +4,7 @@ import UniformTypeIdentifiers
 import QuickLook
 #endif
 
-/// Adaptive signing workspace. Wide mobile windows keep signing controls on the left and
-/// document operations on the right; compact windows retain one scrollable column.
+/// Mobile signing progresses from document choice to review and PIN, with one primary action.
 struct SignScreen: View {
     var onOpenDocuments: () -> Void = {}
     @Environment(AppModel.self) private var model
@@ -18,8 +17,10 @@ struct SignScreen: View {
     @Environment(\.horizontalSizeClass) private var sizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var stackExpanded = false
     @State private var batchStamp: SignItem?
+    @State private var presentedSetting: MobileSettingsDestination?
     private var groupedFiles: Bool { sizeClass == .compact && model.signItems.count > 1 }
     #else
     private var groupedFiles: Bool { false }
@@ -28,47 +29,41 @@ struct SignScreen: View {
     var body: some View {
         Group {
             #if os(iOS)
-            GeometryReader { geometry in
-                // Use the current window rather than a device model: expanded foldables
-                // and narrow tablet windows can provide two usable columns below 760pt.
-                if !dynamicTypeSize.isAccessibilitySize && geometry.size.width >= 560 {
-                    HStack(alignment: .top, spacing: 0) {
-                        ScrollView {
-                            VStack(spacing: 24) {
-                                CardSelector(size: .phone)
-                                resultContent
-                            }
-                            .padding(verticalSizeClass == .compact ? 16 : 24)
-                        }
-                        .frame(width: min(440, max(240, geometry.size.width * 0.40)))
-                        Divider()
-                        ScrollView {
-                            documentContent.padding(verticalSizeClass == .compact ? 16 : 24)
-                        }
-                        .frame(maxWidth: .infinity)
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    resultContent
+                    if model.signItems.isEmpty {
+                        if model.lastSigned.isEmpty { SigningCardChoice(signing: true).frame(maxWidth: .infinity) }
+                    } else {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(L10n.text(.guided_ready)).font(.largeTitle.bold())
+                            Text(L10n.text(.guided_ready_body)).font(.body).foregroundStyle(.secondary)
+                        }.accessibilityIdentifier("signing.nextStep")
+                        documentContent
+                        SigningCardChoice(compact: true, signing: true).frame(maxWidth: .infinity)
                     }
-                    .accessibilityIdentifier("signing.wideWorkspace")
-                } else {
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 24) {
-                            CardSelector(size: sizeClass == .regular ? .large : .phone)
-                                .frame(maxWidth: .infinity)
-                            resultContent
-                            documentContent
-                        }
-                        .padding(24)
-                    }
-                        .accessibilityIdentifier("signing.compactWorkspace")
                 }
+                .frame(maxWidth: 560).padding(24).frame(maxWidth: .infinity)
             }
-            .safeAreaInset(edge: .bottom, alignment: .trailing, spacing: 0) {
-                if !model.signItems.isEmpty {
-                    signButton
-                        .controlSize(.large)
-                        .buttonBorderShape(.capsule)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 12)
-                }
+            .background(Color(uiColor: .systemGroupedBackground))
+            .accessibilityIdentifier("signing.compactWorkspace")
+            .animation(reduceMotion ? nil : .easeInOut(duration: 0.25), value: model.signItems.isEmpty)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                VStack(spacing: 10) {
+                    if model.signItems.isEmpty {
+                        Button { shortcutPDFOnly = false; importing = true } label: {
+                            Text(L10n.text(.guided_choose)).font(.headline).frame(maxWidth: .infinity, minHeight: 32)
+                        }.buttonStyle(.borderedProminent).accessibilityIdentifier("sign.pickFiles")
+                    } else {
+                        Text(model.signingMethod == .reader && !model.status.canSign
+                             ? model.status.title
+                             : L10n.text(model.signingMethod == .nfc ? .guided_next_nfc : .guided_next_reader))
+                            .font(.footnote).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                        signButton
+                    }
+                }.controlSize(.large).buttonBorderShape(.capsule).tint(Theme.brand)
+                    .frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 12)
+                    .frame(maxWidth: .infinity).background(Color(uiColor: .systemGroupedBackground))
             }
             #else
             ScrollView {
@@ -97,6 +92,17 @@ struct SignScreen: View {
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }
         // Keep the workspace height stable on short and landscape displays.
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button { presentedSetting = .details } label: {
+                    Image(systemName: "info.circle")
+                }
+                .accessibilityLabel(L10n.text(.card_details_title))
+                .accessibilityIdentifier("sign.cardDetails")
+                .disabled(model.signingCertificate == nil)
+            }
+        }
+        .sheet(item: $presentedSetting) { MobileSettingsSheet(destination: $0) }
         #else
         .navigationTitle(L10n.text(.ui_sign))
         #endif
@@ -191,6 +197,10 @@ struct SignScreen: View {
             .accessibilityLabel(L10n.text(stackExpanded ? .batch_collapse : .batch_expand))
             .accessibilityIdentifier("sign.expandBatch")
             Menu {
+                Button { shortcutPDFOnly = false; importing = true } label: {
+                    Label(L10n.text(.guided_add), systemImage: "plus")
+                }.accessibilityIdentifier("sign.addFiles")
+                Divider()
                 Section(L10n.text(.batch_options)) {
                     Button(L10n.text(.batch_automatic)) {
                         for i in model.signItems.indices { model.signItems[i].format = .automatic(for: model.signItems[i].url) }
@@ -226,7 +236,7 @@ struct SignScreen: View {
         .background(.background, in: RoundedRectangle(cornerRadius: 12))
         .overlay(RoundedRectangle(cornerRadius: 12).strokeBorder(.secondary.opacity(0.22)))
         .sheet(item: $batchStamp) { source in
-            PDFStampEditor(url: source.url, initial: source.stamp, holder: model.certificate?.holder ?? "", save: { value in
+            PDFStampEditor(url: source.url, initial: source.stamp, holder: model.signingCertificate?.holder ?? "", save: { value in
                 guard model.currentStep == nil else { return }
                 for index in model.signItems.indices where model.signItems[index].format == .padesT {
                     var template = value
@@ -243,14 +253,18 @@ struct SignScreen: View {
     private var documentContent: some View {
         return VStack(alignment: .leading, spacing: shortViewport ? 8 : 16) {
             if !model.signItems.isEmpty {
+                #if os(macOS)
                 if !shortViewport { Text(L10n.text(.ui_documents)).font(.headline).foregroundStyle(.secondary) }
+                #endif
                 #if os(iOS)
                 if groupedFiles { fileStackHeader }
                 #endif
                 VStack(spacing: 8) {
                     ForEach(visibleFiles) { item in
                         #if os(iOS)
-                        SwipeFileRow(onRemove: { if model.currentStep == nil { model.remove(item) } }) { DocumentRow(item: item).padding(12) }
+                        SwipeFileRow(onRemove: { if model.currentStep == nil { model.remove(item) } }) {
+                            DocumentRow(item: item, onAddDocument: { shortcutPDFOnly = false; importing = true }).padding(12)
+                        }
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                             .overlay(RoundedRectangle(cornerRadius: 12).stroke(.secondary.opacity(0.22), lineWidth: 1))
                         #else
@@ -262,11 +276,15 @@ struct SignScreen: View {
                     }
                 }
             }
+            #if os(macOS)
             DropZone(compact: !model.signItems.isEmpty || shortViewport, short: shortViewport, targeted: dropTargeted) { shortcutPDFOnly = false; importing = true }
+            #endif
+            #if os(macOS)
             if !model.signItems.isEmpty {
                 Text(L10n.text(.ui_pades_signs_inside_the_pdf_xades_creates_a_separate_xml_file_sha_256_algorithm))
                     .font(.caption).foregroundStyle(.secondary)
             }
+            #endif
         }
         .frame(maxWidth: .infinity)
     }
@@ -329,7 +347,7 @@ struct SignScreen: View {
         }
     }
 
-    private var canSign: Bool { model.status.canSign && !model.signItems.isEmpty && model.currentStep == nil }
+    private var canSign: Bool { model.canSignDocuments }
 
     private var signActionTitle: String {
         model.signItems.count > 1 ? L10n.text(.ui_sign_count_documents, model.signItems.count) : L10n.text(.ui_sign)
@@ -338,11 +356,11 @@ struct SignScreen: View {
     @ViewBuilder private var signButton: some View {
         let button = Button { Task { await model.signAll() } } label: {
             #if os(iOS)
-            Label(dynamicTypeSize.isAccessibilitySize ? L10n.text(.ui_sign) : signActionTitle, systemImage: "signature")
+            Label(L10n.text(.guided_continue), systemImage: "arrow.right")
                 .labelStyle(.titleAndIcon)
                 .lineLimit(1)
                 .minimumScaleFactor(0.75)
-                .frame(minHeight: 32)
+                .frame(maxWidth: .infinity, minHeight: 32)
             #else
             Label(signActionTitle, systemImage: "signature")
                 .labelStyle(.titleAndIcon)
@@ -355,9 +373,13 @@ struct SignScreen: View {
 
     private func styled(_ button: some View) -> some View {
         button.accessibilityIdentifier("sign.submit")
+            #if os(iOS)
+            .accessibilityLabel(L10n.text(.guided_continue))
+            #else
             .accessibilityLabel(signActionTitle)
+            #endif
             .keyboardShortcut(.return, modifiers: .command)
             .disabled(!canSign)
-            .help(Text(model.status.canSign ? L10n.text(.ui_sign_the_documents_with_the_selected_card) : model.status.title))
+            .help(Text(L10n.text(.ui_sign_the_documents_with_the_selected_card)))
     }
 }

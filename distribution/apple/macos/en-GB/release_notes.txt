@@ -1,0 +1,1 @@
+Manage cards, readers, and saved PINs in Settings. Documents now offers direct access to file protection and deletion.

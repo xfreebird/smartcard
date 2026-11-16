@@ -1,4 +1,3 @@
-#if MOLDSIGN_DEMO
 import Foundation
 
 /// The delayed preview never reads hardware or the system keyring.
@@ -13,4 +12,3 @@ struct DemoCardDataProvider: CardDataProviding {
         }
     }
 }
-#endif

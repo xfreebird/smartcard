@@ -1,6 +1,6 @@
 [
-  "Alege documentul și formatul semnăturii.",
-  "Selectează cardul pentru semnare.",
+  "Alege semnarea prin NFC sau cu un cititor USB.",
+  "Conectează cititorul USB și introdu cardul.",
   "Verifică semnăturile documentelor.",
-  "Folosește cardul pe portaluri compatibile."
+  "Gestionează cardurile și PIN-urile salvate în Setări."
 ]

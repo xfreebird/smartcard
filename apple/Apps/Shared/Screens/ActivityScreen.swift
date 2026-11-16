@@ -5,6 +5,7 @@ import MoldSignKit
 struct ActivityScreen: View {
     @Environment(AppModel.self) private var model
     @State private var protecting = false
+    @State private var protectionSource: URL?
     @State private var confirmClear = false
     @State private var confirmDelete = false
     @State private var deletionFailed = false
@@ -18,6 +19,22 @@ struct ActivityScreen: View {
         return query.isEmpty ? items : items.filter { ($0.fileURL?.lastPathComponent ?? $0.title).localizedCaseInsensitiveContains(query) }
     }
 
+    private var protectButton: some View {
+        Button { protectionSource = nil; protecting = true } label: {
+            Label(L10n.text(.protect_title), systemImage: "shield")
+        }.accessibilityIdentifier("documents.protectFiles")
+    }
+
+    private var clearButton: some View {
+        Button(role: .destructive) {
+            if history { confirmClear = true }
+            else { deleting = model.savedDocuments; confirmDelete = true }
+        } label: { Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash") }
+            .accessibilityIdentifier("documents.clear")
+            .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
+            .help(L10n.text(history ? .ui_clear_history_documents_remain_on_disk : .saved_delete_all))
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -26,16 +43,11 @@ struct ActivityScreen: View {
                 Text(L10n.text(.saved_history)).tag(true)
             }.pickerStyle(.segmented).labelsHidden()
             #if os(macOS)
-            Button(role: .destructive) {
-                if history { confirmClear = true }
-                else { deleting = model.savedDocuments; confirmDelete = true }
-            } label: {
-                Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash")
-            }
-            .labelStyle(.iconOnly)
-            .accessibilityIdentifier("documents.clear")
-            .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
-            .help(L10n.text(history ? .ui_clear_history_documents_remain_on_disk : .saved_delete_all))
+            protectButton
+                .labelStyle(.iconOnly)
+                .help(L10n.text(.protect_title))
+            clearButton
+                .labelStyle(.iconOnly)
             #endif
             }.padding()
             List {
@@ -68,6 +80,9 @@ struct ActivityScreen: View {
                         }
                     }
                     .contextMenu {
+                        Button { protectionSource = url; protecting = true } label: {
+                            Label(L10n.text(.protect_title), systemImage: "shield")
+                        }
                         Button(L10n.text(.saved_delete), role: .destructive) { deleting = [item]; confirmDelete = true }
                     }
                 }
@@ -90,21 +105,18 @@ struct ActivityScreen: View {
         }
         }
         .navigationTitle(L10n.text(.saved_title))
+        #if !os(macOS)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Menu {
-                    Button { protecting = true } label: {
-                        Label(L10n.text(.protect_title), systemImage: "lock.doc")
-                    }.accessibilityIdentifier("documents.protectFiles")
-                } label: { Label(L10n.text(.protect_title), systemImage: "ellipsis.circle") }
-                .accessibilityIdentifier("documents.menu")
+                protectButton
             }
         }
+        #endif
         .searchable(text: Binding(get: { documentNavigation.documentSearch }, set: { documentNavigation.documentSearch = $0 }),
                     prompt: L10n.text(.discovery_search))
         .onChange(of: documentNavigation.documentSearch) { _, _ in history = false }
         .onChange(of: documentNavigation.documentSearchGeneration) { _, _ in history = false }
-        .sheet(isPresented: $protecting) { FileProtectionScreen().environment(model).appPreferences() }
+        .sheet(isPresented: $protecting, onDismiss: { protectionSource = nil }) { FileProtectionScreen(initialURL: protectionSource).environment(model).appPreferences() }
         .sheet(item: $selectedDocument) { item in
             if let url = item.fileURL {
                 SavedDocumentDetails(url: url, protectionOperation: item.protectionOperation).environment(model).appPreferences()
@@ -143,16 +155,7 @@ struct ActivityScreen: View {
             #endif
         }
         #if !os(macOS)
-        .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                Button(role: .destructive) {
-                if history { confirmClear = true }
-                else { deleting = model.savedDocuments; confirmDelete = true }
-            } label: { Label(L10n.text(history ? .ui_clear_list : .saved_delete_all), systemImage: "trash") }
-                    .accessibilityIdentifier("documents.clear")
-                    .disabled(history ? model.activity.isEmpty : model.savedDocuments.isEmpty)
-            }
-        }
+        .toolbar { ToolbarItem(placement: .primaryAction) { clearButton } }
         #endif
         .confirmationDialog(L10n.text(deleting.count == 1 ? .saved_delete : .saved_delete_all), isPresented: $confirmDelete, titleVisibility: .visible) {
             Button(L10n.text(deleting.count == 1 ? .saved_delete : .saved_delete_all), role: .destructive) {

@@ -10,8 +10,7 @@ final class DemoModeUITests: XCTestCase {
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.user-demo.\(UUID().uuidString)"
         app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en"]
         app.launch()
-        navigate("Card", in: app)
-        app.buttons["card.settings"].tap()
+        navigate("Settings", in: app)
         let toggle = demoToggle(in: app)
         XCTAssertEqual(toggle.value as? String, "0")
         XCTAssertTrue(toggle.isEnabled)
@@ -22,7 +21,6 @@ final class DemoModeUITests: XCTestCase {
         attach(app, "01-enable-disclaimer")
         accept.tapWhenReady()
         waitForValue("1", on: toggle)
-        app.buttons["Done"].tap()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
         navigate("Sign", in: app)
         let expand = app.buttons["sign.expandBatch"]
@@ -44,13 +42,11 @@ final class DemoModeUITests: XCTestCase {
         app.launch()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 10))
         attach(app, "05-persisted-demo")
-        navigate("Card", in: app)
-        app.buttons["card.settings"].tap()
+        navigate("Settings", in: app)
         let persisted = demoToggle(in: app)
         XCTAssertEqual(persisted.value as? String, "1")
         persisted.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
         waitForValue("0", on: persisted)
-        app.buttons["Done"].tap()
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
         attach(app, "06-return-to-live-mock")
         app.terminate()

@@ -1,1 +1,1 @@
-Acțiuni pentru documente și controale de semnare mai clare. Gestionare îmbunătățită a documentelor salvate și a dialogului PIN. Capturi de ecran actualizate în magazin.
+Cardurile, cititoarele și PIN-urile salvate se gestionează acum din Configurări. În Documente, protejarea fișierelor și ștergerea sunt accesibile direct.

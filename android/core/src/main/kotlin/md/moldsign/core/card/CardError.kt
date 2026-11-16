@@ -34,7 +34,7 @@ sealed class CardError(message: String, cause: Throwable? = null) : Exception(me
     class CardChanged(val expectedSha1: String, val actualSha1: String) :
         CardError("The card in the reader changed; check the holder and sign again")
 
-    /** `6988` or a response MAC failure: drop the session and reconnect once. */
+    /** `6988` or a response MAC failure: stop the operation; a new attempt requires explicit user action. */
     class SmOutOfSync(detail: String) : CardError("Secure messaging out of sync: $detail")
 
     /** TSA / OCSP / CRL failure (`network(service)`). */

@@ -17,7 +17,7 @@ live in [`../PLAN.md`](../PLAN.md); this document is the **contract** every port
 │               BridgeProtocol (routes, DTOs, origin policy)                │
 ├──────────────────────────────────────────────────────────────────────────┤
 │ CardTransport PC/SC (macOS) · TKSmartCard (iOS/macOS) · USB-CCID         │
-│               (Android) · WinSCard (Windows) · NFC (research)            │
+│               (Android) · WinSCard (Windows) · Core NFC (iOS)            │
 └──────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -94,9 +94,15 @@ Platform notes:
   T=1 block at TPDU level (the miniLector POCKET EVO: `PC_to_RDR_SetParameters` 0x61 first, then host-side T=1
   framing, chaining and WTX, see `T1.kt`); `RDR_to_PC_NotifySlotChange`
   (0x50) on the interrupt endpoint for card insert/remove. Sequence numbers wrap at 255.
-* **NFC (research R-03):** iOS 26 `TKSmartCardSlotManager.createNFCSlot(message:)` with
-  `com.apple.developer.nfc.readersession.iso7816.select-identifiers` = the IAS AID +
-  Generic ADF; Android `IsoDep`. Only viable if the card exposes IAS/ECC contactless.
+* **Android NFC (AND-09):** foreground reader mode (`NfcAdapter`) plus one `IsoDep` connection
+  per document. Shared consent/PIN collection happens first; exact certificate binding precedes
+  authentication and VERIFY. Reader/NFC identities share the existing biometric vault account.
+  Physical PAdES-T and timestamp integrity verified on the tested Android/card combination.
+  See [the Android NFC guide](17-android-nfc.md).
+* **iOS NFC (IOS-09):** foreground Core NFC `NFCTagReaderSession` + `NFCISO7816Transport`,
+  explicitly selected alongside the physical reader in Sign. The shared PIN coordinator runs first;
+  public certificate reading and signing share one NFC session, with identity binding before VERIFY.
+  Physical probe signing is verified; app acceptance remains pending. See [the NFC guide](16-ios-nfc.md).
 
 ### 3.1b Several cards, card changes (all ports)
 
@@ -163,6 +169,10 @@ the platform shows UI (PIN sheet, biometric prompt for the stored PIN, or the br
 ### 3.5 PinVault
 
 * Keyed by **card certificate SHA-1** (a different card never receives another card's PIN).
+* iOS reader and NFC share that exact account key. A deduplicated certificate list supplies NFC selection;
+  the scanned DER must match before VERIFY. Card/Settings manage the same saved PIN, even when disconnected.
+  `SavedCardIdentityStore` keeps only public certificate metadata for saved accounts in app preferences;
+  it never stores PIN values and removes persisted metadata when the account is deleted.
 * `save(pin, certId)`, `load(certId, reason) → pin?` (biometric/passcode gated), `delete(certId)`.
 * Delete on `wrongPin`. Never persisted unencrypted; never logged.
 

@@ -29,7 +29,10 @@ import md.moldsign.core.WalletCard
 import java.text.DateFormat
 
 @Composable
-internal fun CardDetails(card: WalletCard) {
+internal fun CardDetails(card: WalletCard) = CardDetails(card.certificate, card.problem, card.readerName)
+
+@Composable
+internal fun CardDetails(cert: md.moldsign.core.CertificateSummary?, problem: Throwable? = null, readerName: String? = null) {
     val itemColors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow)
     Card(
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
@@ -44,8 +47,6 @@ internal fun CardDetails(card: WalletCard) {
                 colors = itemColors,
             )
         }
-        val cert = card.certificate
-        val problem = card.problem
         when {
             problem != null -> ListItem(
                 leadingContent = { Icon(Icons.Outlined.ErrorOutline, contentDescription = null, tint = LocalStatusColors.current.danger) },
@@ -67,10 +68,10 @@ internal fun CardDetails(card: WalletCard) {
                 row(R.string.card_fingerprint, cert.sha1Hex.chunked(4).joinToString(" "))
             }
         }
-        if (cert != null || problem != null) HorizontalDivider(Modifier.padding(horizontal = Tokens.S4))
-        ListItem(
+        if (readerName != null && (cert != null || problem != null)) HorizontalDivider(Modifier.padding(horizontal = Tokens.S4))
+        if (readerName != null) ListItem(
             overlineContent = { Text(stringResource(R.string.card_reader)) },
-            headlineContent = { Text(card.readerName) },
+            headlineContent = { Text(readerName) },
             colors = itemColors,
         )
     }

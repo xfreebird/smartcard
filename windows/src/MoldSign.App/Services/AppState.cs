@@ -16,6 +16,7 @@ namespace MoldSign.App.Services;
 /// </summary>
 public sealed record ActivityItem(string FileName, string Action, DateTimeOffset When, bool Success, string? Path, bool? SignedOutput = null, string? ProtectionOperation = null)
 {
+    public Microsoft.UI.Xaml.Visibility FileActionsVisibility => Path is null ? Microsoft.UI.Xaml.Visibility.Collapsed : Microsoft.UI.Xaml.Visibility.Visible;
     public string ActionLabel => ProtectionOperation is "encrypted" ? Loc.Get("protect_encrypted") : ProtectionOperation is "decrypted" ? Loc.Get("protect_decrypted") : SignatureLabels.Human(Action);
     public bool CanVerify => Path is not null && ProtectionOperation != "encrypted" && (System.IO.Path.GetExtension(Path).Equals(".pdf", StringComparison.OrdinalIgnoreCase) || System.IO.Path.GetExtension(Path).Equals(".xml", StringComparison.OrdinalIgnoreCase));
     public bool IsProtectionOutput => ProtectionOperation is "encrypted" or "decrypted";

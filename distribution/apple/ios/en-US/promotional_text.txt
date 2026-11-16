@@ -1,1 +1,1 @@
-Connect your reader, choose your documents and sign with your electronic ID. Verify the result and access compatible services in the built-in browser.
+Choose a document, confirm your PIN and tap your compatible electronic ID to sign with NFC. A card reader remains available.

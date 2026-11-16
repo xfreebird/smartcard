@@ -472,6 +472,62 @@ enum L10n {
         case protect_saved_library
         case protect_save_copy
         case protect_encrypted_hint
+        case signing_method
+        case signing_method_reader
+        case signing_method_nfc
+        case nfc_card_title
+        case nfc_signing_instructions
+        case nfc_unavailable
+        case nfc_connection_lost
+        case nfc_one_card
+        case nfc_busy
+        case nfc_card_step_complete
+        case nfc_cancelled
+        case nfc_hold_to_sign
+        case nfc_card_changed
+        case nfc_pin_for_card
+        case nfc_use_another_card
+        case pin_shared_channels
+        case nfc_hero_title
+        case nfc_hero_subtitle
+        case nfc_how_it_works
+        case signing_step_document
+        case signing_step_pin
+        case signing_step_tap
+        case signing_step_signed
+        case signing_next_document
+        case signing_next_pin
+        case nfc_guide_document
+        case nfc_guide_document_body
+        case nfc_guide_pin
+        case nfc_guide_pin_body
+        case nfc_guide_tap
+        case nfc_guide_tap_ios
+        case nfc_guide_result
+        case nfc_card_any
+        case card_details_title
+        case card_help_title
+        case guided_start
+        case guided_start_body
+        case guided_ready
+        case guided_ready_body
+        case guided_choose
+        case guided_continue
+        case guided_add
+        case guided_card_title
+        case guided_card_body
+        case guided_contactless
+        case guided_reader
+        case guided_method
+        case guided_change
+        case guided_reader_card
+        case guided_reader_wait
+        case guided_next_nfc
+        case guided_next_reader
+        case guided_method_caption
+        case guided_reader_swipe
+        case settings_signing
+        case settings_card_reader
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

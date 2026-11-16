@@ -37,7 +37,7 @@ final class MoldSignApp {
         #else
         let preview = false
         #endif
-        app = adw_application_new(Self.id, GApplicationFlags(rawValue: (1 << 2) | (preview ? (1 << 5) : 0)))!
+        app = adw_application_new(Self.id, GApplicationFlags(rawValue: (1 << 2) | ((preview || controller.isDemo) ? (1 << 5) : 0)))!
         onSignal(app, "startup") { [unowned self] in startup() }
         onSignal(app, "activate") { [unowned self] in activate() }
         onOpenFiles(app) { [unowned self] paths in open(paths) }
@@ -99,6 +99,21 @@ final class MoldSignApp {
         controller.toastWithAction = { text, button, action in window.toast(text, button: button, action: action) }
         controller.reveal = { url in revealInFolder(url.path, parent: window.window) }
         controller.presentWindow = { [unowned self] in presentWindow() }
+        controller.requestDemoMode = { [unowned self] enabled in
+            guard !controller.isSigning, !controller.bridgeSigning else { return }
+            if !enabled && controller.isDemo { quit(); return }
+            guard enabled && !controller.isDemo else { return }
+            controller.askConfirm?(L10n.text(.demo_enable_title),
+                L10n.text(.ui_demo_data_no_real_card_pin_or_signatures), L10n.text(.demo_enable_action)) { [weak self] approved in
+                guard approved, let self else { return }
+                let preview = Process()
+                preview.executableURL = URL(fileURLWithPath: CommandLine.arguments[0]).standardizedFileURL
+                preview.arguments = ["--demo"]
+                preview.environment = ProcessInfo.processInfo.environment.filter { !$0.key.hasPrefix("MSIGN_DEMO_") && $0.key != "MSIGN_SCREENSHOT_CAPTURE" }
+                do { try preview.run() }
+                catch { self.controller.toast?(L10n.text(.ui_demo_data_could_not_be_prepared)) }
+            }
+        }
         let portal = BackgroundPortal(application: app)
         self.portal = portal
         controller.configureLoginStartup = { enabled, done in

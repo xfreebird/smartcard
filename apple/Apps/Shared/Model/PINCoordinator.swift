@@ -8,7 +8,7 @@ final class PINCoordinator {
     private(set) var isObtaining = false
     @ObservationIgnored private let pinDecision = DecisionChannel<(pin: String, remember: Bool)?>()
 
-    func obtain(certID: String, holder: String, allowRemember: Bool,
+    func obtain(certID: String?, holder: String, allowRemember: Bool,
                            documentNames: [String] = [], vault: any PinStoring,
                 attemptsLeft: Int?, present: () -> Void) async -> (pin: String, remember: Bool)? {
         // A browser request may arrive while the manual batch is authorizing. Never replace its continuation.
@@ -23,7 +23,7 @@ final class PINCoordinator {
                 : L10n.text(.ui_sign_count_documents, documentNames.count)
             reason = [action, documentNames.joined(separator: ", "), holder].joined(separator: " · ")
         }
-        if vault.hasPIN(certID: certID) {
+        if let certID, vault.hasPIN(certID: certID) {
             // Cancelling device-owner authentication cancels this batch instead of opening another prompt.
             guard let stored = await vault.load(certID: certID, reason: reason), !Task.isCancelled else { return nil }
             return (stored, false)

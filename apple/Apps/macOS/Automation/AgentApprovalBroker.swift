@@ -241,7 +241,7 @@ final class AgentApprovalBroker {
 struct AgentBrokerSettingsView: View {
     @AppStorage(AgentApprovalBroker.enabledKey, store: AppPreferencesStore.defaults) private var enabled = false
     var body: some View {
-        Section(L10n.text(.automation_title)) {
+        Group {
             Toggle(L10n.text(.automation_enable), isOn: $enabled)
             Text(L10n.text(.automation_hint))
                 .font(.caption).foregroundStyle(.secondary)
