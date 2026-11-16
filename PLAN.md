@@ -1,3 +1,5 @@
+2026-11-16 — Refreshed all 18 Mac, Linux and Windows landing-animation frames. Updated the English, Romanian and Russian Mac and Linux guide screenshots and their callouts for the current native controls. The Mac App Review attachment now includes both muted physical-device demos.
+
 2026-11-16 — iOS and macOS 0.2.12 build 214 are waiting for App Review with their physical-device hardware recordings. Apple removed the preceding Mac review. Play Alpha and AppGallery are reviewing the Android update with verified localized screenshot order. Microsoft published the Windows update. The notarized Mac installer, Windows MSI and Android APK are available in the GitHub 0.2.12 release. The website guides and mobile scroll sequence cover NFC and USB signing. See docs/reports/nfc-store-submission-2026-11-16.md.
 
 2026-11-16 — Owner approved the four 0.2.12 store releases. App Store Connect currently shows iOS 0.2.11 live and macOS 0.2.11 waiting for review. Google Play Alpha has bundle 1793624694, and the published Windows package is 1.2.213.0. Build and review preparation started with the approved localized assets.

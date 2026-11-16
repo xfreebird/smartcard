@@ -18,7 +18,7 @@ Verifică un PDF sau XML și inspectează semnatarul și certificatul.
 
 Verificarea nu cere cititor sau PIN. Ea verifică fișierul selectat, nu ștampila vizuală sau numele lui. Verificările offline nu stabilesc starea curentă de revocare a certificatului.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify.png" alt="Verifică un PDF și fiecare semnătură" steps={[{"x": 7, "y": 15, "text": "Deschide Verifică."}, {"x": 58, "y": 10, "text": "Alege fișierele semnate sau trage-le în zona punctată."}, {"x": 32, "y": 35, "text": "Extinde fiecare rând Autor, inclusiv semnăturile suplimentare ale aceluiași document."}, {"x": 35, "y": 17, "text": "Folosește Șterge rezultatele înaintea unei verificări separate."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify.png" alt="Verifică un PDF și fiecare semnătură" steps={[{"x": 5, "y": 10, "text": "Deschide Verifică."}, {"x": 59, "y": 9, "text": "Alege fișierele semnate sau trage-le în zona punctată."}, {"x": 33, "y": 28, "text": "Extinde fiecare rând Autor, inclusiv semnăturile suplimentare ale aceluiași document."}, {"x": 35, "y": 17, "text": "Folosește Șterge rezultatele înaintea unei verificări separate."}]} />
 
 ## Citește integritatea, încrederea și detaliile certificatului
 
@@ -30,4 +30,4 @@ Semnătura criptografică validă, documentul intact, lanțul de încredere și 
 
 Adaugă XML-ul în Verifică. Dacă amprenta documentului nu poate fi verificată, folosește acțiunea Alege originalele din rezultat. Selectează originalul exact și nemodificat, nu XML-ul semnat. Citește din nou rezultatul integrității. XML-ul singur poate fi insuficient pentru destinatar.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-original.png" alt="Verifică XML-ul detașat cu originalul" steps={[{"x": 58, "y": 10, "text": "Adaugă semnătura XML detașată."}, {"x": 42, "y": 39, "text": "Citește rezultatul incomplet/original lipsă și furnizează originalul cerut."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-original.png" alt="Verifică XML-ul detașat cu originalul" steps={[{"x": 59, "y": 9, "text": "Adaugă semnătura XML detașată."}, {"x": 42, "y": 32, "text": "Citește rezultatul incomplet/original lipsă și furnizează originalul cerut."}]} />

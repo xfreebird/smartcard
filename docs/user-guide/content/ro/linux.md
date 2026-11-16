@@ -17,31 +17,31 @@ Sistemul necesită PC/SC și un driver CCID. Ubuntu: `sudo apt install pcscd lib
 
 Conectează cititorul direct sau prin adaptorul USB potrivit. Detectarea cititorului și citirea certificatului nu cer PIN. O eroare a serviciului PC/SC diferă de un cititor deconectat.
 
-<GuideScreenshot src="/img/guide/linux/ro/connect.png" alt="Conectează cititorul" steps={[{"text": "Deschide Semnează.", "x": 32, "y": 3}, {"text": "Conectează cititorul USB și citește mesajul.", "x": 50, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/ro/connect.png" alt="Conectează cititorul" steps={[{"text": "Deschide Semnează.", "x": 41, "y": 3}, {"text": "Conectează cititorul USB și citește mesajul.", "x": 50, "y": 23}]} />
 
 ## 2. Introdu cardul
 
 Introdu actul electronic și așteaptă citirea certificatului. Verifică titularul și expirarea înainte de semnare. Nu reconecta repetat în timpul unei operații.
 
-<GuideScreenshot src="/img/guide/linux/ro/empty.png" alt="Introdu cardul" steps={[{"text": "Introdu cardul și așteaptă titularul și expirarea.", "x": 50, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/ro/empty.png" alt="Introdu cardul" steps={[{"text": "Introdu cardul și așteaptă titularul și expirarea.", "x": 50, "y": 26}]} />
 
 ## 3. Alege identitatea corectă
 
 Dacă sunt mai multe carduri, selectează identitatea dorită în carusel. Ilustrația folosește datele certificatului și un avatar neutru, nu fotografia din act. Folosește reîmprospătarea pentru recitire când este necesar.
 
-<GuideScreenshot src="/img/guide/linux/ro/cards.png" alt="Alege identitatea corectă" steps={[{"text": "Deschide Card.", "x": 68, "y": 3}, {"text": "Alege punctul cardului dorit sau derulează caruselul.", "x": 50, "y": 37}, {"text": "Inspectează certificatul public și cititorul.", "x": 57, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/ro/cards-current.png" alt="Deschide Preferințe din meniul aplicației, apoi Carduri și cititoare." steps={[{"text": "Deschide Preferințe din meniul aplicației, apoi Carduri și cititoare.", "x": 50, "y": 27}, {"text": "Alege cardul dorit din carusel.", "x": 50, "y": 43}, {"text": "Derulează pentru a vedea certificatul și cititorul conectat.", "x": 47, "y": 76}]} />
 
 ## 4. Adaugă documentele lotului
 
 Alege sau trage toate documentele în Semnează. Poți selecta mai multe fișiere. Verifică numele și elimină intrările nedorite înainte de autorizare. Tragerea depinde de managerul de fișiere; selectorul rămâne disponibil.
 
-<GuideScreenshot src="/img/guide/linux/ro/sign.png" alt="Adaugă documentele lotului" steps={[{"text": "Deschide Semnează.", "x": 32, "y": 3}, {"text": "Alege fișierele sau trage-le în zona punctată.", "x": 48, "y": 77}, {"text": "Elimină un fișier nedorit din meniul rândului.", "x": 73, "y": 49}, {"text": "Alege Semnează după verificarea întregului lot.", "x": 91, "y": 95}]} />
+<GuideScreenshot src="/img/guide/linux/ro/sign.png" alt="Adaugă documentele lotului" steps={[{"text": "Deschide Semnează.", "x": 41, "y": 3}, {"text": "Alege fișierele sau trage-le în zona punctată.", "x": 50, "y": 76}, {"text": "Elimină un fișier nedorit din meniul rândului.", "x": 73, "y": 49}, {"text": "Alege Semnează după verificarea întregului lot.", "x": 91, "y": 95}]} />
 
 ## 5. Alege formatul semnăturii
 
 Semnătura PDF este PAdES-T și rămâne în PDF. Semnătura XML este XAdES-BES; XML cu marcă temporală este XAdES-T; XML cu date de validare este XAdES-C. Formatele cu marcă temporală/date de stare necesită serviciile de rețea corespunzătoare. Păstrează XML-ul detașat cu originalul nemodificat.
 
-<GuideScreenshot src="/img/guide/linux/ro/format.png" alt="Alege formatul semnăturii" steps={[{"text": "Deschide meniul cu trei puncte.", "x": 74, "y": 49}, {"text": "Alege formatul cerut de destinatar.", "x": 72, "y": 67}, {"text": "Elimină un fișier nedorit din același meniu.", "x": 73, "y": 87}]} />
+<GuideScreenshot src="/img/guide/linux/ro/format.png" alt="Alege formatul semnăturii" steps={[{"text": "Deschide meniul cu trei puncte.", "x": 70, "y": 49}, {"text": "Alege formatul cerut de destinatar.", "x": 70, "y": 66}, {"text": "Elimină un fișier nedorit din același meniu.", "x": 73, "y": 87}]} />
 
 ## 6. Plasează o ștampilă PDF opțională
 
@@ -53,37 +53,37 @@ Deschide meniul fișierului și alege Adaugă ștampilă. Ștampila vizibilă es
 
 Folosește PIN-ul de semnare al cardului selectat, nu parola Linux. Verifică titularul și întregul lot. Un lot nou cere altă aprobare. Oprește-te după un PIN incorect și confirmă-l; încercările repetate pot bloca cardul. Dialogul de exemplu nu accesează seiful real și dezactivează memorarea.
 
-<GuideScreenshot src="/img/guide/linux/ro/pin.png" alt="Verifică și autorizează lotul" steps={[{"text": "Verifică titularul și numele documentelor.", "x": 50, "y": 40}, {"text": "Introdu PIN-ul în câmpul protejat.", "x": 50, "y": 54}, {"text": "Alege Semnează; anulează o cerere neașteptată.", "x": 61, "y": 66}]} />
+<GuideScreenshot src="/img/guide/linux/ro/pin.png" alt="Verifică și autorizează lotul" steps={[{"text": "Verifică titularul și numele documentelor.", "x": 50, "y": 36}, {"text": "Introdu PIN-ul în câmpul protejat.", "x": 50, "y": 48}, {"text": "Alege Semnează; anulează o cerere neașteptată.", "x": 59, "y": 64}]} />
 
 ## 8. Așteaptă semnarea și marca temporală
 
 Lasă cititorul conectat până la rezultat. Marca temporală necesită rețea. Eroarea de rețea diferă de PIN incorect; citește mesajul înaintea altei cereri deliberate.
 
-<GuideScreenshot src="/img/guide/linux/ro/progress.png" alt="Așteaptă semnarea și marca temporală" steps={[{"text": "Așteaptă etapele curente și rezultatul final.", "x": 57, "y": 86}]} />
+<GuideScreenshot src="/img/guide/linux/ro/progress.png" alt="Așteaptă semnarea și marca temporală" steps={[{"text": "Așteaptă etapele curente și rezultatul final.", "x": 50, "y": 90}]} />
 
 ## 9. Găsește fișierul rezultat
 
 Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat.
 
-<GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Activează rezultatul finalizat pentru localizare/deschidere.", "x": 70, "y": 48}]} />
+<GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Activează rezultatul finalizat pentru localizare/deschidere.", "x": 63, "y": 42}]} />
 
 ## 10. Rezolvă eroarea unui document
 
 Un lot poate conține rezultate și erori. Păstrează rezultatele finalizate, citește eroarea și corectează cauza înaintea unei noi cereri. PIN-ul nu este reîncercat automat, iar un fișier defect nu este reparat automat.
 
-<GuideScreenshot src="/img/guide/linux/ro/failure.png" alt="Rezolvă eroarea unui document" steps={[{"text": "Citește eroarea fișierului înaintea altei cereri.", "x": 45, "y": 55}]} />
+<GuideScreenshot src="/img/guide/linux/ro/failure.png" alt="Rezolvă eroarea unui document" steps={[{"text": "Citește eroarea fișierului înaintea altei cereri.", "x": 36, "y": 50}]} />
 
 ## 11. Verifică un PDF
 
 Verificarea nu cere card sau PIN. Deschide Verifică și alege/trage PDF-ul sau XML-ul semnat. Sunt acceptate selecții multiple. Citește fiecare semnătură; numele și ștampila nu sunt dovezi. Verificarea offline nu stabilește revocarea curentă a certificatului.
 
-<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică un PDF" steps={[{"text": "Deschide Verifică și alege fișierul semnat.", "x": 44, "y": 3}, {"text": "Citește verdictul și numărul semnăturilor.", "x": 50, "y": 25}, {"text": "Inspectează autorul, integritatea și încrederea.", "x": 50, "y": 71}]} />
+<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică un PDF" steps={[{"text": "Deschide Verifică și alege fișierul semnat.", "x": 51, "y": 3}, {"text": "Citește verdictul și numărul semnăturilor.", "x": 49, "y": 25}, {"text": "Inspectează autorul, integritatea și încrederea.", "x": 32, "y": 41}]} />
 
 ## 12. Inspectează certificatul și detaliile tehnice
 
 Derulează rezultatul și extinde Detalii certificat și Detalii tehnice. Integritatea, semnătura criptografică, încrederea și marca temporală sunt verificări distincte. Datele organizației emitente nu sunt identificatorul personal al semnatarului.
 
-<GuideScreenshot src="/img/guide/linux/ro/certificate.png" alt="Inspectează certificatul și detaliile tehnice" steps={[{"text": "Extinde detaliile certificatului și verifică subiectul/emitentul/cheia.", "x": 75, "y": 41}, {"text": "Extinde detaliile tehnice pentru format și identificator.", "x": 75, "y": 91}]} />
+<GuideScreenshot src="/img/guide/linux/ro/certificate.png" alt="Inspectează certificatul și detaliile tehnice" steps={[{"text": "Extinde detaliile certificatului și verifică subiectul/emitentul/cheia.", "x": 75, "y": 57}, {"text": "Extinde detaliile tehnice pentru format și identificator.", "x": 48, "y": 79}]} />
 
 ## 13. Recunoaște un document modificat
 
@@ -101,13 +101,13 @@ Un lanț necunoscut/neconfirmat diferă de modificarea dovedită. Verifică sepa
 
 Lipsa unei semnături recunoscute înseamnă că acest fișier nu are o semnătură verificabilă de aplicație. O imagine scanată sau o ștampilă nu o înlocuiește. Cere rezultatul electronic semnat.
 
-<GuideScreenshot src="/img/guide/linux/ro/unsigned.png" alt="Recunoaște un fișier nesemnat" steps={[{"text": "Citește lipsa semnăturii înainte de a trimite fișierul ca semnat.", "x": 50, "y": 26}]} />
+<GuideScreenshot src="/img/guide/linux/ro/unsigned.png" alt="Recunoaște un fișier nesemnat" steps={[{"text": "Citește lipsa semnăturii înainte de a trimite fișierul ca semnat.", "x": 49, "y": 25}]} />
 
 ## 16. Verifică XML detașat cu originalul
 
 Pentru XAdES detașat, pune originalul exact și nemodificat lângă XML, cu numele referit de semnătură, apoi alege XML-ul din nou în Verifică. Această versiune Linux nu are selector integrat pentru originale: relația este rezolvată din dosarul XML-ului. Lipsa originalului împiedică o concluzie completă asupra integrității.
 
-<GuideScreenshot src="/img/guide/linux/ro/format.png" alt="Verifică XML detașat cu originalul" steps={[{"text": "Păstrează XML-ul și originalul împreună, apoi verifică XML-ul din nou.", "x": 73, "y": 67}]} />
+<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică XML detașat cu originalul" steps={[{"text": "Păstrează XML-ul și originalul împreună, apoi verifică XML-ul din nou.", "x": 49, "y": 25}]} />
 
 ## 17. Găsește documentele semnate
 
@@ -115,19 +115,19 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Documente conține colecția rezultatelor semnate și un Istoric separat al operațiilor. Intrările trimit la fișiere și nu înlocuiesc o copie de rezervă. Un fișier mutat trebuie selectat din nou la noua locație.
 
-<GuideScreenshot src="/img/guide/linux/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Deschide Documente.", "x": 55, "y": 3}, {"text": "Alege rândul documentului salvat.", "x": 42, "y": 26}, {"text": "Folosește detaliile sau pictograma dosarului.", "x": 36, "y": 37}]} />
+<GuideScreenshot src="/img/guide/linux/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Deschide Documente.", "x": 60, "y": 3}, {"text": "Alege rândul documentului salvat.", "x": 32, "y": 26}, {"text": "Folosește detaliile sau pictograma dosarului.", "x": 32, "y": 37}]} />
 
 ## 18. Deschide detaliile semnării
 
 Apasă rândul sau Detalii semnare pentru fereastra modală. Aceasta verifică fișierul curent fără să înlocuiască spațiul Verifică ori să adauge o operație în istoric. Exemplul chiar este nesemnat, astfel că mesajul de lipsă a semnăturii este corect. Închide fereastra pentru listă; pictograma dosarului localizează fișierul.
 
-<GuideScreenshot src="/img/guide/linux/ro/details.png" alt="Deschide detaliile semnării" steps={[{"text": "Citește rezultatul nou în fereastra de detalii.", "x": 50, "y": 27}, {"text": "Închide fereastra pentru a reveni la listă.", "x": 73, "y": 12}]} />
+<GuideScreenshot src="/img/guide/linux/ro/details.png" alt="Deschide detaliile semnării" steps={[{"text": "Citește rezultatul nou în fereastra de detalii.", "x": 39, "y": 24}, {"text": "Închide fereastra pentru a reveni la listă.", "x": 73, "y": 12}]} />
 
 ## 19. Golește istoricul păstrând documentele
 
 Treci la Istoric, alege Golește lista și citește confirmarea. Eliminarea istoricului nu șterge fișierele sau colecția separată de documente semnate. Revino apoi la colecție.
 
-<GuideScreenshot src="/img/guide/linux/ro/history.png" alt="Golește istoricul păstrând documentele" steps={[{"text": "Citește Istoric; Documente salvate revine la colecție.", "x": 17, "y": 10}, {"text": "Golește lista și confirmă eliminarea doar a istoricului.", "x": 79, "y": 20}]} />
+<GuideScreenshot src="/img/guide/linux/ro/history.png" alt="Golește istoricul păstrând documentele" steps={[{"text": "Citește Istoric; Documente salvate revine la colecție.", "x": 14, "y": 11}, {"text": "Golește lista și confirmă eliminarea doar a istoricului.", "x": 73, "y": 20}]} />
 
 <GuideScreenshot src="/img/guide/linux/ro/history-confirm.png" alt="Golește istoricul păstrând documentele" start={3} steps={[{"x": 57, "y": 57, "text": "Citește confirmarea pentru istoric, apoi alege Golește lista sau Anulează. Documentele semnate rămân disponibile."}]} />
 
@@ -137,23 +137,23 @@ Deschide Preferințe din meniul aplicației. Modul demonstrativ este sus. Consul
 
 Deschide meniul aplicației → Preferințe. Alege aspectul Sistem, Deschis sau Întunecat și limba Sistem, Română, English sau Русский. Modificările se aplică interfeței. Capturile folosesc traducerile native.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 69, "y": 41}, {"text": "Alege limba interfeței.", "x": 69, "y": 48}]} />
+<GuideScreenshot src="/img/guide/linux/ro/settings-current.png" alt="Alege limba și aspectul" steps={[{"text": "Alege aspectul interfeței.", "x": 68, "y": 17}, {"text": "Alege limba interfeței.", "x": 68, "y": 54}]} />
 
 ## 21. Gestionează PIN-urile și accesul site-urilor
 
 PIN-urile sunt păstrate prin Secret Service/seiful sistemului. Dacă semnarea obișnuită oferă memorarea, salvează intenționat și deblochează seiful când se solicită. Dacă acesta este indisponibil/blocat, introdu PIN-ul pentru operația curentă. Ștergerea copiilor salvate nu schimbă și nu deblochează PIN-ul fizic. Activează conexiunea browser numai pentru fluxul dorit.
 
-<GuideScreenshot src="/img/guide/linux/ro/settings.png" alt="Gestionează PIN-urile și accesul site-urilor" steps={[{"text": "Șterge copiile PIN numai dacă vrei să le introduci din nou.", "x": 68, "y": 65}, {"text": "Activează conexiunea numai pentru serviciul dorit.", "x": 69, "y": 85}]} />
+<GuideScreenshot src="/img/guide/linux/ro/saved-pins.png" alt="Deschide PIN-uri salvate în Preferințe pentru a gestiona copiile stocate pe acest dispozitiv." steps={[{"text": "Deschide PIN-uri salvate în Preferințe pentru a gestiona copiile stocate pe acest dispozitiv.", "x": 51, "y": 38}]} />
 
 ## 22. Păstrează aplicația disponibilă în fundal
 
 Derulează în Preferințe la opțiunile de fundal și pornire. Rularea în fundal păstrează conexiunea browser după închiderea ferestrei. Pornirea la autentificare activează detectarea în fundal. Afișarea la introducerea cardului funcționează cât aplicația rulează; nu este un serviciu separat permanent.
 
-<GuideScreenshot src="/img/guide/linux/ro/background.png" alt="Păstrează aplicația disponibilă în fundal" steps={[{"text": "Alege rularea în fundal și pornirea dacă sunt necesare.", "x": 70, "y": 75}, {"text": "Alege dacă introducerea cardului deschide aplicația pornită.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/linux/ro/background.png" alt="Păstrează aplicația disponibilă în fundal" steps={[{"text": "Alege rularea în fundal și pornirea dacă sunt necesare.", "x": 68, "y": 75}, {"text": "Alege dacă introducerea cardului deschide aplicația pornită.", "x": 68, "y": 89}]} />
 
 ## 23. Găsește versiunea și actualizează sigur
 
-Deschide Preferințe → Despre eSemnBun pentru versiune și site. Folosește verificarea actualizărilor când este disponibilă ori canalul original al pachetului. Instalează un pachet compatibil; verificarea nu înlocuiește aplicația automat. Pentru suport oferă versiunile și cititorul, niciodată PIN-ul.
+Deschide meniul aplicației → Despre eSemnBun pentru versiune și site. Folosește verificarea actualizărilor când este disponibilă ori canalul original al pachetului. Instalează un pachet compatibil; verificarea nu înlocuiește aplicația automat. Pentru suport oferă versiunile și cititorul, niciodată PIN-ul.
 
 <GuideScreenshot src="/img/guide/linux/ro/about.png" alt="Găsește versiunea și actualizează sigur" steps={[{"text": "Deschide Despre eSemnBun.", "x": 58, "y": 7}, {"text": "Citește versiunea și site-ul înainte de suport.", "x": 50, "y": 27}]} />
 
@@ -161,7 +161,7 @@ Deschide Preferințe → Despre eSemnBun pentru versiune și site. Folosește ve
 
 Meniul aplicației oferă Preferințe, Despre, Verifică actualizările și Ieșire. Pentru ajutor online deschide [depanarea](/docs/troubleshooting). Închiderea ferestrei poate lăsa aplicația în fundal; alege Ieșire pentru oprire. Pentru automatizare continuă cu ghidul CLI Linux.
 
-<GuideScreenshot src="/img/guide/linux/ro/menu.png" alt="Deschide ajutorul și comenzile aplicației" steps={[{"text": "Deschide meniul aplicației."}, {"text": "Alege Preferințe, Ajutor, actualizare sau Ieșire.", "x": 87, "y": 35}]} />
+<GuideScreenshot src="/img/guide/linux/ro/menu.png" alt="Deschide ajutorul și comenzile aplicației" steps={[{"text": "Deschide meniul aplicației.", "x": 89, "y": 3}, {"text": "Alege Preferințe, Ajutor, actualizare sau Ieșire.", "x": 89, "y": 14}]} />
 
 ## 25. Aprobă o cerere locală de semnare MCP
 

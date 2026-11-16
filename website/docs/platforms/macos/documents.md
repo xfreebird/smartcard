@@ -20,13 +20,13 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Documents and operation History are separate collections. Entries refer to files; if a file has moved or disappeared, choose the file again from its new location for verification.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Find a saved signed document" steps={[{"x": 30, "y": 20, "text": "Open Documents and choose Saved documents."}, {"x": 82, "y": 3, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Find a saved signed document" steps={[{"x": 49, "y": 7, "text": "Open Documents and choose Saved documents."}, {"x": 34, "y": 13, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
 
 ## Inspect and hand off a saved document
 
 The details modal uses the same verification presentation as Verify. Inspecting a saved document does not replace the files in the Verify workspace. Preview is a file preview, not a separate security validation.
 
-<GuideScreenshot src="/img/guide/macos/en/details.png" alt="Inspect and hand off a saved document" steps={[{"x": 31, "y": 48, "text": "Expand the author to inspect signature and certificate details."}, {"x": 32, "y": 60, "text": "Choose Preview to read the file."}, {"x": 42, "y": 60, "text": "Choose Share to export/send the signed output."}, {"x": 54, "y": 60, "text": "Choose Show in Finder to locate the file; Done closes the modal."}]} />
+<GuideScreenshot src="/img/guide/macos/en/details.png" alt="Inspect and hand off a saved document" steps={[{"x": 33, "y": 48, "text": "Expand the author to inspect signature and certificate details."}, {"x": 35, "y": 58, "text": "Choose Preview to read the file."}, {"x": 43, "y": 58, "text": "Choose Share to export/send the signed output."}, {"x": 53, "y": 58, "text": "Choose Show in Finder to locate the file."}]} />
 
 ## Clear operation history while keeping documents
 

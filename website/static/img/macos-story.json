@@ -2,48 +2,48 @@
   "locale": "en",
   "theme": "light",
   "document": "Sample-contract.pdf",
-  "captureDate": "2026-11-15",
-  "mock": true,
-  "bannerHidden": true,
   "states": [
     {
       "file": "macos-disconnected.png",
+      "sha256": "52dbc29aeca06bd6ede84eee96e4174591181e1950f6f9fff81e446b691931df",
       "title": "Sign",
       "dimensions": [
-        2560,
-        1600
-      ],
-      "windowSize": [
-        1280,
+        1222,
         800
       ],
-      "sha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54"
+      "windowSize": [
+        1222,
+        800
+      ]
     },
     {
       "file": "macos-reader.png",
+      "sha256": "5c9af86a59a2be30dca1e3fed5e648377f68a3494eb1ed3d1e3e3db834129d09",
       "title": "Sign",
       "dimensions": [
-        2560,
-        1600
-      ],
-      "windowSize": [
-        1280,
+        1222,
         800
       ],
-      "sha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022"
+      "windowSize": [
+        1222,
+        800
+      ]
     },
     {
       "file": "macos.png",
+      "sha256": "8b89892c0508cfaa927a98299e47ce7477a30edeb875f1570e0d7847a70adde8",
       "title": "Sign",
       "dimensions": [
-        2560,
-        1600
-      ],
-      "windowSize": [
-        1280,
+        1222,
         800
       ],
-      "sha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd"
+      "windowSize": [
+        1222,
+        800
+      ]
     }
-  ]
+  ],
+  "captureDate": "2026-11-16",
+  "mock": true,
+  "bannerHidden": true
 }

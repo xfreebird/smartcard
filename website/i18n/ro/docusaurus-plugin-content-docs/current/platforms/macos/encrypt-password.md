@@ -16,13 +16,13 @@ Criptează un fișier cu parolă
 
 ## Criptează un fișier cu parolă
 
-Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
 Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 59, "y": 3}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschide Documente și apasă scutul de lângă coș." steps={[{"text": "Deschide Documente și apasă scutul de lângă coș.", "x": 68, "y": 6.6}]} />
 
 <GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 30, "text": "Alege fișierul sursă."}, {"x": 35, "y": 51, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 82, "text": "Alege Criptează. Copia criptată este salvată în Documente; alege Gata la final."}]} />
 

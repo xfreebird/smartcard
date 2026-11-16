@@ -16,11 +16,11 @@ Decrypt a received file
 
 ## Decrypt a received file
 
-Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+Open **Documents** and select the shield beside the trash button to open **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 59, "y": 3}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents and select the shield beside the trash button." steps={[{"text": "Open Documents and select the shield beside the trash button.", "x": 68, "y": 6.6}]} />
 
 <GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 51, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 82, "text": "Choose Decrypt. Check the new output in Documents; choose Done when finished."}]} />
 

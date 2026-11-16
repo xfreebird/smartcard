@@ -1,103 +1,103 @@
 [
   {
     "target": "website/static/img/landing/macos/disconnected-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "macos",
     "appearance": "light",
     "state": "disconnected",
     "mock": true,
     "bannerHidden": true,
     "dimensions": [
-      2560,
-      1600
+      1222,
+      800
     ],
-    "originalSha256": "8b3caaf27c942bb977e175547f92f3a342cabe357ce944b16757b56e8ab33cb3",
-    "sourceSha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54",
-    "sha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54"
+    "originalSha256": "e64571da46cac2285a16c01c343183f00b1641cb52463e5f441b40effc432c54",
+    "sourceSha256": "52dbc29aeca06bd6ede84eee96e4174591181e1950f6f9fff81e446b691931df",
+    "sha256": "52dbc29aeca06bd6ede84eee96e4174591181e1950f6f9fff81e446b691931df"
   },
   {
     "target": "website/static/img/landing/macos/reader-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "macos",
     "appearance": "light",
     "state": "reader",
     "mock": true,
     "bannerHidden": true,
     "dimensions": [
-      2560,
-      1600
+      1222,
+      800
     ],
-    "originalSha256": "0f3633ab2358a3503c9ac94c84dd961ee671cfd7f56e6a66d42c4d134b5f37b7",
-    "sourceSha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022",
-    "sha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022"
+    "originalSha256": "5e284778c87aba9a4451df636b42869e337a77db0ac80b55878f6fe927946022",
+    "sourceSha256": "5c9af86a59a2be30dca1e3fed5e648377f68a3494eb1ed3d1e3e3db834129d09",
+    "sha256": "5c9af86a59a2be30dca1e3fed5e648377f68a3494eb1ed3d1e3e3db834129d09"
   },
   {
     "target": "website/static/img/landing/macos/ready-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "macos",
     "appearance": "light",
     "state": "ready",
     "mock": true,
     "bannerHidden": true,
     "dimensions": [
-      2560,
-      1600
+      1222,
+      800
     ],
-    "originalSha256": "a2ee6b385edc65bea0e61ef69f0414cdcc851ffdac26fb344582d5e6972c49f4",
-    "sourceSha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd",
-    "sha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd"
+    "originalSha256": "b1eefbfe9462637cfb2794358675a33acc877a84abb7d1abe3285d4a8fb1dedd",
+    "sourceSha256": "8b89892c0508cfaa927a98299e47ce7477a30edeb875f1570e0d7847a70adde8",
+    "sha256": "8b89892c0508cfaa927a98299e47ce7477a30edeb875f1570e0d7847a70adde8"
   },
   {
     "target": "website/static/img/landing/macos/disconnected-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "macos",
     "appearance": "dark",
     "state": "disconnected",
     "mock": true,
     "bannerHidden": true,
     "dimensions": [
-      2560,
-      1600
+      1222,
+      800
     ],
-    "originalSha256": "d99b2f740362e9b1f8ff9a7ce67e1d4d1123815525f08cf21897f3724140e7d5",
-    "sourceSha256": "6fdf530fb57ab424a6e4d6cd2b991ec604e7f1fa9159fe849e95adaae3b52966",
-    "sha256": "6fdf530fb57ab424a6e4d6cd2b991ec604e7f1fa9159fe849e95adaae3b52966"
+    "originalSha256": "6fdf530fb57ab424a6e4d6cd2b991ec604e7f1fa9159fe849e95adaae3b52966",
+    "sourceSha256": "e2d03eedf0ce1a97d25c9f5f4c8722440a53a7637cf917c4226512846fa4a3e6",
+    "sha256": "e2d03eedf0ce1a97d25c9f5f4c8722440a53a7637cf917c4226512846fa4a3e6"
   },
   {
     "target": "website/static/img/landing/macos/reader-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "macos",
     "appearance": "dark",
     "state": "reader",
     "mock": true,
     "bannerHidden": true,
     "dimensions": [
-      2560,
-      1600
+      1222,
+      800
     ],
-    "originalSha256": "af1ac6ab597f8ff802efa8733a94b6a5d7355cc5bda0d1807a97b5b91073058b",
-    "sourceSha256": "2823e0d882ed94e592a2dcb4cef9516513b5318fafe9742e6ab8e80f075dcbb7",
-    "sha256": "2823e0d882ed94e592a2dcb4cef9516513b5318fafe9742e6ab8e80f075dcbb7"
+    "originalSha256": "2823e0d882ed94e592a2dcb4cef9516513b5318fafe9742e6ab8e80f075dcbb7",
+    "sourceSha256": "6cadf579b6a594494af3c6f3a614ee906bf570105bffd64f0f8365621ece1ef1",
+    "sha256": "6cadf579b6a594494af3c6f3a614ee906bf570105bffd64f0f8365621ece1ef1"
   },
   {
     "target": "website/static/img/landing/macos/ready-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "macos",
     "appearance": "dark",
     "state": "ready",
     "mock": true,
     "bannerHidden": true,
     "dimensions": [
-      2560,
-      1600
+      1222,
+      800
     ],
-    "originalSha256": "0b6c91cf7689763057b55c980bc3f683f23c92f67fd710cffc198648525bb360",
-    "sourceSha256": "013fe80b8d0c9522fbdff55af9c6341cd9aa51d017b53d46fe0cd78ed0ee47b5",
-    "sha256": "013fe80b8d0c9522fbdff55af9c6341cd9aa51d017b53d46fe0cd78ed0ee47b5"
+    "originalSha256": "013fe80b8d0c9522fbdff55af9c6341cd9aa51d017b53d46fe0cd78ed0ee47b5",
+    "sourceSha256": "350d6efae3464a740075702e98461ebda1a48c3a2d27397b7035c2762833b89f",
+    "sha256": "350d6efae3464a740075702e98461ebda1a48c3a2d27397b7035c2762833b89f"
   },
   {
     "target": "website/static/img/landing/linux/disconnected-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "linux",
     "appearance": "light",
     "state": "disconnected",
@@ -107,13 +107,13 @@
       1280,
       800
     ],
-    "originalSha256": "d1557f655085c6e4d42b39225ac891d49cae28bc8a5187c77754201c65d127ff",
-    "sourceSha256": "5aff50bd8b2cc795d0a53bb94413e327d743a9b769e4793e0c5fc4653c6553ed",
-    "sha256": "5aff50bd8b2cc795d0a53bb94413e327d743a9b769e4793e0c5fc4653c6553ed"
+    "originalSha256": "5aff50bd8b2cc795d0a53bb94413e327d743a9b769e4793e0c5fc4653c6553ed",
+    "sourceSha256": "c42101c0015d941c44dc2d9e055e0a35a0d2d93c2ce18ca6b8b3f2ce6dbf8d45",
+    "sha256": "c42101c0015d941c44dc2d9e055e0a35a0d2d93c2ce18ca6b8b3f2ce6dbf8d45"
   },
   {
     "target": "website/static/img/landing/linux/reader-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "linux",
     "appearance": "light",
     "state": "reader",
@@ -123,13 +123,13 @@
       1280,
       800
     ],
-    "originalSha256": "1e88845592766549a71128d0302c70718c1dbda2a08e8d0bf8e4f43186723a28",
-    "sourceSha256": "20dc9eda2d39abb64085fc79d634807d19f4ae7b1186f427ecbb09695272b6b2",
-    "sha256": "20dc9eda2d39abb64085fc79d634807d19f4ae7b1186f427ecbb09695272b6b2"
+    "originalSha256": "20dc9eda2d39abb64085fc79d634807d19f4ae7b1186f427ecbb09695272b6b2",
+    "sourceSha256": "59dd8e6cea7df4fcdde05e479cae452ddd3d5abd074c75aebc9d398a8bb71346",
+    "sha256": "59dd8e6cea7df4fcdde05e479cae452ddd3d5abd074c75aebc9d398a8bb71346"
   },
   {
     "target": "website/static/img/landing/linux/ready-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "linux",
     "appearance": "light",
     "state": "ready",
@@ -139,13 +139,13 @@
       1280,
       800
     ],
-    "originalSha256": "f7f05c0ce9e3c49139ba4a438113377b5ec92ca1a3223c5a9df42dbc4f3ca72d",
-    "sourceSha256": "f05f3e21623717fc0ee2214ffc9ed62a69bbed6ef033063a7b35746d2f5067be",
-    "sha256": "f05f3e21623717fc0ee2214ffc9ed62a69bbed6ef033063a7b35746d2f5067be"
+    "originalSha256": "f05f3e21623717fc0ee2214ffc9ed62a69bbed6ef033063a7b35746d2f5067be",
+    "sourceSha256": "876ffa78c2dc89b4b8668c53dc11c96fa4f6fc9b693ac00f4e0e868a531bd9f8",
+    "sha256": "876ffa78c2dc89b4b8668c53dc11c96fa4f6fc9b693ac00f4e0e868a531bd9f8"
   },
   {
     "target": "website/static/img/landing/linux/disconnected-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "linux",
     "appearance": "dark",
     "state": "disconnected",
@@ -155,13 +155,13 @@
       1280,
       800
     ],
-    "originalSha256": "1b20227dd424cd6330fcd4434a6499ddfc232264205b8be0a5a60f4d73581f00",
-    "sourceSha256": "7a9feea8b6664c21feea7931e156035b9df414f19ad69af3303f1637a7f3426c",
-    "sha256": "7a9feea8b6664c21feea7931e156035b9df414f19ad69af3303f1637a7f3426c"
+    "originalSha256": "7a9feea8b6664c21feea7931e156035b9df414f19ad69af3303f1637a7f3426c",
+    "sourceSha256": "79fff64dedf0bb4491b507e527acbc57a70dfeb78e87d4062c456bc0da084eae",
+    "sha256": "79fff64dedf0bb4491b507e527acbc57a70dfeb78e87d4062c456bc0da084eae"
   },
   {
     "target": "website/static/img/landing/linux/reader-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "linux",
     "appearance": "dark",
     "state": "reader",
@@ -171,13 +171,13 @@
       1280,
       800
     ],
-    "originalSha256": "c3b1b1f7ba92e234407887e502d1716e32478a8b17f1e5cee8f59b4a73c29d4b",
-    "sourceSha256": "8182a912381d9bd69c476985f4874ba9e8b7d5166c822bbc098fdb1cad0dde5c",
-    "sha256": "8182a912381d9bd69c476985f4874ba9e8b7d5166c822bbc098fdb1cad0dde5c"
+    "originalSha256": "8182a912381d9bd69c476985f4874ba9e8b7d5166c822bbc098fdb1cad0dde5c",
+    "sourceSha256": "6f4e44fca9a43443ab3db0a541243d269921e208f96e4370c4a8e1f02f1ecc25",
+    "sha256": "6f4e44fca9a43443ab3db0a541243d269921e208f96e4370c4a8e1f02f1ecc25"
   },
   {
     "target": "website/static/img/landing/linux/ready-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "linux",
     "appearance": "dark",
     "state": "ready",
@@ -187,13 +187,13 @@
       1280,
       800
     ],
-    "originalSha256": "a4a2b930745a20f32b5ec70c45d685096d58b49cef950bc90bcccf1c455ce476",
-    "sourceSha256": "f29ed5a64d6c9479d68dcdc354b1b71a0430467c7b9ae9848c3f2dc26cecb109",
-    "sha256": "f29ed5a64d6c9479d68dcdc354b1b71a0430467c7b9ae9848c3f2dc26cecb109"
+    "originalSha256": "f29ed5a64d6c9479d68dcdc354b1b71a0430467c7b9ae9848c3f2dc26cecb109",
+    "sourceSha256": "0be642bd3c026a60e6189766d07b1c6468e52a6834bd50db3c905787de9c02ef",
+    "sha256": "0be642bd3c026a60e6189766d07b1c6468e52a6834bd50db3c905787de9c02ef"
   },
   {
     "target": "website/static/img/landing/windows/disconnected-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "windows",
     "appearance": "light",
     "state": "disconnected",
@@ -203,19 +203,19 @@
       1352,
       900
     ],
-    "originalSha256": "72a7fbced8436a1cc83ca748a23215f4f294a82e27d2807dfa609d242dc40699",
-    "sourceSha256": "e4fb43713d51b382bf60fdb4ddaec28de4ae7e23b06cbb2157597137e0e0d4e0",
-    "sha256": "f2cef479bcb367054808ebcfa777529e87a14bad8d43f5122852fd3a53860d89",
+    "originalSha256": "f2cef479bcb367054808ebcfa777529e87a14bad8d43f5122852fd3a53860d89",
+    "sourceSha256": "74ca171cce4d919d85d0c00f0ae8a6871f89b51fc0da984ea263ebce78d7dad1",
+    "sha256": "869fd44cc2b26c6da9ee96f5adbcd686ae3561932795406ee487afc896bfbf76",
     "cropPixels": [
       8,
-      1,
+      8,
       1360,
-      901
+      908
     ]
   },
   {
     "target": "website/static/img/landing/windows/reader-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "windows",
     "appearance": "light",
     "state": "reader",
@@ -225,19 +225,19 @@
       1352,
       900
     ],
-    "originalSha256": "7cb474d0bd4f54930ba950d12a5dd5d0f8491117311fec2995adf65c4e5c533e",
-    "sourceSha256": "a834af34183f0ba32bd8d643f95f775bb76e36e10e4d0e1442649fefa26ce816",
-    "sha256": "dacd5a8407d5f6b6c414adc24a8e46203668bad963d5bcf9a272c1f854600523",
+    "originalSha256": "dacd5a8407d5f6b6c414adc24a8e46203668bad963d5bcf9a272c1f854600523",
+    "sourceSha256": "3d84bfce709c642ad4c12f491ec438687dd8107a9b7884100aff576f27e6e889",
+    "sha256": "caccafe53151074fe53643810e9549f706ddced16ba2a840e24b7fdf183a005a",
     "cropPixels": [
       8,
-      1,
+      8,
       1360,
-      901
+      908
     ]
   },
   {
     "target": "website/static/img/landing/windows/ready-light.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "windows",
     "appearance": "light",
     "state": "ready",
@@ -247,19 +247,19 @@
       1352,
       900
     ],
-    "originalSha256": "2605d7bb1ae24d3dce7a0a325a4de2ff354232a82931546049358fdfd9aa0948",
-    "sourceSha256": "ddf127fb71e9993e05d8277a3a3170e602352e6ee56decc9d74e14d4b38cb4d0",
-    "sha256": "f808da3362c939dc6b9eefe73a8e2eb31443ae1dd53117892c4f056b7ff2c51a",
+    "originalSha256": "f808da3362c939dc6b9eefe73a8e2eb31443ae1dd53117892c4f056b7ff2c51a",
+    "sourceSha256": "59e295d1710eb4aaff3f1445b1d362a6d4cfd013660d9dca54b2946bc26d7a48",
+    "sha256": "858acc3b712808393e8586c5ecc29ad291f210dc5b780c998dcbe7576b950e04",
     "cropPixels": [
       8,
-      1,
+      8,
       1360,
-      901
+      908
     ]
   },
   {
     "target": "website/static/img/landing/windows/disconnected-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "windows",
     "appearance": "dark",
     "state": "disconnected",
@@ -269,19 +269,19 @@
       1352,
       900
     ],
-    "originalSha256": "eceef42f2b3d81848f0991375c5dffc8c37278107a24a1665c44d2f499927ce7",
-    "sourceSha256": "e259c0ab7edded9dbc6b7771ec4e2076a7cd0e4ebea0aabe2b5480d35811de78",
-    "sha256": "97f15bc249058e8ccbd5ae023a9b85c65f9a1629bfda632f3f4b2a155c9a1f70",
+    "originalSha256": "97f15bc249058e8ccbd5ae023a9b85c65f9a1629bfda632f3f4b2a155c9a1f70",
+    "sourceSha256": "09dd079316c4d5f59eaf61b74bfe47196a5f871ff671b4932129e7260abecde4",
+    "sha256": "a1bfea372098407b1fb7b53570728beccba54a40dbb99fb2b4ddab6c1120ea76",
     "cropPixels": [
       8,
-      1,
+      8,
       1360,
-      901
+      908
     ]
   },
   {
     "target": "website/static/img/landing/windows/reader-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "windows",
     "appearance": "dark",
     "state": "reader",
@@ -291,19 +291,19 @@
       1352,
       900
     ],
-    "originalSha256": "06d21c56c9628731f62e5687757dfab2623a750273b4c325f3a4d70860089d69",
-    "sourceSha256": "934dd271a25a44bf3ad337f44330529b40c08a5ae2984d75e51282fe040cb66c",
-    "sha256": "f79f8165054e5d067d68b4802f25d0fa793d84dff7df74fd49b35b67b599735c",
+    "originalSha256": "f79f8165054e5d067d68b4802f25d0fa793d84dff7df74fd49b35b67b599735c",
+    "sourceSha256": "d4901c747813ab327ebff56170b23efd5d84cb25fc5b49985024f33a4007ba8a",
+    "sha256": "d4a8ccf691284e32fae1429a94afe60f3954c6830d5b61f695da79f17e08e41a",
     "cropPixels": [
       8,
-      1,
+      8,
       1360,
-      901
+      908
     ]
   },
   {
     "target": "website/static/img/landing/windows/ready-dark.png",
-    "captureDate": "2026-11-15",
+    "captureDate": "2026-11-16",
     "platform": "windows",
     "appearance": "dark",
     "state": "ready",
@@ -313,14 +313,14 @@
       1352,
       900
     ],
-    "originalSha256": "1b22881ad95e8c6a898d81f6c9d30d18d1ec212098a92edbc9a515c30a17a4c4",
-    "sourceSha256": "8b04c31340a796fe97c26c1b944148f12d2bcb25e823269e1684df43c987eca9",
-    "sha256": "4baa133f6fee2a786b1fbbcd9980e641078c0fe88a528ac75393d109c67dc54a",
+    "originalSha256": "4baa133f6fee2a786b1fbbcd9980e641078c0fe88a528ac75393d109c67dc54a",
+    "sourceSha256": "ce4eda9135dcc5ec16cb88926973f0576a5fc90f23194bcc9a3384b9fd6af5f2",
+    "sha256": "819e0a4b65cc4ca83d0ff63770f58e6f0508264fbba45b959dd041516f771d5d",
     "cropPixels": [
       8,
-      1,
+      8,
       1360,
-      901
+      908
     ]
   },
   {

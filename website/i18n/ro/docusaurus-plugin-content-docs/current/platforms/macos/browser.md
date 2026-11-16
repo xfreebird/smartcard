@@ -18,7 +18,7 @@ Conectează un serviciu, verifică cererile și gestionează sesiunile web.
 
 Deschide Browser din bara laterală. Introdu adresa HTTPS a unui serviciu de încredere și apasă săgeata; înapoi, înainte și reîncărcare rămân în bara de instrumente. Meniul de marcaje oferă serviciile salvate, Adaugă marcaj, Gestionează marcajele și curățarea datelor. În dialogul de mai jos introdu titlul, URL-ul și pictograma, apoi Salvează. Închide cu Gata și alege serviciul din meniul de marcaje.
 
-<GuideScreenshot src="/img/guide/macos/ro/browser.png" alt="Folosește un serviciu și gestionează marcajele" steps={[{"x": 45, "y": 58, "text": "Introdu un titlu ușor de recunoscut."}, {"x": 47, "y": 63, "text": "Verifică adresa completă a site-ului și alege pictograma de dedesubt."}, {"x": 68, "y": 82, "text": "Alege Salvează după validarea titlului și URL-ului; Gata închide gestionarea."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/browser.png" alt="Folosește un serviciu și gestionează marcajele" steps={[{"x": 51, "y": 57, "text": "Introdu un titlu ușor de recunoscut."}, {"x": 48, "y": 60, "text": "Verifică adresa completă a site-ului și alege pictograma de dedesubt."}, {"x": 65, "y": 75, "text": "Alege Salvează după validarea titlului și URL-ului; Gata închide gestionarea."}]} />
 
 ## Verifică fiecare cerere de semnare de pe site
 

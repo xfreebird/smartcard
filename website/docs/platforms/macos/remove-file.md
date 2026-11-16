@@ -16,7 +16,7 @@ Remove a local file
 
 ## Remove a local file
 
-Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+Open **Documents** and select the shield beside the trash button to open **Protect files**. Choose **Remove file** and select the file to remove.
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 

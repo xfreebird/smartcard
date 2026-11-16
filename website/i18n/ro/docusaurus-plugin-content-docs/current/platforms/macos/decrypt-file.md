@@ -16,11 +16,11 @@ Decriptează un fișier primit
 
 ## Decriptează un fișier primit
 
-Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 59, "y": 3}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschide Documente și apasă scutul de lângă coș." steps={[{"text": "Deschide Documente și apasă scutul de lângă coș.", "x": 68, "y": 6.6}]} />
 
 <GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" start={2} steps={[{"x": 56, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 35, "y": 51, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 82, "text": "Alege Decriptează. Verifică rezultatul nou în Documente; alege Gata la final."}]} />
 

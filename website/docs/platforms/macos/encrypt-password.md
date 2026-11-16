@@ -16,13 +16,13 @@ Encrypt a file with a password
 
 ## Encrypt a file with a password
 
-Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+Open **Documents** and select the shield beside the trash button to open **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
 File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 59, "y": 3}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents and select the shield beside the trash button." steps={[{"text": "Open Documents and select the shield beside the trash button.", "x": 68, "y": 6.6}]} />
 
 <GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 30, "text": "Choose the source file."}, {"x": 35, "y": 51, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 82, "text": "Choose Encrypt. The encrypted copy is saved in Documents; choose Done when finished."}]} />
 

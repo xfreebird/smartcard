@@ -30,4 +30,4 @@ Un lanț necunoscut/neconfirmat diferă de modificarea dovedită. Verifică sepa
 
 Lipsa unei semnături recunoscute înseamnă că acest fișier nu are o semnătură verificabilă de aplicație. O imagine scanată sau o ștampilă nu o înlocuiește. Cere rezultatul electronic semnat.
 
-<GuideScreenshot src="/img/guide/linux/ro/unsigned.png" alt="Recunoaște un fișier nesemnat" steps={[{"text": "Citește lipsa semnăturii înainte de a trimite fișierul ca semnat.", "x": 50, "y": 26}]} />
+<GuideScreenshot src="/img/guide/linux/ro/unsigned.png" alt="Recunoaște un fișier nesemnat" steps={[{"text": "Citește lipsa semnăturii înainte de a trimite fișierul ca semnat.", "x": 49, "y": 25}]} />

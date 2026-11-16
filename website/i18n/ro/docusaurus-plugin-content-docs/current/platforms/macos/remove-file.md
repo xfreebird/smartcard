@@ -16,7 +16,7 @@ Elimină un fișier local
 
 ## Elimină un fișier local
 
-Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. Alege **Elimină fișierul** și selectează fișierul de eliminat.
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 

@@ -20,13 +20,13 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Documentele și Istoricul operațiunilor sunt colecții separate. Intrările indică fișiere; dacă un fișier a fost mutat sau eliminat, selectează-l din nou din noua locație pentru verificare.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Găsește un document semnat salvat" steps={[{"x": 30, "y": 20, "text": "Deschide Documente și alege Documente salvate."}, {"x": 82, "y": 3, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Găsește un document semnat salvat" steps={[{"x": 49, "y": 7, "text": "Deschide Documente și alege Documente salvate."}, {"x": 34, "y": 13, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
 
 ## Inspectează și transmite un document salvat
 
 Fereastra cu detalii folosește aceeași prezentare ca Verifică. Inspectarea unui document salvat nu înlocuiește fișierele din spațiul Verifică. Previzualizarea arată fișierul, fără a fi o validare de securitate separată.
 
-<GuideScreenshot src="/img/guide/macos/ro/details.png" alt="Inspectează și transmite un document salvat" steps={[{"x": 31, "y": 48, "text": "Extinde autorul pentru semnătură și certificat."}, {"x": 32, "y": 60, "text": "Alege Previzualizare pentru a citi fișierul."}, {"x": 42, "y": 60, "text": "Alege Partajează pentru exportul/trimiterea rezultatului semnat."}, {"x": 54, "y": 60, "text": "Alege Arată în Finder pentru localizare; Gata închide fereastra."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/details.png" alt="Inspectează și transmite un document salvat" steps={[{"x": 33, "y": 48, "text": "Extinde autorul pentru semnătură și certificat."}, {"x": 35, "y": 58, "text": "Alege Previzualizare pentru a citi fișierul."}, {"x": 43, "y": 58, "text": "Alege Partajează pentru exportul/trimiterea rezultatului semnat."}, {"x": 53, "y": 58, "text": "Alege Arată în Finder pentru a localiza fișierul."}]} />
 
 ## Curăță istoricul păstrând documentele
 

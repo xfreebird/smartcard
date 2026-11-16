@@ -20,16 +20,16 @@ Deschide [Descărcări](/downloads/). Instalează ediția Mac App Store sau desc
 
 Ai nevoie de macOS 15 sau mai nou, un cititor USB compatibil, un act electronic acceptat și activ și PIN-ul său de semnare. Folosește un adaptor USB-C adecvat, dacă este necesar. Semnarea prin NFC nu este disponibilă.
 
-<GuideScreenshot src="/img/guide/macos/ro/connect.png" alt="Instalează aplicația și conectează cititorul" steps={[{"x": 8, "y": 11, "text": "Deschide Semnează în bara laterală."}, {"x": 60, "y": 26, "text": "Conectează cititorul USB. Ecranul se schimbă după detectarea lui."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/connect.png" alt="Instalează aplicația și conectează cititorul" steps={[{"x": 5, "y": 7, "text": "Deschide Semnează în bara laterală."}, {"x": 59, "y": 17, "text": "Conectează cititorul USB. Ecranul se schimbă după detectarea lui."}]} />
 
 ## Introdu cardul
 
 Certificatul se citește fără PIN. Așteaptă afișarea titularului și a expirării înainte de semnare. Cheia privată de semnare rămâne pe card.
 
-<GuideScreenshot src="/img/guide/macos/ro/empty-reader.png" alt="Introdu cardul" steps={[{"x": 60, "y": 25, "text": "Introdu cardul în cititorul detectat și lasă-l conectat."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/empty-reader.png" alt="Introdu cardul" steps={[{"x": 59, "y": 18, "text": "Introdu cardul în cititorul detectat și lasă-l conectat."}]} />
 
 ## Alege identitatea și verifică certificatul
 
 Imaginea cardului folosește datele certificatului și un avatar neutru, nu fotografia citită din act. Pentru a reciti cardul, folosește butonul din dreapta sus sau meniul contextual al cardului. Nu porni o altă operațiune în timpul uneia active.
 
-<GuideScreenshot src="/img/guide/macos/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat.", "x": 21, "y": 45}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/cards-current.png" alt="Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat." steps={[{"text": "Deschide Setări și alege Carduri și cititoare pentru a consulta titularul, certificatul și cititorul conectat.", "x": 25, "y": 42}, {"text": "Alege titularul dorit din carusel înainte de a semna."}]} />

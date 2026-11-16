@@ -30,4 +30,4 @@ An unconfirmed/unknown chain is different from proven document modification. Che
 
 No recognized signature means this file has no signature the app can verify. A scanned signature image or visible stamp is not a substitute. Ask for the actual electronic signed output.
 
-<GuideScreenshot src="/img/guide/linux/en/unsigned.png" alt="Recognize an unsigned file" steps={[{"text": "Read the no-signature verdict before sending the file as signed.", "x": 50, "y": 26}]} />
+<GuideScreenshot src="/img/guide/linux/en/unsigned.png" alt="Recognize an unsigned file" steps={[{"text": "Read the no-signature verdict before sending the file as signed.", "x": 49, "y": 25}]} />

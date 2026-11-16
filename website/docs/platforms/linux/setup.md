@@ -18,16 +18,16 @@ Install, connect a reader and choose your card.
 
 Connect the reader directly or through the appropriate USB adapter. No signing PIN is needed to discover the reader or read a certificate. A PC/SC service failure is different from an unplugged reader.
 
-<GuideScreenshot src="/img/guide/linux/en/connect.png" alt="Connect a reader" steps={[{"text": "Open Sign.", "x": 32, "y": 3}, {"text": "Attach a compatible USB reader; read the connection prompt.", "x": 50, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/en/connect.png" alt="Connect a reader" steps={[{"text": "Open Sign.", "x": 41, "y": 3}, {"text": "Attach a compatible USB reader; read the connection prompt.", "x": 50, "y": 23}]} />
 
 ## Insert the card
 
 Insert your electronic ID and wait for the certificate read. Check the holder and expiry before adding a signing request. Do not keep reconnecting while an operation is already running.
 
-<GuideScreenshot src="/img/guide/linux/en/empty.png" alt="Insert the card" steps={[{"text": "Insert the card and wait for its holder and expiry.", "x": 50, "y": 28}]} />
+<GuideScreenshot src="/img/guide/linux/en/empty.png" alt="Insert the card" steps={[{"text": "Insert the card and wait for its holder and expiry.", "x": 50, "y": 26}]} />
 
 ## Choose the intended identity
 
 With several cards, select the intended identity in the carousel. The card artwork uses certificate information and a neutral avatar, not a photograph read from your ID. Re-read the card with the refresh control if needed.
 
-<GuideScreenshot src="/img/guide/linux/en/cards-current.png" alt="Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader." steps={[{"text": "Open Settings and choose Cards and readers to inspect the selected holder, certificate and connected reader.", "x": 48, "y": 28}, {"text": "Use the card carousel to choose the intended holder before signing."}]} />
+<GuideScreenshot src="/img/guide/linux/en/cards-current.png" alt="Open Preferences from the application menu. Choose Cards and readers." steps={[{"text": "Open Preferences from the application menu. Choose Cards and readers.", "x": 50, "y": 27}, {"text": "Use the carousel to choose the intended card.", "x": 50, "y": 43}, {"text": "Scroll down to see the certificate and connected reader.", "x": 47, "y": 76}]} />
