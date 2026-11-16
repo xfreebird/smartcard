@@ -19,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.app.R
 import md.moldsign.app.ui.components.ChoiceRow
-import md.moldsign.app.ui.components.SigningMethodPicker
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

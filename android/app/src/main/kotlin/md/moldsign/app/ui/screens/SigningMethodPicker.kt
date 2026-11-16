@@ -1,4 +1,4 @@
-package md.moldsign.app.ui.components
+package md.moldsign.app.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -25,6 +25,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import md.moldsign.app.R
 import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.app.presentation.toCardWalletContent
+import md.moldsign.app.ui.components.CardWallet
+import md.moldsign.app.ui.components.ConnectionGuide
 
 /** NFC stays compact; reader setup and connected cards are visible where the user needs them. */
 @OptIn(ExperimentalMaterial3Api::class)

@@ -181,7 +181,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             if (working) StepCard(progress, modifier = Modifier)
             resultContent()
             if (items.isEmpty()) {
-                if (signedResults.isEmpty()) md.moldsign.app.ui.components.SigningMethodPicker(vm, signing = true)
+                if (signedResults.isEmpty()) SigningMethodPicker(vm, signing = true)
             } else {
                 Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(stringResource(R.string.guided_ready), style = MaterialTheme.typography.headlineLarge,
@@ -190,7 +190,7 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
                         color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.testTag("sign.nextStep"))
                 }
                 documentContent()
-                md.moldsign.app.ui.components.SigningMethodPicker(vm, compact = true, signing = true)
+                SigningMethodPicker(vm, compact = true, signing = true)
             }
         }
         androidx.compose.material3.Surface(color = MaterialTheme.colorScheme.surface.copy(alpha = 0.96f)) {
