@@ -85,3 +85,20 @@ class WorkflowContracts(unittest.TestCase):
         self.assertIn('needs: [changes, apple-apps]', ios)
         self.assertIn("!cancelled() && needs.changes.result == 'success'", ios)
         self.assertNotIn("needs.apple-apps.result == 'success'", ios)
+
+    def test_ios_budget_limits_preserve_failure_evidence(self):
+        ci = (ROOT / '.github/workflows/ci.yml').read_text()
+        ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
+        job_limit = int(re.search(r'\n    timeout-minutes: (\d+)', ios).group(1))
+        self.assertLessEqual(job_limit, 50)
+        caps = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
+                'Native iPhone and iPad mock UI journeys': 40, 'iOS UI evidence': 3}
+        for name, cap in caps.items():
+            step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
+            limit = int(re.search(r'timeout-minutes: (\d+)', step).group(1))
+            self.assertGreater(limit, 0, name)
+            self.assertLessEqual(limit, cap, name)
+            self.assertLess(limit, job_limit, name)
+        evidence = ios.split('- name: iOS UI evidence', 1)[1]
+        self.assertIn('if: always()', evidence)
+        self.assertIn('actions/upload-artifact@', evidence)

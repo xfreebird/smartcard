@@ -38,6 +38,10 @@ Selected native jobs run the Debug mock UI suites on macOS, iPhone and iPad simu
 
 The iOS batch also requires native carousel gestures, demo/share/restart tests, and a Files-picker protection round trip with byte/permission readback on both device families. Android runs crypto/storage and two separate persistence phases after its UI journeys. Windows additionally requires ordinary first launch, isolated demo transitions, card scrolling and synthetic reader-helper activation. These checks use separate profiles/processes and do not modify developer data.
 
+iOS validation has a 50-minute job ceiling, a five-minute build limit and a 40-minute limit for the complete iPhone/iPad UI step (including setup and simulator boot). Checkout and SDK discovery each have two-minute limits; evidence upload has three minutes and still runs after failure. The UI limit allows the previously successful 32-minute batch while bounding a stalled process. The job ceiling is an independent final cap, so unusually slow setup can reduce the remaining evidence-upload window.
+
+The iOS CI wrapper enables `MSIGN_UI_FAIL_FAST=1`: a failed suite or result/postcheck stops the batch after reporting diagnostics, shuts down the current simulator and does not start the next device. A successful run still requires every suite on both device families. Direct local `run-mock-ui-tests.sh` calls keep collecting all suites unless that flag is explicitly set. Incomplete results and timeouts remain failures; no automatic UI retries are added.
+
 The iOS evidence artifact retains each protection suite's `roundtrip.json` alongside XCTest bundles,
 test logs and simulator inventories, so restored-byte hashes and private output permissions remain reviewable.
 

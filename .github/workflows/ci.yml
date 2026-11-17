@@ -103,7 +103,7 @@ jobs:
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
 
   ios-app:
-    timeout-minutes: 90
+    timeout-minutes: 50
     # The Xcode 27 pool can service one Apple job at a time. Avoid expiring queued acquisitions.
     needs: [changes, apple-apps]
     if: ${{ !cancelled() && needs.changes.result == 'success' && needs.changes.outputs.ios == 'true' }}
@@ -113,16 +113,22 @@ jobs:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
       - uses: actions/checkout@v6
+        timeout-minutes: 2
       - name: Require iPhone Duo SDK
+        timeout-minutes: 2
         run: bash apple/scripts/require-ios-sdk.sh
       - name: Build iOS and share extension
+        timeout-minutes: 5
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" CODE_SIGNING_ALLOWED=NO build
       - name: Native iPhone and iPad mock UI journeys
+        # A healthy two-device batch takes about 32 minutes. Leave room for evidence upload.
+        timeout-minutes: 40
         run: |
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui"
       - name: iOS UI evidence
         if: always()
+        timeout-minutes: 3
         uses: actions/upload-artifact@v4
         with:
           name: ios-ui-${{ github.sha }}

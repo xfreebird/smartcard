@@ -28,6 +28,8 @@ PLIST
         bash "$repo/apple/scripts/run-mock-ui-tests.sh" macos "$app" mac "$out"
         ;;
     ios)
+        # A failed suite already makes this required job fail; don't spend another device's minutes.
+        export MSIGN_UI_FAIL_FAST=1
         mkdir -p "$out"
         xcrun simctl list devices available -j > "$out/devices.json"
         xcrun simctl list runtimes -j > "$out/runtimes.json"
@@ -35,16 +37,14 @@ PLIST
         python3 "$repo/scripts/ci/select_apple_ui_targets.py" "$out/devices.json" "$out/runtimes.json" "$sdk_version" > "$out/targets.tsv"
         cat "$out/targets.tsv"
         device=''
-        status=0
         trap '[[ -z "$device" ]] || xcrun simctl shutdown "$device" || true' EXIT
         while IFS=$'\t' read -r family device; do
             xcrun simctl boot "$device"
             xcrun simctl bootstatus "$device" -b
-            bash "$repo/apple/scripts/run-mock-ui-tests.sh" ios "$app" "$device" "$out/$family" || status=1
+            bash "$repo/apple/scripts/run-mock-ui-tests.sh" ios "$app" "$device" "$out/$family"
             xcrun simctl shutdown "$device"
             device=''
         done < "$out/targets.tsv"
-        exit "$status"
         ;;
     *) echo 'Unsupported platform.' >&2; exit 2 ;;
 esac

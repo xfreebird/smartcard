@@ -22,6 +22,10 @@ report_failure() {
         python3 "$repo/scripts/ci/check-xctest-result.py" "$bundle" --report-failures || true
     fi
     status=1
+    # CI stops after diagnostics; local investigations still collect every suite by default.
+    if [[ ${MSIGN_UI_FAIL_FAST:-0} == 1 ]]; then
+        exit "$status"
+    fi
 }
 suites=(VerificationJourneyUITests MockWorkflowUITests)
 if [[ "$platform" == macos ]]; then suites+=(MacFloatingActionUITests); fi
