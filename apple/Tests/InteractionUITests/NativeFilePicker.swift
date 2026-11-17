@@ -1,14 +1,14 @@
 import XCTest
 
-/// Files embeds a remote accessibility tree. Resolve an action from one snapshot so a
-/// second query cannot replace the picker control with an obscured application control.
+/// Files embeds a remote accessibility tree. Discover controls in its complete snapshot
+/// and anchor gestures to their native elements, including remote toolbar actions.
 @MainActor
 struct NativeFilePicker {
     let app: XCUIApplication
 
     func cancel() throws {
         let control = try waitForControl("Cancel") { $0.elementType == .button && ["Cancel", "Close"].contains($0.label) }
-        tap(control.frame)
+        tap(control)
         waitForDismissal()
     }
 
@@ -29,11 +29,11 @@ struct NativeFilePicker {
         // Prefer the deepest visible destination so an already-open container is honored.
         var destination = try waitForControl("file location", priorities: targets + [isLocal, isBrowse])
         if isBrowse(destination) {
-            tap(destination.frame)
+            tap(destination)
             destination = try waitForControl("local location or restored folder", priorities: targets + [isLocal])
         }
         if isLocal(destination) {
-            tap(destination.frame)
+            tap(destination)
             destination = try waitForControl("app folder or restored file", priorities: targets)
         }
         if let index = folders.firstIndex(of: destination.identifier) {
@@ -43,7 +43,7 @@ struct NativeFilePicker {
         tapItem(document)
         if confirmSelection {
             let open = try waitForControl("Open") { $0.elementType == .button && $0.label == "Open" && $0.isEnabled }
-            tap(open.frame)
+            tap(open)
         }
         waitForDismissal()
     }
@@ -143,7 +143,14 @@ struct NativeFilePicker {
         !frame.isEmpty && !frame.isInfinite && !frame.isNull && (bounds ?? app.frame).contains(frame)
     }
 
-    private func tap(_ frame: CGRect) {
-        app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: frame.midX, dy: frame.midY)).tap()
+    private func tap(_ snapshot: any XCUIElementSnapshot) {
+        let picker = app.filePicker
+        XCTAssertTrue(picker.exists)
+        let origin = picker.frame.origin
+        // Toolbar buttons can be siblings of Browse in the remote process and absent
+        // from element queries. Keep the snapshot's exact target, but send the gesture
+        // through Files rather than the presenting app (which may also have Cancel).
+        picker.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(
+            dx: snapshot.frame.midX - origin.x, dy: snapshot.frame.midY - origin.y)).tap()
     }
 }
