@@ -460,7 +460,7 @@ final class BridgeEndToEndTests: XCTestCase {
             opened += 1
             if mode == "cancel" { throw CancellationError() }
             if mode == "privateError" { throw NSError(domain: "TechnicalFailure", code: 1, userInfo: [NSLocalizedDescriptionKey: "APDU internal failure"]) }
-            return SimulatedCosmoXCard(state: state, identity: scanned)
+            return ContactlessSimulator(state: state, identity: scanned)
         }
         try server.start()
         defer { server.stop() }

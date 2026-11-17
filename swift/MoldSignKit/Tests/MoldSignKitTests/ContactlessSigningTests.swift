@@ -119,7 +119,8 @@ final class ContactlessSigningTests: XCTestCase {
     }
 }
 
-private final class ContactlessSimulator: CardTransport {
+// Shared with bridge tests: NFC identifies the public certificate before secure messaging.
+final class ContactlessSimulator: CardTransport {
     let readerName = "Synthetic NFC"
     let base: SimulatedCosmoXCard
     let identity: TestIdentity
