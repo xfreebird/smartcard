@@ -32,6 +32,7 @@ final class FloatingActionUITests: XCTestCase {
         for (scenario, theme) in [("no-reader", "light"), ("reading", "dark"), ("signing", "light")] {
             let app = launch(scenario, theme: theme)
             defer { app.terminate() }
+            if scenario != "signing" { app.selectSigningMethod("reader") }
             let sign = app.buttons["sign.submit"].firstMatch
             assertFloating(sign, in: app, hittable: false)
             XCTAssertFalse(sign.isEnabled, scenario)
@@ -47,7 +48,8 @@ final class FloatingActionUITests: XCTestCase {
         assertFloating(sign, in: app)
         XCTAssertTrue(sign.isEnabled)
         XCTAssertLessThan(sign.frame.height, app.frame.height / 4, "The action must leave room for document content")
-        XCTAssertEqual(sign.label, "Sign 2 documents", "Keep the complete document count accessible")
+        XCTAssertEqual(sign.label, "Continue", "The guided mobile action advances to PIN confirmation")
+        XCTAssertEqual(sign.value as? String, "Sign 2 documents", "Keep the complete document count accessible")
         attach(name: "floating-sign-accessibility-text")
     }
 

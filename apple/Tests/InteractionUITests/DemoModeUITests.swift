@@ -21,8 +21,8 @@ final class DemoModeUITests: XCTestCase {
         attach(app, "01-enable-disclaimer")
         accept.tapWhenReady()
         waitForValue("1", on: toggle)
-        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
         navigate("Sign", in: app)
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
         let expand = app.buttons["sign.expandBatch"]
         if expand.exists { expand.tap() }
         XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].waitForExistence(timeout: 5))
@@ -47,6 +47,7 @@ final class DemoModeUITests: XCTestCase {
         XCTAssertEqual(persisted.value as? String, "1")
         persisted.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
         waitForValue("0", on: persisted)
+        navigate("Sign", in: app)
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
         attach(app, "06-return-to-live-mock")
         app.terminate()

@@ -36,9 +36,16 @@ final class VerificationJourneyUITests: XCTestCase {
             XCTAssertTrue(disclosure.waitForExistence(timeout: 15), name)
             #if os(iOS)
             for _ in 0..<5 where !disclosure.isHittable { app.swipeUp() }
+            #else
+            let viewport = app.scrollViews.firstMatch
+            // Existence/hittability alone includes a row clipped by the window's resize edge.
+            for _ in 0..<5 where !viewport.frame.insetBy(dx: 0, dy: 12).contains(disclosure.frame) {
+                viewport.scroll(byDeltaX: 0, deltaY: -160)
+            }
+            XCTAssertTrue(viewport.frame.insetBy(dx: 0, dy: 12).contains(disclosure.frame), name)
             #endif
             XCTAssertEqual(disclosure.value as? String, "Collapsed")
-            disclosure.activateControl()
+            disclosure.tapWhenReady()
             XCTAssertEqual(disclosure.value as? String, "Expanded")
             if name != "signature" {
                 disclosure.activateControl()
@@ -64,6 +71,10 @@ final class VerificationJourneyUITests: XCTestCase {
                                   ("error", "The card does not respond")] {
             let app = launch(scenario, tab: "sign")
             defer { app.terminate() }
+            #if os(iOS)
+            // NFC is the initial method, even when a reader fixture is present.
+            app.selectSigningMethod("reader")
+            #endif
             #if os(macOS)
             // Native cards expose one combined accessibility label on desktop.
             let label = scenario == "reading" ? "reading" : title

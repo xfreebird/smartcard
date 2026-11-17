@@ -17,6 +17,13 @@ Resolve hosts and explicit device IDs using [the environment skill](../esemnbun-
 
 Apple captures require Debug demo support and use fictional cards, isolated preferences, `MSIGN_QA_NO_HARDWARE` and readiness markers. Android scenarios similarly require a demo Debug APK. Do not remove those guards to capture a release binary. Inspect each resulting image, including light/dark and phone/tablet layouts; file creation alone is not visual QA. Keep outputs outside version control unless they are deliberate sanitized documentation assets.
 
+## Test interaction contracts
+
+- Mobile fixtures start with NFC. Select the reader explicitly before asserting its missing/reading/error states; the empty Sign workspace has an inline card carousel, not a cards button.
+- Scroll macOS disclosure rows fully inside the viewport before clicking: XCTest can report a clipped row as hittable while the click lands on the window resize edge.
+- Nested Settings sheets retain parent controls in the accessibility tree. Dismiss the visible Done control. Demo banners are on workspaces; Settings exposes the demo switch itself.
+- After rotating a foldable/windowed scene, assert keyboard and control bounds in the actual scene rather than requiring the app width to exceed its height.
+
 ## What to exercise
 
 - Sign: mixed success/failure batch continues, a single human-readable error per failed file, stable card identity throughout inter-document transitions, no retry button, entire success row activates the platform's reveal/open action.

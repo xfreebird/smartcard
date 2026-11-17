@@ -21,7 +21,10 @@ final class SharedCardPINUITests: XCTestCase {
         XCTAssertTrue(status.label.contains("PIN is saved"))
         app.buttons["card.pin.delete"].tapWhenReady()
         XCTAssertTrue(status.label.contains("PIN is not saved"))
-        app.buttons["settings.sheet.done"].firstMatch.tapWhenReady()
+        // The parent Cards sheet remains in the accessibility tree behind Card details.
+        let done = app.buttons.matching(identifier: "settings.sheet.done").allElementsBoundByIndex.first { $0.isHittable }
+        XCTAssertNotNil(done)
+        done?.tapWhenReady()
         app.selectSigningMethod("reader")
         app.buttons["card.details"].tapWhenReady()
         reveal(status, in: app)

@@ -18,10 +18,9 @@ final class PINActionsUITests: XCTestCase {
         app.launchArguments = ["-appLanguage", "ro", "-AppleLanguages", "(ro)", "-bridgeEnabled", "NO"]
         app.launch()
         defer { app.terminate() }
-        let geometry = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in
-            (app.frame.width > app.frame.height) == landscape
-        }, object: app)
-        XCTAssertEqual(XCTWaiter.wait(for: [geometry], timeout: 5), .completed)
+        // Duo/windowed scenes can keep a tall aspect ratio after physical rotation.
+        // The keyboard and action bounds below verify the resulting layout directly.
+        XCTAssertEqual(XCUIDevice.shared.orientation, landscape ? .landscapeLeft : .portrait)
         let submit = app.buttons["pin.submit"]
         let cancel = app.buttons["pin.cancel"]
         XCTAssertTrue(submit.waitForExistence(timeout: 15))

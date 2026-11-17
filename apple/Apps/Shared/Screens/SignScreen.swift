@@ -375,6 +375,7 @@ struct SignScreen: View {
         button.accessibilityIdentifier("sign.submit")
             #if os(iOS)
             .accessibilityLabel(L10n.text(.guided_continue))
+            .accessibilityValue(signActionTitle)
             #else
             .accessibilityLabel(signActionTitle)
             #endif

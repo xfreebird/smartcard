@@ -9,15 +9,19 @@ final class CardCarouselUITests: XCTestCase {
     override func setUp() {
         super.setUp()
         continueAfterFailure = false
+        XCUIDevice.shared.orientation = .portrait
         app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
+        app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
+        app.launchEnvironment["MSIGN_SCREENSHOT_CAPTURE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_CARDS"] = "3"
         app.launchEnvironment["MSIGN_DEMO_SELECTED"] = "0"
-        app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.native-touch"
+        app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.native-touch.\(UUID())"
         app.launchArguments = ["-appTheme", "light", "-appLanguage", "ro", "-AppleLanguages", "(ro)"]
     }
 
     override func tearDown() {
         app?.terminate()
+        XCUIDevice.shared.orientation = .portrait
         super.tearDown()
     }
 
@@ -61,7 +65,8 @@ final class CardCarouselUITests: XCTestCase {
 
     private func selectReader() {
         app.selectSigningMethod("reader")
-        app.buttons["signing.reader.cards"].tapWhenReady()
+        // The empty Sign workspace now displays the live carousel inline, not behind a button.
+        XCTAssertTrue(app.collectionViews["signing.reader.cards"].waitForExistence(timeout: 10))
     }
 
     private func card(_ index: Int) -> XCUIElement {
