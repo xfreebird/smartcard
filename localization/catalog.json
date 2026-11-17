@@ -16600,6 +16600,26 @@
       "ro": "Apropie cartea de identitate de iPhone sau conectează un cititor compatibil.",
       "en": "Hold your ID card to your iPhone or connect a compatible reader.",
       "ru": "Приложите ID-карту к iPhone или подключите совместимый считыватель."
+    },
+    "featuredSigningTitle": {
+      "en": "Sign documents",
+      "ro": "Semnează acte",
+      "ru": "Подпись документов"
+    },
+    "featuredOrReader": {
+      "en": "or a card reader",
+      "ro": "sau cu un cititor",
+      "ru": "или считыватель"
+    },
+    "featuredSigningTitleStacked": {
+      "en": "Sign\ndocuments",
+      "ro": "Semnează\ndocumente",
+      "ru": "Подпись\nдокументов"
+    },
+    "featuredNFC": {
+      "en": "With NFC",
+      "ro": "Prin NFC",
+      "ru": "Через NFC"
     }
   }
 }

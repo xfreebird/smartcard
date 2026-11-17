@@ -1,3 +1,5 @@
+2026-11-17 — Prepared larger iOS Header and Search Results artwork in English, Romanian and Russian. Replaced the tiny headline/paragraph layout with a short central message and large native NFC/reader phones. Verified exact dimensions, opaque RGB, text safe bounds and Firefox previews using the crop measured from the owner’s iPhone 11 Pro screenshots. The owner approved publication. All six images are uploaded and waiting for Apple review in standalone submission 2dd22b15-02ec-4e90-bdd9-f8f77d061cb0; live placement replacement awaits asset approval. iOS 0.2.12 remains live. See docs/reports/apple-featured-2026-11-17.md.
+
 2026-11-17 — Corrected the first phone landing frames and Android clock and framing. Aligned mobile store badges and Linux package groups, emphasized direct installers, temporarily hid the Mac store badge and refreshed the repository image with all five platforms.
 
 2026-11-17 — Added separate iOS and Android NFC sequence diagrams and documented platform discovery, certificate reads, protected signing and session cleanup in the public Developer Handbook.

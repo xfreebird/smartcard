@@ -7,20 +7,9 @@
       3840,
       1646
     ],
-    "phoneScreenshot": "iphone/02-batch.png",
-    "cardScreenshot": "iphone/01-sign.png",
-    "copyLeft": 820,
-    "cardLeft": 820,
-    "cardCrop": [
-      86,
-      434,
-      1234,
-      1140
-    ],
-    "cardScale": 2,
-    "cardDimensions": [
-      989,
-      608
+    "phoneScreenshots": [
+      "iphone/01-sign.png",
+      "iphone/02-reader.png"
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -34,30 +23,41 @@
       "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
       "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
     },
-    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
-    "physicalChipCovered": true,
-    "readerDimensions": [
-      575,
-      620
-    ],
     "appleTemplateSafeArea": [
       1097,
       493,
       2743,
       1154
     ],
-    "contentBounds": [
-      798,
-      160,
-      3030,
-      1595
+    "messageBounds": [
+      [
+        1276,
+        550,
+        2564,
+        706
+      ],
+      [
+        1588,
+        790,
+        2253,
+        900
+      ],
+      [
+        1496,
+        990,
+        2343,
+        1071
+      ]
     ],
-    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "phoneHeight": 1280,
+    "composition": "large-native-phones-short-safe-area-message",
     "path": "en-header.png",
-    "phoneScreenshotSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
-    "cardScreenshotSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
-    "sha256": "64e0b7fa4a07dfa3a3116ae7ec2ee7dd98269bcf6407f103675c4ee7c1e2213e"
+    "phoneScreenshotSha256": [
+      "a358449a4fe60f4d09455d9ddcd46b8f7c3e0784cc0203755de09f6ba8df46d4",
+      "048c9b2c53062031fa8e34c7113f288c3433a4438158fbfc7ec889d2ba5fc8db"
+    ],
+    "sha256": "6c65cde3fda0bd4aa3e4708698bbd7f96bd952685bfdbaa02432ef9fd5f9d94a"
   },
   {
     "locale": "en",
@@ -67,20 +67,9 @@
       3840,
       2560
     ],
-    "phoneScreenshot": "iphone/02-batch.png",
-    "cardScreenshot": "iphone/01-sign.png",
-    "copyLeft": 342,
-    "cardLeft": 342,
-    "cardCrop": [
-      86,
-      434,
-      1234,
-      1140
-    ],
-    "cardScale": 2,
-    "cardDimensions": [
-      1528,
-      940
+    "phoneScreenshots": [
+      "iphone/01-sign.png",
+      "iphone/02-reader.png"
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -94,30 +83,47 @@
       "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
       "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
     },
-    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
-    "physicalChipCovered": true,
-    "readerDimensions": [
-      890,
-      960
-    ],
     "appleTemplateSafeArea": [
       836,
       765,
       3004,
       1795
     ],
-    "contentBounds": [
-      320,
-      453,
-      3547,
-      2446
+    "messageBounds": [
+      [
+        1698,
+        820,
+        2141,
+        1013
+      ],
+      [
+        1376,
+        1060,
+        2464,
+        1209
+      ],
+      [
+        1515,
+        1380,
+        2325,
+        1513
+      ],
+      [
+        1389,
+        1630,
+        2451,
+        1732
+      ]
     ],
-    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "phoneHeight": 2000,
+    "composition": "large-native-phones-short-safe-area-message",
     "path": "en-search-results.png",
-    "phoneScreenshotSha256": "90d503bfe45f7bf4c2295054b44dbc340ef69fb1c4721dc7135a5089d8128853",
-    "cardScreenshotSha256": "0f14ef8dab75f64d0c0d224a0992f13fecd2de15b567443246f73c65f3e0e7a3",
-    "sha256": "bc91be6f01d2fb7689b65439a611ab50c66ae31d8a617b79f07a7e5087338dc7"
+    "phoneScreenshotSha256": [
+      "a358449a4fe60f4d09455d9ddcd46b8f7c3e0784cc0203755de09f6ba8df46d4",
+      "048c9b2c53062031fa8e34c7113f288c3433a4438158fbfc7ec889d2ba5fc8db"
+    ],
+    "sha256": "ca23ab52ccac10dffc72077d2aac36a16096181427039a7f792769ff6c70c6dd"
   },
   {
     "locale": "ro",
@@ -127,20 +133,9 @@
       3840,
       1646
     ],
-    "phoneScreenshot": "iphone/02-batch.png",
-    "cardScreenshot": "iphone/01-sign.png",
-    "copyLeft": 820,
-    "cardLeft": 820,
-    "cardCrop": [
-      86,
-      434,
-      1234,
-      1140
-    ],
-    "cardScale": 2,
-    "cardDimensions": [
-      989,
-      608
+    "phoneScreenshots": [
+      "iphone/01-sign.png",
+      "iphone/02-reader.png"
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -154,30 +149,41 @@
       "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
       "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
     },
-    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
-    "physicalChipCovered": true,
-    "readerDimensions": [
-      575,
-      620
-    ],
     "appleTemplateSafeArea": [
       1097,
       493,
       2743,
       1154
     ],
-    "contentBounds": [
-      798,
-      160,
-      3030,
-      1595
+    "messageBounds": [
+      [
+        1326,
+        550,
+        2514,
+        673
+      ],
+      [
+        1604,
+        790,
+        2237,
+        898
+      ],
+      [
+        1488,
+        990,
+        2351,
+        1071
+      ]
     ],
-    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "phoneHeight": 1280,
+    "composition": "large-native-phones-short-safe-area-message",
     "path": "ro-header.png",
-    "phoneScreenshotSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
-    "cardScreenshotSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
-    "sha256": "c8a3900777d257d166b10e8772d46c64332e86685ba3bcd37c7e1a0cb67f257e"
+    "phoneScreenshotSha256": [
+      "edaa567bac3f73f39d7c449d4a7749f5ca7efc7ed1fcfcf8d270ae4cca92da50",
+      "2f57c3148db7d1b46d8ccf750446c70f3f4f74b73c5af26f956703868ce30fa9"
+    ],
+    "sha256": "b4f836bb1049c6748a7cf560a063ca96e2d842d707ac5078201ec0373f64ed59"
   },
   {
     "locale": "ro",
@@ -187,20 +193,9 @@
       3840,
       2560
     ],
-    "phoneScreenshot": "iphone/02-batch.png",
-    "cardScreenshot": "iphone/01-sign.png",
-    "copyLeft": 342,
-    "cardLeft": 342,
-    "cardCrop": [
-      86,
-      434,
-      1234,
-      1140
-    ],
-    "cardScale": 2,
-    "cardDimensions": [
-      1528,
-      940
+    "phoneScreenshots": [
+      "iphone/01-sign.png",
+      "iphone/02-reader.png"
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -214,30 +209,47 @@
       "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
       "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
     },
-    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
-    "physicalChipCovered": true,
-    "readerDimensions": [
-      890,
-      960
-    ],
     "appleTemplateSafeArea": [
       836,
       765,
       3004,
       1795
     ],
-    "contentBounds": [
-      320,
-      453,
-      3547,
-      2446
+    "messageBounds": [
+      [
+        1422,
+        820,
+        2418,
+        972
+      ],
+      [
+        1376,
+        1060,
+        2464,
+        1209
+      ],
+      [
+        1535,
+        1380,
+        2305,
+        1513
+      ],
+      [
+        1376,
+        1630,
+        2464,
+        1732
+      ]
     ],
-    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "phoneHeight": 2000,
+    "composition": "large-native-phones-short-safe-area-message",
     "path": "ro-search-results.png",
-    "phoneScreenshotSha256": "f30da19692c171c05593de63550aef7f3287db3019cdf95e8cde237678435415",
-    "cardScreenshotSha256": "f180b7a262935c71633b7173c2346034934d3d4c4066a0ad7bdfd7419b4c86a2",
-    "sha256": "ec83bb6bf80f19b535091e99ac072393b10beb0fb91777e552d98dc7eb497713"
+    "phoneScreenshotSha256": [
+      "edaa567bac3f73f39d7c449d4a7749f5ca7efc7ed1fcfcf8d270ae4cca92da50",
+      "2f57c3148db7d1b46d8ccf750446c70f3f4f74b73c5af26f956703868ce30fa9"
+    ],
+    "sha256": "1c8655623e56eda641a682510a23b702da5a3003eb9ec786eee126df6fef09ce"
   },
   {
     "locale": "ru",
@@ -247,20 +259,9 @@
       3840,
       1646
     ],
-    "phoneScreenshot": "iphone/02-batch.png",
-    "cardScreenshot": "iphone/01-sign.png",
-    "copyLeft": 820,
-    "cardLeft": 820,
-    "cardCrop": [
-      86,
-      434,
-      1234,
-      1140
-    ],
-    "cardScale": 2,
-    "cardDimensions": [
-      989,
-      608
+    "phoneScreenshots": [
+      "iphone/01-sign.png",
+      "iphone/02-reader.png"
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -274,30 +275,41 @@
       "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
       "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
     },
-    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
-    "physicalChipCovered": true,
-    "readerDimensions": [
-      575,
-      620
-    ],
     "appleTemplateSafeArea": [
       1097,
       493,
       2743,
       1154
     ],
-    "contentBounds": [
-      798,
-      160,
-      3030,
-      1595
+    "messageBounds": [
+      [
+        1129,
+        550,
+        2711,
+        690
+      ],
+      [
+        1532,
+        790,
+        2309,
+        927
+      ],
+      [
+        1432,
+        990,
+        2407,
+        1050
+      ]
     ],
-    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "phoneHeight": 1280,
+    "composition": "large-native-phones-short-safe-area-message",
     "path": "ru-header.png",
-    "phoneScreenshotSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
-    "cardScreenshotSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
-    "sha256": "6ebfca1bd7b1866315ad8d0e485c7401514950dc028e99cedc02bc64f7da44de"
+    "phoneScreenshotSha256": [
+      "f9779ee9d0c16eccc82892c4fa5d0e135d009cfae2f879baa2b3768b26820dc1",
+      "5315b2beab9ae3965851ce74035829d9205fbe854e8e2481e5218aa6959f3b3f"
+    ],
+    "sha256": "57b99163d2501bbc04f79fa5281fd061bad17aa9ac74508f35d83257197e748a"
   },
   {
     "locale": "ru",
@@ -307,20 +319,9 @@
       3840,
       2560
     ],
-    "phoneScreenshot": "iphone/02-batch.png",
-    "cardScreenshot": "iphone/01-sign.png",
-    "copyLeft": 342,
-    "cardLeft": 342,
-    "cardCrop": [
-      86,
-      434,
-      1234,
-      1140
-    ],
-    "cardScale": 2,
-    "cardDimensions": [
-      1528,
-      940
+    "phoneScreenshots": [
+      "iphone/01-sign.png",
+      "iphone/02-reader.png"
     ],
     "deviceFrame": {
       "file": "iphone.png",
@@ -334,29 +335,46 @@
       "sha256": "5201a518fd2d3c6f968ad522a195c24793d7583e1d011d618aa705383bdde4da",
       "source": "https://devimages-cdn.apple.com/design/resources/download/Bezel-iPhone-17.dmg"
     },
-    "readerAssetSha256": "3aea71b34db718f48022796a1c2db9c24040d7ad62e99b7f788650877ade977a",
     "marketingCopySource": "localization/catalog.json/storeCreative",
-    "physicalChipCovered": true,
-    "readerDimensions": [
-      890,
-      960
-    ],
     "appleTemplateSafeArea": [
       836,
       765,
       3004,
       1795
     ],
-    "contentBounds": [
-      320,
-      453,
-      3547,
-      2446
+    "messageBounds": [
+      [
+        1476,
+        820,
+        2364,
+        994
+      ],
+      [
+        1316,
+        1060,
+        2524,
+        1213
+      ],
+      [
+        1448,
+        1380,
+        2393,
+        1547
+      ],
+      [
+        1310,
+        1630,
+        2530,
+        1707
+      ]
     ],
-    "safeForPlacementAspect": "copy aligned to card left edge; composition extends beyond central safe area; verify adaptive crops in App Store Connect",
+    "phoneHeight": 2000,
+    "composition": "large-native-phones-short-safe-area-message",
     "path": "ru-search-results.png",
-    "phoneScreenshotSha256": "20c5949551f5273248ce574785aa560c1ed9973157f955ecb1b1d2faa219896a",
-    "cardScreenshotSha256": "c43589ddfef7ec1a26888cd2b9e0f39d6b5f1d37034bf0f758933c1a2e18218a",
-    "sha256": "2bd0a54fb68291a7462dd633b9f2f52f1122f4711836e61664900bd5bb1e3267"
+    "phoneScreenshotSha256": [
+      "f9779ee9d0c16eccc82892c4fa5d0e135d009cfae2f879baa2b3768b26820dc1",
+      "5315b2beab9ae3965851ce74035829d9205fbe854e8e2481e5218aa6959f3b3f"
+    ],
+    "sha256": "edf51d87eba27f22ed0c92a8ea139243dfd88e2ee67a474fb00b58a052ccf77c"
   }
 ]

@@ -1,0 +1,80 @@
+{
+  "submissionId": "2dd22b15-02ec-4e90-bdd9-f8f77d061cb0",
+  "state": "WAITING_FOR_REVIEW",
+  "checkedOn": "2026-11-17",
+  "assets": [
+    {
+      "locale": "ro",
+      "layout": "header",
+      "fileName": "ro-header-b4f836bb1049.png",
+      "sourceSha256": "b4f836bb1049c6748a7cf560a063ca96e2d842d707ac5078201ec0373f64ed59",
+      "assetId": "36000019-6e9b-828a-8004-ddea79a7b3ef",
+      "assetState": "WAITING_FOR_REVIEW",
+      "dimensions": {
+        "width": 3840,
+        "height": 1646
+      }
+    },
+    {
+      "locale": "ro",
+      "layout": "search-results",
+      "fileName": "ro-search-results-1c8655623e56.png",
+      "sourceSha256": "1c8655623e56eda641a682510a23b702da5a3003eb9ec786eee126df6fef09ce",
+      "assetId": "42c00019-6e9b-828a-8033-37c70f6e955f",
+      "assetState": "WAITING_FOR_REVIEW",
+      "dimensions": {
+        "width": 3840,
+        "height": 2560
+      }
+    },
+    {
+      "locale": "en",
+      "layout": "header",
+      "fileName": "en-header-6c65cde3fda0.png",
+      "sourceSha256": "6c65cde3fda0bd4aa3e4708698bbd7f96bd952685bfdbaa02432ef9fd5f9d94a",
+      "assetId": "93000019-6e9b-828a-802a-ede5217427b4",
+      "assetState": "WAITING_FOR_REVIEW",
+      "dimensions": {
+        "width": 3840,
+        "height": 1646
+      }
+    },
+    {
+      "locale": "en",
+      "layout": "search-results",
+      "fileName": "en-search-results-ca23ab52ccac.png",
+      "sourceSha256": "ca23ab52ccac10dffc72077d2aac36a16096181427039a7f792769ff6c70c6dd",
+      "assetId": "fcc00019-6e9b-828a-8011-23f23c710c20",
+      "assetState": "WAITING_FOR_REVIEW",
+      "dimensions": {
+        "width": 3840,
+        "height": 2560
+      }
+    },
+    {
+      "locale": "ru",
+      "layout": "header",
+      "fileName": "ru-header-57b99163d250.png",
+      "sourceSha256": "57b99163d2501bbc04f79fa5281fd061bad17aa9ac74508f35d83257197e748a",
+      "assetId": "bdc00019-6e9b-828a-8002-783452202e8b",
+      "assetState": "WAITING_FOR_REVIEW",
+      "dimensions": {
+        "width": 3840,
+        "height": 1646
+      }
+    },
+    {
+      "locale": "ru",
+      "layout": "search-results",
+      "fileName": "ru-search-results-edf51d87eba2.png",
+      "sourceSha256": "edf51d87eba27f22ed0c92a8ea139243dfd88e2ee67a474fb00b58a052ccf77c",
+      "assetId": "1c800019-6e9b-828a-802f-3051fc1b3394",
+      "assetState": "WAITING_FOR_REVIEW",
+      "dimensions": {
+        "width": 3840,
+        "height": 2560
+      }
+    }
+  ],
+  "livePlacementsReplaced": false
+}

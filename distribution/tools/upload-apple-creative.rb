@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-# Upload one aspect-specific asset per Apple placement on the editable iOS draft; never submits for review.
+# Upload creative assets to Asset Library or place them on an editable iOS draft; never submits for review.
 require 'spaceship'
 require 'net/http'
 require 'json'
@@ -8,7 +8,9 @@ require 'pathname'
 
 args = ARGV.dup
 replace_existing = args.delete('--replace-existing') != nil
-abort 'Usage: upload-apple-creative.rb PACK [ro,en,ru] [--replace-existing]' if args.empty? || args.size > 2
+library_only = args.delete('--library-only') != nil
+abort 'Library-only upload does not replace placements' if library_only && replace_existing
+abort 'Usage: upload-apple-creative.rb PACK [ro,en,ru] [--replace-existing | --library-only]' if args.empty? || args.size > 2
 pack = Pathname(args.fetch(0)).expand_path
 locales = args.fetch(1, 'ro,en,ru').split(',')
 abort 'Unsupported locale' unless (locales - %w[ro en ru]).empty?
@@ -73,9 +75,9 @@ def upload_asset(library, path, locale, layout)
 end
 
 app = Spaceship::ConnectAPI::App.find('md.esemnbun.ios')
-version = app.get_edit_app_store_version(platform: 'IOS')
-abort 'No editable iOS App Store version' unless version
-translations = version.get_app_store_version_localizations
+version = library_only ? nil : app.get_edit_app_store_version(platform: 'IOS')
+abort 'No editable iOS App Store version; use --library-only for standalone assets' unless version || library_only
+translations = version ? version.get_app_store_version_localizations : []
 library = api('get', "/v1/apps/#{app.id}/assetLibrary").fetch('data').fetch('id')
 reference = api('get', '/v1/appAssetLibraryRefData').fetch('data').first.fetch('attributes')
 policies = reference.fetch('features').find { |feature| feature['featureId'] == 'APP_STORE_VERSIONS' }.fetch('placementPolicies')
@@ -85,6 +87,7 @@ placements = {
 }
 creative = pack.join('apple/creative')
 manifest = creative.join('manifest.json')
+abort 'Library-only uploads require a checksum manifest' if library_only && !manifest.file?
 asset_paths = {}
 if manifest.file?
   JSON.parse(manifest.read).each do |entry|
@@ -105,8 +108,8 @@ end
 receipts = []
 locales.each do |locale|
   translation = translations.find { |item| item.locale == (locale == 'en' ? 'en-US' : locale) }
-  abort "Missing localization #{locale}" unless translation
-  current = collection("/v1/appStoreVersionLocalizations/#{translation.id}/placements?include=image&limit=200")
+  abort "Missing localization #{locale}" unless translation || library_only
+  current = library_only ? [] : collection("/v1/appStoreVersionLocalizations/#{translation.id}/placements?include=image&limit=200")
   placements.each do |type, (layout, file_name)|
     path = if manifest.file?
              asset_paths.fetch([locale, type]) { abort "Missing artwork for #{locale}/#{type}" }
@@ -115,6 +118,13 @@ locales.each do |locale|
            end
     abort "Missing #{path}" unless path.file?
     asset, bytes, stored_name = upload_asset(library, path, locale, layout)
+    if library_only
+      receipt = { locale: locale, layout: layout, fileName: stored_name, sourceSha256: Digest::SHA256.hexdigest(bytes), assetId: asset['id'], assetState: asset.dig('attributes', 'state') }
+      receipts << receipt; puts JSON.generate(receipt)
+      folder = pack.join('upload'); folder.mkpath
+      folder.join('apple-creative-library-receipt.json').write(JSON.pretty_generate(receipts) + "\n")
+      next
+    end
     old = current.find { |item| item.dig('attributes', 'placementType') == type }
     payload = { data: { type: 'appAssetLibraryPlacements', attributes: { placementType: type, placementGroup: 'DEFAULT_PROFILE' }, relationships: {
       image: { data: { type: 'appAssetLibraryImages', id: asset['id'] } },
@@ -141,4 +151,4 @@ locales.each do |locale|
   end
 end
 folder = pack.join('upload'); folder.mkpath
-folder.join("apple-creative-receipt-#{locales.join('-')}.json").write(JSON.pretty_generate(receipts) + "\n")
+folder.join("apple-creative-receipt-#{locales.join('-')}.json").write(JSON.pretty_generate(receipts) + "\n") unless library_only

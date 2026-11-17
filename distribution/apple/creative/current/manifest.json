@@ -2,7 +2,7 @@
   {
     "locale": "en",
     "layout": "header",
-    "path": "en/header-reader-signing.png",
+    "path": "en/header-signing-methods.png",
     "dimensions": [
       3840,
       1646
@@ -10,12 +10,12 @@
     "placements": [
       "PRODUCT_PAGE_HEADER_ASSET"
     ],
-    "sha256": "64e0b7fa4a07dfa3a3116ae7ec2ee7dd98269bcf6407f103675c4ee7c1e2213e"
+    "sha256": "6c65cde3fda0bd4aa3e4708698bbd7f96bd952685bfdbaa02432ef9fd5f9d94a"
   },
   {
     "locale": "en",
     "layout": "search-results",
-    "path": "en/search-results-reader-signing.png",
+    "path": "en/search-results-signing-methods.png",
     "dimensions": [
       3840,
       2560
@@ -23,12 +23,12 @@
     "placements": [
       "APP_STORE_SEARCH_RESULTS_ASSET"
     ],
-    "sha256": "bc91be6f01d2fb7689b65439a611ab50c66ae31d8a617b79f07a7e5087338dc7"
+    "sha256": "ca23ab52ccac10dffc72077d2aac36a16096181427039a7f792769ff6c70c6dd"
   },
   {
     "locale": "ro",
     "layout": "header",
-    "path": "ro/header-reader-signing.png",
+    "path": "ro/header-signing-methods.png",
     "dimensions": [
       3840,
       1646
@@ -36,12 +36,12 @@
     "placements": [
       "PRODUCT_PAGE_HEADER_ASSET"
     ],
-    "sha256": "c8a3900777d257d166b10e8772d46c64332e86685ba3bcd37c7e1a0cb67f257e"
+    "sha256": "b4f836bb1049c6748a7cf560a063ca96e2d842d707ac5078201ec0373f64ed59"
   },
   {
     "locale": "ro",
     "layout": "search-results",
-    "path": "ro/search-results-reader-signing.png",
+    "path": "ro/search-results-signing-methods.png",
     "dimensions": [
       3840,
       2560
@@ -49,12 +49,12 @@
     "placements": [
       "APP_STORE_SEARCH_RESULTS_ASSET"
     ],
-    "sha256": "ec83bb6bf80f19b535091e99ac072393b10beb0fb91777e552d98dc7eb497713"
+    "sha256": "1c8655623e56eda641a682510a23b702da5a3003eb9ec786eee126df6fef09ce"
   },
   {
     "locale": "ru",
     "layout": "header",
-    "path": "ru/header-reader-signing.png",
+    "path": "ru/header-signing-methods.png",
     "dimensions": [
       3840,
       1646
@@ -62,12 +62,12 @@
     "placements": [
       "PRODUCT_PAGE_HEADER_ASSET"
     ],
-    "sha256": "6ebfca1bd7b1866315ad8d0e485c7401514950dc028e99cedc02bc64f7da44de"
+    "sha256": "57b99163d2501bbc04f79fa5281fd061bad17aa9ac74508f35d83257197e748a"
   },
   {
     "locale": "ru",
     "layout": "search-results",
-    "path": "ru/search-results-reader-signing.png",
+    "path": "ru/search-results-signing-methods.png",
     "dimensions": [
       3840,
       2560
@@ -75,6 +75,6 @@
     "placements": [
       "APP_STORE_SEARCH_RESULTS_ASSET"
     ],
-    "sha256": "2bd0a54fb68291a7462dd633b9f2f52f1122f4711836e61664900bd5bb1e3267"
+    "sha256": "edf51d87eba27f22ed0c92a8ea139243dfd88e2ee67a474fb00b58a052ccf77c"
   }
 ]

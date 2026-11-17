@@ -22,7 +22,6 @@ SAFE_AREAS = {
     'header': (1097, 493, 2743, 1154),
     'search-results': (836, 765, 3004, 1795),
 }
-FONT_REGULAR = '/System/Library/Fonts/Supplemental/Arial.ttf'
 FONT_BOLD = '/System/Library/Fonts/Supplemental/Arial Bold.ttf'
 
 
@@ -48,55 +47,58 @@ def place(canvas, image, xy, blur=12, opacity=42, offset=(0, 9)):
     canvas.alpha_composite(image, xy)
 
 
-def textblock(draw, text, xy, size, width, color, bold=False, line_spacing=1.16):
-    font = ImageFont.truetype(FONT_BOLD if bold else FONT_REGULAR, size); y = xy[1]
-    for paragraph in text.split('\n'):
-        line = ''
-        for word in paragraph.split():
-            candidate = (line + ' ' + word).strip()
-            if draw.textlength(candidate, font=font) > width and line:
-                draw.text((xy[0], y), line, font=font, fill=color); y += round(size * line_spacing); line = word
-            else:
-                line = candidate
-        draw.text((xy[0], y), line, font=font, fill=color); y += round(size * line_spacing)
-    return y
-
-
 def compose(locale, layout, screens, catalog):
     width, height, placement = SPECS[layout]
     left, top, right, bottom = SAFE_AREAS[layout]
-    safe_height = bottom - top
     canvas = background(width, height)
     draw = ImageDraw.Draw(canvas)
     draw.ellipse((width * .47, -height * .4, width * 1.18, height * 1.4), fill='#dce5fc')
 
-    phone_height = round(safe_height * .82)
-    phones = []
-    for screen in screens:
+    # Keep the complete signing message inside the safe area.
+    # Phone bodies extend into the auxiliary area instead of shrinking every
+    # element into the center. Do not add small explanatory paragraphs here.
+    creative = catalog['storeCreative']
+    headline = creative['featuredSigningTitle'][locale]
+    bounds = []
+
+    def centered(text, center_x, y, size, max_width, color='#16294c'):
+        font = ImageFont.truetype(FONT_BOLD, size)
+        while draw.textlength(text, font=font) > max_width and size > 140:
+            size -= 2
+            font = ImageFont.truetype(FONT_BOLD, size)
+        if draw.textlength(text, font=font) > max_width:
+            raise ValueError(f'Featured copy too wide: {locale}/{layout}/{text}')
+        box = draw.textbbox((0, 0), text, font=font)
+        x = round(center_x - (box[2] - box[0]) / 2)
+        draw.text((x, y - box[1]), text, font=font, fill=color)
+        bounds.append([x, y, x + box[2] - box[0], y + box[3] - box[1]])
+
+    if layout == 'header':
+        phone_height = 1280
+        phone_centers = [740, 3100]
+        phone_y = 260
+        centered(headline, width // 2, 550, 166, 1600)
+        centered(creative['featuredNFC'][locale], width // 2, 790, 148, 1600, '#3155ce')
+        centered(creative['featuredOrReader'][locale], width // 2, 990, 112, 1600)
+    else:
+        phone_height = 2000
+        phone_centers = [720, 3120]
+        phone_y = 280
+        lines = creative['featuredSigningTitleStacked'][locale].split('\n')
+        for index, line in enumerate(lines):
+            centered(line, width // 2, 820 + index * 240, 204, 1360)
+        centered(creative['featuredNFC'][locale], width // 2, 1380, 180, 1360, '#3155ce')
+        centered(creative['featuredOrReader'][locale], width // 2, 1630, 140, 1360)
+
+    for screen, center in zip(screens, phone_centers):
         phone = device_frame(screen, 'iphone')
         phone_width = round(phone.width * phone_height / phone.height)
-        phones.append(phone.resize((phone_width, phone_height), Image.Resampling.LANCZOS))
-    gap = 34
-    phone_x = right - sum(phone.width for phone in phones) - gap - 32
-    x = phone_x
-    for phone in phones:
-        place(canvas, phone, (x, top + (safe_height - phone_height) // 2))
-        x += phone.width + gap
+        phone = phone.resize((phone_width, phone_height), Image.Resampling.LANCZOS)
+        place(canvas, phone, (round(center - phone_width / 2), phone_y), blur=22, opacity=48)
 
-    copy_x = left + 44
-    copy_width = phone_x - copy_x - 82
-    copy_y = top + round(safe_height * .22)
-    creative = catalog['storeCreative']
-    title = creative['mobileSigningHeadline'][locale]
-    summary = creative['mobileSigningSummary'][locale]
-    title_size = 84 if layout == 'header' else 106
-    summary_size = 40 if layout == 'header' else 49
-
-    y = textblock(draw, 'eSemnBun', (copy_x, copy_y), 37, copy_width, '#435d91', True)
-    y = textblock(draw, title, (copy_x, y + 18), title_size, copy_width, '#16294c', True)
-    y = textblock(draw, summary, (copy_x, y + 28), summary_size, copy_width, '#405775')
-    if y > bottom - 24:
-        raise ValueError(f'Localized copy exceeds Apple safe area: {locale}/{layout}')
+    for box in bounds:
+        if box[0] < left or box[1] < top or box[2] > right or box[3] > bottom:
+            raise ValueError(f'Key message exceeds Apple safe area: {locale}/{layout}/{box}')
     return canvas.convert('RGB'), {
         'locale': locale,
         'layout': layout,
@@ -106,6 +108,9 @@ def compose(locale, layout, screens, catalog):
         'deviceFrame': frame_resource('iphone')[2],
         'marketingCopySource': 'localization/catalog.json/storeCreative',
         'appleTemplateSafeArea': list(SAFE_AREAS[layout]),
+        'messageBounds': bounds,
+        'phoneHeight': phone_height,
+        'composition': 'large-native-phones-short-safe-area-message',
     }
 
 
