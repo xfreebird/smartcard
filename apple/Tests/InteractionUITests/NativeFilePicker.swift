@@ -49,9 +49,9 @@ struct NativeFilePicker {
     }
 
     private func waitForDismissal() {
-        let dismissed = NSPredicate { _, _ in
-            do { return try self.pickerSnapshot() == nil } catch { return false }
-        }
+        // Do not snapshot a disappearing remote view. It can vanish after `exists`
+        // succeeds, making snapshot() retry a stale element past the wait deadline.
+        let dismissed = NSPredicate { _, _ in !self.app.filePicker.exists }
         XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: dismissed, object: nil)], timeout: 10), .completed)
     }
 
