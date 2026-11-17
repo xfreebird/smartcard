@@ -82,10 +82,7 @@ public sealed class PadesSigner
         }
         if (acroDictionary is not null)
         {
-            var fields = Regex.Match(acroDictionary, @"/Fields\s*\[([^\]]*)\]");
-            if (!fields.Success) throw Format("AcroForm must have a direct /Fields array");
-            acroDictionary = acroDictionary[..fields.Index] +
-                $"/Fields[{fields.Groups[1].Value} {field} 0 R]" + acroDictionary[(fields.Index + fields.Length)..];
+            acroDictionary = StampPdf.AppendSignatureField(text, acroDictionary, field);
             var flags = Regex.Match(acroDictionary, @"/SigFlags\s+(\d+)\b");
             if (flags.Success)
                 acroDictionary = acroDictionary[..flags.Index] +

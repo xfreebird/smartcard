@@ -52,6 +52,18 @@ sealed class PdfStampDecision {
 
 /** Syntax reader for the uncompressed objects supported by the incremental signer. No source rewriting. */
 internal object StampPdf {
+    /** Preserve previous signature fields while resolving a direct or indirect array. */
+    internal fun appendSignatureField(text: String, form: String, field: Int): String {
+        try {
+            var fields = value(form, "/Fields") ?: fail()
+            if (!fields.startsWith("[")) fields = objText(text, ref(fields))
+            val updated = (refs(fields) + field).joinToString(" ", "[", "]") { "$it 0 R" }
+            return set(form, "/Fields", updated)
+        } catch (error: CardError) {
+            throw CardError.Format("Cannot resolve AcroForm /Fields safely")
+        }
+    }
+
     private fun fail(): Nothing = throw CardError.Format("This PDF cannot be stamped safely (unsupported page structure)")
     private fun tokens(s: String): List<String> {
         val out = mutableListOf<String>(); var i = 0

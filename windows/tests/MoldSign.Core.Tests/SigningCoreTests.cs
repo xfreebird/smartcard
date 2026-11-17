@@ -12,6 +12,47 @@ namespace MoldSign.Core.Tests;
 public sealed class SigningCoreTests
 {
     [Fact]
+    public void Counter_signing_resolves_indirect_fields_and_preserves_existing_signature()
+    {
+        using var identity = new TestIdentity();
+        using var pki = new FakePki(identity);
+        var signer = new PadesSigner(pki.Trust);
+        var first = signer.Sign(MinimalPdf(), identity.Certificate, identity.Sign);
+        var text = Encoding.Latin1.GetString(first);
+        int Last(string pattern) => int.Parse(System.Text.RegularExpressions.Regex.Matches(text, pattern)[^1].Groups[1].Value,
+            System.Globalization.CultureInfo.InvariantCulture);
+        var root = Last(@"/Root\s+(\d+)\s+0\s+R");
+        var acro = Last(@"/AcroForm\s+(\d+)\s+0\s+R");
+        var array = Last(@"/Size\s+(\d+)");
+        var previous = Last(@"startxref\s+(\d+)");
+        var fields = System.Text.RegularExpressions.Regex.Matches(text, @"/Fields\s*(\[[^\]]*\])")[^1].Groups[1].Value;
+        var form = $"{acro} 0 obj\n<< /Fields {array} 0 R /SigFlags 3 >>\nendobj\n";
+        var arrayObject = $"{array} 0 obj\n{fields}\nendobj\n";
+        var xref = first.Length + form.Length + arrayObject.Length;
+        string Offset(int n) => n.ToString("D10", System.Globalization.CultureInfo.InvariantCulture) + " 00000 n \n";
+        var revision = form + arrayObject + $"xref\n{acro} 1\n" + Offset(first.Length) +
+            $"{array} 1\n" + Offset(first.Length + form.Length) +
+            $"trailer\n<< /Root {root} 0 R /Size {array + 1} /Prev {previous} >>\nstartxref\n{xref}\n%%EOF\n";
+        var indirect = first.Concat(Encoding.Latin1.GetBytes(revision)).ToArray();
+        var second = signer.Sign(indirect, identity.Certificate, identity.Sign);
+        Assert.Equal(indirect, second[..indirect.Length]);
+        var reports = new Validator().ValidatePdf(second);
+        Assert.Equal(2, reports.Count);
+        Assert.All(reports, report => { Assert.True(report.ContentIntact); Assert.True(report.SignatureValid); });
+        var updatedFields = System.Text.RegularExpressions.Regex.Matches(Encoding.Latin1.GetString(second), @"/Fields\s*\[([^\]]*)\]")[^1].Groups[1].Value;
+        Assert.StartsWith(fields[1..^1].Trim(), updatedFields);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("12 0 obj << /Other [] >> endobj")]
+    [InlineData("12 0 obj [13 0 R")]
+    public void Unresolvable_field_arrays_are_rejected(string body)
+    {
+        Assert.Throws<CardException>(() => StampPdf.AppendSignatureField(body, "<< /Fields 12 0 R >>", 20));
+    }
+
+    [Fact]
     public void Signing_service_signs_pdf_and_requested_sha1_xades_with_one_consent_and_verify_per_document()
     {
         using var identity = new TestIdentity();

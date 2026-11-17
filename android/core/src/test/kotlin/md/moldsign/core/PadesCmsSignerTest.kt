@@ -82,6 +82,43 @@ class PadesCmsSignerTest {
     }
 
     @Test
+    fun counterSignsIndirectFieldsWithoutChangingEarlierSignature() {
+        val first = signer.sign(TestDocuments.samplePdf(), certificate, ChainCerts.chain, card)
+        val text = String(first, ISO_8859_1)
+        fun last(pattern: String) = Regex(pattern).findAll(text).last().groupValues[1].toInt()
+        val root = last("""/Root\s+(\d+)\s+0\s+R""")
+        val acro = last("""/AcroForm\s+(\d+)\s+0\s+R""")
+        val array = last("""/Size\s+(\d+)""")
+        val previous = last("""startxref\s+(\d+)""")
+        val oldFields = Regex("""/Fields\s*(\[[^\]]*\])""").findAll(text).last().groupValues[1]
+        val form = "$acro 0 obj\n<< /Fields $array 0 R /SigFlags 3 >>\nendobj\n"
+        val arrayObject = "$array 0 obj\n$oldFields\nendobj\n"
+        val xref = first.size + form.length + arrayObject.length
+        fun offset(n: Int) = n.toString().padStart(10, '0') + " 00000 n \n"
+        val revision = form + arrayObject + "xref\n$acro 1\n" + offset(first.size) +
+            "$array 1\n" + offset(first.size + form.length) +
+            "trailer\n<< /Root $root 0 R /Size ${array + 1} /Prev $previous >>\nstartxref\n$xref\n%%EOF\n"
+        val indirect = first + revision.toByteArray(ISO_8859_1)
+        val second = signer.sign(indirect, certificate, ChainCerts.chain, card)
+        assertArrayEquals(indirect, second.copyOf(indirect.size))
+        val signatures = signatures(second)
+        assertEquals(2, signatures.size)
+        verify(signatures[0], keys.public, first.size)
+        verify(signatures[1], keys.public, second.size)
+        val updatedFields = Regex("""/Fields\s*\[([^\]]*)\]""").findAll(String(second, ISO_8859_1)).last().groupValues[1]
+        assertTrue(updatedFields.startsWith(oldFields.removePrefix("[").removeSuffix("]").trim()))
+    }
+
+    @Test
+    fun rejectsMissingMalformedAndWrongTypeFieldArrays() {
+        for (body in listOf("", "12 0 obj << /Other [] >> endobj", "12 0 obj [13 0 R")) {
+            org.junit.Assert.assertThrows(CardError.Format::class.java) {
+                StampPdf.appendSignatureField(body, "<< /Fields 12 0 R >>", 20)
+            }
+        }
+    }
+
+    @Test
     fun writesTheMetadataTheMoldSignAppWrites() {
         val text = String(signer.sign(TestDocuments.samplePdf(), certificate, ChainCerts.chain, card), ISO_8859_1)
         assertTrue(text.contains("/SubFilter/ETSI.CAdES.detached"))

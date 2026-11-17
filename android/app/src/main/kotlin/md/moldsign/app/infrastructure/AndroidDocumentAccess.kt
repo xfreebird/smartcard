@@ -70,7 +70,7 @@ class AndroidDocumentAccess(private val app: Application) : DocumentAccess {
         val localFile = if (uri.scheme == "file") uri.path?.let(::File) else null
         if (localFile != null) {
             name = localFile.name
-            if (localFile.isFile) size = localFile.length()
+            if (localFile.isFile) size = runCatching { java.nio.file.Files.size(localFile.toPath()) }.getOrDefault(-1L)
         } else resolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE), null, null, null)?.use { c ->
             if (c.moveToFirst()) {
                 c.getColumnIndex(OpenableColumns.DISPLAY_NAME).takeIf { it >= 0 && !c.isNull(it) }?.let { name = c.getString(it) }

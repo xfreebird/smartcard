@@ -43,7 +43,7 @@ class PadesCmsSigner(
         // --- original catalog (plain-text search of its latest version) ---
         val catalog = findObjectDict(text, rootNum) ?: throw CardError.Format("PDF catalog object not found")
         // counter-signing: reuse the existing AcroForm and append our field to /Fields
-        val existingAcro = Regex("""/AcroForm (\d+) 0 R""").find(catalog)?.groupValues?.get(1)?.toIntOrNull()
+        val existingAcro = Regex("""/AcroForm\s+(\d+)\s+0\s+R\b""").find(catalog)?.groupValues?.get(1)?.toIntOrNull()
 
         // anchored with (?<!\d): a bare (\d+) is quadratic over the 37,960-zero /Contents of an earlier signature
         val scannedMax = Regex("""(?<!\d)(\d+) 0 obj""").findAll(text).maxOfOrNull { it.groupValues[1].toIntOrNull() ?: 0 } ?: 0
@@ -68,9 +68,9 @@ class PadesCmsSigner(
 
         var chunks: List<String>
         val acroDict = existingAcro?.let { findObjectDict(text, it) }
-        if (existingAcro != null && acroDict != null) {
-            val fields = Regex("""/Fields\s*\[([^\]]*)\]""").find(acroDict) ?: throw CardError.Format("AcroForm /Fields not found")
-            var newAcro = acroDict.replaceRange(fields.range, "/Fields[${fields.groupValues[1].trim()} $fieldNum 0 R]")
+        if (existingAcro != null) {
+            if (acroDict == null) throw CardError.Format("AcroForm object not found")
+            var newAcro = StampPdf.appendSignatureField(text, acroDict, fieldNum)
             if (!newAcro.contains("/SigFlags")) newAcro = dictInserting(newAcro, "/SigFlags 3")
             chunks = listOf(sigDict, sigField, "$existingAcro 0 obj\n$newAcro\nendobj\n")
         } else {

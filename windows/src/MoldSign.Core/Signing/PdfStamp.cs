@@ -55,6 +55,22 @@ public sealed record PdfStampPlacement(int Page = 0, bool AllPages = false, doub
 /// <summary>Syntax reader for the uncompressed objects supported by the incremental signer. Source bytes are retained.</summary>
 internal static class StampPdf
 {
+    // Resolve fields without rewriting the signed revision or dropping existing signatures.
+    internal static string AppendSignatureField(string text, string form, int field)
+    {
+        try
+        {
+            var fields = Value(form, "/Fields") ?? throw Fail();
+            if (!fields.StartsWith("[", StringComparison.Ordinal)) fields = ObjectText(text, Ref(fields));
+            var updated = "[" + string.Join(" ", Refs(fields).Append(field).Select(n => $"{n} 0 R")) + "]";
+            return Set(form, "/Fields", updated);
+        }
+        catch (CardException)
+        {
+            throw new CardException(CardErrorKind.Format, "Cannot resolve AcroForm /Fields safely");
+        }
+    }
+
     private static CardException Fail() => new(CardErrorKind.Format, "This PDF cannot be stamped safely (unsupported page structure)");
     private static List<string> Tokens(string s)
     {

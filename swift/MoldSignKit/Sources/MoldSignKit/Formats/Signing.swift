@@ -65,7 +65,7 @@ public final class PAdESSigner {
             throw CardError.signFailed("Catalog object not found")
         }
         // multi-signature: reuse the existing AcroForm and append our field to /Fields
-        let existingAcroNum = firstMatchInt(catDict, #"/AcroForm (\d+) 0 R"#)
+        let existingAcroNum = firstMatchInt(catDict, #"/AcroForm\s+(\d+)\s+0\s+R\b"#)
 
         dbg("S4 catDict ok")
         // object numbers for the update
@@ -100,15 +100,13 @@ public final class PAdESSigner {
         let sigField = "\(fieldNum) 0 obj\n<</FT/Sig /T(Signature\(sigCount + 1)) /Type/Annot /Subtype/Widget /Rect[0 0 0 0] /F 0 \(pref) /V \(sigNum) 0 R>>\nendobj\n"
 
         var chunks: [String]
-        if let acroRef = existingAcroNum, let acroDict = findObjectDict(text, num: acroRef) {
+        if let acroRef = existingAcroNum {
             // counter-sign: update the existing AcroForm's /Fields; catalog keeps pointing at it
-            guard let fieldsRE = try? NSRegularExpression(pattern: #"/Fields\s*\[([^\]]*)\]"#),
-                  let m = fieldsRE.firstMatch(in: acroDict, range: NSRange(acroDict.startIndex..., in: acroDict)),
-                  let rAll = Range(m.range, in: acroDict), let r1 = Range(m.range(at: 1), in: acroDict) else {
-                throw CardError.signFailed("AcroForm /Fields not found")
+            guard let acroDict = findObjectDict(text, num: acroRef) else {
+                throw CardError.signFailed("AcroForm object not found")
             }
-            let oldFields = acroDict[r1].trimmingCharacters(in: .whitespaces)
-            var newAcroDict = acroDict.replacingCharacters(in: rAll, with: "/Fields[\(oldFields) \(fieldNum) 0 R]")
+            let newFields = try Self.appendingSignatureField(fieldNum, to: acroDict, in: text)
+            var newAcroDict = try StampPDF.set(acroDict, "/Fields", newFields)
             if !newAcroDict.contains("/SigFlags") {
                 newAcroDict = dictInserting(newAcroDict, "/SigFlags 3")
             }
@@ -340,6 +338,23 @@ public final class PAdESSigner {
     private func firstMatchInt(_ text: String, _ pattern: String) -> Int? {
         guard let g = firstMatch(text, pattern), g.count > 1 else { return nil }
         return Int(g[1])
+    }
+
+    /// Resolve direct and indirect field arrays without rewriting the signed revision.
+    /// Reject unsupported/missing objects instead of dropping existing signature fields.
+    static func appendingSignatureField(_ field: Int, to acroForm: String, in text: String) throws -> String {
+        do {
+            guard var fields = try StampPDF.value(acroForm, "/Fields") else {
+                throw CardError.signFailed("AcroForm /Fields not found")
+            }
+            if !fields.hasPrefix("[") {
+                fields = try StampPDF.object(text, StampPDF.ref(fields))
+            }
+            let references = try StampPDF.refs(fields)
+            return "[" + (references + [field]).map { "\($0) 0 R" }.joined(separator: " ") + "]"
+        } catch {
+            throw CardError.signFailed("Cannot resolve AcroForm /Fields safely")
+        }
     }
 
     /// Extract the "<< ... >>" dictionary of the LATEST version of object `num` (plain-text objects only).

@@ -14,7 +14,9 @@ struct SignItem: Equatable {
     }
 
     var sizeText: String {
-        let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? NSNumber)?.int64Value ?? 0
+        guard let size = (try? FileManager.default.attributesOfItem(atPath: url.path)[.size] as? NSNumber)?.int64Value else {
+            return ""
+        }
         return Format.bytes(size)
     }
 }

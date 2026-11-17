@@ -84,6 +84,49 @@ final class PdfSigningTests: XCTestCase {
         XCTAssertEqual(reports.count, 2)
         XCTAssertTrue(reports.allSatisfy { $0.contentIntact }, "\(reports.map(\.summary))")
     }
+
+    func testCounterSignatureWithIndirectFieldsPreservesExistingSignature() throws {
+        let first = try sign(Fixtures.data("unsigned.pdf"))
+        let text = try XCTUnwrap(String(data: first, encoding: .isoLatin1))
+        func lastNumber(_ pattern: String) throws -> Int {
+            let regex = try NSRegularExpression(pattern: pattern)
+            let match = try XCTUnwrap(regex.matches(in: text, range: NSRange(text.startIndex..., in: text)).last)
+            let range = try XCTUnwrap(Range(match.range(at: 1), in: text))
+            return try XCTUnwrap(Int(text[range]))
+        }
+        let root = try lastNumber(#"/Root\s+(\d+)\s+0\s+R"#)
+        let acro = try lastNumber(#"/AcroForm\s+(\d+)\s+0\s+R"#)
+        let array = try lastNumber(#"/Size\s+(\d+)"#)
+        let previous = try lastNumber(#"startxref\s+(\d+)"#)
+        let oldForm = try StampPDF.object(text, acro)
+        let fields = try XCTUnwrap(StampPDF.value(oldForm, "/Fields"))
+        let newForm = try StampPDF.set(oldForm, "/Fields", "\(array) 0 R")
+        let formObject = "\(acro) 0 obj\n\(newForm)\nendobj\n"
+        let arrayObject = "\(array) 0 obj\n\(fields)\nendobj\n"
+        let xrefOffset = first.count + formObject.utf8.count + arrayObject.utf8.count
+        let revision = formObject + arrayObject + "xref\n\(acro) 1\n"
+            + String(format: "%010d 00000 n \n", first.count)
+            + "\(array) 1\n" + String(format: "%010d 00000 n \n", first.count + formObject.utf8.count)
+            + "trailer\n<< /Root \(root) 0 R /Size \(array + 1) /Prev \(previous) >>\nstartxref\n\(xrefOffset)\n%%EOF\n"
+        let indirect = first + Data(revision.utf8)
+        let signed = try sign(indirect)
+        let output = try XCTUnwrap(String(data: signed, encoding: .isoLatin1))
+        let updated = try StampPDF.object(output, acro)
+        let retained = try StampPDF.refs(XCTUnwrap(StampPDF.value(updated, "/Fields")))
+        let original = try StampPDF.refs(fields)
+        XCTAssertEqual(Array(retained.dropLast()), original)
+        XCTAssertEqual(retained.count, original.count + 1)
+        let reports = Validator.validatePDF(signed)
+        XCTAssertEqual(reports.count, 2)
+        XCTAssertTrue(reports.allSatisfy { $0.contentIntact })
+    }
+
+    func testUnresolvableFieldArrayFailsBeforeSigning() throws {
+        for body in ["", "12 0 obj << /Other [] >> endobj", "12 0 obj [13 0 R"] {
+            XCTAssertThrowsError(try PAdESSigner.appendingSignatureField(20,
+                to: "<< /Fields 12 0 R >>", in: body))
+        }
+    }
 }
 
 final class XAdESComponentTests: XCTestCase {
