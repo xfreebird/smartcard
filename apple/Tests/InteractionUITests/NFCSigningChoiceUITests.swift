@@ -63,7 +63,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
         for _ in 0..<3 where !tap.isHittable { app.swipeUp() }
         XCTAssertTrue(tap.isHittable)
         app.buttons["nfc.help.close"].tapWhenReady()
-        app.buttons["Settings"].firstMatch.tapWhenReady()
+        app.selectMainTab("Settings")
         app.buttons["settings.card"].tapWhenReady()
         XCTAssertTrue(app.buttons["signing.nfc.help"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.descendants(matching: .any)["signing.steps"].exists)
@@ -98,7 +98,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
             XCTAssertTrue(app.staticTexts[instruction].firstMatch.waitForExistence(timeout: 5))
             XCTAssertTrue(app.staticTexts[instruction].firstMatch.isHittable)
             XCTAssertTrue(app.buttons["sign.pickFiles"].isHittable)
-            app.buttons["Settings"].firstMatch.tapWhenReady()
+            app.selectMainTab("Settings")
             app.buttons["settings.card"].tapWhenReady()
             XCTAssertTrue(app.staticTexts[instruction].firstMatch.waitForExistence(timeout: 5))
             XCTAssertTrue(app.staticTexts[instruction].firstMatch.isHittable)

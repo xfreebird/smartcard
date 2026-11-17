@@ -94,6 +94,32 @@ extension XCUIElement {
 #if os(iOS)
 @MainActor
 extension XCUIApplication {
+    func selectMainTab(_ title: String) {
+        // iPad switches from tab buttons to sidebar cells in wide layouts.
+        let choices = descendants(matching: .any).matching(NSPredicate(format: "label == %@", title))
+        for _ in 0..<3 {
+            if let visible = choices.allElementsBoundByIndex.first(where: { $0.isHittable }) {
+                visible.tapWhenReady()
+                return
+            }
+            // Narrow iPads page the native tab strip; Settings can be on its next page.
+            let next = buttons["Next Page"]
+            let previous = buttons["Previous Page"]
+            if next.isHittable { next.tapWhenReady() }
+            else if previous.isHittable { previous.tapWhenReady() }
+            else {
+                // A dismissed sheet briefly hides the native tab strip from accessibility.
+                let available = NSPredicate { _, _ in
+                    choices.allElementsBoundByIndex.contains { $0.isHittable }
+                        || next.isHittable || previous.isHittable
+                }
+                let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: available, object: self)], timeout: 5)
+                if result != .completed { break }
+            }
+        }
+        XCTFail("No visible tab for " + title + "\n" + debugDescription)
+    }
+
     func selectSigningMethod(_ method: String) {
         buttons["signing.method"].tapWhenReady()
         buttons["signing.method." + method].tapWhenReady()

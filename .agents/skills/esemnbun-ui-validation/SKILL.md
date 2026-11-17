@@ -21,7 +21,7 @@ Apple captures require Debug demo support and use fictional cards, isolated pref
 
 - Mobile fixtures start with NFC. Select the reader explicitly before asserting its missing/reading/error states; the empty Sign workspace has an inline card carousel, not a cards button.
 - Scroll macOS disclosure rows fully inside the viewport before clicking: XCTest can report a clipped row as hittable while the click lands on the window resize edge.
-- Nested Settings sheets retain parent controls in the accessibility tree. Dismiss the visible Done control. Demo banners are on workspaces; Settings exposes the demo switch itself.
+- Narrow iPad tab strips page horizontally: use their Next/Previous Page controls to reveal the destination. Nested Settings sheets retain parent controls in the accessibility tree. Dismiss the visible Done control and wait for its presenting screen before scrolling or switching tabs. Demo banners are on workspaces; Settings exposes the demo switch itself.
 - After rotating a foldable/windowed scene, assert keyboard and control bounds in the actual scene rather than requiring the app width to exceed its height.
 
 ## What to exercise

@@ -59,9 +59,7 @@ final class DemoModeUITests: XCTestCase {
     }
 
     private func navigate(_ title: String, in app: XCUIApplication) {
-        let destination = app.buttons[title].firstMatch
-        XCTAssertTrue(destination.waitForExistence(timeout: 20), app.debugDescription)
-        destination.tap()
+        app.selectMainTab(title)
     }
 
     private func demoToggle(in app: XCUIApplication) -> XCUIElement {

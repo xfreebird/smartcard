@@ -82,6 +82,7 @@ fi
 python3 "$repo/apple/scripts/capture-test-display.py" "$device" "$out/active-display" \
     xcodebuild test -project "$probe_dir/GestureProbe.xcodeproj" -scheme GestureProbe \
     -destination "id=$device" -parallel-testing-enabled NO \
+    -collect-test-diagnostics never \
     -derivedDataPath "$out/DerivedData" -resultBundlePath "$out/GestureProof.xcresult" \
     CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$out/test.log"
 printf 'Native test results: %s\nGenerated runner project: %s\n' "$out/GestureProof.xcresult" "$probe_dir"

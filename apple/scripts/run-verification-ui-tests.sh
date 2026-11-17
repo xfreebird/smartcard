@@ -82,4 +82,5 @@ YAML
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$app"
 xcodegen generate --spec "$host/project.yml"
 xcodebuild test -project "$host/JourneyHost.xcodeproj" -scheme JourneyHost -destination 'platform=macOS' \
+    -collect-test-diagnostics never \
     -parallel-testing-enabled NO -derivedDataPath "$out/DerivedData" -resultBundlePath "$out/Journeys.xcresult" 2>&1 | tee "$out/test.log"

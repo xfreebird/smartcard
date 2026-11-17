@@ -37,7 +37,10 @@ final class PINActionsUITests: XCTestCase {
         XCTAssertTrue(submit.isEnabled)
         XCTAssertTrue(submit.isHittable)
         XCTAssertLessThanOrEqual(submit.frame.maxY, app.frame.maxY)
-        XCTAssertTrue(keyboard.exists)
+        // Secure-text injection can temporarily dismiss the simulator's software keyboard.
+        // Refocus before measuring; the test still requires a visible keyboard during submission.
+        if !keyboard.exists { input.tap() }
+        XCTAssertTrue(keyboard.waitForExistence(timeout: 5))
         XCTAssertLessThanOrEqual(submit.frame.maxY, keyboard.frame.minY + 1)
         // Capture after submission: XCTest's secure-input screenshot can temporarily hide the
         // keyboard and invalidate the button's cached position just before the synthesized tap.

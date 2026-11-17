@@ -70,6 +70,7 @@ struct VerifyScreen: View {
             .padding(shortViewport ? 12 : 24)
             .frame(maxWidth: .infinity)
         }
+        .accessibilityIdentifier("verify.workspace")
         #if os(iOS)
         .background(Color(uiColor: .systemGroupedBackground))
         .navigationBarTitleDisplayMode(.inline)

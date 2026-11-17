@@ -37,12 +37,14 @@ final class VerificationJourneyUITests: XCTestCase {
             #if os(iOS)
             for _ in 0..<5 where !disclosure.isHittable { app.swipeUp() }
             #else
-            let viewport = app.scrollViews.firstMatch
+            let viewport = app.scrollViews["verify.workspace"].firstMatch
+            XCTAssertTrue(viewport.exists)
             // Existence/hittability alone includes a row clipped by the window's resize edge.
             for _ in 0..<5 where !viewport.frame.insetBy(dx: 0, dy: 12).contains(disclosure.frame) {
                 viewport.scroll(byDeltaX: 0, deltaY: -160)
             }
-            XCTAssertTrue(viewport.frame.insetBy(dx: 0, dy: 12).contains(disclosure.frame), name)
+            XCTAssertTrue(viewport.frame.insetBy(dx: 0, dy: 12).contains(disclosure.frame),
+                          "\(name): row \(disclosure.frame), workspace \(viewport.frame)")
             #endif
             XCTAssertEqual(disclosure.value as? String, "Collapsed")
             disclosure.tapWhenReady()

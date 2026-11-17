@@ -38,10 +38,11 @@ final class SettingsNavigationUITests: XCTestCase {
         XCTAssertFalse(app.buttons["signing.method"].exists)
         app.buttons["settings.help"].tapWhenReady()
         XCTAssertTrue(app.descendants(matching: .any)["settings.help.page"].waitForExistence(timeout: 5))
-        closeSheet(app)
+        closeSheet(app, returningTo: app.buttons["card.savedPINs"])
         app.buttons["card.savedPINs"].tapWhenReady()
         XCTAssertTrue(app.buttons["savedPIN.delete.14" + String(repeating: "0", count: 38)].waitForExistence(timeout: 5))
-        closeSheet(app)
+        closeSheet(app, returningTo: cards)
+        capture(app, "settings-after-pin-dismissal")
         reveal(cards, in: app)
         capture(app, "settings-returned")
         cards.tapWhenReady()
@@ -51,9 +52,8 @@ final class SettingsNavigationUITests: XCTestCase {
         app.buttons["card.details"].tapWhenReady()
         XCTAssertTrue(app.descendants(matching: .any)["card.pin.status"].waitForExistence(timeout: 5))
         capture(app, "card-details-modal")
-        closeSheet(app)
-        XCTAssertTrue(app.buttons["signing.method"].waitForExistence(timeout: 5))
-        closeSheet(app)
+        closeSheet(app, returningTo: app.buttons["signing.method"])
+        closeSheet(app, returningTo: cards)
         XCUIDevice.shared.orientation = .landscapeLeft
         Thread.sleep(forTimeInterval: 3)
         reveal(cards, in: app)
@@ -75,20 +75,7 @@ final class SettingsNavigationUITests: XCTestCase {
     }
 
     private func selectTab(_ title: String, in app: XCUIApplication) {
-        let choices = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", title))
-        for _ in 0..<3 {
-            if let visible = choices.allElementsBoundByIndex.first(where: { $0.isHittable }) {
-                visible.tapWhenReady()
-                return
-            }
-            // iPad's native tab strip pages when its labels exceed the available width.
-            let next = app.buttons["Next Page"]
-            let previous = app.buttons["Previous Page"]
-            if next.isHittable { next.tapWhenReady() }
-            else if previous.isHittable { previous.tapWhenReady() }
-            else { break }
-        }
-        XCTFail("No visible tab for " + title)
+        app.selectMainTab(title)
     }
 
     private func reveal(_ element: XCUIElement, in app: XCUIApplication) {
@@ -96,13 +83,17 @@ final class SettingsNavigationUITests: XCTestCase {
             if element.isHittable { return }
             app.swipeUp()
         }
-        XCTAssertTrue(element.isHittable)
+        XCTAssertTrue(element.isHittable, app.debugDescription)
     }
 
-    private func closeSheet(_ app: XCUIApplication) {
+    private func closeSheet(_ app: XCUIApplication, returningTo destination: XCUIElement) {
         let done = app.buttons.matching(identifier: "settings.sheet.done").allElementsBoundByIndex.first { $0.isHittable }
         XCTAssertNotNil(done)
         done?.tapWhenReady()
+        // Do not start scrolling while the sheet is still leaving the screen.
+        let returned = NSPredicate { _, _ in destination.exists && destination.isHittable }
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: returned, object: destination)], timeout: 5),
+                       .completed, "The presenting screen must be available after dismissal")
     }
 
     private func capture(_ app: XCUIApplication, _ name: String) {
