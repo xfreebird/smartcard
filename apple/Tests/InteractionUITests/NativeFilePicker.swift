@@ -52,7 +52,7 @@ struct NativeFilePicker {
         let dismissed = NSPredicate { _, _ in
             do { return try self.pickerSnapshot() == nil } catch { return false }
         }
-        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: dismissed, object: app)], timeout: 10), .completed)
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: dismissed, object: nil)], timeout: 10), .completed)
     }
 
     private func openFolder(_ identifier: String) throws {
@@ -64,7 +64,7 @@ struct NativeFilePicker {
         let cell = app.filePicker.cells.matching(NSPredicate(format: "identifier == %@ AND label == %@",
             item.identifier, item.label)).firstMatch
         let ready = NSPredicate { _, _ in cell.exists && cell.isEnabled && cell.isHittable }
-        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: cell)], timeout: 10), .completed,
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: nil)], timeout: 10), .completed,
                        "Files item must be hittable: \(item.label)")
         var target = item.frame
         if let icon = descendants(of: item).first(where: { $0.elementType == .image && valid($0.frame) }) {
@@ -91,10 +91,21 @@ struct NativeFilePicker {
         let ready = NSPredicate { _, _ in
             guard let picker = try? self.pickerSnapshot() else { stable = 0; return false }
             let bounds = self.app.frame
-            let controls = self.descendants(of: picker)
-            guard let control = priorities.lazy.compactMap({ matches in
-                controls.last { matches($0) && self.valid($0.frame, within: bounds) }
-            }).first else {
+            @MainActor func matchingControl(in snapshot: any XCUIElementSnapshot) -> (any XCUIElementSnapshot)? {
+                let controls = self.descendants(of: snapshot)
+                return priorities.lazy.compactMap({ matches in
+                    controls.last { matches($0) && self.valid($0.frame, within: bounds) }
+                }).first
+            }
+            // Query the remote Files subtree first. The whole-app snapshot can
+            // contain Browse while omitting its cells' identifiers, even on iPhone.
+            // Some OS layouts put Cancel/Open beside Browse, so use the app snapshot
+            // only when the requested action is absent from the named subtree.
+            var selected = matchingControl(in: picker)
+            if selected == nil, let root = try? self.app.snapshot() {
+                selected = matchingControl(in: root)
+            }
+            guard let control = selected else {
                 stable = 0
                 return false
             }
@@ -105,7 +116,8 @@ struct NativeFilePicker {
             result = control
             return stable >= 2
         }
-        let outcome = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: app)], timeout: 15)
+        _ = ready.evaluate(with: nil)
+        let outcome = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: nil)], timeout: 15)
         if outcome != .completed {
             let tree = app.filePicker.exists ? app.filePicker.debugDescription : app.debugDescription
             print("Native Files failure (\(name)):\n\(tree)")
@@ -115,13 +127,12 @@ struct NativeFilePicker {
     }
 
     private func pickerSnapshot() throws -> (any XCUIElementSnapshot)? {
-        let root = try app.snapshot()
-        // Files can place its toolbar beside the Browse view, rather than inside it.
-        if descendants(of: root).contains(where: { $0.identifier == "Browse View (Picker)" }) { return root }
-        // The iPad remote hierarchy can omit attributes in a whole-app snapshot.
-        // Resolving its named root requests a complete snapshot of that subtree.
         let picker = app.filePicker
-        return picker.exists ? try picker.snapshot() : nil
+        if picker.exists { return try picker.snapshot() }
+        let root = try app.snapshot()
+        // Retain a fallback for OS versions whose named-root query is unavailable.
+        if descendants(of: root).contains(where: { $0.identifier == "Browse View (Picker)" }) { return root }
+        return nil
     }
 
     private func descendants(of root: any XCUIElementSnapshot) -> [any XCUIElementSnapshot] {
