@@ -3,7 +3,10 @@
 set -euo pipefail
 platform=${1:?ios}; app=${2:?Debug app}; device=${3:?Dedicated simulator}; out=${4:?Fresh output}
 [[ "$platform" == ios ]] || { echo 'Protection picker suite requires iOS.' >&2; exit 2; }
+phase=${MSIGN_UI_FIXTURE_PHASE:-all}
+[[ "$phase" == all || "$phase" == prepare || "$phase" == verify ]] || exit 2
 repo=$(cd "$(dirname "$0")/../.." && pwd)
+if [[ "$phase" != verify ]]; then
 if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then
     xcrun simctl install "$device" "$app"
 fi
@@ -19,10 +22,14 @@ source.parent.mkdir(parents=True, exist_ok=True)
 shutil.copyfile(sample, source)
 (out / 'existing-outputs.json').write_text(json.dumps([str(p.relative_to(root)) for p in (root / 'Documents/Protected').rglob('*') if p.is_file()]))
 PY
+fi
+[[ "$phase" != prepare ]] || exit 0
+if [[ "$phase" == all ]]; then
 MSIGN_UI_APP_INSTALLED=1 MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/ProtectionFlowUITests.swift" \
     bash "$repo/apple/scripts/run-verification-ui-tests.sh" ios "$app" "$device" "$out/native"
 # Keep the generic batch result validator pointed at the actual bundle.
 ln -s native/GestureProof.xcresult "$out/GestureProof.xcresult"
+fi
 # Resolve the live container again for post-run filesystem checks.
 container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 - "$container" "$out" "$repo/swift/MoldSignKit/Resources/test.pdf" <<'PY'

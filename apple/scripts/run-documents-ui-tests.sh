@@ -3,10 +3,13 @@
 set -euo pipefail
 platform=${1:?ios}; app=${2:?Debug app}; device=${3:?Dedicated simulator}; out=${4:?Fresh output}
 [[ "$platform" == ios ]] || { echo 'Documents provider suite requires iOS.' >&2; exit 2; }
-[[ ! -e "$out" ]] || { echo 'Use a fresh output directory.' >&2; exit 2; }
+phase=${MSIGN_UI_FIXTURE_PHASE:-all}
+[[ "$phase" == all || "$phase" == prepare || "$phase" == verify ]] || exit 2
+[[ "$phase" == verify || ! -e "$out" ]] || { echo 'Use a fresh output directory.' >&2; exit 2; }
 repo=$(cd "$(dirname "$0")/../.." && pwd)
 mkdir -p "$out"
 out=$(cd "$out" && pwd)
+if [[ "$phase" != verify ]]; then
 if [[ -n ${MSIGN_UI_DOCUMENT_FIXTURES:-} ]]; then
     mkdir -p "$out/fixtures"
     cp -R "$MSIGN_UI_DOCUMENT_FIXTURES/." "$out/fixtures/"
@@ -20,9 +23,13 @@ if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then
 fi
 container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 "$repo/apple/scripts/seed-documents-ui-tests.py" "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf"
+fi
+[[ "$phase" != prepare ]] || exit 0
+if [[ "$phase" == all ]]; then
 MSIGN_UI_APP_INSTALLED=1 MSIGN_UI_TEST_SOURCE="$repo/apple/Tests/InteractionUITests/DocumentsUITests.swift" \
     bash "$repo/apple/scripts/run-verification-ui-tests.sh" ios "$app" "$device" "$out/native"
 ln -s native/GestureProof.xcresult "$out/GestureProof.xcresult"
+fi
 # Resolve the live container again for post-run filesystem checks.
 container=$(xcrun simctl get_app_container "$device" md.esemnbun.ios data)
 python3 - "$container" "$out/fixtures" "$repo/swift/MoldSignKit/Resources/test.pdf" <<'PY'

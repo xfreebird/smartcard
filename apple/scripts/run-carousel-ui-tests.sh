@@ -27,9 +27,13 @@ test_source=${MSIGN_UI_TEST_SOURCE:-$repo/apple/Tests/InteractionUITests/CardCar
 if [[ -n ${MSIGN_UI_XCTESTRUN:-} && ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]]; then
     [[ -f "$MSIGN_UI_XCTESTRUN" ]] || { echo 'Prepared XCTest manifest is missing.' >&2; exit 1; }
     suite=$(basename "$test_source" .swift)
+    selections=()
+    for selected in ${MSIGN_UI_TEST_SUITES:-$suite}; do
+        selections+=("-only-testing:GestureTests/$selected")
+    done
     python3 "$repo/apple/scripts/capture-test-display.py" "$device" "$out/active-display" \
         xcodebuild test-without-building -xctestrun "$MSIGN_UI_XCTESTRUN" \
-        -only-testing:"GestureTests/$suite" -destination "id=$device" -parallel-testing-enabled NO \
+        "${selections[@]}" -destination "id=$device" -parallel-testing-enabled NO \
         -collect-test-diagnostics never -resultBundlePath "$out/GestureProof.xcresult" \
         CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$out/test.log"
     exit

@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class AppleUIPrebuiltTests(unittest.TestCase):
-    def run_fixture(self, exit_code=0, manifest_exists=True):
+    def run_fixture(self, exit_code=0, manifest_exists=True, suites=None):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             scripts = root / 'apple/scripts'
@@ -46,6 +46,10 @@ class AppleUIPrebuiltTests(unittest.TestCase):
             env = {**os.environ, 'PATH': f'{binaries}:{os.environ["PATH"]}',
                    'MSIGN_UI_XCTESTRUN': str(manifest), 'MSIGN_UI_TEST_SOURCE': '/fixtures/MockWorkflowUITests.swift',
                    'CALL_LOG': str(calls), 'TEST_EXIT_CODE': str(exit_code)}
+            if suites is not None:
+                env['MSIGN_UI_TEST_SUITES'] = suites
+            else:
+                env.pop('MSIGN_UI_TEST_SUITES', None)
             env.pop('MSIGN_UI_BUILD_ONLY', None)
             env.pop('MSIGN_CAPTURE_DISPLAY', None)
             result = subprocess.run(['bash', str(scripts / 'run-carousel-ui-tests.sh'),
@@ -71,3 +75,9 @@ class AppleUIPrebuiltTests(unittest.TestCase):
         result, args = self.run_fixture(manifest_exists=False)
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(args, [])
+
+    def test_multiple_suites_share_exactly_one_native_invocation(self):
+        result, args = self.run_fixture(suites='CardCarouselUITests DocumentsUITests')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual([a for a in args if a.startswith('-only-testing:')],
+                         ['-only-testing:GestureTests/CardCarouselUITests', '-only-testing:GestureTests/DocumentsUITests'])

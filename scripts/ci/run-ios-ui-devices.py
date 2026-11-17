@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Run one required device family per isolated CI job, with bounded cleanup."""
 import os
+import json
 from pathlib import Path
 import signal
 import subprocess
@@ -11,7 +12,11 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def worker(app, device, out):
-    subprocess.run(['xcrun', 'simctl', 'boot', device], check=True)
+    inventory = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', '-j']))
+    booted = any(d.get('udid') == device and d.get('state') == 'Booted'
+                 for group in inventory.get('devices', {}).values() for d in group)
+    if not booted:
+        subprocess.run(['xcrun', 'simctl', 'boot', device], check=True)
     subprocess.run(['xcrun', 'simctl', 'bootstatus', device, '-b'], check=True)
     return subprocess.call(['bash', str(ROOT / 'apple/scripts/run-mock-ui-tests.sh'),
                             'ios', app, device, out],

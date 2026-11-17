@@ -126,14 +126,17 @@ jobs:
       - name: Build iOS and share extension
         timeout-minutes: 5
         run: |
-          xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" CODE_SIGNING_ALLOWED=NO build
+          bash scripts/ci/boot-ios-ui-device.sh "${{ matrix.family }}" "$RUNNER_TEMP/ios-ui-boot" > "$RUNNER_TEMP/ios-ui-boot.log" 2>&1 &
+          simulator_boot_pid=$!
+          xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" ARCHS="$(uname -m)" CODE_SIGNING_ALLOWED=NO build
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/prepare-ios-ui-resources.sh "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui-build"
+          wait "$simulator_boot_pid"
       - name: Native iOS mock UI journeys
         # Leave room for complete UI coverage inside the unchanged 25-minute job cap.
         timeout-minutes: 23
         run: |
-          MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
+          MSIGN_UI_SINGLE_SESSION=1 MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
       - name: iOS UI evidence
         if: always()
         timeout-minutes: 3
@@ -150,7 +153,21 @@ jobs:
             ${{ runner.temp }}/ios-ui-build/**/*.xcresult
             ${{ runner.temp }}/ios-ui-build/**/test.log
             ${{ runner.temp }}/ios-ui-build/fixture-generation.log
+            ${{ runner.temp }}/ios-ui-boot.log
+            ${{ runner.temp }}/ios-ui-boot/*.json
+            ${{ runner.temp }}/ios-ui-boot/*.tsv
           if-no-files-found: warn
+
+      - name: Shut down the assigned simulator
+        if: always()
+        timeout-minutes: 1
+        run: |
+          python3 - <<'PYTHON'
+          import pathlib, subprocess
+          path = pathlib.Path('${{ runner.temp }}/ios-ui-boot/device.txt')
+          if path.exists():
+              subprocess.run(['xcrun', 'simctl', 'shutdown', path.read_text().strip()], timeout=20, check=False)
+          PYTHON
 
   linux:
     timeout-minutes: 60

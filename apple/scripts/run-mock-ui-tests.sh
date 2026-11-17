@@ -26,6 +26,9 @@ PYTHON
     fi
     [[ -f "$MSIGN_UI_XCTESTRUN" ]] || { echo 'Prepared XCTest manifest is missing.' >&2; exit 1; }
     export MSIGN_UI_XCTESTRUN
+    if [[ ${MSIGN_UI_SINGLE_SESSION:-0} == 1 ]]; then
+        exec bash "$repo/apple/scripts/run-ios-ui-batch.sh" "$app" "$device" "$out"
+    fi
 fi
 status=0
 report_failure() {

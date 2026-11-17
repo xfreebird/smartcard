@@ -3,6 +3,7 @@
 import os
 from pathlib import Path
 import re
+import signal
 import subprocess
 import sys
 
@@ -14,8 +15,18 @@ if display:
 process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                            text=True, bufsize=1)
 capture_failed = False
+test_failed = False
 for line in process.stdout:
     print(line, end="", flush=True)
+    if (os.environ.get('MSIGN_UI_STOP_ON_FAILURE') == '1' and not test_failed
+            and re.match(r"Test Case .+ failed \(", line)):
+        # Ask xcodebuild to finish its result bundle instead of running the remaining
+        # cases after a known failure. The outer worker still owns bounded cleanup.
+        test_failed = True
+        try:
+            process.send_signal(signal.SIGINT)
+        except ProcessLookupError:
+            pass
     match = re.fullmatch(r"MSIGN_UI_CAPTURE ([a-z0-9-]+)\s*", line)
     if display and match:
         result = subprocess.run(["xcrun", "simctl", "io", device, "screenshot",
@@ -24,4 +35,4 @@ for line in process.stdout:
         print(result.stdout + result.stderr, end="", flush=True)
         capture_failed |= result.returncode != 0
 code = process.wait()
-sys.exit(code or int(capture_failed))
+sys.exit(code or int(capture_failed or test_failed))
