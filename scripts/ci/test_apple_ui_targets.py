@@ -46,6 +46,20 @@ class AppleUITargetTests(unittest.TestCase):
         self.runtime("27.2", "iPhone Duo", "iPad mini")
         self.assertEqual(self.select("27.2")["iPad"], "27.2:iPad mini")
 
+    def test_compact_tablet_preferred_within_same_runtime(self):
+        self.runtime("27.0", "iPhone Duo", "iPad Pro 13-inch (M5)", "iPad mini (A17 Pro)")
+        self.assertEqual(self.select()["iPad"], "27.0:iPad mini (A17 Pro)")
+
+    def test_compact_tablet_does_not_downgrade_runtime_coverage(self):
+        self.runtime("27.0", "iPhone Duo", "iPad mini (A17 Pro)")
+        self.runtime("27.1", "iPad Pro 13-inch (M5)")
+        self.assertEqual(self.select()["iPad"], "27.1:iPad Pro 13-inch (M5)")
+
+    def test_compact_tablet_preference_uses_hardware_type(self):
+        identifier = self.runtime("27.0", "iPhone Duo", "iPad Pro", "Tablet fixture")
+        self.devices["devices"][identifier][-1]["deviceTypeIdentifier"] = "com.apple.CoreSimulator.SimDeviceType.iPad-mini-A17-Pro"
+        self.assertEqual(self.select()["iPad"], "27.0:Tablet fixture")
+
     def test_missing_family_fails_instead_of_omitting_it(self):
         self.runtime("27.1", "iPhone Duo")
         with self.assertRaisesRegex(ValueError, "No available iPad"):

@@ -36,8 +36,14 @@ def select_targets(devices, runtimes, sdk_version):
                    if device.get("isAvailable") and device_type(device).startswith(family)]
         if not choices:
             raise ValueError(f"No available {family} runtime in SDK {sdk_version}'s release line; refusing to skip UI coverage")
-        # Keep the foldable phone in coverage when it shares the newest compatible runtime.
-        choices.sort(key=lambda item: (item[0], device_type(item[1]) in ("iPhone Duo", "iPhone-Duo")), reverse=True)
+        # Runtime coverage comes first. Within that runtime keep the foldable phone,
+        # but prefer the smaller tablet framebuffer on the 7 GB hosted runner.
+        # All 35 cases still run with regular-width tablet navigation and rotation.
+        def preference(item):
+            hardware = device_type(item[1]).replace("-", " ")
+            preferred = hardware == "iPhone Duo" or hardware.startswith("iPad mini")
+            return item[0], preferred
+        choices.sort(key=preference, reverse=True)
         targets.append((family, choices[0][1]["udid"]))
     return targets
 
