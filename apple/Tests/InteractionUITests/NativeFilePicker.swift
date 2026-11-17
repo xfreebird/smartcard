@@ -7,6 +7,7 @@ struct NativeFilePicker {
     let app: XCUIApplication
 
     func cancel() throws {
+        XCTAssertTrue(app.filePicker.waitForPresence(timeout: 30), "Files must finish presenting before locating Cancel")
         let control = try waitForControl("Cancel") { $0.elementType == .button && ["Cancel", "Close"].contains($0.label) }
         tap(control)
         waitForDismissal()
@@ -14,6 +15,7 @@ struct NativeFilePicker {
 
     func selectFile(in folders: [String], namePrefix: String, labelContains: String? = nil,
                     confirmSelection: Bool) throws {
+        XCTAssertTrue(app.filePicker.waitForPresence(timeout: 30), "Files must finish presenting before selecting a document")
         let isDocument: (any XCUIElementSnapshot) -> Bool = { node in
             node.elementType == .cell && node.label.hasPrefix(namePrefix)
                 && (labelContains.map { node.label.contains($0) } ?? true)

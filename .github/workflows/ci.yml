@@ -103,8 +103,9 @@ jobs:
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
 
   ios-app:
-    # Two isolated jobs cap iOS execution at 60 runner minutes plus bounded cleanup.
-    timeout-minutes: 30
+    # Hosted native journeys run about 1.8x slower than local; retain all 35 cases.
+    # Two isolated jobs cap iOS execution at 80 runner minutes plus bounded cleanup.
+    timeout-minutes: 40
     strategy:
       fail-fast: true
       max-parallel: 1
@@ -131,7 +132,7 @@ jobs:
           bash scripts/ci/prepare-ios-ui-resources.sh "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui-build"
       - name: Native iOS mock UI journeys
         # Cold simulator startup is included; the outer job cap also includes compilation.
-        timeout-minutes: 25
+        timeout-minutes: 35
         run: |
           MSIGN_UI_SINGLE_SESSION=1 MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
       - name: iOS UI evidence
