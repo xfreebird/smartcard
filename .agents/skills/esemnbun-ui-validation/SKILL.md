@@ -24,6 +24,8 @@ Apple captures require Debug demo support and use fictional cards, isolated pref
 - Narrow iPad tab strips page horizontally: use their Next/Previous Page controls to reveal the destination. Nested Settings sheets retain parent controls in the accessibility tree. Dismiss the visible Done control and wait for its presenting screen before scrolling or switching tabs. Demo banners are on workspaces; Settings exposes the demo switch itself.
 - After rotating a foldable/windowed scene, assert keyboard and control bounds in the actual scene rather than requiring the app width to exceed its height.
 
+- Keep accessibility polling inexpensive: read a control frame once per poll and pass no expectation object when the predicate already captures the element. XCTest otherwise requests a full debug description each time, which can consume a bounded wait on busy runners.
+
 ## What to exercise
 
 - Sign: mixed success/failure batch continues, a single human-readable error per failed file, stable card identity throughout inter-document transitions, no retry button, entire success row activates the platform's reveal/open action.

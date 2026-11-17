@@ -78,14 +78,19 @@ extension XCUIElement {
     @MainActor
     private func waitUntilReady(file: StaticString, line: UInt) -> Bool {
         var previous = CGRect.null
-        var stable = 0
         let ready = NSPredicate { _, _ in
-            guard self.exists, self.isEnabled, self.isHittable, !self.frame.isEmpty else { stable = 0; return false }
-            if self.frame == previous { stable += 1 } else { stable = 0 }
-            previous = self.frame
-            return stable >= 2
+            guard self.exists, self.isEnabled, self.isHittable else { previous = .null; return false }
+            // Read geometry once per poll. Each property access crosses the simulator's
+            // accessibility service; redundant reads can exhaust the wait on a busy runner.
+            let current = self.frame
+            guard !current.isEmpty else { previous = .null; return false }
+            let stable = current == previous
+            previous = current
+            return stable
         }
-        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: self)], timeout: 10)
+        // Passing the element as the expectation object makes XCTest fetch its full debug
+        // description on every poll. The predicate already closes over the element.
+        let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: nil)], timeout: 10)
         XCTAssertEqual(result, .completed, "Control must be visible and stable before tapping: \(self)", file: file, line: line)
         return result == .completed
     }

@@ -3,6 +3,7 @@ import XCTest
 /// G10–G12, G20: presentation fixtures plus actual clear/relaunch interactions, never signing evidence.
 @MainActor
 final class VerificationJourneyUITests: XCTestCase {
+    override func setUp() { continueAfterFailure = false }
     func testVerificationStatesClearWithoutLeavingStaleResults() {
         continueAfterFailure = false
         for (scenario, title) in [
