@@ -9,7 +9,7 @@ The project shares behavior across platforms without sharing one web-based UI. A
 
 ![Layered component diagram: native interfaces call application services, which coordinate the cryptographic core and platform adapters; adapters reach the card, storage and PKI services.](/img/developers/architecture.svg)
 
-[Open the full-size diagram](/img/developers/architecture.svg). Arrows show calls or data exchange; the layers describe responsibilities, not separate servers. Most components run inside the app process. The operating system's smart-card service and remote PKI endpoints are outside it.
+[Open the full-size diagram](https://esemnbun.md/img/developers/architecture.svg). Arrows show calls or data exchange; the layers describe responsibilities, not separate servers. Most components run inside the app process. The operating system's smart-card service and remote PKI endpoints are outside it.
 
 | Layer | Responsibility | What belongs elsewhere |
 | --- | --- | --- |

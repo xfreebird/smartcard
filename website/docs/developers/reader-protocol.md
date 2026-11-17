@@ -33,7 +33,7 @@ Both mobile apps carry ISO 7816 command and response APDUs over the phone’s co
 
 ![iOS sequence from PIN approval through Core NFC discovery, certificate binding, protected signing and document output.](/img/developers/nfc-ios-sequence.svg)
 
-[Open the full-size iOS sequence diagram](/img/developers/nfc-ios-sequence.svg).
+[Open the full-size iOS sequence diagram](https://esemnbun.md/img/developers/nfc-ios-sequence.svg).
 
 1. The shared `PINCoordinator` obtains authorization before `NFCDocumentSigner` opens the system NFC sheet. `NFCSigningSession` creates an `NFCTagReaderSession` with ISO 14443 polling. The main app declares its NFC TAG entitlement, localized usage text, and the IAS and Generic application identifiers in that order.
 2. Core NFC tries the declared application identifiers during discovery. The app accepts one ISO 7816 tag and connects once. `NFCISO7816Transport` sends commands through `NFCISO7816Tag.sendCommand` and returns response data plus SW1/SW2 to the Swift core. Blocking card work stays off the main thread. [Apple Core NFC reference](https://developer.apple.com/documentation/corenfc/nfciso7816tag)
@@ -43,7 +43,7 @@ Both mobile apps carry ISO 7816 command and response APDUs over the phone’s co
 
 ![Android sequence from PIN approval through foreground reader mode, ISO-DEP discovery, certificate binding, protected signing and document output.](/img/developers/nfc-android-sequence.svg)
 
-[Open the full-size Android sequence diagram](/img/developers/nfc-android-sequence.svg).
+[Open the full-size Android sequence diagram](https://esemnbun.md/img/developers/nfc-android-sequence.svg).
 
 1. `NfcSignDocuments` loads the selected documents and obtains authorization through the shared `ConsentBroker` before enabling reader mode.
 2. `NfcSigningController` enables foreground NFC-A and NFC-B polling with the NDEF check skipped. It takes the detected tag’s `IsoDep` connection, connects once and calls `transceive` off the UI thread. The transport enforces the device’s maximum command length. [Android ISO-DEP reference](https://developer.android.com/reference/android/nfc/tech/IsoDep)

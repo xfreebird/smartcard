@@ -11,7 +11,7 @@ The explanations below describe the current implementation. They are not command
 
 ![Sequence diagram of user approval, application preparation, secure-channel establishment, certificate identity comparison, encrypted PIN verification, RSA signing and timestamp assembly.](/img/developers/card-sequence.svg)
 
-[Open the full-size sequence](/img/developers/card-sequence.svg). This is the logical flow; certificate discovery may open an earlier session, and the signing path rechecks identity. Local UI details and batch consent differ by platform. Every arrow to the card passes through a transport and reader.
+[Open the full-size sequence](https://esemnbun.md/img/developers/card-sequence.svg). This is the logical flow; certificate discovery may open an earlier session, and the signing path rechecks identity. Local UI details and batch consent differ by platform. Every arrow to the card passes through a transport and reader.
 
 1. **Prepare.** Freeze the selected identity and input bytes. Format code calculates what must be signed.
 2. **Authenticate the channel.** The host selects the IAS application, reads protocol initialization data, exchanges fresh challenges and verifies the authentication response. This is separate from the person's signing PIN.
