@@ -1,6 +1,6 @@
 # Android NFC signing
 
-Android NFC signing is implemented in the working tree. On 2026-11-16 the owner signed a
+Android NFC signing is included in 0.2.12. On 2026-11-16 the owner signed a
 PDF on an Android 14 phone (model 22126RN91Y) using the same Moldovan eID previously tested
 on iPhone. The resulting RSA-4096 CMS passed independent OpenSSL verification; changing
 the signed content failed verification. The timestamp token's signature and its binding
@@ -14,9 +14,9 @@ other card generations/devices and XAdES over real NFC are separate acceptance c
 Sign starts with one **Choose a document** action. Import reveals a review screen with
 **Continue**, followed by the same PIN dialog and NFC session. The chosen method and identity
 remain available in compact rows. **How it works** presents the three detailed steps in a
-bottom sheet. Card management has matching rows and sheets, with no signing stepper.
+bottom sheet. Settings uses focused dialogs for card management and saved PINs.
 
-Sign and Card default to **NFC** on capable phones with a blue card illustration. Selecting
+Sign defaults to **NFC** on capable phones with a blue card illustration. Selecting
 Reader shows live connection/insertion guidance, USB permission when needed, or the connected
 identity cards inline. Multiple cards retain the swipe carousel and a selection hint; the
 connection guide opens from How it works. The Continue hint reflects missing reader/card

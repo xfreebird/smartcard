@@ -1,3 +1,5 @@
+2026-11-17 — Updated the public developer handbook and the repository NFC guides for mobile transports, Settings, test evidence, store review and public downloads.
+
 2026-11-16 — Refreshed all 18 Mac, Linux and Windows landing-animation frames. Updated 168 guide screenshots and aligned their callouts for macOS and Linux in English, Romanian and Russian. The website now serves digest-verified release installers through public links. The Mac App Review attachment now includes both muted physical-device demos.
 
 2026-11-16 — iOS and macOS 0.2.12 build 214 are waiting for App Review with their physical-device hardware recordings. Apple removed the preceding Mac review. Play Alpha and AppGallery are reviewing the Android update with verified localized screenshot order. Microsoft published the Windows update. The notarized Mac installer, Windows MSI and Android APK are available in the GitHub 0.2.12 release. The website guides and mobile scroll sequence cover NFC and USB signing. See docs/reports/nfc-store-submission-2026-11-16.md.

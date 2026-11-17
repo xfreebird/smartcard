@@ -96,7 +96,11 @@ GH_HOST=github.com gh run watch RUN_ID -R xfreebird/smartcard --exit-status
 
 The deployment job requires `ENABLE_PAGES_DEPLOYMENT=true` and uses the `github-pages` environment. It uploads `website/pages` as a Pages artifact and deploys through GitHub's Pages action. Domain configuration is separate; an ordinary documentation update does not require DNS changes. See [GitHub's publishing-source documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) for the hosting mechanism.
 
-On non-PR runs, the workflow reads the latest GitHub release, regenerates download metadata/update manifests and fetches package repository inputs before building. It uses Node 22 and Python 3.12+. The public website must contain only deliberately selected public content even when the source repository is private; do not export the internal `docs/`, `re/` or reports directory wholesale.
+On non-PR runs, the workflow reads the latest stable GitHub release and regenerates download metadata and update feeds. It checks release asset SHA-256 digests and stages the installers under the public `/release-downloads/` directory. The signed package feeds are staged at `/packages/`. Both directories are shared by the three website locales. The latest available installer is selected per package and architecture, so an omitted platform can keep its previously published version. It uses Node 22 and Python 3.12+. The public website must contain only deliberately selected public content even when the source repository is private; do not export the internal `docs/`, `re/` or reports directory wholesale.
+
+## Refresh native screenshots
+
+Use synthetic cards and sample documents in the native applications. The Mac, Linux and Windows landing sequences use three aligned reader states in each appearance. iPhone and Android add the NFC path before the USB connection and card-insertion scenes. When replacing captures, check the scene manifests and update `website/src/data/screenshotRevision.json` so the browser fetches the replacements. Guide callouts originate in the localized sources under `docs/user-guide/content/`. Regenerate the pages after aligning those points with the new captures.
 
 ## Refresh release metadata locally
 
@@ -114,6 +118,6 @@ Review generated changes. Do not invent store availability or assume a store ver
 
 ## Confirm publication and recover
 
-Check the final **deployment** job, then open the live developer entry, both diagrams, the agent page, `llms.txt`, a developer Markdown export, downloads and affected `/updates/` feeds over HTTPS. Confirm content matches the intended revision. Repeat relevant checks under `/ro/` and `/ru/` for translated navigation and English handbook fallback.
+Check the final **deployment** job, then open the live developer entry, both diagrams, the agent page, `llms.txt`, a developer Markdown export, downloads and affected `/updates/` feeds over HTTPS. Confirm content matches the intended revision. Repeat relevant checks under `/ro/` and `/ru/` for translated navigation and English handbook fallback. Fetch installer links without GitHub authentication and compare their hashes with the corresponding release assets.
 
 If a build fails, fix its reported source/link/generator error and rerun from the intended revision. If deployment is skipped, inspect the repository variable/event condition. If hosting is unavailable, distinguish a local successful build from a deployed page. To roll back content, revert the specific website change through the normal reviewed source workflow and deploy that revision; avoid resetting unrelated release metadata or app source.

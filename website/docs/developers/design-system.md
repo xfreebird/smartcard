@@ -85,6 +85,12 @@ python3 scripts/prepare-store-metadata.py --check
 
 Run regeneration only after reviewing the source changes. These commands check existing outputs; they do not translate missing text.
 
+## Signing and Settings navigation
+
+On phones, keep the signing method and primary action at stable positions. NFC shows its illustration and help. Choosing a reader shows the next connection step, or the connected card artwork and identity. Layouts with more space should show the same connection state and selected card. Keep card details discoverable through the info action on Sign and card management in Settings.
+
+Settings starts with Demo mode. Group cards, readers and saved PIN actions by task. Use dismissible sheets or dialogs for a focused task such as card details or signing help. Desktop Settings follows each platform’s navigation conventions. File protection belongs in Documents, while Sign and Verify retain their file-selection and desktop drop areas.
+
 ## Adding or changing a component
 
 Define its content and callbacks first, then implement it using that platform's tokens. Add it to an appropriate Debug fixture and inspect long names, empty states, light/dark appearance, large text, narrow windows and keyboard/screen-reader behavior. For interactive work, use [native automation](testing.md); a screenshot alone cannot prove that the whole row is clickable or that selection reaches the correct card.

@@ -78,7 +78,7 @@ xcrun simctl install SIMULATOR_UUID \
 xcrun simctl launch SIMULATOR_UUID md.esemnbun.ios
 ```
 
-Use the [UI automation runner](testing.md) for deterministic fictional cards and isolated fixtures. A simulator build does not validate provisioning, USB adapters or physical CryptoTokenKit access. Physical-device builds need the authorized team/profile and an actual supported reader.
+Use the [UI automation runner](testing.md) for deterministic fictional cards and isolated fixtures. A simulator build covers interface flow. Test USB adapters and CryptoTokenKit on a supported physical device with a reader. NFC testing requires a supported physical iPhone and a profile for `md.esemnbun.ios` with the NFC Tag Reading (`TAG`) entitlement. The app declares its ISO 7816 application identifiers in Info.plist and localizes `NFCReaderUsageDescription`. Keep the existing App Groups when refreshing signing profiles.
 
 ## Android
 
@@ -98,7 +98,7 @@ adb -s EMULATOR_SERIAL shell am start \
   -n md.esemnbun.app/md.moldsign.app.MainActivity --es demo cards
 ```
 
-The installed application ID is `md.esemnbun.app`; the Kotlin activity namespace retains `md.moldsign.app`. The demo extra is Debug-only. USB signing requires a physical USB host device, a supported reader and USB permission; an emulator screenshot does not cover those requirements.
+The installed application ID is `md.esemnbun.app`; the Kotlin activity namespace retains `md.moldsign.app`. The demo extra is Debug-only. USB signing requires a physical USB host device, a supported reader and USB permission. NFC signing requires a physical device that supports ISO-DEP. NFC is optional in the app manifest so devices without it can use a reader. For isolated hardware testing, build `:app:assembleDebug` with `-PnfcTestInstall=true`. It installs as `md.esemnbun.app.nfctest` and uses separate app and PIN storage.
 
 ## Windows
 

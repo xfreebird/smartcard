@@ -3,7 +3,7 @@ title: Developer documentation
 description: Understand eSemnBun from native screens to smart-card bytes, then build, test and deliver it.
 ---
 
-eSemnBun lets a person sign documents with a Moldovan electronic identity card. The app prepares the document, asks for permission, sends a small cryptographic request to the card, and saves the result. **The signing private key stays on the card.** The reader is the cable between software and that key; it does not receive the whole PDF.
+eSemnBun lets a person sign documents with a Moldovan electronic identity card. The app prepares the document, asks for permission, sends a small cryptographic request to the card, and saves the result. **The signing private key stays on the card.** A USB reader or the phone’s NFC connection carries the signature request. Document processing stays in the app.
 
 This handbook explains the implementation for contributors and curious readers. Start with the architecture if you are new to smart cards. Command examples assume an authorized checkout and run from the repository root unless shown otherwise. The developer handbook is maintained in **English**; the product guides also have Romanian and Russian translations.
 

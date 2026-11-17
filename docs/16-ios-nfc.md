@@ -1,6 +1,6 @@
 # iOS NFC document signing
 
-Status on 2026-11-16: signing a diagnostic document with the owner's Moldovan identity card over NFC is **verified** on iPhone 11 Pro / iOS 27.2. The application integration is implemented and a signed development build is installed on that iPhone. Core, app-policy and simulator UI checks passed. The first app test reported an intermittent connection failure before PIN entry; diagnosis and main-app signing acceptance remain open. No release has been published.
+Status on 2026-11-16: signing a diagnostic document with the owner's Moldovan identity card over NFC is **verified** on iPhone 11 Pro / iOS 27.2. Core, app-policy and simulator UI checks passed. iOS 0.2.12 build 214 was submitted to App Review with physical NFC and reader recordings. The review submission and the independent diagnostic verification are recorded separately in [the release report](reports/nfc-store-submission-2026-11-16.md).
 
 ## Physical evidence and readable information
 
@@ -14,7 +14,7 @@ This diagnostic proof does not establish application PDF/PAdES signing, timestam
 
 ## Signing experience
 
-Sign and Card start with **NFC** on capable iPhones and keep **Card reader** one tap away. Connecting or disconnecting a reader never changes the choice. NFC remains selectable while another card is connected through a reader. Devices without Core NFC default to the reader option.
+Sign starts with **NFC** on capable iPhones and keep **Card reader** one tap away. Connecting or disconnecting a reader never changes the choice. NFC remains selectable while another card is connected through a reader. Devices without Core NFC default to the reader option.
 
 The mobile flow starts with one **Choose a document** action. After import, the illustration
 collapses into a compact method/card choice and the screen asks the user to review the
@@ -22,7 +22,7 @@ file and **Continue**. The existing PIN sheet is next, followed by one NFC sessi
 hint beside Continue explains that order. The numbered instructions live in **How it works**,
 not as a permanent configuration strip.
 
-Sign and Card use neutral surfaces and compact native menus. NFC has a blue card illustration;
+Sign uses neutral surfaces and compact native menus. NFC has a blue card illustration;
 selecting Reader reveals the live reader card inline: connect the reader, insert the card,
 reading/error state, or the connected identity. Multiple cards retain the swipe carousel and
 an explicit selection hint. Reader help opens the connection guide. The default method remains
@@ -39,13 +39,13 @@ The method, documents, credential and signer are frozen for a batch. A new NFC c
 
 Cancellation, connection loss, authentication error, incorrect/blocked PIN or card mismatch stops the NFC batch. Neither authentication nor PIN verification is retried automatically. Completed files remain available; unfinished files remain queued. A wrong saved PIN is removed through the existing error path. PIN retry hints are scoped to the certificate that produced them.
 
-The iOS Card screen uses the same method/card selection and shows that identity's certificate and PIN status. Deleting a saved PIN removes the one shared account for both methods. **Saved PINs**, accessible from Card and Settings, also manages disconnected cards. The browser bridge and file-protection workflows retain their existing reader selection.
+The info button on Sign opens the selected identity’s details. **Cards and readers** and **Saved PINs** in Settings open focused sheets, including management for disconnected cards. Deleting a saved PIN removes the shared account for both methods. The browser bridge and file-protection workflows retain their existing reader selection.
 
 `PinVault` retains its existing account namespace: lowercase SHA-1 of the signing certificate DER, with no NFC/reader suffix. No PIN migration or duplicate credential is needed. `SavedCardIdentityStore` retains public certificate bytes in local app preferences only for remembered PIN accounts, validates each fingerprint on restoration and discards malformed certificate data. This enables selection and Face ID before the single NFC prompt after restarting the app. PIN values remain in the existing Keychain store; viewing/deleting card metadata never reads them. Deleting a PIN removes its persisted certificate metadata too. Older saved PINs without certificate metadata remain available in Saved PINs and gain a name when the card is read again; an unidentified NFC card still needs manual PIN entry. Demo identities and PINs stay separate and are cleared from selection when switching modes.
 
 ## Implementation and protocol
 
-- `SigningCardChoice` provides the source and known-card choices in Sign and Card. `AppModel` deduplicates known certificates by their existing PIN account ID, while keeping NFC and reader transport selections separate. Stamp previews use the selected signing identity.
+- `SigningCardChoice` provides the source and known-card choices in Sign. `AppModel` deduplicates known certificates by their existing PIN account ID, while keeping NFC and reader transport selections separate. Stamp previews use the selected signing identity.
 - `NFCSigningSession` owns one foreground `NFCTagReaderSession`. `NFCISO7816Transport` adapts asynchronous commands to the blocking `CardTransport` core. Signing runs off the main thread; callbacks run on the main queue. Pending commands have a 20-second bound and are released on invalidation/cancellation. Late callbacks cannot replace a failure.
 - `ContactlessCertificateReader` performs only SELECT, READ BINARY and bounded GET RESPONSE. It selects Generic ADF directly, then EF `0001` with P2=`04`, validates DER length and reads at most 4,096 bytes in chunks of at most 128. It never authenticates or sends a PIN.
 - `NFCDocumentSigner` creates a dedicated `SigningService` bound to that NFC session, reusing `CoreDocumentSigner`, PAdES/XAdES writers, trust services, security-scoped file access and output naming. It never changes the shared reader/bridge transport factory.

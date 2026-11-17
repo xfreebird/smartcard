@@ -88,6 +88,12 @@ Do not confuse a valid self-signed Windows MSI signature with public CA trust; S
 
 The release publisher filters store-only inputs from public download assets: IPA, AAB, MSIX and PKG are not public desktop downloads. Follow its current artifact rules instead of uploading every file from `dist/`.
 
+## Mobile NFC review
+
+Check `TAG` on the signed iOS application, its localized usage text, and the App Groups on the relevant bundles. Check that the signed Android manifest declares optional NFC support. On iPhone and Android, order localized store screenshots so people can see both NFC and USB reader signing. iPad screenshots describe the reader flow.
+
+Tell reviewers how to open Demo mode and how to perform a physical test using a compatible card with an active signing certificate. Supply the hardware demonstrations requested by the store. Keep PIN entry, printed card identifiers and personal certificate details out of reviewer media. Check the processed attachments and actual review state independently of build upload.
+
 ## Verify delivery
 
 Inspect the final release's complete asset list and SHA-256 checksums, then verify downloaded bytes and relevant platform signatures. Check Apple processing/TestFlight state, Google review/tester availability, Huawei draft/review state and Windows certification/availability independently for the operations performed.

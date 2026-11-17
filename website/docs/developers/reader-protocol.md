@@ -25,6 +25,10 @@ The brackets mean T=1 framing is visible to the application only for a reader th
 
 Android cannot assume a PC/SC daemon exists. The app discovers a CCID interface (USB class `0B`, with a supported vendor-class descriptor fallback), asks for USB access, and claims its bulk IN/OUT endpoints. A connected reader without USB permission is a distinct state from an empty reader.
 
+## Mobile NFC transport
+
+On supported iPhones, Core NFC provides an ISO 7816 tag session. On Android, foreground reader mode discovers the card and `IsoDep` exchanges APDUs. Both feed the signing core directly from the phone. CCID descriptors, USB permissions, slot power commands and host-side T=1 framing apply to the USB reader path. See [mobile NFC signing](architecture.md#mobile-nfc-signing) for session lifetime and identity rules.
+
 ## Inspect capabilities before transmitting
 
 The CCID class descriptor tells the transport the available slots, protocols, voltages, maximum message size and exchange level. In `dwFeatures`, the exchange-level bits are:

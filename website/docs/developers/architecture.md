@@ -14,7 +14,7 @@ The project shares behavior across platforms without sharing one web-based UI. A
 | Layer | Responsibility | What belongs elsewhere |
 | --- | --- | --- |
 | Native presentation | Screens, accessibility, file selection, progress and consent UI | APDU construction and cryptographic keys |
-| Application services | Selected reader, queued documents, identity checks, batch policy, persistence and bridge lifetime | Drawing a card or parsing USB descriptors |
+| Application services | Selected signing method and card, queued documents, identity checks, batch policy, persistence and bridge lifetime | Drawing a card or parsing USB descriptors |
 | Cryptographic core | Card session, secure messaging, PDF/XML signing, verification and protocol models | Native dialogs and credential-store UI |
 | Platform adapters | Card transport, cryptographic primitives, HTTP, file access and protected storage | User-facing workflow decisions |
 | External systems | The reader/card, OS services, filesystem and timestamp/revocation services | App state |
@@ -24,8 +24,8 @@ The project shares behavior across platforms without sharing one web-based UI. A
 | Target | UI and orchestration | Core and physical transport |
 | --- | --- | --- |
 | macOS | SwiftUI/AppKit; `apple/Apps/macOS`, `apple/Apps/Shared` | `swift/MoldSignKit`; CryptoTokenKit for native slot access, PC/SC for CLI paths |
-| iPhone / iPad | SwiftUI/UIKit; `apple/Apps/iOS`, shared screens and model | Same Swift core; `TKSmartCard` sessions through CryptoTokenKit |
-| Android | Compose / Material 3; `android/app` | Kotlin `android/core`; USB host CCID and host-side T=1 in `android/transport-usb` |
+| iPhone / iPad | SwiftUI/UIKit; `apple/Apps/iOS`, shared screens and model | Same Swift core with `TKSmartCard` for reader sessions and Core NFC ISO 7816 sessions on supported iPhones |
+| Android | Compose / Material 3; `android/app` | Kotlin `android/core` with USB CCID/T=1 in `android/transport-usb` and `IsoDep` in Android reader mode |
 | Windows | WinUI 3; `windows/src/MoldSign.App` | C# `windows/src/MoldSign.Core`; Windows `WinSCard` |
 | Linux | GTK4/libadwaita via Swift C interop; `linux/` | Same Swift core, pcsc-lite, OpenSSL and POSIX sockets |
 | CLI and MCP | Swift executables on macOS/Linux; C# executables on Windows | The same signing and verification services as the platform core |
@@ -45,6 +45,12 @@ public protocol CardTransport: AnyObject {
 ```
 
 `transmit` returns response data **including the final two status bytes**. `CosmoXCard` interprets card status and handles `61xx` response continuation. Kotlin's `ApduTransport` and C#'s `ICardTransport` serve the same role. A simulated card implements this boundary, so card workflows can be exercised without a physical device or a real PIN.
+
+## Mobile NFC signing
+
+Sign offers both methods on supported NFC phones, even with a USB reader connected. The same PIN coordinator or dialog serves both methods. NFC collects authorization first, then reads the signing certificate and signs during one foreground session per document. The batch binds to the first accepted certificate, and known certificates must match the scanned card before PIN verification. Connection loss, a card mismatch or a PIN error ends the attempt so the user can decide how to proceed.
+
+Stored PINs use the signing-certificate identity across both transports. NFC reuses the existing document preparation and output path. The public certificate supplies the holder and validity information shown in the app. Access to photos, biometrics or travel-document data has not been established. iPad and desktop signing use a card reader.
 
 ## State, concurrency and identity
 
