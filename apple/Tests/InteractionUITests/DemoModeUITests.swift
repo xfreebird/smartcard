@@ -17,30 +17,30 @@ final class DemoModeUITests: XCTestCase {
         print("DEMO_SWITCH_FRAME \(toggle.frame)")
         toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
         let accept = app.buttons["Use demo mode"]
-        XCTAssertTrue(accept.waitForExistence(timeout: 5), "A disclaimer must precede activation")
+        XCTAssertTrue(accept.waitForPresence(timeout: 5), "A disclaimer must precede activation")
         attach(app, "01-enable-disclaimer")
         accept.tapWhenReady()
         waitForValue("1", on: toggle)
         navigate("Sign", in: app)
-        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForPresence(timeout: 5))
         let expand = app.buttons["sign.expandBatch"]
         if expand.exists { expand.tap() }
-        XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["sign.options.Sample-contract.pdf"].waitForPresence(timeout: 5))
         attach(app, "02-demo-ready")
         app.buttons["sign.submit"].tap()
-        XCTAssertTrue(app.staticTexts["Demo signing completed"].firstMatch.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Demo signing completed"].firstMatch.waitForPresence(timeout: 10))
         XCTAssertFalse(app.secureTextFields.firstMatch.exists, "Simulation must not request a real PIN")
         attach(app, "03-demo-completed")
         let share = app.buttons["Share"].firstMatch
         XCTAssertTrue(share.exists)
         share.tap()
         let nativeShare = app.otherElements["ActivityListView"]
-        let shareVisible = nativeShare.waitForExistence(timeout: 8) || app.buttons["Copy"].exists || app.buttons["Save to Files"].exists
+        let shareVisible = nativeShare.waitForPresence(timeout: 8) || app.buttons["Copy"].exists || app.buttons["Save to Files"].exists
         XCTAssertTrue(shareVisible, "The native share sheet must actually appear before capturing it")
         attach(app, "04-share-sample")
         app.terminate()
         app.launch()
-        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForExistence(timeout: 10))
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForPresence(timeout: 10))
         attach(app, "05-persisted-demo")
         navigate("Settings", in: app)
         let persisted = demoToggle(in: app)
@@ -65,11 +65,11 @@ final class DemoModeUITests: XCTestCase {
     private func demoToggle(in app: XCUIApplication) -> XCUIElement {
         let toggle = app.switches["settings.demoMode"]
         let form = app.collectionViews.firstMatch
-        XCTAssertTrue(form.waitForExistence(timeout: 10))
+        XCTAssertTrue(form.waitForPresence(timeout: 10))
         for _ in 0..<6 where !toggle.exists || !toggle.isHittable {
             form.swipeUp()
         }
-        XCTAssertTrue(toggle.waitForExistence(timeout: 5), app.debugDescription)
+        XCTAssertTrue(toggle.waitForPresence(timeout: 5), app.debugDescription)
         XCTAssertTrue(toggle.isHittable)
         return toggle
     }

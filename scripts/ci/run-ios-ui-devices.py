@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""Run both required device families on one billed runner; stop both on failure."""
-from concurrent.futures import ThreadPoolExecutor
+"""Run one required device family per isolated CI job, with bounded cleanup."""
 import os
 from pathlib import Path
 import signal
@@ -45,12 +44,15 @@ def shutdown(device):
         print(f'::warning::Simulator shutdown timed out: {device}', flush=True)
 
 
-def run(app, targets_path, out):
+def run(app, targets_path, out, family):
     targets = [line.split('\t') for line in Path(targets_path).read_text().splitlines() if line]
     if (len(targets) != 2 or any(len(row) != 2 for row in targets)
             or {row[0] for row in targets} != {'iPhone', 'iPad'}
             or len({row[1] for row in targets}) != 2):
         raise ValueError('Exactly one distinct iPhone and iPad target are required')
+    if family not in {'iPhone', 'iPad'}:
+        raise ValueError('Select exactly one required iOS device family')
+    selected = [row for row in targets if row[0] == family]
     processes = []
 
     def cancelled(signum, frame):
@@ -58,7 +60,7 @@ def run(app, targets_path, out):
 
     previous = {sig: signal.signal(sig, cancelled) for sig in (signal.SIGINT, signal.SIGTERM)}
     try:
-        for family, device in targets:
+        for family, device in selected:
             print(f'Starting {family} UI suites on {device}', flush=True)
             processes.append(subprocess.Popen(
                 [sys.executable, __file__, '--worker', app, device, str(Path(out) / family)],
@@ -66,7 +68,7 @@ def run(app, targets_path, out):
         while True:
             states = [process.poll() for process in processes]
             if any(state is not None and state != 0 for state in states):
-                print('::error::A required iOS device failed; stopping the other device to conserve runner minutes.', flush=True)
+                print('::error::The required iOS device failed; stopping its child processes.', flush=True)
                 return 1
             if all(state == 0 for state in states):
                 return 0
@@ -77,8 +79,7 @@ def run(app, targets_path, out):
         for sig in previous:
             signal.signal(sig, signal.SIG_IGN)
         stop_groups(processes)
-        with ThreadPoolExecutor(max_workers=2) as pool:
-            list(pool.map(shutdown, [device for _, device in targets]))
+        shutdown(selected[0][1])
         for sig, handler in previous.items():
             signal.signal(sig, handler)
 

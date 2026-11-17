@@ -103,11 +103,17 @@ jobs:
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
 
   ios-app:
-    timeout-minutes: 50
+    # Two isolated jobs keep the total iOS ceiling at 50 billed runner minutes.
+    timeout-minutes: 25
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        family: [iPhone, iPad]
     # The Xcode 27 pool can service one Apple job at a time. Avoid expiring queued acquisitions.
     needs: [changes, apple-apps]
     if: ${{ !cancelled() && needs.changes.result == 'success' && needs.changes.outputs.ios == 'true' }}
-    name: iOS build and iPhone + iPad mock UI
+    name: iOS build and ${{ matrix.family }} mock UI
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
@@ -119,19 +125,21 @@ jobs:
         run: bash apple/scripts/require-ios-sdk.sh
       - name: Build iOS and share extension
         timeout-minutes: 5
-        run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" CODE_SIGNING_ALLOWED=NO build
-      - name: Native iPhone and iPad mock UI journeys
-        # Both device families run concurrently on this runner. Leave room for evidence upload.
-        timeout-minutes: 40
         run: |
+          xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" CODE_SIGNING_ALLOWED=NO build
           command -v xcodegen >/dev/null || brew install xcodegen
-          bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui"
+          bash scripts/ci/prepare-ios-ui-resources.sh "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui-build"
+      - name: Native iOS mock UI journeys
+        # Leave room for complete UI coverage inside the unchanged 25-minute job cap.
+        timeout-minutes: 23
+        run: |
+          MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
       - name: iOS UI evidence
         if: always()
         timeout-minutes: 3
         uses: actions/upload-artifact@v4
         with:
-          name: ios-ui-${{ github.sha }}
+          name: ios-ui-${{ matrix.family }}-${{ github.sha }}
           retention-days: 7
           path: |
             ${{ runner.temp }}/ios-ui/**/*.xcresult
@@ -139,6 +147,9 @@ jobs:
             ${{ runner.temp }}/ios-ui/**/roundtrip.json
             ${{ runner.temp }}/ios-ui/*.json
             ${{ runner.temp }}/ios-ui/*.tsv
+            ${{ runner.temp }}/ios-ui-build/**/*.xcresult
+            ${{ runner.temp }}/ios-ui-build/**/test.log
+            ${{ runner.temp }}/ios-ui-build/fixture-generation.log
           if-no-files-found: warn
 
   linux:

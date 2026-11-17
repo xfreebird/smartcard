@@ -5,7 +5,6 @@ app=${1:?Usage: run-carousel-ui-tests.sh DEBUG_SIMULATOR_APP BOOTED_SIMULATOR_UU
 device=${2:?Simulator UUID required}
 out=${3:?Output directory required}
 repo=$(cd "$(dirname "$0")/../.." && pwd)
-command -v xcodegen >/dev/null || { echo 'xcodegen is required to generate the isolated UI-test host.' >&2; exit 1; }
 python3 - "$app" <<'PY'
 import plistlib,sys
 from pathlib import Path
@@ -17,15 +16,32 @@ payload = binary.read_bytes() + b''.join(p.read_bytes() for p in app.glob('*.deb
 if b'MSIGN_DEMO_CARDS' not in payload:
     raise SystemExit('Debug mock-enabled simulator build required.')
 PY
+if [[ ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]]; then
 state=$(xcrun simctl list devices -j | python3 -c 'import json,sys; target=sys.argv[1]; print(next((d["state"] for group in json.load(sys.stdin)["devices"].values() for d in group if d["udid"]==target),"Missing"))' "$device")
 [[ "$state" == Booted ]] || { echo 'Boot the dedicated test simulator first.' >&2; exit 1; }
+fi
 mkdir -p "$out"
 out=$(cd "$out" && pwd)
 [[ ! -e "$out/GestureProof.xcresult" ]] || { echo 'Use a new output directory to preserve earlier test results.' >&2; exit 1; }
+test_source=${MSIGN_UI_TEST_SOURCE:-$repo/apple/Tests/InteractionUITests/CardCarouselUITests.swift}
+if [[ -n ${MSIGN_UI_XCTESTRUN:-} && ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]]; then
+    [[ -f "$MSIGN_UI_XCTESTRUN" ]] || { echo 'Prepared XCTest manifest is missing.' >&2; exit 1; }
+    suite=$(basename "$test_source" .swift)
+    python3 "$repo/apple/scripts/capture-test-display.py" "$device" "$out/active-display" \
+        xcodebuild test-without-building -xctestrun "$MSIGN_UI_XCTESTRUN" \
+        -only-testing:"GestureTests/$suite" -destination "id=$device" -parallel-testing-enabled NO \
+        -collect-test-diagnostics never -resultBundlePath "$out/GestureProof.xcresult" \
+        CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$out/test.log"
+    exit
+fi
+command -v xcodegen >/dev/null || { echo 'xcodegen is required to generate the isolated UI-test host.' >&2; exit 1; }
 probe_dir=$(mktemp -d "${TMPDIR:-/tmp}/esemnbun-gesture.XXXXXX")
 mkdir -p "$probe_dir/Host" "$probe_dir/Tests"
-test_source=${MSIGN_UI_TEST_SOURCE:-$repo/apple/Tests/InteractionUITests/CardCarouselUITests.swift}
-cp "$test_source" "$probe_dir/Tests/"
+if [[ ${MSIGN_UI_BUILD_ONLY:-0} == 1 ]]; then
+    cp "$repo/apple/Tests/InteractionUITests/"*.swift "$probe_dir/Tests/"
+else
+    cp "$test_source" "$probe_dir/Tests/"
+fi
 cp "$repo/apple/Tests/InteractionUITests/NativeUITestActions.swift" "$probe_dir/Tests/"
 cp "$repo/apple/Tests/InteractionUITests/NativeFilePicker.swift" "$probe_dir/Tests/"
 cat > "$probe_dir/Host/ProbeHost.swift" <<'SWIFT'
@@ -76,8 +92,15 @@ schemes:
         - GestureTests
 YAML
 xcodegen generate --spec "$probe_dir/project.yml"
-if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then
+if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 && ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]]; then
     xcrun simctl install "$device" "$app"
+fi
+if [[ ${MSIGN_UI_BUILD_ONLY:-0} == 1 ]]; then
+    xcodebuild build-for-testing -project "$probe_dir/GestureProbe.xcodeproj" -scheme GestureProbe \
+        -destination 'generic/platform=iOS Simulator' -parallel-testing-enabled NO ARCHS="$(uname -m)" \
+        -derivedDataPath "$out/DerivedData" -resultBundlePath "$out/Build.xcresult" \
+        CODE_SIGNING_ALLOWED=NO 2>&1 | tee "$out/test.log"
+    exit
 fi
 python3 "$repo/apple/scripts/capture-test-display.py" "$device" "$out/active-display" \
     xcodebuild test -project "$probe_dir/GestureProbe.xcodeproj" -scheme GestureProbe \

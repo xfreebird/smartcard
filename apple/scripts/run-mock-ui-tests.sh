@@ -9,6 +9,23 @@ if [[ "$platform" == ios ]]; then
     # Files retains provider URLs. Keep one app data container for all seeded suites.
     xcrun simctl install "$device" "$app"
     export MSIGN_UI_APP_INSTALLED=1
+    if [[ -n ${MSIGN_UI_RESOURCES_DIR:-} ]]; then
+        MSIGN_UI_XCTESTRUN=$(cat "$MSIGN_UI_RESOURCES_DIR/xctestrun-path.txt")
+        export MSIGN_UI_DOCUMENT_FIXTURES="$MSIGN_UI_RESOURCES_DIR/fixtures"
+    else
+        MSIGN_UI_BUILD_ONLY=1 bash "$repo/apple/scripts/run-carousel-ui-tests.sh" "$app" "$device" "$out/TestHost"
+        MSIGN_UI_XCTESTRUN=$(python3 - "$out/TestHost/DerivedData/Build/Products" <<'PYTHON'
+from pathlib import Path
+import sys
+manifests = list(Path(sys.argv[1]).glob('*.xctestrun'))
+if len(manifests) != 1:
+    raise SystemExit('Expected exactly one prepared XCTest manifest')
+print(manifests[0].resolve())
+PYTHON
+)
+    fi
+    [[ -f "$MSIGN_UI_XCTESTRUN" ]] || { echo 'Prepared XCTest manifest is missing.' >&2; exit 1; }
+    export MSIGN_UI_XCTESTRUN
 fi
 status=0
 report_failure() {

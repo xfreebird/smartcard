@@ -13,9 +13,9 @@ final class VerificationJourneyUITests: XCTestCase {
         ] {
             let app = launch(scenario)
             defer { app.terminate() }
-            XCTAssertTrue(app.staticTexts[title].firstMatch.waitForExistence(timeout: 15), scenario)
+            XCTAssertTrue(app.staticTexts[title].firstMatch.waitForPresence(timeout: 15), scenario)
             let clear = app.buttons["verify.clearResults"].firstMatch
-            XCTAssertTrue(clear.waitForExistence(timeout: 5), scenario)
+            XCTAssertTrue(clear.waitForPresence(timeout: 5), scenario)
             XCTAssertTrue(clear.isEnabled)
             clear.activateControl()
             XCTAssertTrue(app.descendants(matching: .any)["verify.dropZone"].firstMatch.exists)
@@ -34,7 +34,7 @@ final class VerificationJourneyUITests: XCTestCase {
         defer { app.terminate() }
         for name in ["signature", "certificate", "technical"] {
             let disclosure = app.buttons["verify.disclosure." + name].firstMatch
-            XCTAssertTrue(disclosure.waitForExistence(timeout: 15), name)
+            XCTAssertTrue(disclosure.waitForPresence(timeout: 15), name)
             #if os(iOS)
             for _ in 0..<5 where !disclosure.isHittable { app.swipeUp() }
             #else
@@ -62,7 +62,7 @@ final class VerificationJourneyUITests: XCTestCase {
         let app = launch("verify-loading")
         defer { app.terminate() }
         let clear = app.buttons["verify.clearResults"].firstMatch
-        XCTAssertTrue(clear.waitForExistence(timeout: 15))
+        XCTAssertTrue(clear.waitForPresence(timeout: 15))
         clear.activateControl()
         XCTAssertFalse(clear.exists)
         XCTAssertFalse(app.progressIndicators.firstMatch.exists)
@@ -82,9 +82,9 @@ final class VerificationJourneyUITests: XCTestCase {
             // Native cards expose one combined accessibility label on desktop.
             let label = scenario == "reading" ? "reading" : title
             let state = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] %@ OR value CONTAINS[c] %@", label, label)).firstMatch
-            XCTAssertTrue(state.waitForExistence(timeout: 15), scenario)
+            XCTAssertTrue(state.waitForPresence(timeout: 15), scenario)
             #else
-            XCTAssertTrue(app.staticTexts[title].firstMatch.waitForExistence(timeout: 15), scenario)
+            XCTAssertTrue(app.staticTexts[title].firstMatch.waitForPresence(timeout: 15), scenario)
             #endif
             XCTAssertFalse(app.secureTextFields.firstMatch.exists)
         }
@@ -94,7 +94,7 @@ final class VerificationJourneyUITests: XCTestCase {
         for scenario in ["pin", "pin-warning"] {
             let app = launch(scenario, tab: "sign")
             defer { app.terminate() }
-            XCTAssertTrue(app.secureTextFields.firstMatch.waitForExistence(timeout: 15))
+            XCTAssertTrue(app.secureTextFields.firstMatch.waitForPresence(timeout: 15))
             let cancel = app.buttons["Cancel"].firstMatch
             XCTAssertTrue(cancel.exists)
             cancel.activateControl()

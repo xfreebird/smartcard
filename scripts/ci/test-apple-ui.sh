@@ -34,8 +34,8 @@ PLIST
         sdk_version=$(xcrun --sdk iphonesimulator --show-sdk-version)
         python3 "$repo/scripts/ci/select_apple_ui_targets.py" "$out/devices.json" "$out/runtimes.json" "$sdk_version" > "$out/targets.tsv"
         cat "$out/targets.tsv"
-        # Separate devices, app containers, test hosts and evidence; one billed runner/job.
-        exec python3 "$repo/scripts/ci/run-ios-ui-devices.py" "$app" "$out/targets.tsv" "$out"
+        # Select exactly the family assigned to this isolated matrix job.
+        exec python3 "$repo/scripts/ci/run-ios-ui-devices.py" "$app" "$out/targets.tsv" "$out" "${4:?iOS device family required}"
         ;;
     *) echo 'Unsupported platform.' >&2; exit 2 ;;
 esac

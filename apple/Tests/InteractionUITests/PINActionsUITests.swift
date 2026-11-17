@@ -23,16 +23,16 @@ final class PINActionsUITests: XCTestCase {
         XCTAssertEqual(XCUIDevice.shared.orientation, landscape ? .landscapeLeft : .portrait)
         let submit = app.buttons["pin.submit"]
         let cancel = app.buttons["pin.cancel"]
-        XCTAssertTrue(submit.waitForExistence(timeout: 15))
+        XCTAssertTrue(submit.waitForPresence(timeout: 15))
         XCTAssertTrue(cancel.isHittable)
         XCTAssertFalse(submit.isEnabled)
         XCTAssertGreaterThanOrEqual(submit.frame.minY, app.frame.minY)
         XCTAssertLessThanOrEqual(submit.frame.maxY, app.frame.maxY)
         let input = app.secureTextFields["pin.input"]
-        XCTAssertTrue(input.waitForExistence(timeout: 5))
+        XCTAssertTrue(input.waitForPresence(timeout: 5))
         input.tap()
         let keyboard = app.keyboards.firstMatch
-        XCTAssertTrue(keyboard.waitForExistence(timeout: 5), "This regression requires the software keyboard.")
+        XCTAssertTrue(keyboard.waitForPresence(timeout: 5), "This regression requires the software keyboard.")
         input.typeText("1234") // Synthetic fixture only; the hardware gate forbids real card access.
         XCTAssertTrue(submit.isEnabled)
         XCTAssertTrue(submit.isHittable)
@@ -40,7 +40,7 @@ final class PINActionsUITests: XCTestCase {
         // Secure-text injection can temporarily dismiss the simulator's software keyboard.
         // Refocus before measuring; the test still requires a visible keyboard during submission.
         if !keyboard.exists { input.tap() }
-        XCTAssertTrue(keyboard.waitForExistence(timeout: 5))
+        XCTAssertTrue(keyboard.waitForPresence(timeout: 5))
         XCTAssertLessThanOrEqual(submit.frame.maxY, keyboard.frame.minY + 1)
         // Capture after submission: XCTest's secure-input screenshot can temporarily hide the
         // keyboard and invalidate the button's cached position just before the synthesized tap.

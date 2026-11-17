@@ -34,10 +34,16 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
             installer.chmod(0o755)
             installs = root / 'installs'
             calls = root / 'calls'
+            resources = root / 'prepared'
+            resources.mkdir()
+            manifest = resources / 'Host.xctestrun'
+            manifest.touch()
+            (resources / 'xctestrun-path.txt').write_text(str(manifest) + '\n')
             result = subprocess.run(['bash', str(scripts / 'run-mock-ui-tests.sh'),
                                      platform, '/unused/app', 'mac', str(root / 'results')],
                                     env=dict(os.environ, CALLS=str(calls), INSTALLS=str(installs), PLATFORM=platform,
-                                             PATH=str(binaries) + os.pathsep + os.environ['PATH'], FAIL_FIRST=str(int(fail_first)), GITHUB_ACTIONS="true"),
+                                             PATH=str(binaries) + os.pathsep + os.environ['PATH'], FAIL_FIRST=str(int(fail_first)), GITHUB_ACTIONS="true",
+                                             MSIGN_UI_RESOURCES_DIR=str(resources), MSIGN_UI_FAIL_FAST="0"),
                                     capture_output=True, text=True)
             self.assertEqual(calls.read_text().splitlines(),
                              ['VerificationJourneyUITests', 'MockWorkflowUITests'] +

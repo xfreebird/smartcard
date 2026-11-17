@@ -1,6 +1,12 @@
 import XCTest
 
 extension XCUIElement {
+    /// Avoid XCTest's first polling delay when the control is already present.
+    @MainActor
+    func waitForPresence(timeout: TimeInterval) -> Bool {
+        exists || waitForExistence(timeout: timeout)
+    }
+
     @MainActor
     func activateControl() {
         #if os(macOS)
@@ -25,28 +31,23 @@ extension XCUIApplication {
 
     func openProtection() {
         let direct = buttons["documents.protectFiles"].firstMatch
-        if direct.waitForExistence(timeout: 3), direct.isHittable {
+        if direct.waitForPresence(timeout: 3), direct.isHittable {
             direct.tapWhenReady()
             return
         }
-        let menu = buttons["documents.menu"].firstMatch
-        if menu.waitForExistence(timeout: 3) {
-            menu.tapWhenReady()
-        } else {
-            let overflow = toolbarOverflow
-            XCTAssertTrue(overflow.waitForExistence(timeout: 5))
-            overflow.tapWhenReady()
-            let action = descendants(matching: .any).matching(NSPredicate(
-                format: "identifier == %@ OR label == %@", "documents.menu", "Protect files")).firstMatch
-            action.tapWhenReady()
-        }
-        let protect = buttons["documents.protectFiles"].firstMatch
+        let overflow = toolbarOverflow
+        XCTAssertTrue(overflow.waitForPresence(timeout: 5))
+        overflow.tapWhenReady()
+        // iPad's native overflow may expose the action title without its identifier.
+        // This is the protection action itself, not a submenu.
+        let protect = descendants(matching: .any).matching(NSPredicate(
+            format: "identifier == %@ OR label == %@", "documents.protectFiles", "Protect files")).firstMatch
         protect.tapWhenReady()
     }
 
     func openHistoryClear() {
         let direct = buttons["documents.clear"].firstMatch
-        if direct.waitForExistence(timeout: 3) {
+        if direct.waitForPresence(timeout: 3) {
             XCTAssertTrue(direct.isEnabled)
             direct.activateControl()
             return
@@ -57,12 +58,12 @@ extension XCUIApplication {
         #if os(iOS)
         // iPad can move primary toolbar actions into its native overflow menu.
         let overflow = toolbarOverflow
-        XCTAssertTrue(overflow.waitForExistence(timeout: 5))
+        XCTAssertTrue(overflow.waitForPresence(timeout: 5))
         overflow.activateControl()
         #endif
         let clear = descendants(matching: .any).matching(NSPredicate(
             format: "identifier == %@ OR label == %@", "documents.clear", "Clear list")).firstMatch
-        XCTAssertTrue(clear.waitForExistence(timeout: 5))
+        XCTAssertTrue(clear.waitForPresence(timeout: 5))
         XCTAssertTrue(clear.isEnabled)
         clear.activateControl()
     }
@@ -90,6 +91,9 @@ extension XCUIElement {
         }
         // Passing the element as the expectation object makes XCTest fetch its full debug
         // description on every poll. The predicate already closes over the element.
+        // Take the first observation now instead of waiting for the first one-second
+        // XCTest poll. The expectation still requires a second matching visible frame.
+        _ = ready.evaluate(with: nil)
         let result = XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: ready, object: nil)], timeout: 10)
         XCTAssertEqual(result, .completed, "Control must be visible and stable before tapping: \(self)", file: file, line: line)
         return result == .completed

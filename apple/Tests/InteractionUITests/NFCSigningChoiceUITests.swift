@@ -12,7 +12,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
         let app = launch(cards: "2")
         defer { app.terminate() }
         let choice = app.buttons["signing.method"]
-        XCTAssertTrue(choice.waitForExistence(timeout: 15))
+        XCTAssertTrue(choice.waitForPresence(timeout: 15))
         let reader = choice
         XCTAssertTrue(choice.label.contains("NFC"))
         XCTAssertFalse(app.descendants(matching: .any)["signing.steps"].exists)
@@ -38,7 +38,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
         let app = launch(cards: "none")
         defer { app.terminate() }
         let choice = app.buttons["signing.method"]
-        XCTAssertTrue(choice.waitForExistence(timeout: 15))
+        XCTAssertTrue(choice.waitForPresence(timeout: 15))
         let sign = app.buttons["sign.submit"]
         XCTAssertTrue(choice.label.contains("NFC"))
         XCTAssertTrue(sign.isEnabled)
@@ -49,7 +49,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
         XCTAssertTrue(sign.isEnabled)
         sign.tap()
         let result = app.descendants(matching: .any).matching(identifier: "sign.result").firstMatch
-        XCTAssertTrue(result.waitForExistence(timeout: 15))
+        XCTAssertTrue(result.waitForPresence(timeout: 15))
         XCTAssertFalse(app.secureTextFields.firstMatch.exists)
     }
 
@@ -57,7 +57,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
         let app = launch(cards: "none")
         defer { app.terminate() }
         app.buttons["signing.nfc.help"].tapWhenReady()
-        XCTAssertTrue(app.staticTexts["Choose your document"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.staticTexts["Choose your document"].waitForPresence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Confirm your PIN"].exists)
         let tap = app.staticTexts["Tap and hold your card"]
         for _ in 0..<3 where !tap.isHittable { app.swipeUp() }
@@ -65,7 +65,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
         app.buttons["nfc.help.close"].tapWhenReady()
         app.selectMainTab("Settings")
         app.buttons["settings.card"].tapWhenReady()
-        XCTAssertTrue(app.buttons["signing.nfc.help"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["signing.nfc.help"].waitForPresence(timeout: 5))
         XCTAssertFalse(app.descendants(matching: .any)["signing.steps"].exists)
         XCTAssertFalse(app.descendants(matching: .any)["card.pin.status"].exists)
         let attachment = XCTAttachment(screenshot: app.screenshot())
@@ -73,14 +73,14 @@ final class NFCSigningChoiceUITests: XCTestCase {
         attachment.lifetime = .keepAlways
         add(attachment)
         app.buttons["signing.nfc.help"].tapWhenReady()
-        XCTAssertTrue(app.buttons["nfc.help.close"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["nfc.help.close"].waitForPresence(timeout: 5))
     }
 
     func testFirstScreenHasOneClearNextAction() throws {
         let app = launch(cards: "none", files: false)
         defer { app.terminate() }
         let choose = app.buttons["sign.pickFiles"]
-        XCTAssertTrue(choose.waitForExistence(timeout: 15))
+        XCTAssertTrue(choose.waitForPresence(timeout: 15))
         XCTAssertTrue(choose.isHittable)
         XCTAssertFalse(app.buttons["sign.submit"].exists)
         XCTAssertFalse(app.descendants(matching: .any)["signing.steps"].exists)
@@ -88,19 +88,19 @@ final class NFCSigningChoiceUITests: XCTestCase {
         attachment.name = "guided-start-one-action"; attachment.lifetime = .keepAlways; add(attachment)
         choose.tapWhenReady()
         try app.cancelFilePicker()
-        XCTAssertTrue(choose.waitForExistence(timeout: 10))
+        XCTAssertTrue(choose.waitForPresence(timeout: 10))
     }
 
     func testReaderSetupIsVisibleOnSignAndCard() {
         for (scenario, instruction) in [("no-reader", "Connect the reader"), ("empty-reader", "Insert the card")] {
             let app = launch(cards: "none", files: false, scenario: scenario)
             app.selectSigningMethod("reader")
-            XCTAssertTrue(app.staticTexts[instruction].firstMatch.waitForExistence(timeout: 5))
+            XCTAssertTrue(app.staticTexts[instruction].firstMatch.waitForPresence(timeout: 5))
             XCTAssertTrue(app.staticTexts[instruction].firstMatch.isHittable)
             XCTAssertTrue(app.buttons["sign.pickFiles"].isHittable)
             app.selectMainTab("Settings")
             app.buttons["settings.card"].tapWhenReady()
-            XCTAssertTrue(app.staticTexts[instruction].firstMatch.waitForExistence(timeout: 5))
+            XCTAssertTrue(app.staticTexts[instruction].firstMatch.waitForPresence(timeout: 5))
             XCTAssertTrue(app.staticTexts[instruction].firstMatch.isHittable)
             let attachment = XCTAttachment(screenshot: app.screenshot())
             attachment.name = "inline-reader-\(scenario)"; attachment.lifetime = .keepAlways; add(attachment)
@@ -117,12 +117,12 @@ final class NFCSigningChoiceUITests: XCTestCase {
         XCTAssertEqual(app.buttons["signing.method"].frame.minY, choiceY, accuracy: 1)
         XCTAssertEqual(app.buttons["sign.pickFiles"].frame.minY, chooseY, accuracy: 1)
         let details = app.buttons["sign.cardDetails"]
-        XCTAssertTrue(details.waitForExistence(timeout: 5))
+        XCTAssertTrue(details.waitForPresence(timeout: 5))
         XCTAssertTrue(details.isHittable)
         let image = XCTAttachment(screenshot: app.screenshot())
         image.name = "phone-reader-card-with-details"; image.lifetime = .keepAlways; add(image)
         details.tapWhenReady()
-        XCTAssertTrue(app.navigationBars["Card details"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.navigationBars["Card details"].waitForPresence(timeout: 5))
         let detailImage = XCTAttachment(screenshot: app.screenshot())
         detailImage.name = "phone-card-details"; detailImage.lifetime = .keepAlways; add(detailImage)
     }
@@ -136,7 +136,7 @@ final class NFCSigningChoiceUITests: XCTestCase {
     private func checkAddDocumentMenu(fixture: String) throws {
         let app = launch(cards: "2", fileFixture: fixture)
         defer { app.terminate() }
-        XCTAssertTrue(app.buttons["sign.submit"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["sign.submit"].waitForPresence(timeout: 15))
         XCTAssertFalse(app.buttons["sign.addFiles"].exists)
         let review = XCTAttachment(screenshot: app.screenshot())
         review.name = "document-review-add-in-menu-\(fixture)"; review.lifetime = .keepAlways; add(review)
@@ -145,12 +145,12 @@ final class NFCSigningChoiceUITests: XCTestCase {
         } else {
             app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "sign.options.")).firstMatch.tap()
         }
-        XCTAssertTrue(app.buttons["sign.addFiles"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["sign.addFiles"].waitForPresence(timeout: 5))
         let menu = XCTAttachment(screenshot: app.screenshot())
         menu.name = "add-document-options-\(fixture)"; menu.lifetime = .keepAlways; add(menu)
         app.buttons["sign.addFiles"].tapWhenReady()
         try app.cancelFilePicker()
-        XCTAssertTrue(app.buttons["sign.submit"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["sign.submit"].waitForPresence(timeout: 5))
         XCTAssertFalse(app.buttons["sign.addFiles"].exists)
     }
 

@@ -10,7 +10,7 @@ final class MockWorkflowUITests: XCTestCase {
             let app = launch(scenario)
             defer { app.terminate() }
             let sign = app.buttons["sign.submit"].firstMatch
-            XCTAssertTrue(sign.waitForExistence(timeout: 15))
+            XCTAssertTrue(sign.waitForPresence(timeout: 15))
             XCTAssertTrue(sign.isEnabled)
             sign.activateControl()
             let results = app.descendants(matching: .any).matching(identifier: "sign.result")
@@ -36,10 +36,10 @@ final class MockWorkflowUITests: XCTestCase {
         defer { app.terminate() }
         expand(app)
         let options = app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch
-        XCTAssertTrue(options.waitForExistence(timeout: 10))
+        XCTAssertTrue(options.waitForPresence(timeout: 10))
         options.activateControl()
         let remove = app.descendants(matching: .any)["sign.remove"].firstMatch
-        XCTAssertTrue(remove.waitForExistence(timeout: 5))
+        XCTAssertTrue(remove.waitForPresence(timeout: 5))
         remove.activateControl()
         wait("removed document", in: app) { !options.exists }
         XCTAssertTrue(app.descendants(matching: .any)["sign.options.Sample-request.txt"].firstMatch.exists)
@@ -52,7 +52,7 @@ final class MockWorkflowUITests: XCTestCase {
         defer { app.terminate() }
         let menu = app.buttons["sign.batchOptions"].firstMatch
         // Desktop and wide layouts expose per-file options when no collapsed group is needed.
-        if menu.waitForExistence(timeout: 3) {
+        if menu.waitForPresence(timeout: 3) {
             menu.activateControl()
             selectXMLFormat(in: app)
             expand(app)
@@ -61,13 +61,13 @@ final class MockWorkflowUITests: XCTestCase {
             app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
             selectXMLFormat(in: app)
         }
-        XCTAssertTrue(app.descendants(matching: .any)["sign.selectedFormat.xadesBES"].firstMatch.waitForExistence(timeout: 5))
+        XCTAssertTrue(app.descendants(matching: .any)["sign.selectedFormat.xadesBES"].firstMatch.waitForPresence(timeout: 5))
         for name in ["Sample-contract.pdf", "Sample-request.txt"] {
             let options = app.descendants(matching: .any)["sign.options." + name].firstMatch
             XCTAssertTrue(options.exists)
             options.activateControl()
             let remove = app.descendants(matching: .any)["sign.remove"].firstMatch
-            XCTAssertTrue(remove.waitForExistence(timeout: 5)); remove.activateControl()
+            XCTAssertTrue(remove.waitForPresence(timeout: 5)); remove.activateControl()
             wait("removed \(name)", in: app) { !options.exists }
         }
         let sign = app.buttons["sign.submit"].firstMatch
@@ -81,9 +81,9 @@ final class MockWorkflowUITests: XCTestCase {
         expand(app)
         app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
         let edit = app.descendants(matching: .any)["sign.editStamp"].firstMatch
-        XCTAssertTrue(edit.waitForExistence(timeout: 5)); edit.activateControl()
+        XCTAssertTrue(edit.waitForPresence(timeout: 5)); edit.activateControl()
         let cancel = app.buttons["stamp.cancel"].firstMatch
-        XCTAssertTrue(cancel.waitForExistence(timeout: 10)); cancel.activateControl()
+        XCTAssertTrue(cancel.waitForPresence(timeout: 10)); cancel.activateControl()
         XCTAssertTrue(cancel.waitForNonExistence(timeout: 5))
         XCTAssertTrue(app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].exists)
         XCTAssertEqual(app.descendants(matching: .any).matching(identifier: "sign.result").count, 0)
@@ -99,7 +99,7 @@ final class MockWorkflowUITests: XCTestCase {
         defer { app.terminate() }
         openHistoryClear(in: app)
         let confirm = app.buttons["documents.confirmClear"].firstMatch
-        XCTAssertTrue(confirm.waitForExistence(timeout: 5))
+        XCTAssertTrue(confirm.waitForPresence(timeout: 5))
         let cancel = app.buttons["documents.cancelClear"].firstMatch
         if cancel.exists { cancel.activateControl() }
         else {
@@ -113,8 +113,8 @@ final class MockWorkflowUITests: XCTestCase {
         XCTAssertTrue(confirm.waitForNonExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts["Contract-semnat.pdf"].exists, "Cancel must retain history")
         openHistoryClear(in: app)
-        XCTAssertTrue(confirm.waitForExistence(timeout: 5)); confirm.activateControl()
-        XCTAssertTrue(app.staticTexts["No activity yet"].waitForExistence(timeout: 5))
+        XCTAssertTrue(confirm.waitForPresence(timeout: 5)); confirm.activateControl()
+        XCTAssertTrue(app.staticTexts["No activity yet"].waitForPresence(timeout: 5))
         app.descendants(matching: .any)["Saved documents"].firstMatch.activateControl()
         let saved = app.buttons.matching(identifier: "documents.openDetails")
         wait("saved library retained", in: app) { saved.count == 3 }
@@ -127,7 +127,7 @@ final class MockWorkflowUITests: XCTestCase {
             let app = launch("sign-success", fixture: fixture)
             defer { app.terminate() }
             let refuse = app.buttons["consent.refuse"].firstMatch
-            XCTAssertTrue(refuse.waitForExistence(timeout: 15)); refuse.activateControl()
+            XCTAssertTrue(refuse.waitForPresence(timeout: 15)); refuse.activateControl()
             XCTAssertTrue(refuse.waitForNonExistence(timeout: 5))
             XCTAssertFalse(app.secureTextFields.firstMatch.exists)
             XCTAssertEqual(app.descendants(matching: .any).matching(identifier: "sign.result").count, 0)
@@ -142,12 +142,12 @@ final class MockWorkflowUITests: XCTestCase {
         let format = app.descendants(matching: .any).matching(NSPredicate(
             format: "identifier == %@ OR label == %@", "sign.format.xadesBES", "XML signature")).firstMatch
         #endif
-        XCTAssertTrue(format.waitForExistence(timeout: 5))
+        XCTAssertTrue(format.waitForPresence(timeout: 5))
         format.activateControl()
     }
     private func expand(_ app: XCUIApplication) {
         let expand = app.buttons["sign.expandBatch"].firstMatch
-        if expand.waitForExistence(timeout: 2) { expand.activateControl() }
+        if expand.waitForPresence(timeout: 2) { expand.activateControl() }
     }
     private func openHistoryClear(in app: XCUIApplication) { app.openHistoryClear() }
     private func wait(_ message: String, in app: XCUIApplication, condition: @escaping () -> Bool) {

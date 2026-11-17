@@ -58,7 +58,7 @@ final class FloatingActionUITests: XCTestCase {
         defer { app.terminate() }
         for title in ["Back", "Forward", "Reload"] {
             let button = app.buttons[title].firstMatch
-            XCTAssertTrue(button.waitForExistence(timeout: 15), title)
+            XCTAssertTrue(button.waitForPresence(timeout: 15), title)
             XCTAssertGreaterThanOrEqual(button.frame.width, 44, title)
             XCTAssertGreaterThanOrEqual(button.frame.height, 44, title)
         }
@@ -66,7 +66,7 @@ final class FloatingActionUITests: XCTestCase {
     }
 
     private func assertFloating(_ button: XCUIElement, in app: XCUIApplication, hittable: Bool = true) {
-        XCTAssertTrue(button.waitForExistence(timeout: 15))
+        XCTAssertTrue(button.waitForPresence(timeout: 15))
         XCTAssertEqual(app.buttons.matching(identifier: "sign.submit").count, 1)
         if hittable { XCTAssertTrue(button.isHittable) }
         XCTAssertGreaterThan(button.frame.midY, app.frame.midY, "The action belongs at the bottom of the workspace")

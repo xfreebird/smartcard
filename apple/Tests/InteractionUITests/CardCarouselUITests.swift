@@ -29,7 +29,7 @@ final class CardCarouselUITests: XCTestCase {
         app.launch()
         selectReader()
         let first = card(0)
-        XCTAssertTrue(first.waitForExistence(timeout: 20))
+        XCTAssertTrue(first.waitForPresence(timeout: 20))
         let center = first.frame.midX
         attach("01-before-card-1")
         for index in 1...2 {
@@ -38,7 +38,7 @@ final class CardCarouselUITests: XCTestCase {
             let to = previous.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
             from.press(forDuration: 0.05, thenDragTo: to)
             let selected = card(index)
-            XCTAssertTrue(selected.waitForExistence(timeout: 5))
+            XCTAssertTrue(selected.waitForPresence(timeout: 5))
             XCTAssertTrue(selected.isHittable)
             let selection = NSPredicate(format: "selected == true")
             expectation(for: selection, evaluatedWith: selected)
@@ -57,7 +57,7 @@ final class CardCarouselUITests: XCTestCase {
         app.launch()
         selectReader()
         let second = card(1)
-        XCTAssertTrue(second.waitForExistence(timeout: 20))
+        XCTAssertTrue(second.waitForPresence(timeout: 20))
         XCTAssertTrue(second.isHittable)
         XCTAssertTrue(second.isSelected)
         attach("initial-selected-card-2")
@@ -66,7 +66,7 @@ final class CardCarouselUITests: XCTestCase {
     private func selectReader() {
         app.selectSigningMethod("reader")
         // The empty Sign workspace now displays the live carousel inline, not behind a button.
-        XCTAssertTrue(app.collectionViews["signing.reader.cards"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.collectionViews["signing.reader.cards"].waitForPresence(timeout: 10))
     }
 
     private func card(_ index: Int) -> XCUIElement {

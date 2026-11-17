@@ -11,7 +11,7 @@ final class SharedCardPINUITests: XCTestCase {
         app.selectMainTab("Settings")
         app.buttons["settings.card"].tapWhenReady()
         let choice = app.buttons["signing.method"]
-        XCTAssertTrue(choice.waitForExistence(timeout: 10))
+        XCTAssertTrue(choice.waitForPresence(timeout: 10))
         app.selectSigningMethod("reader")
         app.selectSigningMethod("nfc")
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "signing.nfc.card").firstMatch.label.contains("Popescu Ion"))
@@ -36,7 +36,7 @@ final class SharedCardPINUITests: XCTestCase {
         let app = launch(cards: "2")
         defer { app.terminate() }
         let choice = app.buttons["signing.method"]
-        XCTAssertTrue(choice.waitForExistence(timeout: 15))
+        XCTAssertTrue(choice.waitForPresence(timeout: 15))
         app.selectSigningMethod("reader")
         app.selectSigningMethod("nfc")
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "signing.nfc.card").firstMatch.label.contains("Popescu Ion"))
@@ -58,7 +58,7 @@ final class SharedCardPINUITests: XCTestCase {
         saved.tapWhenReady()
         let first = "14" + String(repeating: "0", count: 38)
         let second = "75" + String(repeating: "0", count: 38)
-        XCTAssertTrue(app.buttons["savedPIN.delete.\(first)"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["savedPIN.delete.\(first)"].waitForPresence(timeout: 5))
         XCTAssertTrue(app.buttons["savedPIN.delete.\(second)"].exists)
         app.buttons["savedPIN.delete.\(first)"].tapWhenReady()
         XCTAssertFalse(app.buttons["savedPIN.delete.\(first)"].exists)
@@ -78,7 +78,7 @@ final class SharedCardPINUITests: XCTestCase {
             "MSIGN_DEMO_SCENARIO": "ready", "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.shared-pins.\(UUID())"]
         app.launchArguments = ["-appLanguage", "en", "-AppleLanguages", "(en)", "-bridgeEnabled", "NO", "-mainSection", "sign"]
         app.launch()
-        XCTAssertTrue(app.buttons["signing.method"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["signing.method"].waitForPresence(timeout: 15))
         return app
     }
 }

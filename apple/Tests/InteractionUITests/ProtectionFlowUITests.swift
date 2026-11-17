@@ -12,21 +12,21 @@ final class ProtectionFlowUITests: XCTestCase {
         app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en", "-appTheme", "light"]
         app.launch()
         let documents = app.buttons["Documents"].firstMatch
-        XCTAssertTrue(documents.waitForExistence(timeout: 20))
+        XCTAssertTrue(documents.waitForPresence(timeout: 20))
         documents.tap()
         app.openProtection()
         XCTAssertFalse(app.buttons["Certificate / card"].exists)
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
 
         app.buttons["protect.chooseFile"].tapWhenReady()
-        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.filePicker.waitForPresence(timeout: 30))
         try app.cancelFilePicker()
-        XCTAssertTrue(app.buttons["protect.chooseFile"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["protect.chooseFile"].waitForPresence(timeout: 5))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         try chooseSource(in: app)
 
         let password = app.secureTextFields["protect.password"]
-        XCTAssertTrue(password.waitForExistence(timeout: 8))
+        XCTAssertTrue(password.waitForPresence(timeout: 8))
         password.tap()
         password.typeText("sample-roundtrip-2026")
         let confirmation = app.secureTextFields["protect.confirmPassword"]
@@ -41,10 +41,10 @@ final class ProtectionFlowUITests: XCTestCase {
         try closeDetails(in: app)
 
         let encrypted = document("ProtectionSource.pdf.symmetric.p7m", in: app)
-        XCTAssertTrue(encrypted.waitForExistence(timeout: 8))
+        XCTAssertTrue(encrypted.waitForPresence(timeout: 8))
         encrypted.tap()
         app.buttons["Decrypt"].tap()
-        XCTAssertTrue(password.waitForExistence(timeout: 8))
+        XCTAssertTrue(password.waitForPresence(timeout: 8))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         password.tap()
         password.typeText("sample-roundtrip-2026")
@@ -57,15 +57,15 @@ final class ProtectionFlowUITests: XCTestCase {
 
         app.terminate()
         app.launch()
-        XCTAssertTrue(documents.waitForExistence(timeout: 10))
+        XCTAssertTrue(documents.waitForPresence(timeout: 10))
         documents.tap()
-        XCTAssertTrue(document("decrypted-ProtectionSource.pdf", in: app).waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(document("decrypted-ProtectionSource.pdf", in: app).waitForPresence(timeout: 10), app.debugDescription)
         attach(app, "protected-documents-after-relaunch")
     }
 
     private func chooseSource(in app: XCUIApplication) throws {
         app.buttons["protect.chooseFile"].tapWhenReady()
-        XCTAssertTrue(app.filePicker.waitForExistence(timeout: 30))
+        XCTAssertTrue(app.filePicker.waitForPresence(timeout: 30))
         try NativeFilePicker(app: app).selectFile(in: ["eSemnBun, Container"],
             namePrefix: "ProtectionSource", confirmSelection: false)
     }
@@ -75,7 +75,7 @@ final class ProtectionFlowUITests: XCTestCase {
     }
 
     private func assertSaved(in app: XCUIApplication) {
-        XCTAssertTrue(app.staticTexts["Saved in Documents"].waitForExistence(timeout: 20), app.debugDescription)
+        XCTAssertTrue(app.staticTexts["Saved in Documents"].waitForPresence(timeout: 20), app.debugDescription)
         XCTAssertFalse(app.buttons["Cancel"].exists)
     }
 
