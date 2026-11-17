@@ -12,6 +12,8 @@ See the [physical probe report](reports/nfc-first-scans-2026-11-16.md) and [prob
 
 This diagnostic proof does not establish application PDF/PAdES signing, timestamp availability, certificate trust/revocation or legal qualification. Those require separate acceptance checks.
 
+See the [iOS NFC sequence diagram](https://esemnbun.md/img/developers/nfc-ios-sequence.svg) in the Developer Handbook.
+
 ## Signing experience
 
 Sign starts with **NFC** on capable iPhones and keep **Card reader** one tap away. Connecting or disconnecting a reader never changes the choice. NFC remains selectable while another card is connected through a reader. Devices without Core NFC default to the reader option.

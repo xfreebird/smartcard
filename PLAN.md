@@ -1,3 +1,5 @@
+2026-11-17 — Added separate iOS and Android NFC sequence diagrams and documented platform discovery, certificate reads, protected signing and session cleanup in the public Developer Handbook.
+
 2026-11-17 — Updated the public developer handbook and the repository NFC guides for mobile transports, Settings, test evidence, store review and public downloads.
 
 2026-11-16 — Refreshed all 18 Mac, Linux and Windows landing-animation frames. Updated 168 guide screenshots and aligned their callouts for macOS and Linux in English, Romanian and Russian. The website now serves digest-verified release installers through public links. The Mac App Review attachment now includes both muted physical-device demos.

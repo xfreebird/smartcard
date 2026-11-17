@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1090" viewBox="0 0 1000 1090" role="img" aria-labelledby="title desc">
+<title id="title">Android NFC signing sequence</title>
+<desc id="desc">The Android signer loads document inputs and obtains consent through its shared PIN dialog before enabling reader mode. It connects to an ISO-DEP tag, explicitly selects IAS and reads and binds the public certificate. One connection is used to sign. The signer closes it on receipt of the signature and saves the completed output.</desc>
+<defs>
+  <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+    <path d="M0 0L8 4L0 8Z" fill="#3459a6"/>
+  </marker>
+</defs>
+<rect width="1000" height="1090" rx="16" fill="#f8fafc"/>
+<g font-family="system-ui, -apple-system, Segoe UI, sans-serif">
+<text x="30" y="44" fill="#172554" font-size="28" font-weight="700" text-anchor="start">Android NFC signing</text>
+<text x="30" y="73" fill="#475569" font-size="16" font-weight="400" text-anchor="start">One presentation per document  ·  Dashed arrows show replies</text>
+<rect x="18" y="263" width="964" height="665" rx="8" fill="#eff6ff" stroke="#bfdbfe"/>
+<rect x="21" y="103" width="202" height="63" rx="8" fill="#eef2ff" stroke="#cbd5e1"/>
+<text x="122" y="128" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">Person / Sign UI</text>
+<text x="122" y="149" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">Shared PIN flow</text>
+<path d="M122 166V1046" stroke="#a8b9d0" stroke-dasharray="5 6"/>
+<rect x="275" y="103" width="202" height="63" rx="8" fill="#eef2ff" stroke="#cbd5e1"/>
+<text x="376" y="128" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">NfcSignDocuments</text>
+<text x="376" y="149" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">Kotlin signing core</text>
+<path d="M376 166V1046" stroke="#a8b9d0" stroke-dasharray="5 6"/>
+<rect x="531" y="103" width="202" height="63" rx="8" fill="#eef2ff" stroke="#cbd5e1"/>
+<text x="632" y="128" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">Android reader mode</text>
+<text x="632" y="149" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">NfcSigningController</text>
+<path d="M632 166V1046" stroke="#a8b9d0" stroke-dasharray="5 6"/>
+<rect x="779" y="103" width="202" height="63" rx="8" fill="#eef2ff" stroke="#cbd5e1"/>
+<text x="880" y="128" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">Moldovan eID</text>
+<text x="880" y="149" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">IAS/ECC</text>
+<path d="M880 166V1046" stroke="#a8b9d0" stroke-dasharray="5 6"/>
+<rect x="18" y="179" width="964" height="35" rx="8" fill="#e2e8f0" stroke="none"/>
+<text x="33" y="202" fill="#172554" font-size="16" font-weight="650" text-anchor="start">1  Authorize before opening NFC</text>
+<text x="249.0" y="235" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Approve through ConsentBroker</text>
+<path d="M122 245H376" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="18" y="271" width="964" height="35" rx="8" fill="#e2e8f0" stroke="none"/>
+<text x="33" y="294" fill="#172554" font-size="16" font-weight="650" text-anchor="start">2  Open one foreground NFC connection</text>
+<text x="504.0" y="328" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Enable foreground reader mode</text>
+<path d="M376 338H632" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="756.0" y="367" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Poll NFC-A and NFC-B</text>
+<path d="M632 377H880" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="756.0" y="406" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Tag with ISO-DEP</text>
+<path d="M880 416H632" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="7 5"/>
+<text x="756.0" y="445" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">IsoDep.connect()</text>
+<path d="M632 455H880" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="18" y="471" width="964" height="35" rx="8" fill="#e2e8f0" stroke="none"/>
+<text x="33" y="494" fill="#172554" font-size="16" font-weight="650" text-anchor="start">3  Read the public certificate and bind the identity</text>
+<text x="628.0" y="530" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">SELECT IAS and Generic ADF, then read EF 0001</text>
+<path d="M376 540H880" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="628.0" y="568" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Public signing certificate (DER)</text>
+<path d="M880 578H376" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="7 5"/>
+<rect x="207" y="594" width="338" height="39" rx="8" fill="#fff7ed" stroke="#f6d4a3"/>
+<text x="376" y="618" fill="#172554" font-size="15" font-weight="600" text-anchor="middle">Certificate mismatch stops this attempt</text>
+<rect x="18" y="648" width="964" height="35" rx="8" fill="#e2e8f0" stroke="none"/>
+<text x="33" y="671" fill="#172554" font-size="16" font-weight="650" text-anchor="start">4  Authenticate and sign on the same connection</text>
+<text x="628.0" y="705" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">IAS/ECC mutual authentication and protected certificate recheck</text>
+<path d="M376 715H880" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="628.0" y="744" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Protected VERIFY of the signing PIN</text>
+<path d="M376 754H880" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="628.0" y="783" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Set signing environment and sign the encoded digest</text>
+<path d="M376 793H880" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="628.0" y="822" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">RSA signature  ·  Follow bounded GET RESPONSE if needed</text>
+<path d="M880 832H376" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="7 5"/>
+<text x="504.0" y="888" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Close IsoDep and end reader mode</text>
+<path d="M376 898H632" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="18" y="942" width="964" height="35" rx="8" fill="#e2e8f0" stroke="none"/>
+<text x="33" y="965" fill="#172554" font-size="16" font-weight="650" text-anchor="start">5  Finish the document after the card interaction</text>
+<text x="249.0" y="1007" fill="#172554" font-size="15" font-weight="400" text-anchor="middle">Timestamp if needed, assemble and save</text>
+<path d="M376 1017H122" fill="none" stroke="#3459a6" stroke-width="2" marker-end="url(#arrow)" stroke-dasharray="7 5"/>
+<text x="30" y="1070" fill="#475569" font-size="15" font-weight="400" text-anchor="start">On error or cancellation, close the session and stop. The card retains the private key.</text>
+</g>
+</svg>

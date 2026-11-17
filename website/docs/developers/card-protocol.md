@@ -20,6 +20,8 @@ The explanations below describe the current implementation. They are not command
 5. **Sign.** Select the signing security environment and send ASN.1 `DigestInfo` to `INTERNAL AUTHENTICATE`. The observed signing key is RSA-4096, producing a 512-byte signature.
 6. **Finish.** Obtain any required timestamp, assemble PDF/CMS or XML evidence and write the result. Disconnect and release the operation lock on success or failure.
 
+Mobile NFC reads the public signing certificate before mutual authentication and reuses the same connection through signing. See the [iOS and Android sequences](reader-protocol.md#mobile-nfc-transport).
+
 ## APDU anatomy
 
 An APDU is a command message. A short command uses these fields; which optional fields appear depends on the command:

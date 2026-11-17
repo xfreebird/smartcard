@@ -1,6 +1,6 @@
 ---
-title: Reader protocol — CCID and T=1
-description: How APDUs travel through operating-system smart-card APIs or Android USB CCID framing to the physical identity card.
+title: Reader protocol — CCID, T=1 and NFC
+description: How identity-card APDUs travel over USB CCID or NFC, with signing sequences for iOS and Android.
 ---
 
 A card command and a USB packet are different messages. The app's core produces an APDU. A transport delivers it to the reader. Depending on the reader's capabilities, either the reader or host splits it into card-level blocks.
@@ -27,7 +27,39 @@ Android cannot assume a PC/SC daemon exists. The app discovers a CCID interface 
 
 ## Mobile NFC transport
 
-On supported iPhones, Core NFC provides an ISO 7816 tag session. On Android, foreground reader mode discovers the card and `IsoDep` exchanges APDUs. Both feed the signing core directly from the phone. CCID descriptors, USB permissions, slot power commands and host-side T=1 framing apply to the USB reader path. See [mobile NFC signing](architecture.md#mobile-nfc-signing) for session lifetime and identity rules.
+Both mobile apps carry ISO 7816 command and response APDUs over the phone’s contactless connection. The NFC transport replaces USB CCID for that signing attempt. Application selection, certificate reads, secure messaging and the private-key operation still belong to the IAS/ECC card protocol. In both diagrams, arrows between the signing core and the card pass through the indicated NFC transport. See [card protocol](card-protocol.md) for APDU framing, mutual authentication and secure responses.
+
+### iOS NFC sequence
+
+![iOS sequence from PIN approval through Core NFC discovery, certificate binding, protected signing and document output.](/img/developers/nfc-ios-sequence.svg)
+
+[Open the full-size iOS sequence diagram](/img/developers/nfc-ios-sequence.svg).
+
+1. The shared `PINCoordinator` obtains authorization before `NFCDocumentSigner` opens the system NFC sheet. `NFCSigningSession` creates an `NFCTagReaderSession` with ISO 14443 polling. The main app declares its NFC TAG entitlement, localized usage text, and the IAS and Generic application identifiers in that order.
+2. Core NFC tries the declared application identifiers during discovery. The app accepts one ISO 7816 tag and connects once. `NFCISO7816Transport` sends commands through `NFCISO7816Tag.sendCommand` and returns response data plus SW1/SW2 to the Swift core. Blocking card work stays off the main thread. [Apple Core NFC reference](https://developer.apple.com/documentation/corenfc/nfciso7816tag)
+3. The public reader selects the Generic ADF and reads EF `0001` directly. The signer binds the certificate before giving the same transport to the signing service. It requests session invalidation when the signing service reaches timestamping or completion. The output returns after the NFC session closes.
+
+### Android NFC sequence
+
+![Android sequence from PIN approval through foreground reader mode, ISO-DEP discovery, certificate binding, protected signing and document output.](/img/developers/nfc-android-sequence.svg)
+
+[Open the full-size Android sequence diagram](/img/developers/nfc-android-sequence.svg).
+
+1. `NfcSignDocuments` loads the selected documents and obtains authorization through the shared `ConsentBroker` before enabling reader mode.
+2. `NfcSigningController` enables foreground NFC-A and NFC-B polling with the NDEF check skipped. It takes the detected tag’s `IsoDep` connection, connects once and calls `transceive` off the UI thread. The transport enforces the device’s maximum command length. [Android ISO-DEP reference](https://developer.android.com/reference/android/nfc/tech/IsoDep)
+3. Android explicitly selects IAS before selecting the Generic ADF and EF `0001`. The signer binds the certificate, then supplies that same connection to `CardSigningService`. The card-signature callback closes ISO-DEP and arranges for reader mode to be disabled. Timestamping and saving can then complete without the card.
+
+### Shared IAS/ECC sequence over NFC
+
+| Phase | Command or response | Identity and session rules |
+| --- | --- | --- |
+| Public certificate | `SELECT` Generic ADF and EF `0001`, then `READ BINARY` | Reads use chunks of up to 128 bytes and enforce a 4,096-byte limit. A known identity must match the exact DER. The first accepted certificate becomes the identity for a new batch. |
+| Secure channel | IAS/ECC initialization, challenge and mutual authentication | Uses the same NFC connection. The core validates the response authentication and challenge binding before accepting the channel. |
+| PIN check | Read the signing certificate in the secure path and issue protected `VERIFY` for the signing PIN | A changed identity ends the attempt before PIN transmission. Reader and NFC use the same certificate-keyed PIN account. |
+| Card signature | Select the signing environment and send encoded `DigestInfo` to `INTERNAL AUTHENTICATE` | The card returns the signature bytes. If SW1 is `61`, bounded `GET RESPONSE` calls take the rest of that response. |
+| Document output | Release NFC and finish the PAdES or XAdES result | The app adds the timestamp when the format requires it. Diagnostics distinguish the card signature from a successfully written document. |
+
+A batch collects authorization once and opens one NFC session per document. Cancellation, link loss, identity mismatch or a PIN error stops the batch and closes the active session. The app requires a new user action to retry. No PIN, complete APDU payload or personal certificate belongs in public diagnostics. See [testing](testing.md) for the physical acceptance checks.
 
 ## Inspect capabilities before transmitting
 

@@ -13,7 +13,7 @@ This handbook explains the implementation for contributors and curious readers. 
 | --- | --- |
 | Understand the components and data flow | [Layered architecture](architecture.md) |
 | Follow a signature from a click to card commands | [Card protocol and signing sequence](card-protocol.md) |
-| Understand the USB reader and individual bits | [Reader protocol: CCID and T=1](reader-protocol.md) |
+| Understand USB reader framing and the mobile NFC sequences | [Reader protocol: CCID, T=1 and NFC](reader-protocol.md) |
 | Understand PDF/XML signatures and the browser connection | [Formats, trust services and integrations](formats-and-bridge.md) |
 | Change a native screen consistently | [Design system across platforms](design-system.md) |
 | Compile and launch an app | [Build and run](build-and-run.md) |

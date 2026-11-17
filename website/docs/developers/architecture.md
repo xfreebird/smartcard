@@ -50,7 +50,7 @@ public protocol CardTransport: AnyObject {
 
 Sign offers both methods on supported NFC phones, even with a USB reader connected. The same PIN coordinator or dialog serves both methods. NFC collects authorization first, then reads the signing certificate and signs during one foreground session per document. The batch binds to the first accepted certificate, and known certificates must match the scanned card before PIN verification. Connection loss, a card mismatch or a PIN error ends the attempt so the user can decide how to proceed.
 
-Stored PINs use the signing-certificate identity across both transports. NFC reuses the existing document preparation and output path. The public certificate supplies the holder and validity information shown in the app. Access to photos, biometrics or travel-document data has not been established. iPad and desktop signing use a card reader.
+Stored PINs use the signing-certificate identity across both transports. NFC reuses the existing document preparation and output path. The public certificate supplies the holder and validity information shown in the app. Access to photos, biometrics or travel-document data has not been established. iPad and desktop signing use a card reader. See the [iOS and Android protocol and sequence diagrams](reader-protocol.md#mobile-nfc-transport).
 
 ## State, concurrency and identity
 

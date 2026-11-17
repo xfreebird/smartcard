@@ -9,6 +9,8 @@ to the card signature also passed. See [the evidence report](reports/android-nfc
 This establishes the tested card/device PAdES-T path. Certificate-chain trust, revocation,
 other card generations/devices and XAdES over real NFC are separate acceptance checks.
 
+See the [Android NFC sequence diagram](https://esemnbun.md/img/developers/nfc-android-sequence.svg) in the Developer Handbook.
+
 ## User flow
 
 Sign starts with one **Choose a document** action. Import reveals a review screen with
