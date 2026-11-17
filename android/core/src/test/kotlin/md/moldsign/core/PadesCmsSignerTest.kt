@@ -157,7 +157,9 @@ class PadesCmsSignerTest {
         verify(signatures[1], keys.public, second.size)
         val text = String(second, ISO_8859_1)
         assertTrue(text.contains("/T(Signature2)"))
-        assertEquals("one AcroForm, extended", 1, Regex("""/Fields\[6 0 R 9 0 R]""").findAll(text).count())
+        assertArrayEquals(first, second.copyOf(first.size))
+        assertEquals("one AcroForm, extended", 1,
+            Regex("""/Fields\s*\[\s*6\s+0\s+R\s+9\s+0\s+R\s*]""").findAll(text).count())
         writeForExternalTools("sample-countersigned.pdf", second)
     }
 

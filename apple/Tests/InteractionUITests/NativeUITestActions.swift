@@ -77,7 +77,7 @@ extension XCUIElement {
     }
 
     @MainActor
-    private func waitUntilReady(file: StaticString, line: UInt) -> Bool {
+    func waitUntilReady(file: StaticString = #filePath, line: UInt = #line) -> Bool {
         var previous = CGRect.null
         let ready = NSPredicate { _, _ in
             guard self.exists, self.isEnabled, self.isHittable else { previous = .null; return false }

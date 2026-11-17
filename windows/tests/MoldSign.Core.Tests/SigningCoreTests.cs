@@ -157,7 +157,8 @@ public sealed class SigningCoreTests
         var text = Encoding.Latin1.GetString(MinimalPdf(existingAcro: true));
         var signed = new PadesSigner(pki.Trust).Sign(Encoding.Latin1.GetBytes(text), identity.Certificate, identity.Sign);
         var update = Encoding.Latin1.GetString(signed)[text.Length..];
-        Assert.Contains("/Fields[6 0 R ", update);
+        Assert.Equal(text, Encoding.Latin1.GetString(signed)[..text.Length]);
+        Assert.Matches(@"/Fields\s*\[\s*6\s+0\s+R\s+9\s+0\s+R\s*\]", update);
         Assert.Contains("/NeedAppearances false", update);
         Assert.Contains("/SigFlags 3", update);
         Assert.DoesNotContain("1 0 obj", update);

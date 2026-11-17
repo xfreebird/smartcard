@@ -59,10 +59,12 @@ final class DemoModeUITests: XCTestCase {
     }
 
     private func tapSwitch(_ element: XCUIElement) {
-        // SwiftUI exposes the entire row as the switch. A percentage of the row
-        // can land on the thumb's outer edge in the Duo's narrow pane; use its center.
+        guard element.waitUntilReady() else { return }
+        // SwiftUI exposes the entire row. Target the thumb in its current position,
+        // after navigation has settled, rather than the track between its two states.
+        let inset: CGFloat = element.value as? String == "1" ? 35 : 65
         element.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 0.5))
-            .withOffset(CGVector(dx: -50, dy: 0)).tap()
+            .withOffset(CGVector(dx: -inset, dy: 0)).tap()
     }
 
     private func navigate(_ title: String, in app: XCUIApplication) {

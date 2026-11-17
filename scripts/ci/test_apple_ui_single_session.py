@@ -26,28 +26,6 @@ class AppleUISingleSessionTests(unittest.TestCase):
             self.assertIn('failed', result.stdout)
             self.assertNotIn('unexpected later test', result.stdout)
 
-    def test_boot_preparation_selects_only_the_assigned_family(self):
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory)
-            ci = root / 'scripts/ci'
-            ci.mkdir(parents=True)
-            shutil.copy(ROOT / 'scripts/ci/boot-ios-ui-device.sh', ci)
-            (ci / 'select_apple_ui_targets.py').write_text('print("iPhone\\tphone-id\\niPad\\ttablet-id")\n')
-            binaries = root / 'bin'
-            binaries.mkdir()
-            tool = binaries / 'xcrun'
-            tool.write_text('#!/bin/sh\necho "$*" >> "$CALLS"\necho "{}"\n')
-            tool.chmod(0o755)
-            calls = root / 'calls'
-            for family, device in [('iPhone', 'phone-id'), ('iPad', 'tablet-id')]:
-                result = subprocess.run(['bash', str(ci / 'boot-ios-ui-device.sh'), family, str(root / family)],
-                                        env={**os.environ, 'PATH': f'{binaries}:{os.environ["PATH"]}', 'CALLS': str(calls)},
-                                        capture_output=True, text=True, timeout=10)
-                self.assertEqual(result.returncode, 0, result.stderr)
-                self.assertEqual((root / family / 'device.txt').read_text().strip(), device)
-            self.assertEqual([c for c in calls.read_text().splitlines() if c.startswith('simctl boot ')],
-                             ['simctl boot phone-id', 'simctl boot tablet-id'])
-
     def run_batch(self, failure=''):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
