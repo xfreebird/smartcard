@@ -55,6 +55,7 @@ class AppContainer(
     val pinVault = PinVault(app)
     val savedCardIdentities = md.moldsign.app.pin.SavedCardIdentities(app)
     val nfc = md.moldsign.app.nfc.NfcSigningController(app)
+    val browserNfc = md.moldsign.app.nfc.NfcBrowserCoordinator(nfc, app)
     val activity = ActivityLog(app, scope, if (userDemoMode) "demo-activity" else "activity")
     val signedFiles = SignedFileStore(app)
 
@@ -159,9 +160,9 @@ class AppContainer(
     }
 
     /** The cards a browser may sign with: every ready card whose certificate DER is known (not the demo cards). */
-    fun bridgeCards(): List<BridgeCard> = if (isDemo) emptyList() else _wallet.value.readyCards.mapNotNull { card ->
+    fun bridgeCards(): List<BridgeCard> = if (isDemo) emptyList() else if (browserNfc.enabled.value) browserNfc.cards() else _wallet.value.readyCards.mapNotNull { card ->
         card.certificate?.takeIf { it.der != null }?.let { BridgeCard(card.readerId, it) }
-    }
+    }.distinctBy { it.certificate.sha1Hex }
 
     /**
      * Debug demo mode only (`src/debug/.../DemoMode.kt`; release builds ship a no-op): stops following the USB

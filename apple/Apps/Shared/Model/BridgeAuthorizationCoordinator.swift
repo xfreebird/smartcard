@@ -31,7 +31,7 @@ final class BridgeAuthorizationCoordinator {
             if answer.trust { policy.trust(origin: incoming.origin) }
         }
         guard !Task.isCancelled else { return .deny }
-        if incoming.pinIncluded { return .allow(pin: nil, certificateSHA1: certID) }
+        if incoming.pinIncluded && !incoming.requiresNativePIN { return .allow(pin: nil, certificateSHA1: certID) }
         guard let certID, let pin = await obtainPIN(certID, holder), !Task.isCancelled else { return .deny }
         return .allow(pin: pin, certificateSHA1: certID)
     }

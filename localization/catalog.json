@@ -16412,6 +16412,213 @@
         "en": "Use demo mode",
         "ru": "Включить демонстрационный режим"
       }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_nfc_read",
+      "translations": {
+        "ro": "Citește cardul NFC",
+        "en": "Read NFC card",
+        "ru": "Считать NFC-карту"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_nfc_read_hint",
+      "translations": {
+        "ro": "Ține cardul lângă telefon pentru a-l identifica. Nu se solicită PIN-ul.",
+        "en": "Hold your card near the phone to identify it. No PIN is required.",
+        "ru": "Поднесите карту к телефону для идентификации. PIN не требуется."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_nfc_sign_hint",
+      "translations": {
+        "ro": "Ține cardul lângă telefon până la confirmare.",
+        "en": "Hold your card near the phone until confirmation.",
+        "ru": "Держите карту у телефона до подтверждения."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_nfc_reader",
+      "translations": {
+        "ro": "Cititor de carduri",
+        "en": "Card reader",
+        "ru": "Считыватель карт"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_nfc_ready",
+      "translations": {
+        "ro": "NFC · prezintă cardul când ți se solicită",
+        "en": "NFC · tap your card when requested",
+        "ru": "NFC · поднесите карту по запросу"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_read",
+      "translations": {
+        "ro": "Citește cardul NFC",
+        "en": "Read NFC card",
+        "ru": "Считать NFC-карту"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_read_hint",
+      "translations": {
+        "ro": "Ține cardul lângă telefon pentru a-l identifica. Nu se solicită PIN-ul.",
+        "en": "Hold your card near the phone to identify it. No PIN is required.",
+        "ru": "Поднесите карту к телефону для идентификации. PIN не требуется."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_sign_hint",
+      "translations": {
+        "ro": "Ține cardul lângă telefon până la confirmare.",
+        "en": "Hold your card near the phone until confirmation.",
+        "ru": "Держите карту у телефона до подтверждения."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_reader",
+      "translations": {
+        "ro": "Cititor de carduri",
+        "en": "Card reader",
+        "ru": "Считыватель карт"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_ready",
+      "translations": {
+        "ro": "NFC · prezintă cardul când ți se solicită",
+        "en": "NFC · tap your card when requested",
+        "ru": "NFC · поднесите карту по запросу"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_authentication_method",
+      "translations": {
+        "ro": "Autentificare în browser",
+        "en": "Browser authentication",
+        "ru": "Аутентификация в браузере"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_authentication_method",
+      "translations": {
+        "ro": "Autentificare în browser",
+        "en": "Browser authentication",
+        "ru": "Аутентификация в браузере"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_authentication_external",
+      "translations": {
+        "ro": "Această alegere se aplică și browserelor externe. Pentru NFC, deschide notificarea eSemnBun, confirmă PIN-ul și prezintă cardul, apoi revino în browser.",
+        "en": "This choice also applies to external browsers. For NFC, open the eSemnBun notification, confirm your PIN and tap your card, then return to the browser.",
+        "ru": "Этот выбор действует и для внешних браузеров. Для NFC откройте уведомление eSemnBun, подтвердите PIN и поднесите карту, затем вернитесь в браузер."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_nfc_method",
+      "translations": {
+        "ro": "NFC",
+        "en": "NFC",
+        "ru": "NFC"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_method",
+      "translations": {
+        "ro": "NFC",
+        "en": "NFC",
+        "ru": "NFC"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_authentication_short",
+      "translations": {
+        "ro": "Autentificare",
+        "en": "Authentication",
+        "ru": "Аутентификация"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_reader_short",
+      "translations": {
+        "ro": "Cititor",
+        "en": "Reader",
+        "ru": "Считыватель"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_authentication_short",
+      "translations": {
+        "ro": "Autentificare",
+        "en": "Authentication",
+        "ru": "Аутентификация"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_reader_short",
+      "translations": {
+        "ro": "Cititor",
+        "en": "Reader",
+        "ru": "Считыватель"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "operation_failed_safe",
+      "translations": {
+        "ro": "Operațiunea nu a putut fi finalizată. Verifică metoda aleasă și conexiunea.",
+        "en": "The operation could not be completed. Check the selected method and your connection.",
+        "ru": "Не удалось завершить операцию. Проверьте выбранный способ и подключение."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "browser_page_unavailable",
+      "translations": {
+        "ro": "Pagina nu poate fi încărcată. Verifică conexiunea și reîncarcă pagina.",
+        "en": "The page could not be loaded. Check your connection and reload the page.",
+        "ru": "Не удалось загрузить страницу. Проверьте подключение и обновите страницу."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "operation_failed_safe",
+      "translations": {
+        "ro": "Operațiunea nu a putut fi finalizată. Verifică metoda aleasă și conexiunea.",
+        "en": "The operation could not be completed. Check the selected method and your connection.",
+        "ru": "Не удалось завершить операцию. Проверьте выбранный способ и подключение."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_page_unavailable",
+      "translations": {
+        "ro": "Pagina nu poate fi încărcată. Verifică conexiunea și reîncarcă pagina.",
+        "en": "The page could not be loaded. Check your connection and reload the page.",
+        "ru": "Не удалось загрузить страницу. Проверьте подключение и обновите страницу."
+      }
     }
   ],
   "storeMetadata": {

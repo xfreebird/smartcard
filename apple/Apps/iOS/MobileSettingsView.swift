@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct MobileSettingsView: View {
+    @Environment(AppModel.self) private var model
+    @State private var showingAuthentication = false
+    @State private var scanAfterDismissal = false
     @State private var presentedSetting: MobileSettingsDestination?
     @AppStorage("appLanguage", store: AppPreferencesStore.defaults) private var language = "system"
     @AppStorage("browserStampsEnabled", store: AppPreferencesStore.defaults) private var browserStamps = false
@@ -33,6 +36,17 @@ struct MobileSettingsView: View {
                     }
                 }
                 Section(L10n.text(.ui_browser)) {
+                    if model.nfcAvailable && !model.demoMode {
+                        Button { showingAuthentication = true } label: {
+                            HStack {
+                                Text(L10n.text(.browser_authentication_short)).foregroundStyle(.primary)
+                                Spacer()
+                                Text(L10n.text(model.browserNFC.enabled ? .browser_nfc_method : .browser_reader_short))
+                                    .foregroundStyle(.secondary).fixedSize()
+                                Image(systemName: "chevron.right").font(.caption).foregroundStyle(.tertiary)
+                            }
+                        }.disabled(!model.canChangeSigningMethod)
+                    }
                     Toggle(L10n.text(.stamp_browser), isOn: $browserStamps)
                     Text(L10n.text(.stamp_batch_hint)).font(.caption)
                 }
@@ -41,6 +55,17 @@ struct MobileSettingsView: View {
             }
             .navigationTitle(L10n.text(.ui_settings))
             .accessibilityIdentifier("settings.screen")
+            .sheet(isPresented: $showingAuthentication, onDismiss: {
+                if scanAfterDismissal {
+                    scanAfterDismissal = false
+                    Task { await model.browserNFC.identify(); model.rememberBrowserCard() }
+                }
+            }) {
+                BrowserAuthenticationOptions {
+                    scanAfterDismissal = true
+                    showingAuthentication = false
+                }.appPreferences()
+            }
             .sheet(item: $presentedSetting) { MobileSettingsSheet(destination: $0) }
     }
 

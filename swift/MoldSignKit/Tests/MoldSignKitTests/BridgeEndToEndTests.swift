@@ -400,6 +400,96 @@ final class BridgeEndToEndTests: XCTestCase {
         }
     }
 
+    func testNFCOnlyModeDoesNotListOrUseConnectedReaders() throws {
+        let server = MoldSignServer(tlsP12: nil, httpPort: 28728, httpsPort: 28729, allowsFileSystemRoutes: false)
+        server.readerCertificatesEnabled = { false }
+        server.contactlessCertificates = { [] }
+        server.authorize = { _ in .allow(pin: "1234") }
+        try server.start()
+        defer { server.stop() }
+        XCTAssertTrue(try get("/certificates", port: 28728).contains("\"certificateModel\":[]"))
+        let body = Data(#"{"data":"PGRvYy8+","contentType":"Xml","signFormat":"XAdES-BES","signatureType":"Embedded"}"#.utf8)
+        let created = try post("/sign/data", body, port: 28728)
+        XCTAssertTrue(try get(try location(created), port: 28728).hasPrefix("HTTP/1.1 400"))
+        XCTAssertEqual(card.verifyAttempts, 0)
+        XCTAssertTrue(card.signedDigestInfos.isEmpty)
+    }
+
+    func testContactlessIdentityListsWithoutRFAndSignsOnDemand() throws {
+        try exerciseContactlessBridge(mode: "success", port: 28720)
+    }
+
+    func testContactlessCardSwapStopsBeforePIN() throws {
+        try exerciseContactlessBridge(mode: "swapped", port: 28722)
+    }
+
+    func testContactlessWrongPINIsAttemptedOnce() throws {
+        try exerciseContactlessBridge(mode: "wrongPIN", port: 28724)
+    }
+
+    func testContactlessCancellationDoesNotFallBackToReader() throws {
+        try exerciseContactlessBridge(mode: "cancel", port: 28726)
+    }
+
+    func testContactlessTechnicalErrorsUseHostPresentation() throws {
+        try exerciseContactlessBridge(mode: "privateError", port: 28730)
+    }
+
+    private func exerciseContactlessBridge(mode: String, port: Int) throws {
+        SigningService.shared.readersWithCards = { [] }
+        SigningService.shared.transportFactory = { _ in
+            XCTFail("NFC must never fall back to a physical reader")
+            throw CardError.noCard
+        }
+        let selected = SigningService.CertificateSummary(der: TestIdentity.shared.certDER)
+        let scanned = mode == "swapped" ? try TestIdentity(commonName: "OTHER NFC CARD") : TestIdentity.shared
+        let state = card!
+        let server = MoldSignServer(tlsP12: nil, httpPort: UInt16(port), httpsPort: UInt16(port + 1), allowsFileSystemRoutes: false)
+        var opened = 0
+        var authorized = false
+        server.contactlessCertificates = { [selected] }
+        if mode == "privateError" { server.errorMessage = { _ in "Authentication could not be completed." } }
+        server.authorize = { request in
+            XCTAssertTrue(request.requiresNativePIN)
+            authorized = true
+            return .allow(pin: mode == "wrongPIN" ? "9999" : "1234", certificateSHA1: selected.sha1Hex)
+        }
+        server.openContactlessCard = { expected in
+            XCTAssertTrue(authorized, "PIN/consent must precede the RF session")
+            XCTAssertEqual(expected, selected.der)
+            opened += 1
+            if mode == "cancel" { throw CancellationError() }
+            if mode == "privateError" { throw NSError(domain: "TechnicalFailure", code: 1, userInfo: [NSLocalizedDescriptionKey: "APDU internal failure"]) }
+            return SimulatedCosmoXCard(state: state, identity: scanned)
+        }
+        try server.start()
+        defer { server.stop() }
+        let listing = try get("/certificates", port: port)
+        XCTAssertTrue(listing.contains(selected.der.base64EncodedString()))
+        XCTAssertEqual(opened, 0, "portal polling must not open NFC")
+        let body = try JSONSerialization.data(withJSONObject: ["data": Data("<challenge/>".utf8).base64EncodedString(),
+            "contentType": "Xml", "signFormat": "XAdES-BES", "signatureType": "Embedded", "algorithm": "SHA-1",
+            "certificate": ["certificateBase64": selected.der.base64EncodedString()], "pin": "9999"])
+        let created = try post("/sign/data", body, port: port)
+        let result = try get(try location(created), port: port)
+        XCTAssertEqual(opened, 1)
+        if mode == "privateError" {
+            XCTAssertTrue(result.contains("Authentication could not be completed."))
+            XCTAssertFalse(result.contains("APDU"))
+            XCTAssertFalse(result.contains("TechnicalFailure"))
+        }
+        if mode == "success" {
+            XCTAssertTrue(result.hasPrefix("HTTP/1.1 200"), result)
+            let report = try XCTUnwrap(Validator.validateXAdES(try signedXML(result), referencedFiles: [:]).first)
+            XCTAssertTrue(report.signatureValid && report.contentIntact)
+            XCTAssertEqual(state.verifyAttempts, 1)
+        } else {
+            XCTAssertTrue(result.hasPrefix("HTTP/1.1 400"), result)
+            XCTAssertEqual(state.verifyAttempts, mode == "wrongPIN" ? 1 : 0)
+            XCTAssertTrue(state.signedDigestInfos.isEmpty)
+        }
+    }
+
     // MARK: - HTTP helpers (core plain-HTTP client: no proxy, no HSTS)
 
     private func post(_ path: String, _ body: Data, port: Int, origin: String = "https://msign.gov.md") throws -> String {

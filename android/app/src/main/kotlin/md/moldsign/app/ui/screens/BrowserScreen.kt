@@ -55,6 +55,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
     val running by vm.bridgeRunning.collectAsStateWithLifecycle()
     val startupFailed by vm.bridgeStartupFailed.collectAsStateWithLifecycle()
     val wallet by vm.status.collectAsStateWithLifecycle()
+    val useNfc by vm.browserNfc.enabled.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val status = LocalStatusColors.current
     val notifications = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { vm.setBridge(true) }
@@ -63,12 +64,12 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
     var inAppBrowser by remember(captureBrowser) { mutableStateOf(captureBrowser) }
     LaunchedEffect(vm.demoMode) { if (vm.demoMode) inAppBrowser = false }
     if (inAppBrowser && !vm.demoMode) {
-        InAppBrowser(onClose = { inAppBrowser = false })
+        InAppBrowser(vm = vm, onClose = { inAppBrowser = false })
         return
     }
 
     ScreenColumn(padding, fullWidth = true) {
-        CardWallet(
+        if (!useNfc) CardWallet(
             wallet.wallet.toCardWalletContent(),
             selectionEnabled = !wallet.busy,
             onSelect = vm::selectCard,
@@ -77,6 +78,7 @@ fun BrowserScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> U
             onOpen = onOpenCard,
         )
         Column(Modifier.widthIn(max = 680.dp).fillMaxWidth().then(Gutter), verticalArrangement = Arrangement.spacedBy(Tokens.S4)) {
+            BrowserAuthenticationControls(vm, externalHint = true)
             Card(
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
                 shape = RoundedCornerShape(Tokens.RadiusCard),

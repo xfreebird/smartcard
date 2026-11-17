@@ -129,3 +129,7 @@ screenshots also stay private under `.local/`.
 - Cancel/background/rotation: waiting and in-progress scan; confirm closure and no automatic retry.
 - XAdES and multi-document NFC batches, other Android devices and other card generations.
 - Certificate trust/revocation and external portal validation remain distinct from cryptographic integrity.
+
+## Embedded browser authentication
+
+The embedded browser can advertise a remembered NFC certificate while the card is absent. For a new card, choose **NFC → Read NFC card** once; this reads public metadata without a PIN. The portal then requests authentication normally, and the app collects the PIN before opening a fresh, certificate-bound NFC session. The saved **NFC / Card reader** selector controls which identities are listed, both in the embedded browser and external browsers. External NFC requests use the eSemnBun notification to collect the PIN and scan in the foreground; return to the browser afterwards. See [implementation and acceptance](reports/browser-nfc-integration-2026-11-17.md).

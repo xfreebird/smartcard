@@ -52,6 +52,9 @@ class SigningBridgeRoutes(
     private val log: (String) -> Unit = {},
     private val previewPdfEnabled: () -> Boolean = { true },
     private val previewPdf: ((Document, CertificateSummary, String?) -> PdfStampDecision)? = null,
+    /** Optional foreground, on-demand card session. The host collects PIN before opening RF. */
+    private val errorMessage: ((Throwable) -> String)? = null,
+    private val withSigningService: ((BridgeCard, ConsentRequest, Consent, (SigningService, Consent) -> SignResult) -> SignResult)? = null,
 ) : BridgeRoutes, Closeable {
     private class Outcome(val payload: String, val error: String?)
 
@@ -207,23 +210,27 @@ class SigningBridgeRoutes(
                     consent.obtain(request).also { if (it is ConsentResult.Pin) capturedPin = it.pin.copyOf() }
                 }
             }
-            val result = if (job.pdf) {
-                if (placement == null) service.signPdf(Document("document.pdf", job.data), sessionConsent, job.origin, card.readerId, card.certificate.sha1Hex)
-                else service.signPdfVisible(Document("document.pdf", job.data), sessionConsent, placement, job.origin, card.readerId, card.certificate.sha1Hex)
-            } else {
-                val level = when (job.signFormat) {
-                    "XAdES-BES" -> XadesLevel.BES
-                    "XAdES-C" -> XadesLevel.C
-                    else -> XadesLevel.T
+            val operation: (SigningService, Consent) -> SignResult = { signer, authorized ->
+                if (job.pdf) {
+                    if (placement == null) signer.signPdf(Document("document.pdf", job.data), authorized, job.origin, card.readerId, card.certificate.sha1Hex)
+                    else signer.signPdfVisible(Document("document.pdf", job.data), authorized, placement, job.origin, card.readerId, card.certificate.sha1Hex)
+                } else {
+                    val level = when (job.signFormat) {
+                        "XAdES-BES" -> XadesLevel.BES
+                        "XAdES-C" -> XadesLevel.C
+                        else -> XadesLevel.T
+                    }
+                    val packaging = if (job.enveloping) XadesPackaging.Enveloping else XadesPackaging.Detached
+                    signer.signXades(listOf(Document("document.xml", job.data)), level, packaging, authorized, job.origin, card.readerId, card.certificate.sha1Hex, job.digest)
                 }
-                val packaging = if (job.enveloping) XadesPackaging.Enveloping else XadesPackaging.Detached
-                service.signXades(listOf(Document("document.xml", job.data)), level, packaging, sessionConsent, job.origin, card.readerId, card.certificate.sha1Hex, job.digest)
             }
+            val request = ConsentRequest(job.origin, listOf(if (job.pdf) "document.pdf" else "document.xml"), job.format, card.certificate)
+            val result = withSigningService?.invoke(card, request, sessionConsent, operation) ?: operation(service, sessionConsent)
             (capturedPin ?: reused)?.let { rememberPin(id, it, result.certificate.sha1Hex, job.origin) }
             observer.signFinished(job.origin, job.format, null)
             return Outcome("""{"base64File":"${Base64.getEncoder().encodeToString(result.output)}"}""", null)
         } catch (e: Throwable) {
-            val message = describe(e)
+            val message = errorMessage?.invoke(e) ?: describe(e)
             log("sign failed: ${e.javaClass.simpleName}: ${e.message}")
             observer.signFinished(job.origin, job.format, e)
             return Outcome("""{"error":${MiniJson.quote(message)}}""", message)

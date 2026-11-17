@@ -25,6 +25,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import md.moldsign.app.application.AppContainer
@@ -86,6 +87,10 @@ class BridgeService : Service() {
             val container = (application as MoldSignApp).container
             val routes = SigningBridgeRoutes(
                 service = container.signingService,
+                errorMessage = { errorText(this, it) },
+                withSigningService = { card, request, consent, operation ->
+                    container.browserNfc.sign(card, request, consent, container.signingService, operation)
+                },
                 cards = container::bridgeCards,
                 consent = consentWithNotification(container),
                 observer = observer(container),
@@ -162,7 +167,8 @@ class BridgeService : Service() {
         if (statusJob == null) {
             // Follow the status light while the bridge runs (the first value is already shown).
             statusJob = serviceScope.launch {
-                status.drop(1).collect { s ->
+                val browser = (application as MoldSignApp).container.browserNfc
+                combine(status, browser.enabled, browser.certificate) { s, _, _ -> s }.collect { s ->
                     val canPost = Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
                         checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
                     if (canPost) nm.notify(NOTIFICATION_ID, buildNotification(s))
@@ -239,7 +245,10 @@ class BridgeService : Service() {
         val stop = PendingIntent.getService(
             this, 1, Intent(this, BridgeService::class.java).setAction(ACTION_STOP), PendingIntent.FLAG_IMMUTABLE,
         )
-        val line = trayText(this, s.wallet)
+        val browser = (application as MoldSignApp).container.browserNfc
+        val line = if (browser.enabled.value) {
+            browser.certificate.value?.let { "NFC · ${it.commonName}" } ?: appString(R.string.browser_nfc_read)
+        } else trayText(this, s.wallet)
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_stat_moldsign)
             .setColor(s.wallet.tray().notificationArgb())

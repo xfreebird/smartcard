@@ -62,7 +62,7 @@ final class NFCSigningSession: NSObject, NFCTagReaderSessionDelegate {
         transport?.invalidate(error ?? CancellationError())
         if let opened { self.opened = nil; opened.resume(throwing: error ?? CancellationError()) }
         if let error {
-            session.invalidate(errorMessage: error is CancellationError ? L10n.text(.nfc_cancelled) : error.localizedDescription)
+            session.invalidate(errorMessage: error is CancellationError ? L10n.text(.nfc_cancelled) : [AppModel.describe(error).message, AppModel.describe(error).recovery].filter { !$0.isEmpty }.joined(separator: " "))
         }
         else {
             session.alertMessage = L10n.text(.nfc_card_step_complete)

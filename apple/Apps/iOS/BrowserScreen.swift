@@ -6,6 +6,9 @@ struct BrowserScreen: View {
     @Environment(AppModel.self) private var model
     @Environment(\.locale) private var locale
     @State private var browser = PortalBrowser()
+    @State private var displayedAuthentication: String?
+    @State private var showingAuthentication = false
+    @State private var scanAfterDismissal = false
     @State private var editingAddress = false
     @State private var address = "https://msign.gov.md/#/"
     @State private var addressError = false
@@ -28,23 +31,15 @@ struct BrowserScreen: View {
             }
         }
             .safeAreaInset(edge: .top) {
-                VStack(spacing: 0) {
                 if model.showsDemoNotice { DemoModeBanner() }
-                HStack(spacing: 8) {
-                    Circle().fill(model.bridgeState == .running ? Theme.success : Theme.warning).frame(width: 8, height: 8)
-                    Text(model.bridgeState == .running ? L10n.text(.ui_browser_connection_on) : L10n.text(.ui_browser_connection_off))
-                        .font(.caption)
-                    Spacer()
-                    if browser.loading { ProgressView().controlSize(.small) }
-                }
-                .padding(.horizontal).padding(.vertical, 6).background(.bar)
-                }
             }
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 VStack(spacing: 0) {
                     if let error = browser.error {
                         Label(error, systemImage: "exclamationmark.triangle")
-                            .font(.caption).padding(8).frame(maxWidth: .infinity)
+                            .font(.caption).padding(12).frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                            .padding(.horizontal)
                     }
                     HStack {
                         Button { browser.webView.goBack() } label: {
@@ -84,6 +79,21 @@ struct BrowserScreen: View {
             .navigationTitle(browser.url?.host ?? L10n.text(.ui_browser))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    if !model.demoMode {
+                        Button { showingAuthentication = true } label: {
+                            Label(L10n.text(.browser_authentication_method), systemImage: "person.badge.key")
+                                .overlay(alignment: .bottomTrailing) {
+                                    Circle().fill(model.bridgeState == .running ? Theme.success : Theme.warning)
+                                        .frame(width: 7, height: 7).accessibilityHidden(true)
+                                }
+                        }.disabled(!model.canChangeSigningMethod)
+                            .accessibilityValue(L10n.text(model.bridgeState == .running ? .ui_browser_connection_on : .ui_browser_connection_off))
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    if browser.loading { ProgressView().controlSize(.small) }
+                }
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
                         Button { showingDataReset = true } label: {
@@ -107,6 +117,17 @@ struct BrowserScreen: View {
                         Label(L10n.text(.ui_open_an_address), systemImage: "link")
                     }.disabled(model.demoMode)
                 }
+            }
+            .sheet(isPresented: $showingAuthentication, onDismiss: {
+                if scanAfterDismissal {
+                    scanAfterDismissal = false
+                    Task { await model.browserNFC.identify(); model.rememberBrowserCard() }
+                }
+            }) {
+                BrowserAuthenticationOptions {
+                    scanAfterDismissal = true
+                    showingAuthentication = false
+                }.appPreferences()
             }
             .sheet(isPresented: $showingBookmarks) {
                 BookmarkManager(bookmarks: bookmarks, currentURL: browser.url, currentTitle: browser.webView.title)
@@ -158,13 +179,32 @@ struct BrowserScreen: View {
                 if demo { browser.webView.stopLoading(); browser = PortalBrowser() }
                 else if browser.url == nil { browser.open(URL(string: "https://msign.gov.md/#/")!) }
             }
+            .onChange(of: model.browserNFC.enabled) { _, _ in refreshAuthentication() }
+            .onChange(of: model.browserNFC.certificate?.sha1Hex) { _, _ in
+                model.rememberBrowserCard()
+                refreshAuthentication()
+            }
+            .onDisappear { model.browserNFC.visible = false; model.browserNFC.cancel() }
             .onAppear {
+                model.browserNFC.visible = true
+                if model.browserNFC.certificate == nil { model.browserNFC.certificate = model.nfcCertificate }
                 browser.synchronizeLanguage()
+                refreshAuthentication()
                 if !model.demoMode, !initialPageRequested {
                     initialPageRequested = true
                     browser.open(model.browserURL ?? URL(string: "https://msign.gov.md/#/")!)
                 }
             }
+    }
+
+    private func refreshAuthentication() {
+        guard model.browserNFC.visible, !model.demoMode else { return }
+        let selection = "\(model.browserNFC.enabled):\(model.browserNFC.certificate?.sha1Hex ?? "")"
+        guard displayedAuthentication != selection else { return }
+        let wasDisplayed = displayedAuthentication != nil
+        displayedAuthentication = selection
+        // Settings can change while this tab is hidden. Refresh once on return, using GET.
+        if wasDisplayed, let url = browser.webView.url { browser.webView.load(URLRequest(url: url)) }
     }
 
     @MainActor
@@ -284,11 +324,11 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { loading = false; updateNavigation() }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         loading = false
-        self.error = error.localizedDescription
+        self.error = (error as NSError).code == NSURLErrorCancelled ? nil : L10n.text(.browser_page_unavailable)
     }
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
         loading = false
-        self.error = error.localizedDescription
+        self.error = (error as NSError).code == NSURLErrorCancelled ? nil : L10n.text(.browser_page_unavailable)
     }
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) { updateNavigation() }
 

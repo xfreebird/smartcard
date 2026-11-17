@@ -528,6 +528,17 @@ enum L10n {
         case guided_reader_swipe
         case settings_signing
         case settings_card_reader
+        case browser_nfc_read
+        case browser_nfc_read_hint
+        case browser_nfc_sign_hint
+        case browser_nfc_reader
+        case browser_nfc_ready
+        case browser_authentication_method
+        case browser_nfc_method
+        case browser_authentication_short
+        case browser_reader_short
+        case operation_failed_safe
+        case browser_page_unavailable
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

@@ -476,4 +476,16 @@ eSemnBun</string>
   <string name="guided_reader_swipe">Swipe to choose the card you want to use.</string>
   <string name="settings_signing">Signing</string>
   <string name="settings_card_reader">Cards and readers</string>
+  <string name="browser_nfc_read">Read NFC card</string>
+  <string name="browser_nfc_read_hint">Hold your card near the phone to identify it. No PIN is required.</string>
+  <string name="browser_nfc_sign_hint">Hold your card near the phone until confirmation.</string>
+  <string name="browser_nfc_reader">Card reader</string>
+  <string name="browser_nfc_ready">NFC · tap your card when requested</string>
+  <string name="browser_authentication_method">Browser authentication</string>
+  <string name="browser_authentication_external">This choice also applies to external browsers. For NFC, open the eSemnBun notification, confirm your PIN and tap your card, then return to the browser.</string>
+  <string name="browser_nfc_method">NFC</string>
+  <string name="browser_authentication_short">Authentication</string>
+  <string name="browser_reader_short">Reader</string>
+  <string name="operation_failed_safe">The operation could not be completed. Check the selected method and your connection.</string>
+  <string name="browser_page_unavailable">The page could not be loaded. Check your connection and reload the page.</string>
 </resources>

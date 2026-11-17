@@ -97,6 +97,55 @@ class SigningBridgeRoutesTest {
     private fun sessionOf(created: BridgeResponse): String = created.header("sessionId")!!
 
     @Test
+    fun hostErrorPresentationDoesNotExposeTechnicalFailure() {
+        val r = SigningBridgeRoutes(FakeService(cert), { listOf(card) }, askPin(),
+            errorMessage = { "Authentication could not be completed." },
+            withSigningService = { _, _, _, _ -> throw IllegalStateException("APDU internal failure") })
+            .also { closeables += it }
+        val id = sessionOf(r.handle(request("POST", "/sign/data", body = signBody())))
+        val response = r.handle(request("GET", "/sign/data/PKCS11/$id/Any"))
+        assertEquals(400, response.status)
+        assertTrue(response.text().contains("Authentication could not be completed."))
+        assertFalse(response.text().contains("APDU"))
+        assertFalse(response.header("error")!!.contains("APDU"))
+    }
+
+    @Test
+    fun onDemandIdentityListsWithoutOpeningAndUsesSessionService() {
+        val fallback = FakeService(cert)
+        val contactless = FakeService(cert)
+        var openings = 0
+        val r = SigningBridgeRoutes(fallback, { listOf(BridgeCard("nfc:${cert.sha1Hex}", cert)) }, askPin(),
+            withSigningService = { selected, request, consent, operation ->
+                openings++
+                assertEquals(cert.sha1Hex, selected.certificate.sha1Hex)
+                val answer = consent.obtain(request) as ConsentResult.Pin
+                try { operation(contactless, Consent { ConsentResult.Pin(answer.pin.copyOf()) }) }
+                finally { answer.pin.fill('\u0000') }
+            }).also { closeables += it }
+        assertEquals(200, r.handle(request("GET", "/certificates")).status)
+        assertEquals(0, openings)
+        val id = sessionOf(r.handle(request("POST", "/sign/data", body = signBody())))
+        assertEquals(200, r.handle(request("GET", "/sign/data/PKCS11/$id/Any")).status)
+        assertEquals(1, openings)
+        assertTrue(fallback.pinsSeen.isEmpty())
+        assertEquals(listOf("1234"), contactless.pinsSeen)
+    }
+
+    @Test
+    fun onDemandCancellationNeverFallsBackToReader() {
+        val fallback = FakeService(cert)
+        var openings = 0
+        val r = SigningBridgeRoutes(fallback, { listOf(BridgeCard("nfc:${cert.sha1Hex}", cert)) }, askPin(),
+            withSigningService = { _, _, _, _ -> openings++; throw CardError.Cancelled() })
+            .also { closeables += it }
+        val id = sessionOf(r.handle(request("POST", "/sign/data", body = signBody())))
+        assertEquals(400, r.handle(request("GET", "/sign/data/PKCS11/$id/Any")).status)
+        assertEquals(1, openings)
+        assertTrue(fallback.pinsSeen.isEmpty())
+    }
+
+    @Test
     fun certificatesListsEveryReadyCardWithItsCertificate() {
         val r = routes(askPin()).handle(request("GET", "/certificates"))
         assertEquals(200, r.status)

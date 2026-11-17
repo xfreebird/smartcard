@@ -479,4 +479,16 @@ eSemnBun</string>
   <string name="guided_reader_swipe">Glisează pentru a alege cardul pe care vrei să-l folosești.</string>
   <string name="settings_signing">Semnare</string>
   <string name="settings_card_reader">Carduri și cititoare</string>
+  <string name="browser_nfc_read">Citește cardul NFC</string>
+  <string name="browser_nfc_read_hint">Ține cardul lângă telefon pentru a-l identifica. Nu se solicită PIN-ul.</string>
+  <string name="browser_nfc_sign_hint">Ține cardul lângă telefon până la confirmare.</string>
+  <string name="browser_nfc_reader">Cititor de carduri</string>
+  <string name="browser_nfc_ready">NFC · prezintă cardul când ți se solicită</string>
+  <string name="browser_authentication_method">Autentificare în browser</string>
+  <string name="browser_authentication_external">Această alegere se aplică și browserelor externe. Pentru NFC, deschide notificarea eSemnBun, confirmă PIN-ul și prezintă cardul, apoi revino în browser.</string>
+  <string name="browser_nfc_method">NFC</string>
+  <string name="browser_authentication_short">Autentificare</string>
+  <string name="browser_reader_short">Cititor</string>
+  <string name="operation_failed_safe">Operațiunea nu a putut fi finalizată. Verifică metoda aleasă și conexiunea.</string>
+  <string name="browser_page_unavailable">Pagina nu poate fi încărcată. Verifică conexiunea și reîncarcă pagina.</string>
 </resources>

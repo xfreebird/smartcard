@@ -15,6 +15,8 @@ public struct BridgeRequest: Sendable {
     public let format: String?
     /// The caller already sent a PIN (typed into the web page); the host should not ask for one.
     public let pinIncluded: Bool
+    /// An on-demand card requires a native PIN prompt; webpage PIN fields are ignored.
+    public internal(set) var requiresNativePIN = false
     /// Requested digest ("SHA-1" / "SHA-256"); honoured for XAdES (R-11).
     public internal(set) var algorithm: String? = nil
     /// `use_pin_session` of a multi-document portal batch: the first document's session id (MAC-19).

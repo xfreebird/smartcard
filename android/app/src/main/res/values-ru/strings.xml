@@ -482,4 +482,16 @@ eSemnBun</string>
   <string name="guided_reader_swipe">Смахните, чтобы выбрать нужную карту.</string>
   <string name="settings_signing">Подписание</string>
   <string name="settings_card_reader">Карты и считыватели</string>
+  <string name="browser_nfc_read">Считать NFC-карту</string>
+  <string name="browser_nfc_read_hint">Поднесите карту к телефону для идентификации. PIN не требуется.</string>
+  <string name="browser_nfc_sign_hint">Держите карту у телефона до подтверждения.</string>
+  <string name="browser_nfc_reader">Считыватель карт</string>
+  <string name="browser_nfc_ready">NFC · поднесите карту по запросу</string>
+  <string name="browser_authentication_method">Аутентификация в браузере</string>
+  <string name="browser_authentication_external">Этот выбор действует и для внешних браузеров. Для NFC откройте уведомление eSemnBun, подтвердите PIN и поднесите карту, затем вернитесь в браузер.</string>
+  <string name="browser_nfc_method">NFC</string>
+  <string name="browser_authentication_short">Аутентификация</string>
+  <string name="browser_reader_short">Считыватель</string>
+  <string name="operation_failed_safe">Не удалось завершить операцию. Проверьте выбранный способ и подключение.</string>
+  <string name="browser_page_unavailable">Не удалось загрузить страницу. Проверьте подключение и обновите страницу.</string>
 </resources>

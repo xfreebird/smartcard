@@ -5,6 +5,11 @@ import Network
 import CPCSC
 #endif
 
+/// Hosts may present an RF failure before closing the native session.
+public protocol ContactlessBridgeTransport: CardTransport {
+    func finish(error: Error?)
+}
+
 /// Drop-in replica of the MoldSign Server (127.0.0.1:18480) protocol so the
 /// msign.gov.md browser "Sign with MoldSign" flow works without the Java suite.
 ///
@@ -32,6 +37,12 @@ public final class MoldSignServer {
 
     /// Consent hook, called on a background queue (block until the user decides). nil = allow (CLI).
     public var authorize: ((BridgeRequest) -> BridgeDecision)?
+    /// Public identities available on demand. Listing must never start an RF session.
+    public var readerCertificatesEnabled: () -> Bool = { true }
+    public var contactlessCertificates: (() -> [SigningService.CertificateSummary])?
+    /// Called on the card worker after consent/PIN. The host owns foreground presentation.
+    public var openContactlessCard: ((Data) throws -> CardTransport)?
+
     /// Optional host preview, before PIN authorization. Reused only within the same origin/card/batch for five minutes.
     public var previewPDFEnabled: (() -> Bool)?
     public var previewPDF: ((BridgeRequest, Data) -> PDFStampDecision)?
@@ -63,6 +74,7 @@ public final class MoldSignServer {
     public var onEvent: ((BridgeEvent) -> Void)?
     /// Outcome of each signing request (nil = signed), on the work queue. Hosts use it to drop a stored PIN
     /// the card rejected (`CardError.wrongPIN` / `.pinBlocked`) and to show remaining attempts (MAC-05, LNX-11).
+    public var errorMessage: ((Error) -> String)?
     public var onSignResult: ((BridgeRequest, Error?) -> Void)?
     /// A listener failed, typically EADDRINUSE because the vendor Java server holds the port (MAC-08).
     /// See `isAddressInUse(_:)`.
@@ -451,7 +463,9 @@ public final class MoldSignServer {
     /// Built with JSONSerialization: any holder name (diacritics, quotes, control bytes) stays valid JSON;
     /// the portal shows "no available signatures" for an empty list OR for a body it can't parse.
     private func certificatesJSON() -> String {
-        let certificates = previewCertificates ?? SigningService.shared.listCards().map(\.certificate)
+        var seen = Set<String>()
+        let certificates = previewCertificates ?? ((contactlessCertificates?() ?? []) + (readerCertificatesEnabled() ? SigningService.shared.listCards().map(\.certificate) : []))
+            .filter { seen.insert($0.sha1Hex).inserted }
         let models: [[String: Any]] = certificates.enumerated().map { index, entry in
             let cert = entry.der
             let cn = entry.holder
@@ -543,6 +557,7 @@ public final class MoldSignServer {
         let certificateSHA1: String     // the card that accepted it: a swapped card must not get it
         let origin: String?
         var lastUse: Date
+        var contactless: Bool = false
     }
     private var pinSessions: [String: PinSession] = [:]
     private let pinLock = NSLock()
@@ -551,7 +566,7 @@ public final class MoldSignServer {
     private func rememberPIN(_ auth: Authorization, session: String, origin: String?) {
         pinLock.lock(); defer { pinLock.unlock() }
         guard let cert = auth.certificateSHA1 else { return }
-        pinSessions[session] = PinSession(pin: auth.pin, certificateSHA1: cert, origin: origin, lastUse: Date())
+        pinSessions[session] = PinSession(pin: auth.pin, certificateSHA1: cert, origin: origin, lastUse: Date(), contactless: auth.contactless)
     }
 
     private func reusablePIN(session: String, origin: String?) -> Authorization? {
@@ -561,7 +576,7 @@ public final class MoldSignServer {
         guard var entry = pinSessions[session], entry.origin == origin else { return nil }
         entry.lastUse = now
         pinSessions[session] = entry
-        return Authorization(pin: entry.pin, certificateSHA1: entry.certificateSHA1)
+        return Authorization(pin: entry.pin, certificateSHA1: entry.certificateSHA1, contactless: entry.contactless)
     }
 
     private func forgetPIN(session: String) {
@@ -580,16 +595,33 @@ public final class MoldSignServer {
         let pin: String
         /// Card the PIN belongs to (nil: typed into the web page / env / dialog, no expectation).
         let certificateSHA1: String?
+        var contactless: Bool = false
     }
 
     private func authorizedPIN(_ request: BridgeRequest, requestPIN: String?) throws -> Authorization {
+        // Freeze the selected transport before showing consent/PIN. A withdrawn NFC
+        // identity must fail, never silently route the same PIN to a USB reader.
+        let selected = openContactlessCard == nil ? nil : contactlessCertificates?().first {
+            request.certificateSHA1 == nil || $0.sha1Hex == request.certificateSHA1?.lowercased()
+        }
+        var authorizationRequest = request
+        if let selected {
+            authorizationRequest.requiresNativePIN = true
+            authorizationRequest.certificateSHA1 = selected.sha1Hex
+            authorizationRequest.certificateHolder = selected.holder
+        }
         var hostPIN: String?
         var hostCert: String?
         if let authorize {
-            switch authorize(request) {
+            switch authorize(authorizationRequest) {
             case .deny: throw Denied()
             case .allow(let pin, let cert): hostPIN = pin; hostCert = cert
             }
+        }
+        if let selected {
+            guard let hostPIN, !hostPIN.isEmpty,
+                  hostCert == nil || hostCert == selected.sha1Hex else { throw Denied() }
+            return Authorization(pin: hostPIN, certificateSHA1: selected.sha1Hex, contactless: true)
         }
         if let pin = requestPIN, !pin.isEmpty { return Authorization(pin: pin, certificateSHA1: nil) }
         if let pin = hostPIN, !pin.isEmpty { return Authorization(pin: pin, certificateSHA1: hostCert) }
@@ -663,7 +695,7 @@ public final class MoldSignServer {
                     defer { try? FileManager.default.removeItem(at: inURL); try? FileManager.default.removeItem(at: outURL) }
                     let out = try self.signPDFFile(inURL, outURL, certJSON: BridgeWireFormat.certModel(fromJSON: m), auth: auth,
                                                    reader: try self.reader(for: auth, request), appearance: placement)
-                    auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1)
+                    auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1, contactless: auth.contactless)
                     s.payload = #"{"base64File":""# + out.data.base64EncodedString() + "\"}"
                 } else {
                     let format: XAdESSigner.Format
@@ -677,14 +709,14 @@ public final class MoldSignServer {
                                                      digest: XAdESSigner.DigestAlgorithm(requested: algorithm),
                                                      certJSON: BridgeWireFormat.certModel(fromJSON: m), auth: auth,
                                                      reader: try self.reader(for: auth, request))
-                    auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1)
+                    auth = Authorization(pin: auth.pin, certificateSHA1: out.certificateSHA1, contactless: auth.contactless)
                     s.payload = #"{"base64File":""# + out.data.base64EncodedString() + "\"}"
                 }
                 self.rememberPIN(auth, session: id, origin: caller)
                 self.onSignResult?(request, nil)
             } catch {
                 MSLog.info("[ERR] \(error)")
-                s.error = Self.message(for: error)
+                s.error = self.errorMessage?(error) ?? Self.message(for: error)
                 s.payload = #"{"error":""# + BridgeWireFormat.jsonEsc(s.error!) + "\"}"
                 self.onSignResult?(request, error)
             }
@@ -722,13 +754,13 @@ public final class MoldSignServer {
                 let placement = try self.stampPlacement(request, bytes, batch: usePinSession ?? id)
                 let output = try self.signPDFFile(URL(fileURLWithPath: origPath), URL(fileURLWithPath: outPath),
                                          certJSON: BridgeWireFormat.certModel(fromJSON: m), auth: auth, reader: try self.reader(for: auth, request), appearance: placement)
-                auth = Authorization(pin: auth.pin, certificateSHA1: output.certificateSHA1)
+                auth = Authorization(pin: auth.pin, certificateSHA1: output.certificateSHA1, contactless: auth.contactless)
                 self.rememberPIN(auth, session: id, origin: caller)
                 s.payload = #"{"path":""# + BridgeWireFormat.jsonEsc(outPath) + "\"}"
                 self.onSignResult?(request, nil)
             } catch {
                 MSLog.info("[ERR] \(error)")
-                s.error = Self.message(for: error)
+                s.error = self.errorMessage?(error) ?? Self.message(for: error)
                 s.payload = #"{"error":""# + BridgeWireFormat.jsonEsc(s.error!) + "\"}"
                 self.onSignResult?(request, error)
             }
@@ -774,7 +806,7 @@ public final class MoldSignServer {
                 var auth = try usePinSession.flatMap { self.reusablePIN(session: $0, origin: caller) }
                     ?? self.authorizedPIN(request, requestPIN: pinField)
                 let outPath = dest.isEmpty ? ((files.first.map { $0 + ".xades" }) ?? dest) : dest
-                let signed = try SigningService.shared.withCard(reader: try self.reader(for: auth, request)) { card -> SignedOutput in
+                let signed = try self.withBridgeCard(reader: try self.reader(for: auth, request), expectedDER: certB64.flatMap { Data(base64Encoded: $0) }) { card -> SignedOutput in
                     let cardCert = try card.prepareForSigning(pin: auth.pin,
                                                               expectedCertificateSHA1: auth.certificateSHA1 ?? request.certificateSHA1)
                     let cert: Data
@@ -782,13 +814,13 @@ public final class MoldSignServer {
                     let signer = XAdESSigner()
                     let output = try signer.sign(files: files.map { URL(fileURLWithPath: $0) }, format: format,
                                            type: sigType, digest: digest, certDER: cert, chainDER: [ChainCerts.mdQSign],
-                                           signBlock: { bytes in try card.sign(digestInfo: digest.digestInfo(of: bytes)) },
+                                           signBlock: { bytes in try self.bridgeSignature(card, digestInfo: digest.digestInfo(of: bytes), contactless: false) },
                                            tsaBlock: { data in try PAdESSigner.fetchTimestampToken(data: data) },
                                            ocspDerBlock: { issuer, c in try XAdESSigner.fetchOCSPResponse(issuerDER: issuer, certDER: c) })
                     return SignedOutput(data: output, certificateSHA1: cardCert.sha1().hexString.lowercased())
                 }
                 try signed.data.write(to: URL(fileURLWithPath: outPath))
-                auth = Authorization(pin: auth.pin, certificateSHA1: signed.certificateSHA1)
+                auth = Authorization(pin: auth.pin, certificateSHA1: signed.certificateSHA1, contactless: auth.contactless)
                 self.rememberPIN(auth, session: id, origin: caller)
                 if wantsJSON {
                     s.payload = "{\"fileLocation\":\"\(BridgeWireFormat.jsonEsc(outPath))\",\"signatures\":[]}"
@@ -798,7 +830,7 @@ public final class MoldSignServer {
                 self.onSignResult?(request, nil)
             } catch {
                 MSLog.info("[ERR] \(error)")
-                s.error = Self.message(for: error)
+                s.error = self.errorMessage?(error) ?? Self.message(for: error)
                 s.payload = wantsJSON ? "{\"error\":\"\(BridgeWireFormat.jsonEsc(s.error!))\"}" : "<error>\(BridgeWireFormat.xmlEsc(s.error!))</error>"
                 self.onSignResult?(request, error)
             }
@@ -863,9 +895,48 @@ public final class MoldSignServer {
            credentialCard.caseInsensitiveCompare(requestedCard) != .orderedSame {
             throw CardError.cardChanged
         }
-        guard let target = auth.certificateSHA1 ?? request.certificateSHA1 else { return nil }
+        guard let target = auth.certificateSHA1 ?? request.certificateSHA1 else {
+            guard readerCertificatesEnabled() else { throw CardError.noCard }
+            return nil
+        }
+        if auth.contactless {
+            guard openContactlessCard != nil,
+                  contactlessCertificates?().contains(where: { $0.sha1Hex == target.lowercased() }) == true else { throw CardError.noCard }
+            return "nfc:" + target.lowercased()
+        }
+        guard readerCertificatesEnabled() else { throw CardError.noCard }
         guard let reader = SigningService.shared.reader(forCertificateSHA1: target) else { throw CardError.noCard }
         return reader
+    }
+
+    /// Bind public DER before authentication or VERIFY; never fall back to a reader.
+    private func withBridgeCard<T>(reader: String?, expectedDER: Data?, _ body: (CosmoXCard) throws -> T) throws -> T {
+        guard let reader, reader.hasPrefix("nfc:") else {
+            return try SigningService.shared.withCard(reader: reader, body)
+        }
+        let fingerprint = String(reader.dropFirst(4))
+        guard let selected = contactlessCertificates?().first(where: { $0.sha1Hex == fingerprint }),
+              let openContactlessCard else { throw CardError.noCard }
+        if let expectedDER, expectedDER != selected.der { throw CardError.cardChanged }
+        let transport = try openContactlessCard(selected.der)
+        defer { transport.disconnect() }
+        do {
+            guard try ContactlessCertificateReader.read(using: transport) == selected.der else { throw CardError.cardChanged }
+            // Authenticate here so failure reaches the native sheet before transport cleanup.
+            let card = CosmoXCard(transport: transport)
+            try card.authenticate()
+            return try body(card)
+        } catch {
+            (transport as? ContactlessBridgeTransport)?.finish(error: error)
+            throw error
+        }
+    }
+
+    private func bridgeSignature(_ card: CosmoXCard, digestInfo: Data, contactless: Bool) throws -> Data {
+        let signature = try card.sign(digestInfo: digestInfo)
+        // Release RF before timestamps/network work, keeping the bridge poll alive.
+        if contactless { card.disconnect() }
+        return signature
     }
 
     struct SignedOutput {
@@ -881,10 +952,10 @@ public final class MoldSignServer {
         try appearance?.validate(document: pdf)
         if let appearance, !StampPDF.canApply(appearance, to: pdf) { throw StampPDF.fail() }
         let expected = auth.certificateSHA1 ?? certJSON.map { $0.sha1().hexString.lowercased() }
-        let out = try SigningService.shared.withCard(reader: reader) { card -> SignedOutput in
+        let out = try withBridgeCard(reader: reader, expectedDER: certJSON) { card -> SignedOutput in
             let cardCert = try card.prepareForSigning(pin: auth.pin, expectedCertificateSHA1: expected)
             let signed = try PAdESSigner().signPDF(pdf, certDER: certJSON ?? cardCert, appearance: appearance) { di in
-                try card.sign(digestInfo: di)
+                try self.bridgeSignature(card, digestInfo: di, contactless: reader?.hasPrefix("nfc:") == true)
             }
             return SignedOutput(data: signed, certificateSHA1: cardCert.sha1().hexString.lowercased())
         }
@@ -899,12 +970,12 @@ public final class MoldSignServer {
         try raw.write(to: tmp)
         defer { try? FileManager.default.removeItem(at: tmp) }
         let expected = auth.certificateSHA1 ?? certJSON.map { $0.sha1().hexString.lowercased() }
-        return try SigningService.shared.withCard(reader: reader) { card -> SignedOutput in
+        return try withBridgeCard(reader: reader, expectedDER: certJSON) { card -> SignedOutput in
             let cardCert = try card.prepareForSigning(pin: auth.pin, expectedCertificateSHA1: expected)
             // the portal asks for signatureType "Embedded" (enveloping): a detached signature carries no content
             let xml = try XAdESSigner().sign(files: [tmp], format: format, type: embedded ? .enveloping : .detached,
                                              digest: digest, certDER: certJSON ?? cardCert, chainDER: [ChainCerts.mdQSign],
-                                             signBlock: { bytes in try card.sign(digestInfo: digest.digestInfo(of: bytes)) },
+                                             signBlock: { bytes in try self.bridgeSignature(card, digestInfo: digest.digestInfo(of: bytes), contactless: reader?.hasPrefix("nfc:") == true) },
                                              tsaBlock: { data in try PAdESSigner.fetchTimestampToken(data: data) },
                                              ocspDerBlock: { issuer, c in try XAdESSigner.fetchOCSPResponse(issuerDER: issuer, certDER: c) })
             return SignedOutput(data: xml, certificateSHA1: cardCert.sha1().hexString.lowercased())

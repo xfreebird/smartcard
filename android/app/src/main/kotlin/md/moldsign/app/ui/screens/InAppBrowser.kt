@@ -56,8 +56,14 @@ private fun needsDesktopLogin(url: String): Boolean =
 private fun browserUrl(input: String): String? = BookmarkUrl.normalize(input)
 
 @Composable
-fun InAppBrowser(onClose: () -> Unit) {
+fun InAppBrowser(vm: md.moldsign.app.presentation.MainViewModel, onClose: () -> Unit) {
     val context = LocalContext.current
+    val nfcCard by vm.browserNfc.certificate.collectAsState()
+    val nfcEnabled by vm.browserNfc.enabled.collectAsState()
+    DisposableEffect(vm) {
+        vm.browserNfc.seed(vm.nfcIdentity.value)
+        onDispose { vm.cancelNfc() }
+    }
     val locales = LocalConfiguration.current.locales
     // Match app resource selection, including Romanian as the unqualified fallback.
     val language = (0 until locales.size()).asSequence().mapNotNull { locales[it]?.language }
@@ -326,8 +332,12 @@ fun InAppBrowser(onClose: () -> Unit) {
             },
         )
     }
+    LaunchedEffect(nfcCard?.sha1Hex, nfcEnabled) {
+        webView.url?.let { webView.loadUrl(it, languageHeaders) }
+    }
     Column(Modifier.fillMaxSize().padding(horizontal = 12.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            BrowserAuthenticationControls(vm, compact = true)
             IconButton(onClick = { webView.goBack() }, enabled = canBack) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, stringResource(R.string.browser_back)) }
             IconButton(onClick = { webView.goForward() }, enabled = canForward) { Icon(Icons.AutoMirrored.Outlined.ArrowForward, stringResource(R.string.browser_forward)) }
             IconButton(onClick = { webView.reload() }) { Icon(Icons.Outlined.Refresh, stringResource(R.string.browser_reload)) }

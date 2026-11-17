@@ -56,6 +56,11 @@ final class AppModel {
     }
 
     #if os(iOS)
+    let browserNFC = NFCBrowserCoordinator()
+    func rememberBrowserCard() {
+        guard !demoMode, let card = browserNFC.certificate else { return }
+        rememberCard(card)
+    }
     enum SigningMethod: String, CaseIterable { case nfc, reader }
     private(set) var signingMethod: SigningMethod = .reader
     private(set) var nfcCertificate: SigningService.CertificateSummary?
@@ -101,7 +106,10 @@ final class AppModel {
     }
     #endif
     var canChangeSigningMethod: Bool {
-        !signing && !obtainingPIN && consentRequest == nil && bridgeStampRequest == nil && currentStep == nil
+        #if os(iOS)
+        if browserNFC.busy { return false }
+        #endif
+        return !signing && !obtainingPIN && consentRequest == nil && bridgeStampRequest == nil && currentStep == nil
     }
     var signingCertificate: SigningService.CertificateSummary? {
         #if os(iOS)
@@ -940,6 +948,31 @@ final class AppModel {
                                     allowsLegacyDesktopClient: legacyDesktop,
                                     previewCertificates: simulatorBridgeCertificates)
         #endif
+        #if os(iOS)
+        server.errorMessage = { error in
+            (try? NFCBrowserResult<String>.wait {
+                let message = Self.describe(error)
+                return [message.message, message.recovery].filter { !$0.isEmpty }.joined(separator: " ")
+            }) ?? L10n.text(.operation_failed_safe)
+        }
+        server.readerCertificatesEnabled = { [weak self] in
+            (try? NFCBrowserResult<Bool>.wait { self.map { !$0.browserNFC.enabled || !$0.nfcAvailable } ?? false }) ?? false
+        }
+        server.contactlessCertificates = { [weak self] in
+            (try? NFCBrowserResult<[SigningService.CertificateSummary]>.wait {
+                guard let self, !self.demoMode, self.nfcAvailable, self.browserNFC.enabled,
+                      self.browserNFC.visible, let certificate = self.browserNFC.certificate else { return [] }
+                return [certificate]
+            }) ?? []
+        }
+        server.openContactlessCard = { [weak self, weak server] expected in
+            try NFCBrowserResult<CardTransport>.wait {
+                guard let self, let server, self.server === server, !self.demoMode,
+                      self.browserNFC.visible, !self.signing else { throw CancellationError() }
+                return try await self.browserNFC.open(expected: expected)
+            }
+        }
+        #endif
         // UserDefaults reads are thread-safe; the setting must also apply to cached batches.
         server.previewPDFEnabled = { AppPreferencesStore.defaults.bool(forKey: "browserStampsEnabled") }
         server.previewPDF = { [weak self, weak server] request, data in
@@ -1013,6 +1046,9 @@ final class AppModel {
     }
 
     func stopBridge() {
+        #if os(iOS)
+        browserNFC.cancel()
+        #endif
         bridgeRequests.cancelAll()
         pendingStampDecision = nil
         answerBridgeStamp(.cancel)
@@ -1049,7 +1085,12 @@ final class AppModel {
 
     private func authorize(_ request: BridgeRequest) async -> BridgeDecision {
         guard !demoMode, !signing, !obtainingPIN, consentRequest == nil else { return .deny }
-        let target = request.certificateSHA1.flatMap { sha in cards.first { $0.certificate?.sha1Hex == sha }?.certificate }
+        #if os(iOS)
+        let nfcTarget = browserNFC.enabled && browserNFC.visible ? browserNFC.certificate : nil
+        #else
+        let nfcTarget: SigningService.CertificateSummary? = nil
+        #endif
+        let target = ((request.certificateSHA1 == nil || request.certificateSHA1 == nfcTarget?.sha1Hex) ? nfcTarget : nil) ?? request.certificateSHA1.flatMap { sha in cards.first { $0.certificate?.sha1Hex == sha }?.certificate }
             ?? (request.certificateSHA1 == nil ? certificate : nil)
         return await authorization.authorize(request, target: target, vault: vault,
             present: { [weak self] in self?.presentAuthUI?() },
@@ -1124,8 +1165,20 @@ final class AppModel {
             return PresentedError(messageText: .verbatim("This document could not be signed. It may be damaged or use an unsupported format."), recoveryText: .verbatim(""))
         case is TrustServices.NetworkError:
             return PresentedError(messageText: .localized(.ui_pki_services_are_not_responding), recoveryText: .localized(.ui_check_the_connection_and_try_again))
+        #if os(iOS)
+        case NFCSigningError.unavailable:
+            return PresentedError(messageText: .localized(.nfc_unavailable), recoveryText: .localized(.ui_))
+        case NFCSigningError.connectionLost:
+            return PresentedError(messageText: .localized(.nfc_connection_lost), recoveryText: .localized(.ui_))
+        case NFCSigningError.multipleCards:
+            return PresentedError(messageText: .localized(.nfc_one_card), recoveryText: .localized(.ui_))
+        case NFCSigningError.busy:
+            return PresentedError(messageText: .localized(.nfc_busy), recoveryText: .localized(.ui_))
+        case is CancellationError:
+            return PresentedError(messageText: .localized(.nfc_cancelled), recoveryText: .localized(.ui_))
+        #endif
         default:
-            return PresentedError(messageText: .verbatim(error.localizedDescription), recoveryText: .localized(.ui_try_again))
+            return PresentedError(messageText: .localized(.operation_failed_safe), recoveryText: .localized(.ui_))
         }
     }
 }

@@ -130,6 +130,18 @@ class MainViewModel @JvmOverloads constructor(
     val savedPinIds = _savedPinIds.asStateFlow()
     private val _pendingPinSave = MutableStateFlow<md.moldsign.app.application.PinToSave?>(null)
     val pendingPinSave = _pendingPinSave.asStateFlow()
+    val browserNfc get() = container.browserNfc
+    fun identifyBrowserCard() {
+        if (container.isDemo || working.value || container.busy.value) return
+        viewModelScope.launch {
+            container.whileBusy {
+                try {
+                    kotlinx.coroutines.withContext(Dispatchers.IO) { container.browserNfc.identify() }
+                    container.browserNfc.certificate.value?.let { learned(it) }
+                } catch (error: Exception) { _message.value = UiMessage.Error(error) }
+            }
+        }
+    }
     val nfcPhase = container.nfc.phase
     val nfcAvailable get() = container.isDemo || container.nfc.available
     val progress = combine(signingMethod, container.signingService.progress, container.nfc.progress) { method, usb, nfc ->
@@ -282,6 +294,7 @@ class MainViewModel @JvmOverloads constructor(
             _learnedCards.value = container.savedCardIdentities.read().filter { container.pinVault.has(it.sha1Hex) }
             if (_signingMethod.value == SigningMethod.NFC && !choseAnotherCard && _nfcIdentity.value == null)
                 _nfcIdentity.value = _learnedCards.value.singleOrNull()
+            container.browserNfc.seed(_learnedCards.value.singleOrNull())
             knownCards.collect { refreshSavedPins() }
         }
     }
