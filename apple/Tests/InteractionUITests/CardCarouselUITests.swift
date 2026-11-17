@@ -33,10 +33,9 @@ final class CardCarouselUITests: XCTestCase {
         let center = first.frame.midX
         attach("01-before-card-1")
         for index in 1...2 {
-            let previous = card(index - 1)
-            let from = previous.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5))
-            let to = previous.coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.5))
-            from.press(forDuration: 0.05, thenDragTo: to)
+            // Use the paging container as the gesture target across card changes.
+            // Keep exactly one native gesture per page.
+            app.collectionViews["signing.reader.cards"].swipeLeft(velocity: .fast)
             let selected = card(index)
             XCTAssertTrue(selected.waitForPresence(timeout: 5))
             XCTAssertTrue(selected.isHittable)
@@ -87,7 +86,7 @@ final class CardCarouselUITests: XCTestCase {
     }
 
     private func proof(index: Int, holder: String, frame: CGRect, initialCenter: CGFloat) {
-        let data: [String: Any] = ["interaction": "native-finger-press-drag", "selectedIndex": index,
+        let data: [String: Any] = ["interaction": "native-finger-swipe", "selectedIndex": index,
             "holder": holder, "centerX": Double(frame.midX), "initialCenterX": Double(initialCenter),
             "width": Double(frame.width), "height": Double(frame.height),
             "pinEntered": false, "hardwareAccess": false]

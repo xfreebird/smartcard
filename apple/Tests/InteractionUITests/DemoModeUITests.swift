@@ -15,7 +15,7 @@ final class DemoModeUITests: XCTestCase {
         XCTAssertEqual(toggle.value as? String, "0")
         XCTAssertTrue(toggle.isEnabled)
         print("DEMO_SWITCH_FRAME \(toggle.frame)")
-        toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
+        tapSwitch(toggle)
         let accept = app.buttons["Use demo mode"]
         XCTAssertTrue(accept.waitForPresence(timeout: 5), "A disclaimer must precede activation")
         attach(app, "01-enable-disclaimer")
@@ -45,7 +45,7 @@ final class DemoModeUITests: XCTestCase {
         navigate("Settings", in: app)
         let persisted = demoToggle(in: app)
         XCTAssertEqual(persisted.value as? String, "1")
-        persisted.coordinate(withNormalizedOffset: CGVector(dx: 0.94, dy: 0.5)).tap()
+        tapSwitch(persisted)
         waitForValue("0", on: persisted)
         navigate("Sign", in: app)
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
@@ -56,6 +56,13 @@ final class DemoModeUITests: XCTestCase {
     private func waitForValue(_ value: String, on element: XCUIElement) {
         let expected = NSPredicate(format: "value == %@", value)
         XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: expected, object: element)], timeout: 10), .completed)
+    }
+
+    private func tapSwitch(_ element: XCUIElement) {
+        // SwiftUI exposes the entire row as the switch. A percentage of the row
+        // can land on the thumb's outer edge in the Duo's narrow pane; use its center.
+        element.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 0.5))
+            .withOffset(CGVector(dx: -50, dy: 0)).tap()
     }
 
     private func navigate(_ title: String, in app: XCUIApplication) {
