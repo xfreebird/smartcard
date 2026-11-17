@@ -337,8 +337,9 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0",
-    "sourceSha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0",
-    "sha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0"
+    "sourceSha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8",
+    "sha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8",
+    "scene": "empty Sign screen"
   },
   {
     "target": "website/static/img/landing/iphone/nfc-light.png",
@@ -353,9 +354,10 @@
       2622
     ],
     "statusBarTime": "09:41",
-    "originalSha256": "c6e9e468c0271256001fcbfb84b8f0ee6d7f910e86f0169fdcb43daf43223022",
-    "sourceSha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8",
-    "sha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8"
+    "originalSha256": "e922b776ed1d5b7f09842627b270c132ba9db665c4e8b1da94629b63199d10a8",
+    "sourceSha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0",
+    "sha256": "1d4c802ee73dc0113657486ffc5b64be61b9d006fcecc371b544472b5fd112d0",
+    "scene": "document queued with NFC selected"
   },
   {
     "target": "website/static/img/landing/iphone/reader-light.png",
@@ -422,8 +424,9 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af",
-    "sourceSha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af",
-    "sha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af"
+    "sourceSha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32",
+    "sha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32",
+    "scene": "empty Sign screen"
   },
   {
     "target": "website/static/img/landing/iphone/nfc-dark.png",
@@ -439,8 +442,9 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32",
-    "sourceSha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32",
-    "sha256": "c5c8ed385895c83eb3b60c8556adf3bc620e6438fd899b492ec9e4dbcfce2c32"
+    "sourceSha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af",
+    "sha256": "e170f7e53dd9ae8a83ed9262c4212d449ab2b62d6c7b2146c3ebffcfdfd311af",
+    "scene": "document queued with NFC selected"
   },
   {
     "target": "website/static/img/landing/iphone/reader-dark.png",
@@ -495,7 +499,7 @@
   },
   {
     "target": "website/static/img/landing/android/disconnected-light.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "light",
     "state": "disconnected",
@@ -507,12 +511,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "2b66e4197363a5f5e72c4af81d862329789bd2caa2696f235e2905bbfbb7be20",
-    "sourceSha256": "be92b1a7167062b86190320a17c4e5621c7187f280fa85b43f803bca4086fb23",
-    "sha256": "2b66e4197363a5f5e72c4af81d862329789bd2caa2696f235e2905bbfbb7be20"
+    "sourceSha256": "28b41f861f4fce70d1044e1a431a27d537b314400aabea84de679c1fadc5fb02",
+    "sha256": "28b41f861f4fce70d1044e1a431a27d537b314400aabea84de679c1fadc5fb02",
+    "scene": "empty Sign screen",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/nfc-light.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "light",
     "state": "nfc",
@@ -524,12 +530,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "4f47aea6dadd895b105faec25ee457843723899bfa07288633aee1fe9907b1ce",
-    "sourceSha256": "61a826e00cae14f613d940e1e28da6615b94b834c3c681c75473668f296635e1",
-    "sha256": "4f47aea6dadd895b105faec25ee457843723899bfa07288633aee1fe9907b1ce"
+    "sourceSha256": "0904dff418a80f686fbb81a65e52f40b390d2d900927314bcead6e948630c520",
+    "sha256": "0904dff418a80f686fbb81a65e52f40b390d2d900927314bcead6e948630c520",
+    "scene": "document queued with NFC selected",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/reader-light.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "light",
     "state": "reader",
@@ -541,12 +549,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "280af2bdc7bdccbde403fb3edefb4ee24e50643db7087353cd250b7523ca6806",
-    "sourceSha256": "72b38dc6910772aa68fb893276619c899cad5c388b2c26df26f65aee0ef7094e",
-    "sha256": "280af2bdc7bdccbde403fb3edefb4ee24e50643db7087353cd250b7523ca6806"
+    "sourceSha256": "37d0fbe51aba86a753b22d2641ee84f899aadfdfd1ff5834fab70d1f41e552fe",
+    "sha256": "37d0fbe51aba86a753b22d2641ee84f899aadfdfd1ff5834fab70d1f41e552fe",
+    "scene": "reader connected without a card",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/card-light.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "light",
     "state": "card",
@@ -558,12 +568,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "56afe5199b7a99bf4a68df57e8760a859dd1444070dfa3fbd65911dc07caa9df",
-    "sourceSha256": "721df3879523219b87eb462e46cd4cf12bb2a963415a9f5f13831b4d64fb6d2b",
-    "sha256": "56afe5199b7a99bf4a68df57e8760a859dd1444070dfa3fbd65911dc07caa9df"
+    "sourceSha256": "a59d9eef826777ee25f8d2b040e9a70f1bc10baa08f8473ca0f6eefab73bc618",
+    "sha256": "a59d9eef826777ee25f8d2b040e9a70f1bc10baa08f8473ca0f6eefab73bc618",
+    "scene": "card inserted and identity visible",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/ready-light.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "light",
     "state": "ready",
@@ -575,12 +587,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "c224280cf0efc933568a0f52c63202c8f18ba7612ebc9f2d8eb0551be8b51a64",
-    "sourceSha256": "604343681468f581af40bcf61c42b683badf135270c2b4875e57a3d439dab874",
-    "sha256": "c224280cf0efc933568a0f52c63202c8f18ba7612ebc9f2d8eb0551be8b51a64"
+    "sourceSha256": "27ea465813ca2f48820bc1fe9210220d8c1489cd9371ad23e1d0f7c6974ff49b",
+    "sha256": "27ea465813ca2f48820bc1fe9210220d8c1489cd9371ad23e1d0f7c6974ff49b",
+    "scene": "document ready with reader selected",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/disconnected-dark.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "dark",
     "state": "disconnected",
@@ -592,12 +606,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "cf9b44ccce0246509dc6a4d60566a862b776c97a587960d905e6a02db4fcfc7a",
-    "sourceSha256": "2ce0d25d229be41a081d209eebdc28ad6a8a58047849b63aa166c5841a903137",
-    "sha256": "cf9b44ccce0246509dc6a4d60566a862b776c97a587960d905e6a02db4fcfc7a"
+    "sourceSha256": "0d5dde985516e9bc41c8a09c0db4cf2ef050b7a6317f4506fb5cd4c0450ec80c",
+    "sha256": "0d5dde985516e9bc41c8a09c0db4cf2ef050b7a6317f4506fb5cd4c0450ec80c",
+    "scene": "empty Sign screen",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/nfc-dark.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "dark",
     "state": "nfc",
@@ -609,12 +625,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "2f151c9e59b2286bec475017db887811148302b0e0a6e1fe6e9812bce6afc88b",
-    "sourceSha256": "ee4b6edc4b46dfa4fdcb2d12287170ce0db3a96c3262fa2e2f0577a2051dfcb0",
-    "sha256": "2f151c9e59b2286bec475017db887811148302b0e0a6e1fe6e9812bce6afc88b"
+    "sourceSha256": "0998f7adf1bed55c687edb82980c9391a9ce1dccd66b3e7852a25d87c171b38b",
+    "sha256": "0998f7adf1bed55c687edb82980c9391a9ce1dccd66b3e7852a25d87c171b38b",
+    "scene": "document queued with NFC selected",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/reader-dark.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "dark",
     "state": "reader",
@@ -626,12 +644,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "1e5e63bafb23d977e78a0e99671c174a9d60ca4b205cc23b7ff60b963bc9f556",
-    "sourceSha256": "9b122078e056e89f5adb748a2721b5e72f4bf3a4e082dc8fdb478768b9b86f12",
-    "sha256": "1e5e63bafb23d977e78a0e99671c174a9d60ca4b205cc23b7ff60b963bc9f556"
+    "sourceSha256": "33f09cc0fa60fdacdbf1cc296fbec478a0d7177c4d5eceb1c94ac89b5212dfd4",
+    "sha256": "33f09cc0fa60fdacdbf1cc296fbec478a0d7177c4d5eceb1c94ac89b5212dfd4",
+    "scene": "reader connected without a card",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/card-dark.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "dark",
     "state": "card",
@@ -643,12 +663,14 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "558be9f03d80235580f70a32a3e41c94569a2cd25f8eccca62137866989352eb",
-    "sourceSha256": "9fe3a2d8ffd5becaf97405b66913091ddf8048e1505debb8a4526209850c8110",
-    "sha256": "558be9f03d80235580f70a32a3e41c94569a2cd25f8eccca62137866989352eb"
+    "sourceSha256": "9931dfd1fc0121abcc40c40544ea6b1d65c3b19fad515cf720cb8bba5cc8dede",
+    "sha256": "9931dfd1fc0121abcc40c40544ea6b1d65c3b19fad515cf720cb8bba5cc8dede",
+    "scene": "card inserted and identity visible",
+    "statusBarSource": "Android System UI demo"
   },
   {
     "target": "website/static/img/landing/android/ready-dark.png",
-    "captureDate": "2026-11-16",
+    "captureDate": "2026-11-17",
     "platform": "android",
     "appearance": "dark",
     "state": "ready",
@@ -660,7 +682,9 @@
     ],
     "statusBarTime": "09:41",
     "originalSha256": "40dee90021177d7d2fc4673d90c5495990a4b62e1d8ab3a69cf8873d8f73f8ec",
-    "sourceSha256": "e9635b22a8cdffb5cebc0f359c1a969b750c56e0a24ef04267d4012f3b9fb562",
-    "sha256": "40dee90021177d7d2fc4673d90c5495990a4b62e1d8ab3a69cf8873d8f73f8ec"
+    "sourceSha256": "fadc7d627a738d1c54ba21a3ae482a802c84e9f77a5d8fdae07f433ac28c6390",
+    "sha256": "fadc7d627a738d1c54ba21a3ae482a802c84e9f77a5d8fdae07f433ac28c6390",
+    "scene": "document ready with reader selected",
+    "statusBarSource": "Android System UI demo"
   }
 ]

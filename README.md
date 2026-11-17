@@ -8,20 +8,18 @@
 
 Sign and verify documents with a Moldovan electronic identity card. eSemnBun supports macOS, iOS, Android, Windows and Linux, with a command-line interface for desktop systems.
 
-![eSemnBun on macOS](docs/media/macos-desktop.png)
-
-The native macOS app, ready to sign a document with the selected identity card.
+![Native eSemnBun signing screens on macOS, Windows, Linux, iOS and Android](docs/media/platforms.png)
 
 ## What you can do
 
-- Sign PDFs and other documents, including batches, with a compatible card and USB reader.
+- Sign PDFs and other documents with a compatible identity card. Use NFC on supported iPhones and Android phones or connect a USB card reader.
 - Verify signatures and choose between connected cards.
 - Use supported government services through the browser integration.
 - Work in Romanian, English or Russian, with light and dark themes.
 
 ## Get started
 
-Download an installer from [GitHub Releases](https://github.com/xfreebird/smartcard/releases). Connect a compatible identity card and reader, open eSemnBun, and choose the documents to sign. A PIN is required to authorize signing.
+Install eSemnBun from the [Downloads page](https://esemnbun.md/downloads/). Choose the documents to sign, select NFC or a card reader where supported, and authorize signing with your card’s PIN.
 
 For the CLI, use [Homebrew, Scoop, Chocolatey, APT, DNF or the Arch recipe](https://esemnbun.md/downloads/). On macOS: `brew install xfreebird/utils/esemnbun-cli`. Packaging and signing details are in [CLI distribution](distribution/packages/README.md).
 

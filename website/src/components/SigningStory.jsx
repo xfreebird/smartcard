@@ -12,6 +12,7 @@ import {sceneAt,mobileSceneAt,desktopStoryStages,mobileStoryStages,cardGeometry,
 const desktopStages=['document','device','reader','signature'];
 const mobileStages=['document','nfc','reader','card','signature'];
 const mobileScreens=['disconnected','nfc','reader','card','ready'];
+const deviceFor=platform=>platform==='android'?androidPhone:platform==='iphone'?iphone:desktopDisplay;
 
 export default function SigningStory(){
  const t=useText();const root=useRef(null);const clip=useId();
@@ -36,13 +37,13 @@ export default function SigningStory(){
   const ua=navigator.userAgent;
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
   const selectedPlatform=()=>storyPlatform(debug?preview:'auto',ua,window.innerWidth);
-  const selectedScreen=()=>selectedPlatform()==='android'?androidPhone.screen:selectedPlatform()==='iphone'?iphone.screen:desktopDisplay.screen;
   let raf=0, previousTime=0, displayed=0, target=0;
   const readViewport=()=>({width:window.innerWidth,height:root.current?.firstElementChild?.getBoundingClientRect().height || window.innerHeight});
   let measuredViewport=readViewport();
   const measure=()=>{
    const r=root.current?.getBoundingClientRect();if(!r)return;
-   target=storyScrollProgress(r,measuredViewport,selectedScreen());
+   const {screen,openingScreenFraction}=deviceFor(selectedPlatform());
+   target=storyScrollProgress(r,measuredViewport,screen,openingScreenFraction);
    document.documentElement.classList.toggle('story-active',!motion.matches && r.top<=1 && r.bottom>=measuredViewport.height-1);
   };
   const animate=time=>{
@@ -69,8 +70,7 @@ export default function SigningStory(){
  const stages=mobile?mobileStages:desktopStages;
  const state=mobile?mobileSceneAt(p):sceneAt(p);
  const step=boundaries.slice(0,-1).filter(start=>p>=start).length-1;
- const geometry=mobile?(platform==='android'?androidPhone:iphone):desktopDisplay;
- const {frame,screen,port}=geometry;
+ const {frame,screen,port,openingScreenFraction=1.4,screenWidthFraction}=deviceFor(platform);
  const reader=mobile?mobileReaderGeometry(state):{x:600,y:520,width:330,height:220};
  const cableX=mobile?reader.x+325*reader.width/380:882;
  const cableY=mobile?reader.y+124*reader.width/380:627;
@@ -79,8 +79,8 @@ export default function SigningStory(){
  // The desktop screen reaches 75vw at .24, then shrinks further during
  // connection so the complete rig remains visible.
  const screenFraction=desktopScreenFraction(state,viewport,reader,frame,screen);
- const mobileStart=viewport.width*1.4*650/screen.width;
- const mobileEnd=mobileSceneWidth(viewport,screen,frame);
+ const mobileStart=viewport.width*openingScreenFraction*650/screen.width;
+ const mobileEnd=mobileSceneWidth(viewport,screen,frame,screenWidthFraction);
  const svgWidth=mobile?mobileStart+(mobileEnd-mobileStart)*state.shrink:viewport.width*screenFraction*1100/screen.width;
  const unit=svgWidth/(mobile?650:1100);
  const screenCenter=screen.y+screen.height/2;
@@ -106,7 +106,7 @@ export default function SigningStory(){
      {!mobile&&<><path d="M500 525 H600 L615 580 H485Z" fill="#bac0bd"/><rect x="450" y="576" width="200" height="10" rx="5" fill="#adb5b0"/></>}
     </g>
     <StoryScreen root={landingRoot} platform={platform} appearance={appearance} stage={screenStage} screen={screen} clip={clip}/>
-    {mobile&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
+    {platform==='iphone'&&<rect opacity={state.frame} x={frame.x+frame.width/2-35} y={screen.y+8} width="70" height="17" rx="9" fill="#202523"/>}
     <g opacity={clamp(state.connect*4)}>
      <path className="connection-cable" style={{strokeWidth:mobile?6:10}} pathLength="1" strokeDasharray="1" strokeDashoffset={1-state.connect} d={mobile?`M${port.x} ${port.y} V635 Q${port.x} 646 ${port.x+20} 646 H445 Q467 646 467 624 V${cableY+14} Q467 ${cableY} ${cableX} ${cableY}`:'M980 480 H1010 Q1050 480 1050 520 V597 Q1050 627 1020 627 H882'}/>
      <rect x={port.x-(mobile?11:12)} y={port.y-11} width={mobile?22:25} height={mobile?35:22} rx="4" fill="#303533"/>

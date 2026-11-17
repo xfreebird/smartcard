@@ -104,6 +104,21 @@ test('mobile phone uses the available height with room for compact progress',()=
  }
 });
 
+test('Android uses its fitted opening dimensions for the scroll trigger and card stages',()=>{
+ const screen={width:264,height:586.6667},frame={width:286,height:610};
+ for(const viewport of [{width:320,height:568},{width:390,height:844},{width:430,height:932}]){
+  const openingHeight=viewport.width*.90*screen.height/screen.width;
+  const openingTop=Math.max(0,viewport.height*.95-openingHeight/2);
+  const startTop=viewport.height-openingTop-openingHeight*.1;
+  const bounds={height:viewport.height*2.8,top:startTop};
+  assert.equal(storyScrollProgress(bounds,viewport,screen,.90),0);
+  assert.ok(storyScrollProgress({...bounds,top:startTop-20},viewport,screen,.90)>0);
+  const unit=mobileSceneWidth(viewport,screen,frame,.80)/650;
+  assert.ok(screen.width*unit<=viewport.width*.80+.001);
+  assert.ok(frame.height*unit<=viewport.height-76+.001);
+ }
+});
+
 test('desktop zoom also begins while the enlarged screenshot enters',()=>{
  const screen={width:840,height:472.5};
  for(const viewport of [{width:1024,height:768},{width:1440,height:900},{width:1920,height:1080}]){

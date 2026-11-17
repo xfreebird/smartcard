@@ -44,16 +44,16 @@ export function desktopScreenFraction(state,viewport,reader,frame,screen){
 
 // Begin every layout during entrance, after 10% of the enlarged screen
 // is visible. Waiting for the section to reach the top compresses the zoom-out.
-export function storyScrollProgress(bounds,viewport,screen){
- const openingHeight=viewport.width*1.4*screen.height/screen.width;
+export function storyScrollProgress(bounds,viewport,screen,openingScreenFraction=1.4){
+ const openingHeight=viewport.width*openingScreenFraction*screen.height/screen.width;
  const openingTop=Math.max(0,viewport.height*.95-openingHeight/2);
  const startTop=Math.max(0,viewport.height-openingTop-openingHeight*.1);
  return clamp((startTop-bounds.top)/Math.max(1,bounds.height-viewport.height+startTop));
 }
 
-// Keep the phone prominent; only short viewports constrain the 85vw target.
-export function mobileSceneWidth(viewport,screen,frame={height:600}){
- const screenWidth=Math.min(viewport.width*.85,Math.max(240,viewport.height-76)*screen.width/frame.height);
+// Short viewports also constrain the platform's target screen width.
+export function mobileSceneWidth(viewport,screen,frame={height:600},screenWidthFraction=.85){
+ const screenWidth=Math.min(viewport.width*screenWidthFraction,Math.max(240,viewport.height-76)*screen.width/frame.height);
  return screenWidth*650/screen.width;
 }
 export function mobileReaderGeometry(){

@@ -113,6 +113,7 @@
 .download-button-group:hover{background:#2447bd;box-shadow:0 6px 18px #3159df30}
 .download-button-group .download-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:15px 22px;border:0;border-radius:16px 0 0 16px;background:transparent;color:#fff;font-size:18px;font-weight:650;line-height:1.35;text-decoration:none}
 .download-button-group .download-button.download-button-single{border-radius:16px}
+.download-button .download-action-icon{width:30px;height:30px;flex:none}
 .download-button-group .download-button:hover{background:#ffffff0c;color:#fff;text-decoration:none}
 .download-options-primary{display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;padding:15px 22px;border:1px solid var(--site-border);border-radius:16px;background:var(--site-surface);box-shadow:0 4px 12px var(--site-shadow);color:var(--ifm-font-color-base);font:inherit;font-size:18px;font-weight:650;line-height:1.35;cursor:pointer}.download-options-primary:hover{background:var(--site-hover);color:var(--ifm-color-primary)}
 .stacked-download-actions{flex-direction:column;gap:14px}.stacked-download-actions .source-link{margin-top:6px}
@@ -155,7 +156,6 @@
 .download-platform-heading p{margin:0;color:var(--site-muted);font-size:14px;line-height:1.5}
 .download-store-badge{display:inline-flex;align-items:center;justify-content:flex-end;align-self:stretch;flex:0 0 140px;max-width:40%;min-height:60px;cursor:pointer}
 .download-store-badge img{display:block;width:auto;max-width:100%;height:44px;object-fit:contain}
-.download-store-badge img[src*="google-play"]{height:60px;margin:0}
 .download-installers{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
 .download-installer{min-width:0;display:flex;align-items:center;gap:12px;min-height:66px;padding:12px 14px;border:1px solid var(--site-border);border-radius:10px;color:var(--ifm-font-color-base);transition:background .15s,border-color .15s}
 .download-installer:hover{background:var(--site-hover);text-decoration:none;border-color:var(--ifm-color-primary)}
@@ -164,6 +164,8 @@
 .download-installer small{display:block;font-size:12px;color:var(--site-muted);margin-top:2px}
 .download-installer>svg{width:18px;height:18px}
 .download-installer>svg:last-child{display:none}
+.download-installer-primary{min-height:76px;background:color-mix(in srgb,var(--ifm-color-primary) 6%,var(--site-surface))}
+.download-installer-primary>svg:first-child{box-sizing:border-box;width:44px;height:44px;padding:8px;flex:none;border-radius:11px;background:#3159df;color:#fff}
 .download-card-footer{margin-top:auto;padding-top:22px}
 .download-card-footer p{font-size:12px;line-height:1.6;color:var(--site-muted);margin:0 0 12px}
 .download-setup-link{font-size:14px;font-weight:600}
@@ -186,7 +188,7 @@ body:has(.downloads-page) .navbar{position:sticky;top:0;transform:none!important
 @media(prefers-reduced-motion:reduce){.download-button-group,.download-toggle svg{transition:none}}
 @media(max-width:760px){.download-options,.download-options-above{position:fixed;top:auto;bottom:max(16px,env(safe-area-inset-bottom));left:16px;transform:none;width:calc(100% - 32px);max-width:none;padding:0}.download-menu-surface{max-height:70dvh;box-shadow:0 0 0 100vmax #00000035,0 16px 48px var(--site-shadow)}.download-menu-heading button{min-width:44px;min-height:44px}}
 
-@media(max-width:480px){.download-platform-heading{gap:8px}.download-platform-symbol{width:26px}.download-platform-symbol .platform-icon{width:24px;height:24px}.download-platform-heading h2{font-size:20px}.download-platform-heading p{font-size:12px}.download-store-badge{flex-basis:112px}.download-store-badge img{height:36px}.download-store-badge img[src*="google-play"]{height:48px}}
+@media(max-width:480px){.download-platform-heading{gap:8px}.download-platform-symbol{width:26px}.download-platform-symbol .platform-icon{width:24px;height:24px}.download-platform-heading h2{font-size:20px}.download-platform-heading p{font-size:12px}.download-store-badge{flex-basis:112px}.download-store-badge img{height:36px}}
 
 .download-platform-card-selected{border-color:var(--ifm-color-primary);background:color-mix(in srgb,var(--ifm-color-primary) 5%,var(--site-surface))}
 
@@ -259,8 +261,9 @@ body:has(.devices-guide) .col--6{--ifm-col-width:100%;margin-left:0;max-width:10
 .package-download-options summary,.package-download-options summary small{cursor:pointer}
 .package-download-options :is(p,code,pre){cursor:text}
 .download-platform-card#linux{grid-column:1/-1}
-.download-platform-card#linux .download-installers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media(max-width:640px){.download-platform-card#linux .download-installers{grid-template-columns:1fr}}
+.download-platform-card#linux .download-installers{grid-template-columns:repeat(3,minmax(0,1fr))}
+.download-installers>.download-group-label{grid-column:1/-1}
+@media(max-width:780px){.download-platform-card#linux .download-installers{grid-template-columns:1fr}}
 
 /* Illustrated user journeys: numbered controls match the adjacent action list. */
 .guide-screenshot{margin:1.5rem 0 2.5rem;max-width:100%}
@@ -322,5 +325,15 @@ button.guide-screenshot-image:focus-visible{outline:3px solid var(--ifm-color-pr
 .download-store-badge span{font-weight:600}
 .platform-store > .download-store-badge{display:flex;max-width:100%;justify-content:center;min-height:44px}
 @media(max-width:600px){.download-platform-heading{flex-wrap:wrap}.download-stores{flex-basis:100%;max-width:100%;margin-left:0;justify-content:flex-start}}
+.download-platform-card:is(#ios,#android){align-self:stretch}
+.download-platform-card:is(#ios,#android) .download-platform-heading{display:grid;grid-template-columns:auto minmax(0,1fr)}
+.download-platform-card#ios .download-installer{min-height:76px}
+.download-platform-heading .mobile-store-badges{grid-column:1/-1;max-width:none;margin:6px 0 0}
+.mobile-store-badges{display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:12px;width:100%}
+.platform-store-android{width:min(100%,320px)}
+.mobile-store-badges .download-store-badge{position:relative;display:grid;place-items:center;flex:0 1 148px;min-width:0;max-width:148px;height:46px;overflow:clip}
+.mobile-store-badges .download-store-badge img{position:absolute;top:50%;left:50%;width:100%;height:auto;max-width:none;transform:translate(-50%,-50%)}
+.mobile-store-badges .download-store-badge img[src*="google-play-en"]{width:114.5%}
+.mobile-store-badges .download-store-badge img[src*="/app-store-"]{width:91%}
 
 .download-group-label{font-size:14px;color:var(--site-muted);margin:16px 0 4px}

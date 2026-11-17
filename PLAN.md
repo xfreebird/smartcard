@@ -1,3 +1,5 @@
+2026-11-17 — Corrected the first phone landing frames and Android clock and framing. Aligned mobile store badges and Linux package groups, emphasized direct installers, temporarily hid the Mac store badge and refreshed the repository image with all five platforms.
+
 2026-11-17 — Added separate iOS and Android NFC sequence diagrams and documented platform discovery, certificate reads, protected signing and session cleanup in the public Developer Handbook.
 
 2026-11-17 — Updated the public developer handbook and the repository NFC guides for mobile transports, Settings, test evidence, store review and public downloads.

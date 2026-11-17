@@ -126,17 +126,7 @@
         "ro": "macOS 15+ · Apple silicon & Intel",
         "ru": "macOS 15+ · Apple silicon & Intel"
       },
-      "guide": "/docs/platforms/macos",
-      "store": {
-        "name": "Mac App Store",
-        "url": "https://apps.apple.com/app/id6829451042",
-        "badges": {
-          "en": "/img/badges/mac-app-store-en.svg",
-          "ro": "/img/badges/mac-app-store-ro.svg",
-          "ru": "/img/badges/mac-app-store-ru.svg"
-        }
-      },
-      "noteKey": "macAppStoreLimitations"
+      "guide": "/docs/platforms/macos"
     },
     {
       "id": "windows",

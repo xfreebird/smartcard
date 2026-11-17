@@ -33,7 +33,7 @@ export default function Downloads({platform = 'other', directOnly = false, optio
  const primary = primaryAction(platform, t);
  return <div ref={control} className="download-control" onMouseEnter={() => {if (!directOnly && window.matchMedia('(hover: hover) and (min-width: 761px)').matches) setOpen(true);}} onMouseLeave={() => setOpen(false)} onBlur={e => {if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);}} onKeyDown={e => {if (e.key === 'Escape') {setOpen(false); e.currentTarget.querySelector('button').focus();}}}>
   {optionsOnly ? <button className="download-options-primary" type="button" aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(true)}><PlatformIcon name="download"/>{t('otherDownloadOptions')}</button> : <div className="download-button-group">
-   <Link className={`download-button${directOnly ? ' download-button-single' : ''}`} to={primary.href}><PlatformIcon name={platform==='other' ? 'download' : platform}/>{primary.label}</Link>
+   <Link className={`download-button${directOnly ? ' download-button-single' : ''}`} to={primary.href}><PlatformIcon name={directOnly || platform==='other' ? 'download' : platform} className={directOnly ? 'download-action-icon' : ''}/>{primary.label}</Link>
    {!directOnly && <button className="download-toggle" type="button" aria-label={t('downloadOptions')} aria-expanded={open} aria-controls={menuId} onClick={() => setOpen(true)}><PlatformIcon name="chevron"/></button>}
   </div>}
   {open && <div className={`download-options${placement.above ? ' download-options-above' : ''}`} style={{'--download-menu-space': `${placement.space}px`}} id={menuId}>

@@ -11,6 +11,8 @@ export const androidPhone = {
   frame: {x:170,y:30,width:286,height:610,rx:30},
   screen: {x:181,y:41,width:264,height:586.6667,rx:21},
   port: {x:313,y:640},
+  openingScreenFraction: .90,
+  screenWidthFraction: .80,
 };
 // Generic 16:9 desktop display. App windows are contained, never stretched to fill it.
 export const desktop = {
