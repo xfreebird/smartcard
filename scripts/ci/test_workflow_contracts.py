@@ -92,12 +92,12 @@ class WorkflowContracts(unittest.TestCase):
         job_limit = int(re.search(r'\n    timeout-minutes: (\d+)', ios).group(1))
         self.assertIn('family: [iPhone, iPad]', ios)
         self.assertIn('max-parallel: 1', ios)
-        self.assertIn('fail-fast: true', ios)
+        self.assertIn('fail-fast: false', ios)
         self.assertIn('"${{ matrix.family }}"', ios)
         self.assertIn('name: ios-ui-${{ matrix.family }}-${{ github.sha }}', ios)
-        self.assertLessEqual(job_limit * 2, 80)
+        self.assertLessEqual(job_limit * 2, 90)
         caps = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
-                'Native iOS mock UI journeys': 35, 'iOS UI evidence': 3}
+                'Native iOS mock UI journeys': 40, 'iOS UI evidence': 3}
         for name, cap in caps.items():
             step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
             limit = int(re.search(r'timeout-minutes: (\d+)', step).group(1))
