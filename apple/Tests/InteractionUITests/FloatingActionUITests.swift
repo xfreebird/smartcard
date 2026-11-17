@@ -69,14 +69,34 @@ final class FloatingActionUITests: XCTestCase {
         XCTAssertTrue(button.waitForPresence(timeout: 15))
         XCTAssertEqual(app.buttons.matching(identifier: "sign.submit").count, 1)
         if hittable { XCTAssertTrue(button.isHittable) }
-        XCTAssertGreaterThan(button.frame.midY, app.frame.midY, "The action belongs at the bottom of the workspace")
-        XCTAssertGreaterThanOrEqual(button.frame.minX, app.frame.minX)
-        XCTAssertLessThanOrEqual(button.frame.maxX, app.frame.maxX)
-        XCTAssertLessThan(button.frame.maxY, app.frame.maxY)
-        XCTAssertGreaterThanOrEqual(button.frame.height, 44)
         let tabs = app.tabBars.firstMatch
-        if tabs.exists && tabs.frame.minY > app.frame.midY {
-            XCTAssertLessThanOrEqual(button.frame.maxY, tabs.frame.minY, "Sign must not overlap bottom navigation")
+        var previous: [CGRect] = []
+        var matchingSamples = 0
+        // Orientation changes return before accessibility finishes transforming the scene.
+        // Wait for stable geometry without making the expected layout part of the wait.
+        let settled = NSPredicate { _, _ in
+            let frames = [app.frame, button.frame, tabs.exists ? tabs.frame : .null]
+            guard !frames[0].isEmpty, !frames[1].isEmpty else {
+                matchingSamples = 0
+                return false
+            }
+            matchingSamples = frames == previous ? matchingSamples + 1 : 0
+            previous = frames
+            return matchingSamples >= 2
+        }
+        let ready = XCTNSPredicateExpectation(predicate: settled, object: nil)
+        guard XCTWaiter.wait(for: [ready], timeout: 15) == .completed else {
+            XCTFail("Workspace and action geometry did not settle")
+            return
+        }
+        let workspace = previous[0], action = previous[1], navigation = previous[2]
+        XCTAssertGreaterThan(action.midY, workspace.midY, "The action belongs at the bottom of the workspace")
+        XCTAssertGreaterThanOrEqual(action.minX, workspace.minX)
+        XCTAssertLessThanOrEqual(action.maxX, workspace.maxX)
+        XCTAssertLessThan(action.maxY, workspace.maxY)
+        XCTAssertGreaterThanOrEqual(action.height, 44)
+        if !navigation.isNull && navigation.minY > workspace.midY {
+            XCTAssertLessThanOrEqual(action.maxY, navigation.minY, "Sign must not overlap bottom navigation")
         }
     }
 
