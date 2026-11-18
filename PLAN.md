@@ -1670,3 +1670,5 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - 2026-11-18 — Remove the Mac App Store availability and capability paragraphs from both landing-page download areas in every locale. Retain the Store badge and the separate Downloads-page guidance.
 
 - 2026-11-18 — Enlarge the landing-page Mac App Store badge to 64 px high while preserving its artwork proportions, and label the Mac download action “Download eSemnBun” using the existing EN/RO/RU translations.
+
+- 2026-11-18 — Make the entire store badge use the hand cursor on landing and Downloads pages. Disable image text selection/dragging and let badge images pass pointer events to their links.

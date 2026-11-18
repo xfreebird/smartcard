@@ -45,6 +45,8 @@
 .story-steps{font-size:16px}.story-steps b{font-size:14px;width:26px;height:26px}
 .platform-store{display:flex;flex-direction:column;align-items:center;justify-content:center}
 .platform-store>a{display:flex;align-items:center;justify-content:center;min-height:56px}
+.platform-store>a,.platform-store>a>img,.download-store-badge,.download-store-badge>img{cursor:pointer;-webkit-user-select:none;user-select:none}
+.platform-store>a>img,.download-store-badge>img{pointer-events:none;-webkit-user-drag:none}
 .platform-store p{display:none}
 .platform-store-macos p{display:block;margin:3px 12px;color:var(--site-muted);font-size:14px;line-height:1.4;text-align:center}
 .platform-store .store-version-limitations{max-width:390px;margin-top:8px;color:var(--site-muted);font-size:15px;line-height:1.5}
