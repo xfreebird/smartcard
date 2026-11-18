@@ -94,19 +94,19 @@ def invoke(node):
     raise AssertionError("No native activation action on control")
 
 
-def expand_and_collapse(app, name, process):
-    def control():
-        node = reveal_named(app, name)
+def expand_and_collapse(app, name, process, expanded_name=None):
+    def control(label, expanded):
+        node = reveal_named(app, label)
         while node is not None and node != app:
-            if node.getState().contains(pyatspi.STATE_EXPANDABLE):
-                return node
+            state = node.getState()
+            if state.contains(pyatspi.STATE_EXPANDABLE):
+                return node if state.contains(pyatspi.STATE_EXPANDED) == expanded else None
             node = node.parent
         return None
-    row = wait(control, name, process)
-    assert not row.getState().contains(pyatspi.STATE_EXPANDED), "Disclosure unexpectedly open"
+
+    row = wait(lambda: control(name, False), "collapsed " + name, process)
     invoke(row)
-    wait(lambda: control() is not None and control().getState().contains(pyatspi.STATE_EXPANDED), "expanded " + name, process)
-    invoke(control())
-    wait(lambda: control() is not None and not control().getState().contains(pyatspi.STATE_EXPANDED), "collapsed " + name, process)
-
-
+    expanded_label = expanded_name or name
+    row = wait(lambda: control(expanded_label, True), "expanded " + expanded_label, process)
+    invoke(row)
+    wait(lambda: control(name, False), "collapsed " + name, process)

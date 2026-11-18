@@ -154,8 +154,9 @@ def run(binary, output, selected=None):
                         action_name = workflow(scenario, app, root, process, title)
                     elif scenario.startswith("verify-") and scenario != "verify-checking":
                         if scenario != "verify-unsigned":
-                            for key in ("verify_certificate_details", "ui_technical_details"):
-                                expand_and_collapse(app, title(key), process)
+                            expand_and_collapse(app, title("verify_certificate_details"), process)
+                            expand_and_collapse(app, title("tech_details_show"), process,
+                                                expanded_name=title("tech_details_hide"))
                         clear = wait(lambda: visible_named(app, title("verify_clear_results")), "clear action", process)
                         action = clear.queryAction()
                         assert action.nActions > 0 and action.doAction(0), "Clear action failed"
