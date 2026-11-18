@@ -188,7 +188,7 @@ Optional browser PDF stamps have their own Browser connection preference. The st
 
 1. Click the menu-bar eSemnBun icon to reopen the main window, Settings or About. Closing a window can leave the app running; choose **Quit** to end it.
 2. In **Settings → General**, scroll to startup settings. Choose **Start at sign-in** if desired. If macOS asks for approval, use **System Settings → General → Login Items**.
-3. The standalone edition has an optional reader/card insertion helper, which can open the app after it quits. Enable it and approve its background item when asked. The Store edition instead offers opening the window on insertion while its app is running.
+3. The standalone edition has an optional reader/card insertion helper, which can open the app after it quits. Enable it and approve its background item when asked. The Mac App Store edition has no such launcher: **Open window on card insertion** works only while eSemnBun is running in the menu bar. Closing the window can leave it running; **Quit** stops insertion detection. After Quit, reopen it manually. **Start at sign-in** launches it at your next login.
 4. In standalone installations, use **Check for updates** and install the newer DMG. App Store copies update through the App Store. Keep the same distribution when updating.
 5. Use **About eSemnBun** to find the installed version; use Help or the [support page](/support) with app/macOS version, reader/adapter model and reproduction steps. Never send a PIN.
 

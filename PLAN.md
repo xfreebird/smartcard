@@ -1672,3 +1672,5 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - 2026-11-18 — Enlarge the landing-page Mac App Store badge to 64 px high while preserving its artwork proportions, and label the Mac download action “Download eSemnBun” using the existing EN/RO/RU translations.
 
 - 2026-11-18 — Make the entire store badge use the hand cursor on landing and Downloads pages. Disable image text selection/dragging and let badge images pass pointer events to their links.
+
+- 2026-11-18 — Add an EN/RO/RU Mac App Store startup disclaimer beside the badge and on Downloads: card insertion can open the window only while the app runs in the menu bar; no helper relaunches it after Quit. Clarify manual reopening and Start at sign-in at the next login in the canonical and generated preferences guides.

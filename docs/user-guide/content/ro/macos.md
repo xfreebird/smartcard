@@ -188,7 +188,7 @@ Comutatorul este vizibil în captura General de mai sus. Capturile nu ilustreaz�
 
 1. Apasă pictograma eSemnBun din bara de meniu pentru fereastra principală, Configurări sau Despre. Închiderea ferestrei poate lăsa aplicația activă; alege **Ieșire** pentru oprire.
 2. În **Configurări → General**, derulează la opțiunile de pornire. Activează **Pornește la autentificare** dacă dorești. Aprobările macOS sunt în **Configurări sistem → General → Elemente de autentificare**.
-3. Ediția independentă are un ajutor opțional pentru inserarea cititorului/cardului, care poate porni aplicația după închidere. Activează-l și aprobă elementul de fundal dacă este cerut. Ediția Store oferă deschiderea ferestrei la inserare cât timp aplicația este pornită.
+3. Ediția independentă are un ajutor opțional pentru inserarea cititorului/cardului, care poate porni aplicația după închidere. Activează-l și aprobă elementul de fundal dacă este cerut. Ediția Mac App Store nu are acest utilitar: **Deschide fereastra la introducerea cardului** funcționează doar cât timp eSemnBun rulează în bara de meniu. Închiderea ferestrei poate lăsa aplicația activă; **Ieșire** oprește detectarea. După Ieșire, redeschide-o manual. **Pornește la autentificare** o lansează la următoarea autentificare.
 4. Pentru ediția independentă, folosește **Caută actualizări** și instalează DMG-ul nou. Copiile App Store se actualizează prin magazin. Păstrează același canal de distribuție.
 5. În **Despre eSemnBun** găsești versiunea instalată; folosește Ajutor sau [Suport](/support), indicând versiunile aplicației/macOS, cititorul/adaptorul și pașii de reproducere. Nu trimite PIN-ul.
 

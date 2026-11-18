@@ -121,9 +121,9 @@
     "ru": "Доступно в Mac App Store."
   },
   "macAppStoreLimitations": {
-    "en": "The Mac App Store edition detects compatible USB readers and cards and connects supported websites in the app or an external browser. Keep eSemnBun running in the menu bar.",
-    "ro": "Ediția Mac App Store detectează cititoare USB și carduri compatibile și permite conectarea la site-uri acceptate din aplicație sau dintr-un browser extern. Lasă eSemnBun pornit în bara de meniu.",
-    "ru": "Версия Mac App Store обнаруживает совместимые USB-считыватели и карты и подключает поддерживаемые сайты во встроенном или внешнем браузере. Оставьте eSemnBun работающим в строке меню."
+    "en": "The Mac App Store edition has no card-insertion launcher. Its window can open on insertion only while eSemnBun is running in the menu bar. After Quit, reopen it manually or use Start at sign-in.",
+    "ro": "Ediția Mac App Store nu are un utilitar separat de pornire la introducerea cardului. Fereastra se poate deschide la introducere doar cât timp eSemnBun rulează în bara de meniu. După Ieșire, redeschide aplicația manual sau folosește Pornește la autentificare.",
+    "ru": "Версия Mac App Store не содержит отдельного средства запуска при вставке карты. Окно может открываться при вставке, только пока eSemnBun работает в строке меню. После выхода откройте приложение вручную или включите запуск при входе в систему."
   },
   "source": {
     "en": "View source on GitHub",
