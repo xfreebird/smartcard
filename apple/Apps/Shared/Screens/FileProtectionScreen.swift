@@ -208,18 +208,31 @@ struct FileProtectionScreen: View {
                 }
             }.pickerStyle(.menu).accessibilityIdentifier("protect.keySize")
         }
-        SecureField(L10n.text(.protect_password), text: $password)
-            .textContentType(operation == 0 ? .newPassword : .password)
-            .textFieldStyle(.roundedBorder).labelsHidden()
-            .accessibilityIdentifier("protect.password")
+        credentialField(.protect_password) {
+            SecureField(L10n.text(.protect_password), text: $password)
+                .textContentType(operation == 0 ? .newPassword : .password)
+                .textFieldStyle(.roundedBorder).labelsHidden()
+                .accessibilityIdentifier("protect.password")
+        }
         if operation == 0 {
-            SecureField(L10n.text(.protect_confirm_password), text: $confirmation)
-                .textContentType(.newPassword).textFieldStyle(.roundedBorder).labelsHidden()
-                .accessibilityIdentifier("protect.confirmPassword")
+            credentialField(.protect_confirm_password) {
+                SecureField(L10n.text(.protect_confirm_password), text: $confirmation)
+                    .textContentType(.newPassword).textFieldStyle(.roundedBorder).labelsHidden()
+                    .accessibilityIdentifier("protect.confirmPassword")
+            }
             if !confirmation.isEmpty && password != confirmation {
                 Text(L10n.text(.protect_mismatch)).font(.caption).foregroundStyle(.red)
             }
         }
+    }
+
+    @ViewBuilder private func credentialField<Content: View>(_ title: L10n.Key,
+                                                             @ViewBuilder content: () -> Content) -> some View {
+        #if os(macOS)
+        LabeledContent(L10n.text(title), content: content)
+        #else
+        content()
+        #endif
     }
 
     @ViewBuilder private var recipientFields: some View {
@@ -245,11 +258,13 @@ struct FileProtectionScreen: View {
             LabeledContent(L10n.text(.protect_recipient), value: certificateName)
         }
         if operation == 1, identity != nil {
-            SecureField(L10n.text(.protect_card_pin), text: $pin)
-                .textFieldStyle(.roundedBorder).labelsHidden()
-                #if os(iOS)
-                .keyboardType(.numberPad)
-                #endif
+            credentialField(.protect_card_pin) {
+                SecureField(L10n.text(.protect_card_pin), text: $pin)
+                    .textFieldStyle(.roundedBorder).labelsHidden()
+                    #if os(iOS)
+                    .keyboardType(.numberPad)
+                    #endif
+            }
         }
     }
 
