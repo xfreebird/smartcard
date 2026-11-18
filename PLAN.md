@@ -1705,3 +1705,9 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - The native Swift preview produced all three AES envelopes and a recipient CMS envelope. The installed MoldSign workers/libraries recovered the original fixture bytes for each. On Android, OpenSSL decrypted an RSA file produced through the app’s file picker. Physical RSA card decryption and a production Store installation still need acceptance.
 - Windows x64 built and all 14 focused protection tests passed, including native and vendor envelope detection. The Encrypt form was exercised in WinUI. The supplemental Decrypt file-picker check timed out at filename entry. Android UI encryption, iPhone/iPad and Fedora UI checks, and Mac Store tray captures are included in the [local review gallery](docs/reports/document-actions-review/index.html).
 - 2026-11-18 — Use the regular unified macOS title bar to fit the native Documents search field and its focus ring. Verify live filtering at the 860-point minimum and a wider window. Capture Settings through its real SwiftUI scene so General, Saved cards and PINs, Browser connection and About show the native icon toolbar.
+
+### 0.2.13 review submissions and localized guides
+
+- Owner approved the reviewed changes on 18 November. iOS build 215 and Mac build 216 were submitted to App Review, Windows entered Certification, and Play alpha 1793624699 was submitted. Huawei's review was preserved.
+- Publish corrected desktop/mobile assets and checksums, with new Linux version metadata. Refresh 363 native guide screenshots across EN/RO/RU and validate all 777 guide panels and 327 task pages.
+- Harden bounded Android dependency retries, require the saved-identity regression, and update native disclosure/field selectors in Linux and Apple UI tests. Detailed evidence and limitations are in docs/reports/release-0.2.13-2026-11-18.md.

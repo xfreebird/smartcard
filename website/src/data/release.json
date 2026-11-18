@@ -1,115 +1,115 @@
 {
-  "version": "0.2.12",
-  "url": "https://github.com/xfreebird/smartcard/releases/tag/v0.2.12",
+  "version": "0.2.13",
+  "url": "https://github.com/xfreebird/smartcard/releases/tag/v0.2.13",
   "assets": [
     {
-      "name": "esemnbun-0.2.12-macos-universal.tar.gz",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/esemnbun-0.2.12-macos-universal.tar.gz",
-      "size": 2151096,
+      "name": "esemnbun-0.2.13-1.x86_64.rpm",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/esemnbun-0.2.13-1.x86_64.rpm",
+      "size": 22992855,
+      "platform": "linux",
+      "version": "0.2.13",
+      "format": "RPM",
+      "architecture": "x64"
+    },
+    {
+      "name": "esemnbun-0.2.13-linux-x86_64.tar.gz",
+      "url": "https://esemnbun.md/packages/downloads/v0.2.13/esemnbun-0.2.13-linux-x86_64.tar.gz",
+      "size": 44337276,
+      "platform": "linux-cli",
+      "version": "0.2.13",
+      "format": "TAR.GZ",
+      "architecture": "x64"
+    },
+    {
+      "name": "esemnbun-0.2.13-macos-universal.tar.gz",
+      "url": "https://esemnbun.md/packages/downloads/v0.2.13/esemnbun-0.2.13-macos-universal.tar.gz",
+      "size": 2104665,
       "platform": "macos",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "format": "TAR.GZ",
       "architecture": "Apple silicon / Intel"
     },
     {
-      "name": "eSemnBun-0.2.12-x64.msi",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/eSemnBun-0.2.12-x64.msi",
-      "size": 117354496,
+      "name": "eSemnBun-0.2.13-x64.msi",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/eSemnBun-0.2.13-x64.msi",
+      "size": 117362688,
       "platform": "windows",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "format": "MSI",
       "architecture": "x64"
     },
     {
-      "name": "eSemnBun-0.2.12.apk",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/eSemnBun-0.2.12.apk",
-      "size": 15329034,
+      "name": "eSemnBun-0.2.13.apk",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/eSemnBun-0.2.13.apk",
+      "size": 15374090,
       "platform": "android",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "format": "APK",
       "architecture": null
     },
     {
-      "name": "eSemnBun-0.2.12.dmg",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/eSemnBun-0.2.12.dmg",
-      "size": 6365347,
+      "name": "eSemnBun-0.2.13.dmg",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/eSemnBun-0.2.13.dmg",
+      "size": 6435229,
       "platform": "macos",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "format": "DMG",
       "architecture": "Apple silicon / Intel"
     },
     {
-      "name": "esemnbun-cli-0.2.12-windows-x64.zip",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/esemnbun-cli-0.2.12-windows-x64.zip",
-      "size": 3936651,
-      "platform": "windows",
-      "version": "0.2.12",
-      "format": "ZIP",
-      "architecture": "x64"
-    },
-    {
-      "name": "eSemnBun-self-signed.cer",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/eSemnBun-self-signed.cer",
-      "size": 1060
-    },
-    {
-      "name": "SHA256SUMS.txt",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/SHA256SUMS.txt",
-      "size": 560
-    },
-    {
-      "name": "esemnbun-0.2.11-1.x86_64.rpm",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.11/esemnbun-0.2.11-1.x86_64.rpm",
-      "size": 22982112,
+      "name": "eSemnBun-0.2.13.flatpak",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/eSemnBun-0.2.13.flatpak",
+      "size": 18912856,
       "platform": "linux",
-      "version": "0.2.11",
-      "format": "RPM",
-      "architecture": "x64"
-    },
-    {
-      "name": "esemnbun-0.2.11-linux-x86_64.tar.gz",
-      "url": "https://esemnbun.md/packages/downloads/v0.2.11/esemnbun-0.2.11-linux-x86_64.tar.gz",
-      "size": 44357505,
-      "platform": "linux-cli",
-      "version": "0.2.11",
-      "format": "TAR.GZ",
-      "architecture": "x64"
-    },
-    {
-      "name": "eSemnBun-0.2.11.flatpak",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.11/eSemnBun-0.2.11.flatpak",
-      "size": 18926536,
-      "platform": "linux",
-      "version": "0.2.11",
+      "version": "0.2.13",
       "format": "FLATPAK",
       "architecture": null
     },
     {
-      "name": "esemnbun-cli-0.2.11-1.x86_64.rpm",
-      "url": "https://esemnbun.md/packages/rpm/x86_64/esemnbun-cli-0.2.11-1.x86_64.rpm",
-      "size": 44128147,
+      "name": "esemnbun-cli-0.2.13-1.x86_64.rpm",
+      "url": "https://esemnbun.md/packages/rpm/x86_64/esemnbun-cli-0.2.13-1.x86_64.rpm",
+      "size": 44094045,
       "platform": "linux-cli",
-      "version": "0.2.11",
+      "version": "0.2.13",
       "format": "RPM",
       "architecture": "x64"
     },
     {
-      "name": "esemnbun-cli_0.2.11-1_amd64.deb",
-      "url": "https://esemnbun.md/packages/apt/pool/main/e/esemnbun-cli/esemnbun-cli_0.2.11-1_amd64.deb",
-      "size": 33200068,
+      "name": "esemnbun-cli-0.2.13-windows-x64.zip",
+      "url": "https://esemnbun.md/packages/downloads/v0.2.13/esemnbun-cli-0.2.13-windows-x64.zip",
+      "size": 3940456,
+      "platform": "windows",
+      "version": "0.2.13",
+      "format": "ZIP",
+      "architecture": "x64"
+    },
+    {
+      "name": "esemnbun-cli_0.2.13-1_amd64.deb",
+      "url": "https://esemnbun.md/packages/apt/pool/main/e/esemnbun-cli/esemnbun-cli_0.2.13-1_amd64.deb",
+      "size": 33252082,
       "platform": "linux-cli",
-      "version": "0.2.11",
+      "version": "0.2.13",
       "format": "DEB",
       "architecture": "x64"
     },
     {
-      "name": "esemnbun_0.2.11-1_amd64.deb",
-      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.11/esemnbun_0.2.11-1_amd64.deb",
-      "size": 17351786,
+      "name": "eSemnBun-self-signed.cer",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/eSemnBun-self-signed.cer",
+      "size": 1060
+    },
+    {
+      "name": "esemnbun_0.2.13-1_amd64.deb",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/esemnbun_0.2.13-1_amd64.deb",
+      "size": 17338358,
       "platform": "linux",
-      "version": "0.2.11",
+      "version": "0.2.13",
       "format": "DEB",
       "architecture": "x64"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.13/SHA256SUMS.txt",
+      "size": 1432
     }
   ],
   "platforms": [

@@ -26,3 +26,12 @@ Source commit is 426aff4b. Apple and Windows build number is 215. Android reserv
 - The documentation refresh contains 363 new native images across Apple (192), Android (120), Windows (24) and Linux (27), in EN/RO/RU. The guides contain 777 numbered panels and 327 task pages.
 - Screenshot fixtures use fictional identities and isolated Debug applications. Mobile Apple captures use the approved UI compiled before the marketing-version stamp. Native Romanian/Russian long headings still truncate in two captured controls, and iPad's system weekday follows its English simulator setting.
 - CI coverage now includes the disconnected saved-identity regression, bounded repository-verified Kotlin plugin retries, and Linux disclosure/editable-field selectors. All 81 automation checks and the complete local Android journey batch passed.
+
+## Final delivery evidence
+
+- iOS 215 and macOS 216 are waiting for App Review. Windows submission 1152921505702443596 reached Certification. Google Play alpha submission 1793624699 reports submitted. Huawei was not changed.
+- Corrected Linux package run 44411269929 and Flatpak run 44406307194 succeeded. The 0.2.11-labeled assets were removed from the 0.2.13 release after their replacements were verified.
+- All 15 public payloads match the published SHA256SUMS.txt, including standalone installers, CLI packages and repository definitions.
+- Documentation deployment 44408019603 succeeded. English, Romanian and Russian pages and sampled native screenshots were checked on the public site. All 39 website tests and the guide validator passed.
+- Hosted CI 44408021026 passed Swift, macOS, Linux, Windows, Android and localization. Its iPhone journey hit an obsolete author-label selector. Test-only correction 960f297f passed all three Documents cases locally with zero failures/skips and preserved filesystem/persistence assertions. The subsequent hosted Apple run validates the corrected selector.
+- Final release/download metadata includes version 0.2.13. Native screenshot provenance and remaining presentation limitations are recorded in the Apple and desktop evidence manifests.
