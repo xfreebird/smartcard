@@ -1,6 +1,7 @@
 package md.moldsign.app
 
 import android.app.Instrumentation
+import android.os.Build
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
@@ -18,7 +19,9 @@ import java.util.concurrent.atomic.AtomicInteger
 internal class SavedIdentityRemovalIntegration(private val runner: Instrumentation) {
     fun run(): String {
         val app = runner.targetContext.applicationContext as MoldSignApp
-        check(BuildConfig.DEBUG && app.packageName.endsWith(".nfctest"))
+        check(BuildConfig.DEBUG && (app.packageName.endsWith(".nfctest") || Build.HARDWARE in setOf("ranchu", "goldfish"))) {
+            "Use the separate NFC test app or a dedicated Android emulator"
+        }
         val der = requireNotNull(javaClass.getResourceAsStream("/md/moldsign/core/mdqsign.der")).use { it.readBytes() }
         val card = CertificateSummary.parse(der)
         val reads = AtomicInteger()
@@ -57,7 +60,7 @@ internal class SavedIdentityRemovalIntegration(private val runner: Instrumentati
             check(vm.knownCards.value.none { it.sha1Hex == card.sha1Hex })
             val restored = model()
             check(restored.knownCards.value.none { it.sha1Hex == card.sha1Hex })
-            return "Forgetting a card without a PIN cleared both NFC selections and persisted metadata. Reader rediscovery and a fresh model did not restore it."
+            return "PASS: saved-identities. Forgetting a card without a PIN cleared both NFC selections and persisted metadata. Reader rediscovery and a fresh model did not restore it."
         } finally {
             models.forEach { it.viewModelScope.cancel() }
             container.savedCardIdentities.delete(card.sha1Hex)

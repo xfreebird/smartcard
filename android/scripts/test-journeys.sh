@@ -35,15 +35,19 @@ assert s.count(':pass') == 34, 'Missing scenario completions: '+s
 PY
 
 # Separate instrumentation launches prove persisted files survive process death.
-for phase in storage prepare verify; do
-    args=(-e suite protection)
-    [[ "$phase" == storage ]] || args=(-e phase "$phase")
+for phase in storage prepare verify saved-identities; do
+    expected='PASS:'
+    case "$phase" in
+        storage) args=(-e suite protection) ;;
+        saved-identities) args=(-e suite saved-identities); expected='PASS: saved-identities' ;;
+        *) args=(-e phase "$phase") ;;
+    esac
     "$adb" -s "$serial" shell am instrument -w -r "${args[@]}" \
         md.esemnbun.app.test/md.moldsign.app.FileProtectionInstrumentation | tee "$out/protection-$phase.log"
-    python3 - "$out/protection-$phase.log" <<'PYTHON'
+    python3 - "$out/protection-$phase.log" "$expected" <<'PYTHON'
 import pathlib, re, sys
 s = pathlib.Path(sys.argv[1]).read_text()
 assert re.search(r'^INSTRUMENTATION_CODE: -1\s*$', s, re.M), s
-assert 'INSTRUMENTATION_RESULT: result=PASS:' in s and 'FAIL:' not in s, s
+assert ('INSTRUMENTATION_RESULT: result=' + sys.argv[2]) in s and 'FAIL:' not in s, s
 PYTHON
 done
