@@ -69,8 +69,24 @@ def protection_workflow(app, root, process, title):
         invoke(submit(operation))
 
     def edit(field, value):
-        node = wait(lambda: reveal_named(app, title(field)), field, process)
-        assert node.queryEditableText().setTextContents(value), 'Password field rejected native edit'
+        label = title(field)
+
+        def editable_field():
+            for node in descendants(app):
+                if node.name != label:
+                    continue
+                try:
+                    editable = node.queryEditableText()
+                except NotImplementedError:
+                    continue
+                if not node.getState().contains(pyatspi.STATE_SHOWING):
+                    node.queryComponent().scrollTo(pyatspi.SCROLL_ANYWHERE)
+                if node.getState().contains(pyatspi.STATE_SHOWING):
+                    return editable
+            return None
+
+        control = wait(editable_field, field, process)
+        assert control.setTextContents(value), 'Password field rejected native edit'
 
     def save(path):
         click('protect_save_file')
