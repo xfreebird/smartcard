@@ -20,17 +20,17 @@
     "en": {
       "title": "MoldSign alternative for Mac — electronic signatures on macOS",
       "description": "Sign PDFs on Mac with eSemnBun and a Moldovan electronic ID. Compare the DMG, Mac App Store and separate CLI/MCP setup, with illustrated guides.",
-      "intro": "**eSemnBun is an independent MoldSign alternative for Mac (macOS).** Use a supported Moldovan electronic ID and USB reader to sign PDFs, create XAdES signatures and verify documents. The standalone DMG and sandboxed Mac App Store edition have different browser workflows. [CLI and MCP tools](./macos-cli.md) are installed separately; a Homebrew CLI package is not the desktop app. eSemnBun is not affiliated with STISC."
+      "intro": "**eSemnBun is an independent MoldSign alternative for Mac (macOS).** Use a supported Moldovan electronic ID and USB reader to sign PDFs, create XAdES signatures and verify documents. Both the standalone DMG and Mac App Store edition detect compatible USB readers and cards and support the built-in browser and compatible external browsers. [CLI and MCP tools](./macos-cli.md) are installed separately; a Homebrew CLI package is not the desktop app. eSemnBun is not affiliated with STISC."
     },
     "ro": {
       "title": "Alternativă MoldSign pentru Mac — semnătură electronică pe macOS",
       "description": "Semnează PDF-uri pe Mac cu eSemnBun și cartea de identitate din Moldova. Ghiduri pentru DMG, Mac App Store, verificarea semnăturii și CLI/MCP.",
-      "intro": "**eSemnBun este o alternativă independentă la MoldSign pentru Mac (macOS).** Folosește o carte de identitate electronică acceptată din Moldova și un cititor USB pentru semnare PDF, semnături XAdES și verificarea documentelor. Ediția DMG și ediția Mac App Store folosesc fluxuri diferite pentru browser. [Instrumentele CLI și MCP](./macos-cli.md) se instalează separat; pachetul CLI din Homebrew nu este aplicația desktop. eSemnBun nu este afiliat cu STISC."
+      "intro": "**eSemnBun este o alternativă independentă la MoldSign pentru Mac (macOS).** Folosește o carte de identitate electronică acceptată din Moldova și un cititor USB pentru semnare PDF, semnături XAdES și verificarea documentelor. Atât ediția DMG, cât și ediția Mac App Store detectează cititoare USB și carduri compatibile și permit browserul integrat și browserele externe compatibile. [Instrumentele CLI și MCP](./macos-cli.md) se instalează separat; pachetul CLI din Homebrew nu este aplicația desktop. eSemnBun nu este afiliat cu STISC."
     },
     "ru": {
       "title": "Альтернатива MoldSign для Mac — электронная подпись на macOS",
       "description": "Подписывайте PDF на Mac с eSemnBun и ID-картой Молдовы. Руководства по DMG, Mac App Store, проверке подписи и отдельной установке CLI/MCP.",
-      "intro": "**eSemnBun — независимая альтернатива MoldSign для Mac (macOS).** Подписывайте PDF, создавайте XAdES и проверяйте документы с поддерживаемой ID-картой Молдовы и USB-считывателем. DMG и версия Mac App Store используют разные способы подключения браузера. [Инструменты CLI и MCP](./macos-cli.md) устанавливаются отдельно; CLI-пакет Homebrew не является настольным приложением. eSemnBun не связан со STISC."
+      "intro": "**eSemnBun — независимая альтернатива MoldSign для Mac (macOS).** Подписывайте PDF, создавайте XAdES и проверяйте документы с поддерживаемой ID-картой Молдовы и USB-считывателем. DMG и версия Mac App Store обнаруживают совместимые USB-считыватели и карты и поддерживают встроенный браузер и совместимые внешние браузеры. [Инструменты CLI и MCP](./macos-cli.md) устанавливаются отдельно; CLI-пакет Homebrew не является настольным приложением. eSemnBun не связан со STISC."
     }
   },
   "linux": {

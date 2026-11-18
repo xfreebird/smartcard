@@ -67,8 +67,22 @@ scripts/package-macos.sh                            # signs, notarizes (DMG + CL
 spctl -a -vv -t install dist/macos/eSemnBun-*.dmg   # → "accepted, source=Notarized Developer ID"
 ```
 
-The app needs the hardened runtime (on) and the `com.apple.security.smartcard` entitlement (set in
-`apple/Apps/macOS/MoldSign.entitlements`). Sandbox stays off until D-04 is decided.
+The standalone app needs the hardened runtime (on) and the `com.apple.security.smartcard` entitlement
+(set in `apple/Apps/macOS/MoldSign.entitlements`); it is not sandboxed. The separate
+`eSemnBun-macOS-AppStore` scheme enables App Sandbox and uses CryptoTokenKit for reader/card access.
+
+### Mac App Store runtime capabilities
+
+The released Mac App Store app detects compatible USB readers and inserted cards while running
+and provides the local HTTPS bridge for both the built-in Browser and compatible external browsers.
+The owner confirmed reader/card detection and external-browser operation in the installed 0.2.12
+Store app on 18 November 2026; see [the acceptance record](reports/macos-app-store-owner-acceptance-2026-11-18.md).
+
+Keep browser requests enabled and the app running on the same Mac; an external browser may request
+local-network permission. The Store build still excludes arbitrary filesystem-path bridge routes,
+vendor-process controls and the standalone local-automation approval broker. Export signed files to
+a user-chosen destination. The separate helper that can relaunch a fully quit app on reader/card
+insertion remains standalone-only; Store detection while running does not require that helper.
 
 ## Notes
 

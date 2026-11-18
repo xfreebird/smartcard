@@ -20,6 +20,8 @@ Open [Downloads](/downloads/). Install the Mac App Store edition, or open the de
 
 You need macOS 15 or later, a compatible USB reader, an active supported electronic ID and its signing PIN. Use a suitable USB-C adapter if needed. NFC signing is unavailable.
 
+Both the Mac App Store and standalone editions detect compatible USB readers and inserted cards while eSemnBun is running. The Mac App Store edition also supports compatible websites in an external browser; using the built-in Browser is optional.
+
 <GuideScreenshot src="/img/guide/macos/en/connect.png" alt="Install and connect your reader" steps={[{"x": 5, "y": 7, "text": "Open Sign in the sidebar."}, {"x": 59, "y": 17, "text": "Connect the USB reader. This empty state changes when the reader is detected."}]} />
 
 ## Insert the card

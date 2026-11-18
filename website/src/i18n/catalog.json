@@ -17,7 +17,7 @@
   "downloadHint_ios": {"en":"App Store · Phone & tablet", "ro":"App Store · Telefon și tabletă", "ru":"App Store · Телефон и планшет"},
   "downloadHint_android": {"en":"APK · Google Play", "ro":"APK · Google Play", "ru":"APK · Google Play"},
   "downloadHint_linux": {"en":"Desktop app & CLI", "ro":"Aplicație desktop și CLI", "ru":"Приложение для компьютера и CLI"},
-  "downloadBody_macos": {"en":"macOS 15 or later. One signed, notarized DMG for Intel and Apple Silicon. The Mac App Store edition uses an in-app browser and omits the background reader helper.", "ro":"macOS 15 sau mai nou. Un singur DMG semnat și notarizat pentru Intel și Apple Silicon. Ediția Mac App Store folosește browserul integrat și nu include utilitarul de pornire la conectarea cititorului.", "ru":"macOS 15 и новее. Один подписанный и нотаризованный DMG для Intel и Apple Silicon. Версия из Mac App Store использует встроенный браузер и не включает фоновый помощник считывателя."},
+  "downloadBody_macos": {"en":"macOS 15 or later. Choose the Mac App Store edition or a signed, notarized DMG for Intel and Apple silicon. Both detect compatible USB readers and cards and support in-app and external browsers.", "ro":"macOS 15 sau mai nou. Alege ediția Mac App Store sau DMG-ul semnat și notarizat pentru Intel și Apple silicon. Ambele detectează cititoare USB și carduri compatibile și permit browserul integrat sau extern.", "ru":"macOS 15 и новее. Выберите версию Mac App Store или подписанный и нотариально заверенный DMG для Intel и Apple silicon. Обе версии обнаруживают совместимые USB-считыватели и карты и поддерживают встроенный и внешний браузер."},
   "downloadBody_windows": {"en":"Windows 10 (1809) or later. Use the x64 MSI for a direct installation, or open the Microsoft Store listing.", "ro":"Windows 10 (1809) sau mai nou. Folosește instalatorul MSI x64 pentru instalare directă sau deschide pagina din Microsoft Store.", "ru":"Windows 10 (1809) и новее. Используйте MSI для x64 для прямой установки или откройте страницу в Microsoft Store."},
   "downloadBody_ios": {"en":"iOS 17 or later. Sign and share documents on your iPhone or iPad with a compatible reader and adapter.", "ro":"iOS 17 sau mai nou. Semnează și distribuie documente de pe iPhone sau iPad cu un cititor și un adaptor compatibil.", "ru":"iOS 17 и новее. Подписывайте и отправляйте документы с iPhone или iPad через совместимый считыватель и адаптер."},
   "downloadBody_android": {"en":"Android 8 or later, with USB host/OTG support. The APK supports ARM and x86 devices, including tablets.", "ro":"Android 8 sau mai nou, cu suport USB host/OTG. APK-ul acceptă dispozitive ARM și x86, inclusiv tablete.", "ru":"Android 8 и новее с поддержкой USB host/OTG. APK поддерживает устройства ARM и x86, включая планшеты."},
@@ -121,9 +121,9 @@
     "ru": "Доступно в Mac App Store."
   },
   "macAppStoreLimitations": {
-    "en": "The Mac App Store edition uses an in-app browser and does not include the reader insertion helper or MoldSign process controls.",
-    "ro": "Ediția Mac App Store folosește browserul integrat și nu include utilitarul de pornire la conectarea cititorului sau controlul proceselor MoldSign.",
-    "ru": "Версия из Mac App Store использует встроенный браузер и не включает помощник запуска при подключении считывателя или управление процессами MoldSign."
+    "en": "The Mac App Store edition detects compatible USB readers and cards and connects supported websites in the app or an external browser. Keep eSemnBun running in the menu bar.",
+    "ro": "Ediția Mac App Store detectează cititoare USB și carduri compatibile și permite conectarea la site-uri acceptate din aplicație sau dintr-un browser extern. Lasă eSemnBun pornit în bara de meniu.",
+    "ru": "Версия Mac App Store обнаруживает совместимые USB-считыватели и карты и подключает поддерживаемые сайты во встроенном или внешнем браузере. Оставьте eSemnBun работающим в строке меню."
   },
   "source": {
     "en": "View source on GitHub",

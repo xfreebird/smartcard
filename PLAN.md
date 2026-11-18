@@ -1661,3 +1661,8 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 
 - Verified Apple's public Moldova catalog lists `eSemnBun Desktop`, bundle `md.esemnbun.mac`, as version 0.2.12, released on 18 November. Restore its localized Mac App Store badge on the landing and Downloads pages, with the existing explanation of Store-edition differences.
 - Update EN/RO/RU availability text and refresh installer metadata from the actual v0.2.12 release. Retain the latest published Linux 0.2.11 packages and the standalone Mac DMG/CLI choices. Publish through the existing Website workflow and verify the live links after deployment.
+
+### 2026-11-18 — Mac App Store hardware and external-browser acceptance
+
+- Owner confirmed USB-reader and electronic-ID card detection and external-browser operation in the installed Mac App Store app. Current source enables the Store bridge and CryptoTokenKit monitoring; the documentation's embedded-browser-only implication was obsolete.
+- Correct the canonical EN/RO/RU Mac guides and generated pages, browser overviews, landing/download copy, and developer/build documentation. Explain running-app detection separately from the standalone helper that relaunches a quit app; retain sandbox file-route/output, vendor-control and local-automation differences. Evidence and untested details: `docs/reports/macos-app-store-owner-acceptance-2026-11-18.md`. Publish through Website CI; no native build or hardware operation requested.

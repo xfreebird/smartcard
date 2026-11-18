@@ -7,13 +7,15 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # macOS — illustrated desktop guide
 
-For eSemnBun 0.2.6 on macOS 15 or later. Follow one goal at a time; numbered markers correspond to the instructions below each image. Click an image to open its full-size capture.
+For eSemnBun 0.2.12 on macOS 15 or later. Follow one goal at a time; numbered markers correspond to the instructions below each image. Click an image to open its full-size capture.
 
 ## Install and connect your reader
 
 Open [Downloads](/downloads/). Install the Mac App Store edition, or open the desktop DMG and drag eSemnBun to Applications. Eject the DMG and launch the installed copy. The TAR.GZ and Homebrew downloads are CLI/MCP tools; see the [terminal guide](./macos-cli.md).
 
 You need macOS 15 or later, a compatible USB reader, an active supported electronic ID and its signing PIN. Use a suitable USB-C adapter if needed. NFC signing is unavailable.
+
+Both the Mac App Store and standalone editions detect compatible USB readers and inserted cards while eSemnBun is running. The Mac App Store edition also supports compatible websites in an external browser; using the built-in Browser is optional.
 
 <GuideScreenshot src="/img/guide/macos/en/connect.png" alt="Install and connect your reader" steps={[{"x": 5, "y": 7, "text": "Open Sign in the sidebar."}, {"x": 59, "y": 17, "text": "Connect the USB reader. This empty state changes when the reader is detected."}]} />
 
@@ -175,12 +177,12 @@ The setup toggle is visible in the General screenshot above. A physical-card bro
 
 ## Browser settings and cleanup
 
-1. Open **Settings → Browser connection**. Enable responses only when you need the local browser connection; the in-app Browser is the main workflow for the Store edition.
-2. For external-browser use in the standalone edition, visit a supported site on the same Mac while eSemnBun is running. Grant the browser’s requested local-network permission for that intended workflow.
-3. If recognized MoldSign software occupies the ports, finish its operation, then use the offered quit/reconnect action. For an unknown port owner, resolve the conflict before retrying. Never bypass a browser certificate warning.
+1. Open **Settings → Browser connection** and enable responses when you need the local browser connection. Both the Mac App Store and standalone editions support the built-in Browser and compatible external browsers.
+2. To use an external browser, keep eSemnBun running on the same Mac, connect the USB reader, insert your card and wait for its identity to appear. Visit a supported site and grant the browser’s requested local-network permission for that intended workflow. Review the site and selected identity in eSemnBun before approving a request.
+3. If MoldSign occupies the ports, finish its operation and quit it. The standalone edition can offer a quit/reconnect action; in the Mac App Store edition, quit the conflicting app yourself, then retry the connection. For an unknown port owner, resolve the conflict before retrying. Never bypass a browser certificate warning.
 4. In **Browser → bookmarks menu → Clear browsing data**, select cache, cookies and/or history, then confirm. Removing cookies can sign you out. It does not remove saved documents or saved PINs.
 
-Optional browser PDF stamps and legacy desktop-client access have their own Browser connection preferences. Enable legacy access only for the desktop software you intend to use. See the [browser guide](/docs/browser) for service requirements.
+Optional browser PDF stamps have their own Browser connection preference. The standalone edition additionally offers legacy desktop-client access; enable it only for the desktop software you intend to use. The Mac App Store edition does not accept browser requests containing arbitrary local file paths. See the [browser guide](/docs/browser) for service requirements.
 
 ## Menu bar, startup, updates and help
 

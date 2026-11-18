@@ -20,6 +20,8 @@ Deschide [Descărcări](/downloads/). Instalează ediția Mac App Store sau desc
 
 Ai nevoie de macOS 15 sau mai nou, un cititor USB compatibil, un act electronic acceptat și activ și PIN-ul său de semnare. Folosește un adaptor USB-C adecvat, dacă este necesar. Semnarea prin NFC nu este disponibilă.
 
+Atât ediția Mac App Store, cât și ediția independentă detectează cititoarele USB compatibile și cardurile introduse cât timp eSemnBun este pornit. Ediția Mac App Store permite și folosirea site-urilor compatibile într-un browser extern; Browser-ul integrat este opțional.
+
 <GuideScreenshot src="/img/guide/macos/ro/connect.png" alt="Instalează aplicația și conectează cititorul" steps={[{"x": 5, "y": 7, "text": "Deschide Semnează în bara laterală."}, {"x": 59, "y": 17, "text": "Conectează cititorul USB. Ecranul se schimbă după detectarea lui."}]} />
 
 ## Introdu cardul

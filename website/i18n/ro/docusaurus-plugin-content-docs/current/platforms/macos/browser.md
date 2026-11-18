@@ -28,9 +28,9 @@ Navighează la autentificarea/semnarea cu act electronic a serviciului. Citește
 
 ## Configurările browserului și curățarea datelor
 
-1. Deschide **Configurări → Conexiune cu browserul**. Activează răspunsurile numai când ai nevoie de conexiunea locală; Browser-ul integrat este fluxul principal al ediției Store.
-2. În ediția independentă, pentru browser extern vizitează un site acceptat pe același Mac, cu eSemnBun pornit. Acordă permisiunea de rețea locală cerută de browser pentru acel flux dorit.
-3. Dacă MoldSign recunoscut ocupă porturile, finalizează operațiunea sa, apoi folosește acțiunea oferită de închidere/reconectare. Pentru un deținător necunoscut, rezolvă conflictul înainte de reîncercare. Nu ocoli avertismentele browserului privind certificatele.
+1. Deschide **Configurări → Conexiune cu browserul** și activează răspunsurile când ai nevoie de conexiunea locală. Atât ediția Mac App Store, cât și ediția independentă permit Browser-ul integrat și browserele externe compatibile.
+2. Pentru un browser extern, lasă eSemnBun pornit pe același Mac, conectează cititorul USB, introdu cardul și așteaptă afișarea identității. Vizitează un site acceptat și acordă permisiunea de rețea locală cerută de browser pentru acel flux dorit. Verifică site-ul și identitatea selectată în eSemnBun înainte de a aproba o cerere.
+3. Dacă MoldSign ocupă porturile, finalizează operațiunea sa și închide-l. Ediția independentă poate oferi o acțiune de închidere/reconectare; în ediția Mac App Store, închide tu aplicația care ocupă porturile, apoi reîncearcă conexiunea. Pentru un deținător necunoscut, rezolvă conflictul înainte de reîncercare. Nu ocoli avertismentele browserului privind certificatele.
 4. În **Browser → meniul de marcaje → Șterge datele de navigare**, selectează memoria cache, cookie-urile și/sau istoricul și confirmă. Ștergerea cookie-urilor poate închide sesiunile. Documentele și PIN-urile salvate rămân.
 
-Ștampilele PDF pentru browser și accesul pentru clienți desktop vechi au preferințe separate în Conexiune cu browserul. Activează accesul vechi numai pentru software-ul pe care vrei să-l folosești. Vezi [ghidul browserului](/docs/browser).
+Ștampilele PDF pentru browser au propria preferință în Conexiune cu browserul. Ediția independentă oferă și acces pentru clienți desktop vechi; activează-l numai pentru software-ul pe care vrei să-l folosești. Ediția Mac App Store nu acceptă cereri din browser care conțin căi arbitrare către fișiere locale. Vezi [ghidul browserului](/docs/browser).
