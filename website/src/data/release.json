@@ -5,7 +5,7 @@
     {
       "name": "esemnbun-0.2.12-macos-universal.tar.gz",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/esemnbun-0.2.12-macos-universal.tar.gz",
-      "size": 2152383,
+      "size": 2151096,
       "platform": "macos",
       "version": "0.2.12",
       "format": "TAR.GZ",
@@ -32,7 +32,7 @@
     {
       "name": "eSemnBun-0.2.12.dmg",
       "url": "https://github.com/xfreebird/smartcard/releases/download/v0.2.12/eSemnBun-0.2.12.dmg",
-      "size": 6366080,
+      "size": 6365347,
       "platform": "macos",
       "version": "0.2.12",
       "format": "DMG",
@@ -126,7 +126,17 @@
         "ro": "macOS 15+ · Apple silicon & Intel",
         "ru": "macOS 15+ · Apple silicon & Intel"
       },
-      "guide": "/docs/platforms/macos"
+      "guide": "/docs/platforms/macos",
+      "store": {
+        "name": "Mac App Store",
+        "url": "https://apps.apple.com/app/id6829451042",
+        "badges": {
+          "en": "/img/badges/mac-app-store-en.svg",
+          "ro": "/img/badges/mac-app-store-ro.svg",
+          "ru": "/img/badges/mac-app-store-ru.svg"
+        }
+      },
+      "noteKey": "macAppStoreLimitations"
     },
     {
       "id": "windows",

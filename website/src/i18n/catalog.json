@@ -116,9 +116,9 @@
     "ru": "Доступность в Google Play зависит от доступа к тестированию и региона."
   },
   "storeStatus_macos": {
-    "en": "Mac App Store availability depends on review and region.",
-    "ro": "Disponibilitatea în Mac App Store depinde de aprobare și regiune.",
-    "ru": "Доступность в Mac App Store зависит от проверки и региона."
+    "en": "Available on the Mac App Store.",
+    "ro": "Disponibil în Mac App Store.",
+    "ru": "Доступно в Mac App Store."
   },
   "macAppStoreLimitations": {
     "en": "The Mac App Store edition uses an in-app browser and does not include the reader insertion helper or MoldSign process controls.",

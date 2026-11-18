@@ -1656,3 +1656,8 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 
 - Follow-up: restore native glass styling for the short picker. The standalone capsule now owns its outline and shadow; only roomy drop areas retain an outer dashed border. Keep drag highlighting without overlapping idle borders.
 - Glass follow-up validation: iOS Debug rebuild passed; recaptured and visually checked portrait Verify on the fresh iPhone simulator. Native capsule glass/shadow is restored without the surrounding drop-zone border (`docs/reports/ui-layout-2026-11-15/glass/verify-valid-light.png`).
+
+### 2026-11-18 — Restore the live Mac App Store download
+
+- Verified Apple's public Moldova catalog lists `eSemnBun Desktop`, bundle `md.esemnbun.mac`, as version 0.2.12, released on 18 November. Restore its localized Mac App Store badge on the landing and Downloads pages, with the existing explanation of Store-edition differences.
+- Update EN/RO/RU availability text and refresh installer metadata from the actual v0.2.12 release. Retain the latest published Linux 0.2.11 packages and the standalone Mac DMG/CLI choices. Publish through the existing Website workflow and verify the live links after deployment.
