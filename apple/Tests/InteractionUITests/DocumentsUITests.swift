@@ -79,8 +79,10 @@ final class DocumentsUITests: XCTestCase {
         let resolved = NSPredicate { _, _ in missing.count == 0 && !app.activityIndicators.firstMatch.exists }
         expectation(for: resolved, evaluatedWith: app)
         waitForExpectations(timeout: 10)
-        let author = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "Author: TEST SEMNATAR")).firstMatch
-        author.tap()
+        let signature = app.buttons["verify.disclosure.signature"].firstMatch
+        XCTAssertTrue(signature.waitForPresence(timeout: 5))
+        XCTAssertTrue(signature.label.contains("Author: TEST SEMNATAR"), signature.label)
+        signature.tap()
         XCTAssertTrue(app.staticTexts["Document integrity"].waitForPresence(timeout: 5))
         XCTAssertFalse(app.descendants(matching: .any)["verify.missingOriginal"].exists)
         attach(app, "07-original-selected-integrity")
