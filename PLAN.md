@@ -1666,3 +1666,5 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 
 - Owner confirmed USB-reader and electronic-ID card detection and external-browser operation in the installed Mac App Store app. Current source enables the Store bridge and CryptoTokenKit monitoring; the documentation's embedded-browser-only implication was obsolete.
 - Correct the canonical EN/RO/RU Mac guides and generated pages, browser overviews, landing/download copy, and developer/build documentation. Explain running-app detection separately from the standalone helper that relaunches a quit app; retain sandbox file-route/output, vendor-control and local-automation differences. Evidence and untested details: `docs/reports/macos-app-store-owner-acceptance-2026-11-18.md`. Publish through Website CI; no native build or hardware operation requested.
+
+- 2026-11-18 — Remove the Mac App Store availability and capability paragraphs from both landing-page download areas in every locale. Retain the Store badge and the separate Downloads-page guidance.
