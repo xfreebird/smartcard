@@ -38,6 +38,12 @@ enum ScreenshotFixtures {
         let urls = ScreenshotFixtures.documents(in: directory, unavailable: scenario.contains("unavailable"), xml: scenario.contains("incomplete"))
         var records = urls.map { ActivityItem(title: $0.lastPathComponent, subtitle: L10n.text(.ui_verified), ok: true,
             fileURL: $0, signedOutput: true) }
+        if scenario == "history-populated", let file = urls.last {
+            let failure = ActivityItem(title: file.lastPathComponent,
+                subtitle: L10n.text(.ui_the_document_has_been_modified_or_the_signature_does_not_match),
+                ok: false, signedOutput: false)
+            records.insert(failure, at: 0)
+        }
         if scenario == "documents-protection" {
             records += ["encrypt", "decrypt"].map { operation in
                 let name = operation == "encrypt" ? "Contract.pdf.symmetric.p7m" : "decrypted-Contract.pdf"

@@ -8,7 +8,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.relocation.BringIntoViewRequester
@@ -34,7 +33,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.OpenInNew
+import androidx.compose.material.icons.outlined.Description
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.Draw
@@ -141,26 +144,27 @@ fun SignScreen(vm: MainViewModel, padding: PaddingValues, onOpenCard: () -> Unit
             Column(Modifier.fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surfaceContainerLow, RoundedCornerShape(20.dp)).padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(Tokens.S3)) {
-                Column(Modifier.fillMaxWidth()) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
-                        Spacer(Modifier.width(8.dp))
-                        Text(stringResource(R.string.saved_signed), style = MaterialTheme.typography.titleMedium)
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
+                    Spacer(Modifier.width(8.dp))
+                    Text(stringResource(R.string.saved_signed), style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.weight(1f))
+                    IconButton(onClick = vm::clearSignedResults, enabled = !working,
+                        modifier = Modifier.testTag("sign.clearResults")) {
+                        Icon(Icons.Outlined.Close, contentDescription = stringResource(R.string.results_clear))
                     }
-                    TextButton(onClick = vm::clearSignedResults, enabled = !working,
-                        modifier = Modifier.align(Alignment.End).testTag("sign.clearResults")) { Text(stringResource(R.string.results_clear)) }
                 }
-                signedResults.forEach { (name, uri) ->
-                    Card(onClick = {
-                        runCatching { context.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, mimeOf(name))
-                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)) }
-                    }, modifier = Modifier.fillMaxWidth(), shape = RoundedCornerShape(Tokens.RadiusCard)) {
-                        Row(Modifier.fillMaxWidth().padding(Tokens.S4), verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(Tokens.S3)) {
-                            Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = LocalStatusColors.current.success)
-                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
-                            Text(stringResource(R.string.action_open), style = MaterialTheme.typography.labelLarge)
-                            Icon(Icons.AutoMirrored.Outlined.OpenInNew, contentDescription = null)
+                Column(Modifier.fillMaxWidth()) {
+                    signedResults.forEachIndexed { index, (name, uri) ->
+                        if (index > 0) HorizontalDivider()
+                        Row(Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.action_open)) {
+                            context.openDocument(uri, name)
+                        }.heightIn(min = 60.dp), verticalAlignment = Alignment.CenterVertically) {
+                            Icon(Icons.Outlined.Description, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                            Spacer(Modifier.width(12.dp))
+                            Text(name, modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodyLarge,
+                                maxLines = 1, overflow = androidx.compose.ui.text.style.TextOverflow.MiddleEllipsis)
+                            if (uri.scheme == "content") DocumentShareButton(uri, name)
                         }
                     }
                 }

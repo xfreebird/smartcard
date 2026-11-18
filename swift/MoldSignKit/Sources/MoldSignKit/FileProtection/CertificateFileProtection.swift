@@ -13,6 +13,12 @@ public enum CertificateFileProtection {
     private static let aes128 = Data(hex: "608648016503040102")
     private static func w(_ tag: UInt8, _ content: Data) -> Data { ProtectionASN1.wrap(tag, content) }
 
+    /// Validate the recipient's key usage, RSA algorithm and supported modulus size before accepting the selection.
+    public static func validateRecipient(_ certificate: Data) throws {
+        _ = try recipientIdentity(certificate)
+        _ = try modulusBytes(certificate)
+    }
+
     public static func encrypt(_ plaintext: Data, certificate: Data) throws -> Data {
         guard plaintext.count <= PasswordFileProtection.maximumSize else { throw FileProtectionError.tooLarge }
         let identity = try recipientIdentity(certificate)

@@ -1,5 +1,9 @@
 package md.moldsign.app.presentation
 
+import md.moldsign.core.protection.CertificateFileProtection
+import md.moldsign.core.protection.ProtectionHeader
+import java.security.cert.CertificateFactory
+import java.security.cert.X509Certificate
 import md.moldsign.app.application.DocumentProtection
 import md.moldsign.app.application.ProtectDocument
 import md.moldsign.app.application.ImportDocuments
@@ -46,8 +50,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.sync.withLock
 import md.moldsign.app.bridge.BridgeService
 import md.moldsign.core.ActivityEntry
+import md.moldsign.core.CertificateSummary
 import md.moldsign.core.CardError
 import md.moldsign.core.Document
 import md.moldsign.core.SignFormat
@@ -70,8 +76,22 @@ class MainViewModel @JvmOverloads constructor(
     private val deletion = DeleteSavedDocuments { documents.delete(it.toUri()) }
     private val protection = protection ?: ProtectDocument(documents, ::saveProtectedDocument)
 
-    suspend fun protectDocument(uri: Uri, password: CharArray, decrypt: Boolean): Uri =
-        protection.process(uri, password, decrypt)
+    suspend fun protectDocument(uri: Uri, password: CharArray, decrypt: Boolean, keySize: Int): Uri =
+        protection.process(uri, password, decrypt, keySize)
+
+    suspend fun protectionHeader(uri: Uri) = withContext(Dispatchers.IO) {
+        ProtectionHeader.detect(documents.readPrefix(uri, ProtectionHeader.PREFIX_SIZE))
+    }
+
+    suspend fun importRecipient(uri: Uri): X509Certificate = withContext(Dispatchers.IO) {
+        val bytes = documents.readBytes(uri, 65536)
+        val cert = CertificateFactory.getInstance("X.509").generateCertificate(bytes.inputStream()) as X509Certificate
+        CertificateFileProtection.recipientKey(cert)
+        cert
+    }
+
+    suspend fun encryptForRecipient(uri: Uri, certificate: X509Certificate): Uri =
+        protection.encryptForRecipient(uri, certificate)
 
     fun protectionPreviewState(scenario: String) =
         if (container.isDemo && md.moldsign.app.DemoMode.supportsResultPreview) container.previewData.protectionPreview(scenario) else null
@@ -86,13 +106,15 @@ class MainViewModel @JvmOverloads constructor(
     suspend fun protectionDocumentName(uri: Uri): String = documents.describe(uri).name
 
     suspend fun encryptionIdentities(): Pair<String?,List<md.moldsign.core.protection.CardEncryptionIdentity>> = withContext(Dispatchers.IO) {
-        check(!demoMode)
+        check(!container.isDemo)
         val reader = container.wallet.value.selectedCard?.readerId ?: throw CardError.NoCard()
-        reader to container.signingService.encryptionIdentities(reader)
+        reader to container.whileBusy { container.signingService.encryptionIdentities(reader) }
     }
-    suspend fun decryptProtectedFile(bytes: ByteArray, identity: md.moldsign.core.protection.CardEncryptionIdentity, pin: CharArray, reader: String?): ByteArray = withContext(Dispatchers.IO) {
-        check(!demoMode)
-        container.signingService.decryptFile(bytes,identity,pin,reader)
+    suspend fun decryptProtectedFile(uri: Uri, identity: md.moldsign.core.protection.CardEncryptionIdentity, pin: CharArray, reader: String?): Uri = withContext(Dispatchers.IO) {
+        check(!container.isDemo)
+        protection.decryptWithCard(uri) { bytes ->
+            container.whileBusy { container.signingService.decryptFile(bytes, identity, pin, reader) }
+        }
     }
 
     data class ShortcutRequest(val id: String, val destination: md.moldsign.app.AppShortcuts.Destination, val documentID: String? = null)
@@ -122,12 +144,15 @@ class MainViewModel @JvmOverloads constructor(
     val signingMethod = _signingMethod.asStateFlow()
     private val _nfcIdentity = MutableStateFlow<md.moldsign.core.CertificateSummary?>(null)
     val nfcIdentity = _nfcIdentity.asStateFlow()
-    private val _learnedCards = MutableStateFlow<List<md.moldsign.core.CertificateSummary>>(emptyList())
-    val knownCards = combine(container.wallet, _learnedCards) { wallet, learned ->
-        if (container.isDemo) emptyList() else (wallet.cards.mapNotNull { it.certificate } + learned).distinctBy { it.sha1Hex }
-    }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
-    private val _savedPinIds = MutableStateFlow<Set<String>>(emptySet())
-    val savedPinIds = _savedPinIds.asStateFlow()
+    // The reader wallet is a live hardware inventory. Only explicitly remembered identities
+    // belong in the NFC pickers, even if a forgotten card is still in its reader.
+    private val _learnedCards = MutableStateFlow(
+        if (container.isDemo) emptyList() else container.savedCardIdentities.read()
+    )
+    val knownCards = _learnedCards.asStateFlow()
+    val savedPinIds = (if (container.isDemo) kotlinx.coroutines.flow.flowOf(emptySet()) else container.pinVault.accounts)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
+    private val identityChanges = kotlinx.coroutines.sync.Mutex()
     private val _pendingPinSave = MutableStateFlow<md.moldsign.app.application.PinToSave?>(null)
     val pendingPinSave = _pendingPinSave.asStateFlow()
     val browserNfc get() = container.browserNfc
@@ -150,49 +175,73 @@ class MainViewModel @JvmOverloads constructor(
     fun selectSigningMethod(method: SigningMethod) {
         if (working.value || container.busy.value || (method == SigningMethod.NFC && !nfcAvailable)) return
         if (method == SigningMethod.NFC && _signingMethod.value != method && _nfcIdentity.value == null && !choseAnotherCard)
-            _nfcIdentity.value = container.wallet.value.selectedCard?.certificate ?: knownCards.value.singleOrNull()
+            _nfcIdentity.value = knownCards.value.firstOrNull { it.sha1Hex == container.wallet.value.selectedCard?.certificate?.sha1Hex }
+                ?: knownCards.value.singleOrNull()
         _signingMethod.value = method
     }
     private var choseAnotherCard = false
-    fun selectNfcCard(card: md.moldsign.core.CertificateSummary?) {
+    fun selectNfcCard(card: CertificateSummary?) {
         if (working.value || container.busy.value || container.isDemo) return
+        if (card != null && knownCards.value.none { it.sha1Hex == card.sha1Hex }) return
         choseAnotherCard = card == null
         _nfcIdentity.value = card
+        container.browserNfc.seed(card)
+    }
+    fun selectBrowserCard(card: CertificateSummary) {
+        if (!working.value && !container.busy.value && !container.isDemo &&
+            knownCards.value.any { it.sha1Hex == card.sha1Hex }) container.browserNfc.select(card)
+    }
+    fun useReaderCardForNfc(id: String) {
+        if (working.value || container.busy.value || container.isDemo || !nfcAvailable) return
+        val certificate = container.wallet.value.selectedCard?.certificate?.takeIf { it.sha1Hex == id && it.der != null } ?: return
+        learned(certificate)
+        _signingMethod.value = SigningMethod.NFC
     }
     fun cancelNfc() { container.nfc.cancel() }
-    private fun learned(certificate: md.moldsign.core.CertificateSummary) {
+    private fun rememberIdentity(certificate: CertificateSummary) {
         _learnedCards.update { cards -> (cards + certificate).distinctBy { it.sha1Hex } }
-        _nfcIdentity.value = certificate
     }
-    private suspend fun refreshSavedPins() {
-        _savedPinIds.value = knownCards.value.filter { container.pinVault.has(it.sha1Hex) }.map { it.sha1Hex }.toSet()
+    private fun learned(certificate: CertificateSummary) {
+        rememberIdentity(certificate)
+        _nfcIdentity.value = certificate
+        container.browserNfc.seed(certificate)
     }
     suspend fun useSavedPin(activity: androidx.fragment.app.FragmentActivity, prompt: md.moldsign.app.application.ConsentBroker.PendingConsent) {
         val certificate = prompt.request.certificate ?: return
         if (container.isDemo) return
         val pin = runCatching { container.pinVault.load(activity, certificate.sha1Hex, text(R.string.pin_use_saved), certificate.commonName) }.getOrNull()
         if (pin != null) prompt.answer(ConsentResult.Pin(pin))
-        refreshSavedPins()
     }
     suspend fun savePin(activity: androidx.fragment.app.FragmentActivity, pending: md.moldsign.app.application.PinToSave) {
         try {
-            if (!container.isDemo && container.pinVault.save(activity, pending.certificate.sha1Hex, pending.pin,
-                text(R.string.pin_remember), pending.certificate.commonName)) {
-                container.savedCardIdentities.save(pending.certificate)
-                _learnedCards.update { cards -> (cards + pending.certificate).distinctBy { it.sha1Hex } }
-                _savedPinIds.update { it + pending.certificate.sha1Hex }
+            identityChanges.withLock {
+                if (_pendingPinSave.value === pending && !container.isDemo &&
+                    container.pinVault.save(activity, pending.certificate.sha1Hex, pending.pin,
+                        text(R.string.pin_remember), pending.certificate.commonName)) {
+                    container.savedCardIdentities.save(pending.certificate)
+                    rememberIdentity(pending.certificate)
+                }
             }
         } catch (_: Exception) {
             _message.value = UiMessage.Text(R.string.pin_save_failed)
         } finally { pending.pin.fill('\u0000'); _pendingPinSave.compareAndSet(pending, null) }
     }
-    fun deletePin(id: String) {
-        if (container.isDemo || working.value) return
-        viewModelScope.launch {
-            container.pinVault.delete(id)
-            container.savedCardIdentities.delete(id)
-            _savedPinIds.update { it - id }
-            _message.value = UiMessage.Text(R.string.pin_stored_deleted)
+    fun forgetCard(id: String) {
+        if (container.isDemo || working.value || container.busy.value) return
+        runJob(busyLight = false) {
+            forgetIdentity(id)
+            _message.value = UiMessage.Text(R.string.card_forgotten)
+        }
+    }
+
+    private suspend fun forgetIdentity(id: String) = identityChanges.withLock {
+        container.pinVault.delete(id)
+        container.savedCardIdentities.delete(id)
+        _learnedCards.update { cards -> cards.filterNot { it.sha1Hex == id } }
+        _nfcIdentity.update { it?.takeUnless { card -> card.sha1Hex == id } }
+        container.browserNfc.forget(id)
+        _pendingPinSave.value?.takeIf { it.certificate.sha1Hex == id }?.let { pending ->
+            if (_pendingPinSave.compareAndSet(pending, null)) pending.pin.fill('\u0000')
         }
     }
     val pendingConsent = container.consentBroker.pending
@@ -290,12 +339,10 @@ class MainViewModel @JvmOverloads constructor(
 
     init {
         if (demoMode) seedPreviewDocuments()
-        else viewModelScope.launch {
-            _learnedCards.value = container.savedCardIdentities.read().filter { container.pinVault.has(it.sha1Hex) }
-            if (_signingMethod.value == SigningMethod.NFC && !choseAnotherCard && _nfcIdentity.value == null)
-                _nfcIdentity.value = _learnedCards.value.singleOrNull()
-            container.browserNfc.seed(_learnedCards.value.singleOrNull())
-            knownCards.collect { refreshSavedPins() }
+        else if (!container.isDemo) {
+            val onlyCard = knownCards.value.singleOrNull()
+            if (_signingMethod.value == SigningMethod.NFC) _nfcIdentity.value = onlyCard
+            container.browserNfc.seed(onlyCard)
         }
     }
 
@@ -463,11 +510,7 @@ documents.copy(source, target)
                     }
                 }
             } catch (error: CardError.WrongPin) {
-                attemptedCertificate?.sha1Hex?.let { id ->
-                    container.pinVault.delete(id)
-                    container.savedCardIdentities.delete(id)
-                    _savedPinIds.update { it - id }
-                }
+                attemptedCertificate?.sha1Hex?.let { forgetIdentity(it) }
                 throw error
             } finally { container.consentBroker.discardRemembered() }
             lastSaved?.let { _message.value = UiMessage.Saved(if (demoMode) R.string.demo_mode_result else if (SignedFileStore.inDownloads) R.string.signed_saved else R.string.signed_saved_app, it) }
@@ -618,11 +661,6 @@ documents.copy(source, target)
     fun setBridge(enabled: Boolean) {
         val ctx = getApplication<Application>()
         if (enabled && !container.isDemo) BridgeService.start(ctx) else BridgeService.stop(ctx)
-    }
-
-    fun deleteStoredPin() {
-        val certificate = if (signingMethod.value == SigningMethod.NFC) nfcIdentity.value else container.wallet.value.selectedCard?.certificate
-        certificate?.sha1Hex?.let(::deletePin)
     }
 
     override fun onCleared() {

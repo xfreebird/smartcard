@@ -9,7 +9,7 @@ Two shared schemes use the same macOS target and source:
 
 The original `eSemnBun-macOS` scheme remains a compatible alias for the desktop build. Both variants use the existing `md.esemnbun.mac` identifier and therefore share the application identity; install one distribution at a time.
 
-The Store configurations define `APP_STORE`, use CryptoTokenKit for smart-card access and use `Configuration/AppStore.entitlements`. The direct-distribution reader watcher and launch agent are excluded from the Store bundle, including stale outputs when reusing build directories. Store signing results stay inside its container and use a native Export action to save to a chosen location. The desktop configuration keeps the reader watcher, browser connection and normal file-output behavior.
+The Store configurations define `APP_STORE`, use CryptoTokenKit for smart-card access and use `Configuration/AppStore.entitlements`. The Store app embeds a separately sandboxed reader watcher. Users can enable it in onboarding or General settings to reopen the app after Quit. The existing foreground-only preference does not register the agent on upgrade. Signed results stay in the app library. Save As exports a result, and General settings can remember a user-selected folder for automatic PDF and XML copies. A failed copy leaves the signed result available for export.
 
 The Store bridge retains normal TLS validation, allowed-origin checks and consent/PIN authorization. Arbitrary filesystem bridge routes are disabled. The bundled vendor localhost identity remains a distribution/review consideration; network entitlements permit the listener but do not imply Store approval.
 
@@ -20,9 +20,9 @@ Feature availability:
 | Sign and verify documents, activity, language/theme, demo mode, saved PINs | Yes | Yes |
 | Smart-card transport | PC/SC | CryptoTokenKit |
 | Embedded browser, loopback HTTPS bridge and bundled localhost identity | Yes | Yes, data-only signing routes |
-| Separate reader-insertion watcher | Yes | Omitted |
+| Separate reader-insertion watcher | Yes | Opt-in sandboxed agent |
 | Reader detection while app is running | Yes | Yes |
-| Output beside original file | Yes | Container output plus Save As export |
+| Output beside original file | Yes | Save As or choose the original folder for automatic copies |
 | Direct-distribution vendor termination | Yes | Disabled |
 
 Build locally without distribution credentials:
@@ -52,4 +52,4 @@ MAC_APP_STORE_PROFILE='match AppStore md.esemnbun.mac' apple/scripts/package-app
 
 The Store script archives `AppStore Release` and exports locally; it does not upload. `APPLE_TEAM_ID` overrides the configured team, `MAC_APP_STORE_PROFILE` selects the provisioning profile, and `MAC_APP_STORE_OUTPUT` selects the output directory (default `dist/macos-app-store`). `AppStore.xcconfig` remains available as a compatibility override for external archive tooling; the shared Store scheme does not require it.
 
-The macOS target bundles `Apps/macOS/PrivacyInfo.xcprivacy` declaring app-owned UserDefaults use (CA92.1). A successfully signed export is a build artifact, not App Store approval. Hardware signing, keychain access and export should also be checked on installed signed builds before submission.
+The macOS target bundles `Apps/macOS/PrivacyInfo.xcprivacy` declaring app-owned UserDefaults use (CA92.1) and shared reader-mode preferences (1C8F.1). A successfully signed export is a build artifact, not App Store approval. Hardware signing, keychain access and export should also be checked on installed signed builds before submission.

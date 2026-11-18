@@ -16,7 +16,7 @@ struct EmptyCardFace: View {
                 .symbolEffect(.pulse, isActive: content.isReading)
             Text(content.title).font(.headline).multilineTextAlignment(.center)
             Text(content.subtitle).font(.caption).foregroundStyle(.secondary).multilineTextAlignment(.center)
-                .lineLimit(3)
+                .lineLimit(compact ? nil : 3)
                 .fixedSize(horizontal: false, vertical: true)
             if showsAction, let actionTitle = content.actionTitle {
                 Button(actionTitle, action: onAction)

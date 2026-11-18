@@ -19,9 +19,10 @@ class FileProtectionInstrumentation : Instrumentation() {
     override fun onStart() {
         val result = Bundle()
         try {
-            require(suite == null || suite == "journeys" || suite == "protection" || suite == "browser-locale" || suite == "nfc-preparation") { "Unknown integration suite: $suite" }
+            require(suite == null || suite == "journeys" || suite == "protection" || suite == "browser-locale" || suite == "nfc-preparation" || suite == "saved-identities") { "Unknown integration suite: $suite" }
             require(suite == null || phase == null) { "A journey suite cannot select a persistence phase" }
             val message = when {
+                suite == "saved-identities" -> SavedIdentityRemovalIntegration(this).run()
                 suite == "nfc-preparation" -> NfcPreparationIntegration(this).run()
                 suite == "journeys" -> JourneyAutomation(this).run()
                 suite == "browser-locale" -> BrowserLocaleIntegration(this).run()

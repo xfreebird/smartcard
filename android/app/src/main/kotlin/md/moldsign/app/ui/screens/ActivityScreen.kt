@@ -3,12 +3,10 @@ package md.moldsign.app.ui.screens
 import md.moldsign.app.hostActivity
 import md.moldsign.app.ui.components.signatureLabels
 import androidx.compose.material.icons.outlined.FolderOpen
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -38,7 +36,6 @@ import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -90,7 +87,8 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     val savedDocuments by vm.savedDocuments.collectAsStateWithLifecycle()
     var protecting by remember { mutableStateOf(false) }
     var protectionSource by remember { mutableStateOf<Uri?>(null) }
-    if (protecting) FileProtectionDialog(vm, initialFile = protectionSource) { protecting = false; protectionSource = null }
+    var decryptSource by remember { mutableStateOf(false) }
+    if (protecting) FileProtectionDialog(vm, initialFile = protectionSource, initialDecrypt = decryptSource) { protecting = false; protectionSource = null }
     var history by remember { mutableStateOf(false) }
     val entries = if (history) allEntries else savedDocuments
     var confirm by remember { mutableStateOf(false) }
@@ -128,9 +126,19 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
         onPauseOrDispose { }
     }
     ScreenColumn(padding) {
-        Row(Gutter.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(Gutter.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically) {
             FilterChip(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("documents.savedTab"), selected = !history, onClick = { history = false }, label = { Text(stringResource(R.string.saved_signed)) })
             FilterChip(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("documents.historyTab"), selected = history, onClick = { history = true }, label = { Text(stringResource(R.string.saved_history)) })
+            Spacer(Modifier.weight(1f))
+            if (entries.isNotEmpty()) {
+                IconButton(modifier = Modifier.semantics { testTagsAsResourceId = true }
+                    .testTag(if (history) "documents.clearHistory" else "documents.deleteAll"),
+                    onClick = { if (history) confirm = true else deleting = savedDocuments.toList() }) {
+                    Icon(Icons.Outlined.DeleteSweep, contentDescription = stringResource(
+                        if (history) R.string.activity_clear else R.string.saved_delete_all))
+                }
+            }
         }
         if (entries.isEmpty()) {
             Column(
@@ -148,24 +156,14 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
                 )
             }
         } else {
-            Column {
-                SectionHeader(stringResource(if (history) R.string.activity_recent else R.string.saved_signed)) {
-                    TextButton(modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag(if (history) "documents.clearHistory" else "documents.deleteAll"),
-                        onClick = { if (history) confirm = true else deleting = savedDocuments.toList() }) {
-                        Icon(Icons.Outlined.DeleteSweep, contentDescription = null, modifier = Modifier.size(18.dp))
-                        Spacer(Modifier.width(Tokens.S2))
-                        Text(stringResource(if (history) R.string.activity_clear else R.string.saved_delete_all))
-                    }
-                }
-                Card(
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-                    shape = RoundedCornerShape(Tokens.RadiusCard),
-                    modifier = Gutter.fillMaxWidth(),
-                ) {
-                    entries.forEachIndexed { i, e ->
-                        if (i > 0) HorizontalDivider(Modifier.padding(start = 56.dp))
-                        ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onDecrypt = { protectionSource = it; protecting = true }, onDelete = if (history) null else ({ deleting = listOf(e) }), onSaveAs = { source, name -> saveSource = source; saveAs(name) })
-                    }
+            Card(
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+                shape = RoundedCornerShape(Tokens.RadiusCard),
+                modifier = Gutter.fillMaxWidth(),
+            ) {
+                entries.forEachIndexed { i, e ->
+                    if (i > 0) HorizontalDivider(Modifier.padding(start = if (history) Tokens.S4 else 56.dp))
+                    ActivityRow(e, onDetails = { detailsEntry = it }, onVerify = onVerify, onProtect = { uri, decrypt -> protectionSource = uri; decryptSource = decrypt; protecting = true }, onDelete = if (history) null else ({ deleting = listOf(e) }), onSaveAs = { source, name -> saveSource = source; saveAs(name) })
                 }
             }
         }
@@ -183,7 +181,7 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
     }
     detailsEntry?.let { entry ->
         if (entry.protectionOperation != null) ProtectedDocumentDetails(entry, onDismiss = { detailsEntry = null }, onDecrypt = {
-            detailsEntry = null; protectionSource = it; protecting = true
+            detailsEntry = null; protectionSource = it; decryptSource = true; protecting = true
         }) else SavedDocumentDetails(vm, entry, onDismiss = { detailsEntry = null })
     }
     if (confirm) {
@@ -204,99 +202,89 @@ fun ActivityScreen(vm: MainViewModel, padding: PaddingValues, onVerify: (Uri) ->
 }
 
 @Composable
-private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onDelete: (() -> Unit)? = null, onDecrypt: (Uri) -> Unit = {}, onSaveAs: (source: Uri, name: String) -> Unit) {
+private fun ActivityRow(e: ActivityEntry, onDetails: (ActivityEntry) -> Unit, onVerify: (Uri) -> Unit, onDelete: (() -> Unit)? = null, onProtect: (Uri, Boolean) -> Unit, onSaveAs: (source: Uri, name: String) -> Unit) {
     val context = LocalContext.current
     val colors = LocalStatusColors.current
     val uri = e.documentUri?.toUri()?.takeIf { it.scheme == "content" }
-    var menu by remember { mutableStateOf(false) }
-    // content:// entries open in the default viewer (the persisted permission travels with the intent).
-    val open: (() -> Unit)? = uri?.let { u ->
-        {
-            runCatching {
-                context.startActivity(Intent(Intent.ACTION_VIEW, u).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK))
-            }
+    var menu by remember(e.id) { mutableStateOf(false) }
+    val statusIcon: @Composable () -> Unit = {
+        when {
+            e.kind == ActivityEntry.Kind.Browser -> Icon(Icons.Outlined.Language, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            e.protectionOperation == "encrypt" -> Icon(Icons.Outlined.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            e.protectionOperation == "decrypt" -> Icon(Icons.Outlined.FolderOpen, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+            e.ok -> Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = colors.success)
+            else -> Icon(Icons.Outlined.ErrorOutline, contentDescription = null, tint = colors.danger)
         }
     }
-    val share: (() -> Unit)? = uri?.let { u ->
-        {
-            val send = Intent(Intent.ACTION_SEND)
-                .setType(mimeOf(e.title))
-                .putExtra(Intent.EXTRA_STREAM, u)
-                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            runCatching { context.startActivity(Intent.createChooser(send, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-        }
+    val description = when (e.protectionOperation) {
+        "encrypt" -> stringResource(R.string.protect_encrypted)
+        "decrypt" -> stringResource(R.string.protect_decrypted)
+        else -> signatureLabels(e.subtitle)
     }
-    ListItem(
-        leadingContent = {
-            when {
-                e.kind == ActivityEntry.Kind.Browser -> Icon(Icons.Outlined.Language, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                e.protectionOperation == "encrypt" -> Icon(Icons.Outlined.Lock, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                e.protectionOperation == "decrypt" -> Icon(Icons.Outlined.FolderOpen, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
-                e.ok -> Icon(Icons.Outlined.CheckCircle, contentDescription = null, tint = colors.success)
-                else -> Icon(Icons.Outlined.ErrorOutline, contentDescription = null, tint = colors.danger)
-            }
-        },
-        headlineContent = { Text(e.title, maxLines = 1, overflow = TextOverflow.MiddleEllipsis) },
-        supportingContent = { Text(when (e.protectionOperation) { "encrypt" -> stringResource(R.string.protect_encrypted); "decrypt" -> stringResource(R.string.protect_decrypted); else -> signatureLabels(e.subtitle) }, maxLines = 2, overflow = TextOverflow.Ellipsis) },
-        trailingContent = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(activityTime(e.timeMillis), style = MaterialTheme.typography.labelSmall)
-                if (onDelete != null || (uri != null && open != null && share != null)) {
-                    Box {
-                        IconButton(onClick = { menu = true }) {
-                            Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more))
-                        }
-                        DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
-                            if (uri != null && open != null && share != null) {
-                            DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; open() })
-                            if (e.protectionOperation == "encrypt") DropdownMenuItem(text = { Text(stringResource(R.string.protect_decrypt)) }, onClick = { menu = false; onDecrypt(uri) })
-                            else DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
-                            DropdownMenuItem(text = { Text(stringResource(R.string.protect_title)) }, onClick = { menu = false; onDecrypt(uri) })
-                            DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; share() })
-                            DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
-                            }
-                            onDelete?.let { remove ->
-                                DropdownMenuItem(text = { Text(stringResource(R.string.saved_delete)) }, onClick = { menu = false; remove() })
-                            }
-                        }
+    val rowModifier = if (e.documentUri != null) Modifier.clickable(onClickLabel = stringResource(R.string.saved_details)) { onDetails(e) } else Modifier
+    val actions: @Composable () -> Unit = {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        if (onDelete != null && uri != null) DocumentShareButton(uri, e.title)
+        if (onDelete != null || uri != null) {
+            Box {
+                IconButton(onClick = { menu = true }) {
+                    Icon(Icons.Outlined.MoreVert, contentDescription = stringResource(R.string.action_more))
+                }
+                DropdownMenu(expanded = menu, onDismissRequest = { menu = false }) {
+                    if (uri != null) {
+                        DropdownMenuItem(text = { Text(stringResource(R.string.action_open)) }, onClick = { menu = false; context.openDocument(uri, e.title) })
+                        if (e.protectionOperation == "encrypt") DropdownMenuItem(text = { Text(stringResource(R.string.protect_decrypt)) }, onClick = { menu = false; onProtect(uri, true) })
+                        else DropdownMenuItem(text = { Text(stringResource(R.string.nav_verify)) }, onClick = { menu = false; onVerify(uri) })
+                        DropdownMenuItem(text = { Text(stringResource(R.string.protect_title)) }, onClick = { menu = false; onProtect(uri, false) })
+                        if (onDelete == null) DropdownMenuItem(text = { Text(stringResource(R.string.action_share)) }, onClick = { menu = false; context.shareDocument(uri, e.title) })
+                        DropdownMenuItem(text = { Text(stringResource(R.string.action_save_as)) }, onClick = { menu = false; onSaveAs(uri, e.title) })
+                    }
+                    onDelete?.let { remove ->
+                        DropdownMenuItem(text = { Text(stringResource(R.string.saved_delete)) }, onClick = { menu = false; remove() })
                     }
                 }
             }
-        },
+        }
+    }
+    }
+    if (onDelete == null) {
+        val locale = LocalConfiguration.current.locales.get(0)
+        val date = remember(locale) { java.text.DateFormat.getDateTimeInstance(java.text.DateFormat.MEDIUM, java.text.DateFormat.SHORT, locale) }
+        Column(rowModifier.fillMaxWidth().padding(horizontal = Tokens.S4, vertical = Tokens.S2)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                statusIcon()
+                Text(date.format(java.util.Date(e.timeMillis)), style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1f))
+                actions()
+            }
+            Text(e.title, style = MaterialTheme.typography.titleMedium)
+            Text(description, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp, bottom = 8.dp))
+        }
+        return
+    }
+    ListItem(
+        leadingContent = statusIcon,
+        headlineContent = { Text(e.title, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        supportingContent = { Text(activityTime(e.timeMillis) + "  ·  " + description, maxLines = 2, overflow = TextOverflow.Ellipsis) },
+        trailingContent = actions,
         colors = ListItemDefaults.colors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
-        modifier = if (e.documentUri != null) Modifier.clickable(onClickLabel = stringResource(R.string.saved_details)) { onDetails(e) } else Modifier,
+        modifier = rowModifier,
     )
 }
 
 /** Protection results are ordinary files, not signature-verification results. */
 @Composable
 private fun ProtectedDocumentDetails(entry: ActivityEntry, onDismiss: () -> Unit, onDecrypt: (Uri) -> Unit) {
-    val context = LocalContext.current
-    val uri = entry.documentUri?.toUri()
+    val uri = entry.documentUri?.toUri()?.takeIf { it.scheme == "content" }
     val encrypted = entry.protectionOperation == "encrypt"
-    var unavailable by remember { mutableStateOf(false) }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(entry.title) },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(stringResource(if (encrypted) R.string.protect_encrypted else R.string.protect_decrypted))
-                if (uri != null) {
-                    if (encrypted) Button(onClick = { onDecrypt(uri) }) { Text(stringResource(R.string.protect_decrypt)) }
-                    else OutlinedButton(onClick = {
-                        unavailable = runCatching {
-                            context.startActivity(Intent(Intent.ACTION_VIEW).setDataAndType(uri, mimeOf(entry.title)).addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION))
-                        }.isFailure
-                    }) { Text(stringResource(R.string.action_open)) }
-                    OutlinedButton(onClick = {
-                        unavailable = runCatching {
-                            val send = Intent(Intent.ACTION_SEND).setType(mimeOf(entry.title)).putExtra(Intent.EXTRA_STREAM, uri)
-                                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            context.startActivity(Intent.createChooser(send, null))
-                        }.isFailure
-                    }) { Text(stringResource(R.string.action_share)) }
-                }
-                if (unavailable) Text(stringResource(R.string.saved_unavailable), color = MaterialTheme.colorScheme.error)
+                if (uri != null) DocumentDetailActions(uri, entry.title, if (encrypted) ({ onDecrypt(uri) }) else null)
             }
         },
         confirmButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.action_close)) } },
@@ -374,6 +362,13 @@ private fun SavedDocumentDetails(vm: MainViewModel, entry: ActivityEntry, onDism
                             MissingDocuments(result.missingDocuments) { attach.launch(arrayOf("*/*")) }
                         }
                         result.reports.forEach { SignatureCard(it) }
+                    }
+                }
+                val uri = entry.documentUri?.toUri()
+                if (outcome != null && uri?.scheme == "content") {
+                    HorizontalDivider()
+                    Box(Modifier.padding(horizontal = Tokens.S4, vertical = Tokens.S2)) {
+                        DocumentDetailActions(uri, entry.title)
                     }
                 }
             }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MoldSign.App.Services;
+using Microsoft.UI.Xaml.Automation;
 
 namespace MoldSign.App.Views;
 
@@ -43,8 +44,14 @@ public sealed partial class ActivityPage : Page
     private async void OnRemoveClick(object sender, RoutedEventArgs e) => await new FileProtectionDialog(XamlRoot, ActualTheme, 2).ShowAsync();
     private void OnFileActions(object sender, RoutedEventArgs e)
     {
-        if (sender is not FrameworkElement { DataContext: ActivityItem { Path: { } path } } anchor) return;
+        if (sender is not FrameworkElement { DataContext: ActivityItem { Path: { } path } item } anchor) return;
         var menu = new MenuFlyout();
+        if (item.CanVerify)
+        {
+            var verify = new MenuFlyoutItem { Text = Loc.Get("Action_Verify"), Icon = new SymbolIcon(Symbol.Accept) };
+            verify.Click += async (_, _) => await App.Current.EnsureMainWindow(activate: true).VerifyFilesAsync(new[] { path });
+            menu.Items.Add(verify);
+        }
         var protect = new MenuFlyoutItem { Text = Loc.Get("protect_title") };
         protect.Click += async (_, _) => await new FileProtectionDialog(XamlRoot, ActualTheme, initialSource: path).ShowAsync();
         menu.Items.Add(protect);
@@ -67,7 +74,9 @@ public sealed partial class ActivityPage : Page
         EmptyMessage.Text = history ? Loc.Get("RecentEmpty/Text") : Loc.Get("saved_empty") + "\n" + Loc.Get("saved_hint");
         EmptyMessage.Visibility = DisplayItems.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         ClearButton.IsEnabled = DisplayItems.Count > 0;
-        ClearButton.Content = Loc.Get(history ? "Activity_ClearConfirm" : "saved_delete_all");
+        var clearLabel = Loc.Get(history ? "Activity_ClearConfirm" : "saved_delete_all");
+        AutomationProperties.SetName(ClearButton, clearLabel);
+        ToolTipService.SetToolTip(ClearButton, clearLabel);
         ClearButton.Visibility = Visibility.Visible;
     }
 
@@ -85,9 +94,7 @@ public sealed partial class ActivityPage : Page
                 var content = new StackPanel { Spacing = 16 };
                 content.Children.Add(new TextBlock { Text = item.FileName, TextWrapping = TextWrapping.Wrap });
                 content.Children.Add(new TextBlock { Text = item.ActionLabel, TextWrapping = TextWrapping.Wrap });
-                var open = new Button { Content = Loc.Get("File_ShowInFolder") };
-                open.Click += (_, _) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", "/select,\"" + path + "\"") { UseShellExecute = true });
-                content.Children.Add(open);
+                content.Children.Add(new DocumentFileActions { FilePath = path, ShowFolderLabel = true });
                 var saved = new ContentDialog { XamlRoot = XamlRoot, RequestedTheme = ActualTheme,
                     Title = Loc.Get("saved_files"), Content = content, CloseButtonText = Loc.Get("saved_close"),
                     PrimaryButtonText = DocumentFilter.SelectedIndex == 0 ? Loc.Get("saved_delete") : "" };
@@ -117,13 +124,6 @@ public sealed partial class ActivityPage : Page
             AppLog.Error(error);
         }
         finally { _detailsOpen = false; }
-    }
-
-    private async void OnVerifyClick(object sender, RoutedEventArgs e)
-    {
-        if (sender is not FrameworkElement { DataContext: ActivityItem { Path: { } path } }) return;
-        if (!File.Exists(path)) { State.PruneMissingFiles(); return; }
-        await App.Current.EnsureMainWindow(activate: true).VerifyFilesAsync(new[] { path });
     }
 
     /// <summary>Clear operation history only; the saved document library and files are retained.</summary>

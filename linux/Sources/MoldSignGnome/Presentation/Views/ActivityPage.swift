@@ -137,41 +137,62 @@ final class ActivityPage {
             case (.verified, false): tone = ["warning"]
             default: tone = ["error"]
             }
-            let title = label(item.title)
-            gtk_label_set_ellipsize(title.opaque, PANGO_ELLIPSIZE_MIDDLE)
-            gtk_widget_set_hexpand(title, 1)
-            let heading = hbox(spacing: 8, [image(icon, classes: tone), title])
-            let subtitle = label(item.kind == .encrypted ? L10n.text(.protect_encrypted) : item.kind == .decrypted ? L10n.text(.protect_decrypted) : signatureLabels(item.subtitle), classes: ["dim-label"], wrap: true)
-            let content = vbox(spacing: 8, [heading, subtitle,
-                label(Format.relative(item.date), classes: ["dim-label", "caption"])])
-            if let path = item.filePath {
-                append(content, hbox(spacing: 8, [
-                    button(L10n.text(item.isProtectionOutput ? .saved_files : .saved_details), classes: ["flat"]) { [weak self] in self?.presentDetails(path) },
-                    iconButton("document-encrypt-symbolic", tooltip: L10n.text(.protect_title)) { [weak self] in
-                        self?.showProtection(source: URL(fileURLWithPath: path))
-                    },
-                    iconButton("folder-open-symbolic", tooltip: L10n.text(.ui_open_folder)) { [weak self] in
-                        revealInFolder(path, parent: self?.window())
-                    }
-                ]))
+            let description: String
+            switch item.kind {
+            case .encrypted: description = L10n.text(.protect_encrypted)
+            case .decrypted: description = L10n.text(.protect_decrypted)
+            default:
+                if !history, let path = item.filePath {
+                    description = URL(fileURLWithPath: path).pathExtension.uppercased()
+                } else {
+                    description = signatureLabels(item.subtitle)
+                }
             }
-            if !history {
-                append(content, button(L10n.text(.saved_delete), classes: ["flat", "destructive-action"]) { [weak self] in
-                    guard let self, let parent = self.window() else { return }
-                    presentDeleteSignedDocumentsDialog(parent: parent.widget, items: [item]) { confirmed in
-                        if confirmed { self.controller.deleteSignedDocuments([item]) }
-                    }
-                })
-            }
-            margins(content, 12)
-            let row = gtk_list_box_row_new()!
-            gtk_list_box_row_set_child(row.cast(), content)
-            gtk_list_box_row_set_activatable(row.cast(), item.filePath == nil ? 0 : 1)
+            let subtitle = [description, Format.relative(item.date)].filter { !$0.isEmpty }.joined(separator: " · ")
+            let row: Widget
             if let path = item.filePath {
+                let actions = DocumentActions(path: path, parent: window)
+                row = actionRow(title: item.title, subtitle: subtitle, icon: icon, iconClasses: tone,
+                                suffix: [actions.controls, options(for: item, path: path)])
+                gtk_list_box_row_set_activatable(row.cast(), 1)
                 rowPaths[row.raw] = path
+            } else {
+                row = actionRow(title: item.title, subtitle: subtitle, icon: icon, iconClasses: tone)
             }
             gtk_list_box_append(list.opaque, row)
         }
+    }
+
+    private func options(for item: ActivityItem, path: String) -> Widget {
+        let menu = gtk_menu_button_new()!
+        gtk_menu_button_set_icon_name(menu.opaque, "view-more-symbolic")
+        addClasses(menu, ["flat"])
+        gtk_widget_set_tooltip_text(menu, L10n.text(.file_options))
+        setAccessibleLabel(menu, L10n.text(.file_options))
+        let popover = gtk_popover_new()!
+        let choices = vbox(spacing: 2)
+        margins(choices, 4)
+        gtk_popover_set_child(popover.cast(), choices)
+        gtk_menu_button_set_popover(menu.opaque, popover.cast())
+        func choice(_ title: String, action: @escaping () -> Void) {
+            append(choices, button(title, classes: ["flat"]) {
+                gtk_popover_popdown(popover.cast())
+                action()
+            })
+        }
+        choice(L10n.text(item.isProtectionOutput ? .saved_files : .saved_details)) { [weak self] in
+            self?.presentDetails(path)
+        }
+        choice(L10n.text(.protect_title)) { [weak self] in self?.showProtection(source: URL(fileURLWithPath: path)) }
+        if !history {
+            choice(L10n.text(.saved_delete)) { [weak self] in
+                guard let self, let parent = self.window() else { return }
+                presentDeleteSignedDocumentsDialog(parent: parent.widget, items: [item]) { confirmed in
+                    if confirmed { self.controller.deleteSignedDocuments([item]) }
+                }
+            }
+        }
+        return menu
     }
 
     private func presentDetails(_ path: String) {
@@ -182,7 +203,7 @@ final class ActivityPage {
         let dialog = adw_dialog_new()!
         adw_dialog_set_title(dialog, detailsTitle)
         adw_dialog_set_content_width(dialog, 560)
-        adw_dialog_set_content_height(dialog, 640)
+        adw_dialog_set_content_height(dialog, 460)
         let header = adw_header_bar_new()!
         adw_header_bar_set_title_widget(header.opaque, label(detailsTitle, classes: ["heading"]))
         let content = vbox(spacing: 18, [label(URL(fileURLWithPath: path).lastPathComponent, wrap: true)])
@@ -193,6 +214,10 @@ final class ActivityPage {
         let toolbar = adw_toolbar_view_new()!
         adw_toolbar_view_add_top_bar(toolbar.opaque, header)
         adw_toolbar_view_set_content(toolbar.opaque, scrolledPage(content))
+        let actions = DocumentActions(path: path, parent: window, showsFolderLabel: true)
+        gtk_widget_set_halign(actions.controls, GTK_ALIGN_END)
+        margins(actions.controls, 12)
+        adw_toolbar_view_add_bottom_bar(toolbar.opaque, actions.controls)
         adw_dialog_set_child(dialog, toolbar)
         var open = true
         onSignal(dialog, "closed") { [weak self] in
@@ -210,7 +235,7 @@ final class ActivityPage {
                 guard generation == request else { return }
                 guard open else { return } // The user may close while validation is still running.
                 clearBox(content)
-                append(content, label(URL(fileURLWithPath: path).lastPathComponent, wrap: true))
+                append(content, label(URL(fileURLWithPath: path).lastPathComponent, classes: ["heading"], wrap: true))
                 guard let reports else {
                     append(content, label(L10n.text(.saved_unavailable), classes: ["error"], wrap: true))
                     return
@@ -236,9 +261,8 @@ final class ActivityPage {
         if let item = (controller.signedDocuments + controller.activity).first(where: { $0.filePath == path }), item.isProtectionOutput {
             clearBox(content)
             adw_dialog_set_title(dialog, L10n.text(.saved_files))
-            append(content, label(URL(fileURLWithPath: path).lastPathComponent, wrap: true))
+            append(content, label(URL(fileURLWithPath: path).lastPathComponent, classes: ["heading"], wrap: true))
             append(content, label(L10n.text(item.kind == .encrypted ? .protect_encrypted : .protect_decrypted)))
-            append(content, button(L10n.text(.ui_open_folder)) { [weak self] in revealInFolder(path, parent: self?.window()) })
             if item.kind == .decrypted && ["pdf", "xml"].contains(URL(fileURLWithPath: path).pathExtension.lowercased()) {
                 append(content, button(L10n.text(.ui_verify)) { inspect([]) })
             }

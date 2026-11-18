@@ -76,14 +76,14 @@ internal object DemoMode {
             Thread.sleep(1_200)
             if (card.readerId == r2.id) anaMindru else ionPopescu
         }
-        seedActivity(container)
+        seedActivity(container, longNames = scenario == "history-review")
         viewModel.clearVerifyResults()
         viewModel.clearSignedResults()
         viewModel.signItems.value.toList().forEach(viewModel::remove)
         when (scenario) {
             "results" -> viewModel.previewCompletedResults()
             "activity-empty" -> container.activity.replaceForDemo(emptyList())
-            "verify-valid", "verify-invalid", "verify-unconfirmed", "verify-none", "verify-xml-missing", "verify-xml-complete" -> {
+            "verify-review", "verify-valid", "verify-invalid", "verify-unconfirmed", "verify-none", "verify-xml-missing", "verify-xml-complete" -> {
                 val date = java.util.Date(1_793_081_400_000L)
                 val report = md.moldsign.core.ValidationReport(
                     signerName = "ION POPESCU", signingTime = date, timestampTime = date,
@@ -94,7 +94,7 @@ internal object DemoMode {
                     certificateDetails = linkedMapOf("Subject · Name" to "ION POPESCU", "Issuer · Name" to "Example Signing CA", "Serial number" to "12345", "Public key" to "RSA 4096 bits", "SHA-256 fingerprint" to "A1B2C3D4 E5F60718 293A4B5C 6D7E8F90 A1B2C3D4 E5F60718 293A4B5C 6D7E8F90"),
                     details = listOf("Offline verification", "Document digest checked", "Certificate chain checked"),
                 )
-                viewModel.previewVerification(if (scenario.contains("xml")) "Contract-semnat.xml" else "Contract-semnat.pdf", if (scenario == "verify-none") emptyList() else listOf(report))
+                viewModel.previewVerification(if (scenario == "verify-review") "Municipal-library-renovation-agreement-final-signed.pdf" else if (scenario.contains("xml")) "Contract-semnat.xml" else "Contract-semnat.pdf", if (scenario == "verify-none") emptyList() else listOf(report))
             }
             "documents" -> seedSigningDocuments(container, viewModel, batch = false)
             "batch" -> seedSigningDocuments(container, viewModel, batch = true)
@@ -181,8 +181,8 @@ internal object DemoMode {
      * Fictional activity: two documents backed by small files in the app cache (so they pass the reachability check),
      * one whose file is gone (pruned right away, like a deleted document), and two browser requests (always kept).
      */
-    private fun seedActivity(container: AppContainer) {
-        val dir = File(container.app.cacheDir, "demo").apply { mkdirs() }
+    private fun seedActivity(container: AppContainer, longNames: Boolean) {
+        val dir = File(container.app.cacheDir, "demo/share").apply { mkdirs() }
         fun file(name: String, body: String) = File(dir, name).apply { writeText(body) }
         val signed = file("contract-semnat.pdf", "%PDF-1.7\n% fictional demo document\n%%EOF\n")
         File(container.app.cacheDir, "qa-capture/signed.pdf").takeIf { it.isFile }?.copyTo(signed, overwrite = true)
@@ -190,12 +190,15 @@ internal object DemoMode {
         val gone = File(dir, "act-vechi.pdf").apply { delete() }
         val now = System.currentTimeMillis()
         fun entry(id: String, kind: ActivityEntry.Kind, title: String, subtitle: String, ok: Boolean, minutesAgo: Long, file: File? = null, signedOutput: Boolean = false) =
-            ActivityEntry(id, kind, title, subtitle, ok, now - minutesAgo * 60_000, file?.let { Uri.fromFile(it).toString() }, signedOutput = signedOutput)
+            ActivityEntry(id, kind, title, subtitle, ok, now - minutesAgo * 60_000, file?.let {
+                if (it.exists()) androidx.core.content.FileProvider.getUriForFile(container.app, "${container.app.packageName}.protected-files", it).toString()
+                else Uri.fromFile(it).toString()
+            }, signedOutput = signedOutput)
         container.activity.replaceForDemo(
             listOf(
-                entry("d1", ActivityEntry.Kind.Document, "contract-semnat.pdf", container.app.appString(R.string.activity_signed, "PAdES-T"), true, 2, signed, signedOutput = true),
+                entry("d1", ActivityEntry.Kind.Document, if (longNames) "Municipal-library-renovation-agreement-final-signed.pdf" else "contract-semnat.pdf", container.app.appString(R.string.activity_signed, "PAdES-T"), true, 2, signed, signedOutput = true),
                 entry("b1", ActivityEntry.Kind.Browser, "msign.gov.md", container.app.appString(R.string.activity_signed, "XAdES-T (SHA-1) · cerere.xml"), true, 25),
-                entry("d2", ActivityEntry.Kind.Document, "cerere-angajare.pdf", container.app.appString(R.string.activity_verified), true, 70, verified),
+                entry("d2", ActivityEntry.Kind.Document, if (longNames) "Accessibility-assessment-for-community-library-annex.pdf" else "cerere-angajare.pdf", container.app.appString(R.string.activity_verified), true, 70, verified),
                 entry("d3", ActivityEntry.Kind.Document, "act-vechi.pdf", container.app.appString(R.string.activity_signed, "XAdES-C"), true, 3_000, gone, signedOutput = true),
                 entry("b2", ActivityEntry.Kind.Browser, "msign.gov.md", container.app.appString(R.string.activity_failed, "PAdES-T", container.app.appString(R.string.protect_pin_failure)), false, 4_400),
             ),

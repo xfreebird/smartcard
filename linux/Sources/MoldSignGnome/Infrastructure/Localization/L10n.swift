@@ -174,6 +174,8 @@ enum L10n {
         case ui_about_esemnbun
         case ui_main_menu
         case ui_technical_details
+        case tech_details_show
+        case tech_details_hide
         case ui_activity
         case ui_system
         case ui_light
@@ -423,6 +425,9 @@ enum L10n {
         case settings_card_reader
         case demo_enable_title
         case demo_enable_action
+        case protect_key_size
+        case protect_rsa_recipient
+        case protect_detect_algorithm
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -1286,6 +1291,16 @@ enum L10n {
     "ro": "Detalii tehnice",
     "en": "Technical details",
     "ru": "Технические сведения"
+  },
+  "tech_details_show": {
+    "ro": "Arată detaliile tehnice",
+    "en": "Show technical details",
+    "ru": "Показать технические сведения"
+  },
+  "tech_details_hide": {
+    "ro": "Ascunde detaliile tehnice",
+    "en": "Hide technical details",
+    "ru": "Скрыть технические сведения"
   },
   "ui_activity": {
     "ro": "Documente",
@@ -2398,9 +2413,9 @@ enum L10n {
     "ru": "1. Файл"
   },
   "protect_access_step": {
-    "en": "2. Password",
-    "ro": "2. Parolă",
-    "ru": "2. Пароль"
+    "en": "2. Protection",
+    "ro": "2. Protecție",
+    "ru": "2. Защита"
   },
   "protect_help": {
     "en": "What do I need?",
@@ -2443,9 +2458,9 @@ enum L10n {
     "ru": "Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием."
   },
   "protect_certificate_encrypt_help": {
-    "en": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.",
-    "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.",
-    "ru": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+    "en": "Ask the recipient for their public RSA encryption certificate (.cer or .der). You can encrypt the file with the certificate alone. The certificate must allow key encipherment.",
+    "ro": "Cere destinatarului certificatul public de criptare (.cer sau .der). Poți cripta fișierul cu certificatul RSA fără cardul sau PIN-ul destinatarului. Certificatul trebuie să permită criptarea cheilor.",
+    "ru": "Попросите у получателя открытый сертификат шифрования RSA (.cer или .der). Для шифрования файла достаточно этого сертификата. Сертификат должен разрешать шифрование ключей."
   },
   "protect_certificate_decrypt_help": {
     "en": "Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.",
@@ -2503,9 +2518,9 @@ enum L10n {
     "ru": "Сохранить копию…"
   },
   "protect_encrypted_hint": {
-    "en": "Use Decrypt in the Documents menu and enter the password to open this file.",
-    "ro": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.",
-    "ru": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+    "en": "Choose Decrypt in Documents. Use the file password or the recipient’s card, depending on how the file was encrypted.",
+    "ro": "Alege Decriptează în Documente. Folosește parola fișierului sau cardul destinatarului, în funcție de metoda de criptare.",
+    "ru": "Выберите «Расшифровать» в разделе «Документы». В зависимости от метода шифрования потребуется пароль файла или карта получателя."
   },
   "protect_save_file": {
     "en": "Save file",
@@ -2531,6 +2546,21 @@ enum L10n {
     "ro": "Folosește modul demonstrativ",
     "en": "Use demo mode",
     "ru": "Включить демонстрационный режим"
+  },
+  "protect_key_size": {
+    "ro": "Dimensiunea cheii AES",
+    "en": "AES key size",
+    "ru": "Размер ключа AES"
+  },
+  "protect_rsa_recipient": {
+    "ro": "Certificat RSA",
+    "en": "RSA certificate",
+    "ru": "Сертификат RSA"
+  },
+  "protect_detect_algorithm": {
+    "ro": "Algoritmul de decriptare este indicat în fișier.",
+    "en": "The file specifies the decryption algorithm.",
+    "ru": "Алгоритм расшифрования указан в файле."
   }
 }
 """#.utf8)

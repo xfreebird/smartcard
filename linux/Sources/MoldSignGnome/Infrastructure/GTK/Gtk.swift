@@ -329,6 +329,19 @@ func actionRow(title: String, subtitle: String? = nil, icon: String? = nil, icon
     return row
 }
 
+/// Native libadwaita disclosure with an action label that follows keyboard and pointer activation.
+func technicalDetailsDisclosure() -> Widget {
+    let row = adw_expander_row_new()!
+    adw_expander_row_add_prefix(row.cast(), image("view-list-symbolic", classes: ["accent"]))
+    func updateTitle() {
+        let expanded = adw_expander_row_get_expanded(row.cast()) != 0
+        adw_preferences_row_set_title(row.cast(), L10n.text(expanded ? .tech_details_hide : .tech_details_show))
+    }
+    updateTitle()
+    onSignal(row, "notify::expanded") { _ in updateTitle() }
+    return row
+}
+
 func preferencesGroup(title: String?, description: String? = nil) -> Widget {
     let g = adw_preferences_group_new()!
     if let title { adw_preferences_group_set_title(g.cast(), escapeMarkup(title)) }

@@ -10,13 +10,6 @@ struct OnboardingView: View {
 
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var launchError: String?
-    #if !APP_STORE
-    @State private var launchOnInsertion = ReaderActivationService().enabled
-    @State private var watcherNeedsApproval = ReaderActivationService().requiresApproval
-    @State private var watcherError: String?
-    #else
-    @AppStorage("openOnCardInsertion", store: AppPreferencesStore.defaults) private var openOnInsertion = false
-    #endif
 
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
@@ -45,38 +38,7 @@ struct OnboardingView: View {
                         launchAtLogin = SMAppService.mainApp.status == .enabled
                     }
                 }
-            #if !APP_STORE
-            Toggle(isOn: $launchOnInsertion) {
-                Text(L10n.text(.ui_open_app_on_reader_or_card_insertion)).fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-                .onChange(of: launchOnInsertion) { _, enabled in
-                    let watcher = ReaderActivationService()
-                    do {
-                        try watcher.setEnabled(enabled)
-                        launchOnInsertion = watcher.enabled
-                        watcherNeedsApproval = watcher.requiresApproval
-                        watcherError = nil
-                    } catch {
-                        launchOnInsertion = watcher.enabled
-                        watcherNeedsApproval = watcher.requiresApproval
-                        watcherError = error.localizedDescription
-                    }
-                }
-            Text(L10n.text(.ui_insertion_helper_explanation))
-                .font(.caption).foregroundStyle(.secondary)
-            if watcherNeedsApproval {
-                Button(L10n.text(.ui_allow_helper_in_system_settings)) { SMAppService.openSystemSettingsLoginItems() }
-            }
-            if let watcherError { Text(watcherError).font(.caption).foregroundStyle(Theme.danger) }
-            #else
-            Toggle(isOn: $openOnInsertion) {
-                Text(L10n.text(.ui_open_window_on_card_insertion)).fixedSize(horizontal: false, vertical: true)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            Text(L10n.text(.ui_the_menu_bar_app_detects_your_card_enable_launch_at_login_to_keep_it_available))
-                .font(.caption).foregroundStyle(.secondary)
-            #endif
+            ReaderActivationToggle()
             if let launchError { Text(launchError).font(.caption).foregroundStyle(Theme.danger) }
             Text(L10n.text(.onboarding_change_anytime))
                 .font(.caption).foregroundStyle(.secondary)

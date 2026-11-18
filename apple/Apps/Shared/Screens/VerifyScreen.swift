@@ -33,15 +33,18 @@ struct VerifyScreen: View {
             VStack(alignment: .leading, spacing: shortViewport ? 12 : 24) {
                 #if os(iOS)
                 if model.verifiedDocuments.isEmpty && model.verifyFile == nil {
-                    VStack(spacing: 24) {
+                    VStack(alignment: .leading, spacing: 14) {
                         Image(systemName: "checkmark.seal")
-                            .font(.system(size: 72, weight: .light)).foregroundStyle(Theme.brand)
-                            .frame(height: 175).accessibilityHidden(true)
-                        Text(L10n.text(.ui_choose_the_signed_document)).font(.largeTitle.bold())
+                            .font(.system(size: 28, weight: .medium)).foregroundStyle(Theme.brand)
+                            .frame(width: 56, height: 56)
+                            .background(Theme.brandSoft, in: RoundedRectangle(cornerRadius: 15))
+                            .accessibilityHidden(true)
+                        Text(L10n.text(.ui_choose_the_signed_document)).font(.title.bold())
                         Text(L10n.text(.ui_or_drop_it_here_signed_pdf_or_xades_signature_xml))
                             .font(.body).foregroundStyle(.secondary)
                     }
-                    .multilineTextAlignment(.center).frame(maxWidth: .infinity)
+                    .padding(20).frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Theme.surfaceRaised, in: RoundedRectangle(cornerRadius: 18))
                     .accessibilityIdentifier("verify.dropZone")
                 }
                 #else
@@ -63,7 +66,7 @@ struct VerifyScreen: View {
                 }
             }
             #if os(iOS)
-            .frame(maxWidth: 560)
+            .frame(maxWidth: 680)
             #else
             .frame(maxWidth: 680)
             #endif
@@ -81,7 +84,7 @@ struct VerifyScreen: View {
             }
             .buttonStyle(.borderedProminent).controlSize(.large).buttonBorderShape(.capsule).tint(Theme.brand)
             .accessibilityIdentifier("verify.pickFiles")
-            .frame(maxWidth: 560).padding(.horizontal, 24).padding(.vertical, 12)
+            .frame(maxWidth: 680).padding(.horizontal, 24).padding(.vertical, 12)
             .frame(maxWidth: .infinity).background(Color(uiColor: .systemGroupedBackground))
         }
         .safeAreaInset(edge: .top, spacing: 0) { if model.showsDemoNotice { DemoModeBanner() } }

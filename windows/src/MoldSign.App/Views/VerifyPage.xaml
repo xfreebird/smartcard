@@ -4,9 +4,22 @@
     x:Class="MoldSign.App.Views.VerifyPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:MoldSign.App.Controls">
+    xmlns:controls="using:MoldSign.App.Controls"
+    xmlns:views="using:MoldSign.App.Views">
 
     <Page.Resources>
+        <Style x:Key="DisclosureIconTileStyle" TargetType="Border">
+            <Setter Property="Width" Value="26" />
+            <Setter Property="Height" Value="26" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Background" Value="{ThemeResource BrandSoftBrush}" />
+        </Style>
+        <Style x:Key="DisclosureIconStyle" TargetType="FontIcon">
+            <Setter Property="Foreground" Value="{ThemeResource BrandBrush}" />
+        </Style>
+        <Style x:Key="DisclosureLabelStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource TextFillColorSecondaryBrush}" />
+        </Style>
         <Style x:Key="VerificationCardStyle" TargetType="Border">
             <Setter Property="Background" Value="{ThemeResource SurfaceRaisedBrush}" />
             <Setter Property="BorderBrush" Value="{ThemeResource CardStrokeColorDefaultBrush}" />
@@ -30,7 +43,7 @@
 
             <StackPanel x:Name="DocumentInfo" Spacing="8" Visibility="Collapsed">
                 <TextBlock x:Name="DocumentName" IsTextSelectionEnabled="True" TextWrapping="Wrap" />
-                <Button x:Uid="VerifyReveal" Click="OnRevealClick" Content="Arată în Explorer" />
+                <views:DocumentFileActions x:Name="FileActions" ShowFolderLabel="True" />
             </StackPanel>
 
             <StackPanel x:Name="Checking" Orientation="Horizontal" Spacing="12" Visibility="Collapsed">

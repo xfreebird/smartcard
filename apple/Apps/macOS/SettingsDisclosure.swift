@@ -1,21 +1,14 @@
 import SwiftUI
 
-/// Keep the native disclosure indicator while making its full title row actionable.
 struct SettingsDisclosure<Content: View>: View {
     let title: L10n.Key
     @ViewBuilder var content: () -> Content
-    @State private var expanded = false
 
     var body: some View {
-        DisclosureGroup(isExpanded: $expanded) {
+        FullWidthDisclosure(symbol: title == .ui_technical_details ? "slider.horizontal.3" : nil) {
+            Text(L10n.text(title)).fontWeight(.medium)
+        } content: {
             content()
-        } label: {
-            Button { expanded.toggle() } label: {
-                Text(L10n.text(title))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .contentShape(Rectangle())
-            }
-            .buttonStyle(.plain)
         }
     }
 }

@@ -1,7 +1,7 @@
 # Reader insertion utility
 
-The direct-distribution macOS app embeds `esemnbun-reader-watcher` in `Contents/Helpers` and
-`md.esemnbun.reader-watcher.plist` in `Contents/Library/LaunchAgents`. Settings registers the
+Both macOS editions embed `esemnbun-reader-watcher` in `Contents/Helpers` and
+a job plist in `Contents/Library/LaunchAgents`. Settings registers the
 bundled LaunchAgent using `SMAppService.agent`. macOS may require approval in System Settings;
 Settings exposes that state and links to Login Items. Disabling the setting unregisters the job.
 No administrator rights, sudo wrapper, shell profile or global daemon is installed.
@@ -13,8 +13,11 @@ count as physically present, so the app can display reading/error guidance as we
 silent. The helper never connects a card, transmits APDUs, reads certificates, asks for a PIN or signs.
 The main app handles reopen and its first explicit launch by showing its main window.
 
-The App Store configuration does not embed or register the helper. Its existing foreground
-card detection and system-supported app login preference remain available.
+The Store job is `md.esemnbun.mac.reader-watcher`. Its executable has an embedded identity,
+its own sandbox and smart-card entitlement. A team-prefixed macOS app group shares the demo-mode
+flag. On insertion the helper delivers `esemnbun-reader://inserted` directly to its containing
+app through Launch Services. The app handles this as a window request, including on cold launch.
+The background item and Start at sign-in have separate opt-ins.
 
 `ReaderInsertionPolicyTests` test the same transition policy compiled into the helper without
 hardware. Run the Apple policy package tests as one batch with `swift test --package-path apple`.

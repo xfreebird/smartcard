@@ -7,7 +7,7 @@ struct SettingsView: View {
     var body: some View {
         TabView {
             GeneralSettings().tabItem { Label(L10n.text(.ui_general), systemImage: "gearshape") }
-            SavedPINSettings().tabItem { Label(L10n.text(.ui_saved_pins), systemImage: "key") }
+            SavedCardPINsView().tabItem { Label(L10n.text(.card_saved_identities_title), systemImage: "key") }
             BridgeSettings().tabItem { Label(L10n.text(.ui_browser_connection), systemImage: "globe") }
             AboutContent().tabItem { Label(L10n.text(.about_app_title), systemImage: "info.circle") }
         }
@@ -21,14 +21,8 @@ private struct GeneralSettings: View {
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
     @State private var launchError: String?
     @State private var launchNeedsApproval = SMAppService.mainApp.status == .requiresApproval
-    #if !APP_STORE
-    @State private var watcherEnabled = ReaderActivationService().enabled
-    @State private var watcherNeedsApproval = ReaderActivationService().requiresApproval
-    @State private var watcherError: String?
-    #endif
     @AppStorage("appLanguage", store: AppPreferencesStore.defaults) private var language = "system"
     @AppStorage("appTheme", store: AppPreferencesStore.defaults) private var theme = "system"
-    @AppStorage("openOnCardInsertion", store: AppPreferencesStore.defaults) private var openOnInsertion = false
 
     private var languageChoice: Binding<String> {
         Binding(get: { language }, set: { value in
@@ -65,24 +59,11 @@ private struct GeneralSettings: View {
                 LabeledContent(L10n.text(.ui_saving), value: L10n.text(AppDistribution.writesBesideInput
                     ? .ui_beside_the_original_semnat_without_overwriting : .store_output_location))
                 #if APP_STORE
-                Text(L10n.text(.store_features_explanation)).font(.caption).foregroundStyle(.secondary)
+                StoreExportFolderSettings()
                 #endif
             }
             Section {
-                #if !APP_STORE
-                Toggle(L10n.text(.ui_open_app_on_reader_or_card_insertion), isOn: Binding(
-                    get: { watcherEnabled }, set: setWatcherEnabled))
-                Text(L10n.text(.ui_insertion_helper_explanation))
-                    .font(.caption).foregroundStyle(.secondary)
-                if watcherNeedsApproval {
-                    Button(L10n.text(.ui_allow_helper_in_system_settings)) { SMAppService.openSystemSettingsLoginItems() }
-                }
-                if let watcherError { Text(watcherError).font(.caption).foregroundStyle(Theme.danger) }
-                #else
-                Toggle(L10n.text(.ui_open_window_on_card_insertion), isOn: $openOnInsertion)
-                Text(L10n.text(.ui_the_menu_bar_app_detects_your_card_enable_launch_at_login_to_keep_it_available))
-                    .font(.caption).foregroundStyle(.secondary)
-                #endif
+                ReaderActivationToggle(showsForegroundOption: true)
                 Toggle(L10n.text(.ui_start_at_sign_in), isOn: Binding(
                     get: { launchAtLogin }, set: setLaunchAtLogin))
                 if launchNeedsApproval {
@@ -118,11 +99,6 @@ private struct GeneralSettings: View {
     private func refreshStartupStatus() {
         launchAtLogin = SMAppService.mainApp.status == .enabled
         launchNeedsApproval = SMAppService.mainApp.status == .requiresApproval
-        #if !APP_STORE
-        let watcher = ReaderActivationService()
-        watcherEnabled = watcher.enabled
-        watcherNeedsApproval = watcher.requiresApproval
-        #endif
     }
 
     private func setLaunchAtLogin(_ enabled: Bool) {
@@ -133,15 +109,6 @@ private struct GeneralSettings: View {
         refreshStartupStatus()
     }
 
-    #if !APP_STORE
-    private func setWatcherEnabled(_ enabled: Bool) {
-        do {
-            try ReaderActivationService().setEnabled(enabled)
-            watcherError = nil
-        } catch { watcherError = error.localizedDescription }
-        refreshStartupStatus()
-    }
-    #endif
 }
 
 private struct BridgeSettings: View {
@@ -219,47 +186,5 @@ private struct BridgeSettings: View {
     private func retryBridge() {
         model.stopBridge()
         if model.bridgeEnabled { model.startBridge() }
-    }
-}
-
-/// Lists only keychain account metadata; PIN values are never read for management.
-private struct SavedPINSettings: View {
-    @Environment(AppModel.self) private var model
-    @State private var accounts: [String] = []
-    var body: some View {
-        Group {
-            if accounts.isEmpty {
-                ContentUnavailableView(L10n.text(.ui_no_saved_pins), systemImage: "key")
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-                    .padding(24)
-            } else {
-                Form {
-                    ForEach(accounts, id: \.self) { account in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(model.knownSigningCertificates.first { $0.sha1Hex == account }?.holder ?? L10n.text(.ui_identity_card))
-                                Text(String(account.prefix(12)) + "…").font(.caption.monospaced()).foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                            Button(role: .destructive) {
-                                model.forgetPIN(certID: account)
-                                accounts = model.vault.savedAccounts()
-                            } label: {
-                                Label(L10n.text(.ui_delete), systemImage: "trash")
-                            }
-                        }
-                    }
-                    Button(role: .destructive) {
-                        for account in accounts { model.forgetPIN(certID: account) }
-                        accounts = model.vault.savedAccounts()
-                    } label: {
-                        Label(L10n.text(.ui_delete_all_pins), systemImage: "trash")
-                    }
-                }
-                .formStyle(.grouped)
-            }
-        }
-        .onAppear { accounts = model.vault.savedAccounts() }
     }
 }

@@ -1657,6 +1657,11 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Follow-up: restore native glass styling for the short picker. The standalone capsule now owns its outline and shadow; only roomy drop areas retain an outer dashed border. Keep drag highlighting without overlapping idle borders.
 - Glass follow-up validation: iOS Debug rebuild passed; recaptured and visually checked portrait Verify on the fresh iPhone simulator. Native capsule glass/shadow is restored without the surrounding drop-zone border (`docs/reports/ui-layout-2026-11-15/glass/verify-valid-light.png`).
 
+- 2026-11-18 — Published the six approved iOS 0.2.12 Header and Search Results assets for Romanian, English (U.S.) and Russian. Verified both Romanian placements in App Store Connect’s iPhone Device Preview.
+- 2026-11-18 — Created two iOS Custom Product Page drafts from 0.2.12, “NFC signing on iPhone” (`6961794b-62d1-40c9-af45-79a12c7ce414`) and “Signing with a card reader” (`9841a3ce-9609-4033-9b18-0126d73bae7d`). Each has workflow-specific promotional text in ro, en-US and ru. The reader page leads with the reader capture on iPhone and iPhone Duo. Both are awaiting submission.
+- 2026-11-18 — Created two more iOS Custom Product Page drafts from 0.2.12. “Verify signed documents” leads with Verify, and “Explore your signing certificate” leads with Card details. Verified localized copy and screenshot order for Romanian, English (U.S.) and Russian on iPhone, iPhone Duo and iPad. App Store Connect lists four pages ready to submit.
+- 2026-11-18 — Submitted all four iOS Custom Product Pages together in App Review submission `1b98068d-bf8d-44e3-b4e6-5877ec384d0b`. App Store Connect returned `WAITING_FOR_REVIEW` for the submission and each page version.
+
 ### 2026-11-18 — Restore the live Mac App Store download
 
 - Verified Apple's public Moldova catalog lists `eSemnBun Desktop`, bundle `md.esemnbun.mac`, as version 0.2.12, released on 18 November. Restore its localized Mac App Store badge on the landing and Downloads pages, with the existing explanation of Store-edition differences.
@@ -1674,3 +1679,27 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - 2026-11-18 — Make the entire store badge use the hand cursor on landing and Downloads pages. Disable image text selection/dragging and let badge images pass pointer events to their links.
 
 - 2026-11-18 — Add an EN/RO/RU Mac App Store startup disclaimer beside the badge and on Downloads: card insertion can open the window only while the app runs in the menu bar; no helper relaunches it after Quit. Clarify manual reopening and Start at sign-in at the next login in the canonical and generated preferences guides.
+
+### Mac App Store reader activation and signed document export (unreleased)
+
+- Add an independently sandboxed, opt-in reader agent and a window-only activation URL. Keep the existing foreground-only preference on upgrade and handle Login Items approval separately from Start at sign-in.
+- Expose Save As on signed results. Users can authorize a folder for automatic copies across launches. Keep the signed library document available when the destination is offline or access is revoked.
+- Installed signed-build acceptance pending: enable and disable the background item, quit and insert a physical card, check demo-mode suppression, and verify Save As, persistent folder access, duplicate filenames and disconnected destinations with PDF and XML results.
+- First launch now requests foreground activation before the main window opens and brings its attached onboarding sheet forward when AppKit supplies the window. Verify a clean install using Open in the Mac App Store with its window frontmost, then check an ordinary menu-bar launch after onboarding.
+
+### Saved PINs and document action review (unreleased)
+
+- Use the shared saved-account model in macOS Settings so saved identities remain visible after the reader is disconnected and the list refreshes when credentials change.
+- Give saved documents, signing results and document details platform-native file actions. Review screenshots from isolated demo sessions are under `docs/reports/document-actions-review/`. Design approval is pending.
+- Add Forget card for learned NFC/reader identities with or without a saved PIN. Remove matching saved metadata, credentials and NFC selections. Reader detection continues for physically connected cards. A user can explicitly select the reader card for NFC again.
+- Expand History fields and revise Verify on iPhone, iPad and Android. Include long-name and verification-result captures in the local design review.
+- Keep macOS Documents search inside the visible content column at minimum width. Use a full-row technical-details control, remove the extra disclosure arrow from saved files, and restore the Store menu-bar popover’s browser controls and pointer highlight.
+
+### File protection algorithm selection (unreleased)
+
+- Offer password encryption with AES-128, AES-192 and AES-256 (default). The password envelope records its key size for decryption. Offer RSA recipient encryption with an X.509 encryption certificate, using MoldSign-compatible CMS key transport and AES-128-CBC content encryption.
+- Card decryption requires the matching private encryption key. The Moldovan ID signing certificate does not provide this capability. Keep legacy password ciphers available for reading existing files.
+- Store tray review restored the original illustrated card and native rounded Sign/Verify buttons. The card grows for longer identity fields, recent filenames wrap and the menu scrolls when it exceeds the screen height. English, Romanian and Russian native captures use a fictional long identity and filename.
+- The native Swift preview produced all three AES envelopes and a recipient CMS envelope. The installed MoldSign workers/libraries recovered the original fixture bytes for each. On Android, OpenSSL decrypted an RSA file produced through the app’s file picker. Physical RSA card decryption and a production Store installation still need acceptance.
+- Windows x64 built and all 14 focused protection tests passed, including native and vendor envelope detection. The Encrypt form was exercised in WinUI. The supplemental Decrypt file-picker check timed out at filename entry. Android UI encryption, iPhone/iPad and Fedora UI checks, and Mac Store tray captures are included in the [local review gallery](docs/reports/document-actions-review/index.html).
+- 2026-11-18 — Use the regular unified macOS title bar to fit the native Documents search field and its focus ring. Verify live filtering at the 860-point minimum and a wider window. Capture Settings through its real SwiftUI scene so General, Saved cards and PINs, Browser connection and About show the native icon toolbar.

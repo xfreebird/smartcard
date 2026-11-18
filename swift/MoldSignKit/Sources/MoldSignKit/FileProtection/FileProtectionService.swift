@@ -4,7 +4,10 @@ import Foundation
 public struct FileProtectionService: FileProtectionProcessing {
     private let outputDirectory: URL
 
-    public init(outputDirectory: URL) {
+    private let processor: PasswordFileProcessor
+
+    public init(outputDirectory: URL, signingService: SigningService = .shared) {
+        processor = PasswordFileProcessor(signingService: signingService)
         self.outputDirectory = outputDirectory
     }
 
@@ -20,17 +23,14 @@ public struct FileProtectionService: FileProtectionProcessing {
 
     private func processFile(_ input: URL, operation: FileProtectionOperation, password: String) throws -> URL? {
         try Task.checkCancellation()
-        guard let result = try PasswordFileProcessor().process(input, operation: operation, password: password) else {
+        guard let result = try processor.process(input, operation: operation, password: password),
+              let outputName = operation.outputName(for: input.lastPathComponent) else {
             return nil
         }
         try Task.checkCancellation()
         let folder = outputDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
         try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true,
                                                attributes: [.posixPermissions: 0o700])
-        let name = input.lastPathComponent
-        let suffix = PasswordFileProtection.suffix
-        let outputName = operation == .encrypt ? name + suffix
-            : "decrypted-" + (name.hasSuffix(suffix) ? String(name.dropLast(suffix.count)) : name)
         let output = folder.appendingPathComponent(outputName)
         do {
             try Task.checkCancellation()

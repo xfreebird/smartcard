@@ -63,6 +63,7 @@ struct SigningCardChoice: View {
                             Button("\(certificate.holder) · \(certificate.sha1Hex.suffix(8))") {
                                 model.selectNFCCard(certificate.sha1Hex)
                             }
+                            .accessibilityIdentifier("signing.nfc.identity.\(certificate.sha1Hex)")
                         }
                     } label: {
                         choiceRow(icon: "person.crop.circle", title: model.nfcCertificate?.holder ?? L10n.text(.nfc_card_any))

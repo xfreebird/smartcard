@@ -15,6 +15,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.nio.ByteBuffer
 import java.nio.CharBuffer
@@ -44,7 +45,12 @@ class PinVault(context: Context) {
         BiometricManager.from(appContext).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG) ==
             BiometricManager.BIOMETRIC_SUCCESS
 
-    suspend fun has(certId: String): Boolean = appContext.pinStore.data.first()[prefKey(certId)] != null
+    /** Account keys are available even if the reader is unplugged or older certificate metadata is missing. */
+    val accounts = appContext.pinStore.data.map { records ->
+        records.asMap().keys.mapNotNull { key ->
+            key.name.takeIf { it.startsWith(PIN_PREFIX) }?.removePrefix(PIN_PREFIX)
+        }.toSet()
+    }
 
     /** Encrypts and stores [pin] after a biometric confirmation. Returns false if the user cancelled. */
     suspend fun save(activity: FragmentActivity, certId: String, pin: CharArray, title: String, subtitle: String): Boolean {
@@ -155,7 +161,7 @@ class PinVault(context: Context) {
 
     // v1 records had no certificate binding. Never decrypt them: manual PIN entry and a successful
     // signing operation are required before saving a v2 record with a fresh biometric confirmation.
-    private fun prefKey(certId: String) = stringPreferencesKey("pin_v2_$certId")
+    private fun prefKey(certId: String) = stringPreferencesKey("$PIN_PREFIX$certId")
 
     private fun encodeUtf8(chars: CharArray): ByteArray {
         val bb = Charsets.UTF_8.encode(CharBuffer.wrap(chars))
@@ -168,6 +174,7 @@ class PinVault(context: Context) {
     }
 
     private companion object {
+        const val PIN_PREFIX = "pin_v2_"
         const val ANDROID_KEYSTORE = "AndroidKeyStore"
         const val KEY_ALIAS = "moldsign.pinvault.v1"
         const val TRANSFORMATION = "AES/GCM/NoPadding"

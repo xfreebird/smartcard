@@ -6,11 +6,8 @@ import QuickLook
 
 struct SignedRow: View {
     let url: URL
-    #if os(iOS)
-    @State private var previewURL: URL?
-    #endif
-    @State private var hovered = false
     #if APP_STORE && os(macOS)
+    @Environment(AppModel.self) private var model
     @State private var exporting = false
     @State private var exportError: String?
     #endif
@@ -18,9 +15,8 @@ struct SignedRow: View {
     var body: some View {
         Group {
             #if APP_STORE && os(macOS)
-            HStack(spacing: 12) {
-                Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
-                SignedDocumentActions(url: url)
+            MacDocumentEntry(url: url, saveAs: { exporting = true }) {
+                NSWorkspace.shared.activateFileViewerSelecting([url])
             }
                 .contextMenu { Button(L10n.text(.ui_export)) { exporting = true } }
                 .fileExporter(isPresented: $exporting, document: SignedExport(url: url),
@@ -31,59 +27,20 @@ struct SignedRow: View {
                 .alert(L10n.text(.ui_export_failed), isPresented: Binding(get: { exportError != nil }, set: { if !$0 { exportError = nil } })) {
                     Button(L10n.text(.ui_done)) { exportError = nil }
                 } message: { Text(exportError ?? L10n.text(.ui_)) }
+            if let error = model.exportErrors[url] {
+                Text(L10n.text(.store_copy_failed, error)).font(.caption).foregroundStyle(Theme.warning)
+            }
             #elseif os(macOS)
-            HStack(spacing: 12) {
-                Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: { rowContents }
-                SignedDocumentActions(url: url)
-            }
+            MacDocumentEntry(url: url) { NSWorkspace.shared.activateFileViewerSelecting([url]) }
             #else
-            HStack(spacing: 12) {
-                Button { previewURL = url } label: {
-                    HStack {
-                        Label(url.lastPathComponent, systemImage: "doc.badge.checkmark")
-                            .lineLimit(2).multilineTextAlignment(.leading)
-                        Spacer()
-                        Text(L10n.text(.ui_open)).font(.caption)
-                    }.frame(minHeight: 44)
-                }
-                ShareLink(item: url) { Image(systemName: "square.and.arrow.up").frame(width: 44, height: 44) }
-                    .accessibilityLabel(L10n.text(.ui_share))
-            }
-            .quickLookPreview($previewURL)
+            IOSDocumentEntry(url: url)
             #endif
         }
         .buttonStyle(.plain)
-        .onHover { hovered = $0 }
         .accessibilityElement(children: .contain)
         .accessibilityIdentifier("sign.result")
     }
 
-    private var rowContents: some View {
-        HStack(spacing: 12) {
-            Label(url.lastPathComponent, systemImage: "checkmark.seal.fill")
-                .labelStyle(SuccessLabelStyle())
-                .fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: 12)
-            #if os(macOS)
-            Text(L10n.text(.ui_show_in_finder)).foregroundStyle(.secondary)
-            #else
-            Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up").foregroundStyle(.secondary)
-            #endif
-        }
-        .padding(12)
-        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
-        .background(hovered ? Color.accentColor.opacity(0.10) : Color.clear, in: RoundedRectangle(cornerRadius: 12))
-        .contentShape(RoundedRectangle(cornerRadius: 12))
-    }
-}
-
-private struct SuccessLabelStyle: LabelStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        HStack(spacing: 6) {
-            configuration.icon.foregroundStyle(.green)
-            configuration.title
-        }
-    }
 }
 
 #if APP_STORE && os(macOS)

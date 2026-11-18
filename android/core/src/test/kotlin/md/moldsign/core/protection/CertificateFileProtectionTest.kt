@@ -18,6 +18,8 @@ class CertificateFileProtectionTest {
         assertArrayEquals(plain,CertificateFileProtection.decrypt(File(root,"vendor-certificate.asymmetric.p7m").readBytes(),cert,unwrap))
         val native = CertificateFileProtection.encrypt(plain,cert)
         assertArrayEquals(plain,CertificateFileProtection.decrypt(native,cert,unwrap))
+        assertEquals(ProtectionHeader(true), ProtectionHeader.detect(native.copyOf(96)))
+        assertEquals(ProtectionHeader(true), ProtectionHeader.detect(File(root, "vendor-certificate.asymmetric.p7m").readBytes().copyOf(96)))
         System.getenv("MSIGN_ENCRYPTION_ORACLE_OUTPUT")?.let { File(it,"native-certificate.asymmetric.p7m").writeBytes(native) }
         var calls = 0
         assertThrows(IllegalArgumentException::class.java) { CertificateFileProtection.decrypt(native.copyOf(native.size-1),cert) { calls++; byteArrayOf() } }

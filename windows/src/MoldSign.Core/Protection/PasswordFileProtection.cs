@@ -9,15 +9,18 @@ public static class PasswordFileProtection
     public const int MaximumSize = 64 * 1024 * 1024 - 128;
     public const string Suffix = ".symmetric.p7m";
     private static byte[] Marker(int bits) => SHA512.HashData(Encoding.ASCII.GetBytes(bits.ToString(System.Globalization.CultureInfo.InvariantCulture)));
-    public static byte[] Encrypt(byte[] plaintext, ReadOnlySpan<char> password)
+    public static byte[] Encrypt(byte[] plaintext, ReadOnlySpan<char> password) => Encrypt(plaintext, password, 256);
+
+    public static byte[] Encrypt(byte[] plaintext, ReadOnlySpan<char> password, int keyBits)
     {
+        if (keyBits is not (128 or 192 or 256)) throw new ArgumentOutOfRangeException(nameof(keyBits));
         if (password.IsEmpty) throw new ArgumentException("Enter a password.");
         if (plaintext.Length > MaximumSize) throw new ArgumentException("Choose a file smaller than 64 MB.");
         var salt = RandomNumberGenerator.GetBytes(16);
         salt[1] = 0xff; // Vendor ASN.1 fallback guard; remaining 120 salt bits are random.
         var iv = RandomNumberGenerator.GetBytes(16);
-        var content = Crypt(plaintext, password, salt, iv, 256, true);
-        return [..salt, ..iv, ..Marker(256), ..content];
+        var content = Crypt(plaintext, password, salt, iv, keyBits, true);
+        return [..salt, ..iv, ..Marker(keyBits), ..content];
     }
     public static byte[] Decrypt(byte[] envelope, ReadOnlySpan<char> password)
     {

@@ -33,10 +33,7 @@ final class AppModel {
     @ObservationIgnored private let savedCardIdentities = SavedCardIdentityStore(defaults: AppPreferencesStore.defaults)
     /// One identity per signing certificate, regardless of how it was read.
     var knownSigningCertificates: [SigningService.CertificateSummary] {
-        var seen = Set<String>()
-        return (displayedCards.compactMap(\.certificate) + knownCertificates)
-            .filter { seen.insert($0.sha1Hex).inserted }
-            .sorted { ($0.holder, $0.sha1Hex) < ($1.holder, $1.sha1Hex) }
+        knownCertificates.sorted { ($0.holder, $0.sha1Hex) < ($1.holder, $1.sha1Hex) }
     }
 
     private func rememberCard(_ certificate: SigningService.CertificateSummary) {
@@ -85,12 +82,21 @@ final class AppModel {
         if method == .nfc, !hasChosenNFCCard {
             // Reuse the reader's selected identity, or the only remembered card. The NFC
             // signer still checks exact DER before sending that identity's PIN.
-            nfcCertificate = certificate ?? (knownSigningCertificates.count == 1 ? knownSigningCertificates.first : nil)
+            let selectedID = certificate?.sha1Hex
+            nfcCertificate = knownSigningCertificates.first { $0.sha1Hex == selectedID }
+                ?? (knownSigningCertificates.count == 1 ? knownSigningCertificates.first : nil)
             hasChosenNFCCard = true
         }
         signingMethod = method
         lastError = nil
     }
+    func useReaderCardWithNFC() {
+        guard canChangeSigningMethod, nfcAvailable, let card = certificate else { return }
+        rememberCard(card)
+        selectNFCCard(card.sha1Hex)
+        signingMethod = .nfc
+    }
+
     func selectNFCCard(_ certificateID: String) {
         guard canChangeSigningMethod else { return }
         guard let certificate = knownSigningCertificates.first(where: { $0.sha1Hex == certificateID }) else { return }
@@ -134,7 +140,14 @@ final class AppModel {
         }
     }
     var currentStep: SigningService.Step?
+    #if os(macOS) && APP_STORE
+    var exportErrors: [URL: String] = [:]
+    var lastSigned: [URL] = [] {
+        didSet { if lastSigned.isEmpty { exportErrors.removeAll() } }
+    }
+    #else
     var lastSigned: [URL] = []
+    #endif
     var lastError: PresentedError?
 
     /// Web links opened with the app are routed to the foreground iOS browser.
@@ -316,7 +329,7 @@ final class AppModel {
          transportFactory: @escaping (String?) throws -> CardTransport = AppModel.defaultTransport) {
         self.fileProtection = fileProtection ?? FileProtectionService(outputDirectory:
             FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-                .appendingPathComponent("Protected", isDirectory: true))
+                .appendingPathComponent("Protected", isDirectory: true), signingService: service)
         self.service = service
         self.certificateReader = certificateReader ?? CoreCertificateReader(service: service)
         self.liveDocumentSigner = documentSigner ?? CoreDocumentSigner(service: service)
@@ -336,6 +349,9 @@ final class AppModel {
         let demo = fixture || AppPreferencesStore.defaults.bool(forKey: "demoModeEnabled")
         fixtureMode = fixture
         demoMode = demo
+        #if os(macOS) && APP_STORE
+        ReaderActivationService.publishDemoMode(demo)
+        #endif
         hardwareGate = DemoHardwareGate(demo: demo)
         self.demoServices = demoServices ?? DemoServices()
         #if DEBUG
@@ -427,10 +443,14 @@ final class AppModel {
         stopBridge()
         authorization.resetTrust()
         demoMode = enabled
+        #if os(macOS) && APP_STORE
+        ReaderActivationService.publishDemoMode(enabled)
+        #endif
         AppPreferencesStore.defaults.set(enabled, forKey: "demoModeEnabled")
         cards = []; readers = []; selectedReaderName = nil
         knownCertificates = []
         #if os(iOS)
+        browserNFC.certificate = nil
         nfcCertificate = nil; hasChosenNFCCard = false; signingMethod = nfcAvailable ? .nfc : .reader
         #endif
         restoreSavedCards()
@@ -484,7 +504,12 @@ final class AppModel {
         recomputeStatus()
         for card in toRead { Task { await readCertificate(of: card) } }
         if (!toRead.isEmpty || !Set(readers).subtracting(previousReaders).isEmpty),
-           AppPreferencesStore.defaults.bool(forKey: "openOnCardInsertion") { presentInsertedCard?() }
+           AppPreferencesStore.defaults.bool(forKey: "openOnCardInsertion") {
+            #if os(macOS) && APP_STORE
+            guard !ReaderActivationService().active else { return }
+            #endif
+            presentInsertedCard?()
+        }
     }
 
     /// PIN-less certificate read so the UI can greet the holder (MAC-02). Ignored if the card changed meanwhile.
@@ -500,7 +525,8 @@ final class AppModel {
         switch result {
         case .success(let summary):
             cards[index].certificate = summary; cards[index].problemText = nil
-            rememberCard(summary)
+            // Rediscovery keeps the physical reader usable without restoring a forgotten NFC identity.
+            if vault.hasPIN(certID: summary.sha1Hex) { rememberCard(summary) }
         case .failure(let error): cards[index].problemText = Self.describe(error).messageText
         }
         recomputeStatus()
@@ -610,10 +636,10 @@ final class AppModel {
             verifying = preview.loading
         }
         if let records = state.activity {
-            savedDocuments = records
+            savedDocuments = records.filter(\.isSavedDocument)
             activity = records
             demoActivityStore.save(records)
-            demoActivityStore.saveDocuments(records)
+            demoActivityStore.saveDocuments(savedDocuments)
         }
         if let consent = state.consent { consentRequest = consent; presentAuthUI?() }
         if let pin = state.pin { pinRequest = pin; presentAuthUI?() }
@@ -717,10 +743,15 @@ final class AppModel {
             sign: { item, context, entry in
                 // The core checks this original certificate before every VERIFY, including after a card swap.
                 try Task.checkCancellation()
-                return try await context.signer.sign(item, pin: entry.pin, reader: context.reader,
+                let output = try await context.signer.sign(item, pin: entry.pin, reader: context.reader,
                                                      certificateSHA1: context.certificate?.sha1Hex ?? "") { [weak self] step in
                     Task { @MainActor in self?.currentStep = step }
                 }
+                #if os(macOS) && APP_STORE
+                do { try await StoreExportFolder.exportCopy(of: output, original: item.url) }
+                catch { self.exportErrors[output] = error.localizedDescription }
+                #endif
+                return output
             },
             didSign: { item, output, entry in
                 self.lastSigned.append(output)
@@ -886,11 +917,18 @@ final class AppModel {
     func submitPIN(_ pin: String, remember: Bool) { pinCoordinator.submitPIN(pin, remember: remember) }
     func cancelPIN() { pinCoordinator.cancelPIN() }
 
-    func forgetPIN() {
-        if let cert = signingCertificate { forgetPIN(certID: cert.sha1Hex) }
+    /// Remove all references to this identity while preserving the physical reader's current card.
+    func forgetCard(certID: String) {
+        guard canChangeSigningMethod else { return }
+        forgetPIN(certID: certID)
+        knownCertificates.removeAll { $0.sha1Hex == certID }
+        #if os(iOS)
+        if nfcCertificate?.sha1Hex == certID { useAnotherNFCCard() }
+        if browserNFC.certificate?.sha1Hex == certID { browserNFC.certificate = nil }
+        #endif
     }
 
-    func forgetPIN(certID: String) {
+    private func forgetPIN(certID: String) {
         vault.delete(certID: certID)
         if !demoMode { savedCardIdentities.remove(account: certID) }
         vaultRevision += 1

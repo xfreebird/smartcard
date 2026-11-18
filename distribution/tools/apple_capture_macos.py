@@ -6,18 +6,40 @@ p=argparse.ArgumentParser();p.add_argument('--app',required=True);p.add_argument
 with tempfile.TemporaryDirectory(prefix='esemnbun-store-mac-') as t:
  t=pathlib.Path(t); sw=t/'windows.swift';sw.write_text('''import Foundation
 import CoreGraphics
+import ApplicationServices
+func attribute(_ item: AXUIElement, _ name: String) -> CFTypeRef? {
+ var result: CFTypeRef?
+ AXUIElementCopyAttributeValue(item, name as CFString, &result)
+ return result
+}
+func selectGeneral(_ item: AXUIElement, title: String) -> Bool {
+ if attribute(item, "AXRole") as? String == "AXButton",
+    attribute(item, "AXTitle") as? String == title {
+  return AXUIElementPerformAction(item, kAXPressAction as CFString) == .success
+ }
+ return (attribute(item, "AXChildren") as? [AXUIElement] ?? []).contains { selectGeneral($0, title: title) }
+}
 let p=Int(CommandLine.arguments[1])!
+if CommandLine.arguments[2] == "settings" {
+ let app = AXUIElementCreateApplication(pid_t(p))
+ if let settings = (attribute(app, "AXWindows") as? [AXUIElement])?.first(where: {
+     attribute($0, "AXIdentifier") as? String == "com_apple_SwiftUI_Settings_window"
+ }), attribute(settings, "AXTitle") as? String != CommandLine.arguments[3] {
+  _ = selectGeneral(settings, title: CommandLine.arguments[3])
+ }
+}
 for i in (CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElements],kCGNullWindowID) as? [[String:Any]] ?? []) where i[kCGWindowOwnerPID as String] as? Int == p {
  let b=i[kCGWindowBounds as String] as? [String:Double] ?? [:]
  let title = i[kCGWindowName as String] as? String ?? ""
  let scenario = CommandLine.arguments[2]
  let matches = scenario == "pin" ? (i[kCGWindowLayer as String] as? Int == 3) :
-    scenario == "settings" ? title == "Settings preview" :
+    scenario == "settings" ? title == CommandLine.arguments[3] :
     ((i[kCGWindowLayer as String] as? Int)==0 && (b["Width"] ?? 0)>600)
  if matches { print(i[kCGWindowNumber as String]!);break }
 }
 ''');helper=t/'windows';subprocess.check_call(['swiftc',str(sw),'-o',str(helper)])
  app=pathlib.Path(a.app);binary=app/'Contents/MacOS/eSemnBun';assert b'MSIGN_DEMO_SCENARIO' in (binary.parent/'eSemnBun.debug.dylib').read_bytes()
+ general=next(entry['translations'] for entry in json.loads((R/'localization/catalog.json').read_text())['entries'] if entry['platform']=='apple' and entry['key']=='ui_general')
  manifest=[]
  for lang in ['ro','en','ru']:
   names={'ro':['Contract','Cerere','Declaratie'],'en':['Contract','Application','Declaration'],'ru':['Договор','Заявление','Декларация']}[lang];docs=[]
@@ -28,12 +50,12 @@ for i in (CGWindowListCopyWindowInfo([.optionOnScreenOnly,.excludeDesktopElement
    env=os.environ.copy();env.update({'MSIGN_DEMO_CARDS':count,'MSIGN_DEMO_SCENARIO':scenario,'MSIGN_DEMO_PREFERENCES_SUITE':'md.esemnbun.qa.store.assets','MSIGN_QA_NO_HARDWARE':'1','MSIGN_SCREENSHOT_CAPTURE':'1','MSIGN_QA_HIDE_TRAY':'1','MSIGN_DEMO_PREVIEW':'0','MSIGN_BROWSER_URL':'https://msign.gov.md/#/','MSIGN_DEMO_FILES':':'.join(docs if scenario=='multiple' else docs[:1])})
    if theme=='dark':env['MSIGN_DEMO_DARK']='1'
    if scenario=='settings':
-    env.update(MSIGN_DEMO_PREVIEW='1', MSIGN_DEMO_SETTINGS='1')
+    env['MSIGN_DEMO_SETTINGS']='1'
    process=subprocess.Popen([str(binary),'--show-main-window','-mainSection',tab,'-appLanguage',lang,'-appTheme',theme,'-AppleLanguages',f'({lang})'],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
    try:
     window=''
     for _ in range(25):
-     window=subprocess.check_output([str(helper),str(process.pid),scenario],text=True).strip()
+     window=subprocess.check_output([str(helper),str(process.pid),scenario,general[lang]],text=True).strip()
      if window:break
      time.sleep(.5)
     if not window:raise RuntimeError('No mock app window')

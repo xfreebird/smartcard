@@ -61,7 +61,6 @@ fun InAppBrowser(vm: md.moldsign.app.presentation.MainViewModel, onClose: () -> 
     val nfcCard by vm.browserNfc.certificate.collectAsState()
     val nfcEnabled by vm.browserNfc.enabled.collectAsState()
     DisposableEffect(vm) {
-        vm.browserNfc.seed(vm.nfcIdentity.value)
         onDispose { vm.cancelNfc() }
     }
     val locales = LocalConfiguration.current.locales

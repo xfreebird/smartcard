@@ -7,6 +7,29 @@ import Glibc
 #endif
 
 public enum ProtectedFileIO {
+    /// Chooses the credential form from the envelope, including bare MoldSign BER files.
+    /// The decryptors still validate the complete algorithm and recipient before using a key.
+    public static func usesRecipientCertificate(_ url: URL) throws -> Bool {
+        #if !os(Linux)
+        let access = url.startAccessingSecurityScopedResource()
+        defer { if access { url.stopAccessingSecurityScopedResource() } }
+        #endif
+        let bytes = try read(url)
+        if PasswordFileProtection.algorithm(in: bytes) != nil { return false }
+        let fields = try ProtectionASN1.parse(bytes).require(0x30)
+        if fields.first?.tag == 2 {
+            if fields.count == 3 && fields[1].tag == 0x31 { return true }
+            if fields.count == 2 && fields[1].tag == 0x30 { return false }
+        } else if fields.count == 2, fields[0].tag == 6, fields[1].tag == 0xa0 {
+            switch fields[0].content {
+            case Data(hex: "2a864886f70d010703"): return true
+            case Data(hex: "2a864886f70d010706"): return false
+            default: break
+            }
+        }
+        throw FileProtectionError.invalidFormat
+    }
+
     public static func read(_ url: URL) throws -> Data {
         let fd = open(url.path, O_RDONLY | O_NOFOLLOW | O_CLOEXEC | O_NONBLOCK)
         guard fd >= 0 else { throw FileProtectionError.invalidFormat }

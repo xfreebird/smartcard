@@ -4,6 +4,7 @@ using System.Globalization;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using MoldSign.App.Services;
+using MoldSign.App.Controls;
 using MoldSign.Core;
 
 namespace MoldSign.App.Views;
@@ -117,25 +118,24 @@ public sealed partial class SignPage : Page
         foreach (var path in outcome.Outputs)
         {
             var rowContent = new Grid { ColumnSpacing = 12, MinHeight = 32 };
-            rowContent.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
             rowContent.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             rowContent.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-            var icon = new FontIcon { Glyph = "\uE73E", FontSize = 18, VerticalAlignment = VerticalAlignment.Center };
-            var name = new TextBlock { Text = System.IO.Path.GetFileName(path), TextWrapping = TextWrapping.Wrap, VerticalAlignment = VerticalAlignment.Center };
-            var action = new TextBlock { Text = Loc.Get("File_ShowInFolder"), VerticalAlignment = VerticalAlignment.Center };
-            Grid.SetColumn(name, 1); Grid.SetColumn(action, 2);
-            rowContent.Children.Add(icon); rowContent.Children.Add(name); rowContent.Children.Add(action);
+            var filename = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 8 };
+            filename.Children.Add(new FontIcon { Glyph = "\uE73E", FontSize = 16 });
+            filename.Children.Add(new TextBlock { Text = Path.GetFileName(path), TextTrimming = TextTrimming.CharacterEllipsis });
             var button = new Button
             {
-                Content = rowContent,
-                Padding = new Thickness(12),
-                HorizontalContentAlignment = HorizontalAlignment.Stretch,
-                Tag = path, HorizontalAlignment = HorizontalAlignment.Stretch,
+                Content = filename, Tag = path, HorizontalAlignment = HorizontalAlignment.Stretch,
+                HorizontalContentAlignment = HorizontalAlignment.Left, Style = (Style)Application.Current.Resources["SubtleButtonStyle"],
             };
+            var actions = new DocumentFileActions { FilePath = path, ShowFolderLabel = true };
+            Grid.SetColumn(actions, 1);
+            rowContent.Children.Add(button);
+            rowContent.Children.Add(actions);
             Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(button, "SignedOutput");
             ToolTipService.SetToolTip(button, path);
             button.Click += OnSignedFileClick;
-            SignedFiles.Children.Insert(0, button);
+            SignedFiles.Children.Insert(0, rowContent);
         }
         SignedResults.Visibility = SignedFiles.Children.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
         foreach (var completed in outcome.CompletedInputs)

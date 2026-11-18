@@ -24,11 +24,11 @@ public enum PasswordFileProtection {
         192: Data(hex: "cf1b881c8ec7355167290b18c4a4f8b39cab1875514e649ea0f313f210e227ef8330c0fd4ead855f80f02dd158f2e9195c948c5b8edc804b51cf3e36735965cf"),
         256: Data(hex: "3c31b9cf56c4c47f7c95c6ca9d1669c2cbb127220dcd804c42fcf68714a8c38806267e72542d47532598e52090219677cf38bb5d906da1e7a2a2b351b871a82f")
     ]
-    public static func encrypt(_ plaintext: Data, password: String) throws -> Data {
+    public static func encrypt(_ plaintext: Data, password: String, algorithm: PasswordEncryptionAlgorithm = .aes256) throws -> Data {
         // MoldSign first attempts ASN.1 parsing. An impossible length octet forces its
         // AES fallback rather than misclassifying a random salt as CMS (120 random salt bits).
         var salt = random(16); salt[1] = 0xff
-        return try encrypt(plaintext, password: password, bits: 256, salt: salt, iv: random(16))
+        return try encrypt(plaintext, password: password, bits: algorithm.rawValue, salt: salt, iv: random(16))
     }
     // Internal deterministic seam for vendor interoperability fixtures only.
     static func encrypt(_ plaintext: Data, password: String, bits: Int, salt: Data, iv: Data) throws -> Data {
@@ -42,14 +42,19 @@ public enum PasswordFileProtection {
     public static func decrypt(_ envelope: Data, password: String) throws -> Data {
         guard envelope.count <= maximumSize + 8192 else { throw FileProtectionError.tooLarge }
         let envelope = Data(envelope)
-        guard envelope.count >= 112, (envelope.count - 96) % 16 == 0,
-              let bits = markers.first(where: { $0.value == envelope.subdata(in: 32..<96) })?.key else {
+        guard let bits = algorithm(in: envelope)?.rawValue else {
             return try LegacyPasswordProtection.decrypt(envelope,password:password)
         }
         var key = try derive(password, salt: envelope.subdata(in: 0..<16), bits: bits)
         defer { key.resetBytes(in: 0..<key.count) }
         return try crypt(Data(envelope.dropFirst(96)), key: key, iv: envelope.subdata(in: 16..<32), encrypt: false)
     }
+    static func algorithm(in envelope: Data) -> PasswordEncryptionAlgorithm? {
+        guard envelope.count >= 112, (envelope.count - 96).isMultiple(of: 16) else { return nil }
+        let marker = envelope.dropFirst(32).prefix(64)
+        return PasswordEncryptionAlgorithm.allCases.first { markers[$0.rawValue] == marker }
+    }
+
     private static func derive(_ password: String, salt: Data, bits: Int) throws -> Data {
         guard password.utf16.count < 2048 else { throw FileProtectionError.passwordRequired }
         var bytes = password.utf16.flatMap { [UInt8($0 >> 8), UInt8($0 & 255)] }

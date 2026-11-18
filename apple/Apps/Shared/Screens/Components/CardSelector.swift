@@ -76,7 +76,7 @@ struct CardSelector: View {
                 #else
                 ScrollViewReader { proxy in
                     ScrollView(.horizontal) {
-                    LazyHStack(spacing: 0) {
+                    HStack(spacing: 0) {
                         ForEach(model.displayedCards) { card in
                             cardFace(card)
                                 .frame(width: width)
@@ -91,7 +91,8 @@ struct CardSelector: View {
                 .modifier(CardPaging(interactionChanged: interactionChanged))
                 .scrollPosition(id: $visibleReader, anchor: .center)
                 .scrollDisabled(model.currentStep != nil)
-                .frame(height: cardHeight + 8)
+                .fixedSize(horizontal: false, vertical: size == .compact)
+                .frame(height: size == .compact ? nil : cardHeight + 8)
                 .overlay {
                     if model.displayedCards.count > 1 {
                         HStack {
@@ -179,9 +180,15 @@ struct CardSelector: View {
     }
 
     private func cardFace(_ card: CardSlot) -> some View {
-        IDCardFace(card: .init(card: card), busy: model.currentStep != nil && card.reader == model.selectedCard?.reader,
-                   inUse: model.displayedCards.count > 1 && card.reader == model.selectedCard?.reader)
-            .frame(width: cardWidth, height: cardHeight)
+        #if os(macOS)
+        let wraps = size == .compact
+        #else
+        let wraps = false
+        #endif
+        return IDCardFace(card: .init(card: card), busy: model.currentStep != nil && card.reader == model.selectedCard?.reader,
+                          inUse: model.displayedCards.count > 1 && card.reader == model.selectedCard?.reader,
+                          wrappingWidth: wraps ? cardWidth : nil)
+            .frame(width: cardWidth, height: wraps ? nil : cardHeight)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(IdentityCardContent(card: card).accessibilityLabel)
             .accessibilityAddTraits(card.reader == model.selectedCard?.reader ? .isSelected : [])

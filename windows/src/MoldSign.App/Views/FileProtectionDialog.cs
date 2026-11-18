@@ -13,7 +13,9 @@ internal sealed class FileProtectionDialog : ContentDialog
 {
     private readonly IPasswordFileProcessor _processor;
     private readonly ComboBox _operation=new(){HorizontalAlignment=HorizontalAlignment.Stretch};
-    private readonly ComboBox _method=new(){HorizontalAlignment=HorizontalAlignment.Stretch};
+    private readonly RadioButtons _method = new() { MaxColumns = 2, HorizontalAlignment = HorizontalAlignment.Stretch };
+    private readonly RadioButtons _keySize = new() { MaxColumns = 3, HorizontalAlignment = HorizontalAlignment.Stretch };
+    private static readonly int[] PasswordKeySizes = [128, 192, 256];
     private readonly ComboBox _identities=new(){HorizontalAlignment=HorizontalAlignment.Stretch,DisplayMemberPath="Label"};
     private readonly PasswordBox _password=new(),_confirmation=new(),_pin=new();
     private readonly TextBlock _file=new(){TextWrapping=TextWrapping.Wrap},_recipient=new(){TextWrapping=TextWrapping.Wrap},_notice=new(){TextWrapping=TextWrapping.Wrap};
@@ -35,13 +37,19 @@ internal sealed class FileProtectionDialog : ContentDialog
         XamlRoot=root;RequestedTheme=theme;Title=Loc.Get("protect_title");CloseButtonText=Loc.Get("Action_Cancel");
         Content=new ScrollViewer {Content=_form,MaxHeight=660,MinWidth=400,HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled};
         _operation.Header=Loc.Get("protect_operation");
-        _method.Header=Loc.Get("protect_access_step");
+        _method.Header=Loc.Get("protect_method");
+        _keySize.Header=Loc.Get("protect_key_size");
         foreach(var key in new[]{"protect_encrypt","protect_decrypt","protect_remove"}) _operation.Items.Add(Loc.Get(key));
         _operation.SelectedIndex=operation;_form.Children.Add(_operation);
         _form.Children.Add(new TextBlock {Text=Loc.Get("protect_file_step")});
         _choose.Content=Loc.Get("protect_choose_file");_form.Children.Add(_choose);_form.Children.Add(_file);
-        foreach(var key in new[]{"protect_password"}) _method.Items.Add(Loc.Get(key));
-        _method.SelectedIndex=0;_form.Children.Add(_method);_form.Children.Add(_guide);
+        _method.Items.Add(Loc.Get("protect_password"));
+        _method.Items.Add(Loc.Get("protect_rsa_recipient"));
+        _method.SelectedIndex=0;_form.Children.Add(_method);
+        foreach (int bits in PasswordKeySizes) _keySize.Items.Add($"AES-{bits}");
+        _keySize.SelectedIndex = 2;
+        _form.Children.Add(_keySize);
+        _form.Children.Add(_guide);
         _password.Header=Loc.Get("protect_password");_confirmation.Header=Loc.Get("protect_confirm_password");_pin.Header=Loc.Get("protect_card_pin");
         _form.Children.Add(_password);_form.Children.Add(_confirmation);
         _mismatch.Text=Loc.Get("protect_mismatch");_form.Children.Add(_mismatch);
@@ -64,7 +72,9 @@ internal sealed class FileProtectionDialog : ContentDialog
         _form.Children.Add(_warning);_removeConfirmation.Content=Loc.Get("protect_remove_confirm");_form.Children.Add(_removeConfirmation);
         _form.Children.Add(_notice);
         DefaultButton=ContentDialogButton.Primary;
-        _operation.SelectionChanged+=(_,_)=>ResetSelection();_method.SelectionChanged+=(_,_)=>ResetSelection();
+        _keySize.SelectionChanged+=(_,_)=>{ClearOutput();Refresh();};
+        _operation.SelectionChanged+=async(_,_)=>{ResetSelection();await DetectDecryptionMethodAsync();};
+        _method.SelectionChanged+=(_,_)=>ResetSelection();
         _password.PasswordChanged+=(_,_)=>SecretChanged();_confirmation.PasswordChanged+=(_,_)=>SecretChanged();_pin.PasswordChanged+=(_,_)=>SecretChanged();
         _removeConfirmation.Checked+=(_,_)=>Refresh();_removeConfirmation.Unchecked+=(_,_)=>Refresh();
         _identities.SelectionChanged+=(_,_)=>{
@@ -76,21 +86,22 @@ internal sealed class FileProtectionDialog : ContentDialog
         _choose.Click+=async(_,_)=>{
             var paths=await WindowHelpers.PickFilesAsync(root.ContentIslandEnvironment.AppWindowId,"*");
             if(paths.Count==0)return;_source=paths[0];_file.Text=Path.GetFileName(_source);_removeConfirmation.IsChecked=false;ClearOutput();Refresh();
+            await DetectDecryptionMethodAsync();
         };
         _chooseCertificate.Click+=async(_,_)=>{
             var paths=await WindowHelpers.PickFilesAsync(root.ContentIslandEnvironment.AppWindowId,"*");if(paths.Count==0)return;
-            SetBusy(true);ClearOutput();
+            SetBusy(true);ClearOutput();ClearRecipient();
             try {
                 var certificate=await Task.Run(()=>{
                     var bytes=ProtectedFileIO.Read(paths[0]);if(bytes.Length>65536)throw new IOException();
                     var cert=X509CertificateLoader.LoadCertificate(bytes);
                     try{CertificateFileProtection.Encrypt([],cert);return cert;}catch{cert.Dispose();throw;}
                 });
-                _certificate?.Dispose();_certificate=certificate;_identities.ItemsSource=null;_recipient.Text=certificate.Subject+"\n"+Convert.ToHexString(SHA256.HashData(certificate.RawData));
+                _certificate=certificate;_recipient.Text=certificate.Subject+"\n"+Convert.ToHexString(SHA256.HashData(certificate.RawData));
             }catch{Error();}finally{SetBusy(false);}
         };
         _readCard.Click+=async(_,_)=>{
-            SetBusy(true);ClearOutput();_certificate?.Dispose();_certificate=null;_identities.ItemsSource=null;_recipient.Text="";_pin.Password="";
+            SetBusy(true);ClearOutput();ClearRecipient();
             try{
                 if(App.Current.Services.IsDemo)throw new InvalidOperationException();
                 _reader=AppState.Current.SelectedReader;if(_reader==null)throw new InvalidOperationException();
@@ -109,9 +120,42 @@ internal sealed class FileProtectionDialog : ContentDialog
             _method.SelectedIndex = 0;
             _file.Text = preview.Filename;
         }
-        if (initialSource is not null && File.Exists(initialSource)) { _source = initialSource; _file.Text = Path.GetFileName(initialSource); }
+        if (initialSource is not null && File.Exists(initialSource))
+        {
+            _source = initialSource;
+            _file.Text = Path.GetFileName(initialSource);
+            Opened += async (_, _) => await DetectDecryptionMethodAsync();
+        }
         Refresh();
     }
+    private async Task DetectDecryptionMethodAsync()
+    {
+        if (_operation.SelectedIndex != (int)FileProtectionOperation.Decrypt || _source is not { } path) return;
+        SetBusy(true);
+        try
+        {
+            var recipient = await Task.Run(() =>
+            {
+                var bytes = ProtectedFileIO.Read(path);
+                try { return CertificateFileProtection.IsRecipientEnvelope(bytes); }
+                finally { CryptographicOperations.ZeroMemory(bytes); }
+            });
+            _method.SelectedIndex = recipient ? 1 : 0;
+        }
+        catch { Error(); }
+        finally { SetBusy(false); }
+    }
+
+    private void ClearRecipient()
+    {
+        _certificate?.Dispose();
+        _certificate = null;
+        _identities.ItemsSource = null;
+        _reader = null;
+        _recipient.Text = "";
+        _pin.Password = "";
+    }
+
     private void SecretChanged(){if(!_busy)ClearOutput();Refresh();}
     private void ClearOutput(){_completed=false;if(_output!=null)CryptographicOperations.ZeroMemory(_output);_output=null;_notice.Text="";}
     private void ResetSelection(){ClearOutput();_password.Password="";_confirmation.Password="";_pin.Password="";_removeConfirmation.IsChecked=false;Refresh();}
@@ -120,7 +164,7 @@ internal sealed class FileProtectionDialog : ContentDialog
     private void Refresh(){
         var remove=_operation.SelectedIndex==2;var decrypt=_operation.SelectedIndex==1;var card=_method.SelectedIndex==1;
         static Visibility Visible(bool v)=>v?Visibility.Visible:Visibility.Collapsed;
-        _method.Visibility=Visibility.Collapsed;_password.Visibility=Visible(!remove&&!card);_confirmation.Visibility=Visible(!remove&&!card&&!decrypt);
+        _method.Visibility=Visible(!remove);_keySize.Visibility=Visible(!remove&&!decrypt&&!card);_password.Visibility=Visible(!remove&&!card);_confirmation.Visibility=Visible(!remove&&!card&&!decrypt);
         _chooseCertificate.Visibility=Visible(!remove&&card&&!decrypt);_readCard.Visibility=Visible(!remove&&card);_identities.Visibility=Visible(!remove&&card&&_identities.Items.Count>1);
         _recipientSummary.Visibility=Visible(!remove&&card&&_certificate!=null);
         _recipientSummary.Text=_certificate?.GetNameInfo(X509NameType.SimpleName,false)??"";
@@ -129,7 +173,9 @@ internal sealed class FileProtectionDialog : ContentDialog
         _guide.Visibility=Visible(!remove);_help.Visibility=Visible(!remove);
         var helpPrefix=card?"protect_certificate_":"protect_password_";
         helpPrefix+=decrypt?"decrypt":"encrypt";
-        _guide.Text=Loc.Get(helpPrefix+"_guide");_helpText.Text=Loc.Get(helpPrefix+"_help")+"\n\n"+Loc.Get("protect_compatibility");
+        _guide.Text=Loc.Get(helpPrefix+"_guide");
+        if (decrypt && !card) _guide.Text += " " + Loc.Get("protect_detect_algorithm");
+        _helpText.Text=Loc.Get(helpPrefix+"_help")+"\n\n"+Loc.Get("protect_compatibility");
         _exportCertificate.Visibility=Visible(!remove&&card&&_identities.SelectedItem is CardEncryptionIdentity);
         _pin.Visibility=Visible(!remove&&card&&decrypt&&_identities.SelectedItem!=null);_removeConfirmation.Visibility=Visible(remove);
         _warning.Text=Loc.Get(remove?"protect_removal_warning":"protect_original");
@@ -140,10 +186,12 @@ internal sealed class FileProtectionDialog : ContentDialog
     }
     private async Task Process(){
         if(_source==null)return;var source=_source;var operation=_operation.SelectedIndex;var card=_method.SelectedIndex==1;
+        var keyBits = _keySize.SelectedIndex >= 0 ? PasswordKeySizes[_keySize.SelectedIndex] : 256;
         var password=_password.Password;var pin=_pin.Password;var certificate=_certificate;var identity=_identities.SelectedItem as CardEncryptionIdentity;
         SetBusy(true);ClearOutput();_password.Password="";_confirmation.Password="";_pin.Password="";
         try{
             _output=await Task.Run(()=>{
+                if (!card && operation == 0) return _processor.Encrypt(source, password, keyBits);
                 if(!card || operation==2)
                     return _processor.Process(source, (FileProtectionOperation)operation, password);
                 var bytes=ProtectedFileIO.Read(source);

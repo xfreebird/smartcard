@@ -71,6 +71,13 @@ enum L10n {
         case ui_the_pin_is_not_retried_automatically_after_3_incorrect_attempts_the_card_is_blocked
         case ui_the_saved_pin_is_unlocked_using_touch_id_face_id_or_the_device_password_and_is_linked_to
         case ui_saved_pins
+        case disclosure_expanded
+        case disclosure_collapsed
+        case card_saved_identities_title
+        case card_without_pin
+        case card_forget
+        case card_forget_hint
+        case card_use_with_nfc
         case ui_share
         case ui_start_at_sign_in
         case ui_the_ports_are_in_use_by_moldsign_desktop_suite_java_quit_it_to_use_this_application
@@ -223,7 +230,14 @@ enum L10n {
         case share_saved_open_app
         case share_failed
         case store_output_location
-        case store_features_explanation
+        case store_while_running
+        case store_save_as
+        case store_copy_folder
+        case store_no_folder
+        case store_folder_unavailable
+        case store_choose_folder
+        case store_stop_copies
+        case store_copy_failed
         case browser_services
         case browser_public_services
         case browser_clear_data
@@ -539,6 +553,9 @@ enum L10n {
         case browser_reader_short
         case operation_failed_safe
         case browser_page_unavailable
+        case protect_key_size
+        case protect_rsa_recipient
+        case protect_detect_algorithm
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

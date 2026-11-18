@@ -15,8 +15,14 @@ object CertificateFileProtection {
     private val rsaOID = hex("2a864886f70d010101")
     private val aesOID = hex("608648016503040102")
     private fun w(tag: Int, content: ByteArray) = ProtectionASN1.wrap(tag,content)
-    private fun identity(certificate: X509Certificate): ByteArray {
+    fun recipientKey(certificate: X509Certificate): RSAPublicKey {
         require(certificate.keyUsage?.getOrNull(2) == true) { "Choose an encryption certificate, not a signing-only certificate." }
+        val key = certificate.publicKey as? RSAPublicKey ?: error("Unsupported encryption certificate.")
+        require(key.modulus.bitLength() in 2048..8192)
+        return key
+    }
+
+    private fun identity(certificate: X509Certificate): ByteArray {
         val fields = ProtectionASN1.parse(certificate.encoded).requireTag(0x30,3)[0].requireTag(0x30)
         val offset = if (fields.first().tag == 0xa0) 1 else 0
         require(fields.size >= offset+6 && fields[offset].tag == 2 && fields[offset+2].tag == 0x30)
@@ -25,8 +31,7 @@ object CertificateFileProtection {
     fun encrypt(plain: ByteArray, certificate: X509Certificate): ByteArray {
         require(plain.size <= PasswordFileProtection.MAXIMUM_SIZE) { "Choose a file smaller than 64 MB." }
         val identity = identity(certificate)
-        val publicKey = certificate.publicKey as? RSAPublicKey ?: error("Unsupported encryption certificate.")
-        require(publicKey.modulus.bitLength() in 2048..8192)
+        val publicKey = recipientKey(certificate)
         val random = SecureRandom(); val key = ByteArray(16).also(random::nextBytes); val iv = ByteArray(16).also(random::nextBytes)
         try {
             val wrapped = Cipher.getInstance("RSA/ECB/PKCS1Padding").run { init(Cipher.ENCRYPT_MODE,publicKey); doFinal(key) }
@@ -38,8 +43,7 @@ object CertificateFileProtection {
     }
     fun decrypt(envelope: ByteArray, certificate: X509Certificate, unwrap: (ByteArray) -> ByteArray): ByteArray {
         val identity = identity(certificate)
-        val publicKey = certificate.publicKey as? RSAPublicKey ?: error("Unsupported encryption certificate")
-        require(publicKey.modulus.bitLength() in 2048..8192)
+        val publicKey = recipientKey(certificate)
         val root = ProtectionASN1.parse(envelope)
         val outer = root.requireTag(0x30)
         val body = if (outer.firstOrNull()?.tag == 2) root.requireTag(0x30,3) else {

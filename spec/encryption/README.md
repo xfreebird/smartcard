@@ -30,3 +30,9 @@ Implemented in Swift/C, Kotlin and C#: bounded password/CMS codecs, legacy passw
 Documents exposes localized Protect files forms on Apple, Android, Windows and Linux. Desktop forms include a separately confirmed overwrite/removal action; mobile does not claim it can overwrite provider storage. CLI commands are documented in [the CLI contract](../cli.md#file-protection). Outputs are not added to signed-document history and do not cause the original to be removed.
 
 Validation evidence and remaining gates are recorded in [the feature report](../../docs/reports/file-protection-2026-11-09.md). Physical-card decryption is not yet validated: software fixtures and simulated cards establish cryptographic/APDU behavior, not the capabilities of the owner's card. This feature has not been released.
+
+### Native app algorithm selection (unreleased)
+
+For a password-protected file, choose AES-128, AES-192 or AES-256. The default remains AES-256. Each choice uses the corresponding MoldSign password envelope marker, so recipients supply their password without selecting a key size. Existing legacy password envelopes retain their read support.
+
+For a recipient, choose **RSA certificate** and import the recipient’s public X.509 encryption certificate. CMS uses RSA to wrap a fresh AES-128 key for each file. Decryption requires the corresponding private encryption key and, for a supported card, its reader and PIN. A signing-only eID cannot act as that recipient.

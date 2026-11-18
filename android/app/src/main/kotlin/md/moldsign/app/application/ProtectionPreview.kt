@@ -6,4 +6,5 @@ data class ProtectionPreview(
     val completionSourceName: String,
     val decrypt: Boolean,
     val completed: Boolean,
+    val certificate: Boolean = false,
 )

@@ -24,7 +24,7 @@ let package = Package(
         .target(name: "DocumentLibrary", path: "Apps/Shared/Services/Activity"),
         .testTarget(name: "DocumentLibraryTests", dependencies: ["DocumentLibrary"], path: "Tests/DocumentLibraryTests"),
         .target(name: "ReaderInsertionPolicy", path: "Helpers/ReaderWatcher",
-                exclude: ["main.swift", "md.esemnbun.reader-watcher.plist", "README.md", "ReaderWatcher.entitlements"], sources: ["InsertionPolicy.swift"]),
+                exclude: ["main.swift", "md.esemnbun.reader-watcher.plist", "StoreInfo.plist", "README.md", "ReaderWatcher.entitlements"], sources: ["InsertionPolicy.swift"]),
         .testTarget(name: "ReaderInsertionPolicyTests", dependencies: ["ReaderInsertionPolicy"], path: "Tests/ReaderInsertionPolicyTests")
     ],
     swiftLanguageModes: [.v5]

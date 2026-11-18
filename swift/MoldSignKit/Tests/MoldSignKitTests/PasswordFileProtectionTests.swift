@@ -22,6 +22,32 @@ final class PasswordFileProtectionTests: XCTestCase {
             }
         }
     }
+    func testChosenKeySizeMatchesVendorMarkerAndDecryptsAutomatically() async throws {
+        let plainURL = fixtures.appendingPathComponent("plain-17.bin")
+        let plain = try Data(contentsOf: plainURL)
+        let folder = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: folder) }
+        let service = FileProtectionService(outputDirectory: folder)
+        for algorithm in PasswordEncryptionAlgorithm.allCases {
+            let name = "vendor-\(algorithm.rawValue)-17.symmetric.p7m"
+            let vendor = try Data(contentsOf: fixtures.appendingPathComponent(name))
+            let result = try await service.process(plainURL, operation: .encryptPassword(algorithm), password: password)
+            let encrypted = try XCTUnwrap(result)
+            let bytes = try Data(contentsOf: encrypted)
+            XCTAssertEqual(bytes[32..<96], vendor[32..<96])
+            XCTAssertFalse(try ProtectedFileIO.usesRecipientCertificate(encrypted))
+            XCTAssertEqual(encrypted.lastPathComponent, "plain-17.bin.symmetric.p7m")
+            XCTAssertEqual(try PasswordFileProtection.decrypt(bytes, password: password), plain)
+        }
+        XCTAssertFalse(try ProtectedFileIO.usesRecipientCertificate(fixtures.appendingPathComponent("vendor-legacy-DES_CBC-17.p7m")))
+        XCTAssertTrue(try ProtectedFileIO.usesRecipientCertificate(fixtures.appendingPathComponent("vendor-certificate.asymmetric.p7m")))
+        let cert = try Data(contentsOf: fixtures.appendingPathComponent("test-recipient.der"))
+        let result = try await service.process(plainURL, operation: .encryptCertificate(cert), password: "")
+        let encrypted = try XCTUnwrap(result)
+        XCTAssertEqual(encrypted.lastPathComponent, "plain-17.bin.asymmetric.p7m")
+        XCTAssertTrue(try ProtectedFileIO.usesRecipientCertificate(encrypted))
+    }
+
     func testInvalidInputAndWrongPassword() throws {
         let vendor = try Data(contentsOf: fixtures.appendingPathComponent("vendor-256-1024.symmetric.p7m"))
         // Legacy CBC can accept random valid padding even with a wrong password.

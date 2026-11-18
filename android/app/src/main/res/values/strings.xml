@@ -398,7 +398,7 @@ eSemnBun</string>
   <string name="protect_export_certificate">Exportă certificatul de criptare</string>
   <string name="protect_export_certificate_hint">Distribuie acest certificat public pentru ca alții să poată cripta fișiere pentru tine. PIN-ul și cheia privată nu sunt distribuite.</string>
   <string name="protect_file_step">1. Fișier</string>
-  <string name="protect_access_step">2. Parolă</string>
+  <string name="protect_access_step">2. Protecție</string>
   <string name="protect_help">De ce am nevoie?</string>
   <string name="protect_details">Detalii și export certificat</string>
   <string name="protect_password_encrypt_guide">Creează o parolă pentru acest fișier.</string>
@@ -407,7 +407,7 @@ eSemnBun</string>
   <string name="protect_certificate_decrypt_guide">Conectează cardul destinatarului și cititorul, apoi citește cardul.</string>
   <string name="protect_password_encrypt_help">Trimite parola separat de fișierul criptat. Păstreaz-o în siguranță: eSemnBun nu poate recupera o parolă uitată. Nu ai nevoie de card.</string>
   <string name="protect_password_decrypt_help">Cere parola persoanei care a criptat fișierul. Aceasta nu este PIN-ul cardului. După decriptare, verifică fișierul înainte de utilizare.</string>
-  <string name="protect_certificate_encrypt_help">Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său.</string>
+  <string name="protect_certificate_encrypt_help">Cere destinatarului certificatul public de criptare (.cer sau .der). Poți cripta fișierul cu certificatul RSA fără cardul sau PIN-ul destinatarului. Certificatul trebuie să permită criptarea cheilor.</string>
   <string name="protect_certificate_decrypt_help">Folosește cardul fizic corespunzător certificatului cu care a fost criptat fișierul, un cititor compatibil și PIN-ul acelui card. Doar fișierul certificatului nu permite decriptarea. Dacă nu ești destinatarul, cere expeditorului să cripteze pentru certificatul tău. Nu divulga PIN-ul.</string>
   <string name="saved_delete">Șterge documentul</string>
   <string name="saved_delete_all">Șterge toate documentele salvate</string>
@@ -418,7 +418,7 @@ eSemnBun</string>
   <string name="protect_decrypted">Decriptat</string>
   <string name="protect_saved_library">Salvat în Documente</string>
   <string name="protect_save_copy">Salvează o copie…</string>
-  <string name="protect_encrypted_hint">Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier.</string>
+  <string name="protect_encrypted_hint">Alege Decriptează în Documente. Folosește parola fișierului sau cardul destinatarului, în funcție de metoda de criptare.</string>
   <string name="sign_method">Semnează cu</string>
   <string name="sign_reader">Cititor de card</string>
   <string name="sign_nfc">NFC</string>
@@ -434,9 +434,17 @@ eSemnBun</string>
   <string name="nfc_timeout">Nu s-a găsit un card. Apasă din nou pe Semnează și apropie cardul de antena NFC.</string>
   <string name="nfc_unsupported">Acest card nu acceptă conexiunea NFC necesară pentru semnare.</string>
   <string name="pin_use_saved">Folosește PIN-ul salvat</string>
-  <string name="pin_saved_title">PIN-uri salvate</string>
-  <string name="pin_shared_methods">Același PIN este folosit pentru card, prin NFC sau cititor. Ștergerea se aplică ambelor metode.</string>
-  <string name="pin_saved_empty">Niciun PIN salvat. Poți salva PIN-ul când semnezi.</string>
+  <string name="pin_saved_title">Carduri și PIN-uri salvate</string>
+  <string name="pin_shared_methods">Gestionează identitățile folosite prin NFC și cititor.</string>
+  <string name="pin_saved_empty">Niciun card sau PIN salvat.</string>
+  <string name="card_forget">Uită cardul</string>
+  <string name="card_forget_message">Elimini de pe acest dispozitiv identitatea %1$s și PIN-ul salvat pentru acest card?</string>
+  <string name="card_forgotten">Cardul a fost uitat.</string>
+  <string name="card_use_nfc">Folosește cu NFC</string>
+  <string name="card_pin_saved">PIN salvat</string>
+  <string name="check_pass">Reușită</string>
+  <string name="check_fail">Eșuată</string>
+  <string name="check_unavailable">Indisponibilă</string>
   <string name="pin_save_failed">Documentul este semnat, dar PIN-ul nu a putut fi salvat.</string>
   <string name="nfc_test_app_name">eSemnBun NFC Test</string>
   <string name="nfc_hero_title">Semnează prin NFC</string>
@@ -491,4 +499,7 @@ eSemnBun</string>
   <string name="browser_reader_short">Cititor</string>
   <string name="operation_failed_safe">Operațiunea nu a putut fi finalizată. Verifică metoda aleasă și conexiunea.</string>
   <string name="browser_page_unavailable">Pagina nu poate fi încărcată. Verifică conexiunea și reîncarcă pagina.</string>
+  <string name="protect_key_size">Dimensiunea cheii AES</string>
+  <string name="protect_rsa_recipient">Certificat RSA</string>
+  <string name="protect_detect_algorithm">Algoritmul de decriptare este indicat în fișier.</string>
 </resources>

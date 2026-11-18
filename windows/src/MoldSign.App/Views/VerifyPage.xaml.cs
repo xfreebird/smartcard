@@ -102,25 +102,13 @@ public sealed partial class VerifyPage : Page
         }
     }
 
-    private void OnRevealClick(object sender, RoutedEventArgs e)
-    {
-        try
-        {
-            if (_signature is { } path) WindowHelpers.RevealInExplorer(path);
-        }
-        catch (Exception error)
-        {
-            AppLog.Error(error);
-            ShowError(error.Message);
-        }
-    }
-
     private async Task VerifyCurrentAsync()
     {
         if (_signature is not { } path) return;
         var version = ++_version;
         ClearResults.Visibility = _detailsMode ? Visibility.Collapsed : Visibility.Visible;
         DocumentName.Text = Path.GetFileName(path);
+        FileActions.FilePath = path;
         DocumentInfo.Visibility = Visibility.Visible;
         FileDrop.IsCompact = true;
         Verdict.Visibility = Visibility.Collapsed;
@@ -207,33 +195,67 @@ public sealed partial class VerifyPage : Page
                 Title = Loc.Get("Verify_Limits"), Message = string.Join(" ", limitations),
             });
 
-        var certificate = new StackPanel { Spacing = 8 };
+        var disclosures = new StackPanel { Spacing = 4 };
+        var certificate = new List<(string Label, string Value)>();
         foreach (var field in report.CertificateDetails)
-            certificate.Children.Add(new TextBlock { Text = $"{CertificateLabels.Label(field.Key)}: {field.Value}", TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true });
-        var certificateDisclosure = new Expander { Header = Loc.Get("cert_label_certificate_details"), Content = certificate, HorizontalAlignment = HorizontalAlignment.Stretch, HorizontalContentAlignment = HorizontalAlignment.Stretch };
-        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(certificateDisclosure, "VerifyCertificateDetails");
-        content.Children.Add(certificateDisclosure);
-        var details = new StackPanel { Spacing = 12 };
-        details.Children.Add(Field("Verify_Format", SignatureLabels.Human(report.Kind)));
-        details.Children.Add(Field("Verify_Identifier", report.Name));
-        if (!string.IsNullOrWhiteSpace(report.SigningTime))
-            details.Children.Add(Field("Verify_SigningTime", report.SigningTime));
-        if (report.TimestampTime is { } timestamp) details.Children.Add(Field("Verify_Timestamp", timestamp));
-        details.Children.Add(Field("Verify_TsaSignature", Loc.Get(report.TimestampSignatureValidated ? "Verify_Checked" : "Verify_NotChecked")));
-        details.Children.Add(Field("Verify_Revocation", Loc.Get(report.RevocationValidated ? "Verify_Checked" : "Verify_NotChecked")));
-        if (!string.IsNullOrWhiteSpace(report.Notes)) details.Children.Add(Field("Verify_Notes", report.Notes));
-        var technicalDisclosure = new Expander
+            certificate.Add((CertificateLabels.Label(field.Key), field.Value));
+        disclosures.Children.Add(Disclosure("cert_label_certificate_details", "VerifyCertificateDetails", "\uE77B", certificate));
+
+        var technical = new List<(string Label, string Value)>
         {
-            Header = Loc.Get("Verify_Details"), Content = details, HorizontalAlignment = HorizontalAlignment.Stretch,
-            HorizontalContentAlignment = HorizontalAlignment.Stretch,
+            (Loc.Get("Verify_Format"), SignatureLabels.Human(report.Kind)),
+            (Loc.Get("Verify_Identifier"), report.Name),
         };
-        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(technicalDisclosure, "VerifyTechnicalDetails");
-        content.Children.Add(technicalDisclosure);
+        if (!string.IsNullOrWhiteSpace(report.SigningTime))
+            technical.Add((Loc.Get("Verify_SigningTime"), report.SigningTime));
+        if (report.TimestampTime is { } timestamp) technical.Add((Loc.Get("Verify_Timestamp"), timestamp));
+        technical.Add((Loc.Get("Verify_TsaSignature"), Loc.Get(report.TimestampSignatureValidated ? "Verify_Checked" : "Verify_NotChecked")));
+        technical.Add((Loc.Get("Verify_Revocation"), Loc.Get(report.RevocationValidated ? "Verify_Checked" : "Verify_NotChecked")));
+        if (!string.IsNullOrWhiteSpace(report.Notes)) technical.Add((Loc.Get("Verify_Notes"), report.Notes));
+        disclosures.Children.Add(Disclosure("Verify_Details", "VerifyTechnicalDetails", "\uE946", technical));
+        content.Children.Add(disclosures);
         return new Border
         {
             Child = content, Padding = new Thickness(16), CornerRadius = new CornerRadius(14),
             Style = (Style)Resources["VerificationCardStyle"], BorderThickness = new Thickness(1),
         };
+    }
+
+    private Expander Disclosure(string key, string automationId, string glyph, List<(string Label, string Value)> fields)
+    {
+        string title = Loc.Get(key);
+        var header = new StackPanel { Orientation = Orientation.Horizontal, Spacing = 10 };
+        header.Children.Add(new Border
+        {
+            Child = new FontIcon { Glyph = glyph, FontSize = 14, Style = (Style)Resources["DisclosureIconStyle"] },
+            Style = (Style)Resources["DisclosureIconTileStyle"],
+        });
+        header.Children.Add(new TextBlock { Text = title, FontWeight = FontWeights.SemiBold, VerticalAlignment = VerticalAlignment.Center });
+        var rows = new Grid { ColumnSpacing = 12, RowSpacing = 8 };
+        rows.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
+        rows.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(3, GridUnitType.Star) });
+        if (fields.Count == 0)
+            rows.Children.Add(new TextBlock { Text = Loc.Get("Verify_Unavailable") });
+        foreach (var (label, value) in fields)
+        {
+            int index = rows.RowDefinitions.Count;
+            rows.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+            var name = new TextBlock { Text = label, TextWrapping = TextWrapping.Wrap, Style = (Style)Resources["DisclosureLabelStyle"] };
+            var detail = new TextBlock { Text = value, TextWrapping = TextWrapping.Wrap, IsTextSelectionEnabled = true };
+            Grid.SetRow(name, index);
+            Grid.SetRow(detail, index);
+            Grid.SetColumn(detail, 1);
+            rows.Children.Add(name);
+            rows.Children.Add(detail);
+        }
+        var expander = new Expander
+        {
+            Header = header, Content = rows, HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Stretch, Padding = new Thickness(14, 12, 14, 14),
+        };
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(expander, title);
+        Microsoft.UI.Xaml.Automation.AutomationProperties.SetAutomationId(expander, automationId);
+        return expander;
     }
 
     private static StackPanel Field(string label, string value)

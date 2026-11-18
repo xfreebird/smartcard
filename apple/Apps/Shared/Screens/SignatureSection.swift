@@ -21,7 +21,7 @@ struct SignatureSection: View {
             }
             check(L10n.text(.ui_cryptographic_signature), report.signatureValid)
             check(L10n.text(.ui_trust_chain_mdqsign_mdtrustca), report.chainTrusted)
-            FullWidthDisclosure(captureKey: "certificate") { Text(L10n.text(.ui_certificate_details)).fontWeight(.medium) } content: {
+            FullWidthDisclosure(captureKey: "certificate", symbol: "person.text.rectangle") { Text(L10n.text(.ui_certificate_details)).fontWeight(.medium) } content: {
                 ForEach(["Subject", "Issuer", "Certificate"], id: \.self) { group in
                     VStack(alignment: .leading, spacing: 8) {
                         Text(CertificateLabels.label(group)).font(.headline)
@@ -37,7 +37,7 @@ struct SignatureSection: View {
                     }
                 }
             }
-            FullWidthDisclosure(captureKey: "technical") { Text(L10n.text(.ui_technical_details)).fontWeight(.medium) } content: {
+            FullWidthDisclosure(captureKey: "technical", symbol: "slider.horizontal.3") { Text(L10n.text(.ui_technical_details)).fontWeight(.medium) } content: {
                 Text(signatureLabels(report.summary)).font(.caption.monospaced()).textSelection(.enabled)
             }
         }

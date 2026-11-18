@@ -10,6 +10,7 @@ interface DocumentAccess {
     fun readBytes(uri: Uri, maximumSize: Int): ByteArray = readBytes(uri).also {
         require(it.size <= maximumSize) { "Document exceeds the size limit" }
     }
+    fun readPrefix(uri: Uri, size: Int): ByteArray = readBytes(uri).let { it.copyOf(minOf(size, it.size)) }
     fun copyToCache(uri: Uri): Uri?
     fun delete(uri: Uri): Boolean = false
     fun copy(source: Uri, target: Uri): Boolean

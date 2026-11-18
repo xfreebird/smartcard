@@ -13,6 +13,11 @@ final class FileProtectionDialog {
     private let confirmation: Widget
     private let pin: Widget
     private let passwordGroup: Widget
+    private let methodChoices: Widget
+    private let passwordMethod: Widget
+    private let rsaMethod: Widget
+    private let keySizeGroup: Widget
+    private var algorithm = PasswordEncryptionAlgorithm.aes256
     private let certificateGroup: Widget
     private let recipientSummary: Widget
     private let mismatch: Widget
@@ -58,7 +63,21 @@ final class FileProtectionDialog {
         let choose = button(L10n.text(.protect_choose_file),classes:["pill"]) {}
         fileLabel = label("",wrap:true);append(form,choose);append(form,fileLabel)
         methodLabel=label(L10n.text(.protect_access_step),classes:["heading"]);append(form,methodLabel)
-        // Password is the only supported access method for the national ID card app.
+        passwordMethod = gtk_check_button_new_with_label(L10n.text(.protect_password))!
+        rsaMethod = gtk_check_button_new_with_label(L10n.text(.protect_rsa_recipient))!
+        gtk_check_button_set_group(rsaMethod.cast(), passwordMethod.cast())
+        gtk_check_button_set_active(passwordMethod.cast(), 1)
+        methodChoices = hbox(spacing: 16, [passwordMethod, rsaMethod])
+        append(form, methodChoices)
+        let keySizes = PasswordEncryptionAlgorithm.allCases.map { choice in
+            gtk_check_button_new_with_label("AES-" + String(choice.rawValue))!
+        }
+        for option in keySizes.dropFirst() {
+            gtk_check_button_set_group(option.cast(), keySizes[0].cast())
+        }
+        gtk_check_button_set_active(keySizes[2].cast(), 1)
+        keySizeGroup = vbox(spacing: 6, [label(L10n.text(.protect_key_size)), hbox(spacing: 12, keySizes)])
+        append(form, keySizeGroup)
         guide=label("",classes:["dim-label"],wrap:true);append(form,guide)
         password = gtk_password_entry_new()!;confirmation = gtk_password_entry_new()!;pin = gtk_password_entry_new()!
         for (entry,key) in [(password,L10n.Key.protect_password),(confirmation,.protect_confirm_password),(pin,.protect_card_pin)] {
@@ -91,15 +110,30 @@ final class FileProtectionDialog {
         onSignal(dialog,"closed") { [weak self] in self?.open=false;self?.clearSecrets();self?.output=nil;closed() }
         for (button,index) in [(encrypt,0),(decrypt,1),(remove,2)] {
             onSignal(button,"clicked") { [weak self] in
-                guard let self else{return};self.operation=index;self.reset();self.clearSecrets();gtk_check_button_set_active(self.removeConfirmation.cast(),0);self.refresh()
+                guard let self else{return};self.operation=index;self.reset();self.clearSecrets();gtk_check_button_set_active(self.removeConfirmation.cast(),0);self.detectMethod();self.refresh()
             }
+        }
+        for (option, choice) in zip(keySizes, PasswordEncryptionAlgorithm.allCases) {
+            onSignal(option, "toggled") { [weak self] in
+                guard gtk_check_button_get_active(option.cast()) != 0 else { return }
+                self?.algorithm = choice
+                self?.reset()
+                self?.refresh()
+            }
+        }
+        onSignal(rsaMethod, "toggled") { [weak self] in
+            guard let self else { return }
+            self.certificateMode = gtk_check_button_get_active(self.rsaMethod.cast()) != 0
+            self.clearSecrets()
+            self.reset()
+            self.refresh()
         }
         for entry in [password,confirmation,pin] {onSignal(entry,"changed") {[weak self] in if self?.busy == false { self?.reset() };self?.refresh()}}
         onSignal(removeConfirmation,"toggled") { [weak self] in self?.refresh() }
         onSignal(choose,"clicked") { [weak self] in
             chooseFiles(parent:parent,title:L10n.text(.protect_choose_file),multiple:false) { paths in
                 guard let self,let path=paths.first,self.open else{return};self.source=URL(fileURLWithPath:path)
-                gtk_label_set_text(self.fileLabel.opaque,self.source!.lastPathComponent);self.reset();gtk_check_button_set_active(self.removeConfirmation.cast(),0);self.refresh()
+                gtk_label_set_text(self.fileLabel.opaque,self.source!.lastPathComponent);self.reset();gtk_check_button_set_active(self.removeConfirmation.cast(),0);self.detectMethod();self.refresh()
             }
         }
         onSignal(self.chooseCertificate,"clicked") { [weak self] in
@@ -107,7 +141,7 @@ final class FileProtectionDialog {
                 guard let self,let path=paths.first,self.open else{return}
                 self.setBusy(true);self.reset()
                 DispatchQueue.global(qos:.userInitiated).async {
-                    let result=Result {let bytes=try ProtectedFileIO.read(URL(fileURLWithPath:path));_ = try CertificateFileProtection.encrypt(Data(),certificate:bytes);return bytes}
+                    let result=Result {let bytes=try ProtectedFileIO.read(URL(fileURLWithPath:path));try CertificateFileProtection.validateRecipient(bytes);return bytes}
                     onMain { guard self.open else{return};self.setBusy(false)
                         switch result {case .success(let bytes):self.certificate=bytes;self.identity=nil;clearBox(self.keyChoices);gtk_label_set_text(self.recipientSummary.opaque,URL(fileURLWithPath:path).lastPathComponent);gtk_label_set_text(self.recipient.opaque,URL(fileURLWithPath:path).lastPathComponent)
                         case .failure:self.error()};self.refresh()
@@ -130,8 +164,28 @@ final class FileProtectionDialog {
             source = initialSource
             gtk_label_set_text(fileLabel.opaque, initialSource.lastPathComponent)
         }
+        detectMethod()
         refresh();adw_dialog_present(dialog,parent.widget)
     }
+    private func detectMethod() {
+        guard operation == 1, let source else { return }
+        setBusy(true)
+        DispatchQueue.global(qos: .userInitiated).async {
+            let result = Result { try ProtectedFileIO.usesRecipientCertificate(source) }
+            onMain {
+                guard self.open else { return }
+                self.setBusy(false)
+                switch result {
+                case .success(let isRSA):
+                    gtk_check_button_set_active((isRSA ? self.rsaMethod : self.passwordMethod).cast(), 1)
+                case .failure:
+                    self.error()
+                }
+                self.refresh()
+            }
+        }
+    }
+
     private func text(_ entry: Widget) -> String {String(cString:gtk_editable_get_text(entry.opaque))}
     private func clearSecrets(){for entry in [password,confirmation,pin]{gtk_editable_set_text(entry.opaque,"")}}
     private func reset(){completed=false;output=nil;gtk_label_set_text(notice.opaque,"")}
@@ -141,12 +195,15 @@ final class FileProtectionDialog {
         for (index,button) in operationButtons.enumerated() {
             if index==operation {gtk_widget_add_css_class(button,"suggested-action")} else {gtk_widget_remove_css_class(button,"suggested-action")}
         }
+        gtk_widget_set_visible(methodChoices, operation == 2 ? 0 : 1)
+        gtk_widget_set_visible(keySizeGroup, operation == 0 && !certificateMode ? 1 : 0)
         gtk_widget_set_visible(chooseCertificate,operation==0 ? 1:0)
         gtk_widget_set_visible(methodLabel,operation==2 ? 0:1)
         gtk_widget_set_visible(guide,operation==2 ? 0:1);gtk_widget_set_visible(help,operation==2 ? 0:1)
         let guideKey:L10n.Key=certificateMode ? (operation==0 ? .protect_certificate_encrypt_guide:.protect_certificate_decrypt_guide) : (operation==0 ? .protect_password_encrypt_guide:.protect_password_decrypt_guide)
         let helpKey:L10n.Key=certificateMode ? (operation==0 ? .protect_certificate_encrypt_help:.protect_certificate_decrypt_help) : (operation==0 ? .protect_password_encrypt_help:.protect_password_decrypt_help)
-        gtk_label_set_text(guide.opaque,L10n.text(guideKey))
+        let guidance = operation == 1 ? L10n.text(.protect_detect_algorithm) + " " + L10n.text(guideKey) : L10n.text(guideKey)
+        gtk_label_set_text(guide.opaque, guidance)
         gtk_label_set_text(helpText.opaque,L10n.text(helpKey)+"\n\n"+L10n.text(.protect_compatibility))
         gtk_widget_set_visible(details,certificate == nil ? 0:1)
         gtk_widget_set_visible(recipientSummary,certificate == nil ? 0:1)
@@ -187,12 +244,12 @@ final class FileProtectionDialog {
     private func select(_ identity:CardEncryptionIdentity){self.identity=identity;certificate=identity.certificate;gtk_label_set_text(recipientSummary.opaque,identity.label);gtk_label_set_text(recipient.opaque,identity.label+"\n"+identity.fingerprint);gtk_editable_set_text(pin.opaque,"");reset();refresh()}
     private func process(){
         guard let source else{return}
-        let operation=operation,certificateMode=certificateMode,password=text(password),pin=text(pin),certificate=certificate,identity=identity,reader=reader
+        let operation=operation,algorithm=algorithm,certificateMode=certificateMode,password=text(password),pin=text(pin),certificate=certificate,identity=identity,reader=reader
         reset();setBusy(true);clearSecrets()
         DispatchQueue.global(qos:.userInitiated).async {
             let result=Result<Data?,Error> {
                 if !certificateMode || operation == 2 {
-                    let action: FileProtectionOperation = operation == 0 ? .encrypt : operation == 1 ? .decrypt : .remove
+                    let action: FileProtectionOperation = operation == 0 ? .encryptPassword(algorithm) : operation == 1 ? .decrypt : .remove
                     return try self.processor.process(source, operation: action, password: password)
                 }
                 let bytes=try ProtectedFileIO.read(source)

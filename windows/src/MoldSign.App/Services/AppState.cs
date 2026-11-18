@@ -22,9 +22,8 @@ public sealed record ActivityItem(string FileName, string Action, DateTimeOffset
     public bool IsProtectionOutput => ProtectionOperation is "encrypted" or "decrypted";
     [JsonIgnore]
     public bool IsSavedDocument => IsSignedDocument || (Success && Path is not null && IsProtectionOutput);
-    public Visibility VerifyVisibility => CanVerify ? Visibility.Visible : Visibility.Collapsed;
-    public string VerifyLabel => Loc.Get("Action_Verify");
-    public string OpenLabel => Path is null ? "" : Loc.Get(IsProtectionOutput ? "saved_files" : "saved_details");
+    [JsonIgnore]
+    public string FileOptionsLabel => Loc.Get("file_options");
     [JsonIgnore]
     public bool IsSignedDocument => Success && Path is not null &&
         (SignedOutput == true || (SignedOutput is null && System.IO.Path.GetFileName(Path).Contains("-semnat", StringComparison.OrdinalIgnoreCase)));

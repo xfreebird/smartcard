@@ -12,6 +12,21 @@ public static class CertificateFileProtection
     private const string RsaOid = "1.2.840.113549.1.1.1", AesOid = "2.16.840.1.101.3.4.1.2";
     private static readonly Asn1Tag Explicit = new(TagClass.ContextSpecific,0,true);
     private static readonly Asn1Tag Content = new(TagClass.ContextSpecific,0);
+    /// <summary>Recognize both CMS ContentInfo and the vendor's bare EnvelopedData body.</summary>
+    public static bool IsRecipientEnvelope(ReadOnlyMemory<byte> envelope)
+    {
+        try
+        {
+            var root = new AsnReader(envelope, AsnEncodingRules.BER);
+            var body = root.ReadSequence();
+            root.ThrowIfNotEmpty();
+            if (body.PeekTag().HasSameClassAndValue(Asn1Tag.ObjectIdentifier))
+                return body.ReadObjectIdentifier() == Enveloped;
+            return body.TryReadInt32(out int version) && version == 0
+                && body.PeekTag().HasSameClassAndValue(Asn1Tag.SetOf);
+        }
+        catch (AsnContentException) { return false; }
+    }
     private static void CheckCertificate(X509Certificate2 certificate)
     {
         var usage = certificate.Extensions.OfType<X509KeyUsageExtension>().SingleOrDefault();

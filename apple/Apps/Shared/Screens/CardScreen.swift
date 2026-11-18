@@ -8,6 +8,7 @@ struct CardScreen: View {
     @Environment(AppModel.self) private var model
     @State private var copied = false
     #if os(iOS)
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var presentedSetting: MobileSettingsDestination?
@@ -205,14 +206,27 @@ struct CardScreen: View {
             Label(model.hasStoredPIN(certID: cert.sha1Hex) ? L10n.text(.ui_pin_is_saved) : L10n.text(.ui_pin_is_not_saved),
                   systemImage: model.hasStoredPIN(certID: cert.sha1Hex) ? "key.fill" : "key")
                 .accessibilityIdentifier("card.pin.status")
-            if model.hasStoredPIN(certID: cert.sha1Hex) {
-                Button(role: .destructive) { model.forgetPIN(certID: cert.sha1Hex) } label: {
-                    Label(L10n.text(.ui_delete_the_saved_pin), systemImage: "trash")
+            if model.hasStoredPIN(certID: cert.sha1Hex) || model.knownSigningCertificates.contains(where: { $0.sha1Hex == cert.sha1Hex }) {
+                Button(role: .destructive) {
+                    model.forgetCard(certID: cert.sha1Hex)
+                    #if os(iOS)
+                    if detailsOnly && !showsReaderCard { dismiss() }
+                    #endif
+                } label: {
+                    Label(L10n.text(.card_forget), systemImage: "trash")
                 }
                     .disabled(!model.canChangeSigningMethod)
                     .accessibilityIdentifier("card.pin.delete")
             }
             #if os(iOS)
+            if showsReaderCard && model.nfcAvailable {
+                Button(L10n.text(.card_use_with_nfc)) {
+                    model.useReaderCardWithNFC()
+                    if detailsOnly { dismiss() }
+                }
+                .accessibilityIdentifier("card.useWithNFC")
+                .disabled(!model.canChangeSigningMethod)
+            }
             savedPINsLink
             #endif
         } header: {
@@ -229,7 +243,7 @@ struct CardScreen: View {
     #if os(iOS)
     private var savedPINsLink: some View {
         Button { presentedSetting = .pins } label: {
-            Label(L10n.text(.ui_saved_pins), systemImage: "key")
+            Label(L10n.text(.card_saved_identities_title), systemImage: "key")
         }
         .accessibilityIdentifier("card.savedPINs")
     }

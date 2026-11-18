@@ -17,8 +17,23 @@ struct IDCardFace: View {
     var reservesDisclosure = false
     /// In the expanded list: the status strip says the card is the one used for signing.
     var inUse = false
+    var wrappingWidth: CGFloat? = nil
 
     var body: some View {
+        Group {
+            if let w = wrappingWidth {
+                wrappingFace(width: w)
+            } else {
+                fixedFace
+            }
+        }
+        .clipShape(shape)
+        .overlay(shape.strokeBorder(.black.opacity(0.14), lineWidth: 0.5))
+        .shadow(color: .black.opacity(0.2), radius: 4, y: 2.5)
+        .help(card.reader)
+    }
+
+    private var fixedFace: some View {
         GeometryReader { geo in
             let w = geo.size.width, h = geo.size.height
             ZStack(alignment: .topLeading) {
@@ -39,10 +54,53 @@ struct IDCardFace: View {
             }
         }
         .aspectRatio(Self.ratio, contentMode: .fit)
-        .clipShape(shape)
-        .overlay(shape.strokeBorder(.black.opacity(0.14), lineWidth: 0.5))
-        .shadow(color: .black.opacity(0.2), radius: 4, y: 2.5)
-        .help(card.reader)
+    }
+
+    /// Retain the original artwork and field columns. A longer name or status can
+    /// increase the height rather than competing with the next field.
+    private func wrappingFace(width w: CGFloat) -> some View {
+        let h = w / Self.ratio
+        return VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: w * 0.10) {
+                heading("REPUBLICA MOLDOVA", "REPUBLIC OF MOLDOVA", color: Self.navy, w: w)
+                    .frame(width: w * 0.32, alignment: .leading)
+                heading("CARTE DE IDENTITATE", "IDENTITY CARD", color: Self.burgundy, w: w)
+                    .frame(width: w * 0.36, alignment: .leading)
+            }
+            .padding(.leading, w * 0.045)
+            .padding(.top, h * 0.055)
+            .padding(.bottom, h * 0.07)
+
+            VStack(alignment: .leading, spacing: h * 0.025) {
+                field(card.labels.surname, card.surname, w: w)
+                    .frame(width: w * 0.50, alignment: .leading)
+                field(card.labels.givenNames, card.givenNames, w: w)
+                    .frame(width: w * 0.50, alignment: .leading)
+                HStack(alignment: .top, spacing: w * 0.025) {
+                    field(card.labels.validUntil, card.validUntil, w: w)
+                        .frame(width: w * 0.32, alignment: .leading)
+                    field(card.labels.issuer, card.issuer, w: w)
+                        .frame(width: w * 0.29, alignment: .leading)
+                }
+                status(w: w)
+                    .padding(.top, h * 0.015)
+            }
+            .frame(width: w * 0.635, alignment: .leading)
+            .padding(.leading, w * 0.32)
+            .padding(.bottom, h * 0.06)
+        }
+        .fixedSize(horizontal: false, vertical: true)
+        .frame(width: w, alignment: .leading)
+        .frame(minHeight: h)
+        .background {
+            Canvas { context, size in Self.drawPaper(context, size, hueShift: hueShift) }
+        }
+        .overlay(alignment: .topTrailing) {
+            Chip()
+                .frame(width: w * 0.10, height: w * 0.075)
+                .padding(.trailing, w * 0.045)
+                .padding(.top, h * 0.38)
+        }
     }
 
     private var shape: some InsettableShape {
@@ -90,8 +148,9 @@ struct IDCardFace: View {
                 .foregroundStyle(Self.ink)
                 .redacted(reason: value == nil ? .placeholder : [])
         }
-        .lineLimit(1)
-        .minimumScaleFactor(0.55)
+        .lineLimit(wrappingWidth == nil ? 1 : nil)
+        .minimumScaleFactor(wrappingWidth == nil ? 0.55 : 1)
+        .fixedSize(horizontal: false, vertical: wrappingWidth != nil)
     }
 
     private func status(w: CGFloat) -> some View {
@@ -108,8 +167,8 @@ struct IDCardFace: View {
             Text(checked ? card.labels.selected : text)
                 .foregroundStyle(isProblem ? color : checked ? Color(rgb: 0x2350D8) : Self.ink)
                 .font(.system(size: w * 0.033, weight: .medium))
-                .lineLimit(1)
-                .truncationMode(.tail)
+                .lineLimit(wrappingWidth == nil ? 1 : nil)
+                .fixedSize(horizontal: false, vertical: wrappingWidth != nil)
         }
     }
 

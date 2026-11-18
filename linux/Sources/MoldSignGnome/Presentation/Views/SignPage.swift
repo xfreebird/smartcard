@@ -258,15 +258,11 @@ final class SignPage {
         resultKey = key
         clearList(resultList)
         for url in signed {
-            let open = iconButton("folder-open-symbolic", tooltip: L10n.text(.ui_open_folder)) { [weak self] in
-                revealInFolder(url.path, parent: self?.window())
-            }
-            let openWith = iconButton("application-x-executable-symbolic", tooltip: L10n.text(.ui_open_with)) { [weak self] in
-                openWithApplication(url.path, parent: self?.window())
-            }
-            let row = actionRow(title: url.lastPathComponent, subtitle: url.deletingLastPathComponent().path,
-                                icon: "object-select-symbolic", suffix: [open, openWith])
-            adw_action_row_set_activatable_widget(row.cast(), open)
+            let actions = DocumentActions(path: url.path, parent: window)
+            let row = actionRow(title: url.lastPathComponent, subtitle: url.pathExtension.uppercased(),
+                                icon: "object-select-symbolic", iconClasses: ["success"], suffix: [actions.controls])
+            gtk_widget_set_tooltip_text(row, url.path)
+            adw_action_row_set_activatable_widget(row.cast(), actions.reveal)
             gtk_list_box_row_set_activatable(row.cast(), 1)
             gtk_list_box_append(resultList.opaque, row)
         }

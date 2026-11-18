@@ -18,12 +18,12 @@ struct SavedDocumentDetails: View {
     @State private var unavailable = false
     @State private var scoped = false
     @State private var inspectedURL: URL?
-    @State private var contentHeight: CGFloat = 240
+    #if os(macOS)
+    @State private var initialContentHeight: CGFloat?
+    #endif
     #if os(iOS)
     @State private var previewURL: URL?
     @State private var pdfPreviewing = false
-    #else
-    @State private var previewing = false
     #endif
 
     var body: some View {
@@ -45,18 +45,29 @@ struct SavedDocumentDetails: View {
                         ProgressView(L10n.text(.ui_verifying)).frame(maxWidth: .infinity, minHeight: 120)
                     }
                     if !unavailable, reports != nil || protectionOperation != nil {
-                        ViewThatFits(in: .horizontal) {
-                            HStack(spacing: 16) { fileActions }
-                            VStack(alignment: .leading, spacing: 16) { fileActions }
-                        }
-                        .nativeButtonStyle(.automatic)
+                        #if os(macOS)
+                        MacDocumentActions(url: url, expanded: true, protectionOperation: protectionOperation,
+                                           decrypt: { decrypting = true })
+                        #else
+                        IOSDocumentDetailActions(url: url, protectionOperation: protectionOperation, preview: {
+                            if url.pathExtension.lowercased() == "pdf" { pdfPreviewing = true }
+                            else { previewURL = url }
+                        }, decrypt: { decrypting = true })
+                        #endif
                         if url.pathExtension.lowercased() == "xml" {
                             Text(L10n.text(.saved_xml_hint)).font(.caption).foregroundStyle(.secondary)
                         }
                     }
                 }
                 .padding(24).frame(maxWidth: 680).frame(maxWidth: .infinity)
-                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
+                #if os(macOS)
+                // Once the summary is ready, keep the sheet stable while its disclosures animate and scroll.
+                .onGeometryChange(for: CGFloat?.self) { geometry in
+                    reports != nil || protectionOperation != nil || unavailable ? geometry.size.height : nil
+                } action: { height in
+                    if initialContentHeight == nil { initialContentHeight = height }
+                }
+                #endif
             }
             .navigationTitle(L10n.text(protectionOperation == nil ? .saved_details : .saved_title))
             .accessibilityIdentifier("documents.details")
@@ -71,8 +82,7 @@ struct SavedDocumentDetails: View {
         }
         #if os(macOS)
         .frame(minWidth: 520, idealWidth: 640, maxWidth: 760)
-        .frame(height: min(740, max(240, contentHeight + 56)))
-        .sheet(isPresented: $previewing) { NativeDocumentPreview(url: url) }
+        .frame(height: min(740, max(300, (initialContentHeight ?? 300) + 56)))
         #else
         .quickLookPreview($previewURL)
         .sheet(isPresented: $pdfPreviewing) { PDFDocumentPreview(url: url) }
@@ -103,50 +113,9 @@ struct SavedDocumentDetails: View {
         }
     }
 
-    @ViewBuilder private var fileActions: some View {
-        if protectionOperation == "encrypt" {
-            Button { decrypting = true } label: { Label(L10n.text(.protect_decrypt), systemImage: "lock.open") }
-        }
-        if protectionOperation != "encrypt" {
-        Button {
-            #if os(iOS)
-            if url.pathExtension.lowercased() == "pdf" { pdfPreviewing = true }
-            else { previewURL = url }
-            #else
-            previewing = true
-            #endif
-        } label: { Label(L10n.text(.document_preview), systemImage: "doc.text.magnifyingglass") }
-        }
-        ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
-        #if os(macOS)
-        Button { NSWorkspace.shared.activateFileViewerSelecting([url]) } label: {
-            Label(L10n.text(.ui_show_in_finder), systemImage: "folder")
-        }
-        #endif
-    }
 }
 
 #if os(macOS)
-/// Adjacent actions preserve the existing whole-row Finder reveal behavior after signing.
-struct SignedDocumentActions: View {
-    let url: URL
-    @State private var previewing = false
-    var body: some View {
-        HStack(spacing: 12) {
-            Button { previewing = true } label: {
-                Label(L10n.text(.document_preview), systemImage: "doc.text.magnifyingglass")
-            }.help(L10n.text(.document_preview))
-            // Detached XML needs its original file; avoid implying that XML alone is a complete handoff.
-            if url.pathExtension.lowercased() == "pdf" {
-                ShareLink(item: url) { Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up") }
-                    .help(L10n.text(.ui_share))
-            }
-        }
-        .labelStyle(.iconOnly)
-        .sheet(isPresented: $previewing) { NativeDocumentPreview(url: url) }
-    }
-}
-
 /// Quick Look remains a preview; verification is always performed by the document verifier.
 struct NativeDocumentPreview: View {
     let url: URL
@@ -182,7 +151,7 @@ private struct QuickLookDocumentView: NSViewRepresentable {
 
 #if os(iOS)
 /// PDFKit keeps PDF rendering in the app; other document types retain Quick Look.
-private struct PDFDocumentPreview: View {
+struct PDFDocumentPreview: View {
     let url: URL
     @Environment(\.dismiss) private var dismiss
     @State private var document: PDFDocument?

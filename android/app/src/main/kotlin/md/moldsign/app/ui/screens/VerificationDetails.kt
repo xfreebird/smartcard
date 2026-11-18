@@ -23,7 +23,8 @@ import androidx.compose.material.icons.outlined.ExpandLess
 import androidx.compose.material.icons.outlined.ExpandMore
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.WarningAmber
-import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Surface
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
@@ -130,8 +131,8 @@ internal fun MissingDocuments(names: List<String>, onPick: () -> Unit) {
 internal fun SignatureCard(report: ValidationReport) {
     val captureIntent = LocalContext.current.hostActivity()?.intent
     val captureExpand = if (md.moldsign.app.DemoMode.screenshotCapture(captureIntent)) captureIntent?.getStringExtra("capture_expand") else null
-    var certificateExpanded by remember(captureExpand) { mutableStateOf(captureExpand == "certificate") }
-    var details by remember(captureExpand) { mutableStateOf(captureExpand == "technical") }
+    var certificateExpanded by remember(report, captureExpand) { mutableStateOf(captureExpand == "certificate") }
+    var details by remember(report, captureExpand) { mutableStateOf(captureExpand == "technical") }
     val expandedState = stringResource(R.string.state_expanded)
     val collapsedState = stringResource(R.string.state_collapsed)
     val locale = androidx.compose.ui.platform.LocalConfiguration.current.locales.get(0)
@@ -143,7 +144,6 @@ internal fun SignatureCard(report: ValidationReport) {
     ) {
         Column(Modifier.padding(Tokens.S4), verticalArrangement = Arrangement.spacedBy(Tokens.S2)) {
             Text(stringResource(R.string.sig_author, report.signerName ?: stringResource(R.string.sig_unknown_signer)), style = MaterialTheme.typography.titleMedium)
-            Text(stringResource(R.string.sig_signature), style = MaterialTheme.typography.labelLarge)
             report.signerIdnp?.let { Text("IDNP: $it") }
             report.level?.let { Text(signatureLabels(it), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant) }
             report.signingTime?.let { Text(stringResource(R.string.sig_signed_at, dateTime.format(it)), style = MaterialTheme.typography.bodyMedium) }
@@ -154,8 +154,9 @@ internal fun SignatureCard(report: ValidationReport) {
                 CheckChip(R.string.sig_chain, report.chainOk)
             }
             if (report.certificateDetails.isNotEmpty()) {
-                TextButton(onClick = { certificateExpanded = !certificateExpanded }, modifier = Modifier.fillMaxWidth()
-                    .testTag("verify.certificateToggle").semantics { stateDescription = if (certificateExpanded) expandedState else collapsedState }) { Text(stringResource(R.string.sig_certificate_details)) }
+                HorizontalDivider()
+                DisclosureButton(R.string.sig_certificate_details, certificateExpanded, "verify.certificateToggle",
+                    if (certificateExpanded) expandedState else collapsedState) { certificateExpanded = !certificateExpanded }
                 if (certificateExpanded) Column(Modifier.testTag("verify.certificateContents")) {
                     report.certificateDetails.forEach { (key, value) ->
                         Text("${CertificateLabels.label(key)}: $value", style = MaterialTheme.typography.bodySmall)
@@ -163,16 +164,23 @@ internal fun SignatureCard(report: ValidationReport) {
                 }
             }
             if (report.details.isNotEmpty()) {
-                TextButton(onClick = { details = !details }, modifier = Modifier.fillMaxWidth()
-                    .testTag("verify.technicalToggle").semantics { stateDescription = if (details) expandedState else collapsedState }, contentPadding = PaddingValues(horizontal = 0.dp)) {
-                    Text(stringResource(R.string.sig_details))
-                    Icon(if (details) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, contentDescription = null)
-                }
+                HorizontalDivider()
+                DisclosureButton(R.string.sig_details, details, "verify.technicalToggle",
+                    if (details) expandedState else collapsedState) { details = !details }
                 if (details) {
                     Text(signatureLabels(report.details.joinToString("\n")), modifier = Modifier.testTag("verify.technicalContents"), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun DisclosureButton(@StringRes label: Int, expanded: Boolean, tag: String, state: String, onClick: () -> Unit) {
+    TextButton(onClick = onClick, modifier = Modifier.fillMaxWidth().testTag(tag).semantics { stateDescription = state },
+        contentPadding = PaddingValues(horizontal = 0.dp)) {
+        Text(stringResource(label), modifier = Modifier.weight(1f))
+        Icon(if (expanded) Icons.Outlined.ExpandLess else Icons.Outlined.ExpandMore, null)
     }
 }
 
@@ -185,11 +193,15 @@ private fun CheckChip(@StringRes label: Int, ok: Boolean?) {
         false -> Icons.Outlined.ErrorOutline to colors.danger
         null -> Icons.Outlined.WarningAmber to colors.warning
     }
-    AssistChip(
-        onClick = {},
-        label = { Text(stringResource(label)) },
-        leadingIcon = { Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(18.dp)) },
-    )
+    val state = stringResource(when (ok) { true -> R.string.check_pass; false -> R.string.check_fail; null -> R.string.check_unavailable })
+    Surface(shape = RoundedCornerShape(8.dp), color = tint.copy(alpha = .09f)) {
+        Row(Modifier.semantics(mergeDescendants = true) { stateDescription = state }
+            .padding(horizontal = 8.dp, vertical = 5.dp), verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+            Icon(icon, null, tint = tint, modifier = Modifier.size(16.dp))
+            Text(stringResource(label), style = MaterialTheme.typography.labelMedium)
+        }
+    }
 }
 
 /**

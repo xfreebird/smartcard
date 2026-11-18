@@ -401,7 +401,7 @@ eSemnBun</string>
   <string name="protect_export_certificate">Экспорт сертификата шифрования</string>
   <string name="protect_export_certificate_hint">Поделитесь этим открытым сертификатом, чтобы другие могли шифровать файлы для вас. PIN-код и закрытый ключ не передаются.</string>
   <string name="protect_file_step">1. Файл</string>
-  <string name="protect_access_step">2. Пароль</string>
+  <string name="protect_access_step">2. Защита</string>
   <string name="protect_help">Что потребуется?</string>
   <string name="protect_details">Сведения и экспорт сертификата</string>
   <string name="protect_password_encrypt_guide">Создайте пароль для этого файла.</string>
@@ -410,7 +410,7 @@ eSemnBun</string>
   <string name="protect_certificate_decrypt_guide">Подключите карту получателя и считыватель, затем прочитайте карту.</string>
   <string name="protect_password_encrypt_help">Передайте пароль отдельно от зашифрованного файла. Сохраните его в надёжном месте: eSemnBun не может восстановить забытый пароль. Карта не нужна.</string>
   <string name="protect_password_decrypt_help">Запросите пароль у того, кто зашифровал файл. Это не PIN-код карты. После расшифровки проверьте файл перед использованием.</string>
-  <string name="protect_certificate_encrypt_help">Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны.</string>
+  <string name="protect_certificate_encrypt_help">Попросите у получателя открытый сертификат шифрования RSA (.cer или .der). Для шифрования файла достаточно этого сертификата. Сертификат должен разрешать шифрование ключей.</string>
   <string name="protect_certificate_decrypt_help">Нужны физическая карта, соответствующая сертификату шифрования этого файла, совместимый считыватель и PIN-код карты. Одного файла сертификата недостаточно. Если файл предназначен не вам, попросите отправителя зашифровать его для вашего сертификата. Никому не сообщайте PIN-код.</string>
   <string name="saved_delete">Удалить документ</string>
   <string name="saved_delete_all">Удалить все сохранённые документы</string>
@@ -421,7 +421,7 @@ eSemnBun</string>
   <string name="protect_decrypted">Расшифрован</string>
   <string name="protect_saved_library">Сохранено в Документах</string>
   <string name="protect_save_copy">Сохранить копию…</string>
-  <string name="protect_encrypted_hint">Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл.</string>
+  <string name="protect_encrypted_hint">Выберите «Расшифровать» в разделе «Документы». В зависимости от метода шифрования потребуется пароль файла или карта получателя.</string>
   <string name="sign_method">Способ подписания</string>
   <string name="sign_reader">Картридер</string>
   <string name="sign_nfc">NFC</string>
@@ -437,9 +437,17 @@ eSemnBun</string>
   <string name="nfc_timeout">Карта не найдена. Нажмите «Подписать» ещё раз и приложите карту к антенне NFC.</string>
   <string name="nfc_unsupported">Эта карта не поддерживает подключение NFC для подписания.</string>
   <string name="pin_use_saved">Использовать сохранённый PIN</string>
-  <string name="pin_saved_title">Сохранённые PIN-коды</string>
-  <string name="pin_shared_methods">Один PIN карты используется для NFC и картридера. Удаление действует для обоих способов.</string>
-  <string name="pin_saved_empty">Нет сохранённых PIN-кодов. Вы можете сохранить PIN при подписании.</string>
+  <string name="pin_saved_title">Сохранённые карты и PIN-коды</string>
+  <string name="pin_shared_methods">Здесь можно управлять картами для NFC и считывателя.</string>
+  <string name="pin_saved_empty">Нет сохранённых карт или PIN-кодов.</string>
+  <string name="card_forget">Забыть карту</string>
+  <string name="card_forget_message">Удалить с этого устройства данные карты %1$s и сохранённый для неё PIN-код?</string>
+  <string name="card_forgotten">Данные карты удалены.</string>
+  <string name="card_use_nfc">Использовать с NFC</string>
+  <string name="card_pin_saved">PIN-код сохранён</string>
+  <string name="check_pass">Проверка пройдена</string>
+  <string name="check_fail">Проверка не пройдена</string>
+  <string name="check_unavailable">Недоступно</string>
   <string name="pin_save_failed">Документ подписан, но сохранить PIN не удалось.</string>
   <string name="nfc_test_app_name">eSemnBun NFC Test</string>
   <string name="nfc_hero_title">Подписание по NFC</string>
@@ -494,4 +502,7 @@ eSemnBun</string>
   <string name="browser_reader_short">Считыватель</string>
   <string name="operation_failed_safe">Не удалось завершить операцию. Проверьте выбранный способ и подключение.</string>
   <string name="browser_page_unavailable">Не удалось загрузить страницу. Проверьте подключение и обновите страницу.</string>
+  <string name="protect_key_size">Размер ключа AES</string>
+  <string name="protect_rsa_recipient">Сертификат RSA</string>
+  <string name="protect_detect_algorithm">Алгоритм расшифрования указан в файле.</string>
 </resources>

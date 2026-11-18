@@ -221,19 +221,46 @@ fun SavedCardPins(vm: MainViewModel) {
     val status by vm.status.collectAsStateWithLifecycle()
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(stringResource(R.string.pin_shared_methods), style = MaterialTheme.typography.bodySmall)
-        if (ids.isEmpty()) Text(stringResource(R.string.pin_saved_empty), style = MaterialTheme.typography.bodyMedium)
-        cards.filter { it.sha1Hex in ids }.forEach { card ->
-            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Column(Modifier.weight(1f)) {
-                    Text(card.commonName)
-                    Text(card.serialHex.takeLast(8), style = MaterialTheme.typography.bodySmall)
+        val accounts = (cards.map { it.sha1Hex } + ids.sorted()).distinct()
+        if (accounts.isEmpty()) Text(stringResource(R.string.pin_saved_empty), style = MaterialTheme.typography.bodyMedium)
+        accounts.forEach { id ->
+            key(id) {
+                val card = cards.firstOrNull { it.sha1Hex == id } ?: status.wallet.cards.firstNotNullOfOrNull {
+                    slot -> slot.certificate?.takeIf { it.sha1Hex == id }
                 }
-                TextButton(onClick = { vm.deletePin(card.sha1Hex) }, enabled = !working && !status.busy) {
-                    Icon(Icons.Outlined.DeleteOutline, null, Modifier.size(18.dp))
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.pin_stored_delete))
+                val name = card?.commonName ?: stringResource(R.string.nav_card)
+                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Column(Modifier.weight(1f)) {
+                        Text(name)
+                        val credential = stringResource(if (id in ids) R.string.card_pin_saved else R.string.ui_no_saved_pins)
+                        Text("${card?.serialHex?.takeLast(8) ?: id.takeLast(8)}  ·  $credential",
+                            style = MaterialTheme.typography.bodySmall)
+                    }
+                    ForgetCardButton(name, enabled = !working && !status.busy) { vm.forgetCard(id) }
                 }
             }
         }
     }
+}
+
+@Composable
+internal fun ForgetCardButton(name: String, enabled: Boolean, onForget: () -> Unit) {
+    var confirming by remember(name) { mutableStateOf(false) }
+    TextButton(onClick = { confirming = true }, enabled = enabled,
+        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
+        Text(stringResource(R.string.card_forget))
+    }
+    if (confirming) AlertDialog(
+        onDismissRequest = { confirming = false },
+        title = { Text(stringResource(R.string.card_forget)) },
+        text = { Text(stringResource(R.string.card_forget_message, name)) },
+        confirmButton = {
+            TextButton(enabled = enabled, onClick = { confirming = false; onForget() }) {
+                Text(stringResource(R.string.card_forget))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = { confirming = false }) { Text(stringResource(R.string.action_cancel)) }
+        }
+    )
 }

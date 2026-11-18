@@ -37,42 +37,44 @@ struct ActivityScreen: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
+            HStack(spacing: 10) {
             Picker(L10n.text(.saved_title), selection: $history) {
                 Text(L10n.text(.saved_signed)).tag(false)
                 Text(L10n.text(.saved_history)).tag(true)
             }.pickerStyle(.segmented).labelsHidden()
             #if os(macOS)
+            .frame(maxWidth: 260)
+            #endif
+            #if os(macOS)
+            Spacer()
             protectButton
-                .labelStyle(.iconOnly)
+                .labelStyle(.titleAndIcon)
+                .buttonStyle(.bordered)
+                .controlSize(.small)
                 .help(L10n.text(.protect_title))
             clearButton
                 .labelStyle(.iconOnly)
+                .buttonStyle(.bordered)
+                .controlSize(.small)
             #endif
             }.padding()
             List {
             ForEach(entries) { item in
                 if !history, let url = item.fileURL {
-                    Button { selectedDocument = item } label: {
-                        HStack(spacing: 12) {
-                            Image(systemName: item.protectionOperation == "encrypt" ? "lock.doc" : "doc.text").foregroundStyle(Color.accentColor)
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(url.lastPathComponent).font(.headline)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                HStack {
-                                    if let operation = item.protectionOperation { Text(L10n.text(operation == "encrypt" ? .protect_encrypted : .protect_decrypted)) }
-                                    Text(item.date, style: .date)
-                                }.font(.caption).foregroundStyle(.secondary)
-                            }
-                            Spacer(minLength: 8)
-                            Image(systemName: "chevron.right").foregroundStyle(.secondary)
+                    Group {
+                        #if os(macOS)
+                        MacDocumentEntry(url: url, date: item.date, protectionOperation: item.protectionOperation) {
+                            selectedDocument = item
                         }
-                        .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
-                        .contentShape(Rectangle())
+                        #else
+                        IOSDocumentEntry(url: url, date: item.date, protectionOperation: item.protectionOperation) {
+                            selectedDocument = item
+                        }
+                        #endif
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(L10n.text(.saved_details))
-                    .accessibilityIdentifier("documents.openDetails")
+                    #if os(macOS)
+                    .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
+                    #endif
                     .modifier(SignedDocumentAnnotation(item: item))
                     .swipeActions(allowsFullSwipe: false) {
                         Button(role: .destructive) { deleting = [item]; confirmDelete = true } label: {
@@ -97,6 +99,7 @@ struct ActivityScreen: View {
                 }
             }
         }
+        .accessibilityHidden(selectedDocument != nil)
         .overlay {
             if entries.isEmpty {
                 ContentUnavailableView(L10n.text(history ? .ui_no_activity_yet : .saved_empty), systemImage: "folder",
@@ -114,6 +117,9 @@ struct ActivityScreen: View {
         #endif
         .searchable(text: Binding(get: { documentNavigation.documentSearch }, set: { documentNavigation.documentSearch = $0 }),
                     prompt: L10n.text(.discovery_search))
+        #if os(macOS)
+        .background(DocumentSearchWidth())
+        #endif
         .onChange(of: documentNavigation.documentSearch) { _, _ in history = false }
         .onChange(of: documentNavigation.documentSearchGeneration) { _, _ in history = false }
         .sheet(isPresented: $protecting, onDismiss: { protectionSource = nil }) { FileProtectionScreen(initialURL: protectionSource).environment(model).appPreferences() }

@@ -150,14 +150,13 @@ final class VerifyPage {
             adw_expander_row_add_row(certificate.cast(), actionRow(title: CertificateLabels.label(key), subtitle: report.certificateDetails[key] ?? "", subtitleSelectable: true))
         }
         gtk_list_box_append(list.opaque, certificate)
-        let details = adw_expander_row_new()!
-        adw_preferences_row_set_title(details.cast(), L10n.text(.ui_technical_details))
+        let details = technicalDetailsDisclosure()
         let detailRows: [(String, String)] = [
             (L10n.text(.linux_format), signatureLabels(report.kind)),
             (L10n.text(.linux_identifier), report.name),
             (L10n.text(.linux_summary), report.summary),
         ]
-        for (title, value) in detailRows {
+        for (title, value) in detailRows where !value.isEmpty {
             let row = actionRow(title: title, subtitle: value, subtitleSelectable: true)
             addClasses(row, ["property"])
             adw_expander_row_add_row(details.cast(), row)

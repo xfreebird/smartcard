@@ -2,6 +2,7 @@ package md.moldsign.app.nfc
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import md.moldsign.core.*
 
 /** Public browser identity survives RF removal. Every request opens a fresh, bound NFC session. */
@@ -15,7 +16,9 @@ class NfcBrowserCoordinator(private val controller: NfcSigningController, contex
         method.value = nfc && controller.available
         preferences.edit().putBoolean("nfc", method.value).apply()
     }
-    fun seed(certificate: CertificateSummary?) { if (identity.value == null) identity.value = certificate }
+    fun seed(certificate: CertificateSummary?) { identity.compareAndSet(null, certificate) }
+
+    fun forget(id: String) { identity.update { it?.takeUnless { card -> card.sha1Hex == id } } }
 
     fun select(certificate: CertificateSummary?) { identity.value = certificate; setEnabled(true) }
     fun cards(): List<BridgeCard> = if (enabled.value && controller.available)

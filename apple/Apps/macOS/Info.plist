@@ -23,6 +23,14 @@
 			</array>
 		</dict>
 	</array>
+	<key>ReaderWatcherPreferencesSuite</key>
+	<string>$(DEVELOPMENT_TEAM).md.esemnbun.reader-watcher</string>
+	<key>CFBundleURLTypes</key>
+	<array><dict>
+		<key>CFBundleURLName</key><string>md.esemnbun.mac.reader-watcher</string>
+		<key>CFBundleURLSchemes</key><array><string>esemnbun-reader</string></array>
+		<key>CFBundleTypeRole</key><string>Viewer</string>
+	</dict></array>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

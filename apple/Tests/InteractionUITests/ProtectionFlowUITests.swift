@@ -15,7 +15,21 @@ final class ProtectionFlowUITests: XCTestCase {
         XCTAssertTrue(documents.waitForPresence(timeout: 20))
         documents.tap()
         app.openProtection()
-        XCTAssertFalse(app.buttons["Certificate / card"].exists)
+        let rsa = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "RSA certificate")).firstMatch
+        XCTAssertTrue(rsa.waitForPresence(timeout: 5))
+        rsa.tap()
+        XCTAssertTrue(app.buttons["protect.chooseCertificate"].waitForPresence(timeout: 5))
+        let passwordMethod = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Password")).firstMatch
+        passwordMethod.tap()
+        let keySize = app.descendants(matching: .any).matching(identifier: "protect.keySize").firstMatch
+        XCTAssertTrue(keySize.waitForPresence(timeout: 5))
+        XCTAssertTrue(keySize.label.contains("AES-256"))
+        keySize.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap()
+        for size in ["AES-128", "AES-192", "AES-256"] {
+            XCTAssertTrue(app.buttons[size].waitForPresence(timeout: 5))
+        }
+        app.buttons["AES-192"].tap()
+        XCTAssertTrue(keySize.label.contains("AES-192"))
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
 
         app.buttons["protect.chooseFile"].tapWhenReady()
@@ -45,6 +59,7 @@ final class ProtectionFlowUITests: XCTestCase {
         encrypted.tap()
         app.buttons["Decrypt"].tap()
         XCTAssertTrue(password.waitForPresence(timeout: 8))
+        XCTAssertFalse(keySize.exists)
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         password.tap()
         password.typeText("sample-roundtrip-2026")

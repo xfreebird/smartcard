@@ -10,26 +10,33 @@ import javax.crypto.spec.SecretKeySpec
 object PasswordFileProtection {
     const val MAXIMUM_SIZE = 64 * 1024 * 1024 - 128
     const val SUFFIX = ".symmetric.p7m"
+    val keySizes = listOf(128, 192, 256)
     private val random = SecureRandom()
     private fun marker(bits: Int) = MessageDigest.getInstance("SHA-512").digest(bits.toString().toByteArray(Charsets.US_ASCII))
 
-    fun encrypt(plaintext: ByteArray, password: CharArray): ByteArray {
+    fun encrypt(plaintext: ByteArray, password: CharArray, keySize: Int = 256): ByteArray {
+        require(keySize in keySizes) { "Unsupported AES key size." }
         require(password.isNotEmpty()) { "Enter a password." }
         require(plaintext.size <= MAXIMUM_SIZE) { "Choose a file smaller than 64 MB." }
         val salt = ByteArray(16).also(random::nextBytes)
         salt[1] = 0xff.toByte() // Force the vendor ASN.1 parser into its AES fallback; 120 random salt bits.
         val iv = ByteArray(16).also(random::nextBytes)
-        return salt + iv + marker(256) + crypt(plaintext, password, salt, iv, 256, Cipher.ENCRYPT_MODE)
+        return salt + iv + marker(keySize) + crypt(plaintext, password, salt, iv, keySize, Cipher.ENCRYPT_MODE)
     }
     fun decrypt(envelope: ByteArray, password: CharArray): ByteArray {
         require(envelope.size <= MAXIMUM_SIZE + 8192) { "Choose a file smaller than 64 MB." }
         if(envelope.size < 112 || (envelope.size-96)%16!=0) return LegacyPasswordProtection.decrypt(envelope,password)
-        val tag = envelope.copyOfRange(32, 96)
-        val bits = listOf(128, 192, 256).firstOrNull { MessageDigest.isEqual(marker(it), tag) }
+        val bits = keySize(envelope)
             ?: return LegacyPasswordProtection.decrypt(envelope,password)
         return crypt(envelope.copyOfRange(96, envelope.size), password,
             envelope.copyOfRange(0, 16), envelope.copyOfRange(16, 32), bits, Cipher.DECRYPT_MODE)
     }
+    internal fun keySize(prefix: ByteArray): Int? {
+        if (prefix.size < 96) return null
+        val tag = prefix.copyOfRange(32, 96)
+        return keySizes.firstOrNull { MessageDigest.isEqual(marker(it), tag) }
+    }
+
     private fun crypt(input: ByteArray, password: CharArray, salt: ByteArray, iv: ByteArray, bits: Int, mode: Int): ByteArray {
         val key = derive(password, salt, bits / 8)
         try {

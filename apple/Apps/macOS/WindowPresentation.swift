@@ -5,11 +5,17 @@ import AppKit
 final class WindowPresentation {
     enum Destination { case main, settings, about }
     static let shared = WindowPresentation()
+    let presentsMainWindowAtLaunch: Bool
 
     private weak var mainWindow: NSWindow?
     private weak var settingsWindow: NSWindow?
     private weak var aboutWindow: NSWindow?
     private var pending: Destination?
+
+    private init() {
+        presentsMainWindowAtLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow")
+        pending = presentsMainWindowAtLaunch ? .main : nil
+    }
 
     var hasPendingRequest: Bool { pending != nil }
 
@@ -55,12 +61,12 @@ final class WindowPresentation {
         window.orderFrontRegardless()
         NSRunningApplication.current.activate(options: [.activateAllWindows])
         NSApp.activate(ignoringOtherApps: true)
-        window.makeKeyAndOrderFront(nil)
+        (window.attachedSheet ?? window).makeKeyAndOrderFront(nil)
         // A menu-bar popover can briefly remain key during its close animation.
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { [weak window] in
             guard let window, window.isVisible else { return }
             NSRunningApplication.current.activate(options: [.activateAllWindows])
-            window.makeKeyAndOrderFront(nil)
+            (window.attachedSheet ?? window).makeKeyAndOrderFront(nil)
         }
     }
 
@@ -75,6 +81,9 @@ final class WindowPresentation {
         guard let window else { return }
         NSApp.setActivationPolicy(.regular)
         Self.bringForward(window)
+        if pending == .main && presentsMainWindowAtLaunch {
+            AppPreferencesStore.defaults.set(true, forKey: "didPresentMainWindow")
+        }
         self.pending = nil
     }
 }

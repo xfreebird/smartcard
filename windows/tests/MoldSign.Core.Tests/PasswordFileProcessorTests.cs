@@ -23,6 +23,28 @@ public sealed class PasswordFileProcessorTests
         });
     }
 
+    [Theory]
+    [InlineData(128)]
+    [InlineData(192)]
+    [InlineData(256)]
+    public void ChosenSizeIsWrittenToEnvelopeAndDetectedOnRead(int bits)
+    {
+        WithDirectory(root =>
+        {
+            var input = Path.Combine(root, "source.txt");
+            var output = Path.Combine(root, "result.symmetric.p7m");
+            var plain = "Synthetic contract"u8.ToArray();
+            File.WriteAllBytes(input, plain);
+            IPasswordFileProcessor processor = new PasswordFileProcessor();
+            var envelope = processor.Encrypt(input, "test-password", bits);
+            var expectedMarker = System.Security.Cryptography.SHA512.HashData(
+                System.Text.Encoding.ASCII.GetBytes(bits.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+            Assert.Equal(expectedMarker, envelope[32..96]);
+            File.WriteAllBytes(output, envelope);
+            Assert.Equal(plain, processor.Process(output, FileProtectionOperation.Decrypt, "test-password"));
+        });
+    }
+
     [Fact]
     public void InvalidOperationIsRejectedBeforeReadingInput()
     {

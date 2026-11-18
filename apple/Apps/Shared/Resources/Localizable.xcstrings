@@ -1497,6 +1497,160 @@
         }
       }
     },
+    "disclosure_expanded": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Extins"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Expanded"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Развёрнуто"
+          }
+        }
+      }
+    },
+    "disclosure_collapsed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Restrâns"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collapsed"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Свёрнуто"
+          }
+        }
+      }
+    },
+    "card_saved_identities_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carduri și PIN-uri salvate"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Saved cards and PINs"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранённые карты и PIN-коды"
+          }
+        }
+      }
+    },
+    "card_without_pin": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carduri fără PIN salvat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cards without a saved PIN"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Карты без сохранённого PIN-кода"
+          }
+        }
+      }
+    },
+    "card_forget": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uită cardul"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forget card"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Забыть карту"
+          }
+        }
+      }
+    },
+    "card_forget_hint": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Uitarea cardului elimină identitatea și PIN-ul salvat de pe acest dispozitiv."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Forgetting a card removes its identity and saved PIN from this device."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Если забыть карту, её данные и сохранённый PIN-код будут удалены с этого устройства."
+          }
+        }
+      }
+    },
+    "card_use_with_nfc": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folosește acest card prin NFC"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use this card with NFC"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Использовать эту карту через NFC"
+          }
+        }
+      }
+    },
     "ui_share": {
       "localizations": {
         "ro": {
@@ -4841,24 +4995,178 @@
         }
       }
     },
-    "store_features_explanation": {
+    "store_while_running": {
       "localizations": {
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Versiunea App Store include browserul integrat și semnarea documentelor. Controlul aplicației MoldSign și utilitarul separat de pornire sunt disponibile în versiunea desktop de pe esemnbun.md."
+            "value": "Deschide fereastra la introducerea cardului când aplicația rulează"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The App Store version includes in-app browsing and document signing. MoldSign app control and the separate insertion helper are available in the desktop version from esemnbun.md."
+            "value": "Open the window on card insertion while the app is running"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Версия App Store включает встроенный браузер и подписание документов. Управление MoldSign и отдельный помощник запуска доступны в настольной версии с esemnbun.md."
+            "value": "Открывать окно при вставке карты, когда приложение запущено"
+          }
+        }
+      }
+    },
+    "store_save_as": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salvează ca…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save As…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сохранить как…"
+          }
+        }
+      }
+    },
+    "store_copy_folder": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Copiază automat documentele semnate în"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Automatically copy signed documents to"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Автоматически копировать подписанные документы в"
+          }
+        }
+      }
+    },
+    "store_no_folder": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Niciun dosar"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No folder selected"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Папка не выбрана"
+          }
+        }
+      }
+    },
+    "store_folder_unavailable": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dosar indisponibil"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Folder unavailable"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Папка недоступна"
+          }
+        }
+      }
+    },
+    "store_choose_folder": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Alege un dosar…"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose Folder…"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Выбрать папку…"
+          }
+        }
+      }
+    },
+    "store_stop_copies": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oprește copierea automată"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Automatic Copies"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Отключить автокопирование"
+          }
+        }
+      }
+    },
+    "store_copy_failed": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Documentul semnat este salvat în aplicație. Copierea în dosarul ales a eșuat. Folosește „Salvează ca…”. %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The signed document is saved in the app. The automatic copy failed. Use Save As… to save a copy. %@"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Подписанный документ сохранён в приложении. Не удалось создать копию в выбранной папке. Используйте «Сохранить как…». %@"
           }
         }
       }
@@ -9708,19 +10016,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "2. Password"
+            "value": "2. Protection"
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "2. Parolă"
+            "value": "2. Protecție"
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "2. Пароль"
+            "value": "2. Защита"
           }
         }
       }
@@ -9906,19 +10214,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate."
+            "value": "Ask the recipient for their public RSA encryption certificate (.cer or .der). You can encrypt the file with the certificate alone. The certificate must allow key encipherment."
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cere destinatarului certificatul public de criptare (.cer sau .der). În eSemnBun poate alege Certificat / card, citi cardul, apoi deschide Detalii și export certificat. Pentru a cripta pentru tine, citește propriul card. Un certificat destinat doar semnării nu poate fi folosit. Cardul și PIN-ul rămân la destinatar; nu sunt necesare pentru criptarea cu certificatul său."
+            "value": "Cere destinatarului certificatul public de criptare (.cer sau .der). Poți cripta fișierul cu certificatul RSA fără cardul sau PIN-ul destinatarului. Certificatul trebuie să permită criptarea cheilor."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Попросите у получателя открытый сертификат шифрования (.cer или .der). В eSemnBun получатель может выбрать Сертификат / карта, прочитать карту и открыть Сведения и экспорт сертификата. Для шифрования для себя прочитайте свою карту. Сертификат только для подписи не подходит. Карта и PIN-код остаются у получателя: для шифрования с его сертификатом они не нужны."
+            "value": "Попросите у получателя открытый сертификат шифрования RSA (.cer или .der). Для шифрования файла достаточно этого сертификата. Сертификат должен разрешать шифрование ключей."
           }
         }
       }
@@ -10302,19 +10610,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Use Decrypt in the Documents menu and enter the password to open this file."
+            "value": "Choose Decrypt in Documents. Use the file password or the recipient’s card, depending on how the file was encrypted."
           }
         },
         "ro": {
           "stringUnit": {
             "state": "translated",
-            "value": "Alege Decriptează din meniul Documente și introdu parola pentru a deschide acest fișier."
+            "value": "Alege Decriptează în Documente. Folosește parola fișierului sau cardul destinatarului, în funcție de metoda de criptare."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Выберите «Расшифровать» в меню Документов и введите пароль, чтобы открыть файл."
+            "value": "Выберите «Расшифровать» в разделе «Документы». В зависимости от метода шифрования потребуется пароль файла или карта получателя."
           }
         }
       }
@@ -11789,6 +12097,72 @@
           "stringUnit": {
             "state": "translated",
             "value": "Не удалось загрузить страницу. Проверьте подключение и обновите страницу."
+          }
+        }
+      }
+    },
+    "protect_key_size": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dimensiunea cheii AES"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "AES key size"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Размер ключа AES"
+          }
+        }
+      }
+    },
+    "protect_rsa_recipient": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Certificat RSA"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RSA certificate"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Сертификат RSA"
+          }
+        }
+      }
+    },
+    "protect_detect_algorithm": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Algoritmul de decriptare este indicat în fișier."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The file specifies the decryption algorithm."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Алгоритм расшифрования указан в файле."
           }
         }
       }

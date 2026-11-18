@@ -63,6 +63,18 @@ class AndroidDocumentAccess(private val app: Application) : DocumentAccess {
             output.toByteArray()
         } ?: throw CardError.Format("Cannot open the document")
 
+    override fun readPrefix(uri: Uri, size: Int): ByteArray =
+        app.contentResolver.openInputStream(uri)?.use { input ->
+            val buffer = ByteArray(size)
+            var offset = 0
+            while (offset < size) {
+                val count = input.read(buffer, offset, size - offset)
+                if (count <= 0) break
+                offset += count
+            }
+            buffer.copyOf(offset)
+        } ?: throw CardError.Format("Cannot open the document")
+
     override suspend fun describe(uri: Uri): PickedDocument = withContext(Dispatchers.IO) {
         val resolver = app.contentResolver
         var name = uri.lastPathSegment ?: "document"

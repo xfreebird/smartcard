@@ -10,6 +10,7 @@ import kotlinx.coroutines.cancel
 import md.moldsign.app.infrastructure.ActivityLog
 import md.moldsign.app.infrastructure.ProtectedFileStore
 import md.moldsign.core.protection.PasswordFileProtection
+import md.moldsign.core.protection.ProtectionHeader
 import java.util.UUID
 
 /** Real Android crypto providers, private files and persisted document library. */
@@ -29,6 +30,11 @@ internal class ProtectionStorageIntegration(private val context: Context) {
         }
         val password = "Test-șț-🔐-2026".toCharArray()
         try {
+            for (bits in PasswordFileProtection.keySizes) {
+                val encrypted = PasswordFileProtection.encrypt(plain, password, bits)
+                check(ProtectionHeader.detect(encrypted) == ProtectionHeader(false, bits))
+                check(PasswordFileProtection.decrypt(encrypted, password).contentEquals(plain))
+            }
             val encrypted = PasswordFileProtection.encrypt(plain, password)
             val restored = PasswordFileProtection.decrypt(encrypted, password)
             check(restored.contentEquals(plain))

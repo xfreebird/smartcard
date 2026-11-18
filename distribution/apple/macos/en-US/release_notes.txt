@@ -1,1 +1,1 @@
-Manage cards, readers, and saved PINs in Settings. Documents now offers direct access to file protection and deletion.
+Improved document actions, history and signature verification. Manage saved cards and PINs while disconnected. Choose AES-128, AES-192 or AES-256 password encryption, or encrypt for an RSA recipient certificate.

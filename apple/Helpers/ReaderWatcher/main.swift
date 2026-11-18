@@ -17,6 +17,10 @@ let mockPath: String? = CommandLine.arguments.firstIndex(of: "--mock-snapshot").
 #else
 let mockPath: String? = nil
 #endif
+#if APP_STORE
+guard let suite = Bundle(url: app)?.object(forInfoDictionaryKey: "ReaderWatcherPreferencesSuite") as? String,
+      let preferences = UserDefaults(suiteName: suite) else { exit(2) }
+#else
 let preferenceDomain: String = {
     #if DEBUG
     if let suite = ProcessInfo.processInfo.environment["MSIGN_DEMO_PREFERENCES_SUITE"], suite.hasPrefix("md.esemnbun.qa.") { return suite }
@@ -24,6 +28,7 @@ let preferenceDomain: String = {
     return Bundle(url: app)?.bundleIdentifier ?? "md.esemnbun.mac"
 }()
 let preferences = UserDefaults(suiteName: preferenceDomain) ?? .standard
+#endif
 let manager = mockPath == nil ? TKSmartCardSlotManager.default : nil
 var policy = ReaderInsertionPolicy()
 var lastOpen = Date.distantPast
@@ -42,7 +47,12 @@ func sample() {
         })
     }
     preferences.synchronize()
+    #if APP_STORE
+    // Only monitor for activation once the containing app has published its mode.
+    let demo = preferences.object(forKey: "demoModeEnabled") as? Bool ?? true
+    #else
     let demo = preferences.bool(forKey: "demoModeEnabled")
+    #endif
     let inserted = policy.shouldOpen(for: current, demoMode: demo)
     #if DEBUG
     if mockPath != nil && demo {
@@ -53,6 +63,11 @@ func sample() {
     lastOpen = Date()
     let configuration = NSWorkspace.OpenConfiguration()
     configuration.activates = true
+    #if APP_STORE
+    // Launch Services delivers this URL on both cold launch and reopen.
+    NSWorkspace.shared.open([URL(string: "esemnbun-reader://inserted")!],
+                            withApplicationAt: app, configuration: configuration) { _, _ in }
+    #else
     configuration.arguments = ["--show-main-window"]
     #if DEBUG
     if mockPath != nil {
@@ -67,6 +82,7 @@ func sample() {
         }
         #endif
     }
+    #endif
 }
 sample()
 let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in sample() }

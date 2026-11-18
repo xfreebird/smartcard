@@ -50,16 +50,21 @@ fun CardDetailsSheet(vm: MainViewModel, onDismiss: () -> Unit) {
     val method by vm.signingMethod.collectAsStateWithLifecycle()
     val identity by vm.nfcIdentity.collectAsStateWithLifecycle()
     val ids by vm.savedPinIds.collectAsStateWithLifecycle()
+    val known by vm.knownCards.collectAsStateWithLifecycle()
     val working by vm.working.collectAsStateWithLifecycle()
     val cert = if (method == MainViewModel.SigningMethod.NFC) identity else status.wallet.selectedCard?.certificate
     FocusedTaskSheet(stringResource(R.string.card_details_title), onDismiss = onDismiss) {
         cert?.let {
             CardDetails(it, readerName = if (method == MainViewModel.SigningMethod.Reader) status.wallet.selectedCard?.readerName else null)
-            if (!vm.demoMode && it.sha1Hex in ids) TextButton(onClick = { vm.deletePin(it.sha1Hex) }, enabled = !working && !status.busy,
-                colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)) {
-                Icon(Icons.Outlined.DeleteOutline, null, Modifier.size(18.dp))
-                Spacer(Modifier.width(8.dp))
-                Text(stringResource(R.string.pin_stored_delete))
+            if (!vm.demoMode) {
+                val enabled = !working && !status.busy
+                if (it.sha1Hex in ids || known.any { card -> card.sha1Hex == it.sha1Hex }) {
+                    ForgetCardButton(it.commonName, enabled) { vm.forgetCard(it.sha1Hex) }
+                } else if (vm.nfcAvailable && method == MainViewModel.SigningMethod.Reader && it.der != null) {
+                    TextButton(enabled = enabled, onClick = { vm.useReaderCardForNfc(it.sha1Hex); onDismiss() }) {
+                        Text(stringResource(R.string.card_use_nfc))
+                    }
+                }
             }
         }
     }

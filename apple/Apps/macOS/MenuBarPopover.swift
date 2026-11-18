@@ -8,6 +8,7 @@ struct MenuBarPopover: View {
     @Environment(\.openWindow) private var openWindow
     @Environment(\.openSettings) private var openSettings
     @State private var hostWindow: NSWindow?
+    @State private var contentHeight: CGFloat = 600
     #if !APP_STORE
     @State private var vendorListening = false
     @State private var confirmQuitVendor = false
@@ -16,6 +17,21 @@ struct MenuBarPopover: View {
     #endif
 
     var body: some View {
+        let screen = hostWindow?.screen ?? NSScreen.main
+        ScrollView(.vertical) {
+            menuContent
+                .padding(16)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
+                .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { contentHeight = $0 }
+        }
+        .scrollBounceBehavior(.basedOnSize)
+        .frame(width: min(380, (screen?.visibleFrame.width ?? 400) - 16),
+               height: min(ceil(contentHeight), (screen?.visibleFrame.height ?? 800) - 24))
+        .background(WindowReader { hostWindow = $0 })
+    }
+
+    @ViewBuilder private var menuContent: some View {
         @Bindable var model = model
         VStack(alignment: .leading, spacing: 14) {
             HStack(spacing: 8) {
@@ -24,7 +40,7 @@ struct MenuBarPopover: View {
                 Button {
                     dismissThen { WindowPresentation.shared.present(.settings) { openSettings() } }
                 } label: { Image(systemName: "gearshape") }
-                    .buttonStyle(.borderless)
+                    .buttonStyle(TrayButtonStyle())
                     .help(L10n.text(.ui_settings))
                     .accessibilityLabel(L10n.text(.ui_settings))
             }
@@ -45,10 +61,9 @@ struct MenuBarPopover: View {
             }
 
             HStack(spacing: 10) {
-                Button { showMain(.sign) } label: { Label(L10n.text(.ui_sign_2), systemImage: "signature").frame(maxWidth: .infinity) }
-                Button { showMain(.verify) } label: { Label(L10n.text(.ui_verify_2), systemImage: "checkmark.seal").frame(maxWidth: .infinity) }
+                quickAction(.sign, symbol: "signature")
+                quickAction(.verify, symbol: "checkmark.seal")
             }
-            .buttonStyle(.bordered)
             .controlSize(.large)
 
             let recents = model.recentDocuments.prefix(3)
@@ -58,7 +73,7 @@ struct MenuBarPopover: View {
                         Text(L10n.text(.ui_recent_documents)).font(.caption.weight(.semibold)).foregroundStyle(.secondary)
                         Spacer()
                         Button(L10n.text(.ui_clear)) { model.clearRecents() }
-                            .buttonStyle(.borderless)
+                            .buttonStyle(TrayButtonStyle())
                             .font(.caption)
                             .help(L10n.text(.ui_clear_the_recent_documents_list_files_and_activity_history_are_kept))
                     }
@@ -68,34 +83,39 @@ struct MenuBarPopover: View {
                         } label: {
                             ActivityRowView(item: item, showsDate: false).font(.subheadline).contentShape(Rectangle())
                         }
-                        .buttonStyle(.plain)
+                        .buttonStyle(TrayButtonStyle(subtle: true))
                         .help(L10n.text(.ui_show_in_finder))
                     }
                 }
             }
 
-            #if !APP_STORE
             Divider()
-            HStack(spacing: 8) {
-                StatusLightView(light: bridgeLight)
-                Text(bridgeText)
-                Spacer()
-                Toggle(bridgeText, isOn: $model.bridgeEnabled)
-                    .labelsHidden()
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
+            Toggle(isOn: $model.bridgeEnabled) {
+                HStack(spacing: 8) {
+                    StatusLightView(light: bridgeLight)
+                    Text(bridgeText).fixedSize(horizontal: false, vertical: true)
+                    Spacer()
+                }.contentShape(Rectangle())
             }
+            .toggleStyle(.switch)
+            .controlSize(.small)
+            .modifier(TrayHoverSurface(subtle: true))
 
             if model.bridgeState == .portBusy {
+                #if !APP_STORE
                 if vendorListening {
-                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }.disabled(quittingVendor)
+                    Button(L10n.text(.vendor_quit_action)) { confirmQuitVendor = true }
+                        .buttonStyle(TrayButtonStyle(filled: true))
+                        .disabled(quittingVendor)
                 } else {
-                    Button(L10n.text(.vendor_retry)) { restartBridge() }
+                    retryBridgeButton
                 }
                 if quittingVendor { ProgressView().controlSize(.small) }
                 if vendorQuitFailed { Text(L10n.text(.vendor_quit_failed)).font(.callout).foregroundStyle(.red) }
+                #else
+                retryBridgeButton
+                #endif
             }
-            #endif
             Divider()
             VStack(spacing: 0) {
                 MenuRow(title: L10n.text(.ui_open_esemnbun)) { showMain(.sign) }
@@ -110,9 +130,8 @@ struct MenuBarPopover: View {
             }
             .padding(.horizontal, -6)   // hover highlight reaches the content edges, like menu items
         }
-        .padding(16)
-        .frame(width: 320)
-        .background(WindowReader { hostWindow = $0 })
+        .lineLimit(nil)
+        .multilineTextAlignment(.leading)
         .onAppear { model.pruneMissingFiles() }
         #if !APP_STORE
         .task(id: model.bridgeState == .portBusy) {
@@ -138,6 +157,25 @@ struct MenuBarPopover: View {
     private func dismissThen(_ action: @escaping () -> Void) {
         hostWindow?.close()
         DispatchQueue.main.async(execute: action)
+    }
+
+    @State private var hoveredAction: MainWindowView.Section?
+
+    private func quickAction(_ section: MainWindowView.Section, symbol: String) -> some View {
+        Button { showMain(section) } label: {
+            Label(section.title, systemImage: symbol).frame(maxWidth: .infinity)
+        }
+        .buttonStyle(.bordered)
+        .tint(hoveredAction == section ? Color.accentColor : nil)
+        .onHover { inside in
+            if inside { hoveredAction = section }
+            else if hoveredAction == section { hoveredAction = nil }
+        }
+    }
+
+    private var retryBridgeButton: some View {
+        Button(L10n.text(.vendor_retry)) { restartBridge() }
+            .buttonStyle(TrayButtonStyle(filled: true))
     }
 
     private func restartBridge() {
@@ -176,14 +214,27 @@ struct MenuBarPopover: View {
 struct WindowReader: NSViewRepresentable {
     let onWindow: (NSWindow?) -> Void
 
-    func makeNSView(context: Context) -> NSView {
-        let view = NSView()
-        DispatchQueue.main.async { onWindow(view.window) }
+    final class ReaderView: NSView {
+        var onWindow: ((NSWindow?) -> Void)?
+
+        override func viewDidMoveToWindow() {
+            super.viewDidMoveToWindow()
+            // Deliver outside SwiftUI's view update, after AppKit attaches the actual window.
+            DispatchQueue.main.async { [weak self] in
+                guard let self else { return }
+                self.onWindow?(self.window)
+            }
+        }
+    }
+
+    func makeNSView(context: Context) -> ReaderView {
+        let view = ReaderView()
+        view.onWindow = onWindow
         return view
     }
 
-    func updateNSView(_ view: NSView, context: Context) {
-        DispatchQueue.main.async { onWindow(view.window) }
+    func updateNSView(_ view: ReaderView, context: Context) {
+        view.onWindow = onWindow
     }
 }
 
@@ -192,24 +243,47 @@ private struct MenuRow: View {
     let title: String
     var shortcut: String?
     let action: () -> Void
-    @State private var hovered = false
 
     var body: some View {
         Button(action: action) {
             HStack {
-                Text(title)
-                Spacer()
-                if let shortcut { Text(shortcut).foregroundStyle(hovered ? Color.white.opacity(0.85) : .secondary) }
+                Text(title).fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 4)
+                if let shortcut { Text(shortcut).opacity(0.8) }
             }
-            .foregroundStyle(hovered ? Color.white : .primary)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 4)
             .frame(maxWidth: .infinity)
-            .background(hovered ? Color.accentColor : .clear, in: RoundedRectangle(cornerRadius: 5, style: .continuous))
-            .contentShape(Rectangle())
         }
-        .buttonStyle(.plain)
-        .onHover { hovered = $0 }
+        .buttonStyle(TrayButtonStyle())
+    }
+}
+
+private struct TrayButtonStyle: ButtonStyle {
+    var filled = false
+    var subtle = false
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label.modifier(TrayHoverSurface(filled: filled, subtle: subtle, pressed: configuration.isPressed))
+    }
+}
+
+private struct TrayHoverSurface: ViewModifier {
+    var filled = false
+    var subtle = false
+    var pressed = false
+    @Environment(\.isEnabled) private var enabled
+    @State private var hovered = false
+
+    func body(content: Content) -> some View {
+        let highlighted = enabled && (hovered || pressed)
+        let background = highlighted ? Color.accentColor.opacity(subtle ? 0.18 : 1)
+            : filled ? Color.secondary.opacity(0.12) : .clear
+        content
+            .foregroundStyle(highlighted && !subtle ? Color.white : .primary)
+            .padding(.horizontal, filled ? 10 : 6)
+            .padding(.vertical, filled ? 7 : 4)
+            .background(background, in: RoundedRectangle(cornerRadius: filled ? 8 : 5))
+            .contentShape(Rectangle())
+            .onHover { hovered = $0 }
     }
 }
 
@@ -255,6 +329,9 @@ struct MainWindowView: View {
         }
     }
 
+    #if DEBUG
+    @Environment(\.openSettings) private var openSettingsForCapture
+    #endif
     @Environment(AppModel.self) private var model
     @State private var shortcutNavigation = ShortcutNavigation.shared
     @State private var portalBrowser = MacPortalBrowser()
@@ -311,6 +388,13 @@ struct MainWindowView: View {
             }
             #endif
         }
+        #if DEBUG
+        .task {
+            if model.isScreenshotCapture, ProcessInfo.processInfo.environment["MSIGN_DEMO_SETTINGS"] == "1" {
+                WindowPresentation.shared.present(.settings) { openSettingsForCapture() }
+            }
+        }
+        #endif
         .onChange(of: model.browserURL) { _, url in
             if url != nil { stored = Section.browser.rawValue }
         }

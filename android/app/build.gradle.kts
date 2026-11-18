@@ -27,7 +27,7 @@ android {
             "BUILD_NUMBER must be a positive whole number no greater than 2100000000"
         }
         versionCode = buildNumber?.toInt() ?: 2
-        versionName = "0.2.12"
+        versionName = "0.2.13"
         manifestPlaceholders["appLabel"] = "@string/app_name"
     }
 

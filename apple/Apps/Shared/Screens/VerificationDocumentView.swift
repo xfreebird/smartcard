@@ -17,6 +17,30 @@ struct VerificationDocumentView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             let verdict = Verdict(displayedReports)
+            #if os(iOS)
+            VStack(alignment: .leading, spacing: 12) {
+                Label {
+                    Text(url.lastPathComponent)
+                        .font(.headline).textSelection(.enabled)
+                        .fixedSize(horizontal: false, vertical: true)
+                } icon: {
+                    Image(systemName: "doc.text.fill").foregroundStyle(Theme.brand)
+                }
+                if !checking && !unavailable {
+                    HStack(alignment: .top, spacing: 12) {
+                        Image(systemName: verdict.symbol)
+                            .font(.title2).foregroundStyle(verdict.tint).accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(verdict.title).font(.headline).foregroundStyle(verdict.tint)
+                            Text(verdict.subtitle).font(.subheadline).foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding(12).frame(maxWidth: .infinity, alignment: .leading)
+                    .background(verdict.tint.opacity(0.09), in: RoundedRectangle(cornerRadius: 12))
+                    .accessibilityElement(children: .combine)
+                }
+            }
+            #else
             HStack(alignment: .top, spacing: 12) {
                 Image(systemName: verdict.symbol)
                     .font(.system(size: 26, weight: .semibold))
@@ -31,6 +55,7 @@ struct VerificationDocumentView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            #endif
             if url.pathExtension.lowercased() == "xml" {
                 if !displayedReports.flatMap(\.missingDetachedReferences).isEmpty {
                     Text(displayedReports.flatMap(\.missingDetachedReferences).joined(separator: "\n"))
@@ -45,10 +70,20 @@ struct VerificationDocumentView: View {
                 if unavailable { Text(L10n.text(.saved_unavailable)).foregroundStyle(.secondary) }
             }
             ForEach(Array(displayedReports.enumerated()), id: \.offset) { index, report in
+                #if os(iOS)
+                Divider()
+                #endif
                 FullWidthDisclosure(captureKey: "signature") {
                     VStack(alignment: .leading, spacing: 4) {
+                        #if os(iOS)
+                        Text(L10n.text(.ui_signature_count, index + 1) + " · " + report.level)
+                            .font(.caption.weight(.semibold)).foregroundStyle(.secondary)
+                        Text(L10n.text(.ui_author_value, report.signer)).font(.headline)
+                            .fixedSize(horizontal: false, vertical: true)
+                        #else
                         Text(L10n.text(.ui_author_value, report.signer)).font(.headline)
                         Text(L10n.text(.ui_signature_count, index + 1)).font(.subheadline)
+                        #endif
                         if let idnp = report.signerIDNP { Text(L10n.text(.ui_idnp_value, idnp)) }
                         Text(Validator.readableDate(report.signingTime)).foregroundStyle(.secondary)
                     }
@@ -59,7 +94,12 @@ struct VerificationDocumentView: View {
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .leading)
+        #if os(iOS)
+        .background(Theme.surfaceRaised, in: RoundedRectangle(cornerRadius: 18))
+        .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(.primary.opacity(0.09)))
+        #else
         .background(.quaternary.opacity(0.4), in: RoundedRectangle(cornerRadius: 16))
+        #endif
         .fileImporter(isPresented: $importingOriginals, allowedContentTypes: [.item], allowsMultipleSelection: true) { result in
             if case .success(let urls) = result, !urls.isEmpty {
                 // Start a fresh task identity even if the same originals are selected again.

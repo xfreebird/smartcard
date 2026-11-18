@@ -25,7 +25,6 @@ fun BrowserAuthenticationControls(vm: MainViewModel, externalHint: Boolean = fal
     val known by vm.knownCards.collectAsState()
     val status by vm.status.collectAsState()
     var showingOptions by remember { mutableStateOf(false) }
-    LaunchedEffect(known) { vm.browserNfc.seed(vm.nfcIdentity.value ?: known.singleOrNull()) }
     if (compact) {
         IconButton(onClick = { showingOptions = true }, enabled = !status.busy) {
             Icon(Icons.Outlined.VpnKey, stringResource(R.string.browser_authentication_method))
@@ -56,7 +55,7 @@ fun BrowserAuthenticationControls(vm: MainViewModel, externalHint: Boolean = fal
                 if (nfc) {
                     card?.let { Text(it.commonName, style = MaterialTheme.typography.titleSmall) }
                     known.forEach { identity ->
-                        TextButton(onClick = { vm.browserNfc.select(identity) }, enabled = !status.busy) {
+                        TextButton(onClick = { vm.selectBrowserCard(identity) }, enabled = !status.busy) {
                             Text(identity.commonName)
                         }
                     }

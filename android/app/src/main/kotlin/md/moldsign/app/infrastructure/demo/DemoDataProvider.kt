@@ -19,11 +19,14 @@ class DemoDataProvider : PreviewDataProvider {
     override fun protectionPreview(scenario: String): md.moldsign.app.application.ProtectionPreview? {
         if (!scenario.startsWith("protect-")) return null
         val decrypt = scenario.contains("decrypt")
+        val certificate = scenario.contains("certificate")
+        val suffix = if (certificate) ".asymmetric.p7m" else ".symmetric.p7m"
         return md.moldsign.app.application.ProtectionPreview(
-            sourceName = if (decrypt) "Contract.pdf.symmetric.p7m" else "Contract.pdf",
+            sourceName = if (decrypt) "Contract.pdf$suffix" else "Contract.pdf",
             completionSourceName = if (decrypt) "Contract.txt.symmetric.p7m" else "Contract.txt",
             decrypt = decrypt,
             completed = scenario.endsWith("complete"),
+            certificate = certificate,
         )
     }
     override fun protectedOutputBytes(decrypt: Boolean): ByteArray {

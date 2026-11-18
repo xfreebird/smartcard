@@ -395,7 +395,7 @@ eSemnBun</string>
   <string name="protect_export_certificate">Export encryption certificate</string>
   <string name="protect_export_certificate_hint">Share this public certificate so others can encrypt files for you. No PIN or private key is shared.</string>
   <string name="protect_file_step">1. File</string>
-  <string name="protect_access_step">2. Password</string>
+  <string name="protect_access_step">2. Protection</string>
   <string name="protect_help">What do I need?</string>
   <string name="protect_details">Certificate details and export</string>
   <string name="protect_password_encrypt_guide">Create a password for this file.</string>
@@ -404,7 +404,7 @@ eSemnBun</string>
   <string name="protect_certificate_decrypt_guide">Connect the recipient’s card and reader, then read the card.</string>
   <string name="protect_password_encrypt_help">Share the password separately from the encrypted file. Keep a safe copy: eSemnBun cannot recover a forgotten password. No card is needed.</string>
   <string name="protect_password_decrypt_help">Ask the person who encrypted the file for its password. This is not your card PIN. After decryption, check the file before using it.</string>
-  <string name="protect_certificate_encrypt_help">Ask the recipient for their public encryption certificate (.cer or .der). In eSemnBun they can choose Certificate / card, read their card, then open Certificate details and export. To encrypt for yourself, read your own card. A signing-only certificate cannot be used. The recipient keeps their card and PIN; neither is needed to encrypt with their certificate.</string>
+  <string name="protect_certificate_encrypt_help">Ask the recipient for their public RSA encryption certificate (.cer or .der). You can encrypt the file with the certificate alone. The certificate must allow key encipherment.</string>
   <string name="protect_certificate_decrypt_help">Use the physical card that matches the certificate used to encrypt this file, a compatible reader, and that card’s PIN. A certificate file alone cannot decrypt it. If you are not the recipient, ask the sender to encrypt it for your certificate. Never share your PIN.</string>
   <string name="saved_delete">Delete document</string>
   <string name="saved_delete_all">Delete all saved documents</string>
@@ -415,7 +415,7 @@ eSemnBun</string>
   <string name="protect_decrypted">Decrypted</string>
   <string name="protect_saved_library">Saved in Documents</string>
   <string name="protect_save_copy">Save a copy…</string>
-  <string name="protect_encrypted_hint">Use Decrypt in the Documents menu and enter the password to open this file.</string>
+  <string name="protect_encrypted_hint">Choose Decrypt in Documents. Use the file password or the recipient’s card, depending on how the file was encrypted.</string>
   <string name="sign_method">Sign with</string>
   <string name="sign_reader">Card reader</string>
   <string name="sign_nfc">NFC</string>
@@ -431,9 +431,17 @@ eSemnBun</string>
   <string name="nfc_timeout">No card was found. Tap Sign again and move the card near the NFC antenna.</string>
   <string name="nfc_unsupported">This card does not support the NFC connection needed for signing.</string>
   <string name="pin_use_saved">Use saved PIN</string>
-  <string name="pin_saved_title">Saved PINs</string>
-  <string name="pin_shared_methods">The same card PIN works with NFC and the reader. Deleting it applies to both methods.</string>
-  <string name="pin_saved_empty">No saved PINs. You can save a PIN when signing.</string>
+  <string name="pin_saved_title">Saved cards and PINs</string>
+  <string name="pin_shared_methods">Manage the identities used with NFC and card readers.</string>
+  <string name="pin_saved_empty">No saved cards or PINs.</string>
+  <string name="card_forget">Forget card</string>
+  <string name="card_forget_message">Remove %1$s and any saved PIN for this card from this device?</string>
+  <string name="card_forgotten">Card forgotten.</string>
+  <string name="card_use_nfc">Use with NFC</string>
+  <string name="card_pin_saved">PIN saved</string>
+  <string name="check_pass">Passed</string>
+  <string name="check_fail">Failed</string>
+  <string name="check_unavailable">Unavailable</string>
   <string name="pin_save_failed">The document is signed, but the PIN could not be saved.</string>
   <string name="nfc_test_app_name">eSemnBun NFC Test</string>
   <string name="nfc_hero_title">Sign with NFC</string>
@@ -488,4 +496,7 @@ eSemnBun</string>
   <string name="browser_reader_short">Reader</string>
   <string name="operation_failed_safe">The operation could not be completed. Check the selected method and your connection.</string>
   <string name="browser_page_unavailable">The page could not be loaded. Check your connection and reload the page.</string>
+  <string name="protect_key_size">AES key size</string>
+  <string name="protect_rsa_recipient">RSA certificate</string>
+  <string name="protect_detect_algorithm">The file specifies the decryption algorithm.</string>
 </resources>

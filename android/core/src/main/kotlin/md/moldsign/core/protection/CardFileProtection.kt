@@ -10,6 +10,7 @@ import java.security.interfaces.RSAPublicKey
 class CardEncryptionIdentity internal constructor(internal val key: EncryptionKey, certificate: ByteArray) {
     private val der = certificate.copyOf()
     val certificate: ByteArray get() = der.copyOf()
+    val pinLengths: IntRange get() = key.minimum..key.maximum
     val label: String get() = key.label
     val fingerprint: String = MessageDigest.getInstance("SHA-256").digest(der).joinToString("") { "%02x".format(it) }
 }

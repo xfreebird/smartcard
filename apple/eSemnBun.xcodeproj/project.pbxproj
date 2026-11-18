@@ -448,9 +448,9 @@
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = ();
-			inputPaths = ("$(SRCROOT)/Helpers/ReaderWatcher/main.swift", "$(SRCROOT)/Helpers/ReaderWatcher/InsertionPolicy.swift", "$(SRCROOT)/Helpers/ReaderWatcher/ReaderWatcher.entitlements", "$(SRCROOT)/Helpers/ReaderWatcher/md.esemnbun.reader-watcher.plist", "$(SRCROOT)/scripts/build-reader-watcher.sh");
+			inputPaths = ("$(SRCROOT)/Helpers/ReaderWatcher/main.swift", "$(SRCROOT)/Helpers/ReaderWatcher/InsertionPolicy.swift", "$(SRCROOT)/Helpers/ReaderWatcher/ReaderWatcher.entitlements", "$(SRCROOT)/Helpers/ReaderWatcher/StoreInfo.plist", "$(SRCROOT)/Helpers/ReaderWatcher/md.esemnbun.reader-watcher.plist", "$(SRCROOT)/scripts/build-reader-watcher.sh");
 			name = "Build reader watcher";
-			outputPaths = ("$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/esemnbun-reader-watcher", "$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Library/LaunchAgents/md.esemnbun.reader-watcher.plist");
+			outputPaths = ("$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Helpers/esemnbun-reader-watcher", "$(TARGET_BUILD_DIR)/$(CONTENTS_FOLDER_PATH)/Library/LaunchAgents/$(READER_WATCHER_LABEL).plist");
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
 			shellScript = "\"$SRCROOT/scripts/build-reader-watcher.sh\"";
@@ -550,6 +550,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Apps/macOS/Info.plist;
+				READER_WATCHER_LABEL = md.esemnbun.reader-watcher;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -591,6 +592,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Apps/macOS/Info.plist;
+				READER_WATCHER_LABEL = md.esemnbun.reader-watcher;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -659,7 +661,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.12;
+				MARKETING_VERSION = 0.2.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -743,7 +745,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.12;
+				MARKETING_VERSION = 0.2.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -814,7 +816,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.12;
+				MARKETING_VERSION = 0.2.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -878,7 +880,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
-				MARKETING_VERSION = 0.2.12;
+				MARKETING_VERSION = 0.2.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -895,6 +897,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Configuration/AppStore.entitlements;
+				DEVELOPMENT_TEAM = H86U5Z8HYB;
 				ENABLE_APP_SANDBOX = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) APP_STORE";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -902,6 +905,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Apps/macOS/Info.plist;
+				READER_WATCHER_LABEL = md.esemnbun.mac.reader-watcher;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -927,6 +931,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = Apps/macOS/Info.plist;
+				READER_WATCHER_LABEL = md.esemnbun.mac.reader-watcher;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

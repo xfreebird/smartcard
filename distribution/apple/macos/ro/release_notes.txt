@@ -1,1 +1,1 @@
-Cardurile, cititoarele și PIN-urile salvate se gestionează acum din Configurări. În Documente, protejarea fișierelor și ștergerea sunt accesibile direct.
+Acțiuni îmbunătățite pentru documente, istoric și verificarea semnăturilor. Gestionează cardurile și PIN-urile salvate fără conectare. Alege criptarea cu parolă AES-128, AES-192 sau AES-256 ori un certificat RSA al destinatarului.

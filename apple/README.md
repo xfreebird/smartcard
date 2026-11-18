@@ -2,7 +2,7 @@
 
 `Apps/Shared` contains the shared Apple presentation layer. `Apps/macOS` and `Apps/iOS`
 contain the native application shells and integrations; `Helpers/ReaderWatcher` is the
-separate direct-distribution macOS activation utility. The cross-platform Swift protocol
+opt-in macOS reader activation utility. The cross-platform Swift protocol
 implementation remains in `../swift/MoldSignKit` and is not duplicated into either app.
 
 Responsibilities and dependency boundaries:

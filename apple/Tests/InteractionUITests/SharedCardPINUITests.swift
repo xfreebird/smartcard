@@ -20,16 +20,29 @@ final class SharedCardPINUITests: XCTestCase {
         reveal(status, in: app)
         XCTAssertTrue(status.label.contains("PIN is saved"))
         app.buttons["card.pin.delete"].tapWhenReady()
-        XCTAssertTrue(status.label.contains("PIN is not saved"))
-        // The parent Cards sheet remains in the accessibility tree behind Card details.
-        let done = app.buttons.matching(identifier: "settings.sheet.done").allElementsBoundByIndex.first { $0.isHittable }
-        XCTAssertNotNil(done)
-        done?.tapWhenReady()
+        let picker = app.buttons["signing.nfc.card"]
+        XCTAssertTrue(picker.waitForPresence(timeout: 10))
+        XCTAssertTrue(picker.label.contains("The card you tap"))
+        picker.tapWhenReady()
+        let first = "14" + String(repeating: "0", count: 38)
+        let second = "75" + String(repeating: "0", count: 38)
+        XCTAssertFalse(app.buttons["signing.nfc.identity.\(first)"].exists)
+        XCTAssertTrue(app.buttons["signing.nfc.identity.\(second)"].exists)
+        app.buttons["signing.nfc.anotherCard"].tapWhenReady()
+
+        // The USB card remains physically usable. Explicitly choose it again without saving a PIN.
         app.selectSigningMethod("reader")
         app.buttons["card.details"].tapWhenReady()
         reveal(status, in: app)
         XCTAssertTrue(status.label.contains("PIN is not saved"))
         XCTAssertFalse(app.buttons["card.pin.delete"].exists)
+        app.buttons["card.useWithNFC"].tapWhenReady()
+        XCTAssertTrue(picker.waitForPresence(timeout: 10))
+        XCTAssertTrue(picker.label.contains("Popescu Ion"))
+        app.buttons["card.details"].tapWhenReady()
+        app.buttons["card.pin.delete"].tapWhenReady()
+        XCTAssertTrue(picker.waitForPresence(timeout: 10))
+        XCTAssertTrue(picker.label.contains("The card you tap"))
     }
 
     func testAnotherNFCCardDoesNotBorrowConnectedCardsPIN() {

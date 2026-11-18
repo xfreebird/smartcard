@@ -26,7 +26,7 @@ struct MoldSignMacApp: App {
                 .environment(appDelegate.model)
                 .appPreferences()
         } label: {
-            MenuBarIcon(connected: appDelegate.model.cardConnected, label: appDelegate.model.trayLabel)
+            MenuBarIcon(delegate: appDelegate, connected: appDelegate.model.cardConnected, label: appDelegate.model.trayLabel)
         }
         .menuBarExtraStyle(.window)
 
@@ -35,10 +35,9 @@ struct MoldSignMacApp: App {
                 .environment(appDelegate.model)
                 .appPreferences()
                 .frame(minWidth: 860, minHeight: 580)
-                .onAppear { AppPreferencesStore.defaults.set(true, forKey: "didPresentMainWindow") }
         }
-        .windowToolbarStyle(.unifiedCompact)
-        .defaultLaunchBehavior(AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow") ? .suppressed : .presented)
+        .windowToolbarStyle(.unified)
+        .defaultLaunchBehavior(WindowPresentation.shared.presentsMainWindowAtLaunch ? .presented : .suppressed)
 
         Settings {
             SettingsView()
@@ -77,12 +76,20 @@ private struct AboutMenuCommand: View {
 }
 
 @MainActor
-final class AppDelegate: NSObject, NSApplicationDelegate {
+final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+    @Published var readerWindowRequested = false
     let model = AppModel()
     #if !APP_STORE
     private var approvalBroker: AgentApprovalBroker?
     #endif
     private let authPanel = AuthPanelController()
+
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        // Participate in the launcher's foreground handoff before the onboarding window opens.
+        if WindowPresentation.shared.presentsMainWindowAtLaunch {
+            NSApp.setActivationPolicy(.regular)
+        }
+    }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.servicesProvider = self
@@ -101,8 +108,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         AppUpdateChecker.shared.start()
         #endif
         observeWindows()
-        let firstLaunch = !AppPreferencesStore.defaults.bool(forKey: "didPresentMainWindow")
-        if firstLaunch || ShortcutNavigation.shared.request != nil || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
+        if ShortcutNavigation.shared.request != nil || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
             Task { @MainActor in
                 try? await Task.sleep(for: .milliseconds(250))
                 NotificationCenter.default.post(name: .showInsertedCard, object: nil)
@@ -110,7 +116,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         #if DEBUG
         let env = ProcessInfo.processInfo.environment
-        if env["MSIGN_DEMO_CARDS"] != nil, env["MSIGN_DEMO_PREVIEW"] != "0" { showDesignPreviews() }
+        if env["MSIGN_DEMO_CARDS"] != nil, env["MSIGN_DEMO_PREVIEW"] != "0", env["MSIGN_DEMO_SETTINGS"] != "1" {
+            showDesignPreviews()
+        }
         #endif
     }
 
@@ -131,7 +139,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                                             ("eSemnBun preview", main as NSViewController, NSPoint(x: 420, y: 80))] {
             let window = NSWindow(contentViewController: controller)
             window.title = title
-            window.toolbarStyle = .unifiedCompact
+            window.toolbarStyle = .unified
             window.setFrameOrigin(origin)
             if environment["MSIGN_SCREENSHOT_CAPTURE"] == "1",
                let visibleFrame = NSScreen.main?.visibleFrame {
@@ -143,13 +151,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         NSApp.activate(ignoringOtherApps: true)
         if let main = previewWindows.last { WindowPresentation.bringForward(main) }
-        if environment["MSIGN_DEMO_SETTINGS"] == "1" {
-            let settings = NSWindow(contentViewController: NSHostingController(rootView: SettingsView().environment(model).appPreferences()))
-            settings.title = "Settings preview"
-            settings.center()
-            settings.makeKeyAndOrderFront(nil)
-            previewWindows.append(settings)
-        }
     }
     #endif
 
@@ -199,7 +200,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
     /// Files dropped on the Dock icon / "Open With" go to the signing queue (MAC-03).
     func application(_ application: NSApplication, open urls: [URL]) {
-        queueForSigning(urls)
+        #if APP_STORE
+        if urls.contains(URL(string: "esemnbun-reader://inserted")!), !model.demoMode,
+           ReaderActivationService().active {
+            readerWindowRequested = true
+        }
+        #endif
+        let files = urls.filter(\.isFileURL)
+        if !files.isEmpty { queueForSigning(files) }
     }
 
     /// Finder Quick Actions / Services pass file URLs without starting a signing operation.
@@ -240,6 +248,7 @@ extension Notification.Name {
 
 private struct MenuBarIcon: View {
     @Environment(\.openWindow) private var openWindow
+    @ObservedObject var delegate: AppDelegate
     let connected: Bool
     let label: String
 
@@ -247,6 +256,11 @@ private struct MenuBarIcon: View {
         Image(nsImage: StatusIcon.image(connected: connected))
             .accessibilityLabel(label)
             .help(label)
+            .onChange(of: delegate.readerWindowRequested, initial: true) { _, requested in
+                guard requested else { return }
+                WindowPresentation.shared.present(.main) { openWindow(id: "main") }
+                delegate.readerWindowRequested = false
+            }
             .onReceive(NotificationCenter.default.publisher(for: .showInsertedCard)) { _ in
                 WindowPresentation.shared.present(.main) { openWindow(id: "main") }
             }

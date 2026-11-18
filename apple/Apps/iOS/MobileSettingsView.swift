@@ -19,7 +19,7 @@ struct MobileSettingsView: View {
                 DemoModeSettings()
                 Section(L10n.text(.settings_signing)) {
                     setting(.cards, title: .settings_card_reader, icon: "person.text.rectangle", id: "settings.card")
-                    setting(.pins, title: .ui_saved_pins, icon: "key", id: "card.savedPINs")
+                    setting(.pins, title: .card_saved_identities_title, icon: "key", id: "card.savedPINs")
                     setting(.help, title: .nfc_how_it_works, icon: "questionmark.circle", id: "settings.help")
                 }
                 Section(L10n.text(.ui_appearance_and_language)) {

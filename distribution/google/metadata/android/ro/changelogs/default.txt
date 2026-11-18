@@ -1,1 +1,1 @@
-Semnează prin NFC cu o carte de identitate electronică moldovenească compatibilă sau folosește un cititor. Ecranul Semnează te ghidează la pasul următor. Cardurile, PIN-urile salvate și preferințele sunt reunite în Setări.
+Acțiuni îmbunătățite pentru documente, istoric și verificarea semnăturilor. Gestionează cardurile și PIN-urile salvate fără conectare. Alege criptarea cu parolă AES-128, AES-192 sau AES-256 ori un certificat RSA al destinatarului.

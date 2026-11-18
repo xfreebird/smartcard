@@ -281,8 +281,7 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let legacy = adw_switch_row_new()!
     adw_preferences_row_set_title(legacy.cast(), L10n.text(.legacy_client_title))
     adw_action_row_set_subtitle(legacy.cast(), L10n.text(.legacy_client_description))
-    let bridgeDetails = adw_expander_row_new()!
-    adw_preferences_row_set_title(bridgeDetails.cast(), L10n.text(.ui_technical_details))
+    let bridgeDetails = technicalDetailsDisclosure()
     adw_expander_row_add_row(bridgeDetails.cast(), legacy)
 
     let identityRow = actionRow(title: L10n.text(.ui_moldsign_https_identity),

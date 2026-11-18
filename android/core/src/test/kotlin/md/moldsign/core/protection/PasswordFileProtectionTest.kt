@@ -18,6 +18,20 @@ class PasswordFileProtectionTest {
             System.getenv("MSIGN_ENCRYPTION_ORACLE_OUTPUT")?.let { File(it, "native-$length.symmetric.p7m").writeBytes(encrypted) }
         }
     }
+    @Test fun selectedKeySizeMatchesMarkerAndDecryptsAutomatically() {
+        val plaintext = "Synthetic plaintext".toByteArray()
+        for (bits in PasswordFileProtection.keySizes) {
+            val encrypted = PasswordFileProtection.encrypt(plaintext, password, bits)
+            val expectedMarker = File(root, "vendor-$bits-17.symmetric.p7m").readBytes().copyOfRange(32, 96)
+            assertArrayEquals(expectedMarker, encrypted.copyOfRange(32, 96))
+            assertEquals(ProtectionHeader(false, bits), ProtectionHeader.detect(encrypted.copyOf(96)))
+            assertArrayEquals(plaintext, PasswordFileProtection.decrypt(encrypted, password))
+        }
+        assertEquals(ProtectionHeader(false, 256), ProtectionHeader.detect(PasswordFileProtection.encrypt(plaintext, password)))
+        assertThrows(IllegalArgumentException::class.java) { PasswordFileProtection.encrypt(plaintext, password, 64) }
+        assertNull(ProtectionHeader.detect(plaintext))
+        assertEquals(ProtectionHeader(false), ProtectionHeader.detect(File(root, "vendor-legacy-DES_CBC-0.p7m").readBytes()))
+    }
     @Test fun legacyVendorFiles() {
         for(algorithm in listOf("3_KeyTripleDES_CBC","DES_CBC","RC2_CBC")) for(length in listOf(0,1,15,16,17,1024)) {
             assertArrayEquals(File(root,"plain-$length.bin").readBytes(),PasswordFileProtection.decrypt(File(root,"vendor-legacy-$algorithm-$length.p7m").readBytes(),"Legacy-Test-2026".toCharArray()))
