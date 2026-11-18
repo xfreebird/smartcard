@@ -39,4 +39,4 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 ### Найдите готовые файлы
 
-<GuideScreenshot src="/img/guide/windows/ru/success.png" alt="Найдите готовые файлы" steps={[{"x": 90.59, "y": 23.12, "text": "Проверьте каждую завершённую строку и откройте файл или его папку."}, {"x": 43.911, "y": 23.12, "text": "Храните отделённый XML вместе с неизменённым оригиналом. На снимке показаны учебные файлы."}]} />
+<GuideScreenshot src="/img/guide/windows/ru/success.png" alt="Найдите готовые файлы" steps={[{"text": "Откройте файл прямо из строки списка.", "x": 80, "y": 22}, {"text": "Нажмите кнопку с папкой, чтобы увидеть сохранённый файл в его папке.", "x": 90, "y": 22}]} />

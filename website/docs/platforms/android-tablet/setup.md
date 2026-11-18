@@ -32,4 +32,4 @@ For USB, connect the reader with the appropriate [adapter](/devices), select **W
 
 ## Inspect or refresh the card
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.

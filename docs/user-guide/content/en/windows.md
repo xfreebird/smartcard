@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Windows desktop app
 
-Applies to **eSemnBun 0.2.6**, Windows 10 **1809 or later**, and Windows 11. See the [Windows CLI guide](/docs/platforms/windows-cli/) for PowerShell and automation workflows.
+Applies to **eSemnBun 0.2.13**, Windows 10 **1809 or later**, and Windows 11. See the [Windows CLI guide](/docs/platforms/windows-cli/) for PowerShell and automation workflows.
 
 ## Install the appropriate edition
 
@@ -51,7 +51,7 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Locate completed outputs
 
-<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90.59, "y": 23.12, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 43.911, "y": 23.12, "text": "Keep detached XML together with its unchanged original."}]} />
+<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"text": "Open the file directly from its row.", "x": 80, "y": 22}, {"text": "Use the folder button to show the saved file in its folder.", "x": 90, "y": 22}]} />
 
 ## Verify and inspect activity
 
@@ -69,7 +69,7 @@ Open **Verify** and choose or drop in a signed PDF/XML file. A detached XML sign
 
 ### Inspect verification details
 
-<GuideScreenshot src="/img/guide/windows/en/results.png" alt="Inspect verification details" steps={[{"x": 60.148, "y": 14.029, "text": "Read the offline verification limits: timestamp trust and current revocation may remain unchecked."}, {"x": 60.148, "y": 23.12, "text": "Expand certificate and technical details to inspect the signer, validity dates and timestamp fields."}]} />
+<GuideScreenshot src="/img/guide/windows/en/results.png" alt="Inspect verification details" steps={[{"text": "Expand Technical details to inspect the signature format and identifier.", "x": 44, "y": 48}, {"text": "Read the fields for this signature. Select the heading again to collapse the details.", "x": 49, "y": 66}]} />
 
 ## Settings, PINs, and tray controls
 
@@ -126,15 +126,16 @@ Stop after an incorrect-PIN result and verify the PIN rather than guessing. Repo
 ## Find and open saved documents
 
 Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
-Open Documents and select the signed-document list. Choose an entry to open its signing details, then use the available open/reveal actions. Switch to history to review recent operations. Clearing recent history keeps the independent signed-document library; it does not delete signed files.
+
+Choose a filename to inspect its signing details. The buttons beside it open the file and show its folder. The row menu offers verification and file protection. History lists recent operations. Clearing history keeps the saved files.
 
 ### Find signed documents
 
-<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"x": 51.015, "y": 18.07, "text": "Open Documents, then select the signed-document list."}, {"x": 32.749, "y": 31.201, "text": "Choose a saved document to open its signing details."}]} />
+<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"text": "Select the filename to inspect its signing details.", "x": 38, "y": 24}, {"text": "Open the file directly from its row.", "x": 85, "y": 25}, {"text": "Use the folder button to show the saved file in its folder.", "x": 91, "y": 25}]} />
 
 ### Inspect a saved document
 
-<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51.015, "y": 45.342, "text": "Review this document’s signing information before opening or sharing its file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"text": "Read the verification outcome and check the signer.", "x": 42, "y": 28}, {"text": "Open the document or show it in its folder.", "x": 47, "y": 22}]} />
 
 ## Approve local signing requests (MCP)
 
@@ -162,9 +163,11 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+Choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 39.852, "y": 18.087, "text": "Choose Encrypt."}, {"x": 34.779, "y": 30.239, "text": "Choose the source file."}, {"x": 39.852, "y": 55.556, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 39.852, "y": 92.011, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"text": "Choose the file to encrypt.", "x": 36, "y": 29}, {"text": "Select AES-128, AES-192 or AES-256. AES-256 is selected by default.", "x": 59, "y": 50}, {"text": "Enter and confirm a new file password.", "x": 41, "y": 62}, {"text": "Choose Encrypt, then save the encrypted copy.", "x": 41, "y": 88}]} />
+
+<GuideScreenshot src="/img/guide/windows/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "Select RSA certificate.", "x": 48, "y": 45}, {"text": "Choose the recipient’s public encryption certificate.", "x": 40, "y": 55}, {"text": "To encrypt for your own card, connect its reader and read its encryption certificate.", "x": 36, "y": 60}]} />
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Choose **Close** to close the completed operation. The original is kept.
 
@@ -175,9 +178,9 @@ Saved documents includes signed, encrypted and decrypted files. Use the filename
 
 Open **Protect files** at the bottom of the navigation bar and choose **Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 39.852, "y": 24.163, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 39.852, "y": 56.568, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 39.852, "y": 86.948, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose the encrypted file. Its contents determine the decryption method.", "x": 33, "y": 33}, {"text": "For a password-encrypted file, enter the password supplied by the sender.", "x": 40, "y": 60}, {"text": "Choose Decrypt and save the result in a new file.", "x": 39, "y": 84}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
@@ -192,4 +195,4 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 39.852, "y": 30.239, "text": "Choose Remove file."}, {"x": 34.779, "y": 42.391, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 39.852, "y": 63.657, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-remove-light.png" alt="Remove a local file" steps={[{"text": "Choose the file and read its name and the removal warning.", "x": 33, "y": 43}, {"text": "Confirm removal only after checking the selected file.", "x": 38, "y": 61}, {"text": "Choose Remove file to complete the operation.", "x": 39, "y": 74}]} />

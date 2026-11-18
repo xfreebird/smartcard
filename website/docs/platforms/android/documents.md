@@ -20,16 +20,16 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Files contains a signed-output library and a separate activity history. A saved entry is a shortcut to a file, not a substitute for a backup.
 
-<GuideScreenshot src="/img/guide/android-phone/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Files and select Saved documents.", "x": 5.8, "y": 16.6}, {"text": "Tap a document row to open its signing-details modal. The app checks the current file again.", "x": 15.5, "y": 29.1}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/documents.png" alt="Find signed documents" steps={[{"text": "Tap the filename for signing details.", "x": 15.8, "y": 23.6}, {"text": "Choose Share directly on the file row, or open More actions for Open, Verify, Protect files and Save as.", "x": 70.2, "y": 25.0}]} />
 
 ## Read signing details without losing your list
 
 The modal’s verdict is a fresh verification, not just a historical “signed” label. An unavailable file reports an access error; reselect a moved file in Verify.
 
-<GuideScreenshot src="/img/guide/android-phone/en/details.png" alt="Read signing details without losing your list" steps={[{"text": "Review the verdict and expand the certificate or technical details, just as in Verify. Supply an original if detached XML requests it.", "x": 34.6, "y": 72.9}, {"text": "Tap Close to return to the same signed-document list.", "x": 78.6, "y": 20.5}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/details.png" alt="Read signing details without losing your list" steps={[{"text": "Read the verification result and expand Technical details to inspect the checks.", "x": 10.0, "y": 70.6}, {"text": "Use Open or Share below the result. Close returns to the document list.", "x": 18.2, "y": 80.4}]} />
 
 ## Clear history while keeping documents
 
 History lists document operations and website requests. Clearing it does not clear Saved documents or delete signed files on storage.
 
-<GuideScreenshot src="/img/guide/android-phone/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History in Files and review the recent actions.", "x": 43.6, "y": 16.6}, {"text": "Tap Clear the list and confirm, then return to Saved documents to access saved outputs.", "x": 72.0, "y": 23.6}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History to see the full filename, outcome and date for each operation.", "x": 42.8, "y": 16.6}, {"text": "Clear the activity list to remove history entries while keeping saved documents.", "x": 85.7, "y": 16.6}]} />

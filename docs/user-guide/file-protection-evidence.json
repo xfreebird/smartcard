@@ -1,451 +1,450 @@
 {
-  "date": "2026-11-10",
-  "capture": "Native EN/RO/RU password-only protection UI. Numbered anchors and connector lines remain entirely outside application pixels.",
+  "date": "2026-11-18",
+  "capture": "Native localized file-protection forms with AES-128/192/256 password selection and RSA recipient certificates. Capture records identify each platform and asset date.",
   "limitations": [
-    "Apple completion/library captures use presentation fixtures; they do not prove a real encryption or card operation.",
-    "Android completion fixtures perform password crypto and production private-output saving. Other Android captures are presentation fixtures.",
-    "Windows/Linux captures show forms before operation; native save and completion behavior is documented in text.",
-    "No physical-card decryption is demonstrated or offered in native UI. CLI certificate support remains a separate compatibility capability."
+    "Fictional identities and presentation fixtures establish interface appearance. They do not establish physical-card decryption.",
+    "RSA recipient decryption requires a matching supported private encryption key. Signing-only eID keys cannot decrypt these files.",
+    "The software compatibility checks and Android encryption/storage checks are recorded in the 0.2.13 delivery report."
   ],
   "assets": [
     {
       "path": "img/guide/macos/en/documents-protection-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "d7b49c5034864b21ddea254a3f8530fe03a78fece4faa45a907cecd93cc84fad",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "1fb0c539300f7af133d0e8d558fd76fec67a8098d9848eef5ff97455c0bee747",
+      "width": 1018,
+      "height": 636
     },
     {
       "path": "img/guide/macos/en/protect-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "fc740bb60bf012b92068f29af0954783f879f508a9edfa493071218956511f9d",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "7dfd7664770111df33291ef738b1fc49c1cb60c03dbc2495cfc4ea0818b5e526",
+      "width": 458,
+      "height": 597
     },
     {
       "path": "img/guide/macos/en/protect-decrypt-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "4b72691a600f9cdfce3a7001716c18dc04ddba71a32b28d4f2a579de3083c1a3",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6685f065d5fda4e05091f8a9837dfef99195dd5733922a768ac373a93c0702f8",
+      "width": 458,
+      "height": 597
     },
     {
       "path": "img/guide/macos/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "e4fa926ebadc1c5e0f6ca0c2ab7e35eeb315d723af6842b0066408218be26605",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "38aac862cb9f56f4e7dfc8f44e32392a85bf738e4d258e5fa1ca02296153da10",
+      "width": 458,
+      "height": 597
     },
     {
       "path": "img/guide/macos/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "d70974f1a531dbe4dda07f515e6b9d86ee3ea64c0689527ccba4b4d3dc2cf8a1",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "cb9fccf631cb2aa828f4cfb4eedb14ae743b023711458c89c5f9ba7cd26a9e7e",
+      "width": 458,
+      "height": 597
     },
     {
       "path": "img/guide/macos/en/protect-remove-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "4f1df5ca5cf23ed2acbc49ce1e461c163a4cc04dd36ee33e7f43c461fbd891f0",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "893de6dd551c8ac9b60a046c88b3000357bad1b458849921c4a567c57842e369",
+      "width": 458,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ro/documents-protection-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "3bc9b093f67853eb00d093c15fd9995fa17e63f83a0b8678c6be604b6b42b008",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "7e796b4072ba8cddeb6c04191311ead365d40096708c3b0a520e6791d878d31e",
+      "width": 1018,
+      "height": 636
     },
     {
       "path": "img/guide/macos/ro/protect-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "3ef71c192908dbe1576f275f881f2801b1693873a71902d451291b6f4e1f3838",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4ef8e52f6b957bc728bdcad20ace47f83e87b06566d8063f227bc522d4cf948e",
+      "width": 495,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ro/protect-decrypt-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "fc462a17e403c537e657cd53fe691ee46b9ed583fa9d653106288cfe1f11894e",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "ebb783136164eae4f69e30bb9766cdc5d8c07c6269b7ac619340ab20580ebc7a",
+      "width": 495,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "bdc0c5d5e95bcaa981eb91bad88ad5bed760873b49cb685823932ae2b4598585",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "cacf9c467ae9df038498f4a50de4571b2ae3df5f54a468ea21aab35ee6b20ebc",
+      "width": 495,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "60624680432e93010a0f20f28cf310145c4d40d136440062a259940c66aea040",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "f47244965a22200d066c52bd81265affe943049013c99d4dac8bc77c082a9931",
+      "width": 495,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ro/protect-remove-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "e3260e76e8112dfdad2686185dd32c12c830a10eec0d52a90469289c116c6298",
-      "width": 1960,
-      "height": 1480
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "140c5ef2f62e7632f17bbe25635f4ec5df140f80de96d567966e2757285a254b",
+      "width": 495,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ru/documents-protection-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "432d5dbe28493b992e6fb18ae9ab22820afe044f00973070f84a213913046b62",
-      "width": 2560,
-      "height": 1600
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "b998ba0bc7637f4f6a4fa8f34615fdc5889068df0e9aca667b65843b2b7d86ef",
+      "width": 1018,
+      "height": 636
     },
     {
       "path": "img/guide/macos/ru/protect-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "83577376b77712d8f4b7a0c4ac997d47916ea337849082e41325239cdf9ba686",
-      "width": 2560,
-      "height": 1600
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "5034fa6b320819599281f8c6576d2c1ea054f5698f8eaafe9f91b0d8fce5f91c",
+      "width": 537,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ru/protect-decrypt-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "14dac1f030647052a0a8a255bc53a41967f279a0e0f4c873b973eb6cdcf90c20",
-      "width": 2560,
-      "height": 1600
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "44739fff3bb1d178f98a5656578450912bc727a74763d117d27eaf2e5a844204",
+      "width": 537,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "6a6cf123def90fae59737fb5a2b512e658f1f41a04822b13e8ef2a8c7a310b0d",
-      "width": 2560,
-      "height": 1600
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "afa18d631e76ba71fb00079a89dcf9123425f35b89ad267df7772b3f40684bb2",
+      "width": 537,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "1d9faa8209891caaa46e0f5b93e723b0a3650a22d7e59d9aef1ce4e033a0bd28",
-      "width": 2560,
-      "height": 1600
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "0dd56c2f6fabae803ba5c559b60730de930d3fc30a497321fa1d43945d088f12",
+      "width": 537,
+      "height": 597
     },
     {
       "path": "img/guide/macos/ru/protect-remove-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "961f016f0856b03f66dbe3d78de206ff070dabee18a196289ba4db9e76beb8e2",
-      "width": 2560,
-      "height": 1600
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "ccdd4487e5029cf72eed7b30e98c9e3c5776fa6b8302f70c99b7845b378a6c3b",
+      "width": 537,
+      "height": 597
     },
     {
       "path": "img/guide/iphone/en/documents-protection-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "6599afe507f8972b90f3bf355a0517f2b01be7ca684307f41899ebb72781cf60",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "e1e9c5c4f577d8664811ea450fccc12e91d12726f9675fd45c158b27e28b48a9",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/en/protect-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "c3ec7c28ca0715200081e67ef57045d6331b6b181a4681edd5e57ba0125416f5",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "1b817c2ec7a2e50d383a1fb6fd00ff1985d66868eee4421a661971bbc41735b8",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/en/protect-decrypt-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "0bf48209123858348e6836831b19481b558c33e11b03828499b11c4c9d5655eb",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "196a01644444731d3af7ace5c3c5c06060e6d0a061ef1db8d0e6e39fef0b5433",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "a541b2199f1afd84c361925471cbee3201bcfe97978f8b24b534f407eaf5d35f",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "e5ef857c51d4969d5fa7564c67786e3fba49bb9ddc862350f4dc9c52430abb29",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "dfcb646286fd5883588b1651d082354d6606a272222238dbcd417f5acb62f489",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4742727b3803225567b8f49654726e930fc731b30a3e4aaaf5d82051c267e967",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ro/documents-protection-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "5bb196ee591c87acb5cdca1ed0fa15a810a3c9ac87c21902fba1c957bedd2e30",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "e1e1bd0ba39debd3779685ec4468e7a19a389522297d35e87ac59fa8116f48e8",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ro/protect-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "84089a6258b1d621e4805b44f3c175552f96a4fdda426dd00698c847c0c6e465",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "fc250559735924ea59b1526564e16e08d6cf1e95282694a2131bf383f838aa60",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ro/protect-decrypt-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "d47854f9774a993a149aa1decfa3d471ddcacc14033b963682ce690e6f1dc6b9",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "c3a4dffa5b9d7c53db2ad83d07872d662eff0b0266187ce800e3479ca3aa620b",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "9505874789d9f94a59849fc13c2162aed0efb5938247b710267915a17a7a5217",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "c748dd6f36e5ad071b4814adb03155e72a25a41ded197b38e80b2db3f9506066",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "e8326b4e84f7cdedab616f9eb867aee69cf026ff2f521fc9b1fef27704111a28",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "345516d2da0e39efd0340ce8ae0a3843e0990caa3ebd93ce3861822e63ae566a",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ru/documents-protection-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "8f8f8dc1cc16dca91527f0fedb800d9b001cd26ec36668ad57537af76a5a68c0",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "d47aa15cc685f64cf66d3d0fb5374279ef032ee97b6719ef3ba30052e4b122dd",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ru/protect-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "5ee6e491ff8bd7e566b5740c3c7bbb728e3b8977747160f12c87bb062f710a38",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "afaa48199c6309370c168cd9dd0a7caf95fae2a9dcac68088ccc6df629453107",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ru/protect-decrypt-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "f1200c8b61cea3cf4225e36c5be5348bd1f7f74cca162c55d39b5577da1739ee",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "9e7b8e2bc37e9bd399a9104bfaa254adb4f79fefb47ee7af8494693fc4c2c6a0",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "cb8a6c69fac5ef209a9514dae224bdfb6b9910350d0727ea03964017b4ced81d",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "71820299be56d94a256db7fdc91456e67e5518572aa63f319879b1de6e487e2d",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/iphone/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "5b355795584a4d6ba1860393318c43177283ae860a3d7a64b3e8c0653a71d36c",
-      "width": 750,
-      "height": 1334
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "b98f23b854c5dfd17a9a9f684adb9e7018e0ce3c3bf2fa3d87a5b6f490a79dcc",
+      "width": 1206,
+      "height": 2622
     },
     {
       "path": "img/guide/ipad/en/documents-protection-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "ff8cc457557eaec2b986253e066d5af0a0cacc7472cfcb22f0dac3674a1d8f77",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "bc64fc5c6d52d819c232a5e07cc0f31a10ccd1aa4bbaa23f1d1469cf02bd8491",
+      "width": 1488,
+      "height": 1564
     },
     {
       "path": "img/guide/ipad/en/protect-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "be94d32e920bde90710be8ebae629a938876b52893a4a60cae1005ca42404fb1",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "7e1ee3dcace1745429b36b0abe4f515fb32b2c1eb9f73395cf92e5366e7cfad6",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/en/protect-decrypt-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "1fe251d281c39ed33abc74bd04c4de3d8e8fecc3357bbf9b7c22eb4152711113",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "26f6fc952e75ed952a75fa3f4c878bc57c26b8f2429bc1199a13a8a48b7934ec",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "a055e4b17f6d0a088c3a807a639b7fc3e0ab8d93ec65be05d00e150269f60351",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "b7664861f98f1e9e8db0cc46b80796ff81d289c9f714a4d04817afdb170bc9b2",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "ed139fff308321ac00e09765cbeb6010d27bea72020f9f75d8b2e4e4d326fbb4",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "44c3f8a3cefb1e6051897651dab7132ed61ab347573b806d8612cd96e0f75315",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ro/documents-protection-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "d70b85375f0ff99ea6a3915f5e91d0e722122314c2ca9f32377a0044747eb089",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "2bf8356001721fe4cdeac3b2ff573476bc72517f55024ef96daccfa61ed19da1",
+      "width": 1488,
+      "height": 1564
     },
     {
       "path": "img/guide/ipad/ro/protect-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "99900b3425864042f99f0d2f9b40e8e42c9a4a58e50bf5c844d471fd111925b2",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4235a38318180a3a598a99b9f354f8811ed55853ffe0a95fc4cb46f884fa292b",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ro/protect-decrypt-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "f0a82e3a2b96c1ee51583a27ec296b9a372444365b9ddfdb9b285b5f3681325a",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "adfc337d1b958303e566ad37c56f0fa35c859ac63954dc2832f01a368541d1b0",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "d679e30f734ade607e3d5e4c53daa5b9168a79606f17e2cf0c9d7efec9b6554c",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "1fd4bae7d87c3962425de67ed8150274a025e491af1ee0b6408d1c6e70198b80",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "c6fdad0b3893123e348caae20bf34287d4c5f46b707e43be42f741ddccf975c2",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "db5c8af7d025ab604efe81ee741a506703cfacbd802e2322ad3639bc544cf4e8",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ru/documents-protection-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "0e6fe0d4d32018ea495819bead713e1be1460b4ab4105c4a28475900a5b1759a",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "a3f9633523382c32c8856740754afe67f06e7f2f70703815500923d98a7d69d6",
+      "width": 1488,
+      "height": 1564
     },
     {
       "path": "img/guide/ipad/ru/protect-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "1de79a56c0c5266f244d57c4cc669f077669532ea78d536d25405d64aee08e5a",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "a1ba733e14036ebc765ce869f9f9547a90b5e8ef29683b063ec58431eacb73b9",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ru/protect-decrypt-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "73aa8cfc4d9ea953f5782572fe91cdf59b596f45a21fba5dd8135354c7899bfb",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "9cd5a5cd7cf58ff7b7ff2ac4660b396d2ee40d81a556b07afaee9a100f2ac6d4",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "aac567d0485598176398d2fd7ff63dbec9379f49c3dad7ea4f619e2af931b6c4",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "02a28e0fbc62aabb2732a4ac3170d2e5bdb1457cc0478cf895ddd16aaa038588",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/ipad/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "5d75595b1dfafff24dc7471f5958c2e61eb944b54f45a998119d63e3e5ccd475",
-      "width": 1668,
-      "height": 2420
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4a51660dc1fda56f14f363c64cf319e8875bd495ebd079fe7d35a0a7a652f7d1",
+      "width": 1488,
+      "height": 2266
     },
     {
       "path": "img/guide/android-phone/en/protect-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "93b84e7579ec9be93124f9d71e202369068bc7594bbfe31c520d3d339b0c2bdb",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4ca6be48bdd8cf6ad48cf69c98cc87c2843389614ee7abab0de55e38cc5500c4",
       "width": 1080,
       "height": 2400
     },
@@ -453,8 +452,8 @@
       "path": "img/guide/android-phone/en/protect-decrypt-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "c0be39b2fad1b6a03f74433dbc8fb0a6003050732e19bada6aaf53be9e7065ab",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "a822c2fb08c53eb9b32077930d5896dca9e7600a056179ef5b08957483838a5c",
       "width": 1080,
       "height": 2400
     },
@@ -462,8 +461,8 @@
       "path": "img/guide/android-phone/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "3bb52be041563aaf20857c477b202258797aaefbd37f19eb792a247e30a42a1b",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "e4597476050a44375b792f6f89cc13fbcfcab611866713eb558cf57e1e421334",
       "width": 1080,
       "height": 2400
     },
@@ -471,8 +470,8 @@
       "path": "img/guide/android-phone/en/protect-menu-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "0d66599998611bea0ce6d0bf34cdc758f6fd326e7efeabfcd820811f65cf2668",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6c262c27123cc17267142ca821bdb34ecb9ee642b59577745353373cbe7feaf7",
       "width": 1080,
       "height": 2400
     },
@@ -480,8 +479,8 @@
       "path": "img/guide/android-phone/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "4ee603403fa6c003f83590251ce549bcdfc5fbea1bc0d85ec654162a5ece39a6",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "7a08b519d23b5b27e590c420ea08bd28e82b7cd42ed1f2b2e87a3a7405bf8dd2",
       "width": 1080,
       "height": 2400
     },
@@ -489,8 +488,8 @@
       "path": "img/guide/android-phone/ro/protect-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "dd0bbe070b107934e664c7d0ace63f76ce6c7a192be6e3e602efdcbf63fc4356",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "78602bc95abb4c15e337c977caaefaeca1ac92cb152550b000ad69ab976d3bcc",
       "width": 1080,
       "height": 2400
     },
@@ -498,8 +497,8 @@
       "path": "img/guide/android-phone/ro/protect-decrypt-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "8e6d3ab82483a90d12320cfe8ac6d60d041c5409f061ee9672ac9d49f00f41d3",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "8e5aadbf563411a2ad767ceac545c9ef921685322e739fcc4a42933b70bddd0f",
       "width": 1080,
       "height": 2400
     },
@@ -507,8 +506,8 @@
       "path": "img/guide/android-phone/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "7613b5aaf3532bf00867a94986e29df6dc939b76c32c0a5eae6b3ed266c648e5",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "538a832a5717e7c946ba229e16d1806f9c19ae6ff39bfe7b156f1faae72c2da4",
       "width": 1080,
       "height": 2400
     },
@@ -516,8 +515,8 @@
       "path": "img/guide/android-phone/ro/protect-menu-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "92d237883f1329d497c36d9e948bc1c0372b4606aa06797a42624b398309a5e4",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "a0a84a3c079b1577db94f94d8d8cd79f012b698b8b05c77204ead5cdb20e8b88",
       "width": 1080,
       "height": 2400
     },
@@ -525,8 +524,8 @@
       "path": "img/guide/android-phone/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "9d9d3a540f5451d74fd6b949da61def81868e379a6ea0e8fea85bebe192d98b8",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6a685a25ba1cfedbf757a255d0a0b820cd2aed48b9c5cb3ad30dae81ddb5c67d",
       "width": 1080,
       "height": 2400
     },
@@ -534,8 +533,8 @@
       "path": "img/guide/android-phone/ru/protect-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "f08f30b038520bbe57a5a9ade2ea57030db42267cf509f9a3ae89f4e77750e59",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "a34e125eb55e26b7a35f292a25423172f249ea3ccc271f933fe44a2dc573b525",
       "width": 1080,
       "height": 2400
     },
@@ -543,8 +542,8 @@
       "path": "img/guide/android-phone/ru/protect-decrypt-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "46b4c51bdf6c52ab3064fb5d82e20647e275c5294da82fbcf7f7212cd1aab5c1",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "49dee1d8c8b127ce8265cadc477a490e85a6106870c156951fd353cb88f28fd4",
       "width": 1080,
       "height": 2400
     },
@@ -552,8 +551,8 @@
       "path": "img/guide/android-phone/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "02100c315a5e0970fda781611a8b6b8a027712558f5b37249c4ecf591bf659d0",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "5f28919021dff1710c67a6f49cd2e48e00c8339e76aa48bbe4e86b2f5b05c438",
       "width": 1080,
       "height": 2400
     },
@@ -561,8 +560,8 @@
       "path": "img/guide/android-phone/ru/protect-menu-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "5aa853401d4184b138c16001edb3c6badb784e247abf9c48d13acd8783241d6b",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "9616e963640460311690f0a1ec903e75cbf69b85679f0d16150cd02f857df31f",
       "width": 1080,
       "height": 2400
     },
@@ -570,8 +569,8 @@
       "path": "img/guide/android-phone/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "1a44def70c436a2e4f8376092681be708339d9b62d692fbcf9a1edb36e3a4cf3",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "b6cf494496fe4e32a71b48537123f1dd00e70de4a04b274b9ac9a504092efb51",
       "width": 1080,
       "height": 2400
     },
@@ -579,298 +578,460 @@
       "path": "img/guide/android-tablet/en/protect-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "4fa83b658246fe33caa513e51456cecbd31e89370abb5c1f1a9169fd671b23d0",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "3f99fbd0f92c87945dfc4e2849b8894c925c5df05a0b058cad9b7a0771c35dc8",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/en/protect-decrypt-complete-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "4a971d3738acbc6450403371f98100489c9fc82ba7f3ec65755a7e320004889d",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "1ab6f50c99700e09e1b7c8f48d7af81c6c859ec8f3f81eaac20d334d481fdbf5",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "2349a19c5db824c522a0f14036e1b1793f7a64d2e0b762decfade308ab704a3d",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "97190a10e89de9e16d3cf16dbf7eee6f90cd40ff632e80a14b29e6c3729e4dc7",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/en/protect-menu-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "bbb2a2adf3406b7b0ceb300db7bd018d9f3ed7bc27990cd31d29a655e4ca13d4",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "b0eab766c1af76e72552ed7d5c65fe4e5b179b1152888830b77d37b026513987",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "7afc9e1d593e65f0746eaa0eb9263e52822abee08a53cf096f725ef870190fd0",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "933171d56f7d35ad14c366aa72243bfd7dc116a91e0c4e7e0153d264749570ed",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ro/protect-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "664b8408b50effec0698fc4c10172e0ae0d2ff34adc45c26a6be581442d7d2e8",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "06b43b87839b4c4d53ab9265647c98c90d22fd52f5e4ea6f2d9398a40711c0c7",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ro/protect-decrypt-complete-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "290f7398f2cced29d687cf3c2f75a4b3c529695c5400173df5fe7c23a69ddf0c",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "8916ad53a0d5726fc5149696fe2db6396890fd3f3bc06ff2356f5042d9400117",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "3cce60f2d5b9bcec1a64d7fd93b9ad86aad210be9d67dfb9f1547bb4152255f7",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "1b36bdc91f449ec7a1e270cc3d581d79ae66504a1b60b28c7b773cd2396a38c9",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ro/protect-menu-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "125f9bf3a09ee35e18b07d0e6a088f0c095895489cdcfcd6d389a0ecb4c39cdf",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "26d9f26aabbec577e92a8248ed51a738b3ac2d3e5652d96278b1ef44d97ad459",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "026f4905d063a3d5e497886542c99a80ac3dea42262bd00db43b0b6de7a2d235",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "d67bb68adfc853e5a71654c4908c3eef6c3f1390d6d28a87a31373a7311d64da",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ru/protect-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "677c06ccd7af44ff2fcb9a082dbaa10bf7311d2f99e34f844d1c3a86bef7299f",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "7cf08701ea94995e57d77bf0d722c8a352df6fc8d3918e5d6c23020db9d909ed",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ru/protect-decrypt-complete-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "18f81c662585491c96914d32cfc44fd8a7960fa1038f853fec848b8d76b9e52b",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "acadfaad9d6cc1bd90cb16d5d9fc74853cfc79b0e826583ba6a19e8bc106039a",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "0991be39bcf77ceccd604a86b9f904d31ef3f884a648e877b20c17c883d9df47",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "beb953d9f766e67b65ec9a18c84beaa03db927c0ff9e3daa5c1e096a90765b23",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ru/protect-menu-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "abac4d51f08d04a9bfc816b7a893a5154806cb3ae60c96319893844035a8c5da",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "de45ed20f2a773f4b1a0337aedcc02ee34e1ac40d65561d6c67b2ebd5e9b9a2d",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/android-tablet/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "762eb65dd09b08e3ac1b959615b641a65de0909d634ab4e01ee1f1d1e9f4ab85",
-      "width": 2076,
-      "height": 2152
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "088dba23a86964f6de814cbba06d03d06dea4bdd9bb56ac6b142cc6216c33259",
+      "width": 1600,
+      "height": 1100
     },
     {
       "path": "img/guide/linux/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "e1e327abddb0d6c5b00bffb8cb793c750c1c568b2e494ae13f591896422577f1",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "296abee66791b8144de80cb4c673c47dfb2f63b1f1fa57732a60d87f9fab4c82",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "3ae74cd63f963bd6dea8473f6f79963269c1d039383a2f1167af0f9ef6fea9b0",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "064ab192883c7106dc555f81c05dc99f7ba1cde1f7e8caddc47b06c16754f355",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/en/protect-remove-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "279cb254667289a6de4656f5e4bf641f539eb20f73f03ae6eecf3bf1a7aad3ea",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "29d6e0b20c674a674ee2f69f17986f324c503179ce0810075590e7947bc93bf0",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "e9a494a92d28d1960559efa765f2a576b86e59c2014cb080ab0968d67704e2c7",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6b50ab7744b8fdaa5e30ea4485fcef096b08ebb11aabf2b958b220c64aada207",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "9dbc9c84505d3b508560c17c20cc7100264876d0a46a3764ef19eb6375916067",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "091909b9cb0485d51f55d842874896b0cfdbd0288695c46909640e4808a24a75",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/ro/protect-remove-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "83b5275003ab73bff2581cd71da52f2b27c05b4bbfc5b027bbd704349e914a2f",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "2aab73e987cea315760df60002c31d46ea01af0f6e0c374331a716795b0e1639",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "711ca1a1b6ecb421071dc317f309af1f11bb28e86bd247fd877cd4731ec84426",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "68c8b40ed94e39da1f011666b27319fa82b8dafe757efec27c6cb7a23022a89d",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "f46e2508561af6cf237bcf2e552ffca255368e5712903db9e3e19e0e0681038e",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "004cb159367890df22514f4e7a1195f493fd60caadb916082598648d73a83795",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/linux/ru/protect-remove-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "a4e641fb782273b94162b3da84bb88c6db05065fa900c773b6291e8396c431ef",
-      "width": 900,
-      "height": 640
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "b99ac9bb6d726d209fa663df759da0b4a7c2430cceee8cfe0e5eb9c83dfc47fb",
+      "width": 1000,
+      "height": 700
     },
     {
       "path": "img/guide/windows/en/protect-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "9f08f069117bf4ff0b2ad68d96b53e191f2d3fe5ca7801c622e2b986d7394640",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "c2f98cc7fb861432c04d1bd21a9154f9b9bc065b4d97894f4f98d448dffaf065",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/en/protect-password-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "842ad2ee770afa16d49e3838c45cdc2bd60c45554fc6f541c9d650ce1c2fc6c0",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "e26d55bfdd4adff45b28976b43aea9283b4ce79592c95dec2ca4084a37dfeaac",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/en/protect-remove-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "19ff98080d7141169884ebd693186f5df51bfd0b0df57c72843719f662021a00",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "d823d94140a5b350319e5b1b9c739da81fb755b423cf928666009df735faa3e6",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/ro/protect-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "b61341a2aef056f01c889cfabebd638aebe9f455387d7a791a07a80f067919a3",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "ab504a3cd8f77333b0a9877ea50cedf4fbaab01d55010b5fb7dfeb1e4033015f",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/ro/protect-password-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "527622f6826fbc4f86614f3d7818d41f7645f15bc9fd9e16fd4464e7c5728590",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "7e25e6def04d3fc57b4c8e2c94d3b8dfad46dfa46a717c786d6796200babdaf0",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/ro/protect-remove-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "540fe0227d214d514d023b4a806b0767f342fcdd81a1a01b5e73a9d43c0d605b",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4edc789d592c697fdfec17cbe0677e6989389a2d79fd3265950f0070d9ae5e2a",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/ru/protect-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "e15e289074421f5b730e0413e7f28466861ae6bcec8ce5fe97afea4a8bd9d941",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "03e863239a05373cb744c65749b70012f9ae34c802e52654b7b9d6f6431dc14f",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/ru/protect-password-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "fb87a7f38deff47a538b7929e3e124f741d8b9d5ef0242a7146d52c653a4b92f",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "aa80f99fc4a3dbec600b3b7eee86d919c0ff0e8f84b2ffc833e7043190f5034f",
+      "width": 1086,
+      "height": 893
     },
     {
       "path": "img/guide/windows/ru/protect-remove-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Debug capture, 2026-11-10",
-      "sha256": "f93bf1cfc9a2922eb7c114ffee1c729e9dc0123a4feccaadffa719db1f7a2552",
-      "width": 1100,
-      "height": 720
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "4808b990a4bfc39a18a0901261d64a89afe5f92f61ee6b9a52689c31ffb0a0a9",
+      "width": 1086,
+      "height": 893
+    },
+    {
+      "path": "img/guide/android-phone/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "98592a5b2149106bf79b9040ed90cdfb88e15525e3e6a54cde2d15653644d32d",
+      "width": 1080,
+      "height": 2400
+    },
+    {
+      "path": "img/guide/android-phone/en/protect-rsa-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized Android Debug capture with a fictional document",
+      "sha256": "496f2561abfa6ff808662b11dfca5fb63c59d2448860cb9c738b3f09b4c10597",
+      "width": 1080,
+      "height": 2400
+    },
+    {
+      "path": "img/guide/android-phone/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "dec5f79e911950f73964024e6a213b7cf481cb1c8612bd269c61a3c73e73073a",
+      "width": 1080,
+      "height": 2400
+    },
+    {
+      "path": "img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized Android Debug capture with a fictional document",
+      "sha256": "7a2cfd3ad128309daa89e66b404fa268e00cf893a860ec86d8ddb7a11a9c2f5e",
+      "width": 1080,
+      "height": 2400
+    },
+    {
+      "path": "img/guide/android-phone/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6bc6d287c69f682ff8c105370c43b0caeba55e668124b70adac6227460237cf2",
+      "width": 1080,
+      "height": 2400
+    },
+    {
+      "path": "img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized Android Debug capture with a fictional document",
+      "sha256": "3fc745178adaf44cd9f9bbe86f1b07a6c37cdc4365fb1f531d7756e9f822ef7d",
+      "width": 1080,
+      "height": 2400
+    },
+    {
+      "path": "img/guide/android-tablet/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "8a8a5bcffe9033c9e971c8a7ecac50d5a3057f226d23dfa0980ef5e2cffdf259",
+      "width": 1600,
+      "height": 1100
+    },
+    {
+      "path": "img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized Android Debug capture with a fictional document",
+      "sha256": "84baac11662ad663cc29f4ca559cd3492cc18efaf6e7f47336769962c57d1bfa",
+      "width": 1600,
+      "height": 1100
+    },
+    {
+      "path": "img/guide/android-tablet/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6d254657feb8ce73fba0a10751732840d53c0368d53f50b4debeb93b6d436a24",
+      "width": 1600,
+      "height": 1100
+    },
+    {
+      "path": "img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized Android Debug capture with a fictional document",
+      "sha256": "d91b440fec89c0efc2e65850ac2fd56e2cff926473701add3b9ed30decccb12f",
+      "width": 1600,
+      "height": 1100
+    },
+    {
+      "path": "img/guide/android-tablet/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "6eeca7b01749f1f204cfe77c424a479d8514b639e2d6370c5819f5b4914856bf",
+      "width": 1600,
+      "height": 1100
+    },
+    {
+      "path": "img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized Android Debug capture with a fictional document",
+      "sha256": "c61a22d4e31d11c6397cae973366b987fb80a9907c27969ae4be5fe15565e739",
+      "width": 1600,
+      "height": 1100
+    },
+    {
+      "path": "img/guide/linux/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "2ebc3f5d2354f9cbf2926ee3106c78bc010b75eb34a1e338a3aec532345516ec",
+      "width": 1000,
+      "height": 700
+    },
+    {
+      "path": "img/guide/linux/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "46ffbb96792ed58847172ff0d0042457083697aee9a1664ef70b7e0ebd54ede1",
+      "width": 1000,
+      "height": 700
+    },
+    {
+      "path": "img/guide/linux/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "3d28f8130a3ff370484c3b4e7387c36cc090a860261787dbb97f0b0eb0fd7471",
+      "width": 1000,
+      "height": 700
+    },
+    {
+      "path": "img/guide/windows/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "dd4656218b560790f5c7187926a0325161676b99d88d7057edbebfbfcad8e658",
+      "width": 1086,
+      "height": 893
+    },
+    {
+      "path": "img/guide/windows/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "f3ffcb606ef59c7665e3d69251a16f2f43143e0211992b36cbf134051f6af5be",
+      "width": 1086,
+      "height": 893
+    },
+    {
+      "path": "img/guide/windows/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-18/19",
+      "sha256": "c49f1345bed28ea3382bca42e1066fc1f85caf2a3457351e4c95fec0019499eb",
+      "width": 1086,
+      "height": 893
     }
   ],
   "captureBinaries": [
@@ -886,8 +1047,8 @@
     },
     {
       "platform": "android",
-      "sha256": "75b7480e80a4c2aaf58346d931532c155a247847ce0a3fcafbe2a782380a6f5d",
-      "description": "Installed Debug APK, API36 emulator on Air; phone1080x2400 and expanded tablet2076x2152"
+      "sha256": "16bfa056c5a5bd9f099d898f82c3aebeac4e8a47a0b7729f2c19f9c850e9fdf2",
+      "description": "Android Debug APK on emulator-5580. Phone 1080×2400 and tablet 1600×1100. Per-image hashes are recorded in android-evidence.json."
     },
     {
       "platform": "windows",

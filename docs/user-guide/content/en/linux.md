@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Linux — illustrated desktop guide
 
-Follow the numbered screenshots for eSemnBun 0.2.6 on Linux. Tap an image to enlarge it, then choose Actual size to inspect small controls.
+Follow the numbered screenshots for eSemnBun 0.2.13 on Linux. Tap an image to enlarge it, then choose Actual size to inspect small controls.
 
 Install the desktop package for your distribution and architecture from [Downloads](/downloads/), then open eSemnBun from your application launcher. DEB/RPM/Flatpak desktop downloads open a graphical app; the package-manager CLI feeds and terminal archives install command-line tools. See the [Linux CLI guide](./linux-cli.md) for terminal and MCP setup. Ubuntu 24.04/Fedora are supported desktop targets; check the chosen package’s requirements. You need an active supported electronic ID, its correct signing PIN, a compatible USB reader and an adapter if needed. NFC signing is unavailable. The private signing key remains on the card.
 
@@ -65,7 +65,7 @@ Leave the reader connected until the result appears. Timestamp retrieval needs n
 
 The app creates a separate output rather than replacing the input. Use the completed row to open/reveal the result. Retain the unchanged original with detached XML.
 
-<GuideScreenshot src="/img/guide/linux/en/success.png" alt="Locate the completed output" steps={[{"text": "Activate the completed result to locate/open its separate output.", "x": 63, "y": 42}]} />
+<GuideScreenshot src="/img/guide/linux/en/success.png" alt="Locate the completed output" steps={[{"text": "Open the file directly from its row.", "x": 72, "y": 52}, {"text": "Use the folder button to show the saved file in its folder.", "x": 80, "y": 52}]} />
 
 ## 10. Recover from a failed item
 
@@ -77,13 +77,13 @@ A batch may contain completed and failed items. Keep completed outputs, read the
 
 Verification needs neither a card nor a PIN. Open Verify and choose or drop a signed PDF/XML. Multiple selections are supported. Read every signature rather than relying on a filename or visual stamp. Checks run offline and do not establish current certificate revocation status.
 
-<GuideScreenshot src="/img/guide/linux/en/verify.png" alt="Verify a PDF" steps={[{"text": "Open Verify and choose a signed file.", "x": 51, "y": 3}, {"text": "Read the overall result and number of signatures.", "x": 49, "y": 25}, {"text": "Inspect each author, integrity and trust check.", "x": 32, "y": 41}]} />
+<GuideScreenshot src="/img/guide/linux/en/verify.png" alt="Verify a PDF" steps={[{"text": "Open Verify and choose a signed file.", "x": 50, "y": 4}, {"text": "Read the overall result and number of signatures.", "x": 50, "y": 28}, {"text": "Inspect each author, integrity and trust check.", "x": 27, "y": 47}]} />
 
 ## 12. Inspect certificate and technical details
 
 Scroll through the result, then expand Certificate details and Technical details. Integrity, cryptographic signature, certificate trust and timestamp are separate checks. Certificate issuer organization information is not the signer’s personal identifier.
 
-<GuideScreenshot src="/img/guide/linux/en/certificate.png" alt="Inspect certificate and technical details" steps={[{"text": "Expand Certificate details and inspect the subject/issuer/key fields.", "x": 75, "y": 57}, {"text": "Expand Technical details for the format and signature identifier.", "x": 48, "y": 79}]} />
+<GuideScreenshot src="/img/guide/linux/en/certificate.png" alt="Inspect certificate and technical details" steps={[{"text": "Expand Technical details to inspect the signature format and identifier.", "x": 29, "y": 61}, {"text": "Read the fields for this signature. Select the heading again to collapse the details.", "x": 29, "y": 76}]} />
 
 ## 13. Recognize a modified document
 
@@ -107,7 +107,7 @@ No recognized signature means this file has no signature the app can verify. A s
 
 For detached XAdES, put the exact unchanged original beside the XML, using the name referenced by the signature, then select the XML again in Verify. This Linux version has no inline Choose originals picker: the original-file relationship is resolved from the XML’s folder. A missing original prevents a complete integrity conclusion.
 
-<GuideScreenshot src="/img/guide/linux/en/verify.png" alt="Verify detached XML with its original" steps={[{"text": "Keep the detached XML and original together, then choose the XML again in Verify.", "x": 49, "y": 25}]} />
+<GuideScreenshot src="/img/guide/linux/en/verify.png" alt="Verify detached XML with its original" steps={[{"text": "Keep the detached XML and original together, then choose the XML again in Verify.", "x": 50, "y": 4}]} />
 
 ## 17. Find signed documents
 
@@ -115,13 +115,13 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Documents contains a signed-output collection and separate operation History. Entries point to actual files and do not replace a backup. A missing or moved file needs to be selected again at its new location.
 
-<GuideScreenshot src="/img/guide/linux/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Documents.", "x": 60, "y": 3}, {"text": "Select the saved document row.", "x": 32, "y": 26}, {"text": "Use Signing details or the folder icon for the selected file.", "x": 32, "y": 37}]} />
+<GuideScreenshot src="/img/guide/linux/en/documents.png" alt="Find signed documents" steps={[{"text": "Select the filename to inspect its signing details.", "x": 28, "y": 30}, {"text": "Open the file directly from its row.", "x": 67, "y": 30}, {"text": "Use the folder button to show the saved file in its folder.", "x": 76, "y": 30}]} />
 
 ## 18. Open signing details
 
-Click the document row or Signing details to open the modal. It verifies the currently readable file without replacing the Verify workspace or adding another operation entry. The sample is genuinely unsigned, so this modal correctly says no signature was found. Close it to return to the collection; the folder icon on the list reveals the file.
+Select a saved filename to verify its current contents in the details window. The example uses a fictional signer and a self-signed certificate, so its trust chain is unknown. Open the document or its folder from the bottom of the window.
 
-<GuideScreenshot src="/img/guide/linux/en/details.png" alt="Open signing details" steps={[{"text": "Read the fresh result in the signing-details modal.", "x": 39, "y": 24}, {"text": "Close the modal to return to the same list.", "x": 73, "y": 12}]} />
+<GuideScreenshot src="/img/guide/linux/en/details.png" alt="Open signing details" steps={[{"text": "Read the verification outcome and check the signer.", "x": 37, "y": 34}, {"text": "Open the document or show it in its folder.", "x": 65, "y": 79}]} />
 
 ## 19. Clear history while keeping documents
 
@@ -187,9 +187,11 @@ Open the main menu in the window header, then **Protect files → Encrypt**, **D
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+Choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 34, "y": 17, "text": "Choose Encrypt."}, {"x": 50, "y": 28, "text": "Choose the source file."}, {"x": 36, "y": 53, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 90, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"text": "Choose the file to encrypt.", "x": 50, "y": 29}, {"text": "Select AES-128, AES-192 or AES-256. AES-256 is selected by default.", "x": 45, "y": 56}, {"text": "Enter and confirm a new file password.", "x": 31, "y": 68}, {"text": "Choose Encrypt, then save the encrypted copy.", "x": 50, "y": 91}]} />
+
+<GuideScreenshot src="/img/guide/linux/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "Select RSA certificate.", "x": 44, "y": 46}, {"text": "Choose the recipient’s public encryption certificate.", "x": 50, "y": 58}, {"text": "To encrypt for your own card, connect its reader and read its encryption certificate.", "x": 50, "y": 65}]} />
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Use the close button in the window header when finished. The original is kept.
 
@@ -200,9 +202,9 @@ Saved documents includes signed, encrypted and decrypted files. Use the filename
 
 Open the main menu in the window header, then **Protect files → Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 41, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 36, "y": 49, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 90, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose the encrypted file. Its contents determine the decryption method.", "x": 50, "y": 29}, {"text": "For a password-encrypted file, enter the password supplied by the sender.", "x": 30, "y": 61}, {"text": "Choose Decrypt and save the result in a new file.", "x": 50, "y": 91}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
@@ -217,4 +219,4 @@ Open the main menu in the window header, then **Protect files → Encrypt**, **D
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 49, "y": 17, "text": "Choose Remove file."}, {"x": 50, "y": 28, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 31, "y": 84, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-remove-light.png" alt="Remove a local file" steps={[{"text": "Choose the file and read its name and the removal warning.", "x": 50, "y": 29}, {"text": "Confirm removal only after checking the selected file.", "x": 36, "y": 85}, {"text": "Choose Remove file to complete the operation.", "x": 50, "y": 91}]} />

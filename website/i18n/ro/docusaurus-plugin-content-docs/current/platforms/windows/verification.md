@@ -30,4 +30,4 @@ Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O sem
 
 ### Examinează detaliile verificării
 
-<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60.148, "y": 14.029, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60.148, "y": 23.12, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"text": "Extinde detaliile tehnice pentru a vedea formatul și identificatorul semnăturii.", "x": 44, "y": 48}, {"text": "Consultă câmpurile semnăturii. Selectează din nou titlul pentru a restrânge detaliile.", "x": 49, "y": 66}]} />

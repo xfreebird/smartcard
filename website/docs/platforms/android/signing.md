@@ -42,7 +42,7 @@ The stamp labels follow the app language chosen in General settings.
 
 ## Review and authorize
 
-Check the holder, document names, format, and requesting website when one is shown. Current Android builds ask for the PIN for each new approval; saving a PIN is not offered. Never send your PIN in a support request.
+Check the holder, document names, format, and requesting website when one is shown. You can reuse a saved PIN for the selected card when device authentication is available. Never send your PIN in a support request.
 
 <GuideScreenshot src="/img/guide/android-phone/en/pin.png" alt="Review and authorize" steps={[{"text": "Enter the selected card’s signing PIN in the protected field. The approval covers only the listed request.", "x": 6.8, "y": 55.7}, {"text": "Tap Sign. Keep the app and reader available while the batch completes. Cancel if the request is unexpected.", "x": 76.6, "y": 64.9}]} />
 
@@ -62,4 +62,4 @@ An error belongs to the affected file. Review the remaining rows and completed o
 
 On Android 10 and later, ordinary signed output is saved under Downloads/eSemnBun. Keep both the XML and original document for detached XAdES. If one file fails, read its error and check completed files before starting another batch.
 
-<GuideScreenshot src="/img/guide/android-phone/en/results.png" alt="Open, save, or share the result" steps={[{"text": "Tap Open beside a completed file to open it in a compatible viewer.", "x": 69.6, "y": 61.6}, {"text": "In Files → Saved documents, use the file’s menu for Open, Verify, Share, or Save as… when file-provider access is available. Save as lets you choose another location."}, {"text": "Clear results hides this completion list. Your saved outputs remain available in Files.", "x": 68.0, "y": 53.6}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/results.png" alt="Open, save, or share the result" steps={[{"text": "Tap a finished filename to open the document.", "x": 14.9, "y": 25.2}, {"text": "Use the Share icon beside the filename to send a copy.", "x": 81.8, "y": 25.2}, {"text": "View in Documents opens the saved library.", "x": 37.7, "y": 48.9}]} />

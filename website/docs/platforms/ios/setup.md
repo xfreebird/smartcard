@@ -32,7 +32,7 @@ For USB, connect the reader with the appropriate [adapter](/devices), select **W
 
 ## Choose the identity that will sign
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
 <GuideScreenshot src="/img/guide/iphone/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing.", "x": 29, "y": 34}]} />
 

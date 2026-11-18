@@ -16,17 +16,19 @@ Criptează un fișier cu parolă
 
 ## Criptează un fișier cu parolă
 
-Deschide meniul **Mai multe** din bara de navigare și alege **Protejează fișiere**. Alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+Deschide **Documente**, apoi alege **Mai multe acțiuni → Protejează fișiere** în bara de sus. Alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+În eSemnBun 0.2.13 sau mai nou, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-menu-light.png" alt="Deschide protecția fișierelor" steps={[{"x": 70, "y": 15, "text": "Deschide meniul de navigare și alege Protejează fișiere."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-menu-light.png" alt="Deschide protecția fișierelor" steps={[{"text": "Deschide meniul de navigare și alege Protejează fișiere.", "x": 89.3, "y": 13.6}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 30, "y": 21, "text": "Alege Criptează."}, {"x": 30, "y": 33, "text": "Alege fișierul sursă."}, {"x": 25, "y": 59, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 87, "text": "Alege Criptează. Copia criptată este salvată în Documente."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"text": "Alege Criptează și selectează fișierul sursă.", "x": 45.7, "y": 26.6}, {"text": "Alege Parolă și dimensiunea cheii AES. Inițial este selectat AES-256.", "x": 60.0, "y": 43.5}, {"text": "Introdu și confirmă parola fișierului, apoi alege Criptează.", "x": 30.6, "y": 57.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-complete-light.png" alt="Fișier criptat salvat" start={6} steps={[{"x": 25, "y": 33, "text": "Verifică numele fișierului salvat. Rezultatul este deja în Documente."}, {"x": 25, "y": 83, "text": "Alege Salvează ca… numai dacă dorești și o copie în alt loc."}, {"x": 75, "y": 88, "text": "Alege Închide pentru a reveni în aplicație. Fișierul salvat rămâne în Documente."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Pentru un destinatar cu o cheie de criptare RSA, alege Certificat RSA.", "x": 54.8, "y": 35.2}, {"text": "Selectează certificatul public .cer sau .der al destinatarului. Pentru propriul card, conectează cititorul și alege Citește cardul meu.", "x": 31.1, "y": 43.5}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-complete-light.png" alt="Fișier criptat salvat" steps={[{"text": "Verifică numele fișierului salvat. Rezultatul este deja în Documente.", "x": 29.6, "y": 27.9}, {"text": "Alege Salvează ca… numai dacă dorești și o copie în alt loc.", "x": 45.5, "y": 84.6}, {"text": "Alege Închide pentru a reveni în aplicație. Fișierul salvat rămâne în Documente.", "x": 46.8, "y": 89.0}]} />
 
 Alege **Criptează** sau **Decriptează**. Rezultatul este salvat automat în spațiul privat al aplicației și apare în **Documente → Documente salvate**. Alege **Închide** la final sau **Salvează ca…** pentru a-l exporta prin selectorul de fișiere Android. Originalul este păstrat.
 

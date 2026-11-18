@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Linux — ghid desktop ilustrat
 
-Urmează capturile numerotate pentru eSemnBun 0.2.6 pe Linux. Atinge imaginea pentru mărire și alege Mărime originală pentru detalii.
+Urmează capturile numerotate pentru eSemnBun 0.2.13 pe Linux. Atinge imaginea pentru mărire și alege Mărime originală pentru detalii.
 
 Instalează pachetul desktop pentru distribuția și arhitectura ta din [Descărcări](/downloads/), apoi deschide eSemnBun din meniul de aplicații. Pachetele desktop DEB/RPM/Flatpak deschid aplicația grafică; depozitele și arhivele CLI instalează instrumentele de terminal. Consultă [ghidul CLI Linux](./linux-cli.md) pentru terminal și MCP. Ubuntu 24.04/Fedora sunt platforme desktop acceptate; verifică cerințele pachetului. Ai nevoie de un act electronic acceptat și activ, PIN-ul corect pentru semnare, un cititor USB compatibil și adaptorul necesar. NFC nu este disponibil. Cheia privată rămâne pe card.
 
@@ -65,7 +65,7 @@ Lasă cititorul conectat până la rezultat. Marca temporală necesită rețea. 
 
 Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat.
 
-<GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Activează rezultatul finalizat pentru localizare/deschidere.", "x": 63, "y": 42}]} />
+<GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Deschide fișierul direct din rândul său.", "x": 72, "y": 52}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 80, "y": 52}]} />
 
 ## 10. Rezolvă eroarea unui document
 
@@ -77,13 +77,13 @@ Un lot poate conține rezultate și erori. Păstrează rezultatele finalizate, c
 
 Verificarea nu cere card sau PIN. Deschide Verifică și alege/trage PDF-ul sau XML-ul semnat. Sunt acceptate selecții multiple. Citește fiecare semnătură; numele și ștampila nu sunt dovezi. Verificarea offline nu stabilește revocarea curentă a certificatului.
 
-<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică un PDF" steps={[{"text": "Deschide Verifică și alege fișierul semnat.", "x": 51, "y": 3}, {"text": "Citește verdictul și numărul semnăturilor.", "x": 49, "y": 25}, {"text": "Inspectează autorul, integritatea și încrederea.", "x": 32, "y": 41}]} />
+<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică un PDF" steps={[{"text": "Deschide Verifică și alege fișierul semnat.", "x": 50, "y": 4}, {"text": "Citește verdictul și numărul semnăturilor.", "x": 50, "y": 28}, {"text": "Inspectează autorul, integritatea și încrederea.", "x": 27, "y": 47}]} />
 
 ## 12. Inspectează certificatul și detaliile tehnice
 
 Derulează rezultatul și extinde Detalii certificat și Detalii tehnice. Integritatea, semnătura criptografică, încrederea și marca temporală sunt verificări distincte. Datele organizației emitente nu sunt identificatorul personal al semnatarului.
 
-<GuideScreenshot src="/img/guide/linux/ro/certificate.png" alt="Inspectează certificatul și detaliile tehnice" steps={[{"text": "Extinde detaliile certificatului și verifică subiectul/emitentul/cheia.", "x": 75, "y": 57}, {"text": "Extinde detaliile tehnice pentru format și identificator.", "x": 48, "y": 79}]} />
+<GuideScreenshot src="/img/guide/linux/ro/certificate.png" alt="Inspectează certificatul și detaliile tehnice" steps={[{"text": "Extinde detaliile tehnice pentru a vedea formatul și identificatorul semnăturii.", "x": 29, "y": 61}, {"text": "Consultă câmpurile semnăturii. Selectează din nou titlul pentru a restrânge detaliile.", "x": 29, "y": 76}]} />
 
 ## 13. Recunoaște un document modificat
 
@@ -107,7 +107,7 @@ Lipsa unei semnături recunoscute înseamnă că acest fișier nu are o semnătu
 
 Pentru XAdES detașat, pune originalul exact și nemodificat lângă XML, cu numele referit de semnătură, apoi alege XML-ul din nou în Verifică. Această versiune Linux nu are selector integrat pentru originale: relația este rezolvată din dosarul XML-ului. Lipsa originalului împiedică o concluzie completă asupra integrității.
 
-<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică XML detașat cu originalul" steps={[{"text": "Păstrează XML-ul și originalul împreună, apoi verifică XML-ul din nou.", "x": 49, "y": 25}]} />
+<GuideScreenshot src="/img/guide/linux/ro/verify.png" alt="Verifică XML detașat cu originalul" steps={[{"text": "Păstrează XML-ul și originalul împreună, apoi verifică XML-ul din nou.", "x": 50, "y": 4}]} />
 
 ## 17. Găsește documentele semnate
 
@@ -115,13 +115,13 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Documente conține colecția rezultatelor semnate și un Istoric separat al operațiilor. Intrările trimit la fișiere și nu înlocuiesc o copie de rezervă. Un fișier mutat trebuie selectat din nou la noua locație.
 
-<GuideScreenshot src="/img/guide/linux/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Deschide Documente.", "x": 60, "y": 3}, {"text": "Alege rândul documentului salvat.", "x": 32, "y": 26}, {"text": "Folosește detaliile sau pictograma dosarului.", "x": 32, "y": 37}]} />
+<GuideScreenshot src="/img/guide/linux/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Selectează numele fișierului pentru a-i examina semnăturile.", "x": 28, "y": 30}, {"text": "Deschide fișierul direct din rândul său.", "x": 67, "y": 30}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 76, "y": 30}]} />
 
 ## 18. Deschide detaliile semnării
 
-Apasă rândul sau Detalii semnare pentru fereastra modală. Aceasta verifică fișierul curent fără să înlocuiască spațiul Verifică ori să adauge o operație în istoric. Exemplul chiar este nesemnat, astfel că mesajul de lipsă a semnăturii este corect. Închide fereastra pentru listă; pictograma dosarului localizează fișierul.
+Selectează numele unui fișier salvat pentru a-i verifica conținutul actual în fereastra de detalii. Exemplul folosește un semnatar fictiv și un certificat autosemnat, astfel că lanțul de încredere nu este confirmat. Poți deschide documentul sau dosarul său din partea de jos a ferestrei.
 
-<GuideScreenshot src="/img/guide/linux/ro/details.png" alt="Deschide detaliile semnării" steps={[{"text": "Citește rezultatul nou în fereastra de detalii.", "x": 39, "y": 24}, {"text": "Închide fereastra pentru a reveni la listă.", "x": 73, "y": 12}]} />
+<GuideScreenshot src="/img/guide/linux/ro/details.png" alt="Deschide detaliile semnării" steps={[{"text": "Citește rezultatul verificării și verifică semnatarul.", "x": 37, "y": 34}, {"text": "Deschide documentul sau afișează-l în dosarul său.", "x": 65, "y": 79}]} />
 
 ## 19. Golește istoricul păstrând documentele
 
@@ -187,9 +187,11 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+Alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 34, "y": 17, "text": "Alege Criptează."}, {"x": 50, "y": 28, "text": "Alege fișierul sursă."}, {"x": 36, "y": 53, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 90, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"text": "Alege fișierul de criptat.", "x": 50, "y": 29}, {"text": "Selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256.", "x": 45, "y": 56}, {"text": "Introdu și confirmă o parolă nouă pentru fișier.", "x": 31, "y": 68}, {"text": "Alege Criptează, apoi salvează copia criptată.", "x": 50, "y": 91}]} />
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Alege Certificat RSA.", "x": 44, "y": 46}, {"text": "Alege certificatul public de criptare al destinatarului.", "x": 50, "y": 58}, {"text": "Pentru a cripta pentru propriul card, conectează cititorul și citește certificatul său de criptare.", "x": 50, "y": 65}]} />
 
 Alege **Criptează** sau **Decriptează**, apoi **Salvează o copie** și alege un loc nou pentru rezultat. După salvare, fișierul apare în **Documente → Documente salvate**. Folosește butonul de închidere din antetul ferestrei la final. Originalul este păstrat.
 
@@ -200,9 +202,9 @@ Documente salvate include fișiere semnate, criptate și decriptate. Identifică
 
 Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere → Criptează**, **Decriptează** sau **Elimină fișierul**. Alege un fișier accesibil; derulează formularul la nevoie.
 
-Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
+Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 41, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 36, "y": 49, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 90, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"text": "Alege fișierul criptat. Conținutul său determină metoda de decriptare.", "x": 50, "y": 29}, {"text": "Pentru un fișier criptat cu parolă, introdu parola primită de la expeditor.", "x": 30, "y": 61}, {"text": "Alege Decriptează și salvează rezultatul într-un fișier nou.", "x": 50, "y": 91}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
@@ -217,4 +219,4 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 49, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 50, "y": 28, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 31, "y": 84, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"text": "Alege fișierul și citește numele acestuia și avertismentul de ștergere.", "x": 50, "y": 29}, {"text": "Confirmă ștergerea doar după ce ai verificat fișierul selectat.", "x": 36, "y": 85}, {"text": "Alege Elimină fișierul pentru a finaliza operația.", "x": 50, "y": 91}]} />

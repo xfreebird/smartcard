@@ -20,7 +20,7 @@ For USB, connect the reader with the appropriate [adapter](/devices), select **W
 
 ## Choose the identity that will sign
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs.
 
 <GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing.", "x": 15, "y": 25}]} />
 
@@ -58,7 +58,7 @@ For website requests, inspect the requesting origin and the whole document list 
 Keep the reader and card connected while signing and obtaining the timestamp. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
 
 <GuideScreenshot src="/img/guide/ipad/en/progress.png" alt="Wait for the current signing stage to finish without removing the card." steps={[{"text": "Wait for the current signing stage to finish without removing the card.", "x": 9, "y": 26.5}]} />
-<GuideScreenshot src="/img/guide/ipad/en/success.png" alt="Check completion and the output name before opening or sharing the result." steps={[{"text": "Check completion and the output name before opening or sharing the result.", "x": 9, "y": 29}]} />
+<GuideScreenshot src="/img/guide/ipad/en/success.png" alt="Select the completed file to open it. Use Share beside its name to send a copy." steps={[{"text": "Select the completed file to open it. Use Share beside its name to send a copy.", "x": 31, "y": 20}]} />
 
 ## Recover from a failed document
 
@@ -71,21 +71,25 @@ Read the error on the affected item. Keep outputs that already completed and cor
 Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF or XML. Expand each signature, then its certificate and technical sections. Check every signature when a file is countersigned. Offline results distinguish document integrity, cryptographic signature, embedded trust and timestamp information; they are not a current revocation check.
 
 <GuideScreenshot src="/img/guide/ipad/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 94}]} />
-<GuideScreenshot src="/img/guide/ipad/en/certificate.png" alt="Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity." steps={[{"text": "Scroll the expanded signature to Certificate details, then review identity, validity and fingerprint separately from document integrity.", "x": 13, "y": 59}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 19, "y": 38}]} />
+<GuideScreenshot src="/img/guide/ipad/en/certificate.png" alt="Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint." steps={[{"text": "Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint.", "x": 21, "y": 53}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/technical.png" alt="Expand Technical details under a signature to read the verification report. Select the same row again to collapse it." steps={[{"text": "Expand Technical details under a signature to read the verification report. Select the same row again to collapse it.", "x": 20, "y": 58}]} />
 
 ## Supply the original for a detached XML signature
 
 A detached XML signature cannot prove the original document’s digest until its unchanged source is available. In the incomplete result, use Choose originals and select the matching original files in the system picker. Wait for the result to update. Selecting another file changes the evidence; a missing original alone does not prove modification.
 
-<GuideScreenshot src="/img/guide/ipad/en/incomplete.png" alt="Read which original is missing." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Read which original is missing.", "x": 20.0, "y": 66.0}, {"text": "Choose the unchanged original files and wait for the updated check.", "x": 10.0, "y": 70.0}]} />
+<GuideScreenshot src="/img/guide/ipad/en/incomplete.png" alt="Read which original is missing." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Read which original is missing.", "x": 23, "y": 24}, {"text": "Choose the unchanged original files and wait for the updated check.", "x": 25, "y": 40}]} />
 
 ## Understand an unexpected verification result
 
 Invalid means a signature or document-integrity check failed. Unconfirmed trust means the embedded chain is not confirmed; it is different from a proven altered document. Unsigned or unrecognized means no supported signature was found. Do not treat the filename or a green file icon as proof. An inaccessible saved file is unavailable, not necessarily unsigned.
 
-<GuideScreenshot src="/img/guide/ipad/en/invalid.png" alt="Read the failed checks; obtain the correct signed file or unchanged original from its sender." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Read the failed checks; obtain the correct signed file or unchanged original from its sender.", "x": 13.0, "y": 65.9}]} />
-<GuideScreenshot src="/img/guide/ipad/en/untrusted.png" alt="Read the trust warning separately from integrity and signature checks." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Read the trust warning separately from integrity and signature checks.", "x": 13.0, "y": 65.9}]} />
-<GuideScreenshot src="/img/guide/ipad/en/unsigned.png" alt="Confirm that you chose the signed output, then inspect whether any supported signature was found." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Confirm that you chose the signed output, then inspect whether any supported signature was found.", "x": 13.0, "y": 73.0}]} />
+<GuideScreenshot src="/img/guide/ipad/en/invalid.png" alt="Read the failed checks; obtain the correct signed file or unchanged original from its sender." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Read the failed checks; obtain the correct signed file or unchanged original from its sender.", "x": 23, "y": 24}]} />
+<GuideScreenshot src="/img/guide/ipad/en/untrusted.png" alt="Read the trust warning separately from integrity and signature checks." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Read the trust warning separately from integrity and signature checks.", "x": 47, "y": 27}]} />
+<GuideScreenshot src="/img/guide/ipad/en/unsigned.png" alt="Confirm that you chose the signed output, then inspect whether any supported signature was found." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Confirm that you chose the signed output, then inspect whether any supported signature was found.", "x": 33, "y": 27}]} />
 
 ## Find a saved document and open its signing details
 
@@ -93,14 +97,14 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
-<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents and select the intended file." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Open Documents and select the intended file.", "x": 20, "y": 22}, {"text": "Use the search field to narrow the saved-document list.", "x": 95, "y": 4}]} />
-<GuideScreenshot src="/img/guide/ipad/en/details.png" alt="Review the document’s signing details." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Review the document’s signing details.", "x": 10.0, "y": 52.9}, {"text": "Choose Preview to read the file or Share to save/send it.", "x": 5.7, "y": 79.4}, {"text": "Choose Done to return to the library.", "x": 92.9, "y": 11.8}]} />
+<GuideScreenshot src="/img/guide/ipad/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 19, "y": 35}]} />
+<GuideScreenshot src="/img/guide/ipad/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 32, "y": 55}]} />
 
 ## Clear recent history while keeping saved documents
 
 In Documents, switch to History, choose Clear list and confirm. This clears the recent-operations list, not signed files or the saved Documents collection. Return to Documents to find the retained outputs. To delete an exported file, manage it in Files or its storage provider.
 
-<GuideScreenshot src="/img/guide/ipad/en/history.png" alt="Switch between Documents and History." caption="Native iPad portrait capture; unused canvas or surrounding sheet space cropped for legibility." steps={[{"text": "Switch between Documents and History.", "x": 74.0, "y": 32.6}, {"text": "Clear the history list only when you intend to remove those recent records.", "x": 91.0, "y": 11.6}]} />
+<GuideScreenshot src="/img/guide/ipad/en/history.png" alt="Find the filename, outcome and date in History. Switch to Saved documents to act on an output file." steps={[{"text": "Find the filename, outcome and date in History. Switch to Saved documents to act on an output file.", "x": 74, "y": 22}]} />
 
 ## Log in or sign on a website
 
@@ -112,13 +116,15 @@ To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title,
 
 ## Change language, appearance and privacy preferences
 
-Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
+Open **Settings** to find Demo mode at the top, followed by cards, saved cards and PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs.
 
 Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
 
 <GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings", "x": 15, "y": 25}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/saved-cards.png" alt="Settings lists saved cards even after the reader is disconnected. Forget card removes that identity and its saved PIN from this device." steps={[{"text": "Settings lists saved cards even after the reader is disconnected. Forget card removes that identity and its saved PIN from this device.", "x": 78, "y": 38}]} />
 
 Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.
 
@@ -152,17 +158,19 @@ For no reader, check the cable, adapter and power. For an empty reader, reinsert
 
 ## Encrypt a file with a password
 
-Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+In **Documents**, choose **Protect files** in the toolbar. When space is limited, open the More (…) menu to find it. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 90, "y": 6}]} />
+<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open More (…) and choose Protect files." steps={[{"text": "Open More (…) and choose Protect files.", "x": 72, "y": 15}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 37, "y": 31, "text": "Choose Encrypt."}, {"x": 35, "y": 42, "text": "Choose the source file."}, {"x": 32, "y": 59, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 73, "text": "Choose Encrypt. The encrypted copy is saved in Documents; choose Done when finished."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt." steps={[{"text": "Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt.", "x": 79, "y": 57}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={6} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 35, "y": 53}, {"text": "Optionally choose Save a copy to export another copy.", "x": 35, "y": 61}, {"text": "Choose Done to return to Documents.", "x": 22, "y": 25}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 34, "y": 62}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 62}]} />
 
 Choose **Encrypt** or **Decrypt**. The new output is saved automatically in **Documents → Saved documents**. Choose **Done** to return, or **Save a copy** to export it to Files or another location. The original is kept.
 
@@ -171,15 +179,17 @@ Saved documents includes signed, encrypted and decrypted files. Use the filename
 
 ## Decrypt a received file
 
-Open **Documents**, open the menu in the navigation bar, and choose **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+In **Documents**, choose **Protect files** in the toolbar. When space is limited, open the More (…) menu to find it. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file in version 0.2.13, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open Documents, open the navigation-bar menu, then choose Protect files." steps={[{"text": "Open Documents, open the navigation-bar menu, then choose Protect files.", "x": 90, "y": 6}]} />
+<GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open More (…) and choose Protect files." steps={[{"text": "Open More (…) and choose Protect files.", "x": 72, "y": 15}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 37, "y": 31, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 32, "y": 55, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 73, "text": "Choose Decrypt. Check the new output in Documents; choose Done when finished."}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt." steps={[{"text": "Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt.", "x": 80, "y": 52}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={5} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 35, "y": 53}, {"text": "Optionally choose Save a copy to export another copy.", "x": 35, "y": 61}, {"text": "Choose Done to return to Documents.", "x": 22, "y": 25}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 25, "y": 61}]} />
+
+<GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 62}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 

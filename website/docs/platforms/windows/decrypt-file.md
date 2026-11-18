@@ -18,9 +18,9 @@ Decrypt a received file
 
 Open **Protect files** at the bottom of the navigation bar and choose **Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 39.852, "y": 24.163, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 39.852, "y": 56.568, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 39.852, "y": 86.948, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose the encrypted file. Its contents determine the decryption method.", "x": 33, "y": 33}, {"text": "For a password-encrypted file, enter the password supplied by the sender.", "x": 40, "y": 60}, {"text": "Choose Decrypt and save the result in a new file.", "x": 39, "y": 84}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 

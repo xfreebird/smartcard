@@ -1,0 +1,3005 @@
+{
+  "release": "0.2.13",
+  "captureDates": [
+    "2026-11-18",
+    "2026-11-19"
+  ],
+  "locales": [
+    "en",
+    "ro",
+    "ru"
+  ],
+  "appearance": "Light",
+  "capture": "Native macOS windows and popovers, iOS 27.0 simulators, isolated Debug preferences, fictional card and document fixtures, MSIGN_QA_NO_HARDWARE. Mobile status-bar time set to 09:41 using simctl. Crop only to remove unused iPad canvas or focus on the native macOS window or sheet.",
+  "scope": "Saved documents, history, signing results, verification and signature disclosures, saved cards and file protection. macOS also includes first launch, menu bar and the automatic export folder.",
+  "sourceNote": "The release source contains the approved Apple UI, and the later Mac-only credential-label commit is identified separately. The menu-bar captures reuse the approved isolated native review images.",
+  "releaseSource": "426aff4b",
+  "macOSCredentialLabelsSource": "e4f2e01a",
+  "builds": {
+    "iphone": {
+      "target": "iPhone 17 Pro simulator",
+      "localDebugVersion": "0.2.12",
+      "localBuild": "1",
+      "binarySHA256": "d11c661545558364e911078e35f3ff4c96e6702f145fc9b20ff97c8d6c6ec841",
+      "debugDylibSHA256": "c6ad635b111fbe0eb7d6602ee85a976a96e7dcb4d806f96d2b685aeb9dc9604c"
+    },
+    "ipad": {
+      "target": "iPad mini simulator",
+      "localDebugVersion": "0.2.12",
+      "localBuild": "1",
+      "binarySHA256": "d11c661545558364e911078e35f3ff4c96e6702f145fc9b20ff97c8d6c6ec841",
+      "debugDylibSHA256": "c6ad635b111fbe0eb7d6602ee85a976a96e7dcb4d806f96d2b685aeb9dc9604c"
+    },
+    "macos": {
+      "target": "Native macOS main window, popover and sheets",
+      "localDebugVersion": "0.2.13",
+      "localBuild": "1",
+      "binarySHA256": "cbf236b62df52f457d8c7d6183a64a5d509444c5257cc8b19508c009f38fed1a",
+      "debugDylibSHA256": "02d1bba6fe659a6741a3798ff87bf66bb67013797313b1303d464b047d47974f",
+      "binaryNote": "The hashes identify the rebuilt App Store Debug binary used for the visible credential labels and export-folder captures. The other Mac screens were captured before that targeted UI fix."
+    }
+  },
+  "limitations": [
+    "Captures illustrate native UI using fictional fixtures. They do not establish hardware reader access, real PIN use, cryptographic validity, App Store delivery or launch-agent approval.",
+    "Both mobile simulator runtimes kept English system settings. App controls and document dates use each selected language; the iPad system status-bar weekday follows the simulator language.",
+    "Mobile Debug was compiled with the approved 0.2.13 UI before the marketing version was advanced. Local debug metadata and release build numbers are independent.",
+    "The separate saved-cards management view uses two fictional records and an in-memory vault."
+  ],
+  "records": [
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/certificate.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "961ec6245a68321e6a9cf0963ed751f59d08e1bc52846b86956b610006f2a871",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "674ad7ccbd88c5891233f3daa4295e5afe68c658de94707e51e5d67e2ee51b3b"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/details.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "6854790422a7b834062096692c5ef8a42e48bb6089795a767c66ab5411d4cbf7",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "4d4439726fbce100b9e7a39bdf1a554d403eb35a05cc3d005e8f9e78863a73b0"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/documents-protection-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "e1e9c5c4f577d8664811ea450fccc12e91d12726f9675fd45c158b27e28b48a9",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "0fc118e31b1576169a0acb10cba92a083e3c405ef20a274e5ce21088481c113e"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/documents.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "3949398a3702bffcecbed71b2b75766f1bc211ee3b0d08d0d971d181a39ca881",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "a07e6cc2cd435a5713803e141c7978828edb2a017bb98ed1ad631f404ad3a869"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/history.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "37c63d92a2c02a073e317023eb5dc30e4e64e00b08eb554c3cccf9098a48f9d6",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "4e8ce69cd1ce0fa88c635ad6615e60736eaee6f32a864b7feaa691f9f82f81fe"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/incomplete.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "f2b302ffa2896b7d8c4fb15aaf103268efbaf46bce9b9060acfa7090cf5f2d87",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "7eba1246aaca3b938d3a3f57f34312b1f5f2942aab90b1603ed04c0d5c6638bb"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/invalid.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "f420175ea3c8380ec3212c45e6edb75a416b70ddf333d2168dd6f48099798f3e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "899ce0d3a66875f73e5208a155f66f640fea45a44cc45b809737f9553e5fe53d"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/protect-certificate-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "c97e0753dba84b7d3654dbd8311f767f8acd2465d554174fd2fdb13de0df7011",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "1097ff91fedfdbdfe3e639e71c4ce86a7d749219b3884603f268ffe2054346ca"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/protect-complete-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "1b817c2ec7a2e50d383a1fb6fd00ff1985d66868eee4421a661971bbc41735b8",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "146875ef2ba99b21f75f14933e4db6248a20d0d38718781e5dca4a3559605c2c"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/protect-decrypt-complete-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "196a01644444731d3af7ace5c3c5c06060e6d0a061ef1db8d0e6e39fef0b5433",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "d13e773f876db53da0fdd284742ba27d750ec5ec8a454e11c579ea9f815aa8a5"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/protect-decrypt-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "e5ef857c51d4969d5fa7564c67786e3fba49bb9ddc862350f4dc9c52430abb29",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "621dfd660e2076b0bf3e1be8667a443d55612b0befac446a599b09e25a21263a"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/protect-password-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "4742727b3803225567b8f49654726e930fc731b30a3e4aaaf5d82051c267e967",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "0c79d98326a76d80cfd262ced07bb8af62b12b7049f52fc159484d8e93d760f3"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/protect-rsa-decrypt.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "1e5fd1c5b4986bf5bf2e64b455d5c34407837df974f2c6d42ee1b5bdec9fd69d",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "20b9962c325cbb9a481fac550c450bd08e33e98138c6d435765f2051b995c481"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/saved-cards.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "4cd221e9d040d001edd3c15ffbd410e950d054fc7b62177d16cfd62601ad93ec",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "dc2ee0eb219c82fd283a5b1bdcadf6563010a152c5742e1dcfa0aa918426cef9"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/success.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "3f622be598063cbea33ccce4e4854bd156fa215dff904e1a0790c4383084e703",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "4940f2739f27f0f605a1fd7da46836268d086c399db83f23541e46089bf3a564"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/technical.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "3cc3653b613b6eb0e47213078a9c730a53e66773f9b3b96479e35e99069cf5de",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "37443599e7138df40ab109685e77d7d73080af262a1ad70a14672b45bab3748f"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/unsigned.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "91761f60e8cee445b00dfbc2f28bfd96e6ac6c3d4c0b03044cab5acc86a00c8f",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "b7c869d90ab2a46924af088f11d6841fb02a8d1b27c7ed19869ce24f3986b1d9"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/untrusted.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "258067cbe4ce48a05aa3f8c2467ff3aac02e79ceca172ac2b5d0dc382731d19a",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "d90e223a3ca5b7d83792a95921ed1115fd27a47e4294ea2f206934ab76baa9eb"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/verify-current.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "8b988a7e5538c6272e668802bc6da8663732ac9933309fbc4e9c418df57ec4a5",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "363ab317c22685c5192ed72eb2e63d8d5a3f0131a972df7619275ad4f90374d2"
+    },
+    {
+      "platform": "iphone",
+      "locale": "en",
+      "asset": "website/static/img/guide/iphone/en/verify.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "014a3b24e2ab630b65e2210425089f9cf5e6f8b79639c00b40e641a254745a1f",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "6ead86a2b105b90a25a9dc58c5a4cac0603d6a8c4d28bf3f9935b26849bc3393"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/certificate.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "0919258713c17bfb3d5473501994a95e1bb34192c78070e90e37c4ac48a72dd3",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "76fb2964edde43c4b54c40baf56f211d0a8e4254def7d0f238e0ec43a4cc223d"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/details.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "6df7c5d550a30051e2e5f2f26978f770fb69d8f8567b5abf4c06c68f963d4738",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "4a345a4586dd874f601151e83d449fe452204a5afcf10789c947c881541bb308"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/documents-protection-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "e1e1bd0ba39debd3779685ec4468e7a19a389522297d35e87ac59fa8116f48e8",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "bbb24eb3ea15bc7d8a4c18ee81eebde5c9e2c85305ccc1896e026a5a2071c850"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/documents.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "9b4e4f86726434fba54ce58f0a7960050b0f1ff2d10da329c19d4400f0c17d15",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "9e1e7b78443ddd1da19573b7858dc3f5a8d1425cf348e00a1e66a0ad15a53ad4"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/history.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "cc24cf159cf9ba538d77e4994304b9e53ffd59611fc2a301e79dd92238a352e4",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "66e0bc8a0e9b6cd58929d35843773dfeed5dbfe191056966b8dbab6f13f656cf"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/incomplete.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "30f830427222433ec03e00ba4a1fbf3615c216623b3a516b0dd86670fcc9913f",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "cb50f864e94105e19a2b54ccba6d0f71e92f39f4700b8c25a46c0781034e8a8e"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/invalid.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "448e62c9c0aeb93c5dfe7662d9d760d5529f6166c7e12c727f9ec6ea89441a6e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "431796cb09e012235bdd6fcb9672f1bf63109c78c53df5bec287fa8a8cf22523"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/protect-certificate-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "e6c168d48d92a270cf95db0a0730cc795ad1d7edf45bd0ffcb43a0b6370d7284",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "5847db167ea98a515d4e6ec026647d72ebada816e5fcd0f5b340903e89c1c2c4"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/protect-complete-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "fc250559735924ea59b1526564e16e08d6cf1e95282694a2131bf383f838aa60",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "b2f27a9632fd73f8423837ec96655795196e290944811b786b0670a4963d51bb"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/protect-decrypt-complete-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "c3a4dffa5b9d7c53db2ad83d07872d662eff0b0266187ce800e3479ca3aa620b",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "deeca6772126e387e8664ce0d4ab897c6b164e7583f85d3c0de234aaf0ace0ba"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/protect-decrypt-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "c748dd6f36e5ad071b4814adb03155e72a25a41ded197b38e80b2db3f9506066",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "8d087506e6d1febc26decb051524cc724652c6e73a4adac3b5706aca1720f4e0"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/protect-password-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "345516d2da0e39efd0340ce8ae0a3843e0990caa3ebd93ce3861822e63ae566a",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "6f905cc95b326598df71a26ccdaecf06ffe43796e54e76cb06ee9739f0ba55b8"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/protect-rsa-decrypt.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "f19653d01991a2f6f151651af56fede2ced56b768e36d1fbdc04d4be1a462e25",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "c3c0387ef21ceb4aad98a03e078218a436b3de6621c5d62ac8d10f2f3094fd2b"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/saved-cards.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "55f59d74ee219fbc671271ab52819b46dc42fde71de310455a492b148d4cc629",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "c4e6feee7b42837ec42e3631088c260d6603cb4815315323c70b2a9699c93d21"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/success.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "1c13948c4fee3b30b7309a0974b2eb3b510278af2a357d4dc122cb90287f28a1",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "e04e8925c929d6f6f3817adf1f11508bc872608ef8ad315451fa9f32cca25bcb"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/technical.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "59dba39fc581d2245cc52ee448f1f6a90f27b693ad7213af897feb5bac49d314",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "97940363da960533849fec42b9629d91a5f3e39d3fdfdbad68c319d2f65b7e71"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/unsigned.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "be51b5906838a009524211749ee1566e539fd046639a3a23264f08a6cc7d8f80",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "3b503ba2d9557be41d2a3cb96f1f8625bfea4a78cb4e616042bedf49bd96cc48"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/untrusted.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "8c841b833044e1d320ecaf1af5f35c49a1ee4f6458d9cd0d01024921b48e840a",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "94f59f49262ac6bde96445813ba03cff03eed41026cc8ef76ee63463dfe10801"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/verify-current.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "fbe9f26980621b22addb2972a7ce628e3b6862ee28ae81209e9df6c136a4a48e",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "f2b47a3d6e2ddd845bf9a031d48274a2471458cfbf0c1b2889f7b059cc115daf"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ro",
+      "asset": "website/static/img/guide/iphone/ro/verify.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "0a3eecc4a04353c6bda6ba0c33649c780d96dde6de9b6a394654a6fa6772438c",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "b0070bbc601994e92e2e5c65eaa03c4a23c1bca34f27bc8ca1e02dc70dec1d87"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/certificate.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "e7ab24b8b7b479858c39d0bb9a0acf21dba25e0aefda69ba0ec71ff2d9af2aea",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "1dc3b3434188193ddb5e7709a9b962368f7fd7716840bf0f3b66228107e9d4c2"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/details.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "d43295a79feba09cbbbbadb9d3af65f6e0293b3d44a7d4731458cda91988be33",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "4a17ac425438b153a56da638c8441aecbcd0f91e3aecce2976eb54b9c8c57f12"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/documents-protection-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "d47aa15cc685f64cf66d3d0fb5374279ef032ee97b6719ef3ba30052e4b122dd",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "5207ad058f829a8db3cdf10576f46937ba6e091f9ba1fc0e1d54b14bae900d90"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/documents.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "d1234b5897697ae032c47600cec0e5cbb0d43a93f303945c4762ffe8d5dd42ae",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "91007922d272383e15fcb7ccc78805a9c98ab5eb3960d57e7d3104a56adbf913"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/history.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "e5f2b88d6ce84383334602c30c525e4c95a00ed8c9c993e5277f384dd11ea6b5",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "1a9100e670e2a0d46cca0c046f54f77987ffdfa35328b22010123bf6246f90ca"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/incomplete.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "0dd992399eb0f6a138dfc08ccab01392c9796c5efef6b1a1843547c1ce6c13d2",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "73ce57319b109e1879a91ecc1703ddbcf58f720274801a64515ce8c7b1d9fd6c"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/invalid.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "9772fd65b20d0fcbc2d2eafe2d879f373ef9f6cf544cc21be5a22e55a158be55",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "eddee725d688ddccbc80b69cce57558cdfc1a397be81b92c444126ceae1bba30"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/protect-certificate-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "6a4d3f069ec75bd67d256c9a295928bc5e479a057966ac9e7d211a3bd596befe",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "996f5fe6ac87af9705ea80a01de8aa44752bd0d7f444834d38bd3fd5996137bf"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/protect-complete-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "afaa48199c6309370c168cd9dd0a7caf95fae2a9dcac68088ccc6df629453107",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "8116841fd4e033c6b1c33f07e6627ab90d250b5b9690752c1122e7c32a395597"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/protect-decrypt-complete-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "9e7b8e2bc37e9bd399a9104bfaa254adb4f79fefb47ee7af8494693fc4c2c6a0",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "389e4b86ccbabc9e525d480bb2e6a51a177a7add40b25311e792e585e77c6a3b"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/protect-decrypt-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "71820299be56d94a256db7fdc91456e67e5518572aa63f319879b1de6e487e2d",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "5a1b597a248d90320744f840e2126aa3e24e11a44bdd5851329955af037e183a"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/protect-password-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "b98f23b854c5dfd17a9a9f684adb9e7018e0ce3c3bf2fa3d87a5b6f490a79dcc",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "e5dd91ab01ec77141d792db27383d27fc23cb4bf4bb349d89dd90d49c01200f5"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/protect-rsa-decrypt.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "0a7e69fcd619243bae4ac8b7dfddf8afb37a04f51852bac8202eb43ddccf30be",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "baa84bd808e2929f88f3bf2371d6a3b69cde46e1a825c34b8614b09fec59c4c6"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/saved-cards.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "ef4184687e972af7068380bdd5aa50dae340fd8c4d8157cc843ddf862b1fa989",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "4076b34adb597c43c30d80c62e9e99a1b0183b421b0cee51e969bd66ab9668c8"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/success.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "686eed98c5e1a98bab0536a61ea12b2e0274261e7cd83a5268d4a4949d31bc15",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "f79ec23106053acec81531564c63f1ec31bc15bc36bcaf8fddbaad6a0ba9eb55"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/technical.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "42637b22ccc721d73e9444197c0de697115e9f1816acfc7d5be8a6ac2e684f8b",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "0e2eb5308654a6bd75461917f0c3c84c5bb8dc5f424ddb785551b10dcf95fbf0"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/unsigned.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "36baa325eecaf7c0d13d0d11ee998e9342e793759e9b6f7c84fc52dbc3883ed0",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "6f4364b8d0d98e5f4998c7dbf7138fd7273aea63d7193f3e529c90522e786b26"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/untrusted.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "13bc6d4ff6c6f7c57002a5f672fb168a094099096a7657f82e825b4f61dcb8c9",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "cf16875ade7a328538935aa197bdf641ba4d928f35093e31677a2c0fe21fb621"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/verify-current.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "ef11a91cfca7d6ab470eefa8594ebff92126fa2591eb726d19cfdc8015088df8",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "0cea7975d73c4a70dc5a34e74c8ea4ddd1feb4b4e25e84fc26c0b388f27aadc5"
+    },
+    {
+      "platform": "iphone",
+      "locale": "ru",
+      "asset": "website/static/img/guide/iphone/ru/verify.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "assetSHA256": "c2e7d9e15453fa5b38eff966b9d509d82942c5fddb391293519830702ac28d59",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "sourceSHA256": "c9f131905c52938185a5e36c18bd6d435050edf1fbcdf83b5f6c37da6dbb6fb2"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/certificate.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "e4e3fb5f405955818b22a89ee8d826839c6d6513b2431ef284ec36915570e9e6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "3e9490ae2c6a612e72c80f7e76a7cc90dfb1dc2c1f1f83daf82b234b142e24bd"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/details.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "9a4646df0d76e1bdd64d0c428db55f8c042b44777e72d17ff66f814d179a01d4",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "440741d3625e2eb4b5d7457416ae5b32e8ba04aeae6d23f66a2bdce2629824b0"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/documents-protection-light.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "bc64fc5c6d52d819c232a5e07cc0f31a10ccd1aa4bbaa23f1d1469cf02bd8491",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "aac460217729931dcc82525d94156167667a57a6b4cc43d86c41b10dd79b42f4",
+      "localCapture": "More menu open"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/documents.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "e959583bd5789cbe9ec05d9461b9f6cfdadd245722b2d23c95938d7f83301420",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "7e809b531dcc62e8716a85d651795bd4cea12b2fdd3efff3cb8874f036865a2c"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/history.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "5219fd84cae389d4dcd18f4052493e0c041f03f9cd317bd2b1aa7d573af3a958",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "2054ab7b848449f1f41f28918c06ab70e83902b04a13ca43d040db21ace5c005"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/incomplete.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "593fd40d358f65a8fce48eeeab65b177f75b57556fecb7257422a9ad098a1ace",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "319fd945b823410dcca195a3e2277baa48de8645a0cea791f740a00c71705b1d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/invalid.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "736b4776f4551bf58b6c4c7e45ee3c242766ced1fe1893edd244fc6d17bac816",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "3bb38e11f0e5db56ec60908e6863f39fb7ff9551279c9069168a690f2ecbc00d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/protect-certificate-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "e9f240b4fb79a5592db5ecf5fc844126f7593a629265411f49dafbc8b367e9b6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "4f7b69cc9305429d15db985bb9bff78bf6635240071224caa5ccfd771f8d64fd"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/protect-complete-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "7e1ee3dcace1745429b36b0abe4f515fb32b2c1eb9f73395cf92e5366e7cfad6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "4b0eced55f7f9fe3a2f91a0446c0c03efd0eb036c8de25080bfc036b433ac247"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/protect-decrypt-complete-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "26f6fc952e75ed952a75fa3f4c878bc57c26b8f2429bc1199a13a8a48b7934ec",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "382f6924932a9b7eab4770558ef4c423db9ef5169ed32fbd943ac51223a4d421"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/protect-decrypt-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "b7664861f98f1e9e8db0cc46b80796ff81d289c9f714a4d04817afdb170bc9b2",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "6bac49ad3f34fdcd8d26fda2ba29d916e28407df8a95afb2d5608278d0a3a35d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/protect-password-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "44c3f8a3cefb1e6051897651dab7132ed61ab347573b806d8612cd96e0f75315",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "29be243fb9ffcb56d3d31b491241d846a08e7c824ea60964364f900772f1580c"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/protect-rsa-decrypt.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "1302b6f75222330d3f1f8a8b61c5af71dda7f98899b5e49622bd998b6463bf83",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "9ef3771598508089d0718a631fc555a1c0427c6be67838e481a3be527e35511b"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/saved-cards.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "7ccc9991171cce6e69aec3b98010653867c65e800d9419505dcb4659e55a17f0",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "0844c2a8e76a963b24e675f82741ff8cc63be9cfd9e0201f0e3a4a073e3e68e7"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/success.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "afbaa50c4129015281028bc56c6eb8f247bf29bd6f6384de8760d539d957ff6a",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "fb04a36525d44d05b7a7788cd66c62b51074eaebf5dc75ca447249016d01b046"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/technical.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "69678bd5b613733d2a1c3c7800ea846c1a92fbfd68cf9a5544bb5f7f479282d9",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "2f2e7951177bd046679357fa79854592517845b898cb03d1ba550b715519b539"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/unsigned.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "27bdf1962cf89ca3bfbea130d7d389da2d13c877a45e2292a36327adf9bb6150",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "321dd17e8cd8a6aadd3207b83a8c9518bd3aab38a133dedc604a1587e97bc61f"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/untrusted.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "96e052b76728697e9869e4d2054ee8e79edbface108520045a5893c356e7e765",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "4d65aae1750974a20589ce562813415daf7fd68807f850b42007252c4c9c642e"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/verify-current.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "ad845f2741c2eb42a85022f5c7b340586839c9df29f5ce9a554f6693e96a6eeb",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "b362cef3c2f1e65eb4bb1bf55c559f6c9f3db18c8dcbd18cd372f3a80128449a"
+    },
+    {
+      "platform": "ipad",
+      "locale": "en",
+      "asset": "website/static/img/guide/ipad/en/verify.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "9f4851c4479f567a4c8a0b007353dc6017527814e5d521685c8c2d079eee30e8",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "bd5921dde1623fbaeec233245e6b022a4a257ff19baba7cfc9f7c269df947ee7"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/certificate.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "9f6d07f0a6839b8871c1d2ae0f24651fa61c054de248dda59bcf22a5e75b82f3",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "901cc581601e34a93fbead9a55138118057f3a0de536249e26227b708ca76491"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/details.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "4a562d6cc783ab177e78bd337ab513f779719f533807c54c310256cba70b0171",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "d95e92266eaab59272accc6ee4d5deeb1b09add7c28525d86e81b5608e0b3c0d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/documents-protection-light.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "2bf8356001721fe4cdeac3b2ff573476bc72517f55024ef96daccfa61ed19da1",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "4b1a1e6b33453a51b2b167a224bd174ee85a2ea944eb9616088d642afed61393",
+      "localCapture": "More menu open"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/documents.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "8afdb915aa7f14742ae3bdb774a852a5a19f5385aa8b4947e90fa3ebe0cf92f6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "6e3198c4ef30e0bdfee4471e39e7c2ed6064091b3fe22b3c7baa3bc61fe074e3"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/history.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "62770df998f8c34936bb917c23f150caee89174ba894db6e9ad0e8181a2af749",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "03674a822c9f6e36254c6afaa9c1e9cfcc8b33566f959609e0b1eecdef902a73"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/incomplete.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "977d6ef5a2752bee5bc48f6490ae83642598dab9186f486c7b615a2bcd85b829",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "481b905f15ddb22096918559c4bf701efbcd426c278f4def44ba7d464d0ae416"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/invalid.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "a566f3769d0d5471641edd725d7840aced602f9ac3822295eecc219190bb30c2",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "f5ce6bbb114d964c63d75b14c8d64a2ac1bf23f57455fb7321f8eaa41580914c"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/protect-certificate-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "542667ddc3ff64152eb3768ab2355da913beaac5d0ee5171fcee48e276d3fdcf",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "22d3c48d634693a3b447eca2b003bb6bbce1997ffae6588b4b9fa04173a5045f"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/protect-complete-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "4235a38318180a3a598a99b9f354f8811ed55853ffe0a95fc4cb46f884fa292b",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "4763d704d8f5c692eb257b9f50aa72bf2446159e4a709151cafb950db8ffc86d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/protect-decrypt-complete-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "adfc337d1b958303e566ad37c56f0fa35c859ac63954dc2832f01a368541d1b0",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "c23d85a824b181c6e8f6b609ccd717e158a916575f977d438da01b5363e69dfc"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/protect-decrypt-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "1fd4bae7d87c3962425de67ed8150274a025e491af1ee0b6408d1c6e70198b80",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "90c50ccb5e47a52da40d82402c5a02f0e5c6fc39c8dc6808cf4068f66ffa5847"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/protect-password-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "db5c8af7d025ab604efe81ee741a506703cfacbd802e2322ad3639bc544cf4e8",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "c79e06ff5dc671d0811addecbcded9338ec86a335089c1c426c3caf79c92f284"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/protect-rsa-decrypt.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "5f5242dd3a1d750ee072ba3f8610fa169eabb0c437fa8b1e6753f6c5cbf65ffd",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "c3875eb39ecf418b28f64c8e9303671a45bcb6f90ceb52bbc1afde604d75e80e"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/saved-cards.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "638bf49fdd7027f68e86b7d4b1fb1836924d4dc4d69164a7f71114271b9ad621",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "d627559007d2d44082d55d47b2a7604f8a541d1bd455bf74c12d0a0b50c489ed"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/success.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "49b2c339a88184def02135ef12b0530f4f528085b58d54e8377bf063d3b6f4c2",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "bccad4b00201c055d90f117b9f996a151ae9f3b221513f0a97ca180537176d33"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/technical.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "768cd6a0b5f6418cd8c31b9d99d80b0b1acb19b956e3eb565677d6ebb7681601",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "ecb73b4ff43feb4813866c8b45b8b6db5f86e3caf740b4312494c9e03ff23bf7"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/unsigned.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "5a9e22aac8ec443cb20127d16d00b2dcb7f02bdecd38fbe088b9fe611f5be235",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "0ae482bd3a4fbddbbd8b1c9d4a436690251cd8305114504b0a97647455593b78"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/untrusted.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "15af34829bf3834df04d0339bf3428822221d185be8fe801390aef0be9826f97",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "ed823151e3f5244717c0b09679df5086d3908b11ae44abfdb3d052817bfa8bf2"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/verify-current.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "4e3b53e2defb1c679d7f5d34fa14298d166cd31b88f46c5bfc62153a4abaee65",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "e58dad5943469cef17f7c45ac92aea5c01a2ea4000cfb4fdf39d9a2907561460"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ro",
+      "asset": "website/static/img/guide/ipad/ro/verify.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "48cc87c348157904734a6cdd030965fcb10781478f152479027781ed565c810e",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "1724cc634972f4e3947d2cc90f4a2a94b73a3636135ac058222167ffcfb0a425"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/certificate.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "dc367603e63789906f38ff728d6eea258f9c963097da0c46d480799ff4148ab8",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "cd5cee6f9a9b18302bcdf3c7c2a55acb200ee230555c8501301aedcc96159bc6"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/details.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "68e33c436842723f07d7e5888b751e92342c81e73447fac7c2532c9690dcf718",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "2f8cc22d6fe61f26953ab807b3820badb434f528f29701074d7bb1f48f2d1331"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/documents-protection-light.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "a3f9633523382c32c8856740754afe67f06e7f2f70703815500923d98a7d69d6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "8981fa99c34c1932266ddea9ff2bc94b4d75c813a32f77eef73bcd4e9368e4c5",
+      "localCapture": "More menu open"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/documents.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "ec61ef7f7109168af2c5d9633819442a053581174c305223804478d158439723",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "628620b409e193f6106bd45716e776685f6c3926c28f6fd46d0c08f0158c7a65"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/history.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "8b0d6862d4425278849d0560e075e01f47ae28c5c0a65e567efd788881c6b6a6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "f1e2f7531d7bbcff6c2b00fbbeda0cb4f667dc85e562e605e6c986de513f4790"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/incomplete.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "3d4f203c37175cd9190ab7e5c45c3bc72a95a4445be9f038856feb8f94ef1d67",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "29798adf1d8f0b4937a2a9e31acdfdd9a4bd0af9762819ead1a51598ca371c76"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/invalid.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "7f497cec5c29ef6f07e9f20a1b93e35f97835182b447f44a436b499f6b5fa11b",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "2f4ddeff89c5de2f9233a4c4e557d19e7f484d330afc3078acba01718fe92a47"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/protect-certificate-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "5ef9d856d3f3e2f8462dade026552157ff1673f108cf29b964c01d12706387f4",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "4838e91225bafa877003a287ad0b9f27603c0637b6794300619eb60bb7e0047c"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/protect-complete-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "a1ba733e14036ebc765ce869f9f9547a90b5e8ef29683b063ec58431eacb73b9",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "ecbdd8e739ceb7323d5e41009d3a689cc1e027239c626c1e8c9ccbe2c8c6099d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/protect-decrypt-complete-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "9cd5a5cd7cf58ff7b7ff2ac4660b396d2ee40d81a556b07afaee9a100f2ac6d4",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "d992e70b87cb20d821cc31490e1e2989ef2c7eb8c61b68ed7990d5b3fe48d4c2"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/protect-decrypt-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "02a28e0fbc62aabb2732a4ac3170d2e5bdb1457cc0478cf895ddd16aaa038588",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "6c22ae2504b36a567dbedb3f0949b67147beec03d785fd297dbb6c4318aa8efc"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/protect-password-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "4a51660dc1fda56f14f363c64cf319e8875bd495ebd079fe7d35a0a7a652f7d1",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "333acc7d0bc01caabadacfe92915229bd35bef806672c6a5584789d94dbb52c5"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/protect-rsa-decrypt.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "80c929151b86097bfb6ccbd3c073eb5a6e4b29bb87b09de2845f8c29bac9a2b4",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "291775dbf3ee142f7bdffa633a5ecb374a4d4f01eb724fe7f6bef3639224cfb3"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/saved-cards.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "2fdf3aac00b847bee30f2a850e2d4c3d192674afc7aa7cfd4165376ad547a810",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "7c47842fa6409b6d69b2b3f127db0cc78a88ad2318c4ba8e0e648e55d554674d"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/success.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "a1aba34bc8f2767204456de78309e0d99c004a3ec11f80c02265e8781001dfeb",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "007dfcab200d3a238091d1038deaffeacdf063891bce5ed640d7b8a9bad10949"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/technical.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "3b5a9d524fdf6c97a2f6d5a8a8c6fbe232d9edda07ecd9226c3afff86ffa3781",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "2a9a43b113b4db0a3016b3a4c1f4ef7cfa655377d786b9aaccc53a62eda5fd51"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/unsigned.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "bd2622fb3e749d9112f68453264331ff2a86430e49d209c110d2ecad7ad38403",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "9812fccdef9276485fd6703a30d21f7b0a0aa97bc61481bf0f9703d44a2931c4"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/untrusted.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "50cec20074bf36df95a5e9a42c4357acdfe35e1e819553581dcbc1308d93fcf1",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "5f5e4015a39577cd221cf4c82f5e43ec7eed7392afdddc7b1f80f79d08add39c"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/verify-current.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "assetSHA256": "0c77d92e1d06d0af37e1a512bcf441d3c5ddc9113f8d55d6227c3a54fa4fe53f",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "32b92ffca0e9955825f6711ff9e2e5951e32c9544706997df96933e33d3ff2eb"
+    },
+    {
+      "platform": "ipad",
+      "locale": "ru",
+      "asset": "website/static/img/guide/ipad/ru/verify.png",
+      "dimensions": [
+        1488,
+        1564
+      ],
+      "assetSHA256": "132ef82ca3324933f75ab22936470134d58759da16c747400efced33b045d796",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "sourceSHA256": "f5a156de6094ead4481d51a95ab31b43c8e4db6018075dd941dbecbd555f7f89"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/certificate.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "b2820e10090181207b8822ca26e878e6ca27c2154bc87486e042be7d250c46da",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "b2820e10090181207b8822ca26e878e6ca27c2154bc87486e042be7d250c46da",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/details.png",
+      "dimensions": [
+        508,
+        410
+      ],
+      "assetSHA256": "ed38fe0894cd8aeea328366d51fb4cfc9766a5760826cc45e13e1fb32afeec9d",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "bf2096eca418cf4dfd3c11827421df4097bddf3c88ea9eb33c07eb0878e50c0c",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/documents-protection-light.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "1fb0c539300f7af133d0e8d558fd76fec67a8098d9848eef5ff97455c0bee747",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "1fb0c539300f7af133d0e8d558fd76fec67a8098d9848eef5ff97455c0bee747",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/documents.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "fc4df339128053ddd41802e863f7154d6b3eaa822c5afd36de3013cf5c791e23",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "fc4df339128053ddd41802e863f7154d6b3eaa822c5afd36de3013cf5c791e23",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/export-folder.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "a4ea5b7d6f31559ab70e742a218fd3dec361a120cfe8a550bfa259a193b931da",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "a4ea5b7d6f31559ab70e742a218fd3dec361a120cfe8a550bfa259a193b931da",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/history.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "9c43b492696bf2ec66bcbfd27b8586eec6d076a387cb01519dfa322a4ad6c696",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "9c43b492696bf2ec66bcbfd27b8586eec6d076a387cb01519dfa322a4ad6c696",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/onboarding.png",
+      "dimensions": [
+        428,
+        321
+      ],
+      "assetSHA256": "98056de3122049d4a7b8b271c33f8202398aeee1f56919f21d3c863e04da81d4",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "970da999f3f232fc7cdd2900575d7b353ca19af51879922e9dfffee2b258ac6a",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-certificate-light.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "9dfb6f163821f27548a131018448e298a6e8b1f04d87c45f0d65967da206a080",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "839d5a92d5c6b1d8b8ddad0cd50e6aaa6022d1b7c926e6ff641fbefda5d157a0",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-complete-light.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "7dfd7664770111df33291ef738b1fc49c1cb60c03dbc2495cfc4ea0818b5e526",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "55ec8919f3ecd2617e05f9fb79b3135cd1db76cfec2de8fae99f2c3cd2832e67",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-decrypt-complete-light.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "6685f065d5fda4e05091f8a9837dfef99195dd5733922a768ac373a93c0702f8",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "34a2b6ce3f6ca33994edfaab86a78f7b2d26a5965ceda8c1c0f1ddd8b8ed28af",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-decrypt-light.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "38aac862cb9f56f4e7dfc8f44e32392a85bf738e4d258e5fa1ca02296153da10",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "3337a922b1e849cc81b80db6cb6605f9f501a33f93ee8646ef23fcca2676f4d0",
+      "localCapture": "Visible credential labels"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-password-light.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "cb9fccf631cb2aa828f4cfb4eedb14ae743b023711458c89c5f9ba7cd26a9e7e",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "a27da37f398ac874c47035f22c0b001ac3929653e447769f5f63f52de97339b0",
+      "localCapture": "Visible credential labels"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-remove-light.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "893de6dd551c8ac9b60a046c88b3000357bad1b458849921c4a567c57842e369",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "1333a91e7dc6496f4d67f0ff06e5dd7e4d57f6d15470de44c24841e079d0c004",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/protect-rsa-decrypt.png",
+      "dimensions": [
+        458,
+        597
+      ],
+      "assetSHA256": "42036cd4b2efebbe0cf3d507dd2b8089ca8d11ce3fe6cf5790c2fa9b555d6948",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "2e799deefce3e41a773fa01f5d35e3b88a2d4a056eb421270cdc86296b5198fa",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/saved-cards.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "57a483be357012d6ef8ffcca4e04ed13b0131667807a0ff0861d80ac1bded8d2",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "57a483be357012d6ef8ffcca4e04ed13b0131667807a0ff0861d80ac1bded8d2",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/settings.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "741ef9908fe5994626673c0385e0b2fdf63fb89713d17c1ce3c726f09b6cf381",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "741ef9908fe5994626673c0385e0b2fdf63fb89713d17c1ce3c726f09b6cf381",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/success.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "2eb3dc8ec1720281b2a0e65c0e45f696a93f8bd2044320bb1b5394529fec2ce5",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "2eb3dc8ec1720281b2a0e65c0e45f696a93f8bd2044320bb1b5394529fec2ce5",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/technical.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "c25db5bdc707a9e6593c47964bc5e622d5e7cabbb6fd21fcfa45381d3f6494df",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "c25db5bdc707a9e6593c47964bc5e622d5e7cabbb6fd21fcfa45381d3f6494df",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/verify-invalid.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "d6e3ea99366d659effda85a7ba5ff39f5a63159242e5f4e62f77f285a6348faa",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "d6e3ea99366d659effda85a7ba5ff39f5a63159242e5f4e62f77f285a6348faa",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/verify-original.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "2d595d9acb66d09944e0d2ca0ae9bba6dea1ff42bb0147d23992b68a5603bca6",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "2d595d9acb66d09944e0d2ca0ae9bba6dea1ff42bb0147d23992b68a5603bca6",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/verify-unsigned.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "86482de43121b17139a22e3e99492b95ec1de6f23bf9ea980352a99a61871fa1",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "86482de43121b17139a22e3e99492b95ec1de6f23bf9ea980352a99a61871fa1",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/verify-untrusted.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "0e7d9d40c2105367ce4da8fe623ce0503fce2ec2becfa971fe8ffaa5637a665b",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "0e7d9d40c2105367ce4da8fe623ce0503fce2ec2becfa971fe8ffaa5637a665b",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/verify.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "7fc26863857e8cefb775380b22e2289aa233e256b334da3202b14a9e86a058cb",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "7fc26863857e8cefb775380b22e2289aa233e256b334da3202b14a9e86a058cb",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "en",
+      "asset": "website/static/img/guide/macos/en/menu-bar.png",
+      "dimensions": [
+        736,
+        1286
+      ],
+      "assetSHA256": "6cc6c45f8863e699011aba8a8a475f30a1c606fda511b00e75372d1703c7b062",
+      "sourceDimensions": [
+        760,
+        1312
+      ],
+      "sourceSHA256": "5f5627c216b01949f4e39e9089713be3b7ca75c7376188b0352b9d6e9a1e6ee3",
+      "localCapture": "Menu bar review"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/certificate.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "83ecc32753b1905c3d6a23d507080870553b8ae07d8ee972dbab8aafa24dfaa3",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "83ecc32753b1905c3d6a23d507080870553b8ae07d8ee972dbab8aafa24dfaa3",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/details.png",
+      "dimensions": [
+        508,
+        410
+      ],
+      "assetSHA256": "c4dd6ecf5f5ede500aa748462a5afaf38765a8a14d889839165edf1ec6abe8d8",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "b2c2158d7a468c5ac388e0acae91db012bff0ba3b3c6ad91293f38e2c2724ebd",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/documents-protection-light.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "7e796b4072ba8cddeb6c04191311ead365d40096708c3b0a520e6791d878d31e",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "7e796b4072ba8cddeb6c04191311ead365d40096708c3b0a520e6791d878d31e",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/documents.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "a197d090a55d104e713cf5633f60285d8cba91a38deb6c551838a7a544f4af21",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "a197d090a55d104e713cf5633f60285d8cba91a38deb6c551838a7a544f4af21",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/export-folder.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "e07ea15f57d24b9f2260e8b9f63ec8991a3738114faa1f1481ec51449451c23a",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "e07ea15f57d24b9f2260e8b9f63ec8991a3738114faa1f1481ec51449451c23a",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/history.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "984aaa6d9423f9f8a1257aa8475124ee2f3a486cee4f7c6ad819cb49e4be1e68",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "984aaa6d9423f9f8a1257aa8475124ee2f3a486cee4f7c6ad819cb49e4be1e68",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/onboarding.png",
+      "dimensions": [
+        428,
+        330
+      ],
+      "assetSHA256": "5b9567b9472e95c224db59c51008e6f605085c811f72d41e8aebe6e4748a3c55",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "ddc26fbdf5b61d7b573db5acbc4a2859d991c4772406d4ea85b1673cfa090474",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-certificate-light.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "f3321da44f2e5200ab6aee05046c254266009bb177ba5eab166ec7afe981b361",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "a314518c69b0950f2c668c6cb4840eb9a39ebde078ff63655be4f7c4c3e9bbf1",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-complete-light.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "4ef8e52f6b957bc728bdcad20ace47f83e87b06566d8063f227bc522d4cf948e",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "942d273e7fd1ba18a85d95ec1af7ebb8c0326d4e4d433b4662f58c7411463d37",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-decrypt-complete-light.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "ebb783136164eae4f69e30bb9766cdc5d8c07c6269b7ac619340ab20580ebc7a",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "bde175489650e9c339463abc44f6fb03f077df490ddfbab8e8a9a60ee2311ae2",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-decrypt-light.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "cacf9c467ae9df038498f4a50de4571b2ae3df5f54a468ea21aab35ee6b20ebc",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "2f9b57c167d5c76839a97bb5ecfd7a300192a4934e3fb8f0486a5885be38a894",
+      "localCapture": "Visible credential labels"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-password-light.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "f47244965a22200d066c52bd81265affe943049013c99d4dac8bc77c082a9931",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "cd3958af828982cf23e87b35303486bb850c84732f03eb5a61df2730822b3175",
+      "localCapture": "Visible credential labels"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-remove-light.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "140c5ef2f62e7632f17bbe25635f4ec5df140f80de96d567966e2757285a254b",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "08a39fe44d4cccfccb6a9f313c9eced6a0a3de4e8592db57d58912eff24a5e82",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/protect-rsa-decrypt.png",
+      "dimensions": [
+        495,
+        597
+      ],
+      "assetSHA256": "ad2e345caaff73ce3479ad7c6a613802afd4be9c26cfcd1a87088c1d0991b198",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "66ce2505df95cd8447042161f6bca8dc08f546e554f583a3cf7c5b353097b77a",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/saved-cards.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "762bcd27ef829d3a8db33f9b434f8e3ad18952cd2c810346aa6dd6da91bc46fd",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "762bcd27ef829d3a8db33f9b434f8e3ad18952cd2c810346aa6dd6da91bc46fd",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/settings.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "789244e6e8db2fe2f1d7319fe75885dbf4b87d0b35ff2a5c9d740ddd9d32412f",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "789244e6e8db2fe2f1d7319fe75885dbf4b87d0b35ff2a5c9d740ddd9d32412f",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/success.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "474dfc8270177dfeb531d12be9c31f48e249e0d9dfd9ff11fe72e7d671591dc7",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "474dfc8270177dfeb531d12be9c31f48e249e0d9dfd9ff11fe72e7d671591dc7",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/technical.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "737d7111ad37450ba4d8541b18423038e0ec01eca401ed35ce2e390fe60d50b7",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "737d7111ad37450ba4d8541b18423038e0ec01eca401ed35ce2e390fe60d50b7",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/verify-invalid.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "b023cf1860b9683f3a333bf52ebbf88fe511059934cacaf0ed460d041c31dee2",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "b023cf1860b9683f3a333bf52ebbf88fe511059934cacaf0ed460d041c31dee2",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/verify-original.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "b28034ad1f706fb7c82e317e847d8c67b26c1a4d1304f0f48f1e0a992fcd4390",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "b28034ad1f706fb7c82e317e847d8c67b26c1a4d1304f0f48f1e0a992fcd4390",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/verify-unsigned.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "e616094bfd7fbe0d0e7cd0cfdf3beb283ffeda19389782e145c4cc06ced66426",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "e616094bfd7fbe0d0e7cd0cfdf3beb283ffeda19389782e145c4cc06ced66426",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/verify-untrusted.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "c58415f22670905f206d69c88094ae566099ae3fa1475cd8603982ce09cf8dea",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "c58415f22670905f206d69c88094ae566099ae3fa1475cd8603982ce09cf8dea",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/verify.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "cc18dfc3adc4abbf0eef25d9ba2fad3a5fc4f3540763c9bb569500204198e986",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "cc18dfc3adc4abbf0eef25d9ba2fad3a5fc4f3540763c9bb569500204198e986",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ro",
+      "asset": "website/static/img/guide/macos/ro/menu-bar.png",
+      "dimensions": [
+        736,
+        1304
+      ],
+      "assetSHA256": "26dcf9f308f03e3068fe6d4c44488f7e8aebd36d9bc993548a2798f890f778a7",
+      "sourceDimensions": [
+        760,
+        1330
+      ],
+      "sourceSHA256": "478e270bab9fbfc3f51c480c5638f47e3a8465af620b33f2bb9f8def45ae37cf",
+      "localCapture": "Menu bar review"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/certificate.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "56774165a1c2282bd9f75b9045af295c4ff573a2da08471476e832a8f6453d87",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "56774165a1c2282bd9f75b9045af295c4ff573a2da08471476e832a8f6453d87",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/details.png",
+      "dimensions": [
+        537,
+        410
+      ],
+      "assetSHA256": "3a828445e9db7c5564838d1a0103f947673c5a89e03aaa1538d71cdc193375ea",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "906311e7c340afbc1c4d0b3d3a58050c52d6522d8f2143789327f1eb26dcfca2",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/documents-protection-light.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "b998ba0bc7637f4f6a4fa8f34615fdc5889068df0e9aca667b65843b2b7d86ef",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "b998ba0bc7637f4f6a4fa8f34615fdc5889068df0e9aca667b65843b2b7d86ef",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/documents.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "f76170d122b8599418a1db36579073baa251e1c4e9b13e5f4c3a55b47a84e5e4",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "f76170d122b8599418a1db36579073baa251e1c4e9b13e5f4c3a55b47a84e5e4",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/export-folder.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "6e851a1518170193d42865ec498a76d1a182401d82b979ca9290d4f615a9bb44",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "6e851a1518170193d42865ec498a76d1a182401d82b979ca9290d4f615a9bb44",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/history.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "9d197814c305256315401068da16634a11f2a8fc4612231f2d99f2e0b1ef411b",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "9d197814c305256315401068da16634a11f2a8fc4612231f2d99f2e0b1ef411b",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/onboarding.png",
+      "dimensions": [
+        428,
+        330
+      ],
+      "assetSHA256": "04770516fc2131c05438efb16b5eab7c31a8131f260ae705be3ef2c43ab2bde0",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "7c77942574d6e85b337868e517c8cb22fc51dec06a2e6e636275707b2593578b",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-certificate-light.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "4f5bdc8123ae9c9fe73da6d680caeff7cf5f89303808daf6d834601366a67fff",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "7b0bfe637f90803b5074df1eb8a4bbb257dba566e8cbf0f9367bdac95c7f5567",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-complete-light.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "5034fa6b320819599281f8c6576d2c1ea054f5698f8eaafe9f91b0d8fce5f91c",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "24d928798810b759144c749fafdc5ee3d35a843077e1ed3bbc36829787d5c170",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-decrypt-complete-light.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "44739fff3bb1d178f98a5656578450912bc727a74763d117d27eaf2e5a844204",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "8e4a541c060aee3110dfadc11178d00800f6567c46f94e0f3db624013e550fc1",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-decrypt-light.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "afa18d631e76ba71fb00079a89dcf9123425f35b89ad267df7772b3f40684bb2",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "38ccd242a024ae1098ca4c54cc9492547db8c05112448c7d1f0276a776a9c4ee",
+      "localCapture": "Visible credential labels"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-password-light.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "0dd56c2f6fabae803ba5c559b60730de930d3fc30a497321fa1d43945d088f12",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "c92ea0222969cd390f15f4411125fed6eabceace5b775235d909aa5e77542a99",
+      "localCapture": "Visible credential labels"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-remove-light.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "ccdd4487e5029cf72eed7b30e98c9e3c5776fa6b8302f70c99b7845b378a6c3b",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "482d33ab054a9503737d385cfc3e68b809fba4f41eb6baf1dac927587610a008",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/protect-rsa-decrypt.png",
+      "dimensions": [
+        537,
+        597
+      ],
+      "assetSHA256": "717ade994b168c16babf47a0b4e2b94ac16114142858d9d2cbccb0913e4cc77f",
+      "sourceDimensions": [
+        1018,
+        648
+      ],
+      "sourceSHA256": "179c177551a30cefae4d0de1e09868807dcfb6e6ea6068b596dc35da788c1427",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/saved-cards.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "c304b4fecfc01162dc44ea60205bf96ade5ef4fd7715489cb242486b14aac7dc",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "c304b4fecfc01162dc44ea60205bf96ade5ef4fd7715489cb242486b14aac7dc",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/settings.png",
+      "dimensions": [
+        528,
+        544
+      ],
+      "assetSHA256": "1de60aecc441d55cc6a3f69a6820bcfc8b90cfb0242fb32c20cdfd873cebbc10",
+      "sourceDimensions": [
+        528,
+        544
+      ],
+      "sourceSHA256": "1de60aecc441d55cc6a3f69a6820bcfc8b90cfb0242fb32c20cdfd873cebbc10",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/success.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "45c9835e4a2bb90ed64f605909cc348060ec6690541bf45fe5b6bf7eb33b593c",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "45c9835e4a2bb90ed64f605909cc348060ec6690541bf45fe5b6bf7eb33b593c",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/technical.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "5973a963f8ef5d979227f7da8e304fef5505dddef64c000ec5c2929b064f061d",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "5973a963f8ef5d979227f7da8e304fef5505dddef64c000ec5c2929b064f061d",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/verify-invalid.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "f7bbd1d661647c560787a12d4012a67a90e78d0b49a97110cf1b31f814fe4615",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "f7bbd1d661647c560787a12d4012a67a90e78d0b49a97110cf1b31f814fe4615",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/verify-original.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "1af8330a849ba9c8a14a7e82bb46c8de2b68f50142d99e54975ea99bf4957c64",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "1af8330a849ba9c8a14a7e82bb46c8de2b68f50142d99e54975ea99bf4957c64",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/verify-unsigned.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "c856e1f2ae0cd14935d3752d90dd59b5674a63b3bf401ae7c5d9efaa5494de8e",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "c856e1f2ae0cd14935d3752d90dd59b5674a63b3bf401ae7c5d9efaa5494de8e",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/verify-untrusted.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "db36487acad00f4d4193b502b4a6f3f92893605d697800104dcdbcf531e038a2",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "db36487acad00f4d4193b502b4a6f3f92893605d697800104dcdbcf531e038a2",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/verify.png",
+      "dimensions": [
+        1018,
+        636
+      ],
+      "assetSHA256": "3b0d74189d1be3afe7d670e509afaf60c19ecc392b875b31c1dc2587a842c91f",
+      "sourceDimensions": [
+        1018,
+        636
+      ],
+      "sourceSHA256": "3b0d74189d1be3afe7d670e509afaf60c19ecc392b875b31c1dc2587a842c91f",
+      "localCapture": "Native window"
+    },
+    {
+      "platform": "macos",
+      "locale": "ru",
+      "asset": "website/static/img/guide/macos/ru/menu-bar.png",
+      "dimensions": [
+        736,
+        1286
+      ],
+      "assetSHA256": "0276b56ba8564d56e7c60321fa871a14aa730af5630b009992f60cb0990c2273",
+      "sourceDimensions": [
+        760,
+        1312
+      ],
+      "sourceSHA256": "c37cc40d0e627018a376049f48a61a07fc97deaf9c255b5d25d0afb8bc6fdeb1",
+      "localCapture": "Menu bar review"
+    }
+  ]
+}

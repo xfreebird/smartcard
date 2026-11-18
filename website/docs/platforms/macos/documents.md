@@ -20,16 +20,16 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Documents and operation History are separate collections. Entries refer to files; if a file has moved or disappeared, choose the file again from its new location for verification.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Find a saved signed document" steps={[{"x": 49, "y": 7, "text": "Open Documents and choose Saved documents."}, {"x": 34, "y": 13, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 88, "y": 21}]} />
 
 ## Inspect and hand off a saved document
 
 The details modal uses the same verification presentation as Verify. Inspecting a saved document does not replace the files in the Verify workspace. Preview is a file preview, not a separate security validation.
 
-<GuideScreenshot src="/img/guide/macos/en/details.png" alt="Inspect and hand off a saved document" steps={[{"x": 33, "y": 48, "text": "Expand the author to inspect signature and certificate details."}, {"x": 35, "y": 58, "text": "Choose Preview to read the file."}, {"x": 43, "y": 58, "text": "Choose Share to export/send the signed output."}, {"x": 53, "y": 58, "text": "Choose Show in Finder to locate the file."}]} />
+<GuideScreenshot src="/img/guide/macos/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 13, "y": 71}]} />
 
 ## Clear operation history while keeping documents
 
 Choose the trash control, read the confirmation and confirm only if you want to remove the operation list. This does not delete signed files or the separate Saved documents collection. Return to Saved documents to continue using your saved output.
 
-<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Clear operation history while keeping documents" steps={[{"x": 64, "y": 8, "text": "In Documents, select History."}, {"x": 73, "y": 8, "text": "Choose the trash control and confirm the history-only cleanup."}, {"x": 51, "y": 8, "text": "Return to Saved documents; the saved collection remains available."}]} />
+<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Find the filename, outcome and date in History. Switch to Saved documents to act on an output file." steps={[{"text": "Find the filename, outcome and date in History. Switch to Saved documents to act on an output file.", "x": 42, "y": 11}]} />

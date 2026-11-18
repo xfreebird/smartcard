@@ -20,13 +20,13 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Documents contains a signed-output collection and separate operation History. Entries point to actual files and do not replace a backup. A missing or moved file needs to be selected again at its new location.
 
-<GuideScreenshot src="/img/guide/linux/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Documents.", "x": 60, "y": 3}, {"text": "Select the saved document row.", "x": 32, "y": 26}, {"text": "Use Signing details or the folder icon for the selected file.", "x": 32, "y": 37}]} />
+<GuideScreenshot src="/img/guide/linux/en/documents.png" alt="Find signed documents" steps={[{"text": "Select the filename to inspect its signing details.", "x": 28, "y": 30}, {"text": "Open the file directly from its row.", "x": 67, "y": 30}, {"text": "Use the folder button to show the saved file in its folder.", "x": 76, "y": 30}]} />
 
 ## Open signing details
 
-Click the document row or Signing details to open the modal. It verifies the currently readable file without replacing the Verify workspace or adding another operation entry. The sample is genuinely unsigned, so this modal correctly says no signature was found. Close it to return to the collection; the folder icon on the list reveals the file.
+Select a saved filename to verify its current contents in the details window. The example uses a fictional signer and a self-signed certificate, so its trust chain is unknown. Open the document or its folder from the bottom of the window.
 
-<GuideScreenshot src="/img/guide/linux/en/details.png" alt="Open signing details" steps={[{"text": "Read the fresh result in the signing-details modal.", "x": 39, "y": 24}, {"text": "Close the modal to return to the same list.", "x": 73, "y": 12}]} />
+<GuideScreenshot src="/img/guide/linux/en/details.png" alt="Open signing details" steps={[{"text": "Read the verification outcome and check the signer.", "x": 37, "y": 34}, {"text": "Open the document or show it in its folder.", "x": 65, "y": 79}]} />
 
 ## Clear history while keeping documents
 

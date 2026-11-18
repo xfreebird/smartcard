@@ -46,7 +46,7 @@ For website requests, inspect the requesting origin and the whole document list 
 For NFC, hold the card in place until the app completes the scan. For USB, keep the reader connected and the card inserted until signing and timestamping finish. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
 
 <GuideScreenshot src="/img/guide/iphone/en/progress.png" alt="Wait for the current signing stage to finish without removing the card." steps={[{"text": "Wait for the current signing stage to finish without removing the card.", "x": 10, "y": 45}]} />
-<GuideScreenshot src="/img/guide/iphone/en/success.png" alt="Check completion and the output name before opening or sharing the result." steps={[{"text": "Check completion and the output name before opening or sharing the result.", "x": 35, "y": 49}]} />
+<GuideScreenshot src="/img/guide/iphone/en/success.png" alt="Select the completed file to open it. Use Share beside its name to send a copy." steps={[{"text": "Select the completed file to open it. Use Share beside its name to send a copy.", "x": 39, "y": 29}]} />
 
 ## Recover from a failed document
 

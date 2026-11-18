@@ -20,16 +20,16 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Documentele și Istoricul operațiunilor sunt colecții separate. Intrările indică fișiere; dacă un fișier a fost mutat sau eliminat, selectează-l din nou din noua locație pentru verificare.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Găsește un document semnat salvat" steps={[{"x": 49, "y": 7, "text": "Deschide Documente și alege Documente salvate."}, {"x": 34, "y": 13, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents.png" alt="Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja." steps={[{"text": "Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja.", "x": 86, "y": 21}]} />
 
 ## Inspectează și transmite un document salvat
 
 Fereastra cu detalii folosește aceeași prezentare ca Verifică. Inspectarea unui document salvat nu înlocuiește fișierele din spațiul Verifică. Previzualizarea arată fișierul, fără a fi o validare de securitate separată.
 
-<GuideScreenshot src="/img/guide/macos/ro/details.png" alt="Inspectează și transmite un document salvat" steps={[{"x": 33, "y": 48, "text": "Extinde autorul pentru semnătură și certificat."}, {"x": 35, "y": 58, "text": "Alege Previzualizare pentru a citi fișierul."}, {"x": 43, "y": 58, "text": "Alege Partajează pentru exportul/trimiterea rezultatului semnat."}, {"x": 53, "y": 58, "text": "Alege Arată în Finder pentru a localiza fișierul."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 16, "y": 71}]} />
 
 ## Curăță istoricul păstrând documentele
 
 Apasă coșul, citește confirmarea și confirmă numai dacă dorești ștergerea listei de operațiuni. Acțiunea nu șterge fișierele semnate și nici colecția separată de Documente salvate. Revino la Documente salvate pentru a folosi rezultatele salvate.
 
-<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"x": 64, "y": 8, "text": "În Documente, selectează Istoric."}, {"x": 73, "y": 8, "text": "Apasă coșul și confirmă curățarea exclusivă a istoricului."}, {"x": 51, "y": 8, "text": "Revino la Documente salvate; colecția salvată rămâne disponibilă."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="În Istoric găsești numele fișierului, rezultatul și data. Deschide Documente salvate pentru a folosi fișierul rezultat." steps={[{"text": "În Istoric găsești numele fișierului, rezultatul și data. Deschide Documente salvate pentru a folosi fișierul rezultat.", "x": 42, "y": 11}]} />

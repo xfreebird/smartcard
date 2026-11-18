@@ -21,4 +21,4 @@ Choose what you want to do. Each task has its own short illustrated guide.
 
 ## Before you begin
 
-Applies to **eSemnBun 0.2.6**, Windows 10 **1809 or later**, and Windows 11. See the [Windows CLI guide](/docs/platforms/windows-cli/) for PowerShell and automation workflows.
+Applies to **eSemnBun 0.2.13**, Windows 10 **1809 or later**, and Windows 11. See the [Windows CLI guide](/docs/platforms/windows-cli/) for PowerShell and automation workflows.

@@ -16,15 +16,17 @@ Decrypt a received file
 
 ## Decrypt a received file
 
-Open **Documents** and select the shield beside the trash button to open **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+In **Documents**, select **Protect files** in the toolbar. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file in version 0.2.13, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents and select the shield beside the trash button." steps={[{"text": "Open Documents and select the shield beside the trash button.", "x": 68, "y": 6.6}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="In Documents, open Protect files using the shield in the toolbar." steps={[{"text": "In Documents, open Protect files using the shield in the toolbar.", "x": 91, "y": 11}]} />
 
-<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 51, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 82, "text": "Choose Decrypt. Check the new output in Documents; choose Done when finished."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt." steps={[{"text": "Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt.", "x": 89, "y": 50}]} />
 
-<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={5} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 40, "y": 52}, {"text": "Optionally choose Save a copy to export another copy.", "x": 40, "y": 62}, {"text": "Choose Done to return to Documents.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 20, "y": 63}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 66}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 

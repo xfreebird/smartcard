@@ -57,7 +57,7 @@ The stamp labels follow the app language chosen in General settings.
 
 ## 5. Review and authorize
 
-Check the holder, document names, format, and requesting website when one is shown. Current Android builds ask for the PIN for each new approval; saving a PIN is not offered. Never send your PIN in a support request.
+Check the holder, document names, format, and requesting website when one is shown. You can reuse a saved PIN for the selected card when device authentication is available. Never send your PIN in a support request.
 
 <GuideScreenshot src="/img/guide/android-tablet/en/pin.png" alt="Review and authorize" steps={[{"text": "Enter the selected card’s signing PIN in the protected field. The approval covers only the listed request.", "x": 31.8, "y": 54.8}, {"text": "Tap Sign. Keep the app and reader available while the batch completes. Cancel if the request is unexpected.", "x": 60.9, "y": 62.5}]} />
 
@@ -77,43 +77,45 @@ An error belongs to the affected file. Review the remaining rows and completed o
 
 On Android 10 and later, ordinary signed output is saved under Downloads/eSemnBun. Keep both the XML and original document for detached XAdES. If one file fails, read its error and check completed files before starting another batch.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/results.png" alt="Open, save, or share the result" steps={[{"text": "Tap Open beside a completed file to open it in a compatible viewer.", "x": 85.4, "y": 24.5}, {"text": "In Documents → Saved documents, use the file’s menu for Open, Verify, Share, or Save as… when file-provider access is available. Save as lets you choose another location."}, {"text": "Clear results hides this completion list. Your saved outputs remain available in Documents.", "x": 84.9, "y": 18.7}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/results.png" alt="Open, save, or share the result" steps={[{"text": "Tap a finished filename to open the document.", "x": 37.0, "y": 23.3}, {"text": "Use the Share icon beside the filename to send a copy.", "x": 65.5, "y": 23.3}, {"text": "View in Documents opens the saved library.", "x": 48.4, "y": 42.9}]} />
 
 ## 7. Check a signed document
 
 Verification does not require the card or PIN. A green result refers to the checks shown, not to the filename or the presence of a visible stamp.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 53, "y": 28}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "Choose a signed PDF or XML. Read its verdict, signer and checks.", "x": 35.3, "y": 26.9}, {"text": "Expand Technical details to see the report, then tap again to collapse it.", "x": 32.0, "y": 56.9}]} />
 
 ## Understand an invalid signature
 
 Invalid means that document integrity or the cryptographic signature check failed. It can indicate changed bytes or a damaged/incorrect signature. A valid-looking stamp, familiar filename, or recognized author does not override this result.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-invalid.png" alt="Understand an invalid signature" steps={[{"text": "Read Invalid signature and the failed check. Do not treat this copy as verified.", "x": 35.0, "y": 44.0}, {"text": "Expand Technical details, compare with the sender’s original signed output, and request a fresh intact copy if needed. Check every listed signature when the document contains more than one.", "x": 46.8, "y": 76.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-invalid.png" alt="Understand an invalid signature" steps={[{"text": "Read Invalid signature and the failed check. Do not treat this copy as verified.", "x": 35.3, "y": 26.9}, {"text": "Expand Technical details, compare with the sender’s original signed output, and request a fresh intact copy if needed. Check every listed signature when the document contains more than one.", "x": 32.0, "y": 56.9}]} />
 
 ## Understand an unconfirmed trust chain
 
 Cannot be confirmed is distinct from Invalid signature. In this example the signature and document integrity pass, but the certificate is outside the recognized MDQSign chain. Missing original documents can also produce an unconfirmed result, with a different explanation.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-unconfirmed.png" alt="Understand an unconfirmed trust chain" steps={[{"text": "Read the reason below Cannot be confirmed and inspect the separate Integrity, Signature, and Trust chain checks.", "x": 35.0, "y": 44.0}, {"text": "Inspect certificate details to identify the signer and issuer. Establish the required trust with the sender or receiving service before relying on the document. Offline integrity checks do not establish current revocation status or guarantee legal acceptance.", "x": 47.3, "y": 71.8}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-unconfirmed.png" alt="Understand an unconfirmed trust chain" steps={[{"text": "Read the reason below Cannot be confirmed and inspect the separate Integrity, Signature, and Trust chain checks.", "x": 35.3, "y": 26.9}, {"text": "Inspect certificate details to identify the signer and issuer. Establish the required trust with the sender or receiving service before relying on the document. Offline integrity checks do not establish current revocation status or guarantee legal acceptance.", "x": 32.0, "y": 51.0}]} />
 
 ## Recognize an unsigned or unsupported file
 
 No signature means the app found no signature it can read in the selected file. You may have selected the unsigned input, or the file may use an unsupported signature format. A picture of a signature is not an electronic signature.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-none.png" alt="Recognize an unsigned or unsupported file" steps={[{"text": "Read No signature, then check that you selected the completed signed PDF or the XML signature rather than its unsigned original.", "x": 35.0, "y": 44.0}, {"text": "Choose the correct signed output and verify again. Ask the sender for a supported PDF/XML signature if the result remains unchanged.", "x": 47.1, "y": 26.0}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-none.png" alt="Recognize an unsigned or unsupported file" steps={[{"text": "Read No signature, then check that you selected the completed signed PDF or the XML signature rather than its unsigned original.", "x": 35.3, "y": 26.9}, {"text": "Choose the correct signed output and verify again. Ask the sender for a supported PDF/XML signature if the result remains unchanged.", "x": 34.4, "y": 14.7}]} />
 
 ## 8. Inspect certificate and technical details
 
 An invalid signature differs from an unconfirmed trust chain. Missing originals or unavailable trust information can prevent a complete conclusion. Inspect the separate checks before relying on a document.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/certificate.png" alt="Inspect certificate and technical details" steps={[{"text": "Expand Certificate details to inspect the signer, issuer, serial number, public key, and fingerprint. Scroll within the screen if needed.", "x": 47.3, "y": 71.1}, {"text": "Expand Technical details for the checks behind the verdict; collapse it when finished.", "x": 46.8, "y": 88.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/certificate.png" alt="Inspect certificate and technical details" steps={[{"text": "Expand Certificate details to inspect the signer, issuer, serial number, public key, and fingerprint. Scroll within the screen if needed.", "x": 32.0, "y": 51.0}, {"text": "Expand Technical details for the checks behind the verdict; collapse it when finished.", "x": 32.0, "y": 66.4}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-technical.png" alt="Expanded technical details" steps={[{"text": "Read the diagnostics for this signature. Tap Technical details again to collapse the report.", "x": 32.0, "y": 56.9}]} />
 
 ## 9. Supply the original for detached XML
 
 Detached XML contains a reference to the signed document. Its original bytes are needed to check the document digest.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/original.png" alt="Supply the original for detached XML" steps={[{"text": "Tap Choose the signed document and select the exact original named in the message.", "x": 33.2, "y": 55.8}, {"text": "Wait for the refreshed result. A modified or different original will not match the signature. Share the XML together with the matching original."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/original.png" alt="Supply the original for detached XML" steps={[{"text": "Tap Choose the signed document and select the exact original named in the message.", "x": 33.5, "y": 39.5}, {"text": "Wait for the refreshed result. A modified or different original will not match the signature. Share the XML together with the matching original."}]} />
 
 ## 10. Find signed documents
 
@@ -121,19 +123,19 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Documents contains a signed-output library and a separate activity history. A saved entry is a shortcut to a file, not a substitute for a backup.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/documents.png" alt="Find signed documents" steps={[{"text": "Open Documents and select Saved documents.", "x": 31.8, "y": 14.7}, {"text": "Tap a document row to open its signing-details modal. The app checks the current file again.", "x": 34.2, "y": 25.1}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/documents.png" alt="Find signed documents" steps={[{"text": "Tap the filename for signing details.", "x": 34.5, "y": 20.7}, {"text": "Choose Share directly on the file row, or open More actions for Open, Verify, Protect files and Save as.", "x": 65.3, "y": 21.6}]} />
 
 ## 11. Read signing details without losing your list
 
 The modal’s verdict is a fresh verification, not just a historical “signed” label. An unavailable file reports an access error; reselect a moved file in Verify.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/details.png" alt="Read signing details without losing your list" steps={[{"text": "Review the verdict and expand the certificate or technical details, just as in Verify. Supply an original if detached XML requests it.", "x": 44.3, "y": 64.6}, {"text": "Tap Close to return to the same signed-document list.", "x": 65.1, "y": 30.0}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/details.png" alt="Read signing details without losing your list" steps={[{"text": "Read the verification result and expand Technical details to inspect the checks.", "x": 29.1, "y": 65.4}, {"text": "Use Open or Share below the result. Close returns to the document list.", "x": 31.2, "y": 73.5}]} />
 
 ## 12. Clear history while keeping documents
 
 History lists document operations and website requests. Clearing it does not clear Saved documents or delete signed files on storage.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History in Documents and review the recent actions.", "x": 41.8, "y": 14.7}, {"text": "Tap Clear the list and confirm, then return to Saved documents to access saved outputs.", "x": 65.2, "y": 20.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/history.png" alt="Clear history while keeping documents" steps={[{"text": "Choose History to see the full filename, outcome and date for each operation.", "x": 41.8, "y": 14.7}, {"text": "Clear the activity list to remove history entries while keeping saved documents.", "x": 69.3, "y": 14.7}]} />
 
 ## 13. Sign on a website
 
@@ -167,19 +169,21 @@ Open Services → Clear browsing data. Clearing cookies signs you out. Removing 
 
 ## 14. Inspect or refresh the card
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
 ## 15. Language, appearance, demo, and support
 
 Open **Settings** to find Demo mode at the top, followed by cards, saved PINs, language and appearance. Demo mode uses fictional data and produces no valid signatures.
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs. The same remembered card and PIN are used for NFC and USB.
 
 Choose Romanian, English, Russian or the system language, and Light, Dark or System appearance. About shows the installed version and support links. Enable browser PDF stamps when you want visible placement for supported website requests.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings", "x": 41, "y": 38}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/cards-current.png" alt="Cards and readers in Settings" steps={[{"text": "Cards and readers in Settings", "x": 36.3, "y": 29.5}]} />
 
-Deleting a saved PIN removes the copy on this device. It does not change or unblock the card PIN.
+Settings → Saved cards and PINs lists remembered cards even after disconnection. Forget card removes the identity and any PIN saved on this device for both USB and NFC. The PIN on the card stays the same.
+
+<GuideScreenshot src="/img/guide/android-tablet/en/saved-cards.png" alt="Saved cards and PINs" steps={[{"text": "Choose Forget card and confirm the card name.", "x": 58.9, "y": 55.4}]} />
 
 ## Troubleshooting
 
@@ -200,17 +204,19 @@ If the NFC session is interrupted, keep the card near the antenna until the scan
 
 ## Encrypt a file with a password
 
-Open the **More** menu in the navigation bar and choose **Protect files**. Choose **Encrypt** or **Decrypt**, then select a file you can read.
+Open **Documents**, then choose **More actions → Protect files** in the top toolbar. Choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+In eSemnBun 0.2.13 or later, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-menu-light.png" alt="Open file protection" steps={[{"x": 70, "y": 15, "text": "Open the navigation menu and choose Protect files."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-menu-light.png" alt="Open file protection" steps={[{"text": "Open the navigation menu and choose Protect files.", "x": 91.0, "y": 13.6}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 30, "y": 21, "text": "Choose Encrypt."}, {"x": 30, "y": 33, "text": "Choose the source file."}, {"x": 25, "y": 59, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 87, "text": "Choose Encrypt. The encrypted copy is saved in Documents."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"text": "Choose Encrypt, then select the source file.", "x": 45.7, "y": 26.6}, {"text": "Choose Password and select the AES key size. AES-256 is selected initially.", "x": 60.0, "y": 43.5}, {"text": "Enter and confirm a file password, then choose Encrypt.", "x": 30.6, "y": 57.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-complete-light.png" alt="Encrypted file saved" start={6} steps={[{"x": 25, "y": 33, "text": "Check the saved filename. This output is already in Documents."}, {"x": 25, "y": 83, "text": "Choose Save as… only if you also want a copy in another location."}, {"x": 75, "y": 88, "text": "Choose Close to return to the app. The saved file remains in Documents."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "For a recipient with an RSA encryption key, choose RSA certificate.", "x": 54.6, "y": 35.2}, {"text": "Select the recipient’s public .cer or .der certificate. To encrypt for your own card, connect its reader and choose Read my card.", "x": 31.1, "y": 43.5}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-complete-light.png" alt="Encrypted file saved" steps={[{"text": "Check the saved filename. This output is already in Documents.", "x": 29.6, "y": 27.9}, {"text": "Choose Save as… only if you also want a copy in another location.", "x": 46.4, "y": 84.6}, {"text": "Choose Close to return to the app. The saved file remains in Documents.", "x": 47.1, "y": 89.0}]} />
 
 Choose **Encrypt** or **Decrypt**. The result is saved automatically in the app’s private storage and appears in **Documents → Saved documents**. Choose **Close** when finished, or **Save as…** to export it with the Android file picker. The original is kept.
 
@@ -219,15 +225,17 @@ Saved documents includes signed, encrypted and decrypted files. Use the filename
 
 ## Decrypt a received file
 
-Open the **More** menu in the navigation bar and choose **Protect files**. Choose **Encrypt** or **Decrypt**, then select a file you can read.
+Open **Documents**, then choose **More actions → Protect files** in the top toolbar. Choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-menu-light.png" alt="Open file protection" steps={[{"x": 70, "y": 15, "text": "Open the navigation menu and choose Protect files."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-menu-light.png" alt="Open file protection" steps={[{"text": "Open the navigation menu and choose Protect files.", "x": 91.0, "y": 13.6}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 30, "y": 21, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 25, "y": 59, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 87, "text": "Choose Decrypt. The new output is saved in Documents."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose Decrypt and select the received encrypted file.", "x": 42.5, "y": 26.6}, {"text": "Enter the password supplied by the sender in the Password field.", "x": 30.6, "y": 42.1}, {"text": "Choose Decrypt. The new output is saved in Documents.", "x": 46.7, "y": 89.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-decrypt-complete-light.png" alt="Decrypted file saved" start={5} steps={[{"x": 25, "y": 33, "text": "Check the saved filename. This output is already in Documents."}, {"x": 25, "y": 83, "text": "Choose Save as… only if you also want a copy in another location."}, {"x": 75, "y": 88, "text": "Choose Close to return to the app. The saved file remains in Documents."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-rsa-decrypt-light.png" alt="Decrypt with the recipient’s card" steps={[{"text": "Select the encrypted file. The app identifies the RSA certificate format.", "x": 29.6, "y": 36.8}, {"text": "Connect the card containing the recipient’s matching private key. Choose Read my card, then authorize decryption with its PIN.", "x": 31.1, "y": 43.9}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-decrypt-complete-light.png" alt="Decrypted file saved" steps={[{"text": "Check the saved filename. This output is already in Documents.", "x": 29.6, "y": 27.9}, {"text": "Choose Save as… only if you also want a copy in another location.", "x": 46.4, "y": 84.6}, {"text": "Choose Close to return to the app. The saved file remains in Documents.", "x": 47.1, "y": 89.0}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 

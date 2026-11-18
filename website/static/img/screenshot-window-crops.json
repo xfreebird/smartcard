@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-15",
+  "date": "2026-11-19",
   "method": "Crop native Windows captures inside the visible window bounds to exclude desktop, shadows and rounded-corner background. Guide annotation coordinates are transformed into the cropped canvas.",
   "images": [
     {
@@ -53,11 +53,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "028f09c8a49a434a495dcfa29b8fd645d196d0c6e3a767ab4e0c81b2d6c2405f",
-      "sha256": "b3a0228518f4cf49bc14113d2a503bb43871a8da4b6f36450dc949982104efef"
+      "sha256": "3469f7e1c785b373545fc4f2d36ff21e02c7521f2855c280a4fba0a1b36bd5a3",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/documents.png",
@@ -72,11 +73,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "c3ac5e02e84f5c99c5a7a90679c01e80e33429827b5f6566ef44b83cfa39ddb5",
-      "sha256": "2de719549e6494cc0cc683faa7eaa745d01f1e7c7bb89e5a83718c9d4d1f52d4"
+      "sha256": "4d4c40b016611b35d4afce98df0e657ae76ee4263a7d1b6ce2717431506035a5",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/lower.png",
@@ -148,11 +150,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "1b2b8965cfbcf73e3628b2c04402098d18652a4fb81b16e68688aeed12969cf8",
-      "sha256": "f161ee70a71652a1f6844b3797ee6d8cecb95766fa4f16f6d1166c62dab2515a"
+      "sha256": "dd4656218b560790f5c7187926a0325161676b99d88d7057edbebfbfcad8e658",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/protect-decrypt-light.png",
@@ -167,11 +170,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "9f08f069117bf4ff0b2ad68d96b53e191f2d3fe5ca7801c622e2b986d7394640",
-      "sha256": "2b7ce35cacb2e730fe1000efa09811d28d906379a65221022621b3af12c59e1f"
+      "sha256": "c2f98cc7fb861432c04d1bd21a9154f9b9bc065b4d97894f4f98d448dffaf065",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/protect-password-light.png",
@@ -186,11 +190,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "842ad2ee770afa16d49e3838c45cdc2bd60c45554fc6f541c9d650ce1c2fc6c0",
-      "sha256": "3126eb41f3c008e8a219d97b2ab486c5db93bfea2843de2e6d60744d579efb70"
+      "sha256": "e26d55bfdd4adff45b28976b43aea9283b4ce79592c95dec2ca4084a37dfeaac",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/protect-remove-light.png",
@@ -205,11 +210,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "19ff98080d7141169884ebd693186f5df51bfd0b0df57c72843719f662021a00",
-      "sha256": "6ca10d8876fa763aea2a7cc04983578f96712c59818211561883003228cc78eb"
+      "sha256": "d823d94140a5b350319e5b1b9c739da81fb755b423cf928666009df735faa3e6",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/queue.png",
@@ -243,11 +249,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "101bdd4f89c334bccb80263919c24cf661a55e8bca0606a349d8b1f866993dd1",
-      "sha256": "16dc07df6d19ab1d20526732b35b07f41d611b27e05c96f0ceb1c7da555fdddd"
+      "sha256": "256e2a295337211e704b03e792cfd843e3f80d1ce9526ea9042c2e106b30aeec",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/settings.png",
@@ -300,11 +307,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "82504f5da924165dbb3515a47ac573420ba3bb8fe03ced2cdf7d44584e0eeb38",
-      "sha256": "fd30f59cedbbfeafcdf5148c538a624d0911023c4aaa2f08c00a30ff4f9c30ff"
+      "sha256": "acb825b001253fed07ba3d8a6f549750f7f7bfd090c6c0863ce0b8cf0cc49f11",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/en/summary.png",
@@ -395,11 +403,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "931bb2b41364f1403d500892d555b903627ded0f193a616f08ec7ce660bc2e7e",
-      "sha256": "8c3e489fa937494fb0d6795c71c91600b96789a07886332a1c88cd39934f28f3"
+      "sha256": "7c8c340aab2d7f5621fc777f364625120f7806a1df0823fef5d3f1dd4e8fd23e",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/documents.png",
@@ -414,11 +423,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "4bc9c52bce829003173bedaed3d0d7144e0af06021dc81ddf0e972d89a9ab286",
-      "sha256": "c53e5690896770b58fe4ebff0dae1209354efbe73f961f93735a2d47e993713b"
+      "sha256": "dbaff6c4c6bdb5fa7a361edae5a1fc5920ce283bc634eaaa7b64558b23da6939",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/lower.png",
@@ -490,11 +500,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "e913b7f5bc4b6a9f142370aab65e4b0e364fafaaf2d8a8fb0bc89c6ef47be568",
-      "sha256": "2aad4a8c1fa283b629616a246f5d66c5e6bd4223b324856521c01451533673d6"
+      "sha256": "f3ffcb606ef59c7665e3d69251a16f2f43143e0211992b36cbf134051f6af5be",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/protect-decrypt-light.png",
@@ -509,11 +520,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "b61341a2aef056f01c889cfabebd638aebe9f455387d7a791a07a80f067919a3",
-      "sha256": "99ed35b8fa14ccf97357f790f454bb548a9d59c374604f06f3f0112d44de4445"
+      "sha256": "ab504a3cd8f77333b0a9877ea50cedf4fbaab01d55010b5fb7dfeb1e4033015f",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/protect-password-light.png",
@@ -528,11 +540,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "527622f6826fbc4f86614f3d7818d41f7645f15bc9fd9e16fd4464e7c5728590",
-      "sha256": "49d83ce1672e68b8b6b09dac784d1f9e2324078cc0d5e39b6bc6766ffa74fcb5"
+      "sha256": "7e25e6def04d3fc57b4c8e2c94d3b8dfad46dfa46a717c786d6796200babdaf0",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/protect-remove-light.png",
@@ -547,11 +560,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "540fe0227d214d514d023b4a806b0767f342fcdd81a1a01b5e73a9d43c0d605b",
-      "sha256": "20c1783f43780b23d07ff68165c4862c196f17be0cab470d697b70e272141a14"
+      "sha256": "4edc789d592c697fdfec17cbe0677e6989389a2d79fd3265950f0070d9ae5e2a",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/queue.png",
@@ -585,11 +599,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "06107027d558c655e3881f2a2620ef53c67d08cdfcb0ce92d98fc9d9521fb08d",
-      "sha256": "e8c3f0b7f774711bebd40eeccef3fedfa1481a2dc6d0d38701c990a76618f1ea"
+      "sha256": "33479c6cfafb613379c047c05eefb1b8f0a8f1ba7f351568a3fb6124358f14b9",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/settings.png",
@@ -642,11 +657,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "20ddfd3517dbeb5a758ec9532364d1cb0783d8d3cfc355edde3fd5272a4d01d1",
-      "sha256": "4a1bc556d201ec2f38631e5c3a36ca8504cdd4dda09cf99c416cfc654a220fcc"
+      "sha256": "f458893c1255fe72084c1e1fbf1e72e44388301d6cc6a348c4165c0cc17ef2b5",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/summary.png",
@@ -737,11 +753,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "61d62fdd59c2900bc3cb5fd8dff8bedce58e492975acc220e21183cd89097e7e",
-      "sha256": "b66fe5b9522bd9106555e2f7973b4f76275339b805a70b63ea6b2b08bbc6e73b"
+      "sha256": "e162611a8b0027eb4cbbc0043fecf36b8799ca4dca9a756cf3fe3d5e9108634c",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/documents.png",
@@ -756,11 +773,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "dd115dbb15ad5f3bc29ee31390fb40bdee4adafdfb0c396724f29dd0d10beae3",
-      "sha256": "9fa3643e711bc504b6ddc8557c58292c52002ed4c8fa8cc595b1320f31ba2729"
+      "sha256": "51353dac629f0fb3f0e247b84ca465a196c9b60c6bc774085c08896f6865156b",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/lower.png",
@@ -832,11 +850,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "1fd8eb5628a070d556ec93b0dc362ed443e194377f6a604e94b761e8fc67c710",
-      "sha256": "8b72d9b02286cca8374b79d5788f14b1e3b5f5a2ebb8408660194c3e8a6eb9a0"
+      "sha256": "c49f1345bed28ea3382bca42e1066fc1f85caf2a3457351e4c95fec0019499eb",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/protect-decrypt-light.png",
@@ -851,11 +870,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "e15e289074421f5b730e0413e7f28466861ae6bcec8ce5fe97afea4a8bd9d941",
-      "sha256": "64a364fc6678d64628e450dfd1d296949edd9cc2eeff89dbdfd6fcb0929b5ffe"
+      "sha256": "03e863239a05373cb744c65749b70012f9ae34c802e52654b7b9d6f6431dc14f",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/protect-password-light.png",
@@ -870,11 +890,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "fb87a7f38deff47a538b7929e3e124f741d8b9d5ef0242a7146d52c653a4b92f",
-      "sha256": "0965cf5c0fb3fd48174ba3554d3492d70e8b2d94da8110b9c4105086c39bbac5"
+      "sha256": "aa80f99fc4a3dbec600b3b7eee86d919c0ff0e8f84b2ffc833e7043190f5034f",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/protect-remove-light.png",
@@ -889,11 +910,12 @@
         712
       ],
       "dimensions": [
-        1084,
-        711
+        1086,
+        893
       ],
       "originalSha256": "f93bf1cfc9a2922eb7c114ffee1c729e9dc0123a4feccaadffa719db1f7a2552",
-      "sha256": "72d2c2c5d7d3a3f0af11e909e307e489d25f6a3c9241d146bc6cc23feecdf94e"
+      "sha256": "4808b990a4bfc39a18a0901261d64a89afe5f92f61ee6b9a52689c31ffb0a0a9",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/queue.png",
@@ -927,11 +949,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "3ff8b146869d1cf6349e676fa87cb16234ed1efa627744b72f17b34a33e4f102",
-      "sha256": "cc5d605df014d8a8312856756f29aef489507763d13a55aa615288c009682743"
+      "sha256": "b1d9b44c728c906a1786d04161ba74b35907a739ce3400195576085f85320359",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/settings.png",
@@ -984,11 +1007,12 @@
         892
       ],
       "dimensions": [
-        1084,
-        891
+        1086,
+        893
       ],
       "originalSha256": "7c36957b787b49548f576fae927b1daa699c0d4e9bd61e6812c18d02d1b1f2d1",
-      "sha256": "46a3a5c3665fd15f35cf46581ec704164027a56e563eddc3f006f3df38c25859"
+      "sha256": "f388fac81f0d83d51f987725319325842e40e9603b23e2321d08ac0004f51fda",
+      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ru/summary.png",

@@ -61,7 +61,11 @@ Leave the reader connected while the app signs and obtains a timestamp. Timestam
 
 Standalone macOS normally writes a new file beside the source, with a signed suffix, without overwriting the original. The App Store edition uses its permitted storage and explicit export/share actions. Keep a detached XML together with its original.
 
-<GuideScreenshot src="/img/guide/macos/en/success.png" alt="Find, preview and share the completed output" steps={[{"x": 63, "y": 36, "text": "Click the completed row or Show in Finder to locate the output."}, {"x": 90, "y": 53, "text": "Use Preview to inspect the output. Use Share for the signed PDF, then choose its destination."}]} />
+In Mac App Store version 0.2.13, you can also choose a folder in **Settings → General → Documents** to automatically receive copies of signed documents. Choose the folder in the system dialog to grant access.
+
+<GuideScreenshot src="/img/guide/macos/en/export-folder.png" alt="Choose a folder for automatic copies of signed documents from the Mac App Store edition." steps={[{"text": "Choose a folder for automatic copies of signed documents from the Mac App Store edition.", "x": 14, "y": 94}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/success.png" alt="Use Preview beside the completed filename. The adjacent controls save a copy, share the document or reveal it in Finder." steps={[{"text": "Use Preview beside the completed filename. The adjacent controls save a copy, share the document or reveal it in Finder.", "x": 73, "y": 69}]} />
 
 ## Recover from a failed document
 
@@ -73,37 +77,39 @@ A batch can contain successful and failed items. Keep completed outputs. Correct
 
 Verification does not require a reader or PIN. It checks the file you selected, not a visual stamp or a filename. Offline checks do not establish current certificate revocation status.
 
-<GuideScreenshot src="/img/guide/macos/en/verify.png" alt="Verify a PDF and every signature" steps={[{"x": 5, "y": 10, "text": "Open Verify."}, {"x": 59, "y": 9, "text": "Choose signed files or drop them into the dashed area."}, {"x": 33, "y": 28, "text": "Expand each Author row, including additional signatures on the same document."}, {"x": 35, "y": 17, "text": "Use Clear results before starting a separate inspection."}]} />
+<GuideScreenshot src="/img/guide/macos/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 37, "y": 46}]} />
 
 ## Read integrity, trust and certificate details
 
 A valid cryptographic signature, intact document, trusted chain and timestamp are separate checks. Scroll for all certificate and technical fields. Do not interpret an issuer’s registration number as the signer’s personal identifier.
 
-<GuideScreenshot src="/img/guide/macos/en/certificate.png" alt="Read integrity, trust and certificate details" steps={[{"x": 33, "y": 28, "text": "Expand the signature to read signer, signing time and timestamp."}, {"x": 35, "y": 49, "text": "Read each integrity, signature and trust-chain check."}, {"x": 35, "y": 55, "text": "Expand Certificate details and inspect subject, issuer and key information."}]} />
+<GuideScreenshot src="/img/guide/macos/en/certificate.png" alt="Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint." steps={[{"text": "Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint.", "x": 39, "y": 44}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/technical.png" alt="Expand Technical details under a signature to read the verification report. Select the same row again to collapse it." steps={[{"text": "Expand Technical details under a signature to read the verification report. Select the same row again to collapse it.", "x": 39, "y": 87}]} />
 
 ## Verify detached XML with its original
 
 Add the XML in Verify. When the document digest cannot be checked, choose the original file(s) using the result’s Choose originals action. Supply the exact unchanged original, not the signed XML itself. Re-read the updated integrity result. An XML alone may be insufficient for a recipient.
 
-<GuideScreenshot src="/img/guide/macos/en/verify-original.png" alt="Verify detached XML with its original" steps={[{"x": 59, "y": 9, "text": "Add the detached XML signature."}, {"x": 42, "y": 32, "text": "Read the missing-original/incomplete result and provide the original requested by the result."}]} />
+<GuideScreenshot src="/img/guide/macos/en/verify-original.png" alt="Verify detached XML with its original" steps={[{"x": 38, "y": 35, "text": "Add the detached XML signature."}, {"x": 40, "y": 53, "text": "Read the missing-original/incomplete result and provide the original requested by the result."}]} />
 
 ## Recognize a modified or invalid signature
 
 An invalid result is not repaired by renaming the file or adding a stamp. Request an intact signed copy from its sender and verify that copy.
 
-<GuideScreenshot src="/img/guide/macos/en/verify-invalid.png" alt="Recognize a modified or invalid signature" steps={[{"x": 43, "y": 22, "text": "Read the document’s invalid status, then expand the author to identify the failed check."}]} />
+<GuideScreenshot src="/img/guide/macos/en/verify-invalid.png" alt="Recognize a modified or invalid signature" steps={[{"x": 38, "y": 38, "text": "Read the document’s invalid status, then expand the author to identify the failed check."}]} />
 
 ## Distinguish unconfirmed trust
 
 Unconfirmed trust is different from proven document modification. Read the signature and trust-chain details, and follow your recipient’s certificate policy before relying on the document.
 
-<GuideScreenshot src="/img/guide/macos/en/verify-untrusted.png" alt="Distinguish unconfirmed trust" steps={[{"x": 43, "y": 22, "text": "Read the unconfirmed-trust status and expand its details."}]} />
+<GuideScreenshot src="/img/guide/macos/en/verify-untrusted.png" alt="Distinguish unconfirmed trust" steps={[{"x": 54, "y": 40, "text": "Read the unconfirmed-trust status and expand its details."}]} />
 
 ## Recognize an unsigned document
 
 A visible signature image or stamp is not proof of an electronic signature. If no recognized signature is present, ask for the actual signed output rather than a screenshot or scanned copy.
 
-<GuideScreenshot src="/img/guide/macos/en/verify-unsigned.png" alt="Recognize an unsigned document" steps={[{"x": 43, "y": 22, "text": "Check the no-signature result before sharing the file as signed."}]} />
+<GuideScreenshot src="/img/guide/macos/en/verify-unsigned.png" alt="Recognize an unsigned document" steps={[{"x": 43, "y": 40, "text": "Check the no-signature result before sharing the file as signed."}]} />
 
 ## Find a saved signed document
 
@@ -111,19 +117,19 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Documents and operation History are separate collections. Entries refer to files; if a file has moved or disappeared, choose the file again from its new location for verification.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Find a saved signed document" steps={[{"x": 49, "y": 7, "text": "Open Documents and choose Saved documents."}, {"x": 34, "y": 13, "text": "Use Search documents to filter by filename."}, {"x": 45, "y": 15, "text": "Click the document row to open its signing-details modal."}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 88, "y": 21}]} />
 
 ## Inspect and hand off a saved document
 
 The details modal uses the same verification presentation as Verify. Inspecting a saved document does not replace the files in the Verify workspace. Preview is a file preview, not a separate security validation.
 
-<GuideScreenshot src="/img/guide/macos/en/details.png" alt="Inspect and hand off a saved document" steps={[{"x": 33, "y": 48, "text": "Expand the author to inspect signature and certificate details."}, {"x": 35, "y": 58, "text": "Choose Preview to read the file."}, {"x": 43, "y": 58, "text": "Choose Share to export/send the signed output."}, {"x": 53, "y": 58, "text": "Choose Show in Finder to locate the file."}]} />
+<GuideScreenshot src="/img/guide/macos/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 13, "y": 71}]} />
 
 ## Clear operation history while keeping documents
 
 Choose the trash control, read the confirmation and confirm only if you want to remove the operation list. This does not delete signed files or the separate Saved documents collection. Return to Saved documents to continue using your saved output.
 
-<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Clear operation history while keeping documents" steps={[{"x": 64, "y": 8, "text": "In Documents, select History."}, {"x": 73, "y": 8, "text": "Choose the trash control and confirm the history-only cleanup."}, {"x": 51, "y": 8, "text": "Return to Saved documents; the saved collection remains available."}]} />
+<GuideScreenshot src="/img/guide/macos/en/history.png" alt="Find the filename, outcome and date in History. Switch to Saved documents to act on an output file." steps={[{"text": "Find the filename, outcome and date in History. Switch to Saved documents to act on an output file.", "x": 42, "y": 11}]} />
 
 ## Use a service and manage bookmarks
 
@@ -139,11 +145,13 @@ Navigate to the service’s electronic-ID login/signing action. Read the request
 
 ## Set language, appearance and system discovery
 
-Open Settings. Demo mode is at the top. Choose the category for cards, saved PINs, language or appearance.
+Open Settings. Demo mode is at the top. Choose the category for cards, saved cards and PINs, language or appearance.
 
 For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight. Only readable app-owned signed PDF/XML filenames and dates are exposed. Document bodies, certificate identities and PINs are not indexed. In standalone macOS this excludes arbitrary files beside your originals; only eligible app-owned imports qualify. Disable discovery to remove this index.
 
-<GuideScreenshot src="/img/guide/macos/en/settings.png" alt="Set language, appearance and system discovery" steps={[{"x": 87, "y": 61, "text": "Choose the interface language."}, {"x": 88, "y": 69, "text": "Choose Light, Dark or System."}, {"x": 91, "y": 88, "text": "Opt in to signed-document discovery if you want eligible filenames in Siri/Spotlight."}, {"x": 31, "y": 3, "text": "Open Saved PINs to inspect or delete saved entries without revealing their PIN values."}, {"x": 53, "y": 3, "text": "Enable local signing requests only when connecting an MCP client; every request still needs PDF review and approval."}]} />
+<GuideScreenshot src="/img/guide/macos/en/settings.png" alt="Choose the interface language." steps={[{"text": "Choose the interface language.", "x": 87, "y": 61}, {"text": "Choose an appearance.", "x": 88, "y": 69}, {"text": "Enable signed-document discovery for Siri and Spotlight if desired.", "x": 86, "y": 85}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/saved-cards.png" alt="Settings lists saved cards even after the reader is disconnected. Forget card removes that identity and its saved PIN from this device." steps={[{"text": "Settings lists saved cards even after the reader is disconnected. Forget card removes that identity and its saved PIN from this device.", "x": 86, "y": 28}]} />
 
 ## Use Shortcuts and Siri
 
@@ -188,9 +196,13 @@ Optional browser PDF stamps have their own Browser connection preference. The st
 
 1. Click the menu-bar eSemnBun icon to reopen the main window, Settings or About. Closing a window can leave the app running; choose **Quit** to end it.
 2. In **Settings → General**, scroll to startup settings. Choose **Start at sign-in** if desired. If macOS asks for approval, use **System Settings → General → Login Items**.
-3. The standalone edition has an optional reader/card insertion helper, which can open the app after it quits. Enable it and approve its background item when asked. The Mac App Store edition has no such launcher: **Open window on card insertion** works only while eSemnBun is running in the menu bar. Closing the window can leave it running; **Quit** stops insertion detection. After Quit, reopen it manually. **Start at sign-in** launches it at your next login.
+3. In version 0.2.13, both editions offer an optional background helper at first launch and in **Settings → General**. Enable **Open the app when a reader or card is inserted** and approve the background item in System Settings if macOS asks. With the helper enabled, insertion can reopen eSemnBun after Quit. Mac App Store version 0.2.12 requires eSemnBun to be running in the menu bar for insertion to open its window.
 4. In standalone installations, use **Check for updates** and install the newer DMG. App Store copies update through the App Store. Keep the same distribution when updating.
 5. Use **About eSemnBun** to find the installed version; use Help or the [support page](/support) with app/macOS version, reader/adapter model and reproduction steps. Never send a PIN.
+
+<GuideScreenshot src="/img/guide/macos/en/onboarding.png" alt="Choose whether to start at sign-in or open eSemnBun when a reader or card is inserted. You can change either setting later." steps={[{"text": "Choose whether to start at sign-in or open eSemnBun when a reader or card is inserted. You can change either setting later.", "x": 37, "y": 55}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/menu-bar.png" alt="Open eSemnBun from the menu bar to check the current card and access recent documents." steps={[{"text": "Open eSemnBun from the menu bar to check the current card and access recent documents.", "x": 23, "y": 54}]} />
 
 Normal Demo mode is an intentional Settings option with fictional data and a visible notice; it cannot produce valid electronic signatures.
 
@@ -214,17 +226,19 @@ For terminal automation, package-manager installation and unattended policy, con
 
 ## Encrypt a file with a password
 
-Open **Documents** and select the shield beside the trash button to open **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+In **Documents**, select **Protect files** in the toolbar. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents and select the shield beside the trash button." steps={[{"text": "Open Documents and select the shield beside the trash button.", "x": 68, "y": 6.6}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="In Documents, open Protect files using the shield in the toolbar." steps={[{"text": "In Documents, open Protect files using the shield in the toolbar.", "x": 91, "y": 11}]} />
 
-<GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 44, "y": 17, "text": "Choose Encrypt."}, {"x": 35, "y": 30, "text": "Choose the source file."}, {"x": 35, "y": 51, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 82, "text": "Choose Encrypt. The encrypted copy is saved in Documents; choose Done when finished."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-password-light.png" alt="Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt." steps={[{"text": "Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt.", "x": 81, "y": 57}]} />
 
-<GuideScreenshot src="/img/guide/macos/en/protect-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={6} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 40, "y": 52}, {"text": "Optionally choose Save a copy to export another copy.", "x": 40, "y": 62}, {"text": "Choose Done to return to Documents.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 33, "y": 64}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/protect-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 66}]} />
 
 Choose **Encrypt** or **Decrypt**. The new output is saved automatically in **Documents → Saved documents**. Choose **Done** to return, or **Save a copy** to export it to Files or another location. The original is kept.
 
@@ -233,15 +247,17 @@ Saved documents includes signed, encrypted and decrypted files. Use the filename
 
 ## Decrypt a received file
 
-Open **Documents** and select the shield beside the trash button to open **Protect files**. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
+In **Documents**, select **Protect files** in the toolbar. In the form, choose **Encrypt** or **Decrypt**, then select a file you can read.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file in version 0.2.13, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="Open Documents and select the shield beside the trash button." steps={[{"text": "Open Documents and select the shield beside the trash button.", "x": 68, "y": 6.6}]} />
+<GuideScreenshot src="/img/guide/macos/en/documents-protection-light.png" alt="In Documents, open Protect files using the shield in the toolbar." steps={[{"text": "In Documents, open Protect files using the shield in the toolbar.", "x": 91, "y": 11}]} />
 
-<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Decrypt a received file" start={2} steps={[{"x": 56, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 35, "y": 51, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 82, "text": "Choose Decrypt. Check the new output in Documents; choose Done when finished."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-light.png" alt="Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt." steps={[{"text": "Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt.", "x": 89, "y": 50}]} />
 
-<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-complete-light.png" alt="Check the saved filename and operation. The output is already in Documents." start={5} steps={[{"text": "Check the saved filename and operation. The output is already in Documents.", "x": 40, "y": 52}, {"text": "Optionally choose Save a copy to export another copy.", "x": 40, "y": 62}, {"text": "Choose Done to return to Documents.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 20, "y": 63}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/protect-decrypt-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 66}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
@@ -252,8 +268,8 @@ Saved documents includes signed, encrypted and decrypted files. Use the filename
 
 ## Remove a local file
 
-Open **Documents** and select the shield beside the trash button to open **Protect files**. Choose **Remove file** and select the file to remove.
+In **Documents**, select **Protect files** in the toolbar. Choose **Remove file** and select the file to remove.
 
 Desktop only. This permanently removes one supported regular local file after confirmation. It cannot guarantee erasure from SSDs, snapshots, backups or other copies. Unsupported locations and links are refused. Mobile document providers do not support this operation.
 
-<GuideScreenshot src="/img/guide/macos/en/protect-remove-light.png" alt="Remove a local file" steps={[{"x": 67, "y": 17, "text": "Choose Remove file."}, {"x": 35, "y": 33, "text": "Select the exact file you intend to remove and read the warning."}, {"x": 50, "y": 81, "text": "Confirm removal only after checking the filename. Then choose Remove file and complete any confirmation shown."}]} />
+<GuideScreenshot src="/img/guide/macos/en/protect-remove-light.png" alt="Confirm the exact filename before choosing Remove file. The app asks for confirmation before removal." steps={[{"text": "Confirm the exact filename before choosing Remove file. The app asks for confirmation before removal.", "x": 50, "y": 86}]} />

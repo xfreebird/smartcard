@@ -1165,5 +1165,182 @@
     "nativePublish": "PASS: Debug self-contained win-x64 on Windows 11 ARM64",
     "visualInspection": "PASS: all 12 refreshed images; localized stamp body, settings tabs and MCP directory visible",
     "captureStage": "C:/Users/user/esemnbun-windows-guide-refresh-screenshots-20261108"
+  },
+  "nativeDocumentGuides20261118": {
+    "binarySha256": "d2576eb8e1835e14a1e682246fb2569d5aacd068f284eba1a682efc644c2725e",
+    "build": "Windows 11 ARM64, x64 WinUI 3 Debug, native desktop",
+    "source": "Native isolated Debug window captures from the 0.2.13 document, verification and file-protection UI.",
+    "appearance": "light",
+    "data": "Fictional documents and card identities. Screenshots do not demonstrate a hardware signing or decryption operation.",
+    "assets": [
+      {
+        "path": "website/static/img/guide/windows/en/success.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "acb825b001253fed07ba3d8a6f549750f7f7bfd090c6c0863ce0b8cf0cc49f11"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/documents.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "4d4c40b016611b35d4afce98df0e657ae76ee4263a7d1b6ce2717431506035a5"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/details.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "3469f7e1c785b373545fc4f2d36ff21e02c7521f2855c280a4fba0a1b36bd5a3"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/results.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "256e2a295337211e704b03e792cfd843e3f80d1ce9526ea9042c2e106b30aeec"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/protect-password-light.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "e26d55bfdd4adff45b28976b43aea9283b4ce79592c95dec2ca4084a37dfeaac"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/protect-certificate-light.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "dd4656218b560790f5c7187926a0325161676b99d88d7057edbebfbfcad8e658"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/protect-decrypt-light.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "c2f98cc7fb861432c04d1bd21a9154f9b9bc065b4d97894f4f98d448dffaf065"
+      },
+      {
+        "path": "website/static/img/guide/windows/en/protect-remove-light.png",
+        "language": "en",
+        "width": 1086,
+        "height": 893,
+        "sha256": "d823d94140a5b350319e5b1b9c739da81fb755b423cf928666009df735faa3e6"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/success.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "f458893c1255fe72084c1e1fbf1e72e44388301d6cc6a348c4165c0cc17ef2b5"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/documents.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "dbaff6c4c6bdb5fa7a361edae5a1fc5920ce283bc634eaaa7b64558b23da6939"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/details.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "7c8c340aab2d7f5621fc777f364625120f7806a1df0823fef5d3f1dd4e8fd23e"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/results.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "33479c6cfafb613379c047c05eefb1b8f0a8f1ba7f351568a3fb6124358f14b9"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/protect-password-light.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "7e25e6def04d3fc57b4c8e2c94d3b8dfad46dfa46a717c786d6796200babdaf0"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/protect-certificate-light.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "f3ffcb606ef59c7665e3d69251a16f2f43143e0211992b36cbf134051f6af5be"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/protect-decrypt-light.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "ab504a3cd8f77333b0a9877ea50cedf4fbaab01d55010b5fb7dfeb1e4033015f"
+      },
+      {
+        "path": "website/static/img/guide/windows/ro/protect-remove-light.png",
+        "language": "ro",
+        "width": 1086,
+        "height": 893,
+        "sha256": "4edc789d592c697fdfec17cbe0677e6989389a2d79fd3265950f0070d9ae5e2a"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/success.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "f388fac81f0d83d51f987725319325842e40e9603b23e2321d08ac0004f51fda"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/documents.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "51353dac629f0fb3f0e247b84ca465a196c9b60c6bc774085c08896f6865156b"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/details.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "e162611a8b0027eb4cbbc0043fecf36b8799ca4dca9a756cf3fe3d5e9108634c"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/results.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "b1d9b44c728c906a1786d04161ba74b35907a739ce3400195576085f85320359"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/protect-password-light.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "aa80f99fc4a3dbec600b3b7eee86d919c0ff0e8f84b2ffc833e7043190f5034f"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/protect-certificate-light.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "c49f1345bed28ea3382bca42e1066fc1f85caf2a3457351e4c95fec0019499eb"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/protect-decrypt-light.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "03e863239a05373cb744c65749b70012f9ae34c802e52654b7b9d6f6431dc14f"
+      },
+      {
+        "path": "website/static/img/guide/windows/ru/protect-remove-light.png",
+        "language": "ru",
+        "width": 1086,
+        "height": 893,
+        "sha256": "4808b990a4bfc39a18a0901261d64a89afe5f92f61ee6b9a52689c31ffb0a0a9"
+      }
+    ]
   }
 }

@@ -263,9 +263,10 @@ class MainViewModel @JvmOverloads constructor(
     internal fun previewCompletedResults() {
         if (!md.moldsign.app.DemoMode.supportsResultPreview || !container.isDemo) return
         runJob(busyLight = true) {
+            val fixtures = md.moldsign.app.infrastructure.ProtectedFileStore(getApplication())
             _signedResults.value = container.previewData.completedNames().map { name ->
                 val fileName = container.previewData.outputName(name)
-                fileName to container.signedFiles.save(fileName, "application/pdf", container.previewData.outputBytes())
+                fileName to fixtures.save(fileName, container.previewData.outputBytes())
             }
         }
     }

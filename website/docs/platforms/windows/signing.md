@@ -39,4 +39,4 @@ Batch authorization applies to the approved document list and selected card. If 
 
 ### Locate completed outputs
 
-<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"x": 90.59, "y": 23.12, "text": "Inspect each completed row and use its open or reveal action."}, {"x": 43.911, "y": 23.12, "text": "Keep detached XML together with its unchanged original."}]} />
+<GuideScreenshot src="/img/guide/windows/en/success.png" alt="Locate completed outputs" steps={[{"text": "Open the file directly from its row.", "x": 80, "y": 22}, {"text": "Use the folder button to show the saved file in its folder.", "x": 90, "y": 22}]} />

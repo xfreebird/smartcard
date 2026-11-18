@@ -18,9 +18,9 @@ Decrypt a received file
 
 Open the main menu in the window header, then **Protect files → Encrypt**, **Decrypt** or **Remove file**. Select a file you can read; scroll the form when needed.
 
-Obtain the password from the sender through a separate trusted channel. Select the encrypted file, then enter that password in the bordered **Password** field. No reader, card or card PIN is needed.
+For a password-encrypted file, obtain the password from the sender through a separate trusted channel. The file specifies the AES key size. For an RSA-encrypted file, connect the card that holds the recipient’s matching encryption key, read the card and authorize decryption with its PIN.
 
-<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"x": 41, "y": 17, "text": "Choose Decrypt and select the received encrypted file."}, {"x": 36, "y": 49, "text": "Enter the password supplied by the sender in the Password field."}, {"x": 50, "y": 90, "text": "Choose Decrypt and save the result under a new filename."}]} />
+<GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose the encrypted file. Its contents determine the decryption method.", "x": 50, "y": 29}, {"text": "For a password-encrypted file, enter the password supplied by the sender.", "x": 30, "y": 61}, {"text": "Choose Decrypt and save the result in a new file.", "x": 50, "y": 91}]} />
 
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 

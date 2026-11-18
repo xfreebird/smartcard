@@ -44,7 +44,7 @@ For website requests, inspect the requesting origin and the whole document list 
 Keep the reader and card connected while signing and obtaining the timestamp. Completion is shown separately from the input queue. Use the available result action, or open Documents and select the completed file, then Share to save it in Files or send it to another app. Share the signed output, not the unsigned source; include the original with detached XML.
 
 <GuideScreenshot src="/img/guide/ipad/en/progress.png" alt="Wait for the current signing stage to finish without removing the card." steps={[{"text": "Wait for the current signing stage to finish without removing the card.", "x": 9, "y": 26.5}]} />
-<GuideScreenshot src="/img/guide/ipad/en/success.png" alt="Check completion and the output name before opening or sharing the result." steps={[{"text": "Check completion and the output name before opening or sharing the result.", "x": 9, "y": 29}]} />
+<GuideScreenshot src="/img/guide/ipad/en/success.png" alt="Select the completed file to open it. Use Share beside its name to send a copy." steps={[{"text": "Select the completed file to open it. Use Share beside its name to send a copy.", "x": 31, "y": 20}]} />
 
 ## Recover from a failed document
 

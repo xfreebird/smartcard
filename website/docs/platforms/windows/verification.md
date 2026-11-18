@@ -30,4 +30,4 @@ Open **Verify** and choose or drop in a signed PDF/XML file. A detached XML sign
 
 ### Inspect verification details
 
-<GuideScreenshot src="/img/guide/windows/en/results.png" alt="Inspect verification details" steps={[{"x": 60.148, "y": 14.029, "text": "Read the offline verification limits: timestamp trust and current revocation may remain unchecked."}, {"x": 60.148, "y": 23.12, "text": "Expand certificate and technical details to inspect the signer, validity dates and timestamp fields."}]} />
+<GuideScreenshot src="/img/guide/windows/en/results.png" alt="Inspect verification details" steps={[{"text": "Expand Technical details to inspect the signature format and identifier.", "x": 44, "y": 48}, {"text": "Read the fields for this signature. Select the heading again to collapse the details.", "x": 49, "y": 66}]} />

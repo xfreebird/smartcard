@@ -20,13 +20,13 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Documente conține colecția rezultatelor semnate și un Istoric separat al operațiilor. Intrările trimit la fișiere și nu înlocuiesc o copie de rezervă. Un fișier mutat trebuie selectat din nou la noua locație.
 
-<GuideScreenshot src="/img/guide/linux/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Deschide Documente.", "x": 60, "y": 3}, {"text": "Alege rândul documentului salvat.", "x": 32, "y": 26}, {"text": "Folosește detaliile sau pictograma dosarului.", "x": 32, "y": 37}]} />
+<GuideScreenshot src="/img/guide/linux/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Selectează numele fișierului pentru a-i examina semnăturile.", "x": 28, "y": 30}, {"text": "Deschide fișierul direct din rândul său.", "x": 67, "y": 30}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 76, "y": 30}]} />
 
 ## Deschide detaliile semnării
 
-Apasă rândul sau Detalii semnare pentru fereastra modală. Aceasta verifică fișierul curent fără să înlocuiască spațiul Verifică ori să adauge o operație în istoric. Exemplul chiar este nesemnat, astfel că mesajul de lipsă a semnăturii este corect. Închide fereastra pentru listă; pictograma dosarului localizează fișierul.
+Selectează numele unui fișier salvat pentru a-i verifica conținutul actual în fereastra de detalii. Exemplul folosește un semnatar fictiv și un certificat autosemnat, astfel că lanțul de încredere nu este confirmat. Poți deschide documentul sau dosarul său din partea de jos a ferestrei.
 
-<GuideScreenshot src="/img/guide/linux/ro/details.png" alt="Deschide detaliile semnării" steps={[{"text": "Citește rezultatul nou în fereastra de detalii.", "x": 39, "y": 24}, {"text": "Închide fereastra pentru a reveni la listă.", "x": 73, "y": 12}]} />
+<GuideScreenshot src="/img/guide/linux/ro/details.png" alt="Deschide detaliile semnării" steps={[{"text": "Citește rezultatul verificării și verifică semnatarul.", "x": 37, "y": 34}, {"text": "Deschide documentul sau afișează-l în dosarul său.", "x": 65, "y": 79}]} />
 
 ## Golește istoricul păstrând documentele
 

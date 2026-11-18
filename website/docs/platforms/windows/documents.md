@@ -17,12 +17,13 @@ Open signing details, share saved files and clear recent history.
 ## Find and open saved documents
 
 Saved documents contains signed, encrypted and decrypted outputs. Select a signed file to view signature details. An encrypted file offers decryption; its ciphertext is not sent to signature verification. Decrypted files retain their output type and can be opened or exported.
-Open Documents and select the signed-document list. Choose an entry to open its signing details, then use the available open/reveal actions. Switch to history to review recent operations. Clearing recent history keeps the independent signed-document library; it does not delete signed files.
+
+Choose a filename to inspect its signing details. The buttons beside it open the file and show its folder. The row menu offers verification and file protection. History lists recent operations. Clearing history keeps the saved files.
 
 ### Find signed documents
 
-<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"x": 51.015, "y": 18.07, "text": "Open Documents, then select the signed-document list."}, {"x": 32.749, "y": 31.201, "text": "Choose a saved document to open its signing details."}]} />
+<GuideScreenshot src="/img/guide/windows/en/documents.png" alt="Find signed documents" steps={[{"text": "Select the filename to inspect its signing details.", "x": 38, "y": 24}, {"text": "Open the file directly from its row.", "x": 85, "y": 25}, {"text": "Use the folder button to show the saved file in its folder.", "x": 91, "y": 25}]} />
 
 ### Inspect a saved document
 
-<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"x": 51.015, "y": 45.342, "text": "Review this document’s signing information before opening or sharing its file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/details.png" alt="Inspect a saved document" steps={[{"text": "Read the verification outcome and check the signer.", "x": 42, "y": 28}, {"text": "Open the document or show it in its folder.", "x": 47, "y": 22}]} />

@@ -26,7 +26,7 @@ Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **C
 
 ## Alege identitatea care va semna
 
-Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**.
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → Carduri și PIN-uri salvate**.
 
 <GuideScreenshot src="/img/guide/ipad/ro/cards-current.png" alt="Consultă identitatea selectată înainte de semnare." steps={[{"text": "Consultă identitatea selectată înainte de semnare.", "x": 15, "y": 25}]} />
 

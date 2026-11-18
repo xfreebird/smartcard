@@ -711,5 +711,203 @@
     ],
     "nativeBuild": "Fedora Debug build passed after typed cleanup expression fix",
     "limits": "Fictional fixtures; no real MCP approval or card/credential operation."
+  },
+  "nativeDocumentGuides20261118": {
+    "binarySha256": "675185b5c29003228a8c8accdcb37f2a51eb81c90a9fedfc9c4d12075dcd2c9d",
+    "build": "Fedora 44 aarch64, GTK4/libadwaita Debug, X11",
+    "source": "Native isolated Debug window captures from the 0.2.13 document, verification and file-protection UI.",
+    "appearance": "light",
+    "data": "Fictional documents and card identities. Screenshots do not demonstrate a hardware signing or decryption operation.",
+    "assets": [
+      {
+        "path": "website/static/img/guide/linux/en/success.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "8868671a41a81ed4483a48c8afffc401672a19b1f58bf3e061f99d74d5844bfa"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/documents.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "77deb0502849eabe4817911fa49b506cfe05177a384534358016f6f0d2da37b0"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/details.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "921620b4e116f1d8fd37fc77b1510c9315b1f5d7e015d4aecd183749e72410db"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/certificate.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "afa0210ce22ae40abea85557a6bd38927b18c2bc6d4a1f2a4662d4860f93caae"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/verify.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "4676cc7edb1fcbc6a6813b2c6b560749bfd0a49a9c03a080b79121d066ff9f2a"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/protect-password-light.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "064ab192883c7106dc555f81c05dc99f7ba1cde1f7e8caddc47b06c16754f355"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/protect-certificate-light.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "2ebc3f5d2354f9cbf2926ee3106c78bc010b75eb34a1e338a3aec532345516ec"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/protect-decrypt-light.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "296abee66791b8144de80cb4c673c47dfb2f63b1f1fa57732a60d87f9fab4c82"
+      },
+      {
+        "path": "website/static/img/guide/linux/en/protect-remove-light.png",
+        "language": "en",
+        "width": 1000,
+        "height": 700,
+        "sha256": "29d6e0b20c674a674ee2f69f17986f324c503179ce0810075590e7947bc93bf0"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/success.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "bffdffd596c1fe76ebf7a5fbf725c9a3368b2702c1f29753edf9855743f184de"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/documents.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "f5748a2f3a6e6d50a178410676e7cc55ac798c7b2fe50caa7196cd4518081b37"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/details.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "2e1db2a167de67d09eb8b844c4cdbf6c960afc8913e95dd93cf5b48aa46051b5"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/certificate.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "a37d3108eda1058b30219f1eb268a95cc5faf3a22d416f0514959890c12fda04"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/verify.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "eee77c6c13fccc1e2acbaa601764bae3af62ce3346b6cc590c2080eb7f71f96f"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/protect-password-light.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "091909b9cb0485d51f55d842874896b0cfdbd0288695c46909640e4808a24a75"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/protect-certificate-light.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "46ffbb96792ed58847172ff0d0042457083697aee9a1664ef70b7e0ebd54ede1"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/protect-decrypt-light.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "6b50ab7744b8fdaa5e30ea4485fcef096b08ebb11aabf2b958b220c64aada207"
+      },
+      {
+        "path": "website/static/img/guide/linux/ro/protect-remove-light.png",
+        "language": "ro",
+        "width": 1000,
+        "height": 700,
+        "sha256": "2aab73e987cea315760df60002c31d46ea01af0f6e0c374331a716795b0e1639"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/success.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "3d14eed9855bca171d9a5f06d525691bad4a8ca1cd512f0a7b8a1912651c17c7"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/documents.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "f65d90be32a2e17afde8d72aa327ced62f836aaea1349a98bfd9d2c38837c93e"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/details.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "be6062c09e6f5125176af78bbb033ed420ff0b502ca54301cd6926ea0c7b5376"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/certificate.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "26ae556f3dca892ba67ff2108366fed734ea6eef72f187f2b219c89f0e3fb24f"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/verify.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "d02ea770bd7ef4ce25b1ab0fe327ba67c16ae47df032e8dba3e3d56b412410e3"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/protect-password-light.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "004cb159367890df22514f4e7a1195f493fd60caadb916082598648d73a83795"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/protect-certificate-light.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "3d28f8130a3ff370484c3b4e7387c36cc090a860261787dbb97f0b0eb0fd7471"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/protect-decrypt-light.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "68c8b40ed94e39da1f011666b27319fa82b8dafe757efec27c6cb7a23022a89d"
+      },
+      {
+        "path": "website/static/img/guide/linux/ru/protect-remove-light.png",
+        "language": "ru",
+        "width": 1000,
+        "height": 700,
+        "sha256": "b99ac9bb6d726d209fa663df759da0b4a7c2430cceee8cfe0e5eb9c83dfc47fb"
+      }
+    ]
   }
 }

@@ -61,7 +61,11 @@ Lasă cititorul conectat în timpul semnării și obținerii mărcii temporale. 
 
 Ediția macOS independentă scrie de obicei un fișier nou lângă sursă, cu sufix de semnare, fără a suprascrie originalul. Ediția App Store folosește stocarea permisă și acțiunile explicite de export/partajare. Păstrează XML-ul detașat împreună cu originalul.
 
-<GuideScreenshot src="/img/guide/macos/ro/success.png" alt="Găsește, previzualizează și partajează rezultatul" steps={[{"x": 63, "y": 36, "text": "Apasă rândul finalizat sau Arată în Finder pentru a găsi rezultatul."}, {"x": 90, "y": 53, "text": "Folosește Previzualizare pentru a inspecta rezultatul. Folosește Partajează pentru PDF-ul semnat și alege destinația."}]} />
+În versiunea 0.2.13 din Mac App Store poți alege un dosar în **Configurări → General → Documente** pentru copiile automate ale documentelor semnate. Alege dosarul în dialogul sistemului pentru a acorda acces.
+
+<GuideScreenshot src="/img/guide/macos/ro/export-folder.png" alt="Alege un dosar pentru copiile automate ale documentelor semnate în ediția Mac App Store." steps={[{"text": "Alege un dosar pentru copiile automate ale documentelor semnate în ediția Mac App Store.", "x": 15, "y": 93}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/success.png" alt="Alege Previzualizare lângă numele fișierului semnat. Comenzile alăturate salvează o copie, partajează documentul sau îl afișează în Finder." steps={[{"text": "Alege Previzualizare lângă numele fișierului semnat. Comenzile alăturate salvează o copie, partajează documentul sau îl afișează în Finder.", "x": 69, "y": 69}]} />
 
 ## Rezolvă o eroare de document
 
@@ -73,37 +77,39 @@ Un lot poate conține elemente reușite și eșuate. Păstrează rezultatele fin
 
 Verificarea nu cere cititor sau PIN. Ea verifică fișierul selectat, nu ștampila vizuală sau numele lui. Verificările offline nu stabilesc starea curentă de revocare a certificatului.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify.png" alt="Verifică un PDF și fiecare semnătură" steps={[{"x": 5, "y": 10, "text": "Deschide Verifică."}, {"x": 59, "y": 9, "text": "Alege fișierele semnate sau trage-le în zona punctată."}, {"x": 33, "y": 28, "text": "Extinde fiecare rând Autor, inclusiv semnăturile suplimentare ale aceluiași document."}, {"x": 35, "y": 17, "text": "Folosește Șterge rezultatele înaintea unei verificări separate."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify.png" alt="Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura." steps={[{"text": "Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura.", "x": 37, "y": 46}]} />
 
 ## Citește integritatea, încrederea și detaliile certificatului
 
 Semnătura criptografică validă, documentul intact, lanțul de încredere și marca temporală sunt verificări distincte. Derulează pentru toate câmpurile certificatului și detaliile tehnice. Numărul de înregistrare al emitentului nu este identificatorul personal al semnatarului.
 
-<GuideScreenshot src="/img/guide/macos/ro/certificate.png" alt="Citește integritatea, încrederea și detaliile certificatului" steps={[{"x": 33, "y": 28, "text": "Extinde semnătura pentru semnatar, ora semnării și marca temporală."}, {"x": 35, "y": 49, "text": "Citește fiecare verificare de integritate, semnătură și lanț de încredere."}, {"x": 35, "y": 55, "text": "Extinde Detaliile certificatului și verifică subiectul, emitentul și cheia."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/certificate.png" alt="Deschide Detaliile certificatului pentru a consulta certificatul public al semnatarului, emitentul și amprenta." steps={[{"text": "Deschide Detaliile certificatului pentru a consulta certificatul public al semnatarului, emitentul și amprenta.", "x": 40, "y": 45}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/technical.png" alt="Deschide Detalii tehnice sub o semnătură pentru a citi raportul de verificare. Apasă din nou pe rând pentru a-l restrânge." steps={[{"text": "Deschide Detalii tehnice sub o semnătură pentru a citi raportul de verificare. Apasă din nou pe rând pentru a-l restrânge.", "x": 38, "y": 87}]} />
 
 ## Verifică XML-ul detașat cu originalul
 
 Adaugă XML-ul în Verifică. Dacă amprenta documentului nu poate fi verificată, folosește acțiunea Alege originalele din rezultat. Selectează originalul exact și nemodificat, nu XML-ul semnat. Citește din nou rezultatul integrității. XML-ul singur poate fi insuficient pentru destinatar.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-original.png" alt="Verifică XML-ul detașat cu originalul" steps={[{"x": 59, "y": 9, "text": "Adaugă semnătura XML detașată."}, {"x": 42, "y": 32, "text": "Citește rezultatul incomplet/original lipsă și furnizează originalul cerut."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-original.png" alt="Verifică XML-ul detașat cu originalul" steps={[{"x": 38, "y": 35, "text": "Adaugă semnătura XML detașată."}, {"x": 41, "y": 53, "text": "Citește rezultatul incomplet/original lipsă și furnizează originalul cerut."}]} />
 
 ## Recunoaște o semnătură nevalidă sau un document modificat
 
 Un rezultat nevalid nu se repară prin redenumire sau adăugarea unei ștampile. Cere expeditorului o copie semnată intactă și verific-o.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-invalid.png" alt="Recunoaște o semnătură nevalidă sau un document modificat" steps={[{"x": 43, "y": 22, "text": "Citește starea nevalidă a documentului și extinde autorul pentru verificarea eșuată."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-invalid.png" alt="Recunoaște o semnătură nevalidă sau un document modificat" steps={[{"x": 39, "y": 38, "text": "Citește starea nevalidă a documentului și extinde autorul pentru verificarea eșuată."}]} />
 
 ## Deosebește încrederea neconfirmată
 
 Încrederea neconfirmată diferă de modificarea dovedită a documentului. Citește semnătura și lanțul de încredere și urmează politica destinatarului privind certificatele.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-untrusted.png" alt="Deosebește încrederea neconfirmată" steps={[{"x": 43, "y": 22, "text": "Citește starea de încredere neconfirmată și extinde detaliile."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-untrusted.png" alt="Deosebește încrederea neconfirmată" steps={[{"x": 54, "y": 40, "text": "Citește starea de încredere neconfirmată și extinde detaliile."}]} />
 
 ## Recunoaște un document nesemnat
 
 Imaginea unei semnături sau ștampile nu dovedește o semnătură electronică. Dacă nu este recunoscută nicio semnătură, cere rezultatul semnat efectiv, nu o captură sau copie scanată.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-unsigned.png" alt="Recunoaște un document nesemnat" steps={[{"x": 43, "y": 22, "text": "Verifică rezultatul fără semnătură înainte de a prezenta fișierul ca semnat."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-unsigned.png" alt="Recunoaște un document nesemnat" steps={[{"x": 45, "y": 40, "text": "Verifică rezultatul fără semnătură înainte de a prezenta fișierul ca semnat."}]} />
 
 ## Găsește un document semnat salvat
 
@@ -111,19 +117,19 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Documentele și Istoricul operațiunilor sunt colecții separate. Intrările indică fișiere; dacă un fișier a fost mutat sau eliminat, selectează-l din nou din noua locație pentru verificare.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Găsește un document semnat salvat" steps={[{"x": 49, "y": 7, "text": "Deschide Documente și alege Documente salvate."}, {"x": 34, "y": 13, "text": "Folosește Caută documente pentru filtrare după nume."}, {"x": 45, "y": 15, "text": "Apasă rândul documentului pentru fereastra modală cu detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents.png" alt="Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja." steps={[{"text": "Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja.", "x": 86, "y": 21}]} />
 
 ## Inspectează și transmite un document salvat
 
 Fereastra cu detalii folosește aceeași prezentare ca Verifică. Inspectarea unui document salvat nu înlocuiește fișierele din spațiul Verifică. Previzualizarea arată fișierul, fără a fi o validare de securitate separată.
 
-<GuideScreenshot src="/img/guide/macos/ro/details.png" alt="Inspectează și transmite un document salvat" steps={[{"x": 33, "y": 48, "text": "Extinde autorul pentru semnătură și certificat."}, {"x": 35, "y": 58, "text": "Alege Previzualizare pentru a citi fișierul."}, {"x": 43, "y": 58, "text": "Alege Partajează pentru exportul/trimiterea rezultatului semnat."}, {"x": 53, "y": 58, "text": "Alege Arată în Finder pentru a localiza fișierul."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 16, "y": 71}]} />
 
 ## Curăță istoricul păstrând documentele
 
 Apasă coșul, citește confirmarea și confirmă numai dacă dorești ștergerea listei de operațiuni. Acțiunea nu șterge fișierele semnate și nici colecția separată de Documente salvate. Revino la Documente salvate pentru a folosi rezultatele salvate.
 
-<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="Curăță istoricul păstrând documentele" steps={[{"x": 64, "y": 8, "text": "În Documente, selectează Istoric."}, {"x": 73, "y": 8, "text": "Apasă coșul și confirmă curățarea exclusivă a istoricului."}, {"x": 51, "y": 8, "text": "Revino la Documente salvate; colecția salvată rămâne disponibilă."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/history.png" alt="În Istoric găsești numele fișierului, rezultatul și data. Deschide Documente salvate pentru a folosi fișierul rezultat." steps={[{"text": "În Istoric găsești numele fișierului, rezultatul și data. Deschide Documente salvate pentru a folosi fișierul rezultat.", "x": 42, "y": 11}]} />
 
 ## Folosește un serviciu și gestionează marcajele
 
@@ -143,7 +149,9 @@ Deschide Setări. Modul demonstrativ este sus. Alege categoria pentru carduri, P
 
 Pentru descoperirea Spotlight/Siri activează Găsește documentele semnate în Siri și Spotlight. Sunt expuse numai numele și datele PDF/XML-urilor semnate, lizibile și deținute de aplicație. Conținutul, identitatea din certificat și PIN-ul nu sunt indexate. În ediția independentă, fișierele arbitrare de lângă originale nu sunt eligibile; sunt eligibile numai importurile deținute de aplicație. Dezactivează opțiunea pentru eliminarea indexului.
 
-<GuideScreenshot src="/img/guide/macos/ro/settings.png" alt="Configurează limba, aspectul și descoperirea în sistem" steps={[{"x": 87, "y": 61, "text": "Alege limba interfeței."}, {"x": 88, "y": 69, "text": "Alege Luminos, Întunecat sau Sistem."}, {"x": 91, "y": 88, "text": "Activează descoperirea documentelor dacă dorești numele eligibile în Siri/Spotlight."}, {"x": 31, "y": 3, "text": "Deschide PIN-uri salvate pentru a vedea sau șterge intrările fără afișarea valorilor PIN."}, {"x": 53, "y": 3, "text": "Activează cererile locale doar pentru conectarea unui client MCP; fiecare cerere necesită verificarea PDF și aprobare."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/settings.png" alt="Alege limba interfeței." steps={[{"text": "Alege limba interfeței.", "x": 87, "y": 61}, {"text": "Alege aspectul aplicației.", "x": 88, "y": 69}, {"text": "Poți activa descoperirea documentelor semnate în Siri și Spotlight.", "x": 86, "y": 85}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/saved-cards.png" alt="În Setări vezi cardurile salvate chiar și după deconectarea cititorului. Uită cardul elimină identitatea și PIN-ul ei salvat de pe acest dispozitiv." steps={[{"text": "În Setări vezi cardurile salvate chiar și după deconectarea cititorului. Uită cardul elimină identitatea și PIN-ul ei salvat de pe acest dispozitiv.", "x": 87, "y": 37}]} />
 
 ## Folosește Scurtături și Siri
 
@@ -188,9 +196,13 @@ Comutatorul este vizibil în captura General de mai sus. Capturile nu ilustreaz�
 
 1. Apasă pictograma eSemnBun din bara de meniu pentru fereastra principală, Configurări sau Despre. Închiderea ferestrei poate lăsa aplicația activă; alege **Ieșire** pentru oprire.
 2. În **Configurări → General**, derulează la opțiunile de pornire. Activează **Pornește la autentificare** dacă dorești. Aprobările macOS sunt în **Configurări sistem → General → Elemente de autentificare**.
-3. Ediția independentă are un ajutor opțional pentru inserarea cititorului/cardului, care poate porni aplicația după închidere. Activează-l și aprobă elementul de fundal dacă este cerut. Ediția Mac App Store nu are acest utilitar: **Deschide fereastra la introducerea cardului** funcționează doar cât timp eSemnBun rulează în bara de meniu. Închiderea ferestrei poate lăsa aplicația activă; **Ieșire** oprește detectarea. După Ieșire, redeschide-o manual. **Pornește la autentificare** o lansează la următoarea autentificare.
+3. În versiunea 0.2.13, ambele ediții oferă un utilitar de fundal opțional la prima lansare și în **Configurări → General**. Activează **Deschide aplicația la conectarea cititorului sau introducerea cardului** și aprobă elementul de fundal în configurările sistemului dacă macOS o cere. Cu utilitarul activ, introducerea cardului poate redeschide aplicația după ieșire. În versiunea 0.2.12 din Mac App Store, eSemnBun trebuie să ruleze în bara de meniu pentru a deschide fereastra la introducerea cardului.
 4. Pentru ediția independentă, folosește **Caută actualizări** și instalează DMG-ul nou. Copiile App Store se actualizează prin magazin. Păstrează același canal de distribuție.
 5. În **Despre eSemnBun** găsești versiunea instalată; folosește Ajutor sau [Suport](/support), indicând versiunile aplicației/macOS, cititorul/adaptorul și pașii de reproducere. Nu trimite PIN-ul.
+
+<GuideScreenshot src="/img/guide/macos/ro/onboarding.png" alt="Alege dacă aplicația pornește la autentificare sau se deschide la conectarea cititorului ori introducerea cardului. Poți schimba opțiunile mai târziu." steps={[{"text": "Alege dacă aplicația pornește la autentificare sau se deschide la conectarea cititorului ori introducerea cardului. Poți schimba opțiunile mai târziu.", "x": 36, "y": 55}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/menu-bar.png" alt="Deschide eSemnBun din bara de meniu pentru a verifica starea cardului și a accesa documentele recente." steps={[{"text": "Deschide eSemnBun din bara de meniu pentru a verifica starea cardului și a accesa documentele recente.", "x": 23, "y": 55}]} />
 
 Modul demonstrativ normal este o opțiune intenționată în Configurări, cu date fictive și avertisment vizibil; nu produce semnături electronice valide.
 
@@ -214,17 +226,19 @@ Pentru automatizare în terminal, instalare prin manager de pachete și politici
 
 ## Criptează un fișier cu parolă
 
-Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+În **Documente**, alege **Protejează fișiere** din bara de instrumente. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+În versiunea 0.2.13, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschide Documente și apasă scutul de lângă coș." steps={[{"text": "Deschide Documente și apasă scutul de lângă coș.", "x": 68, "y": 6.6}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 89, "y": 11}]} />
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 30, "text": "Alege fișierul sursă."}, {"x": 35, "y": 51, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 82, "text": "Alege Criptează. Copia criptată este salvată în Documente; alege Gata la final."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează." steps={[{"text": "Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează.", "x": 83, "y": 57}]} />
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={6} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 40, "y": 52}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 40, "y": 62}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului." steps={[{"text": "Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului.", "x": 32, "y": 64}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/protect-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 52, "y": 66}]} />
 
 Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 
@@ -233,15 +247,17 @@ Documente salvate include fișiere semnate, criptate și decriptate. Identifică
 
 ## Decriptează un fișier primit
 
-Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+În **Documente**, alege **Protejează fișiere** din bara de instrumente. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
-Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
+Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, în versiunea 0.2.13 conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschide Documente și apasă scutul de lângă coș." steps={[{"text": "Deschide Documente și apasă scutul de lângă coș.", "x": 68, "y": 6.6}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 89, "y": 11}]} />
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" start={2} steps={[{"x": 56, "y": 17, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 35, "y": 51, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 82, "text": "Alege Decriptează. Verifică rezultatul nou în Documente; alege Gata la final."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-light.png" alt="Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează." steps={[{"text": "Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează.", "x": 92, "y": 50}]} />
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={5} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 40, "y": 52}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 40, "y": 62}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-rsa-decrypt.png" alt="Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului." steps={[{"text": "Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului.", "x": 22, "y": 63}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/protect-decrypt-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 50, "y": 66}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
@@ -252,8 +268,8 @@ Documente salvate include fișiere semnate, criptate și decriptate. Identifică
 
 ## Elimină un fișier local
 
-Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. Alege **Elimină fișierul** și selectează fișierul de eliminat.
+În **Documente**, alege **Protejează fișiere** din bara de instrumente. Alege **Elimină fișierul** și selectează fișierul de eliminat.
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 67, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 35, "y": 33, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50, "y": 81, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-remove-light.png" alt="Verifică numele exact înainte să alegi Elimină fișierul. Aplicația îți cere confirmarea înainte de eliminare." steps={[{"text": "Verifică numele exact înainte să alegi Elimină fișierul. Aplicația îți cere confirmarea înainte de eliminare.", "x": 50, "y": 86}]} />

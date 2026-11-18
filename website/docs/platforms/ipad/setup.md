@@ -26,7 +26,7 @@ For USB, connect the reader with the appropriate [adapter](/devices), select **W
 
 ## Choose the identity that will sign
 
-Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved PINs** to manage stored PINs.
+Open **Settings → Cards and readers** to inspect a connected card. On the Sign screen, the top-right information button opens card details. Use **Settings → Saved cards and PINs** to manage stored PINs.
 
 <GuideScreenshot src="/img/guide/ipad/en/cards-current.png" alt="Inspect the selected identity before signing." steps={[{"text": "Inspect the selected identity before signing.", "x": 15, "y": 25}]} />
 

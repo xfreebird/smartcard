@@ -20,9 +20,11 @@ Open **Protect files** at the bottom of the navigation bar and choose **Encrypt*
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+Choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/windows/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"x": 39.852, "y": 18.087, "text": "Choose Encrypt."}, {"x": 34.779, "y": 30.239, "text": "Choose the source file."}, {"x": 39.852, "y": 55.556, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 39.852, "y": 92.011, "text": "Choose Encrypt, then save the new encrypted file."}]} />
+<GuideScreenshot src="/img/guide/windows/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"text": "Choose the file to encrypt.", "x": 36, "y": 29}, {"text": "Select AES-128, AES-192 or AES-256. AES-256 is selected by default.", "x": 59, "y": 50}, {"text": "Enter and confirm a new file password.", "x": 41, "y": 62}, {"text": "Choose Encrypt, then save the encrypted copy.", "x": 41, "y": 88}]} />
+
+<GuideScreenshot src="/img/guide/windows/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "Select RSA certificate.", "x": 48, "y": 45}, {"text": "Choose the recipient’s public encryption certificate.", "x": 40, "y": 55}, {"text": "To encrypt for your own card, connect its reader and read its encryption certificate.", "x": 36, "y": 60}]} />
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Choose **Close** to close the completed operation. The original is kept.
 

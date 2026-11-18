@@ -18,9 +18,9 @@ Decriptează un fișier primit
 
 Deschide **Protejează fișiere** în partea de jos a barei de navigare și alege **Criptează**, **Decriptează** sau **Elimină fișierul**. Alege un fișier accesibil; derulează formularul la nevoie.
 
-Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
+Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 39.852, "y": 24.163, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 39.852, "y": 56.568, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 39.852, "y": 86.948, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"text": "Alege fișierul criptat. Conținutul său determină metoda de decriptare.", "x": 33, "y": 33}, {"text": "Pentru un fișier criptat cu parolă, introdu parola primită de la expeditor.", "x": 40, "y": 60}, {"text": "Alege Decriptează și salvează rezultatul într-un fișier nou.", "x": 39, "y": 84}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 

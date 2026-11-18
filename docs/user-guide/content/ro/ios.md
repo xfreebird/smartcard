@@ -28,7 +28,7 @@ Pentru USB, conectează cititorul prin [adaptorul](/devices) potrivit, alege **C
 
 ## Alege identitatea care va semna
 
-Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → Carduri și PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
 <GuideScreenshot src="/img/guide/iphone/ro/cards-current.png" alt="Consultă identitatea selectată înainte de semnare." steps={[{"text": "Consultă identitatea selectată înainte de semnare.", "x": 29, "y": 34}]} />
 
@@ -66,7 +66,7 @@ Pentru o cerere de pe un site, verifică originea și întreaga listă de docume
 Pentru NFC, ține cardul lângă telefon până se încheie scanarea. Pentru USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
 
 <GuideScreenshot src="/img/guide/iphone/ro/progress.png" alt="Așteaptă finalizarea etapei curente fără a scoate cardul." steps={[{"text": "Așteaptă finalizarea etapei curente fără a scoate cardul.", "x": 10, "y": 45}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/success.png" alt="Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare." steps={[{"text": "Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare.", "x": 35, "y": 49}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/success.png" alt="Selectează fișierul finalizat pentru a-l deschide. Folosește Partajează de lângă nume pentru a trimite o copie." steps={[{"text": "Selectează fișierul finalizat pentru a-l deschide. Folosește Partajează de lângă nume pentru a trimite o copie.", "x": 39, "y": 29}]} />
 
 ## Rezolvă o eroare la un document
 
@@ -78,22 +78,26 @@ Citește eroarea documentului afectat. Păstrează rezultatele deja finalizate �
 
 Verificarea necesită fișierul, nu cititorul sau PIN-ul. În Verifică, alege PDF-ul ori XML-ul semnat. Extinde fiecare semnătură, apoi certificatul și detaliile tehnice. Verifică toate semnăturile unui document contrasemnat. Rezultatele offline separă integritatea, semnătura criptografică, încrederea în lanțul inclus și marca temporală; nu reprezintă verificarea revocării curente.
 
-<GuideScreenshot src="/img/guide/iphone/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 50, "y": 87}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/certificate.png" alt="Derulează semnătura extinsă la detaliile certificatului, apoi analizează identitatea, valabilitatea și amprenta separat de integritatea documentului." steps={[{"text": "Derulează semnătura extinsă la detaliile certificatului, apoi analizează identitatea, valabilitatea și amprenta separat de integritatea documentului.", "x": 9, "y": 87}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 50, "y": 86}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/verify.png" alt="Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura." steps={[{"text": "Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura.", "x": 32, "y": 37}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/certificate.png" alt="Deschide Detaliile certificatului pentru a consulta certificatul public al semnatarului, emitentul și amprenta." steps={[{"text": "Deschide Detaliile certificatului pentru a consulta certificatul public al semnatarului, emitentul și amprenta.", "x": 39, "y": 51}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/technical.png" alt="Deschide Detalii tehnice sub o semnătură pentru a citi raportul de verificare. Apasă din nou pe rând pentru a-l restrânge." steps={[{"text": "Deschide Detalii tehnice sub o semnătură pentru a citi raportul de verificare. Apasă din nou pe rând pentru a-l restrânge.", "x": 33, "y": 65}]} />
 
 ## Furnizează originalul pentru XML detașat
 
 Semnătura XML detașată nu poate confirma amprenta documentului până când originalul nemodificat este disponibil. În rezultatul incomplet, folosește Alege originalele și selectează fișierele corespunzătoare. Așteaptă actualizarea rezultatului. Alegerea altui fișier schimbă dovezile; lipsa originalului nu dovedește singură modificarea.
 
-<GuideScreenshot src="/img/guide/iphone/ro/incomplete.png" alt="Citește ce original lipsește." steps={[{"text": "Citește ce original lipsește.", "x": 8, "y": 50}, {"text": "Alege originalele nemodificate și așteaptă actualizarea verificării.", "x": 8, "y": 55}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/incomplete.png" alt="Citește ce original lipsește." steps={[{"text": "Citește ce original lipsește.", "x": 45, "y": 25}, {"text": "Alege originalele nemodificate și așteaptă actualizarea verificării.", "x": 46, "y": 44}]} />
 
 ## Înțelege un rezultat neașteptat
 
 Invalid înseamnă că verificarea semnăturii sau integrității a eșuat. Încredere neconfirmată înseamnă că lanțul inclus nu este confirmat și diferă de modificarea dovedită. Nesemnat sau nerecunoscut înseamnă că nu a fost găsită o semnătură acceptată. Numele fișierului ori pictograma verde nu sunt dovezi. Un fișier inaccesibil este indisponibil, nu neapărat nesemnat.
 
-<GuideScreenshot src="/img/guide/iphone/ro/invalid.png" alt="Citește verificările eșuate și cere expeditorului fișierul semnat corect sau originalul nemodificat." steps={[{"text": "Citește verificările eșuate și cere expeditorului fișierul semnat corect sau originalul nemodificat.", "x": 14, "y": 41}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/untrusted.png" alt="Citește avertismentul de încredere separat de integritate și semnătură." steps={[{"text": "Citește avertismentul de încredere separat de integritate și semnătură.", "x": 14, "y": 41}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/unsigned.png" alt="Confirmă că ai ales rezultatul semnat și verifică dacă există o semnătură acceptată." steps={[{"text": "Confirmă că ai ales rezultatul semnat și verifică dacă există o semnătură acceptată.", "x": 14, "y": 41}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/invalid.png" alt="Citește verificările eșuate și cere expeditorului fișierul semnat corect sau originalul nemodificat." steps={[{"text": "Citește verificările eșuate și cere expeditorului fișierul semnat corect sau originalul nemodificat.", "x": 43, "y": 25}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/untrusted.png" alt="Citește avertismentul de încredere separat de integritate și semnătură." steps={[{"text": "Citește avertismentul de încredere separat de integritate și semnătură.", "x": 49, "y": 27}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/unsigned.png" alt="Confirmă că ai ales rezultatul semnat și verifică dacă există o semnătură acceptată." steps={[{"text": "Confirmă că ai ales rezultatul semnat și verifică dacă există o semnătură acceptată.", "x": 47, "y": 27}]} />
 
 ## Găsește un document și deschide detaliile semnării
 
@@ -101,14 +105,14 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 
 Deschide Documente și selectează un element salvat. Fereastra detaliilor folosește aceeași prezentare ca Verifică și nu înlocuiește spațiul de verificare curent. Previzualizare deschide conținutul; Partajează exportă fișierul ales. Dacă fișierul a fost mutat sau nu poate fi citit, selectează-l din locația reală.
 
-<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="Deschide Documente și selectează fișierul dorit." steps={[{"text": "Deschide Documente și selectează fișierul dorit.", "x": 20, "y": 47}, {"text": "Folosește căutarea pentru restrângerea listei.", "x": 20, "y": 22}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Verifică detaliile semnării documentului." steps={[{"text": "Verifică detaliile semnării documentului.", "x": 12, "y": 31}, {"text": "Alege Previzualizare pentru citire sau Partajează pentru salvare/trimitere.", "x": 8, "y": 44}, {"text": "Apasă Gata pentru revenirea la bibliotecă.", "x": 90, "y": 12}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/documents.png" alt="Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja." steps={[{"text": "Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja.", "x": 35, "y": 40}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 23, "y": 53}]} />
 
 ## Șterge istoricul păstrând documentele salvate
 
 În Documente, treci la Istoric, alege Șterge lista și confirmă. Sunt eliminate operațiile recente, nu fișierele semnate sau colecția Documente. Revino la Documente pentru rezultatele păstrate. Șterge un fișier exportat din Fișiere sau din furnizorul său de stocare.
 
-<GuideScreenshot src="/img/guide/iphone/ro/history.png" alt="Comută între Documente și Istoric." steps={[{"text": "Comută între Documente și Istoric.", "x": 91, "y": 29}, {"text": "Șterge istoricul doar dacă dorești eliminarea înregistrărilor recente.", "x": 80, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/history.png" alt="În Istoric găsești numele fișierului, rezultatul și data. Deschide Documente salvate pentru a folosi fișierul rezultat." steps={[{"text": "În Istoric găsești numele fișierului, rezultatul și data. Deschide Documente salvate pentru a folosi fișierul rezultat.", "x": 72, "y": 29}]} />
 
 ## Autentifică-te sau semnează pe un site
 
@@ -122,11 +126,13 @@ Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează 
 
 Deschide **Setări** pentru a găsi Modul demonstrativ în partea de sus, apoi cardurile, PIN-urile salvate, limba și aspectul. Modul demonstrativ folosește date fictive și nu produce semnături valide.
 
-Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
+Deschide **Setări → Carduri și cititoare** pentru a consulta un card conectat. În ecranul Semnează, butonul de informații din dreapta sus deschide detaliile cardului. Gestionează PIN-urile în **Setări → Carduri și PIN-uri salvate**. Cardul și PIN-ul memorate sunt comune pentru NFC și USB.
 
 Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunecat sau Sistem. În Despre găsești versiunea instalată și legăturile de asistență. Activează ștampila PDF din browser dacă vrei o marcă vizibilă pentru solicitările acceptate.
 
 <GuideScreenshot src="/img/guide/iphone/ro/cards-current.png" alt="Carduri și cititoare în Setări" steps={[{"text": "Carduri și cititoare în Setări", "x": 29, "y": 34}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/saved-cards.png" alt="În Setări vezi cardurile salvate chiar și după deconectarea cititorului. Uită cardul elimină identitatea și PIN-ul ei salvat de pe acest dispozitiv." steps={[{"text": "În Setări vezi cardurile salvate chiar și după deconectarea cititorului. Uită cardul elimină identitatea și PIN-ul ei salvat de pe acest dispozitiv.", "x": 28, "y": 35}]} />
 
 Ștergerea unui PIN salvat elimină copia de pe acest dispozitiv. PIN-ul cardului nu se schimbă și cardul nu se deblochează.
 
@@ -161,17 +167,19 @@ Dacă sesiunea NFC se întrerupe, ține cardul lângă antenă până se închid
 
 ## Criptează un fișier cu parolă
 
-Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+În **Documente**, apasă scutul **Protejează fișiere** din bara de instrumente. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+În versiunea 0.2.13, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
 
-<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 90, "y": 6}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 90, "y": 10}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 27, "y": 21, "text": "Alege Criptează."}, {"x": 25, "y": 40, "text": "Alege fișierul sursă."}, {"x": 25, "y": 70, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 94, "text": "Alege Criptează. Copia criptată este salvată în Documente; alege Gata la final."}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-password-light.png" alt="Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează." steps={[{"text": "Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează.", "x": 81, "y": 55}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={6} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 25, "y": 59}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 25, "y": 73}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 20, "y": 10}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-certificate-light.png" alt="Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului." steps={[{"text": "Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului.", "x": 46, "y": 63}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/protect-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 50, "y": 68}]} />
 
 Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 
@@ -180,15 +188,17 @@ Documente salvate include fișiere semnate, criptate și decriptate. Identifică
 
 ## Decriptează un fișier primit
 
-Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+În **Documente**, apasă scutul **Protejează fișiere** din bara de instrumente. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
-Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
+Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, în versiunea 0.2.13 conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
-<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 90, "y": 6}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 90, "y": 10}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" start={2} steps={[{"x": 27, "y": 21, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 25, "y": 61, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 94, "text": "Alege Decriptează. Verifică rezultatul nou în Documente; alege Gata la final."}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-light.png" alt="Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează." steps={[{"text": "Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează.", "x": 86, "y": 48}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={5} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 25, "y": 59}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 25, "y": 73}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 20, "y": 10}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-rsa-decrypt.png" alt="Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului." steps={[{"text": "Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului.", "x": 31, "y": 62}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 50, "y": 68}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 

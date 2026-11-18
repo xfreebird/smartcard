@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-15",
+  "date": "2026-11-19",
   "time": "09:41",
   "method": "Clock glyphs cropped from native 09:41 captures and composited inside reviewed rectangles. Legacy iPhone images additionally use the recorded native status-bar strip. App content, document timestamps, dimensions and annotation coordinates are unchanged.",
   "nativeClockCrops": {
@@ -68,23 +68,10 @@
       "originalSha256": "18d40fa0c014c750c579d4a5ec0d65ac5e36c3d1d4592d9b64266f8e18991811",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "10480044e045b46fe418bf0104dfd07828fe828d0acb85187c7bc710a7d93a04"
+      "edited": false,
+      "sha256": "13bc6d4ff6c6f7c57002a5f672fb168a094099096a7657f82e825b4f61dcb8c9",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/progress.png",
@@ -107,23 +94,10 @@
       "originalSha256": "c9116bcb31f72a3e0ebf83613dc1c17ccb4d8aadbf62e655058b54130ccca0f4",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "4301f1968fd2ca418880349c47fb76755e97d875367ae3f4ba72850b26f37daa"
+      "edited": false,
+      "sha256": "d43295a79feba09cbbbbadb9d3af65f6e0293b3d44a7d4731458cda91988be33",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/pin.png",
@@ -173,113 +147,38 @@
       "originalSha256": "d57781c32805148a31caa41e3768dd579f7a0a0481697352037a17740c679d3f",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "750868f8d624321596b9583284f85b16ee2d4e9e07db938c954eb1816a914bf9"
+      "edited": false,
+      "sha256": "e7ab24b8b7b479858c39d0bb9a0acf21dba25e0aefda69ba0ec71ff2d9af2aea",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/protect-decrypt-complete-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "f1200c8b61cea3cf4225e36c5be5348bd1f7f74cca162c55d39b5577da1739ee",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "be18f91306fa5f4b63587100c6634e3fafcbd40d9da749978205aa7542c170a8",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "59cb75974843be69bf6c7c3f8f729636221050f3911a013530d2c41c9569821d",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "9e7b8e2bc37e9bd399a9104bfaa254adb4f79fefb47ee7af8494693fc4c2c6a0",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/documents-protection-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "8f8f8dc1cc16dca91527f0fedb800d9b001cd26ec36668ad57537af76a5a68c0",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "a1d79e6be67ee5af7b510b5514e6903795599e12a428a60ca4d691a591f118f4",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/sign.png",
-        "sourceSha256": "8114669f10aa51e448687464e51790552a0f39c1c8dba3386d2a252b0926f0f6",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "167325fdb668f86f24104e24a08ec1634483567ff196aacb30ce8bae92e4d36c",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "d47aa15cc685f64cf66d3d0fb5374279ef032ee97b6719ef3ba30052e4b122dd",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/empty-reader.png",
@@ -317,23 +216,10 @@
       "originalSha256": "14c05af7b8fce0ce415b19ecc30115c83a41dc53add1276beb2bd9c316ec311e",
       "originalTime": "15:46",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        173,
-        74,
-        318,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        178,
-        77
-      ],
-      "clockSize": [
-        136,
-        40
-      ],
-      "sha256": "cad6f82f0f748a1ae4e02da0e0cdbb0da07fc2bd047b4160254cb19808dae8cf"
+      "edited": false,
+      "sha256": "6a4d3f069ec75bd67d256c9a295928bc5e479a057966ac9e7d211a3bd596befe",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/incomplete.png",
@@ -344,23 +230,10 @@
       "originalSha256": "1627d90de94bd21b75fa99051e42a0bdfce7a3ccb8494435bc5aed856df44ea1",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "3cd9359b2ffa13120fdf7e60c204fce8a6b73216efac35bedc51197bbf2c2c88"
+      "edited": false,
+      "sha256": "0dd992399eb0f6a138dfc08ccab01392c9796c5efef6b1a1843547c1ce6c13d2",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/file-error.png",
@@ -383,23 +256,10 @@
       "originalSha256": "ab2b141b99326c17ed3ca2a14a7e2def8e91e340970d8a0864abcd663e0f1676",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "bbffaffa943eff603b61aa7a0240c8edfc2a5cf3ccb83400b15143bd22cedcc2"
+      "edited": false,
+      "sha256": "36baa325eecaf7c0d13d0d11ee998e9342e793759e9b6f7c84fc52dbc3883ed0",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/sign.png",
@@ -461,23 +321,10 @@
       "originalSha256": "9e5aae366d0812ccfd1fbd15d213cdd9fe9cd5d983b9b553a35b0d3f582a7416",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "94b315589a4c8eafe1652ef1738b33b226cd4de1d74baa0b05c33532e87dd14e"
+      "edited": false,
+      "sha256": "d1234b5897697ae032c47600cec0e5cbb0d43a93f303945c4762ffe8d5dd42ae",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/history.png",
@@ -488,23 +335,10 @@
       "originalSha256": "aff0baa073eee2aeae032d0d7dc626a811922678fdec81aa2f7dc314001b1fbc",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "f68d61d6bd7d12979c119952020338999f9dff3df23bf6b72410cd67985fd115"
+      "edited": false,
+      "sha256": "e5f2b88d6ce84383334602c30c525e4c95a00ed8c9c993e5277f384dd11ea6b5",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/cards.png",
@@ -527,113 +361,38 @@
       "originalSha256": "4d24a061d0e93e59d9ac9eb3a0e8a7fd75552d834cc1ed6183e0e534a51f6738",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "2cc640f88fbd9c995e3307b8a431ed6b50a865a623ee361607573dd89c112c47"
+      "edited": false,
+      "sha256": "9772fd65b20d0fcbc2d2eafe2d879f373ef9f6cf544cc21be5a22e55a158be55",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/protect-complete-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "5ee6e491ff8bd7e566b5740c3c7bbb728e3b8977747160f12c87bb062f710a38",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "335412c09827ae47c18bbb3a4d6e1b92ffc0f6f7e7ac8d5da86f7b0b03865d62",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "ad28e64ea7c9390e09bfb7d6d21fdc94c7320da67eddd9fd70c5000b4151f112",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "afaa48199c6309370c168cd9dd0a7caf95fae2a9dcac68088ccc6df629453107",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/protect-password-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "5b355795584a4d6ba1860393318c43177283ae860a3d7a64b3e8c0653a71d36c",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "6201b4aa6b018241f0bcb689ffbec8a4c88bb2a7f4e6276f5111b092e7248f53",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "6d31bb2ebe9836d9e82355a70ba40f5b77c9047ef7a949bceaaf3fdc80af5189",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "b98f23b854c5dfd17a9a9f684adb9e7018e0ce3c3bf2fa3d87a5b6f490a79dcc",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/consent.png",
@@ -656,53 +415,24 @@
       "originalSha256": "9815ff61f7295f46e2e4c9e79adf9763b8c2077c2e1d7abcf9b0cf7fe9e8bee0",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "9815ff61f7295f46e2e4c9e79adf9763b8c2077c2e1d7abcf9b0cf7fe9e8bee0",
-      "edited": false
+      "sha256": "686eed98c5e1a98bab0536a61ea12b2e0274261e7cd83a5268d4a4949d31bc15",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/protect-decrypt-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "cb8a6c69fac5ef209a9514dae224bdfb6b9910350d0727ea03964017b4ced81d",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "86f15962ff780f6b5b037800597e46d315a7f1a36de7611fe1dbca898ce1f03b",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "6db2e3086ef451c796faf6e49ecce4c718e16615b114de354afc42a50284d099",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "71820299be56d94a256db7fdc91456e67e5518572aa63f319879b1de6e487e2d",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/browser.png",
@@ -740,23 +470,10 @@
       "originalSha256": "2c77ba7b1fd46acd7095ee5af6b408a3459bbe0509c62f3bc7c6cc7a8337a211",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "259db8f6a52eb01427bdb6e5d1a710cfe7b05c21f2b04a9c3de7c2b1ca701d9f"
+      "edited": false,
+      "sha256": "c2e7d9e15453fa5b38eff966b9d509d82942c5fddb391293519830702ac28d59",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/card.png",
@@ -794,23 +511,10 @@
       "originalSha256": "bcb5a7ad24d386aa56210a4372974025d4a42216017989fc0c0dac802f6af2d2",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "7df13078fa9e666dc213b51e99f54f0a84110a94a02ea5188c2b4f6f6ea79921"
+      "edited": false,
+      "sha256": "8c841b833044e1d320ecaf1af5f35c49a1ee4f6458d9cd0d01024921b48e840a",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/progress.png",
@@ -833,23 +537,10 @@
       "originalSha256": "bb71a25a74578e5fcf4daf7bded6c77bbb65200be01d032bea3c851322f3e5ab",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "83e04e0b0c4604ffdb048f37cdca6f8a3a1a0db79965b4f7cbfb2b94882bf994"
+      "edited": false,
+      "sha256": "6df7c5d550a30051e2e5f2f26978f770fb69d8f8567b5abf4c06c68f963d4738",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/pin.png",
@@ -899,113 +590,38 @@
       "originalSha256": "a553c5e164ad1986e0c1ac5148a08237afc76c3a4dba00ecde240cf6a7939e52",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "205254a37a55f0804473716ac0750f02038ae402ce75bede6f6f08e543baedcb"
+      "edited": false,
+      "sha256": "0919258713c17bfb3d5473501994a95e1bb34192c78070e90e37c4ac48a72dd3",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/protect-decrypt-complete-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "d47854f9774a993a149aa1decfa3d471ddcacc14033b963682ce690e6f1dc6b9",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "08222e6b49d00573f58b732da5de08d108da5398c7fbea5fbc2a73bae7e54d2a",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "04084b1de9d89040bfde643fd94b8bd47651957bff2d5ab5259e2fa8dcf4507d",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "c3a4dffa5b9d7c53db2ad83d07872d662eff0b0266187ce800e3479ca3aa620b",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/documents-protection-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "5bb196ee591c87acb5cdca1ed0fa15a810a3c9ac87c21902fba1c957bedd2e30",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "abc317f74af460d3d2852912d452a7d55cb71ac6fbb5d8406936c3711a3eb4ac",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/sign.png",
-        "sourceSha256": "8114669f10aa51e448687464e51790552a0f39c1c8dba3386d2a252b0926f0f6",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "bc7124c5ebec139be15a92d62e9b2dfea5c6a2172170f3294239c1f5847faf78",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "e1e1bd0ba39debd3779685ec4468e7a19a389522297d35e87ac59fa8116f48e8",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/empty-reader.png",
@@ -1043,23 +659,10 @@
       "originalSha256": "3cf520421ed5a32791cff3b099a0849ef1402e41735d52ac39ce3d0c3141bb07",
       "originalTime": "15:45",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        173,
-        75,
-        317,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        178,
-        78
-      ],
-      "clockSize": [
-        133,
-        39
-      ],
-      "sha256": "edf8be4966252fc2cee5cedc4326a570f08a6cb1e7cb2e8c47ae5d121fee404f"
+      "edited": false,
+      "sha256": "e6c168d48d92a270cf95db0a0730cc795ad1d7edf45bd0ffcb43a0b6370d7284",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/incomplete.png",
@@ -1070,23 +673,10 @@
       "originalSha256": "4705ccdb97a1ff2125c4704b102e93b856493fea2a5c2b86d4d23b969047e9a9",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "75ec43d746937c534b9c9a52e76469becf43e5b8ee05d667225396b21330450c"
+      "edited": false,
+      "sha256": "30f830427222433ec03e00ba4a1fbf3615c216623b3a516b0dd86670fcc9913f",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/file-error.png",
@@ -1109,23 +699,10 @@
       "originalSha256": "28224192c6842cedad44a8ef71e2d70cf9ed006658200050dbbfb3109c72c38c",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "e36e349dc30c42e6f10c0989bd8ba6ff967355174e5e4135ff95489bc82c29ac"
+      "edited": false,
+      "sha256": "be51b5906838a009524211749ee1566e539fd046639a3a23264f08a6cc7d8f80",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/sign.png",
@@ -1187,23 +764,10 @@
       "originalSha256": "f08afab188cfe26365d47a8b48880b2a175bd8b2528644f3f3a3e80b6853c0c3",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "b947c849f2f6bbc839ccd19694adead73f07fa12345ce61f13053c8257ea6691"
+      "edited": false,
+      "sha256": "9b4e4f86726434fba54ce58f0a7960050b0f1ff2d10da329c19d4400f0c17d15",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/history.png",
@@ -1214,23 +778,10 @@
       "originalSha256": "93a834c63b026d5b4b83995934b5ef864b992d7dd7c03a4d213d69a718fc85f3",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "4eefcd2554ffe383b785c3c47a44070ab6c928b7c5c7c2f9a5ffc09840af573b"
+      "edited": false,
+      "sha256": "cc24cf159cf9ba538d77e4994304b9e53ffd59611fc2a301e79dd92238a352e4",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/cards.png",
@@ -1253,113 +804,38 @@
       "originalSha256": "f02844d062d985b0e9b1364dc27e2aa7af34db133269e84866c055314aeb3880",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        149,
-        74,
-        292,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        152,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "a8d054804c4dd75d2e717381f18c057ec2ca7e9ef56dbce2717473d05c371d8f"
+      "edited": false,
+      "sha256": "448e62c9c0aeb93c5dfe7662d9d760d5529f6166c7e12c727f9ec6ea89441a6e",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/protect-complete-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "84089a6258b1d621e4805b44f3c175552f96a4fdda426dd00698c847c0c6e465",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "f2feb28029d354a9f3441b311e9fda7634e0c7120d8f5798b0ad366d9807136e",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "cb55b58ec2a4c8fe839f4a550e29ffa9b997fd3fea69015175f9e587c1bc95c3",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "fc250559735924ea59b1526564e16e08d6cf1e95282694a2131bf383f838aa60",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/protect-password-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "e8326b4e84f7cdedab616f9eb867aee69cf026ff2f521fc9b1fef27704111a28",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "04af14fdcb036f08b3d35c8d7fdaffb682fa6204e01dbe200a004df441ee0773",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "a89ddd831b6b475885307c6dfe3a79d3888dc7c05d0beefb0a4d11c553603977",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "345516d2da0e39efd0340ce8ae0a3843e0990caa3ebd93ce3861822e63ae566a",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/consent.png",
@@ -1382,53 +858,24 @@
       "originalSha256": "74cf4142ce2010534d13146ef343875f4e4d37a5ff73bbd55002120740725995",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "74cf4142ce2010534d13146ef343875f4e4d37a5ff73bbd55002120740725995",
-      "edited": false
+      "sha256": "1c13948c4fee3b30b7309a0974b2eb3b510278af2a357d4dc122cb90287f28a1",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/protect-decrypt-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "9505874789d9f94a59849fc13c2162aed0efb5938247b710267915a17a7a5217",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "9b61d2454b64def8e04446bf68e7e1317a03b029329e529bdf50db834da17640",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "927c1f4cf7af328c2c606adfe071beeb4baf85ed0ca93eb03bd74039352de1aa",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "c748dd6f36e5ad071b4814adb03155e72a25a41ded197b38e80b2db3f9506066",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/browser.png",
@@ -1466,23 +913,10 @@
       "originalSha256": "9a0d8d0dfb48bd338410f18539ccb969ac1f8d3e48a2a02f8e2e2b7fcd3be574",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        150,
-        74,
-        294,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "88baff8e6aad06338ea572d29e0815216927f04a184715ce0e75478fe9a96ea2"
+      "edited": false,
+      "sha256": "0a3eecc4a04353c6bda6ba0c33649c780d96dde6de9b6a394654a6fa6772438c",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/card.png",
@@ -1520,23 +954,10 @@
       "originalSha256": "d1d2f8fd6186948b29cc1726b39c9805d8d719bc7bf8a77d24e054f0f881a62f",
       "originalTime": "13:29",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "389b91ca987548c30f8621e64465488919ac3360a99d150d20ba638140814049"
+      "edited": false,
+      "sha256": "258067cbe4ce48a05aa3f8c2467ff3aac02e79ceca172ac2b5d0dc382731d19a",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/progress.png",
@@ -1559,23 +980,10 @@
       "originalSha256": "c50e89cf88660bb4d817260216e50deaf1c00543f2846aa4e2c2e3a52c46107e",
       "originalTime": "13:29",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "826cf3aed3bc749ffd9069d8c85ae7264c31686ab3c45f6b4313205e35b87fb2"
+      "edited": false,
+      "sha256": "6854790422a7b834062096692c5ef8a42e48bb6089795a767c66ab5411d4cbf7",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/pin.png",
@@ -1625,113 +1033,38 @@
       "originalSha256": "c12eb3733c85e1c56292df765f5594852a9530f66cbf1dcfbbb3020e0db83e0a",
       "originalTime": "13:28",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        150,
-        74,
-        294,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "5788c99809bf3d50113dcc38ba030220bd01c16ae018c047f7682fac32d87869"
+      "edited": false,
+      "sha256": "961ec6245a68321e6a9cf0963ed751f59d08e1bc52846b86956b610006f2a871",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/protect-decrypt-complete-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "0bf48209123858348e6836831b19481b558c33e11b03828499b11c4c9d5655eb",
       "originalTime": "10:39",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "b5233cb9b303a6e1b8d6f7547efa0fb8a0a1211fc04dd82799d9d1c0c561a20c",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "ca50451eb4730ce76f08093b286fc161e4c3c1f67013d31ea5647868d5b83d15",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "196a01644444731d3af7ace5c3c5c06060e6d0a061ef1db8d0e6e39fef0b5433",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/documents-protection-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "6599afe507f8972b90f3bf355a0517f2b01be7ca684307f41899ebb72781cf60",
       "originalTime": "10:40",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "2bcb417febf12ec8bf6d78b72999f535b305753b23cf0f0f66d5964a7085ba00",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/sign.png",
-        "sourceSha256": "8114669f10aa51e448687464e51790552a0f39c1c8dba3386d2a252b0926f0f6",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "a01d3d50ae7360f94a5e55d8a18679e228cc30ba5c89731ed288b8a1c6f9d88c",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "e1e9c5c4f577d8664811ea450fccc12e91d12726f9675fd45c158b27e28b48a9",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/empty-reader.png",
@@ -1769,23 +1102,10 @@
       "originalSha256": "0e258ebc85795b6950ba3882d58c1c885bc82590d343c919d4a5f7ac6dc78553",
       "originalTime": "15:45",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        173,
-        75,
-        317,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        178,
-        78
-      ],
-      "clockSize": [
-        133,
-        39
-      ],
-      "sha256": "e34c85d9462dd96e987de07aeab581c60aaf5367013f121f4a3aa65921459e01"
+      "edited": false,
+      "sha256": "c97e0753dba84b7d3654dbd8311f767f8acd2465d554174fd2fdb13de0df7011",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/incomplete.png",
@@ -1796,23 +1116,10 @@
       "originalSha256": "9bbd3fe333c46ad60c1bc376cda5ede8ff3f101d5a4edcfc36e190248d21af57",
       "originalTime": "13:28",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        150,
-        74,
-        294,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "7a7927d8e6ccb8d44b235f8faf0fe2f94f3dad467fe6f438919050337efce126"
+      "edited": false,
+      "sha256": "f2b302ffa2896b7d8c4fb15aaf103268efbaf46bce9b9060acfa7090cf5f2d87",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/file-error.png",
@@ -1835,23 +1142,10 @@
       "originalSha256": "6509a2015f2429746a0351e6dde5bf1fd4069992ddb83699677cbdb1df389b77",
       "originalTime": "13:29",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "5b6f821a91ac9f49b1e0a601f52975f81a5642b2c6f1bcd0e0e44789d294a07b"
+      "edited": false,
+      "sha256": "91761f60e8cee445b00dfbc2f28bfd96e6ac6c3d4c0b03044cab5acc86a00c8f",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/sign.png",
@@ -1913,23 +1207,10 @@
       "originalSha256": "82c19a0e5ee6da48c9800b42f49adf5ad808cbaa2d5c5155ed490f17b002fd54",
       "originalTime": "13:29",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "7794fa667ca132d468d32a2fbb916d3da2d80f5d52c6c29866d943ec1fbd2a51"
+      "edited": false,
+      "sha256": "3949398a3702bffcecbed71b2b75766f1bc211ee3b0d08d0d971d181a39ca881",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/history.png",
@@ -1940,23 +1221,10 @@
       "originalSha256": "609f4da6e2624fb15070da5612ca995468813679aafd88ee76be2fb71f959c0f",
       "originalTime": "13:29",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        151,
-        74,
-        295,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "69bd80ed1d5f805b4cb8ea1f5f21f25e79630117cf9ba14d36d1126c913022ed"
+      "edited": false,
+      "sha256": "37c63d92a2c02a073e317023eb5dc30e4e64e00b08eb554c3cccf9098a48f9d6",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/cards.png",
@@ -1979,113 +1247,38 @@
       "originalSha256": "e7a7d59a6cf7d3406635abb0043c4a69b06ce8e5c9fd59820347d23476b30860",
       "originalTime": "13:28",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        150,
-        74,
-        294,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "1b4fbdb9c6ed3a9893d2d1be180a211c956c1b8c5dbf01b802881888f6248a3e"
+      "edited": false,
+      "sha256": "f420175ea3c8380ec3212c45e6edb75a416b70ddf333d2168dd6f48099798f3e",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/protect-complete-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "c3ec7c28ca0715200081e67ef57045d6331b6b181a4681edd5e57ba0125416f5",
       "originalTime": "10:39",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "0d549d82647f0b86e7f6776efdcb524e9d23594b81ada17b12126adca6e4b918",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "9e6891287cfffa7ada1bfd69956118500093ce1725fe240b4f2c2b9baccf72ec",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "1b817c2ec7a2e50d383a1fb6fd00ff1985d66868eee4421a661971bbc41735b8",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/protect-password-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "dfcb646286fd5883588b1651d082354d6606a272222238dbcd417f5acb62f489",
       "originalTime": "10:39",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "f1e23538796c6f2807039fc7a386989adee41a29b98bdcadd5eb6d3a94668353",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "a501f38eb054907804e744568545136b1f6eee2517c93e824cd8ddea0a08a629",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "4742727b3803225567b8f49654726e930fc731b30a3e4aaaf5d82051c267e967",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/consent.png",
@@ -2108,53 +1301,24 @@
       "originalSha256": "ed7d3d1ed66798e2d485a996f294b68a859da8e8a3452e1a5edf888e2a2b3f92",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "ed7d3d1ed66798e2d485a996f294b68a859da8e8a3452e1a5edf888e2a2b3f92",
-      "edited": false
+      "sha256": "3f622be598063cbea33ccce4e4854bd156fa215dff904e1a0790c4383084e703",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/protect-decrypt-light.png",
       "dimensions": [
-        750,
-        1334
+        1206,
+        2622
       ],
       "originalSha256": "a541b2199f1afd84c361925471cbee3201bcfe97978f8b24b534f407eaf5d35f",
       "originalTime": "10:39",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        339,
-        8,
-        410,
-        33
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        344,
-        11
-      ],
-      "clockSize": [
-        62,
-        19
-      ],
-      "sha256": "fa608ccc5e05ca2d7b862b5abc25f5e552af6f35b6f6f28d29170c5a421f41bb",
-      "statusBar": {
-        "source": "website/static/img/guide/iphone/en/pin.png",
-        "sourceSha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
-        "crop": [
-          0,
-          60,
-          1206,
-          124
-        ],
-        "rectangle": [
-          0,
-          0,
-          750,
-          40
-        ],
-        "inputSha256": "03aabd011b94ec5efe6bb294d45e00ce1af6abf5e553effa4ed0a3fb0d26190d",
-        "purpose": "Replace legacy centered clock and Carrier text with a native modern iPhone status bar; preserve app pixels below y=40."
-      }
+      "edited": false,
+      "sha256": "e5ef857c51d4969d5fa7564c67786e3fba49bb9ddc862350f4dc9c52430abb29",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/browser.png",
@@ -2192,23 +1356,10 @@
       "originalSha256": "020dc71c4d7282a630dd2676665b9eb7a1d8ddda58c9a59c9bb56c1a0e2c3334",
       "originalTime": "13:28",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        150,
-        74,
-        294,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        154,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "26cad2f57f4ca9d33223736a992ead107ab9ac5c596d11f42be2dbda11eda77f"
+      "edited": false,
+      "sha256": "014a3b24e2ab630b65e2210425089f9cf5e6f8b79639c00b40e641a254745a1f",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/card.png",
@@ -2240,29 +1391,16 @@
     {
       "path": "website/static/img/guide/ipad/ru/untrusted.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "2c531bf60b63621ee77107a673a69acc9a3720393ded1044265839e087e86d05",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "5e0ebf463e9ac9d6dfb9c4895aa5f4cd784f216addb002cb92a1ebd3d945197f"
+      "edited": false,
+      "sha256": "50cec20074bf36df95a5e9a42c4357acdfe35e1e819553581dcbc1308d93fcf1",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/progress.png",
@@ -2291,53 +1429,44 @@
     {
       "path": "website/static/img/guide/ipad/ru/certificate.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "c700980a9a26263a641f5b3b2a201139e8c45d84b8ad6f0e047b9c53ecb1cae4",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "3331539f00c563669d52aa1f6d22bef2a70ef8a3593bda6594030bdbb691645e"
+      "edited": false,
+      "sha256": "dc367603e63789906f38ff728d6eea258f9c963097da0c46d480799ff4148ab8",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/protect-decrypt-complete-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "73aa8cfc4d9ea953f5782572fe91cdf59b596f45a21fba5dd8135354c7899bfb",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "73aa8cfc4d9ea953f5782572fe91cdf59b596f45a21fba5dd8135354c7899bfb",
-      "edited": false
+      "sha256": "9cd5a5cd7cf58ff7b7ff2ac4660b396d2ee40d81a556b07afaee9a100f2ac6d4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/documents-protection-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        1564
       ],
       "originalSha256": "0e6fe0d4d32018ea495819bead713e1be1460b4ab4105c4a28475900a5b1759a",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "0e6fe0d4d32018ea495819bead713e1be1460b4ab4105c4a28475900a5b1759a",
-      "edited": false
+      "sha256": "a3f9633523382c32c8856740754afe67f06e7f2f70703815500923d98a7d69d6",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/empty-reader.png",
@@ -2369,56 +1498,30 @@
     {
       "path": "website/static/img/guide/ipad/ru/protect-certificate-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "ebf3d28364739650eda856c776db79968265e8814671b64cdf4347ce01643908",
       "originalTime": "15:47",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        125,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "681b1c5b59361bbeb66c54f8890f8ea339456e383d6a0e86ca2d307e008b6457"
+      "edited": false,
+      "sha256": "5ef9d856d3f3e2f8462dade026552157ff1673f108cf29b964c01d12706387f4",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/incomplete.png",
       "dimensions": [
-        1668,
-        1210
+        1488,
+        1564
       ],
       "originalSha256": "38a42c572df07bf081a7703c305d962fe2a0d00a3a90c42498f2ef4503aa0e85",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "8ca0154d54aaeab3a7cfd34651bd16d488e3a5fd96bd5fb0505de41a94318909"
+      "edited": false,
+      "sha256": "3d4f203c37175cd9190ab7e5c45c3bc72a95a4445be9f038856feb8f94ef1d67",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/file-error.png",
@@ -2435,29 +1538,16 @@
     {
       "path": "website/static/img/guide/ipad/ru/unsigned.png",
       "dimensions": [
-        1668,
-        895
+        1488,
+        1564
       ],
       "originalSha256": "d48c23f457100e62ac73e08acc54fed33f7810e7f340f7ed1308233b76159a0a",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "8778a46c27213dd7db2c18ee5550b69e54e300342200227060dbb8fb84f2ad2f"
+      "edited": false,
+      "sha256": "bd2622fb3e749d9112f68453264331ff2a86430e49d209c110d2ecad7ad38403",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/sign.png",
@@ -2513,56 +1603,30 @@
     {
       "path": "website/static/img/guide/ipad/ru/documents.png",
       "dimensions": [
-        1668,
-        1041
+        1488,
+        1564
       ],
       "originalSha256": "a2c22ae01ee1ed14810baae584a1dc53d3937aceba413ea2643320f2b67f8098",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "3f56dcd3acd85b7b80cadb78deaee6bda80d08302ae5c837d723f779a70922d6"
+      "edited": false,
+      "sha256": "ec61ef7f7109168af2c5d9633819442a053581174c305223804478d158439723",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/history.png",
       "dimensions": [
-        1668,
-        1041
+        1488,
+        1564
       ],
       "originalSha256": "aafacde2e6bd737671bf0c14b708f51873a1dc2910739ab58a2015271c29ce44",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "af764cf602787dffc4987ee1448efbdb765d8c44a6f5205fe2f67ca3698cbe13"
+      "edited": false,
+      "sha256": "8b0d6862d4425278849d0560e075e01f47ae28c5c0a65e567efd788881c6b6a6",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/cards.png",
@@ -2579,53 +1643,44 @@
     {
       "path": "website/static/img/guide/ipad/ru/invalid.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "0753758f5883ce105377bfb584d101cccd04b2e58106b80480645f677d964d76",
       "originalTime": "13:35",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "802af40ce8a867ac675eb0ddd1da96a486bc64e6c6fc0aafb8921524d9d78c29"
+      "edited": false,
+      "sha256": "7f497cec5c29ef6f07e9f20a1b93e35f97835182b447f44a436b499f6b5fa11b",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/protect-complete-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "1de79a56c0c5266f244d57c4cc669f077669532ea78d536d25405d64aee08e5a",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "1de79a56c0c5266f244d57c4cc669f077669532ea78d536d25405d64aee08e5a",
-      "edited": false
+      "sha256": "a1ba733e14036ebc765ce869f9f9547a90b5e8ef29683b063ec58431eacb73b9",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/protect-password-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "5d75595b1dfafff24dc7471f5958c2e61eb944b54f45a998119d63e3e5ccd475",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "5d75595b1dfafff24dc7471f5958c2e61eb944b54f45a998119d63e3e5ccd475",
-      "edited": false
+      "sha256": "4a51660dc1fda56f14f363c64cf319e8875bd495ebd079fe7d35a0a7a652f7d1",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/consent.png",
@@ -2642,26 +1697,30 @@
     {
       "path": "website/static/img/guide/ipad/ru/success.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "1bef6a5b1f6925005c40df0215f8b24b4e2efd248ac590b7a25ea10cdc8de477",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "1bef6a5b1f6925005c40df0215f8b24b4e2efd248ac590b7a25ea10cdc8de477",
-      "edited": false
+      "sha256": "a1aba34bc8f2767204456de78309e0d99c004a3ec11f80c02265e8781001dfeb",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/protect-decrypt-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "aac567d0485598176398d2fd7ff63dbec9379f49c3dad7ea4f619e2af931b6c4",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "aac567d0485598176398d2fd7ff63dbec9379f49c3dad7ea4f619e2af931b6c4",
-      "edited": false
+      "sha256": "02a28e0fbc62aabb2732a4ac3170d2e5bdb1457cc0478cf895ddd16aaa038588",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ru/browser.png",
@@ -2693,29 +1752,16 @@
     {
       "path": "website/static/img/guide/ipad/ru/verify.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "cd6bd0f2ccd9ed685ebe9fee97550f54ea5db5004a119e838b342270e7e2c5a1",
       "originalTime": "13:34",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        127,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "3c6e74360eb4a27fbaacf46da8b96b8b0db289a4a1be664424ec8ede6a7bd7b0"
+      "edited": false,
+      "sha256": "132ef82ca3324933f75ab22936470134d58759da16c747400efced33b045d796",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/card.png",
@@ -2747,29 +1793,16 @@
     {
       "path": "website/static/img/guide/ipad/ro/untrusted.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "5239ec4f10141785e3e711a9d7774716c629855fbdcc2e40fa98535729925001",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "b1fc025e5da633eddea8af368f0e90a5556989de08e839f6d7c154f17215acb4"
+      "edited": false,
+      "sha256": "15af34829bf3834df04d0339bf3428822221d185be8fe801390aef0be9826f97",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/progress.png",
@@ -2798,53 +1831,44 @@
     {
       "path": "website/static/img/guide/ipad/ro/certificate.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "f3f0bb1c3018907542a2d55f49a9167932d19566a57dddeddad7b8a504a346da",
       "originalTime": "13:32",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "139910b864c204d61f9c9ec46e442bf650049bd4be2a64edbf7eed2001444dd9"
+      "edited": false,
+      "sha256": "9f6d07f0a6839b8871c1d2ae0f24651fa61c054de248dda59bcf22a5e75b82f3",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/protect-decrypt-complete-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "f0a82e3a2b96c1ee51583a27ec296b9a372444365b9ddfdb9b285b5f3681325a",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "f0a82e3a2b96c1ee51583a27ec296b9a372444365b9ddfdb9b285b5f3681325a",
-      "edited": false
+      "sha256": "adfc337d1b958303e566ad37c56f0fa35c859ac63954dc2832f01a368541d1b0",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/documents-protection-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        1564
       ],
       "originalSha256": "d70b85375f0ff99ea6a3915f5e91d0e722122314c2ca9f32377a0044747eb089",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "d70b85375f0ff99ea6a3915f5e91d0e722122314c2ca9f32377a0044747eb089",
-      "edited": false
+      "sha256": "2bf8356001721fe4cdeac3b2ff573476bc72517f55024ef96daccfa61ed19da1",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/empty-reader.png",
@@ -2876,56 +1900,30 @@
     {
       "path": "website/static/img/guide/ipad/ro/protect-certificate-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "67cc45e4048be8ede447dfbb8c5eec61dc95810b7a981d574292e9e9df21596b",
       "originalTime": "15:47",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        125,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "d4589909b270dddb441001512f3866f693e954a8deb31b4158ba7379833c2bab"
+      "edited": false,
+      "sha256": "542667ddc3ff64152eb3768ab2355da913beaac5d0ee5171fcee48e276d3fdcf",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/incomplete.png",
       "dimensions": [
-        1668,
-        1210
+        1488,
+        1564
       ],
       "originalSha256": "4898d33e66a43226225716a73995ad4c496d0c8132da239b4edea71d0dfd516d",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "93640bc9299864f63def92396d587d884383f4e2d0889e0361c81997648ef9db"
+      "edited": false,
+      "sha256": "977d6ef5a2752bee5bc48f6490ae83642598dab9186f486c7b615a2bcd85b829",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/file-error.png",
@@ -2942,29 +1940,16 @@
     {
       "path": "website/static/img/guide/ipad/ro/unsigned.png",
       "dimensions": [
-        1668,
-        895
+        1488,
+        1564
       ],
       "originalSha256": "a894b387c3b6761977d3dbe2935c2dca35a9256de0cce5b0e135adf6214a1a9e",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "76f549db655181a723fcdb63b3d0bfa351c77d6e6b43374a9c05911d9b5eae08"
+      "edited": false,
+      "sha256": "5a9e22aac8ec443cb20127d16d00b2dcb7f02bdecd38fbe088b9fe611f5be235",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/sign.png",
@@ -3020,56 +2005,30 @@
     {
       "path": "website/static/img/guide/ipad/ro/documents.png",
       "dimensions": [
-        1668,
-        1041
+        1488,
+        1564
       ],
       "originalSha256": "135731ea12f9c74f53583bd14e30241680279d10ca7e84a47e852844760a26d7",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "4de5bdc6d697d11c46aee36978f16c514949feaccdde3396b6d982a28472475a"
+      "edited": false,
+      "sha256": "8afdb915aa7f14742ae3bdb774a852a5a19f5385aa8b4947e90fa3ebe0cf92f6",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/history.png",
       "dimensions": [
-        1668,
-        1041
+        1488,
+        1564
       ],
       "originalSha256": "90b7fd5d879cc1b281fc6ea79a994574117e9c6c11620ed10dee8df1b56458ea",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "e21ce8e2c85f652c2b04b70ba8cce235bd44095389b441dd30cf99be34d91417"
+      "edited": false,
+      "sha256": "62770df998f8c34936bb917c23f150caee89174ba894db6e9ad0e8181a2af749",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/cards.png",
@@ -3086,53 +2045,44 @@
     {
       "path": "website/static/img/guide/ipad/ro/invalid.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "bb0b99aabf1efd5e73c76c0ba9c498be9aa5c3b1f939b689ac0c869548b62e21",
       "originalTime": "13:33",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "f71a0f21f926cf35ceade149cf2c4446752302cf4780ef88e430634a10d95727"
+      "edited": false,
+      "sha256": "a566f3769d0d5471641edd725d7840aced602f9ac3822295eecc219190bb30c2",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/protect-complete-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "99900b3425864042f99f0d2f9b40e8e42c9a4a58e50bf5c844d471fd111925b2",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "99900b3425864042f99f0d2f9b40e8e42c9a4a58e50bf5c844d471fd111925b2",
-      "edited": false
+      "sha256": "4235a38318180a3a598a99b9f354f8811ed55853ffe0a95fc4cb46f884fa292b",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/protect-password-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "c6fdad0b3893123e348caae20bf34287d4c5f46b707e43be42f741ddccf975c2",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "c6fdad0b3893123e348caae20bf34287d4c5f46b707e43be42f741ddccf975c2",
-      "edited": false
+      "sha256": "db5c8af7d025ab604efe81ee741a506703cfacbd802e2322ad3639bc544cf4e8",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/consent.png",
@@ -3149,26 +2099,30 @@
     {
       "path": "website/static/img/guide/ipad/ro/success.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "c1af2f3d477edcf6f07d9618e8e911d3e799c055468b92d5d7a68b6813fa1d64",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "c1af2f3d477edcf6f07d9618e8e911d3e799c055468b92d5d7a68b6813fa1d64",
-      "edited": false
+      "sha256": "49b2c339a88184def02135ef12b0530f4f528085b58d54e8377bf063d3b6f4c2",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/protect-decrypt-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "d679e30f734ade607e3d5e4c53daa5b9168a79606f17e2cf0c9d7efec9b6554c",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "d679e30f734ade607e3d5e4c53daa5b9168a79606f17e2cf0c9d7efec9b6554c",
-      "edited": false
+      "sha256": "1fd4bae7d87c3962425de67ed8150274a025e491af1ee0b6408d1c6e70198b80",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/browser.png",
@@ -3200,29 +2154,16 @@
     {
       "path": "website/static/img/guide/ipad/ro/verify.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "3c8d1024651195bd4c9e6f7ea5c9aad22e0caffe78715f10e854e508dd7a2654",
       "originalTime": "13:32",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "84dee101aad9f39f6284c58e06eaa9ec99f10855f0e8ee8811f401e1ee9a47ef"
+      "edited": false,
+      "sha256": "48cc87c348157904734a6cdd030965fcb10781478f152479027781ed565c810e",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/card.png",
@@ -3254,29 +2195,16 @@
     {
       "path": "website/static/img/guide/ipad/en/untrusted.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "2c359633677d2572fc642de23057498fd00d13bebc6404f9bdbc3a89aab1fb91",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "225904d9b11b3830992cb592133687276590f9bf7ab9fb7864f364d7a1fa5905"
+      "edited": false,
+      "sha256": "96e052b76728697e9869e4d2054ee8e79edbface108520045a5893c356e7e765",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/progress.png",
@@ -3305,53 +2233,44 @@
     {
       "path": "website/static/img/guide/ipad/en/certificate.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "70696eef475a103894e941d89329710a171dbeb5de93d5dca45b0b5fca4c5a82",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "3ac9547d41266334c58251a10d5dfccd8011b92eff607df98c79ccb9a222f3e5"
+      "edited": false,
+      "sha256": "e4e3fb5f405955818b22a89ee8d826839c6d6513b2431ef284ec36915570e9e6",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/protect-decrypt-complete-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "1fe251d281c39ed33abc74bd04c4de3d8e8fecc3357bbf9b7c22eb4152711113",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "1fe251d281c39ed33abc74bd04c4de3d8e8fecc3357bbf9b7c22eb4152711113",
-      "edited": false
+      "sha256": "26f6fc952e75ed952a75fa3f4c878bc57c26b8f2429bc1199a13a8a48b7934ec",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/documents-protection-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        1564
       ],
       "originalSha256": "ff8cc457557eaec2b986253e066d5af0a0cacc7472cfcb22f0dac3674a1d8f77",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "ff8cc457557eaec2b986253e066d5af0a0cacc7472cfcb22f0dac3674a1d8f77",
-      "edited": false
+      "sha256": "bc64fc5c6d52d819c232a5e07cc0f31a10ccd1aa4bbaa23f1d1469cf02bd8491",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/empty-reader.png",
@@ -3383,56 +2302,30 @@
     {
       "path": "website/static/img/guide/ipad/en/protect-certificate-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "efc839fcff0733199375b6fc027332fecded19e3641370f4418e8aa9ea5614c7",
       "originalTime": "15:47",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        125,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "5cee3b0c1ac3ab6ea2e204707e39d8ac87ffcaf736076fcc25ec27e01704be4c"
+      "edited": false,
+      "sha256": "e9f240b4fb79a5592db5ecf5fc844126f7593a629265411f49dafbc8b367e9b6",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/incomplete.png",
       "dimensions": [
-        1668,
-        1210
+        1488,
+        1564
       ],
       "originalSha256": "63a8cd5e607951ab9c6d99d2113f6d662b84db44d9ee422d369efc798f99ac1a",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "d350704723b2462651d161624a6c90511cd170dad4efb8b0ec77196eb6080d5a"
+      "edited": false,
+      "sha256": "593fd40d358f65a8fce48eeeab65b177f75b57556fecb7257422a9ad098a1ace",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/file-error.png",
@@ -3449,29 +2342,16 @@
     {
       "path": "website/static/img/guide/ipad/en/unsigned.png",
       "dimensions": [
-        1668,
-        895
+        1488,
+        1564
       ],
       "originalSha256": "6be67fa23fb096cef331fe5cf12d27d4dea2a3d041fc8006042b478fa40ac575",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "78793b53caf4a9d91b2743b281f2af632361e108808614ea810ca8ec5c39f85f"
+      "edited": false,
+      "sha256": "27bdf1962cf89ca3bfbea130d7d389da2d13c877a45e2292a36327adf9bb6150",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/sign.png",
@@ -3527,56 +2407,30 @@
     {
       "path": "website/static/img/guide/ipad/en/documents.png",
       "dimensions": [
-        1668,
-        1041
+        1488,
+        1564
       ],
       "originalSha256": "27b4cd6547b25843cb5f2c0b28fb002702eace58d5bafb836ac26b68b25c82a2",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "bfdcc83b1a75a21915842feebf0b747b5b2fd3232ab936fbb91be6d56daac18b"
+      "edited": false,
+      "sha256": "e959583bd5789cbe9ec05d9461b9f6cfdadd245722b2d23c95938d7f83301420",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/history.png",
       "dimensions": [
-        1668,
-        1041
+        1488,
+        1564
       ],
       "originalSha256": "c014b5d09e5496d29711312aa3dadb68c34171ccf1bb434cc012925c71c4e19a",
       "originalTime": "13:31",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        19,
-        123,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        22
-      ],
-      "clockSize": [
-        69,
-        21
-      ],
-      "sha256": "db50f815cff44a99dd492b76efa5857614f380eec614e890275624be1bd52a2d"
+      "edited": false,
+      "sha256": "5219fd84cae389d4dcd18f4052493e0c041f03f9cd317bd2b1aa7d573af3a958",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/cards.png",
@@ -3593,53 +2447,44 @@
     {
       "path": "website/static/img/guide/ipad/en/invalid.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "78407b1c8b76120ab696f8d48b350f57deed9b70bed75afafcf1dc657b7b6f0b",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "4adc3475d9dabee5f889b527fb7e36ac34e2e67325e830d8918ad870430168eb"
+      "edited": false,
+      "sha256": "736b4776f4551bf58b6c4c7e45ee3c242766ced1fe1893edd244fc6d17bac816",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/protect-complete-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "be94d32e920bde90710be8ebae629a938876b52893a4a60cae1005ca42404fb1",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "be94d32e920bde90710be8ebae629a938876b52893a4a60cae1005ca42404fb1",
-      "edited": false
+      "sha256": "7e1ee3dcace1745429b36b0abe4f515fb32b2c1eb9f73395cf92e5366e7cfad6",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/protect-password-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "ed139fff308321ac00e09765cbeb6010d27bea72020f9f75d8b2e4e4d326fbb4",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "ed139fff308321ac00e09765cbeb6010d27bea72020f9f75d8b2e4e4d326fbb4",
-      "edited": false
+      "sha256": "44c3f8a3cefb1e6051897651dab7132ed61ab347573b806d8612cd96e0f75315",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/consent.png",
@@ -3656,26 +2501,30 @@
     {
       "path": "website/static/img/guide/ipad/en/success.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "2694def070c8af805094404b2c8d2b875ded3280d07aeff90da700d1a258fcf7",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "2694def070c8af805094404b2c8d2b875ded3280d07aeff90da700d1a258fcf7",
-      "edited": false
+      "sha256": "afbaa50c4129015281028bc56c6eb8f247bf29bd6f6384de8760d539d957ff6a",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/protect-decrypt-light.png",
       "dimensions": [
-        1668,
-        2420
+        1488,
+        2266
       ],
       "originalSha256": "a055e4b17f6d0a088c3a807a639b7fc3e0ab8d93ec65be05d00e150269f60351",
       "originalTime": "09:41",
       "time": "09:41",
-      "sha256": "a055e4b17f6d0a088c3a807a639b7fc3e0ab8d93ec65be05d00e150269f60351",
-      "edited": false
+      "sha256": "b7664861f98f1e9e8db0cc46b80796ff81d289c9f714a4d04817afdb170bc9b2",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/en/browser.png",
@@ -3707,29 +2556,16 @@
     {
       "path": "website/static/img/guide/ipad/en/verify.png",
       "dimensions": [
-        1668,
-        992
+        1488,
+        1564
       ],
       "originalSha256": "c6f8d3ad259edef8865a667925cc95918ecefcec01ede7f45fbc91a1b41949a5",
       "originalTime": "13:30",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        48,
-        18,
-        126,
-        46
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-compact.png",
-      "clockPosition": [
-        51,
-        21
-      ],
-      "clockSize": [
-        72,
-        22
-      ],
-      "sha256": "f736abdf227ed644cecdf3c87a43b30d0d07eaf52e049a3287f77a8f002fe503"
+      "edited": false,
+      "sha256": "9f4851c4479f567a4c8a0b007353dc6017527814e5d521685c8c2d079eee30e8",
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/sign-progress.png",
@@ -3791,26 +2627,13 @@
         1080,
         2400
       ],
-      "originalSha256": "53780149aa401244fc4f96b3c408565afba77e6224fb9fad9d72c1b1c1d6a95e",
-      "originalTime": "1:42",
+      "originalSha256": "c5e7acf164fe62484f588511d438b067a5018ba3507e7dd08eaa8fb761483500",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "0a77d76e0a3ee6f3dfbc60d6321e70daaabf216fa2f05aef02164ad4779e9956"
+      "sha256": "c5e7acf164fe62484f588511d438b067a5018ba3507e7dd08eaa8fb761483500",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/details.png",
@@ -3818,26 +2641,13 @@
         1080,
         2400
       ],
-      "originalSha256": "d3df43794c57687b3674244b6726d208e14bf611c1b85380c309a5b5693cc09d",
-      "originalTime": "13:23",
+      "originalSha256": "2fc2e2423c35e0020703681c41e40e58b8f0442138382b11e6e7eeb6aa46ec28",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "a097eebc36eb933e13a0599ce2b9f3a6b113540280638e770576770aeb50fa3d"
+      "sha256": "2fc2e2423c35e0020703681c41e40e58b8f0442138382b11e6e7eeb6aa46ec28",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/pin.png",
@@ -3899,26 +2709,13 @@
         1080,
         2400
       ],
-      "originalSha256": "5aa853401d4184b138c16001edb3c6badb784e247abf9c48d13acd8783241d6b",
-      "originalTime": "10:41",
+      "originalSha256": "9616e963640460311690f0a1ec903e75cbf69b85679f0d16150cd02f857df31f",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        72,
-        51,
-        162,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        75,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "c2f5493ef4f51910209cf44146fec31c06c913546b8a06ae83608ed144536cc7"
+      "sha256": "9616e963640460311690f0a1ec903e75cbf69b85679f0d16150cd02f857df31f",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/certificate.png",
@@ -3926,26 +2723,13 @@
         1080,
         2400
       ],
-      "originalSha256": "5dbd6957774e02ef3f156aac1c2fd8cf568efa1f2523fff58d3949f6292bffdf",
-      "originalTime": "13:23",
+      "originalSha256": "3e2dd0b2fd7f73bd08c6b835b32d41d17c8be5005235d3c65bf8898a1be13541",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        47,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        164,
-        50
-      ],
-      "clockSize": [
-        114,
-        38
-      ],
-      "sha256": "dfe214f64bbed27d316f468a20a7830eb41fe36a2346feda85b3bd96c0cec6fe"
+      "sha256": "3e2dd0b2fd7f73bd08c6b835b32d41d17c8be5005235d3c65bf8898a1be13541",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/protect-decrypt-complete-light.png",
@@ -3953,26 +2737,13 @@
         1080,
         2400
       ],
-      "originalSha256": "46b4c51bdf6c52ab3064fb5d82e20647e275c5294da82fbcf7f7212cd1aab5c1",
-      "originalTime": "10:41",
+      "originalSha256": "49dee1d8c8b127ce8265cadc477a490e85a6106870c156951fd353cb88f28fd4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        73,
-        51,
-        163,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        76,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "11c421d31db3e6834bfa2abfe5d6af8530c5e45deb9b3c944d4ee4b27d5a59eb"
+      "sha256": "49dee1d8c8b127ce8265cadc477a490e85a6106870c156951fd353cb88f28fd4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/results.png",
@@ -3980,26 +2751,13 @@
         1080,
         2400
       ],
-      "originalSha256": "761ef6288d94b10f802a0178194f69060374dc484b42238dfab28d6e2d14064d",
-      "originalTime": "13:23",
+      "originalSha256": "c67b04c586981de4aa612d1a2f0f10a2642b85b816215d3dc4490f7dd306f4b7",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "6ba6979fac70c53319611bac69fcfc9bfb93b1a373f90ff61078893104ba4362"
+      "sha256": "c67b04c586981de4aa612d1a2f0f10a2642b85b816215d3dc4490f7dd306f4b7",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/original.png",
@@ -4007,26 +2765,13 @@
         1080,
         2400
       ],
-      "originalSha256": "cf88074a058bdacc5a70bf654d6f2a7865dc6c53203e4de6398834fea0d3e402",
-      "originalTime": "13:23",
+      "originalSha256": "47465917bf95bd50db1b0ff28288c64ee6adf2c20fa2796f4e6dcec813b323c9",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "8b0f5e3e84c36b99eea4aa44b2156e005224965678b1d033564f517c177b2060"
+      "sha256": "47465917bf95bd50db1b0ff28288c64ee6adf2c20fa2796f4e6dcec813b323c9",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/protect-certificate-light.png",
@@ -4034,26 +2779,13 @@
         1080,
         2400
       ],
-      "originalSha256": "1450298495f7a26e3bb1f21e1aa6bae60104cf969735e431b3e81c3968cdc0ba",
-      "originalTime": "3:47",
+      "originalSha256": "6bc6d287c69f682ff8c105370c43b0caeba55e668124b70adac6227460237cf2",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        58,
-        51,
-        148,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        61,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "cc36c712ebe6a8fd242d1a37adcfc9e7437c2dd67e64fa66b333fd928d06f1f0"
+      "sha256": "6bc6d287c69f682ff8c105370c43b0caeba55e668124b70adac6227460237cf2",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/sign.png",
@@ -4142,26 +2874,13 @@
         1080,
         2400
       ],
-      "originalSha256": "ec64df50f09cfdd9f08aae02a05036a018fc405d0090828210c09bec780c5d6a",
-      "originalTime": "13:23",
+      "originalSha256": "539d9a516326abe984d4632e7d4b458d995642d5126d9d76e8727a048da4076d",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "cd79aff10ace6c9cb630313b5cbc5909172a74919322b4698792e3f48a9b91f5"
+      "sha256": "539d9a516326abe984d4632e7d4b458d995642d5126d9d76e8727a048da4076d",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/browser-data.png",
@@ -4196,26 +2915,13 @@
         1080,
         2400
       ],
-      "originalSha256": "bc3d0772bc305b24fe0230162ca40c3b89d923de0478a5dc12e3622cd1ec10b5",
-      "originalTime": "13:23",
+      "originalSha256": "4ca0325af02f4f4b759b131f2f7d550f3e2093a8a110f64e94e57fb96dfd65ef",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "0034c05308e71054ca0fe76e58923d94b463e01f2cfc55a90eb7dac0b6b1d2fc"
+      "sha256": "4ca0325af02f4f4b759b131f2f7d550f3e2093a8a110f64e94e57fb96dfd65ef",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/protect-complete-light.png",
@@ -4223,26 +2929,13 @@
         1080,
         2400
       ],
-      "originalSha256": "f08f30b038520bbe57a5a9ade2ea57030db42267cf509f9a3ae89f4e77750e59",
-      "originalTime": "10:41",
+      "originalSha256": "a34e125eb55e26b7a35f292a25423172f249ea3ccc271f933fe44a2dc573b525",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        73,
-        51,
-        163,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        76,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "0780bc73462bd0823549c699e8cb47af0f1a2df0dc07962abef331ba017edb3b"
+      "sha256": "a34e125eb55e26b7a35f292a25423172f249ea3ccc271f933fe44a2dc573b525",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/bookmark.png",
@@ -4277,26 +2970,13 @@
         1080,
         2400
       ],
-      "originalSha256": "1a44def70c436a2e4f8376092681be708339d9b62d692fbcf9a1edb36e3a4cf3",
-      "originalTime": "10:40",
+      "originalSha256": "b6cf494496fe4e32a71b48537123f1dd00e70de4a04b274b9ac9a504092efb51",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "764ba355bef9c5b764447734f592e5fddba1c5eca125789decdadaeb9bff2abd"
+      "sha256": "b6cf494496fe4e32a71b48537123f1dd00e70de4a04b274b9ac9a504092efb51",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/sign-failure.png",
@@ -4358,26 +3038,13 @@
         1080,
         2400
       ],
-      "originalSha256": "1c97ef8f11f8271ef07065c1117bf55eacbccd0d3411e474a66eef8029f48705",
-      "originalTime": "1:42",
+      "originalSha256": "e9892c3580e7421884a43a101df5ee3b37da2a283a842e51d40a98072561dbdd",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "54e76d70780d602428665600413b6549e7239513f036ad37c168fed4ef921952"
+      "sha256": "e9892c3580e7421884a43a101df5ee3b37da2a283a842e51d40a98072561dbdd",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/verify-none.png",
@@ -4385,26 +3052,13 @@
         1080,
         2400
       ],
-      "originalSha256": "174abce9d6e2669ecb723a748989aa6396c73b904f25a9d72df99a50fc154a1a",
-      "originalTime": "1:42",
+      "originalSha256": "2c6e854fb149aa30e43a60e8db4719de6ccf626ff379bea31119815cf1305299",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "430778d4461bae3edec6ddf1b8f7846774ceeabdb07ed3e0c8a7e7a2fe367c00"
+      "sha256": "2c6e854fb149aa30e43a60e8db4719de6ccf626ff379bea31119815cf1305299",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/protect-decrypt-light.png",
@@ -4412,26 +3066,13 @@
         1080,
         2400
       ],
-      "originalSha256": "02100c315a5e0970fda781611a8b6b8a027712558f5b37249c4ecf591bf659d0",
-      "originalTime": "10:40",
+      "originalSha256": "5f28919021dff1710c67a6f49cd2e48e00c8339e76aa48bbe4e86b2f5b05c438",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "e4d31455678db54663d80c47f1eda89e0d5e3d21e3c037f6275d10852d57d3d2"
+      "sha256": "5f28919021dff1710c67a6f49cd2e48e00c8339e76aa48bbe4e86b2f5b05c438",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/browser.png",
@@ -4628,26 +3269,13 @@
         1080,
         2400
       ],
-      "originalSha256": "07480fa709beb1721dac6600437c189c3c0a7e0b3e4e947d1950b2ab54b75fe0",
-      "originalTime": "1:42",
+      "originalSha256": "3d86937f8caf600390c73c659685a3146d78bfe053c14c5993008e2c228c4669",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "6cb1a68419eccc91dc47ba91599e4e97df27676793b1b97f192ec12c4bec3b4f"
+      "sha256": "3d86937f8caf600390c73c659685a3146d78bfe053c14c5993008e2c228c4669",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/details.png",
@@ -4655,26 +3283,13 @@
         1080,
         2400
       ],
-      "originalSha256": "8705330faa811dd0d6cc8a4f101cae5d5f96293ac18ac319107058a3242a2101",
-      "originalTime": "13:20",
+      "originalSha256": "1a2a3d1143b907e9eb9fa0c2ff99278b1ad2f30106881a76e3a1364265c4e108",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        194,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        107,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "89feab8d0a695d32b97d7777c48f7d5c061252ac93ba17b5a27e0cff482f71f8"
+      "sha256": "1a2a3d1143b907e9eb9fa0c2ff99278b1ad2f30106881a76e3a1364265c4e108",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/pin.png",
@@ -4736,26 +3351,13 @@
         1080,
         2400
       ],
-      "originalSha256": "92d237883f1329d497c36d9e948bc1c0372b4606aa06797a42624b398309a5e4",
-      "originalTime": "10:40",
+      "originalSha256": "a0a84a3c079b1577db94f94d8d8cd79f012b698b8b05c77204ead5cdb20e8b88",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        276,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        162,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "b27031ad449d96891f2c7f39620d6e7deedf15adbd8d05716c18950c56677831"
+      "sha256": "a0a84a3c079b1577db94f94d8d8cd79f012b698b8b05c77204ead5cdb20e8b88",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/certificate.png",
@@ -4763,26 +3365,13 @@
         1080,
         2400
       ],
-      "originalSha256": "69b4db78fac1de60f388a3d76bb37c5ac42420bfa1d3a1b0037757588844bbaf",
-      "originalTime": "OCR unclear; reviewed native status bar",
+      "originalSha256": "eaf6965a4ea2f0de2454a78ff6ecf0262b0de07b084b351ee4f76a97542c1d62",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "bc723798bceb1f5fce9dae29dacd193136eb20d78bc7f2b07750ae909ceb1f24"
+      "sha256": "eaf6965a4ea2f0de2454a78ff6ecf0262b0de07b084b351ee4f76a97542c1d62",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/protect-decrypt-complete-light.png",
@@ -4790,26 +3379,13 @@
         1080,
         2400
       ],
-      "originalSha256": "8e6d3ab82483a90d12320cfe8ac6d60d041c5409f061ee9672ac9d49f00f41d3",
-      "originalTime": "10:40",
+      "originalSha256": "8e5aadbf563411a2ad767ceac545c9ef921685322e739fcc4a42933b70bddd0f",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "cf4863044dc519eb866844ac5a28fa931465fc684d8ead1e5e987e938d706abb"
+      "sha256": "8e5aadbf563411a2ad767ceac545c9ef921685322e739fcc4a42933b70bddd0f",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/results.png",
@@ -4817,26 +3393,13 @@
         1080,
         2400
       ],
-      "originalSha256": "17312d4c7e6f77f9008234057e54da7b985fe881b1eb096698b7a517f70f1183",
-      "originalTime": "OCR unclear; reviewed native status bar",
+      "originalSha256": "3d8cce70c821c230809483e3f4db78117359c9e6ae5014655d556f880dc40256",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "c816d071304d77023c0b0c1e207b63455fa695d6c4cc117ade474bcc104f6baa"
+      "sha256": "3d8cce70c821c230809483e3f4db78117359c9e6ae5014655d556f880dc40256",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/original.png",
@@ -4844,26 +3407,13 @@
         1080,
         2400
       ],
-      "originalSha256": "a6186d5aeab4dac4bc9783797c6008fa5db9b7e99becc28bac6cc32a2b8302ab",
-      "originalTime": "13:20",
+      "originalSha256": "9a81cb0c463459d04a1d8172865051e1c41a5ae28761262ed0f3cabb3545031c",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "81350c7565323b3a173dc091c2b3b39979c7f3c4993de3ea98dcea33049d4dfb"
+      "sha256": "9a81cb0c463459d04a1d8172865051e1c41a5ae28761262ed0f3cabb3545031c",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/protect-certificate-light.png",
@@ -4871,26 +3421,13 @@
         1080,
         2400
       ],
-      "originalSha256": "9b5f1958f1b01fdbd075bf52223ede384be7da16b9993237c300b67c4cadaad6",
-      "originalTime": "3:47",
+      "originalSha256": "dec5f79e911950f73964024e6a213b7cf481cb1c8612bd269c61a3c73e73073a",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        58,
-        51,
-        148,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        61,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "2655634c4be14485ef661cedae1373d960fe620c6c0dad0b360ef8219d13633c"
+      "sha256": "dec5f79e911950f73964024e6a213b7cf481cb1c8612bd269c61a3c73e73073a",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/sign.png",
@@ -4979,26 +3516,13 @@
         1080,
         2400
       ],
-      "originalSha256": "eba01a8372a30442db1f0854faa19c498dd0555d41c13eebfbed6296fe38d984",
-      "originalTime": "13:20",
+      "originalSha256": "b482ef7d44bf465f1628009c9ddc27ee636cf49b84f3d85dcc02eea56e860bd0",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "82d3d3c48f1282613dac8f81b3c5b2397197ae7247edacfad03fc7dad6481692"
+      "sha256": "b482ef7d44bf465f1628009c9ddc27ee636cf49b84f3d85dcc02eea56e860bd0",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/browser-data.png",
@@ -5033,26 +3557,13 @@
         1080,
         2400
       ],
-      "originalSha256": "4f5d0d865ea797bfd48bc880892c23f6ce95dca89610c153be37dcf2fcecdd01",
-      "originalTime": "13:20",
+      "originalSha256": "7d4429fe9eb30c5138e6789d462139cb3b659018f36a5828e0785a17dc81df23",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "6d70104ea6eb6746a532015fbd4cb5ea1adfb459b60e95672ab2ba803a59cd3d"
+      "sha256": "7d4429fe9eb30c5138e6789d462139cb3b659018f36a5828e0785a17dc81df23",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/protect-complete-light.png",
@@ -5060,26 +3571,13 @@
         1080,
         2400
       ],
-      "originalSha256": "dd0bbe070b107934e664c7d0ace63f76ce6c7a192be6e3e602efdcbf63fc4356",
-      "originalTime": "10:40",
+      "originalSha256": "78602bc95abb4c15e337c977caaefaeca1ac92cb152550b000ad69ab976d3bcc",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "81832d0da3110ee7b622477b9cd60a3a4dc3411b667e87541b01f62f37d9ebca"
+      "sha256": "78602bc95abb4c15e337c977caaefaeca1ac92cb152550b000ad69ab976d3bcc",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/bookmark.png",
@@ -5114,26 +3612,13 @@
         1080,
         2400
       ],
-      "originalSha256": "9d9d3a540f5451d74fd6b949da61def81868e379a6ea0e8fea85bebe192d98b8",
-      "originalTime": "10:40",
+      "originalSha256": "6a685a25ba1cfedbf757a255d0a0b820cd2aed48b9c5cb3ad30dae81ddb5c67d",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "6edba882e05a4c99d52876a5e6bc3c06b356731c229007dc8ca6f956e4113b30"
+      "sha256": "6a685a25ba1cfedbf757a255d0a0b820cd2aed48b9c5cb3ad30dae81ddb5c67d",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/sign-failure.png",
@@ -5195,26 +3680,13 @@
         1080,
         2400
       ],
-      "originalSha256": "e68589a88bbf0eb02c7a92a91cb2c44330eb6b1d248b51a740c88c92404b9bb5",
-      "originalTime": "1:42",
+      "originalSha256": "b09bdd5c8ad5fdc7fe68462fd91404ca6ac044dc51dc35970e2900a689392946",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "3583cf590f110435fdf9e41c85b2859afe3d5a5f2f40e836d8e551593e21dbfb"
+      "sha256": "b09bdd5c8ad5fdc7fe68462fd91404ca6ac044dc51dc35970e2900a689392946",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/verify-none.png",
@@ -5222,26 +3694,13 @@
         1080,
         2400
       ],
-      "originalSha256": "71085406d71be493dd005913d7693cf37b99fde93becaaf6845060a8c0d39891",
-      "originalTime": "1:42",
+      "originalSha256": "4d329890a353fef70351bb7e59710a1d3f74c67a1defb8628eca359b4594ac0b",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "86824b2e167f6a24076cf7206cc6789ba1bab00ea2448740e46a65b37cdbaa45"
+      "sha256": "4d329890a353fef70351bb7e59710a1d3f74c67a1defb8628eca359b4594ac0b",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/protect-decrypt-light.png",
@@ -5249,26 +3708,13 @@
         1080,
         2400
       ],
-      "originalSha256": "7613b5aaf3532bf00867a94986e29df6dc939b76c32c0a5eae6b3ed266c648e5",
-      "originalTime": "10:40",
+      "originalSha256": "538a832a5717e7c946ba229e16d1806f9c19ae6ff39bfe7b156f1faae72c2da4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "8e09009df98748d7b0e53a5573d7ae8f7d5f03f07d09c5494b7e4d835607c2e8"
+      "sha256": "538a832a5717e7c946ba229e16d1806f9c19ae6ff39bfe7b156f1faae72c2da4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/browser.png",
@@ -5465,26 +3911,13 @@
         1080,
         2400
       ],
-      "originalSha256": "4edad131b9e0f7c2d32503a21348a4956df3f773de5f570667998022e45f7107",
-      "originalTime": "1:41",
+      "originalSha256": "bbc12f1d5513d5facc6952f486835fa6564474be32fa980a48c9c6ac9339d015",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "b96f2998b2a48d2885fd32caadb06ec692b73c5d092a7172866675d57fd5384d"
+      "sha256": "bbc12f1d5513d5facc6952f486835fa6564474be32fa980a48c9c6ac9339d015",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/details.png",
@@ -5492,26 +3925,13 @@
         1080,
         2400
       ],
-      "originalSha256": "a2bbd9b19c6eb8165282c9533e01fd370bbbfdfbe34a16a5cb8d6edc70595634",
-      "originalTime": "13:18",
+      "originalSha256": "456dab499f655a5d246feab031efb031bb98a119fd9ac03c16f64a03e4e3b5dc",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "a6332720bf28a3f7661dcae9a14a626b513fcdc820a40cb78ae3bcf44dd822bd"
+      "sha256": "456dab499f655a5d246feab031efb031bb98a119fd9ac03c16f64a03e4e3b5dc",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/pin.png",
@@ -5573,26 +3993,13 @@
         1080,
         2400
       ],
-      "originalSha256": "0d66599998611bea0ce6d0bf34cdc758f6fd326e7efeabfcd820811f65cf2668",
-      "originalTime": "10:39",
+      "originalSha256": "6c262c27123cc17267142ca821bdb34ecb9ee642b59577745353373cbe7feaf7",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "7e050be1ad6618c02355eb76742eaab200f95b3aa4bbec8052a49ad80bb33923"
+      "sha256": "6c262c27123cc17267142ca821bdb34ecb9ee642b59577745353373cbe7feaf7",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/certificate.png",
@@ -5600,26 +4007,13 @@
         1080,
         2400
       ],
-      "originalSha256": "2eac0b5e608c970f753d9b4cc9f65d416667e3532245d84d1f74cb5df077fa27",
-      "originalTime": "13:18",
+      "originalSha256": "37b80d0f0e012d9f41aa8a0d6bb87d0ff819a999b181e390335da0ca9dc176b8",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        48,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        167,
-        51
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "3874531d7527464ff00fd473d4846afad6ed6b3195d1a2519027b3993c45f614"
+      "sha256": "37b80d0f0e012d9f41aa8a0d6bb87d0ff819a999b181e390335da0ca9dc176b8",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/protect-decrypt-complete-light.png",
@@ -5627,26 +4021,13 @@
         1080,
         2400
       ],
-      "originalSha256": "c0be39b2fad1b6a03f74433dbc8fb0a6003050732e19bada6aaf53be9e7065ab",
-      "originalTime": "10:40",
+      "originalSha256": "a822c2fb08c53eb9b32077930d5896dca9e7600a056179ef5b08957483838a5c",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "7ae352fa7105cd65730eef391bb3e8e1a091845745c0366230f401379ddc7f17"
+      "sha256": "a822c2fb08c53eb9b32077930d5896dca9e7600a056179ef5b08957483838a5c",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/results.png",
@@ -5654,26 +4035,13 @@
         1080,
         2400
       ],
-      "originalSha256": "d91274e68aac270f0de1b0f52fd0d753e7a34e57305d0bab42a10603046ec31e",
-      "originalTime": "13:18",
+      "originalSha256": "afa8021afae1a32d9856de1f53c7c7b799de8ede1ec2470e4abe6ad31eaccd0e",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        48,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        167,
-        51
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "f5d0abec86c05a60c94f611e1be4d2d56aa5cd439885f28e8b94b6943199fbcc"
+      "sha256": "afa8021afae1a32d9856de1f53c7c7b799de8ede1ec2470e4abe6ad31eaccd0e",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/original.png",
@@ -5681,26 +4049,13 @@
         1080,
         2400
       ],
-      "originalSha256": "450d8659bcefd61ade9507875bf65177c2433547a62b1ca0a595c84620d6cf93",
-      "originalTime": "13:18",
+      "originalSha256": "1c19b2b58832ef9de45fa0d232bd5f0a40da2e3e50d8797a2548f9d952d0c576",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        48,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        167,
-        51
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "e6bd3fc969aeca2b4f13878213ffb0f2473322532a08531d3f2e642c9e427d2d"
+      "sha256": "1c19b2b58832ef9de45fa0d232bd5f0a40da2e3e50d8797a2548f9d952d0c576",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/protect-certificate-light.png",
@@ -5708,26 +4063,13 @@
         1080,
         2400
       ],
-      "originalSha256": "b240002776b18ba3474f57fd131fb03838007ebb1b7067b313388ec865ebcc14",
-      "originalTime": "3:46",
+      "originalSha256": "98592a5b2149106bf79b9040ed90cdfb88e15525e3e6a54cde2d15653644d32d",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        51,
-        147,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        60,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "c667de0974ea961a33d1648c7f184447413f1bae1c0b400a40c5e80e48eb5866"
+      "sha256": "98592a5b2149106bf79b9040ed90cdfb88e15525e3e6a54cde2d15653644d32d",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/sign.png",
@@ -5816,26 +4158,13 @@
         1080,
         2400
       ],
-      "originalSha256": "42bc9c012c3ff1dbcd200de566e773f9bde1b1b3f1865adde86c44ad54e9be8f",
-      "originalTime": "13:18",
+      "originalSha256": "f325bd1d3d598c89662367f452f4f756e20f894e8f97b2bc78d7dfd08393bfa1",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        48,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        167,
-        51
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "92917012cde3b6c1655775becbd3f657a96a88f823f0ff9d48841fab5c574935"
+      "sha256": "f325bd1d3d598c89662367f452f4f756e20f894e8f97b2bc78d7dfd08393bfa1",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/browser-data.png",
@@ -5870,26 +4199,13 @@
         1080,
         2400
       ],
-      "originalSha256": "acf4b33dac6d2241d92ed67ef5e577de9806c8f0442bcf7d1a15bb05dc665db9",
-      "originalTime": "13:18",
+      "originalSha256": "ff53b1356ba79be97e72f780a01d1c1e975b0992af0c2642863bd72bd07f7306",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        48,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        167,
-        51
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "7a541c5d49637375d585bb92b92c4c80d4b4a2382a393b136e140af11a191e14"
+      "sha256": "ff53b1356ba79be97e72f780a01d1c1e975b0992af0c2642863bd72bd07f7306",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/protect-complete-light.png",
@@ -5897,26 +4213,13 @@
         1080,
         2400
       ],
-      "originalSha256": "93b84e7579ec9be93124f9d71e202369068bc7594bbfe31c520d3d339b0c2bdb",
-      "originalTime": "10:40",
+      "originalSha256": "4ca6be48bdd8cf6ad48cf69c98cc87c2843389614ee7abab0de55e38cc5500c4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "9a6840b3f324e4d5b634ccafb1364f7b975ca39937684287eea7f45e84e412c7"
+      "sha256": "4ca6be48bdd8cf6ad48cf69c98cc87c2843389614ee7abab0de55e38cc5500c4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/bookmark.png",
@@ -5951,26 +4254,13 @@
         1080,
         2400
       ],
-      "originalSha256": "4ee603403fa6c003f83590251ce549bcdfc5fbea1bc0d85ec654162a5ece39a6",
-      "originalTime": "10:39",
+      "originalSha256": "7a08b519d23b5b27e590c420ea08bd28e82b7cd42ed1f2b2e87a3a7405bf8dd2",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "970862468e1853477d156988f4c832b50f8ce838eb52a04c9a6debade90d53d7"
+      "sha256": "7a08b519d23b5b27e590c420ea08bd28e82b7cd42ed1f2b2e87a3a7405bf8dd2",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/sign-failure.png",
@@ -6032,26 +4322,13 @@
         1080,
         2400
       ],
-      "originalSha256": "55d3de68e0f8fb74986fa90383b5596d6ff44ec5bcf8d3dfdee7d5c735c70e1d",
-      "originalTime": "1:41",
+      "originalSha256": "c60edeccaba449e346c8fa52114201101dcb1156fa35078ff44c44f83b16cd25",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "e87756d950179fd31062016ec751ab00065e7901da179970b80dba96848018bb"
+      "sha256": "c60edeccaba449e346c8fa52114201101dcb1156fa35078ff44c44f83b16cd25",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/verify-none.png",
@@ -6059,26 +4336,13 @@
         1080,
         2400
       ],
-      "originalSha256": "fd4cdfc3b24683f0d1681a4546d577437a8a4a2c132d4bcb14cff78752c89d40",
-      "originalTime": "1:41",
+      "originalSha256": "5bf22e313ece1ca6f46e66ac65326a198396b0d88283f9292f0e920ee65f94da",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        47,
-        255,
-        90
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        141,
-        50
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "decf7e6e5b8bb75e9f91e2fd0102e7b3a000a227389d3a5f4e8f35ac998e040e"
+      "sha256": "5bf22e313ece1ca6f46e66ac65326a198396b0d88283f9292f0e920ee65f94da",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/protect-decrypt-light.png",
@@ -6086,26 +4350,13 @@
         1080,
         2400
       ],
-      "originalSha256": "3bb52be041563aaf20857c477b202258797aaefbd37f19eb792a247e30a42a1b",
-      "originalTime": "10:39",
+      "originalSha256": "e4597476050a44375b792f6f89cc13fbcfcab611866713eb558cf57e1e421334",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        74,
-        51,
-        168,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        81,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "e482fd432735971a2360ae5189979fefa6afcd4e7ea9bd223ef400aa426f086c"
+      "sha256": "e4597476050a44375b792f6f89cc13fbcfcab611866713eb558cf57e1e421334",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-phone/en/browser.png",
@@ -6302,26 +4553,13 @@
         1600,
         1100
       ],
-      "originalSha256": "f462dc7de69d99930a33ac56d0f26c5d63838b139080dd29fc500ed95662b5e4",
-      "originalTime": "1:44",
+      "originalSha256": "7ae91a4d30e9773246bb057325740777d8375411cf37e26bf3ebe1f1a6d681c0",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        54,
-        27,
-        90,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        57,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "df84e14f8e8c7d317bc512791161f199878633086ff1b05e5fa3f0edb6e68555"
+      "sha256": "7ae91a4d30e9773246bb057325740777d8375411cf37e26bf3ebe1f1a6d681c0",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/details.png",
@@ -6329,26 +4567,13 @@
         1600,
         1100
       ],
-      "originalSha256": "a8bc54f4fba0e0fff92b7347ad52fc46aa215cf5daf222ebffd0e0c89896e4b1",
-      "originalTime": "13:27",
+      "originalSha256": "c43c52170d147e12e7056e85ac0f4b2f0f1f5f36c68ba0739d878e6180777819",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "14fdcb21579c067e439a79c82376bc483e834da328f3343ab32fe21a511f7c99"
+      "sha256": "c43c52170d147e12e7056e85ac0f4b2f0f1f5f36c68ba0739d878e6180777819",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/pin.png",
@@ -6407,29 +4632,16 @@
     {
       "path": "website/static/img/guide/android-tablet/ru/protect-menu-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "abac4d51f08d04a9bfc816b7a893a5154806cb3ae60c96319893844035a8c5da",
-      "originalTime": "10:42",
+      "originalSha256": "de45ed20f2a773f4b1a0337aedcc02ee34e1ac40d65561d6c67b2ebd5e9b9a2d",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        68,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "25575441e0b6d3f4c273b0974fb23cfc3fbda85c21fe7c2bb422230621c65da1"
+      "sha256": "de45ed20f2a773f4b1a0337aedcc02ee34e1ac40d65561d6c67b2ebd5e9b9a2d",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/certificate.png",
@@ -6437,53 +4649,27 @@
         1600,
         1100
       ],
-      "originalSha256": "773c05a5d9263d345c1975291be7fa2aa41363ca52c5f77634dfe2cdeae00be0",
-      "originalTime": "13:27",
+      "originalSha256": "74f49a6551138c9563069502995a0e8114fab8cd9bc6ca4b95a7c46e825e88f3",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "2fffe2bbf22b072546dd2948c7d78f4d3a44a9cf2e76b5c835917268b8a3a28e"
+      "sha256": "74f49a6551138c9563069502995a0e8114fab8cd9bc6ca4b95a7c46e825e88f3",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/protect-decrypt-complete-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "18f81c662585491c96914d32cfc44fd8a7960fa1038f853fec848b8d76b9e52b",
-      "originalTime": "10:43",
+      "originalSha256": "acadfaad9d6cc1bd90cb16d5d9fc74853cfc79b0e826583ba6a19e8bc106039a",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        153,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        72,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "2302ceaf3a007a609a4343779e9325d0b6639e28bf3f00c27a2786c4db445ca2"
+      "sha256": "acadfaad9d6cc1bd90cb16d5d9fc74853cfc79b0e826583ba6a19e8bc106039a",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/results.png",
@@ -6491,26 +4677,13 @@
         1600,
         1100
       ],
-      "originalSha256": "e51619f66897618113d61c9e5270d406661232c69b7ed586381e37c0635b5a9d",
-      "originalTime": "13:27",
+      "originalSha256": "b5ef9b755470f2db358292cf6f7b52cb66e160fd3d79939e2670c8f5d5c05387",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "9c43eaa702ac70da1b44e14c665dccd460fc3e5a5784eebd6cde870d194bc6e6"
+      "sha256": "b5ef9b755470f2db358292cf6f7b52cb66e160fd3d79939e2670c8f5d5c05387",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/original.png",
@@ -6518,53 +4691,27 @@
         1600,
         1100
       ],
-      "originalSha256": "a3028132975b08844485626e5bf735ec1d71a755ad4e8c92ff200e72fe6cb41b",
-      "originalTime": "13:27",
+      "originalSha256": "ce06736e1a7b5dd7d4077f6db8d83f0af84bd9820f3a9d53192860ca43cf9040",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "b26e9a96d96bb301a452ca03cfefdd917777d26c9044035de1efa18af8d41628"
+      "sha256": "ce06736e1a7b5dd7d4077f6db8d83f0af84bd9820f3a9d53192860ca43cf9040",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/protect-certificate-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "b7f462b4e4228190d8b41168e9934a72e3150468a4c7235fc43ec64fb1be1fe3",
-      "originalTime": "3:45",
+      "originalSha256": "6eeca7b01749f1f204cfe77c424a479d8514b639e2d6370c5819f5b4914856bf",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        129,
-        52,
-        213,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        132,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "f6cc094e64213a622087047456cf320e3979ee5d899d3d3a1c099604e0780b60"
+      "sha256": "6eeca7b01749f1f204cfe77c424a479d8514b639e2d6370c5819f5b4914856bf",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/sign.png",
@@ -6653,26 +4800,13 @@
         1600,
         1100
       ],
-      "originalSha256": "beb958681f8bba8d9af2d72e15132747b708bcd57d6f331f9537daf61b4ed0aa",
-      "originalTime": "13:27",
+      "originalSha256": "89d602e8bdd701d86339075dced6e726f75f2ef78d520dc2eee023956c9346cb",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "da071b1170caf6a3434d2dcbf6c96b6dcd16ecd50accf2ecc8a3b3724c7e9037"
+      "sha256": "89d602e8bdd701d86339075dced6e726f75f2ef78d520dc2eee023956c9346cb",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/browser-data.png",
@@ -6707,53 +4841,27 @@
         1600,
         1100
       ],
-      "originalSha256": "66f4ee31bc56e8871bca24e83356744e75de15cedd770092fff29f51357a3cff",
-      "originalTime": "13:27",
+      "originalSha256": "daca7333c413819dc6609d4176b33121c4e708f3d7cf16b6c0d7e6012ae0f551",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "6faff909d2f5bcc6b29472c67b11cd7720a6e2244687600e9ea02bf7b0208bf6"
+      "sha256": "daca7333c413819dc6609d4176b33121c4e708f3d7cf16b6c0d7e6012ae0f551",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/protect-complete-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "677c06ccd7af44ff2fcb9a082dbaa10bf7311d2f99e34f844d1c3a86bef7299f",
-      "originalTime": "10:43",
+      "originalSha256": "7cf08701ea94995e57d77bf0d722c8a352df6fc8d3918e5d6c23020db9d909ed",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        153,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        72,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "48332b3707be4e45d194606bf0459d9a10cfc3d1bcdae9657b3f4faedd941cc0"
+      "sha256": "7cf08701ea94995e57d77bf0d722c8a352df6fc8d3918e5d6c23020db9d909ed",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/bookmark.png",
@@ -6785,29 +4893,16 @@
     {
       "path": "website/static/img/guide/android-tablet/ru/protect-password-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "762eb65dd09b08e3ac1b959615b641a65de0909d634ab4e01ee1f1d1e9f4ab85",
-      "originalTime": "10:42",
+      "originalSha256": "088dba23a86964f6de814cbba06d03d06dea4bdd9bb56ac6b142cc6216c33259",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "d69482964e7595ca264aa9b2a41e32e90de4757f09e3e7ecb85ef66783fd5615"
+      "sha256": "088dba23a86964f6de814cbba06d03d06dea4bdd9bb56ac6b142cc6216c33259",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/sign-failure.png",
@@ -6869,26 +4964,13 @@
         1600,
         1100
       ],
-      "originalSha256": "1cdc98eb8b2b3c3576857d01420aa1bae9976000f9443442cde014ca0d67c306",
-      "originalTime": "1:44",
+      "originalSha256": "44fbed2f14e3dafc2bcb2009d7d457b7590d482a5e48b08e522559693ad4eaf7",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        54,
-        27,
-        90,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        57,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "b48e0ef77d51a7e85a20c5313804d6e504b6926051784a3687b67f65bc8089b4"
+      "sha256": "44fbed2f14e3dafc2bcb2009d7d457b7590d482a5e48b08e522559693ad4eaf7",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/verify-none.png",
@@ -6896,53 +4978,27 @@
         1600,
         1100
       ],
-      "originalSha256": "6a865cffcc19e0930eb554eb57c7473d30ed7ec6db4e37323a34bcb1b12b62c3",
-      "originalTime": "1:44",
+      "originalSha256": "3c7eedc2f180a7b4c4bbef60eded69bb8ddc30e73fed36ffc145f688727291f4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        54,
-        27,
-        90,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        57,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "b6e231770d33ced9a28d8dde73919ed1e9b5cfa6b3febc0a6230a7634b58bf3e"
+      "sha256": "3c7eedc2f180a7b4c4bbef60eded69bb8ddc30e73fed36ffc145f688727291f4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/protect-decrypt-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "0991be39bcf77ceccd604a86b9f904d31ef3f884a648e877b20c17c883d9df47",
-      "originalTime": "10:42",
+      "originalSha256": "beb953d9f766e67b65ec9a18c84beaa03db927c0ff9e3daa5c1e096a90765b23",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "2d52a796926ba00262fedf4616fb37bcca1ad939b480c1c01ac99785df469c04"
+      "sha256": "beb953d9f766e67b65ec9a18c84beaa03db927c0ff9e3daa5c1e096a90765b23",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/browser.png",
@@ -7139,26 +5195,13 @@
         1600,
         1100
       ],
-      "originalSha256": "a967664bbca212e3f2fb5eb2cdb3c3d941d3a2c414084118d52055dc17fe30bc",
-      "originalTime": "1:43",
+      "originalSha256": "c947753d014aa63ca946739de6c8bd1132fde4503fddc876724ede59a8e0b7f4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        53,
-        27,
-        89,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        56,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "437b89ad43d71c488af1e2c0029f9a8aec1468c313e0ec32df2ec5f42f438190"
+      "sha256": "c947753d014aa63ca946739de6c8bd1132fde4503fddc876724ede59a8e0b7f4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/details.png",
@@ -7166,26 +5209,13 @@
         1600,
         1100
       ],
-      "originalSha256": "329b776bcfd8a0e1ce6ed08106d2a7259375db58ede3dfa13f6f3f59397ef66c",
-      "originalTime": "13:26",
+      "originalSha256": "9a5764c70a30415ab55b6b08b06e878314b648b762758e1a7bb35a6bc9e071b4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "a8e404d3f398ed57ed0a6812048b986de29060f9e4d786a47b19e69267fd5f02"
+      "sha256": "9a5764c70a30415ab55b6b08b06e878314b648b762758e1a7bb35a6bc9e071b4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/pin.png",
@@ -7244,29 +5274,16 @@
     {
       "path": "website/static/img/guide/android-tablet/ro/protect-menu-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "125f9bf3a09ee35e18b07d0e6a088f0c095895489cdcfcd6d389a0ecb4c39cdf",
-      "originalTime": "OCR unclear; reviewed native status bar",
+      "originalSha256": "26d9f26aabbec577e92a8248ed51a738b3ac2d3e5652d96278b1ef44d97ad459",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        68,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "03e4a7011e96789882e5ffe34488f784c0e9609d1416651b222f680bda57a623"
+      "sha256": "26d9f26aabbec577e92a8248ed51a738b3ac2d3e5652d96278b1ef44d97ad459",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/certificate.png",
@@ -7274,53 +5291,27 @@
         1600,
         1100
       ],
-      "originalSha256": "a44e19493b5f8609f533973827ecdc80846c1698c186198b3172309ea721d44c",
-      "originalTime": "13:26",
+      "originalSha256": "a5775672360f5c31216008f51c28a01623e8eedbdaec683b9318660bed83cc85",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "68ec9365a293f54f27b3e353720b0d9f76ce96c4eb9b0d05d8070c83783b31cf"
+      "sha256": "a5775672360f5c31216008f51c28a01623e8eedbdaec683b9318660bed83cc85",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/protect-decrypt-complete-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "290f7398f2cced29d687cf3c2f75a4b3c529695c5400173df5fe7c23a69ddf0c",
-      "originalTime": "10:42",
+      "originalSha256": "8916ad53a0d5726fc5149696fe2db6396890fd3f3bc06ff2356f5042d9400117",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "3435df61bb9df36e221308f3ef962b7e5b1b61346e846a0ea5e3cb5c6c10ad85"
+      "sha256": "8916ad53a0d5726fc5149696fe2db6396890fd3f3bc06ff2356f5042d9400117",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/results.png",
@@ -7328,26 +5319,13 @@
         1600,
         1100
       ],
-      "originalSha256": "41b194c2214ced04b86bdee76f0d5370a74611a9ac9e730b63ae4e1ee792fa04",
-      "originalTime": "13:25",
+      "originalSha256": "c17fea63a2b6c6bb44088700b36d40600148731064938e2da0e869b777872f43",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "fb9d3d9e0fd94f6a2398312fc9d3f529393687ec84e09f68b8296f81e7196100"
+      "sha256": "c17fea63a2b6c6bb44088700b36d40600148731064938e2da0e869b777872f43",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/original.png",
@@ -7355,53 +5333,27 @@
         1600,
         1100
       ],
-      "originalSha256": "5b58f5dbbb561b8051f9141a5c5d031e73009c2b1581b1723fbc28b76150b641",
-      "originalTime": "13:26",
+      "originalSha256": "1a514a0163326ddbbcd765cae0a3e1db74bcc9c0fd94b93ac12d53c878c0f5de",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "20f5bfb3eb12f3fda0abbac0717116aa66740af554e09d6d8d04fe4e8efe2cef"
+      "sha256": "1a514a0163326ddbbcd765cae0a3e1db74bcc9c0fd94b93ac12d53c878c0f5de",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/protect-certificate-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "573d6b84657889e9af83e69feb8d4f78ce18d716f4ed5ab3c1b569ada2fb4f25",
-      "originalTime": "3:44",
+      "originalSha256": "6d254657feb8ce73fba0a10751732840d53c0368d53f50b4debeb93b6d436a24",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        130,
-        52,
-        214,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        133,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "b9a4d5ca25d63a33b1119293ad9f8addd4f4c9b744049ab556077ccb5de734d0"
+      "sha256": "6d254657feb8ce73fba0a10751732840d53c0368d53f50b4debeb93b6d436a24",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/sign.png",
@@ -7490,26 +5442,13 @@
         1600,
         1100
       ],
-      "originalSha256": "a19e65d6196137eab64e623462a093f1eab1f9faca377380cdb2a8b6e5222577",
-      "originalTime": "13:26",
+      "originalSha256": "901f79f43f02f00e1fe6b44c80a06110339a8b54eeae33ad18fcd12b6e20bd11",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "9de4169e06361b17f6b7b4af8a4dbe9f6f75cb6fe9f00aa80186dab9f0360193"
+      "sha256": "901f79f43f02f00e1fe6b44c80a06110339a8b54eeae33ad18fcd12b6e20bd11",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/browser-data.png",
@@ -7544,53 +5483,27 @@
         1600,
         1100
       ],
-      "originalSha256": "46ed6932ae6c2b6d85f53d7835459d1686145695719b327557a082c57cbcfa33",
-      "originalTime": "13:26",
+      "originalSha256": "aaaab993dbcc59842c710d00d7b410167ee09a7033add2e70e3a90ee3dcd44d2",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "290014ae069fc6f56f02821559ca0c4e42e2a1d5bef2c140eb43bb9cc636179a"
+      "sha256": "aaaab993dbcc59842c710d00d7b410167ee09a7033add2e70e3a90ee3dcd44d2",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/protect-complete-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "664b8408b50effec0698fc4c10172e0ae0d2ff34adc45c26a6be581442d7d2e8",
-      "originalTime": "10:42",
+      "originalSha256": "06b43b87839b4c4d53ab9265647c98c90d22fd52f5e4ea6f2d9398a40711c0c7",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "5f747d8e07af2820e3958b108d95d1a489b2681fec272ff4e5488ac0e65e87f6"
+      "sha256": "06b43b87839b4c4d53ab9265647c98c90d22fd52f5e4ea6f2d9398a40711c0c7",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/bookmark.png",
@@ -7622,29 +5535,16 @@
     {
       "path": "website/static/img/guide/android-tablet/ro/protect-password-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "026f4905d063a3d5e497886542c99a80ac3dea42262bd00db43b0b6de7a2d235",
-      "originalTime": "10:42",
+      "originalSha256": "d67bb68adfc853e5a71654c4908c3eef6c3f1390d6d28a87a31373a7311d64da",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "aa2c317ef250ac96fbe28397cf686d49a2cf656f50b789b6aecaae2f62c1e605"
+      "sha256": "d67bb68adfc853e5a71654c4908c3eef6c3f1390d6d28a87a31373a7311d64da",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/sign-failure.png",
@@ -7706,26 +5606,13 @@
         1600,
         1100
       ],
-      "originalSha256": "bef2815dcb0af9254b72f93d4304244416eb937490f6937dbbff082f2ecdd369",
-      "originalTime": "1:43",
+      "originalSha256": "5d08378b4084242e5195324dfc014ddd3246efa6604e453946cb119a602af61c",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        53,
-        27,
-        89,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        56,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "374368d7c8bda67fbe0050f6d44048672ef5a35b75c84b08d1bd621bd905a60c"
+      "sha256": "5d08378b4084242e5195324dfc014ddd3246efa6604e453946cb119a602af61c",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/verify-none.png",
@@ -7733,53 +5620,27 @@
         1600,
         1100
       ],
-      "originalSha256": "96694bca9d36d4484d8c1b597866ecd1ea556bd8d04a639c202129cc027f9ee6",
-      "originalTime": "1:43",
+      "originalSha256": "a86d9a11c34fa66823554e3103c5574087f5158150ab49c6100a96cc8dc35e70",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        53,
-        27,
-        89,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        56,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "c2b087be79ad7d47de773c00f2b4dd982fe35e7e77cb12d06628520d14367481"
+      "sha256": "a86d9a11c34fa66823554e3103c5574087f5158150ab49c6100a96cc8dc35e70",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/protect-decrypt-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "3cce60f2d5b9bcec1a64d7fd93b9ad86aad210be9d67dfb9f1547bb4152255f7",
-      "originalTime": "10:42",
+      "originalSha256": "1b36bdc91f449ec7a1e270cc3d581d79ae66504a1b60b28c7b773cd2396a38c9",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        67,
-        52,
-        154,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        73,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "da2972fc96e91187b58150304d34cc83d243679a3d919943a80dbb4a2abc4a7b"
+      "sha256": "1b36bdc91f449ec7a1e270cc3d581d79ae66504a1b60b28c7b773cd2396a38c9",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/browser.png",
@@ -7976,26 +5837,13 @@
         1600,
         1100
       ],
-      "originalSha256": "860f7a84b8291c329bec5e2002e711258232d58368075b951f3291b2cb4a8905",
-      "originalTime": "1:43",
+      "originalSha256": "2ab7eddb8184f642ada9e687010a129d04736f3cde9f07b15a145acb91e62410",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        53,
-        27,
-        89,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        56,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "f00a0a79040475ffadbdcfe840fd6523ded148fab09560fe5e9067c83dd63834"
+      "sha256": "2ab7eddb8184f642ada9e687010a129d04736f3cde9f07b15a145acb91e62410",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/details.png",
@@ -8003,26 +5851,13 @@
         1600,
         1100
       ],
-      "originalSha256": "007b99707e745937680b9fdb5d4955d32ad97b28c4c0a687571ef5e5e612f8ba",
-      "originalTime": "13:25",
+      "originalSha256": "756dcb3a834885a995ddfdbdb5ab0ec7931a97c182acb853177b158cf10b9b4a",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "ca45f4162b27572a90c42b3b2f08ed86d43df46cbed24c4574ab3e6e95749eb2"
+      "sha256": "756dcb3a834885a995ddfdbdb5ab0ec7931a97c182acb853177b158cf10b9b4a",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/pin.png",
@@ -8081,29 +5916,16 @@
     {
       "path": "website/static/img/guide/android-tablet/en/protect-menu-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "bbb2a2adf3406b7b0ceb300db7bd018d9f3ed7bc27990cd31d29a655e4ca13d4",
-      "originalTime": "10:41",
+      "originalSha256": "b0eab766c1af76e72552ed7d5c65fe4e5b179b1152888830b77d37b026513987",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        64,
-        52,
-        148,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        67,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "c979fe2794a5ae1fe7e8ac2fc157aafe2ab67ef5b7b6df30b8b364b865766291"
+      "sha256": "b0eab766c1af76e72552ed7d5c65fe4e5b179b1152888830b77d37b026513987",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/certificate.png",
@@ -8111,53 +5933,27 @@
         1600,
         1100
       ],
-      "originalSha256": "fdc04e16ca213451c863107735a53718625269bc3fc37b8f01ee0772be9bd5b5",
-      "originalTime": "13:24",
+      "originalSha256": "5e48e31c7770f90ff886fa0068343825490d0e8d4d33ed84f51cc61ede13a0e4",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "598d8548c93166912b9bcb90fa59c7ff15fa5003ca06ee3c376eaf4194ee4cf3"
+      "sha256": "5e48e31c7770f90ff886fa0068343825490d0e8d4d33ed84f51cc61ede13a0e4",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/protect-decrypt-complete-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "4a971d3738acbc6450403371f98100489c9fc82ba7f3ec65755a7e320004889d",
-      "originalTime": "10:41",
+      "originalSha256": "1ab6f50c99700e09e1b7c8f48d7af81c6c859ec8f3f81eaac20d334d481fdbf5",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        65,
-        52,
-        149,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        68,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "169b43fd3e0214a6814d85caafbbfa065f3e70fb136746e6ae3410413e345eb4"
+      "sha256": "1ab6f50c99700e09e1b7c8f48d7af81c6c859ec8f3f81eaac20d334d481fdbf5",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/results.png",
@@ -8165,26 +5961,13 @@
         1600,
         1100
       ],
-      "originalSha256": "92ca3eb3ac20249f22c703f92bbd41e624a6c87cfaef53afdadd6e4a64bd03fe",
-      "originalTime": "13:24",
+      "originalSha256": "8864cc1ff1ab57b4ba159fc769ef9cd212b666b239baf63bc20ee78ce753b610",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "378b73255ca086b291ea032b3e8507fcf82f795f166b1b55a995206f46e7a5f5"
+      "sha256": "8864cc1ff1ab57b4ba159fc769ef9cd212b666b239baf63bc20ee78ce753b610",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/original.png",
@@ -8192,53 +5975,27 @@
         1600,
         1100
       ],
-      "originalSha256": "02314eec9438c0285198aaa164c489c5dfddac6697c0cf183ae473230a02504f",
-      "originalTime": "13:24",
+      "originalSha256": "e0b5a7cdb359c3397d267a47846af32729480398f16cb6da16c213a71bf11a19",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "0f477a1547698b62581b57f657537cda44f0c5a72a2cbb146f7815879ab47d85"
+      "sha256": "e0b5a7cdb359c3397d267a47846af32729480398f16cb6da16c213a71bf11a19",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/protect-certificate-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "9dcdaa805bfc49a34113a99154dc4eecb039dfa0e5fc45743375c65f5da42f58",
-      "originalTime": "3:43",
+      "originalSha256": "8a8a5bcffe9033c9e971c8a7ecac50d5a3057f226d23dfa0980ef5e2cffdf259",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        128,
-        52,
-        212,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        131,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "205805b2a960304ba047fc84ff31fa750361f2d3b3c95371fe39ee5d16bd36a7"
+      "sha256": "8a8a5bcffe9033c9e971c8a7ecac50d5a3057f226d23dfa0980ef5e2cffdf259",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/sign.png",
@@ -8327,26 +6084,13 @@
         1600,
         1100
       ],
-      "originalSha256": "bd4b9fac6082f8312da088eb7523e3a1dad74b29512fa822c5280fc65ac0bef2",
-      "originalTime": "13:24",
+      "originalSha256": "20663ca2186ebe7b027a2cc8191ee0b9e29f3c6ec2c53581953c3eaa249c0eee",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "83480144a746993f75cc39b7ba6b328332907a0b74de5d92d16ea40f24377e6a"
+      "sha256": "20663ca2186ebe7b027a2cc8191ee0b9e29f3c6ec2c53581953c3eaa249c0eee",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/browser-data.png",
@@ -8381,53 +6125,27 @@
         1600,
         1100
       ],
-      "originalSha256": "7f190cffccbf7bd77a88051bfc78950bb76b13fe2a1952f6e918ae12e721615b",
-      "originalTime": "13:25",
+      "originalSha256": "f78ba53dbcfdc44873704f51750ecb4a67ba72c6d9d1b43b8071788940bd83fe",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "3c6f9718ff31fc40b7e34e6ee8f4b1115f8ef54375186cb79de42ee74617b633"
+      "sha256": "f78ba53dbcfdc44873704f51750ecb4a67ba72c6d9d1b43b8071788940bd83fe",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/protect-complete-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "4fa83b658246fe33caa513e51456cecbd31e89370abb5c1f1a9169fd671b23d0",
-      "originalTime": "10:41",
+      "originalSha256": "3f99fbd0f92c87945dfc4e2849b8894c925c5df05a0b058cad9b7a0771c35dc8",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        65,
-        52,
-        149,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        68,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "918a782a1fd8cc9421b544902f1d8a95e0311f357b74a275a77457e5fec6a22e"
+      "sha256": "3f99fbd0f92c87945dfc4e2849b8894c925c5df05a0b058cad9b7a0771c35dc8",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/bookmark.png",
@@ -8459,29 +6177,16 @@
     {
       "path": "website/static/img/guide/android-tablet/en/protect-password-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "7afc9e1d593e65f0746eaa0eb9263e52822abee08a53cf096f725ef870190fd0",
-      "originalTime": "10:41",
+      "originalSha256": "933171d56f7d35ad14c366aa72243bfd7dc116a91e0c4e7e0153d264749570ed",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        65,
-        52,
-        149,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        68,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "e4ce41da0848ebf8917b20481b283998732de129d1614e217a4897a883401c1c"
+      "sha256": "933171d56f7d35ad14c366aa72243bfd7dc116a91e0c4e7e0153d264749570ed",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/sign-failure.png",
@@ -8543,26 +6248,13 @@
         1600,
         1100
       ],
-      "originalSha256": "22003f5981e274266a27fa432f84d9fef58ac41faa5e28894ba7f50c65e6b378",
-      "originalTime": "1:43",
+      "originalSha256": "e775a2acaadb26cc2ef0aa459c9527cefe8d408b241ea2112cf15ad7a1c99e1f",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        53,
-        27,
-        89,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        56,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "a073aba1eb4c30c9d7276f6ce8ec02b15a6b662ea894c7e0997131917375f0d7"
+      "sha256": "e775a2acaadb26cc2ef0aa459c9527cefe8d408b241ea2112cf15ad7a1c99e1f",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/verify-none.png",
@@ -8570,53 +6262,27 @@
         1600,
         1100
       ],
-      "originalSha256": "342377c052db9338018c8f9cbad2c5c634faf13bd5c911302aa7e109c624816f",
-      "originalTime": "1:43",
+      "originalSha256": "827bf528633d7d63d9b104a5c9e0bd395c090edea64bec3af98d84e09f57aa39",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        53,
-        27,
-        89,
-        43
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        56,
-        30
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "a5a7bffbb5bc9e952e7d4b4d1222ed87b3de6c3730d299f633ee940edba1d800"
+      "sha256": "827bf528633d7d63d9b104a5c9e0bd395c090edea64bec3af98d84e09f57aa39",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/protect-decrypt-light.png",
       "dimensions": [
-        2076,
-        2152
+        1600,
+        1100
       ],
-      "originalSha256": "2349a19c5db824c522a0f14036e1b1793f7a64d2e0b762decfade308ab704a3d",
-      "originalTime": "10:41",
+      "originalSha256": "97190a10e89de9e16d3cf16dbf7eee6f90cd40ff632e80a14b29e6c3729e4dc7",
+      "originalTime": "09:41",
       "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        65,
-        52,
-        149,
-        84
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        68,
-        55
-      ],
-      "clockSize": [
-        78,
-        26
-      ],
-      "sha256": "d1dbd0581f999a2052d7659bb85f69565540f640c31a347afe2afb8d177bdc2f"
+      "sha256": "97190a10e89de9e16d3cf16dbf7eee6f90cd40ff632e80a14b29e6c3729e4dc7",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/browser.png",
@@ -8752,6 +6418,390 @@
         10
       ],
       "sha256": "52664e2c144b341f57bdfbbd7f5849915d1ce6ab8e44cfed90d8ba31b6533ee7"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "3145280152e6bdc5de2fef9741687c22a4eab79df362368a362523ab3296ff72",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "3145280152e6bdc5de2fef9741687c22a4eab79df362368a362523ab3296ff72",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-technical.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "3f968a0b098dd9b489f0ef417f0cc27b20c2cd2c8fc802befb89b69f91231090",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "3f968a0b098dd9b489f0ef417f0cc27b20c2cd2c8fc802befb89b69f91231090",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "496f2561abfa6ff808662b11dfca5fb63c59d2448860cb9c738b3f09b4c10597",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "496f2561abfa6ff808662b11dfca5fb63c59d2448860cb9c738b3f09b4c10597",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/cards-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "c4aeb9b2fb4b4e60629f018fc5c7ea6af955495ddb8c482a7807a5bca387a551",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "c4aeb9b2fb4b4e60629f018fc5c7ea6af955495ddb8c482a7807a5bca387a551",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/saved-cards.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "e53d0e796168786278c048603b76d6a12403e3e785cbb1fe875f71058d37570f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "e53d0e796168786278c048603b76d6a12403e3e785cbb1fe875f71058d37570f",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "ed510c55f0080675b6994a6bc375950b7133b9d6d5ee18156226e1cd2be2aa0e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "ed510c55f0080675b6994a6bc375950b7133b9d6d5ee18156226e1cd2be2aa0e",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-technical.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "b1cb0435772a5e704ebb4f3d20112b3680f433dcd31b844fa0d207e15bd1d1ed",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "b1cb0435772a5e704ebb4f3d20112b3680f433dcd31b844fa0d207e15bd1d1ed",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "7a2cfd3ad128309daa89e66b404fa268e00cf893a860ec86d8ddb7a11a9c2f5e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "7a2cfd3ad128309daa89e66b404fa268e00cf893a860ec86d8ddb7a11a9c2f5e",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/cards-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "f29bc89400ce5460fafea76008e8748c16595464559099e929714572cadcd055",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "f29bc89400ce5460fafea76008e8748c16595464559099e929714572cadcd055",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/saved-cards.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "a941f34d613fc30a3ef233a3bbf661c75eb657fc982b132f7b146aab9f6f63bb",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "a941f34d613fc30a3ef233a3bbf661c75eb657fc982b132f7b146aab9f6f63bb",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "469d5965936fc1d2eebf20674bdada870ade845039d6d4271849461e24552337",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "469d5965936fc1d2eebf20674bdada870ade845039d6d4271849461e24552337",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-technical.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "5cf59b0b18d02c13a7ee366f9bd54d219395a4e8065586c205ed5051765ae628",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "5cf59b0b18d02c13a7ee366f9bd54d219395a4e8065586c205ed5051765ae628",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "3fc745178adaf44cd9f9bbe86f1b07a6c37cdc4365fb1f531d7756e9f822ef7d",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "3fc745178adaf44cd9f9bbe86f1b07a6c37cdc4365fb1f531d7756e9f822ef7d",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/cards-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "9b2a1770039f2d550474da248eb123a2bf20e0a01d352078e47bb9fb9b9dac0a",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "9b2a1770039f2d550474da248eb123a2bf20e0a01d352078e47bb9fb9b9dac0a",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/saved-cards.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "7801f0bcaa68a0f48f75d82b664b505093eca2f79a4d36d3318a49f0ebe73c37",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "7801f0bcaa68a0f48f75d82b664b505093eca2f79a4d36d3318a49f0ebe73c37",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "f1ef72249f03bdbeb1abe26edd48da51828578361b6aaef44fa0684b313cb083",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "f1ef72249f03bdbeb1abe26edd48da51828578361b6aaef44fa0684b313cb083",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-technical.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "997886a33023355f34d8e0e8ddf3a6cfe047c11f21b2e9db5172dc55aa4fb1a7",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "997886a33023355f34d8e0e8ddf3a6cfe047c11f21b2e9db5172dc55aa4fb1a7",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "84baac11662ad663cc29f4ca559cd3492cc18efaf6e7f47336769962c57d1bfa",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "84baac11662ad663cc29f4ca559cd3492cc18efaf6e7f47336769962c57d1bfa",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/cards-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "43864b6013e693e4ac049988df6c79b7fd98b9a7f9cadc3959d33895f040929e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "43864b6013e693e4ac049988df6c79b7fd98b9a7f9cadc3959d33895f040929e",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/saved-cards.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "fbfeada8c651165d01916b55389a5ca49060f2ca6af91675115f8e2c6b8c6ef7",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "fbfeada8c651165d01916b55389a5ca49060f2ca6af91675115f8e2c6b8c6ef7",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "181dfacca4f9dac8056e2b9c49035417ccbe5a8755c902356886647e13e39cb0",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "181dfacca4f9dac8056e2b9c49035417ccbe5a8755c902356886647e13e39cb0",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-technical.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "d42d83ad916b30271d0f420812cf9d0fb7c120065fea8a103eae950a59ee1870",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "d42d83ad916b30271d0f420812cf9d0fb7c120065fea8a103eae950a59ee1870",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "d91b440fec89c0efc2e65850ac2fd56e2cff926473701add3b9ed30decccb12f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "d91b440fec89c0efc2e65850ac2fd56e2cff926473701add3b9ed30decccb12f",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/cards-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "e22a683fdcc8e40c8a923923db536964f969fc1ad93ec17214196e21c1453adc",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "e22a683fdcc8e40c8a923923db536964f969fc1ad93ec17214196e21c1453adc",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/saved-cards.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "f2ce9876907805312c2ab91fdd6e89a681879948f5eedd4f2444f6ae99ec75ce",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "f2ce9876907805312c2ab91fdd6e89a681879948f5eedd4f2444f6ae99ec75ce",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "c2fd633c09b235d1c0fcacbfafbf132470de377915fea69ee5e0016829e7b759",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "c2fd633c09b235d1c0fcacbfafbf132470de377915fea69ee5e0016829e7b759",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-technical.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "dcafa906841079da857ef4358dd7f26926cfc1dcbc6f3a9f84525d68aa44ae70",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "dcafa906841079da857ef4358dd7f26926cfc1dcbc6f3a9f84525d68aa44ae70",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "c61a22d4e31d11c6397cae973366b987fb80a9907c27969ae4be5fe15565e739",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "c61a22d4e31d11c6397cae973366b987fb80a9907c27969ae4be5fe15565e739",
+      "edited": false
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/cards-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "d15bb1499afcd33651259dc331a8e2631449ba713a110506cd4b84507eeb7718",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "d15bb1499afcd33651259dc331a8e2631449ba713a110506cd4b84507eeb7718",
+      "edited": false,
+      "refreshed": "2026-11-19",
+      "method": "Native simulator/emulator clock override to 09:41"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/saved-cards.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "df6348f2900446705906f2bbc2b2b5f0811deb1c73144fadec92d1fb4eb69205",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "sha256": "df6348f2900446705906f2bbc2b2b5f0811deb1c73144fadec92d1fb4eb69205",
+      "edited": false
     }
   ],
   "withoutStatusClock": [

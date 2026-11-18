@@ -48,7 +48,7 @@ Lasă cititorul conectat până la rezultat. Marca temporală necesită rețea. 
 
 Aplicația creează un rezultat separat, păstrând intrarea. Folosește rândul finalizat pentru deschidere/localizare. Păstrează originalul cu XML-ul detașat.
 
-<GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Activează rezultatul finalizat pentru localizare/deschidere.", "x": 63, "y": 42}]} />
+<GuideScreenshot src="/img/guide/linux/ro/success.png" alt="Găsește fișierul rezultat" steps={[{"text": "Deschide fișierul direct din rândul său.", "x": 72, "y": 52}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 80, "y": 52}]} />
 
 ## Rezolvă eroarea unui document
 

@@ -16,17 +16,19 @@ Criptează un fișier cu parolă
 
 ## Criptează un fișier cu parolă
 
-Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+În **Documente**, alege **Protejează fișiere** din bara de instrumente. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+În versiunea 0.2.13, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
 
-<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="Deschide Documente și apasă scutul de lângă coș." steps={[{"text": "Deschide Documente și apasă scutul de lângă coș.", "x": 68, "y": 6.6}]} />
+<GuideScreenshot src="/img/guide/macos/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 89, "y": 11}]} />
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" start={2} steps={[{"x": 44, "y": 17, "text": "Alege Criptează."}, {"x": 35, "y": 30, "text": "Alege fișierul sursă."}, {"x": 35, "y": 51, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 50, "y": 82, "text": "Alege Criptează. Copia criptată este salvată în Documente; alege Gata la final."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-password-light.png" alt="Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează." steps={[{"text": "Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează.", "x": 83, "y": 57}]} />
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={6} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 40, "y": 52}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 40, "y": 62}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 70, "y": 90}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-certificate-light.png" alt="Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului." steps={[{"text": "Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului.", "x": 32, "y": 64}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/protect-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 52, "y": 66}]} />
 
 Alege **Criptează** sau **Decriptează**. Rezultatul nou este salvat automat în **Documente → Documente salvate**. Alege **Gata** pentru a reveni sau **Salvează o copie** pentru a-l exporta în Fișiere ori în alt loc. Originalul este păstrat.
 

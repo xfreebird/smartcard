@@ -46,7 +46,7 @@ Pentru o cerere de pe un site, verifică originea și întreaga listă de docume
 Pentru NFC, ține cardul lângă telefon până se încheie scanarea. Pentru USB, lasă cititorul conectat și cardul introdus până se finalizează semnarea și aplicarea mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
 
 <GuideScreenshot src="/img/guide/iphone/ro/progress.png" alt="Așteaptă finalizarea etapei curente fără a scoate cardul." steps={[{"text": "Așteaptă finalizarea etapei curente fără a scoate cardul.", "x": 10, "y": 45}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/success.png" alt="Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare." steps={[{"text": "Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare.", "x": 35, "y": 49}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/success.png" alt="Selectează fișierul finalizat pentru a-l deschide. Folosește Partajează de lângă nume pentru a trimite o copie." steps={[{"text": "Selectează fișierul finalizat pentru a-l deschide. Folosește Partajează de lângă nume pentru a trimite o copie.", "x": 39, "y": 29}]} />
 
 ## Rezolvă o eroare la un document
 

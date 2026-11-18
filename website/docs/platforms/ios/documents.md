@@ -20,11 +20,11 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
-<GuideScreenshot src="/img/guide/iphone/en/documents-protection-light.png" alt="Open Documents and select the intended file." steps={[{"text": "Open Documents and select the intended file.", "x": 20, "y": 47}, {"text": "Use the search field to narrow the saved-document list.", "x": 20, "y": 22}]} />
-<GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Review the document’s signing details." steps={[{"text": "Review the document’s signing details.", "x": 12, "y": 31}, {"text": "Choose Preview to read the file or Share to save/send it.", "x": 8, "y": 44}, {"text": "Choose Done to return to the library.", "x": 90, "y": 12}]} />
+<GuideScreenshot src="/img/guide/iphone/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 35, "y": 40}]} />
+<GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 28, "y": 51}]} />
 
 ## Clear recent history while keeping saved documents
 
 In Documents, switch to History, choose Clear list and confirm. This clears the recent-operations list, not signed files or the saved Documents collection. Return to Documents to find the retained outputs. To delete an exported file, manage it in Files or its storage provider.
 
-<GuideScreenshot src="/img/guide/iphone/en/history.png" alt="Switch between Documents and History." steps={[{"text": "Switch between Documents and History.", "x": 91, "y": 29}, {"text": "Clear the history list only when you intend to remove those recent records.", "x": 80, "y": 9}]} />
+<GuideScreenshot src="/img/guide/iphone/en/history.png" alt="Find the filename, outcome and date in History. Switch to Saved documents to act on an output file." steps={[{"text": "Find the filename, outcome and date in History. Switch to Saved documents to act on an output file.", "x": 73, "y": 29}]} />

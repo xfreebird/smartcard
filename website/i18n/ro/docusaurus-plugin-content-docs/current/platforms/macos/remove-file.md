@@ -16,8 +16,8 @@ Elimină un fișier local
 
 ## Elimină un fișier local
 
-Deschide **Documente** și apasă scutul de lângă coș pentru **Protejează fișiere**. Alege **Elimină fișierul** și selectează fișierul de eliminat.
+În **Documente**, alege **Protejează fișiere** din bara de instrumente. Alege **Elimină fișierul** și selectează fișierul de eliminat.
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/macos/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 67, "y": 17, "text": "Alege Elimină fișierul."}, {"x": 35, "y": 33, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 50, "y": 81, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/protect-remove-light.png" alt="Verifică numele exact înainte să alegi Elimină fișierul. Aplicația îți cere confirmarea înainte de eliminare." steps={[{"text": "Verifică numele exact înainte să alegi Elimină fișierul. Aplicația îți cere confirmarea înainte de eliminare.", "x": 50, "y": 86}]} />

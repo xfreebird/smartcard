@@ -21,4 +21,4 @@ import GuideAnchorRedirect from '@site/src/components/GuideAnchorRedirect';
 
 ## Перед началом
 
-Относится к **eSemnBun 0.2.6**, Windows 10 **1809 или новее** и Windows 11. Для PowerShell и автоматизации см. [руководство Windows CLI](/docs/platforms/windows-cli/).
+Относится к **eSemnBun 0.2.13**, Windows 10 **1809 или новее** и Windows 11. Для PowerShell и автоматизации см. [руководство Windows CLI](/docs/platforms/windows-cli/).

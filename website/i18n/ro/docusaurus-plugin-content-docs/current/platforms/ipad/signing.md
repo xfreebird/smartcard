@@ -44,7 +44,7 @@ Pentru o cerere de pe un site, verifică originea și întreaga listă de docume
 Păstrează cititorul și cardul conectate pe durata semnării și a obținerii mărcii temporale. Finalizarea este afișată separat de lista de intrare. Folosește acțiunea rezultatului sau deschide Documente, selectează fișierul finalizat și Partajează pentru salvare în Fișiere ori trimitere către altă aplicație. Trimite rezultatul semnat, nu sursa nesemnată; include originalul pentru XML detașat.
 
 <GuideScreenshot src="/img/guide/ipad/ro/progress.png" alt="Așteaptă finalizarea etapei curente fără a scoate cardul." steps={[{"text": "Așteaptă finalizarea etapei curente fără a scoate cardul.", "x": 9, "y": 26.5}]} />
-<GuideScreenshot src="/img/guide/ipad/ro/success.png" alt="Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare." steps={[{"text": "Verifică finalizarea și numele rezultatului înainte de deschidere sau partajare.", "x": 9, "y": 29}]} />
+<GuideScreenshot src="/img/guide/ipad/ro/success.png" alt="Selectează fișierul finalizat pentru a-l deschide. Folosește Partajează de lângă nume pentru a trimite o copie." steps={[{"text": "Selectează fișierul finalizat pentru a-l deschide. Folosește Partajează de lângă nume pentru a trimite o copie.", "x": 31, "y": 20}]} />
 
 ## Rezolvă o eroare la un document
 

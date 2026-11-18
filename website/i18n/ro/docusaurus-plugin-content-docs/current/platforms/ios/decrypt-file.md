@@ -16,15 +16,17 @@ Decriptează un fișier primit
 
 ## Decriptează un fișier primit
 
-Deschide **Documente**, deschide meniul din bara de navigare și alege **Protejează fișiere**. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
+În **Documente**, apasă scutul **Protejează fișiere** din bara de instrumente. În formular, alege **Criptează** sau **Decriptează**, apoi un fișier accesibil.
 
-Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
+Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, în versiunea 0.2.13 conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
-<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere." steps={[{"text": "Deschideți Documente, deschideți meniul din bara de navigare, apoi alegeți Protejează fișiere.", "x": 90, "y": 6}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 90, "y": 10}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" start={2} steps={[{"x": 27, "y": 21, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 25, "y": 61, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 50, "y": 94, "text": "Alege Decriptează. Verifică rezultatul nou în Documente; alege Gata la final."}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-light.png" alt="Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează." steps={[{"text": "Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează.", "x": 86, "y": 48}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-complete-light.png" alt="Verificați numele fișierului și operația. Rezultatul este deja în Documente." start={5} steps={[{"text": "Verificați numele fișierului și operația. Rezultatul este deja în Documente.", "x": 25, "y": 59}, {"text": "Opțional, alegeți Salvează o copie pentru a exporta încă o copie.", "x": 25, "y": 73}, {"text": "Alegeți Gata pentru a reveni la Documente.", "x": 20, "y": 10}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-rsa-decrypt.png" alt="Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului." steps={[{"text": "Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului.", "x": 31, "y": 62}]} />
+
+<GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 50, "y": 68}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 

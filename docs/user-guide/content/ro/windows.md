@@ -7,7 +7,7 @@ import GuideScreenshot from '@site/src/components/GuideScreenshot';
 
 # Aplicația desktop pentru Windows
 
-Se aplică versiunii **eSemnBun 0.2.6**, Windows 10 **1809 sau ulterior** și Windows 11. Consultă [ghidul CLI pentru Windows](/docs/platforms/windows-cli/) pentru PowerShell și automatizare.
+Se aplică versiunii **eSemnBun 0.2.13**, Windows 10 **1809 sau ulterior** și Windows 11. Consultă [ghidul CLI pentru Windows](/docs/platforms/windows-cli/) pentru PowerShell și automatizare.
 
 ## Instalează ediția potrivită
 
@@ -53,7 +53,7 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Găsește rezultatele finalizate
 
-<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90.59, "y": 23.12, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 43.911, "y": 23.12, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"text": "Deschide fișierul direct din rândul său.", "x": 80, "y": 22}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 90, "y": 22}]} />
 
 ## Verifică și consultă activitatea
 
@@ -71,7 +71,7 @@ Deschide **Verify (Verifică)** și alege sau plasează un PDF/XML semnat. O sem
 
 ### Examinează detaliile verificării
 
-<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"x": 60.148, "y": 14.029, "text": "Citește limitele verificării offline: încrederea în marca temporală și revocarea curentă pot rămâne neverificate."}, {"x": 60.148, "y": 23.12, "text": "Extinde detaliile certificatului și cele tehnice pentru semnatar, valabilitate și marcă temporală."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/results.png" alt="Examinează detaliile verificării" steps={[{"text": "Extinde detaliile tehnice pentru a vedea formatul și identificatorul semnăturii.", "x": 44, "y": 48}, {"text": "Consultă câmpurile semnăturii. Selectează din nou titlul pentru a restrânge detaliile.", "x": 49, "y": 66}]} />
 
 ## Configurări, PIN-uri și pictograma din zona de notificare
 
@@ -128,15 +128,16 @@ Oprește-te după un rezultat de PIN incorect și verifică PIN-ul, în loc să 
 ## Găsește și deschide documentele salvate
 
 Documente salvate conține rezultate semnate, criptate și decriptate. Selectează un fișier semnat pentru detaliile semnăturii. Un fișier criptat oferă decriptarea; conținutul criptat nu este trimis la verificarea semnăturii. Fișierele decriptate își păstrează tipul rezultatului și pot fi deschise sau exportate.
-Deschide Documente și selectează lista documentelor semnate. Alege un element pentru detaliile semnării, apoi folosește acțiunile de deschidere sau afișare. Comută la istoric pentru operațiile recente. Golirea istoricului păstrează biblioteca independentă de documente semnate și nu șterge fișierele semnate.
+
+Selectează numele unui fișier pentru detaliile semnării. Butoanele de pe rând deschid fișierul sau afișează dosarul său. Meniul rândului oferă verificarea și protejarea fișierului. Istoricul afișează operațiile recente. Golirea istoricului păstrează fișierele salvate.
 
 ### Găsește documentele semnate
 
-<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"x": 51.015, "y": 18.07, "text": "Deschide Documente și selectează lista documentelor semnate."}, {"x": 32.749, "y": 31.201, "text": "Alege un document salvat pentru a deschide detaliile semnării."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/documents.png" alt="Găsește documentele semnate" steps={[{"text": "Selectează numele fișierului pentru a-i examina semnăturile.", "x": 38, "y": 24}, {"text": "Deschide fișierul direct din rândul său.", "x": 85, "y": 25}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 91, "y": 25}]} />
 
 ### Examinează un document salvat
 
-<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"x": 51.015, "y": 45.342, "text": "Verifică informațiile de semnare înainte de a deschide sau distribui fișierul."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/details.png" alt="Examinează un document salvat" steps={[{"text": "Citește rezultatul verificării și verifică semnatarul.", "x": 42, "y": 28}, {"text": "Deschide documentul sau afișează-l în dosarul său.", "x": 47, "y": 22}]} />
 
 ## Aprobă cereri locale de semnare (MCP)
 
@@ -164,9 +165,11 @@ Deschide **Protejează fișiere** în partea de jos a barei de navigare și aleg
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Protecția fișierelor folosește o parolă. Protecția prin certificat/card nu este disponibilă pentru cartea de identitate moldovenească: certificatul de semnare nu poate decripta fișiere. Dacă ai primit un fișier criptat cu certificat, cere o copie criptată cu parolă.
+Alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"x": 39.852, "y": 18.087, "text": "Alege Criptează."}, {"x": 34.779, "y": 30.239, "text": "Alege fișierul sursă."}, {"x": 39.852, "y": 55.556, "text": "Introdu o parolă nouă în Parolă, apoi repet-o în Confirmă parola."}, {"x": 39.852, "y": 92.011, "text": "Alege Criptează, apoi salvează fișierul criptat nou."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"text": "Alege fișierul de criptat.", "x": 36, "y": 29}, {"text": "Selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256.", "x": 59, "y": 50}, {"text": "Introdu și confirmă o parolă nouă pentru fișier.", "x": 41, "y": 62}, {"text": "Alege Criptează, apoi salvează copia criptată.", "x": 41, "y": 88}]} />
+
+<GuideScreenshot src="/img/guide/windows/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Alege Certificat RSA.", "x": 48, "y": 45}, {"text": "Alege certificatul public de criptare al destinatarului.", "x": 40, "y": 55}, {"text": "Pentru a cripta pentru propriul card, conectează cititorul și citește certificatul său de criptare.", "x": 36, "y": 60}]} />
 
 Alege **Criptează** sau **Decriptează**, apoi **Salvează o copie** și alege un loc nou pentru rezultat. După salvare, fișierul apare în **Documente → Documente salvate**. Alege **Închide** pentru a închide operațiunea finalizată. Originalul este păstrat.
 
@@ -177,9 +180,9 @@ Documente salvate include fișiere semnate, criptate și decriptate. Identifică
 
 Deschide **Protejează fișiere** în partea de jos a barei de navigare și alege **Criptează**, **Decriptează** sau **Elimină fișierul**. Alege un fișier accesibil; derulează formularul la nevoie.
 
-Obține parola de la expeditor printr-un canal de încredere separat. Alege fișierul criptat, apoi introdu parola în câmpul cu contur **Parolă**. Nu ai nevoie de cititor, card sau PIN-ul cardului.
+Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"x": 39.852, "y": 24.163, "text": "Alege Decriptează și selectează fișierul criptat primit."}, {"x": 39.852, "y": 56.568, "text": "Introdu parola primită de la expeditor în câmpul Parolă."}, {"x": 39.852, "y": 86.948, "text": "Alege Decriptează și salvează rezultatul cu un nume nou."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"text": "Alege fișierul criptat. Conținutul său determină metoda de decriptare.", "x": 33, "y": 33}, {"text": "Pentru un fișier criptat cu parolă, introdu parola primită de la expeditor.", "x": 40, "y": 60}, {"text": "Alege Decriptează și salvează rezultatul într-un fișier nou.", "x": 39, "y": 84}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 
@@ -194,4 +197,4 @@ Deschide **Protejează fișiere** în partea de jos a barei de navigare și aleg
 
 Doar pe desktop. Operațiunea elimină definitiv un fișier local obișnuit acceptat, după confirmare. Nu garantează ștergerea de pe SSD, din instantanee, copii de rezervă sau alte copii. Locațiile neacceptate și legăturile sunt refuzate. Furnizorii de documente mobili nu acceptă operațiunea.
 
-<GuideScreenshot src="/img/guide/windows/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"x": 39.852, "y": 30.239, "text": "Alege Elimină fișierul."}, {"x": 34.779, "y": 42.391, "text": "Selectează exact fișierul de eliminat și citește avertismentul."}, {"x": 39.852, "y": 63.657, "text": "Confirmă eliminarea numai după verificarea numelui. Apoi alege Elimină fișierul și confirmă solicitarea afișată."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/protect-remove-light.png" alt="Elimină un fișier local" steps={[{"text": "Alege fișierul și citește numele acestuia și avertismentul de ștergere.", "x": 33, "y": 43}, {"text": "Confirmă ștergerea doar după ce ai verificat fișierul selectat.", "x": 38, "y": 61}, {"text": "Alege Elimină fișierul pentru a finaliza operația.", "x": 39, "y": 74}]} />

@@ -16,7 +16,7 @@ See the [Android NFC sequence diagram](https://esemnbun.md/img/developers/nfc-an
 Sign starts with one **Choose a document** action. Import reveals a review screen with
 **Continue**, followed by the same PIN dialog and NFC session. The chosen method and identity
 remain available in compact rows. **How it works** presents the three detailed steps in a
-bottom sheet. Settings uses focused dialogs for card management and saved PINs.
+bottom sheet. Settings has separate dialogs for connected cards and remembered identities.
 
 Sign defaults to **NFC** on capable phones with a blue card illustration. Selecting
 Reader shows live connection/insertion guidance, USB permission when needed, or the connected
@@ -72,13 +72,17 @@ and [IsoDep](https://developer.android.com/reference/android/nfc/tech/IsoDep).
 `PinVault` retains its existing certificate SHA-1 account and authenticated encrypted record
 format. No transport prefix or new PIN namespace is introduced. The common dialog offers
 manual entry, optional saving and explicit biometric retrieval. Saving occurs only after
-a successful document result and requires biometric confirmation. Wrong PIN removes the
-saved record; cancellation/failure clears pending plaintext copies.
+a successful document result and requires biometric confirmation. A wrong PIN clears the
+stale local credential and identity. Cancellation or failure clears pending plaintext copies.
 
 `SavedCardIdentities` stores public certificate metadata only after the corresponding PIN
-is saved. The Card page lists saved identities, including disconnected cards, and deletes
-their PIN for both methods. Restored metadata is parsed and fingerprint-checked; it never
-replaces the live certificate check. Demo and real identities cannot cross into NFC signing.
+is saved. Explicit NFC identification and choosing a reader card for NFC can also remember
+a certificate in memory during the session. **Settings → Saved cards and PINs** lists both
+kinds, including disconnected cards and older records without a saved PIN. **Forget card**
+clears the stored identity, optional PIN and active NFC/browser choices for that certificate.
+An inserted card remains available through its USB reader. Routine reader polling does
+not restore the forgotten entry. Restored metadata is parsed and fingerprint-checked.
+The next signing session still checks the live certificate.
 
 Physical saved-PIN save/reuse, restart persistence, deletion across methods and switching
 between two real cards still need a dedicated acceptance run.

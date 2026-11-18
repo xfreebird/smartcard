@@ -42,7 +42,7 @@ Etichetele ștampilei urmează limba aplicației aleasă în setările General.
 
 ## Verifică și autorizează
 
-Verifică titularul, numele documentelor, formatul și site-ul solicitant, dacă apare. Versiunea Android actuală cere PIN-ul pentru fiecare aprobare nouă; salvarea PIN-ului nu este oferită. Nu trimite PIN-ul într-o cerere de suport.
+Verifică titularul, numele documentelor, formatul și site-ul solicitant, dacă apare. Poți reutiliza un PIN salvat pentru cardul selectat când este disponibilă autentificarea pe dispozitiv. Nu trimite PIN-ul într-o cerere de suport.
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/pin.png" alt="Verifică și autorizează" steps={[{"text": "Introdu PIN-ul de semnare al cardului selectat în câmpul protejat. Aprobarea acoperă numai cererea afișată.", "x": 31.8, "y": 54.8}, {"text": "Atinge Semnează. Păstrează aplicația și cititorul disponibile până se termină lotul. Anulează o cerere neașteptată.", "x": 58.4, "y": 62.5}]} />
 
@@ -62,4 +62,4 @@ Eroarea aparține fișierului afectat. Verifică celelalte rânduri și rezultat
 
 Pe Android 10 și ulterior, rezultatele obișnuite se salvează în Downloads/eSemnBun. Pentru XAdES detașat, păstrează XML-ul și originalul. Dacă un fișier eșuează, citește eroarea și verifică rezultatele finalizate înainte de un nou lot.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/results.png" alt="Deschide, salvează sau distribuie rezultatul" steps={[{"text": "Atinge Deschide lângă fișierul finalizat pentru a-l deschide într-o aplicație compatibilă.", "x": 83.8, "y": 24.5}, {"text": "În Documente → Documente salvate, meniul fișierului oferă Deschide, Verifică, Distribuie sau Salvează ca… când fișierul permite accesul prin furnizor. Salvează ca permite alegerea altei destinații."}, {"text": "Șterge rezultatele ascunde lista de finalizare. Fișierele salvate rămân în Documente."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/results.png" alt="Deschide, salvează sau distribuie rezultatul" steps={[{"text": "Atinge numele unui fișier finalizat pentru a-l deschide.", "x": 37.0, "y": 23.3}, {"text": "Atinge pictograma Distribuie de lângă nume pentru a trimite o copie.", "x": 65.5, "y": 23.3}, {"text": "Alege Vezi în Documente pentru a deschide biblioteca.", "x": 48.5, "y": 42.9}]} />

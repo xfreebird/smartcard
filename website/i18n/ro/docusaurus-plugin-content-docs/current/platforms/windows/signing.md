@@ -39,4 +39,4 @@ Autorizarea lotului se aplică listei de documente aprobate și cardului selecta
 
 ### Găsește rezultatele finalizate
 
-<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"x": 90.59, "y": 23.12, "text": "Examinează fiecare rând finalizat și folosește acțiunea de deschidere sau afișare."}, {"x": 43.911, "y": 23.12, "text": "Păstrează XML-ul detașat cu originalul nemodificat."}]} />
+<GuideScreenshot src="/img/guide/windows/ro/success.png" alt="Găsește rezultatele finalizate" steps={[{"text": "Deschide fișierul direct din rândul său.", "x": 80, "y": 22}, {"text": "Folosește butonul cu dosar pentru a localiza fișierul salvat.", "x": 90, "y": 22}]} />

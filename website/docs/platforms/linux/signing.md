@@ -48,7 +48,7 @@ Leave the reader connected until the result appears. Timestamp retrieval needs n
 
 The app creates a separate output rather than replacing the input. Use the completed row to open/reveal the result. Retain the unchanged original with detached XML.
 
-<GuideScreenshot src="/img/guide/linux/en/success.png" alt="Locate the completed output" steps={[{"text": "Activate the completed result to locate/open its separate output.", "x": 63, "y": 42}]} />
+<GuideScreenshot src="/img/guide/linux/en/success.png" alt="Locate the completed output" steps={[{"text": "Open the file directly from its row.", "x": 72, "y": 52}, {"text": "Use the folder button to show the saved file in its folder.", "x": 80, "y": 52}]} />
 
 ## Recover from a failed item
 

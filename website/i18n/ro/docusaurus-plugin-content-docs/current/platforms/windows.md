@@ -21,4 +21,4 @@ Alege ce vrei să faci. Fiecare activitate are un ghid ilustrat separat.
 
 ## Înainte de a începe
 
-Se aplică versiunii **eSemnBun 0.2.6**, Windows 10 **1809 sau ulterior** și Windows 11. Consultă [ghidul CLI pentru Windows](/docs/platforms/windows-cli/) pentru PowerShell și automatizare.
+Se aplică versiunii **eSemnBun 0.2.13**, Windows 10 **1809 sau ulterior** și Windows 11. Consultă [ghidul CLI pentru Windows](/docs/platforms/windows-cli/) pentru PowerShell și automatizare.

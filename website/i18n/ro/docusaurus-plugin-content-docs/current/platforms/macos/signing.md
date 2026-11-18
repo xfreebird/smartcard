@@ -44,7 +44,11 @@ Lasă cititorul conectat în timpul semnării și obținerii mărcii temporale. 
 
 Ediția macOS independentă scrie de obicei un fișier nou lângă sursă, cu sufix de semnare, fără a suprascrie originalul. Ediția App Store folosește stocarea permisă și acțiunile explicite de export/partajare. Păstrează XML-ul detașat împreună cu originalul.
 
-<GuideScreenshot src="/img/guide/macos/ro/success.png" alt="Găsește, previzualizează și partajează rezultatul" steps={[{"x": 63, "y": 36, "text": "Apasă rândul finalizat sau Arată în Finder pentru a găsi rezultatul."}, {"x": 90, "y": 53, "text": "Folosește Previzualizare pentru a inspecta rezultatul. Folosește Partajează pentru PDF-ul semnat și alege destinația."}]} />
+În versiunea 0.2.13 din Mac App Store poți alege un dosar în **Configurări → General → Documente** pentru copiile automate ale documentelor semnate. Alege dosarul în dialogul sistemului pentru a acorda acces.
+
+<GuideScreenshot src="/img/guide/macos/ro/export-folder.png" alt="Alege un dosar pentru copiile automate ale documentelor semnate în ediția Mac App Store." steps={[{"text": "Alege un dosar pentru copiile automate ale documentelor semnate în ediția Mac App Store.", "x": 15, "y": 93}]} />
+
+<GuideScreenshot src="/img/guide/macos/ro/success.png" alt="Alege Previzualizare lângă numele fișierului semnat. Comenzile alăturate salvează o copie, partajează documentul sau îl afișează în Finder." steps={[{"text": "Alege Previzualizare lângă numele fișierului semnat. Comenzile alăturate salvează o copie, partajează documentul sau îl afișează în Finder.", "x": 69, "y": 69}]} />
 
 ## Rezolvă o eroare de document
 

@@ -18,16 +18,16 @@ Deosebește semnăturile invalide, încrederea neconfirmată și fișierele nese
 
 Un rezultat nevalid nu se repară prin redenumire sau adăugarea unei ștampile. Cere expeditorului o copie semnată intactă și verific-o.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-invalid.png" alt="Recunoaște o semnătură nevalidă sau un document modificat" steps={[{"x": 43, "y": 22, "text": "Citește starea nevalidă a documentului și extinde autorul pentru verificarea eșuată."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-invalid.png" alt="Recunoaște o semnătură nevalidă sau un document modificat" steps={[{"x": 39, "y": 38, "text": "Citește starea nevalidă a documentului și extinde autorul pentru verificarea eșuată."}]} />
 
 ## Deosebește încrederea neconfirmată
 
 Încrederea neconfirmată diferă de modificarea dovedită a documentului. Citește semnătura și lanțul de încredere și urmează politica destinatarului privind certificatele.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-untrusted.png" alt="Deosebește încrederea neconfirmată" steps={[{"x": 43, "y": 22, "text": "Citește starea de încredere neconfirmată și extinde detaliile."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-untrusted.png" alt="Deosebește încrederea neconfirmată" steps={[{"x": 54, "y": 40, "text": "Citește starea de încredere neconfirmată și extinde detaliile."}]} />
 
 ## Recunoaște un document nesemnat
 
 Imaginea unei semnături sau ștampile nu dovedește o semnătură electronică. Dacă nu este recunoscută nicio semnătură, cere rezultatul semnat efectiv, nu o captură sau copie scanată.
 
-<GuideScreenshot src="/img/guide/macos/ro/verify-unsigned.png" alt="Recunoaște un document nesemnat" steps={[{"x": 43, "y": 22, "text": "Verifică rezultatul fără semnătură înainte de a prezenta fișierul ca semnat."}]} />
+<GuideScreenshot src="/img/guide/macos/ro/verify-unsigned.png" alt="Recunoaște un document nesemnat" steps={[{"x": 45, "y": 40, "text": "Verifică rezultatul fără semnătură înainte de a prezenta fișierul ca semnat."}]} />

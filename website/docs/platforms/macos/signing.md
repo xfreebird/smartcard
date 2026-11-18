@@ -44,7 +44,11 @@ Leave the reader connected while the app signs and obtains a timestamp. Timestam
 
 Standalone macOS normally writes a new file beside the source, with a signed suffix, without overwriting the original. The App Store edition uses its permitted storage and explicit export/share actions. Keep a detached XML together with its original.
 
-<GuideScreenshot src="/img/guide/macos/en/success.png" alt="Find, preview and share the completed output" steps={[{"x": 63, "y": 36, "text": "Click the completed row or Show in Finder to locate the output."}, {"x": 90, "y": 53, "text": "Use Preview to inspect the output. Use Share for the signed PDF, then choose its destination."}]} />
+In Mac App Store version 0.2.13, you can also choose a folder in **Settings → General → Documents** to automatically receive copies of signed documents. Choose the folder in the system dialog to grant access.
+
+<GuideScreenshot src="/img/guide/macos/en/export-folder.png" alt="Choose a folder for automatic copies of signed documents from the Mac App Store edition." steps={[{"text": "Choose a folder for automatic copies of signed documents from the Mac App Store edition.", "x": 14, "y": 94}]} />
+
+<GuideScreenshot src="/img/guide/macos/en/success.png" alt="Use Preview beside the completed filename. The adjacent controls save a copy, share the document or reveal it in Finder." steps={[{"text": "Use Preview beside the completed filename. The adjacent controls save a copy, share the document or reveal it in Finder.", "x": 73, "y": 69}]} />
 
 ## Recover from a failed document
 

@@ -16,17 +16,19 @@ Encrypt a file with a password
 
 ## Encrypt a file with a password
 
-Open the **More** menu in the navigation bar and choose **Protect files**. Choose **Encrypt** or **Decrypt**, then select a file you can read.
+Open **Files**, then choose **More actions → Protect files** in the top toolbar. Choose **Encrypt** or **Decrypt**, then select a file you can read.
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-File protection uses a password. Certificate/card protection is unavailable for the Moldovan ID card, whose signing certificate cannot decrypt files. Ask for a password-encrypted copy if you received a certificate-encrypted file.
+In eSemnBun 0.2.13 or later, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-menu-light.png" alt="Open file protection" steps={[{"x": 70, "y": 15, "text": "Open the navigation menu and choose Protect files."}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/protect-menu-light.png" alt="Open file protection" steps={[{"text": "Open the navigation menu and choose Protect files.", "x": 70.1, "y": 15.3}]} />
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-password-light.png" alt="Encrypt a file with a password" start={2} steps={[{"x": 27, "y": 20, "text": "Choose Encrypt."}, {"x": 30, "y": 31, "text": "Choose the source file."}, {"x": 25, "y": 55, "text": "Enter a new password in Password, then repeat it in Confirm password."}, {"x": 50, "y": 88, "text": "Choose Encrypt. The encrypted copy is saved in Documents."}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"text": "Choose Encrypt, then select the source file.", "x": 38.8, "y": 30.5}, {"text": "Choose Password and select the AES key size. AES-256 is selected initially.", "x": 72.8, "y": 51.0}, {"text": "Enter and confirm a file password, then choose Encrypt.", "x": 11.0, "y": 67.2}]} />
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-complete-light.png" alt="Encrypted file saved" start={6} steps={[{"x": 25, "y": 33, "text": "Check the saved filename. This output is already in Documents."}, {"x": 25, "y": 83, "text": "Choose Save as… only if you also want a copy in another location."}, {"x": 75, "y": 88, "text": "Choose Close to return to the app. The saved file remains in Documents."}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "For a recipient with an RSA encryption key, choose RSA certificate.", "x": 57.5, "y": 40.9}, {"text": "Select the recipient’s public .cer or .der certificate. To encrypt for your own card, connect its reader and choose Read my card.", "x": 12.9, "y": 53.2}]} />
+
+<GuideScreenshot src="/img/guide/android-phone/en/protect-complete-light.png" alt="Encrypted file saved" steps={[{"text": "Check the saved filename. This output is already in Documents.", "x": 7.1, "y": 32.0}, {"text": "Choose Save as… only if you also want a copy in another location.", "x": 41.3, "y": 82.9}, {"text": "Choose Close to return to the app. The saved file remains in Documents.", "x": 43.9, "y": 88.1}]} />
 
 Choose **Encrypt** or **Decrypt**. The result is saved automatically in the app’s private storage and appears in **Documents → Saved documents**. Choose **Close** when finished, or **Save as…** to export it with the Android file picker. The original is kept.
 
