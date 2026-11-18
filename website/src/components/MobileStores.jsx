@@ -24,7 +24,7 @@ export default function MobileStores({platform}){
  const appleStore=platform==='ios' || platform==='macos';
  return <div className={`platform-store platform-store-${platform}`}>
   <a href={store.url} aria-label={store.name}>
-   <img className={appleStore ? 'apple-store-badge' : 'google-store-badge'} src={badge} alt={store.name} width={appleStore ? 150 : 190} height={appleStore ? 50 : 74}/>
+   <img className={appleStore ? 'apple-store-badge' : 'google-store-badge'} src={badge} alt={store.name} width={platform==='macos' ? 250 : appleStore ? 150 : 190} height={platform==='macos' ? 64 : appleStore ? 50 : 74}/>
   </a>
   {additionalStores.map(item => <StoreBadge key={item.url} store={item} locale={currentLocale}/>)}
   {platform!=='macos' && <p>{t(`storeStatus_${platform}`)}</p>}

@@ -8,7 +8,7 @@ function primaryAction(platform, t) {
  if (platform==='ios') return {href:'/downloads#ios', label:t('downloadOptions')};
  if (platform==='android') return {href:'/downloads#android', label:t('downloadOptions')};
  if (platform==='windows') return {href:'/downloads#windows', label:t('downloadOptions')};
- if (platform==='macos') return {href:'/downloads#macos', label:t('downloadStandalone')};
+ if (platform==='macos') return {href:'/downloads#macos', label:t('download')};
  if (platform==='linux') return {href:'/downloads#linux', label:t('downloadLinux')};
  return {href:'/downloads', label:t('download')};
 }

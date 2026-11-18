@@ -64,6 +64,7 @@
 }
 
 @media(max-width:760px){.apple-store-badge{width:clamp(120px,36vw,150px);height:auto}.google-store-badge{width:clamp(150px,46vw,190px);height:auto}}
+.platform-store-macos .apple-store-badge{width:auto;height:64px;max-width:100%}
 /* Keep all four progress labels visible on narrow phones and in every locale. */
 @media(max-width:760px){
  .continuous-progress{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:calc(100% - 24px);max-width:440px}
