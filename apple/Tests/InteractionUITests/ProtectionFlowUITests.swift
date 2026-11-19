@@ -45,7 +45,13 @@ final class ProtectionFlowUITests: XCTestCase {
         password.typeText("sample-roundtrip-2026")
         let confirmation = app.secureTextFields["protect.confirmPassword"]
         if !confirmation.isHittable { app.swipeUp() }
-        confirmation.tap()
+        // The keyboard can finish repositioning the form after the first tap.
+        // Require focus before typing so a missed tap cannot send text to the password field.
+        for _ in 0..<3 {
+            confirmation.tap()
+            if confirmation.waitForFocus(timeout: 3) { break }
+        }
+        XCTAssertTrue(confirmation.waitForFocus(timeout: 3), "Confirmation field did not receive keyboard focus")
         confirmation.typeText("sample-roundtrip")
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled, "A mismatched confirmation must not encrypt")
         confirmation.typeText("-2026")
@@ -107,5 +113,17 @@ final class ProtectionFlowUITests: XCTestCase {
         attachment.name = name
         attachment.lifetime = .keepAlways
         add(attachment)
+    }
+}
+
+private extension XCUIElement {
+    func waitForFocus(timeout: TimeInterval) -> Bool {
+        let predicate = NSPredicate(format: "hasKeyboardFocus == true")
+        let deadline = Date().addingTimeInterval(timeout)
+        repeat {
+            if predicate.evaluate(with: self) { return true }
+            RunLoop.current.run(until: Date().addingTimeInterval(0.2))
+        } while Date() < deadline
+        return false
     }
 }
