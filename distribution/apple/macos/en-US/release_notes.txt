@@ -1,1 +1,1 @@
-Improved document actions, history and signature verification. Manage saved cards and PINs while disconnected. Choose AES-128, AES-192 or AES-256 password encryption, or encrypt for an RSA recipient certificate.
+Explicit card-public-key compatibility for RSA file protection, with clearer encryption and decryption guidance. Updated illustrated guides in English, Romanian and Russian.

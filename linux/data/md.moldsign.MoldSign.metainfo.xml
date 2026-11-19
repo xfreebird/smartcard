@@ -59,6 +59,7 @@
   <!-- TODO(LNX-14): screenshots (Sign, Verify, Card pages) hosted at a stable URL. -->
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="0.2.14" date="2026-11-19"><description><p>Clearer document actions, browser authentication and explicit card-public-key compatibility for RSA protection.</p></description></release>
     <release version="0.2.13" date="2026-11-19"><description><p>Document actions, signature details and AES or RSA file protection.</p></description></release>
     <release version="0.2.11" date="2026-11-13"><description><p>Improved document actions and signing controls.</p></description></release>
     <release version="0.2.10" date="2026-11-10"><description><p>Clear password-only file protection, native navigation access and encrypted or decrypted files retained in Documents.</p></description></release>

@@ -1,1 +1,1 @@
-Improved document actions, history and signature verification. Manage saved cards and PINs while disconnected. Choose AES-128, AES-192 or AES-256 password encryption, or encrypt for an RSA recipient certificate.
+Preview and Share actions fit localized text. Browser authentication is easier to identify. Clear verification results from the navigation bar. Updated RSA protection controls and illustrated guides.

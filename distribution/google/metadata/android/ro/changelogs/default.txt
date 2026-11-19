@@ -1,1 +1,1 @@
-Acțiuni îmbunătățite pentru documente, istoric și verificarea semnăturilor. Gestionează cardurile și PIN-urile salvate fără conectare. Alege criptarea cu parolă AES-128, AES-192 sau AES-256 ori un certificat RSA al destinatarului.
+Alege alt document direct din Verifică și șterge rezultatele din bara de navigare. Selectare NFC și cititor de carduri mai clară, cu o singură intrare pentru fiecare card cunoscut. Controale RSA și ghiduri ilustrate actualizate.
