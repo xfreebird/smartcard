@@ -68,7 +68,6 @@ final class FloatingActionUITests: XCTestCase {
     private func assertFloating(_ button: XCUIElement, in app: XCUIApplication, hittable: Bool = true) {
         XCTAssertTrue(button.waitForPresence(timeout: 15))
         XCTAssertEqual(app.buttons.matching(identifier: "sign.submit").count, 1)
-        if hittable { XCTAssertTrue(button.isHittable) }
         let tabs = app.tabBars.firstMatch
         var previous: [CGRect] = []
         var matchingSamples = 0
@@ -88,6 +87,10 @@ final class FloatingActionUITests: XCTestCase {
         guard XCTWaiter.wait(for: [ready], timeout: 15) == .completed else {
             XCTFail("Workspace and action geometry did not settle")
             return
+        }
+        if hittable {
+            let accessible = NSPredicate(format: "hittable == true")
+            XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: accessible, object: button)], timeout: 10), .completed)
         }
         let workspace = previous[0], action = previous[1], navigation = previous[2]
         XCTAssertGreaterThan(action.midY, workspace.midY, "The action belongs at the bottom of the workspace")
