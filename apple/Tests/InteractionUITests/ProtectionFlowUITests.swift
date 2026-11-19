@@ -51,10 +51,15 @@ final class ProtectionFlowUITests: XCTestCase {
             confirmation.tap()
             if confirmation.waitForFocus(timeout: 3) { break }
         }
-        XCTAssertTrue(confirmation.waitForFocus(timeout: 3), "Confirmation field did not receive keyboard focus")
+        if !confirmation.waitForFocus(timeout: 3) {
+            attach(app, "confirmation-focus-failure")
+            XCTFail("Confirmation field did not receive keyboard focus: \(app.debugDescription)")
+            return
+        }
         confirmation.typeText("sample-roundtrip")
-        XCTAssertFalse(app.buttons["protect.submit"].isEnabled, "A mismatched confirmation must not encrypt")
+        XCTAssertTrue(app.staticTexts["protect.passwordMismatch"].waitForPresence(timeout: 5), "A mismatched confirmation must be shown")
         confirmation.typeText("-2026")
+        app.buttons["protect.dismissKeyboard"].tapWhenReady()
         app.buttons["protect.submit"].tapWhenReady()
         assertSaved(in: app)
         attach(app, "encrypted-saved")
@@ -69,6 +74,7 @@ final class ProtectionFlowUITests: XCTestCase {
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
         password.tap()
         password.typeText("sample-roundtrip-2026")
+        app.buttons["protect.dismissKeyboard"].tapWhenReady()
         app.buttons["protect.submit"].tapWhenReady()
         assertSaved(in: app)
         attach(app, "decrypted-saved")

@@ -17,6 +17,9 @@ final class DemoModeUITests: XCTestCase {
         print("DEMO_SWITCH_FRAME \(toggle.frame)")
         tapSwitch(toggle)
         let accept = app.buttons["Use demo mode"]
+        if !accept.waitForPresence(timeout: 3), toggle.value as? String == "0" {
+            tapSwitch(toggle)
+        }
         XCTAssertTrue(accept.waitForPresence(timeout: 5), "A disclaimer must precede activation")
         attach(app, "01-enable-disclaimer")
         accept.tapWhenReady()
@@ -45,7 +48,13 @@ final class DemoModeUITests: XCTestCase {
         navigate("Settings", in: app)
         let persisted = demoToggle(in: app)
         XCTAssertEqual(persisted.value as? String, "1")
+        attach(app, "05a-before-demo-disable")
         tapSwitch(persisted)
+        let disabled = NSPredicate(format: "value == %@", "0")
+        if XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: disabled, object: persisted)], timeout: 3) != .completed,
+           persisted.value as? String == "1" {
+            tapSwitch(persisted)
+        }
         waitForValue("0", on: persisted)
         navigate("Sign", in: app)
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)

@@ -36,7 +36,7 @@ final class VerificationJourneyUITests: XCTestCase {
             let disclosure = app.buttons["verify.disclosure." + name].firstMatch
             XCTAssertTrue(disclosure.waitForPresence(timeout: 15), name)
             #if os(iOS)
-            for _ in 0..<5 where !disclosure.isHittable { app.swipeUp() }
+            for _ in 0..<5 where !disclosure.isHittable || disclosure.frame.maxY > app.frame.maxY - 110 { app.swipeUp() }
             #else
             let viewport = app.scrollViews["verify.workspace"].firstMatch
             XCTAssertTrue(viewport.exists)
@@ -49,10 +49,19 @@ final class VerificationJourneyUITests: XCTestCase {
             #endif
             XCTAssertEqual(disclosure.value as? String, "Collapsed")
             disclosure.tapWhenReady()
-            XCTAssertEqual(disclosure.value as? String, "Expanded")
+            let expanded = NSPredicate(format: "value == %@", "Expanded")
+            if XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: expanded, object: disclosure)], timeout: 3) != .completed,
+               disclosure.value as? String == "Collapsed" {
+                #if os(iOS)
+                for _ in 0..<5 where !disclosure.isHittable || disclosure.frame.maxY > app.frame.maxY - 110 { app.swipeUp() }
+                #endif
+                disclosure.tapWhenReady()
+            }
+            XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: expanded, object: disclosure)], timeout: 5), .completed)
             if name != "signature" {
                 disclosure.activateControl()
-                XCTAssertEqual(disclosure.value as? String, "Collapsed")
+                let collapsed = NSPredicate(format: "value == %@", "Collapsed")
+                XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: collapsed, object: disclosure)], timeout: 5), .completed)
             }
         }
         XCTAssertFalse(app.secureTextFields.firstMatch.exists)

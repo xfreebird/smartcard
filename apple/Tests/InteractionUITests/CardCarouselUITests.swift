@@ -35,7 +35,10 @@ final class CardCarouselUITests: XCTestCase {
         for index in 1...2 {
             // Use the paging container as the gesture target across card changes.
             // Keep exactly one native gesture per page.
-            app.collectionViews["signing.reader.cards"].swipeLeft(velocity: .fast)
+            let carousel = app.collectionViews["signing.reader.cards"]
+            let start = carousel.coordinate(withNormalizedOffset: CGVector(dx: 0.85, dy: 0.4))
+            let end = carousel.coordinate(withNormalizedOffset: CGVector(dx: 0.15, dy: 0.4))
+            start.press(forDuration: 0.05, thenDragTo: end)
             let selected = card(index)
             XCTAssertTrue(selected.waitForPresence(timeout: 5))
             XCTAssertTrue(selected.isHittable)

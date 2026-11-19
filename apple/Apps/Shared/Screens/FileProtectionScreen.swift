@@ -3,6 +3,7 @@ import UniformTypeIdentifiers
 import MoldSignKit
 
 private enum ProtectionMethod { case password, recipient }
+private enum ProtectionCredential: Hashable { case password, confirmation, pin }
 
 struct FileProtectionScreen: View {
     @Environment(AppModel.self) private var model
@@ -33,6 +34,7 @@ struct FileProtectionScreen: View {
     @State private var completedURL: URL?
     @State private var notice: L10n.Key?
     @State private var isError = false
+    @FocusState private var focusedCredential: ProtectionCredential?
 
     private var activeMethod: ProtectionMethod? {
         operation == 0 ? method : (inspectedFile == input ? detected : nil)
@@ -130,22 +132,13 @@ struct FileProtectionScreen: View {
                     .listSectionSpacing(16)
                     #endif
                     .safeAreaInset(edge: .bottom) {
-                        VStack(alignment: .leading, spacing: 12) {
-                            Text(L10n.text(operation == 2 ? .protect_removal_warning : .protect_original))
-                                .font(.caption).foregroundStyle(.secondary)
-                            if busy { ProgressView(L10n.text(.protect_working)) }
-                            if let notice {
-                                Label(L10n.text(notice), systemImage: isError ? "exclamationmark.circle" : "checkmark.circle")
-                                    .foregroundStyle(isError ? Color.red : Color.primary)
-                                    .accessibilityIdentifier("protect.result")
-                            }
-                            Button {
-                                if operation == 2 { confirmRemoval = true } else { process() }
-                            } label: {
-                                Text(L10n.text(operation == 0 ? .protect_encrypt : operation == 1 ? .protect_decrypt : .protect_remove))
-                                    .frame(maxWidth: .infinity, minHeight: 40)
-                            }.nativeButtonStyle(.prominent).disabled(action == nil || busy).accessibilityIdentifier("protect.submit")
-                        }.padding(16).background(.bar)
+                        #if os(iOS)
+                        if focusedCredential == nil {
+                            actionBar
+                        }
+                        #else
+                        actionBar
+                        #endif
                     }
                 }
             }
@@ -158,6 +151,13 @@ struct FileProtectionScreen: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(L10n.text(completedURL != nil || notice == .protect_removed ? .ui_done : .ui_cancel)) { dismiss() }.disabled(busy)
                 }
+                #if os(iOS)
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button(L10n.text(.ui_done)) { focusedCredential = nil }
+                        .accessibilityIdentifier("protect.dismissKeyboard")
+                }
+                #endif
             }
             .interactiveDismissDisabled(busy)
             #if os(macOS)
@@ -221,6 +221,25 @@ struct FileProtectionScreen: View {
             .onDisappear { clearCredentials() }
         }
     }
+    private var actionBar: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(L10n.text(operation == 2 ? .protect_removal_warning : .protect_original))
+                .font(.caption).foregroundStyle(.secondary)
+            if busy { ProgressView(L10n.text(.protect_working)) }
+            if let notice {
+                Label(L10n.text(notice), systemImage: isError ? "exclamationmark.circle" : "checkmark.circle")
+                    .foregroundStyle(isError ? Color.red : Color.primary)
+                    .accessibilityIdentifier("protect.result")
+            }
+            Button {
+                if operation == 2 { confirmRemoval = true } else { process() }
+            } label: {
+                Text(L10n.text(operation == 0 ? .protect_encrypt : operation == 1 ? .protect_decrypt : .protect_remove))
+                    .frame(maxWidth: .infinity, minHeight: 40)
+            }.nativeButtonStyle(.prominent).disabled(action == nil || busy).accessibilityIdentifier("protect.submit")
+        }.padding(16).background(.bar)
+    }
+
     @ViewBuilder private var passwordFields: some View {
         if operation == 0 {
             Picker(L10n.text(.protect_key_size), selection: $algorithm) {
@@ -231,6 +250,7 @@ struct FileProtectionScreen: View {
         }
         credentialField(.protect_password) {
             SecureField(L10n.text(.protect_password), text: $password)
+                .focused($focusedCredential, equals: .password)
                 .textContentType(operation == 0 ? .newPassword : .password)
                 .textFieldStyle(.roundedBorder).labelsHidden()
                 .accessibilityIdentifier("protect.password")
@@ -238,11 +258,13 @@ struct FileProtectionScreen: View {
         if operation == 0 {
             credentialField(.protect_confirm_password) {
                 SecureField(L10n.text(.protect_confirm_password), text: $confirmation)
+                    .focused($focusedCredential, equals: .confirmation)
                     .textContentType(.newPassword).textFieldStyle(.roundedBorder).labelsHidden()
                     .accessibilityIdentifier("protect.confirmPassword")
             }
             if !confirmation.isEmpty && password != confirmation {
                 Text(L10n.text(.protect_mismatch)).font(.caption).foregroundStyle(.red)
+                    .accessibilityIdentifier("protect.passwordMismatch")
             }
         }
     }
@@ -294,6 +316,7 @@ struct FileProtectionScreen: View {
         if operation == 1, identity != nil {
             credentialField(.protect_card_pin) {
                 SecureField(L10n.text(.protect_card_pin), text: $pin)
+                    .focused($focusedCredential, equals: .pin)
                     .textFieldStyle(.roundedBorder).labelsHidden()
                     #if os(iOS)
                     .keyboardType(.numberPad)
