@@ -12,9 +12,10 @@ final class MacFloatingActionUITests: XCTestCase {
             let window = app.windows.firstMatch
             let sign = app.buttons["sign.submit"].firstMatch
             assertFloating(sign, in: window)
-            // Restored windows can fill the display; start with a bounded workspace.
-            resize(window, width: 900, height: 650)
-            wait("Window reaches compact size", in: app) { abs(window.frame.width - 900) < 10 }
+            // Leave enough width above the content minimum to observe a real shrink
+            // across native drag rounding and localized window chrome.
+            resize(window, width: 940, height: 650)
+            wait("Window reaches compact size", in: app) { abs(window.frame.width - 940) < 10 }
             assertFloating(sign, in: window)
             XCTAssertTrue(sign.isEnabled)
             let position = sign.frame
@@ -33,7 +34,10 @@ final class MacFloatingActionUITests: XCTestCase {
             let before = window.frame
             // Shrink toward the supported minimum. Growing can hit a hosted display's edge.
             resize(window, width: 860, height: 620)
-            wait("Window shrinks", in: app) { window.frame.width < before.width - 30 }
+            wait("Window shrinks to the compact minimum", in: app) {
+                let width = window.frame.width
+                return width < before.width - 50 && abs(width - 860) < 20
+            }
             assertFloating(sign, in: window)
             XCTAssertEqual(window.frame.maxX - sign.frame.maxX, before.maxX - position.maxX, accuracy: 3)
             XCTAssertEqual(window.frame.maxY - sign.frame.maxY, before.maxY - position.maxY, accuracy: 3)
