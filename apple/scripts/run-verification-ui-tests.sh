@@ -13,7 +13,7 @@ if [[ "$platform" == ios ]]; then
 fi
 [[ "$platform" == macos && "$device" == mac ]] || { echo 'Unsupported platform/device' >&2; exit 2; }
 [[ ! -e "$out" ]] || { echo 'Use a fresh output directory' >&2; exit 2; }
-if python3 - <<'PYTHON'
+if [[ ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]] && python3 - <<'PYTHON'
 import subprocess
 pids = subprocess.run(['pgrep', '-x', 'eSemnBun'], capture_output=True, text=True).stdout.split()
 paths = [subprocess.run(['ps', '-p', pid, '-o', 'comm='], capture_output=True, text=True).stdout.strip() for pid in pids]
@@ -81,6 +81,29 @@ schemes:
 YAML
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$app"
 xcodegen generate --spec "$host/project.yml"
-xcodebuild test -project "$host/JourneyHost.xcodeproj" -scheme JourneyHost -destination 'platform=macOS' \
+xcodebuild build-for-testing -project "$host/JourneyHost.xcodeproj" -scheme JourneyHost -destination 'platform=macOS' \
     -collect-test-diagnostics never \
-    -parallel-testing-enabled NO -derivedDataPath "$out/DerivedData" -resultBundlePath "$out/Journeys.xcresult" 2>&1 | tee "$out/test.log"
+    -parallel-testing-enabled NO -derivedDataPath "$out/DerivedData" -resultBundlePath "$out/Build.xcresult" 2>&1 | tee "$out/build.log"
+# Xcode's copied UI runner has its own sandbox entitlement, independent of
+# ENABLE_APP_SANDBOX. A sandboxed NSWorkspace launch drops the fixture settings.
+# Re-sign only this generated QA runner; the tested application keeps its signature.
+python3 - "$out/DerivedData/Build/Products/Debug/JourneyTests-Runner.app" "$out/runner-entitlements.plist" <<'PYTHON'
+import pathlib, plistlib, subprocess, sys
+runner, output = map(pathlib.Path, sys.argv[1:])
+info = plistlib.loads((runner/'Contents/Info.plist').read_bytes())
+assert info['CFBundleIdentifier'] == 'md.esemnbun.qa.journeytests.xctrunner'
+raw = subprocess.check_output(['codesign', '-d', '--entitlements', ':-', str(runner)], stderr=subprocess.DEVNULL)
+entitlements = plistlib.loads(raw)
+entitlements.pop('com.apple.security.app-sandbox', None)
+output.write_bytes(plistlib.dumps(entitlements))
+subprocess.run(['codesign', '--force', '--sign', '-', '--entitlements', str(output), '--timestamp=none', str(runner)], check=True)
+subprocess.run(['codesign', '--verify', '--deep', '--strict', str(runner)], check=True)
+actual = plistlib.loads(subprocess.check_output(['codesign', '-d', '--entitlements', ':-', str(runner)], stderr=subprocess.DEVNULL))
+assert not actual.get('com.apple.security.app-sandbox') and actual.get('com.apple.security.get-task-allow')
+PYTHON
+[[ ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]] || exit 0
+manifests=("$out/DerivedData/Build/Products/"*.xctestrun)
+[[ ${#manifests[@]} == 1 && -f "${manifests[0]}" ]] || { echo 'Expected one native XCTest manifest.' >&2; exit 1; }
+xcodebuild test-without-building -xctestrun "${manifests[0]}" -destination 'platform=macOS' \
+    -collect-test-diagnostics never -parallel-testing-enabled NO \
+    -resultBundlePath "$out/Journeys.xcresult" 2>&1 | tee "$out/test.log"
