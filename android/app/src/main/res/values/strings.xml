@@ -505,4 +505,6 @@ eSemnBun</string>
   <string name="protect_card_public_key">Compatibilitate cu cheia publică a cardului</string>
   <string name="protect_card_public_key_help">Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.</string>
   <string name="protect_export_public_certificate">Exportă certificatul public</string>
+  <string name="verify_choose_another">Alege alt document</string>
+  <string name="browser_nfc_saved_cards">Carduri cunoscute</string>
 </resources>

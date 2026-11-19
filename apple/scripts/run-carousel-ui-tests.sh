@@ -26,6 +26,9 @@ out=$(cd "$out" && pwd)
 test_source=${MSIGN_UI_TEST_SOURCE:-$repo/apple/Tests/InteractionUITests/CardCarouselUITests.swift}
 if [[ -n ${MSIGN_UI_XCTESTRUN:-} && ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]]; then
     [[ -f "$MSIGN_UI_XCTESTRUN" ]] || { echo 'Prepared XCTest manifest is missing.' >&2; exit 1; }
+    if [[ ${MSIGN_UI_APP_INSTALLED:-0} != 1 ]]; then
+        xcrun simctl install "$device" "$app"
+    fi
     suite=$(basename "$test_source" .swift)
     selections=()
     for selected in ${MSIGN_UI_TEST_SUITES:-$suite}; do

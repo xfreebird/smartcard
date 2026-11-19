@@ -27,6 +27,9 @@ internal class NativeJourneyDriver(private val runner: Instrumentation) {
     fun text(value: String) = currentNodes().firstOrNull {
         it.isVisibleToUser && (it.text?.toString()?.lines()?.contains(value) == true || it.contentDescription?.toString()?.lines()?.contains(value) == true)
     }
+    fun textCount(value: String) = currentNodes().count {
+        it.isVisibleToUser && it.text?.toString() == value
+    }
     fun id(value: String) = currentNodes().firstOrNull {
         it.isVisibleToUser && it.viewIdResourceName == value
     }

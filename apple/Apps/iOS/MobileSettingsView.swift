@@ -14,6 +14,14 @@ struct MobileSettingsView: View {
             language = value
         })
     }
+    private var showsBrowserAuthentication: Bool {
+        #if DEBUG
+        // Explicit, hardware-free visual fixture; it never makes NFC available to a signer.
+        if model.isScreenshotCapture,
+           ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] == "browser-authentication" { return true }
+        #endif
+        return model.nfcAvailable && !model.demoMode
+    }
     var body: some View {
             Form {
                 DemoModeSettings()
@@ -36,16 +44,24 @@ struct MobileSettingsView: View {
                     }
                 }
                 Section(L10n.text(.ui_browser)) {
-                    if model.nfcAvailable && !model.demoMode {
+                    if showsBrowserAuthentication {
                         Button { showingAuthentication = true } label: {
                             HStack {
-                                Text(L10n.text(.browser_authentication_short)).foregroundStyle(.primary)
+                                Text(L10n.text(.browser_authentication_short)).foregroundStyle(Color.primary)
                                 Spacer()
                                 Text(L10n.text(model.browserNFC.enabled ? .browser_nfc_method : .browser_reader_short))
-                                    .foregroundStyle(.secondary).fixedSize()
-                                Image(systemName: "chevron.right").font(.caption).foregroundStyle(.tertiary)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(Theme.brand)
+                                    .padding(.horizontal, 10).padding(.vertical, 5)
+                                    .background(Theme.brandSoft, in: Capsule())
+                                    .fixedSize()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption.weight(.semibold)).foregroundStyle(Theme.brand)
                             }
-                        }.disabled(!model.canChangeSigningMethod)
+                            .contentShape(Rectangle())
+                        }
+                        .accessibilityIdentifier("settings.browserAuthentication")
+                        .disabled(!model.canChangeSigningMethod)
                     }
                     Toggle(L10n.text(.stamp_browser), isOn: $browserStamps)
                     Text(L10n.text(.stamp_batch_hint)).font(.caption)

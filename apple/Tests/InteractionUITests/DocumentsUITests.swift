@@ -107,6 +107,21 @@ final class DocumentsUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Cannot be confirmed"].exists)
         attach(app, "08-duo-document-modal-default")
         // The same detail assertions run on the active phone and tablet layouts.
+        app.terminate()
+        app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
+            "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.document-actions.layout",
+            "MSIGN_DEMO_CARDS": "1", "MSIGN_DEMO_SCENARIO": "documents-details-unsigned", "MSIGN_DEMO_TAB": "documents"]
+        app.launchArguments = ["-appTheme", "light", "-appLanguage", "ro", "-AppleLanguages", "(ro)", "-bridgeEnabled", "NO"]
+        app.launch()
+        let preview = app.buttons["documents.details.primaryAction"]
+        let share = app.buttons["documents.details.share"]
+        XCTAssertTrue(preview.waitForPresence(timeout: 15))
+        XCTAssertTrue(share.waitForPresence(timeout: 5))
+        XCTAssertTrue(preview.isHittable && share.isHittable)
+        XCTAssertTrue(app.frame.contains(preview.frame) && app.frame.contains(share.frame))
+        XCTAssertEqual(preview.frame.height, share.frame.height, accuracy: 2,
+                       "The Romanian preview label must not wrap into a taller capsule")
+        attach(app, "09-romanian-document-actions")
     }
 
     private func attach(_ app: XCUIApplication, _ name: String) {

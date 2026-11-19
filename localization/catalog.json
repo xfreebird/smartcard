@@ -17060,6 +17060,24 @@
         "ro": "Exportă certificatul public",
         "ru": "Экспорт открытого сертификата"
       }
+    },
+    {
+      "platform": "android",
+      "key": "verify_choose_another",
+      "translations": {
+        "ro": "Alege alt document",
+        "en": "Choose another document",
+        "ru": "Выбрать другой документ"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "browser_nfc_saved_cards",
+      "translations": {
+        "ro": "Carduri cunoscute",
+        "en": "Known cards",
+        "ru": "Известные карты"
+      }
     }
   ],
   "storeMetadata": {

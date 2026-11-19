@@ -43,6 +43,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CreditCard
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Draw
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Language
@@ -159,6 +160,8 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
     val captureProgress = DemoMode.screenshotCapture(captureIntent) && captureIntent?.hasExtra("capture_step") == true
     val status = if (captureProgress) liveStatus.copy(light = md.moldsign.core.StatusLight.Busy, busy = true) else liveStatus
     val items by vm.signItems.collectAsStateWithLifecycle()
+    val verifiedDocuments by vm.verifiedDocuments.collectAsStateWithLifecycle()
+    val verifyDocument by vm.verifyDoc.collectAsStateWithLifecycle()
     val signingMethod by vm.signingMethod.collectAsStateWithLifecycle()
     val savedPinIds by vm.savedPinIds.collectAsStateWithLifecycle()
     val pendingPinSave by vm.pendingPinSave.collectAsStateWithLifecycle()
@@ -279,6 +282,13 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label),
                         maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     actions = {
+                        if (dest == Dest.Verify && (verifiedDocuments.isNotEmpty() || verifyDocument != null)) {
+                            IconButton(onClick = vm::clearVerifyResults,
+                                modifier = Modifier.semantics { testTagsAsResourceId = true }.testTag("verify.clearResults")) {
+                                Icon(Icons.Outlined.Delete, contentDescription = stringResource(R.string.clear_results),
+                                    tint = MaterialTheme.colorScheme.error)
+                            }
+                        }
                         if (dest == Dest.Sign) IconButton(onClick = { cardDetails = true },
                             enabled = (if (signingMethod == MainViewModel.SigningMethod.NFC) nfcIdentity else status.wallet.selectedCard?.certificate) != null,
                             modifier = Modifier.testTag("sign.cardDetails")) {

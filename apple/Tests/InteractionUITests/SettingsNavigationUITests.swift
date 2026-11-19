@@ -72,6 +72,22 @@ final class SettingsNavigationUITests: XCTestCase {
         app.buttons["documents.protectFiles"].tapWhenReady()
         XCTAssertTrue(app.buttons["protect.chooseFile"].waitForPresence(timeout: 5))
         capture(app, "documents-direct-protection")
+        app.terminate()
+        XCUIDevice.shared.orientation = .portrait
+        app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
+            "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.browser-authentication",
+            "MSIGN_DEMO_CARDS": "1", "MSIGN_DEMO_SCENARIO": "browser-authentication", "MSIGN_DEMO_TAB": "settings"]
+        app.launchArguments = ["-appTheme", "light", "-appLanguage", "ro", "-AppleLanguages", "(ro)", "-bridgeEnabled", "NO"]
+        app.launch()
+        let authentication = app.buttons["settings.browserAuthentication"]
+        XCTAssertTrue(authentication.waitForPresence(timeout: 15))
+        reveal(authentication, in: app)
+        authentication.tapWhenReady()
+        app.buttons["NFC"].firstMatch.tapWhenReady()
+        app.buttons["Gata"].firstMatch.tapWhenReady()
+        XCTAssertTrue(authentication.waitForPresence(timeout: 5))
+        XCTAssertTrue(authentication.label.contains("NFC"), authentication.label)
+        capture(app, "settings-browser-authentication-selection")
     }
 
     private func selectTab(_ title: String, in app: XCUIApplication) {

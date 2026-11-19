@@ -17,6 +17,10 @@ final class VerificationJourneyUITests: XCTestCase {
             let clear = app.buttons["verify.clearResults"].firstMatch
             XCTAssertTrue(clear.waitForPresence(timeout: 5), scenario)
             XCTAssertTrue(clear.isEnabled)
+            #if os(iOS)
+            XCTAssertTrue(app.navigationBars.buttons["verify.clearResults"].firstMatch.exists,
+                          "Clear results must stay in the navigation bar: \(scenario)")
+            #endif
             clear.activateControl()
             XCTAssertTrue(app.descendants(matching: .any)["verify.dropZone"].firstMatch.exists)
             XCTAssertFalse(app.staticTexts[title].exists, "Cleared verdict must disappear: \(scenario)")

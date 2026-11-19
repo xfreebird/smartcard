@@ -502,4 +502,6 @@ eSemnBun</string>
   <string name="protect_card_public_key">Card public key compatibility</string>
   <string name="protect_card_public_key_help">For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.</string>
   <string name="protect_export_public_certificate">Export public certificate</string>
+  <string name="verify_choose_another">Choose another document</string>
+  <string name="browser_nfc_saved_cards">Known cards</string>
 </resources>

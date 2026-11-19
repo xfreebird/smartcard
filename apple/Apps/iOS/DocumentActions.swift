@@ -93,27 +93,42 @@ struct IOSDocumentDetailActions: View {
     @Environment(\.dynamicTypeSize) private var typeSize
 
     var body: some View {
-        let encrypted = protectionOperation == "encrypt"
-        let layout = typeSize.isAccessibilitySize ? AnyLayout(VStackLayout(spacing: 10))
-                                                 : AnyLayout(HStackLayout(spacing: 10))
-        layout {
-            Button(action: encrypted ? decrypt : preview) {
-                Label(L10n.text(encrypted ? .protect_decrypt : .document_preview),
-                      systemImage: encrypted ? "lock.open" : "eye")
-                    .frame(maxWidth: .infinity)
+        Group {
+            if typeSize.isAccessibilitySize {
+                VStack(spacing: 10) { actions(singleLine: false) }
+            } else {
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: 10) { actions(singleLine: true) }
+                    VStack(spacing: 10) { actions(singleLine: false) }
+                }
             }
-            .accessibilityIdentifier("documents.details.primaryAction")
-            .nativeButtonStyle(.prominent)
-            ShareLink(item: url) {
-                Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up")
-                    .frame(maxWidth: .infinity)
-            }
-            .accessibilityIdentifier("documents.details.share")
-            .nativeButtonStyle()
         }
         .font(.body.weight(.semibold))
         .controlSize(.large)
         .buttonBorderShape(.capsule)
         .tint(Theme.brand)
+    }
+
+    @ViewBuilder
+    private func actions(singleLine: Bool) -> some View {
+        let encrypted = protectionOperation == "encrypt"
+        Button(action: encrypted ? decrypt : preview) {
+            Label(L10n.text(encrypted ? .protect_decrypt : .document_preview),
+                  systemImage: encrypted ? "lock.open" : "eye")
+                // Measure the complete label before choosing the horizontal row.
+                .fixedSize(horizontal: singleLine, vertical: true)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, minHeight: 24)
+        }
+        .accessibilityIdentifier("documents.details.primaryAction")
+        .nativeButtonStyle(.prominent)
+        ShareLink(item: url) {
+            Label(L10n.text(.ui_share), systemImage: "square.and.arrow.up")
+                .fixedSize(horizontal: singleLine, vertical: true)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, minHeight: 24)
+        }
+        .accessibilityIdentifier("documents.details.share")
+        .nativeButtonStyle()
     }
 }

@@ -43,7 +43,14 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
                     val title = activity.getString(verdict)
                     ui.await(title) { ui.text(title) != null }
                     val clear = activity.getString(R.string.clear_results)
-                    ui.clickTextAndAwait(clear, "cleared verdict") { ui.text(title) == null && ui.text(clear) == null }
+                    ui.await("navigation-bar clear action") { ui.id("verify.clearResults") != null }
+                    val actionBounds = android.graphics.Rect().also { ui.id("verify.clearResults")!!.getBoundsInScreen(it) }
+                    val titleBounds = android.graphics.Rect().also { ui.text(activity.getString(R.string.nav_verify))!!.getBoundsInScreen(it) }
+                    check(kotlin.math.abs(actionBounds.centerY() - titleBounds.centerY()) <= 24 * activity.resources.displayMetrics.density) {
+                        "Clear results must be beside the navigation-bar title"
+                    }
+                    ui.clickIdAndAwait("verify.clearResults", "cleared verdict") { ui.text(title) == null && ui.text(clear) == null }
+                    check(ui.id("verify.pickFiles") != null)
                     check(ui.text(activity.getString(R.string.action_choose_document)) != null)
                     results += "$scenario:pass"
                 } finally {
