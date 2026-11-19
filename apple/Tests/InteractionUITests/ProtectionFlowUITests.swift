@@ -63,7 +63,7 @@ final class ProtectionFlowUITests: XCTestCase {
         let encrypted = document("ProtectionSource.pdf.symmetric.p7m", in: app)
         XCTAssertTrue(encrypted.waitForPresence(timeout: 8))
         encrypted.tap()
-        app.buttons["Decrypt"].tap()
+        app.buttons["documents.details.primaryAction"].tapWhenReady()
         XCTAssertTrue(password.waitForPresence(timeout: 8))
         XCTAssertFalse(keySize.exists)
         XCTAssertFalse(app.buttons["protect.submit"].isEnabled)
