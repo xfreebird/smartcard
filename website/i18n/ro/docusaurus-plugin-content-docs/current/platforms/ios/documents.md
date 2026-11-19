@@ -21,7 +21,7 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 Deschide Documente și selectează un element salvat. Fereastra detaliilor folosește aceeași prezentare ca Verifică și nu înlocuiește spațiul de verificare curent. Previzualizare deschide conținutul; Partajează exportă fișierul ales. Dacă fișierul a fost mutat sau nu poate fi citit, selectează-l din locația reală.
 
 <GuideScreenshot src="/img/guide/iphone/ro/documents.png" alt="Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja." steps={[{"text": "Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja.", "x": 35, "y": 40}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 23, "y": 53}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 32.6, "y": 51.3}]} />
 
 ## Șterge istoricul păstrând documentele salvate
 

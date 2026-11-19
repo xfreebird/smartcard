@@ -1,0 +1,2292 @@
+{
+  "date": "2026-11-19",
+  "sourceCommit": "4e694f3349a20670c6467259b78812011577f418",
+  "sourceHasLocalChanges": true,
+  "locales": [
+    "en",
+    "ro",
+    "ru"
+  ],
+  "appearance": "light",
+  "assetCount": 114,
+  "capture": "Native app fixtures, isolated preferences, no reader or PIN. Native 09:41 clocks on complete mobile frames; only recorded focus/window crops and 2:1 Mac Retina downsampling.",
+  "scope": "Affected guide panels only: RSA forms on seven device forms; iPhone authentication/Settings; iPhone/iPad document actions; Android phone/tablet Verify and browser authentication.",
+  "retained": "Unchanged landing light/dark scenes, unaffected signing/card/reader screenshots and CLI command illustrations were audited and retained. Existing Apple Verify navbar images already match the unchanged native UI; their Clear results callouts were updated.",
+  "fixtureSourceChanges": [
+    "Linux and Windows Debug protection preview selects the RSA form and asymmetric filename for certificate scenarios.",
+    "Apple readiness pipe is unbuffered to avoid missing a buffered readiness line.",
+    "Android guide captures explicitly request the 24-hour clock."
+  ],
+  "binaries": {
+    "iphone": {
+      "binarySHA256": "c23a0826cbc47942f36ac75b54cc23b6004d5433cd36c1305fc110cfd072c8d2",
+      "debugDylibSHA256": "065b40cfe2d51fed8cac65476c6642ab4bd6cf9a9bb88e5a94fab2b06b464583",
+      "configuration": "Debug iOS Simulator, iPhone 17 Pro / iOS 27.0",
+      "target": "A96865FC-7989-4B5F-AEDF-CFB03C7E7B41"
+    },
+    "ipad": {
+      "binarySHA256": "c23a0826cbc47942f36ac75b54cc23b6004d5433cd36c1305fc110cfd072c8d2",
+      "debugDylibSHA256": "065b40cfe2d51fed8cac65476c6642ab4bd6cf9a9bb88e5a94fab2b06b464583",
+      "configuration": "Debug iOS Simulator, iPad mini / iOS 27.0",
+      "target": "346CAEF5-95E2-40CB-A665-96A28D7EFCC0"
+    },
+    "macos": {
+      "binarySHA256": "a47ce93ec5e9b29dcc0a44da444f0146eb1b4c8b185204f21991a5b59763206a",
+      "debugDylibSHA256": "309d8a104d10b51456237f6aeedc60724f161281c0a14eb674204ce61ce55a7a",
+      "configuration": "AppStore Debug; development-signed with existing matching profile, sandbox and smartcard entitlements verified"
+    },
+    "android-phone": {
+      "apkSHA256": "5c0028724afb823697bcefbfdb88c8711e02bf67e35c4e83a37410958964994b",
+      "configuration": "Debug API 36 emulator, 1080x2400 / density 420",
+      "target": "emulator-5580"
+    },
+    "android-tablet": {
+      "apkSHA256": "5c0028724afb823697bcefbfdb88c8711e02bf67e35c4e83a37410958964994b",
+      "configuration": "Debug API 36 emulator, 1600x1100 / density 160",
+      "target": "emulator-5580"
+    },
+    "windows": {
+      "appDllSHA256": "e1f50662f941613de8171a5e6ac963f47aa71531a08db146962284958b665580",
+      "configuration": "Debug x64 WinUI 3; native Windows 11 ARM64 QEMU VM interactive session; fresh isolated source copy"
+    },
+    "linux": {
+      "binarySHA256": "b73c6c11e825dc8daf440510c115f77960b126fcd4e68704de21fc8f5b79869e",
+      "configuration": "Debug Swift 6.4.1 / GTK4 4.22.5 / libadwaita 1.9.4; Fedora 44 ARM64 QEMU VM; X11 Xvfb native windows, cairo renderer"
+    }
+  },
+  "limitations": [
+    "Fictional UI evidence does not demonstrate real NFC/USB, PIN reuse, cryptography, card decryption, trust validation, Siri or cross-device behavior.",
+    "These are current local Debug source captures, not a released application or Store submission."
+  ],
+  "records": [
+    {
+      "path": "website/static/img/guide/android-phone/en/browser-authentication.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "64bf2ae6b5a9743c5aa53750d43a205b32d8300b8411fe94a6457148703ba3a7",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/browser.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "f6e29ef0fd279d3e0285fc27d92f61709c324a4558481190ab233d4b1dee0d7c",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/certificate.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "3d54ab6f44d5e36ed67a4db0a6dd12cdabd871f1d99f10c62224c709deaad751",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/certificate.png",
+      "sourceSHA256": "3d54ab6f44d5e36ed67a4db0a6dd12cdabd871f1d99f10c62224c709deaad751",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/original.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "349640f0ae55cb71c4a2c3590d50b453039204d5c2d39f87948572471653336f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/original.png",
+      "sourceSHA256": "349640f0ae55cb71c4a2c3590d50b453039204d5c2d39f87948572471653336f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-certificate-light.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "5825aeeb8aaf8d03f6e21af9d593ba3ceb681823de695900a71f56ae01f63a13",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/protect-certificate-light.png",
+      "sourceSHA256": "5825aeeb8aaf8d03f6e21af9d593ba3ceb681823de695900a71f56ae01f63a13",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-rsa-decrypt-light.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "79b1e42df07eb461fc5b2da4079b1898579b0e5460f5af968c3a02bf1cbf414c",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/protect-rsa-decrypt-light.png",
+      "sourceSHA256": "79b1e42df07eb461fc5b2da4079b1898579b0e5460f5af968c3a02bf1cbf414c",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-current.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "99be997927b80262843e988ffa20cb60453d61d47c15762acbc35fcc7f0eaaa8",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/verify-current.png",
+      "sourceSHA256": "99be997927b80262843e988ffa20cb60453d61d47c15762acbc35fcc7f0eaaa8",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-invalid.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "08a6ac729c78389d9d422676a01ffc39628ef8280a448e9500ce1c6cf63aa11a",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/verify-invalid.png",
+      "sourceSHA256": "08a6ac729c78389d9d422676a01ffc39628ef8280a448e9500ce1c6cf63aa11a",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-none.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "8eee2a245932b0fdd3c80e5f583318a88b6f878f0af6ac47f60a12f3b12a8111",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/verify-none.png",
+      "sourceSHA256": "8eee2a245932b0fdd3c80e5f583318a88b6f878f0af6ac47f60a12f3b12a8111",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-technical.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "195d584e3b05d8bc921bbb8438f60c8e30451d2b9befae2dd0e62e66a77531c9",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/verify-technical.png",
+      "sourceSHA256": "195d584e3b05d8bc921bbb8438f60c8e30451d2b9befae2dd0e62e66a77531c9",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-unconfirmed.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "08406e35a6e24def4fd4b8b0474d765e25d5c597b88d868096e2ae0a76d4a197",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/verify-unconfirmed.png",
+      "sourceSHA256": "08406e35a6e24def4fd4b8b0474d765e25d5c597b88d868096e2ae0a76d4a197",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify.png",
+      "platform": "android-phone",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "334c692eff692b16f57697ceb69c9cbd788174d4fca48f4660fddb371ca9309f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/en/verify.png",
+      "sourceSHA256": "334c692eff692b16f57697ceb69c9cbd788174d4fca48f4660fddb371ca9309f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser-authentication.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "8dc10166e38a86394f427fc7bdc7a80d8985679d260ae364e15c91be8cec7672",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "f6604356a20db11e8f368caa611a2288a591762356bb620104bca03e76e8df3e",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/certificate.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "fa64e5bebeff3f252ce969a435e80a38d38db1660dd7233dd67265c931573476",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/certificate.png",
+      "sourceSHA256": "fa64e5bebeff3f252ce969a435e80a38d38db1660dd7233dd67265c931573476",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/original.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "b099320efa26b4cb232b41e065568ac976bb67b6dadab0afcc2cf3f1f0925f80",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/original.png",
+      "sourceSHA256": "b099320efa26b4cb232b41e065568ac976bb67b6dadab0afcc2cf3f1f0925f80",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-certificate-light.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "f1f06bfad894bf7b1ce3d2ebd0d48bf561264b7386ec6666b86bc02b56225e5c",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/protect-certificate-light.png",
+      "sourceSHA256": "f1f06bfad894bf7b1ce3d2ebd0d48bf561264b7386ec6666b86bc02b56225e5c",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "0ed499c44102d10ffae30b5cb1958369f9f57a65d46ca293dd650235533ac166",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
+      "sourceSHA256": "0ed499c44102d10ffae30b5cb1958369f9f57a65d46ca293dd650235533ac166",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-current.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "890ca30dae8ba006e62aef0972db2b5f332e7946be13c231dce36a5e62a28083",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/verify-current.png",
+      "sourceSHA256": "890ca30dae8ba006e62aef0972db2b5f332e7946be13c231dce36a5e62a28083",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-invalid.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "0662354dc0d0ad2d7995a0791bbf740f5145dc3cc01e77640ad3564eaf38f1f1",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/verify-invalid.png",
+      "sourceSHA256": "0662354dc0d0ad2d7995a0791bbf740f5145dc3cc01e77640ad3564eaf38f1f1",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-none.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "17c59327ea9b8ada05d8fb2bfd02d301157435c5ce8f270d77bcf25a03baf087",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/verify-none.png",
+      "sourceSHA256": "17c59327ea9b8ada05d8fb2bfd02d301157435c5ce8f270d77bcf25a03baf087",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-technical.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "62733195d4fa660e8a0ac0b5eba2091b7cf4ab6ec2d4a00aa5b7e0840d8d1d9f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/verify-technical.png",
+      "sourceSHA256": "62733195d4fa660e8a0ac0b5eba2091b7cf4ab6ec2d4a00aa5b7e0840d8d1d9f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-unconfirmed.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "a511a60dc3e9bcaed6e8d30d22f1c9be9b0c217b93cbcbbe7d0e3c896abad2a5",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/verify-unconfirmed.png",
+      "sourceSHA256": "a511a60dc3e9bcaed6e8d30d22f1c9be9b0c217b93cbcbbe7d0e3c896abad2a5",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify.png",
+      "platform": "android-phone",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "932b9e5d8299a7a1a5aeebd3d105e337173f629b4eb9bce46b7c43615f27741f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ro/verify.png",
+      "sourceSHA256": "932b9e5d8299a7a1a5aeebd3d105e337173f629b4eb9bce46b7c43615f27741f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser-authentication.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "1ba264b27c909b0869a6f176845010a060cb007f712dc0974020144c5c4d6d62",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "4518f2e2dbb012bd8ab0f90b0bcaaaeb93a234a378e055c5e2c4ffecbb955c5f",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/certificate.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "4b5b19e6ee33d0267d88de1941fe6775dd36b38a34013419ead6ce6ba504866c",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/certificate.png",
+      "sourceSHA256": "4b5b19e6ee33d0267d88de1941fe6775dd36b38a34013419ead6ce6ba504866c",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/original.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "f34c462ac61deac3f2a98d84eeeb411dcd6fa72fd3b055ef19a709b77029edfe",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/original.png",
+      "sourceSHA256": "f34c462ac61deac3f2a98d84eeeb411dcd6fa72fd3b055ef19a709b77029edfe",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-certificate-light.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "62a8f05ecea3515a166b22e6247d6ed77c7ff0e3235d40b4c901a7a8247387cc",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/protect-certificate-light.png",
+      "sourceSHA256": "62a8f05ecea3515a166b22e6247d6ed77c7ff0e3235d40b4c901a7a8247387cc",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "208eb4c1e047d221598b52eb52d25b6c39899df82d8ece9fdfe45102947e4984",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
+      "sourceSHA256": "208eb4c1e047d221598b52eb52d25b6c39899df82d8ece9fdfe45102947e4984",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-current.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "1d9d835e573e6862fc022a86bcb48c7f0ecf4816c7e7bf0d59828dad82e6164b",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/verify-current.png",
+      "sourceSHA256": "1d9d835e573e6862fc022a86bcb48c7f0ecf4816c7e7bf0d59828dad82e6164b",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-invalid.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "2a55cbc2a026154333840e1793524923aa1389b190b4f6b4815f42cb412365b8",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/verify-invalid.png",
+      "sourceSHA256": "2a55cbc2a026154333840e1793524923aa1389b190b4f6b4815f42cb412365b8",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-none.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "68de15c3f20038753ec89f26ccc9f9a420e744dcd67ec4fd77fb8d6e7dcf9d20",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/verify-none.png",
+      "sourceSHA256": "68de15c3f20038753ec89f26ccc9f9a420e744dcd67ec4fd77fb8d6e7dcf9d20",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-technical.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "0835b8e398b497ab2f7d906e87f5968ef2536dd65f381b40784e3a3eb753c061",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/verify-technical.png",
+      "sourceSHA256": "0835b8e398b497ab2f7d906e87f5968ef2536dd65f381b40784e3a3eb753c061",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-unconfirmed.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "4adbb5c7d1c21b77dee8c5ae52ac4e2b89448058ea1971f84d7ad40db7309446",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/verify-unconfirmed.png",
+      "sourceSHA256": "4adbb5c7d1c21b77dee8c5ae52ac4e2b89448058ea1971f84d7ad40db7309446",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify.png",
+      "platform": "android-phone",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "sha256": "7663b42da2e7790ee1e70cdaa8f90fe58459919aa1e3f568c1642bbee8bcebcf",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-phone/ru/verify.png",
+      "sourceSHA256": "7663b42da2e7790ee1e70cdaa8f90fe58459919aa1e3f568c1642bbee8bcebcf",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-phone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser-authentication.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "92dd5ed8987dc28e4d25672e21ba6a08ffa3920d1b033e87ab861eea005d2500",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "d67a56a58d20327541d425b11538f496e3e4772b170eb21f1d97b132efec6ab4",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/certificate.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "67124e7cc4cf7edade0c9cc06f6270242eabbdbda87359884b8e8c46a9ed2e40",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/certificate.png",
+      "sourceSHA256": "67124e7cc4cf7edade0c9cc06f6270242eabbdbda87359884b8e8c46a9ed2e40",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/original.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "efdc64671c9152cfd82488dfcbe25b4b00335f6d9f83d8457626f54b3b27360f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/original.png",
+      "sourceSHA256": "efdc64671c9152cfd82488dfcbe25b4b00335f6d9f83d8457626f54b3b27360f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-certificate-light.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "b655dd598a7d095bbf51b048c5e9ef1756a66e5c94f8b540905a4e5cc3695420",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/protect-certificate-light.png",
+      "sourceSHA256": "b655dd598a7d095bbf51b048c5e9ef1756a66e5c94f8b540905a4e5cc3695420",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "dbdfb30c0fedab36f2071f61c468c08ab0154875ccd26459018482856698a128",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
+      "sourceSHA256": "dbdfb30c0fedab36f2071f61c468c08ab0154875ccd26459018482856698a128",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-current.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "a1d4e79940dfebd5d6b3380dd188920627ff38a253d6a44a935a504bed8d5c66",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/verify-current.png",
+      "sourceSHA256": "a1d4e79940dfebd5d6b3380dd188920627ff38a253d6a44a935a504bed8d5c66",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-invalid.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "12b1ac547a85f827a80c30f33bc68f7a87f4b77ab0f1e575dccf7e78e3874693",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/verify-invalid.png",
+      "sourceSHA256": "12b1ac547a85f827a80c30f33bc68f7a87f4b77ab0f1e575dccf7e78e3874693",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-none.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "7574baad577d370e1ea7133506e473a8b8303811438a1058d0afbe7230485a5e",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/verify-none.png",
+      "sourceSHA256": "7574baad577d370e1ea7133506e473a8b8303811438a1058d0afbe7230485a5e",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-technical.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "3c179e0524ea9d1d962b948b2988b633e9c749ec7c3eba7a35b1f9aa9b12b081",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/verify-technical.png",
+      "sourceSHA256": "3c179e0524ea9d1d962b948b2988b633e9c749ec7c3eba7a35b1f9aa9b12b081",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-unconfirmed.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "bec9ae7d793ec0d6e7a136e00a66b62da233abc976a19dc7086990352408fc1f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/verify-unconfirmed.png",
+      "sourceSHA256": "bec9ae7d793ec0d6e7a136e00a66b62da233abc976a19dc7086990352408fc1f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify.png",
+      "platform": "android-tablet",
+      "locale": "en",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "c0f4628f0beb8fcb4046b05205d642112d5ca46d2afa9697eb7f01729d07d5f0",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/en/verify.png",
+      "sourceSHA256": "c0f4628f0beb8fcb4046b05205d642112d5ca46d2afa9697eb7f01729d07d5f0",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser-authentication.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "1d0d17f6a3a4fb265c26bebecef7eeb641389b3d04cf4466eaea88f743e35675",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "e723065415bc193f6cbd5c47b67197e4f3e1697891d66a54da8fefcac12981a9",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/certificate.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "71ff4691bcddf5241cb4ea5cbcbc54786c3019345fd0f7cc588c2e55f639cf0e",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/certificate.png",
+      "sourceSHA256": "71ff4691bcddf5241cb4ea5cbcbc54786c3019345fd0f7cc588c2e55f639cf0e",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/original.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "3c8bf25c45a896a4ec5d70e05c42ac28d46ed7fbdabbb53b3471dcaf7c7d2b17",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/original.png",
+      "sourceSHA256": "3c8bf25c45a896a4ec5d70e05c42ac28d46ed7fbdabbb53b3471dcaf7c7d2b17",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-certificate-light.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "9731167f92d665443d7244ddd331461f53428e36f768ef1d0a15ed7a5f3133ad",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/protect-certificate-light.png",
+      "sourceSHA256": "9731167f92d665443d7244ddd331461f53428e36f768ef1d0a15ed7a5f3133ad",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "85d0b1654aa01a8f9c2c2cfd3bc3e94bc02bdb23ea76a266de37682099fbdf0c",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
+      "sourceSHA256": "85d0b1654aa01a8f9c2c2cfd3bc3e94bc02bdb23ea76a266de37682099fbdf0c",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-current.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "2393c39ea1372bc38bc13648acfbebdf3f36f6106990da139336b29e27ac708d",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/verify-current.png",
+      "sourceSHA256": "2393c39ea1372bc38bc13648acfbebdf3f36f6106990da139336b29e27ac708d",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-invalid.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "3ceb9947a1edf89a44b95a46cd46c28353afc353853fba926703e221ba4706c8",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/verify-invalid.png",
+      "sourceSHA256": "3ceb9947a1edf89a44b95a46cd46c28353afc353853fba926703e221ba4706c8",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-none.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "b1cf69840c94323304f896dceedd2f1d42b74e7f9a8322300240ea43cbe214e0",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/verify-none.png",
+      "sourceSHA256": "b1cf69840c94323304f896dceedd2f1d42b74e7f9a8322300240ea43cbe214e0",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-technical.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "3ae3625eb1ef284b00725d293fdc6d1a791f6007c063f6e753b8c21b10a82db8",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/verify-technical.png",
+      "sourceSHA256": "3ae3625eb1ef284b00725d293fdc6d1a791f6007c063f6e753b8c21b10a82db8",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-unconfirmed.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "a85745f9ab2aea74079d3dc69a87ad7598ec9a6c205ed3dad15956d1c4f28a12",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/verify-unconfirmed.png",
+      "sourceSHA256": "a85745f9ab2aea74079d3dc69a87ad7598ec9a6c205ed3dad15956d1c4f28a12",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify.png",
+      "platform": "android-tablet",
+      "locale": "ro",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "f47213c65d18f3522c830d45b422073468532683d43d72fb213acf3d0f4f140e",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ro/verify.png",
+      "sourceSHA256": "f47213c65d18f3522c830d45b422073468532683d43d72fb213acf3d0f4f140e",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser-authentication.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "135fba958119941aae59fb202fcfffb7f116f2b8a1c3992a737f7ca514d82660",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "d5f2ce94bd4612bb07d13a5a454f77886905797507835cd8e6cecf316cec5ffc",
+      "nativeClock": "09:41",
+      "method": "Native emulator instrumentation; fictional metadata injected by emulator-only runner",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/certificate.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "d5a03f0d90e3656947e10c6bdfb45298bccc18545a47120a16ca87210438f330",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/certificate.png",
+      "sourceSHA256": "d5a03f0d90e3656947e10c6bdfb45298bccc18545a47120a16ca87210438f330",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/original.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "a06de0a4a9c81d9e184a13d16afb020d07f466fed1c9975a00a18a0e5cde3cca",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/original.png",
+      "sourceSHA256": "a06de0a4a9c81d9e184a13d16afb020d07f466fed1c9975a00a18a0e5cde3cca",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-certificate-light.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "79a132156813071c8d2f431d2e69efe9fa63927c63a2098a85b3dd66a1513285",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/protect-certificate-light.png",
+      "sourceSHA256": "79a132156813071c8d2f431d2e69efe9fa63927c63a2098a85b3dd66a1513285",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "29c61531ea0222147b619c9ab64cb3062a4eb764e6c1fb63a47681dd058e98d6",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
+      "sourceSHA256": "29c61531ea0222147b619c9ab64cb3062a4eb764e6c1fb63a47681dd058e98d6",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-current.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "5d3e0ce30951feffcbc83e545d9df6ae6413f9ecfddffdf06de9646ae8cf0501",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/verify-current.png",
+      "sourceSHA256": "5d3e0ce30951feffcbc83e545d9df6ae6413f9ecfddffdf06de9646ae8cf0501",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-invalid.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "a0660716387644ce8dd7a65e6c05226f6ebd501781a55cdca7abe404e2baea2f",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/verify-invalid.png",
+      "sourceSHA256": "a0660716387644ce8dd7a65e6c05226f6ebd501781a55cdca7abe404e2baea2f",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-none.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "068b0349086a31583c466dc8460142618fe63f8c97c947436ba75492e82e0b37",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/verify-none.png",
+      "sourceSHA256": "068b0349086a31583c466dc8460142618fe63f8c97c947436ba75492e82e0b37",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-technical.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "f03c25846d374b141612bf0ec8e2bf880f8099f8648cefdbed5cbb6f610b58c5",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/verify-technical.png",
+      "sourceSHA256": "f03c25846d374b141612bf0ec8e2bf880f8099f8648cefdbed5cbb6f610b58c5",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-unconfirmed.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "864c4d7feb529801ccfee2e37ea7f82c4f73c5a2f57cc84d45d93cf3bdcf028d",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/verify-unconfirmed.png",
+      "sourceSHA256": "864c4d7feb529801ccfee2e37ea7f82c4f73c5a2f57cc84d45d93cf3bdcf028d",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify.png",
+      "platform": "android-tablet",
+      "locale": "ru",
+      "theme": "light",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "sha256": "41e2a3378365d51f5750cb6de7bb20adea1815864e8de5a3d4a76f7271064d5e",
+      "nativeClock": "09:41",
+      "source": "website/static/img/guide/android-tablet/ru/verify.png",
+      "sourceSHA256": "41e2a3378365d51f5750cb6de7bb20adea1815864e8de5a3d4a76f7271064d5e",
+      "method": "Native emulator fixture launch with ready marker and UIAutomator bounds; no content retouching",
+      "build": "android-tablet",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/details.png",
+      "platform": "ipad",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/en/details.png",
+      "sourceSHA256": "cb2fab7b6c25ea6628224626b5098b521be641a92b63d37d6f4e6965f54547c1",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "cb2fab7b6c25ea6628224626b5098b521be641a92b63d37d6f4e6965f54547c1",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/protect-certificate-light.png",
+      "platform": "ipad",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/en/protect-certificate-light.png",
+      "sourceSHA256": "a0a0e80a8bbf1f5fb94e1ab094142a0cf8121e3f1edea2f0b6e2fd334322579b",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "a0a0e80a8bbf1f5fb94e1ab094142a0cf8121e3f1edea2f0b6e2fd334322579b",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/protect-rsa-decrypt.png",
+      "platform": "ipad",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/en/protect-rsa-decrypt.png",
+      "sourceSHA256": "c98fa3bb84282668dccf7090f70b616fe07dfe2240a1a336d69b8ad3a4e504ac",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "c98fa3bb84282668dccf7090f70b616fe07dfe2240a1a336d69b8ad3a4e504ac",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/details.png",
+      "platform": "ipad",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/ro/details.png",
+      "sourceSHA256": "a097052d22f096e925f24131a442ee10446135425a192a5c94a1a820ae49b0de",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "a097052d22f096e925f24131a442ee10446135425a192a5c94a1a820ae49b0de",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/protect-certificate-light.png",
+      "platform": "ipad",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/ro/protect-certificate-light.png",
+      "sourceSHA256": "abfd4f62cd7fb5e7b12d41e11036e6e47f1a9fc8b4278d41f8c25432537dd514",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "abfd4f62cd7fb5e7b12d41e11036e6e47f1a9fc8b4278d41f8c25432537dd514",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/protect-rsa-decrypt.png",
+      "platform": "ipad",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/ro/protect-rsa-decrypt.png",
+      "sourceSHA256": "8df068fb3636b3a86527f55fe74860a6ca2d58320c86770228cc387075de05c6",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "8df068fb3636b3a86527f55fe74860a6ca2d58320c86770228cc387075de05c6",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/details.png",
+      "platform": "ipad",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/ru/details.png",
+      "sourceSHA256": "ed0acdd0ecbe4467eda7204c9d417adb8030c65bfc8463286ada25b2cecac30b",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "ed0acdd0ecbe4467eda7204c9d417adb8030c65bfc8463286ada25b2cecac30b",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/protect-certificate-light.png",
+      "platform": "ipad",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/ru/protect-certificate-light.png",
+      "sourceSHA256": "1c68c777cf24700d7a8c28cc516c30d4f5dfe761beff367f7819583bdc810ff0",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "1c68c777cf24700d7a8c28cc516c30d4f5dfe761beff367f7819583bdc810ff0",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/protect-rsa-decrypt.png",
+      "platform": "ipad",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ipad/ru/protect-rsa-decrypt.png",
+      "sourceSHA256": "e000bf26a905631e6e6a2db7a40a542247228720f4576ab45f0084b2b147e9b4",
+      "sourceDimensions": [
+        1488,
+        2266
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "sha256": "e000bf26a905631e6e6a2db7a40a542247228720f4576ab45f0084b2b147e9b4",
+      "nativeClock": "09:41",
+      "build": "ipad",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/browser-authentication.png",
+      "platform": "iphone",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios-settings-test/active-display/settings-en.png",
+      "sourceSHA256": "71ea5f4bfccb08505c67f277bf4fec9d093f2ee712632356904e87679b0cadf6",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": [
+        24,
+        731,
+        1182,
+        1047
+      ],
+      "scale": null,
+      "dimensions": [
+        1158,
+        316
+      ],
+      "sha256": "8a19cfb5ea9acabc6d0eba89a85bfe308ff8e4bf4ad1a7630c3e4267dc4236ab",
+      "nativeClock": null,
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/details.png",
+      "platform": "iphone",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/en/details.png",
+      "sourceSHA256": "462edff931c7636652db12a7eb3e5694e34099449c1ac89cdd94c4e8556dc2d0",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "462edff931c7636652db12a7eb3e5694e34099449c1ac89cdd94c4e8556dc2d0",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-certificate-light.png",
+      "platform": "iphone",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/en/protect-certificate-light.png",
+      "sourceSHA256": "64ea0cf111633d009c458e4972c88dd9a7aaa1b5fbb7b4b3bbc9ec2087714f40",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "64ea0cf111633d009c458e4972c88dd9a7aaa1b5fbb7b4b3bbc9ec2087714f40",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-rsa-decrypt.png",
+      "platform": "iphone",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/en/protect-rsa-decrypt.png",
+      "sourceSHA256": "b216036e4f9fd7c6d530938efe3f3557a0e0fd6d182dea5855a87a680d8f3d29",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "b216036e4f9fd7c6d530938efe3f3557a0e0fd6d182dea5855a87a680d8f3d29",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/settings.png",
+      "platform": "iphone",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios-settings-test/active-display/settings-en.png",
+      "sourceSHA256": "71ea5f4bfccb08505c67f277bf4fec9d093f2ee712632356904e87679b0cadf6",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "71ea5f4bfccb08505c67f277bf4fec9d093f2ee712632356904e87679b0cadf6",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/browser-authentication.png",
+      "platform": "iphone",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios-settings-test/active-display/settings-ro.png",
+      "sourceSHA256": "b11847abfe57597cf3bb48d1406938260fdb19192a82f31c574e3791b7d26c61",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": [
+        24,
+        670,
+        1182,
+        986
+      ],
+      "scale": null,
+      "dimensions": [
+        1158,
+        316
+      ],
+      "sha256": "faf982091adada58ed8f76d0bfc8864c63e74b69c0d7ec7b96b1a768e2fe63fe",
+      "nativeClock": null,
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/details.png",
+      "platform": "iphone",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/ro/details.png",
+      "sourceSHA256": "1502f3ed5279334a611e0dac758722e4b496e1ca236d5e5085accdec85827a8a",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "1502f3ed5279334a611e0dac758722e4b496e1ca236d5e5085accdec85827a8a",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-certificate-light.png",
+      "platform": "iphone",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/ro/protect-certificate-light.png",
+      "sourceSHA256": "85566eddc9d22a02b3eec200769b0e7177bf2b785c9ada1732a9c5738567fae9",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "85566eddc9d22a02b3eec200769b0e7177bf2b785c9ada1732a9c5738567fae9",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-rsa-decrypt.png",
+      "platform": "iphone",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/ro/protect-rsa-decrypt.png",
+      "sourceSHA256": "597ce005600a14e649b54ed8073f4c31b3ba0bf556b7cb4557a3fe813e9062ef",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "597ce005600a14e649b54ed8073f4c31b3ba0bf556b7cb4557a3fe813e9062ef",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/settings.png",
+      "platform": "iphone",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios-settings-test/active-display/settings-ro.png",
+      "sourceSHA256": "b11847abfe57597cf3bb48d1406938260fdb19192a82f31c574e3791b7d26c61",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "b11847abfe57597cf3bb48d1406938260fdb19192a82f31c574e3791b7d26c61",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/browser-authentication.png",
+      "platform": "iphone",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios-settings-test/active-display/settings-ru.png",
+      "sourceSHA256": "7817f38f9c6871fbe77e5a4211d6ceae1735c4c86915839bb8e5983ad1f32cfe",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": [
+        24,
+        718,
+        1182,
+        1034
+      ],
+      "scale": null,
+      "dimensions": [
+        1158,
+        316
+      ],
+      "sha256": "3c14bffad022986aa79a60f6a227c9fad783a9e34bc2b754ed8e59e37279ca97",
+      "nativeClock": null,
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/details.png",
+      "platform": "iphone",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/ru/details.png",
+      "sourceSHA256": "73b34b6c8e476c57b959807401353435eaa33a146279b9880e994db796fc82e7",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "73b34b6c8e476c57b959807401353435eaa33a146279b9880e994db796fc82e7",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-certificate-light.png",
+      "platform": "iphone",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/ru/protect-certificate-light.png",
+      "sourceSHA256": "1e12756bf4c0519914fa8bf0966b5c50465d4d61affdcd786d8649dded8ab1af",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "1e12756bf4c0519914fa8bf0966b5c50465d4d61affdcd786d8649dded8ab1af",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-rsa-decrypt.png",
+      "platform": "iphone",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios/ru/protect-rsa-decrypt.png",
+      "sourceSHA256": "bc60a9babc3aa234ae96d4409d032c1e30a25ead23ecb9cab2b723927e0eeeec",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "bc60a9babc3aa234ae96d4409d032c1e30a25ead23ecb9cab2b723927e0eeeec",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/settings.png",
+      "platform": "iphone",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/ios-settings-test/active-display/settings-ru.png",
+      "sourceSHA256": "7817f38f9c6871fbe77e5a4211d6ceae1735c4c86915839bb8e5983ad1f32cfe",
+      "sourceDimensions": [
+        1206,
+        2622
+      ],
+      "cropPixels": null,
+      "scale": null,
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "sha256": "7817f38f9c6871fbe77e5a4211d6ceae1735c4c86915839bb8e5983ad1f32cfe",
+      "nativeClock": "09:41",
+      "build": "iphone",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/linux/en/protect-certificate-light.png",
+      "platform": "linux",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/linux/en-protect-certificate-light.png",
+      "sourceSHA256": "7a6acafba77e5f6af20dd0fb26cb5f4cfff172cc16d1b6e25dd788b57314fb55",
+      "sourceDimensions": [
+        1000,
+        850
+      ],
+      "cropPixels": [
+        4,
+        4,
+        996,
+        846
+      ],
+      "scale": null,
+      "dimensions": [
+        992,
+        842
+      ],
+      "sha256": "926f95cb5d8171ba1fbe1d41eded0981d0cefde74c48425cd2e010b7d68a807b",
+      "nativeClock": null,
+      "build": "linux",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/linux/en/protect-rsa-decrypt-light.png",
+      "platform": "linux",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/linux/en-protect-rsa-decrypt-light.png",
+      "sourceSHA256": "185751799d94119b1b0f29d559911375c8467b47c9c572132640ba63e3184b88",
+      "sourceDimensions": [
+        1000,
+        850
+      ],
+      "cropPixels": [
+        4,
+        4,
+        996,
+        846
+      ],
+      "scale": null,
+      "dimensions": [
+        992,
+        842
+      ],
+      "sha256": "3a10afd22223be4fb57e5939a9dabac69cecbe482bb42ee1d6c3abdf6b953799",
+      "nativeClock": null,
+      "build": "linux",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/linux/ro/protect-certificate-light.png",
+      "platform": "linux",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/linux/ro-protect-certificate-light.png",
+      "sourceSHA256": "71561348e16229a3b8d398671e484ced1bdc25ee65593fe0aeb0b819179906a4",
+      "sourceDimensions": [
+        1000,
+        850
+      ],
+      "cropPixels": [
+        4,
+        4,
+        996,
+        846
+      ],
+      "scale": null,
+      "dimensions": [
+        992,
+        842
+      ],
+      "sha256": "19b3cb43899ff5887d7bc11e21a5c19ba026f5a83b1a53a1d720f7afdb8826f2",
+      "nativeClock": null,
+      "build": "linux",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/linux/ro/protect-rsa-decrypt-light.png",
+      "platform": "linux",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/linux/ro-protect-rsa-decrypt-light.png",
+      "sourceSHA256": "d494784dc3533cb063d8b0a1bbc3d9b8223fc7bcf8e4bb0c1becbada1d98611c",
+      "sourceDimensions": [
+        1000,
+        850
+      ],
+      "cropPixels": [
+        4,
+        4,
+        996,
+        846
+      ],
+      "scale": null,
+      "dimensions": [
+        992,
+        842
+      ],
+      "sha256": "793106f80875157dc8ccebc02e8d5cc8c16c35afcaee4b0ccf66f58eb9f8a87b",
+      "nativeClock": null,
+      "build": "linux",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/linux/ru/protect-certificate-light.png",
+      "platform": "linux",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/linux/ru-protect-certificate-light.png",
+      "sourceSHA256": "b34320f7af1bcd9fd1d9b331f0a019057d0dda943d3f49c87e87844d977b0bc3",
+      "sourceDimensions": [
+        1000,
+        850
+      ],
+      "cropPixels": [
+        4,
+        4,
+        996,
+        846
+      ],
+      "scale": null,
+      "dimensions": [
+        992,
+        842
+      ],
+      "sha256": "2d8357e99cd85932efc678f1a93fd934e313438edd662532405d4c2e78c13a9b",
+      "nativeClock": null,
+      "build": "linux",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/linux/ru/protect-rsa-decrypt-light.png",
+      "platform": "linux",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/linux/ru-protect-rsa-decrypt-light.png",
+      "sourceSHA256": "d6deea16463f429408325be7b739aa4941eddb13d76a2ff8935da1a5fc1c05b0",
+      "sourceDimensions": [
+        1000,
+        850
+      ],
+      "cropPixels": [
+        4,
+        4,
+        996,
+        846
+      ],
+      "scale": null,
+      "dimensions": [
+        992,
+        842
+      ],
+      "sha256": "a3baf9102dfa4a718dd77067ded9d71825009b67a8683e695f3be4ae8ace197c",
+      "nativeClock": null,
+      "build": "linux",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/macos/en/protect-certificate-light.png",
+      "platform": "macos",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/macos/en/protect-certificate-light.png",
+      "sourceSHA256": "0c7f2e69c024d969751fd57ae2c25e6c3d5e0976cc374132621d58e046661f74",
+      "sourceDimensions": [
+        2084,
+        1490
+      ],
+      "cropPixels": [
+        584,
+        130,
+        1500,
+        1478
+      ],
+      "scale": 0.5,
+      "dimensions": [
+        458,
+        674
+      ],
+      "sha256": "fb0b10b9ef6d691c73eff2399b9428c7aad925eac2c467afa93d4aea1c33d2c6",
+      "nativeClock": null,
+      "build": "macos",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/macos/en/protect-rsa-decrypt.png",
+      "platform": "macos",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/macos/en/protect-certificate-decrypt-light.png",
+      "sourceSHA256": "44677726ce3feec2cd5b973e1444b81e0bb27bd710413e02b986160a00d9edb8",
+      "sourceDimensions": [
+        2084,
+        1490
+      ],
+      "cropPixels": [
+        584,
+        130,
+        1500,
+        1478
+      ],
+      "scale": 0.5,
+      "dimensions": [
+        458,
+        674
+      ],
+      "sha256": "6fd6fe0e8bd8a68940e697a5a0e6713544a5e48c376ecc608b999a6fba3b2b47",
+      "nativeClock": null,
+      "build": "macos",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/macos/ro/protect-certificate-light.png",
+      "platform": "macos",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/macos/ro/protect-certificate-light.png",
+      "sourceSHA256": "dec9ad17e5a7b930c586718b9d496c6ff03e103bac00b51235afdc9295858a8f",
+      "sourceDimensions": [
+        2084,
+        1490
+      ],
+      "cropPixels": [
+        548,
+        130,
+        1538,
+        1478
+      ],
+      "scale": 0.5,
+      "dimensions": [
+        495,
+        674
+      ],
+      "sha256": "0118df4abbc8b001b985178d66d224ed30c7b2af8b79aa4b1c366d32a826aa12",
+      "nativeClock": null,
+      "build": "macos",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/macos/ro/protect-rsa-decrypt.png",
+      "platform": "macos",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/macos/ro/protect-certificate-decrypt-light.png",
+      "sourceSHA256": "f145a4b673dfeb9f958483fa87cc16ab17054c901623167dd413192fba29b214",
+      "sourceDimensions": [
+        2084,
+        1490
+      ],
+      "cropPixels": [
+        548,
+        130,
+        1538,
+        1478
+      ],
+      "scale": 0.5,
+      "dimensions": [
+        495,
+        674
+      ],
+      "sha256": "3400667a4eda9e2312ce8c2c0063d57cc2da5d94a69493e11213f4ab8f24ea29",
+      "nativeClock": null,
+      "build": "macos",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/macos/ru/protect-certificate-light.png",
+      "platform": "macos",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/macos/ru/protect-certificate-light.png",
+      "sourceSHA256": "b342899ac6a9041219975d76b4e539b6f97280e80744925a3451b6ae20728f41",
+      "sourceDimensions": [
+        2084,
+        1490
+      ],
+      "cropPixels": [
+        506,
+        130,
+        1580,
+        1478
+      ],
+      "scale": 0.5,
+      "dimensions": [
+        537,
+        674
+      ],
+      "sha256": "79f809b3af05d0f54ce60069920a00aa838eb3dd9c9913a1fd0bd6a4f17df1ae",
+      "nativeClock": null,
+      "build": "macos",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/macos/ru/protect-rsa-decrypt.png",
+      "platform": "macos",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/macos/ru/protect-certificate-decrypt-light.png",
+      "sourceSHA256": "b3aed9329b69411d0de604f908a5696fabfe643b48b50c58e5211ca246cd04c7",
+      "sourceDimensions": [
+        2084,
+        1490
+      ],
+      "cropPixels": [
+        506,
+        130,
+        1580,
+        1478
+      ],
+      "scale": 0.5,
+      "dimensions": [
+        537,
+        674
+      ],
+      "sha256": "ab96e13ed04187e1ce139ccf92ead9ae1181206436dc2466f6bd0d51ef488d8b",
+      "nativeClock": null,
+      "build": "macos",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-certificate-light.png",
+      "platform": "windows",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/windows/en-US-protect-certificate.png",
+      "sourceSHA256": "8a26f20c28eae5fa0afe51dbe13274c85260073c9e0b44e6d07f3e5412be8545",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "scale": null,
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sha256": "1a86d9029b34b41335d099ac4ee1e977dfab1705fe11b54b93b4c87c80ec5081",
+      "nativeClock": null,
+      "build": "windows",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-rsa-decrypt-light.png",
+      "platform": "windows",
+      "locale": "en",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/windows/en-US-protect-certificate-decrypt.png",
+      "sourceSHA256": "0cdd24eb73d00008c8922961c30202d3c4871bed62da415ac7bab74f09fc7050",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "scale": null,
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sha256": "9910c9d7543dcc0304b973cf2e1a72647f168ce85e42de87afb12c676d346d88",
+      "nativeClock": null,
+      "build": "windows",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-certificate-light.png",
+      "platform": "windows",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/windows/ro-RO-protect-certificate.png",
+      "sourceSHA256": "e70f48ad9ed97cb6425088ec207977958683cd629483eb81b07ed838113d54f5",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "scale": null,
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sha256": "6fa6f72cd3bbf4d3702c50f68b595efada844ef69fd9927393017ee3e9121888",
+      "nativeClock": null,
+      "build": "windows",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-rsa-decrypt-light.png",
+      "platform": "windows",
+      "locale": "ro",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/windows/ro-RO-protect-certificate-decrypt.png",
+      "sourceSHA256": "11d429c567e5517dab39206d2eeb50db240c1b6d93f2c40759f05efbb14f2ddc",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "scale": null,
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sha256": "1c08e787c37f08d23e7f0521ac549ebe8d26477084f52e0ac66eb6f567d3d6ae",
+      "nativeClock": null,
+      "build": "windows",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-certificate-light.png",
+      "platform": "windows",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/windows/ru-RU-protect-certificate.png",
+      "sourceSHA256": "9329f38c91769f8fbc451385e0fe4d2fe0096ce00e0b74fdc38287987506cfe7",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "scale": null,
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sha256": "43fba358797481178e6b63b4d20fc21b808ada01054468bec68a4152cb9a0d45",
+      "nativeClock": null,
+      "build": "windows",
+      "fictional": true
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-rsa-decrypt-light.png",
+      "platform": "windows",
+      "locale": "ru",
+      "theme": "light",
+      "source": ".local/docs-screenshots-20261119/windows/ru-RU-protect-certificate-decrypt.png",
+      "sourceSHA256": "b63f90f90711ac51bfd4c589d9573b40847320407d2601e53d8ea8d3ae9fb1c6",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "scale": null,
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sha256": "179c4e132998b7a5cbc97e901239fece8c0d586e340bc33cce649899af8b2dc5",
+      "nativeClock": null,
+      "build": "windows",
+      "fictional": true
+    }
+  ]
+}

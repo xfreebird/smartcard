@@ -83,39 +83,39 @@ Pe Android 10 și ulterior, rezultatele obișnuite se salvează în Downloads/eS
 
 Verificarea nu necesită card sau PIN. Rezultatul verde privește verificările afișate, nu numele fișierului sau prezența ștampilei vizibile.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Alege un PDF sau XML semnat. Verifică verdictul, semnatarul și rezultatele verificărilor.", "x": 35.3, "y": 26.9}, {"text": "Extinde Detalii tehnice pentru a consulta raportul. Atinge din nou pentru a-l restrânge.", "x": 32.0, "y": 58.7}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Alege un PDF sau XML semnat. Verifică verdictul, semnatarul și rezultatele verificărilor.", "x": 3.0, "y": 18.9}, {"text": "Extinde Detalii tehnice pentru a consulta raportul. Atinge din nou pentru a-l restrânge.", "x": 53.0, "y": 49.5}, {"text": "Folosește butonul de jos pentru a alege alt document semnat.", "x": 53.0, "y": 93.5}, {"text": "Folosește Șterge rezultatele din bara de navigare pentru a goli sesiunea de verificare.", "x": 97.5, "y": 5.1}]} />
 
 ## Înțelege semnătura invalidă
 
 Invalid înseamnă că verificarea integrității ori a semnăturii criptografice a eșuat. Documentul poate fi modificat sau semnătura deteriorată/incorectă. Ștampila vizibilă, numele cunoscut ori autorul nu schimbă verdictul.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify-invalid.png" alt="Înțelege semnătura invalidă" steps={[{"text": "Citește Semnătură invalidă și verificarea eșuată. Nu considera această copie verificată.", "x": 35.3, "y": 26.9}, {"text": "Extinde Detalii tehnice, compară cu rezultatul semnat original al expeditorului și cere o copie intactă dacă este necesar. Verifică fiecare semnătură dacă sunt mai multe.", "x": 32.0, "y": 56.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-invalid.png" alt="Înțelege semnătura invalidă" steps={[{"text": "Citește Semnătură invalidă și verificarea eșuată. Nu considera această copie verificată.", "x": 3.0, "y": 18.9}, {"text": "Extinde Detalii tehnice, compară cu rezultatul semnat original al expeditorului și cere o copie intactă dacă este necesar. Verifică fiecare semnătură dacă sunt mai multe.", "x": 53.0, "y": 47.6}]} />
 
 ## Înțelege lanțul de încredere neconfirmat
 
 Nu poate fi confirmată diferă de Semnătură invalidă. În exemplu, semnătura și integritatea trec verificarea, dar certificatul nu aparține lanțului MDQSign recunoscut. Lipsa originalelor poate produce tot un rezultat neconfirmat, cu altă explicație.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify-unconfirmed.png" alt="Înțelege lanțul de încredere neconfirmat" steps={[{"text": "Citește motivul de sub Nu poate fi confirmată și verifică separat Integritate, Semnătură și Lanț de încredere.", "x": 35.3, "y": 26.9}, {"text": "Consultă certificatul pentru titular și emitent. Confirmă nivelul de încredere necesar cu expeditorul sau serviciul destinatar. Verificarea offline a integrității nu stabilește starea curentă a revocării și nu garantează acceptarea juridică.", "x": 32.0, "y": 51.0}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-unconfirmed.png" alt="Înțelege lanțul de încredere neconfirmat" steps={[{"text": "Citește motivul de sub Nu poate fi confirmată și verifică separat Integritate, Semnătură și Lanț de încredere.", "x": 3.0, "y": 18.9}, {"text": "Consultă certificatul pentru titular și emitent. Confirmă nivelul de încredere necesar cu expeditorul sau serviciul destinatar. Verificarea offline a integrității nu stabilește starea curentă a revocării și nu garantează acceptarea juridică.", "x": 53.0, "y": 41.7}]} />
 
 ## Recunoaște un fișier nesemnat sau neacceptat
 
 Nicio semnătură înseamnă că aplicația nu a găsit în fișier o semnătură pe care o poate citi. Poate fi originalul nesemnat ori un format neacceptat. O imagine a semnăturii nu este semnătură electronică.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify-none.png" alt="Recunoaște un fișier nesemnat sau neacceptat" steps={[{"text": "Citește Nicio semnătură și verifică dacă ai selectat PDF-ul semnat final sau semnătura XML, nu originalul nesemnat.", "x": 35.3, "y": 26.9}, {"text": "Alege rezultatul semnat corect și verifică din nou. Cere expeditorului o semnătură PDF/XML acceptată dacă rezultatul rămâne neschimbat.", "x": 34.4, "y": 14.7}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-none.png" alt="Recunoaște un fișier nesemnat sau neacceptat" steps={[{"text": "Citește Nicio semnătură și verifică dacă ai selectat PDF-ul semnat final sau semnătura XML, nu originalul nesemnat.", "x": 3.0, "y": 18.9}, {"text": "Alege rezultatul semnat corect și verifică din nou. Cere expeditorului o semnătură PDF/XML acceptată dacă rezultatul rămâne neschimbat.", "x": 53.0, "y": 93.5}]} />
 
 ## 8. Consultă certificatul și detaliile tehnice
 
 O semnătură invalidă diferă de un lanț de încredere neconfirmat. Lipsa originalelor sau a informațiilor de încredere poate împiedica un verdict complet. Consultă verificările separate.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/certificate.png" alt="Consultă certificatul și detaliile tehnice" steps={[{"text": "Extinde Detalii certificat pentru titular, emitent, număr de serie, cheie publică și amprentă. Derulează dacă este necesar.", "x": 32.0, "y": 52.8}, {"text": "Extinde Detalii tehnice pentru verificările care susțin verdictul și restrânge secțiunea după consultare.", "x": 32.0, "y": 68.2}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/certificate.png" alt="Consultă certificatul și detaliile tehnice" steps={[{"text": "Extinde Detalii certificat pentru titular, emitent, număr de serie, cheie publică și amprentă. Derulează dacă este necesar.", "x": 53.0, "y": 43.5}, {"text": "Extinde Detalii tehnice pentru verificările care susțin verdictul și restrânge secțiunea după consultare.", "x": 53.0, "y": 58.9}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/verify-technical.png" alt="Detalii tehnice extinse" steps={[{"text": "În acest exemplu, liniile în engleză indică verificarea offline a amprentei documentului și a lanțului de certificate. Atinge din nou Detalii tehnice pentru a restrânge raportul.", "x": 32.0, "y": 58.7}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/verify-technical.png" alt="Detalii tehnice extinse" steps={[{"text": "În acest exemplu, liniile în engleză indică verificarea offline a amprentei documentului și a lanțului de certificate. Atinge din nou Detalii tehnice pentru a restrânge raportul.", "x": 38.4, "y": 54.5}]} />
 
 ## 9. Furnizează originalul pentru XML detașat
 
 XML-ul detașat conține o referință la document. Verificarea amprentei necesită octeții originali ai fișierului.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/original.png" alt="Furnizează originalul pentru XML detașat" steps={[{"text": "Atinge Alege documentul semnat și selectează originalul exact indicat în mesaj.", "x": 33.5, "y": 39.5}, {"text": "Așteaptă rezultatul actualizat. Un original modificat sau alt fișier nu va corespunde semnăturii. Distribuie XML-ul împreună cu originalul potrivit."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/original.png" alt="Furnizează originalul pentru XML detașat" steps={[{"text": "Atinge Alege documentul semnat și selectează originalul exact indicat în mesaj.", "x": 3.0, "y": 35.3}, {"text": "Așteaptă rezultatul actualizat. Un original modificat sau alt fișier nu va corespunde semnăturii. Distribuie XML-ul împreună cu originalul potrivit."}]} />
 
 ## 10. Găsește documentele semnate
 
@@ -141,7 +141,9 @@ Istoricul listează operațiile cu documente și cererile site-urilor. Curățar
 
 Folosește doar un serviciu cu adresă și cerere cunoscute. Aplicația este independentă de Guvernul Republicii Moldova; sursele oficiale sunt în Browser și Despre. Aspectul site-urilor poate varia.
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/browser.png" alt="Semnează pe un site" steps={[{"text": "Deschide Browser și activează Conexiunea cu browserul pentru un serviciu în browserul extern al aceluiași dispozitiv. Permite notificările când se solicită.", "x": 34.2, "y": 52.3}, {"text": "Alternativ, atinge Deschide în browserul aplicației. Introdu adresa sau alege serviciul din Servicii. Browserul integrat folosește afișarea desktop pentru autentificarea compatibilă.", "x": 44.6, "y": 71.0}, {"text": "Activează ștampilele vizibile pentru site-uri dacă este necesar. Verifică în fiecare aprobare cardul și site-ul solicitant, apoi introdu PIN-ul.", "x": 31.8, "y": 44.1}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/browser.png" alt="Semnează pe un site" steps={[{"text": "Pe dispozitivele compatibile, deschide Autentificare pentru a alege NFC sau un cititor de carduri.", "x": 38.6, "y": 11.5}, {"text": "Deschide Browser și activează Conexiunea cu browserul pentru un serviciu în browserul extern al aceluiași dispozitiv. Permite notificările când se solicită.", "x": 40.7, "y": 20.1}, {"text": "Alternativ, atinge Deschide în browserul aplicației. Introdu adresa sau alege serviciul din Servicii. Browserul integrat folosește afișarea desktop pentru autentificarea compatibilă.", "x": 53.0, "y": 38.8}, {"text": "Activează ștampilele vizibile pentru site-uri dacă este necesar. Verifică în fiecare aprobare cardul și site-ul solicitant, apoi introdu PIN-ul."}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/ro/browser-authentication.png" alt="Pe dispozitivele compatibile, deschide Autentificare pentru a alege NFC sau un cititor de carduri." steps={[{"text": "Alege NFC sau Cititor de carduri. Rândul albastru este selectat.", "x": 35.5, "y": 53.1}, {"text": "Alege un card cunoscut și verifică numărul său de serie.", "x": 37.9, "y": 69.1}, {"text": "Folosește Citește cardul NFC pentru a identifica alt card. Acest pas nu cere PIN-ul.", "x": 51.0, "y": 77.1}]} />
 
 ## Folosește comenzile browserului și serviciile
 
@@ -208,13 +210,13 @@ Deschide **Documente**, apoi alege **Mai multe acțiuni → Protejează fișiere
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-În eSemnBun 0.2.13 sau mai nou, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
+În eSemnBun 0.2.13 sau mai nou, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Implicit, folosește un certificat destinat criptării. **Compatibilitate cu cheia publică a cardului** permite explicit cheia RSA publică a cardului. Exportul sau criptarea reușită nu dovedesc că acel card poate decripta; cardul corespunzător trebuie să permită operația necesară cu cheia privată.
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-menu-light.png" alt="Deschide protecția fișierelor" steps={[{"text": "Deschide meniul de navigare și alege Protejează fișiere.", "x": 89.3, "y": 13.6}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"text": "Alege Criptează și selectează fișierul sursă.", "x": 45.7, "y": 26.6}, {"text": "Alege Parolă și dimensiunea cheii AES. Inițial este selectat AES-256.", "x": 60.0, "y": 43.5}, {"text": "Introdu și confirmă parola fișierului, apoi alege Criptează.", "x": 30.6, "y": 57.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Pentru un destinatar cu o cheie de criptare RSA, alege Certificat RSA.", "x": 54.8, "y": 35.2}, {"text": "Selectează certificatul public .cer sau .der al destinatarului. Pentru propriul card, conectează cititorul și alege Citește cardul meu.", "x": 31.1, "y": 43.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Pentru un destinatar cu o cheie de criptare RSA, alege Certificat RSA.", "x": 59.3, "y": 31.8}, {"text": "Selectează certificatul public .cer sau .der al destinatarului. Pentru propriul card, conectează cititorul și alege Citește cardul meu.", "x": 39.2, "y": 45.6}, {"text": "Folosește Compatibilitate cu cheia publică a cardului doar când fluxul cere cheia RSA publică a cardului.", "x": 48.4, "y": 37.3}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-complete-light.png" alt="Fișier criptat salvat" steps={[{"text": "Verifică numele fișierului salvat. Rezultatul este deja în Documente.", "x": 29.6, "y": 27.9}, {"text": "Alege Salvează ca… numai dacă dorești și o copie în alt loc.", "x": 45.5, "y": 84.6}, {"text": "Alege Închide pentru a reveni în aplicație. Fișierul salvat rămâne în Documente.", "x": 46.8, "y": 89.0}]} />
 
@@ -233,7 +235,7 @@ Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal 
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"text": "Alege Decriptează și selectează fișierul criptat primit.", "x": 42.5, "y": 26.6}, {"text": "Introdu parola primită de la expeditor în câmpul Parolă.", "x": 30.6, "y": 42.1}, {"text": "Alege Decriptează. Rezultatul nou este salvat în Documente.", "x": 45.9, "y": 89.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png" alt="Decriptează cu cardul destinatarului" steps={[{"text": "Selectează fișierul criptat. Aplicația identifică formatul cu certificat RSA.", "x": 29.6, "y": 36.8}, {"text": "Conectează cardul care conține cheia privată a destinatarului. Citește cardul, apoi autorizează decriptarea cu PIN-ul său.", "x": 31.1, "y": 43.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png" alt="Decriptează cu cardul destinatarului" steps={[{"text": "Selectează fișierul criptat. Aplicația identifică formatul cu certificat RSA.", "x": 29.6, "y": 36.8}, {"text": "Conectează cardul care conține cheia privată a destinatarului. Citește cardul, apoi autorizează decriptarea cu PIN-ul său.", "x": 36.6, "y": 46.0}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-decrypt-complete-light.png" alt="Fișier decriptat salvat" steps={[{"text": "Verifică numele fișierului salvat. Rezultatul este deja în Documente.", "x": 29.6, "y": 27.9}, {"text": "Alege Salvează ca… numai dacă dorești și o copie în alt loc.", "x": 45.5, "y": 84.6}, {"text": "Alege Închide pentru a reveni în aplicație. Fișierul salvat rămâne în Documente.", "x": 46.8, "y": 89.0}]} />
 

@@ -20,7 +20,7 @@ Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF
 
 <GuideScreenshot src="/img/guide/ipad/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 94}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 19, "y": 38}]} />
+<GuideScreenshot src="/img/guide/ipad/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 19, "y": 38}, {"text": "Use Clear results in the navigation bar to clear this verification session.", "x": 96, "y": 6.8}]} />
 <GuideScreenshot src="/img/guide/ipad/en/certificate.png" alt="Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint." steps={[{"text": "Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint.", "x": 21, "y": 53}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/technical.png" alt="Expand Technical details under a signature to read the verification report. Select the same row again to collapse it." steps={[{"text": "Expand Technical details under a signature to read the verification report. Select the same row again to collapse it.", "x": 20, "y": 58}]} />

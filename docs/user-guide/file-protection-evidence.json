@@ -872,11 +872,281 @@
       "height": 893
     },
     {
+      "path": "img/guide/iphone/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "64ea0cf111633d009c458e4972c88dd9a7aaa1b5fbb7b4b3bbc9ec2087714f40",
+      "width": 1206,
+      "height": 2622
+    },
+    {
+      "path": "img/guide/iphone/en/protect-rsa-decrypt.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "b216036e4f9fd7c6d530938efe3f3557a0e0fd6d182dea5855a87a680d8f3d29",
+      "width": 1206,
+      "height": 2622
+    },
+    {
+      "path": "img/guide/ipad/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "a0a0e80a8bbf1f5fb94e1ab094142a0cf8121e3f1edea2f0b6e2fd334322579b",
+      "width": 1488,
+      "height": 2266
+    },
+    {
+      "path": "img/guide/ipad/en/protect-rsa-decrypt.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "c98fa3bb84282668dccf7090f70b616fe07dfe2240a1a336d69b8ad3a4e504ac",
+      "width": 1488,
+      "height": 2266
+    },
+    {
+      "path": "img/guide/linux/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "926f95cb5d8171ba1fbe1d41eded0981d0cefde74c48425cd2e010b7d68a807b",
+      "width": 992,
+      "height": 842
+    },
+    {
+      "path": "img/guide/linux/en/protect-rsa-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "3a10afd22223be4fb57e5939a9dabac69cecbe482bb42ee1d6c3abdf6b953799",
+      "width": 992,
+      "height": 842
+    },
+    {
+      "path": "img/guide/macos/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "fb0b10b9ef6d691c73eff2399b9428c7aad925eac2c467afa93d4aea1c33d2c6",
+      "width": 458,
+      "height": 674
+    },
+    {
+      "path": "img/guide/macos/en/protect-rsa-decrypt.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "6fd6fe0e8bd8a68940e697a5a0e6713544a5e48c376ecc608b999a6fba3b2b47",
+      "width": 458,
+      "height": 674
+    },
+    {
+      "path": "img/guide/iphone/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "85566eddc9d22a02b3eec200769b0e7177bf2b785c9ada1732a9c5738567fae9",
+      "width": 1206,
+      "height": 2622
+    },
+    {
+      "path": "img/guide/iphone/ro/protect-rsa-decrypt.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "597ce005600a14e649b54ed8073f4c31b3ba0bf556b7cb4557a3fe813e9062ef",
+      "width": 1206,
+      "height": 2622
+    },
+    {
+      "path": "img/guide/ipad/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "abfd4f62cd7fb5e7b12d41e11036e6e47f1a9fc8b4278d41f8c25432537dd514",
+      "width": 1488,
+      "height": 2266
+    },
+    {
+      "path": "img/guide/ipad/ro/protect-rsa-decrypt.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "8df068fb3636b3a86527f55fe74860a6ca2d58320c86770228cc387075de05c6",
+      "width": 1488,
+      "height": 2266
+    },
+    {
+      "path": "img/guide/linux/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "19b3cb43899ff5887d7bc11e21a5c19ba026f5a83b1a53a1d720f7afdb8826f2",
+      "width": 992,
+      "height": 842
+    },
+    {
+      "path": "img/guide/linux/ro/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "793106f80875157dc8ccebc02e8d5cc8c16c35afcaee4b0ccf66f58eb9f8a87b",
+      "width": 992,
+      "height": 842
+    },
+    {
+      "path": "img/guide/macos/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "0118df4abbc8b001b985178d66d224ed30c7b2af8b79aa4b1c366d32a826aa12",
+      "width": 495,
+      "height": 674
+    },
+    {
+      "path": "img/guide/macos/ro/protect-rsa-decrypt.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "3400667a4eda9e2312ce8c2c0063d57cc2da5d94a69493e11213f4ab8f24ea29",
+      "width": 495,
+      "height": 674
+    },
+    {
+      "path": "img/guide/iphone/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "1e12756bf4c0519914fa8bf0966b5c50465d4d61affdcd786d8649dded8ab1af",
+      "width": 1206,
+      "height": 2622
+    },
+    {
+      "path": "img/guide/iphone/ru/protect-rsa-decrypt.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "bc60a9babc3aa234ae96d4409d032c1e30a25ead23ecb9cab2b723927e0eeeec",
+      "width": 1206,
+      "height": 2622
+    },
+    {
+      "path": "img/guide/ipad/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "1c68c777cf24700d7a8c28cc516c30d4f5dfe761beff367f7819583bdc810ff0",
+      "width": 1488,
+      "height": 2266
+    },
+    {
+      "path": "img/guide/ipad/ru/protect-rsa-decrypt.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "e000bf26a905631e6e6a2db7a40a542247228720f4576ab45f0084b2b147e9b4",
+      "width": 1488,
+      "height": 2266
+    },
+    {
+      "path": "img/guide/linux/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "2d8357e99cd85932efc678f1a93fd934e313438edd662532405d4c2e78c13a9b",
+      "width": 992,
+      "height": 842
+    },
+    {
+      "path": "img/guide/linux/ru/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "a3baf9102dfa4a718dd77067ded9d71825009b67a8683e695f3be4ae8ace197c",
+      "width": 992,
+      "height": 842
+    },
+    {
+      "path": "img/guide/macos/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "79f809b3af05d0f54ce60069920a00aa838eb3dd9c9913a1fd0bd6a4f17df1ae",
+      "width": 537,
+      "height": 674
+    },
+    {
+      "path": "img/guide/macos/ru/protect-rsa-decrypt.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "ab96e13ed04187e1ce139ccf92ead9ae1181206436dc2466f6bd0d51ef488d8b",
+      "width": 537,
+      "height": 674
+    },
+    {
+      "path": "img/guide/windows/en/protect-certificate-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "1a86d9029b34b41335d099ac4ee1e977dfab1705fe11b54b93b4c87c80ec5081",
+      "width": 1084,
+      "height": 884
+    },
+    {
+      "path": "img/guide/windows/en/protect-rsa-decrypt-light.png",
+      "nativeLocale": "en",
+      "guideLocale": "en",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "9910c9d7543dcc0304b973cf2e1a72647f168ce85e42de87afb12c676d346d88",
+      "width": 1084,
+      "height": 884
+    },
+    {
+      "path": "img/guide/windows/ro/protect-certificate-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "6fa6f72cd3bbf4d3702c50f68b595efada844ef69fd9927393017ee3e9121888",
+      "width": 1084,
+      "height": 884
+    },
+    {
+      "path": "img/guide/windows/ro/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ro",
+      "guideLocale": "ro",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "1c08e787c37f08d23e7f0521ac549ebe8d26477084f52e0ac66eb6f567d3d6ae",
+      "width": 1084,
+      "height": 884
+    },
+    {
+      "path": "img/guide/windows/ru/protect-certificate-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "43fba358797481178e6b63b4d20fc21b808ada01054468bec68a4152cb9a0d45",
+      "width": 1084,
+      "height": 884
+    },
+    {
+      "path": "img/guide/windows/ru/protect-rsa-decrypt-light.png",
+      "nativeLocale": "ru",
+      "guideLocale": "ru",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "179c4e132998b7a5cbc97e901239fece8c0d586e340bc33cce649899af8b2dc5",
+      "width": 1084,
+      "height": 884
+    },
+    {
       "path": "img/guide/android-phone/en/protect-certificate-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "98592a5b2149106bf79b9040ed90cdfb88e15525e3e6a54cde2d15653644d32d",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "5825aeeb8aaf8d03f6e21af9d593ba3ceb681823de695900a71f56ae01f63a13",
       "width": 1080,
       "height": 2400
     },
@@ -884,8 +1154,8 @@
       "path": "img/guide/android-phone/en/protect-rsa-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Android Debug capture with a fictional document",
-      "sha256": "496f2561abfa6ff808662b11dfca5fb63c59d2448860cb9c738b3f09b4c10597",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "79b1e42df07eb461fc5b2da4079b1898579b0e5460f5af968c3a02bf1cbf414c",
       "width": 1080,
       "height": 2400
     },
@@ -893,8 +1163,8 @@
       "path": "img/guide/android-phone/ro/protect-certificate-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "dec5f79e911950f73964024e6a213b7cf481cb1c8612bd269c61a3c73e73073a",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "f1f06bfad894bf7b1ce3d2ebd0d48bf561264b7386ec6666b86bc02b56225e5c",
       "width": 1080,
       "height": 2400
     },
@@ -902,8 +1172,8 @@
       "path": "img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Android Debug capture with a fictional document",
-      "sha256": "7a2cfd3ad128309daa89e66b404fa268e00cf893a860ec86d8ddb7a11a9c2f5e",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "0ed499c44102d10ffae30b5cb1958369f9f57a65d46ca293dd650235533ac166",
       "width": 1080,
       "height": 2400
     },
@@ -911,8 +1181,8 @@
       "path": "img/guide/android-phone/ru/protect-certificate-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "6bc6d287c69f682ff8c105370c43b0caeba55e668124b70adac6227460237cf2",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "62a8f05ecea3515a166b22e6247d6ed77c7ff0e3235d40b4c901a7a8247387cc",
       "width": 1080,
       "height": 2400
     },
@@ -920,8 +1190,8 @@
       "path": "img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Android Debug capture with a fictional document",
-      "sha256": "3fc745178adaf44cd9f9bbe86f1b07a6c37cdc4365fb1f531d7756e9f822ef7d",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "208eb4c1e047d221598b52eb52d25b6c39899df82d8ece9fdfe45102947e4984",
       "width": 1080,
       "height": 2400
     },
@@ -929,8 +1199,8 @@
       "path": "img/guide/android-tablet/en/protect-certificate-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "8a8a5bcffe9033c9e971c8a7ecac50d5a3057f226d23dfa0980ef5e2cffdf259",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "b655dd598a7d095bbf51b048c5e9ef1756a66e5c94f8b540905a4e5cc3695420",
       "width": 1600,
       "height": 1100
     },
@@ -938,8 +1208,8 @@
       "path": "img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
       "nativeLocale": "en",
       "guideLocale": "en",
-      "source": "Native localized Android Debug capture with a fictional document",
-      "sha256": "84baac11662ad663cc29f4ca559cd3492cc18efaf6e7f47336769962c57d1bfa",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "dbdfb30c0fedab36f2071f61c468c08ab0154875ccd26459018482856698a128",
       "width": 1600,
       "height": 1100
     },
@@ -947,8 +1217,8 @@
       "path": "img/guide/android-tablet/ro/protect-certificate-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "6d254657feb8ce73fba0a10751732840d53c0368d53f50b4debeb93b6d436a24",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "9731167f92d665443d7244ddd331461f53428e36f768ef1d0a15ed7a5f3133ad",
       "width": 1600,
       "height": 1100
     },
@@ -956,8 +1226,8 @@
       "path": "img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
       "nativeLocale": "ro",
       "guideLocale": "ro",
-      "source": "Native localized Android Debug capture with a fictional document",
-      "sha256": "d91b440fec89c0efc2e65850ac2fd56e2cff926473701add3b9ed30decccb12f",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "85d0b1654aa01a8f9c2c2cfd3bc3e94bc02bdb23ea76a266de37682099fbdf0c",
       "width": 1600,
       "height": 1100
     },
@@ -965,8 +1235,8 @@
       "path": "img/guide/android-tablet/ru/protect-certificate-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "6eeca7b01749f1f204cfe77c424a479d8514b639e2d6370c5819f5b4914856bf",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "79a132156813071c8d2f431d2e69efe9fa63927c63a2098a85b3dd66a1513285",
       "width": 1600,
       "height": 1100
     },
@@ -974,64 +1244,10 @@
       "path": "img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
       "nativeLocale": "ru",
       "guideLocale": "ru",
-      "source": "Native localized Android Debug capture with a fictional document",
-      "sha256": "c61a22d4e31d11c6397cae973366b987fb80a9907c27969ae4be5fe15565e739",
+      "source": "Native localized isolated Debug capture, 2026-11-19; ui-controls-refresh-2026-11-19.json",
+      "sha256": "29c61531ea0222147b619c9ab64cb3062a4eb764e6c1fb63a47681dd058e98d6",
       "width": 1600,
       "height": 1100
-    },
-    {
-      "path": "img/guide/linux/en/protect-certificate-light.png",
-      "nativeLocale": "en",
-      "guideLocale": "en",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "2ebc3f5d2354f9cbf2926ee3106c78bc010b75eb34a1e338a3aec532345516ec",
-      "width": 1000,
-      "height": 700
-    },
-    {
-      "path": "img/guide/linux/ro/protect-certificate-light.png",
-      "nativeLocale": "ro",
-      "guideLocale": "ro",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "46ffbb96792ed58847172ff0d0042457083697aee9a1664ef70b7e0ebd54ede1",
-      "width": 1000,
-      "height": 700
-    },
-    {
-      "path": "img/guide/linux/ru/protect-certificate-light.png",
-      "nativeLocale": "ru",
-      "guideLocale": "ru",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "3d28f8130a3ff370484c3b4e7387c36cc090a860261787dbb97f0b0eb0fd7471",
-      "width": 1000,
-      "height": 700
-    },
-    {
-      "path": "img/guide/windows/en/protect-certificate-light.png",
-      "nativeLocale": "en",
-      "guideLocale": "en",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "dd4656218b560790f5c7187926a0325161676b99d88d7057edbebfbfcad8e658",
-      "width": 1086,
-      "height": 893
-    },
-    {
-      "path": "img/guide/windows/ro/protect-certificate-light.png",
-      "nativeLocale": "ro",
-      "guideLocale": "ro",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "f3ffcb606ef59c7665e3d69251a16f2f43143e0211992b36cbf134051f6af5be",
-      "width": 1086,
-      "height": 893
-    },
-    {
-      "path": "img/guide/windows/ru/protect-certificate-light.png",
-      "nativeLocale": "ru",
-      "guideLocale": "ru",
-      "source": "Native localized isolated Debug capture, 2026-11-18/19",
-      "sha256": "c49f1345bed28ea3382bca42e1066fc1f85caf2a3457351e4c95fec0019499eb",
-      "width": 1086,
-      "height": 893
     }
   ],
   "captureBinaries": [
@@ -1059,6 +1275,14 @@
       "platform": "linux",
       "sha256": "e2225d096a6847dabc88a1bd1a4b6b495c74b8a1766dd98fb8153ca7715ecba5",
       "description": "Debug aarch64 GTK executable on Fedora44; native window extracted at350,196,1250,836 from desktop1600x1000"
+    }
+  ],
+  "refreshes": [
+    {
+      "date": "2026-11-19",
+      "manifest": "ui-controls-refresh-2026-11-19.json",
+      "assetCount": 42,
+      "scope": "RSA encrypt and decrypt forms only; prior password/completion captures retained"
     }
   ]
 }

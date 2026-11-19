@@ -72,7 +72,7 @@ Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF
 
 <GuideScreenshot src="/img/guide/ipad/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 94}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 19, "y": 38}]} />
+<GuideScreenshot src="/img/guide/ipad/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 19, "y": 38}, {"text": "Use Clear results in the navigation bar to clear this verification session.", "x": 96, "y": 6.8}]} />
 <GuideScreenshot src="/img/guide/ipad/en/certificate.png" alt="Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint." steps={[{"text": "Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint.", "x": 21, "y": 53}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/technical.png" alt="Expand Technical details under a signature to read the verification report. Select the same row again to collapse it." steps={[{"text": "Expand Technical details under a signature to read the verification report. Select the same row again to collapse it.", "x": 20, "y": 58}]} />
@@ -98,7 +98,7 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
 <GuideScreenshot src="/img/guide/ipad/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 19, "y": 35}]} />
-<GuideScreenshot src="/img/guide/ipad/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 32, "y": 55}]} />
+<GuideScreenshot src="/img/guide/ipad/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 32.0, "y": 54.6}]} />
 
 ## Clear recent history while keeping saved documents
 
@@ -162,13 +162,13 @@ In **Documents**, choose **Protect files** in the toolbar. When space is limited
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
+In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). By default, use a certificate intended for encryption. **Card public key compatibility** explicitly allows the card’s public RSA key. Exporting it or encrypting a file does not prove that the card can decrypt; the matching card must support the required private-key operation.
 
 <GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open More (…) and choose Protect files." steps={[{"text": "Open More (…) and choose Protect files.", "x": 72, "y": 15}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt." steps={[{"text": "Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt.", "x": 79, "y": 57}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 34, "y": 62}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 32.0, "y": 66.6}, {"text": "Use Card public key compatibility only when the workflow requires the card’s public RSA key.", "x": 30.1, "y": 57.5}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/protect-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 62}]} />
 
@@ -187,7 +187,7 @@ For a password-encrypted file, obtain the password from the sender through a sep
 
 <GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-light.png" alt="Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt." steps={[{"text": "Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt.", "x": 80, "y": 52}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 25, "y": 61}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 27.5, "y": 65.8}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/protect-decrypt-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 62}]} />
 

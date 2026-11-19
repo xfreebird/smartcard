@@ -36,3 +36,5 @@ validated Debug binary, image hashes and fixture limitations; the existing mobil
 current per-asset provenance. To refresh only these panels without replacing newer guide prose, run
 `python3 scripts/documentation/generate-apple-mobile-guides.py --only-screenshots sign,cards,stamp,consent,pin,progress,success,file-error`,
 then regenerate the focused task pages. Importing the panel generator no longer rewrites guides.
+
+The targeted [19 November UI-controls refresh](ui-controls-refresh-2026-11-19.json) records the current mobile actions, browser authentication and cross-platform RSA forms in all three locales. Its per-asset hashes, native clock overrides and interior/focus crops supersede only the named images in earlier capture manifests. Unaffected landing scenes and terminal illustrations retain their original evidence.

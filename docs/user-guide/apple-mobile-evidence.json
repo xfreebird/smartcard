@@ -3747,6 +3747,15 @@
       "scope": "iOS signing actions",
       "updatedRecords": 48,
       "evidence": "ios-signing-refresh-evidence.json"
+    },
+    {
+      "date": "2026-11-19",
+      "manifest": "ui-controls-refresh-2026-11-19.json",
+      "platforms": [
+        "iphone",
+        "ipad"
+      ],
+      "assetCount": 24
     }
   ]
 }

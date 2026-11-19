@@ -16,7 +16,7 @@ Decrypt a received file
 
 ## Decrypt a received file
 
-The Moldovan ID card does not provide the encryption key required by these certificate/card commands. Use password encryption for that card. The CLI certificate commands are retained for compatible encryption certificates and hardware; a signing-only certificate is not suitable.
+Certificate/card commands use an encryption certificate by default. Add `--card-public-key` only for the explicit card-public-key compatibility workflow. Successful encryption or certificate export does not prove decryption support: the matching card must provide the required private-key operation.
 
 Ask the sender which method they used. For password files, obtain the password separately. For certificate files, connect the matching supported card and reader; you need its encryption key and PIN. A different card or signing-only card cannot unlock the file.
 

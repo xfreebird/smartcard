@@ -50,6 +50,7 @@ sh('am','force-stop','md.esemnbun.app')
 sh('settings','put','system','accelerometer_rotation','0');sh('wm','user-rotation','lock','0');sh('cmd','uimode','night','no')
 for key in ['window_animation_scale','transition_animation_scale','animator_duration_scale']:sh('settings','put','global',key,'0')
 # Use Android's own screenshot clock and status icons in the documentation.
+sh('settings','put','system','time_12_24','24')
 sh('settings','put','global','sysui_demo_allowed','1')
 for command,options in [('enter',[]),('clock',['--es','hhmm','0941']),('notifications',['--es','visible','false'])]:
     sh('am','broadcast','-a','com.android.systemui.demo','--es','command',command,*options)

@@ -24,7 +24,7 @@ Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal 
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"text": "Alege Decriptează și selectează fișierul criptat primit.", "x": 42.5, "y": 26.6}, {"text": "Introdu parola primită de la expeditor în câmpul Parolă.", "x": 30.6, "y": 42.1}, {"text": "Alege Decriptează. Rezultatul nou este salvat în Documente.", "x": 45.9, "y": 89.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png" alt="Decriptează cu cardul destinatarului" steps={[{"text": "Selectează fișierul criptat. Aplicația identifică formatul cu certificat RSA.", "x": 29.6, "y": 36.8}, {"text": "Conectează cardul care conține cheia privată a destinatarului. Citește cardul, apoi autorizează decriptarea cu PIN-ul său.", "x": 31.1, "y": 43.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png" alt="Decriptează cu cardul destinatarului" steps={[{"text": "Selectează fișierul criptat. Aplicația identifică formatul cu certificat RSA.", "x": 29.6, "y": 36.8}, {"text": "Conectează cardul care conține cheia privată a destinatarului. Citește cardul, apoi autorizează decriptarea cu PIN-ul său.", "x": 36.6, "y": 46.0}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/ro/protect-decrypt-complete-light.png" alt="Fișier decriptat salvat" steps={[{"text": "Verifică numele fișierului salvat. Rezultatul este deja în Documente.", "x": 29.6, "y": 27.9}, {"text": "Alege Salvează ca… numai dacă dorești și o copie în alt loc.", "x": 45.5, "y": 84.6}, {"text": "Alege Închide pentru a reveni în aplicație. Fișierul salvat rămâne în Documente.", "x": 46.8, "y": 89.0}]} />
 

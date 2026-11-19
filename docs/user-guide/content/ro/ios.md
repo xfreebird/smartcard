@@ -80,7 +80,7 @@ Verificarea necesită fișierul, nu cititorul sau PIN-ul. În Verifică, alege P
 
 <GuideScreenshot src="/img/guide/iphone/ro/verify-current.png" alt="Ecranul Verifică" steps={[{"text": "Ecranul Verifică", "x": 50, "y": 86}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/verify.png" alt="Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura." steps={[{"text": "Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura.", "x": 32, "y": 37}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/verify.png" alt="Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura." steps={[{"text": "Consultă întâi rezultatul pentru document. Deschide fiecare semnatar pentru a-i examina semnătura.", "x": 32, "y": 37}, {"text": "Folosește Șterge rezultatele din bara de navigare pentru a goli sesiunea de verificare.", "x": 91, "y": 10}]} />
 <GuideScreenshot src="/img/guide/iphone/ro/certificate.png" alt="Deschide Detaliile certificatului pentru a consulta certificatul public al semnatarului, emitentul și amprenta." steps={[{"text": "Deschide Detaliile certificatului pentru a consulta certificatul public al semnatarului, emitentul și amprenta.", "x": 39, "y": 51}]} />
 
 <GuideScreenshot src="/img/guide/iphone/ro/technical.png" alt="Deschide Detalii tehnice sub o semnătură pentru a citi raportul de verificare. Apasă din nou pe rând pentru a-l restrânge." steps={[{"text": "Deschide Detalii tehnice sub o semnătură pentru a citi raportul de verificare. Apasă din nou pe rând pentru a-l restrânge.", "x": 33, "y": 65}]} />
@@ -106,7 +106,7 @@ Documente salvate conține rezultate semnate, criptate și decriptate. Selecteaz
 Deschide Documente și selectează un element salvat. Fereastra detaliilor folosește aceeași prezentare ca Verifică și nu înlocuiește spațiul de verificare curent. Previzualizare deschide conținutul; Partajează exportă fișierul ales. Dacă fișierul a fost mutat sau nu poate fi citit, selectează-l din locația reală.
 
 <GuideScreenshot src="/img/guide/iphone/ro/documents.png" alt="Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja." steps={[{"text": "Selectează numele unui fișier pentru a-i examina semnăturile. Folosește acțiunile de lângă nume pentru a-l previzualiza sau partaja.", "x": 35, "y": 40}]} />
-<GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 23, "y": 53}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/details.png" alt="Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează." steps={[{"text": "Deschide rândul unui semnatar pentru a vedea verificările. Sub raport poți alege Previzualizare sau Partajează.", "x": 32.6, "y": 51.3}]} />
 
 ## Șterge istoricul păstrând documentele salvate
 
@@ -119,6 +119,10 @@ Deschide Documente și selectează un element salvat. Fereastra detaliilor folos
 Deschide Browser, folosește Deschide o adresă ori un serviciu salvat și navighează la autentificarea sau semnarea cu act electronic. Browserul solicită prezentarea desktop pentru fluxurile compatibile de autentificare. Păstrează eSemnBun în prim-plan; conexiunea mobilă se oprește în fundal. Verifică serviciul și cererea înainte de aprobare. Ilustrația păstrează rețeaua și hardware-ul inactive, deci comenzile de navigare pot fi dezactivate.
 
 <GuideScreenshot src="/img/guide/iphone/ro/browser.png" alt="Deschide Browser și verifică starea conexiunii." steps={[{"text": "Deschide Browser și verifică starea conexiunii.", "x": 8, "y": 15}, {"text": "Folosește comanda pentru adresă ca să introduci URL-ul serviciului.", "x": 88, "y": 9}, {"text": "Deschide Servicii/Semne de carte pentru adresele salvate.", "x": 77, "y": 9}, {"text": "Folosește înapoi, înainte și reîncărcare în timpul navigării.", "x": 18, "y": 87}]} />
+
+În Setări → Browser, deschide Autentificare pentru a alege NFC sau un cititor de carduri. Eticheta arată metoda curentă.
+
+<GuideScreenshot src="/img/guide/iphone/ro/browser-authentication.png" alt="În Setări → Browser, deschide Autentificare pentru a alege NFC sau un cititor de carduri. Eticheta arată metoda curentă." caption="Captură nativă iPhone, focalizată pe autentificarea în browser." steps={[{"text": "În Setări → Browser, deschide Autentificare pentru a alege NFC sau un cititor de carduri. Eticheta arată metoda curentă.", "x": 83, "y": 71}]} />
 
 Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează titlul, URL-ul și pictograma, apoi salvează. Gestionarea permite editarea sau eliminarea. Pentru resetarea sesiunii, deschide Șterge datele browserului, alege cache, cookie-uri și/sau istoric și confirmă. Ștergerea cookie-urilor te poate deconecta, dar nu șterge Documente ori PIN-urile salvate. Erorile site-ului necesită asistența serviciului, nu încercări repetate ale PIN-ului.
 
@@ -146,7 +150,7 @@ Alege româna, engleza, rusa sau limba sistemului și aspectul Luminos, Întunec
 3. Rulează scurtătura. Verifică lista pregătită ori rezultatul offline în eSemnBun; semnarea necesită în continuare aprobarea ta.
 
 Pentru căutare, activează Găsește documentele semnate în Siri și Spotlight din Setări, finalizează un PDF/XML semnat deținut de aplicație și caută numele în Spotlight. Indexul opțional expune numele și datele, nu conținutul, PIN-ul ori identitatea certificatului. Schemele sistem Open/Search necesită funcțiile OS/SDK acceptate; sugestiile depind de dispozitiv, limbă și configurare. Cu Handoff activ pe dispozitive Apple compatibile, deschide Documente pe unul și continuă de pe celălalt. Handoff reia navigarea către Documente; nu transferă PDF-ul, PIN-ul sau sesiunea cardului. Verifică disponibilitatea Siri, Spotlight și Handoff în versiunea instalată; capturile arată comenzile aplicației, nu un rezultat real între dispozitive.
-<GuideScreenshot src="/img/guide/iphone/ro/settings.png" alt="Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight." steps={[{"text": "Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight.", "x": 86, "y": 65}, {"text": "După crearea unui document semnat deținut de aplicație, caută numele în Spotlight și deschide rezultatul."}, {"text": "Pentru Handoff, deschide Documente pe un dispozitiv compatibil și continuă pe celălalt."}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/settings.png" alt="Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight." steps={[{"text": "Activează descoperirea doar dacă dorești ca numele și datele documentelor semnate să fie disponibile în Siri și Spotlight.", "x": 85, "y": 62.5}, {"text": "După crearea unui document semnat deținut de aplicație, caută numele în Spotlight și deschide rezultatul."}, {"text": "Pentru Handoff, deschide Documente pe un dispozitiv compatibil și continuă pe celălalt."}]} />
 
 ## Folosește o fereastră iPhone mai mică sau mai largă
 
@@ -171,13 +175,13 @@ Dacă sesiunea NFC se întrerupe, ține cardul lângă antenă până se închid
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-În versiunea 0.2.13, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
+În versiunea 0.2.13, alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Implicit, folosește un certificat destinat criptării. **Compatibilitate cu cheia publică a cardului** permite explicit cheia RSA publică a cardului. Exportul sau criptarea reușită nu dovedesc că acel card poate decripta; cardul corespunzător trebuie să permită operația necesară cu cheia privată.
 
 <GuideScreenshot src="/img/guide/iphone/ro/documents-protection-light.png" alt="În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul." steps={[{"text": "În Documente, deschide Protejează fișiere din bara de instrumente apăsând scutul.", "x": 90, "y": 10}]} />
 
 <GuideScreenshot src="/img/guide/iphone/ro/protect-password-light.png" alt="Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează." steps={[{"text": "Selectează fișierul sursă și Parolă. Alege dimensiunea cheii AES, introdu și confirmă parola, apoi apasă Criptează.", "x": 81, "y": 55}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-certificate-light.png" alt="Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului." steps={[{"text": "Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului.", "x": 46, "y": 63}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-certificate-light.png" alt="Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului." steps={[{"text": "Alege Certificat RSA, apoi selectează certificatul public de criptare al destinatarului. Criptarea nu cere PIN-ul destinatarului.", "x": 42.1, "y": 71.4}, {"text": "Folosește Compatibilitate cu cheia publică a cardului doar când fluxul cere cheia RSA publică a cardului.", "x": 38.0, "y": 55.0}]} />
 
 <GuideScreenshot src="/img/guide/iphone/ro/protect-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 50, "y": 68}]} />
 
@@ -196,7 +200,7 @@ Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal 
 
 <GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-light.png" alt="Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează." steps={[{"text": "Selectează fișierul criptat. Când apare Parolă, introdu parola primită separat de la expeditor și apasă Decriptează.", "x": 86, "y": 48}]} />
 
-<GuideScreenshot src="/img/guide/iphone/ro/protect-rsa-decrypt.png" alt="Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului." steps={[{"text": "Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului.", "x": 31, "y": 62}]} />
+<GuideScreenshot src="/img/guide/iphone/ro/protect-rsa-decrypt.png" alt="Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului." steps={[{"text": "Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului.", "x": 35.5, "y": 70.6}]} />
 
 <GuideScreenshot src="/img/guide/iphone/ro/protect-decrypt-complete-light.png" alt="Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni." steps={[{"text": "Rezultatul este salvat în Documente. Alege Salvează o copie pentru export sau Gata pentru a reveni.", "x": 50, "y": 68}]} />
 

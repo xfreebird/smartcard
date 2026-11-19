@@ -32,5 +32,5 @@ test('task directories preserve panels, device navigation and old localized book
    const [topic,anchor]=target.split('/#');assert.ok(destinations.get(topic)?.has(anchor),`${locale}/${platform.id}/${target}`);anchors++;
   }
  }
- assert.equal(pages,327);assert.equal(panels,777);assert.equal(anchors,594);
+ assert.equal(pages,327);assert.equal(panels,792);assert.equal(anchors,594);
 });

@@ -2,7 +2,7 @@ using MoldSign.Desktop;
 
 namespace MoldSign.App.Services;
 
-internal sealed record ProtectionPreview(FileProtectionOperation Operation, string Filename)
+internal sealed record ProtectionPreview(FileProtectionOperation Operation, string Filename, bool Recipient = false)
 {
     public static ProtectionPreview? Selected
     {
@@ -15,7 +15,9 @@ internal sealed record ProtectionPreview(FileProtectionOperation Operation, stri
             {
                 var operation = scenario.Contains("remove") ? FileProtectionOperation.Remove :
                     scenario.Contains("decrypt") ? FileProtectionOperation.Decrypt : FileProtectionOperation.Encrypt;
-                return new(operation, operation == FileProtectionOperation.Decrypt ? "Contract.pdf.symmetric.p7m" : "Contract.pdf");
+                var recipient = scenario.Contains("certificate");
+                return new(operation, operation == FileProtectionOperation.Decrypt ?
+                    (recipient ? "Contract.pdf.asymmetric.p7m" : "Contract.pdf.symmetric.p7m") : "Contract.pdf", recipient);
             }
 #endif
             return null;

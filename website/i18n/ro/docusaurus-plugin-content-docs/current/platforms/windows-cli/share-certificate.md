@@ -16,7 +16,7 @@ Distribuie certificatul tău de criptare
 
 ## Distribuie certificatul tău de criptare
 
-Cartea de identitate moldovenească nu oferă cheia de criptare necesară acestor comenzi pentru certificat/card. Folosește criptarea cu parolă pentru acest card. Comenzile CLI pentru certificate rămân disponibile pentru certificate și dispozitive de criptare compatibile; un certificat doar pentru semnare nu este potrivit.
+Implicit, comenzile pentru certificat/card folosesc un certificat de criptare. Adaugă `--card-public-key` doar pentru fluxul explicit de compatibilitate cu cheia publică a cardului. Criptarea sau exportul reușit al certificatului nu dovedesc suportul pentru decriptare: cardul corespunzător trebuie să permită operația necesară cu cheia privată.
 
 Conectează cardul și cititorul USB compatibil. Exportul certificatului public nu necesită document sau PIN. Cardul trebuie să ofere o identitate de criptare; certificatul obișnuit de semnare nu îl înlocuiește.
 

@@ -9,6 +9,8 @@ if not any(b'MSIGN_DEMO_SCENARIO' in image.read_bytes() for image in images if i
  raise SystemExit('An isolated Debug build with mock scenarios is required.')
 out=pathlib.Path(args.output);out.mkdir(parents=True,exist_ok=True)
 scenarios=[
+ ('protect-certificate-light','documents','protect-certificate',False,{}),
+ ('protect-rsa-decrypt','documents','protect-certificate-decrypt',False,{}),
  ('connect','sign','no-reader',False,{}),('empty-reader','sign','empty-reader',False,{}),
  ('sign','sign','ready',True,{}),('cards','sign','multiple',True,{}),
  ('stamp','sign','ready',True,{'MSIGN_QA_STAMP_PREVIEW':'1','MSIGN_DEMO_FILES':'fixture-single'}),
@@ -34,7 +36,7 @@ for lang in ['en','ro','ru']:
   env=os.environ.copy()
   params={'MSIGN_QA_NO_HARDWARE':'1','MSIGN_SCREENSHOT_CAPTURE':'1','MSIGN_DEMO_PREFERENCES_SUITE':'md.esemnbun.qa.guides.mobile.'+lang,'MSIGN_DEMO_CARDS':'3' if scenario=='multiple' else '1','MSIGN_DEMO_TAB':tab,'MSIGN_DEMO_SCENARIO':scenario,'MSIGN_DEMO_FILES':'fixture' if files else ':',**extra}
   env.update({'SIMCTL_CHILD_'+k:v for k,v in params.items()})
-  proc=subprocess.Popen(['xcrun','simctl','launch','--console',args.device,'md.esemnbun.ios','-appTheme','light','-appLanguage',lang,'-AppleLanguages','('+lang+')','-bridgeEnabled','NO'],env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+  proc=subprocess.Popen(['xcrun','simctl','launch','--console',args.device,'md.esemnbun.ios','-appTheme','light','-appLanguage',lang,'-AppleLanguages','('+lang+')','-bridgeEnabled','NO'],env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,bufsize=0)
   ready=False;lines=[];deadline=time.time()+35
   while time.time()<deadline:
    readable,_,_=select.select([proc.stdout],[],[],1)

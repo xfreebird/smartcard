@@ -80,7 +80,7 @@ Verification needs a file, not a reader or PIN. In Verify, choose the signed PDF
 
 <GuideScreenshot src="/img/guide/iphone/en/verify-current.png" alt="The Verify screen" steps={[{"text": "The Verify screen", "x": 50, "y": 86}]} />
 
-<GuideScreenshot src="/img/guide/iphone/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 34, "y": 37}]} />
+<GuideScreenshot src="/img/guide/iphone/en/verify.png" alt="Read the document verdict first. Expand each signer to inspect that signature." steps={[{"text": "Read the document verdict first. Expand each signer to inspect that signature.", "x": 34, "y": 37}, {"text": "Use Clear results in the navigation bar to clear this verification session.", "x": 91, "y": 10}]} />
 <GuideScreenshot src="/img/guide/iphone/en/certificate.png" alt="Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint." steps={[{"text": "Open Certificate details to inspect the signer’s public certificate, issuer and fingerprint.", "x": 40, "y": 72}]} />
 
 <GuideScreenshot src="/img/guide/iphone/en/technical.png" alt="Expand Technical details under a signature to read the verification report. Select the same row again to collapse it." steps={[{"text": "Expand Technical details under a signature to read the verification report. Select the same row again to collapse it.", "x": 35, "y": 65}]} />
@@ -106,7 +106,7 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
 <GuideScreenshot src="/img/guide/iphone/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 35, "y": 40}]} />
-<GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 28, "y": 51}]} />
+<GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 27.9, "y": 51.3}]} />
 
 ## Clear recent history while keeping saved documents
 
@@ -119,6 +119,10 @@ In Documents, switch to History, choose Clear list and confirm. This clears the 
 Open Browser, use Open an address or a saved service, and navigate to the site’s electronic-ID login or signing option. The browser requests desktop presentation for compatible identity-login flows. Keep eSemnBun foregrounded; the mobile connection stops when the app is backgrounded. Check the service and request before approving. The illustration keeps network and hardware inactive, so website navigation controls may be disabled.
 
 <GuideScreenshot src="/img/guide/iphone/en/browser.png" alt="Open Browser and check the connection status." steps={[{"text": "Open Browser and check the connection status.", "x": 8, "y": 15}, {"text": "Use the address control to enter the service URL.", "x": 88, "y": 9}, {"text": "Use Services/Bookmarks to open, add or manage a saved address.", "x": 77, "y": 9}, {"text": "Use back, forward and reload while browsing.", "x": 18, "y": 87}]} />
+
+In Settings → Browser, open Authentication to choose NFC or a card reader. The badge shows the current method.
+
+<GuideScreenshot src="/img/guide/iphone/en/browser-authentication.png" alt="In Settings → Browser, open Authentication to choose NFC or a card reader. The badge shows the current method." caption="Native iPhone capture focused on Browser authentication." steps={[{"text": "In Settings → Browser, open Authentication to choose NFC or a card reader. The badge shows the current method.", "x": 83, "y": 71}]} />
 
 To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title, URL and icon and save it. Use Manage bookmarks to edit or remove one. To reset a session, open Clear browser data, select cache, cookies and/or history, then confirm. Clearing cookies can sign you out; it does not clear Documents or saved PINs. A website-side error needs the service’s own support, not repeated PIN attempts.
 
@@ -146,7 +150,7 @@ In Apple Shortcuts, create a shortcut, add an action, search eSemnBun and choose
 3. Run the shortcut. Review the prepared queue or offline result in eSemnBun; signing still needs your approval.
 
 For document search, enable Find signed documents in Siri and Spotlight in Settings, complete a signed app-owned PDF/XML, then search its filename in Spotlight. The opt-in index exposes filenames and dates, not document bodies, PINs or certificate identity. Current system Open/Search schemas require supported OS/SDK features; suggestions depend on your device, language and system settings. With Handoff enabled on compatible Apple devices, open Documents on one device and use its continuation affordance on the other. Handoff resumes Documents navigation; it does not transfer a PDF, PIN or card session. Siri, Spotlight and Handoff availability should be checked on your installed build; these documentation captures demonstrate app controls rather than a live cross-device result.
-<GuideScreenshot src="/img/guide/iphone/en/settings.png" alt="Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight." steps={[{"text": "Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight.", "x": 86, "y": 65}, {"text": "After creating a signed app-owned document, search its filename in Spotlight and open the result."}, {"text": "For Handoff, open Documents on one compatible device and choose its continuation affordance on the other."}]} />
+<GuideScreenshot src="/img/guide/iphone/en/settings.png" alt="Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight." steps={[{"text": "Enable document discovery only if you want signed filenames and dates available to Siri and Spotlight.", "x": 85, "y": 62.5}, {"text": "After creating a signed app-owned document, search its filename in Spotlight and open the result."}, {"text": "For Handoff, open Documents on one compatible device and choose its continuation affordance on the other."}]} />
 
 ## Use a smaller or wider iPhone window
 
@@ -171,13 +175,13 @@ In **Documents**, select the **Protect files** shield in the toolbar. In the for
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
+In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). By default, use a certificate intended for encryption. **Card public key compatibility** explicitly allows the card’s public RSA key. Exporting it or encrypting a file does not prove that the card can decrypt; the matching card must support the required private-key operation.
 
 <GuideScreenshot src="/img/guide/iphone/en/documents-protection-light.png" alt="In Documents, open Protect files using the shield in the toolbar." steps={[{"text": "In Documents, open Protect files using the shield in the toolbar.", "x": 90, "y": 10}]} />
 
 <GuideScreenshot src="/img/guide/iphone/en/protect-password-light.png" alt="Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt." steps={[{"text": "Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt.", "x": 81, "y": 55}]} />
 
-<GuideScreenshot src="/img/guide/iphone/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 43, "y": 63}]} />
+<GuideScreenshot src="/img/guide/iphone/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 43.1, "y": 69.1}, {"text": "Use Card public key compatibility only when the workflow requires the card’s public RSA key.", "x": 35.2, "y": 55.2}]} />
 
 <GuideScreenshot src="/img/guide/iphone/en/protect-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 68}]} />
 
@@ -196,7 +200,7 @@ For a password-encrypted file, obtain the password from the sender through a sep
 
 <GuideScreenshot src="/img/guide/iphone/en/protect-decrypt-light.png" alt="Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt." steps={[{"text": "Select the encrypted file. When Password appears, enter the password the sender shared separately and choose Decrypt.", "x": 83, "y": 48}]} />
 
-<GuideScreenshot src="/img/guide/iphone/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 30, "y": 62}]} />
+<GuideScreenshot src="/img/guide/iphone/en/protect-rsa-decrypt.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 30.8, "y": 68.2}]} />
 
 <GuideScreenshot src="/img/guide/iphone/en/protect-decrypt-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 68}]} />
 

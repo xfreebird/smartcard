@@ -20,4 +20,8 @@ Open Browser, use Open an address or a saved service, and navigate to the site�
 
 <GuideScreenshot src="/img/guide/iphone/en/browser.png" alt="Open Browser and check the connection status." steps={[{"text": "Open Browser and check the connection status.", "x": 8, "y": 15}, {"text": "Use the address control to enter the service URL.", "x": 88, "y": 9}, {"text": "Use Services/Bookmarks to open, add or manage a saved address.", "x": 77, "y": 9}, {"text": "Use back, forward and reload while browsing.", "x": 18, "y": 87}]} />
 
+In Settings → Browser, open Authentication to choose NFC or a card reader. The badge shows the current method.
+
+<GuideScreenshot src="/img/guide/iphone/en/browser-authentication.png" alt="In Settings → Browser, open Authentication to choose NFC or a card reader. The badge shows the current method." caption="Native iPhone capture focused on Browser authentication." steps={[{"text": "In Settings → Browser, open Authentication to choose NFC or a card reader. The badge shows the current method.", "x": 83, "y": 71}]} />
+
 To add a bookmark, open Services/Bookmarks → Add bookmark, then set its title, URL and icon and save it. Use Manage bookmarks to edit or remove one. To reset a session, open Clear browser data, select cache, cookies and/or history, then confirm. Clearing cookies can sign you out; it does not clear Documents or saved PINs. A website-side error needs the service’s own support, not repeated PIN attempts.

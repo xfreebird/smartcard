@@ -1,7 +1,7 @@
 {
   "overviews": 30,
   "taskPages": 327,
-  "panels": 777,
+  "panels": 792,
   "coverage": [
     {
       "platform": "macos",
@@ -31,7 +31,7 @@
       "platform": "ios",
       "locale": "en",
       "topics": 11,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 20,
       "redirects": 19
     },
@@ -39,7 +39,7 @@
       "platform": "ios",
       "locale": "ro",
       "topics": 11,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 20,
       "redirects": 19
     },
@@ -47,7 +47,7 @@
       "platform": "ios",
       "locale": "ru",
       "topics": 11,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 20,
       "redirects": 19
     },
@@ -79,7 +79,7 @@
       "platform": "android",
       "locale": "en",
       "topics": 10,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 27,
       "redirects": 27
     },
@@ -87,7 +87,7 @@
       "platform": "android",
       "locale": "ro",
       "topics": 10,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 27,
       "redirects": 27
     },
@@ -95,7 +95,7 @@
       "platform": "android",
       "locale": "ru",
       "topics": 10,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 27,
       "redirects": 27
     },
@@ -103,7 +103,7 @@
       "platform": "android-tablet",
       "locale": "en",
       "topics": 10,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 27,
       "redirects": 27
     },
@@ -111,7 +111,7 @@
       "platform": "android-tablet",
       "locale": "ro",
       "topics": 10,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 27,
       "redirects": 27
     },
@@ -119,7 +119,7 @@
       "platform": "android-tablet",
       "locale": "ru",
       "topics": 10,
-      "panels": 34,
+      "panels": 35,
       "originalSections": 27,
       "redirects": 27
     },
@@ -127,7 +127,7 @@
       "platform": "linux",
       "locale": "en",
       "topics": 12,
-      "panels": 30,
+      "panels": 31,
       "originalSections": 30,
       "redirects": 30
     },
@@ -135,7 +135,7 @@
       "platform": "linux",
       "locale": "ro",
       "topics": 12,
-      "panels": 30,
+      "panels": 31,
       "originalSections": 30,
       "redirects": 30
     },
@@ -143,7 +143,7 @@
       "platform": "linux",
       "locale": "ru",
       "topics": 12,
-      "panels": 30,
+      "panels": 31,
       "originalSections": 30,
       "redirects": 30
     },
@@ -151,7 +151,7 @@
       "platform": "windows",
       "locale": "en",
       "topics": 11,
-      "panels": 20,
+      "panels": 21,
       "originalSections": 11,
       "redirects": 11
     },
@@ -159,7 +159,7 @@
       "platform": "windows",
       "locale": "ro",
       "topics": 11,
-      "panels": 20,
+      "panels": 21,
       "originalSections": 11,
       "redirects": 11
     },
@@ -167,7 +167,7 @@
       "platform": "windows",
       "locale": "ru",
       "topics": 11,
-      "panels": 20,
+      "panels": 21,
       "originalSections": 11,
       "redirects": 11
     },

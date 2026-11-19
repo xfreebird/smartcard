@@ -187,11 +187,11 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 
 Nu ai nevoie de card. Creează o parolă pentru fișier și transmite-o destinatarului printr-un canal de încredere separat. Nu este PIN-ul cardului. Criptarea creează un rezultat separat; păstrează originalul până verifici rezultatul.
 
-Alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Certificatul de semnare al cărții de identitate moldovenești nu poate decripta aceste fișiere.
+Alege **Parolă** și selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256. Pentru a cripta pentru un destinatar, alege **Certificat RSA** și selectează certificatul său public de criptare (.cer sau .der). Implicit, folosește un certificat destinat criptării. **Compatibilitate cu cheia publică a cardului** permite explicit cheia RSA publică a cardului. Exportul sau criptarea reușită nu dovedesc că acel card poate decripta; cardul corespunzător trebuie să permită operația necesară cu cheia privată.
 
 <GuideScreenshot src="/img/guide/linux/ro/protect-password-light.png" alt="Criptează un fișier cu parolă" steps={[{"text": "Alege fișierul de criptat.", "x": 50, "y": 29}, {"text": "Selectează AES-128, AES-192 sau AES-256. Opțiunea implicită este AES-256.", "x": 45, "y": 56}, {"text": "Introdu și confirmă o parolă nouă pentru fișier.", "x": 31, "y": 68}, {"text": "Alege Criptează, apoi salvează copia criptată.", "x": 50, "y": 91}]} />
 
-<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Alege Certificat RSA.", "x": 44, "y": 46}, {"text": "Alege certificatul public de criptare al destinatarului.", "x": 50, "y": 58}, {"text": "Pentru a cripta pentru propriul card, conectează cititorul și citește certificatul său de criptare.", "x": 50, "y": 65}]} />
+<GuideScreenshot src="/img/guide/linux/ro/protect-certificate-light.png" alt="Criptează pentru un destinatar RSA" steps={[{"text": "Alege Certificat RSA.", "x": 40.1, "y": 44.3}, {"text": "Alege certificatul public de criptare al destinatarului.", "x": 50.0, "y": 58.6}, {"text": "Pentru a cripta pentru propriul card, conectează cititorul și citește certificatul său de criptare.", "x": 50.0, "y": 64.0}, {"text": "Folosește Compatibilitate cu cheia publică a cardului doar când fluxul cere cheia RSA publică a cardului.", "x": 40.6, "y": 53.4}]} />
 
 Alege **Criptează** sau **Decriptează**, apoi **Salvează o copie** și alege un loc nou pentru rezultat. După salvare, fișierul apare în **Documente → Documente salvate**. Folosește butonul de închidere din antetul ferestrei la final. Originalul este păstrat.
 
@@ -205,6 +205,8 @@ Deschide meniul principal din antetul ferestrei, apoi **Protejează fișiere →
 Pentru un fișier criptat cu parolă, cere parola expeditorului printr-un canal de încredere separat. Fișierul specifică dimensiunea cheii AES. Pentru fișierele RSA, conectează cardul care conține cheia de criptare a destinatarului, citește cardul și autorizează decriptarea cu PIN-ul său.
 
 <GuideScreenshot src="/img/guide/linux/ro/protect-decrypt-light.png" alt="Decriptează un fișier primit" steps={[{"text": "Alege fișierul criptat. Conținutul său determină metoda de decriptare.", "x": 50, "y": 29}, {"text": "Pentru un fișier criptat cu parolă, introdu parola primită de la expeditor.", "x": 30, "y": 61}, {"text": "Alege Decriptează și salvează rezultatul într-un fișier nou.", "x": 50, "y": 91}]} />
+
+<GuideScreenshot src="/img/guide/linux/ro/protect-rsa-decrypt-light.png" alt="Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului." steps={[{"text": "Pentru un fișier RSA, conectează cititorul și cardul destinatarului, apoi alege Citește cardul meu. Autorizează cu PIN-ul cardului.", "x": 50.0, "y": 60.7}]} />
 
 Deschide și verifică rezultatul salvat înainte de utilizare. Criptarea compatibilă MoldSign nu autentifică conținutul: decriptarea reușită nu dovedește singură integritatea sau parola corectă.
 

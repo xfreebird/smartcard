@@ -18,7 +18,9 @@ Connect a service, review requests and manage website sessions.
 
 Use only a service whose address and request you recognize. The app is independent from the Moldovan government; official sources are linked in Browser and About. Website appearance can differ from these illustrations.
 
-<GuideScreenshot src="/img/guide/android-phone/en/browser.png" alt="Sign on a website" steps={[{"text": "Open Browser and enable Browser connection for a service in an external browser on this same device. Allow its notification request when prompted.", "x": 15.5, "y": 55.1}, {"text": "Alternatively, tap Open in app browser. Enter a service address or choose it from Services. The embedded browser uses desktop presentation for compatible identity login.", "x": 32.4, "y": 77.7}, {"text": "Enable visible website stamps if needed. Check the card and requesting site in every approval, then enter your PIN.", "x": 5.8, "y": 45.2}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/browser.png" alt="Sign on a website" steps={[{"text": "On compatible devices, open Authentication to choose NFC or a card reader.", "x": 27.7, "y": 13.8}, {"text": "Open Browser and enable Browser connection for a service in an external browser on this same device. Allow its notification request when prompted.", "x": 35.7, "y": 24.2}, {"text": "Alternatively, tap Open in app browser. Enter a service address or choose it from Services. The embedded browser uses desktop presentation for compatible identity login.", "x": 50.0, "y": 46.8}, {"text": "Enable visible website stamps if needed. Check the card and requesting site in every approval, then enter your PIN."}]} />
+
+<GuideScreenshot src="/img/guide/android-phone/en/browser-authentication.png" alt="On compatible devices, open Authentication to choose NFC or a card reader." steps={[{"text": "Choose NFC or Card reader. The blue row is selected.", "x": 21.5, "y": 42.5}, {"text": "Choose a known card and check its serial number.", "x": 30.7, "y": 61.8}, {"text": "Use Read NFC card to identify another card. This step does not ask for a PIN.", "x": 53.9, "y": 71.5}]} />
 
 ## Use browser controls and services
 

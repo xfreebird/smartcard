@@ -129,7 +129,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         if (preview is not null)
         {
             _operation.SelectedIndex = (int)preview.Operation;
-            _method.SelectedIndex = 0;
+            _method.SelectedIndex = preview.Recipient ? 1 : 0;
             _file.Text = preview.Filename;
         }
         if (initialSource is not null && File.Exists(initialSource))

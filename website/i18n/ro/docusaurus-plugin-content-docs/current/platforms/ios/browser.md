@@ -20,4 +20,8 @@ Deschide Browser, folosește Deschide o adresă ori un serviciu salvat și navig
 
 <GuideScreenshot src="/img/guide/iphone/ro/browser.png" alt="Deschide Browser și verifică starea conexiunii." steps={[{"text": "Deschide Browser și verifică starea conexiunii.", "x": 8, "y": 15}, {"text": "Folosește comanda pentru adresă ca să introduci URL-ul serviciului.", "x": 88, "y": 9}, {"text": "Deschide Servicii/Semne de carte pentru adresele salvate.", "x": 77, "y": 9}, {"text": "Folosește înapoi, înainte și reîncărcare în timpul navigării.", "x": 18, "y": 87}]} />
 
+În Setări → Browser, deschide Autentificare pentru a alege NFC sau un cititor de carduri. Eticheta arată metoda curentă.
+
+<GuideScreenshot src="/img/guide/iphone/ro/browser-authentication.png" alt="În Setări → Browser, deschide Autentificare pentru a alege NFC sau un cititor de carduri. Eticheta arată metoda curentă." caption="Captură nativă iPhone, focalizată pe autentificarea în browser." steps={[{"text": "În Setări → Browser, deschide Autentificare pentru a alege NFC sau un cititor de carduri. Eticheta arată metoda curentă.", "x": 83, "y": 71}]} />
+
 Pentru un semn de carte, deschide Servicii/Semne de carte → Adaugă, setează titlul, URL-ul și pictograma, apoi salvează. Gestionarea permite editarea sau eliminarea. Pentru resetarea sesiunii, deschide Șterge datele browserului, alege cache, cookie-uri și/sau istoric și confirmă. Ștergerea cookie-urilor te poate deconecta, dar nu șterge Documente ori PIN-urile salvate. Erorile site-ului necesită asistența serviciului, nu încercări repetate ale PIN-ului.

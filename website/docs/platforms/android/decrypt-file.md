@@ -24,7 +24,7 @@ For a password-encrypted file, obtain the password from the sender through a sep
 
 <GuideScreenshot src="/img/guide/android-phone/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose Decrypt and select the received encrypted file.", "x": 26.5, "y": 30.5}, {"text": "Enter the password supplied by the sender in the Password field.", "x": 11.0, "y": 49.2}, {"text": "Choose Decrypt. The new output is saved in Documents.", "x": 42.4, "y": 88.1}]} />
 
-<GuideScreenshot src="/img/guide/android-phone/en/protect-rsa-decrypt-light.png" alt="Decrypt with the recipient’s card" steps={[{"text": "Select the encrypted file. The app identifies the RSA certificate format.", "x": 7.1, "y": 42.9}, {"text": "Connect the card containing the recipient’s matching private key. Choose Read my card, then authorize decryption with its PIN.", "x": 12.9, "y": 53.7}]} />
+<GuideScreenshot src="/img/guide/android-phone/en/protect-rsa-decrypt-light.png" alt="Decrypt with the recipient’s card" steps={[{"text": "Select the encrypted file. The app identifies the RSA certificate format.", "x": 7.1, "y": 42.9}, {"text": "Connect the card containing the recipient’s matching private key. Choose Read my card, then authorize decryption with its PIN.", "x": 25.0, "y": 57.3}]} />
 
 <GuideScreenshot src="/img/guide/android-phone/en/protect-decrypt-complete-light.png" alt="Decrypted file saved" steps={[{"text": "Check the saved filename. This output is already in Documents.", "x": 7.1, "y": 32.0}, {"text": "Choose Save as… only if you also want a copy in another location.", "x": 41.3, "y": 82.9}, {"text": "Choose Close to return to the app. The saved file remains in Documents.", "x": 43.9, "y": 88.1}]} />
 

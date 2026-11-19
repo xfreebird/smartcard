@@ -83,39 +83,39 @@ On Android 10 and later, ordinary signed output is saved under Downloads/eSemnBu
 
 Verification does not require the card or PIN. A green result refers to the checks shown, not to the filename or the presence of a visible stamp.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "Choose a signed PDF or XML. Read its verdict, signer and checks.", "x": 35.3, "y": 26.9}, {"text": "Expand Technical details to see the report, then tap again to collapse it.", "x": 32.0, "y": 56.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-current.png" alt="The Verify screen" steps={[{"text": "Choose a signed PDF or XML. Read its verdict, signer and checks.", "x": 3.0, "y": 18.9}, {"text": "Expand Technical details to see the report, then tap again to collapse it.", "x": 53.0, "y": 47.6}, {"text": "Use the bottom button to choose another signed document.", "x": 53.0, "y": 93.5}, {"text": "Use Clear results in the navigation bar to clear this verification session.", "x": 97.5, "y": 5.1}]} />
 
 ## Understand an invalid signature
 
 Invalid means that document integrity or the cryptographic signature check failed. It can indicate changed bytes or a damaged/incorrect signature. A valid-looking stamp, familiar filename, or recognized author does not override this result.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-invalid.png" alt="Understand an invalid signature" steps={[{"text": "Read Invalid signature and the failed check. Do not treat this copy as verified.", "x": 35.3, "y": 26.9}, {"text": "Expand Technical details, compare with the sender’s original signed output, and request a fresh intact copy if needed. Check every listed signature when the document contains more than one.", "x": 32.0, "y": 56.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-invalid.png" alt="Understand an invalid signature" steps={[{"text": "Read Invalid signature and the failed check. Do not treat this copy as verified.", "x": 3.0, "y": 18.9}, {"text": "Expand Technical details, compare with the sender’s original signed output, and request a fresh intact copy if needed. Check every listed signature when the document contains more than one.", "x": 53.0, "y": 47.6}]} />
 
 ## Understand an unconfirmed trust chain
 
 Cannot be confirmed is distinct from Invalid signature. In this example the signature and document integrity pass, but the certificate is outside the recognized MDQSign chain. Missing original documents can also produce an unconfirmed result, with a different explanation.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-unconfirmed.png" alt="Understand an unconfirmed trust chain" steps={[{"text": "Read the reason below Cannot be confirmed and inspect the separate Integrity, Signature, and Trust chain checks.", "x": 35.3, "y": 26.9}, {"text": "Inspect certificate details to identify the signer and issuer. Establish the required trust with the sender or receiving service before relying on the document. Offline integrity checks do not establish current revocation status or guarantee legal acceptance.", "x": 32.0, "y": 51.0}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-unconfirmed.png" alt="Understand an unconfirmed trust chain" steps={[{"text": "Read the reason below Cannot be confirmed and inspect the separate Integrity, Signature, and Trust chain checks.", "x": 3.0, "y": 18.9}, {"text": "Inspect certificate details to identify the signer and issuer. Establish the required trust with the sender or receiving service before relying on the document. Offline integrity checks do not establish current revocation status or guarantee legal acceptance.", "x": 53.0, "y": 41.7}]} />
 
 ## Recognize an unsigned or unsupported file
 
 No signature means the app found no signature it can read in the selected file. You may have selected the unsigned input, or the file may use an unsupported signature format. A picture of a signature is not an electronic signature.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-none.png" alt="Recognize an unsigned or unsupported file" steps={[{"text": "Read No signature, then check that you selected the completed signed PDF or the XML signature rather than its unsigned original.", "x": 35.3, "y": 26.9}, {"text": "Choose the correct signed output and verify again. Ask the sender for a supported PDF/XML signature if the result remains unchanged.", "x": 34.4, "y": 14.7}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-none.png" alt="Recognize an unsigned or unsupported file" steps={[{"text": "Read No signature, then check that you selected the completed signed PDF or the XML signature rather than its unsigned original.", "x": 3.0, "y": 18.9}, {"text": "Choose the correct signed output and verify again. Ask the sender for a supported PDF/XML signature if the result remains unchanged.", "x": 53.0, "y": 93.5}]} />
 
 ## 8. Inspect certificate and technical details
 
 An invalid signature differs from an unconfirmed trust chain. Missing originals or unavailable trust information can prevent a complete conclusion. Inspect the separate checks before relying on a document.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/certificate.png" alt="Inspect certificate and technical details" steps={[{"text": "Expand Certificate details to inspect the signer, issuer, serial number, public key, and fingerprint. Scroll within the screen if needed.", "x": 32.0, "y": 51.0}, {"text": "Expand Technical details for the checks behind the verdict; collapse it when finished.", "x": 32.0, "y": 66.4}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/certificate.png" alt="Inspect certificate and technical details" steps={[{"text": "Expand Certificate details to inspect the signer, issuer, serial number, public key, and fingerprint. Scroll within the screen if needed.", "x": 53.0, "y": 41.7}, {"text": "Expand Technical details for the checks behind the verdict; collapse it when finished.", "x": 53.0, "y": 57.1}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/verify-technical.png" alt="Expanded technical details" steps={[{"text": "Read the diagnostics for this signature. Tap Technical details again to collapse the report.", "x": 32.0, "y": 56.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/verify-technical.png" alt="Expanded technical details" steps={[{"text": "Read the diagnostics for this signature. Tap Technical details again to collapse the report.", "x": 38.4, "y": 52.7}]} />
 
 ## 9. Supply the original for detached XML
 
 Detached XML contains a reference to the signed document. Its original bytes are needed to check the document digest.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/original.png" alt="Supply the original for detached XML" steps={[{"text": "Tap Choose the signed document and select the exact original named in the message.", "x": 33.5, "y": 39.5}, {"text": "Wait for the refreshed result. A modified or different original will not match the signature. Share the XML together with the matching original."}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/original.png" alt="Supply the original for detached XML" steps={[{"text": "Tap Choose the signed document and select the exact original named in the message.", "x": 3.0, "y": 35.3}, {"text": "Wait for the refreshed result. A modified or different original will not match the signature. Share the XML together with the matching original."}]} />
 
 ## 10. Find signed documents
 
@@ -141,7 +141,9 @@ History lists document operations and website requests. Clearing it does not cle
 
 Use only a service whose address and request you recognize. The app is independent from the Moldovan government; official sources are linked in Browser and About. Website appearance can differ from these illustrations.
 
-<GuideScreenshot src="/img/guide/android-tablet/en/browser.png" alt="Sign on a website" steps={[{"text": "Open Browser and enable Browser connection for a service in an external browser on this same device. Allow its notification request when prompted.", "x": 34.2, "y": 50.8}, {"text": "Alternatively, tap Open in app browser. Enter a service address or choose it from Services. The embedded browser uses desktop presentation for compatible identity login.", "x": 46.9, "y": 69.5}, {"text": "Enable visible website stamps if needed. Check the card and requesting site in every approval, then enter your PIN.", "x": 31.8, "y": 44.3}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/browser.png" alt="Sign on a website" steps={[{"text": "On compatible devices, open Authentication to choose NFC or a card reader.", "x": 39.0, "y": 11.5}, {"text": "Open Browser and enable Browser connection for a service in an external browser on this same device. Allow its notification request when prompted.", "x": 40.9, "y": 20.1}, {"text": "Alternatively, tap Open in app browser. Enter a service address or choose it from Services. The embedded browser uses desktop presentation for compatible identity login.", "x": 53.0, "y": 38.8}, {"text": "Enable visible website stamps if needed. Check the card and requesting site in every approval, then enter your PIN."}]} />
+
+<GuideScreenshot src="/img/guide/android-tablet/en/browser-authentication.png" alt="On compatible devices, open Authentication to choose NFC or a card reader." steps={[{"text": "Choose NFC or Card reader. The blue row is selected.", "x": 35.5, "y": 53.1}, {"text": "Choose a known card and check its serial number.", "x": 37.9, "y": 69.1}, {"text": "Use Read NFC card to identify another card. This step does not ask for a PIN.", "x": 51.0, "y": 77.1}]} />
 
 ## Use browser controls and services
 
@@ -208,13 +210,13 @@ Open **Documents**, then choose **More actions → Protect files** in the top to
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-In eSemnBun 0.2.13 or later, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
+In eSemnBun 0.2.13 or later, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). By default, use a certificate intended for encryption. **Card public key compatibility** explicitly allows the card’s public RSA key. Exporting it or encrypting a file does not prove that the card can decrypt; the matching card must support the required private-key operation.
 
 <GuideScreenshot src="/img/guide/android-tablet/en/protect-menu-light.png" alt="Open file protection" steps={[{"text": "Open the navigation menu and choose Protect files.", "x": 91.0, "y": 13.6}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/en/protect-password-light.png" alt="Encrypt a file with a password" steps={[{"text": "Choose Encrypt, then select the source file.", "x": 45.7, "y": 26.6}, {"text": "Choose Password and select the AES key size. AES-256 is selected initially.", "x": 60.0, "y": 43.5}, {"text": "Enter and confirm a file password, then choose Encrypt.", "x": 30.6, "y": 57.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "For a recipient with an RSA encryption key, choose RSA certificate.", "x": 54.6, "y": 35.2}, {"text": "Select the recipient’s public .cer or .der certificate. To encrypt for your own card, connect its reader and choose Read my card.", "x": 31.1, "y": 43.5}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-certificate-light.png" alt="Encrypt for an RSA recipient" steps={[{"text": "For a recipient with an RSA encryption key, choose RSA certificate.", "x": 59.3, "y": 31.8}, {"text": "Select the recipient’s public .cer or .der certificate. To encrypt for your own card, connect its reader and choose Read my card.", "x": 38.4, "y": 45.6}, {"text": "Use Card public key compatibility only when the workflow requires the card’s public RSA key.", "x": 48.4, "y": 37.3}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/en/protect-complete-light.png" alt="Encrypted file saved" steps={[{"text": "Check the saved filename. This output is already in Documents.", "x": 29.6, "y": 27.9}, {"text": "Choose Save as… only if you also want a copy in another location.", "x": 46.4, "y": 84.6}, {"text": "Choose Close to return to the app. The saved file remains in Documents.", "x": 47.1, "y": 89.0}]} />
 
@@ -233,7 +235,7 @@ For a password-encrypted file, obtain the password from the sender through a sep
 
 <GuideScreenshot src="/img/guide/android-tablet/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose Decrypt and select the received encrypted file.", "x": 42.5, "y": 26.6}, {"text": "Enter the password supplied by the sender in the Password field.", "x": 30.6, "y": 42.1}, {"text": "Choose Decrypt. The new output is saved in Documents.", "x": 46.7, "y": 89.0}]} />
 
-<GuideScreenshot src="/img/guide/android-tablet/en/protect-rsa-decrypt-light.png" alt="Decrypt with the recipient’s card" steps={[{"text": "Select the encrypted file. The app identifies the RSA certificate format.", "x": 29.6, "y": 36.8}, {"text": "Connect the card containing the recipient’s matching private key. Choose Read my card, then authorize decryption with its PIN.", "x": 31.1, "y": 43.9}]} />
+<GuideScreenshot src="/img/guide/android-tablet/en/protect-rsa-decrypt-light.png" alt="Decrypt with the recipient’s card" steps={[{"text": "Select the encrypted file. The app identifies the RSA certificate format.", "x": 29.6, "y": 36.8}, {"text": "Connect the card containing the recipient’s matching private key. Choose Read my card, then authorize decryption with its PIN.", "x": 35.5, "y": 46.0}]} />
 
 <GuideScreenshot src="/img/guide/android-tablet/en/protect-decrypt-complete-light.png" alt="Decrypted file saved" steps={[{"text": "Check the saved filename. This output is already in Documents.", "x": 29.6, "y": 27.9}, {"text": "Choose Save as… only if you also want a copy in another location.", "x": 46.4, "y": 84.6}, {"text": "Choose Close to return to the app. The saved file remains in Documents.", "x": 47.1, "y": 89.0}]} />
 

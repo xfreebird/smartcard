@@ -21,7 +21,7 @@ Saved documents contains signed, encrypted and decrypted outputs. Select a signe
 Open Documents and select a saved item. The signing-details modal uses the same verification presentation as Verify and does not replace the current Verify workspace. Preview opens the content; Share exports the chosen file. If a file has moved or is unreadable, choose it again from its real location.
 
 <GuideScreenshot src="/img/guide/iphone/en/documents.png" alt="Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file." steps={[{"text": "Select a filename to inspect its signatures. Use the adjacent actions to preview or share the file.", "x": 35, "y": 40}]} />
-<GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 28, "y": 51}]} />
+<GuideScreenshot src="/img/guide/iphone/en/details.png" alt="Expand a signer to see the checks. Use Preview or Share below the report." steps={[{"text": "Expand a signer to see the checks. Use Preview or Share below the report.", "x": 27.9, "y": 51.3}]} />
 
 ## Clear recent history while keeping saved documents
 

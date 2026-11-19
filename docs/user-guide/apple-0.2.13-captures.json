@@ -3001,5 +3001,17 @@
       "sourceSHA256": "c37cc40d0e627018a376049f48a61a07fc97deaf9c255b5d25d0afb8bc6fdeb1",
       "localCapture": "Menu bar review"
     }
+  ],
+  "refreshes": [
+    {
+      "date": "2026-11-19",
+      "manifest": "ui-controls-refresh-2026-11-19.json",
+      "platforms": [
+        "iphone",
+        "ipad",
+        "macos"
+      ],
+      "assetCount": 30
+    }
   ]
 }

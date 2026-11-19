@@ -1,7 +1,7 @@
 {
   "date": "2026-11-19",
   "time": "09:41",
-  "method": "Clock glyphs cropped from native 09:41 captures and composited inside reviewed rectangles. Legacy iPhone images additionally use the recorded native status-bar strip. App content, document timestamps, dimensions and annotation coordinates are unchanged.",
+  "method": "Native 09:41 overrides for the 2026-11-19 UI-controls refresh; previous reviewed clock-only glyph/status-bar corrections remain recorded on untouched assets. Native app contents are unchanged.",
   "nativeClockCrops": {
     "apple-phone": {
       "source": "website/static/img/guide/iphone/en/sign.png",
@@ -86,20 +86,6 @@
       "edited": false
     },
     {
-      "path": "website/static/img/guide/iphone/ru/details.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "c9116bcb31f72a3e0ebf83613dc1c17ccb4d8aadbf62e655058b54130ccca0f4",
-      "originalTime": "13:33",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "d43295a79feba09cbbbbadb9d3af65f6e0293b3d44a7d4731458cda91988be33",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/iphone/ru/pin.png",
       "dimensions": [
         1206,
@@ -110,33 +96,6 @@
       "time": "09:41",
       "sha256": "36c9bf22328e82f58b6258b087a78e541e7a128dd0b47f3c78c7c37af1a1b0f0",
       "edited": false
-    },
-    {
-      "path": "website/static/img/guide/iphone/ru/settings.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "bd74412fadde08a95ed83fc4b9c021820c3496c7d171729689089b2ce48ab1c9",
-      "originalTime": "19:11",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        173,
-        74,
-        316,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        176,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "baeae266aabd576ba83f44b20dc95d4b8eb9e26ea4bc5585e90d65dea098c3ff"
     },
     {
       "path": "website/static/img/guide/iphone/ru/certificate.png",
@@ -206,20 +165,6 @@
         40
       ],
       "sha256": "61ee7d6ed379a80107dd53411f443e95b62328517283f42c7c8ad6f0ba6df17f"
-    },
-    {
-      "path": "website/static/img/guide/iphone/ru/protect-certificate-light.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "14c05af7b8fce0ce415b19ecc30115c83a41dc53add1276beb2bd9c316ec311e",
-      "originalTime": "15:46",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "6a4d3f069ec75bd67d256c9a295928bc5e479a057966ac9e7d211a3bd596befe",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ru/incomplete.png",
@@ -529,20 +474,6 @@
       "edited": false
     },
     {
-      "path": "website/static/img/guide/iphone/ro/details.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "bb71a25a74578e5fcf4daf7bded6c77bbb65200be01d032bea3c851322f3e5ab",
-      "originalTime": "13:31",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "6df7c5d550a30051e2e5f2f26978f770fb69d8f8567b5abf4c06c68f963d4738",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/iphone/ro/pin.png",
       "dimensions": [
         1206,
@@ -553,33 +484,6 @@
       "time": "09:41",
       "sha256": "6700abf3867b7014926b10f162a796d0a9520e1805ab5b695ab953d2baec0923",
       "edited": false
-    },
-    {
-      "path": "website/static/img/guide/iphone/ro/settings.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "7308c84c831416ddef8586c28ba4b66d24f0316ad1bca7f3633ff1f906f9ff1d",
-      "originalTime": "19:11",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        173,
-        74,
-        316,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        176,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "9a46f1099dbb837c18b200f8934664538ad67089751e059724ee8e80abb2446e"
     },
     {
       "path": "website/static/img/guide/iphone/ro/certificate.png",
@@ -649,20 +553,6 @@
         40
       ],
       "sha256": "9335b1e5cce917ba182ca8eff9f0bd5810a8bb686cdd234b3bdca03768c5223f"
-    },
-    {
-      "path": "website/static/img/guide/iphone/ro/protect-certificate-light.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "3cf520421ed5a32791cff3b099a0849ef1402e41735d52ac39ce3d0c3141bb07",
-      "originalTime": "15:45",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "e6c168d48d92a270cf95db0a0730cc795ad1d7edf45bd0ffcb43a0b6370d7284",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/ro/incomplete.png",
@@ -972,20 +862,6 @@
       "edited": false
     },
     {
-      "path": "website/static/img/guide/iphone/en/details.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "c50e89cf88660bb4d817260216e50deaf1c00543f2846aa4e2c2e3a52c46107e",
-      "originalTime": "13:29",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "6854790422a7b834062096692c5ef8a42e48bb6089795a767c66ab5411d4cbf7",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/iphone/en/pin.png",
       "dimensions": [
         1206,
@@ -996,33 +872,6 @@
       "time": "09:41",
       "sha256": "81be2d9d51e4b73e6844173952b8d4ab34a33427473328e74bc496a3ca666896",
       "edited": false
-    },
-    {
-      "path": "website/static/img/guide/iphone/en/settings.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "99d7689769f5e7f378684febb657bbea53fd2acdb224a17e66eff507a8671f60",
-      "originalTime": "19:10",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        173,
-        74,
-        316,
-        120
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/apple-phone.png",
-      "clockPosition": [
-        176,
-        77
-      ],
-      "clockSize": [
-        137,
-        40
-      ],
-      "sha256": "831878305a6ac379cb1b8f4b31e4dde2de9f155421151d5064ffc3db073a373c"
     },
     {
       "path": "website/static/img/guide/iphone/en/certificate.png",
@@ -1092,20 +941,6 @@
         40
       ],
       "sha256": "6aba5ff28ba1a6ac8e3f869edfa592da857a30607e6fb17dc70367dcd5daf821"
-    },
-    {
-      "path": "website/static/img/guide/iphone/en/protect-certificate-light.png",
-      "dimensions": [
-        1206,
-        2622
-      ],
-      "originalSha256": "0e258ebc85795b6950ba3882d58c1c885bc82590d343c919d4a5f7ac6dc78553",
-      "originalTime": "15:45",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "c97e0753dba84b7d3654dbd8311f767f8acd2465d554174fd2fdb13de0df7011",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/iphone/en/incomplete.png",
@@ -1496,20 +1331,6 @@
       "sha256": "308b8abaa5736f3617ee08e941af8d9de1252472757fa5d1a8f43d9a5cfe0264"
     },
     {
-      "path": "website/static/img/guide/ipad/ru/protect-certificate-light.png",
-      "dimensions": [
-        1488,
-        2266
-      ],
-      "originalSha256": "ebf3d28364739650eda856c776db79968265e8814671b64cdf4347ce01643908",
-      "originalTime": "15:47",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "5ef9d856d3f3e2f8462dade026552157ff1673f108cf29b964c01d12706387f4",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/ipad/ru/incomplete.png",
       "dimensions": [
         1488,
@@ -1896,20 +1717,6 @@
         21
       ],
       "sha256": "74ddc1bab438e12d5cf1962c3f6940080f046ce1ea9d512d685d364297ff56f0"
-    },
-    {
-      "path": "website/static/img/guide/ipad/ro/protect-certificate-light.png",
-      "dimensions": [
-        1488,
-        2266
-      ],
-      "originalSha256": "67cc45e4048be8ede447dfbb8c5eec61dc95810b7a981d574292e9e9df21596b",
-      "originalTime": "15:47",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "542667ddc3ff64152eb3768ab2355da913beaac5d0ee5171fcee48e276d3fdcf",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
     },
     {
       "path": "website/static/img/guide/ipad/ro/incomplete.png",
@@ -2300,20 +2107,6 @@
       "sha256": "63a2b46d6e252ea3e54bf8a445aa1684da8385826c5504597c24beb39fefff52"
     },
     {
-      "path": "website/static/img/guide/ipad/en/protect-certificate-light.png",
-      "dimensions": [
-        1488,
-        2266
-      ],
-      "originalSha256": "efc839fcff0733199375b6fc027332fecded19e3641370f4418e8aa9ea5614c7",
-      "originalTime": "15:47",
-      "time": "09:41",
-      "edited": false,
-      "sha256": "e9f240b4fb79a5592db5ecf5fc844126f7593a629265411f49dafbc8b367e9b6",
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/ipad/en/incomplete.png",
       "dimensions": [
         1488,
@@ -2622,20 +2415,6 @@
       "sha256": "9ecb4161baa9729bc2f69f8eb577b436e496ad33ffb05c72ec438be33ee644da"
     },
     {
-      "path": "website/static/img/guide/android-phone/ru/verify-unconfirmed.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "c5e7acf164fe62484f588511d438b067a5018ba3507e7dd08eaa8fb761483500",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "c5e7acf164fe62484f588511d438b067a5018ba3507e7dd08eaa8fb761483500",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/ru/details.png",
       "dimensions": [
         1080,
@@ -2718,20 +2497,6 @@
       "method": "Native simulator/emulator clock override to 09:41"
     },
     {
-      "path": "website/static/img/guide/android-phone/ru/certificate.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "3e2dd0b2fd7f73bd08c6b835b32d41d17c8be5005235d3c65bf8898a1be13541",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "3e2dd0b2fd7f73bd08c6b835b32d41d17c8be5005235d3c65bf8898a1be13541",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/ru/protect-decrypt-complete-light.png",
       "dimensions": [
         1080,
@@ -2755,34 +2520,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "c67b04c586981de4aa612d1a2f0f10a2642b85b816215d3dc4490f7dd306f4b7",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/original.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "47465917bf95bd50db1b0ff28288c64ee6adf2c20fa2796f4e6dcec813b323c9",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "47465917bf95bd50db1b0ff28288c64ee6adf2c20fa2796f4e6dcec813b323c9",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/protect-certificate-light.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "6bc6d287c69f682ff8c105370c43b0caeba55e668124b70adac6227460237cf2",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "6bc6d287c69f682ff8c105370c43b0caeba55e668124b70adac6227460237cf2",
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
@@ -3033,34 +2770,6 @@
       "sha256": "661353e51a7b30955d3178a33c76d754895a79d7d19d046aa8228c8875e7abcc"
     },
     {
-      "path": "website/static/img/guide/android-phone/ru/verify-invalid.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "e9892c3580e7421884a43a101df5ee3b37da2a283a842e51d40a98072561dbdd",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "e9892c3580e7421884a43a101df5ee3b37da2a283a842e51d40a98072561dbdd",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/verify-none.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "2c6e854fb149aa30e43a60e8db4719de6ccf626ff379bea31119815cf1305299",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "2c6e854fb149aa30e43a60e8db4719de6ccf626ff379bea31119815cf1305299",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/ru/protect-decrypt-light.png",
       "dimensions": [
         1080,
@@ -3073,33 +2782,6 @@
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/browser.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "5291d082ec4ae882798d840a1a7720ff4219577f9742c75c46cf814bb93037a4",
-      "originalTime": "13:23",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        47,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        164,
-        50
-      ],
-      "clockSize": [
-        114,
-        38
-      ],
-      "sha256": "ee36e50e48b7379f8c6631cb01466e964fbe609d1776bb6c7295609e14c6a43b"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/about.png",
@@ -3127,33 +2809,6 @@
         28
       ],
       "sha256": "77096154256c17b97bad69cf62d26d95d2eb366c3914e1629d19e8b84d04eb11"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/verify.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "b2f34080596b66abe2568b68bd939b7159924212bcd8d5a6a1ed2b29b6fc0176",
-      "originalTime": "13:23",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "5c02ce975c22e8c00d3dfcc0ea287d2fc591471ab4be4f2126c242e4bf292cc6"
     },
     {
       "path": "website/static/img/guide/android-phone/ru/bookmarks.png",
@@ -3264,20 +2919,6 @@
       "sha256": "1dc11d5cfb575f8a95d3febf6e2738649ae7cf922dce250bf5eaf9e68cb6b5ec"
     },
     {
-      "path": "website/static/img/guide/android-phone/ro/verify-unconfirmed.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "3d86937f8caf600390c73c659685a3146d78bfe053c14c5993008e2c228c4669",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "3d86937f8caf600390c73c659685a3146d78bfe053c14c5993008e2c228c4669",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/ro/details.png",
       "dimensions": [
         1080,
@@ -3360,20 +3001,6 @@
       "method": "Native simulator/emulator clock override to 09:41"
     },
     {
-      "path": "website/static/img/guide/android-phone/ro/certificate.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "eaf6965a4ea2f0de2454a78ff6ecf0262b0de07b084b351ee4f76a97542c1d62",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "eaf6965a4ea2f0de2454a78ff6ecf0262b0de07b084b351ee4f76a97542c1d62",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/ro/protect-decrypt-complete-light.png",
       "dimensions": [
         1080,
@@ -3397,34 +3024,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "3d8cce70c821c230809483e3f4db78117359c9e6ae5014655d556f880dc40256",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/original.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "9a81cb0c463459d04a1d8172865051e1c41a5ae28761262ed0f3cabb3545031c",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "9a81cb0c463459d04a1d8172865051e1c41a5ae28761262ed0f3cabb3545031c",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/protect-certificate-light.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "dec5f79e911950f73964024e6a213b7cf481cb1c8612bd269c61a3c73e73073a",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "dec5f79e911950f73964024e6a213b7cf481cb1c8612bd269c61a3c73e73073a",
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
@@ -3675,34 +3274,6 @@
       "sha256": "9e129d5f83c85a56d348bd5d6c2b31398e610665b4fa84ee23e46f939182b850"
     },
     {
-      "path": "website/static/img/guide/android-phone/ro/verify-invalid.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "b09bdd5c8ad5fdc7fe68462fd91404ca6ac044dc51dc35970e2900a689392946",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "b09bdd5c8ad5fdc7fe68462fd91404ca6ac044dc51dc35970e2900a689392946",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/verify-none.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "4d329890a353fef70351bb7e59710a1d3f74c67a1defb8628eca359b4594ac0b",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "4d329890a353fef70351bb7e59710a1d3f74c67a1defb8628eca359b4594ac0b",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/ro/protect-decrypt-light.png",
       "dimensions": [
         1080,
@@ -3715,33 +3286,6 @@
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/browser.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "ef7bb97f31eb474f4359c50ee363a56df67ed44915eb7f5352039ad4dc037251",
-      "originalTime": "13:20",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "3056c0d8146955407f34d480e880c985ea963a705d3134c1af8fe4fead3d6248"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/about.png",
@@ -3769,33 +3313,6 @@
         28
       ],
       "sha256": "7e4115ca827f4d8593fe5fbed8f348be6cf219834e9b3b97b75b28009da48705"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/verify.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "2a137ce1b13fd0f980092c8d5de31c715ad38a490680d1f6fccd23291c96233d",
-      "originalTime": "OCR unclear; reviewed native status bar",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "320fadac98b23b7f2a77e8049598b9cacbfd7594f5f347872ac37e206d40fb70"
     },
     {
       "path": "website/static/img/guide/android-phone/ro/bookmarks.png",
@@ -3906,20 +3423,6 @@
       "sha256": "38b088d2641b84d01cbc1f6b4f03cbf812a3e4360b677f44a003e4d182aa2235"
     },
     {
-      "path": "website/static/img/guide/android-phone/en/verify-unconfirmed.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "bbc12f1d5513d5facc6952f486835fa6564474be32fa980a48c9c6ac9339d015",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "bbc12f1d5513d5facc6952f486835fa6564474be32fa980a48c9c6ac9339d015",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/en/details.png",
       "dimensions": [
         1080,
@@ -4002,20 +3505,6 @@
       "method": "Native simulator/emulator clock override to 09:41"
     },
     {
-      "path": "website/static/img/guide/android-phone/en/certificate.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "37b80d0f0e012d9f41aa8a0d6bb87d0ff819a999b181e390335da0ca9dc176b8",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "37b80d0f0e012d9f41aa8a0d6bb87d0ff819a999b181e390335da0ca9dc176b8",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/en/protect-decrypt-complete-light.png",
       "dimensions": [
         1080,
@@ -4039,34 +3528,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "afa8021afae1a32d9856de1f53c7c7b799de8ede1ec2470e4abe6ad31eaccd0e",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/original.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "1c19b2b58832ef9de45fa0d232bd5f0a40da2e3e50d8797a2548f9d952d0c576",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "1c19b2b58832ef9de45fa0d232bd5f0a40da2e3e50d8797a2548f9d952d0c576",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/protect-certificate-light.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "98592a5b2149106bf79b9040ed90cdfb88e15525e3e6a54cde2d15653644d32d",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "98592a5b2149106bf79b9040ed90cdfb88e15525e3e6a54cde2d15653644d32d",
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
@@ -4317,34 +3778,6 @@
       "sha256": "89abd2c45a785a287792876f30c9901a2f4aef18f8220b8920d455ecee617d0e"
     },
     {
-      "path": "website/static/img/guide/android-phone/en/verify-invalid.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "c60edeccaba449e346c8fa52114201101dcb1156fa35078ff44c44f83b16cd25",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "c60edeccaba449e346c8fa52114201101dcb1156fa35078ff44c44f83b16cd25",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/verify-none.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "5bf22e313ece1ca6f46e66ac65326a198396b0d88283f9292f0e920ee65f94da",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "5bf22e313ece1ca6f46e66ac65326a198396b0d88283f9292f0e920ee65f94da",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-phone/en/protect-decrypt-light.png",
       "dimensions": [
         1080,
@@ -4357,33 +3790,6 @@
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/browser.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "c99d8417ae9982e7dbb2deafaa338e93cc46882e2a3d3f4455a3a9850f9fa307",
-      "originalTime": "OCR unclear; reviewed native status bar",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        51,
-        173,
-        85
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        86,
-        54
-      ],
-      "clockSize": [
-        84,
-        28
-      ],
-      "sha256": "605fb872fdb7fd13211dea22f4e6b3a949ef8ccd285ce82941ad1b9060f1ac78"
     },
     {
       "path": "website/static/img/guide/android-phone/en/about.png",
@@ -4411,33 +3817,6 @@
         28
       ],
       "sha256": "bcb91203338e7463b40429f55d95f8fc65f6f47c809504c2d65eb6b5f02c1c58"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/verify.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "f51c2ab2cca4269b8c93d8322908516dca74974f64a7db766621464c1246d00d",
-      "originalTime": "13:18",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        79,
-        48,
-        281,
-        91
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        167,
-        51
-      ],
-      "clockSize": [
-        111,
-        37
-      ],
-      "sha256": "40af5f6f792d58f91162a6565eef99243c9ee013f31e69297c39aa9b6a07857f"
     },
     {
       "path": "website/static/img/guide/android-phone/en/bookmarks.png",
@@ -4548,20 +3927,6 @@
       "sha256": "f926ad59d04a5cb76448ffe8fce124fcb86dcfd188a6745d0b364fd7a9abac97"
     },
     {
-      "path": "website/static/img/guide/android-tablet/ru/verify-unconfirmed.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "7ae91a4d30e9773246bb057325740777d8375411cf37e26bf3ebe1f1a6d681c0",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "7ae91a4d30e9773246bb057325740777d8375411cf37e26bf3ebe1f1a6d681c0",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ru/details.png",
       "dimensions": [
         1600,
@@ -4644,20 +4009,6 @@
       "method": "Native simulator/emulator clock override to 09:41"
     },
     {
-      "path": "website/static/img/guide/android-tablet/ru/certificate.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "74f49a6551138c9563069502995a0e8114fab8cd9bc6ca4b95a7c46e825e88f3",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "74f49a6551138c9563069502995a0e8114fab8cd9bc6ca4b95a7c46e825e88f3",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ru/protect-decrypt-complete-light.png",
       "dimensions": [
         1600,
@@ -4681,34 +4032,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "b5ef9b755470f2db358292cf6f7b52cb66e160fd3d79939e2670c8f5d5c05387",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/original.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "ce06736e1a7b5dd7d4077f6db8d83f0af84bd9820f3a9d53192860ca43cf9040",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "ce06736e1a7b5dd7d4077f6db8d83f0af84bd9820f3a9d53192860ca43cf9040",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/protect-certificate-light.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "6eeca7b01749f1f204cfe77c424a479d8514b639e2d6370c5819f5b4914856bf",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "6eeca7b01749f1f204cfe77c424a479d8514b639e2d6370c5819f5b4914856bf",
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
@@ -4959,34 +4282,6 @@
       "sha256": "f9d3d13b7b69219ceb746be7bac0b5a58ad47556707a90dfcd45c4b294b771db"
     },
     {
-      "path": "website/static/img/guide/android-tablet/ru/verify-invalid.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "44fbed2f14e3dafc2bcb2009d7d457b7590d482a5e48b08e522559693ad4eaf7",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "44fbed2f14e3dafc2bcb2009d7d457b7590d482a5e48b08e522559693ad4eaf7",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/verify-none.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "3c7eedc2f180a7b4c4bbef60eded69bb8ddc30e73fed36ffc145f688727291f4",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "3c7eedc2f180a7b4c4bbef60eded69bb8ddc30e73fed36ffc145f688727291f4",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ru/protect-decrypt-light.png",
       "dimensions": [
         1600,
@@ -4999,33 +4294,6 @@
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/browser.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "19663973630bb651fe2e4747ddc053eddc68952af9c9fc46898a82fa1bdff59f",
-      "originalTime": "13:27",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "f18b9ce39664e684d9f9e214ebe2fb12d3ac042ecaec2b8a2d49e886d436ece3"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/about.png",
@@ -5053,33 +4321,6 @@
         10
       ],
       "sha256": "bc068af5e6fd0ecade39e0888413b13960afef71cb399f282f1a1b8b35fbd9d5"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/verify.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "a597e49df187423a2601286b2475f1241d05d6837ae05a35c1ebbd8974bb5dab",
-      "originalTime": "13:27",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "9fc1113ae455857969e0550fd610b135c44f3d0f6aef6eb0ad87e9c923b45d1d"
     },
     {
       "path": "website/static/img/guide/android-tablet/ru/bookmarks.png",
@@ -5190,20 +4431,6 @@
       "sha256": "e41e75e8ff8db2d2b0cf004ad1708ff84f83202e374038ed63164cb851a14f69"
     },
     {
-      "path": "website/static/img/guide/android-tablet/ro/verify-unconfirmed.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "c947753d014aa63ca946739de6c8bd1132fde4503fddc876724ede59a8e0b7f4",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "c947753d014aa63ca946739de6c8bd1132fde4503fddc876724ede59a8e0b7f4",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ro/details.png",
       "dimensions": [
         1600,
@@ -5286,20 +4513,6 @@
       "method": "Native simulator/emulator clock override to 09:41"
     },
     {
-      "path": "website/static/img/guide/android-tablet/ro/certificate.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "a5775672360f5c31216008f51c28a01623e8eedbdaec683b9318660bed83cc85",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "a5775672360f5c31216008f51c28a01623e8eedbdaec683b9318660bed83cc85",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ro/protect-decrypt-complete-light.png",
       "dimensions": [
         1600,
@@ -5323,34 +4536,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "c17fea63a2b6c6bb44088700b36d40600148731064938e2da0e869b777872f43",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/original.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "1a514a0163326ddbbcd765cae0a3e1db74bcc9c0fd94b93ac12d53c878c0f5de",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "1a514a0163326ddbbcd765cae0a3e1db74bcc9c0fd94b93ac12d53c878c0f5de",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/protect-certificate-light.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "6d254657feb8ce73fba0a10751732840d53c0368d53f50b4debeb93b6d436a24",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "6d254657feb8ce73fba0a10751732840d53c0368d53f50b4debeb93b6d436a24",
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
@@ -5601,34 +4786,6 @@
       "sha256": "18b7a2c2e2c732241107f7fdda51bff46f50d44a1b02bfa05e99905d96fdd34e"
     },
     {
-      "path": "website/static/img/guide/android-tablet/ro/verify-invalid.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "5d08378b4084242e5195324dfc014ddd3246efa6604e453946cb119a602af61c",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "5d08378b4084242e5195324dfc014ddd3246efa6604e453946cb119a602af61c",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/verify-none.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "a86d9a11c34fa66823554e3103c5574087f5158150ab49c6100a96cc8dc35e70",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "a86d9a11c34fa66823554e3103c5574087f5158150ab49c6100a96cc8dc35e70",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ro/protect-decrypt-light.png",
       "dimensions": [
         1600,
@@ -5641,33 +4798,6 @@
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/browser.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "956ae97a1fa1dca4fb06031c5847fe746389443a8cfc3b54abe4b3cf571d4b83",
-      "originalTime": "13:26",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "e91131bc668fdd82657380de04b5b058273fbb4c8f16cd04bfa9ce4e97e5a41c"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/about.png",
@@ -5695,33 +4825,6 @@
         10
       ],
       "sha256": "221ea26545c1acb77157267d780f4964b526f1401f001c2301073e9b940d98d6"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/verify.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "e5a741de342ff266dc10dac45fe52969b8715c6632c812b9e633722261179598",
-      "originalTime": "13:25",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "4364a9bc26aa4afb7878f0d462a91cbb48eff9bd8dbbc850a0b362b3f2298c86"
     },
     {
       "path": "website/static/img/guide/android-tablet/ro/bookmarks.png",
@@ -5832,20 +4935,6 @@
       "sha256": "2a6f5a3aeda5be4c24bbaefc0646a1f4bf0e2c9c6168694e53f734ea6501256f"
     },
     {
-      "path": "website/static/img/guide/android-tablet/en/verify-unconfirmed.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "2ab7eddb8184f642ada9e687010a129d04736f3cde9f07b15a145acb91e62410",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "2ab7eddb8184f642ada9e687010a129d04736f3cde9f07b15a145acb91e62410",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/en/details.png",
       "dimensions": [
         1600,
@@ -5928,20 +5017,6 @@
       "method": "Native simulator/emulator clock override to 09:41"
     },
     {
-      "path": "website/static/img/guide/android-tablet/en/certificate.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "5e48e31c7770f90ff886fa0068343825490d0e8d4d33ed84f51cc61ede13a0e4",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "5e48e31c7770f90ff886fa0068343825490d0e8d4d33ed84f51cc61ede13a0e4",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/en/protect-decrypt-complete-light.png",
       "dimensions": [
         1600,
@@ -5965,34 +5040,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "8864cc1ff1ab57b4ba159fc769ef9cd212b666b239baf63bc20ee78ce753b610",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/original.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "e0b5a7cdb359c3397d267a47846af32729480398f16cb6da16c213a71bf11a19",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "e0b5a7cdb359c3397d267a47846af32729480398f16cb6da16c213a71bf11a19",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/protect-certificate-light.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "8a8a5bcffe9033c9e971c8a7ecac50d5a3057f226d23dfa0980ef5e2cffdf259",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "8a8a5bcffe9033c9e971c8a7ecac50d5a3057f226d23dfa0980ef5e2cffdf259",
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
@@ -6243,34 +5290,6 @@
       "sha256": "481c6faf39f798d11a723212444f308f2921e4ed21ce4a5fcbf69bde152e03c2"
     },
     {
-      "path": "website/static/img/guide/android-tablet/en/verify-invalid.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "e775a2acaadb26cc2ef0aa459c9527cefe8d408b241ea2112cf15ad7a1c99e1f",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "e775a2acaadb26cc2ef0aa459c9527cefe8d408b241ea2112cf15ad7a1c99e1f",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/verify-none.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "827bf528633d7d63d9b104a5c9e0bd395c090edea64bec3af98d84e09f57aa39",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "827bf528633d7d63d9b104a5c9e0bd395c090edea64bec3af98d84e09f57aa39",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
       "path": "website/static/img/guide/android-tablet/en/protect-decrypt-light.png",
       "dimensions": [
         1600,
@@ -6283,33 +5302,6 @@
       "edited": false,
       "refreshed": "2026-11-19",
       "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/browser.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "9906f0513b2d932e9034ed65cbb4e60b8444681593a088e6af066cfe34705171",
-      "originalTime": "13:25",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        96,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        63,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "8fcd7a6d03a8b9d0abb59228328ce406bf9decada4c167a57b742385fc41ecac"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/about.png",
@@ -6337,33 +5329,6 @@
         10
       ],
       "sha256": "4a9b456b93f5915233a40f618ec43c6f82b9c74a86580320853b76108ee48474"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/verify.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "cfd1885a9140a2aa7902884671141bef061c0790f770b5f28dcd299fdff1de0b",
-      "originalTime": "13:24",
-      "time": "09:41",
-      "edited": true,
-      "rectangle": [
-        57,
-        23,
-        97,
-        39
-      ],
-      "clockCrop": "website/scripts/screenshot-clocks/android.png",
-      "clockPosition": [
-        64,
-        26
-      ],
-      "clockSize": [
-        30,
-        10
-      ],
-      "sha256": "b94fb1b8c00c8fa05b7318a872e254fc97a4ae663d984311f80888c3cd6545cc"
     },
     {
       "path": "website/static/img/guide/android-tablet/en/bookmarks.png",
@@ -6420,44 +5385,6 @@
       "sha256": "52664e2c144b341f57bdfbbd7f5849915d1ce6ab8e44cfed90d8ba31b6533ee7"
     },
     {
-      "path": "website/static/img/guide/android-phone/en/verify-current.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "3145280152e6bdc5de2fef9741687c22a4eab79df362368a362523ab3296ff72",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "3145280152e6bdc5de2fef9741687c22a4eab79df362368a362523ab3296ff72",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/verify-technical.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "3f968a0b098dd9b489f0ef417f0cc27b20c2cd2c8fc802befb89b69f91231090",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "3f968a0b098dd9b489f0ef417f0cc27b20c2cd2c8fc802befb89b69f91231090",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-phone/en/protect-rsa-decrypt-light.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "496f2561abfa6ff808662b11dfca5fb63c59d2448860cb9c738b3f09b4c10597",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "496f2561abfa6ff808662b11dfca5fb63c59d2448860cb9c738b3f09b4c10597",
-      "edited": false
-    },
-    {
       "path": "website/static/img/guide/android-phone/en/cards-current.png",
       "dimensions": [
         1080,
@@ -6481,44 +5408,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "e53d0e796168786278c048603b76d6a12403e3e785cbb1fe875f71058d37570f",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/verify-current.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "ed510c55f0080675b6994a6bc375950b7133b9d6d5ee18156226e1cd2be2aa0e",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "ed510c55f0080675b6994a6bc375950b7133b9d6d5ee18156226e1cd2be2aa0e",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/verify-technical.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "b1cb0435772a5e704ebb4f3d20112b3680f433dcd31b844fa0d207e15bd1d1ed",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "b1cb0435772a5e704ebb4f3d20112b3680f433dcd31b844fa0d207e15bd1d1ed",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "7a2cfd3ad128309daa89e66b404fa268e00cf893a860ec86d8ddb7a11a9c2f5e",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "7a2cfd3ad128309daa89e66b404fa268e00cf893a860ec86d8ddb7a11a9c2f5e",
       "edited": false
     },
     {
@@ -6548,44 +5437,6 @@
       "edited": false
     },
     {
-      "path": "website/static/img/guide/android-phone/ru/verify-current.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "469d5965936fc1d2eebf20674bdada870ade845039d6d4271849461e24552337",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "469d5965936fc1d2eebf20674bdada870ade845039d6d4271849461e24552337",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/verify-technical.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "5cf59b0b18d02c13a7ee366f9bd54d219395a4e8065586c205ed5051765ae628",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "5cf59b0b18d02c13a7ee366f9bd54d219395a4e8065586c205ed5051765ae628",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
-      "dimensions": [
-        1080,
-        2400
-      ],
-      "originalSha256": "3fc745178adaf44cd9f9bbe86f1b07a6c37cdc4365fb1f531d7756e9f822ef7d",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "3fc745178adaf44cd9f9bbe86f1b07a6c37cdc4365fb1f531d7756e9f822ef7d",
-      "edited": false
-    },
-    {
       "path": "website/static/img/guide/android-phone/ru/cards-current.png",
       "dimensions": [
         1080,
@@ -6609,44 +5460,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "7801f0bcaa68a0f48f75d82b664b505093eca2f79a4d36d3318a49f0ebe73c37",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/verify-current.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "f1ef72249f03bdbeb1abe26edd48da51828578361b6aaef44fa0684b313cb083",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "f1ef72249f03bdbeb1abe26edd48da51828578361b6aaef44fa0684b313cb083",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/verify-technical.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "997886a33023355f34d8e0e8ddf3a6cfe047c11f21b2e9db5172dc55aa4fb1a7",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "997886a33023355f34d8e0e8ddf3a6cfe047c11f21b2e9db5172dc55aa4fb1a7",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "84baac11662ad663cc29f4ca559cd3492cc18efaf6e7f47336769962c57d1bfa",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "84baac11662ad663cc29f4ca559cd3492cc18efaf6e7f47336769962c57d1bfa",
       "edited": false
     },
     {
@@ -6676,44 +5489,6 @@
       "edited": false
     },
     {
-      "path": "website/static/img/guide/android-tablet/ro/verify-current.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "181dfacca4f9dac8056e2b9c49035417ccbe5a8755c902356886647e13e39cb0",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "181dfacca4f9dac8056e2b9c49035417ccbe5a8755c902356886647e13e39cb0",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/verify-technical.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "d42d83ad916b30271d0f420812cf9d0fb7c120065fea8a103eae950a59ee1870",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "d42d83ad916b30271d0f420812cf9d0fb7c120065fea8a103eae950a59ee1870",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "d91b440fec89c0efc2e65850ac2fd56e2cff926473701add3b9ed30decccb12f",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "d91b440fec89c0efc2e65850ac2fd56e2cff926473701add3b9ed30decccb12f",
-      "edited": false
-    },
-    {
       "path": "website/static/img/guide/android-tablet/ro/cards-current.png",
       "dimensions": [
         1600,
@@ -6737,44 +5512,6 @@
       "originalTime": "09:41",
       "time": "09:41",
       "sha256": "f2ce9876907805312c2ab91fdd6e89a681879948f5eedd4f2444f6ae99ec75ce",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/verify-current.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "c2fd633c09b235d1c0fcacbfafbf132470de377915fea69ee5e0016829e7b759",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "c2fd633c09b235d1c0fcacbfafbf132470de377915fea69ee5e0016829e7b759",
-      "edited": false,
-      "refreshed": "2026-11-19",
-      "method": "Native simulator/emulator clock override to 09:41"
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/verify-technical.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "dcafa906841079da857ef4358dd7f26926cfc1dcbc6f3a9f84525d68aa44ae70",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "dcafa906841079da857ef4358dd7f26926cfc1dcbc6f3a9f84525d68aa44ae70",
-      "edited": false
-    },
-    {
-      "path": "website/static/img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
-      "dimensions": [
-        1600,
-        1100
-      ],
-      "originalSha256": "c61a22d4e31d11c6397cae973366b987fb80a9907c27969ae4be5fe15565e739",
-      "originalTime": "09:41",
-      "time": "09:41",
-      "sha256": "c61a22d4e31d11c6397cae973366b987fb80a9907c27969ae4be5fe15565e739",
       "edited": false
     },
     {
@@ -6802,14 +5539,1241 @@
       "time": "09:41",
       "sha256": "df6348f2900446705906f2bbc2b2b5f0811deb1c73144fadec92d1fb4eb69205",
       "edited": false
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/details.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "462edff931c7636652db12a7eb3e5694e34099449c1ac89cdd94c4e8556dc2d0",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "462edff931c7636652db12a7eb3e5694e34099449c1ac89cdd94c4e8556dc2d0"
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-certificate-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "64ea0cf111633d009c458e4972c88dd9a7aaa1b5fbb7b4b3bbc9ec2087714f40",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "64ea0cf111633d009c458e4972c88dd9a7aaa1b5fbb7b4b3bbc9ec2087714f40"
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/protect-rsa-decrypt.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "b216036e4f9fd7c6d530938efe3f3557a0e0fd6d182dea5855a87a680d8f3d29",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "b216036e4f9fd7c6d530938efe3f3557a0e0fd6d182dea5855a87a680d8f3d29"
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/details.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "cb2fab7b6c25ea6628224626b5098b521be641a92b63d37d6f4e6965f54547c1",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "cb2fab7b6c25ea6628224626b5098b521be641a92b63d37d6f4e6965f54547c1"
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/protect-certificate-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "a0a0e80a8bbf1f5fb94e1ab094142a0cf8121e3f1edea2f0b6e2fd334322579b",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a0a0e80a8bbf1f5fb94e1ab094142a0cf8121e3f1edea2f0b6e2fd334322579b"
+    },
+    {
+      "path": "website/static/img/guide/ipad/en/protect-rsa-decrypt.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "c98fa3bb84282668dccf7090f70b616fe07dfe2240a1a336d69b8ad3a4e504ac",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "c98fa3bb84282668dccf7090f70b616fe07dfe2240a1a336d69b8ad3a4e504ac"
+    },
+    {
+      "path": "website/static/img/guide/iphone/en/settings.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "71ea5f4bfccb08505c67f277bf4fec9d093f2ee712632356904e87679b0cadf6",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "71ea5f4bfccb08505c67f277bf4fec9d093f2ee712632356904e87679b0cadf6"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/details.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "1502f3ed5279334a611e0dac758722e4b496e1ca236d5e5085accdec85827a8a",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "1502f3ed5279334a611e0dac758722e4b496e1ca236d5e5085accdec85827a8a"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-certificate-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "85566eddc9d22a02b3eec200769b0e7177bf2b785c9ada1732a9c5738567fae9",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "85566eddc9d22a02b3eec200769b0e7177bf2b785c9ada1732a9c5738567fae9"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/protect-rsa-decrypt.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "597ce005600a14e649b54ed8073f4c31b3ba0bf556b7cb4557a3fe813e9062ef",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "597ce005600a14e649b54ed8073f4c31b3ba0bf556b7cb4557a3fe813e9062ef"
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/details.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "a097052d22f096e925f24131a442ee10446135425a192a5c94a1a820ae49b0de",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a097052d22f096e925f24131a442ee10446135425a192a5c94a1a820ae49b0de"
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/protect-certificate-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "abfd4f62cd7fb5e7b12d41e11036e6e47f1a9fc8b4278d41f8c25432537dd514",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "abfd4f62cd7fb5e7b12d41e11036e6e47f1a9fc8b4278d41f8c25432537dd514"
+    },
+    {
+      "path": "website/static/img/guide/ipad/ro/protect-rsa-decrypt.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "8df068fb3636b3a86527f55fe74860a6ca2d58320c86770228cc387075de05c6",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "8df068fb3636b3a86527f55fe74860a6ca2d58320c86770228cc387075de05c6"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ro/settings.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "b11847abfe57597cf3bb48d1406938260fdb19192a82f31c574e3791b7d26c61",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "b11847abfe57597cf3bb48d1406938260fdb19192a82f31c574e3791b7d26c61"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/details.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "73b34b6c8e476c57b959807401353435eaa33a146279b9880e994db796fc82e7",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "73b34b6c8e476c57b959807401353435eaa33a146279b9880e994db796fc82e7"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-certificate-light.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "1e12756bf4c0519914fa8bf0966b5c50465d4d61affdcd786d8649dded8ab1af",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "1e12756bf4c0519914fa8bf0966b5c50465d4d61affdcd786d8649dded8ab1af"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/protect-rsa-decrypt.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "bc60a9babc3aa234ae96d4409d032c1e30a25ead23ecb9cab2b723927e0eeeec",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "bc60a9babc3aa234ae96d4409d032c1e30a25ead23ecb9cab2b723927e0eeeec"
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/details.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "ed0acdd0ecbe4467eda7204c9d417adb8030c65bfc8463286ada25b2cecac30b",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "ed0acdd0ecbe4467eda7204c9d417adb8030c65bfc8463286ada25b2cecac30b"
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/protect-certificate-light.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "1c68c777cf24700d7a8c28cc516c30d4f5dfe761beff367f7819583bdc810ff0",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "1c68c777cf24700d7a8c28cc516c30d4f5dfe761beff367f7819583bdc810ff0"
+    },
+    {
+      "path": "website/static/img/guide/ipad/ru/protect-rsa-decrypt.png",
+      "dimensions": [
+        1488,
+        2266
+      ],
+      "originalSha256": "e000bf26a905631e6e6a2db7a40a542247228720f4576ab45f0084b2b147e9b4",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "e000bf26a905631e6e6a2db7a40a542247228720f4576ab45f0084b2b147e9b4"
+    },
+    {
+      "path": "website/static/img/guide/iphone/ru/settings.png",
+      "dimensions": [
+        1206,
+        2622
+      ],
+      "originalSha256": "7817f38f9c6871fbe77e5a4211d6ceae1735c4c86915839bb8e5983ad1f32cfe",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "7817f38f9c6871fbe77e5a4211d6ceae1735c4c86915839bb8e5983ad1f32cfe"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "334c692eff692b16f57697ceb69c9cbd788174d4fca48f4660fddb371ca9309f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "334c692eff692b16f57697ceb69c9cbd788174d4fca48f4660fddb371ca9309f"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/certificate.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "3d54ab6f44d5e36ed67a4db0a6dd12cdabd871f1d99f10c62224c709deaad751",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "3d54ab6f44d5e36ed67a4db0a6dd12cdabd871f1d99f10c62224c709deaad751"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/original.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "349640f0ae55cb71c4a2c3590d50b453039204d5c2d39f87948572471653336f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "349640f0ae55cb71c4a2c3590d50b453039204d5c2d39f87948572471653336f"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-invalid.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "08a6ac729c78389d9d422676a01ffc39628ef8280a448e9500ce1c6cf63aa11a",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "08a6ac729c78389d9d422676a01ffc39628ef8280a448e9500ce1c6cf63aa11a"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-unconfirmed.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "08406e35a6e24def4fd4b8b0474d765e25d5c597b88d868096e2ae0a76d4a197",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "08406e35a6e24def4fd4b8b0474d765e25d5c597b88d868096e2ae0a76d4a197"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-none.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "8eee2a245932b0fdd3c80e5f583318a88b6f878f0af6ac47f60a12f3b12a8111",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "8eee2a245932b0fdd3c80e5f583318a88b6f878f0af6ac47f60a12f3b12a8111"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-technical.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "195d584e3b05d8bc921bbb8438f60c8e30451d2b9befae2dd0e62e66a77531c9",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "195d584e3b05d8bc921bbb8438f60c8e30451d2b9befae2dd0e62e66a77531c9"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/verify-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "99be997927b80262843e988ffa20cb60453d61d47c15762acbc35fcc7f0eaaa8",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "99be997927b80262843e988ffa20cb60453d61d47c15762acbc35fcc7f0eaaa8"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-certificate-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "5825aeeb8aaf8d03f6e21af9d593ba3ceb681823de695900a71f56ae01f63a13",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "5825aeeb8aaf8d03f6e21af9d593ba3ceb681823de695900a71f56ae01f63a13"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "79b1e42df07eb461fc5b2da4079b1898579b0e5460f5af968c3a02bf1cbf414c",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "79b1e42df07eb461fc5b2da4079b1898579b0e5460f5af968c3a02bf1cbf414c"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "932b9e5d8299a7a1a5aeebd3d105e337173f629b4eb9bce46b7c43615f27741f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "932b9e5d8299a7a1a5aeebd3d105e337173f629b4eb9bce46b7c43615f27741f"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/certificate.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "fa64e5bebeff3f252ce969a435e80a38d38db1660dd7233dd67265c931573476",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "fa64e5bebeff3f252ce969a435e80a38d38db1660dd7233dd67265c931573476"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/original.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "b099320efa26b4cb232b41e065568ac976bb67b6dadab0afcc2cf3f1f0925f80",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "b099320efa26b4cb232b41e065568ac976bb67b6dadab0afcc2cf3f1f0925f80"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-invalid.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "0662354dc0d0ad2d7995a0791bbf740f5145dc3cc01e77640ad3564eaf38f1f1",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "0662354dc0d0ad2d7995a0791bbf740f5145dc3cc01e77640ad3564eaf38f1f1"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-unconfirmed.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "a511a60dc3e9bcaed6e8d30d22f1c9be9b0c217b93cbcbbe7d0e3c896abad2a5",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a511a60dc3e9bcaed6e8d30d22f1c9be9b0c217b93cbcbbe7d0e3c896abad2a5"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-none.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "17c59327ea9b8ada05d8fb2bfd02d301157435c5ce8f270d77bcf25a03baf087",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "17c59327ea9b8ada05d8fb2bfd02d301157435c5ce8f270d77bcf25a03baf087"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-technical.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "62733195d4fa660e8a0ac0b5eba2091b7cf4ab6ec2d4a00aa5b7e0840d8d1d9f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "62733195d4fa660e8a0ac0b5eba2091b7cf4ab6ec2d4a00aa5b7e0840d8d1d9f"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/verify-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "890ca30dae8ba006e62aef0972db2b5f332e7946be13c231dce36a5e62a28083",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "890ca30dae8ba006e62aef0972db2b5f332e7946be13c231dce36a5e62a28083"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-certificate-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "f1f06bfad894bf7b1ce3d2ebd0d48bf561264b7386ec6666b86bc02b56225e5c",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "f1f06bfad894bf7b1ce3d2ebd0d48bf561264b7386ec6666b86bc02b56225e5c"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "0ed499c44102d10ffae30b5cb1958369f9f57a65d46ca293dd650235533ac166",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "0ed499c44102d10ffae30b5cb1958369f9f57a65d46ca293dd650235533ac166"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "7663b42da2e7790ee1e70cdaa8f90fe58459919aa1e3f568c1642bbee8bcebcf",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "7663b42da2e7790ee1e70cdaa8f90fe58459919aa1e3f568c1642bbee8bcebcf"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/certificate.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "4b5b19e6ee33d0267d88de1941fe6775dd36b38a34013419ead6ce6ba504866c",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "4b5b19e6ee33d0267d88de1941fe6775dd36b38a34013419ead6ce6ba504866c"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/original.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "f34c462ac61deac3f2a98d84eeeb411dcd6fa72fd3b055ef19a709b77029edfe",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "f34c462ac61deac3f2a98d84eeeb411dcd6fa72fd3b055ef19a709b77029edfe"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-invalid.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "2a55cbc2a026154333840e1793524923aa1389b190b4f6b4815f42cb412365b8",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "2a55cbc2a026154333840e1793524923aa1389b190b4f6b4815f42cb412365b8"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-unconfirmed.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "4adbb5c7d1c21b77dee8c5ae52ac4e2b89448058ea1971f84d7ad40db7309446",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "4adbb5c7d1c21b77dee8c5ae52ac4e2b89448058ea1971f84d7ad40db7309446"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-none.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "68de15c3f20038753ec89f26ccc9f9a420e744dcd67ec4fd77fb8d6e7dcf9d20",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "68de15c3f20038753ec89f26ccc9f9a420e744dcd67ec4fd77fb8d6e7dcf9d20"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-technical.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "0835b8e398b497ab2f7d906e87f5968ef2536dd65f381b40784e3a3eb753c061",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "0835b8e398b497ab2f7d906e87f5968ef2536dd65f381b40784e3a3eb753c061"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/verify-current.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "1d9d835e573e6862fc022a86bcb48c7f0ecf4816c7e7bf0d59828dad82e6164b",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "1d9d835e573e6862fc022a86bcb48c7f0ecf4816c7e7bf0d59828dad82e6164b"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-certificate-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "62a8f05ecea3515a166b22e6247d6ed77c7ff0e3235d40b4c901a7a8247387cc",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "62a8f05ecea3515a166b22e6247d6ed77c7ff0e3235d40b4c901a7a8247387cc"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "208eb4c1e047d221598b52eb52d25b6c39899df82d8ece9fdfe45102947e4984",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "208eb4c1e047d221598b52eb52d25b6c39899df82d8ece9fdfe45102947e4984"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "c0f4628f0beb8fcb4046b05205d642112d5ca46d2afa9697eb7f01729d07d5f0",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "c0f4628f0beb8fcb4046b05205d642112d5ca46d2afa9697eb7f01729d07d5f0"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/certificate.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "67124e7cc4cf7edade0c9cc06f6270242eabbdbda87359884b8e8c46a9ed2e40",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "67124e7cc4cf7edade0c9cc06f6270242eabbdbda87359884b8e8c46a9ed2e40"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/original.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "efdc64671c9152cfd82488dfcbe25b4b00335f6d9f83d8457626f54b3b27360f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "efdc64671c9152cfd82488dfcbe25b4b00335f6d9f83d8457626f54b3b27360f"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-invalid.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "12b1ac547a85f827a80c30f33bc68f7a87f4b77ab0f1e575dccf7e78e3874693",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "12b1ac547a85f827a80c30f33bc68f7a87f4b77ab0f1e575dccf7e78e3874693"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-unconfirmed.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "bec9ae7d793ec0d6e7a136e00a66b62da233abc976a19dc7086990352408fc1f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "bec9ae7d793ec0d6e7a136e00a66b62da233abc976a19dc7086990352408fc1f"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-none.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "7574baad577d370e1ea7133506e473a8b8303811438a1058d0afbe7230485a5e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "7574baad577d370e1ea7133506e473a8b8303811438a1058d0afbe7230485a5e"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-technical.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "3c179e0524ea9d1d962b948b2988b633e9c749ec7c3eba7a35b1f9aa9b12b081",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "3c179e0524ea9d1d962b948b2988b633e9c749ec7c3eba7a35b1f9aa9b12b081"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/verify-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "a1d4e79940dfebd5d6b3380dd188920627ff38a253d6a44a935a504bed8d5c66",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a1d4e79940dfebd5d6b3380dd188920627ff38a253d6a44a935a504bed8d5c66"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-certificate-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "b655dd598a7d095bbf51b048c5e9ef1756a66e5c94f8b540905a4e5cc3695420",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "b655dd598a7d095bbf51b048c5e9ef1756a66e5c94f8b540905a4e5cc3695420"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "dbdfb30c0fedab36f2071f61c468c08ab0154875ccd26459018482856698a128",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "dbdfb30c0fedab36f2071f61c468c08ab0154875ccd26459018482856698a128"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "f47213c65d18f3522c830d45b422073468532683d43d72fb213acf3d0f4f140e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "f47213c65d18f3522c830d45b422073468532683d43d72fb213acf3d0f4f140e"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/certificate.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "71ff4691bcddf5241cb4ea5cbcbc54786c3019345fd0f7cc588c2e55f639cf0e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "71ff4691bcddf5241cb4ea5cbcbc54786c3019345fd0f7cc588c2e55f639cf0e"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/original.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "3c8bf25c45a896a4ec5d70e05c42ac28d46ed7fbdabbb53b3471dcaf7c7d2b17",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "3c8bf25c45a896a4ec5d70e05c42ac28d46ed7fbdabbb53b3471dcaf7c7d2b17"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-invalid.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "3ceb9947a1edf89a44b95a46cd46c28353afc353853fba926703e221ba4706c8",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "3ceb9947a1edf89a44b95a46cd46c28353afc353853fba926703e221ba4706c8"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-unconfirmed.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "a85745f9ab2aea74079d3dc69a87ad7598ec9a6c205ed3dad15956d1c4f28a12",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a85745f9ab2aea74079d3dc69a87ad7598ec9a6c205ed3dad15956d1c4f28a12"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-none.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "b1cf69840c94323304f896dceedd2f1d42b74e7f9a8322300240ea43cbe214e0",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "b1cf69840c94323304f896dceedd2f1d42b74e7f9a8322300240ea43cbe214e0"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-technical.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "3ae3625eb1ef284b00725d293fdc6d1a791f6007c063f6e753b8c21b10a82db8",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "3ae3625eb1ef284b00725d293fdc6d1a791f6007c063f6e753b8c21b10a82db8"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/verify-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "2393c39ea1372bc38bc13648acfbebdf3f36f6106990da139336b29e27ac708d",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "2393c39ea1372bc38bc13648acfbebdf3f36f6106990da139336b29e27ac708d"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-certificate-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "9731167f92d665443d7244ddd331461f53428e36f768ef1d0a15ed7a5f3133ad",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "9731167f92d665443d7244ddd331461f53428e36f768ef1d0a15ed7a5f3133ad"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "85d0b1654aa01a8f9c2c2cfd3bc3e94bc02bdb23ea76a266de37682099fbdf0c",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "85d0b1654aa01a8f9c2c2cfd3bc3e94bc02bdb23ea76a266de37682099fbdf0c"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "41e2a3378365d51f5750cb6de7bb20adea1815864e8de5a3d4a76f7271064d5e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "41e2a3378365d51f5750cb6de7bb20adea1815864e8de5a3d4a76f7271064d5e"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/certificate.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "d5a03f0d90e3656947e10c6bdfb45298bccc18545a47120a16ca87210438f330",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "d5a03f0d90e3656947e10c6bdfb45298bccc18545a47120a16ca87210438f330"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/original.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "a06de0a4a9c81d9e184a13d16afb020d07f466fed1c9975a00a18a0e5cde3cca",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a06de0a4a9c81d9e184a13d16afb020d07f466fed1c9975a00a18a0e5cde3cca"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-invalid.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "a0660716387644ce8dd7a65e6c05226f6ebd501781a55cdca7abe404e2baea2f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "a0660716387644ce8dd7a65e6c05226f6ebd501781a55cdca7abe404e2baea2f"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-unconfirmed.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "864c4d7feb529801ccfee2e37ea7f82c4f73c5a2f57cc84d45d93cf3bdcf028d",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "864c4d7feb529801ccfee2e37ea7f82c4f73c5a2f57cc84d45d93cf3bdcf028d"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-none.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "068b0349086a31583c466dc8460142618fe63f8c97c947436ba75492e82e0b37",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "068b0349086a31583c466dc8460142618fe63f8c97c947436ba75492e82e0b37"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-technical.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "f03c25846d374b141612bf0ec8e2bf880f8099f8648cefdbed5cbb6f610b58c5",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "f03c25846d374b141612bf0ec8e2bf880f8099f8648cefdbed5cbb6f610b58c5"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/verify-current.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "5d3e0ce30951feffcbc83e545d9df6ae6413f9ecfddffdf06de9646ae8cf0501",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "5d3e0ce30951feffcbc83e545d9df6ae6413f9ecfddffdf06de9646ae8cf0501"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-certificate-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "79a132156813071c8d2f431d2e69efe9fa63927c63a2098a85b3dd66a1513285",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "79a132156813071c8d2f431d2e69efe9fa63927c63a2098a85b3dd66a1513285"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/protect-rsa-decrypt-light.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "29c61531ea0222147b619c9ab64cb3062a4eb764e6c1fb63a47681dd058e98d6",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "29c61531ea0222147b619c9ab64cb3062a4eb764e6c1fb63a47681dd058e98d6"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/browser.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "f6e29ef0fd279d3e0285fc27d92f61709c324a4558481190ab233d4b1dee0d7c",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "f6e29ef0fd279d3e0285fc27d92f61709c324a4558481190ab233d4b1dee0d7c"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/en/browser-authentication.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "64bf2ae6b5a9743c5aa53750d43a205b32d8300b8411fe94a6457148703ba3a7",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "64bf2ae6b5a9743c5aa53750d43a205b32d8300b8411fe94a6457148703ba3a7"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "f6604356a20db11e8f368caa611a2288a591762356bb620104bca03e76e8df3e",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "f6604356a20db11e8f368caa611a2288a591762356bb620104bca03e76e8df3e"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ro/browser-authentication.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "8dc10166e38a86394f427fc7bdc7a80d8985679d260ae364e15c91be8cec7672",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "8dc10166e38a86394f427fc7bdc7a80d8985679d260ae364e15c91be8cec7672"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "4518f2e2dbb012bd8ab0f90b0bcaaaeb93a234a378e055c5e2c4ffecbb955c5f",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "4518f2e2dbb012bd8ab0f90b0bcaaaeb93a234a378e055c5e2c4ffecbb955c5f"
+    },
+    {
+      "path": "website/static/img/guide/android-phone/ru/browser-authentication.png",
+      "dimensions": [
+        1080,
+        2400
+      ],
+      "originalSha256": "1ba264b27c909b0869a6f176845010a060cb007f712dc0974020144c5c4d6d62",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "1ba264b27c909b0869a6f176845010a060cb007f712dc0974020144c5c4d6d62"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "d67a56a58d20327541d425b11538f496e3e4772b170eb21f1d97b132efec6ab4",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "d67a56a58d20327541d425b11538f496e3e4772b170eb21f1d97b132efec6ab4"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/en/browser-authentication.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "92dd5ed8987dc28e4d25672e21ba6a08ffa3920d1b033e87ab861eea005d2500",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "92dd5ed8987dc28e4d25672e21ba6a08ffa3920d1b033e87ab861eea005d2500"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "e723065415bc193f6cbd5c47b67197e4f3e1697891d66a54da8fefcac12981a9",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "e723065415bc193f6cbd5c47b67197e4f3e1697891d66a54da8fefcac12981a9"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ro/browser-authentication.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "1d0d17f6a3a4fb265c26bebecef7eeb641389b3d04cf4466eaea88f743e35675",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "1d0d17f6a3a4fb265c26bebecef7eeb641389b3d04cf4466eaea88f743e35675"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "d5f2ce94bd4612bb07d13a5a454f77886905797507835cd8e6cecf316cec5ffc",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "d5f2ce94bd4612bb07d13a5a454f77886905797507835cd8e6cecf316cec5ffc"
+    },
+    {
+      "path": "website/static/img/guide/android-tablet/ru/browser-authentication.png",
+      "dimensions": [
+        1600,
+        1100
+      ],
+      "originalSha256": "135fba958119941aae59fb202fcfffb7f116f2b8a1c3992a737f7ca514d82660",
+      "originalTime": "09:41",
+      "time": "09:41",
+      "edited": false,
+      "method": "Native simulator status-bar override or Android 24-hour SystemUI demo clock",
+      "sha256": "135fba958119941aae59fb202fcfffb7f116f2b8a1c3992a737f7ca514d82660"
     }
   ],
   "withoutStatusClock": [
-    "website/static/img/guide/ipad/ru/details.png",
     "website/static/img/guide/ipad/ru/settings.png",
-    "website/static/img/guide/ipad/ro/details.png",
     "website/static/img/guide/ipad/ro/settings.png",
-    "website/static/img/guide/ipad/en/details.png",
-    "website/static/img/guide/ipad/en/settings.png"
+    "website/static/img/guide/ipad/en/settings.png",
+    "website/static/img/guide/iphone/en/browser-authentication.png",
+    "website/static/img/guide/linux/en/protect-certificate-light.png",
+    "website/static/img/guide/linux/en/protect-rsa-decrypt-light.png",
+    "website/static/img/guide/macos/en/protect-certificate-light.png",
+    "website/static/img/guide/macos/en/protect-rsa-decrypt.png",
+    "website/static/img/guide/iphone/ro/browser-authentication.png",
+    "website/static/img/guide/linux/ro/protect-certificate-light.png",
+    "website/static/img/guide/linux/ro/protect-rsa-decrypt-light.png",
+    "website/static/img/guide/macos/ro/protect-certificate-light.png",
+    "website/static/img/guide/macos/ro/protect-rsa-decrypt.png",
+    "website/static/img/guide/iphone/ru/browser-authentication.png",
+    "website/static/img/guide/linux/ru/protect-certificate-light.png",
+    "website/static/img/guide/linux/ru/protect-rsa-decrypt-light.png",
+    "website/static/img/guide/macos/ru/protect-certificate-light.png",
+    "website/static/img/guide/macos/ru/protect-rsa-decrypt.png",
+    "website/static/img/guide/windows/en/protect-certificate-light.png",
+    "website/static/img/guide/windows/en/protect-rsa-decrypt-light.png",
+    "website/static/img/guide/windows/ro/protect-certificate-light.png",
+    "website/static/img/guide/windows/ro/protect-rsa-decrypt-light.png",
+    "website/static/img/guide/windows/ru/protect-certificate-light.png",
+    "website/static/img/guide/windows/ru/protect-rsa-decrypt-light.png"
   ]
 }

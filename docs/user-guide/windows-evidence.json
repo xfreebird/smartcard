@@ -1342,5 +1342,15 @@
         "sha256": "4808b990a4bfc39a18a0901261d64a89afe5f92f61ee6b9a52689c31ffb0a0a9"
       }
     ]
-  }
+  },
+  "refreshes": [
+    {
+      "date": "2026-11-19",
+      "manifest": "ui-controls-refresh-2026-11-19.json",
+      "platforms": [
+        "windows"
+      ],
+      "assetCount": 6
+    }
+  ]
 }

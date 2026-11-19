@@ -138,26 +138,6 @@
       "sha256": "7570618a012633e8ce7e250c50fa8af239909d18ee643cced8d6dfd4676d0029"
     },
     {
-      "path": "website/static/img/guide/windows/en/protect-certificate-light.png",
-      "sourceDimensions": [
-        1100,
-        720
-      ],
-      "cropPixels": [
-        8,
-        1,
-        1092,
-        712
-      ],
-      "dimensions": [
-        1086,
-        893
-      ],
-      "originalSha256": "1b2b8965cfbcf73e3628b2c04402098d18652a4fb81b16e68688aeed12969cf8",
-      "sha256": "dd4656218b560790f5c7187926a0325161676b99d88d7057edbebfbfcad8e658",
-      "refreshed": "2026-11-19"
-    },
-    {
       "path": "website/static/img/guide/windows/en/protect-decrypt-light.png",
       "sourceDimensions": [
         1100,
@@ -486,26 +466,6 @@
       ],
       "originalSha256": "0ccee7adfcadb53cfae932a4de0033e2a752a04ef210282fb664e22f6685d95d",
       "sha256": "26cdbdfe2c63c463ee604fdbda8f264cf31659e6ca486a3cb2a6a2fe84977dd7"
-    },
-    {
-      "path": "website/static/img/guide/windows/ro/protect-certificate-light.png",
-      "sourceDimensions": [
-        1100,
-        720
-      ],
-      "cropPixels": [
-        8,
-        1,
-        1092,
-        712
-      ],
-      "dimensions": [
-        1086,
-        893
-      ],
-      "originalSha256": "e913b7f5bc4b6a9f142370aab65e4b0e364fafaaf2d8a8fb0bc89c6ef47be568",
-      "sha256": "f3ffcb606ef59c7665e3d69251a16f2f43143e0211992b36cbf134051f6af5be",
-      "refreshed": "2026-11-19"
     },
     {
       "path": "website/static/img/guide/windows/ro/protect-decrypt-light.png",
@@ -838,26 +798,6 @@
       "sha256": "56494b189d1dfe24ce1b58bb499ba8d5cb9ec007fb7e45addba664cedf39af10"
     },
     {
-      "path": "website/static/img/guide/windows/ru/protect-certificate-light.png",
-      "sourceDimensions": [
-        1100,
-        720
-      ],
-      "cropPixels": [
-        8,
-        1,
-        1092,
-        712
-      ],
-      "dimensions": [
-        1086,
-        893
-      ],
-      "originalSha256": "1fd8eb5628a070d556ec93b0dc362ed443e194377f6a604e94b761e8fc67c710",
-      "sha256": "c49f1345bed28ea3382bca42e1066fc1f85caf2a3457351e4c95fec0019499eb",
-      "refreshed": "2026-11-19"
-    },
-    {
       "path": "website/static/img/guide/windows/ru/protect-decrypt-light.png",
       "sourceDimensions": [
         1100,
@@ -1051,6 +991,120 @@
       ],
       "originalSha256": "f41b5199b596b003dd480467838b0d4d6ce7d17efe9f4e1790dcb48fff2235a4",
       "sha256": "5dcc927922f030a12cfc71a1b3ce09900446811d1e065a8721ff673cb1edc3e7"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-certificate-light.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sourceSha256": "8a26f20c28eae5fa0afe51dbe13274c85260073c9e0b44e6d07f3e5412be8545",
+      "sha256": "1a86d9029b34b41335d099ac4ee1e977dfab1705fe11b54b93b4c87c80ec5081"
+    },
+    {
+      "path": "website/static/img/guide/windows/en/protect-rsa-decrypt-light.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sourceSha256": "0cdd24eb73d00008c8922961c30202d3c4871bed62da415ac7bab74f09fc7050",
+      "sha256": "9910c9d7543dcc0304b973cf2e1a72647f168ce85e42de87afb12c676d346d88"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-certificate-light.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sourceSha256": "e70f48ad9ed97cb6425088ec207977958683cd629483eb81b07ed838113d54f5",
+      "sha256": "6fa6f72cd3bbf4d3702c50f68b595efada844ef69fd9927393017ee3e9121888"
+    },
+    {
+      "path": "website/static/img/guide/windows/ro/protect-rsa-decrypt-light.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sourceSha256": "11d429c567e5517dab39206d2eeb50db240c1b6d93f2c40759f05efbb14f2ddc",
+      "sha256": "1c08e787c37f08d23e7f0521ac549ebe8d26477084f52e0ac66eb6f567d3d6ae"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-certificate-light.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sourceSha256": "9329f38c91769f8fbc451385e0fe4d2fe0096ce00e0b74fdc38287987506cfe7",
+      "sha256": "43fba358797481178e6b63b4d20fc21b808ada01054468bec68a4152cb9a0d45"
+    },
+    {
+      "path": "website/static/img/guide/windows/ru/protect-rsa-decrypt-light.png",
+      "sourceDimensions": [
+        1100,
+        900
+      ],
+      "cropPixels": [
+        8,
+        8,
+        1092,
+        892
+      ],
+      "dimensions": [
+        1084,
+        884
+      ],
+      "sourceSha256": "b63f90f90711ac51bfd4c589d9573b40847320407d2601e53d8ea8d3ae9fb1c6",
+      "sha256": "179c4e132998b7a5cbc97e901239fece8c0d586e340bc33cce649899af8b2dc5"
     }
   ]
 }

@@ -909,5 +909,15 @@
         "sha256": "b99ac9bb6d726d209fa663df759da0b4a7c2430cceee8cfe0e5eb9c83dfc47fb"
       }
     ]
-  }
+  },
+  "refreshes": [
+    {
+      "date": "2026-11-19",
+      "manifest": "ui-controls-refresh-2026-11-19.json",
+      "platforms": [
+        "linux"
+      ],
+      "assetCount": 6
+    }
+  ]
 }

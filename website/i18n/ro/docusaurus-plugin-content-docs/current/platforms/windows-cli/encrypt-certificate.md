@@ -16,7 +16,7 @@ Criptează pentru titularul unui certificat
 
 ## Criptează pentru titularul unui certificat
 
-Cartea de identitate moldovenească nu oferă cheia de criptare necesară acestor comenzi pentru certificat/card. Folosește criptarea cu parolă pentru acest card. Comenzile CLI pentru certificate rămân disponibile pentru certificate și dispozitive de criptare compatibile; un certificat doar pentru semnare nu este potrivit.
+Implicit, comenzile pentru certificat/card folosesc un certificat de criptare. Adaugă `--card-public-key` doar pentru fluxul explicit de compatibilitate cu cheia publică a cardului. Criptarea sau exportul reușit al certificatului nu dovedesc suportul pentru decriptare: cardul corespunzător trebuie să permită operația necesară cu cheia privată.
 
 Cere destinatarului certificatul public de criptare (.cer/.der), exportat conform ghidului următor. Confirmă amprenta cu titularul printr-un canal de încredere. Un certificat doar pentru semnare nu este suficient. Pentru criptare ai nevoie de certificatul public, nu de cardul, cheia privată sau PIN-ul destinatarului.
 

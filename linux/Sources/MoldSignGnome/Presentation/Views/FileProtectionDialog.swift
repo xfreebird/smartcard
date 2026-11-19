@@ -167,7 +167,8 @@ final class FileProtectionDialog {
         onSignal(save,"clicked") { [weak self] in self?.saveOutput() }
         if controller.isDemo, let preview {
             operation = preview.operation
-            certificateMode = false
+            certificateMode = preview.recipient
+            gtk_check_button_set_active(preview.recipient ? rsaMethod.cast() : passwordMethod.cast(), 1)
             gtk_label_set_text(fileLabel.opaque, preview.filename)
         }
         if let initialSource, FileManager.default.fileExists(atPath: initialSource.path) {

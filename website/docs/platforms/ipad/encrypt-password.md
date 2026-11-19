@@ -20,13 +20,13 @@ In **Documents**, choose **Protect files** in the toolbar. When space is limited
 
 No card is needed. Create a password for this file and send it to the recipient through a separate trusted channel. This is not your card PIN. Encryption creates a separate output; keep the original until you have checked the result.
 
-In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). The Moldovan ID signing certificate cannot decrypt these files.
+In version 0.2.13, choose **Password** and select AES-128, AES-192 or AES-256. AES-256 is the default. To encrypt for a recipient, choose **RSA certificate** and select their public encryption certificate (.cer or .der). By default, use a certificate intended for encryption. **Card public key compatibility** explicitly allows the card’s public RSA key. Exporting it or encrypting a file does not prove that the card can decrypt; the matching card must support the required private-key operation.
 
 <GuideScreenshot src="/img/guide/ipad/en/documents-protection-light.png" alt="Open More (…) and choose Protect files." steps={[{"text": "Open More (…) and choose Protect files.", "x": 72, "y": 15}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/protect-password-light.png" alt="Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt." steps={[{"text": "Select the source file and Password. Choose the AES key size, enter and confirm a password, then choose Encrypt.", "x": 79, "y": 57}]} />
 
-<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 34, "y": 62}]} />
+<GuideScreenshot src="/img/guide/ipad/en/protect-certificate-light.png" alt="Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN." steps={[{"text": "Choose RSA certificate, then select the recipient’s public encryption certificate. Encryption does not require the recipient’s PIN.", "x": 32.0, "y": 66.6}, {"text": "Use Card public key compatibility only when the workflow requires the card’s public RSA key.", "x": 30.1, "y": 57.5}]} />
 
 <GuideScreenshot src="/img/guide/ipad/en/protect-complete-light.png" alt="The result is saved in Documents. Choose Save a copy to export it, or Done to return." steps={[{"text": "The result is saved in Documents. Choose Save a copy to export it, or Done to return.", "x": 50, "y": 62}]} />
 

@@ -22,6 +22,8 @@ For a password-encrypted file, obtain the password from the sender through a sep
 
 <GuideScreenshot src="/img/guide/linux/en/protect-decrypt-light.png" alt="Decrypt a received file" steps={[{"text": "Choose the encrypted file. Its contents determine the decryption method.", "x": 50, "y": 29}, {"text": "For a password-encrypted file, enter the password supplied by the sender.", "x": 30, "y": 61}, {"text": "Choose Decrypt and save the result in a new file.", "x": 50, "y": 91}]} />
 
+<GuideScreenshot src="/img/guide/linux/en/protect-rsa-decrypt-light.png" alt="For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN." steps={[{"text": "For an RSA file, connect the recipient’s card and reader and choose Read my card. Authorize with that card’s PIN.", "x": 49.7, "y": 60.7}]} />
+
 Open and check the saved output before relying on it. MoldSign-compatible encryption does not authenticate file contents: successful decryption alone does not prove integrity or the correct password.
 
 Choose **Encrypt** or **Decrypt**, then **Save a copy** and select a new output location. After saving, the file appears in **Documents → Saved documents**. Use the close button in the window header when finished. The original is kept.
