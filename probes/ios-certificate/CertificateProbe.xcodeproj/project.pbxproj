@@ -1,0 +1,347 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		16AA77792BA547778730A63A /* PublicCardReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D821F563C8F0BFAB6C72D2E5 /* PublicCardReader.swift */; };
+		7FA8451E30CCEF0BEA2B113A /* DecipherProbeLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16ED651AE8E7AC0B6BA34350 /* DecipherProbeLock.swift */; };
+		91036DB6AE14CC8DB0036C89 /* CertificateProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665A92FFB779DCD617DE9581 /* CertificateProbe.swift */; };
+		94C31191B6C6FC1D0CDA5AAA /* ReadOnlyProbeTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9073AA7897C5FF12586C3B /* ReadOnlyProbeTransport.swift */; };
+		BD088CA7C95CC342C87D4DAA /* MoldSignKit in Frameworks */ = {isa = PBXBuildFile; productRef = 76FAFA870EA8FC77B0EAC3F5 /* MoldSignKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		067EFA9A67033AF443AD57FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		16ED651AE8E7AC0B6BA34350 /* DecipherProbeLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecipherProbeLock.swift; sourceTree = "<group>"; };
+		665A92FFB779DCD617DE9581 /* CertificateProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CertificateProbe.swift; sourceTree = "<group>"; };
+		8ACFAF352C1B045BDE229382 /* CertificateProbe.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CertificateProbe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D821F563C8F0BFAB6C72D2E5 /* PublicCardReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicCardReader.swift; sourceTree = "<group>"; };
+		E5CDFBE15192C93546696423 /* MoldSignKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = MoldSignKit; path = ../../swift/MoldSignKit; sourceTree = SOURCE_ROOT; };
+		ED9073AA7897C5FF12586C3B /* ReadOnlyProbeTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadOnlyProbeTransport.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		00025C0E54140108568CA03B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD088CA7C95CC342C87D4DAA /* MoldSignKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AE24A7AE67FA5B8DD000A371 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8ACFAF352C1B045BDE229382 /* CertificateProbe.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C0E847B0F66BF81E9820E8E7 = {
+			isa = PBXGroup;
+			children = (
+				CF4408B91CFA5DAF9E8F8D8B /* CertificateProbe */,
+				EB10871D45A922E3C7DA5EE1 /* Packages */,
+				AE24A7AE67FA5B8DD000A371 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CF4408B91CFA5DAF9E8F8D8B /* CertificateProbe */ = {
+			isa = PBXGroup;
+			children = (
+				665A92FFB779DCD617DE9581 /* CertificateProbe.swift */,
+				16ED651AE8E7AC0B6BA34350 /* DecipherProbeLock.swift */,
+				067EFA9A67033AF443AD57FB /* Info.plist */,
+				D821F563C8F0BFAB6C72D2E5 /* PublicCardReader.swift */,
+				ED9073AA7897C5FF12586C3B /* ReadOnlyProbeTransport.swift */,
+			);
+			path = CertificateProbe;
+			sourceTree = "<group>";
+		};
+		EB10871D45A922E3C7DA5EE1 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				E5CDFBE15192C93546696423 /* MoldSignKit */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		43AD936BEC7BEE351EB63DE2 /* CertificateProbe */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0F7C69B6396F2456E1FD7540 /* Build configuration list for PBXNativeTarget "CertificateProbe" */;
+			buildPhases = (
+				B91BF17A27869D167861F9D2 /* Sources */,
+				00025C0E54140108568CA03B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CertificateProbe;
+			packageProductDependencies = (
+				76FAFA870EA8FC77B0EAC3F5 /* MoldSignKit */,
+			);
+			productName = CertificateProbe;
+			productReference = 8ACFAF352C1B045BDE229382 /* CertificateProbe.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3476958E92577B56458A6B3A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					43AD936BEC7BEE351EB63DE2 = {
+						DevelopmentTeam = H86U5Z8HYB;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = FCBB88F0BD3B127A8BF539CA /* Build configuration list for PBXProject "CertificateProbe" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = C0E847B0F66BF81E9820E8E7;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2AAB37C99274CC18327A8BE5 /* XCLocalSwiftPackageReference "../../swift/MoldSignKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = AE24A7AE67FA5B8DD000A371 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				43AD936BEC7BEE351EB63DE2 /* CertificateProbe */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B91BF17A27869D167861F9D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91036DB6AE14CC8DB0036C89 /* CertificateProbe.swift in Sources */,
+				7FA8451E30CCEF0BEA2B113A /* DecipherProbeLock.swift in Sources */,
+				16AA77792BA547778730A63A /* PublicCardReader.swift in Sources */,
+				94C31191B6C6FC1D0CDA5AAA /* ReadOnlyProbeTransport.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		01590E7B0566C4FAB96C1AB1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = H86U5Z8HYB;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.certificateprobe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7622016CF647E68A765F9E02 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CertificateProbe/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A4FB51B9DC655AD458089DCE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = CertificateProbe/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		E562513948D686019DA91753 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = H86U5Z8HYB;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = md.esemnbun.certificateprobe;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0F7C69B6396F2456E1FD7540 /* Build configuration list for PBXNativeTarget "CertificateProbe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7622016CF647E68A765F9E02 /* Debug */,
+				A4FB51B9DC655AD458089DCE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FCBB88F0BD3B127A8BF539CA /* Build configuration list for PBXProject "CertificateProbe" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01590E7B0566C4FAB96C1AB1 /* Debug */,
+				E562513948D686019DA91753 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		2AAB37C99274CC18327A8BE5 /* XCLocalSwiftPackageReference "../../swift/MoldSignKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../swift/MoldSignKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		76FAFA870EA8FC77B0EAC3F5 /* MoldSignKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MoldSignKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 3476958E92577B56458A6B3A /* Project object */;
+}

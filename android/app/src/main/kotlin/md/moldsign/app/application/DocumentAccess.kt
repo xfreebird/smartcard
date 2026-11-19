@@ -14,4 +14,5 @@ interface DocumentAccess {
     fun copyToCache(uri: Uri): Uri?
     fun delete(uri: Uri): Boolean = false
     fun copy(source: Uri, target: Uri): Boolean
+    fun writeBytes(target: Uri, bytes: ByteArray): Boolean = false
 }

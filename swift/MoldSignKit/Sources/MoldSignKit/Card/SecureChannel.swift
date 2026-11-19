@@ -111,7 +111,9 @@ struct SecureChannel {
             guard outer != Data([0x90, 0]) else { throw CardError.macVerificationFailed }
             return (Data(), outer)
         }
-        guard outer == Data([0x90, 0]) else { throw CardError.cardNotResponding }
+        // Contact cards may mirror a warning/error outside the protected response
+        // (6282 for a short EOF read, 6B00 past EOF). Authenticate the body first;
+        // any non-success outer status must agree with authenticated DO99 below.
         let body = Data(response.dropLast(2))
         var parts: [DER.Element] = []
         var offset = 0
@@ -132,6 +134,10 @@ struct SecureChannel {
         var difference: UInt8 = 0
         for (a, b) in zip(expected, actual) { difference |= a ^ b }
         guard difference == 0 else { throw CardError.macVerificationFailed }
+        let authenticatedStatus = body.subdata(in: status.content)
+        guard outer == Data([0x90, 0]) || authenticatedStatus == outer else {
+            throw CardError.macVerificationFailed
+        }
         var result = Data()
         if let encrypted = parts.first, encrypted.tag == 0x87 || encrypted.tag == 0x85 {
             let content = body.subdata(in: encrypted.content)
@@ -146,7 +152,7 @@ struct SecureChannel {
             plain.removeLast()
             result = Data(plain)
         }
-        return (result, body.subdata(in: status.content))
+        return (result, authenticatedStatus)
     }
 
     private func buildTLV(_ tag: UInt8, _ content: Data) -> Data {

@@ -1,0 +1,33 @@
+name: CertificateProbe
+options:
+  deploymentTarget:
+    iOS: '17.0'
+packages:
+  MoldSign:
+    path: ../../swift/MoldSignKit
+settings:
+  base:
+    SWIFT_VERSION: '5.0'
+    DEVELOPMENT_TEAM: H86U5Z8HYB
+    CODE_SIGN_STYLE: Automatic
+    PRODUCT_BUNDLE_IDENTIFIER: md.esemnbun.certificateprobe
+    TARGETED_DEVICE_FAMILY: '1,2'
+targets:
+  CertificateProbe:
+    type: application
+    platform: iOS
+    sources: [CertificateProbe]
+    dependencies:
+      - package: MoldSign
+        product: MoldSignKit
+    settings:
+      base:
+        INFOPLIST_FILE: CertificateProbe/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+schemes:
+  CertificateProbe:
+    build:
+      targets:
+        CertificateProbe: all
+    run:
+      config: Debug

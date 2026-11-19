@@ -9,8 +9,10 @@ public sealed class CardEncryptionIdentity
     public byte[] Certificate => _certificate.ToArray();
     public string Label => Key.Label;
     public string Fingerprint { get; }
-    internal CardEncryptionIdentity(EncryptionKey key,byte[] certificate) {
-        Key=key;_certificate=certificate.ToArray();Fingerprint=Convert.ToHexString(SHA256.HashData(certificate));
+    public CertificateRecipientPolicy RecipientPolicy { get; }
+    internal CardEncryptionIdentity(EncryptionKey key,byte[] certificate,
+        CertificateRecipientPolicy policy = CertificateRecipientPolicy.EncryptionCertificate) {
+        Key=key;_certificate=certificate.ToArray();Fingerprint=Convert.ToHexString(SHA256.HashData(certificate));RecipientPolicy=policy;
     }
 }
 internal sealed record EncryptionKey(string Id,string Label,int Reference,int ModulusBytes,int Minimum,int Maximum,int CertificateFile);
@@ -66,7 +68,8 @@ internal static class EncryptionDirectory
             var path=certType?.Children.FirstOrDefault();
             if(certType?.Tag!=0x30 || path?.Tag!=0x30 || path.Children.Count!=1 || path.Children[0].Tag!=4 || path.Children[0].Content.Length!=2) continue;
             var pinRecord=Match(pins,auth);var pin=pinRecord==null ? null : First(pinRecord.Children,0xa1)?.Children.FirstOrDefault()?.Children;
-            if(pin==null || pin.Count<4 || pin[0].Tag!=3 || pin[0].Content.Length<2 || (pin[0].Content[1]&7)!=0 || pin[1].Tag!=10 || pin[1].Integer()!=1 || pin[2].Tag!=2 || pin[3].Tag!=2 || First(pin,0x80)?.Integer()!=3) continue;
+            // Numeric input has identical bytes in ASCII-numeric (1) and UTF-8 (2).
+            if(pin==null || pin.Count<4 || pin[0].Tag!=3 || pin[0].Content.Length<2 || (pin[0].Content[1]&7)!=0 || pin[1].Tag!=10 || pin[1].Integer() is not (1 or 2) || pin[2].Tag!=2 || pin[3].Tag!=2 || First(pin,0x80)?.Integer()!=3) continue;
             var minimum=pin[2].Integer();var maximum=First(pin.Skip(4),2)?.Integer() ?? pin[3].Integer();
             if(minimum<4 || maximum<minimum || maximum>8) continue;
             var file=path.Children[0].Content;
@@ -77,12 +80,15 @@ internal static class EncryptionDirectory
 }
 public static class CardFileProtection
 {
-    public static IReadOnlyList<CardEncryptionIdentity> Identities(CosmoXCard card) {
+    public static IReadOnlyList<CardEncryptionIdentity> Identities(CosmoXCard card,
+        CertificateRecipientPolicy policy = CertificateRecipientPolicy.EncryptionCertificate) {
         var auth=Read(card,0x7001);var keys=Read(card,0x7002);var certs=Read(card,0x7005);List<CardEncryptionIdentity> result=[];
         foreach(var key in EncryptionDirectory.Keys(keys,certs,auth)) {
             using var cert=X509CertificateLoader.LoadCertificate(Read(card,key.CertificateFile));using var rsa=cert.GetRSAPublicKey();
-            if(rsa==null || (rsa.KeySize+7)/8!=key.ModulusBytes || cert.Extensions.OfType<X509KeyUsageExtension>().SingleOrDefault()?.KeyUsages.HasFlag(X509KeyUsageFlags.KeyEncipherment)!=true) continue;
-            result.Add(new(key,cert.RawData));
+            if(rsa==null || (rsa.KeySize+7)/8!=key.ModulusBytes) continue;
+            try { CertificateFileProtection.ValidateRecipient(cert,policy); }
+            catch(CryptographicException) { continue; }
+            result.Add(new(key,cert.RawData,policy));
         }
         return result;
     }
@@ -90,13 +96,13 @@ public static class CardFileProtection
         using var cert=X509CertificateLoader.LoadCertificate(identity.Certificate);
         return CertificateFileProtection.Decrypt(envelope,cert,wrapped=>{
             if(wrapped.Length!=identity.Key.ModulusBytes) throw new CryptographicException("Invalid wrapped key length.");
-            if(!Identities(card).Any(current=>current.Fingerprint==identity.Fingerprint && current.Key==identity.Key)) throw new CardException(CardErrorKind.CardChanged,"The selected encryption identity changed.");
+            if(!Identities(card,identity.RecipientPolicy).Any(current=>current.Fingerprint==identity.Fingerprint && current.Key==identity.Key && current.RecipientPolicy==identity.RecipientPolicy)) throw new CardException(CardErrorKind.CardChanged,"The selected encryption identity changed.");
             if(pin.Length<identity.Key.Minimum || pin.Length>identity.Key.Maximum || pin.Any(c=>c is <'0' or >'9')) throw new CardException(CardErrorKind.InvalidPinFormat,"Invalid PIN length or encoding.");
             card.SelectMF();card.SelectGenericAdf();card.VerifyPin(pin);
             CosmoXCard.CheckSw(card.SmTransmit([0,0x22,0x41,0xb8,6,0x80,1,0x1a,0x84,1,(byte)(identity.Key.Reference|0x80)]));
             byte[] payload=[0x81,..wrapped];var response=card.SmTransmit([0,0x2a,0x80,0x86,0,(byte)(payload.Length>>8),(byte)payload.Length,..payload,0,0]);
             CosmoXCard.CheckSw(response);if(response.Data.Length!=16) throw new CryptographicException("Invalid unwrapped key.");return response.Data;
-        });
+        },identity.RecipientPolicy);
     }
     private static byte[] Read(CosmoXCard card,int file) {
         card.SelectMF();card.SelectGenericAdf();CosmoXCard.CheckSw(card.SmTransmit([0,0xa4,2,4,2,(byte)(file>>8),(byte)file,0]));

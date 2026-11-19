@@ -113,6 +113,8 @@ public sealed class CosmoXCard
             if (raw.Data.Length == 0)
             {
                 channel.IncrementSsc();
+                if (raw.StatusWord == 0x9000)
+                    throw new CardException(CardErrorKind.SmOutOfSync,"Unauthenticated secure response.");
                 response = new ApduResponse([], raw.Sw);
             }
             else
@@ -139,19 +141,25 @@ public sealed class CosmoXCard
         // 1. SELECT IAS AID
         CheckSw(TransmitFull([0x00, 0xA4, 0x04, 0x00, (byte)IasAid.Length, .. IasAid, 0x00]), "SELECT IAS AID");
 
-        // 2. SELECT MF. The Swift reference re-checks step 1's SW here, i.e. never checks this one;
-        //    keep it unchecked so card behavior stays identical.
-        TransmitFull([0x00, 0xA4, 0x00, 0x0C, 0x02, 0x3F, 0x00, 0x00]);
+        byte[] Checked(byte[] command,int? length=null)
+        {
+            var response=TransmitFull(command);
+            CheckSw(response,"Mutual authentication setup");
+            if(length is { } expected && response.Data.Length!=expected)
+                throw new CardException(CardErrorKind.CardNotResponding,"Unexpected authentication data length.");
+            return response.Data;
+        }
+        // 2. SELECT MF.
+        Checked([0x00, 0xA4, 0x00, 0x0C, 0x02, 0x3F, 0x00, 0x00]);
 
         // 3. Serial (EF D003): skip the 2-byte tag/length, keep 16 ASCII bytes.
-        TransmitFull([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x03, 0x00]);
-        var serial = TransmitFull([0x00, 0xB0, 0x00, 0x00, 0x00]).Data;
-        SerialNumber = serial.Skip(2).Take(16).ToArray();
+        Checked([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x03, 0x00]);
+        // Read exactly 18 bytes, skipping two without assuming their value.
+        SerialNumber = Checked([0x00, 0xB0, 0x00, 0x00, 0x12],18)[2..];
 
         // 4. Seed (EF D004): first 16 bytes.
-        TransmitFull([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x04, 0x00]);
-        var seed = TransmitFull([0x00, 0xB0, 0x00, 0x00, 0x10]).Data;
-        RandomSeed = seed.Take(16).ToArray();
+        Checked([0x00, 0xA4, 0x02, 0x04, 0x02, 0xD0, 0x04, 0x00]);
+        RandomSeed = Checked([0x00, 0xB0, 0x00, 0x00, 0x10],16);
         _trace?.Invoke("Card serial/seed read");
 
         // 5. Admin keys
@@ -162,8 +170,7 @@ public sealed class CosmoXCard
             CheckSw(TransmitFull(MseSetSmApdu.ToArray()), "MSE SET (SM)");
 
             // 7. GET CHALLENGE
-            var challenge = TransmitFull([0x00, 0x84, 0x00, 0x00, 0x10]).Data;
-            var rndIcc = challenge.Take(16).ToArray();
+            var rndIcc = Checked([0x00, 0x84, 0x00, 0x00, 0x10],16);
 
             // 8. EXTERNAL AUTHENTICATE
             var snIcc = SerialNumber.Length > 8 ? SerialNumber[^8..] : SerialNumber;

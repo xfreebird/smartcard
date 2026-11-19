@@ -380,7 +380,7 @@ eSemnBun</string>
   <string name="protect_read_card">Citește cardul meu</string>
   <string name="protect_recipient">Destinatar</string>
   <string name="protect_card_pin">PIN-ul cardului</string>
-  <string name="protect_no_key">Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.</string>
+  <string name="protect_no_key">Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.</string>
   <string name="protect_original">Fișierul original rămâne neschimbat.</string>
   <string name="protect_compatibility">Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.</string>
   <string name="protect_ready">Gata de salvat</string>
@@ -502,4 +502,7 @@ eSemnBun</string>
   <string name="protect_key_size">Dimensiunea cheii AES</string>
   <string name="protect_rsa_recipient">Certificat RSA</string>
   <string name="protect_detect_algorithm">Algoritmul de decriptare este indicat în fișier.</string>
+  <string name="protect_card_public_key">Compatibilitate cu cheia publică a cardului</string>
+  <string name="protect_card_public_key_help">Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.</string>
+  <string name="protect_export_public_certificate">Exportă certificatul public</string>
 </resources>

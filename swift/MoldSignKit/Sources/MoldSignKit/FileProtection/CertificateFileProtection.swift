@@ -4,6 +4,14 @@ import Security
 #endif
 import CPCSC
 
+public enum CertificateRecipientPolicy: Equatable, Sendable {
+    /// X.509 key-encipherment usage is required.
+    case encryptionCertificate
+    /// Explicit compatibility mode: use the certificate as a public RSA key container.
+    /// This makes no assertion that its issuer approved it for encryption.
+    case cardPublicKey
+}
+
 /// CMS EnvelopedData interoperability with MoldSign Desktop.
 public enum CertificateFileProtection {
     public static let suffix = ".asymmetric.p7m"
@@ -14,14 +22,14 @@ public enum CertificateFileProtection {
     private static func w(_ tag: UInt8, _ content: Data) -> Data { ProtectionASN1.wrap(tag, content) }
 
     /// Validate the recipient's key usage, RSA algorithm and supported modulus size before accepting the selection.
-    public static func validateRecipient(_ certificate: Data) throws {
-        _ = try recipientIdentity(certificate)
+    public static func validateRecipient(_ certificate: Data, policy: CertificateRecipientPolicy = .encryptionCertificate) throws {
+        _ = try recipientIdentity(certificate, policy: policy)
         _ = try modulusBytes(certificate)
     }
 
-    public static func encrypt(_ plaintext: Data, certificate: Data) throws -> Data {
+    public static func encrypt(_ plaintext: Data, certificate: Data, policy: CertificateRecipientPolicy = .encryptionCertificate) throws -> Data {
         guard plaintext.count <= PasswordFileProtection.maximumSize else { throw FileProtectionError.tooLarge }
-        let identity = try recipientIdentity(certificate)
+        let identity = try recipientIdentity(certificate, policy: policy)
         var key = PasswordFileProtection.random(16)
         defer { key.resetBytes(in: 0..<key.count) }
         let iv = PasswordFileProtection.random(16)
@@ -32,8 +40,9 @@ public enum CertificateFileProtection {
     }
     /// The callback must require consent and unwrap with the matching encryption key.
     /// It is called only after envelope structure, algorithm and recipient checks.
-    public static func decrypt(_ envelope: Data, certificate: Data, unwrap: (Data) throws -> Data) throws -> Data {
-        let identity = try recipientIdentity(certificate)
+    public static func decrypt(_ envelope: Data, certificate: Data, policy: CertificateRecipientPolicy = .encryptionCertificate,
+                               unwrap: (Data) throws -> Data) throws -> Data {
+        let identity = try recipientIdentity(certificate, policy: policy)
         let root = try ProtectionASN1.parse(envelope)
         let outer = try root.require(0x30)
         let body: [ProtectionASN1]
@@ -72,24 +81,26 @@ public enum CertificateFileProtection {
         guard key.count == 16 else { throw FileProtectionError.cannotDecrypt }
         return try PasswordFileProtection.crypt(encrypted, key: key, iv: algorithm[1].content, encrypt: false)
     }
-    static func recipientIdentity(_ certificate: Data) throws -> Data {
+    static func recipientIdentity(_ certificate: Data, policy: CertificateRecipientPolicy = .encryptionCertificate) throws -> Data {
         guard certificate.count <= 64 * 1024 else { throw FileProtectionError.invalidFormat }
         let cert = try ProtectionASN1.parse(certificate).require(0x30, count: 3)
         let tbs = try cert[0].require(0x30)
         let offset = tbs.first?.tag == 0xa0 ? 1 : 0
         guard tbs.count >= offset + 6, tbs[offset].tag == 2, tbs[offset+2].tag == 0x30 else { throw FileProtectionError.invalidFormat }
-        // Reject signing-only certificates before asking for a PIN or encrypting data.
-        guard let extensions = tbs.first(where: { $0.tag == 0xa3 }), extensions.children.count == 1 else { throw FileProtectionError.invalidFormat }
-        var allowed = false
-        for ext in try extensions.children[0].require(0x30) {
-            let fields = try ext.require(0x30)
-            if fields.first?.tag == 6, fields.first?.content == Data(hex: "551d0f"),
-               let value = fields.last, value.tag == 4 {
-                let usage = try ProtectionASN1.parse(value.content)
-                allowed = usage.tag == 3 && usage.content.count >= 2 && usage.content[1] & 0x20 != 0
+        // Compatibility uses only the key container; default certificate policy stays strict.
+        if policy == .encryptionCertificate {
+            guard let extensions = tbs.first(where: { $0.tag == 0xa3 }), extensions.children.count == 1 else { throw FileProtectionError.invalidFormat }
+            var allowed = false
+            for ext in try extensions.children[0].require(0x30) {
+                let fields = try ext.require(0x30)
+                if fields.first?.tag == 6, fields.first?.content == Data(hex: "551d0f"),
+                   let value = fields.last, value.tag == 4 {
+                    let usage = try ProtectionASN1.parse(value.content)
+                    allowed = usage.tag == 3 && usage.content.count >= 2 && usage.content[1] & 0x20 != 0
+                }
             }
+            guard allowed else { throw FileProtectionError.invalidFormat }
         }
-        guard allowed else { throw FileProtectionError.invalidFormat }
         return w(0x30, tbs[offset+2].encoded + tbs[offset].encoded)
     }
     static func modulusBytes(_ certificate: Data) throws -> Int {

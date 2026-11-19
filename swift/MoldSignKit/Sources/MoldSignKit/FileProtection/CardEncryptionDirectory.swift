@@ -55,7 +55,9 @@ struct CardEncryptionDirectory {
                   pinType.tag == 0x30, pinType.children.count >= 4 else { continue }
             let pin = pinType.children
             guard pin[0].tag == 3, pin[0].content.count >= 2, pin[0].content[1] & 0x07 == 0, pin[1].tag == 10,
-                  (try? pin[1].positiveInteger()) == 1, // ASCII numeric; no guessed encoding/padding
+                  // Numeric PINs have identical bytes in ASCII-numeric and UTF-8.
+                  // Callers still restrict input to digits; other encodings stay unavailable.
+                  [1,2].contains((try? pin[1].positiveInteger()) ?? -1),
                   pin[2].tag == 2, let minimum = try? pin[2].positiveInteger(),
                   pin[3].tag == 2, let stored = try? pin[3].positiveInteger(),
                   let ref = pin.first(where: { $0.tag == 0x80 }),

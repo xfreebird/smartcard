@@ -126,94 +126,81 @@ public sealed class SecureChannel
     /// <exception cref="CardException"><see cref="CardErrorKind.SmOutOfSync"/> on MAC mismatch.</exception>
     public ApduResponse Unwrap(ReadOnlySpan<byte> response)
     {
-        if (response.Length <= 2) return new ApduResponse([], response.ToArray());
-
-        var swFromTail = response[^2..].ToArray();
+        static CardException Invalid() => new(CardErrorKind.SmOutOfSync,"Malformed or unauthenticated secure response.");
+        if (response.Length < 2) throw Invalid();
+        if (response.Length == 2)
+        {
+            if (response[0] == 0x90 && response[1] == 0) throw Invalid();
+            return new ApduResponse([],response.ToArray()); // SmTransmit advances SSC for bare errors.
+        }
+        var outer = response[^2..];
         var body = response[..^2];
-
         var ssc1 = IncrementSsc();
-        using var macInput = new MemoryStream();
-        macInput.Write(ssc1);
-
-        byte[]? encrypted = null;
-        byte[] resultSw = [];
-        byte[] respMac = [];
-
+        byte[]? encrypted = null, status = null, mac = null;
         var pos = 0;
+        var macStart = 0;
         while (pos < body.Length)
         {
-            if (pos + 1 >= body.Length) break;
-            var tag = body[pos];
-            var l1 = body[pos + 1];
-            int len, hdrLen;
-            if (l1 < 0x80)
+            var start = pos;
+            if (pos + 2 > body.Length || mac != null) throw Invalid();
+            var tag = body[pos++];
+            int length = body[pos++];
+            if (length >= 128)
             {
-                len = l1;
-                hdrLen = 2;
+                var count = length & 127;
+                if (count is < 1 or > 2 || pos + count > body.Length || body[pos] == 0) throw Invalid();
+                length = 0;
+                for (var i = 0; i < count; i++) length = length * 256 + body[pos++];
+                if (length < 128 || (count == 2 && length < 256)) throw Invalid();
             }
-            else if (l1 == 0x81 && pos + 2 < body.Length)
-            {
-                len = body[pos + 2];
-                hdrLen = 3;
-            }
-            else if (l1 == 0x82 && pos + 3 < body.Length)
-            {
-                len = (body[pos + 2] << 8) | body[pos + 3];
-                hdrLen = 4;
-            }
-            else
-            {
-                break;
-            }
-
-            var contentEnd = pos + hdrLen + len;
-            if (contentEnd > body.Length) break;
-            var content = body.Slice(pos + hdrLen, len);
-            var fullTlv = body[pos..contentEnd];
-
+            if (length > body.Length - pos) throw Invalid();
+            var value = body.Slice(pos,length);
+            pos += length;
             switch (tag)
             {
                 case 0x87:
-                    macInput.Write(fullTlv);
-                    encrypted = (content.Length > 1 ? content[1..] : content).ToArray();
-                    break;
                 case 0x85:
-                    macInput.Write(fullTlv);
-                    encrypted = content.ToArray();
+                    if (encrypted != null || status != null) throw Invalid();
+                    if (tag == 0x87)
+                    {
+                        if (value.Length < 2 || value[0] != 1) throw Invalid();
+                        value = value[1..];
+                    }
+                    if (value.IsEmpty || value.Length % AesPrimitives.BlockSize != 0) throw Invalid();
+                    encrypted = value.ToArray();
                     break;
                 case 0x99:
-                    macInput.Write(fullTlv);
-                    resultSw = content.ToArray();
+                    if (status != null || length != 2) throw Invalid();
+                    status = value.ToArray();
                     break;
-                case 0x8E:
-                    respMac = content.ToArray();
+                case 0x8e:
+                    if (status == null || length != 8 || pos != body.Length) throw Invalid();
+                    mac = value.ToArray(); macStart = start;
                     break;
+                default: throw Invalid();
             }
-
-            pos = contentEnd;
         }
-
-        // Like the Swift reference, the MAC is only checked when the card sent one.
-        // TODO(WIN-01): reject MAC-less SM responses once the Swift reference does (behavior change lands in Swift first).
-        if (respMac.Length > 0)
+        if (status == null || mac == null) throw Invalid();
+        using var macInput = new MemoryStream();
+        macInput.Write(ssc1); macInput.Write(body[..macStart]);
+        var expected = Cmac.Compute(_sessMac,Iso9797.Pad(macInput.ToArray())).AsSpan(0,8);
+        if (!CryptographicOperations.FixedTimeEquals(expected,mac)) throw Invalid();
+        // Some cards mirror EOF/error status outside the authenticated body.
+        if (!(outer[0] == 0x90 && outer[1] == 0) && !outer.SequenceEqual(status)) throw Invalid();
+        byte[] plain = [];
+        if (encrypted != null)
         {
-            var expected = Cmac.Compute(_sessMac, Iso9797.Pad(macInput.ToArray())).AsSpan(0, 8);
-            if (!CryptographicOperations.FixedTimeEquals(expected, respMac))
-                throw new CardException(CardErrorKind.SmOutOfSync, "Secure messaging MAC verification failed");
+            var padded = AesPrimitives.DecryptCbc(_sessEnc,AesPrimitives.EncryptEcb(_sessEnc,ssc1),encrypted);
+            try
+            {
+                var end = padded.Length;
+                while (end > 0 && padded[end-1] == 0) end--;
+                if (end == 0 || padded[end-1] != 0x80) throw Invalid();
+                plain = padded.AsSpan(0,end-1).ToArray();
+            }
+            finally { CryptographicOperations.ZeroMemory(padded); }
         }
-
-        byte[] data = [];
-        if (encrypted is not null)
-        {
-            if (encrypted.Length % AesPrimitives.BlockSize != 0)
-                throw new CardException(CardErrorKind.UnexpectedResponse,
-                    $"SM cryptogram length {encrypted.Length} is not a multiple of 16");
-            var iv = AesPrimitives.EncryptEcb(_sessEnc, ssc1);
-            data = AesPrimitives.DecryptCbc(_sessEnc, iv, encrypted);
-            if (data.Length > 0) data = Iso9797.Unpad(data);
-        }
-
-        return new ApduResponse(data, resultSw.Length > 0 ? resultSw : swFromTail);
+        return new ApduResponse(plain,status);
     }
 
     internal static byte[] BuildTlv(byte tag, ReadOnlySpan<byte> content)

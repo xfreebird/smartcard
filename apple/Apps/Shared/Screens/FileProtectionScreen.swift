@@ -22,8 +22,11 @@ struct FileProtectionScreen: View {
     @State private var identities: [CardEncryptionIdentity] = []
     @State private var identity: CardEncryptionIdentity?
     @State private var identityReader: String?
+    @State private var identitySigningCertificate: Data?
     @State private var pin = ""
     @State private var importingCertificate = false
+    @State private var exportingCertificate = false
+    @State private var cardPublicKeyCompatibility = false
     @State private var importing = false
     @State private var confirmRemoval = false
     @State private var busy = false
@@ -33,6 +36,9 @@ struct FileProtectionScreen: View {
 
     private var activeMethod: ProtectionMethod? {
         operation == 0 ? method : (inspectedFile == input ? detected : nil)
+    }
+    private var recipientPolicy: CertificateRecipientPolicy {
+        cardPublicKeyCompatibility ? .cardPublicKey : .encryptionCertificate
     }
 
     private var action: FileProtectionOperation? {
@@ -44,7 +50,9 @@ struct FileProtectionScreen: View {
             if operation == 1 { return .decrypt }
             return password == confirmation ? .encryptPassword(algorithm) : nil
         case .recipient:
-            if operation == 0 { return certificate.map(FileProtectionOperation.encryptCertificate) }
+            if operation == 0 {
+                return certificate.map { cardPublicKeyCompatibility ? .encryptCardPublicKey($0) : .encryptCertificate($0) }
+            }
             guard let identity, let identityReader, identityReader == model.selectedCard?.reader,
                   !pin.isEmpty else { return nil }
             return .decryptCertificate(reader: identityReader, identity: identity)
@@ -107,7 +115,7 @@ struct FileProtectionScreen: View {
                             if let activeMethod {
                                 Section {
                                     DisclosureGroup(L10n.text(.protect_help)) {
-                                        Text(L10n.text(activeMethod == .recipient
+                                        Text(L10n.text(activeMethod == .recipient && cardPublicKeyCompatibility ? .protect_card_public_key_help : activeMethod == .recipient
                                                        ? (operation == 0 ? .protect_certificate_encrypt_help : .protect_certificate_decrypt_help)
                                                        : (operation == 0 ? .protect_password_encrypt_help : .protect_password_decrypt_help)))
                                         Text(L10n.text(.protect_compatibility)).font(.caption).foregroundStyle(.secondary)
@@ -164,8 +172,7 @@ struct FileProtectionScreen: View {
                         let access = url.startAccessingSecurityScopedResource()
                         defer { if access { url.stopAccessingSecurityScopedResource() } }
                         let bytes = try ProtectedFileIO.read(url)
-                        // Reject signing-only and non-RSA certificates at selection.
-                        try CertificateFileProtection.validateRecipient(bytes)
+                        try CertificateFileProtection.validateRecipient(bytes, policy: recipientPolicy)
                         certificate = bytes
                         certificateName = url.lastPathComponent
                     } else {
@@ -175,14 +182,28 @@ struct FileProtectionScreen: View {
                 return
             } catch { showError() }
             }
+            .fileExporter(isPresented: $exportingCertificate,
+                          document: identity.map { PublicCertificateExport(data: $0.certificate) },
+                          contentType: PublicCertificateExport.certificateType,
+                          defaultFilename: identity.map { "certificate-\($0.fingerprint).cer" } ?? "certificate.cer") { result in
+                if case .failure(let error) = result, (error as? CocoaError)?.code != .userCancelled { showError() }
+            }
             .confirmationDialog(L10n.text(.protect_remove_confirm), isPresented: $confirmRemoval, titleVisibility: .visible) {
                 Button(L10n.text(.protect_remove), role: .destructive) { process() }
             } message: { Text((input?.lastPathComponent ?? "") + "\n\n" + L10n.text(.protect_removal_warning)) }
             .onChange(of: operation) { _, _ in clearCredentials(); clearRecipient(); notice = nil }
             .onChange(of: method) { _, _ in clearCredentials(); notice = nil }
+            .onChange(of: cardPublicKeyCompatibility) { _, _ in clearCredentials(); clearRecipient(); notice = nil }
             .onChange(of: input) { _, _ in clearCredentials() }
             .onChange(of: model.selectedCard) { _, _ in
-                if identityReader != nil { clearRecipient() }
+                guard let reader = identityReader else { return }
+                // A CTK session can transiently remove/recreate a monitored slot.
+                // Keep public data through that transition; PIN admission still
+                // requires a present matching reader and fresh core revalidation.
+                guard let current = model.selectedCard else { pin = ""; return }
+                if current.reader != reader ||
+                    (identitySigningCertificate != nil && current.certificate != nil &&
+                     current.certificate?.der != identitySigningCertificate) { clearRecipient() }
             }
             .task(id: operation == 1 ? input : nil) { await detectMethod() }
             .onChange(of: scenePhase) { _, phase in if phase != .active { clearCredentials() } }
@@ -236,8 +257,15 @@ struct FileProtectionScreen: View {
     }
 
     @ViewBuilder private var recipientFields: some View {
-        Text(L10n.text(operation == 0 ? .protect_certificate_encrypt_guide : .protect_certificate_decrypt_guide))
-            .font(.callout).foregroundStyle(.secondary)
+        Toggle(L10n.text(.protect_card_public_key), isOn: $cardPublicKeyCompatibility)
+            .accessibilityIdentifier("protect.cardPublicKey")
+        if cardPublicKeyCompatibility {
+            Text(L10n.text(.protect_card_public_key_help)).font(.callout).foregroundStyle(.secondary)
+        }
+        if !cardPublicKeyCompatibility {
+            Text(L10n.text(operation == 0 ? .protect_certificate_encrypt_guide : .protect_certificate_decrypt_guide))
+                .font(.callout).foregroundStyle(.secondary)
+        }
         if operation == 0 {
             Button { importingCertificate = true; importing = true } label: {
                 Label(L10n.text(.protect_choose_certificate), systemImage: "person.text.rectangle")
@@ -256,6 +284,12 @@ struct FileProtectionScreen: View {
             }
         } else if !certificateName.isEmpty {
             LabeledContent(L10n.text(.protect_recipient), value: certificateName)
+        }
+        if identity != nil {
+            Button { exportingCertificate = true } label: {
+                Label(L10n.text(cardPublicKeyCompatibility ? .protect_export_public_certificate : .protect_export_certificate), systemImage: "square.and.arrow.up")
+            }.accessibilityIdentifier("protect.exportCertificate")
+            Text(L10n.text(.protect_export_certificate_hint)).font(.caption).foregroundStyle(.secondary)
         }
         if operation == 1, identity != nil {
             credentialField(.protect_card_pin) {
@@ -276,6 +310,7 @@ struct FileProtectionScreen: View {
 
     private func clearRecipient() {
         identityReader = nil
+        identitySigningCertificate = nil
         identities = []
         select(nil)
     }
@@ -311,6 +346,9 @@ struct FileProtectionScreen: View {
     private func readCard() {
         guard !busy, !model.demoMode, let card = model.selectedCard else { return }
         let reader = card.reader
+        let policy = recipientPolicy
+        let expectedSigningCertificate = card.certificate?.der
+        let preferredReader = model.selectedReaderName
         clearRecipient()
         notice = nil
         busy = true
@@ -319,11 +357,18 @@ struct FileProtectionScreen: View {
             defer { busy = false }
             do {
                 let found = try await Task.detached {
-                    try service.withCard(reader: reader) { try $0.encryptionIdentities() }
+                    try service.withCard(reader: reader) { try $0.encryptionIdentities(policy: policy) }
                 }.value
-                guard model.selectedCard == card else { return }
+                guard model.selectedReaderName == preferredReader else { return }
+                if let current = model.selectedCard {
+                    guard current.reader == reader else { return }
+                    if let expectedSigningCertificate, let currentCertificate = current.certificate?.der {
+                        guard currentCertificate == expectedSigningCertificate else { return }
+                    }
+                }
                 guard let first = found.first else { notice = .protect_no_key; isError = true; return }
                 identityReader = reader
+                identitySigningCertificate = expectedSigningCertificate ?? model.selectedCard?.certificate?.der
                 identities = found
                 select(first)
             } catch { showError() }

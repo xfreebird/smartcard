@@ -34,5 +34,23 @@ final class CertificateFileProtectionTests: XCTestCase {
             XCTAssertThrowsError(try ProtectionASN1.parse(Data(bytes)))
         }
     }
+    func testSharedSigningOnlyFixtureRequiresExplicitCompatibility() throws {
+        let certificate=try Data(contentsOf:fixtures.appendingPathComponent("test-signing-only.der"))
+        let other=try Data(contentsOf:fixtures.appendingPathComponent("test-recipient.der"))
+        let keyInfo=try ProtectionASN1.parse(Data(contentsOf:fixtures.appendingPathComponent("test-private-key.pk8")))
+        let attributes:[CFString:Any]=[kSecAttrKeyType:kSecAttrKeyTypeRSA,kSecAttrKeyClass:kSecAttrKeyClassPrivate]
+        let key=try XCTUnwrap(SecKeyCreateWithData(keyInfo.children[2].content as CFData,attributes as CFDictionary,nil))
+        let plain=Data([0,1,0x80,0,255])
+        XCTAssertThrowsError(try CertificateFileProtection.validateRecipient(certificate))
+        XCTAssertThrowsError(try CertificateFileProtection.encrypt(plain,certificate:certificate))
+        let envelope=try CertificateFileProtection.encrypt(plain,certificate:certificate,policy:.cardPublicKey)
+        var calls=0
+        let unwrap:(Data)throws->Data={wrapped in calls += 1;return try XCTUnwrap(SecKeyCreateDecryptedData(key,.rsaEncryptionPKCS1,wrapped as CFData,nil)) as Data}
+        XCTAssertThrowsError(try CertificateFileProtection.decrypt(envelope,certificate:certificate,unwrap:unwrap))
+        XCTAssertThrowsError(try CertificateFileProtection.decrypt(envelope,certificate:other,policy:.cardPublicKey,unwrap:unwrap))
+        XCTAssertEqual(calls,0)
+        XCTAssertEqual(try CertificateFileProtection.decrypt(envelope,certificate:certificate,policy:.cardPublicKey,unwrap:unwrap),plain)
+        XCTAssertEqual(calls,1)
+    }
 }
 #endif

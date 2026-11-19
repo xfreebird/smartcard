@@ -46,8 +46,9 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
     /// <summary>"progress: stream&lt;Step&gt;".</summary>
     public event EventHandler<SigningStep>? Progress;
 
-    public IReadOnlyList<Protection.CardEncryptionIdentity> EncryptionIdentities(string? reader = null) =>
-        WithCard(reader, Protection.CardFileProtection.Identities);
+    public IReadOnlyList<Protection.CardEncryptionIdentity> EncryptionIdentities(string? reader = null,
+        Protection.CertificateRecipientPolicy policy = Protection.CertificateRecipientPolicy.EncryptionCertificate) =>
+        WithCard(reader, card => Protection.CardFileProtection.Identities(card,policy));
     public byte[] DecryptFile(byte[] envelope, Protection.CardEncryptionIdentity identity, string pin, string? reader = null) =>
         WithCard(reader, card => Protection.CardFileProtection.Decrypt(card,envelope,identity,pin));
 

@@ -9617,22 +9617,22 @@
     },
     "protect_no_key": {
       "localizations": {
-        "ro": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere."
-          }
-        },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No supported encryption key found. Signing-only keys cannot decrypt files."
+            "value": "No compatible RSA decryption key and certificate were found on this card."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA."
           }
         },
         "ru": {
           "stringUnit": {
             "state": "translated",
-            "value": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+            "value": "На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA."
           }
         }
       }
@@ -12163,6 +12163,72 @@
           "stringUnit": {
             "state": "translated",
             "value": "Алгоритм расшифрования указан в файле."
+          }
+        }
+      }
+    },
+    "protect_card_public_key": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Card public key compatibility"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Compatibilitate cu cheia publică a cardului"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Совместимость с открытым ключом карты"
+          }
+        }
+      }
+    },
+    "protect_card_public_key_help": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN."
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN."
+          }
+        }
+      }
+    },
+    "protect_export_public_certificate": {
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Export public certificate"
+          }
+        },
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Exportă certificatul public"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Экспорт открытого сертификата"
           }
         }
       }

@@ -20,6 +20,10 @@ class ProtectDocument(
 
     override suspend fun encryptForRecipient(input: Uri, certificate: X509Certificate): Uri =
         transform(input, false, CertificateFileProtection.SUFFIX) { CertificateFileProtection.encrypt(it, certificate) }
+    override suspend fun encryptForCardPublicKey(input: Uri, certificate: X509Certificate): Uri =
+        transform(input, false, CertificateFileProtection.SUFFIX) {
+            CertificateFileProtection.encrypt(it,certificate,md.moldsign.core.protection.CertificateRecipientPolicy.CARD_PUBLIC_KEY)
+        }
 
     override suspend fun decryptWithCard(input: Uri, decrypt: suspend (ByteArray) -> ByteArray): Uri =
         transform(input, true, CertificateFileProtection.SUFFIX, decrypt)

@@ -7,6 +7,8 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
+enum class CertificateRecipientPolicy { ENCRYPTION_CERTIFICATE, CARD_PUBLIC_KEY }
+
 object CertificateFileProtection {
     const val SUFFIX = ".asymmetric.p7m"
     private fun hex(s: String) = s.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
@@ -15,8 +17,9 @@ object CertificateFileProtection {
     private val rsaOID = hex("2a864886f70d010101")
     private val aesOID = hex("608648016503040102")
     private fun w(tag: Int, content: ByteArray) = ProtectionASN1.wrap(tag,content)
-    fun recipientKey(certificate: X509Certificate): RSAPublicKey {
-        require(certificate.keyUsage?.getOrNull(2) == true) { "Choose an encryption certificate, not a signing-only certificate." }
+    fun recipientKey(certificate: X509Certificate, policy: CertificateRecipientPolicy = CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE): RSAPublicKey {
+        if (policy == CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE)
+            require(certificate.keyUsage?.getOrNull(2) == true) { "Choose an encryption certificate, not a signing-only certificate." }
         val key = certificate.publicKey as? RSAPublicKey ?: error("Unsupported encryption certificate.")
         require(key.modulus.bitLength() in 2048..8192)
         return key
@@ -28,10 +31,10 @@ object CertificateFileProtection {
         require(fields.size >= offset+6 && fields[offset].tag == 2 && fields[offset+2].tag == 0x30)
         return w(0x30, fields[offset+2].encoded + fields[offset].encoded)
     }
-    fun encrypt(plain: ByteArray, certificate: X509Certificate): ByteArray {
+    fun encrypt(plain: ByteArray, certificate: X509Certificate, policy: CertificateRecipientPolicy = CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE): ByteArray {
         require(plain.size <= PasswordFileProtection.MAXIMUM_SIZE) { "Choose a file smaller than 64 MB." }
         val identity = identity(certificate)
-        val publicKey = recipientKey(certificate)
+        val publicKey = recipientKey(certificate,policy)
         val random = SecureRandom(); val key = ByteArray(16).also(random::nextBytes); val iv = ByteArray(16).also(random::nextBytes)
         try {
             val wrapped = Cipher.getInstance("RSA/ECB/PKCS1Padding").run { init(Cipher.ENCRYPT_MODE,publicKey); doFinal(key) }
@@ -41,9 +44,12 @@ object CertificateFileProtection {
             return w(0x30,w(6,enveloped)+w(0xa0,w(0x30,w(2,byteArrayOf(0))+w(0x31,recipient)+content)))
         } finally { key.fill(0) }
     }
-    fun decrypt(envelope: ByteArray, certificate: X509Certificate, unwrap: (ByteArray) -> ByteArray): ByteArray {
+    fun decrypt(envelope: ByteArray, certificate: X509Certificate, unwrap: (ByteArray) -> ByteArray): ByteArray =
+        decryptWithPolicy(envelope,certificate,CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE,unwrap)
+
+    fun decryptWithPolicy(envelope: ByteArray, certificate: X509Certificate, policy: CertificateRecipientPolicy, unwrap: (ByteArray) -> ByteArray): ByteArray {
         val identity = identity(certificate)
-        val publicKey = recipientKey(certificate)
+        val publicKey = recipientKey(certificate,policy)
         val root = ProtectionASN1.parse(envelope)
         val outer = root.requireTag(0x30)
         val body = if (outer.firstOrNull()?.tag == 2) root.requireTag(0x30,3) else {

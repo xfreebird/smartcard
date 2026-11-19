@@ -369,7 +369,7 @@ eSemnBun</value></data>
   <data name="protect_read_card" xml:space="preserve"><value>Citește cardul meu</value></data>
   <data name="protect_recipient" xml:space="preserve"><value>Destinatar</value></data>
   <data name="protect_card_pin" xml:space="preserve"><value>PIN-ul cardului</value></data>
-  <data name="protect_no_key" xml:space="preserve"><value>Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.</value></data>
+  <data name="protect_no_key" xml:space="preserve"><value>Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.</value></data>
   <data name="protect_original" xml:space="preserve"><value>Fișierul original rămâne neschimbat.</value></data>
   <data name="protect_compatibility" xml:space="preserve"><value>Compatibil cu fișierele MoldSign Desktop. Acest format nu autentifică conținutul; verifică fișierele decriptate înainte de utilizare.</value></data>
   <data name="protect_ready" xml:space="preserve"><value>Gata de salvat</value></data>
@@ -415,4 +415,7 @@ eSemnBun</value></data>
   <data name="protect_key_size" xml:space="preserve"><value>Dimensiunea cheii AES</value></data>
   <data name="protect_rsa_recipient" xml:space="preserve"><value>Certificat RSA</value></data>
   <data name="protect_detect_algorithm" xml:space="preserve"><value>Algoritmul de decriptare este indicat în fișier.</value></data>
+  <data name="protect_card_public_key" xml:space="preserve"><value>Compatibilitate cu cheia publică a cardului</value></data>
+  <data name="protect_card_public_key_help" xml:space="preserve"><value>Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.</value></data>
+  <data name="protect_export_public_certificate" xml:space="preserve"><value>Exportă certificatul public</value></data>
 </root>

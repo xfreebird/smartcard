@@ -28,6 +28,7 @@ import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.core.protection.PasswordFileProtection
 import md.moldsign.core.protection.CertificateFileProtection
 import md.moldsign.core.protection.CardEncryptionIdentity
+import md.moldsign.core.protection.CertificateRecipientPolicy
 import md.moldsign.core.protection.ProtectionHeader
 import md.moldsign.core.CertificateSummary
 import md.moldsign.core.CardError
@@ -51,6 +52,9 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
     var reader by remember { mutableStateOf<String?>(null) }
     var identities by remember { mutableStateOf(emptyList<CardEncryptionIdentity>()) }
     var identity by remember { mutableStateOf<CardEncryptionIdentity?>(null) }
+    var cardPublicKey by remember { mutableStateOf(false) }
+    val recipientPolicy = if (cardPublicKey) CertificateRecipientPolicy.CARD_PUBLIC_KEY else CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE
+    var certificateToExport by remember { mutableStateOf<ByteArray?>(null) }
     var pin by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmation by remember { mutableStateOf("") }
@@ -65,6 +69,7 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
     val suffix = if (rsa) CertificateFileProtection.SUFFIX else PasswordFileProtection.SUFFIX
     val outputName = if (decrypt) "decrypted-" + sourceName.removeSuffix(suffix) else sourceName + suffix
     val help = when {
+        rsa && cardPublicKey -> R.string.protect_card_public_key_help
         rsa && decrypt -> R.string.protect_certificate_decrypt_help
         rsa -> R.string.protect_certificate_encrypt_help
         decrypt -> R.string.protect_password_decrypt_help
@@ -128,7 +133,7 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
             identity = null
             identities = emptyList()
             recipient = null
-            try { recipient = vm.importRecipient(uri) }
+            try { recipient = vm.importRecipient(uri,recipientPolicy) }
             catch (cancelled: kotlinx.coroutines.CancellationException) { throw cancelled }
             catch (_: Exception) { notice = R.string.protect_no_key; failed = true }
             finally { busy = false }
@@ -144,6 +149,20 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
     }
     val save = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/octet-stream")) { uri ->
         vm.saveCopy(output, uri)
+    }
+    val exportCertificate = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/pkix-cert")) { uri ->
+        val bytes = certificateToExport
+        certificateToExport = null
+        if (uri != null && bytes != null) scope.launch {
+            busy = true
+            try {
+                val ok = vm.exportPublicCertificate(bytes,uri)
+                notice = if (ok) R.string.copy_saved else R.string.copy_failed
+                failed = !ok
+            } catch (cancelled: kotlinx.coroutines.CancellationException) { throw cancelled }
+            catch (error: Exception) { fail(error) }
+            finally { busy = false }
+        }
     }
     val lifecycleOwner = androidx.lifecycle.compose.LocalLifecycleOwner.current
     DisposableEffect(lifecycleOwner) {
@@ -192,7 +211,15 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
                             if (inspected && header == null) Text(stringResource(R.string.protect_error), color = MaterialTheme.colorScheme.error)
                         }
                         if (rsa) {
-                            Text(stringResource(if (decrypt) R.string.protect_certificate_decrypt_guide else R.string.protect_certificate_encrypt_guide),
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Text(stringResource(R.string.protect_card_public_key),modifier = Modifier.weight(1f))
+                                Switch(checked = cardPublicKey,enabled = !busy,onCheckedChange = {
+                                    cardPublicKey = it
+                                    clearSecrets(); reset()
+                                    recipient = null; identity = null; identities = emptyList(); reader = null
+                                })
+                            }
+                            Text(stringResource(if (cardPublicKey) R.string.protect_card_public_key_help else if (decrypt) R.string.protect_certificate_decrypt_guide else R.string.protect_certificate_encrypt_guide),
                                 style = MaterialTheme.typography.bodyMedium)
                             if (!decrypt) OutlinedButton(onClick = { pickRecipient.launch(arrayOf("*/*")) }, enabled = !busy) {
                                 Text(stringResource(R.string.protect_choose_certificate))
@@ -206,7 +233,7 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
                                     identities = emptyList()
                                     pin = ""
                                     try {
-                                        val (selectedReader, keys) = vm.encryptionIdentities()
+                                        val (selectedReader, keys) = vm.encryptionIdentities(recipientPolicy)
                                         reader = selectedReader
                                         identities = keys
                                         if (keys.isEmpty()) { notice = R.string.protect_no_key; failed = true }
@@ -223,6 +250,13 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
                             recipient?.let { cert ->
                                 Text(stringResource(R.string.protect_recipient), style = MaterialTheme.typography.labelMedium)
                                 Text(remember(cert) { CertificateSummary.parse(cert.encoded).commonName }, style = MaterialTheme.typography.titleMedium)
+                            }
+                            identity?.let { item ->
+                                OutlinedButton(enabled = !busy,onClick = {
+                                    certificateToExport = item.certificate
+                                    exportCertificate.launch("certificate-${item.fingerprint}.cer")
+                                }) { Text(stringResource(if (cardPublicKey) R.string.protect_export_public_certificate else R.string.protect_export_certificate)) }
+                                Text(stringResource(R.string.protect_export_certificate_hint),style = MaterialTheme.typography.bodySmall)
                             }
                             if (decrypt && identity != null) OutlinedTextField(value = pin, onValueChange = {
                                 if (it.length <= 8 && it.all { c -> c in '0'..'9' }) { pin = it; reset() }
@@ -274,7 +308,7 @@ fun FileProtectionDialog(vm: MainViewModel, initialFile: Uri? = null, initialDec
                         try {
                             output = when {
                                 rsa && decrypt -> vm.decryptProtectedFile(uri, requireNotNull(identity), secret, reader)
-                                rsa -> vm.encryptForRecipient(uri, requireNotNull(recipient))
+                                rsa -> vm.encryptForRecipient(uri, requireNotNull(recipient),recipientPolicy)
                                 else -> vm.protectDocument(uri, secret, decrypt, keySize)
                             }
                             saved = true

@@ -19,7 +19,7 @@ public class CosmoXCardTests
             ("00A4040010A000000077030C60000000FE0000050000", "9000"),          // SELECT IAS AID
             ("00A4000C023F0000", "9000"),                                      // SELECT MF
             ("00A4020402D00300", "9000"),                                      // SELECT EF D003
-            ("00B0000000", "0410" + Hex.Encode(serial) + "9000"),              // serial (tag/len + 16 ASCII)
+            ("00B0000012", "0410" + Hex.Encode(serial) + "9000"),              // exact 18-byte serial framing
             ("00A4020402D00400", "9000"),                                      // SELECT EF D004
             ("00B0000010", Hex.Encode(seed) + "9000"),                         // seed
             ("0022C1A4098004FF40108C830104", "9000"),                          // MSE SET (SM)
@@ -81,22 +81,41 @@ public class CosmoXCardTests
     }
 
     [Fact]
-    public void Verify_pin_sends_the_vector_apdu()
+    public void Authentication_setup_failure_stops_before_external_authentication()
+    {
+        var transport=new ScriptedTransport(("*","9000"),("*","6982"));
+        var card=new CosmoXCard(transport);
+        Assert.Throws<CardException>(card.Authenticate);Assert.False(card.HasSecureChannel);transport.AssertDone();
+    }
+
+    [Fact]
+    public void Short_D003_stops_before_derivation_or_PIN()
+    {
+        var transport=new ScriptedTransport(("*","9000"),("*","9000"),("*","9000"),("00B0000012","041001029000"));
+        var card=new CosmoXCard(transport);
+        Assert.Equal(CardErrorKind.CardNotResponding,Assert.Throws<CardException>(card.Authenticate).Kind);
+        Assert.False(card.HasSecureChannel);transport.AssertDone();
+    }
+
+    [Fact]
+    public void Verify_pin_sends_the_vector_but_rejects_bare_success()
     {
         var wrapped = Root.GetProperty("sm").GetProperty("wrap").EnumerateArray()
             .Single(c => c.GetProperty("apdu").GetString() == "00200003083132333435363738")
             .GetProperty("wrapped").GetString()!;
         var transport = new ScriptedTransport((wrapped, "9000"));
         var card = new CosmoXCard(transport) { Channel = SecureChannelVectorTests.FreshChannel() };
+        var channel=card.Channel;
 
-        card.VerifyPin("12345678");
+        Assert.Equal(CardErrorKind.SmOutOfSync,Assert.Throws<CardException>(()=>card.VerifyPin("12345678")).Kind);
 
         transport.AssertDone();
         // SW-only answer: SSC still advanced for the response (initial + 2).
         var expected = Bytes("sm", "ssc_initial");
         SecureChannelVectorTests.Increment(expected);
         SecureChannelVectorTests.Increment(expected);
-        Assert.Equal(expected, card.Channel!.Ssc);
+        Assert.Equal(expected, channel!.Ssc);
+        Assert.False(card.HasSecureChannel);
     }
 
     [Theory]
@@ -299,7 +318,7 @@ public class CosmoXCardTests
 
     /// <summary>
     /// Card side of IAS/ECC SM for one session: checks each command's MAC, decrypts its data, and answers
-    /// with 87/99/8E objects (SW-only 9000 for SELECTs), splitting long answers into 61xx + GET RESPONSE.
+    /// with authenticated 99/8E status and optional encrypted 87 data, splitting long replies into 61xx + GET RESPONSE.
     /// </summary>
     internal sealed class SimulatedSmCard(byte[] sessEnc, byte[] sessMac, byte[] ssc) : ICardTransport
     {
@@ -311,6 +330,8 @@ public class CosmoXCardTests
         public Func<byte[],byte[]>? Decipher { get; set; }
         public Dictionary<int,byte[]> ExtraFiles { get; } = new();
         public ushort VerifyStatus { get; set; } = 0x9000;
+        public bool MirrorEofStatus { get; set; }
+        private ushort _pendingOuterStatus = 0x9000;
         private int _selectedFile;
         private bool _verified, _decipherSelected;
         public List<byte[]> Commands { get; } = [];
@@ -345,12 +366,19 @@ public class CosmoXCardTests
                 0xB0 => Read((apdu[2] << 8) | apdu[3], le ?? 0),
                 0x88 => InternalAuthenticate!(data),
                 0x2a => Decipher!(data[1..]),
-                _ => null, // SELECT, MSE SET: SW-only 9000
+                _ => null, // SELECT, MSE SET: authenticated status-only response
             };
             Increment(_ssc); // the card counts its response, SW-only or not
-            if (answer is null) return [0x90, 0x00];
-
-            _pending = SealResponse(answer);
+            ushort status = 0x9000;
+            if (MirrorEofStatus && apdu[1] == 0xb0)
+            {
+                var file = ExtraFiles.GetValueOrDefault(_selectedFile) ?? EfContent;
+                var offset = (apdu[2] << 8) | apdu[3];
+                if (offset >= file.Length) status = 0x6b00;
+                else if (answer!.Length < (le ?? 256)) status = 0x6282;
+            }
+            _pendingOuterStatus = MirrorEofStatus ? status : (ushort)0x9000;
+            _pending = SealResponse(answer ?? [],status);
             return NextChunk(200);
         }
 
@@ -367,7 +395,7 @@ public class CosmoXCardTests
             var n = Math.Min(max, _pending.Length);
             var chunk = _pending[..n];
             _pending = _pending[n..];
-            byte[] sw = _pending.Length == 0 ? [0x90, 0x00] : [0x61, (byte)Math.Min(_pending.Length, 255)];
+            byte[] sw = _pending.Length == 0 ? [(byte)(_pendingOuterStatus >> 8),(byte)_pendingOuterStatus] : [0x61, (byte)Math.Min(_pending.Length, 255)];
             return [.. chunk, .. sw];
         }
 
@@ -405,11 +433,15 @@ public class CosmoXCardTests
             return (data, le);
         }
 
-        private byte[] SealResponse(byte[] plain)
+        private byte[] SealResponse(byte[] plain,ushort status)
         {
-            var enc = AesPrimitives.EncryptCbc(sessEnc, AesPrimitives.EncryptEcb(sessEnc, _ssc), Iso9797.Pad(plain));
-            var do87 = SecureChannel.BuildTlv(0x87, [0x01, .. enc]);
-            byte[] do99 = [0x99, 0x02, 0x90, 0x00];
+            byte[] do87 = [];
+            if (plain.Length > 0)
+            {
+                var enc = AesPrimitives.EncryptCbc(sessEnc, AesPrimitives.EncryptEcb(sessEnc, _ssc), Iso9797.Pad(plain));
+                do87 = SecureChannel.BuildTlv(0x87,[1,..enc]);
+            }
+            byte[] do99 = [0x99, 0x02, (byte)(status >> 8), (byte)status];
             var mac = Cmac.Compute(sessMac, Iso9797.Pad([.. _ssc, .. do87, .. do99])).AsSpan(0, 8);
             return [.. do87, .. do99, 0x8E, 0x08, .. mac];
         }

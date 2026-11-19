@@ -6,8 +6,8 @@ final class SecureResponseValidationTests: XCTestCase {
     private let mac = Data(repeating: 2, count: 32)
     private var responseSSC: Data { Data(count: 15) + Data([1]) }
     private func channel() -> SecureChannel { SecureChannel(sessENC: enc, sessMAC: mac, ssc: Data(count: 16)) }
-    private func authenticated(_ body: Data) -> Data {
-        body + DER.tlv(0x8E, Data(AES.cmac(key: mac, message: AES.iso9797Pad(responseSSC + body)).prefix(8))) + Data(hex: "9000")
+    private func authenticated(_ body: Data, outer: Data = Data(hex: "9000")) -> Data {
+        body + DER.tlv(0x8E, Data(AES.cmac(key: mac, message: AES.iso9797Pad(responseSSC + body)).prefix(8))) + outer
     }
 
     func testAuthenticatedStatusAndEncryptedPayload() throws {
@@ -46,5 +46,33 @@ final class SecureResponseValidationTests: XCTestCase {
         var c = channel()
         XCTAssertEqual(try c.unwrap(Data(hex: "6988")).sw, Data(hex: "6988"))
         XCTAssertEqual(c.ssc, responseSSC)
+    }
+
+    func testMirroredEOFRequiresAuthenticatedStatusAndPreservesFinalChunk() throws {
+        let payload = Data([0x30, 0x80, 0, 0])
+        let aes = AES(key: enc)
+        let ciphertext = try aes.cbcEncrypt(AES.iso9797Pad(payload), iv: aes.ecbEncrypt(responseSSC))
+        let body = DER.tlv(0x87, Data([1]) + ciphertext) + Data(hex: "99026282")
+        var c = channel()
+        let result = try c.unwrap(authenticated(body, outer: Data(hex: "6282")))
+        XCTAssertEqual(result.data,payload)
+        XCTAssertEqual(result.sw,Data(hex: "6282"))
+        XCTAssertEqual(c.ssc,responseSSC)
+    }
+
+    func testMirroredEOFCannotBypassStatusOrMACChecks() {
+        var tampered = authenticated(Data(hex: "99026282"), outer: Data(hex: "6282"))
+        tampered[tampered.count-3] ^= 1
+        for response in [tampered, Data(hex: "990262826282"),
+                         authenticated(Data(hex: "99029000"), outer: Data(hex: "6282"))] {
+            var c = channel()
+            XCTAssertThrowsError(try c.unwrap(response))
+        }
+    }
+    func testMirroredErrorIsAuthenticatedAndReturnedToCaller() throws {
+        var c = channel()
+        let result = try c.unwrap(authenticated(Data(hex: "99026B00"), outer: Data(hex: "6B00")))
+        XCTAssertTrue(result.data.isEmpty)
+        XCTAssertEqual(result.sw,Data(hex: "6B00"))
     }
 }

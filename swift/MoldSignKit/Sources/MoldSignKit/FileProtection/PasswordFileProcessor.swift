@@ -23,6 +23,8 @@ public struct PasswordFileProcessor: PasswordFileProcessing, Sendable {
             return try PasswordFileProtection.decrypt(ProtectedFileIO.read(input), password: password)
         case .encryptCertificate(let certificate):
             return try CertificateFileProtection.encrypt(ProtectedFileIO.read(input), certificate: certificate)
+        case .encryptCardPublicKey(let certificate):
+            return try CertificateFileProtection.encrypt(ProtectedFileIO.read(input), certificate: certificate, policy: .cardPublicKey)
         case .decryptCertificate(let reader, let identity):
             let envelope = try ProtectedFileIO.read(input)
             return try signingService.withCard(reader: reader) { card in

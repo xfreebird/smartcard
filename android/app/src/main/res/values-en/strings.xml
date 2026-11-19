@@ -377,7 +377,7 @@ eSemnBun</string>
   <string name="protect_read_card">Read my card</string>
   <string name="protect_recipient">Recipient</string>
   <string name="protect_card_pin">Card PIN</string>
-  <string name="protect_no_key">No supported encryption key found. Signing-only keys cannot decrypt files.</string>
+  <string name="protect_no_key">No compatible RSA decryption key and certificate were found on this card.</string>
   <string name="protect_original">Your original file stays unchanged.</string>
   <string name="protect_compatibility">Compatible with MoldSign Desktop files. This format does not authenticate content; check decrypted files before use.</string>
   <string name="protect_ready">Ready to save</string>
@@ -499,4 +499,7 @@ eSemnBun</string>
   <string name="protect_key_size">AES key size</string>
   <string name="protect_rsa_recipient">RSA certificate</string>
   <string name="protect_detect_algorithm">The file specifies the decryption algorithm.</string>
+  <string name="protect_card_public_key">Card public key compatibility</string>
+  <string name="protect_card_public_key_help">For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.</string>
+  <string name="protect_export_public_certificate">Export public certificate</string>
 </resources>

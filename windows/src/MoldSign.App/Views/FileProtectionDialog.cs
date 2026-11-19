@@ -21,6 +21,9 @@ internal sealed class FileProtectionDialog : ContentDialog
     private readonly TextBlock _file=new(){TextWrapping=TextWrapping.Wrap},_recipient=new(){TextWrapping=TextWrapping.Wrap},_notice=new(){TextWrapping=TextWrapping.Wrap};
     private readonly TextBlock _warning=new(){TextWrapping=TextWrapping.Wrap};
     private readonly CheckBox _removeConfirmation=new();
+    private readonly ToggleSwitch _cardPublicKey=new();
+    private CertificateRecipientPolicy RecipientPolicy => _cardPublicKey.IsOn
+        ? CertificateRecipientPolicy.CardPublicKey : CertificateRecipientPolicy.EncryptionCertificate;
     private readonly Button _choose=new(),_chooseCertificate=new(),_readCard=new(),_exportCertificate=new();
     private readonly StackPanel _form=new(){Spacing=16};
     private readonly TextBlock _recipientSummary=new(){TextWrapping=TextWrapping.Wrap},_mismatch=new(){TextWrapping=TextWrapping.Wrap};
@@ -46,6 +49,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         _method.Items.Add(Loc.Get("protect_password"));
         _method.Items.Add(Loc.Get("protect_rsa_recipient"));
         _method.SelectedIndex=0;_form.Children.Add(_method);
+        _cardPublicKey.Header=Loc.Get("protect_card_public_key");_form.Children.Add(_cardPublicKey);
         foreach (int bits in PasswordKeySizes) _keySize.Items.Add($"AES-{bits}");
         _keySize.SelectedIndex = 2;
         _form.Children.Add(_keySize);
@@ -63,7 +67,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         _exportCertificate.Click+=async(_,_)=>{
             if(_identities.SelectedItem is not CardEncryptionIdentity identity)return;
             var bytes=identity.Certificate.ToArray();
-            var picker=new FileSavePicker();picker.FileTypeChoices.Add("X.509 certificate",new List<string>{".cer"});picker.SuggestedFileName="encryption-"+identity.Fingerprint;
+            var picker=new FileSavePicker();picker.FileTypeChoices.Add("X.509 certificate",new List<string>{".cer"});picker.SuggestedFileName="certificate-"+identity.Fingerprint;
             WinRT.Interop.InitializeWithWindow.Initialize(picker,WindowHelpers.HandleFor(XamlRoot));
             SetBusy(true);
             try { var file=await picker.PickSaveFileAsync();if(file!=null){await Windows.Storage.FileIO.WriteBytesAsync(file,bytes);_notice.Text=Loc.Get("protect_saved");} }
@@ -75,6 +79,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         _keySize.SelectionChanged+=(_,_)=>{ClearOutput();Refresh();};
         _operation.SelectionChanged+=async(_,_)=>{ResetSelection();await DetectDecryptionMethodAsync();};
         _method.SelectionChanged+=(_,_)=>ResetSelection();
+        _cardPublicKey.Toggled+=(_,_)=>ResetSelection();
         _password.PasswordChanged+=(_,_)=>SecretChanged();_confirmation.PasswordChanged+=(_,_)=>SecretChanged();_pin.PasswordChanged+=(_,_)=>SecretChanged();
         _removeConfirmation.Checked+=(_,_)=>Refresh();_removeConfirmation.Unchecked+=(_,_)=>Refresh();
         _identities.SelectionChanged+=(_,_)=>{
@@ -91,11 +96,12 @@ internal sealed class FileProtectionDialog : ContentDialog
         _chooseCertificate.Click+=async(_,_)=>{
             var paths=await WindowHelpers.PickFilesAsync(root.ContentIslandEnvironment.AppWindowId,"*");if(paths.Count==0)return;
             SetBusy(true);ClearOutput();ClearRecipient();
+            var policy=RecipientPolicy;
             try {
                 var certificate=await Task.Run(()=>{
                     var bytes=ProtectedFileIO.Read(paths[0]);if(bytes.Length>65536)throw new IOException();
                     var cert=X509CertificateLoader.LoadCertificate(bytes);
-                    try{CertificateFileProtection.Encrypt([],cert);return cert;}catch{cert.Dispose();throw;}
+                    try{CertificateFileProtection.ValidateRecipient(cert,policy);return cert;}catch{cert.Dispose();throw;}
                 });
                 _certificate=certificate;_recipient.Text=certificate.Subject+"\n"+Convert.ToHexString(SHA256.HashData(certificate.RawData));
             }catch{Error();}finally{SetBusy(false);}
@@ -104,8 +110,14 @@ internal sealed class FileProtectionDialog : ContentDialog
             SetBusy(true);ClearOutput();ClearRecipient();
             try{
                 if(App.Current.Services.IsDemo)throw new InvalidOperationException();
-                _reader=AppState.Current.SelectedReader;if(_reader==null)throw new InvalidOperationException();
-                var identities=await Task.Run(()=>App.Current.Services.Signing.EncryptionIdentities(_reader));
+                var reader=AppState.Current.SelectedReader;if(reader==null)throw new InvalidOperationException();
+                var policy=RecipientPolicy;
+                var expectedCertificate=AppState.Current.Certificate?.Der.ToArray();
+                var identities=await Task.Run(()=>App.Current.Services.Signing.EncryptionIdentities(reader,policy));
+                if(AppState.Current.SelectedReader is { } currentReader && currentReader!=reader)throw new InvalidOperationException();
+                if(expectedCertificate!=null && AppState.Current.Certificate is { } currentCertificate &&
+                    !currentCertificate.Der.AsSpan().SequenceEqual(expectedCertificate))throw new InvalidOperationException();
+                _reader=reader;
                 _identities.ItemsSource=identities;_identities.SelectedIndex=identities.Count>0?0:-1;
                 if(identities.Count==0)_notice.Text=Loc.Get("protect_no_key");
             }catch{Error();}finally{SetBusy(false);}
@@ -158,13 +170,14 @@ internal sealed class FileProtectionDialog : ContentDialog
 
     private void SecretChanged(){if(!_busy)ClearOutput();Refresh();}
     private void ClearOutput(){_completed=false;if(_output!=null)CryptographicOperations.ZeroMemory(_output);_output=null;_notice.Text="";}
-    private void ResetSelection(){ClearOutput();_password.Password="";_confirmation.Password="";_pin.Password="";_removeConfirmation.IsChecked=false;Refresh();}
+    private void ResetSelection(){ClearOutput();ClearRecipient();_password.Password="";_confirmation.Password="";_pin.Password="";_removeConfirmation.IsChecked=false;Refresh();}
     private void SetBusy(bool value){_busy=value;foreach(var control in _form.Children.OfType<Control>())control.IsEnabled=!value;IsPrimaryButtonEnabled=!value;Refresh();}
     private void Error()=>_notice.Text=Loc.Get("protect_error");
     private void Refresh(){
         var remove=_operation.SelectedIndex==2;var decrypt=_operation.SelectedIndex==1;var card=_method.SelectedIndex==1;
         static Visibility Visible(bool v)=>v?Visibility.Visible:Visibility.Collapsed;
         _method.Visibility=Visible(!remove);_keySize.Visibility=Visible(!remove&&!decrypt&&!card);_password.Visibility=Visible(!remove&&!card);_confirmation.Visibility=Visible(!remove&&!card&&!decrypt);
+        _cardPublicKey.Visibility=Visible(!remove&&card);
         _chooseCertificate.Visibility=Visible(!remove&&card&&!decrypt);_readCard.Visibility=Visible(!remove&&card);_identities.Visibility=Visible(!remove&&card&&_identities.Items.Count>1);
         _recipientSummary.Visibility=Visible(!remove&&card&&_certificate!=null);
         _recipientSummary.Text=_certificate?.GetNameInfo(X509NameType.SimpleName,false)??"";
@@ -176,6 +189,8 @@ internal sealed class FileProtectionDialog : ContentDialog
         _guide.Text=Loc.Get(helpPrefix+"_guide");
         if (decrypt && !card) _guide.Text += " " + Loc.Get("protect_detect_algorithm");
         _helpText.Text=Loc.Get(helpPrefix+"_help")+"\n\n"+Loc.Get("protect_compatibility");
+        if(card&&_cardPublicKey.IsOn){_guide.Text=Loc.Get("protect_card_public_key_help");_helpText.Text=_guide.Text+"\n\n"+Loc.Get("protect_compatibility");}
+        _exportCertificate.Content=Loc.Get(_cardPublicKey.IsOn?"protect_export_public_certificate":"protect_export_certificate");
         _exportCertificate.Visibility=Visible(!remove&&card&&_identities.SelectedItem is CardEncryptionIdentity);
         _pin.Visibility=Visible(!remove&&card&&decrypt&&_identities.SelectedItem!=null);_removeConfirmation.Visibility=Visible(remove);
         _warning.Text=Loc.Get(remove?"protect_removal_warning":"protect_original");
@@ -188,6 +203,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         if(_source==null)return;var source=_source;var operation=_operation.SelectedIndex;var card=_method.SelectedIndex==1;
         var keyBits = _keySize.SelectedIndex >= 0 ? PasswordKeySizes[_keySize.SelectedIndex] : 256;
         var password=_password.Password;var pin=_pin.Password;var certificate=_certificate;var identity=_identities.SelectedItem as CardEncryptionIdentity;
+        var policy=RecipientPolicy;var reader=_reader;
         SetBusy(true);ClearOutput();_password.Password="";_confirmation.Password="";_pin.Password="";
         try{
             _output=await Task.Run(()=>{
@@ -195,8 +211,8 @@ internal sealed class FileProtectionDialog : ContentDialog
                 if(!card || operation==2)
                     return _processor.Process(source, (FileProtectionOperation)operation, password);
                 var bytes=ProtectedFileIO.Read(source);
-                if(operation==0)return CertificateFileProtection.Encrypt(bytes,certificate??throw new InvalidOperationException());
-                return App.Current.Services.Signing.DecryptFile(bytes,identity??throw new InvalidOperationException(),pin,_reader);
+                if(operation==0)return CertificateFileProtection.Encrypt(bytes,certificate??throw new InvalidOperationException(),policy);
+                return App.Current.Services.Signing.DecryptFile(bytes,identity??throw new InvalidOperationException(),pin,reader);
             });
             _notice.Text=Loc.Get(operation==2?"protect_removed":"protect_ready");_completed=operation==2;
             if(operation==2){_source=null;_file.Text="";}

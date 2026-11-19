@@ -98,4 +98,7 @@ class AndroidDocumentAccess(private val app: Application) : DocumentAccess {
             (resolver.openOutputStream(target) ?: error("unwritable")).use { output -> input.copyTo(output) }
         }
     }.isSuccess
+    override fun writeBytes(target: Uri, bytes: ByteArray): Boolean = runCatching {
+        (app.contentResolver.openOutputStream(target,"wt") ?: error("unwritable")).use { it.write(bytes) }
+    }.isSuccess
 }

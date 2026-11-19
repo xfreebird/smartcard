@@ -4,16 +4,46 @@ import Foundation
 public struct CardEncryptionIdentity: Equatable, Sendable {
     public let label: String
     public let certificate: Data
+    public let recipientPolicy: CertificateRecipientPolicy
     public var fingerprint: String { certificate.sha256().hexString }
     let key: CardEncryptionDirectory.Key
-    init(key: CardEncryptionDirectory.Key, certificate: Data) {
-        self.key = key; self.certificate = certificate; self.label = key.label
+    init(key: CardEncryptionDirectory.Key, certificate: Data, policy: CertificateRecipientPolicy = .encryptionCertificate) {
+        self.key = key; self.certificate = certificate; self.label = key.label; self.recipientPolicy = policy
     }
 }
 
 extension CosmoXCard {
+    #if DEBUG
+    /// Public-file diagnostics only; callers must serialize through withCard.
+    /// Fixed allow-list prevents a probe from reading arbitrary card objects.
+    public func inspectPublicEncryptionFile(_ file: UInt16) throws -> Data {
+        guard [0x7001, 0x7002, 0x7005, 0x0001].contains(file) else {
+            throw FileProtectionError.invalidFormat
+        }
+        return try protectionFile(Data([UInt8(file >> 8), UInt8(file & 255)]))
+    }
+
+    /// Fixed DOCP metadata queries for the directory-listed RSA key 1 / PIN 3.
+    /// Requests only A0 control parameters, never private-key or PIN values.
+    /// Vendor CosmoXIASSmartCard.get_DOCP uses this exact GET DATA template.
+    public func inspectDecipherControlParameters(observe: (String, Data) throws -> Void) throws {
+        try selectMF(); try selectGenericADF()
+        for (name, objectClass, reference): (String, UInt8, UInt8) in [
+            ("RSA-key-1-control", 0x90, 1), ("PIN-3-control", 0x81, 3)
+        ] {
+            // The RSA key is application-local; PIN reference 3 is global.
+            if objectClass == 0x81 { try selectMF() }
+            let command = Data([0,0xcb,0x3f,0xff,0x0a,0x4d,8,0x70,6,0xbf,objectClass,reference,2,0xa0,0x80,0])
+            let (data, status) = try smTransmit(command)
+            try checkSW(status)
+            guard !data.isEmpty, data.count <= 4096 else { throw CardError.cardNotResponding }
+            try observe(name,data)
+        }
+    }
+    #endif
+
     /// Reads public metadata only. Must run under SigningService.withCard serialization.
-    public func encryptionIdentities() throws -> [CardEncryptionIdentity] {
+    public func encryptionIdentities(policy: CertificateRecipientPolicy = .encryptionCertificate) throws -> [CardEncryptionIdentity] {
         let authentication = try protectionFile(Data([0x70,0x01]))
         let keys = try protectionFile(Data([0x70,0x02]))
         let certificates = try protectionFile(Data([0x70,0x05]))
@@ -22,18 +52,18 @@ extension CosmoXCard {
             let records = try ProtectionASN1.records(file)
             guard records.count == 1 else { return nil }
             let certificate = records[0].encoded
-            guard (try? CertificateFileProtection.recipientIdentity(certificate)) != nil,
+            guard (try? CertificateFileProtection.recipientIdentity(certificate, policy: policy)) != nil,
                   (try? CertificateFileProtection.modulusBytes(certificate)) == key.modulusBytes else { return nil }
-            return CardEncryptionIdentity(key: key, certificate: certificate)
+            return CardEncryptionIdentity(key: key, certificate: certificate, policy: policy)
         }
     }
 
     /// Requires explicit consent for this file and identity. Never retries a PIN.
     public func decryptFile(_ envelope: Data, identity: CardEncryptionIdentity, pin: String) throws -> Data {
         // Parse/recipient checks happen before discovery, VERIFY or any private-key operation.
-        try CertificateFileProtection.decrypt(envelope, certificate: identity.certificate) { wrapped in
+        try CertificateFileProtection.decrypt(envelope, certificate: identity.certificate, policy: identity.recipientPolicy) { wrapped in
             guard wrapped.count == identity.key.modulusBytes else { throw FileProtectionError.invalidFormat }
-            guard try encryptionIdentities().contains(identity) else { throw CardError.cardChanged }
+            guard try encryptionIdentities(policy: identity.recipientPolicy).contains(identity) else { throw CardError.cardChanged }
             guard (identity.key.minimumPINLength...identity.key.maximumPINLength).contains(pin.utf8.count),
                   pin.utf8.allSatisfy({ (48...57).contains($0) }), identity.key.pinReference == 3 else {
                 throw FileProtectionError.cannotDecrypt

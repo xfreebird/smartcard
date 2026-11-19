@@ -112,7 +112,9 @@ class SecureChannel(sessEnc: ByteArray, sessMac: ByteArray, ssc: ByteArray) {
             if (parsed.sw == 0x9000) invalid()
             return parsed
         }
-        if (response.takeLast(2) != listOf(0x90.toByte(), 0.toByte())) invalid()
+        // Contact cards can mirror warnings/errors outside the protected response
+        // (6282 at EOF, 6B00 past EOF). Authenticate before trusting that status.
+        val outer = response.u8(response.size - 2) * 256 + response.u8(response.size - 1)
         val body = response.copyOf(response.size - 2)
         var pos = 0
         var encrypted: ByteArray? = null
@@ -151,6 +153,7 @@ class SecureChannel(sessEnc: ByteArray, sessMac: ByteArray, ssc: ByteArray) {
         if (status == null || mac == null) invalid()
         val expected = Cmac.aesCmac(sessMac, Iso9797.pad(ssc1 + body.copyOf(macStart))).copyOf(8)
         if (!java.security.MessageDigest.isEqual(expected, mac)) invalid()
+        if (outer != 0x9000 && status != outer) invalid()
         val plain = encrypted?.let {
             val padded = aesEnc.cbcDecrypt(it, aesEnc.ecbEncryptBlock(ssc1))
             var end = padded.lastIndex

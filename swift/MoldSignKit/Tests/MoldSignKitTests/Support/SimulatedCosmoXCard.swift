@@ -78,6 +78,8 @@ final class SimulatedCosmoXCard: CardTransport {
     private let state: SimulatedCardState
     private let identity: TestIdentity
     var extraFiles: [Data: Data] = [:]
+    /// Contact-card variant: a short final READ mirrors authenticated 6282 outside SM.
+    var mirrorsEOFWarning = false
     private(set) var decryptAttempts = 0
     private var decryptionSelected = false
     private let serial = Data("51180B0A2B597D33".utf8)
@@ -184,7 +186,7 @@ final class SimulatedCosmoXCard: CardTransport {
         }
         out += Data([0x99, 0x02, UInt8(status >> 8), UInt8(status & 0xFF)])
         let respMAC = AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc + out)).prefix(8)
-        return out + Data([0x8E, 0x08]) + respMAC + sw(0x9000)
+        return out + Data([0x8E, 0x08]) + respMAC + sw(mirrorsEOFWarning && [0x6282,0x6b00].contains(status) ? status : 0x9000)
     }
 
     private func execute(ins: UInt8, p1: UInt8, p2: UInt8, body: Data, le: Int) -> (Data, UInt16) {
@@ -200,7 +202,9 @@ final class SimulatedCosmoXCard: CardTransport {
             guard let file = extraFiles[Data(selectedFile)] ?? (selectedFile == [0x00,0x01] ? identity.certDER : nil) else { return (Data(),0x6A82) }
             let offset = Int(p1 & 0x7F) << 8 | Int(p2)
             guard offset < file.count else { return (Data(), 0x6B00) }
-            return (file.subdata(in: offset..<min(file.count, offset + (le == 0 ? 256 : le))), 0x9000)
+            let requested = le == 0 ? 256 : le
+            let bytes = file.subdata(in: offset..<min(file.count, offset + requested))
+            return (bytes, mirrorsEOFWarning && bytes.count < requested ? 0x6282 : 0x9000)
         case 0x22:
             decryptionSelected = p1 == 0x41 && p2 == 0xB8 && body == Data([0x80,0x01,0x1a,0x84,0x01,0x82])
             return (Data(), 0x9000)

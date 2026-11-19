@@ -428,6 +428,9 @@ enum L10n {
         case protect_key_size
         case protect_rsa_recipient
         case protect_detect_algorithm
+        case protect_card_public_key
+        case protect_card_public_key_help
+        case protect_export_public_certificate
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2323,9 +2326,9 @@ enum L10n {
     "ru": "PIN карты"
   },
   "protect_no_key": {
-    "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
-    "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
-    "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+    "en": "No compatible RSA decryption key and certificate were found on this card.",
+    "ro": "Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.",
+    "ru": "На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA."
   },
   "protect_original": {
     "en": "Your original file stays unchanged.",
@@ -2561,6 +2564,21 @@ enum L10n {
     "ro": "Algoritmul de decriptare este indicat în fișier.",
     "en": "The file specifies the decryption algorithm.",
     "ru": "Алгоритм расшифрования указан в файле."
+  },
+  "protect_card_public_key": {
+    "en": "Card public key compatibility",
+    "ro": "Compatibilitate cu cheia publică a cardului",
+    "ru": "Совместимость с открытым ключом карты"
+  },
+  "protect_card_public_key_help": {
+    "en": "For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.",
+    "ro": "Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.",
+    "ru": "Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN."
+  },
+  "protect_export_public_certificate": {
+    "en": "Export public certificate",
+    "ro": "Exportă certificatul public",
+    "ru": "Экспорт открытого сертификата"
   }
 }
 """#.utf8)

@@ -10,6 +10,7 @@ public enum FileProtectionOperation: Equatable, Sendable {
     case encryptPassword(PasswordEncryptionAlgorithm)
     case decrypt
     case encryptCertificate(Data)
+    case encryptCardPublicKey(Data)
     case decryptCertificate(reader: String, identity: CardEncryptionIdentity)
     case remove
 
@@ -18,7 +19,7 @@ public enum FileProtectionOperation: Equatable, Sendable {
     func outputName(for name: String) -> String? {
         switch self {
         case .encryptPassword: return name + PasswordFileProtection.suffix
-        case .encryptCertificate: return name + CertificateFileProtection.suffix
+        case .encryptCertificate, .encryptCardPublicKey: return name + CertificateFileProtection.suffix
         case .decrypt: return decryptedName(name, suffix: PasswordFileProtection.suffix)
         case .decryptCertificate: return decryptedName(name, suffix: CertificateFileProtection.suffix)
         case .remove: return nil

@@ -83,15 +83,18 @@ class MainViewModel @JvmOverloads constructor(
         ProtectionHeader.detect(documents.readPrefix(uri, ProtectionHeader.PREFIX_SIZE))
     }
 
-    suspend fun importRecipient(uri: Uri): X509Certificate = withContext(Dispatchers.IO) {
+    suspend fun importRecipient(uri: Uri,
+        policy: md.moldsign.core.protection.CertificateRecipientPolicy = md.moldsign.core.protection.CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE): X509Certificate = withContext(Dispatchers.IO) {
         val bytes = documents.readBytes(uri, 65536)
         val cert = CertificateFactory.getInstance("X.509").generateCertificate(bytes.inputStream()) as X509Certificate
-        CertificateFileProtection.recipientKey(cert)
+        CertificateFileProtection.recipientKey(cert,policy)
         cert
     }
 
-    suspend fun encryptForRecipient(uri: Uri, certificate: X509Certificate): Uri =
-        protection.encryptForRecipient(uri, certificate)
+    suspend fun encryptForRecipient(uri: Uri, certificate: X509Certificate,
+        policy: md.moldsign.core.protection.CertificateRecipientPolicy = md.moldsign.core.protection.CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE): Uri =
+        if (policy == md.moldsign.core.protection.CertificateRecipientPolicy.CARD_PUBLIC_KEY)
+            protection.encryptForCardPublicKey(uri,certificate) else protection.encryptForRecipient(uri, certificate)
 
     fun protectionPreviewState(scenario: String) =
         if (container.isDemo && md.moldsign.app.DemoMode.supportsResultPreview) container.previewData.protectionPreview(scenario) else null
@@ -105,10 +108,23 @@ class MainViewModel @JvmOverloads constructor(
 
     suspend fun protectionDocumentName(uri: Uri): String = documents.describe(uri).name
 
-    suspend fun encryptionIdentities(): Pair<String?,List<md.moldsign.core.protection.CardEncryptionIdentity>> = withContext(Dispatchers.IO) {
+    suspend fun exportPublicCertificate(bytes: ByteArray, target: Uri): Boolean = withContext(Dispatchers.IO) {
+        check(!container.isDemo && bytes.size <= 65536)
+        CertificateFactory.getInstance("X.509").generateCertificate(bytes.inputStream())
+        documents.writeBytes(target,bytes)
+    }
+
+    suspend fun encryptionIdentities(policy: md.moldsign.core.protection.CertificateRecipientPolicy = md.moldsign.core.protection.CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE): Pair<String?,List<md.moldsign.core.protection.CardEncryptionIdentity>> = withContext(Dispatchers.IO) {
         check(!container.isDemo)
-        val reader = container.wallet.value.selectedCard?.readerId ?: throw CardError.NoCard()
-        reader to container.whileBusy { container.signingService.encryptionIdentities(reader) }
+        val selected = container.wallet.value.selectedCard ?: throw CardError.NoCard()
+        val reader = selected.readerId
+        val expected = selected.certificate?.der?.copyOf()
+        val identities = container.whileBusy { container.signingService.encryptionIdentities(reader,policy) }
+        container.wallet.value.selectedCard?.let { current ->
+            if (current.readerId != reader || (expected != null && current.certificate?.der?.let { !it.contentEquals(expected) } == true))
+                throw CardError.CardChanged(selected.certificate?.sha1Hex.orEmpty(), current.certificate?.sha1Hex.orEmpty())
+        }
+        reader to identities
     }
     suspend fun decryptProtectedFile(uri: Uri, identity: md.moldsign.core.protection.CardEncryptionIdentity, pin: CharArray, reader: String?): Uri = withContext(Dispatchers.IO) {
         check(!container.isDemo)

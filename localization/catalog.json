@@ -13564,9 +13564,9 @@
       "platform": "apple",
       "key": "protect_no_key",
       "translations": {
-        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
-        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
-        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+        "en": "No compatible RSA decryption key and certificate were found on this card.",
+        "ro": "Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.",
+        "ru": "На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA."
       }
     },
     {
@@ -13834,9 +13834,9 @@
       "platform": "android",
       "key": "protect_no_key",
       "translations": {
-        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
-        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
-        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+        "en": "No compatible RSA decryption key and certificate were found on this card.",
+        "ro": "Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.",
+        "ru": "На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA."
       }
     },
     {
@@ -14104,9 +14104,9 @@
       "platform": "windows",
       "key": "protect_no_key",
       "translations": {
-        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
-        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
-        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+        "en": "No compatible RSA decryption key and certificate were found on this card.",
+        "ro": "Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.",
+        "ru": "На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA."
       }
     },
     {
@@ -14374,9 +14374,9 @@
       "platform": "linux",
       "key": "protect_no_key",
       "translations": {
-        "ro": "Nu a fost găsită o cheie de criptare compatibilă. Cheile doar pentru semnare nu pot decripta fișiere.",
-        "en": "No supported encryption key found. Signing-only keys cannot decrypt files.",
-        "ru": "Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы."
+        "en": "No compatible RSA decryption key and certificate were found on this card.",
+        "ro": "Pe acest card nu au fost găsite o cheie și un certificat compatibile pentru decriptarea RSA.",
+        "ru": "На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA."
       }
     },
     {
@@ -16951,6 +16951,114 @@
         "ro": "Algoritmul de decriptare este indicat în fișier.",
         "en": "The file specifies the decryption algorithm.",
         "ru": "Алгоритм расшифрования указан в файле."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_card_public_key",
+      "translations": {
+        "en": "Card public key compatibility",
+        "ro": "Compatibilitate cu cheia publică a cardului",
+        "ru": "Совместимость с открытым ключом карты"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_card_public_key_help",
+      "translations": {
+        "en": "For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.",
+        "ro": "Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.",
+        "ru": "Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "protect_export_public_certificate",
+      "translations": {
+        "en": "Export public certificate",
+        "ro": "Exportă certificatul public",
+        "ru": "Экспорт открытого сертификата"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_card_public_key",
+      "translations": {
+        "en": "Card public key compatibility",
+        "ro": "Compatibilitate cu cheia publică a cardului",
+        "ru": "Совместимость с открытым ключом карты"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_card_public_key_help",
+      "translations": {
+        "en": "For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.",
+        "ro": "Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.",
+        "ru": "Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "protect_export_public_certificate",
+      "translations": {
+        "en": "Export public certificate",
+        "ro": "Exportă certificatul public",
+        "ru": "Экспорт открытого сертификата"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_card_public_key",
+      "translations": {
+        "en": "Card public key compatibility",
+        "ro": "Compatibilitate cu cheia publică a cardului",
+        "ru": "Совместимость с открытым ключом карты"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_card_public_key_help",
+      "translations": {
+        "en": "For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.",
+        "ro": "Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.",
+        "ru": "Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "protect_export_public_certificate",
+      "translations": {
+        "en": "Export public certificate",
+        "ro": "Exportă certificatul public",
+        "ru": "Экспорт открытого сертификата"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_card_public_key",
+      "translations": {
+        "en": "Card public key compatibility",
+        "ro": "Compatibilitate cu cheia publică a cardului",
+        "ru": "Совместимость с открытым ключом карты"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_card_public_key_help",
+      "translations": {
+        "en": "For cards confirmed to support RSA decryption, including cards with a signing-only certificate. Share the public certificate so others can encrypt files for you. Enable this option on both sides. Decryption requires the matching card and PIN.",
+        "ro": "Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.",
+        "ru": "Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "protect_export_public_certificate",
+      "translations": {
+        "en": "Export public certificate",
+        "ro": "Exportă certificatul public",
+        "ru": "Экспорт открытого сертификата"
       }
     }
   ],

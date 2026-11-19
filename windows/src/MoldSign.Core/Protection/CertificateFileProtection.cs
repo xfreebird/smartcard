@@ -4,6 +4,9 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace MoldSign.Core.Protection;
 
+/// <summary>Compatibility is explicit; default X.509 purpose checks remain strict.</summary>
+public enum CertificateRecipientPolicy { EncryptionCertificate, CardPublicKey }
+
 /// <summary>CMS RSA key transport/AES-128, compatible with MoldSign Desktop.</summary>
 public static class CertificateFileProtection
 {
@@ -27,15 +30,23 @@ public static class CertificateFileProtection
         }
         catch (AsnContentException) { return false; }
     }
-    private static void CheckCertificate(X509Certificate2 certificate)
+    public static void ValidateRecipient(X509Certificate2 certificate,
+        CertificateRecipientPolicy policy = CertificateRecipientPolicy.EncryptionCertificate)
     {
+        if (policy is not (CertificateRecipientPolicy.EncryptionCertificate or CertificateRecipientPolicy.CardPublicKey))
+            throw new ArgumentOutOfRangeException(nameof(policy));
         var usage = certificate.Extensions.OfType<X509KeyUsageExtension>().SingleOrDefault();
-        if (usage == null || !usage.KeyUsages.HasFlag(X509KeyUsageFlags.KeyEncipherment))
+        if (policy == CertificateRecipientPolicy.EncryptionCertificate &&
+            (usage == null || !usage.KeyUsages.HasFlag(X509KeyUsageFlags.KeyEncipherment)))
             throw new CryptographicException("Choose an encryption certificate, not a signing-only certificate.");
+        using var rsa = certificate.GetRSAPublicKey();
+        if (rsa == null || rsa.KeySize < 2048 || rsa.KeySize > 8192)
+            throw new CryptographicException("Unsupported RSA certificate.");
     }
-    public static byte[] Encrypt(byte[] plaintext, X509Certificate2 certificate)
+    public static byte[] Encrypt(byte[] plaintext, X509Certificate2 certificate,
+        CertificateRecipientPolicy policy = CertificateRecipientPolicy.EncryptionCertificate)
     {
-        CheckCertificate(certificate);
+        ValidateRecipient(certificate,policy);
         if (plaintext.Length > PasswordFileProtection.MaximumSize) throw new ArgumentException("Choose a file smaller than 64 MB.");
         using var rsa = certificate.GetRSAPublicKey();
         if (rsa == null || rsa.KeySize < 2048 || rsa.KeySize > 8192) throw new CryptographicException("Unsupported encryption certificate.");
@@ -56,9 +67,10 @@ public static class CertificateFileProtection
         }
         finally { CryptographicOperations.ZeroMemory(key); }
     }
-    public static byte[] Decrypt(byte[] envelope, X509Certificate2 certificate, Func<byte[],byte[]> unwrap)
+    public static byte[] Decrypt(byte[] envelope, X509Certificate2 certificate, Func<byte[],byte[]> unwrap,
+        CertificateRecipientPolicy policy = CertificateRecipientPolicy.EncryptionCertificate)
     {
-        CheckCertificate(certificate);
+        ValidateRecipient(certificate,policy);
         if (envelope.Length > PasswordFileProtection.MaximumSize + 8192) throw new ArgumentException("Choose a file smaller than 64 MB.");
         using var publicKey = certificate.GetRSAPublicKey();
         if (publicKey == null || publicKey.KeySize < 2048 || publicKey.KeySize > 8192) throw new CryptographicException("Unsupported RSA certificate.");

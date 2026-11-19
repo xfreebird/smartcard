@@ -383,7 +383,7 @@ eSemnBun</string>
   <string name="protect_read_card">Прочитать мою карту</string>
   <string name="protect_recipient">Получатель</string>
   <string name="protect_card_pin">PIN карты</string>
-  <string name="protect_no_key">Совместимый ключ шифрования не найден. Ключи только для подписи не могут расшифровывать файлы.</string>
+  <string name="protect_no_key">На этой карте не найдены совместимые ключ и сертификат для расшифровки RSA.</string>
   <string name="protect_original">Исходный файл остаётся без изменений.</string>
   <string name="protect_compatibility">Совместимо с файлами MoldSign Desktop. Формат не проверяет подлинность содержимого; проверяйте расшифрованные файлы перед использованием.</string>
   <string name="protect_ready">Готово к сохранению</string>
@@ -505,4 +505,7 @@ eSemnBun</string>
   <string name="protect_key_size">Размер ключа AES</string>
   <string name="protect_rsa_recipient">Сертификат RSA</string>
   <string name="protect_detect_algorithm">Алгоритм расшифрования указан в файле.</string>
+  <string name="protect_card_public_key">Совместимость с открытым ключом карты</string>
+  <string name="protect_card_public_key_help">Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN.</string>
+  <string name="protect_export_public_certificate">Экспорт открытого сертификата</string>
 </resources>

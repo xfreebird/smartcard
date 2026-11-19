@@ -39,7 +39,8 @@ internal static class CliApp
           esemnbun mcp [--root ID=/absolute/directory]       Local stdio MCP; verification and signing
           esemnbun encrypt INPUT NEW-OUTPUT [--password-stdin | --certificate DER | --card SHA256]
           esemnbun decrypt INPUT NEW-OUTPUT [--password-stdin | --card SHA256]
-          esemnbun encryption-certs [--reader NAME] [--card SHA256 --out NEW.cer]
+          esemnbun encryption-certs [--reader NAME] [--card SHA256 --out NEW.cer] [--card-public-key]
+          Add --card-public-key to certificate/card encrypt or decrypt for explicit compatibility.
           esemnbun remove-file PATH --confirm-removal        Best-effort overwrite/removal
           esemnbun readers                                   List PC/SC readers and card presence
           esemnbun cert [--out <file.der>]                   Read the signing certificate (no PIN)

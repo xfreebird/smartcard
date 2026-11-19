@@ -14,33 +14,38 @@ internal static class FileProtectionCommand
             bool Flag(string option){var found=args.Remove(option);return found;}
             var exportPath=Take("--out");if(exportPath!=null && command!="encryption-certs")throw new UsageException("--out is only supported by encryption-certs.");
             var reader=Take("--reader");var certPath=Take("--certificate");var fingerprint=Take("--card");
+            if(fingerprint!=null && (fingerprint.Length!=64 || !fingerprint.All(Uri.IsHexDigit)))throw new UsageException("Expected a full certificate SHA-256 fingerprint.");
             var stdin=Flag("--password-stdin");var pinStdin=Flag("--pin-stdin");var confirmed=Flag("--confirm-removal");Flag("--quiet");
+            var cardPublicKey=Flag("--card-public-key");
+            var policy=cardPublicKey?CertificateRecipientPolicy.CardPublicKey:CertificateRecipientPolicy.EncryptionCertificate;
             if(args.Any(a=>a.StartsWith("--",StringComparison.Ordinal)))throw new UsageException("Unsupported option. Secrets are never accepted as command arguments.");
+            if(cardPublicKey && command!="encryption-certs" && certPath==null && fingerprint==null)
+                throw new UsageException("--card-public-key requires --certificate or --card, or encryption-certs.");
             var service=new SigningService(()=>host.Cards.Connect(reader));
             if(command=="encryption-certs") {
                 if(args.Count!=0 || certPath!=null || (fingerprint==null)!=(exportPath==null) || stdin || pinStdin || confirmed)throw new UsageException("Use encryption-certs [--reader NAME] [--card SHA256 --out NEW-CERTIFICATE.cer].");
-                var identities=service.EncryptionIdentities(reader);
+                var identities=service.EncryptionIdentities(reader,policy);
                 if(exportPath!=null && fingerprint!=null) {
                     if(fingerprint.Length!=64 || !fingerprint.All(Uri.IsHexDigit))throw new UsageException("Expected a full SHA-256 fingerprint.");
                     var selected=identities.SingleOrDefault(i=>i.Fingerprint.Equals(fingerprint,StringComparison.OrdinalIgnoreCase))??throw new UsageException("Selected encryption certificate not found.");
-                    ProtectedFileIO.SaveNew(exportPath,selected.Certificate);host.Out.WriteLine("Exported public encryption certificate.");return 0;
+                    ProtectedFileIO.SaveNew(exportPath,selected.Certificate);host.Out.WriteLine(cardPublicKey?"Exported public certificate for card public-key compatibility.":"Exported public encryption certificate.");return 0;
                 }
                 foreach(var identity in identities)host.Out.WriteLine($"{identity.Fingerprint}  {identity.Label}");
                 return 0;
             }
             if(command=="remove-file") {
-                if(args.Count!=1 || !confirmed || certPath!=null || fingerprint!=null || stdin || pinStdin)throw new UsageException("Use remove-file PATH --confirm-removal. SSD remnants, snapshots and other copies may remain.");
+                if(args.Count!=1 || !confirmed || certPath!=null || fingerprint!=null || stdin || pinStdin || cardPublicKey)throw new UsageException("Use remove-file PATH --confirm-removal. SSD remnants, snapshots and other copies may remain.");
                 ProtectedFileIO.OverwriteAndRemove(args[0]);host.Out.WriteLine("Removed. Other copies and physical remnants may remain.");return 0;
             }
             if(args.Count!=2 || confirmed || (certPath!=null && fingerprint!=null) || (stdin && (certPath!=null || fingerprint!=null)) || (command=="decrypt" && certPath!=null) || (pinStdin && (fingerprint==null || command!="decrypt")))throw new UsageException("Use encrypt|decrypt INPUT NEW-OUTPUT [--password-stdin | --card SHA256]; encryption also accepts --certificate DER.");
             if(File.Exists(args[1]))throw new IOException("Destination exists; choose a new filename.");
             var input=ProtectedFileIO.Read(args[0]);byte[] output;
             if(certPath!=null) {
-                using var cert=X509CertificateLoader.LoadCertificate(ProtectedFileIO.Read(certPath));output=CertificateFileProtection.Encrypt(input,cert);
+                using var cert=X509CertificateLoader.LoadCertificate(ProtectedFileIO.Read(certPath));output=CertificateFileProtection.Encrypt(input,cert,policy);
             } else if(fingerprint!=null) {
                 if(fingerprint.Length!=64 || !fingerprint.All(Uri.IsHexDigit))throw new UsageException("Expected the encryption certificate SHA-256 fingerprint.");
-                var identity=service.EncryptionIdentities(reader).SingleOrDefault(i=>i.Fingerprint.Equals(fingerprint,StringComparison.OrdinalIgnoreCase))??throw new CardException(CardErrorKind.CardChanged,"Selected encryption identity not found.");
-                if(command=="encrypt") {using var cert=X509CertificateLoader.LoadCertificate(identity.Certificate);output=CertificateFileProtection.Encrypt(input,cert);}
+                var identity=service.EncryptionIdentities(reader,policy).SingleOrDefault(i=>i.Fingerprint.Equals(fingerprint,StringComparison.OrdinalIgnoreCase))??throw new CardException(CardErrorKind.CardChanged,"Selected encryption identity not found.");
+                if(command=="encrypt") {using var cert=X509CertificateLoader.LoadCertificate(identity.Certificate);output=CertificateFileProtection.Encrypt(input,cert,identity.RecipientPolicy);}
                 else {
                     var pin=pinStdin?host.In.ReadLine():host.GetEnvironmentVariable("MSIGN_PIN");
                     if(string.IsNullOrEmpty(pin)) {if(host.IsInputRedirected())throw new UsageException("Use --pin-stdin for unattended input.");pin=host.PromptHidden("Card PIN: ");}

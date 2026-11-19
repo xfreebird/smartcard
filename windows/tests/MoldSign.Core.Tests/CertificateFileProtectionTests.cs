@@ -5,6 +5,27 @@ namespace MoldSign.Core.Tests;
 public sealed class CertificateFileProtectionTests
 {
     [Fact]
+    public void Signing_certificate_requires_explicit_public_key_policy()
+    {
+        var directory=new DirectoryInfo(AppContext.BaseDirectory);
+        while(directory!=null && !Directory.Exists(Path.Combine(directory.FullName,"spec/vectors/encryption")))directory=directory.Parent;
+        var root=Path.Combine(directory!.FullName,"spec/vectors/encryption");
+        using var cert=X509CertificateLoader.LoadCertificateFromFile(Path.Combine(root,"test-signing-only.der"));
+        using var other=X509CertificateLoader.LoadCertificateFromFile(Path.Combine(root,"test-recipient.der"));
+        using var key=RSA.Create();key.ImportPkcs8PrivateKey(File.ReadAllBytes(Path.Combine(root,"test-private-key.pk8")),out _);
+        byte[] plain=[0,1,0x80,0,255];
+        Assert.Throws<CryptographicException>(()=>CertificateFileProtection.ValidateRecipient(cert));
+        Assert.Throws<CryptographicException>(()=>CertificateFileProtection.Encrypt(plain,cert));
+        var envelope=CertificateFileProtection.Encrypt(plain,cert,CertificateRecipientPolicy.CardPublicKey);
+        var calls=0;
+        byte[] Unwrap(byte[] wrapped){calls++;return key.Decrypt(wrapped,RSAEncryptionPadding.Pkcs1);}
+        Assert.Throws<CryptographicException>(()=>CertificateFileProtection.Decrypt(envelope,cert,Unwrap));
+        Assert.Throws<CryptographicException>(()=>CertificateFileProtection.Decrypt(envelope,other,Unwrap,CertificateRecipientPolicy.CardPublicKey));
+        Assert.Equal(0,calls);
+        Assert.Equal(plain,CertificateFileProtection.Decrypt(envelope,cert,Unwrap,CertificateRecipientPolicy.CardPublicKey));
+        Assert.Equal(1,calls);
+    }
+    [Fact]
     public void Vendor_CMS_and_native_round_trip()
     {
         var path = new DirectoryInfo(AppContext.BaseDirectory);

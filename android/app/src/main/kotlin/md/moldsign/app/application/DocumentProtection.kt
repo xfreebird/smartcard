@@ -7,5 +7,7 @@ import java.security.cert.X509Certificate
 interface DocumentProtection {
     suspend fun process(input: Uri, password: CharArray, decrypt: Boolean, keySize: Int = 256): Uri
     suspend fun encryptForRecipient(input: Uri, certificate: X509Certificate): Uri
+    suspend fun encryptForCardPublicKey(input: Uri, certificate: X509Certificate): Uri =
+        error("Card public key compatibility is unavailable")
     suspend fun decryptWithCard(input: Uri, decrypt: suspend (ByteArray) -> ByteArray): Uri
 }

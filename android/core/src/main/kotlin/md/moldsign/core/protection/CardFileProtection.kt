@@ -7,7 +7,8 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 import java.security.interfaces.RSAPublicKey
 
-class CardEncryptionIdentity internal constructor(internal val key: EncryptionKey, certificate: ByteArray) {
+class CardEncryptionIdentity internal constructor(internal val key: EncryptionKey, certificate: ByteArray,
+    val recipientPolicy: CertificateRecipientPolicy = CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE) {
     private val der = certificate.copyOf()
     val certificate: ByteArray get() = der.copyOf()
     val pinLengths: IntRange get() = key.minimum..key.maximum
@@ -60,7 +61,9 @@ internal object EncryptionDirectory {
             val path=certType.children.firstOrNull() ?: return@mapNotNull null
             if(certType.tag!=0x30 || path.tag!=0x30 || path.children.size!=1 || path.children[0].tag!=4 || path.children[0].content.size!=2) return@mapNotNull null
             val pin=matching(pins,auth)?.children?.firstTag(0xa1)?.children?.singleOrNull()?.children ?: return@mapNotNull null
-            if(pin.size<4 || pin[0].tag!=3 || pin[0].content.size<2 || pin[0].content[1].toInt() and 7!=0 || pin[1].tag!=10 || pin[1].integer()!=1 || pin[2].tag!=2 || pin[3].tag!=2 || pin.firstTag(0x80)?.integer()!=3) return@mapNotNull null
+            // Digits have the same encoding in ASCII-numeric (1) and UTF-8 (2).
+            // Decryption still accepts only numeric PINs and the known ref 03.
+            if(pin.size<4 || pin[0].tag!=3 || pin[0].content.size<2 || pin[0].content[1].toInt() and 7!=0 || pin[1].tag!=10 || pin[1].integer() !in listOf(1,2) || pin[2].tag!=2 || pin[3].tag!=2 || pin.firstTag(0x80)?.integer()!=3) return@mapNotNull null
             val minimum=pin[2].integer();val maximum=pin.drop(4).firstTag(2)?.integer() ?: pin[3].integer()
             if(minimum<4 || maximum !in minimum..8) return@mapNotNull null
             val file=path.children[0].content
@@ -73,19 +76,20 @@ internal object EncryptionDirectory {
 
 object CardFileProtection {
     private fun certificate(bytes: ByteArray) = CertificateFactory.getInstance("X.509").generateCertificate(bytes.inputStream()) as X509Certificate
-    fun identities(card: CosmoXCard): List<CardEncryptionIdentity> {
+    fun identities(card: CosmoXCard, policy: CertificateRecipientPolicy = CertificateRecipientPolicy.ENCRYPTION_CERTIFICATE): List<CardEncryptionIdentity> {
         val auth=read(card,0x7001);val keys=read(card,0x7002);val certs=read(card,0x7005)
         return EncryptionDirectory.keys(keys,certs,auth).mapNotNull { key ->
             val bytes=read(card,key.certificateFile)
-            val cert=certificate(bytes);val rsa=cert.publicKey as? RSAPublicKey
-            if(cert.keyUsage?.getOrNull(2)!=true || rsa==null || (rsa.modulus.bitLength()+7)/8!=key.modulusBytes) null
-            else CardEncryptionIdentity(key,cert.encoded)
+            val cert=certificate(bytes)
+            val rsa=runCatching { CertificateFileProtection.recipientKey(cert,policy) }.getOrNull()
+            if(rsa==null || (rsa.modulus.bitLength()+7)/8!=key.modulusBytes) null
+            else CardEncryptionIdentity(key,cert.encoded,policy)
         }
     }
     fun decrypt(card: CosmoXCard,envelope: ByteArray,identity: CardEncryptionIdentity,pin: CharArray): ByteArray =
-        CertificateFileProtection.decrypt(envelope,certificate(identity.certificate)) { wrapped ->
+        CertificateFileProtection.decryptWithPolicy(envelope,certificate(identity.certificate),identity.recipientPolicy) { wrapped ->
             require(wrapped.size==identity.key.modulusBytes)
-            if(identities(card).none { it.fingerprint==identity.fingerprint && it.key==identity.key }) throw CardError.CardChanged(MessageDigest.getInstance("SHA-1").digest(identity.certificate).joinToString("") { "%02x".format(it) }, "")
+            if(identities(card,identity.recipientPolicy).none { it.fingerprint==identity.fingerprint && it.key==identity.key }) throw CardError.CardChanged(MessageDigest.getInstance("SHA-1").digest(identity.certificate).joinToString("") { "%02x".format(it) }, "")
             require(pin.size in identity.key.minimum..identity.key.maximum && pin.all { it in '0'..'9' })
             card.selectMF();card.selectGenericADF();card.verifyPin(pin)
             val mse=card.smTransmit(byteArrayOf(0,0x22,0x41,0xb8.toByte(),6,0x80.toByte(),1,0x1a,0x84.toByte(),1,(identity.key.reference or 0x80).toByte()))

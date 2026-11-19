@@ -190,7 +190,8 @@ func usage() -> Never {
       capabilities [--json]                   supported commands and formats; no card/PIN access
       encrypt <in> <new-out> [--password-stdin | --certificate <DER> | --card <SHA256>]
       decrypt <in> <new-out> [--password-stdin | --card <SHA256>]
-      encryption-certs [--card SHA256 --out NEW.cer]  list or export encryption certificates
+      encryption-certs [--card SHA256 --out NEW.cer] [--card-public-key]
+      Add --card-public-key to certificate/card encrypt or decrypt for explicit compatibility.
       remove-file <path> --confirm-removal     best-effort overwrite/removal; not physical erasure
       readers                                  list readers and card presence
       cert [--out <file.der>]                  read the signing certificate (no PIN)
