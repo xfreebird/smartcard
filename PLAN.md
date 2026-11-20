@@ -1674,7 +1674,7 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 
 ### 2026-11-20 — Romanian Mac App Store badge
 
-- Replace the Romanian Mac badge's iOS App Store artwork with the unmodified Mac App Store asset returned by Apple's Romanian endpoint (English fallback). The shared asset fixes the landing and Downloads pages while preserving their Mac listing target. Publish through the Website workflow, which runs website checks and builds before Pages deployment; local build and browser validation were not run.
+- Replace the Romanian Mac badge's iOS App Store artwork with the Romanian Mac App Store artwork, reading “Descărcați de pe Mac App Store.” Apple's badge API silently returns English for Romanian; use the unmodified Romanian SVG preserved in two byte-identical public copies of the artwork bundle (sources and hash in `website/static/img/badges/README.md`). The shared asset fixes the landing and Downloads pages while preserving their Mac listing target. Visually inspect the rendered SVG and publish through the Website workflow, which runs website checks and builds before Pages deployment; no local build was run.
 
 ### 2026-11-18 — Restore the live Mac App Store download
 
