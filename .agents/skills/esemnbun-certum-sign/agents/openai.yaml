@@ -1,0 +1,4 @@
+interface:
+  display_name: "Certum Windows Signing"
+  short_description: "Sign Windows installers and CLI binaries from macOS"
+  default_prompt: "Use $esemnbun-certum-sign to sign and verify Windows release files from macOS using SimplySign and Jsign."

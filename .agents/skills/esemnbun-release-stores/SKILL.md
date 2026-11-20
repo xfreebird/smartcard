@@ -15,6 +15,8 @@ Distinguish build, artifact upload, draft preparation, submission for review and
 
 Inspect git status, remote, intended commit, current release assets and pending store submissions before mutations. On the owner's setup, push/gh/release dispatch run only on the main Mac as the requested author; `GH_HOST=github.com` avoids the employer Enterprise session. On another developer's setup, verify their authorized publishing host and identity instead of impersonating the owner.
 
+For manual Certum signing of Windows MSI/CLI files from macOS, use [Certum signing](../esemnbun-certum-sign/SKILL.md). It signs local copies through SimplySign and Jsign; certificate connection, signing, verification and publication remain distinct operations.
+
 ## Build identity and workflows
 
 Marketing version is shared across Apple project settings, `windows/Directory.Build.props`, Android settings and release metadata. Integer builds must exceed the highest already uploaded for each platform; don't trust `github.run_number` after a manual build override. Apple 201 and Android 1793624674 are historical observations, not next-build constants. Android workflow reserves version-code tags to prevent reuse; inspect that logic before a local/manual upload.

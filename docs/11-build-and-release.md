@@ -57,6 +57,14 @@ Apple team `H86U5Z8HYB` (personal account), bundle IDs `md.esemnbun.ios` / `md.e
 `md.esemnbun.cli`), Android application ID `md.esemnbun.app`. Linux and Windows identifiers keep the codename.
 Losing the Android upload key has a Play App Signing recovery process. Recover `MATCH_PASSWORD` from the authorized backup or coordinate certificate/profile recovery; never automatically revoke or nuke certificates to repair CI.
 
+## Windows Certum signing from macOS (manual)
+
+The public 0.2.14 Windows MSI and standalone CLI were signed with a Certum Open Source Code Signing cloud certificate. The verified manual path uses SimplySign Desktop on macOS, its PKCS#11 module and Jsign; see [the signing skill](../.agents/skills/esemnbun-certum-sign/SKILL.md) and [validation report](reports/certum-jsign-macos-2026-11-20.md). Windows MCP is a mode of `esemnbun.exe`, so its executable signature covers CLI and MCP use.
+
+Sign EXE/DLL payloads before creating an installer, then sign the final MSI. A signature added to an existing MSI does not change its embedded files' individual signatures. When replacing a released CLI ZIP, refresh its embedded Chocolatey payload, Scoop hash, package-repository download copy, release checksums and website mirror. `cli-packages.yml` performs the derived package refresh; it does not sign Windows binaries.
+
+This manual cloud-signing path has not been integrated into unattended build workflows. The optional CI PFX remains self-signed, Microsoft Store signing is separate, and native macOS binaries continue to use Apple Developer ID plus notarization. Keep OTPs, activation seeds and access tokens out of git, workflow inputs and logs.
+
 ## macOS signing + notarization recipe (local)
 
 ```bash

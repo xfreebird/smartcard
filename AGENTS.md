@@ -355,6 +355,7 @@ New contributors start with [developer onboarding](docs/13-developer-onboarding.
 - `esemnbun-ci-automation`: CI routing, workflow optimization, artifact reuse, publishing guards and credential documentation.
 - `esemnbun-dev-environment`: discover each developer’s own hosts, VM access and device IDs; owner-specific addresses are optional examples.
 - `esemnbun-build-sign`: platform builds, signing/entitlements, packaging and validation.
+- `esemnbun-certum-sign`: sign and verify Windows MSI and CLI/MCP binaries from macOS using SimplySign and Jsign.
 - `esemnbun-ui-validation`: UI automation, isolated demo screenshots and real interaction evidence.
 - `esemnbun-release-stores`: GitHub Actions, releases, store APIs/review boundaries and website feeds.
 - `esemnbun-test-vms`: owner-specific Air/QEMU profile, after environment discovery.

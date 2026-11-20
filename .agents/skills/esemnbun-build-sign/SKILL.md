@@ -34,7 +34,7 @@ Use the Gradle wrapper under `android/`, its pinned JDK/SDK requirements, `:core
 
 Use `windows/global.json`, `Directory.Build.props`, and `windows/scripts/package-windows.ps1`. Portable tests can run elsewhere; WinUI/XAML compilation and installer/runtime validation require Windows. Respect x64/ARM64 and toolchain support for Native AOT. `windows/MoldSign.Portable.slnf` does not cover the app's UI.
 
-MSI is the public installer; MSIX is the Store input. Native AOT CLI lives in `bin/` because `esemnbun.exe` and `eSemnBun.exe` collide on case-insensitive filesystems. Standalone MSI signing currently uses a self-signed certificate, not public CA trust; do not describe it as universally trusted. Store signing is separate.
+MSI is the public installer; MSIX is the Store input. Native AOT CLI lives in `bin/` because `esemnbun.exe` and `eSemnBun.exe` collide on case-insensitive filesystems. The build workflow's optional PFX signing still uses a self-signed certificate. The 0.2.14 public MSI and standalone CLI were separately signed with Certum; use [Certum signing](../esemnbun-certum-sign/SKILL.md) for the verified macOS SimplySign/Jsign path, including Windows CLI/MCP executables. Signing an existing MSI does not add separate signatures to its embedded binaries. Store signing is separate.
 
 Before size optimization, inventory compressed and unpacked package entries. The 0.2.2 baseline includes a second .NET runtime in the watcher and unused Windows App SDK AI payload. These are measured candidates, not implemented savings. Native AOT/trimming requires fixing reflection-based JSON and checking WinUI/COM/bridge behavior; do not delete DLLs based only on their names.
 

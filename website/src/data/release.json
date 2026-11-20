@@ -77,7 +77,7 @@
     {
       "name": "esemnbun-cli-0.2.14-windows-x64.zip",
       "url": "https://esemnbun.md/packages/downloads/v0.2.14/esemnbun-cli-0.2.14-windows-x64.zip",
-      "size": 3936146,
+      "size": 3820053,
       "platform": "windows",
       "version": "0.2.14",
       "format": "ZIP",
@@ -162,9 +162,9 @@
         }
       },
       "installerNote": {
-        "en": "The MSI installer is signed with a Certum code-signing certificate. Windows SmartScreen may still warn while the publisher or installer builds reputation.",
-        "ro": "Instalatorul MSI este semnat cu un certificat de semnare a codului emis de Certum. Windows SmartScreen poate afișa în continuare un avertisment până când editorul sau instalatorul capătă reputație.",
-        "ru": "Установщик MSI подписан сертификатом подписи кода Certum. Windows SmartScreen может по-прежнему показывать предупреждение, пока издатель или установщик не приобретёт репутацию."
+        "en": "The MSI installer and Windows CLI are signed with a Certum code-signing certificate. Windows SmartScreen may still warn while the publisher or file builds reputation.",
+        "ro": "Instalatorul MSI și CLI-ul pentru Windows sunt semnate cu un certificat de semnare a codului emis de Certum. Windows SmartScreen poate afișa în continuare un avertisment până când editorul sau fișierul capătă reputație.",
+        "ru": "Установщик MSI и CLI для Windows подписаны сертификатом подписи кода Certum. Windows SmartScreen может по-прежнему показывать предупреждение, пока издатель или файл не приобретёт репутацию."
       }
     },
     {
