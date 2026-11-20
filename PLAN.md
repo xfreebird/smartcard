@@ -1672,6 +1672,10 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - 2026-11-18 — Created two more iOS Custom Product Page drafts from 0.2.12. “Verify signed documents” leads with Verify, and “Explore your signing certificate” leads with Card details. Verified localized copy and screenshot order for Romanian, English (U.S.) and Russian on iPhone, iPhone Duo and iPad. App Store Connect lists four pages ready to submit.
 - 2026-11-18 — Submitted all four iOS Custom Product Pages together in App Review submission `1b98068d-bf8d-44e3-b4e6-5877ec384d0b`. App Store Connect returned `WAITING_FOR_REVIEW` for the submission and each page version.
 
+### 2026-11-20 — Romanian Mac App Store badge
+
+- Replace the Romanian Mac badge's iOS App Store artwork with the unmodified Mac App Store asset returned by Apple's Romanian endpoint (English fallback). The shared asset fixes the landing and Downloads pages while preserving their Mac listing target. Publish through the Website workflow, which runs website checks and builds before Pages deployment; local build and browser validation were not run.
+
 ### 2026-11-18 — Restore the live Mac App Store download
 
 - Verified Apple's public Moldova catalog lists `eSemnBun Desktop`, bundle `md.esemnbun.mac`, as version 0.2.12, released on 18 November. Restore its localized Mac App Store badge on the landing and Downloads pages, with the existing explanation of Store-edition differences.
