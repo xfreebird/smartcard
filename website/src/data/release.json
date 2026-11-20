@@ -32,7 +32,7 @@
     {
       "name": "eSemnBun-0.2.14-x64.msi",
       "url": "https://esemnbun.md/release-downloads/v0.2.14/eSemnBun-0.2.14-x64.msi",
-      "size": 117338112,
+      "size": 117350400,
       "platform": "windows",
       "version": "0.2.14",
       "format": "MSI",
@@ -162,9 +162,9 @@
         }
       },
       "installerNote": {
-        "en": "The MSI installer is self-signed. Windows may show a security warning and ask for permission to install.",
-        "ro": "Instalatorul MSI este semnat cu un certificat autosemnat. Windows poate afișa un avertisment de securitate și poate cere permisiunea de instalare.",
-        "ru": "Установщик MSI подписан самоподписанным сертификатом. Windows может показать предупреждение безопасности и запросить разрешение на установку."
+        "en": "The MSI installer is signed with a Certum code-signing certificate. Windows SmartScreen may still warn while the publisher or installer builds reputation.",
+        "ro": "Instalatorul MSI este semnat cu un certificat de semnare a codului emis de Certum. Windows SmartScreen poate afișa în continuare un avertisment până când editorul sau instalatorul capătă reputație.",
+        "ru": "Установщик MSI подписан сертификатом подписи кода Certum. Windows SmartScreen может по-прежнему показывать предупреждение, пока издатель или установщик не приобретёт репутацию."
       }
     },
     {
