@@ -96,8 +96,13 @@ insertion remains standalone-only; Store detection while running does not requir
 
 * **iOS export methods** need matching provisioning; `-allowProvisioningUpdates` lets Xcode create
   development/ad-hoc profiles for a team the logged-in Apple ID belongs to.
-* **Android release** currently ships without R8 shrinking (14 MB APK). Enabling `isMinifyEnabled`
-  needs keep rules for the Compose/Keystore code paths (AND-10).
+* **Android release** enables R8 code shrinking, optimization and obfuscation with
+  `proguard-android-optimize.txt`, plus resource shrinking (AND-10). AndroidX/Compose supply their
+  consumer keep rules; add app-specific rules only for demonstrated dynamic entry points. Bridge
+  resources use absolute classpath paths so obfuscation cannot change their lookup package.
+  Retain `android/app/build/outputs/mapping/release/mapping.txt` with each exact build for crash
+  retracing. Validate the optimized Release APK as well as Debug before publishing; inspect the new
+  AAB's DEX metrics in Play Console rather than assuming that enabling R8 meets every threshold.
 * **Windows Native AOT** cannot cross-compile: build `win-x64` / `win-arm64` on Windows (or CI). A
   non-AOT single-file exe can be produced anywhere with `--self-contained -p:PublishSingleFile=true`.
 * **Linux**: build on Linux (or CI in the `swift:6.x` image). On macOS, `scripts/test-portable-macos.sh`

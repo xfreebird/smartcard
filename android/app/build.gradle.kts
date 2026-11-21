@@ -40,8 +40,10 @@ android {
             }
         }
         release {
-            // TODO(AND-10): R8 + signing config for Play packaging.
-            isMinifyEnabled = false
+            // AND-10: shrink, optimize and obfuscate the Play release; signing stays in the package script.
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
 

@@ -56,6 +56,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -295,6 +296,7 @@ private fun ProtectedDocumentDetails(entry: ActivityEntry, onDismiss: () -> Unit
 @Composable
 private fun SavedDocumentDetails(vm: MainViewModel, entry: ActivityEntry, onDismiss: () -> Unit) {
     val context = LocalContext.current
+    val unavailableMessage by rememberUpdatedState(stringResource(R.string.saved_unavailable))
     var detached by remember(entry.id) { mutableStateOf<List<Uri>>(emptyList()) }
     var originalSelection by remember(entry.id) { mutableIntStateOf(0) }
     var outcome by remember(entry.id) { mutableStateOf<VerifyOutcome?>(null) }
@@ -323,7 +325,7 @@ private fun SavedDocumentDetails(vm: MainViewModel, entry: ActivityEntry, onDism
             throw e
         } catch (e: Exception) {
             // Saved-file access failures must not expose internal paths or provider exception text.
-            if (detached == companions) error = context.getString(R.string.saved_unavailable)
+            if (detached == companions) error = unavailableMessage
         }
         // A cancelled/obsolete read must not turn off a newer request's loading indicator.
         if (detached == companions) loading = false

@@ -30,6 +30,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -275,6 +277,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         val navigationLabelWidth = maxWidth / Dest.entries.size - 4.dp
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            contentWindowInsets = WindowInsets.safeDrawing,
             topBar = {
                 Column {
                 TopAppBar(
@@ -333,7 +336,8 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
             },
             snackbarHost = { SnackbarHost(snackbar) },
         ) { padding ->
-            Row(Modifier.fillMaxSize().padding(padding)) {
+            // Tell descendants that Scaffold's system-bar/cutout padding is already applied.
+            Row(Modifier.fillMaxSize().padding(padding).consumeWindowInsets(padding)) {
                 if (expanded && !shortLandscape) {
                     NavigationRail(
                         modifier = Modifier.fillMaxHeight().width(96.dp)

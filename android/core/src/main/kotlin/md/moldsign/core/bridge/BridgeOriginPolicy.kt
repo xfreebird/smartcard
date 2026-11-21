@@ -34,7 +34,8 @@ class BridgeOriginPolicy(patterns: List<String>) {
 
         /** Policy from the allow-list bundled into the core jar. */
         fun bundled(): BridgeOriginPolicy {
-            val stream = BridgeOriginPolicy::class.java.getResourceAsStream(BUNDLED_RESOURCE)
+            // An absolute path survives R8 moving/renaming the anchor class's package.
+            val stream = BridgeOriginPolicy::class.java.getResourceAsStream("/md/moldsign/core/$BUNDLED_RESOURCE")
                 ?: error("Missing bundled resource md/moldsign/core/$BUNDLED_RESOURCE")
             return stream.use { fromProperties(it.readBytes().toString(Charsets.ISO_8859_1)) }
         }

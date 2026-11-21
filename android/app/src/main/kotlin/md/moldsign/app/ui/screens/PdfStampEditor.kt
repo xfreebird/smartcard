@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -52,7 +53,9 @@ import kotlin.math.roundToInt
 @Composable
 fun PdfStampEditor(item: SignItem, holder: String, onDismiss: () -> Unit, onSave: (PdfStampPlacement?) -> Unit, requester: String? = null, onBatch: ((PdfStampPlacement?) -> Unit)? = null) {
     val context = LocalContext.current
-    var placement by remember(item.doc.uri) { mutableStateOf((item.stamp ?: PdfStampPlacement()).copy(language = PdfStampLanguage.fromLocale(context.resources.configuration.locales[0]))) }
+    val stampLanguage = PdfStampLanguage.fromLocale(LocalConfiguration.current.locales[0])
+    var placement by remember(item.doc.uri) { mutableStateOf((item.stamp ?: PdfStampPlacement()).copy(language = stampLanguage)) }
+    LaunchedEffect(stampLanguage) { placement = placement.copy(language = stampLanguage) }
     var enabled by remember(item.doc.uri) { mutableStateOf(true) }
     var applyToQueue by remember { mutableStateOf(false) }
     var file by remember { mutableStateOf<File?>(null) }

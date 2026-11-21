@@ -41,6 +41,26 @@ cd android
 Toolchain: Gradle 8.13, AGP 8.10.1, Kotlin 2.1.0 (Compose compiler plugin 2.1.0), Compose BOM 2026.03.01
 (Material 3 1.4.0), minSdk 26, compile/target SDK 36. Versions are in `gradle/libs.versions.toml`.
 
+### Optimized releases and edge-to-edge
+
+Release builds enable R8 shrinking, optimization and obfuscation using
+`proguard-android-optimize.txt`, plus resource shrinking. Debug stays unminified. AndroidX/Compose
+consumer rules cover their dynamic entry points; avoid package-wide keep rules that defeat optimization.
+The bridge allow-list and TLS identity use absolute classpath paths to survive class/package renaming.
+
+Build the optimized artifacts with `./gradlew :app:assembleRelease :app:bundleRelease :app:lintRelease`.
+Keep `app/build/outputs/mapping/release/mapping.txt` with the exact build for crash retracing.
+For distribution use `../scripts/package-android.sh` and the existing upload key. Before rollout,
+exercise startup, saved PIN/biometrics, reader/NFC signing, browser authentication, PDF stamps,
+file protection, document sharing and the widget in the optimized Release APK. Debug checks alone
+do not prove R8 compatibility. Inspect the uploaded AAB's DEX percentages in Play Console; the source
+configuration alone does not establish that the minimum scores have been met.
+
+`MainActivity` already calls `enableEdgeToEdge()` and uses `adjustResize`. The root Material 3
+Scaffold explicitly uses safe-drawing insets and applies/consumes its content padding once, shared
+by the rail and destinations. Check Android 14, 15 and 16 with gesture and three-button navigation,
+portrait/landscape, a display cutout, keyboard input and phone/tablet layouts before rollout.
+
 ## Design v2/v3: card wallet and status light (UX-01, UX-02, UX-05, UX-09…UX-12)
 
 * **Several readers, several cards** (docs/09 §3.1b). `UsbReaderMonitor` keeps one slot per attached CCID reader
@@ -141,7 +161,7 @@ local server (OCSP request, the one retry, unusable answers).
 The TODO markers in the code: `TODO(AND-02)` interrupt-endpoint
 NotifySlotChange instead of polling, PPS to a faster Fi/Di, verify the power-cycle reset · `TODO(AND-03)` the bit4id
 VID/PID · `TODO(AND-04)` start/stop with the reader, FGS prerequisite · `TODO(AND-06)` saved-PIN hardware acceptance, paste blocking ·
-`TODO(AND-08)` Chrome Local Network Access · `TODO(AND-10)` R8/signing · `TODO(UX-01)` Quick Settings tile.
+`TODO(AND-08)` Chrome Local Network Access · `TODO(AND-10)` optimized Release runtime/Play validation · `TODO(UX-01)` Quick Settings tile.
 
 ## Where the port differs from the Swift reference (on purpose)
 

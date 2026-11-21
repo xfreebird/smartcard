@@ -15,7 +15,8 @@ import javax.net.ssl.SSLContext
  * listener binds to loopback only.
  */
 object BridgeTls {
-    private const val RESOURCE = "localhost.p12"
+    // Keep resource lookup independent of the class/package name after R8 obfuscation.
+    private const val RESOURCE = "/md/moldsign/core/localhost.p12"
 
     // Compiled into the vendor binary (docs/06); the same constant sits in the Swift Server.swift.
     private const val VENDOR_P12_PASSWORD = "u9mUvI9BNb1U9jSbpBKf36YWINVK5XX5KAzql3bILNnjscVfLn"
