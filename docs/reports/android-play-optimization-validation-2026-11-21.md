@@ -80,3 +80,42 @@ store signing or Play upload were performed. Edge-to-edge still needs runtime ch
 14/15/16 across navigation modes, cutouts, rotation and keyboard presentation. Saved-PIN/biometrics,
 reader/NFC signing, browser authentication, stamps, protection, sharing and widgets need optimized
 Release runtime acceptance before rollout.
+
+## Authorized GitHub delivery and closed alpha submission
+
+The owner subsequently requested commit/push, passing Android Actions and a new closed alpha
+publication. Source commit [`116720dd`](https://github.com/xfreebird/smartcard/commit/116720dd9de687091ad91c9b87effc24c5d595dd)
+was pushed to `main` as `xfreebird <xfreebird@gmail.com>`. Unrelated working-tree files were excluded.
+
+| Operation | Result |
+| --- | --- |
+| [CI 44900747793](https://github.com/xfreebird/smartcard/actions/runs/44900747793) | Passed Android build/unit tests, 34 native mock UI journeys, required protection/persistence/saved-identity/browser-authentication phases, localization and `CI result` |
+| [Signed Android build 44900784500](https://github.com/xfreebird/smartcard/actions/runs/44900784500) | Passed; APK/AAB for 0.2.14 (1793624701), exact source commit above; build-only with Play upload disabled |
+| [Play publish 44901343721](https://github.com/xfreebird/smartcard/actions/runs/44901343721) | Passed; result `submitted`, operation `closed_testing`, selected track `alpha` |
+
+Before building, both the live uploaded-bundle maximum and repository reserved maximum were
+1793624700. The supported builder reserved 1793624701. Verified package `md.esemnbun.app`,
+versionName 0.2.14, versionCode 1793624701, APK upload-certificate fingerprint
+`0bd6c7ce1a0e57b3f959917d6c166c433184a3101cad5ddd5333b82bce9324cf` and the AAB signature.
+The signed AAB retains its embedded mapping and R8 metadata, all required classpath resources and
+3,704,984 bytes of uncompressed DEX. Its metadata indicates the same optimization percentages
+reported above.
+
+- Signed APK SHA-256: `cc368c6feea9673726aad4386c9767df4e0238721c9b0331f92778ce7506d832`.
+- Signed AAB SHA-256: `0a8ce85706de0d56235c592d7825aaaa60ada06bceda90feb15a307fc3d031b1`.
+
+The publisher reused the exact signed Actions artifact, supplied change-specific EN/RO/RU notes,
+validated the returned bundle code/hash and independently verified the committed track state.
+A second read from the main Mac confirmed alpha's 1793624701 code/hash and that production,
+internal and beta matched their pre-submission state. No tester lists, store listings, screenshots,
+other platforms or GitHub release assets were changed.
+
+After submission, [Play Console alpha](https://play.google.com/console/u/1/developers/8344963402071617946/app/4973211912255144827/tracks/4698313398880262778)
+showed **Release 0.2.14 (1793624701) in review**. The previous 1793624700 remained **Available to
+selected testers**. API track status `completed` does not establish approval or new-build tester
+availability. Those remain pending Google review. This delivery section supersedes the local-only
+publication status above; optimized Release hardware/UI acceptance remains unverified.
+
+Ignored evidence also includes `github-ci.log`, `signed-1793624701/identity.json`, the signed
+APK/AAB and exact embedded mapping, `publish-result/play-result.json`, and independent
+`play-before.json` / `play-after.json` snapshots under the local validation directory.
