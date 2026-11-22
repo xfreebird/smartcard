@@ -30,7 +30,9 @@ internal class EdgeToEdgeUIIntegration(private val runner: Instrumentation) {
         val previousNightMode = AppCompatDelegate.getDefaultNightMode()
         val disclosure = FirstLaunchAutomation(runner)
         val results = mutableListOf<String>()
+        val keyboardPolicy = shell("settings get secure show_ime_with_hard_keyboard")
         try {
+            shell("settings put secure show_ime_with_hard_keyboard 1")
             for (theme in listOf("light", "dark")) {
                 check(preferences.edit().putString("app_theme", theme).commit())
                 // Apply before attachBaseContext, as a normal recreation does after the app's
@@ -102,6 +104,8 @@ internal class EdgeToEdgeUIIntegration(private val runner: Instrumentation) {
             check(edit.commit())
             runner.runOnMainSync { AppCompatDelegate.setDefaultNightMode(previousNightMode) }
             disclosure.restore()
+            shell(if (keyboardPolicy in setOf("0", "1")) "settings put secure show_ime_with_hard_keyboard $keyboardPolicy"
+                else "settings delete secure show_ime_with_hard_keyboard")
         }
         return "PASS: edge-to-edge\n" + results.joinToString("\n")
     }
@@ -132,6 +136,10 @@ internal class EdgeToEdgeUIIntegration(private val runner: Instrumentation) {
         runner.runOnMainSync { try { block() } catch (error: Throwable) { failure = error } }
         failure?.let { throw it }
     }
+
+    private fun shell(command: String): String = android.os.ParcelFileDescriptor.AutoCloseInputStream(
+        runner.uiAutomation.executeShellCommand(command),
+    ).bufferedReader().use { it.readText().trim() }
 
     private fun finish(activity: MainActivity) {
         runner.runOnMainSync { activity.finish() }

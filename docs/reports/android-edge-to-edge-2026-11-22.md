@@ -49,6 +49,9 @@ All **16 theme/configuration cases passed**, retaining **32 workspace/keyboard s
 Assertions also require full-window content and title/navigation controls inside safe drawing
 bounds. Inputs and identities were fictional; no PIN was entered and no card was authenticated.
 Selected landscape PIN and tablet dark-mode screenshots were visually inspected.
+The suite also passed with `show_ime_with_hard_keyboard` initially disabled and restored it to 0
+after both light/dark keyboard checks. The preference is managed within the suite, so CI does not
+depend on the emulator profile's keyboard default.
 
 The harness explicitly rotates after activity launch, observes recreated activities, waits for
 destruction before the next consent fixture and applies themes before context attachment.
