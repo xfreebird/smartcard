@@ -80,3 +80,44 @@ The optimized DEX contains no invokes of either reported color setter and no ret
 The required CI native batch now includes the suite-specific `PASS: edge-to-edge` marker.
 Local test success does not establish real-card/biometric acceptance, older Android runtime
 coverage, Play review approval or that Play's generic advisory has refreshed.
+
+## Committed delivery and closed alpha
+
+Source [`d42523c0`](https://github.com/xfreebird/smartcard/commit/d42523c013fbdf555035f436f5925c8b0341bfed)
+and the keyboard-policy instrumentation follow-up
+[`cfa8a537`](https://github.com/xfreebird/smartcard/commit/cfa8a537e9ec2d81e18e3b414a58059e7fa25a7b)
+were committed/pushed to main as `xfreebird <xfreebird@gmail.com>`. The follow-up changes only the
+Android-test source and documentation; the signed builder's application inputs are identical.
+The superseded initial validation run was cancelled by the repository's normal concurrency policy.
+
+| Operation | Verified outcome |
+| --- | --- |
+| [CI 45020997437](https://github.com/xfreebird/smartcard/actions/runs/45020997437) | Success on the latest source: routing guards, localization, Android integration/mock UI and aggregate `CI result`; 34 journey markers plus light/dark edge markers and all required integration phases |
+| [Signed build 45020720486](https://github.com/xfreebird/smartcard/actions/runs/45020720486) | Success, exact application source above, 0.2.14 (1793624702); upload disabled during build |
+| [Play publish 45021611601](https://github.com/xfreebird/smartcard/actions/runs/45021611601) | Success, `closed_testing`, selected `alpha`, result `submitted` |
+
+Both live uploaded and reserved maxima were 1793624701 before reservation. Verified signed package
+`md.esemnbun.app`, versionName 0.2.14, versionCode 1793624702, expected upload-certificate SHA-256
+`0bd6c7ce1a0e57b3f959917d6c166c433184a3101cad5ddd5333b82bce9324cf` and AAB signature.
+
+- Signed APK SHA-256: `1eb92346792a1c8579edad5fd89ce9d65f318439c075b097c5c3b6bd74657ad6`.
+- Signed AAB SHA-256: `331cbeeb3e047c7cc8827f2d6a068702dd9da86f1eb4065b5532edf0598ec83f`.
+
+The signed AAB has 3,697,700 bytes of uncompressed DEX and retains the mapping, R8 metadata,
+bridge allow-list/TLS identity, public CA certificates and stamp metrics. Its actual optimized DEX
+was independently inspected: zero invokes of either reported color setter, no Activity edge
+helper classes and a sole cutout field assignment of 3 (`ALWAYS`). Its R8 percentages match the
+local final build above.
+
+The publisher reused this exact signed Actions artifact with EN/RO/RU notes. Independent API
+inspection after submission verified versionCode/AAB hash and that production, internal and beta
+matched their pre-submission state. No tester lists, listings, public GitHub release assets or
+other platform packages were changed.
+
+[Play Console alpha](https://play.google.com/console/u/1/developers/8344963402071617946/app/4973211912255144827/tracks/4698313398880262778)
+visibly confirmed **Release 0.2.14 (1793624702) in review**; 1793624701 remained **Available to
+selected testers**. Submission/API `completed` is not approval or new-build availability. Review
+approval and refreshed Play advisories remain pending; neither advisory's disappearance was claimed.
+
+Local evidence also includes `github-ci.log`, `signed-1793624702/identity.json`, the exact signed
+APK/AAB and mapping, `publish-result/play-result.json`, and `play-before.json` / `play-after.json`.
