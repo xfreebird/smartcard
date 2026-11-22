@@ -56,10 +56,32 @@ file protection, document sharing and the widget in the optimized Release APK. D
 do not prove R8 compatibility. Inspect the uploaded AAB's DEX percentages in Play Console; the source
 configuration alone does not establish that the minimum scores have been met.
 
-`MainActivity` already calls `enableEdgeToEdge()` and uses `adjustResize`. The root Material 3
-Scaffold explicitly uses safe-drawing insets and applies/consumes its content padding once, shared
-by the rail and destinations. Check Android 14, 15 and 16 with gesture and three-button navigation,
-portrait/landscape, a display cutout, keyboard input and phone/tablet layouts before rollout.
+`MainActivity` uses `WindowCompat.setDecorFitsSystemWindows(window, false)` and `adjustResize`.
+Transparent system bars are configured in themes rather than deprecated runtime color setters;
+icon appearance follows the actual Compose light/dark theme. API 26 retains a dark navigation-bar
+surface because it cannot display dark navigation icons. API 27+ supports transparent navigation;
+API 29+ keeps platform contrast protection for three-button navigation; API 30+ uses `ALWAYS`
+for cutouts. API 28/29 retain the platform's default cutout policy. The root Material 3 Scaffold
+uses safe-drawing insets and applies/consumes its content padding once around the rail and destinations.
+
+Both Activity 1.12.3's convenience helper and Core 1.17.0's `enableEdgeToEdge` still emit the
+deprecated color calls/`SHORT_EDGES` compatibility branch. Merely switching helpers does not
+clear that binary finding. Check the optimized DEX as well as actual runtime bounds.
+
+The normal `test-journeys.sh` batch requires the `edge-to-edge` instrumentation suite, including
+light/dark system icon appearance, full-window content, safe control bounds and PIN/IME actions.
+For the larger local matrix, install the current Debug app and Android-test APK on a dedicated
+emulator, then run:
+
+```bash
+python3 android/scripts/test-edge-to-edge.py emulator-5580 /absolute/fresh/evidence-directory
+```
+
+Run from the repository root with `adb` on PATH (or set `ADB`). The matrix verifies phone/tablet,
+gesture/three-button navigation, portrait/landscape, light/dark and a phone cutout, retaining
+workspace/keyboard screenshots. It restores display overrides, navigation/cutout overlays and
+rotation/keyboard settings. Use Android 15/16 for enforced edge-to-edge acceptance and include
+Android 14 or older when changing compatibility behavior.
 
 ## Design v2/v3: card wallet and status light (UX-01, UX-02, UX-05, UX-09…UX-12)
 

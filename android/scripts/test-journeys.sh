@@ -35,12 +35,13 @@ assert s.count(':pass') == 34, 'Missing scenario completions: '+s
 PY
 
 # Separate instrumentation launches prove persisted files survive process death.
-for phase in storage prepare verify saved-identities browser-authentication; do
+for phase in storage prepare verify saved-identities browser-authentication edge-to-edge; do
     expected='PASS:'
     case "$phase" in
         storage) args=(-e suite protection) ;;
         saved-identities) args=(-e suite saved-identities); expected='PASS: saved-identities' ;;
         browser-authentication) args=(-e suite browser-authentication); expected='PASS: browser-authentication' ;;
+        edge-to-edge) args=(-e suite edge-to-edge); expected='PASS: edge-to-edge' ;;
         *) args=(-e phase "$phase") ;;
     esac
     "$adb" -s "$serial" shell am instrument -w -r "${args[@]}" \

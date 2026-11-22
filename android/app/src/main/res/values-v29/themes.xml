@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MoldSign.Api29" parent="Theme.MoldSign.Api27">
+        <item name="android:enforceStatusBarContrast">false</item>
+        <!-- Android supplies contrast protection for three-button navigation. -->
+        <item name="android:enforceNavigationBarContrast">true</item>
+    </style>
+    <style name="Theme.MoldSign" parent="Theme.MoldSign.Api29" />
+</resources>

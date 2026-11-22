@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.os.LocaleListCompat
@@ -18,7 +19,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.activity.enableEdgeToEdge
+import androidx.core.view.WindowCompat
 import androidx.activity.viewModels
 import androidx.core.content.IntentCompat
 import androidx.appcompat.app.AppCompatActivity
@@ -77,10 +78,17 @@ class MainActivity : AppCompatActivity() {
         languagePreference = AppCompatDelegate.getApplicationLocales().get(0)?.language ?: "system"
         // The launch window is cosmetic; the running activity keeps its regular theme.
         setTheme(R.style.Theme_MoldSign)
-        enableEdgeToEdge()
+        // Keep transparent bars/cutout policy in API-qualified themes. Activity's convenience
+        // helper still emits deprecated color setters and SHORT_EDGES into the release DEX.
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         // Let Android dismiss its launch window; a custom exit overlay can outlive a cancelled animation.
         // A recreated activity (rotation, dark mode, locale) must not replay the launch intent.
         if (savedInstanceState == null) handleIntent(intent)
+        else if (DemoMode.screenshotCapture(intent)) {
+            // Retain the isolated fixture destination through theme/rotation recreation without
+            // replaying imports, shortcuts or the fictional consent request.
+            demoPage = intent.getStringExtra("demo_page")
+        }
         setContent {
             val configuration = LocalConfiguration.current
             val localizedConfiguration = remember(configuration, languagePreference) {
@@ -98,6 +106,12 @@ class MainActivity : AppCompatActivity() {
                 "light" -> false
                 "dark" -> true
                 else -> isSystemInDarkTheme()
+            }
+            SideEffect {
+                WindowCompat.getInsetsController(window, window.decorView).apply {
+                    isAppearanceLightStatusBars = !darkTheme
+                    isAppearanceLightNavigationBars = !darkTheme
+                }
             }
             CompositionLocalProvider(LocalContext provides localizedContext, LocalConfiguration provides localizedConfiguration) {
                 MoldSignTheme(darkTheme = darkTheme) {

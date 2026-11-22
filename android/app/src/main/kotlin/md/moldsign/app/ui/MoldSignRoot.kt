@@ -269,7 +269,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
         vm.consumeMessage()
     }
 
-    BoxWithConstraints(Modifier.fillMaxSize()) {
+    BoxWithConstraints(Modifier.fillMaxSize().semantics { testTagsAsResourceId = true }.testTag("app.window")) {
         val expanded = maxWidth >= 600.dp || (maxWidth >= 480.dp && maxWidth > maxHeight)
         val shortLandscape = maxHeight < 400.dp && maxWidth > maxHeight
         val compactStatus = maxWidth < 400.dp
@@ -325,6 +325,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 if (!expanded || shortLandscape) NavigationBar(modifier = if (shortLandscape) Modifier.navigationBarsPadding().height(56.dp) else Modifier, windowInsets = if (shortLandscape) WindowInsets(0, 0, 0, 0) else androidx.compose.material3.NavigationBarDefaults.windowInsets) {
                     Dest.entries.forEach { d ->
                         NavigationBarItem(
+                            modifier = Modifier.testTag("nav.${d.route}"),
                             selected = dest == d,
                             onClick = { nav.go(d) },
                             icon = { Icon(d.icon, contentDescription = stringResource(d.label)) },
@@ -346,6 +347,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                     ) {
                         Dest.entries.forEach { d ->
                             NavigationRailItem(
+                                modifier = Modifier.testTag("nav.${d.route}"),
                                 selected = dest == d,
                                 onClick = { nav.go(d) },
                                 icon = { Icon(d.icon, contentDescription = stringResource(d.label)) },

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.MoldSign.Launch" parent="Theme.MoldSign">
-        <!-- Android's starting window supports only a solid background; the exit view adds the gradient. -->
+        <!-- Android's starting window supports only a solid background. -->
         <item name="android:windowSplashScreenBackground">#2350D8</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/launch_icon</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@android:color/transparent</item>

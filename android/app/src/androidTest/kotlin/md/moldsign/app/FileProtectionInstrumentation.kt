@@ -8,20 +8,23 @@ import android.os.Bundle
 class FileProtectionInstrumentation : Instrumentation() {
     private var phase: String? = null
     private var suite: String? = null
+    private var edgeCase: String = "default"
 
     override fun onCreate(arguments: Bundle?) {
         super.onCreate(arguments)
         phase = arguments?.getString("phase")
         suite = arguments?.getString("suite")
+        edgeCase = arguments?.getString("case") ?: "default"
         start()
     }
 
     override fun onStart() {
         val result = Bundle()
         try {
-            require(suite == null || suite == "journeys" || suite == "protection" || suite == "browser-locale" || suite == "nfc-preparation" || suite == "saved-identities" || suite == "browser-authentication") { "Unknown integration suite: $suite" }
+            require(suite == null || suite == "journeys" || suite == "protection" || suite == "browser-locale" || suite == "nfc-preparation" || suite == "saved-identities" || suite == "browser-authentication" || suite == "edge-to-edge") { "Unknown integration suite: $suite" }
             require(suite == null || phase == null) { "A journey suite cannot select a persistence phase" }
             val message = when {
+                suite == "edge-to-edge" -> EdgeToEdgeUIIntegration(this).run(edgeCase)
                 suite == "browser-authentication" -> BrowserAuthenticationUIIntegration(this).run()
                 suite == "saved-identities" -> SavedIdentityRemovalIntegration(this).run()
                 suite == "nfc-preparation" -> NfcPreparationIntegration(this).run()

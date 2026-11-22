@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Window theme only; Compose draws everything (ui/theme/Theme.kt). -->
-    <style name="Theme.MoldSign" parent="Theme.AppCompat.DayNight.NoActionBar" />
+    <style name="Theme.MoldSign.Base" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!-- API 26 cannot display dark navigation icons; retain a contrasting surface there. -->
+        <item name="android:navigationBarColor">#1A1B21</item>
+    </style>
+    <style name="Theme.MoldSign" parent="Theme.MoldSign.Base" />
     <style name="Theme.MoldSign.Launch.Base" parent="Theme.MoldSign">
         <item name="android:windowBackground">@drawable/launch_background</item>
-        <item name="android:statusBarColor">#3F6EF5</item>
-        <item name="android:navigationBarColor">#1A39A6</item>
         <item name="android:windowLightStatusBar">false</item>
     </style>
     <style name="Theme.MoldSign.Launch" parent="Theme.MoldSign.Launch.Base" />
