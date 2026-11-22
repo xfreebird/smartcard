@@ -33,3 +33,12 @@ actionlint
 Test changed publishing guards with simulated API responses. Do not dispatch a real upload as a smoke test. After an authorized push, inspect the exact head's selected/skipped jobs and aggregate; distinguish local checks, hosted CI and real store outcomes. Update `PLAN.md`, the workflow guide and affected release/build skills in the same change.
 
 For a hosted-budget Pages outage, `website.yml` supports an explicitly selected `esemnbun-recovery` runner label on manual dispatch. Use a trusted, repository-scoped ephemeral runner per job and clean its credentials/workspace afterward; never install a persistent service or route untrusted PRs to an owner machine. Automatic jobs remain hosted.
+
+
+Scanner hardening: preserve action SHA pins/version comments and job-scoped write permissions for publishers and Android version reservation. Store Python installs are wheel-only/hash checked through `scripts/requirements/store-publish.txt`. Android verification metadata is enforced normally; its dedicated resolution task refreshes hashes only after reviewed dependency changes, never as a CI retry. Automatic Sonar analysis cannot import coverage and must not run alongside a CI scanner. Respect the owner's current delivery boundary: static/dependency checks do not replace the full native/real integration matrix in `docs/reports/scanner-hardening-integration-2026-11-22.md`.
+
+
+Android R8 follow-up: AGP 9.0.1 uses Gradle 9.1.0 and built-in Android Kotlin, aligned with the Kotlin/JVM/Compose compiler 2.2.10. Optimized resource shrinking is explicit; preserve Release minification and the Gradle distribution checksum. Validate the actual optimized Release app's resources and real reader/NFC/portal flows, then inspect its APK/AAB metadata. Debug journeys or dependency resolution do not establish that Play's uploaded-bundle advisory is cleared.
+
+
+Android Actions use the shared `scripts/ci/android_build_policy.py` preflight and artifact metadata gate. All four builders check the selected wrapper/daemon policy; secret-free CI also builds/lints an unsigned optimized Release bundle. Signed packaging checks before signing and records the final AAB hash with mapping/configuration under the existing artifact's `optimization/` directory. Keep those records in Actions evidence, preserve the public installer filter and do not treat artifact-only publishers as rebuilding old bundles. Hosted passes require an authorized push/run; local uncommitted wiring is not CI execution.

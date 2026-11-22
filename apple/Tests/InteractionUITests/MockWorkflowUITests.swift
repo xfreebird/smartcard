@@ -155,11 +155,11 @@ final class MockWorkflowUITests: XCTestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [expectation], timeout: 15), .completed, message)
     }
     private func attach(_ app: XCUIApplication, name: String) {
-        let image = XCTAttachment(screenshot: app.screenshot()); image.name = name; image.lifetime = .keepAlways; add(image)
+        let image = XCTAttachment(screenshot: app.workspaceScreenshot()); image.name = name; image.lifetime = .keepAlways; add(image)
     }
     private func launch(_ scenario: String, fixture: String = "ready", tab: String = "sign") -> XCUIApplication {
         #if os(macOS)
-        let app = XCUIApplication(bundleIdentifier: "md.esemnbun.mac")
+        let app = makeMacTestApplication()
         #else
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
         XCUIDevice.shared.orientation = .portrait

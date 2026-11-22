@@ -135,7 +135,7 @@ internal static class StampPdf
     }
     private static string ObjectText(string text, int n)
     {
-        var matches = Regex.Matches(text, FormattableString.Invariant($@"(?<!\d){n}\s+0\s+obj\b")); if (matches.Count == 0) throw Fail();
+        var matches = DocumentRegex.Matches(text, FormattableString.Invariant($@"(?<!\d){n}\s+0\s+obj\b")); if (matches.Count == 0) throw Fail();
         var start = matches[^1].Index + matches[^1].Length; var end = text.IndexOf("endobj", start, StringComparison.Ordinal);
         if (end < 0) throw Fail(); return text[start..end].Trim();
     }
@@ -181,8 +181,10 @@ internal static class StampPdf
     {
         try
         {
+            using var processing = DocumentRegex.BeginProcessing();
+            DocumentRegex.CheckLength(data.Length);
             var text = Encoding.Latin1.GetString(data);
-            var roots = Regex.Matches(text, @"/Root\s+(\d+)\s+0\s+R\b");
+            var roots = DocumentRegex.Matches(text, @"/Root\s+(\d+)\s+0\s+R\b");
             if (roots.Count == 0) return false;
             var root = int.Parse(roots[^1].Groups[1].Value, CultureInfo.InvariantCulture);
             return placement.Page >= 0 && placement.Page < Pages(text, ObjectText(text, root)).Count;

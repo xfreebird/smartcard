@@ -20,7 +20,7 @@ const readOutput = url => {
 };
 const tags = (html, name) => [...html.matchAll(new RegExp(`<${name}\\b[^>]*>`, 'g'))].map(match => {
   const attrs = {};
-  for (const attr of match[0].matchAll(/([\w:-]+)="([^"]*)"/g)) attrs[attr[1]] = attr[2];
+  for (const attr of match[0].matchAll(/\s([\w:-]+)="([^"]*)"/g)) attrs[attr[1]] = attr[2];
   return attrs;
 });
 
@@ -89,7 +89,7 @@ for (const locale of locales) {
     const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*(?:\n|$)/gm, '');
     assert.equal((prose.match(/^# /gm) || []).length, 1, `Duplicate Markdown title: ${doc.id}`);
     assert.ok(markdown.includes(doc.url), `Missing source citation: ${doc.id}`);
-    assert.doesNotMatch(markdown, /^import |<Guide(?:Directory|AnchorRedirect)|pathname:\/\//m);
+    assert.doesNotMatch(markdown, /(?:^import )|(?:<Guide(?:Directory|AnchorRedirect))|(?:pathname:\/\/)/m);
     assert.ok(index.includes(doc.markdown) && index.includes(doc.url));
     assert.ok(full.includes(markdown), `Full text does not match: ${doc.id}`);
   }

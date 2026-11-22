@@ -1,6 +1,7 @@
 # Native Settings category navigation proof. No card, PIN, credential or signing action is invoked.
 param([Parameter(Mandatory=$true)][string]$App,[Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 Add-Type -AssemblyName System.Windows.Forms
@@ -132,5 +133,5 @@ try {
     $proof|ConvertTo-Json|Set-Content (Join-Path $Output 'settings-navigation-proof.json') -Encoding UTF8
 } finally {
     if($null -ne $process -and -not $process.HasExited) {Stop-Process -Id $process.Id -Force}
-    foreach($name in $original.Keys) {[Environment]::SetEnvironmentVariable($name,$original[$name])}
+    foreach($name in $original.Keys) {Set-TestEnvironmentVariable $name $original[$name]}
 }

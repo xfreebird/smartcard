@@ -10,7 +10,10 @@ def wait(predicate, description, process, timeout=20):
     end = time.monotonic() + timeout
     while time.monotonic() < end:
         context = GLib.MainContext.default()
-        while context.pending():
+        # Accessibility events can arrive continuously during GTK layout/animation.
+        # Keep polling the asserted state and enforcing the outer timeout.
+        drain_end = min(end, time.monotonic() + .05)
+        while context.pending() and time.monotonic() < drain_end:
             context.iteration(False)
         if process.poll() is not None:
             raise AssertionError(f"App exited during {description}")
@@ -25,13 +28,27 @@ def descendants(node):
     # GTK may remove a child between reading the child count and fetching that child.
     if node is None:
         return
-    yield node
-    try:
-        for child in node:
-            yield from descendants(child)
-    except GLib.GError:
-        # Native chooser teardown can invalidate a subtree during enumeration.
-        return
+    application_root = node.getRole() == pyatspi.ROLE_APPLICATION
+    pending = [(node, 0)]
+    seen = set()
+    while pending:
+        node, depth = pending.pop()
+        if node is None or node.path in seen:
+            continue
+        # AT-SPI can return distinct proxy objects for the same remote accessible.
+        # Use its stable path while retaining native child order for form actions.
+        seen.add(node.path)
+        try:
+            if application_root and depth == 1:
+                state = node.getState()
+                if state.contains(pyatspi.STATE_DEFUNCT) or not state.contains(pyatspi.STATE_SHOWING):
+                    continue
+            yield node
+            pending.extend((node.get_child_at_index(index), depth + 1)
+                           for index in reversed(range(node.get_child_count())))
+        except GLib.GError:
+            # Native chooser teardown can invalidate a subtree during enumeration.
+            continue
 
 
 def visible_named(app, name):

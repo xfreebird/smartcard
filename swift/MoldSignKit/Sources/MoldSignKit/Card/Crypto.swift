@@ -6,6 +6,8 @@ import CPCSC
 
 enum CryptoError: Error {
     case cbcFailed(Int32)
+    case blockFailed(Int32)
+    case cmacFailed(Int32)
     case invalidLength
 }
 
@@ -15,16 +17,18 @@ struct AES {
     init(key: Data) { self.key = [UInt8](key) }
 
     /// Single-block ECB encrypt
-    func ecbEncrypt(_ block: Data) -> Data {
+    func ecbEncrypt(_ block: Data) throws -> Data {
+        guard key.count == 32, block.count == 16 else { throw CryptoError.invalidLength }
         var out = [UInt8](repeating: 0, count: 16)
         let inBytes = [UInt8](block)
-        _ = c_aes256_ecb_encrypt(key, UInt32(key.count), inBytes, &out)
+        let status = c_aes256_ecb_encrypt(key, UInt32(key.count), inBytes, &out)
+        guard status == 0 else { throw CryptoError.blockFailed(status) }
         return Data(out)
     }
 
     /// CBC encrypt, no padding (input must be multiple of 16)
     func cbcEncrypt(_ data: Data, iv: Data) throws -> Data {
-        guard data.count % 16 == 0, iv.count == 16 else { throw CryptoError.invalidLength }
+        guard key.count == 32, data.count <= Int(Int32.max), data.count % 16 == 0, iv.count == 16 else { throw CryptoError.invalidLength }
         let inBytes = [UInt8](data)
         let ivBytes = [UInt8](iv)
         var out = [UInt8](repeating: 0, count: data.count + 32)
@@ -36,7 +40,7 @@ struct AES {
 
     /// CBC decrypt, no padding
     func cbcDecrypt(_ data: Data, iv: Data) throws -> Data {
-        guard data.count % 16 == 0, iv.count == 16 else { throw CryptoError.invalidLength }
+        guard key.count == 32, data.count <= Int(Int32.max), data.count % 16 == 0, iv.count == 16 else { throw CryptoError.invalidLength }
         let inBytes = [UInt8](data)
         let ivBytes = [UInt8](iv)
         var out = [UInt8](repeating: 0, count: data.count + 32)
@@ -47,11 +51,13 @@ struct AES {
     }
 
     /// AES-CMAC (RFC 4493) — full 16-byte tag (via C wrapper)
-    static func cmac(key: Data, message: Data) -> Data {
+    static func cmac(key: Data, message: Data) throws -> Data {
+        guard key.count == 32, message.count <= Int(UInt32.max) else { throw CryptoError.invalidLength }
         let keyBytes = [UInt8](key)
         let msgBytes = [UInt8](message)
         var out = [UInt8](repeating: 0, count: 16)
-        c_aes256_cmac(keyBytes, UInt32(keyBytes.count), msgBytes, UInt32(msgBytes.count), &out)
+        let status = c_aes256_cmac(keyBytes, UInt32(keyBytes.count), msgBytes, UInt32(msgBytes.count), &out)
+        guard status == 0 else { throw CryptoError.cmacFailed(status) }
         return Data(out)
     }
 

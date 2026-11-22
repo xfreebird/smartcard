@@ -193,7 +193,7 @@ internal static class PdfStampEditor
         enabled.Toggled += (_,_) => Overlay();
         all.Checked += (_,_) => Overlay(); all.Unchecked += (_,_) => Overlay();
         try {
-                var bytes = await File.ReadAllBytesAsync(row.Path);
+                var bytes = await File.ReadAllBytesAsync(row.Path, cancellationToken);
                 placement = placement with { DocumentSHA256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)) };
                 // Preview the same private bytes bound to the placement, including provider-backed files.
                 source = new InMemoryRandomAccessStream();

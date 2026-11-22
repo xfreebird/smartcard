@@ -9,12 +9,14 @@ namespace MoldSign.Desktop;
 
 /// <summary>Per-user/session window activation and document selection; never accepts a PIN or signs.</summary>
 [SupportedOSPlatform("windows")]
-public sealed class DesktopActivationBroker : IDisposable
+public sealed class DesktopActivationBroker : IDisposable, IAsyncDisposable
 {
     private readonly Mutex _lifetime;
     private readonly CancellationTokenSource _shutdown = new();
     private readonly string _pipe;
     private Task? _listener;
+    private readonly object _stopGate = new();
+    private Task? _stop;
 
     public DesktopActivationBroker(string instanceKey = "MoldSign")
     {
@@ -101,9 +103,20 @@ public sealed class DesktopActivationBroker : IDisposable
         await client.FlushAsync(cancellationToken);
     }
 
-    public void Dispose()
+    public void Dispose() => DisposeAsync().AsTask().GetAwaiter().GetResult();
+
+    public ValueTask DisposeAsync()
     {
-        _shutdown.Cancel();
-        _lifetime.Dispose();
+        lock (_stopGate) return new ValueTask(_stop ??= StopAsync());
+    }
+
+    private async Task StopAsync()
+    {
+        try
+        {
+            await _shutdown.CancelAsync().ConfigureAwait(false);
+            if (_listener is not null) await _listener.ConfigureAwait(false);
+        }
+        finally { _shutdown.Dispose(); _lifetime.Dispose(); }
     }
 }

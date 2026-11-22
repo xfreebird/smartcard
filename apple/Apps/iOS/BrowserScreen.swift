@@ -302,7 +302,7 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
 
     func open(_ url: URL) {
         synchronizeLanguage(reload: false)
-        guard ["https", "http"].contains(url.scheme?.lowercased() ?? L10n.text(.ui_)), webView.url != url else { return }
+        guard BrowserNavigationPolicy.allows(url), webView.url != url else { return }
         self.url = url
         webView.load(BrowserLocale.request(URLRequest(url: url), language: BrowserLocale.language))
     }
@@ -314,7 +314,12 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
                  decisionHandler: @escaping (WKNavigationActionPolicy, WKWebpagePreferences) -> Void) {
         let host = navigationAction.request.url?.host?.lowercased()
         preferences.preferredContentMode = host.map(mpassHosts.contains) == true ? .desktop : .recommended
-        decisionHandler(.allow, preferences)
+        decisionHandler(BrowserNavigationPolicy.allows(navigationAction.request.url) ? .allow : .cancel, preferences)
+    }
+
+    func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse,
+                 decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        decisionHandler(BrowserNavigationPolicy.allows(navigationResponse.response.url) ? .allow : .cancel)
     }
 
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
@@ -341,7 +346,7 @@ private final class PortalBrowser: NSObject, WKNavigationDelegate, WKUIDelegate 
     /// A portal's target=_blank links stay inside the foreground app.
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        if navigationAction.targetFrame == nil { webView.load(BrowserLocale.request(navigationAction.request, language: BrowserLocale.language)) }
+        if navigationAction.targetFrame == nil, BrowserNavigationPolicy.allows(navigationAction.request.url) { webView.load(BrowserLocale.request(navigationAction.request, language: BrowserLocale.language)) }
         return nil
     }
 }

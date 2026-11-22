@@ -67,6 +67,12 @@ public sealed class AppServices : IAsyncDisposable
         Bridge = new BridgeHost(BridgeOriginPolicy.Default, BridgeTls.ResolvePath,
             () => Volatile.Read(ref _bridgeCards), Signing, _authorize,
             allowsLegacyDesktopClient: Settings.LegacyDesktopClientEnabled && !StartupRegistration.IsPackaged);
+        Bridge.AuthorizeCancellable = (request, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            if (_disposed || IsDemo) return ConsentResult.Cancelled;
+            return dependencies.Authorize is { } custom ? custom(request) : Consent.Request(request, token);
+        };
         Bridge.PreviewPdfEnabled = () => Settings.BrowserStampsEnabled;
         Bridge.PreviewPdf = async (bytes, card, origin, token) =>
         {
@@ -159,7 +165,7 @@ public sealed class AppServices : IAsyncDisposable
 
     public async Task<bool> SetMcpApprovalEnabledAsync(bool enabled)
     {
-        await _mcpConfiguration.WaitAsync();
+        await _mcpConfiguration.WaitAsync(CancellationToken.None);
         try
         {
             if (_disposed || IsDemo) enabled = false;
@@ -224,7 +230,7 @@ public sealed class AppServices : IAsyncDisposable
                     cancellation.ThrowIfCancellationRequested();
                     if (!consent.IsCancelled) signing();
                     return consent;
-                }, requester: "MCP", reader: reader));
+                }, requester: "MCP", reader: reader), CancellationToken.None);
                 Consent.LastRemainingAttempts = null;
                 answer.TrySetResult(signed);
             }
@@ -429,11 +435,15 @@ public sealed class AppServices : IAsyncDisposable
         });
     }
 
-    public async ValueTask DisposeAsync()
+    private Task? _disposeTask;
+    public ValueTask DisposeAsync() => new(_disposeTask ??= DisposeCoreAsync());
+
+    private async Task DisposeCoreAsync()
     {
         _disposed = true;
-        Updates.Stop();
-        await _mcpConfiguration.WaitAsync();
+        await Consent.CancelPendingAsync();
+        await Updates.StopAsync();
+        await _mcpConfiguration.WaitAsync(CancellationToken.None);
         try
         {
             if (_mcpBroker is not null) await _mcpBroker.DisposeAsync();
@@ -442,11 +452,12 @@ public sealed class AppServices : IAsyncDisposable
         finally { _mcpConfiguration.Release(); }
         State.WalletChanged -= OnWalletChanged;
         Readers.Dispose();
-        Consent.CancelPending();
-        (BrowserConnection as IDisposable)?.Dispose();
+        if (BrowserConnection is IAsyncDisposable asyncBrowser) await asyncBrowser.DisposeAsync();
+        else (BrowserConnection as IDisposable)?.Dispose();
         await Bridge.DisposeAsync();
         // Old in-flight reads / browser work must finish before a new service generation is visible.
         while (Volatile.Read(ref _activeOperations) > 0) await Task.Delay(25);
+        Consent.Dispose();
         _demo?.Dispose();
     }
 

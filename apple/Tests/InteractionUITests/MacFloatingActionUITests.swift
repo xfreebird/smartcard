@@ -1,5 +1,6 @@
 import XCTest
 
+#if os(macOS)
 /// Exercises the production macOS workspace with fictional inputs and an injected signer.
 @MainActor
 final class MacFloatingActionUITests: XCTestCase {
@@ -95,16 +96,21 @@ final class MacFloatingActionUITests: XCTestCase {
     }
 
     private func wait(_ message: String, in app: XCUIApplication, condition: @escaping () -> Bool) {
-        let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: app)
+        let expectation = XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)
         XCTAssertEqual(XCTWaiter.wait(for: [expectation], timeout: 15), .completed, message)
     }
 
     private func resize(_ window: XCUIElement, width: CGFloat, height: CGFloat) {
-        let size = window.frame.size
-        let corner = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 1))
-            .withOffset(CGVector(dx: -2, dy: -2))
-        corner.click(forDuration: 0.2, thenDragTo: corner.withOffset(
-            CGVector(dx: width - size.width, dy: height - size.height)))
+        // Rounded window corners are outside the resize hit region on newer macOS.
+        // Exercise the native straight edges instead of the transparent corner.
+        let right = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 0.5))
+            .withOffset(CGVector(dx: -1, dy: 0))
+        right.click(forDuration: 0.2, thenDragTo: right.withOffset(
+            CGVector(dx: width - window.frame.width, dy: 0)))
+        let bottom = window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 1))
+            .withOffset(CGVector(dx: 0, dy: -1))
+        bottom.click(forDuration: 0.2, thenDragTo: bottom.withOffset(
+            CGVector(dx: 0, dy: height - window.frame.height)))
     }
 
     private func attach(_ window: XCUIElement, name: String) {
@@ -116,7 +122,7 @@ final class MacFloatingActionUITests: XCTestCase {
 
     private func launch(scenario: String = "ready", files: String = "fixture", language: String = "en",
                         theme: String = "light") -> XCUIApplication {
-        let app = XCUIApplication(bundleIdentifier: "md.esemnbun.mac")
+        let app = makeMacTestApplication()
         app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
             "MSIGN_DEMO_PREVIEW": "0", "MSIGN_DEMO_CARDS": "2", "MSIGN_DEMO_FILES": files,
             "MSIGN_DEMO_SCENARIO": scenario, "MSIGN_UI_TEST_SCENARIO": "sign-success",
@@ -127,3 +133,4 @@ final class MacFloatingActionUITests: XCTestCase {
         return app
     }
 }
+#endif

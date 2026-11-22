@@ -30,7 +30,7 @@ jobs:
       android: ${{ steps.select.outputs.android }}
       windows: ${{ steps.select.outputs.windows }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with: { fetch-depth: 0 }
       - id: select
         run: python3 scripts/ci/select_jobs.py
@@ -46,7 +46,7 @@ jobs:
     name: Shared localization exports
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: python3 scripts/localize.py --check --require-complete
       - run: python3 scripts/export-browser-services.py --check
       - run: python3 scripts/prepare-store-metadata.py --check
@@ -58,7 +58,7 @@ jobs:
     name: Swift core + CLI (macOS, Apple + portable backends)
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - name: Test (Apple frameworks)
         working-directory: swift/MoldSignKit
         run: swift test
@@ -76,7 +76,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: bash apple/scripts/require-siri-sdk.sh
       - name: Build mock-capable macOS app
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Debug -derivedDataPath "$RUNNER_TEMP/macos-build" CODE_SIGNING_ALLOWED=NO build
@@ -90,7 +90,7 @@ jobs:
           bash scripts/ci/test-apple-ui.sh macos "$RUNNER_TEMP/macos-build/Build/Products/Debug/eSemnBun.app" "$RUNNER_TEMP/macos-ui"
       - name: macOS UI evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: macos-ui-${{ github.sha }}
           retention-days: 7
@@ -120,7 +120,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         timeout-minutes: 2
       - name: Require iPhone Duo SDK
         timeout-minutes: 2
@@ -139,7 +139,7 @@ jobs:
       - name: iOS UI evidence
         if: always()
         timeout-minutes: 3
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ios-ui-${{ matrix.family }}-${{ github.sha }}
           retention-days: 7
@@ -165,7 +165,7 @@ jobs:
       # Avoid the intermittent hosted-container resolver failure for Ubuntu archives.
       options: --dns 1.1.1.1 --dns 8.8.8.8
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - name: System libraries + packaging tools
         run: |
           apt-get -o Acquire::Retries=3 update --error-on=any
@@ -193,7 +193,7 @@ jobs:
         run: dbus-run-session -- xvfb-run -a -s "-screen 0 1440x1080x24" python3 linux/scripts/test-ui-journeys.py linux/.build/debug/esemnbun-gnome "$RUNNER_TEMP/linux-ui"
       - name: Linux UI evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: linux-ui-${{ github.sha }}
           retention-days: 7
@@ -203,7 +203,7 @@ jobs:
       # (LNX-07, LNX-15). The Flatpak bundle is skipped here: flatpak-builder needs a privileged container.
       - name: Packages
         run: scripts/package-linux.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-linux-${{ github.sha }}
           retention-days: 1
@@ -217,8 +217,8 @@ jobs:
     name: Android integration and mock UI
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
         with:
           distribution: temurin
           java-version: 17
@@ -227,8 +227,18 @@ jobs:
             android/**/*.gradle*
             android/gradle.properties
             android/gradle/wrapper/gradle-wrapper.properties
+            android/gradle/verification-metadata.xml
+            android/gradle/libs.versions.toml
+            android/gradle/gradle-daemon-jvm.properties
+            android/gradle/wrapper/gradle-wrapper.jar
+      - name: Require selected Android toolchain and optimization policy
+        run: python3 scripts/ci/android_build_policy.py --verify-wrapper --report "$RUNNER_TEMP/android-toolchain.json"
       - name: Build and test Android (bounded dependency-download retries)
         run: scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :core:test :transport-usb:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
+      - name: Validate optimized unsigned Release (no signing or publishing)
+        run: |
+          scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :app:assembleRelease :app:bundleRelease :app:lintRelease
+          python3 scripts/ci/android_build_policy.py --aab android/app/build/outputs/bundle/release/app-release.aab --report "$RUNNER_TEMP/android-release-optimization.json"
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
       - name: Enable KVM for the test emulator
         run: |
@@ -246,7 +256,7 @@ jobs:
           sudo rm -rf /usr/share/dotnet
           df -h "$HOME"
       - name: Native Android mock UI journeys
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
         with:
           api-level: 36
           # Native mock journeys do not need Google Play services or first-boot updates.
@@ -263,7 +273,7 @@ jobs:
             bash android/scripts/test-journeys.sh emulator-5554 android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk "$RUNNER_TEMP/android-ui"
       - name: Android test evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: android-tests-${{ github.sha }}
           retention-days: 7
@@ -271,6 +281,9 @@ jobs:
             ${{ runner.temp }}/android-ui/
             ${{ runner.temp }}/android-ui-boot/
             android/**/build/test-results/
+            android/app/build/outputs/mapping/release/
+            ${{ runner.temp }}/android-toolchain.json
+            ${{ runner.temp }}/android-release-optimization.json
           if-no-files-found: warn
 
   windows:
@@ -285,8 +298,8 @@ jobs:
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           global-json-file: windows/global.json
           cache: true
@@ -333,7 +346,7 @@ jobs:
           & windows/scripts/test-insertion-helper.ps1 -App $app -Helper $helper -Output "$env:RUNNER_TEMP/windows-ui-helper"
       - name: Windows UI evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: windows-ui-${{ github.sha }}
           retention-days: 7
@@ -342,7 +355,7 @@ jobs:
       - name: Package (Native AOT CLI, WinUI app, MSI, MSIX, winget manifests)
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-windows-x64
           retention-days: 1

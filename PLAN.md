@@ -1775,3 +1775,36 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Local Android 16 ARM64 matrix passed all 16 theme/configuration cases and retained 32 screenshots. The full 34-journey batch, all six integration phases, 222 unit-test cases (one live TSA skip), both lint variants, Debug app/test APKs and final optimized Release APK/AAB passed; 86 CI guards and 12 Play publisher guards also passed. The final optimized Release DEX has no deprecated bar-color setter calls, no Activity edge helper and only an `ALWAYS` cutout assignment. Validation and distribution evidence: `docs/reports/android-edge-to-edge-2026-11-22.md`.
 - The edge suite manages and restores emulator soft-keyboard policy; a separate local light/dark run passed with that policy initially disabled and verified restoration to 0. This follow-up changes instrumentation only, preserving the application inputs of the already-requested signed build.
 - Delivered source `d42523c0` and instrumentation follow-up `cfa8a537` to main. Latest CI `45020997437` passed Android's 34 journeys, required integrations, both edge themes and `CI result`. Signed build `45020720486` passed for 0.2.14 (1793624702); verified upload certificate, AAB signature, required resources and removal of the reported deprecated DEX uses. Publish `45021611601` submitted that exact AAB to alpha only with EN/RO/RU notes; an independent read confirmed code/hash and unchanged other tracks. Play Console shows 1793624702 **in review**, while 1793624701 remains available to selected testers. Review approval and refreshed Play advisories remain pending.
+
+
+### 2026-11-22 — Scanner recommendations (uncommitted; integration pending)
+
+- [~] SEC-09: prepared the reviewed SonarCloud/Dependabot hardening: checked C/Swift AES/CMAC error propagation and invalid-session admission; bounded Windows PDF/origin processing; SafeHandle leases and coordinated cancellation/shutdown; explicit Android TLS protocols and iOS navigation policy; private diagnostics/capture paths; dependency updates and verification; action SHA pins, job permissions and environment-only workflow inputs.
+- Prepared test/source classification for automatic Sonar analysis and grouped dependency updates. Coverage import needs a later CI-analysis migration; the external new-code gate/baseline and re-scan remain pending.
+- Added regression source and an all-platform automated/real integration matrix in `docs/reports/scanner-hardening-integration-2026-11-22.md`. Syntax/static checks and dependency resolution only were performed. Native builds, tests, UI, hardware/portal/PKI acceptance and refreshed scanner results remain open.
+- No commit, push, PR mutation, workflow dispatch, alert dismissal, physical card operation or publishing. Preserve the unrelated creative README edit and existing untracked work.
+
+
+### 2026-11-22 — Additional Play optimized-resource recommendation (uncommitted)
+
+- [~] AND-10 follow-up: prepare AGP 9.0.1 / Gradle 9.1.0 / Kotlin and Compose compiler 2.2.10, built-in Kotlin for Android modules and explicit optimized resource shrinking. Update the matched lint/AAPT2 verification graph and Gradle wrapper checksum.
+- Native Debug/Release builds, lint, full UI/core suites and real optimized-Release reader/NFC/browser integration remain pending. The uploaded 1793624702 warning is not claimed resolved by source edits. Acceptance cases extend `docs/reports/scanner-hardening-integration-2026-11-22.md`; no commit, push or publishing.
+
+- AGP 9 follow-up configuration validation: per-module checksum refresh and enforced resolution passed; Gradle 9.1 wrapper regenerated and its JAR matched the official SHA-256. Build Tools 36.0.0 were provisioned from the SDK with its existing license. This was dependency/tooling validation only; native app builds/tests and optimized Release integration remain pending.
+
+
+### 2026-11-22 — Enforce Android optimization in GitHub Actions (uncommitted)
+
+- AND-10 follow-up: add shared source/runtime preflight to all four Android builder paths; include catalog/wrapper/daemon/verification inputs in Gradle caches. Secret-free CI will additionally validate an unsigned optimized Release APK/AAB and Release lint without reserving a version or signing/uploading.
+- Signed packaging will reject stale/unoptimized AAB metadata before signing, verify the final AAB and retain mapping/configuration/hash/policy evidence in the existing Actions artifact. Artifact-only publishers still reuse the selected bundle; public Release installer filtering is preserved.
+- Guard regression source added. Local preflight/static syntax/workflow lint only; new application builds/tests and hosted CI remain unrun. No commit, push or dispatch.
+
+
+### 2026-11-23 — Local CI and separate review branch
+
+- The owner superseded the earlier uncommitted boundary: validate all five platforms and UI locally, then commit on `ai/scanner-hardening-r8` and open a PR. No publishing, release dispatch, tag, merge or Store submission.
+- Android Debug/optimized Release, lint, 245 unit cases (one opt-in skip), 34 native journeys and all six integration phases passed. Actual AAB metadata proves AGP 9.0.1/R8 optimized resource shrinking; all four Android builder workflows use the shared gate. Play warning clearance and physical Release acceptance remain open.
+- Apple and portable Swift core suites, 33 app integration tests, macOS Debug/Store/CLI builds, all 15 macOS UI cases and all 35 iPhone cases passed. Website clean Node 22 install, 39 tests, EN/RO/RU builds and SEO checks passed. Shared CI guards and mocked publisher checks passed.
+- Windows core/integration passed all 290 tests. Linux native/core and Ubuntu CI-image builds/tests passed. Linux tar/Debian/RPM packages, all 21 Linux UI scenarios and all 35 iPad cases with filesystem postchecks passed. Both Windows x64/ARM64 Debug builds and unsigned x64 CLI/app/MSI/MSIX packages passed. All six Windows ARM64 UI suites, the watcher build and final source-hash audits passed; detailed evidence and architecture limits are tracked in [local CI validation](docs/reports/local-ci-hardening-2026-11-23.md); incomplete attempts are not passes.
+- Test harness repairs preserve assertions and completion counts: exact macOS app path, finite window captures, straight-edge resize, Android semantic toolbar title and bounded Linux event draining and stable accessibility traversal. Windows UI queries now use app-owned windows rather than unrelated desktop providers. Shared test-environment reset/restore removes absent variables through the provider, avoiding PowerShell 7.7/.NET 9+ empty debug-switch leakage and preserving genuine ordinary-launch validation. The unrelated creative README and old untracked reports/probes remain outside this change.
+- Physical reader/NFC, biometric reuse, live portal/PKI, refreshed scanner ratings and hosted PR-head CI remain separate acceptance gates. Private synthetic evidence stays ignored.

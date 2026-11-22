@@ -159,3 +159,39 @@ If a hosted Actions spending limit blocks Pages deployment, the Website manual d
 The recovery host needs `uv` with an existing managed Python3.12 (`uv python find 3.12`), Node tooling prerequisites, `gh`, `gpg`, `gpgv` and GNU tar (`gtar` on macOS). Hosted runners use `setup-python`; recovery selects the existing managed interpreter without creating a system-wide hosted tool cache.
 
 CI Linux/Windows package artifacts expire after one day; signed Release artifacts keep their separate release retention. CI packages are reproducible validation output. Preserve current release inputs, store-upload artifacts and diagnostic evidence when clearing obsolete CI packages. Hosted storage enforcement may take hours to reflect deletions.
+
+
+## Scanner hardening and dependency verification (uncommitted acceptance)
+
+Actions are pinned to full SHAs with their version comments retained. Workflow permissions default to read-only; release/feed publishers and Android counter reservation declare their needed write permission at job scope. Windows Release build-number overrides are environment data validated as positive bounded integers before packaging. Updating an action pin or dependency never authorizes a publishing smoke test.
+
+Website CI installs the locked npm graph with `--ignore-scripts`; recheck lifecycle requirements when adding build dependencies.
+
+Play/AppGallery uploader installs use `scripts/requirements/store-publish.txt` with wheel-only, hash-checked dependencies for CPython 3.12 on Ubuntu 24.04 x86_64. To refresh deliberately, resolve `store-publish.in` into a fresh ignored wheel directory with the target Python/platform, then run `scripts/ci/lock-publisher-wheels.py` against it. Review the changed packages and hashes before accepting the lock. Never copy credentials into package metadata or logs.
+
+Android builds enforce `android/gradle/verification-metadata.xml`. To refresh after a reviewed dependency change:
+
+```sh
+android/gradlew -p android --write-verification-metadata sha256 resolveDependencyVerification
+android/gradlew -p android resolveDependencyVerification
+```
+
+This task resolves external artifacts, including the AGP-matched lint tools and AAPT2 host classifiers, without app compilation/tests/signing or version reservation. Do not run `--write-verification-metadata` as an automatic fallback in CI: it would trust the changed bytes that verification was meant to reject. Update the explicit tooling coordinates when changing AGP. Review checksum additions and validate clean-cache builds on the intended hosts.
+
+Automatic Sonar analysis uses `.sonarcloud.properties`; production publishing/CI scripts remain in source scope and test drivers are listed explicitly. Coverage is unsupported in automatic mode. A future CI-analysis migration must disable automatic analysis first and import genuine language-specific coverage; do not configure duplicate scanners or fabricated coverage. Gate/baseline changes and a re-scan follow integration acceptance and an authorized push.
+
+The uncommitted changes and complete automated/real integration acceptance matrix are recorded in [the hardening handoff](reports/scanner-hardening-integration-2026-11-22.md). A successful dependency-resolution task is not a passing application build or test run.
+
+
+Android optimization follow-up: the local toolchain is AGP 9.0.1 / Gradle 9.1.0 / Kotlin 2.2.10, with built-in Kotlin for Android modules and an explicit optimized-resource policy. Update matched lint/AAPT2 verification coordinates with AGP; preserve the checked Gradle distribution checksum. Dependency resolution does not validate the optimized output: require clean Release APK/AAB, lint and real resource-sensitive integration before an authorized upload. Existing Play notices remain tied to their uploaded bundle.
+
+
+### Actions enforcement of the Android R8 toolchain
+
+All four Android build entry points (`ci.yml`, `android-runtime.yml`, `android-build.yml` and Release's Android job) run `scripts/ci/android_build_policy.py --verify-wrapper` after JDK setup and before building or reserving a version. It checks the selected AGP/Kotlin/Gradle policy, distribution checksum, explicit optimized resource shrinking and actual wrapper/daemon-JDK selection. Cache inputs include the version catalog, daemon criteria, wrapper JAR/properties and dependency-verification metadata; no workflow substitutes a system Gradle installation.
+
+Secret-free CI additionally compiles an unsigned optimized Release APK/AAB and runs Release lint. It rejects the AAB unless embedded AGP/R8 metadata confirms the selected plugin, shrinking/optimization/obfuscation, full non-Debug mode and optimized resource shrinking. This creates no signing material, version reservation or store upload. Its report and mapping are retained with CI evidence.
+
+Both signed workflows use `scripts/package-android.sh`, which applies the same preflight, validates the actual AAB before signing, and validates/hashes the final AAB. Their existing Android Actions artifact also retains `optimization/` with mapping, configuration and a build-policy report. The public Release file filter continues to publish only its existing installer asset types; optimization evidence is not added to public release downloads.
+
+Artifact-only publishers continue to reuse the explicitly selected source artifact. They do not rebuild an older bundle with the new toolchain; choose the new successful source build after testing and an authorized commit/push. The workflow changes here are local until that push and do not establish a hosted CI pass.

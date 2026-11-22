@@ -65,7 +65,7 @@ let package = Package(
         ),
         .testTarget(
             name: "MoldSignKitTests",
-            dependencies: ["MoldSignKit"],
+            dependencies: ["MoldSignKit", "CPCSC"],
             path: "Tests/MoldSignKitTests",
             resources: [.copy("Fixtures")]
         ),

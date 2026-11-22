@@ -1,7 +1,9 @@
 param([Parameter(Mandatory=$true)][string]$App, [Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+. (Join-Path $PSScriptRoot 'ui-automation.ps1')
 if (Test-Path $Output) { throw 'Use a fresh output directory.' }
 New-Item -ItemType Directory $Output | Out-Null
 $Output = (Resolve-Path $Output).Path
@@ -20,7 +22,7 @@ function Find-Visible($id, $process) {
     $condition = [System.Windows.Automation.AndCondition]::new(
         [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$process.Id),
         [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty,$id))
-    foreach ($node in [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants,$condition)) {
+    foreach ($node in (Find-AppAutomationElements $process $condition)) {
         if ($node.Current.IsOffscreen) {
             $scroll = $null
             if ($node.TryGetCurrentPattern([System.Windows.Automation.ScrollItemPattern]::Pattern, [ref]$scroll)) { $scroll.ScrollIntoView() }
@@ -103,5 +105,5 @@ try {
         }
     }
 } finally {
-    foreach ($name in $names) { [Environment]::SetEnvironmentVariable($name,$before[$name]) }
+    foreach ($name in $names) { Set-TestEnvironmentVariable $name $before[$name] }
 }

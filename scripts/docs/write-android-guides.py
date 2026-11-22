@@ -2,7 +2,7 @@
 # coding: utf-8
 """Write localized Android journeys using visible native screenshot control bounds."""
 import pathlib,json,re,xml.etree.ElementTree as ET
-ROOT=pathlib.Path(__file__).resolve().parents[2]; XML=pathlib.Path('/tmp/esemnbun-android-guide-layouts')
+ROOT=pathlib.Path(__file__).resolve().parents[2]; XML=ROOT/'.local/guide-layouts/android'
 # Each triplet is English, Romanian, Russian. Screenshot text is independently localized by Android.
 def t(*v):return dict(zip(('en','ro','ru'),v))
 INTRO=t('Use a compatible USB/OTG reader and an active electronic ID with its signing PIN. Android 8 or later and USB host support are required. NFC signing is unavailable. Install from the channel listed on [Downloads](/downloads); an APK installs on a device, while an AAB is a store upload. Update through the same distribution channel.','Folosește un cititor USB/OTG compatibil și un buletin electronic activ, cu PIN-ul de semnare. Sunt necesare Android 8 sau ulterior și suport USB host. Semnarea prin NFC nu este disponibilă. Instalează din canalul indicat în [Descărcări](/downloads); APK-ul se instalează pe dispozitiv, iar AAB-ul este destinat magazinului. Actualizează prin același canal.','Понадобятся совместимый USB/OTG-считыватель, действующее электронное удостоверение и PIN для подписания. Требуются Android 8 или новее и поддержка USB host. Подписание через NFC недоступно. Выберите канал на странице [Загрузки](/downloads): APK устанавливается на устройство, AAB предназначен для магазина. Обновляйте приложение через тот же канал.')

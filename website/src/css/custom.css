@@ -241,9 +241,10 @@ body:has(.devices-guide) .col--6{--ifm-col-width:100%;margin-left:0;max-width:10
 @media(max-width:600px){body:has(.devices-guide) .main-wrapper>.container{padding:0 20px}.devices-hero{grid-template-columns:1fr;padding-top:16px;margin-bottom:32px}.devices-hero-art{max-height:280px;aspect-ratio:1.4}.devices-hero h1{font-size:40px}.devices-choice{padding:22px}.devices-direction{grid-template-columns:1fr;padding:24px;gap:24px}.devices-direction-photo{max-width:180px;margin:auto}.devices-reader{grid-template-columns:1fr;padding:28px}.devices-reader h2{font-size:30px}.devices-products{grid-template-columns:1fr 1fr}.devices-product-photo{height:160px;padding:10px}.devices-products>.devices-product:only-child{grid-column:1/-1}}
 
 .download-platform-card{cursor:pointer}
-.download-platform-card:focus-visible{outline:3px solid var(--ifm-color-primary);outline-offset:4px}
+.download-platform-select{border:0;padding:0;background:none;color:inherit;font:inherit;text-align:inherit;cursor:pointer}
+.download-platform-select:focus-visible{outline:3px solid var(--ifm-color-primary);outline-offset:4px;border-radius:4px}
 
-.download-platform-card-selected:focus-visible{outline:2px solid var(--ifm-color-primary);outline-offset:-2px}
+
 
 .download-platform-card :is(h2,p,small,b,span,.platform-icon){cursor:pointer}
 .download-store-badge img{cursor:pointer}

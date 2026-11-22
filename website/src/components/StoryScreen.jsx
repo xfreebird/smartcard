@@ -20,7 +20,7 @@ export default function StoryScreen({root,platform,appearance,stage,screen,clip}
   });
   Promise.allSettled(images).then(results=>{
    if(active)setDecoded({identity,stages:results.map(result=>result.status==='fulfilled')});
-  });
+  }).catch(()=>{if(active)setDecoded({identity,stages:[]});});
   return()=>{active=false;};
  },[identity,screenNames]);
  // Keep the last available earlier state if a later capture could not load.

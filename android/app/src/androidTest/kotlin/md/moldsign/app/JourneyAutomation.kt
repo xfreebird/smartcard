@@ -45,9 +45,11 @@ internal class JourneyAutomation(private val runner: Instrumentation) {
                     val clear = activity.getString(R.string.clear_results)
                     ui.await("navigation-bar clear action") { ui.id("verify.clearResults") != null }
                     val actionBounds = android.graphics.Rect().also { ui.id("verify.clearResults")!!.getBoundsInScreen(it) }
-                    val titleBounds = android.graphics.Rect().also { ui.text(activity.getString(R.string.nav_verify))!!.getBoundsInScreen(it) }
+                    // The navigation rail can repeat the title, including in translated layouts.
+                    // Measure the toolbar title itself rather than the first matching label.
+                    val titleBounds = android.graphics.Rect().also { ui.id("navigation.title")!!.getBoundsInScreen(it) }
                     check(kotlin.math.abs(actionBounds.centerY() - titleBounds.centerY()) <= 24 * activity.resources.displayMetrics.density) {
-                        "Clear results must be beside the navigation-bar title"
+                        "Clear results must be beside the navigation-bar title: action=$actionBounds title=$titleBounds"
                     }
                     ui.clickIdAndAwait("verify.clearResults", "cleared verdict") { ui.text(title) == null && ui.text(clear) == null }
                     check(ui.id("verify.pickFiles") != null)

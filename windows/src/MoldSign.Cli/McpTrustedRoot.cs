@@ -10,6 +10,8 @@ namespace MoldSign.Cli;
 internal sealed class McpTrustedRoot : IDisposable
 {
     private readonly string path;
+    private readonly object lifetime = new();
+    private bool disposed;
     private readonly List<SafeFileHandle> rootHandles = [];
     private readonly SafeFileHandle? unixRoot;
     private static bool Mac => OperatingSystem.IsMacOS();
@@ -79,159 +81,194 @@ internal sealed class McpTrustedRoot : IDisposable
 
     public byte[] Read(string relative, int limit, bool privateFile = false)
     {
-        if (relative.Length is 0 or > 1024 || relative.Contains('\\') || relative.Contains(':') || relative.Contains('\0'))
-            throw new McpException("PATH_DENIED");
-        var parts = relative.Split('/');
-        foreach (var part in parts) ValidatePart(part);
-        var handles = new List<SafeFileHandle>();
-        try
+        lock (lifetime)
         {
-            SafeFileHandle file;
-            if (OperatingSystem.IsWindows())
+            if (disposed) throw new McpException("PATH_DENIED");
+            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
+
+            if (relative.Length is 0 or > 1024 || relative.Contains('\\') || relative.Contains(':') || relative.Contains('\0'))
+                throw new McpException("PATH_DENIED");
+            var parts = relative.Split('/');
+            foreach (var part in parts) ValidatePart(part);
+            var handles = new List<SafeFileHandle>();
+            try
             {
-                var current = path;
-                for (var i = 0; i < parts.Length; i++)
-                {
-                    current = Path.Combine(current, parts[i]);
-                    handles.Add(OpenWindows(current, directory: i != parts.Length - 1));
-                }
-                file = handles[^1];
-            }
-            else
-            {
-                var parent = unixRoot!.DangerousGetHandle().ToInt32();
-                for (var i = 0; i < parts.Length; i++)
-                {
-                    var flags = i < parts.Length - 1 ? DirectoryFlags :
-                        (Mac ? 0x100 : 0x20000) | (Mac ? 0x1000000 : 0x80000) | (Mac ? 4 : 2048);
-                    var fd = openat(parent, parts[i], flags);
-                    if (fd < 0) throw new McpException("PATH_DENIED");
-                    handles.Add(new SafeFileHandle((IntPtr)fd, ownsHandle: true));
-                    parent = fd;
-                }
-                file = handles[^1];
-            }
-            using var stream = new FileStream(file, FileAccess.Read);
-            if (privateFile)
-            {
+                SafeFileHandle file;
                 if (OperatingSystem.IsWindows())
                 {
-                    var security = stream.GetAccessControl();
-                    var owner = WindowsIdentity.GetCurrent().User!;
-                    if (security.GetOwner(typeof(SecurityIdentifier))?.Equals(owner) != true) throw new McpException("PATH_DENIED");
-                    var permitted = new HashSet<string>(StringComparer.Ordinal) { owner.Value, "S-1-5-18", "S-1-5-32-544" };
-                    foreach (FileSystemAccessRule rule in security.GetAccessRules(true, true, typeof(SecurityIdentifier)))
-                        if (rule.AccessControlType == AccessControlType.Allow && !permitted.Contains(rule.IdentityReference.Value)) throw new McpException("PATH_DENIED");
+                    var current = path;
+                    for (var i = 0; i < parts.Length; i++)
+                    {
+                        current = Path.Combine(current, parts[i]);
+                        handles.Add(OpenWindows(current, directory: i != parts.Length - 1));
+                    }
+                    file = handles[^1];
                 }
-                else if ((File.GetUnixFileMode(file) & (UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute |
-                    UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute)) != 0) throw new McpException("PATH_DENIED");
+                else
+                {
+                    var parent = rootLease!.Descriptor;
+                    for (var i = 0; i < parts.Length; i++)
+                    {
+                        var flags = i < parts.Length - 1 ? DirectoryFlags :
+                            (Mac ? 0x100 : 0x20000) | (Mac ? 0x1000000 : 0x80000) | (Mac ? 4 : 2048);
+                        var fd = openat(parent, parts[i], flags);
+                        if (fd < 0) throw new McpException("PATH_DENIED");
+                        handles.Add(new SafeFileHandle((IntPtr)fd, ownsHandle: true));
+                        parent = fd;
+                    }
+                    file = handles[^1];
+                }
+                using var stream = new FileStream(file, FileAccess.Read);
+                if (privateFile)
+                {
+                    if (OperatingSystem.IsWindows())
+                    {
+                        var security = stream.GetAccessControl();
+                        var owner = WindowsIdentity.GetCurrent().User!;
+                        if (security.GetOwner(typeof(SecurityIdentifier))?.Equals(owner) != true) throw new McpException("PATH_DENIED");
+                        var permitted = new HashSet<string>(StringComparer.Ordinal) { owner.Value, "S-1-5-18", "S-1-5-32-544" };
+                        foreach (FileSystemAccessRule rule in security.GetAccessRules(true, true, typeof(SecurityIdentifier)))
+                            if (rule.AccessControlType == AccessControlType.Allow && !permitted.Contains(rule.IdentityReference.Value)) throw new McpException("PATH_DENIED");
+                    }
+                    else if ((File.GetUnixFileMode(file) & (UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute |
+                        UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute)) != 0) throw new McpException("PATH_DENIED");
+                }
+                if (!stream.CanSeek) throw new McpException("PATH_DENIED");
+                if (stream.Length > limit) throw new McpException("LIMIT_EXCEEDED");
+                using var bytes = new MemoryStream();
+                var buffer = new byte[65536];
+                int count;
+                while ((count = stream.Read(buffer)) != 0)
+                {
+                    if (bytes.Length + count > limit) throw new McpException("LIMIT_EXCEEDED");
+                    bytes.Write(buffer, 0, count);
+                }
+                return bytes.ToArray();
             }
-            if (!stream.CanSeek) throw new McpException("PATH_DENIED");
-            if (stream.Length > limit) throw new McpException("LIMIT_EXCEEDED");
-            using var bytes = new MemoryStream();
-            var buffer = new byte[65536];
-            int count;
-            while ((count = stream.Read(buffer)) != 0)
-            {
-                if (bytes.Length + count > limit) throw new McpException("LIMIT_EXCEEDED");
-                bytes.Write(buffer, 0, count);
-            }
-            return bytes.ToArray();
+            catch (McpException) { throw; }
+            catch { throw new McpException("PATH_DENIED"); }
+            finally { foreach (var handle in handles) handle.Dispose(); }
+
         }
-        catch (McpException) { throw; }
-        catch { throw new McpException("PATH_DENIED"); }
-        finally { foreach (var handle in handles) handle.Dispose(); }
     }
 
     public void WriteExclusive(string name, byte[] bytes)
     {
-        ValidatePart(name);
-        if (name.Contains('/')) throw new McpException("PATH_DENIED");
-        try
+        lock (lifetime)
         {
-            if (OperatingSystem.IsWindows())
+            if (disposed) throw new McpException("PATH_DENIED");
+            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
+
+            ValidatePart(name);
+            if (name.Contains('/')) throw new McpException("PATH_DENIED");
+            try
             {
-                // Elevated Windows tokens can default new files to Administrators ownership.
-                // Set the current-user owner and private ACL at exclusive creation, before any bytes exist.
-                var owner = WindowsIdentity.GetCurrent().User!;
-                var security = new FileSecurity();
-                security.SetOwner(owner);
-                security.SetAccessRuleProtection(isProtected: true, preserveInheritance: false);
-                security.AddAccessRule(new FileSystemAccessRule(owner, FileSystemRights.FullControl, AccessControlType.Allow));
-                using var stream = new FileInfo(Path.Combine(path, name)).Create(FileMode.CreateNew, FileSystemRights.Write,
-                    FileShare.None, 4096, FileOptions.WriteThrough, security);
-                stream.Write(bytes);
-                stream.Flush(flushToDisk: true);
+                if (OperatingSystem.IsWindows())
+                {
+                    // Elevated Windows tokens can default new files to Administrators ownership.
+                    // Set the current-user owner and private ACL at exclusive creation, before any bytes exist.
+                    var owner = WindowsIdentity.GetCurrent().User!;
+                    var security = new FileSecurity();
+                    security.SetOwner(owner);
+                    security.SetAccessRuleProtection(isProtected: true, preserveInheritance: false);
+                    security.AddAccessRule(new FileSystemAccessRule(owner, FileSystemRights.FullControl, AccessControlType.Allow));
+                    using var stream = new FileInfo(Path.Combine(path, name)).Create(FileMode.CreateNew, FileSystemRights.Write,
+                        FileShare.None, 4096, FileOptions.WriteThrough, security);
+                    stream.Write(bytes);
+                    stream.Flush(flushToDisk: true);
+                }
+                else
+                {
+                    var flags = 1 | (Mac ? 0x200 : 0x40) | (Mac ? 0x800 : 0x80) | (Mac ? 0x100 : 0x20000);
+                    var fd = openatCreate(rootLease!.Descriptor, name, flags, 0x180);
+                    if (fd < 0) throw new McpException("PATH_DENIED");
+                    using var handle = new SafeFileHandle((IntPtr)fd, ownsHandle: true);
+                    using var stream = new FileStream(handle, FileAccess.Write);
+                    stream.Write(bytes);
+                    stream.Flush(flushToDisk: true);
+                    if (fsync(rootLease!.Descriptor) != 0) throw new McpException("PATH_DENIED");
+                }
             }
-            else
-            {
-                var flags = 1 | (Mac ? 0x200 : 0x40) | (Mac ? 0x800 : 0x80) | (Mac ? 0x100 : 0x20000);
-                var fd = openatCreate(unixRoot!.DangerousGetHandle().ToInt32(), name, flags, 0x180);
-                if (fd < 0) throw new McpException("PATH_DENIED");
-                using var handle = new SafeFileHandle((IntPtr)fd, ownsHandle: true);
-                using var stream = new FileStream(handle, FileAccess.Write);
-                stream.Write(bytes);
-                stream.Flush(flushToDisk: true);
-                if (fsync(unixRoot.DangerousGetHandle().ToInt32()) != 0) throw new McpException("PATH_DENIED");
-            }
+            catch (McpException) { throw; }
+            catch { throw new McpException("PATH_DENIED"); }
+
         }
-        catch (McpException) { throw; }
-        catch { throw new McpException("PATH_DENIED"); }
     }
 
     // OS-owned lease is released on process death; no persistent lock prevents broker restart.
     public FileStream AcquireLease(string name)
     {
-        ValidatePart(name);
-        if (name.Contains('/') || !OperatingSystem.IsWindows()) throw new McpException("PATH_DENIED");
-        var handle = CreateFileW(Path.Combine(path, name), 0xC0000000, 0, IntPtr.Zero, 4, 0x00200000, IntPtr.Zero);
-        if (handle.IsInvalid) { handle.Dispose(); throw new McpException("PATH_DENIED"); }
-        if (!GetFileInformationByHandle(handle, out var info) || (info.Attributes & (0x400 | 0x10)) != 0)
-        { handle.Dispose(); throw new McpException("PATH_DENIED"); }
-        return new FileStream(handle, FileAccess.ReadWrite);
+        lock (lifetime)
+        {
+            if (disposed) throw new McpException("PATH_DENIED");
+            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
+
+            ValidatePart(name);
+            if (name.Contains('/') || !OperatingSystem.IsWindows()) throw new McpException("PATH_DENIED");
+            var handle = CreateFileW(Path.Combine(path, name), 0xC0000000, 0, IntPtr.Zero, 4, 0x00200000, IntPtr.Zero);
+            if (handle.IsInvalid) { handle.Dispose(); throw new McpException("PATH_DENIED"); }
+            if (!GetFileInformationByHandle(handle, out var info) || (info.Attributes & (0x400 | 0x10)) != 0)
+            { handle.Dispose(); throw new McpException("PATH_DENIED"); }
+            return new FileStream(handle, FileAccess.ReadWrite);
+
+        }
     }
 
     // Publish only fully flushed files. Temporary names are never considered requests.
     public void Publish(string name, byte[] bytes, bool replace = false)
     {
-        ValidatePart(name);
-        if (name.Contains('/')) throw new McpException("PATH_DENIED");
-        var temporary = Guid.NewGuid().ToString("D") + ".tmp";
-        WriteExclusive(temporary, bytes);
-        try
+        lock (lifetime)
         {
-            if (OperatingSystem.IsWindows()) File.Move(Path.Combine(path, temporary), Path.Combine(path, name), replace);
-            else
+            if (disposed) throw new McpException("PATH_DENIED");
+            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
+
+            ValidatePart(name);
+            if (name.Contains('/')) throw new McpException("PATH_DENIED");
+            var temporary = Guid.NewGuid().ToString("D") + ".tmp";
+            WriteExclusive(temporary, bytes);
+            try
             {
-                var fd = unixRoot!.DangerousGetHandle().ToInt32();
-                if (replace)
-                {
-                    if (renameat(fd, temporary, fd, name) != 0) throw new McpException("PATH_DENIED");
-                }
+                if (OperatingSystem.IsWindows()) File.Move(Path.Combine(path, temporary), Path.Combine(path, name), replace);
                 else
                 {
-                    if (linkat(fd, temporary, fd, name, 0) != 0) throw new McpException("PATH_DENIED");
-                    if (unlinkat(fd, temporary, 0) != 0) throw new McpException("PATH_DENIED");
+                    var fd = rootLease!.Descriptor;
+                    if (replace)
+                    {
+                        if (renameat(fd, temporary, fd, name) != 0) throw new McpException("PATH_DENIED");
+                    }
+                    else
+                    {
+                        if (linkat(fd, temporary, fd, name, 0) != 0) throw new McpException("PATH_DENIED");
+                        if (unlinkat(fd, temporary, 0) != 0) throw new McpException("PATH_DENIED");
+                    }
+                    if (fsync(fd) != 0) throw new McpException("PATH_DENIED");
                 }
-                if (fsync(fd) != 0) throw new McpException("PATH_DENIED");
             }
+            catch (McpException) { throw; }
+            catch { throw new McpException("PATH_DENIED"); }
+            finally { try { Remove(temporary); } catch { } }
+
         }
-        catch (McpException) { throw; }
-        catch { throw new McpException("PATH_DENIED"); }
-        finally { try { Remove(temporary); } catch { } }
     }
 
     public void Remove(string name)
     {
-        ValidatePart(name);
-        if (name.Contains('/')) throw new McpException("PATH_DENIED");
-        try
+        lock (lifetime)
         {
-            if (OperatingSystem.IsWindows()) File.Delete(Path.Combine(path, name));
-            else if (unlinkat(unixRoot!.DangerousGetHandle().ToInt32(), name, 0) != 0 ||
-                     fsync(unixRoot.DangerousGetHandle().ToInt32()) != 0) throw new McpException("PATH_DENIED");
+            if (disposed) throw new McpException("PATH_DENIED");
+            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
+
+            ValidatePart(name);
+            if (name.Contains('/')) throw new McpException("PATH_DENIED");
+            try
+            {
+                if (OperatingSystem.IsWindows()) File.Delete(Path.Combine(path, name));
+                else if (unlinkat(rootLease!.Descriptor, name, 0) != 0 ||
+                         fsync(rootLease!.Descriptor) != 0) throw new McpException("PATH_DENIED");
+            }
+            catch { throw new McpException("PATH_DENIED"); }
+
         }
-        catch { throw new McpException("PATH_DENIED"); }
     }
 
     private static void ValidatePart(string part)
@@ -259,10 +296,38 @@ internal sealed class McpTrustedRoot : IDisposable
         return handle;
     }
 
+    private sealed class DescriptorLease : IDisposable
+    {
+        private readonly SafeFileHandle handle;
+        private bool acquired;
+        internal int Descriptor { get; }
+        internal DescriptorLease(SafeFileHandle handle)
+        {
+            this.handle = handle;
+            try
+            {
+                handle.DangerousAddRef(ref acquired);
+                Descriptor = handle.DangerousGetHandle().ToInt32();
+            }
+            catch { Dispose(); throw; }
+        }
+        public void Dispose()
+        {
+            if (!acquired) return;
+            acquired = false;
+            handle.DangerousRelease();
+        }
+    }
+
     public void Dispose()
     {
-        unixRoot?.Dispose();
-        foreach (var handle in rootHandles) handle.Dispose();
+        lock (lifetime)
+        {
+            if (disposed) return;
+            disposed = true;
+            unixRoot?.Dispose();
+            foreach (var handle in rootHandles) handle.Dispose();
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]

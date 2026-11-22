@@ -26,7 +26,7 @@ final class VerificationJourneyUITests: XCTestCase {
             XCTAssertFalse(app.staticTexts[title].exists, "Cleared verdict must disappear: \(scenario)")
             XCTAssertFalse(app.buttons["verify.clearResults"].exists)
             XCTAssertFalse(app.secureTextFields.firstMatch.exists, "Verification must never ask for PIN")
-            let attachment = XCTAttachment(screenshot: app.screenshot())
+            let attachment = XCTAttachment(screenshot: app.workspaceScreenshot())
             attachment.name = "cleared-\(scenario)"
             attachment.lifetime = .keepAlways
             add(attachment)
@@ -117,7 +117,7 @@ final class VerificationJourneyUITests: XCTestCase {
 
     private func launch(_ scenario: String, tab: String = "verify") -> XCUIApplication {
         #if os(macOS)
-        let app = XCUIApplication(bundleIdentifier: "md.esemnbun.mac")
+        let app = makeMacTestApplication()
         #else
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
         #endif

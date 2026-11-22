@@ -1,8 +1,10 @@
 # Interactive Windows QA. Uses the production Settings switch and restores the guest's preferences/history.
 param([Parameter(Mandatory=$true)][string]$App,[Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+. (Join-Path $PSScriptRoot 'ui-automation.ps1')
 Add-Type -AssemblyName System.Drawing
 Add-Type @'
 using System; using System.Runtime.InteropServices;
@@ -18,12 +20,12 @@ New-Item -ItemType Directory -Force $Output|Out-Null
 [xml]$resources=Get-Content (Join-Path $PSScriptRoot '../src/MoldSign.App/Strings/en-US/Resources.resw') -Raw -Encoding UTF8
 $strings=@{};foreach($entry in $resources.root.data){$strings[$entry.name]=[string]$entry.value}
 # Debug automation uses a dedicated profile; never back up/overwrite the developer's live files.
-$profile=Join-Path $Output ('profile-'+[Guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Force $profile|Out-Null
-$prefs=Join-Path $profile 'settings.json'
-$history=Join-Path $profile 'activity.json'
-$original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES'){
- $original[$name]=[Environment]::GetEnvironmentVariable($name);[Environment]::SetEnvironmentVariable($name,$null)
+$testProfile=Join-Path $Output ('profile-'+[Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Force $testProfile|Out-Null
+$prefs=Join-Path $testProfile 'settings.json'
+$history=Join-Path $testProfile 'activity.json'
+$original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES','MSIGN_UI_TEST_SCENARIO','MSIGN_SCREENSHOT_CAPTURE','MSIGN_DEMO_PIN_ONLY','MSIGN_DEMO_READY_FILE','MSIGN_DEMO_SELECTED','MSIGN_DEMO_DARK'){
+ $original[$name]=[Environment]::GetEnvironmentVariable($name);Set-TestEnvironmentVariable $name $null
 }
 $env:MSIGN_TEST_PREFERENCES=$prefs
 $beforeDirs=@(Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Select-Object -ExpandProperty FullName)
@@ -32,7 +34,7 @@ function Elements($property,$value){
  $filter=[System.Windows.Automation.AndCondition]::new(
   [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$process.Id),
   [System.Windows.Automation.PropertyCondition]::new($property,$value))
- return [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants,$filter)
+ return @(Find-AppAutomationElements $process $filter)
 }
 function Find([string]$id){
  for($i=0;$i -lt 180;$i++){
@@ -132,7 +134,7 @@ try{
  throw
 }finally{
  Stop-Owned
- Remove-Item -LiteralPath $profile -Recurse -Force -ErrorAction SilentlyContinue
- foreach($name in $original.Keys){[Environment]::SetEnvironmentVariable($name,$original[$name])}
+ Remove-Item -LiteralPath $testProfile -Recurse -Force -ErrorAction SilentlyContinue
+ foreach($name in $original.Keys){Set-TestEnvironmentVariable $name $original[$name]}
  foreach($directory in (Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Where-Object {$_.FullName -notin $beforeDirs})){Remove-Item -LiteralPath $directory.FullName -Recurse -Force}
 }

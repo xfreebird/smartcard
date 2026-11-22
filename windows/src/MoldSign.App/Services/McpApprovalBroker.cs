@@ -35,7 +35,7 @@ internal sealed class McpApprovalBroker : IAsyncDisposable
             outputs = new McpTrustedRoot(Path.Combine(DefaultDirectory, "outputs"), privateDirectory: true);
         }
         catch { lease?.Dispose(); requests?.Dispose(); responses?.Dispose(); directory.Dispose(); throw; }
-        loop = Task.Run(PollAsync);
+        loop = Task.Run(PollAsync, CancellationToken.None);
     }
     private static void CreatePrivate(string path)
     {
@@ -54,7 +54,8 @@ internal sealed class McpApprovalBroker : IAsyncDisposable
         {
             try
             {
-                if (activeId is { } running && CancellationRequested(running)) activeCancellation?.Cancel();
+                if (activeId is { } running && CancellationRequested(running) && activeCancellation is { } cancellation)
+                    await cancellation.CancelAsync();
                 if (active?.IsCompleted == true)
                 {
                     await active;
@@ -169,10 +170,10 @@ internal sealed class McpApprovalBroker : IAsyncDisposable
     }
     public async ValueTask DisposeAsync()
     {
-        shutdown.Cancel(); activeCancellation?.Cancel();
+        await shutdown.CancelAsync(); if (activeCancellation is not null) await activeCancellation.CancelAsync();
         await loop;
         if (active is not null) { try { await active; } catch { } }
         activeCancellation?.Dispose(); shutdown.Dispose();
-        outputs.Dispose(); responses.Dispose(); requests.Dispose(); lease.Dispose(); directory.Dispose();
+        outputs.Dispose(); responses.Dispose(); requests.Dispose(); await lease.DisposeAsync(); directory.Dispose();
     }
 }

@@ -38,6 +38,19 @@ mkdir -p "$host/Host" "$host/Tests"
 cp "$source_file" "$host/Tests/"
 cp "$repo/apple/Tests/InteractionUITests/NativeUITestActions.swift" "$host/Tests/"
 cp "$repo/apple/Tests/InteractionUITests/NativeFilePicker.swift" "$host/Tests/"
+python3 - "$app" "$host/Tests/TestApplication.swift" <<'PYTHON'
+import base64
+from pathlib import Path
+import sys
+encoded = base64.b64encode(str(Path(sys.argv[1]).resolve()).encode()).decode()
+Path(sys.argv[2]).write_text('''import XCTest
+@MainActor
+func makeMacTestApplication() -> XCUIApplication {
+    let path = String(data: Data(base64Encoded: "''' + encoded + '''")!, encoding: .utf8)!
+    return XCUIApplication(url: URL(fileURLWithPath: path))
+}
+''')
+PYTHON
 cat > "$host/Host/Host.swift" <<'SWIFT'
 import SwiftUI
 @main struct Host: App { var body: some Scene { WindowGroup { Color.clear } } }

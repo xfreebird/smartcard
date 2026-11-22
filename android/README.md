@@ -26,9 +26,8 @@ The bridge allow-list is not copied: `:core` packages `../spec/bridge/allowed-or
 ## Build and test
 
 Requirements: Android SDK at the path in `local.properties` (`sdk.dir=…`, gitignored, create it per machine)
-and a JDK 17 installed. `gradle/gradle-daemon-jvm.properties` asks Gradle for a JDK 17 daemon, so
-`./gradlew` also works when the default `java` is newer (Gradle 8.13 cannot run on JDK 25/26). If Gradle cannot
-find one, set `JAVA_HOME` to a JDK 17.
+and a JDK 17 installed. `gradle/gradle-daemon-jvm.properties` selects a JDK 17 daemon. If Gradle
+cannot find one, or the launcher's default Java is unsupported, set `JAVA_HOME` to JDK 17.
 
 ```bash
 cd android
@@ -38,18 +37,25 @@ cd android
 ./gradlew :app:lintDebug
 ```
 
-Toolchain: Gradle 8.13, AGP 8.10.1, Kotlin 2.1.0 (Compose compiler plugin 2.1.0), Compose BOM 2026.03.01
+Toolchain: Gradle 9.1.0, AGP 9.0.1, Kotlin 2.2.10 (Compose compiler plugin 2.2.10), Compose BOM 2026.03.01
 (Material 3 1.4.0), minSdk 26, compile/target SDK 36. Versions are in `gradle/libs.versions.toml`.
 
 ### Optimized releases and edge-to-edge
 
 Release builds enable R8 shrinking, optimization and obfuscation using
-`proguard-android-optimize.txt`, plus resource shrinking. Debug stays unminified. AndroidX/Compose
+`proguard-android-optimize.txt`, plus R8's optimized resource shrinking. AGP 9 enables the integrated
+code/resource optimizer by default, and `android.r8.optimizedResourceShrinking=true` records the
+release policy explicitly. Android modules use AGP's built-in Kotlin; only `:core` applies the
+Kotlin/JVM plugin, and both compiler paths target JVM 17. Debug stays unminified. AndroidX/Compose
 consumer rules cover their dynamic entry points; avoid package-wide keep rules that defeat optimization.
 The bridge allow-list and TLS identity use absolute classpath paths to survive class/package renaming.
 
 Build the optimized artifacts with `./gradlew :app:assembleRelease :app:bundleRelease :app:lintRelease`.
 Keep `app/build/outputs/mapping/release/mapping.txt` with the exact build for crash retracing.
+Inspect the final Release APK/AAB rather than only Debug: check localized screens, launcher/splash,
+widget, USB device filter, notifications, document/PDF stamp assets, and embedded-browser/TLS resources.
+Keep R8/resource-shrinking metadata and compare it with the previous artifact; Play's advisory applies
+to an uploaded version and cannot clear merely because local configuration changed.
 For distribution use `../scripts/package-android.sh` and the existing upload key. Before rollout,
 exercise startup, saved PIN/biometrics, reader/NFC signing, browser authentication, PDF stamps,
 file protection, document sharing and the widget in the optimized Release APK. Debug checks alone

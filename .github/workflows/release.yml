@@ -47,7 +47,7 @@ on:
         required: false
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: release-${{ github.ref }}
@@ -71,9 +71,9 @@ jobs:
       ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
       MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: bash apple/scripts/require-siri-sdk.sh
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1
         with: { ruby-version: "3.3", bundler-cache: true }
       - name: Developer ID identity (match, read-only, temporary keychain)
         run: bundle exec fastlane mac_signing
@@ -87,7 +87,7 @@ jobs:
           MACOS_SIGN_IDENTITY: Developer ID Application
           MACOS_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: scripts/package-macos.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-macos
           retention-days: 30
@@ -112,17 +112,17 @@ jobs:
       # Integer build identity; a new workflow run increments it (retries keep the same build).
       BUILD_NUMBER: ${{ inputs.build_number || github.run_number }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - name: Require iPhone Duo SDK
         run: bash apple/scripts/require-ios-sdk.sh
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1
         with: { ruby-version: "3.3", bundler-cache: true }
       # Tags build signed private IPAs; uploading is an explicit manual choice.
       - name: Archive and export (TestFlight only when explicitly requested)
         env:
           UPLOAD_IOS: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_ios_testflight }}
         run: bundle exec fastlane ios_release upload:"$UPLOAD_IOS"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-ios
           retention-days: 30
@@ -130,6 +130,8 @@ jobs:
           if-no-files-found: error
 
   android:
+    permissions:
+      contents: write
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'android' }}
     name: Android (APK + AAB, upload key)
     runs-on: ubuntu-24.04
@@ -137,8 +139,8 @@ jobs:
       group: android-play-version-code
       cancel-in-progress: false
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
         with:
           distribution: temurin
           java-version: 17
@@ -147,6 +149,12 @@ jobs:
             android/**/*.gradle*
             android/gradle.properties
             android/gradle/wrapper/gradle-wrapper.properties
+            android/gradle/verification-metadata.xml
+            android/gradle/libs.versions.toml
+            android/gradle/gradle-daemon-jvm.properties
+            android/gradle/wrapper/gradle-wrapper.jar
+      - name: Require selected Android toolchain and optimization policy
+        run: python3 scripts/ci/android_build_policy.py --verify-wrapper --report "$RUNNER_TEMP/android-toolchain.json"
       - name: Select Android build number
         env:
           BUILD_NUMBER_INPUT: ${{ inputs.android_build_number }}
@@ -167,15 +175,16 @@ jobs:
         run: scripts/package-android.sh
       - run: rm -f "$RUNNER_TEMP/upload.jks"
         if: always()
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-android
           retention-days: 30
           path: |
             dist/android/*.apk
             dist/android/*.aab
+            dist/android/optimization/
           if-no-files-found: error
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@be3c7df29b3349ec6bcfc6b4792f1cf9f5237d18 # v1
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.upload_android_play }}
         with: { ruby-version: '3.3', bundler-cache: true }
       - name: Upload Google Play artifact only
@@ -191,7 +200,7 @@ jobs:
     runs-on: ubuntu-24.04
     container: swift:6.2-noble
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - name: System libraries + packaging tools
         run: |
           apt-get update
@@ -202,7 +211,7 @@ jobs:
         env:
           MOLDSIGN_PACKAGES: tar deb rpm
         run: scripts/package-linux.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-linux
           retention-days: 30
@@ -214,7 +223,7 @@ jobs:
     name: Linux (Flatpak bundle)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - name: flatpak-builder
         run: |
           sudo apt-get update
@@ -232,7 +241,7 @@ jobs:
           mkdir -p dist/linux
           flatpak build-bundle --runtime-repo=https://dl.flathub.org/repo/flathub.flatpakrepo \
             "$RUNNER_TEMP/repo" "dist/linux/eSemnBun-$VERSION.flatpak" md.moldsign.MoldSign
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-flatpak
           retention-days: 30
@@ -261,8 +270,8 @@ jobs:
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           global-json-file: windows/global.json
           cache: true
@@ -278,12 +287,21 @@ jobs:
           "MOLDSIGN_TS_DLIB=$env:RUNNER_TEMP\ts\Microsoft.Trusted.Signing.Client\bin\x64\Azure.CodeSigning.Dlib.dll" >> $env:GITHUB_ENV
       - name: Package
         shell: pwsh
+        env:
+          BUILD_NUMBER_OVERRIDE: ${{ inputs.build_number }}
         run: |
-          if ('${{ inputs.build_number }}' -eq '') {
+          if ([string]::IsNullOrEmpty($env:BUILD_NUMBER_OVERRIDE)) {
             $env:BUILD_NUMBER = [string](100 + [int]$env:GITHUB_RUN_NUMBER)
+          } else {
+            [long]$number = 0
+            if ($env:BUILD_NUMBER_OVERRIDE -cnotmatch '\A[1-9][0-9]*\z' -or
+                ![long]::TryParse($env:BUILD_NUMBER_OVERRIDE, [ref]$number) -or $number -gt 2147483647) {
+              throw 'Build number must be a positive integer no greater than 2147483647'
+            }
+            $env:BUILD_NUMBER = [string]$number
           }
           windows/scripts/package-windows.ps1 -Platforms x64
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-windows
           retention-days: 30
@@ -300,7 +318,7 @@ jobs:
       # Store submission is explicit because a draft or certification can already be active.
       - name: Set up Microsoft Store CLI
         if: ${{ inputs.submit_windows_store && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
-        uses: microsoft/setup-msstore-cli@v1
+        uses: microsoft/setup-msstore-cli@3b2ec9136230357ce9abc02b9d056626fb248d3f # v1
       - name: Submit the MSIX
         if: ${{ inputs.submit_windows_store && env.MSSTORE_TENANT_ID != '' && env.MSSTORE_SELLER_ID != '' && env.MSSTORE_CLIENT_ID != '' && env.MSSTORE_CLIENT_SECRET != '' }}
         shell: pwsh
@@ -327,14 +345,16 @@ jobs:
           msstore submission publish 9PDPR6RNT42S
 
   release:
+    permissions:
+      contents: write
     name: GitHub Release
     # publish whatever was built, even when a platform failed (it is named in the notes and can be re-run alone)
     if: ${{ !cancelled() }}
     needs: [macos, ios, android, linux, flatpak, windows]
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with: { path: artifacts, pattern: "esemnbun-*" }
       - name: Publish
         env:

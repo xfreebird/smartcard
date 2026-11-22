@@ -14,21 +14,32 @@ internal sealed class UpdateChecker
     private bool _checking;
     private bool _stopped;
     private CancellationTokenSource? _periodic;
+    private Task? _loop;
+    private Task<string?>? _checkTask;
     internal void Start()
     {
         if (!Available || _periodic is not null) return;
         _stopped = false;
         _periodic = new CancellationTokenSource();
-        _ = RunAsync(_periodic.Token);
+        _loop = RunAsync(_periodic.Token);
     }
-    internal void Stop() { _stopped = true; _periodic?.Cancel(); _periodic?.Dispose(); _periodic = null; }
+    internal async Task StopAsync()
+    {
+        _stopped = true;
+        var source = _periodic;
+        if (source is not null) await source.CancelAsync();
+        if (_loop is not null) await _loop;
+        if (_checkTask is not null) await _checkTask;
+        source?.Dispose();
+        if (_periodic == source) { _periodic = null; _loop = null; }
+    }
     private async Task RunAsync(CancellationToken token)
     {
         try
         {
             while (!token.IsCancellationRequested)
             {
-                await CheckAsync(automatic: true);
+                await CheckAsync(automatic: true, token);
                 await Task.Delay(TimeSpan.FromDays(1), token);
             }
         }
@@ -36,20 +47,28 @@ internal sealed class UpdateChecker
     }
     internal bool Available => !StartupRegistration.IsPackaged;
 
-    internal async Task<string?> CheckAsync(bool automatic)
+    internal Task<string?> CheckAsync(bool automatic, CancellationToken cancellationToken = default)
+    {
+        var task = CheckCoreAsync(automatic, cancellationToken);
+        if (!task.IsCompleted) _checkTask = task;
+        return task;
+    }
+
+    private async Task<string?> CheckCoreAsync(bool automatic, CancellationToken cancellationToken)
     {
         if (!Available || _checking || _stopped) return null;
+        var token = cancellationToken == default ? _periodic?.Token ?? CancellationToken.None : cancellationToken;
         _checking = true;
         try
         {
-            if (automatic && File.Exists(_stamp) && DateTimeOffset.TryParse(await File.ReadAllTextAsync(_stamp), out var last)
+            if (automatic && File.Exists(_stamp) && DateTimeOffset.TryParse(await File.ReadAllTextAsync(_stamp, token), out var last)
                 && DateTimeOffset.UtcNow - last < TimeSpan.FromDays(7)) return null;
             Directory.CreateDirectory(Path.GetDirectoryName(_stamp)!);
-            await File.WriteAllTextAsync(_stamp, DateTimeOffset.UtcNow.ToString("O"));
+            await File.WriteAllTextAsync(_stamp, DateTimeOffset.UtcNow.ToString("O"), token);
             using var client = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
-            using var response = await client.GetAsync("https://esemnbun.md/updates/windows.json", _periodic?.Token ?? CancellationToken.None);
+            using var response = await client.GetAsync("https://esemnbun.md/updates/windows.json", token);
             response.EnsureSuccessStatusCode();
-            var manifest = JsonSerializer.Deserialize<Manifest>(await response.Content.ReadAsStringAsync())
+            var manifest = JsonSerializer.Deserialize<Manifest>(await response.Content.ReadAsStringAsync(token))
                 ?? throw new InvalidDataException();
             if (manifest.Version?.Split('.').Length != 3 || !Version.TryParse(manifest.Version, out var latest) ||
                 !Uri.TryCreate(manifest.DownloadUrl, UriKind.Absolute, out var target) ||
@@ -63,7 +82,7 @@ internal sealed class UpdateChecker
             }
             return automatic ? null : Loc.Get("Update_Current");
         }
-        catch (Exception error) when (error is HttpRequestException or TaskCanceledException or IOException or JsonException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
+        catch (Exception error) when (error is HttpRequestException or OperationCanceledException or IOException or JsonException or UnauthorizedAccessException or System.ComponentModel.Win32Exception)
         { return automatic ? null : Loc.Get("Update_Failed"); }
         finally { _checking = false; }
     }

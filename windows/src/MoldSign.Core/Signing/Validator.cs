@@ -63,28 +63,44 @@ public sealed class Validator
     public IReadOnlyList<VerificationReport> ValidatePdf(byte[] pdf)
     {
         ArgumentNullException.ThrowIfNull(pdf);
+        try
+        {
+            using var processing = DocumentRegex.BeginProcessing();
+            return ValidatePdfCore(pdf);
+        }
+        catch (Exception error) when (IsFormatFailure(error))
+        { return [Failed("PAdES", "", error.Message)]; }
+    }
+
+    private IReadOnlyList<VerificationReport> ValidatePdfCore(byte[] pdf)
+    {
+        ArgumentNullException.ThrowIfNull(pdf);
+        DocumentRegex.CheckLength(pdf.Length);
         var text = Encoding.Latin1.GetString(pdf);
         if (!text.StartsWith("%PDF-", StringComparison.Ordinal)) return [Failed("PAdES", "", "Not a PDF")];
-        var objects = Regex.Matches(text, @"(?<!\d)(\d+)\s+0\s+obj\b(?<body>.*?)endobj", RegexOptions.Singleline);
+        var objects = DocumentRegex.Matches(text, @"(?<!\d)(\d+)\s+0\s+obj\b(?<body>.*?)endobj", RegexOptions.Singleline);
         var fields = new Dictionary<int, string>();
         foreach (Match obj in objects)
         {
             var body = obj.Groups["body"].Value;
-            var name = Regex.Match(body, @"/T\s*\(([^)]*)\)");
-            var value = Regex.Match(body, @"/V\s+(\d+)\s+0\s+R\b");
+            var name = DocumentRegex.Match(body, @"/T\s*\(([^)]*)\)");
+            var value = DocumentRegex.Match(body, @"/V\s+(\d+)\s+0\s+R\b");
             if (name.Success && value.Success) fields[int.Parse(value.Groups[1].Value, CultureInfo.InvariantCulture)] = name.Groups[1].Value;
         }
-        var signatures = objects.Cast<Match>().Where(obj => Regex.IsMatch(obj.Groups["body"].Value, @"/ByteRange\b")).ToList();
+        var signatures = objects.Cast<Match>().Where(obj => DocumentRegex.IsMatch(obj.Groups["body"].Value, @"/ByteRange\b")).ToList();
         var reports = new List<VerificationReport>();
         foreach (var obj in signatures)
         {
+            // Exit the entire parse once its budget is spent, rather than producing
+            // one more failure report for every remaining attacker-supplied object.
+            DocumentRegex.CheckLength(pdf.Length);
             var number = int.Parse(obj.Groups[1].Value, CultureInfo.InvariantCulture);
             var name = fields.GetValueOrDefault(number, $"Signature{reports.Count + 1}");
             try
             {
                 var body = obj.Groups["body"];
-                var range = Regex.Match(body.Value, @"/ByteRange\s*\[\s*(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*\]");
-                var contents = Regex.Match(body.Value, @"/Contents\s*<([0-9a-fA-F\s]+)>");
+                var range = DocumentRegex.Match(body.Value, @"/ByteRange\s*\[\s*(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*\]");
+                var contents = DocumentRegex.Match(body.Value, @"/Contents\s*<([0-9a-fA-F\s]+)>");
                 if (!range.Success || !contents.Success) throw new FormatException("Invalid PDF signature dictionary");
                 var values = Enumerable.Range(1, 4).Select(i => long.Parse(range.Groups[i].Value, CultureInfo.InvariantCulture)).ToArray();
                 var a = values[1];
@@ -97,7 +113,7 @@ public sealed class Validator
                 var content = new byte[checked((int)(a + values[3]))];
                 pdf.AsSpan(0, (int)a).CopyTo(content);
                 pdf.AsSpan((int)b, (int)values[3]).CopyTo(content.AsSpan((int)a));
-                var padded = Convert.FromHexString(Regex.Replace(contents.Groups[1].Value, @"\s", ""));
+                var padded = Convert.FromHexString(DocumentRegex.Replace(contents.Groups[1].Value, @"\s", ""));
                 AsnDecoder.ReadEncodedValue(padded, AsnEncodingRules.BER, out _, out _, out var length);
                 if (padded.AsSpan(length).ContainsAnyExcept((byte)0)) throw new FormatException("Nonzero CMS padding");
                 var cms = new SignedCms(new ContentInfo(content), detached: true);
@@ -394,7 +410,8 @@ public sealed class Validator
         return false;
     }
     private static bool IsFormatFailure(Exception e) => e is FormatException or XmlException or CryptographicException
-        or ArgumentException or InvalidOperationException or AsnContentException or OverflowException or IndexOutOfRangeException;
+        or ArgumentException or InvalidOperationException or AsnContentException or OverflowException or IndexOutOfRangeException
+        || e is CardException { Kind: CardErrorKind.Format };
     private static VerificationReport Failed(string kind, string name, string message) => new()
     {
         Kind = kind, Name = name, Signer = "", ContentIntact = false, SignatureValid = false,

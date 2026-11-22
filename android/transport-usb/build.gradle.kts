@@ -1,9 +1,6 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 // USB host CCID transport + reader monitor (AND-02, AND-03).
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -20,11 +17,7 @@ android {
     }
 }
 
-kotlin {
-    compilerOptions {
-        jvmTarget.set(JvmTarget.JVM_17)
-    }
-}
+// Built-in Kotlin inherits JVM 17 from android.compileOptions.
 
 dependencies {
     api(project(":core"))

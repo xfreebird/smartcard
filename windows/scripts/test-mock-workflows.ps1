@@ -1,7 +1,9 @@
 param([Parameter(Mandatory=$true)][string]$App, [Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+. (Join-Path $PSScriptRoot 'ui-automation.ps1')
 if (Test-Path $Output) { throw 'Use a fresh output directory.' }
 New-Item -ItemType Directory $Output | Out-Null
 $Output = (Resolve-Path $Output).Path
@@ -18,7 +20,7 @@ function Elements($id, $process) {
     $condition = [System.Windows.Automation.AndCondition]::new(
         [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $process.Id),
         [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $id))
-    return @([System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condition))
+    return @(Find-AppAutomationElements $process $condition)
 }
 function Wait-State($message, $process, [scriptblock]$predicate) {
     $deadline = [DateTime]::UtcNow.AddSeconds(25)
@@ -111,4 +113,4 @@ try {
             ConvertTo-Json -InputObject @($results) -Depth 5 | Set-Content (Join-Path $Output 'results.json')
         }
     }
-} finally { foreach ($name in $names) { [Environment]::SetEnvironmentVariable($name, $before[$name]) } }
+} finally { foreach ($name in $names) { Set-TestEnvironmentVariable $name $before[$name] } }

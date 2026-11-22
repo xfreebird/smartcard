@@ -120,7 +120,7 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
                               string? reader = null, string? expectedCertificateSha1 = null, PdfStampPlacement? placement = null)
     {
         ArgumentNullException.ThrowIfNull(consent);
-        var pdf = File.ReadAllBytes(input);
+        var pdf = ReadBoundedDocument(input);
         return WithCard(reader, card =>
         {
             var der = ReadCertificate(card, expectedCertificateSha1);
@@ -140,6 +140,7 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
                                string? reader = null)
     {
         ArgumentNullException.ThrowIfNull(pdf);
+        DocumentRegex.CheckLength(pdf.Length);
         ArgumentNullException.ThrowIfNull(consent);
         var snapshot = (byte[])pdf.Clone();
         return WithCard(reader, card =>
@@ -199,10 +200,21 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
         return SignPdf(input, SignatureFormats.OutputPath(input, format), consent, requester, reader, expectedCertificateSha1, placement);
     }
 
+    private static byte[] ReadBoundedDocument(string path)
+    {
+        using var input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        if (input.Length > DocumentRegex.MaximumDocumentBytes)
+            throw new CardException(CardErrorKind.Format, "Document exceeds safe processing limits");
+        var bytes = new byte[checked((int)input.Length)];
+        input.ReadExactly(bytes);
+        if (input.ReadByte() != -1) throw new CardException(CardErrorKind.Format, "Document changed while reading");
+        return bytes;
+    }
+
     /// <summary>Offline verification of a signed PDF, or of an XAdES file plus its detached documents.</summary>
     public IReadOnlyList<VerificationReport> Verify(string file, IReadOnlyList<string>? detachedDocs = null)
     {
-        var bytes = File.ReadAllBytes(file);
+        var bytes = ReadBoundedDocument(file);
         if (string.Equals(Path.GetExtension(file), ".pdf", StringComparison.OrdinalIgnoreCase))
             return _validator.ValidatePdf(bytes);
         var referenced = (detachedDocs ?? [])

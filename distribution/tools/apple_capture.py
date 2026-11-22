@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Capture localized fictional Apple app screens. Requires a Debug app; never uses a card."""
-import argparse, json, os, pathlib, subprocess, time, shutil, tempfile
+import argparse, json, os, pathlib, subprocess, time, shutil, tempfile, uuid
 from PIL import Image
 R=pathlib.Path(__file__).resolve().parents[2]
 def run(*a,**kw): return subprocess.check_output(a,text=True,**kw).strip()
@@ -32,7 +32,7 @@ try:
     env['SIMCTL_CHILD_MSIGN_STORE_READER_ONLY'] = '1'
    if key in ('01-sign', '02-reader'):
     env.pop('SIMCTL_CHILD_MSIGN_DEMO_FILES')
-   readyPath='/tmp/esemnbun-store-'+d+'.log';readyLog=pathlib.Path(str(container).split('/Containers/Data/Application/')[0]+readyPath);readyLog.unlink(missing_ok=True)
+   readyPath='/tmp/esemnbun-store-'+uuid.uuid4().hex+'.log';readyLog=pathlib.Path(str(container).split('/Containers/Data/Application/')[0]+readyPath);readyLog.unlink(missing_ok=True)
    run('xcrun','simctl','launch','--stdout='+readyPath,d,'md.esemnbun.ios','-appLanguage',lang,'-appTheme',theme,'-AppleLanguages',f'({lang})',env=env)
    for attempt in range(90):
     if readyLog.exists() and "MSIGN_DEMO_READY" in readyLog.read_text(errors="replace"):break
@@ -52,7 +52,7 @@ try:
     if not created:raise RuntimeError('Device Hub did not write native screenshot')
     capture=max(created,key=lambda f:f.stat().st_mtime);shutil.move(str(capture),str(dest))
    else:
-    temporary=pathlib.Path(tempfile.gettempdir())/('esemnbun-store-'+d+'.png')
+    temporaryDirectory=tempfile.TemporaryDirectory(prefix='esemnbun-store-');temporary=pathlib.Path(temporaryDirectory.name)/'capture.png'
     run('xcrun','simctl','io',d,'screenshot','--display='+a.display,str(temporary));shutil.move(str(temporary),str(dest))
    sourceSize=Image.open(dest).size
    if a.family=='duo-expanded' and sourceSize!=(2853,2007):

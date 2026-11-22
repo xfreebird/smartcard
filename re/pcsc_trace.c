@@ -2,7 +2,7 @@
  * pcsc_trace.dylib — DYLD_INSERT_LIBRARIES interposer for PCSC.framework (v2).
  *
  * Logs smart card reader/card traffic (connects, status/ATR, APDU exchanges)
- * to $PCSC_TRACE_FILE or /tmp/pcsc_trace.log.
+ * to $PCSC_TRACE_FILE in an explicitly chosen owner-private directory.
  *
  * PIN SAFETY: APDUs that may carry PINs (INS 0x20 VERIFY, 0x24 CHANGE
  * REFERENCE DATA, 0x2C RESET RETRY COUNTER, 0xDA/0xDB PUT/GET DATA) are
@@ -26,6 +26,8 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <dlfcn.h>
 #include <PCSC/PCSC.h>
 
@@ -56,7 +58,27 @@ static double now_s(void) {
 static FILE *ensure_log(void) {
     if (!g_log) {
         const char *path = getenv("PCSC_TRACE_FILE");
-        g_log = fopen((path && *path) ? path : "/tmp/pcsc_trace.log", "a");
+        if (!path || path[0] != '/') return NULL;
+        char *parent = strdup(path);
+        if (!parent) return NULL;
+        char *name = strrchr(parent, '/');
+        if (!name || name == parent || !name[1]) { free(parent); return NULL; }
+        *name++ = '\0';
+        int directory = open(parent, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+        struct stat st;
+        if (directory < 0 || fstat(directory, &st) != 0 || st.st_uid != geteuid() || (st.st_mode & 0077)) {
+            if (directory >= 0) close(directory);
+            free(parent);
+            return NULL;
+        }
+        int fd = openat(directory, name, O_WRONLY | O_APPEND | O_CREAT | O_NOFOLLOW | O_CLOEXEC, 0600);
+        close(directory);
+        free(parent);
+        if (fd < 0) return NULL;
+        if (fstat(fd, &st) != 0 || !S_ISREG(st.st_mode) || st.st_uid != geteuid() ||
+            (st.st_mode & 0077) || st.st_nlink != 1) { close(fd); return NULL; }
+        g_log = fdopen(fd, "a");
+        if (!g_log) close(fd);
     }
     return g_log;
 }

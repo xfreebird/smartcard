@@ -1,8 +1,10 @@
 # Native app first/manual launch with fresh isolated storage, no mock/force-show switches, no signing actions.
 param([Parameter(Mandatory=$true)][string]$App,[Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+. (Join-Path $PSScriptRoot 'ui-automation.ps1')
 Add-Type -AssemblyName System.Drawing
 if (-not ('CaptureWindow' -as [type])) {
     Add-Type @'
@@ -28,13 +30,13 @@ Get-ChildItem (Join-Path $PSScriptRoot '..\src\MoldSign.App\Strings\*\Resources.
     if($null -ne $node) {$labels += $node.InnerText}
 }
 $original=@{}
-foreach($name in 'MSIGN_TEST_PREFERENCES','MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_DEMO_PIN_ONLY','MSIGN_DEMO_READY_FILE','MSIGN_DEMO_SELECTED','MSIGN_DEMO_DARK') {
+foreach($name in 'MSIGN_TEST_PREFERENCES','MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_DEMO_PIN_ONLY','MSIGN_DEMO_READY_FILE','MSIGN_DEMO_SELECTED','MSIGN_DEMO_DARK','MSIGN_UI_TEST_SCENARIO','MSIGN_SCREENSHOT_CAPTURE') {
     $original[$name]=[Environment]::GetEnvironmentVariable($name)
-    [Environment]::SetEnvironmentVariable($name,$null)
+    Set-TestEnvironmentVariable $name $null
 }
-$profile=Join-Path $Output ('fresh-profile-'+[Guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Force $profile | Out-Null
-$preferences=Join-Path $profile 'settings.json'
+$testProfile=Join-Path $Output ('fresh-profile-'+[Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Force $testProfile | Out-Null
+$preferences=Join-Path $testProfile 'settings.json'
 # Network listener off; FirstRunDone is absent (fresh false default), no instruction to open a window.
 '{"BridgeEnabled":false}' | Set-Content $preferences -Encoding UTF8
 $env:MSIGN_TEST_PREFERENCES=$preferences
@@ -59,7 +61,7 @@ try {
                 $idCondition=[System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty,'PrimaryButton')
                 $processCondition=[System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$process.Id)
                 $condition=[System.Windows.Automation.AndCondition]::new($idCondition,$processCondition)
-                $button=[System.Windows.Automation.AutomationElement]::RootElement.FindFirst([System.Windows.Automation.TreeScope]::Descendants,$condition)
+                $button=Find-AppAutomationElements $process $condition | Select-Object -First 1
                 if($null -ne $button) {
                     [void]$button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern).Invoke()
                     $dismissed=$true
@@ -111,6 +113,6 @@ try {
         ConvertTo-Json | Set-Content (Join-Path $Output 'ordinary-first-launch-proof.json') -Encoding UTF8
 } finally {
     if($null -ne $process -and -not $process.HasExited) {Stop-Process -Id $process.Id -Force}
-    foreach($name in $original.Keys) {[Environment]::SetEnvironmentVariable($name,$original[$name])}
-    Remove-Item -Recurse -Force $profile -ErrorAction SilentlyContinue
+    foreach($name in $original.Keys) {Set-TestEnvironmentVariable $name $original[$name]}
+    Remove-Item -Recurse -Force $testProfile -ErrorAction SilentlyContinue
 }

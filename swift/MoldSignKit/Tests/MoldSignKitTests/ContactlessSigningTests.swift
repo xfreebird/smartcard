@@ -94,7 +94,7 @@ final class ContactlessSigningTests: XCTestCase {
                 var plain = try aes.cbcDecrypt(Data(response.prefix(80)), iv: Data(count: 16))
                 plain[offset] ^= 1
                 let ciphertext = try aes.cbcEncrypt(plain, iv: Data(count: 16))
-                return ciphertext + AES.cmac(key: CryptoTests.kmac, message: ciphertext) + Data(hex: "9000")
+                return ciphertext + (try AES.cmac(key: CryptoTests.kmac, message: ciphertext)) + Data(hex: "9000")
             }
             let card = CosmoXCard(transport: pipe)
             XCTAssertThrowsError(try card.authenticate()) {

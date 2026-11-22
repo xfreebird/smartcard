@@ -19,6 +19,15 @@ extension XCUIElement {
 
 @MainActor
 extension XCUIApplication {
+    func workspaceScreenshot() -> XCUIScreenshot {
+        #if os(macOS)
+        // A menu-bar application's root has no display bounds. Capture its native window.
+        return windows.firstMatch.screenshot()
+        #else
+        return screenshot()
+        #endif
+    }
+
     var filePicker: XCUIElement { otherElements["Browse View (Picker)"].firstMatch }
     private var toolbarOverflow: XCUIElement {
         buttons.matching(NSPredicate(format: "identifier IN %@",

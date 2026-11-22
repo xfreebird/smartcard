@@ -27,8 +27,12 @@ extern int32_t c_scard_available(void);
 extern int32_t c_aes256_ecb_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t *in, uint8_t *out);
 extern int32_t c_aes256_cbc_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t *iv, const uint8_t *in, uint32_t in_len, uint8_t *out, uint32_t *out_len);
 extern int32_t c_aes256_cbc_decrypt(const uint8_t *key, uint32_t key_len, const uint8_t *iv, const uint8_t *in, uint32_t in_len, uint8_t *out, uint32_t *out_len);
-// AES-256 CMAC (RFC 4493)
-extern void c_aes256_cmac(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uint32_t msg_len, uint8_t *out);
+// Checked block primitive permits deterministic failure-path tests without changing live backends.
+typedef int32_t (*c_aes_block_encryptor)(const uint8_t *, uint32_t, const uint8_t *, uint8_t *);
+extern int32_t c_aes256_cmac_with_block(const uint8_t *key, uint32_t key_len, const uint8_t *msg,
+                                      uint32_t msg_len, uint8_t *out, c_aes_block_encryptor encrypt);
+// AES-256 CMAC (RFC 4493). Returns zero on success; failure never yields a usable tag.
+extern int32_t c_aes256_cmac(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uint32_t msg_len, uint8_t *out);
 
 // ---- OpenSSL-only helpers (Linux, or macOS built with MOLDSIGN_OPENSSL for testing) ----
 extern void c_sha256(const uint8_t *data, size_t len, uint8_t out[32]);
