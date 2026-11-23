@@ -187,14 +187,14 @@ This task resolves external artifacts, including the AGP-matched lint tools and 
 | SwiftPM core and Apple application policies | LLVM line coverage in Sonar generic XML |
 | Linux GNOME integration | LLVM line coverage in Sonar generic XML |
 | Android core, app and USB unit tests | JaCoCo XML from each module, enabled with `-PsonarCoverage=true` |
-| Windows portable solution on Windows | Microsoft `dotnet-coverage` XML. The WinUI app also builds for static analysis. |
+| Windows portable solution on Windows | Microsoft `dotnet-coverage` XML, with source paths rebased and checksums checked on the Linux scanner host. |
 | Website Node tests | LCOV for exercised `website/src` modules |
 
 The reports measure the listed suites. Native UI journeys, physical card operations and other language/tooling tests still have their own validation. SonarQube Cloud computes project and new-code measurements over the analyzed source scope, including uncovered lines. The workflow supplies no coverage threshold. The project quality gate remains the authority.
 
 First inspect the workflow's generated reports in `reports` mode, or from a manual run with `SONAR_CI_ENABLED` unset. Configure a SonarQube Cloud token with analysis access to `xfreebird_smartcard` as the repository Actions secret `SONAR_TOKEN`. Turn off the project's automatic analysis in **Administration → Analysis Method**. Set `SONAR_CI_ENABLED` to `true` and run CI through a trusted PR or on `main` once the workflow is there. Verify coverage in the SonarQube Cloud analysis and the GitHub check. If the migration fails, unset `SONAR_CI_ENABLED` before restoring automatic analysis. The two analysis modes cannot run concurrently. [SonarQube Cloud coverage documentation](https://docs.sonarsource.com/sonarqube-cloud/analyzing-source-code/test-coverage/overview)
 
-The scanner reuses source exclusions from `.sonarcloud.properties`. The fixture drivers stay out of production analysis, while production workflow scripts remain in scope. The coverage workflow uses read-only GitHub permissions and requires neither Store credentials nor signing. The Sonar token is scoped to scanner steps. Android dependency verification remains strict, including the additional test-only JaCoCo graph.
+The combined scanner runs on Linux because SonarQube's Swift analyzer does not run on Windows. It builds the portable .NET solution for compiler-based analysis and indexes the WinUI source files. Full WinUI compilation and UI validation run in the native Windows CI job. The scanner reuses source exclusions from `.sonarcloud.properties`. The fixture drivers stay out of production analysis, while production workflow scripts remain in scope. The coverage workflow uses read-only GitHub permissions and requires neither Store credentials nor signing. The Sonar token is scoped to scanner steps. Android dependency verification remains strict, including the additional test-only JaCoCo graph.
 
 The uncommitted changes and complete automated/real integration acceptance matrix are recorded in [the hardening handoff](reports/scanner-hardening-integration-2026-11-22.md). A successful dependency-resolution task is not a passing application build or test run.
 

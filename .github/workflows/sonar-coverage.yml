@@ -128,49 +128,23 @@ jobs:
           retention-days: 7
 
   windows:
-    needs: [select, swift, android-web, linux]
+    needs: select
     if: needs.select.outputs.collect == 'true'
     runs-on: windows-latest
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with: { fetch-depth: 0, persist-credentials: false }
+        with: { persist-credentials: false }
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with: { global-json-file: windows/global.json }
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with: { name: sonar-swift, path: '${{ runner.temp }}/coverage' }
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with: { name: sonar-android-web, path: '${{ runner.temp }}/coverage' }
-      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
-        with: { name: sonar-linux, path: '${{ runner.temp }}/coverage' }
       - name: Install pinned coverage collector
         run: dotnet tool install dotnet-coverage --version 18.12.0 --tool-path "$env:RUNNER_TEMP/sonar-tools" --allow-roll-forward
-      - name: Begin Sonar analysis
-        if: needs.select.outputs.scan == 'true'
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          if (-not $env:SONAR_TOKEN) { throw 'Configure the SONAR_TOKEN secret before enabling CI analysis.' }
-          dotnet tool install dotnet-sonarscanner --version 12.1.0 --tool-path "$env:RUNNER_TEMP/sonar-tools" --allow-roll-forward
-          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $reports = "$env:RUNNER_TEMP/coverage"
-          $scope = Get-Content .sonarcloud.properties | Where-Object { $_ -match '^sonar\.(exclusions|sourceEncoding|python\.version)=' } | ForEach-Object { "/d:$_" }
-          & "$env:RUNNER_TEMP/sonar-tools/dotnet-sonarscanner.exe" begin /k:xfreebird_smartcard /o:xfreebird `
-            '/d:sonar.host.url=https://sonarcloud.io' "/d:sonar.token=$env:SONAR_TOKEN" `
-            "/d:sonar.projectBaseDir=$env:GITHUB_WORKSPACE" '/d:sonar.scanner.scanAll=true' @scope `
-            '/d:sonar.qualitygate.wait=true' '/d:sonar.qualitygate.timeout=300' `
-            "/d:sonar.coverageReportPaths=$reports/core.xml,$reports/apple.xml,$reports/linux.xml" `
-            "/d:sonar.coverage.jacoco.xmlReportPaths=$reports/android-core.xml,$reports/android-transport.xml,$reports/android-app.xml" `
-            "/d:sonar.javascript.lcov.reportPaths=$reports/website.lcov" `
-            "/d:sonar.cs.vscoveragexml.reportsPaths=$reports/windows.xml"
-      - name: Build the native app for static analysis
-        if: needs.select.outputs.scan == 'true'
-        run: dotnet build windows/src/MoldSign.App -c Debug -p:Platform=x64 --no-incremental
       - name: Measure C# test coverage
         run: |
           $collector = "$env:RUNNER_TEMP/sonar-tools/dotnet-coverage.exe"
           $report = "$env:RUNNER_TEMP/coverage/windows.xml"
-          & $collector collect 'dotnet test windows/MoldSign.Portable.slnf -p:SonarIncludeNativeSources=true' -f xml -o $report
+          New-Item -ItemType Directory (Split-Path $report) -Force | Out-Null
+          & $collector collect 'dotnet test windows/MoldSign.Portable.slnf' -f xml -o $report
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           $data = [xml](Get-Content -Raw $report)
           foreach ($module in 'MoldSign.Core.dll', 'MoldSign.Desktop.dll', 'esemnbun.dll') {
@@ -178,14 +152,54 @@ jobs:
               throw "C# coverage report contains no executed code for $module."
             }
           }
+          $env:GITHUB_WORKSPACE | Set-Content -Encoding utf8 "$env:RUNNER_TEMP/coverage/windows-source-root.txt"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sonar-windows
-          path: ${{ runner.temp }}/coverage/windows.xml
+          path: ${{ runner.temp }}/coverage/
           if-no-files-found: error
           retention-days: 7
-      - name: Submit reports and check quality gate
-        if: needs.select.outputs.scan == 'true'
+
+  analyze:
+    needs: [select, swift, android-web, linux, windows]
+    if: needs.select.outputs.scan == 'true'
+    # The Swift analyzer requires Linux or macOS. Windows still generates its own coverage.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { fetch-depth: 0, persist-credentials: false }
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with: { global-json-file: windows/global.json }
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: sonar-*
+          path: ${{ runner.temp }}/coverage
+          merge-multiple: true
+      - name: Match Windows coverage to this checkout
+        run: |
+          reports="$RUNNER_TEMP/coverage"
+          python3 scripts/ci/sonar-windows-coverage.py "$reports/windows.xml" "$reports/windows-source-root.txt" "$reports/windows-rebased.xml"
+      - name: Install pinned .NET scanner
+        run: dotnet tool install dotnet-sonarscanner --version 12.1.0 --tool-path "$RUNNER_TEMP/sonar-tools" --allow-roll-forward
+      - name: Begin Sonar analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: '& "$env:RUNNER_TEMP/sonar-tools/dotnet-sonarscanner.exe" end "/d:sonar.token=$env:SONAR_TOKEN"'
+        run: |
+          : "${SONAR_TOKEN:?Configure the SONAR_TOKEN secret before enabling CI analysis.}"
+          reports="$RUNNER_TEMP/coverage"
+          mapfile -t scope < <(grep -E '^sonar\.(exclusions|sourceEncoding|python\.version)=' .sonarcloud.properties)
+          "$RUNNER_TEMP/sonar-tools/dotnet-sonarscanner" begin /k:xfreebird_smartcard /o:xfreebird \
+            /d:sonar.host.url=https://sonarcloud.io "/d:sonar.token=$SONAR_TOKEN" \
+            "/d:sonar.projectBaseDir=$GITHUB_WORKSPACE" /d:sonar.scanner.scanAll=true "${scope[@]/#//d:}" \
+            /d:sonar.qualitygate.wait=true /d:sonar.qualitygate.timeout=300 \
+            "/d:sonar.coverageReportPaths=$reports/core.xml,$reports/apple.xml,$reports/linux.xml" \
+            "/d:sonar.coverage.jacoco.xmlReportPaths=$reports/android-core.xml,$reports/android-transport.xml,$reports/android-app.xml" \
+            "/d:sonar.javascript.lcov.reportPaths=$reports/website.lcov" \
+            "/d:sonar.cs.vscoveragexml.reportsPaths=$reports/windows-rebased.xml"
+      - name: Build portable .NET projects for static analysis
+        run: dotnet build windows/MoldSign.Portable.slnf --no-incremental -p:SonarIncludeNativeSources=true
+      - name: Submit reports and check quality gate
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: '"$RUNNER_TEMP/sonar-tools/dotnet-sonarscanner" end "/d:sonar.token=$SONAR_TOKEN"'

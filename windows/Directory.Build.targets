@@ -8,7 +8,10 @@
                                  $(MoldSignRepoRoot)/apple/Apps/**/*.swift;
                                  $(MoldSignRepoRoot)/apple/Helpers/**/*.swift;
                                  $(MoldSignRepoRoot)/linux/Sources/**/*.swift;
-                                 $(MoldSignRepoRoot)/android/*/src/main/**/*.kt" />
+                                 $(MoldSignRepoRoot)/android/*/src/main/**/*.kt;
+                                 $(MoldSignRepoRoot)/windows/src/MoldSign.App/**/*.cs;
+                                 $(MoldSignRepoRoot)/windows/src/MoldSign.App/**/*.xaml"
+                       Exclude="$(MoldSignRepoRoot)/windows/src/MoldSign.App/bin/**;$(MoldSignRepoRoot)/windows/src/MoldSign.App/obj/**" />
     <Content Include="@(SonarNativeSource)" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" Pack="false" />
   </ItemGroup>
 </Project>
