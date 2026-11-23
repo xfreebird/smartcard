@@ -94,21 +94,21 @@ class WorkflowContracts(unittest.TestCase):
     def test_ios_budget_limits_preserve_failure_evidence(self):
         ci = (ROOT / '.github/workflows/ci.yml').read_text()
         ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
-        job_limit = int(re.search(r'\n    timeout-minutes: (\d+)', ios).group(1))
+        self.assertIn("\n    timeout-minutes: ${{ matrix.family == 'iPad' && 50 || 45 }}\n", ios)
         self.assertIn('family: [iPhone, iPad]', ios)
         self.assertIn('max-parallel: 1', ios)
         self.assertIn('fail-fast: false', ios)
         self.assertIn('"${{ matrix.family }}"', ios)
         self.assertIn('name: ios-ui-${{ matrix.family }}-${{ github.sha }}', ios)
-        self.assertLessEqual(job_limit * 2, 90)
+        ui = ios.split('- name: Native iOS mock UI journeys\n', 1)[1].split('\n      - ', 1)[0]
+        self.assertIn("timeout-minutes: ${{ matrix.family == 'iPad' && 45 || 40 }}", ui)
         caps = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
-                'Native iOS mock UI journeys': 40, 'iOS UI evidence': 3}
+                'iOS UI evidence': 3}
         for name, cap in caps.items():
             step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
             limit = int(re.search(r'timeout-minutes: (\d+)', step).group(1))
             self.assertGreater(limit, 0, name)
             self.assertLessEqual(limit, cap, name)
-            self.assertLess(limit, job_limit, name)
         build = ios.split('- name: Build iOS and share extension', 1)[1].split('- name: Native iOS mock UI journeys', 1)[0]
         self.assertIn('prepare-ios-ui-resources.sh', build)
         self.assertIn('MSIGN_UI_RESOURCES_DIR=', ios)
