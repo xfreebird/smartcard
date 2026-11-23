@@ -18,8 +18,11 @@ final class VerificationJourneyUITests: XCTestCase {
             XCTAssertTrue(clear.waitForPresence(timeout: 5), scenario)
             XCTAssertTrue(clear.isEnabled)
             #if os(iOS)
-            XCTAssertTrue(app.navigationBars.buttons["verify.clearResults"].firstMatch.exists,
-                          "Clear results must stay in the navigation bar: \(scenario)")
+            // iPhone Duo moves primary actions from the navigation bar to its native side toolbar.
+            let inNavigationBar = app.navigationBars.buttons["verify.clearResults"].firstMatch
+            let inToolbar = app.toolbars.buttons["verify.clearResults"].firstMatch
+            XCTAssertTrue(inNavigationBar.exists || inToolbar.exists,
+                          "Clear results must stay in the native toolbar: \(scenario)")
             #endif
             clear.activateControl()
             XCTAssertTrue(app.descendants(matching: .any)["verify.dropZone"].firstMatch.exists)

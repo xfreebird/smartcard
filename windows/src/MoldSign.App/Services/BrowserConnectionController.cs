@@ -57,12 +57,17 @@ internal sealed class BrowserConnectionController(BridgeHost bridge, AppSettings
     // Called with _control held. A cancelled recovery never waits for that semaphore again.
     private async Task StopRecoveryAsync()
     {
-        if (_recovery is not { } source) return;
-        await source.CancelAsync();
-        if (_recoveryTask is not null) await _recoveryTask;
-        source.Dispose();
-        _recovery = null;
-        _recoveryTask = null;
+        if (_recovery is null) return;
+        try
+        {
+            await Task.WhenAll(_recovery.CancelAsync(), _recoveryTask ?? Task.CompletedTask);
+        }
+        finally
+        {
+            _recovery.Dispose();
+            _recovery = null;
+            _recoveryTask = null;
+        }
     }
 
     public async ValueTask DisposeAsync()

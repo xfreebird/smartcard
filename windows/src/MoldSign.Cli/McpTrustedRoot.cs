@@ -84,8 +84,6 @@ internal sealed class McpTrustedRoot : IDisposable
         lock (lifetime)
         {
             if (disposed) throw new McpException("PATH_DENIED");
-            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
-
             if (relative.Length is 0 or > 1024 || relative.Contains('\\') || relative.Contains(':') || relative.Contains('\0'))
                 throw new McpException("PATH_DENIED");
             var parts = relative.Split('/');
@@ -106,15 +104,15 @@ internal sealed class McpTrustedRoot : IDisposable
                 }
                 else
                 {
-                    var parent = rootLease!.Descriptor;
+                    var parent = unixRoot!;
                     for (var i = 0; i < parts.Length; i++)
                     {
                         var flags = i < parts.Length - 1 ? DirectoryFlags :
                             (Mac ? 0x100 : 0x20000) | (Mac ? 0x1000000 : 0x80000) | (Mac ? 4 : 2048);
                         var fd = openat(parent, parts[i], flags);
                         if (fd < 0) throw new McpException("PATH_DENIED");
-                        handles.Add(new SafeFileHandle((IntPtr)fd, ownsHandle: true));
-                        parent = fd;
+                        parent = new SafeFileHandle((IntPtr)fd, ownsHandle: true);
+                        handles.Add(parent);
                     }
                     file = handles[^1];
                 }
@@ -157,8 +155,6 @@ internal sealed class McpTrustedRoot : IDisposable
         lock (lifetime)
         {
             if (disposed) throw new McpException("PATH_DENIED");
-            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
-
             ValidatePart(name);
             if (name.Contains('/')) throw new McpException("PATH_DENIED");
             try
@@ -180,13 +176,16 @@ internal sealed class McpTrustedRoot : IDisposable
                 else
                 {
                     var flags = 1 | (Mac ? 0x200 : 0x40) | (Mac ? 0x800 : 0x80) | (Mac ? 0x100 : 0x20000);
-                    var fd = openatCreate(rootLease!.Descriptor, name, flags, 0x180);
+                    const uint ownerReadWrite = 0x180; // 0600
+                    var fd = Mac && RuntimeInformation.ProcessArchitecture == Architecture.Arm64
+                        ? openatCreateDarwinArm64(unixRoot!, name, flags, 0, 0, 0, 0, 0, ownerReadWrite)
+                        : openatCreate(unixRoot!, name, flags, ownerReadWrite);
                     if (fd < 0) throw new McpException("PATH_DENIED");
                     using var handle = new SafeFileHandle((IntPtr)fd, ownsHandle: true);
                     using var stream = new FileStream(handle, FileAccess.Write);
                     stream.Write(bytes);
                     stream.Flush(flushToDisk: true);
-                    if (fsync(rootLease!.Descriptor) != 0) throw new McpException("PATH_DENIED");
+                    if (fsync(unixRoot!) != 0) throw new McpException("PATH_DENIED");
                 }
             }
             catch (McpException) { throw; }
@@ -201,8 +200,6 @@ internal sealed class McpTrustedRoot : IDisposable
         lock (lifetime)
         {
             if (disposed) throw new McpException("PATH_DENIED");
-            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
-
             ValidatePart(name);
             if (name.Contains('/') || !OperatingSystem.IsWindows()) throw new McpException("PATH_DENIED");
             var handle = CreateFileW(Path.Combine(path, name), 0xC0000000, 0, IntPtr.Zero, 4, 0x00200000, IntPtr.Zero);
@@ -220,8 +217,6 @@ internal sealed class McpTrustedRoot : IDisposable
         lock (lifetime)
         {
             if (disposed) throw new McpException("PATH_DENIED");
-            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
-
             ValidatePart(name);
             if (name.Contains('/')) throw new McpException("PATH_DENIED");
             var temporary = Guid.NewGuid().ToString("D") + ".tmp";
@@ -231,17 +226,17 @@ internal sealed class McpTrustedRoot : IDisposable
                 if (OperatingSystem.IsWindows()) File.Move(Path.Combine(path, temporary), Path.Combine(path, name), replace);
                 else
                 {
-                    var fd = rootLease!.Descriptor;
+                    var directory = unixRoot!;
                     if (replace)
                     {
-                        if (renameat(fd, temporary, fd, name) != 0) throw new McpException("PATH_DENIED");
+                        if (renameat(directory, temporary, directory, name) != 0) throw new McpException("PATH_DENIED");
                     }
                     else
                     {
-                        if (linkat(fd, temporary, fd, name, 0) != 0) throw new McpException("PATH_DENIED");
-                        if (unlinkat(fd, temporary, 0) != 0) throw new McpException("PATH_DENIED");
+                        if (linkat(directory, temporary, directory, name, 0) != 0) throw new McpException("PATH_DENIED");
+                        if (unlinkat(directory, temporary, 0) != 0) throw new McpException("PATH_DENIED");
                     }
-                    if (fsync(fd) != 0) throw new McpException("PATH_DENIED");
+                    if (fsync(directory) != 0) throw new McpException("PATH_DENIED");
                 }
             }
             catch (McpException) { throw; }
@@ -256,15 +251,13 @@ internal sealed class McpTrustedRoot : IDisposable
         lock (lifetime)
         {
             if (disposed) throw new McpException("PATH_DENIED");
-            using var rootLease = OperatingSystem.IsWindows() ? null : new DescriptorLease(unixRoot!);
-
             ValidatePart(name);
             if (name.Contains('/')) throw new McpException("PATH_DENIED");
             try
             {
                 if (OperatingSystem.IsWindows()) File.Delete(Path.Combine(path, name));
-                else if (unlinkat(rootLease!.Descriptor, name, 0) != 0 ||
-                         fsync(rootLease!.Descriptor) != 0) throw new McpException("PATH_DENIED");
+                else if (unlinkat(unixRoot!, name, 0) != 0 ||
+                         fsync(unixRoot!) != 0) throw new McpException("PATH_DENIED");
             }
             catch { throw new McpException("PATH_DENIED"); }
 
@@ -296,29 +289,6 @@ internal sealed class McpTrustedRoot : IDisposable
         return handle;
     }
 
-    private sealed class DescriptorLease : IDisposable
-    {
-        private readonly SafeFileHandle handle;
-        private bool acquired;
-        internal int Descriptor { get; }
-        internal DescriptorLease(SafeFileHandle handle)
-        {
-            this.handle = handle;
-            try
-            {
-                handle.DangerousAddRef(ref acquired);
-                Descriptor = handle.DangerousGetHandle().ToInt32();
-            }
-            catch { Dispose(); throw; }
-        }
-        public void Dispose()
-        {
-            if (!acquired) return;
-            acquired = false;
-            handle.DangerousRelease();
-        }
-    }
-
     public void Dispose()
     {
         lock (lifetime)
@@ -344,11 +314,17 @@ internal sealed class McpTrustedRoot : IDisposable
     private static extern bool GetFileInformationByHandle(SafeFileHandle handle, out FileInformation info);
     [DllImport("libc", SetLastError = true)] private static extern int open(string path, int flags);
     [DllImport("libc", SetLastError = true)] private static extern int openat(int fd, string path, int flags);
-    [DllImport("libc", EntryPoint = "openat", SetLastError = true)] private static extern int openatCreate(int fd, string path, int flags, uint mode);
-    [DllImport("libc", SetLastError = true)] private static extern int unlinkat(int fd, string path, int flags);
-    [DllImport("libc", SetLastError = true)] private static extern int linkat(int from, string source, int to, string destination, int flags);
-    [DllImport("libc", SetLastError = true)] private static extern int renameat(int from, string source, int to, string destination);
-    [DllImport("libc", SetLastError = true)] private static extern int fsync(int fd);
+    // The runtime holds the descriptor open through each native call; the lifetime lock covers the full operation.
+    [DllImport("libc", SetLastError = true)] private static extern int openat(SafeFileHandle fd, string path, int flags);
+    [DllImport("libc", EntryPoint = "openat", SetLastError = true)] private static extern int openatCreate(SafeFileHandle fd, string path, int flags, uint mode);
+    // Darwin ARM64 passes the variadic mode on the stack, after eight integer argument registers.
+    [DllImport("libc", EntryPoint = "openat", SetLastError = true)]
+    private static extern int openatCreateDarwinArm64(SafeFileHandle fd, string path, int flags,
+        nint unused3, nint unused4, nint unused5, nint unused6, nint unused7, uint mode);
+    [DllImport("libc", SetLastError = true)] private static extern int unlinkat(SafeFileHandle fd, string path, int flags);
+    [DllImport("libc", SetLastError = true)] private static extern int linkat(SafeFileHandle from, string source, SafeFileHandle to, string destination, int flags);
+    [DllImport("libc", SetLastError = true)] private static extern int renameat(SafeFileHandle from, string source, SafeFileHandle to, string destination);
+    [DllImport("libc", SetLastError = true)] private static extern int fsync(SafeFileHandle fd);
     [DllImport("libc")] private static extern int close(int fd);
 }
 
