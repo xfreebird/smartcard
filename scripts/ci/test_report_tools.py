@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import runpy
+import stat
 import tempfile
 from types import SimpleNamespace
 import unittest
@@ -89,20 +90,35 @@ class ReportToolsTests(unittest.TestCase):
             rebase(report, producer, self.root / 'rebased.xml', self.root)
 
     @unittest.skipUnless(os.name == 'posix', 'Apple capture is a POSIX tool')
-    def test_apple_manifest_uses_capture_directory_and_refuses_symlink_escape(self):
+    def test_apple_capture_uses_private_readiness_log_and_confines_manifest(self):
         capture = TOOLS.parents[1] / 'distribution/tools/apple_capture.py'
         app = self.root / 'Debug.app'
         app.mkdir()
         (app / 'App').write_bytes(b'MSIGN_DEMO_SCENARIO')
-        container = self.root / 'device/Containers/Data/Application/fixture'
+        device_data = self.root / 'device/data'
+        (device_data / 'tmp').mkdir(parents=True)
+        container = device_data / 'Containers/Data/Application/fixture'
         device_id, runtime_id = 'fixture-device', 'fixture-runtime'
         commands = {
             ('list', 'devices', '--json'): json.dumps({'devices': {runtime_id: [{'udid': device_id, 'name': 'Fixture'}]}}),
-            ('list', 'runtimes', '--json'): json.dumps({'runtimes': [{'identifier': runtime_id, 'version': '26.5'}]}),
+            ('list', 'runtimes', '--json'): json.dumps({'runtimes': [
+                {'identifier': runtime_id, 'name': 'Fixture iOS', 'version': '26.5'}]}),
             ('get_app_container', device_id, 'md.esemnbun.ios', 'data'): str(container),
         }
+        readiness_logs = []
 
         def native_fixture(command, **_):
+            if command[:3] == ('xcrun', 'simctl', 'launch'):
+                virtual_path = command[3].removeprefix('--stdout=')
+                self.assertTrue(virtual_path.startswith('/tmp/'))
+                ready_log = device_data / virtual_path.lstrip('/')
+                self.assertEqual(ready_log.parent.parent, device_data / 'tmp')
+                self.assertEqual(stat.S_IMODE(ready_log.parent.stat().st_mode), 0o700)
+                self.assertFalse(ready_log.exists())
+                ready_log.write_text('MSIGN_DEMO_READY\n', encoding='utf-8')
+                readiness_logs.append(ready_log)
+            if command[:5] == ('xcrun', 'simctl', 'io', device_id, 'screenshot'):
+                Path(command[-1]).write_bytes(b'fixture screenshot')
             if command[:2] == ('xcrun', 'simctl'):
                 return commands.get(command[2:], '')
             self.assertEqual(command, ('xcrun', '--sdk', 'iphonesimulator', '--show-sdk-version'))
@@ -110,21 +126,30 @@ class ReportToolsTests(unittest.TestCase):
 
         output = self.root / 'capture'
         output.mkdir()
-        args = ('--app', app, '--device', device_id, '--family', 'iphone', '--languages', 'fixture')
+        args = ('--app', app, '--device', device_id, '--family', 'iphone', '--stories', '05-card')
         old_directory = Path.cwd()
         os.chdir(output)
         try:
-            with patch.dict('sys.modules', {'PIL': SimpleNamespace(Image=None)}), \
-                    patch('subprocess.check_output', side_effect=native_fixture), patch('subprocess.run'):
-                self.run_tool(capture, *args)
+            image = SimpleNamespace(open=lambda _: SimpleNamespace(size=(1179, 2556)))
+            with patch.dict('sys.modules', {'PIL': SimpleNamespace(Image=image)}), \
+                    patch('subprocess.check_output', side_effect=native_fixture), patch('subprocess.run'), \
+                    patch('time.sleep'):
                 manifest = output / 'manifest-iphone.json'
-                self.assertEqual(json.loads(manifest.read_text(encoding='utf-8')), [])
+                manifest.write_text('[{"path":"ro/iphone/05-card.png"}]', encoding='utf-8')
+                self.run_tool(capture, *args, '--languages', 'en')
+                self.assertEqual(len(readiness_logs), 1)
+                self.assertFalse(readiness_logs[0].parent.exists())
+                entries = json.loads(manifest.read_text(encoding='utf-8'))
+                self.assertEqual([entry['path'] for entry in entries],
+                                 ['ro/iphone/05-card.png', 'en/iphone/05-card.png'])
+                self.assertEqual(entries[1]['sourceDimensions'], [1179, 2556])
+                self.assertEqual((output / entries[1]['path']).read_bytes(), b'fixture screenshot')
                 manifest.unlink()
                 outside = self.root / 'outside.json'
                 outside.write_text('preserve', encoding='utf-8')
                 manifest.symlink_to(outside)
                 with self.assertRaisesRegex(ValueError, 'leaves the capture directory'):
-                    self.run_tool(capture, *args)
+                    self.run_tool(capture, *args, '--languages', 'fixture')
                 self.assertEqual(outside.read_text(encoding='utf-8'), 'preserve')
         finally:
             os.chdir(old_directory)

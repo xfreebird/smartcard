@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Capture localized fictional Apple app screens into the current directory using a Debug app."""
-import argparse, json, os, pathlib, subprocess, time, shutil, tempfile, uuid
+import argparse, json, os, pathlib, subprocess, time, shutil, tempfile
 from PIL import Image
 R=pathlib.Path(__file__).resolve().parents[2]
 def run(*a,**kw): return subprocess.check_output(a,text=True,**kw).strip()
@@ -20,6 +20,7 @@ subprocess.run(['xcrun','simctl','boot',d],stdout=subprocess.DEVNULL,stderr=subp
 run('xcrun','simctl','bootstatus',d,'-b');run('xcrun','simctl','install',d,str(app))
 run('xcrun','simctl','status_bar',d,'override','--time','9:41','--batteryState','charged','--batteryLevel','100','--wifiMode','active','--wifiBars','3','--cellularMode','active','--cellularBars','4')
 container=pathlib.Path(run('xcrun','simctl','get_app_container',d,'md.esemnbun.ios','data'));files=container/'Documents'/'Store Fixtures';files.mkdir(parents=True,exist_ok=True)
+deviceData=container.parents[3]
 devices=json.loads(run('xcrun','simctl','list','devices','--json'))['devices'];runtimeID=next(k for k,v in devices.items() if any(x['udid']==d for x in v));runtime=next(r for r in json.loads(run('xcrun','simctl','list','runtimes','--json'))['runtimes'] if r['identifier']==runtimeID);sdk=run('xcrun','--sdk','iphonesimulator','--show-sdk-version');
 if int(runtime['version'].split('.')[0])<26:raise RuntimeError('Store capture requires iOS 26 or newer for native Liquid Glass')
 manifest=[]
@@ -38,13 +39,15 @@ try:
     env['SIMCTL_CHILD_MSIGN_STORE_READER_ONLY'] = '1'
    if key in ('01-sign', '02-reader'):
     env.pop('SIMCTL_CHILD_MSIGN_DEMO_FILES')
-   readyPath='/tmp/esemnbun-store-'+uuid.uuid4().hex+'.log';readyLog=pathlib.Path(str(container).split('/Containers/Data/Application/')[0]+readyPath);readyLog.unlink(missing_ok=True)
-   run('xcrun','simctl','launch','--stdout='+readyPath,d,'md.esemnbun.ios','-appLanguage',lang,'-appTheme',theme,'-AppleLanguages',f'({lang})',env=env)
-   for attempt in range(90):
-    if readyLog.exists() and "MSIGN_DEMO_READY" in readyLog.read_text(errors="replace"):break
-    time.sleep(1)
-   else:raise RuntimeError("Mock presentation did not become ready")
-   readyLog.unlink(missing_ok=True)
+   with tempfile.TemporaryDirectory(prefix='esemnbun-store-ready-', dir=deviceData/'tmp') as readyDirectory:
+    readyLog=pathlib.Path(readyDirectory)/'launch.log'
+    # simctl interprets the path relative to the simulated device filesystem.
+    readyPath='/' + readyLog.relative_to(deviceData).as_posix()
+    run('xcrun','simctl','launch','--stdout='+readyPath,d,'md.esemnbun.ios','-appLanguage',lang,'-appTheme',theme,'-AppleLanguages',f'({lang})',env=env)
+    for attempt in range(90):
+     if readyLog.exists() and "MSIGN_DEMO_READY" in readyLog.read_text(errors="replace"):break
+     time.sleep(1)
+    else:raise RuntimeError("Mock presentation did not become ready")
    # Allow extra settling time on first launch; visually reject any system banners.
    time.sleep(8 if key in ('01-sign', '02-reader', '02-batch', '03-consent') else 2)
    dest=(out/lang/a.family/(key+'.png')).resolve()
@@ -60,8 +63,9 @@ try:
     if not created:raise RuntimeError('Device Hub did not write native screenshot')
     capture=max(created,key=lambda f:f.stat().st_mtime);shutil.move(str(capture),str(dest))
    else:
-    temporaryDirectory=tempfile.TemporaryDirectory(prefix='esemnbun-store-');temporary=pathlib.Path(temporaryDirectory.name)/'capture.png'
-    run('xcrun','simctl','io',d,'screenshot','--display='+a.display,str(temporary));shutil.move(str(temporary),str(dest))
+    with tempfile.TemporaryDirectory(prefix='esemnbun-store-') as temporaryDirectory:
+     temporary=pathlib.Path(temporaryDirectory)/'capture.png'
+     run('xcrun','simctl','io',d,'screenshot','--display='+a.display,str(temporary));shutil.move(str(temporary),str(dest))
    sourceSize=Image.open(dest).size
    if a.family=='duo-expanded' and sourceSize!=(2853,2007):
     dest.unlink();raise RuntimeError('Expected expanded landscape Duo, got '+str(sourceSize))
@@ -71,8 +75,10 @@ try:
  manifestPath=(out/FAMILY_MANIFESTS[a.family]).resolve()
  if not manifestPath.is_relative_to(out):raise ValueError('Manifest path leaves the capture directory')
  if manifestPath.exists():
-  updated={item['path']:item for item in json.loads(manifestPath.read_text())};updated.update({item['path']:item for item in manifest});manifest=list(updated.values())
- manifestPath.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
+  updated={item['path']:item for item in json.loads(manifestPath.read_text(encoding='utf-8'))};updated.update({item['path']:item for item in manifest});manifest=list(updated.values())
+ with manifestPath.open('w', encoding='utf-8') as stream:
+  json.dump(manifest, stream, ensure_ascii=False, indent=2)
+  stream.write('\n')
 finally:
  subprocess.run(['xcrun','simctl','terminate',d,'md.esemnbun.ios'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
  if not a.keep_booted: subprocess.run(['xcrun','simctl','shutdown',d],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
