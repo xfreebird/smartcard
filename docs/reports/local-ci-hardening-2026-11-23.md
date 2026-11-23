@@ -25,6 +25,8 @@ Passed on the main Apple Silicon Mac: Gradle 9.1.0, JDK 17, AGP 9.0.1 and Kotlin
 
 No upload key, version reservation or publisher was used. Physical optimized-Release USB/NFC and minimum-API TLS acceptance remain open.
 
+The first hosted PR run exposed two metadata files absent from the warm-cache verification graph: Guava parent 33.3.1-jre's POM and JUnit BOM 5.10.2's Gradle module metadata. Their exact SHA-256 entries were added after checking Maven Central bytes against its repo1 mirror and the available publisher checksums. No dependency version, trusted-artifact exemption or verification mode changed. On the Air, a new empty Gradle user home then passed both root configuration and all three modules' `resolveDependencyVerification` tasks with `--dependency-verification strict`, including Linux/macOS/Windows AAPT2 classifiers. This follow-up changes checksum metadata only; the application binaries and completed UI evidence remain applicable. Hosted checks must be refreshed for the follow-up head.
+
 ## macOS
 
 Passed using Xcode 27.1 RC on Apple Silicon, with the native app built on the MacBook Air:
