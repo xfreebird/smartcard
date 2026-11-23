@@ -1,0 +1,5 @@
+# Coverage.py wheels verified against PyPI for CPython 3.12 on CI and Apple Silicon.
+coverage==7.17.4 \
+    --hash=sha256:e98a2382f5c26b8e17628ae832aab59ed642490b37514525f9983b312e98819e \
+    --hash=sha256:a3e91ad99091799815d1843cea5a88f565e79a2e0af0d6eebb02d275e32debe9 \
+    --hash=sha256:0f9547c30aeef70904ede391f4cb43d2ddd0a0d2d8fb4a96c75cc422f64afaac

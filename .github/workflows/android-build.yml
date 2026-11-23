@@ -39,7 +39,9 @@ jobs:
             android/gradle/gradle-daemon-jvm.properties
             android/gradle/wrapper/gradle-wrapper.jar
       - name: Require selected Android toolchain and optimization policy
-        run: python3 scripts/ci/android_build_policy.py --verify-wrapper --report "$RUNNER_TEMP/android-toolchain.json"
+        run: |
+          python3 scripts/ci/android_build_policy.py --verify-wrapper > "$RUNNER_TEMP/android-toolchain.json"
+          cat "$RUNNER_TEMP/android-toolchain.json"
       - name: Select Android build number
         env:
           BUILD_NUMBER_INPUT: ${{ inputs.build_number }}

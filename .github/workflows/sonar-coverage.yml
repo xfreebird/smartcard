@@ -95,6 +95,16 @@ jobs:
             --test-reporter-destination=stdout --test-reporter-destination="$RUNNER_TEMP/coverage/website.lcov" \
             website/tests/*.test.mjs
           grep -q '^SF:website/src/' "$RUNNER_TEMP/coverage/website.lcov"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with: { python-version: '3.12' }
+      - name: Measure Python automation test coverage
+        env:
+          COVERAGE_RCFILE: scripts/ci/sonar-python.coveragerc
+        run: |
+          export COVERAGE_FILE="$RUNNER_TEMP/python-coverage.data"
+          python -m pip install --only-binary=:all: --require-hashes -r scripts/requirements/sonar-coverage.txt
+          python -m coverage run -m unittest discover -s scripts/ci -p 'test_*.py'
+          python -m coverage xml -o "$RUNNER_TEMP/coverage/python.xml"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sonar-android-web
@@ -196,6 +206,7 @@ jobs:
             "/d:sonar.coverageReportPaths=$reports/core.xml,$reports/apple.xml,$reports/linux.xml" \
             "/d:sonar.coverage.jacoco.xmlReportPaths=$reports/android-core.xml,$reports/android-transport.xml,$reports/android-app.xml" \
             "/d:sonar.javascript.lcov.reportPaths=$reports/website.lcov" \
+            "/d:sonar.python.coverage.reportPaths=$reports/python.xml" \
             "/d:sonar.cs.vscoveragexml.reportsPaths=$reports/windows-rebased.xml"
       - name: Build portable .NET projects for static analysis
         run: dotnet build windows/MoldSign.Portable.slnf --no-incremental -p:SonarIncludeNativeSources=true

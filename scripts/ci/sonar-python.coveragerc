@@ -1,0 +1,9 @@
+[run]
+relative_files = True
+include =
+    scripts/*
+    distribution/tools/*
+
+[report]
+omit =
+    */test_*.py

@@ -23,7 +23,9 @@ jobs:
             android/gradle/gradle-daemon-jvm.properties
             android/gradle/wrapper/gradle-wrapper.jar
       - name: Require selected Android toolchain and optimization policy
-        run: python3 scripts/ci/android_build_policy.py --verify-wrapper --report "$RUNNER_TEMP/android-toolchain.json"
+        run: |
+          python3 scripts/ci/android_build_policy.py --verify-wrapper > "$RUNNER_TEMP/android-toolchain.json"
+          cat "$RUNNER_TEMP/android-toolchain.json"
       - name: Enable KVM for the test emulator
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules

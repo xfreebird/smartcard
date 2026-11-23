@@ -1,12 +1,16 @@
 """Reject stale or incompletely optimized Android artifacts before signing/upload."""
 import hashlib
+import io
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
+from contextlib import redirect_stderr, redirect_stdout
+from unittest.mock import patch
 import zipfile
 
-from android_build_policy import source_policy, verify_bundle
+from android_build_policy import ROOT, main, source_policy, verify_bundle, wrapper_runtime
 
 
 class AndroidBuildPolicyTests(unittest.TestCase):
@@ -43,7 +47,40 @@ class AndroidBuildPolicyTests(unittest.TestCase):
             with self.assertRaises(KeyError):
                 verify_bundle(self.bundle(Path(folder), missing_r8=True), {"agp": "9.0.1"})
 
-    def test_source_policy_cannot_silently_disable_resource_optimization(self):
+    def test_build_policy_checks_the_real_wrapper_selection_and_bundle_together(self):
+        with tempfile.TemporaryDirectory() as folder:
+            bundle = self.bundle(Path(folder), agp=source_policy(ROOT)["agp"])
+            selected = source_policy(ROOT)
+            status = f'Gradle {selected["gradle"]}\nLauncher JVM: 17\nDaemon JVM: Compatible with Java 17\n'
+            output = io.StringIO()
+            with patch('sys.argv', ['android_build_policy', '--verify-wrapper', '--aab', str(bundle)]), \
+                    patch('subprocess.check_output', return_value=status) as wrapper, redirect_stdout(output):
+                main()
+            wrapper.assert_called_once_with([str(ROOT / 'android/gradlew'), '--version', '--console=plain'],
+                                            cwd=ROOT / 'android', text=True, timeout=120)
+            self.assertEqual(json.loads(output.getvalue())['bundle']['aab_sha256'],
+                             hashlib.sha256(bundle.read_bytes()).hexdigest())
+            self.assertEqual(json.loads(output.getvalue())['executing_wrapper']['selected_daemon_jdk'], 17)
+
+    def test_cli_returns_nonzero_on_wrapper_failure_without_a_success_report(self):
+        output, error = io.StringIO(), io.StringIO()
+        with patch('sys.argv', ['android_build_policy', '--verify-wrapper']), \
+                patch('subprocess.check_output', side_effect=subprocess.TimeoutExpired('gradlew', 120)), \
+                redirect_stdout(output), redirect_stderr(error), self.assertRaises(SystemExit) as stopped:
+            main()
+        self.assertEqual(stopped.exception.code, 1)
+        self.assertEqual(output.getvalue(), '')
+        self.assertIn('Android build policy failed', error.getvalue())
+
+    def test_wrong_executing_gradle_or_daemon_is_rejected(self):
+        selected = source_policy(ROOT)
+        for status in ('Gradle 8.0\nLauncher JVM: 17\nDaemon JVM: Compatible with Java 17',
+                       f'Gradle {selected["gradle"]}\nLauncher JVM: 17\nDaemon JVM: Compatible with Java 21'):
+            with self.subTest(status=status), patch('subprocess.check_output', return_value=status):
+                with self.assertRaisesRegex(ValueError, 'wrapper/daemon'):
+                    wrapper_runtime(ROOT, selected)
+
+    def test_unapproved_source_toolchain_and_flags_are_rejected(self):
         with tempfile.TemporaryDirectory() as folder:
             root = Path(folder)
             android = root / "android"
@@ -53,8 +90,17 @@ class AndroidBuildPolicyTests(unittest.TestCase):
                 'distributionUrl=https\\://services.gradle.org/distributions/gradle-9.1.0-bin.zip\n'
                 + 'distributionSha256Sum=' + 'a' * 64 + '\n')
             (android / "gradle/gradle-daemon-jvm.properties").write_text('toolchainVersion=17\n')
-            (android / "gradle.properties").write_text('android.r8.optimizedResourceShrinking=false\n')
-            with self.assertRaises(ValueError):
+            flags = android / 'gradle.properties'
+            required = 'android.r8.optimizedResourceShrinking=true\n'
+            for value, error in [('', 'must be explicitly enabled'), (required + 'android.enableR8.fullMode=false',
+                                    'full mode'), (required + 'android.builtInKotlin=false', 'built-in Android Kotlin')]:
+                with self.subTest(value=value):
+                    flags.write_text(value)
+                    with self.assertRaisesRegex(ValueError, error):
+                        source_policy(root)
+            flags.write_text(required)
+            (android / 'gradle/gradle-daemon-jvm.properties').write_text('toolchainVersion=21\n')
+            with self.assertRaisesRegex(ValueError, 'JDK 17'):
                 source_policy(root)
 
 

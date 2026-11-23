@@ -46,6 +46,7 @@ mkdir -p "$OUT/optimization"
 cp app/build/outputs/mapping/release/mapping.txt "$OUT/optimization/"
 cp app/build/outputs/mapping/release/configuration.txt "$OUT/optimization/"
 FINAL_AAB=("$OUT"/*.aab)
-python3 "$ROOT/scripts/ci/android_build_policy.py" --aab "${FINAL_AAB[0]}" --report "$OUT/optimization/build-policy.json"
+python3 "$ROOT/scripts/ci/android_build_policy.py" --aab "${FINAL_AAB[0]}" > "$OUT/optimization/build-policy.json"
+cat "$OUT/optimization/build-policy.json"
 "$BT/apksigner" verify --print-certs "$OUT"/*.apk | head -3
 echo "✔ $(ls "$OUT")"

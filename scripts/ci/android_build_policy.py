@@ -99,23 +99,17 @@ def verify_bundle(bundle, expected):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--verify-wrapper", action="store_true")
     parser.add_argument("--aab", type=Path)
-    parser.add_argument("--report", type=Path)
     args = parser.parse_args()
     try:
-        policy = source_policy(args.root)
+        policy = source_policy(ROOT)
         report = {"source_commit": os.environ.get("GITHUB_SHA"), "expected": policy}
         if args.verify_wrapper:
-            report["executing_wrapper"] = wrapper_runtime(args.root, policy)
+            report["executing_wrapper"] = wrapper_runtime(ROOT, policy)
         if args.aab:
             report["bundle"] = verify_bundle(args.aab, policy)
-        text = json.dumps(report, indent=2) + "\n"
-        if args.report:
-            args.report.parent.mkdir(parents=True, exist_ok=True)
-            args.report.write_text(text)
-        print(text, end="")
+        print(json.dumps(report, indent=2))
     except (ValueError, KeyError, OSError, zipfile.BadZipFile, subprocess.SubprocessError) as error:
         parser.exit(1, "Android build policy failed: " + str(error) + "\n")
 

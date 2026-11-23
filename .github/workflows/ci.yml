@@ -232,13 +232,16 @@ jobs:
             android/gradle/gradle-daemon-jvm.properties
             android/gradle/wrapper/gradle-wrapper.jar
       - name: Require selected Android toolchain and optimization policy
-        run: python3 scripts/ci/android_build_policy.py --verify-wrapper --report "$RUNNER_TEMP/android-toolchain.json"
+        run: |
+          python3 scripts/ci/android_build_policy.py --verify-wrapper > "$RUNNER_TEMP/android-toolchain.json"
+          cat "$RUNNER_TEMP/android-toolchain.json"
       - name: Build and test Android (bounded dependency-download retries)
         run: scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :core:test :transport-usb:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
       - name: Validate optimized unsigned Release (no signing or publishing)
         run: |
           scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :app:assembleRelease :app:bundleRelease :app:lintRelease
-          python3 scripts/ci/android_build_policy.py --aab android/app/build/outputs/bundle/release/app-release.aab --report "$RUNNER_TEMP/android-release-optimization.json"
+          python3 scripts/ci/android_build_policy.py --aab android/app/build/outputs/bundle/release/app-release.aab > "$RUNNER_TEMP/android-release-optimization.json"
+          cat "$RUNNER_TEMP/android-release-optimization.json"
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
       - name: Enable KVM for the test emulator
         run: |
