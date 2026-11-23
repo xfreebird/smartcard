@@ -12,7 +12,7 @@ final class VerificationJourneyUITests: XCTestCase {
             ("verify-incomplete", "Cannot be confirmed"), ("verify-multiple", "Valid signature")
         ] {
             let app = launch(scenario)
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             XCTAssertTrue(app.staticTexts[title].firstMatch.waitForPresence(timeout: 15), scenario)
             let clear = app.buttons["verify.clearResults"].firstMatch
             XCTAssertTrue(clear.waitForPresence(timeout: 5), scenario)
@@ -38,7 +38,7 @@ final class VerificationJourneyUITests: XCTestCase {
 
     func testCertificateAndTechnicalDetailsExpandAndCollapse() {
         let app = launch("verify-valid")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         for name in ["signature", "certificate", "technical"] {
             let disclosure = app.buttons["verify.disclosure." + name].firstMatch
             XCTAssertTrue(disclosure.waitForPresence(timeout: 15), name)
@@ -76,7 +76,7 @@ final class VerificationJourneyUITests: XCTestCase {
 
     func testClearingLoadingStateRemovesPendingPresentation() {
         let app = launch("verify-loading")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         let clear = app.buttons["verify.clearResults"].firstMatch
         XCTAssertTrue(clear.waitForPresence(timeout: 15))
         clear.activateControl()
@@ -89,7 +89,7 @@ final class VerificationJourneyUITests: XCTestCase {
                                   ("reading", "Reading the card…"), ("unavailable", "Reader access unavailable"),
                                   ("error", "The card does not respond")] {
             let app = launch(scenario, tab: "sign")
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             #if os(iOS)
             // NFC is the initial method, even when a reader fixture is present.
             app.selectSigningMethod("reader")
@@ -109,7 +109,7 @@ final class VerificationJourneyUITests: XCTestCase {
     func testPinCancellationDismissesBothNormalAndLastAttemptPresentation() {
         for scenario in ["pin", "pin-warning"] {
             let app = launch(scenario, tab: "sign")
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             XCTAssertTrue(app.secureTextFields.firstMatch.waitForPresence(timeout: 15))
             let cancel = app.buttons["Cancel"].firstMatch
             XCTAssertTrue(cancel.exists)

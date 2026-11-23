@@ -6,7 +6,6 @@ final class ProtectionFlowUITests: XCTestCase {
     func testEncryptDecryptSavedDocuments() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
-        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.protection.\(UUID().uuidString)"
         app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en", "-appTheme", "light"]
@@ -82,7 +81,6 @@ final class ProtectionFlowUITests: XCTestCase {
         // The encrypted document's detail sheet is below the protection sheet.
         if app.buttons["Done"].exists { try closeDetails(in: app) }
 
-        app.terminate()
         app.launch()
         XCTAssertTrue(documents.waitForPresence(timeout: 10))
         documents.tap()

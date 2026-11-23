@@ -20,7 +20,6 @@ final class CardCarouselUITests: XCTestCase {
     }
 
     override func tearDown() {
-        app?.terminate()
         XCUIDevice.shared.orientation = .portrait
         super.tearDown()
     }

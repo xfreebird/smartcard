@@ -19,6 +19,13 @@ extension XCUIElement {
 
 @MainActor
 extension XCUIApplication {
+    // On iOS, launch restarts the app for the next scenario. CI shuts down the dedicated simulator.
+    func finishMockScenario() {
+        #if os(macOS)
+        terminate()
+        #endif
+    }
+
     func workspaceScreenshot() -> XCUIScreenshot {
         #if os(macOS)
         // A menu-bar application's root has no display bounds. Capture its native window.

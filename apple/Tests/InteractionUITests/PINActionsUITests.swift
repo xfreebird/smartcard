@@ -17,7 +17,6 @@ final class PINActionsUITests: XCTestCase {
             "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.pin-actions.\(UUID())"]
         app.launchArguments = ["-appLanguage", "ro", "-AppleLanguages", "(ro)", "-bridgeEnabled", "NO"]
         app.launch()
-        defer { app.terminate() }
         // Duo/windowed scenes can keep a tall aspect ratio after physical rotation.
         // The keyboard and action bounds below verify the resulting layout directly.
         XCTAssertEqual(XCUIDevice.shared.orientation, landscape ? .landscapeLeft : .portrait)
