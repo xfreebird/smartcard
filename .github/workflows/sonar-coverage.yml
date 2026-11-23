@@ -1,0 +1,191 @@
+name: SonarQube Cloud coverage
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sonar-coverage-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      collect: ${{ steps.mode.outputs.collect }}
+      scan: ${{ steps.mode.outputs.scan }}
+    steps:
+      - id: mode
+        env:
+          SONAR_MODE: ${{ vars.SONAR_CI_ENABLED }}
+          TRUSTED_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' || github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+        run: |
+          collect=false
+          scan=false
+          if [[ "$SONAR_MODE" == true && "$TRUSTED_REF" == true ]]; then
+            collect=true
+            scan=true
+          elif [[ "$GITHUB_EVENT_NAME" == workflow_dispatch || ( "$SONAR_MODE" == reports && "$TRUSTED_REF" == true ) ]]; then
+            collect=true
+          fi
+          printf 'collect=%s\nscan=%s\n' "$collect" "$scan" >> "$GITHUB_OUTPUT"
+
+  swift:
+    needs: select
+    if: needs.select.outputs.collect == 'true'
+    runs-on: xcode-27
+    timeout-minutes: 25
+    env:
+      DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { persist-credentials: false }
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with: { python-version: '3.12' }
+      - name: Measure Swift core and Apple app policy coverage
+        run: |
+          bash scripts/ci/sonar-swift-coverage.sh swift/MoldSignKit swift/MoldSignKit/Sources "$RUNNER_TEMP/coverage/core.xml" "$RUNNER_TEMP/core-coverage-build"
+          bash scripts/ci/sonar-swift-coverage.sh apple apple/Apps "$RUNNER_TEMP/coverage/apple.xml" "$RUNNER_TEMP/apple-coverage-build"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sonar-swift
+          path: ${{ runner.temp }}/coverage/*.xml
+          if-no-files-found: error
+          retention-days: 7
+
+  android-web:
+    needs: select
+    if: needs.select.outputs.collect == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { persist-credentials: false }
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
+        with: { distribution: temurin, java-version: '17' }
+      - name: Measure Kotlin unit test coverage
+        working-directory: android
+        run: |
+          ../scripts/gradle-ci.sh -PsonarCoverage=true :core:jacocoTestReport :transport-usb:createDebugUnitTestCoverageReport :app:createDebugUnitTestCoverageReport
+          mkdir -p "$RUNNER_TEMP/coverage"
+          cp core/build/reports/jacoco/test/jacocoTestReport.xml "$RUNNER_TEMP/coverage/android-core.xml"
+          cp transport-usb/build/reports/coverage/test/debug/report.xml "$RUNNER_TEMP/coverage/android-transport.xml"
+          cp app/build/reports/coverage/test/debug/report.xml "$RUNNER_TEMP/coverage/android-app.xml"
+          for report in "$RUNNER_TEMP/coverage/"android-*.xml; do
+            grep -Eq 'ci="[1-9][0-9]*"' "$report"
+          done
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+      - name: Install website dependencies
+        working-directory: website
+        run: npm ci --ignore-scripts
+      - name: Measure website module coverage
+        run: |
+          node --test --experimental-test-coverage --test-coverage-include='website/src/**' \
+            --test-reporter=spec --test-reporter=lcov \
+            --test-reporter-destination=stdout --test-reporter-destination="$RUNNER_TEMP/coverage/website.lcov" \
+            website/tests/*.test.mjs
+          grep -q '^SF:website/src/' "$RUNNER_TEMP/coverage/website.lcov"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sonar-android-web
+          path: ${{ runner.temp }}/coverage/
+          if-no-files-found: error
+          retention-days: 7
+
+  linux:
+    needs: select
+    if: needs.select.outputs.collect == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    container:
+      image: swift:6.2-noble
+      options: --dns 1.1.1.1 --dns 8.8.8.8
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { persist-credentials: false }
+      - name: Install GNOME test dependencies
+        run: |
+          apt-get -o Acquire::Retries=3 update --error-on=any
+          apt-get -o Acquire::Retries=3 install -y --no-install-recommends gcc pkg-config libpcsclite-dev libssl-dev \
+            libpoppler-glib-dev libadwaita-1-dev libgtk-4-dev libsecret-1-dev python3
+      - name: Measure GNOME application test coverage
+        run: bash scripts/ci/sonar-swift-coverage.sh linux linux/Sources "$RUNNER_TEMP/coverage/linux.xml" "$RUNNER_TEMP/linux-coverage-build"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sonar-linux
+          path: ${{ runner.temp }}/coverage/linux.xml
+          if-no-files-found: error
+          retention-days: 7
+
+  windows:
+    needs: [select, swift, android-web, linux]
+    if: needs.select.outputs.collect == 'true'
+    runs-on: windows-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { fetch-depth: 0, persist-credentials: false }
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with: { global-json-file: windows/global.json }
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with: { name: sonar-swift, path: '${{ runner.temp }}/coverage' }
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with: { name: sonar-android-web, path: '${{ runner.temp }}/coverage' }
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with: { name: sonar-linux, path: '${{ runner.temp }}/coverage' }
+      - name: Install pinned coverage collector
+        run: dotnet tool install dotnet-coverage --version 18.12.0 --tool-path "$env:RUNNER_TEMP/sonar-tools" --allow-roll-forward
+      - name: Begin Sonar analysis
+        if: needs.select.outputs.scan == 'true'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if (-not $env:SONAR_TOKEN) { throw 'Configure the SONAR_TOKEN secret before enabling CI analysis.' }
+          dotnet tool install dotnet-sonarscanner --version 12.1.0 --tool-path "$env:RUNNER_TEMP/sonar-tools" --allow-roll-forward
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $reports = "$env:RUNNER_TEMP/coverage"
+          $scope = Get-Content .sonarcloud.properties | Where-Object { $_ -match '^sonar\.(exclusions|sourceEncoding|python\.version)=' } | ForEach-Object { "/d:$_" }
+          & "$env:RUNNER_TEMP/sonar-tools/dotnet-sonarscanner.exe" begin /k:xfreebird_smartcard /o:xfreebird `
+            '/d:sonar.host.url=https://sonarcloud.io' "/d:sonar.token=$env:SONAR_TOKEN" `
+            "/d:sonar.projectBaseDir=$env:GITHUB_WORKSPACE" '/d:sonar.scanner.scanAll=true' @scope `
+            '/d:sonar.qualitygate.wait=true' '/d:sonar.qualitygate.timeout=300' `
+            "/d:sonar.coverageReportPaths=$reports/core.xml,$reports/apple.xml,$reports/linux.xml" `
+            "/d:sonar.coverage.jacoco.xmlReportPaths=$reports/android-core.xml,$reports/android-transport.xml,$reports/android-app.xml" `
+            "/d:sonar.javascript.lcov.reportPaths=$reports/website.lcov" `
+            "/d:sonar.cs.vscoveragexml.reportsPaths=$reports/windows.xml"
+      - name: Build the native app for static analysis
+        if: needs.select.outputs.scan == 'true'
+        run: dotnet build windows/src/MoldSign.App -c Debug -p:Platform=x64 --no-incremental
+      - name: Measure C# test coverage
+        run: |
+          $collector = "$env:RUNNER_TEMP/sonar-tools/dotnet-coverage.exe"
+          $report = "$env:RUNNER_TEMP/coverage/windows.xml"
+          & $collector collect 'dotnet test windows/MoldSign.Portable.slnf -p:SonarIncludeNativeSources=true' -f xml -o $report
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $data = [xml](Get-Content -Raw $report)
+          foreach ($module in 'MoldSign.Core.dll', 'MoldSign.Desktop.dll', 'esemnbun.dll') {
+            if (-not $data.SelectSingleNode("//module[@name='$module']//range[@covered='yes']")) {
+              throw "C# coverage report contains no executed code for $module."
+            }
+          }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sonar-windows
+          path: ${{ runner.temp }}/coverage/windows.xml
+          if-no-files-found: error
+          retention-days: 7
+      - name: Submit reports and check quality gate
+        if: needs.select.outputs.scan == 'true'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: '& "$env:RUNNER_TEMP/sonar-tools/dotnet-sonarscanner.exe" end "/d:sonar.token=$env:SONAR_TOKEN"'

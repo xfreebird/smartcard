@@ -1,0 +1,14 @@
+<Project>
+  <!-- Scanner for .NET derives its source list from project items. Add the native sources
+       outside MSBuild only for the Sonar build, so a change of scanner preserves coverage scope. -->
+  <ItemGroup Condition="'$(SonarIncludeNativeSources)' == 'true' And '$(MSBuildProjectName)' == 'MoldSign.Cli'">
+    <SonarNativeSource Include="$(MoldSignRepoRoot)/swift/MoldSignKit/Sources/**/*.swift;
+                                 $(MoldSignRepoRoot)/swift/MoldSignKit/Sources/**/*.c;
+                                 $(MoldSignRepoRoot)/swift/MoldSignKit/Sources/**/*.h;
+                                 $(MoldSignRepoRoot)/apple/Apps/**/*.swift;
+                                 $(MoldSignRepoRoot)/apple/Helpers/**/*.swift;
+                                 $(MoldSignRepoRoot)/linux/Sources/**/*.swift;
+                                 $(MoldSignRepoRoot)/android/*/src/main/**/*.kt" />
+    <Content Include="@(SonarNativeSource)" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" Pack="false" />
+  </ItemGroup>
+</Project>

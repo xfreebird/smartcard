@@ -178,7 +178,23 @@ android/gradlew -p android resolveDependencyVerification
 
 This task resolves external artifacts, including the AGP-matched lint tools and AAPT2 host classifiers, without app compilation/tests/signing or version reservation. Do not run `--write-verification-metadata` as an automatic fallback in CI: it would trust the changed bytes that verification was meant to reject. Update the explicit tooling coordinates when changing AGP. Review checksum additions and validate clean-cache builds on the intended hosts.
 
-Automatic Sonar analysis uses `.sonarcloud.properties`; production publishing/CI scripts remain in source scope and test drivers are listed explicitly. Coverage is unsupported in automatic mode. A future CI-analysis migration must disable automatic analysis first and import genuine language-specific coverage; do not configure duplicate scanners or fabricated coverage. Gate/baseline changes and a re-scan follow integration acceptance and an authorized push.
+### SonarQube Cloud coverage
+
+`sonar-coverage.yml` generates coverage independently of required app validation. Its manual run generates reports with the repository variable `SONAR_CI_ENABLED` unset. Set the variable to `reports` to validate report generation on main and same-repository pull requests without contacting SonarQube Cloud. Set it to `true` after switching analysis methods to enable imports on those refs. Fork and Dependabot pull requests continue to use the existing secret-free CI checks.
+
+| Test suite | Coverage imported |
+| --- | --- |
+| SwiftPM core and Apple application policies | LLVM line coverage in Sonar generic XML |
+| Linux GNOME integration | LLVM line coverage in Sonar generic XML |
+| Android core, app and USB unit tests | JaCoCo XML from each module, enabled with `-PsonarCoverage=true` |
+| Windows portable solution on Windows | Microsoft `dotnet-coverage` XML. The WinUI app also builds for static analysis. |
+| Website Node tests | LCOV for exercised `website/src` modules |
+
+The reports measure the listed suites. Native UI journeys, physical card operations and other language/tooling tests still have their own validation. SonarQube Cloud computes project and new-code measurements over the analyzed source scope, including uncovered lines. The workflow supplies no coverage threshold. The project quality gate remains the authority.
+
+First inspect the workflow's generated reports in `reports` mode, or from a manual run with `SONAR_CI_ENABLED` unset. Configure a SonarQube Cloud token with analysis access to `xfreebird_smartcard` as the repository Actions secret `SONAR_TOKEN`. Turn off the project's automatic analysis in **Administration → Analysis Method**. Set `SONAR_CI_ENABLED` to `true` and run CI through a trusted PR or on `main` once the workflow is there. Verify coverage in the SonarQube Cloud analysis and the GitHub check. If the migration fails, unset `SONAR_CI_ENABLED` before restoring automatic analysis. The two analysis modes cannot run concurrently. [SonarQube Cloud coverage documentation](https://docs.sonarsource.com/sonarqube-cloud/analyzing-source-code/test-coverage/overview)
+
+The scanner reuses source exclusions from `.sonarcloud.properties`. The fixture drivers stay out of production analysis, while production workflow scripts remain in scope. The coverage workflow uses read-only GitHub permissions and requires neither Store credentials nor signing. The Sonar token is scoped to scanner steps. Android dependency verification remains strict, including the additional test-only JaCoCo graph.
 
 The uncommitted changes and complete automated/real integration acceptance matrix are recorded in [the hardening handoff](reports/scanner-hardening-integration-2026-11-22.md). A successful dependency-resolution task is not a passing application build or test run.
 

@@ -4,6 +4,15 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.jvm)
     `java-library`
+    jacoco
+}
+
+val collectCoverage = providers.gradleProperty("sonarCoverage").orNull == "true"
+jacoco { toolVersion = libs.versions.jacoco.get() }
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports { xml.required.set(true) }
 }
 
 java {
@@ -38,6 +47,7 @@ tasks.processResources {
 }
 
 tasks.test {
+    extensions.configure<JacocoTaskExtension> { isEnabled = collectCoverage }
     // Hint for VectorFiles: the repo root holds spec/vectors/. The loader also walks up from the
     // working directory, so running the tests from an IDE works without this property.
     systemProperty("moldsign.repoRoot", rootProject.projectDir.parentFile.absolutePath)

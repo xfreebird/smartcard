@@ -30,6 +30,7 @@ android {
 
     buildTypes {
         debug {
+            enableUnitTestCoverage = providers.gradleProperty("sonarCoverage").orNull == "true"
             // Opt-in separate install preserves the Play-signed app and its saved credentials.
             if (providers.gradleProperty("nfcTestInstall").orNull == "true") {
                 applicationIdSuffix = ".nfctest"
@@ -43,6 +44,8 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
     }
+
+    testCoverage { jacocoVersion = libs.versions.jacoco.get() }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

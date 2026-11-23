@@ -35,8 +35,13 @@ class WorkflowContracts(unittest.TestCase):
         for path in (ROOT/'.github/workflows').glob('*.yml'):
             text = path.read_text()
             triggers = text.split('\non:\n', 1)[1].split('\npermissions:', 1)[0]
-            if path.name not in ('ci.yml', 'website.yml', 'release.yml'):
+            if path.name not in ('ci.yml', 'website.yml', 'release.yml', 'sonar-coverage.yml'):
                 self.assertNotRegex(triggers, r'(?m)^  push:', path.name)
+            if path.name == 'sonar-coverage.yml':
+                self.assertIn('branches: [main]', triggers)
+                self.assertNotIn('pull_request_target:', triggers)
+                self.assertNotRegex(text, r'(?m)^\s+\w+: write$')
+                self.assertEqual(set(re.findall(r'secrets\.([A-Z][A-Z0-9_]*)', text)), {'SONAR_TOKEN'})
             if path.name == 'release.yml':
                 push = triggers.split('  push:', 1)[1].split('  workflow_dispatch:', 1)[0]
                 self.assertIn('tags: ["v*"]', push)

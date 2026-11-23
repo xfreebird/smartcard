@@ -11,6 +11,12 @@ android {
         minSdk = 26
     }
 
+    buildTypes {
+        debug { enableUnitTestCoverage = providers.gradleProperty("sonarCoverage").orNull == "true" }
+    }
+
+    testCoverage { jacocoVersion = libs.versions.jacoco.get() }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
