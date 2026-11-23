@@ -6,9 +6,9 @@ final class FloatingActionUITests: XCTestCase {
     override func setUp() { continueAfterFailure = false }
 
     func testSignActionStaysVisibleWhileScrollingAndRotating() {
+        defer { XCUIDevice.shared.orientation = .portrait }
         for theme in ["light", "dark"] {
             let app = launch("ready", theme: theme)
-            defer { app.terminate(); XCUIDevice.shared.orientation = .portrait }
             let sign = app.buttons["sign.submit"].firstMatch
             assertFloating(sign, in: app)
             XCTAssertTrue(sign.isEnabled)
@@ -31,7 +31,6 @@ final class FloatingActionUITests: XCTestCase {
     func testUnavailableAndBusyCardsKeepSignDisabled() {
         for (scenario, theme) in [("no-reader", "light"), ("reading", "dark"), ("signing", "light")] {
             let app = launch(scenario, theme: theme)
-            defer { app.terminate() }
             if scenario != "signing" { app.selectSigningMethod("reader") }
             let sign = app.buttons["sign.submit"].firstMatch
             assertFloating(sign, in: app, hittable: false)
@@ -43,7 +42,6 @@ final class FloatingActionUITests: XCTestCase {
 
     func testFloatingActionFitsAccessibilityText() {
         let app = launch("ready", accessibilityText: true)
-        defer { app.terminate() }
         let sign = app.buttons["sign.submit"].firstMatch
         assertFloating(sign, in: app)
         XCTAssertTrue(sign.isEnabled)
@@ -55,7 +53,6 @@ final class FloatingActionUITests: XCTestCase {
 
     func testBrowserActionsRetainMinimumTouchTargets() {
         let app = launch("ready", tab: "browser")
-        defer { app.terminate() }
         for title in ["Back", "Forward", "Reload"] {
             let button = app.buttons[title].firstMatch
             XCTAssertTrue(button.waitForPresence(timeout: 15), title)

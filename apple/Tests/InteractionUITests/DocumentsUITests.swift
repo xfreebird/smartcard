@@ -7,7 +7,6 @@ final class DocumentsUITests: XCTestCase {
     func testSavedDetailsAndHistoryClearPersistAcrossRelaunch() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
-        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.documents.history"
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-appLanguage", "en"]
@@ -32,7 +31,6 @@ final class DocumentsUITests: XCTestCase {
         attach(app, "03-history-empty")
         app.buttons["Saved documents"].tap()
         XCTAssertTrue(entry.waitForPresence(timeout: 5))
-        app.terminate()
         app.launch()
         app.buttons["Documents"].firstMatch.tap()
         XCTAssertTrue(entry.waitForPresence(timeout: 10), "Saved document must survive history clear and relaunch")
@@ -47,13 +45,11 @@ final class DocumentsUITests: XCTestCase {
         XCTAssertTrue(app.buttons["verify.chooseOriginals"].exists)
         XCTAssertFalse(app.staticTexts["Invalid signature"].exists)
         attach(app, "05-missing-original-unconfirmed")
-        app.terminate()
     }
 
     func testDetachedOriginalPicker() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
-        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.documents.final"
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-appLanguage", "en"]
@@ -86,13 +82,11 @@ final class DocumentsUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Document integrity"].waitForPresence(timeout: 5))
         XCTAssertFalse(app.descendants(matching: .any)["verify.missingOriginal"].exists)
         attach(app, "07-original-selected-integrity")
-        app.terminate()
     }
 
     func testDuoDocumentModal() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
-        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.documents.duo"
         app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-appLanguage", "en"]
@@ -107,7 +101,6 @@ final class DocumentsUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Cannot be confirmed"].exists)
         attach(app, "08-duo-document-modal-default")
         // The same detail assertions run on the active phone and tablet layouts.
-        app.terminate()
         app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
             "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.document-actions.layout",
             "MSIGN_DEMO_CARDS": "1", "MSIGN_DEMO_SCENARIO": "documents-details-unsigned", "MSIGN_DEMO_TAB": "documents"]

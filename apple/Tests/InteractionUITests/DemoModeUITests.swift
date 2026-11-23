@@ -5,7 +5,6 @@ final class DemoModeUITests: XCTestCase {
     func testDemoRequiresDisclaimerPersistsAndSharesSampleWithoutHardware() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
-        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.user-demo.\(UUID().uuidString)"
         app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en"]
@@ -41,7 +40,7 @@ final class DemoModeUITests: XCTestCase {
         let shareVisible = nativeShare.waitForPresence(timeout: 8) || app.buttons["Copy"].exists || app.buttons["Save to Files"].exists
         XCTAssertTrue(shareVisible, "The native share sheet must actually appear before capturing it")
         attach(app, "04-share-sample")
-        app.terminate()
+        // XCTest restarts the app on launch, preserving the fixture's preferences.
         app.launch()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForPresence(timeout: 10))
         attach(app, "05-persisted-demo")
@@ -59,7 +58,6 @@ final class DemoModeUITests: XCTestCase {
         navigate("Sign", in: app)
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
         attach(app, "06-return-to-live-mock")
-        app.terminate()
     }
 
     private func waitForValue(_ value: String, on element: XCUIElement) {
