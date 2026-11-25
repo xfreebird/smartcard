@@ -40,7 +40,19 @@ public sealed partial class TrayFlyoutWindow : Window
 
     public AppState State => AppState.Current;
 
-    private void OnStatePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e) => UpdateSignButton();
+    private void OnStatePropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        // A new session (demo mode switched on or off) must never show the previous session's result:
+        // the hidden flyout would otherwise reopen with "Signing simulated..." in real mode.
+        if (e.PropertyName == nameof(AppState.IsDemo)) ClearOutcome();
+        UpdateSignButton();
+    }
+
+    private void ClearOutcome()
+    {
+        Result.IsOpen = false;
+        Result.Message = "";
+    }
 
     public void Toggle()
     {

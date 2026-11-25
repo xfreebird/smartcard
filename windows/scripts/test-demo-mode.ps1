@@ -56,7 +56,7 @@ function Navigate([string]$name){
    $pattern=$null
    if($node.TryGetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern,[ref]$pattern)){
     $pattern.Select()
-    $pageId=if($name -eq $strings['NavSign.Content']){'SignPageTitle'}elseif($name -eq $strings['NavVerify.Content']){'VerifyPageTitle'}else{'SettingsPageTitle'}
+    $pageId=if($name -eq $strings['NavSign.Content']){'SignPageTitle'}elseif($name -eq $strings['NavVerify.Content']){'VerifyPageTitle'}elseif($name -eq $strings['NavActivity.Content']){'DocumentsActions'}else{'SettingsPageTitle'}
     $null=Find $pageId
     return
    }
@@ -64,6 +64,20 @@ function Navigate([string]$name){
  };throw "Missing native navigation $name"
 }
 function Read-Prefs {Get-Content $prefs -Raw|ConvertFrom-Json}
+# Demo-only wording: results, banners, sample notices and simulated output names. The Settings switch may still
+# describe demo mode (demo_mode_title/description), but nothing may claim fictional data or simulated signatures.
+$demoOnly=@('demo_sign_success','demo_verify_success','demo_mode_disclaimer','demo_banner','demo_output_notice','demo_mode_result','demo_simulation_complete','demo_fixture_only'|ForEach-Object {$strings[$_]})+@('DEMO-NOT-SIGNED','FICTIONAL DEMO','Fictional demonstration card','DEMO ONLY','DEMO CA')
+function Assert-NoDemoUi([string]$phase){
+ $pages=@($strings['NavSign.Content'],$strings['NavVerify.Content'],$strings['NavActivity.Content'],$strings['SettingsPageTitle.Text'])
+ foreach($page in $pages){
+  Navigate $page;Start-Sleep -Milliseconds 300
+  foreach($node in (Find-AppAutomationElements $process ([System.Windows.Automation.Condition]::TrueCondition))){
+   $name=$node.Current.Name
+   if([string]::IsNullOrEmpty($name)){continue}
+   foreach($text in $demoOnly){if($name.Contains($text)){throw "Demo-only text outside demo mode ($phase, $page): $text"}}
+  }
+ }
+}
 function Wait-Demo([bool]$enabled){
  for($i=0;$i -lt 180;$i++){
   if((Read-Prefs).DemoModeEnabled -eq $enabled){
@@ -101,7 +115,7 @@ try{
  if(Get-Process eSemnBun -ErrorAction SilentlyContinue){throw 'Close running eSemnBun before this isolated guest test'}
  New-Item -ItemType Directory -Force (Split-Path $prefs)|Out-Null
  @{Language='en-US';BridgeEnabled=$false;DemoModeEnabled=$false;RememberPin=$true;FirstRunDone=$true}|ConvertTo-Json|Set-Content $prefs
- Launch;Navigate $strings['SettingsPageTitle.Text'];$toggle=Find 'DemoModeToggle'
+ Launch;Wait-Demo $false;Assert-NoDemoUi 'before-demo';Navigate $strings['SettingsPageTitle.Text'];$toggle=Find 'DemoModeToggle'
  $historyHash=History-Hash
  Toggle $toggle;$null=Find 'DemoModeConfirmation';Capture 'release-demo-confirmation';Invoke (Find 'CloseButton')
  for($i=0;$i -lt 100 -and $toggle.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne 0;$i++){Start-Sleep -Milliseconds 100}
@@ -125,8 +139,10 @@ try{
  $connections=@(Get-NetTCPConnection -OwningProcess $process.Id -ErrorAction SilentlyContinue)
  if($connections.Count -ne 0){throw 'Demo unexpectedly opened a network connection'}
  Scroll 0;Toggle (Find 'DemoModeToggle');Wait-Demo $false;Capture 'release-normal-restored'
+ Assert-NoDemoUi 'after-demo'
+ Stop-Owned;Launch;Wait-Demo $false;Assert-NoDemoUi 'after-restart'
  if(-not (Read-Prefs).RememberPin){throw 'Real-mode preferences changed unexpectedly'}
- @{passed=$true;isolatedDebugApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true}|
+ @{passed=$true;isolatedDebugApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true;normalModeWithoutDemoUi=@('before-demo','after-demo','after-restart')}|
  ConvertTo-Json|Set-Content (Join-Path $Output 'release-demo-validation.json')
 }catch{
  try{Capture 'failure-context'}catch{}
