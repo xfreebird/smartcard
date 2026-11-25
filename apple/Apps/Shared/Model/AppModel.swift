@@ -288,7 +288,8 @@ final class AppModel {
         return demoServices.protectionPreview(scenario: ProcessInfo.processInfo.environment["MSIGN_DEMO_SCENARIO"] ?? "")
     }
 
-    var showsDemoNotice: Bool { demoMode && !isScreenshotCapture }
+    var demoNotices: DemoNotices { DemoNotices(demoMode: demoMode, screenshotCapture: isScreenshotCapture) }
+    var showsDemoNotice: Bool { demoNotices.banner }
 
     var trayLabel: String {
         if showsDemoNotice { return "eSemnBun · \(L10n.text(.demo_banner))" }

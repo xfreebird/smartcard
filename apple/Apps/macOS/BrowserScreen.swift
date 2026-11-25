@@ -24,7 +24,7 @@ struct MacBrowserScreen: View {
                 Text(L10n.text(.ui_enter_a_valid_web_address_https))
                     .foregroundStyle(Theme.warning).font(.caption).padding(8)
             }
-            if model.showsDemoNotice {
+            if model.demoNotices.replacesBrowser {
                 ContentUnavailableView(L10n.text(.demo_banner), systemImage: "sparkles",
                                        description: Text(L10n.text(.demo_settings_description)))
             } else {
