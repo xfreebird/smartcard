@@ -1,9 +1,23 @@
+# Python automation measured for SonarQube Cloud. Every listed directory is reported in full,
+# so modules that no test imports appear as uncovered exactly as Sonar counts them.
 [run]
 relative_files = True
-include =
-    scripts/*
-    distribution/tools/*
-
-[report]
+source =
+    scripts
+    scripts/agents
+    scripts/ci
+    scripts/docs
+    scripts/documentation
+    scripts/packages
+    distribution/tools
+    distribution/apple/dmg
+    website/scripts
+    .agents/skills/esemnbun-test-vms/scripts/shots
+    re
+# Test drivers are Sonar test sources (.sonarcloud.properties), not measured production code.
 omit =
     */test_*.py
+    scripts/test-*.py
+    scripts/tests/*
+    scripts/compatibility/*
+    scripts/validation/*
