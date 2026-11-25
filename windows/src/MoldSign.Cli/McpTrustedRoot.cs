@@ -7,7 +7,7 @@ namespace MoldSign.Cli;
 
 /// <summary>Explicit operator authority. Windows directory handles deny rename/delete for
 /// the root lifetime; each child is opened as a reparse point and rejected before reading.</summary>
-internal sealed class McpTrustedRoot : IDisposable
+internal sealed partial class McpTrustedRoot : IDisposable
 {
     private readonly string path;
     private readonly object lifetime = new();
@@ -24,7 +24,7 @@ internal sealed class McpTrustedRoot : IDisposable
         if (OperatingSystem.IsWindows())
         {
             // Device and UNC namespaces have different path rules and are deliberately excluded.
-            if (path.StartsWith("\\", StringComparison.Ordinal) || path.Length < 3 || path[1] != ':')
+            if (path.StartsWith('\\') || path.Length < 3 || path[1] != ':')
                 throw new McpException("PATH_DENIED");
             var current = Path.GetPathRoot(this.path)!;
             try
@@ -47,14 +47,15 @@ internal sealed class McpTrustedRoot : IDisposable
                 {
                     ValidatePart(part);
                     var next = openat(fd, part, DirectoryFlags);
-                    if (fd >= 0) close(fd);
+                    // A failed close of a read-only directory descriptor leaves nothing to recover.
+                    if (fd >= 0) _ = close(fd);
                     fd = next;
                     if (fd < 0) throw new McpException("PATH_DENIED");
                 }
                 if (fd < 0) throw new McpException("PATH_DENIED");
                 unixRoot = new SafeFileHandle((IntPtr)fd, ownsHandle: true);
             }
-            catch { if (fd >= 0) close(fd); throw; }
+            catch { if (fd >= 0) _ = close(fd); throw; }
         }
         if (privateDirectory)
         {
@@ -304,28 +305,29 @@ internal sealed class McpTrustedRoot : IDisposable
     private struct FileInformation
     {
         public uint Attributes;
-        public System.Runtime.InteropServices.ComTypes.FILETIME Creation, Access, Write;
+        // Three FILETIMEs (creation, access, write) as low/high DWORD pairs: keeps the struct blittable.
+        public uint CreationLow, CreationHigh, AccessLow, AccessHigh, WriteLow, WriteHigh;
         public uint Volume, SizeHigh, SizeLow, Links, IndexHigh, IndexLow;
     }
-    [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-    private static extern SafeFileHandle CreateFileW(string name, uint access, uint share, IntPtr security, uint creation, uint flags, IntPtr template);
-    [DllImport("kernel32.dll", SetLastError = true)]
+    [LibraryImport("kernel32.dll", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+    private static partial SafeFileHandle CreateFileW(string name, uint access, uint share, IntPtr security, uint creation, uint flags, IntPtr template);
+    [LibraryImport("kernel32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool GetFileInformationByHandle(SafeFileHandle handle, out FileInformation info);
-    [DllImport("libc", SetLastError = true)] private static extern int open(string path, int flags);
-    [DllImport("libc", SetLastError = true)] private static extern int openat(int fd, string path, int flags);
+    private static partial bool GetFileInformationByHandle(SafeFileHandle handle, out FileInformation info);
+    [LibraryImport("libc", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int open(string path, int flags);
+    [LibraryImport("libc", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int openat(int fd, string path, int flags);
     // The runtime holds the descriptor open through each native call; the lifetime lock covers the full operation.
-    [DllImport("libc", SetLastError = true)] private static extern int openat(SafeFileHandle fd, string path, int flags);
-    [DllImport("libc", EntryPoint = "openat", SetLastError = true)] private static extern int openatCreate(SafeFileHandle fd, string path, int flags, uint mode);
+    [LibraryImport("libc", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int openat(SafeFileHandle fd, string path, int flags);
+    [LibraryImport("libc", EntryPoint = "openat", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int openatCreate(SafeFileHandle fd, string path, int flags, uint mode);
     // Darwin ARM64 passes the variadic mode on the stack, after eight integer argument registers.
-    [DllImport("libc", EntryPoint = "openat", SetLastError = true)]
-    private static extern int openatCreateDarwinArm64(SafeFileHandle fd, string path, int flags,
+    [LibraryImport("libc", EntryPoint = "openat", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)]
+    private static partial int openatCreateDarwinArm64(SafeFileHandle fd, string path, int flags,
         nint unused3, nint unused4, nint unused5, nint unused6, nint unused7, uint mode);
-    [DllImport("libc", SetLastError = true)] private static extern int unlinkat(SafeFileHandle fd, string path, int flags);
-    [DllImport("libc", SetLastError = true)] private static extern int linkat(SafeFileHandle from, string source, SafeFileHandle to, string destination, int flags);
-    [DllImport("libc", SetLastError = true)] private static extern int renameat(SafeFileHandle from, string source, SafeFileHandle to, string destination);
-    [DllImport("libc", SetLastError = true)] private static extern int fsync(SafeFileHandle fd);
-    [DllImport("libc")] private static extern int close(int fd);
+    [LibraryImport("libc", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int unlinkat(SafeFileHandle fd, string path, int flags);
+    [LibraryImport("libc", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int linkat(SafeFileHandle from, string source, SafeFileHandle to, string destination, int flags);
+    [LibraryImport("libc", StringMarshalling = StringMarshalling.Utf8, SetLastError = true)] private static partial int renameat(SafeFileHandle from, string source, SafeFileHandle to, string destination);
+    [LibraryImport("libc", SetLastError = true)] private static partial int fsync(SafeFileHandle fd);
+    [LibraryImport("libc")] private static partial int close(int fd);
 }
 
 internal sealed class McpException(string code) : Exception { public string Code { get; } = code; }

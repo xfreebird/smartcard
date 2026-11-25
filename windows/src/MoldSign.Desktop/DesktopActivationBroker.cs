@@ -59,7 +59,7 @@ public sealed class DesktopActivationBroker : IDisposable, IAsyncDisposable
                     var count = await server.ReadAsync(buffer, _shutdown.Token).ConfigureAwait(false);
                     if (count == 0) break;
                     var end = Array.IndexOf(buffer, (byte)'\n', 0, count);
-                    message.Write(buffer, 0, end < 0 ? count : end);
+                    await message.WriteAsync(buffer.AsMemory(0, end < 0 ? count : end), _shutdown.Token).ConfigureAwait(false);
                     complete = end >= 0;
                 }
                 if (message.Length > 32768) continue;

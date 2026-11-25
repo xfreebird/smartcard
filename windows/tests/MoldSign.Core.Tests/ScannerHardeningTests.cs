@@ -10,7 +10,7 @@ public sealed class ScannerHardeningTests
     public void MalformedPdfWithExcessiveObjectsHasAFixedFailureInsteadOfEscapingTheVerifier()
     {
         var bytes = Encoding.ASCII.GetBytes("%PDF-1.7\n" + string.Concat(Enumerable.Repeat("1 0 obj <<>> endobj\n", 100_001)));
-        var report = Assert.Single(new Validator().ValidatePdf(bytes));
+        var report = Assert.Single(Validator.ValidatePdf(bytes));
         Assert.Equal(Verdict.Invalid, report.Verdict);
         Assert.False(report.ContentIntact);
         Assert.False(report.SignatureValid);

@@ -37,7 +37,7 @@ public sealed class WindowsMcpUnattendedTests
         Assert.Equal(Convert.ToHexStringLower(SHA256.HashData(original)), result["inputSHA256"]!.GetValue<string>());
         var filename = result["output"]!["relativePath"]!.GetValue<string>();
         var signed = fixture.Output.Read(filename, 16 * 1024 * 1024);
-        var report = Assert.Single(new Validator().ValidatePdf(signed));
+        var report = Assert.Single(Validator.ValidatePdf(signed));
         Assert.True(report.ContentIntact);
         Assert.True(report.SignatureValid);
         Assert.Equal(original, signed[..original.Length]);

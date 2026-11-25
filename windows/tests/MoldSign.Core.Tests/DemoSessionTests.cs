@@ -19,7 +19,7 @@ public class DemoSessionTests
         Assert.Equal(before, File.ReadAllBytes(input));
         Assert.Equal("ISTRATI ELENA", signed.Certificate.CommonName);
         Assert.Equal("DEMO", signed.Format);
-        Assert.Empty(new Validator().ValidatePdf(File.ReadAllBytes(output))); // no real PDF signature
+        Assert.Empty(Validator.ValidatePdf(File.ReadAllBytes(output))); // no real PDF signature
         var report = Assert.Single(demo.Verify(output));
         Assert.Equal("DEMO", report.Kind);
         Assert.Equal(Verdict.Valid, report.Verdict); // explicitly simulated happy-state model

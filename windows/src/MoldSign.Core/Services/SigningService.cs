@@ -13,7 +13,6 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
     private readonly Action<string>? _trace;
     private readonly PadesSigner _pades;
     private readonly XadesSigner _xades;
-    private readonly Validator _validator;
     private ReaderState _readerState = new ReaderState.NoReader();
 
     /// <param name="connect">Opens a fresh transport per operation (e.g. <c>() =&gt; WinSCardTransport.Connect()</c>).</param>
@@ -37,7 +36,6 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
         trust ??= new TrustServices();
         _pades = new PadesSigner(trust) { Progress = Report };
         _xades = new XadesSigner(trust) { Progress = Report };
-        _validator = new Validator();
     }
 
     /// <summary>"stream&lt;ReaderState&gt;": raised on the thread that published the change.</summary>
@@ -216,10 +214,10 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
     {
         var bytes = ReadBoundedDocument(file);
         if (string.Equals(Path.GetExtension(file), ".pdf", StringComparison.OrdinalIgnoreCase))
-            return _validator.ValidatePdf(bytes);
+            return Validator.ValidatePdf(bytes);
         var referenced = (detachedDocs ?? [])
             .ToDictionary(p => Path.GetFileName(p), File.ReadAllBytes, StringComparer.Ordinal);
-        return _validator.ValidateXades(bytes, referenced);
+        return Validator.ValidateXades(bytes, referenced);
     }
 
     /// <summary>D-06: <c>&lt;name&gt;-semnat.&lt;ext&gt;</c> next to the original, never overwriting (adds " (2)", " (3)"…).</summary>

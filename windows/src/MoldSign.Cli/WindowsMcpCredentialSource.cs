@@ -5,7 +5,7 @@ using System.Text;
 namespace MoldSign.Cli;
 
 /// <summary>Operator-selected credential references, never model-provided PINs or commands.</summary>
-internal static class WindowsMcpCredentialSource
+internal static partial class WindowsMcpCredentialSource
 {
     public static Func<string> Create(string source, string? onePasswordExecutable = null)
     {
@@ -113,8 +113,8 @@ internal static class WindowsMcpCredentialSource
         public uint Persist, AttributeCount;
         public IntPtr Attributes, TargetAlias, UserName;
     }
-    [DllImport("advapi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    [LibraryImport("advapi32.dll", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool CredReadW(string target, uint type, uint flags, out IntPtr credential);
-    [DllImport("advapi32.dll")] private static extern void CredFree(IntPtr credential);
+    private static partial bool CredReadW(string target, uint type, uint flags, out IntPtr credential);
+    [LibraryImport("advapi32.dll")] private static partial void CredFree(IntPtr credential);
 }

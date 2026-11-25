@@ -50,7 +50,7 @@ public sealed record VerificationReport
 }
 
 /// <summary>Offline validator (docs/05-offline-validation.md). Port target: <c>Validation.swift</c>.</summary>
-public sealed class Validator
+public static class Validator
 {
     public static Verdict? OverallVerdict(IReadOnlyList<VerificationReport> reports)
     {
@@ -60,7 +60,7 @@ public sealed class Validator
     }
 
     /// <summary>Every signature in a PDF (ByteRange, CMS, RSA, manual chain to mdtrustca).</summary>
-    public IReadOnlyList<VerificationReport> ValidatePdf(byte[] pdf)
+    public static IReadOnlyList<VerificationReport> ValidatePdf(byte[] pdf)
     {
         ArgumentNullException.ThrowIfNull(pdf);
         try
@@ -72,7 +72,7 @@ public sealed class Validator
         { return [Failed("PAdES", "", error.Message)]; }
     }
 
-    private IReadOnlyList<VerificationReport> ValidatePdfCore(byte[] pdf)
+    private static List<VerificationReport> ValidatePdfCore(byte[] pdf)
     {
         ArgumentNullException.ThrowIfNull(pdf);
         DocumentRegex.CheckLength(pdf.Length);
@@ -182,7 +182,7 @@ public sealed class Validator
     }
 
     /// <summary>XAdES signature with its referenced files (basename → bytes) for detached references.</summary>
-    public IReadOnlyList<VerificationReport> ValidateXades(byte[] xml, IReadOnlyDictionary<string, byte[]> referencedFiles)
+    public static IReadOnlyList<VerificationReport> ValidateXades(byte[] xml, IReadOnlyDictionary<string, byte[]> referencedFiles)
     {
         ArgumentNullException.ThrowIfNull(referencedFiles);
         XmlDocument document;
@@ -321,7 +321,7 @@ public sealed class Validator
     private const string OfflineLimits = "Offline integrity/RSA and current-time pinned CA path only. " +
         "Timestamp imprint checked when present; TSA signature/path and revocation evidence are not validated.";
 
-    private static IReadOnlyDictionary<string, string> DescribeCertificate(X509Certificate2 cert)
+    private static Dictionary<string, string> DescribeCertificate(X509Certificate2 cert)
     {
         using var key = cert.GetRSAPublicKey();
         var result = new Dictionary<string, string> {

@@ -89,7 +89,7 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
             if (!Keys(arguments, [])) throw new McpException("INVALID_ARGUMENT");
             return new JsonObject { ["product"] = "eSemnBun", ["protocolVersion"] = Version,
                 ["rootIds"] = Strings(roots.Keys.Order(StringComparer.Ordinal)), ["verificationFormats"] = Strings(["PDF", "XAdES"]),
-                ["desktopApprovalBrokerAvailable"] = broker is not null, ["signingFormat"] = "PAdES-T", ["unattendedSigningAvailable"] = unattended?.Available ?? false };
+                ["desktopApprovalBrokerAvailable"] = broker is not null, ["signingFormat"] = "PAdES-T", ["unattendedSigningAvailable"] = unattended is not null };
         }
         if (name is "get_job" or "cancel_job")
         {
@@ -113,12 +113,11 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
         }
         IReadOnlyList<VerificationReport> reports;
         var missing = 0;
-        var validator = new Validator();
         switch (Path.GetExtension(path).ToLowerInvariant())
         {
             case ".pdf":
                 if (!bytes.AsSpan().StartsWith("%PDF-"u8)) throw new McpException("INVALID_DOCUMENT");
-                reports = validator.ValidatePdf(bytes);
+                reports = Validator.ValidatePdf(bytes);
                 break;
             case ".xml":
                 var xml = new UTF8Encoding(false, true).GetString(bytes);
@@ -143,7 +142,7 @@ internal sealed class McpServer(IReadOnlyDictionary<string, McpTrustedRoot> root
                     remaining -= original.Length;
                     originals.Add(relative, original);
                 }
-                reports = validator.ValidateXades(bytes, originals);
+                reports = Validator.ValidateXades(bytes, originals);
                 break;
             default: throw new McpException("UNSUPPORTED");
         }

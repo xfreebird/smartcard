@@ -16,7 +16,6 @@ internal sealed class WindowsMcpUnattendedSigner
     private readonly SigningService service;
     private readonly Func<string?>? selectReader;
     private readonly object operationLock = new();
-    public bool Available => true;
 
     internal WindowsMcpUnattendedSigner(McpTrustedRoot output, string certificateSha256,
                                         Func<string> credential, SigningService service, Func<string?>? selectReader = null)

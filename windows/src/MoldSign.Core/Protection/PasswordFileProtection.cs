@@ -22,11 +22,12 @@ public static class PasswordFileProtection
         var content = Crypt(plaintext, password, salt, iv, keyBits, true);
         return [..salt, ..iv, ..Marker(keyBits), ..content];
     }
+    private static readonly int[] SupportedKeyBits = [128, 192, 256];
     public static byte[] Decrypt(byte[] envelope, ReadOnlySpan<char> password)
     {
         if (envelope.Length > MaximumSize + 8192) throw new ArgumentException("Choose a file smaller than 64 MB.");
         if (envelope.Length < 112 || (envelope.Length - 96) % 16 != 0) return Legacy(envelope,password);
-        var bits = new[] {128, 192, 256}.FirstOrDefault(b => CryptographicOperations.FixedTimeEquals(Marker(b), envelope.AsSpan(32, 64)));
+        var bits = SupportedKeyBits.FirstOrDefault(b => CryptographicOperations.FixedTimeEquals(Marker(b), envelope.AsSpan(32, 64)));
         if (bits == 0) return Legacy(envelope,password);
         return Crypt(envelope[96..], password, envelope[..16], envelope[16..32], bits, false);
     }

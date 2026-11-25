@@ -351,9 +351,8 @@ public sealed class BridgeHost(
         }
     }
 
-    private async Task PollAsync(HttpContext context)
+    private async Task PollAsync(HttpContext context, string id)
     {
-        var id = context.Request.RouteValues["id"]?.ToString() ?? "";
         var origin = context.Request.Headers.Origin.ToString();
         if (!_sessions.TryGetValue(id, out var session) || session.Origin != origin)
         {
