@@ -18,7 +18,8 @@ public final class PAdESSigner {
     static let oidSigningCertificateV2 = Data([0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x09, 0x10, 0x02, 0x2F])
     static let oidTimeStampToken = Data([0x2A, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x09, 0x10, 0x02, 0x0E])
 
-    static let tsaURL = TrustServices.tsaURL
+    /// MDQTSA. Tests point it at a loopback responder; nothing in the product reassigns it.
+    static var tsaURL = TrustServices.tsaURL
     static let placeholderHexLen = 37960   // same reserve as the MoldSign Java app
 
     // MARK: - DER helpers
