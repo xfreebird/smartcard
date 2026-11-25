@@ -27,6 +27,18 @@ let package = Package(
                 exclude: ["main.swift", "md.esemnbun.reader-watcher.plist", "StoreInfo.plist", "README.md", "ReaderWatcher.entitlements"], sources: ["InsertionPolicy.swift"]),
         .testTarget(name: "ReaderInsertionPolicyTests", dependencies: ["ReaderInsertionPolicy"], path: "Tests/ReaderInsertionPolicyTests"),
         .target(name: "MainWindowPolicy", path: "Apps/macOS/WindowPolicy"),
+        // iOS logic that runs on any Apple platform: share-extension inbox and the NFC bridge transport.
+        .target(name: "MobileServices", dependencies: [.product(name: "MoldSignKit", package: "MoldSignKit")],
+                path: "Apps/iOS",
+                exclude: ["Assets.xcassets", "en.lproj", "ro.lproj", "ru.lproj", "Info.plist", "LaunchResources",
+                          "LaunchScreen.storyboard", "PrivacyInfo.xcprivacy", "eSemnBun.entitlements",
+                          "BrowserAuthenticationOptions.swift", "BrowserScreen.swift", "DocumentActions.swift",
+                          "HomeScreenQuickActions.swift", "MobileSettingsView.swift", "MoldSigniOSApp.swift",
+                          "Services/NFCBrowserCoordinator.swift", "Services/NFCSigningSession.swift",
+                          "Services/SigningCardChoice.swift"],
+                sources: ["SharedDocumentInbox.swift", "Services/NFCBrowserTransport.swift"]),
+        .testTarget(name: "MobileServicesTests", dependencies: ["MobileServices", .product(name: "MoldSignKit", package: "MoldSignKit")],
+                    path: "Tests/MobileServicesTests"),
         .testTarget(name: "MainWindowPolicyTests", dependencies: ["MainWindowPolicy"], path: "Tests/MainWindowPolicyTests")
     ],
     swiftLanguageModes: [.v5]
