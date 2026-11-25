@@ -61,28 +61,54 @@ func sample() {
     #endif
     guard inserted, Date().timeIntervalSince(lastOpen) > 1 else { return }
     lastOpen = Date()
-    let configuration = NSWorkspace.OpenConfiguration()
-    configuration.activates = true
     #if APP_STORE
-    // Launch Services delivers this URL on both cold launch and reopen.
-    NSWorkspace.shared.open([URL(string: "esemnbun-reader://inserted")!],
-                            withApplicationAt: app, configuration: configuration) { _, _ in }
+    let storeEdition = true
     #else
-    configuration.arguments = ["--show-main-window"]
-    #if DEBUG
-    if mockPath != nil {
-        configuration.createsNewApplicationInstance = true
-        configuration.environment = ["MSIGN_DEMO_CARDS": "none", "MSIGN_DEMO_PREVIEW": "0", "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.helper"]
-    }
+    let storeEdition = false
     #endif
-    NSWorkspace.shared.openApplication(at: app, configuration: configuration) { _, error in
+    // Only this bundle counts, not another installed edition. The mock fixture starts its own isolated
+    // instance unless a QA run explicitly targets the isolated instance it already launched.
+    #if DEBUG
+    let detectsRunningApp = mockPath == nil || ProcessInfo.processInfo.environment["MSIGN_QA_HELPER_RUNNING_APP"] == "1"
+    #else
+    let detectsRunningApp = true
+    #endif
+    let bundlePath = app.resolvingSymlinksInPath().path
+    let running = detectsRunningApp && NSRunningApplication.runningApplications(
+        withBundleIdentifier: Bundle(url: app)?.bundleIdentifier ?? "").contains { process in
+            !process.isTerminated && process.bundleURL?.resolvingSymlinksInPath().path == bundlePath
+        }
+    let delivery = ReaderInsertionDelivery.choose(appRunning: running, storeEdition: storeEdition)
+    let configuration = NSWorkspace.OpenConfiguration()
+    configuration.activates = delivery.activates
+    switch delivery.route {
+    case .readerURL:
+        // Launch Services delivers this URL on both cold launch and reopen.
+        NSWorkspace.shared.open([URL(string: "esemnbun-reader://inserted")!],
+                                withApplicationAt: app, configuration: configuration) { _, error in
+            #if DEBUG
+            if mockPath != nil {
+                let outcome = error == nil ? "MOCK_WATCHER_DELIVERED activates=\(delivery.activates)" : "MOCK_WATCHER_FAILED"
+                FileHandle.standardOutput.write(Data((outcome + "\n").utf8))
+            }
+            #endif
+        }
+    case .launchApplication:
+        configuration.arguments = ["--show-main-window"]
         #if DEBUG
         if mockPath != nil {
-            FileHandle.standardOutput.write(Data((error == nil ? "MOCK_WATCHER_OPENED\n" : "MOCK_WATCHER_FAILED\n").utf8))
+            configuration.createsNewApplicationInstance = true
+            configuration.environment = ["MSIGN_DEMO_CARDS": "none", "MSIGN_DEMO_PREVIEW": "0", "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.helper"]
         }
         #endif
+        NSWorkspace.shared.openApplication(at: app, configuration: configuration) { _, error in
+            #if DEBUG
+            if mockPath != nil {
+                FileHandle.standardOutput.write(Data((error == nil ? "MOCK_WATCHER_OPENED\n" : "MOCK_WATCHER_FAILED\n").utf8))
+            }
+            #endif
+        }
     }
-    #endif
 }
 sample()
 let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in sample() }

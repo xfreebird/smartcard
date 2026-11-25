@@ -11,3 +11,23 @@ struct ReaderInsertionPolicy {
         }
     }
 }
+
+/// How the helper hands an insertion to its containing app.
+struct ReaderInsertionDelivery: Equatable {
+    enum Route: Equatable {
+        /// Launch the app with `--show-main-window` (direct-distribution cold launch).
+        case launchApplication
+        /// Send `esemnbun-reader://inserted`; the app applies its window policy.
+        case readerURL
+    }
+
+    let route: Route
+    /// Whether Launch Services activates the app. Activation alone reorders an open window and takes focus,
+    /// so a running app decides for itself whether anything needs to come forward.
+    let activates: Bool
+
+    static func choose(appRunning: Bool, storeEdition: Bool) -> ReaderInsertionDelivery {
+        if appRunning { return ReaderInsertionDelivery(route: .readerURL, activates: false) }
+        return ReaderInsertionDelivery(route: storeEdition ? .readerURL : .launchApplication, activates: true)
+    }
+}

@@ -39,3 +39,18 @@ final class ReaderInsertionPolicyTests: XCTestCase {
         XCTAssertTrue(policy.shouldOpen(for: ["reader": true], demoMode: false))
     }
 }
+
+final class ReaderInsertionDeliveryTests: XCTestCase {
+    func testRunningAppReceivesTheURLWithoutActivationInBothEditions() {
+        for storeEdition in [false, true] {
+            let delivery = ReaderInsertionDelivery.choose(appRunning: true, storeEdition: storeEdition)
+            XCTAssertEqual(delivery, ReaderInsertionDelivery(route: .readerURL, activates: false))
+        }
+    }
+    func testColdLaunchActivatesTheAppAsBefore() {
+        XCTAssertEqual(ReaderInsertionDelivery.choose(appRunning: false, storeEdition: false),
+                       ReaderInsertionDelivery(route: .launchApplication, activates: true))
+        XCTAssertEqual(ReaderInsertionDelivery.choose(appRunning: false, storeEdition: true),
+                       ReaderInsertionDelivery(route: .readerURL, activates: true))
+    }
+}

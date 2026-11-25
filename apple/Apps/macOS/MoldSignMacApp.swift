@@ -38,6 +38,9 @@ struct MoldSignMacApp: App {
         }
         .windowToolbarStyle(.unified)
         .defaultLaunchBehavior(WindowPresentation.shared.presentsMainWindowAtLaunch ? .presented : .suppressed)
+        // URLs and files reach AppDelegate, which applies the presentation policy. SwiftUI's own scene
+        // routing would otherwise close and re-present an open window for every external event.
+        .handlesExternalEvents(matching: [])
 
         Settings {
             SettingsView()
@@ -50,6 +53,7 @@ struct MoldSignMacApp: App {
                 .background(WindowReader { WindowPresentation.shared.register($0, for: .about) })
         }
         .defaultLaunchBehavior(.suppressed)
+        .handlesExternalEvents(matching: [])
         .windowResizability(.contentSize)
         .commands {
             CommandGroup(replacing: .help) {
@@ -77,6 +81,8 @@ private struct AboutMenuCommand: View {
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
+    /// A reader or card insertion asked for the main window. Published rather than posted so a request
+    /// that arrives during a cold launch waits for the menu-bar scene that owns `openWindow`.
     @Published var readerWindowRequested = false
     let model = AppModel()
     #if !APP_STORE
@@ -94,9 +100,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.servicesProvider = self
         authPanel.attach(model)
-        model.presentInsertedCard = {
-            NotificationCenter.default.post(name: .showInsertedCard, object: nil)
-        }
+        model.presentInsertedCard = { [weak self] in self?.readerWindowRequested = true }
         model.start()
         ESemnBunShortcuts.updateAppShortcutParameters()
         DocumentDiscovery.refresh()
@@ -111,7 +115,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         if ShortcutNavigation.shared.request != nil || ProcessInfo.processInfo.arguments.contains("--show-main-window") {
             Task { @MainActor in
                 try? await Task.sleep(for: .milliseconds(250))
-                NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+                NotificationCenter.default.post(name: .showMainWindow, object: nil)
             }
         }
         #if DEBUG
@@ -155,7 +159,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     #endif
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+        NotificationCenter.default.post(name: .showMainWindow, object: nil)
         return false
     }
 
@@ -199,15 +203,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     }
 
     /// Files dropped on the Dock icon / "Open With" go to the signing queue (MAC-03).
+    /// The insertion helper delivers its URL here in both editions while the app is running, and in the
+    /// Store edition on a cold launch too.
     func application(_ application: NSApplication, open urls: [URL]) {
-        #if APP_STORE
-        if urls.contains(URL(string: "esemnbun-reader://inserted")!), !model.demoMode,
-           ReaderActivationService().active {
+        if urls.contains(URL(string: "esemnbun-reader://inserted")!), acceptsHelperInsertion {
             readerWindowRequested = true
         }
-        #endif
         let files = urls.filter(\.isFileURL)
         if !files.isEmpty { queueForSigning(files) }
+    }
+
+    private var acceptsHelperInsertion: Bool {
+        #if DEBUG
+        // Isolated QA instances deliver the helper URL themselves; they never register the background item.
+        let env = ProcessInfo.processInfo.environment
+        if env["MSIGN_QA_NO_HARDWARE"] == "1", env["MSIGN_QA_READER_URL"] == "1",
+           env["MSIGN_DEMO_PREFERENCES_SUITE"]?.hasPrefix("md.esemnbun.qa.") == true {
+            return true
+        }
+        #endif
+        return !model.demoMode && ReaderActivationService().active
     }
 
     /// Finder Quick Actions / Services pass file URLs without starting a signing operation.
@@ -226,7 +241,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         AppPreferencesStore.defaults.set(MainWindowView.Section.verify.rawValue, forKey: "mainSection")
         Task { @MainActor in
             try? await Task.sleep(for: .milliseconds(250))
-            NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+            NotificationCenter.default.post(name: .showMainWindow, object: nil)
             await model.verifyFiles(urls)
         }
     }
@@ -237,13 +252,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
         // Allow the menu-bar scene to install its notification receiver on a cold launch.
         Task { @MainActor in
             try? await Task.sleep(for: .milliseconds(250))
-            NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+            NotificationCenter.default.post(name: .showMainWindow, object: nil)
         }
     }
 }
 
 extension Notification.Name {
-    static let showInsertedCard = Notification.Name("showInsertedCard")
+    /// An explicit request for the main window: menus, Dock reopen, shortcuts, Services and launch arguments.
+    static let showMainWindow = Notification.Name("showMainWindow")
 }
 
 private struct MenuBarIcon: View {
@@ -258,11 +274,11 @@ private struct MenuBarIcon: View {
             .help(label)
             .onChange(of: delegate.readerWindowRequested, initial: true) { _, requested in
                 guard requested else { return }
-                WindowPresentation.shared.present(.main) { openWindow(id: "main") }
                 delegate.readerWindowRequested = false
+                WindowPresentation.shared.presentMain(for: .cardInsertion) { openWindow(id: "main") }
             }
-            .onReceive(NotificationCenter.default.publisher(for: .showInsertedCard)) { _ in
-                WindowPresentation.shared.present(.main) { openWindow(id: "main") }
+            .onReceive(NotificationCenter.default.publisher(for: .showMainWindow)) { _ in
+                WindowPresentation.shared.presentMain(for: .userAction) { openWindow(id: "main") }
             }
     }
 }
