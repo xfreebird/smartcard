@@ -39,6 +39,21 @@ jobs:
           python3 -m unittest discover -s scripts/ci -p 'test_*.py'
           python3 -m unittest discover -s scripts -p test_play_publish.py
           python3 scripts/check-journey-coverage.py
+  automation:
+    timeout-minutes: 25
+    name: Automation and publishing tools
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { persist-credentials: false }
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with: { python-version: '3.12' }
+      - name: Test automation scripts with their pinned dependencies
+        run: |
+          python -m pip install --only-binary=:all: --require-hashes -r scripts/requirements/sonar-coverage.txt -r scripts/requirements/store-publish.txt
+          for suite in scripts scripts/agents scripts/tests; do
+            python -m unittest discover -s "$suite" -p 'test_*.py'
+          done
   localization:
     timeout-minutes: 10
     needs: changes
@@ -82,8 +97,8 @@ jobs:
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Debug -derivedDataPath "$RUNNER_TEMP/macos-build" CODE_SIGNING_ALLOWED=NO build
       - name: Application integration tests
         run: |
-          swift build --package-path apple --target DesignSystem
-          swift test --package-path apple
+          swift build --package-path apple --target DesignSystem --force-resolved-versions
+          swift test --package-path apple --force-resolved-versions
       - name: Native macOS mock UI journeys
         run: |
           command -v xcodegen >/dev/null || brew install xcodegen
@@ -179,11 +194,11 @@ jobs:
         run: python3 scripts/test-mcp-process.py swift/MoldSignKit/.build/debug/esemnbun-mcp
       - name: GNOME app (debug, includes the MSIGN_DEMO_CARDS demo mode)
         working-directory: linux
-        run: swift build
+        run: swift build --force-resolved-versions
       - name: GNOME application integration tests
         run: |
           python3 scripts/ci/check-linux-design-system.py
-          swift test --package-path linux
+          swift test --package-path linux --force-resolved-versions
       - name: Native GTK mock UI journeys
         env:
           GDK_BACKEND: x11
@@ -371,7 +386,7 @@ jobs:
   result:
     name: CI result
     if: always()
-    needs: [changes, localization, swift-macos, apple-apps, ios-app, linux, android, windows]
+    needs: [changes, automation, localization, swift-macos, apple-apps, ios-app, linux, android, windows]
     runs-on: ubuntu-latest
     steps:
       - name: Require selected checks to succeed

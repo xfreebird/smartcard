@@ -42,3 +42,6 @@ fastlane/Preview.html
 
 # Generated signed package feeds (fetched at deployment).
 /website/static/packages/
+
+# Python bytecode left by local script and test runs
+__pycache__/

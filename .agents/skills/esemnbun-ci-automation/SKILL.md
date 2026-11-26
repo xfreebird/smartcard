@@ -24,6 +24,9 @@ Batch validation after edits:
 ```sh
 python3 -m unittest discover -s scripts/ci -p 'test_*.py'
 python3 -m unittest discover -s scripts -p test_play_publish.py
+# Needs Pillow, requests, PyJWT and cryptography (scripts/requirements/sonar-coverage.txt + store-publish.txt).
+python3 -m unittest discover -s scripts/tests -p 'test_*.py'
+(cd website && npm ci --ignore-scripts && node --test tests/*.test.mjs)
 bash -n scripts/ci/reserve-android-version.sh
 ruby -c fastlane/Fastfile
 # Run the pinned official actionlint release; .github/actionlint.yaml declares xcode-27.

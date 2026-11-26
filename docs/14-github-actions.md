@@ -59,7 +59,7 @@ The Apple CI entry point discovers available iPhone/iPad simulators and uses an 
 
 Simulator selection uses runtime version metadata and the selected `iphonesimulator` SDK. Each family uses its newest available runtime in the SDK's major release, without advancing beyond the SDK's minor version; patch runtimes remain eligible. A phone-only runtime can therefore pair with the previous minor tablet runtime. iPhone Duo is preferred when available at the selected version. Missing either family fails setup, and the device/runtime inventories and selected targets are retained with UI evidence. Newer-runtime compatibility checks use explicit simulator IDs through the native test runners; their failures must remain documented separately, rather than being counted as fixed by SDK-line CI.
 
-Routing and publisher guard tests always run, even for docs-only changes. `CI result` is the stable aggregate status: selected failures/cancellations fail it; intentionally skipped jobs are accepted. Use this aggregate if configuring a required branch check rather than requiring every platform to run on every commit. CI has read-only repository permissions and no signing/Store secrets.
+Routing and publisher guard tests always run, even for docs-only changes. The parallel `Automation and publishing tools` job installs the hash-pinned script requirements and runs the `scripts`, `scripts/agents` and `scripts/tests` suites on every run. `CI result` is the stable aggregate status: selected failures/cancellations fail it; intentionally skipped jobs are accepted. Use this aggregate if configuring a required branch check rather than requiring every platform to run on every commit. CI has read-only repository permissions and no signing/Store secrets.
 
 The iOS mock batch includes `NFCSigningChoiceUITests`: selecting NFC with synthetic reader cards,
 returning to the reader, and NFC demo signing without a reader. It never opens a real NFC session
@@ -188,8 +188,8 @@ This task resolves external artifacts, including the AGP-matched lint tools and 
 | Linux GNOME integration | LLVM line coverage in Sonar generic XML |
 | Android core, app and USB unit tests | JaCoCo XML from each module, enabled with `-PsonarCoverage=true` |
 | Windows portable solution on Windows | Microsoft `dotnet-coverage` XML, with source paths rebased and checksums checked on the Linux scanner host. |
-| Website Node tests | LCOV for exercised `website/src` modules |
-| Python CI and report-tool tests | Cobertura line coverage from Coverage.py, using repository-relative source paths |
+| Website Node tests | LCOV for `website/src` components, hooks and pages (JSX loaded through the Babel test hook in `website/tests/support`), `website/scripts`, `website/plugins` and the site configuration |
+| Python automation tests (`scripts/ci`, `scripts`, `scripts/agents`, `scripts/tests`) | Cobertura line coverage from Coverage.py runs in parallel mode, combined; every Sonar-scope Python source directory is reported, so modules no test imports count as uncovered |
 
 The reports measure the listed suites. Native UI journeys, physical card operations and other language/tooling tests still have their own validation. SonarQube Cloud computes project and new-code measurements over the analyzed source scope, including uncovered lines. The workflow supplies no coverage threshold. The project quality gate remains the authority.
 
