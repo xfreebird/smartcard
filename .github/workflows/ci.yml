@@ -121,7 +121,7 @@ jobs:
 
   ios-app:
     # On slow hosts both device families reached the verification suite before the old limit expired.
-    timeout-minutes: 50
+    timeout-minutes: 65
     strategy:
       # Finish independent families so a phone host failure does not hide tablet results.
       fail-fast: false
@@ -148,8 +148,9 @@ jobs:
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/prepare-ios-ui-resources.sh "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui-build"
       - name: Native iOS mock UI journeys
-        # Cold simulator startup is included; the outer job cap also includes compilation.
-        timeout-minutes: 45
+        # Cold simulator startup is included, and one rerun on an erased simulator after XCTest loses the app;
+        # the outer job cap also includes compilation.
+        timeout-minutes: 60
         run: |
           MSIGN_UI_SINGLE_SESSION=1 MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
       - name: iOS UI evidence

@@ -26,11 +26,15 @@ if [[ "$FAIL_FIRST" == 1 && "$name" == VerificationJourneyUITests ]]; then exit 
             shutil.copy(scripts / 'run-verification-ui-tests.sh', scripts / 'run-documents-ui-tests.sh')
             checks = root / 'scripts/ci'
             checks.mkdir(parents=True)
-            (checks / 'check-xctest-result.py').write_text('import sys\nassert sys.argv[2] in ("1", "2", "3", "4", "5", "6", "7")\n')
+            # The runner pipes each suite's xcresulttool summary into the checker with the expected count.
+            (checks / 'check-xctest-result.py').write_text(
+                'import sys\nassert sys.argv[1] in ("1", "2", "3", "4", "5", "6", "7")\n'
+                'assert sys.stdin.read().startswith("summary ")\n')
             binaries = root / 'bin'
             binaries.mkdir()
             installer = binaries / 'xcrun'
-            installer.write_text('#!/bin/bash\nprintf "%s\\n" "$*" >> "$INSTALLS"\n')
+            installer.write_text('#!/bin/bash\nif [[ $1 == xcresulttool ]]; then echo "$4 $6"; exit; fi\n'
+                                 'printf "%s\\n" "$*" >> "$INSTALLS"\n')
             installer.chmod(0o755)
             installs = root / 'installs'
             calls = root / 'calls'

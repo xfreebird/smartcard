@@ -1,27 +1,31 @@
 #!/usr/bin/env python3
 """Reject empty, skipped or incomplete XCTest runs even when xcodebuild exits zero.
 
-  check-xctest-result.py RESULT COUNT                    require COUNT passing tests
-  check-xctest-result.py RESULT --report-failures        annotate each failure
-  check-xctest-result.py RESULT --retry-plan SKIP_FILE   write the passed tests to skip on one rerun, or fail
-  check-xctest-result.py RESULT --combined RERUN COUNT   require the run and its rerun to pass COUNT tests together
+The callers run `xcrun xcresulttool get test-results <report> --path <bundle>` and pipe the JSON reports here, in
+the order each mode lists; this script only reads standard input.
+
+  check-xctest-result.py COUNT              summary                   require COUNT passing tests
+  check-xctest-result.py --report-failures  summary                   annotate each failure
+  check-xctest-result.py --retry-plan       summary, tests            allow one rerun, or report the failures
+  check-xctest-result.py --skip-list        tests                     print the passed cases a rerun may skip
+  check-xctest-result.py --combined COUNT   tests, rerun summary,     require the run and its rerun to pass
+                                            rerun tests               COUNT tests together
 """
 import json
 import os
-from pathlib import Path
 import re
-import subprocess
 import sys
-import tempfile
 
 # XCTest reports these when it loses the app process on a loaded CI simulator; no assertion reads like them.
-INFRASTRUCTURE = re.compile(r"does not have a process ID|Failed to terminate md\.esemnbun\.ios"
+INFRASTRUCTURE = re.compile(r"does not have a process ID|Failed to (?:launch|terminate) md\.esemnbun\.ios"
                             r"|lost connection to the application|Couldn.t communicate with a helper application",
                             re.IGNORECASE)
 # Stopping on the first failure cancels the case that had just started.
 CANCELLED = 'Testing was canceled'
-# These suites change seeded files that a later phase verifies, so an interrupted case cannot run again.
+# These suites change seeded files that a later phase verifies. A rerun starts from an erased simulator with
+# freshly seeded files, so it runs them again in full.
 FIXTURE_SUITES = ('DocumentsUITests/', 'ProtectionFlowUITests/')
+MODES = {'--report-failures': 1, '--retry-plan': 2, '--skip-list': 1, '--combined': 3}
 
 
 def require_complete(summary, expected):
@@ -58,67 +62,64 @@ def passed_cases(tree):
     return passed
 
 
+def kept_cases(tree):
+    """Passed cases a rerun on an erased simulator need not repeat: all but the fixture suites."""
+    return {case for case in passed_cases(tree) if not case.startswith(FIXTURE_SUITES)}
+
+
 def retry_plan(summary, tree):
-    """The passed cases to skip when every failure is the app process being lost, otherwise None."""
+    """The passed cases a rerun may skip when every failure is the app process being lost, otherwise None."""
     failures = summary.get('testFailures', [])
     if not any(INFRASTRUCTURE.search(f.get('failureText', '')) for f in failures):
         return None
-    for failure in failures:
-        text = failure.get('failureText', '')
-        if not (INFRASTRUCTURE.search(text) or text.startswith(CANCELLED)):
-            return None
-        if failure.get('testIdentifierString', '').startswith(FIXTURE_SUITES):
-            return None
-    return sorted(passed_cases(tree))
+    if not all(INFRASTRUCTURE.search(f.get('failureText', '')) or f.get('failureText', '').startswith(CANCELLED)
+               for f in failures):
+        return None
+    return sorted(kept_cases(tree))
 
 
 def require_combined(first, rerun_summary, rerun, expected):
-    """The rerun ran exactly the cases the first run did not pass, and all of them passed."""
+    """The rerun ran exactly the cases the first run did not keep, and all of them passed."""
     require_complete(rerun_summary, expected - len(first))
     if first & rerun or len(first | rerun) != expected:
         raise ValueError(f'The rerun must pass exactly the {expected - len(first)} cases the first run did not')
 
 
-def run_path(value):
-    """A result bundle or skip list must resolve inside the repository, $RUNNER_TEMP or a temporary directory."""
-    candidate = os.path.realpath(value)
-    roots = [Path(__file__).resolve().parents[2], Path(tempfile.gettempdir()).resolve(), Path('/tmp').resolve()]
-    if os.environ.get('RUNNER_TEMP'):
-        roots.append(Path(os.environ['RUNNER_TEMP']).resolve())
-    for root in map(str, roots):
-        if os.path.commonpath([root, candidate]) == root:
-            return candidate
-    raise SystemExit(f'Result paths must be inside the repository, $RUNNER_TEMP or the temporary directory: {value}')
+def reports(text, count):
+    """The `count` JSON documents xcresulttool wrote one after another."""
+    decoder, documents, position = json.JSONDecoder(), [], 0
+    while len(documents) < count:
+        while position < len(text) and text[position].isspace():
+            position += 1
+        if position == len(text):
+            raise ValueError(f'Expected {count} xcresulttool reports on standard input, got {len(documents)}')
+        document, position = decoder.raw_decode(text, position)
+        documents.append(document)
+    if text[position:].strip():
+        raise ValueError(f'Expected {count} xcresulttool reports on standard input, got more')
+    return documents
 
 
-def load(kind, path):
-    if kind not in ('summary', 'tests'):
-        raise ValueError(f'Unknown xcresulttool report: {kind}')
-    return json.loads(subprocess.check_output(
-        ['xcrun', 'xcresulttool', 'get', 'test-results', kind, '--path', run_path(path)]))
-
-
-def main(argv):
-    path, mode, *rest = argv
+def main(argv, stdin):
+    mode, *rest = argv
+    documents = reports(stdin.read(), MODES.get(mode, 1))
     if mode == '--report-failures':
-        report_failures(load('summary', path))
+        report_failures(documents[0])
     elif mode == '--retry-plan':
-        summary = load('summary', path)
-        skip = retry_plan(summary, load('tests', path))
-        if skip is None:
-            report_failures(summary)
+        if retry_plan(*documents) is None:
+            report_failures(documents[0])
             return 1
-        annotate(summary, 'warning', 'XCTest lost the app; rerunning the cases that did not pass')
-        with open(run_path(rest[0]), 'w') as output:
-            output.writelines(identifier.removesuffix('()') + '\n' for identifier in skip)
+        annotate(documents[0], 'warning', 'XCTest lost the app; rerunning the cases that did not pass')
+    elif mode == '--skip-list':
+        for case in sorted(kept_cases(documents[0])):
+            print(case.removesuffix('()'))
     elif mode == '--combined':
-        rerun, expected = rest
-        require_combined(passed_cases(load('tests', path)), load('summary', rerun),
-                         passed_cases(load('tests', rerun)), int(expected))
+        first, rerun_summary, rerun = documents
+        require_combined(kept_cases(first), rerun_summary, passed_cases(rerun), int(rest[0]))
     else:
-        require_complete(load('summary', path), int(mode))
+        require_complete(documents[0], int(mode))
     return 0
 
 
 if __name__ == '__main__':
-    sys.exit(main(sys.argv[1:]))
+    sys.exit(main(sys.argv[1:], sys.stdin))

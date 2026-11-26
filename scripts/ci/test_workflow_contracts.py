@@ -138,14 +138,14 @@ class WorkflowContracts(unittest.TestCase):
     def test_ios_budget_limits_preserve_failure_evidence(self):
         ci = (ROOT / '.github/workflows/ci.yml').read_text()
         ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
-        self.assertIn('\n    timeout-minutes: 50\n', ios)
+        self.assertIn('\n    timeout-minutes: 65\n', ios)
         self.assertIn('family: [iPhone, iPad]', ios)
         self.assertIn('max-parallel: 1', ios)
         self.assertIn('fail-fast: false', ios)
         self.assertIn('"${{ matrix.family }}"', ios)
         self.assertIn('name: ios-ui-${{ matrix.family }}-${{ github.sha }}', ios)
         limits = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
-                  'Native iOS mock UI journeys': 45, 'iOS UI evidence': 3}
+                  'Native iOS mock UI journeys': 60, 'iOS UI evidence': 3}
         for name, expected in limits.items():
             step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
             limit = int(re.search(r'timeout-minutes: (\d+)', step).group(1))

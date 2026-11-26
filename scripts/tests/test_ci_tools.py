@@ -69,12 +69,8 @@ class XCTestResultTests(TempCase):
                'testFailures': [{'testIdentifierString': 'Suite/test', 'failureText': '100% wrong\nAX tree'}, {}]}
 
     def check(self, *args, env=None):
-        with patch('subprocess.check_output', return_value=json.dumps(self.SUMMARY).encode()) as xcresult:
-            result = run('scripts/ci/check-xctest-result.py', 'Result.xcresult', *args, env=env or {})
-        # The bundle path reaches xcresulttool resolved, so it cannot read as an option.
-        self.assertTrue(os.path.isabs(xcresult.call_args.args[0][-1]))
-        self.assertTrue(xcresult.call_args.args[0][-1].endswith('/Result.xcresult'))
-        return result
+        # The runners pipe xcresulttool's summary in; the checker takes no bundle path.
+        return run('scripts/ci/check-xctest-result.py', *args, stdin=json.dumps(self.SUMMARY), env=env or {})
 
     def test_failures_are_reported_as_single_workflow_commands(self):
         result = self.check('--report-failures', env={'GITHUB_ACTIONS': 'true'})
