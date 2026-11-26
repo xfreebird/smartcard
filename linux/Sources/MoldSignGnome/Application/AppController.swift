@@ -64,6 +64,10 @@ final class AppController {
         TrayStatus.from(cards: cards, selected: selectedCard, status: status)
     }
 
+    /// The Background portal identifies an app by its scope, which a demo preview launched from the app shares:
+    /// fictional cards must never replace the real app's status there.
+    var backgroundStatusText: String? { isDemo ? nil : trayStatus.text }
+
     // UI hooks, installed by MainWindow (all called on the main thread).
     var askPIN: ((PinRequest, @escaping (PinEntry?) -> Void) -> Void)?
     var askStamp: ((SignItem, String, String?, @escaping (PDFStampDecision) -> Void) -> (() -> Void))?

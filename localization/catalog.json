@@ -7109,6 +7109,15 @@
     },
     {
       "platform": "linux",
+      "key": "linux_demo_mode_description",
+      "translations": {
+        "ro": "Încearcă eSemnBun într-o fereastră separată, fără cititor de carduri. Setările, documentele și PIN-urile salvate nu sunt folosite.",
+        "en": "Try eSemnBun in a separate window, without a card reader. Your settings, documents and saved PINs are not used.",
+        "ru": "Попробуйте eSemnBun в отдельном окне без считывателя карт. Ваши настройки, документы и сохранённые PIN-коды не используются."
+      }
+    },
+    {
+      "platform": "linux",
       "key": "linux_keyring_unavailable",
       "translations": {
         "ro": "Serviciul de chei (GNOME Keyring) nu este disponibil",

@@ -104,7 +104,7 @@ final class MoldSignApp {
             if !enabled && controller.isDemo { quit(); return }
             guard enabled && !controller.isDemo else { return }
             controller.askConfirm?(L10n.text(.demo_enable_title),
-                L10n.text(.ui_demo_data_no_real_card_pin_or_signatures), L10n.text(.demo_enable_action)) { [weak self] approved in
+                L10n.text(.linux_demo_mode_description), L10n.text(.demo_enable_action)) { [weak self] approved in
                 guard approved, let self else { return }
                 let preview = Process()
                 preview.executableURL = URL(fileURLWithPath: CommandLine.arguments[0]).standardizedFileURL
@@ -120,7 +120,7 @@ final class MoldSignApp {
             LoginStartup.configure(enabled, portal: portal, completion: done)
         }
         let model = controller
-        model.observe { portal.setStatus(model.trayStatus.text) }
+        model.observe { if let text = model.backgroundStatusText { portal.setStatus(text) } }
         #if MOLDSIGN_DEMO
         if controller.isDemo {
             controller.showDemoPage = { window.show(page: $0) }
