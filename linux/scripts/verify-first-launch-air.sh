@@ -4,7 +4,7 @@
 set -euo pipefail
 vm=${1:?Usage: verify-first-launch-air.sh ubuntu|fedora [output-directory]}
 case "$vm" in ubuntu|fedora) ;; *) exit 2;; esac
-if [ "$vm" = ubuntu ]; then port=2224; vncport=5903; folder=ubuntu24.04; binary=/usr/bin/esemnbun-gnome; else port=2222; vncport=5901; folder=fedora44; binary=/home/user/smartcard/linux/.build/debug/esemnbun-gnome; fi
+if [[ "$vm" = ubuntu ]]; then port=2224; vncport=5903; folder=ubuntu24.04; binary=/usr/bin/esemnbun-gnome; else port=2222; vncport=5901; folder=fedora44; binary=/home/user/smartcard/linux/.build/debug/esemnbun-gnome; fi
 remote() { ssh -p "$port" user@127.0.0.1 "$@"; }
 vnc() { "$HOME/VMs/shots/venv/bin/python" "$HOME/VMs/shots/vshot.py" "$vncport" "$@"; }
 output=${2:-"$HOME/Desktop/esemnbun-screenshots/linux/$(date +%F)/$folder"}

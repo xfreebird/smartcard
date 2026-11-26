@@ -11,7 +11,7 @@ trap 'remote "pkill -x esemnbun-gnome || true; rm -rf '\''$base'\''"' EXIT
 "$HOME/VMs/shots/v" fedora key esc
 scenarios=(documents signing pin pin-error success signing-error verify-checking verify-valid verify-invalid verify-unknown verify-unsigned activity settings)
 for theme in light dark; do
-  dark=0; [ "$theme" = dark ] && dark=1
+  dark=0; [[ "$theme" = dark ]] && dark=1
   for scenario in "${scenarios[@]}"; do
     ready="$base/$scenario-$theme.json"
     case "$scenario" in verify-*) page=verify;; activity) page=activity;; *) page=sign;; esac
@@ -28,7 +28,7 @@ for theme in light dark; do
       verify-valid|verify-invalid|verify-unknown)
         "$HOME/VMs/shots/venv/bin/python" "$HOME/VMs/shots/scroll.py" 5901 5 5 "$output/$scenario-checks-$theme.png";;
     esac
-    if [ "$scenario" = settings ]; then
+    if [[ "$scenario" = settings ]]; then
       "$HOME/VMs/shots/venv/bin/python" "$HOME/VMs/shots/scroll.py" 5901 5 8 "$output/settings-startup-$theme.png"
     fi
     printf 'Captured %s %s\n' "$scenario" "$theme"
