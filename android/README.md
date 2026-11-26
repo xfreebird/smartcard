@@ -168,7 +168,9 @@ dependency used offline) with the Compose UI test rule. They render every destin
 debug fixture states (cards, reader states, documents, batches, PIN, verification verdicts, file protection,
 browser window, dark theme, tablet and short landscape), drive the real non-demo app against fake reader and
 card adapters (pickers answered like the system, the PIN sheet, results, verification, protection), and test
-`MainViewModel`, the NFC reader-mode gate and controller, the bridge service, widget and storage adapters.
+`MainViewModel`, the NFC reader-mode gate and controller, the bridge service, widget and storage adapters. NFC
+screens also run through Robolectric's `NfcAdapter` (`NfcUiTest`): PIN before the antenna, the scan dialog, reader
+mode held after a card was seen until the activity pauses, and an immediate release when no card was seen.
 `:transport-usb` tests drive `CcidTransport` and `UsbReaderMonitor` against a simulated CCID reader.
 Coverage: `../scripts/gradle-ci.sh -PsonarCoverage=true :core:jacocoTestReport :transport-usb:createDebugUnitTestCoverageReport :app:createDebugUnitTestCoverageReport`.
 
