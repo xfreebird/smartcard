@@ -1,7 +1,7 @@
 import XCTest
 @testable import MoldSignGnome
 
-final class DemoIsolationTests: XCTestCase {
+final class DemoIsolationTests: GnomeTestCase {
     func testPreviewPreferencesDisableExternalServicesWithoutChangingOriginal() {
         var real = AppSettings()
         real.bridgeEnabled = true; real.agentApprovalEnabled = true

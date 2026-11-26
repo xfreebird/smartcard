@@ -3,7 +3,7 @@ import XCTest
 import MoldSignKit
 @testable import MoldSignGnome
 
-final class DocumentsStoreTests: XCTestCase {
+final class DocumentsStoreTests: GnomeTestCase {
     func testIndependentInvalidSignatureOrDigestOutranksMissingOriginal() {
         var missing = SignatureReport()
         missing.signatureValid = true

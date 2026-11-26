@@ -253,7 +253,8 @@ Sources/MoldSignGnome/
     Views/                   GTK pages, dialogs, wallet, card artwork and CSS
     Preview/                 debug-only fictional cards and deterministic scenarios
     UserFacingError.swift    localized error/recovery mapping at the source
-Tests/MoldSignGnomeTests/     injectable activation, settings, batch and localization checks
+Tests/MoldSignGnomeTests/     controller flows on fakes, adapters, card artwork, and the real GTK pages and dialogs
+  Support/                   GTK harness (display, main loop, widget queries, signals, file chooser), fakes
 ```
 
 ### The C-API helper layer (`Infrastructure/GTK/Gtk.swift`)
@@ -341,6 +342,24 @@ ratio, with an unstretched silhouette. The chip is centered vertically on the ri
 `AppController` accepts a signing service, `CardMonitoring`, `PINStoring`, a card transport factory,
 `BatchSigning`, `DocumentVerifying`, `SettingsStoring`, and `BridgeHosting`. `MoldSignApp` accepts a
 `LaunchStateStoring` adapter. Run `swift test` inside `linux/` for hardware-free application tests.
+
+### Tests
+
+The suite never touches PC/SC, the keyring, the network or your settings: it points the XDG directories at a
+temporary folder, disables the session bus, and replaces the reader monitor, vault, signer, verifier and bridge
+with fakes (`Tests/MoldSignGnomeTests/Support/Fakes.swift`). Controller, adapter and card-artwork tests need only
+GLib. Page, dialog, wallet, stamp-editor, protection and application tests build the real GTK widgets and drive
+them through their signals, so they need a display; the Background portal tests start a private `dbus-daemon`.
+
+```bash
+swift test                                                      # GTK tests skip without a display
+xvfb-run -a env MSIGN_REQUIRE_DISPLAY=1 GDK_BACKEND=x11 swift test   # CI: everything, a missing display fails
+# Coverage the way SonarQube Cloud measures it (from the repository root):
+xvfb-run -a env MSIGN_REQUIRE_DISPLAY=1 GDK_BACKEND=x11 \
+  bash scripts/ci/sonar-swift-coverage.sh linux linux/Sources /tmp/linux.xml /tmp/linux-coverage-build
+```
+
+`MSIGN_REQUIRE_DISPLAY=1` also requires `dbus-daemon` (Debian/Ubuntu `dbus-daemon`, Fedora `dbus-daemon`).
 
 On a fresh profile, `--background` still presents the main window. Only after GTK maps it does the app
 persist `$XDG_CONFIG_HOME/moldsign/launch-state.json`; subsequent background activation may hide the window

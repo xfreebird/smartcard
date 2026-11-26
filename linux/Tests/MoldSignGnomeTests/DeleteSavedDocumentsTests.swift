@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MoldSignGnome
 
-final class DeleteSavedDocumentsTests: XCTestCase {
+final class DeleteSavedDocumentsTests: GnomeTestCase {
     func testSubstitutedPathCannotDeleteEitherFile() throws {
         let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)

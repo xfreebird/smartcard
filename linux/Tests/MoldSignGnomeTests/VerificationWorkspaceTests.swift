@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MoldSignGnome
 
-final class VerificationWorkspaceTests: XCTestCase {
+final class VerificationWorkspaceTests: GnomeTestCase {
     func testBatchResultCannotAppearUnderAnotherFilename() {
         let workspace = VerificationWorkspace()
         let first = URL(fileURLWithPath: "/first.pdf")
