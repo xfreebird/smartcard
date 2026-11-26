@@ -126,8 +126,9 @@ public partial class DemoPresentationTests
         }
         foreach (var (file, keys) in found)
         {
-            Assert.True(reviewed.TryGetValue(file, out var allowed), $"{file} shows demo strings: {string.Join(", ", keys)}");
-            Assert.Empty(keys.Except(allowed!, StringComparer.Ordinal));
+            var allowed = reviewed.GetValueOrDefault(file);
+            Assert.True(allowed is not null, $"{file} shows demo strings: {string.Join(", ", keys)}");
+            Assert.Empty(keys.Except(allowed, StringComparer.Ordinal));
         }
 
         var state = File.ReadAllText(Path.Combine(s_app, "Services", "AppState.cs"));

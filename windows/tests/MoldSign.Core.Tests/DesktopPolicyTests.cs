@@ -108,7 +108,10 @@ public sealed class DesktopPolicyTests
         await using var client = new NamedPipeClientStream(".", pipe, PipeDirection.Out, PipeOptions.Asynchronous);
         await client.ConnectAsync(5000);
         try { await client.WriteAsync(Encoding.UTF8.GetBytes(raw)); await client.FlushAsync(); }
-        catch (IOException) { } // the listener may close an oversized frame early
+        catch (IOException)
+        {
+            // The listener may close an oversized frame early; it must keep listening afterwards.
+        }
     }
 
     private sealed class ActivationComparer : IEqualityComparer<(string Action, IReadOnlyList<string> Paths)>

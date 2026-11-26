@@ -72,7 +72,7 @@ function Assert-NoDemoUi([string]$phase){
  foreach($page in $pages){
   Navigate $page;Start-Sleep -Milliseconds 300
   foreach($node in (Find-AppAutomationElements $process ([System.Windows.Automation.Condition]::TrueCondition))){
-   $name=$node.Current.Name
+   try{$name=$node.Current.Name}catch [System.Windows.Automation.ElementNotAvailableException]{continue}
    if([string]::IsNullOrEmpty($name)){continue}
    foreach($text in $demoOnly){if($name.Contains($text)){throw "Demo-only text outside demo mode ($phase, $page): $text"}}
   }

@@ -10,6 +10,7 @@ public sealed class McpTrustedRootTests : IDisposable
     public void Dispose() => _directory.Delete(true);
 
     private static string Code(Action action) => Assert.Throws<McpException>(action).Code;
+    private static string Code(Func<object?> create) => Assert.Throws<McpException>(create).Code;
 
     [Fact]
     public void Roots_must_be_existing_absolute_local_directories()

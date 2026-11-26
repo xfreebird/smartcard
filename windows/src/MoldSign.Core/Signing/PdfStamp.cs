@@ -227,7 +227,7 @@ internal static class StampPdf
                 used[glyph.Glyph] = (rune.Value, glyph.Advance); width += glyph.Advance; hex.Append(glyph.Glyph.ToString("X4", CultureInfo.InvariantCulture));
             }
             var size = Math.Min(index == 5 ? 7.0 : 13.0, (index == 4 ? 164000.0 : 228000.0) / Math.Max(width, 1));
-            content.Append(FormattableString.Invariant($"BT /F {Num(size)} Tf 1 0 0 1 {(index == 4 ? 5 : 0)} {LineBaselines[index]} Tm <{hex}> Tj ET\n"));
+            content.Append(string.Create(CultureInfo.InvariantCulture, $"BT /F {Num(size)} Tf 1 0 0 1 {(index == 4 ? 5 : 0)} {LineBaselines[index]} Tm <{hex}> Tj ET\n"));
         }
         content.Append('Q');
         var mappings = used.Select(e => $"<{e.Key:X4}> <{Convert.ToHexString(Encoding.BigEndianUnicode.GetBytes(char.ConvertFromUtf32(e.Value.Scalar)))}>");

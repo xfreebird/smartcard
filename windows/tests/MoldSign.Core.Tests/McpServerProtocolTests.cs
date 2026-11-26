@@ -80,7 +80,7 @@ public sealed class McpServerProtocolTests
     public void Initialization_is_legacy_only_and_happens_once()
     {
         var server = new McpServer(s_noRoots);
-        JsonObject Initialize(string version, JsonObject? client = null) => new()
+        static JsonObject Initialize(string version, JsonObject? client = null) => new()
         {
             ["jsonrpc"] = "2.0", ["id"] = 1, ["method"] = "initialize",
             ["params"] = new JsonObject { ["protocolVersion"] = version, ["capabilities"] = new JsonObject(),

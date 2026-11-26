@@ -133,7 +133,7 @@ public sealed class BridgeHostTests : IAsyncLifetime
         try
         {
             var input = Path.Combine(directory.FullName, "contract.pdf");
-            File.WriteAllBytes(input, SigningCoreTests.MinimalPdf());
+            await File.WriteAllBytesAsync(input, SigningCoreTests.MinimalPdf());
             async Task<string> SignAsync(string output, string? batch = null)
             {
                 var body = JsonSerializer.Serialize(new { originalFile = input, signedFile = Path.Combine(directory.FullName, output) });
@@ -147,15 +147,16 @@ public sealed class BridgeHostTests : IAsyncLifetime
             }
 
             var first = await SignAsync("one.pdf");
-            var expectedHash = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(input)));
-            Assert.Equal(new PdfStampPlacement(X: .1, Y: .2, DocumentSHA256: expectedHash), signer.LastRequest!.Stamp);
+            var expectedHash = Convert.ToHexString(SHA256.HashData(await File.ReadAllBytesAsync(input)));
+            Assert.Equal(new PdfStampPlacement(X: .1, Y: .2, DocumentSHA256: expectedHash), signer.LastRequest?.Stamp);
             await SignAsync("two.pdf", batch: first);
-            Assert.Equal(expectedHash, signer.LastRequest!.Stamp!.DocumentSHA256);
+            Assert.Equal(expectedHash, signer.LastRequest?.Stamp?.DocumentSHA256);
             Assert.Equal(1, previews); // the batch keeps its placement
             Assert.Equal(1, _consents); // and its consent
             previewEnabled = false;
             await SignAsync("three.pdf", batch: first);
-            Assert.Null(signer.LastRequest!.Stamp);
+            Assert.NotNull(signer.LastRequest);
+            Assert.Null(signer.LastRequest.Stamp);
             Assert.Equal(1, previews);
             Assert.Equal(3, signer.Calls);
         }

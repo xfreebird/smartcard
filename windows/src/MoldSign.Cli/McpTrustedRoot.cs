@@ -55,7 +55,11 @@ internal sealed partial class McpTrustedRoot : IDisposable
                 if (fd < 0) throw new McpException("PATH_DENIED");
                 unixRoot = new SafeFileHandle((IntPtr)fd, ownsHandle: true);
             }
-            catch { if (fd >= 0) _ = close(fd); throw; }
+            catch
+            {
+                if (fd >= 0) _ = close(fd);
+                throw;
+            }
         }
         if (privateDirectory)
         {
