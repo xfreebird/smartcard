@@ -11,6 +11,9 @@ ROOT = Path(__file__).resolve().parents[2]
 VERSION = '14-robolectric-1-i7'
 JAR = f'android-all-instrumented-{VERSION}.jar'
 POM = f'android-all-instrumented-{VERSION}.pom'
+# Gradle names each cached file's directory after the file's SHA-1; these are the fixtures' digests.
+GRADLE_DIRECTORIES = {JAR: '28bde5518817a8693a20a6085bad7ed00590450a',
+                      POM: '31a6e1717665b9fb4646a906d52abae65a7eefbc'}
 
 
 class RobolectricCacheTests(unittest.TestCase):
@@ -60,7 +63,7 @@ class RobolectricCacheTests(unittest.TestCase):
         self.pin()
         result = self.run_script('seed')
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(self.cached(), {name: (hashlib.sha1(content).hexdigest(), content)
+        self.assertEqual(self.cached(), {name: (GRADLE_DIRECTORIES[name], content)
                                          for name, content in self.published.items()})
         self.assertEqual([path.name for path in self.root.glob('robolectric.*')], [])
 
