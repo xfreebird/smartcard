@@ -39,7 +39,8 @@ report_failure() {
     bundle="$out/$suite/$result"
     [[ -d "$bundle" ]] || bundle="$out/$suite/native/$result"
     if [[ -d "$bundle" ]]; then
-        python3 "$repo/scripts/ci/check-xctest-result.py" "$bundle" --report-failures || true
+        xcrun xcresulttool get test-results summary --path "$bundle" |
+            python3 "$repo/scripts/ci/check-xctest-result.py" --report-failures || true
     fi
     status=1
     # CI stops after diagnostics; local investigations still collect every suite by default.
@@ -70,7 +71,8 @@ for suite in "${suites[@]}"; do
         FloatingActionUITests|MacFloatingActionUITests) expected=4 ;;
         DemoModeUITests|ProtectionFlowUITests|SettingsNavigationUITests) expected=1 ;;
     esac
-    if ! python3 "$repo/scripts/ci/check-xctest-result.py" "$out/$suite/$result" "$expected"; then
+    if ! xcrun xcresulttool get test-results summary --path "$out/$suite/$result" |
+            python3 "$repo/scripts/ci/check-xctest-result.py" "$expected"; then
         report_failure
     fi
 done

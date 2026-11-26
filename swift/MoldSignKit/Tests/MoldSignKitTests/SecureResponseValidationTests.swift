@@ -7,7 +7,7 @@ final class SecureResponseValidationTests: XCTestCase {
     private var responseSSC: Data { Data(count: 15) + Data([1]) }
     private func channel() -> SecureChannel { SecureChannel(sessENC: enc, sessMAC: mac, ssc: Data(count: 16)) }
     private func authenticated(_ body: Data, outer: Data = Data(hex: "9000")) -> Data {
-        body + DER.tlv(0x8E, Data(AES.cmac(key: mac, message: AES.iso9797Pad(responseSSC + body)).prefix(8))) + outer
+        body + DER.tlv(0x8E, Data(try! AES.cmac(key: mac, message: AES.iso9797Pad(responseSSC + body)).prefix(8))) + outer
     }
 
     func testAuthenticatedStatusAndEncryptedPayload() throws {

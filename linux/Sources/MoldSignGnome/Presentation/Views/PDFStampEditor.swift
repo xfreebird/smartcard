@@ -209,8 +209,9 @@ func presentPDFStampEditor(parent: UnsafeMutablePointer<GtkWindow>?, item: SignI
             }
         }
         state.changed = { [weak state] in if state != nil { update() } }
-        onSignal(all, "notify::active") { state.placement.allPages = adw_switch_row_get_active(all.opaque) != 0; update() }
-        onSignal(visible, "notify::active") { state.enabled = adw_switch_row_get_active(visible.opaque) != 0; update() }
+        // notify:: passes the GParamSpec: the one-argument handler form, or the user data is read from it.
+        onSignal(all, "notify::active") { _ in state.placement.allPages = adw_switch_row_get_active(all.opaque) != 0; update() }
+        onSignal(visible, "notify::active") { _ in state.enabled = adw_switch_row_get_active(visible.opaque) != 0; update() }
         let save = button(L10n.text(.stamp_save), classes: ["suggested-action"]) {
             state.placement.allPages = adw_switch_row_get_active(all.opaque) != 0
             answered = true

@@ -127,7 +127,7 @@ public partial class App : Application
                 }
                 catch (IOException error) { AppLog.Error(error); }
                 catch (TimeoutException error) { AppLog.Error(error); }
-                _activation.Dispose();
+                await _activation.DisposeAsync();
                 Exit();
                 return;
             }
@@ -292,7 +292,7 @@ public partial class App : Application
     {
         IsQuitting = true;
         _tray?.Dispose();
-        _activation?.Dispose();
+        if (_activation is not null) await _activation.DisposeAsync();
         await Services.DisposeAsync();
         _flyout?.Close();
         _main?.Close();

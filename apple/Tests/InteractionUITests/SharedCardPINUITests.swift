@@ -7,7 +7,6 @@ final class SharedCardPINUITests: XCTestCase {
 
     func testDeletingReaderPINAlsoUpdatesSameNFCCard() {
         let app = launch(cards: "2")
-        defer { app.terminate() }
         app.selectMainTab("Settings")
         app.buttons["settings.card"].tapWhenReady()
         let choice = app.buttons["signing.method"]
@@ -47,7 +46,6 @@ final class SharedCardPINUITests: XCTestCase {
 
     func testAnotherNFCCardDoesNotBorrowConnectedCardsPIN() {
         let app = launch(cards: "2")
-        defer { app.terminate() }
         let choice = app.buttons["signing.method"]
         XCTAssertTrue(choice.waitForPresence(timeout: 15))
         app.selectSigningMethod("reader")
@@ -64,7 +62,6 @@ final class SharedCardPINUITests: XCTestCase {
 
     func testSavedPINsCanBeManagedWithoutReaderAndRemainSeparateForDifferentCards() {
         let app = launch(cards: "none")
-        defer { app.terminate() }
         app.selectMainTab("Settings")
         let saved = app.buttons["card.savedPINs"]
         reveal(saved, in: app)

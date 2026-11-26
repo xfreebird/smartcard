@@ -54,7 +54,8 @@ public class IdentityGuardTests
     [InlineData("")]
     public void No_expectation_accepts_any_card(string? expected)
     {
-        CosmoXCard.EnsureExpectedCard(s_cardB, expected);
+        var error = Record.Exception(() => CosmoXCard.EnsureExpectedCard(s_cardB, expected));
+        Assert.Null(error);
     }
 
     [Fact]

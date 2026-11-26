@@ -43,9 +43,11 @@ for theme in "${themes[@]}"; do
             "$adb" -s "$serial" logcat -c
             "$adb" -s "$serial" shell am start -W -n md.esemnbun.app/md.moldsign.app.MainActivity --es demo "$scenario" --es demo_page "$page" >/dev/null
             ready=false
+            # The card page opens inside Settings, which reports that destination.
+            destination=$page; [[ "$page" == card ]] && destination=settings
             for attempt in $(seq 1 80); do
                 logs=$("$adb" -s "$serial" logcat -d -s MoldSignDemo:I)
-                if [[ "$logs" == *"ready:$page"* ]]; then ready=true; break; fi
+                if [[ "$logs" == *"ready:$destination"* ]]; then ready=true; break; fi
                 sleep 0.25
             done
             [[ "$ready" == true ]] || { echo "UI did not render: $scenario/$page" >&2; exit 1; }

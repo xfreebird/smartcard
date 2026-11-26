@@ -2,3 +2,5 @@ spec/vectors/encryption/*.p7m binary
 spec/vectors/encryption/*.bin binary
 spec/vectors/encryption/*.der binary
 spec/vectors/encryption/*.pk8 binary
+# Preserve the official Windows wrapper's CRLF endings when checking whitespace.
+android/gradlew.bat whitespace=cr-at-eol

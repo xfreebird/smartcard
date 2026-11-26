@@ -171,7 +171,7 @@ internal sealed class FileProtectionDialog : ContentDialog
     private void SecretChanged(){if(!_busy)ClearOutput();Refresh();}
     private void ClearOutput(){_completed=false;if(_output!=null)CryptographicOperations.ZeroMemory(_output);_output=null;_notice.Text="";}
     private void ResetSelection(){ClearOutput();ClearRecipient();_password.Password="";_confirmation.Password="";_pin.Password="";_removeConfirmation.IsChecked=false;Refresh();}
-    private void SetBusy(bool value){_busy=value;foreach(var control in _form.Children.OfType<Control>())control.IsEnabled=!value;IsPrimaryButtonEnabled=!value;Refresh();}
+    private void SetBusy(bool value){_busy=value;foreach(var control in _form.Children.OfType<Control>())control.IsEnabled = !value;IsPrimaryButtonEnabled = !value;Refresh();}
     private void Error()=>_notice.Text=Loc.Get("protect_error");
     private void Refresh(){
         var remove=_operation.SelectedIndex==2;var decrypt=_operation.SelectedIndex==1;var card=_method.SelectedIndex==1;
@@ -196,7 +196,7 @@ internal sealed class FileProtectionDialog : ContentDialog
         _warning.Text=Loc.Get(remove?"protect_removal_warning":"protect_original");
         CloseButtonText=Loc.Get(_completed || _output!=null ? "saved_close" : "Action_Cancel");
         PrimaryButtonText=_completed ? "" : _output!=null?Loc.Get("protect_save_file"):Loc.Get(remove?"protect_remove":decrypt?"protect_decrypt":"protect_encrypt");
-        IsPrimaryButtonEnabled=!_busy&&(_output!=null||_source!=null&&(remove?_removeConfirmation.IsChecked==true:card?(decrypt?_identities.SelectedItem!=null&&_pin.Password.Length>0:_certificate!=null):_password.Password.Length>0&&(decrypt||_password.Password==_confirmation.Password)));
+        IsPrimaryButtonEnabled = !_busy&&(_output!=null||_source!=null&&(remove?_removeConfirmation.IsChecked==true:card?(decrypt?_identities.SelectedItem!=null&&_pin.Password.Length>0:_certificate!=null):_password.Password.Length>0&&(decrypt||_password.Password==_confirmation.Password)));
 
     }
     private async Task Process(){

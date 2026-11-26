@@ -188,7 +188,7 @@ internal static partial class WindowHelpers
     public static void RevealInExplorer(string path)
     {
         if (!File.Exists(path)) return;
-        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", $"/select,\"{path}\"")
+        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "explorer.exe"), $"/select,\"{path}\"")
         {
             UseShellExecute = true,
         });

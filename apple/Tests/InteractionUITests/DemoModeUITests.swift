@@ -5,7 +5,6 @@ final class DemoModeUITests: XCTestCase {
     func testDemoRequiresDisclaimerPersistsAndSharesSampleWithoutHardware() throws {
         continueAfterFailure = false
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
-        defer { app.terminate() }
         app.launchEnvironment["MSIGN_QA_NO_HARDWARE"] = "1"
         app.launchEnvironment["MSIGN_DEMO_PREFERENCES_SUITE"] = "md.esemnbun.qa.user-demo.\(UUID().uuidString)"
         app.launchArguments = ["-AppleLanguages", "(en)", "-appLanguage", "en"]
@@ -41,7 +40,9 @@ final class DemoModeUITests: XCTestCase {
         let shareVisible = nativeShare.waitForPresence(timeout: 8) || app.buttons["Copy"].exists || app.buttons["Save to Files"].exists
         XCTAssertTrue(shareVisible, "The native share sheet must actually appear before capturing it")
         attach(app, "04-share-sample")
-        app.terminate()
+        // Relaunching under the remote share sheet stalled XCTest's termination of the app on CI.
+        dismissShareSheet(nativeShare, in: app)
+        // XCTest restarts the app on launch, preserving the fixture's preferences.
         app.launch()
         XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.waitForPresence(timeout: 10))
         attach(app, "05-persisted-demo")
@@ -58,8 +59,44 @@ final class DemoModeUITests: XCTestCase {
         waitForValue("0", on: persisted)
         navigate("Sign", in: app)
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
+        assertNoDemoWording(in: app)
         attach(app, "06-return-to-live-mock")
-        app.terminate()
+        // The simulated output stayed in the demo library; the live documents never list it.
+        navigate("Documents", in: app)
+        XCTAssertFalse(app.staticTexts.containing(NSPredicate(format: "label BEGINSWITH 'DEMO-result'")).firstMatch
+            .waitForPresence(timeout: 2))
+        assertNoDemoWording(in: app)
+        attach(app, "07-live-documents")
+    }
+
+    /// Wide phone and tablet layouts present the share sheet in a popover; compact phones present a sheet.
+    private func dismissShareSheet(_ sheet: XCUIElement, in app: XCUIApplication) {
+        let outside = app.otherElements["PopoverDismissRegion"]
+        let close = app.buttons["Close"].firstMatch
+        if outside.waitForPresence(timeout: 3) {
+            // Tap the system's dismissal region where the popover does not cover it.
+            let region = outside.frame
+            let offsets = [CGVector(dx: 0.5, dy: 0.97), CGVector(dx: 0.5, dy: 0.03),
+                           CGVector(dx: 0.03, dy: 0.5), CGVector(dx: 0.97, dy: 0.5)]
+            let uncovered = offsets.first { offset in
+                !sheet.frame.contains(CGPoint(x: region.minX + region.width * offset.dx,
+                                              y: region.minY + region.height * offset.dy))
+            } ?? offsets[0]
+            outside.coordinate(withNormalizedOffset: uncovered).tap()
+        } else if close.exists {
+            close.tapWhenReady()
+        } else {
+            sheet.swipeDown()
+        }
+        let closed = NSPredicate { _, _ in !sheet.exists }
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: closed, object: nil)], timeout: 10),
+                       .completed, "The share sheet must close before the app relaunches")
+    }
+
+    /// Demo banner text, sample-output notice, simulated completion and fictional-data wording are demo-only.
+    private func assertNoDemoWording(in app: XCUIApplication) {
+        let demoOnly = NSPredicate(format: "label CONTAINS[c] 'fictional' OR label CONTAINS[c] 'Sample document' OR label CONTAINS[c] 'Demo signing' OR label CONTAINS[c] 'Demo mode'")
+        XCTAssertFalse(app.staticTexts.containing(demoOnly).firstMatch.exists, app.debugDescription)
     }
 
     private func waitForValue(_ value: String, on element: XCUIElement) {

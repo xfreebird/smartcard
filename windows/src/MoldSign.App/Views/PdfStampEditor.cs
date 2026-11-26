@@ -30,7 +30,7 @@ internal static class PdfStampEditor
         var enabled = new ToggleSwitch { Header = Loc.Get("Stamp_Visible"), IsOn = !previewOnly, Visibility = previewOnly ? Visibility.Collapsed : Visibility.Visible };
         var queue = new CheckBox { Content = Loc.Get("Stamp_Queue") };
         var all = new RadioButton { Content = Loc.Get("Stamp_AllPages"), GroupName="StampScope", IsChecked = placement.AllPages };
-        var selected = new RadioButton { Content=Loc.Get("Stamp_SelectedPage"), GroupName="StampScope", IsChecked=!placement.AllPages };
+        var selected = new RadioButton { Content=Loc.Get("Stamp_SelectedPage"), GroupName="StampScope", IsChecked = !placement.AllPages };
         var error = new TextBlock { TextWrapping = TextWrapping.Wrap };
         var previewColumn = new StackPanel { Spacing=16, Padding=new Thickness(16) };
         var pageScroll = new ScrollViewer { Content=previewColumn, HorizontalScrollBarVisibility=ScrollBarVisibility.Disabled };
@@ -106,7 +106,7 @@ internal static class PdfStampEditor
         pageScroll.SizeChanged += (_,_) => LayoutPages();
         void Overlay() {
             foreach (var refresh in overlays) refresh();
-            apply.IsEnabled=!enabled.IsOn || document is not null && !rendering && string.IsNullOrEmpty(error.Text);
+            apply.IsEnabled = !enabled.IsOn || document is not null && !rendering && string.IsNullOrEmpty(error.Text);
             all.IsEnabled=selected.IsEnabled=enabled.IsOn;
         }
         async Task RenderAsync() {
@@ -193,7 +193,7 @@ internal static class PdfStampEditor
         enabled.Toggled += (_,_) => Overlay();
         all.Checked += (_,_) => Overlay(); all.Unchecked += (_,_) => Overlay();
         try {
-                var bytes = await File.ReadAllBytesAsync(row.Path);
+                var bytes = await File.ReadAllBytesAsync(row.Path, cancellationToken);
                 placement = placement with { DocumentSHA256 = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(bytes)) };
                 // Preview the same private bytes bound to the placement, including provider-backed files.
                 source = new InMemoryRandomAccessStream();

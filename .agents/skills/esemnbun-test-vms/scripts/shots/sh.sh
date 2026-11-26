@@ -4,7 +4,7 @@
 vm=$1; name=$2; box=$3; shift 4
 D=~/Desktop/esemnbun-screenshots; S=~/VMs/shots
 case "$vm" in fedora) dir=linux; def=200,72,1400,960 ;; windows) dir=windows; def=138,131,1222,842 ;; esac
-[ "$box" = crop ] && box=$def
+[[ "$box" = crop ]] && box=$def
 $S/v $vm "$@" shot /tmp/raw.png 2>/dev/null
 $S/venv/bin/python - "$box" "$name" "$D/$dir" <<'PY'
 import sys

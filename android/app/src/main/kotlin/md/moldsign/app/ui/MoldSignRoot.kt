@@ -283,6 +283,7 @@ fun MoldSignRoot(vm: MainViewModel = viewModel(), demoPage: String? = null, demo
                 TopAppBar(
                     // Home shows the public name (UX-12); the other destinations their own title.
                     title = { Text(stringResource(if (dest == Dest.Sign) R.string.app_name else dest.label),
+                        modifier = Modifier.testTag("navigation.title"),
                         maxLines = 1, overflow = TextOverflow.Ellipsis) },
                     actions = {
                         if (dest == Dest.Verify && (verifiedDocuments.isNotEmpty() || verifyDocument != null)) {

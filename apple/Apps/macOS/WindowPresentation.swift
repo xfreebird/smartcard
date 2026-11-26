@@ -19,6 +19,13 @@ final class WindowPresentation {
 
     var hasPendingRequest: Bool { pending != nil }
 
+    /// The registered main window as the presentation policy sees it; `nil` when none exists.
+    var mainWindowState: MainWindowState? {
+        guard let mainWindow else { return nil }
+        return MainWindowState(isOrderedIn: mainWindow.isVisible, isMiniaturized: mainWindow.isMiniaturized,
+                               applicationHidden: NSApp.isHidden)
+    }
+
     func present(_ destination: Destination, open: @escaping () -> Void) {
         pending = destination
         NSApp.setActivationPolicy(.regular)
@@ -29,6 +36,21 @@ final class WindowPresentation {
             open()
             self?.finishPendingRequest()
         }
+    }
+
+    /// Shows the main window for `trigger`. A card insertion leaves an already showing window where it is.
+    func presentMain(for trigger: MainWindowTrigger, open: @escaping () -> Void) {
+        let state = mainWindowState
+        let action = MainWindowPresentationPolicy.action(for: trigger, window: state)
+        #if DEBUG
+        if trigger == .cardInsertion, ProcessInfo.processInfo.environment["MSIGN_QA_NO_HARDWARE"] == "1" {
+            let marker = action == .bringForward ? "bring-forward" : "update-content"
+            let window = state.map { "orderedIn=\($0.isOrderedIn) miniaturized=\($0.isMiniaturized) hidden=\($0.applicationHidden)" }
+            FileHandle.standardOutput.write(Data("MSIGN_QA_INSERTION_WINDOW=\(marker) \(window ?? "none")\n".utf8))
+        }
+        #endif
+        guard action == .bringForward else { return }
+        present(.main, open: open)
     }
 
     func register(_ window: NSWindow?, for destination: Destination) {

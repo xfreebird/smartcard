@@ -12,21 +12,24 @@ final class VerificationJourneyUITests: XCTestCase {
             ("verify-incomplete", "Cannot be confirmed"), ("verify-multiple", "Valid signature")
         ] {
             let app = launch(scenario)
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             XCTAssertTrue(app.staticTexts[title].firstMatch.waitForPresence(timeout: 15), scenario)
             let clear = app.buttons["verify.clearResults"].firstMatch
             XCTAssertTrue(clear.waitForPresence(timeout: 5), scenario)
             XCTAssertTrue(clear.isEnabled)
             #if os(iOS)
-            XCTAssertTrue(app.navigationBars.buttons["verify.clearResults"].firstMatch.exists,
-                          "Clear results must stay in the navigation bar: \(scenario)")
+            // iPhone Duo moves primary actions from the navigation bar to its native side toolbar.
+            let inNavigationBar = app.navigationBars.buttons["verify.clearResults"].firstMatch
+            let inToolbar = app.toolbars.buttons["verify.clearResults"].firstMatch
+            XCTAssertTrue(inNavigationBar.exists || inToolbar.exists,
+                          "Clear results must stay in the native toolbar: \(scenario)")
             #endif
             clear.activateControl()
             XCTAssertTrue(app.descendants(matching: .any)["verify.dropZone"].firstMatch.exists)
             XCTAssertFalse(app.staticTexts[title].exists, "Cleared verdict must disappear: \(scenario)")
             XCTAssertFalse(app.buttons["verify.clearResults"].exists)
             XCTAssertFalse(app.secureTextFields.firstMatch.exists, "Verification must never ask for PIN")
-            let attachment = XCTAttachment(screenshot: app.screenshot())
+            let attachment = XCTAttachment(screenshot: app.workspaceScreenshot())
             attachment.name = "cleared-\(scenario)"
             attachment.lifetime = .keepAlways
             add(attachment)
@@ -35,7 +38,7 @@ final class VerificationJourneyUITests: XCTestCase {
 
     func testCertificateAndTechnicalDetailsExpandAndCollapse() {
         let app = launch("verify-valid")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         for name in ["signature", "certificate", "technical"] {
             let disclosure = app.buttons["verify.disclosure." + name].firstMatch
             XCTAssertTrue(disclosure.waitForPresence(timeout: 15), name)
@@ -73,7 +76,7 @@ final class VerificationJourneyUITests: XCTestCase {
 
     func testClearingLoadingStateRemovesPendingPresentation() {
         let app = launch("verify-loading")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         let clear = app.buttons["verify.clearResults"].firstMatch
         XCTAssertTrue(clear.waitForPresence(timeout: 15))
         clear.activateControl()
@@ -86,7 +89,7 @@ final class VerificationJourneyUITests: XCTestCase {
                                   ("reading", "Reading the card…"), ("unavailable", "Reader access unavailable"),
                                   ("error", "The card does not respond")] {
             let app = launch(scenario, tab: "sign")
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             #if os(iOS)
             // NFC is the initial method, even when a reader fixture is present.
             app.selectSigningMethod("reader")
@@ -106,7 +109,7 @@ final class VerificationJourneyUITests: XCTestCase {
     func testPinCancellationDismissesBothNormalAndLastAttemptPresentation() {
         for scenario in ["pin", "pin-warning"] {
             let app = launch(scenario, tab: "sign")
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             XCTAssertTrue(app.secureTextFields.firstMatch.waitForPresence(timeout: 15))
             let cancel = app.buttons["Cancel"].firstMatch
             XCTAssertTrue(cancel.exists)
@@ -117,7 +120,7 @@ final class VerificationJourneyUITests: XCTestCase {
 
     private func launch(_ scenario: String, tab: String = "verify") -> XCUIApplication {
         #if os(macOS)
-        let app = XCUIApplication(bundleIdentifier: "md.esemnbun.mac")
+        let app = makeMacTestApplication()
         #else
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
         #endif

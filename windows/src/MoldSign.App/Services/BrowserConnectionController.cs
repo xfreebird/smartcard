@@ -10,30 +10,33 @@ public interface IBrowserConnectionController
 
 /// <summary>Browser lifecycle and identity installation, independent of document batches and reader discovery.</summary>
 internal sealed class BrowserConnectionController(BridgeHost bridge, AppSettings preferences,
-    Action<bool, string> publish, bool preview) : IBrowserConnectionController, IDisposable
+    Action<bool, string> publish, bool preview) : IBrowserConnectionController, IAsyncDisposable
 {
     private CancellationTokenSource? _recovery;
+    private Task? _recoveryTask;
     private bool _portBusy;
     private readonly SemaphoreSlim _control = new(1);
     private bool _disposed;
 
     public async Task SetEnabledAsync(bool enabled)
     {
-        await _control.WaitAsync();
+        await _control.WaitAsync(CancellationToken.None);
         try
         {
             if (_disposed) return;
-            _recovery?.Cancel();
-            _recovery?.Dispose();
-            _recovery = null;
+            await StopRecoveryAsync();
             await ApplyEnabledAsync(enabled);
-            if (enabled && _portBusy)
-            {
-                _recovery = new CancellationTokenSource();
-                _ = RecoverAsync(_recovery.Token);
-            }
+            StartRecoveryIfNeeded();
         }
         finally { _control.Release(); }
+    }
+
+    // _control is held by the caller; recovery itself waits asynchronously for it.
+    private void StartRecoveryIfNeeded()
+    {
+        if (_disposed || !_portBusy || !preferences.BridgeEnabled) return;
+        _recovery = new CancellationTokenSource();
+        _recoveryTask = RecoverAsync(_recovery.Token);
     }
 
     private async Task RecoverAsync(CancellationToken token)
@@ -51,7 +54,28 @@ internal sealed class BrowserConnectionController(BridgeHost bridge, AppSettings
         catch (OperationCanceledException) { }
     }
 
-    public void Dispose() { _disposed = true; _recovery?.Cancel(); _recovery?.Dispose(); _recovery = null; }
+    // Called with _control held. A cancelled recovery never waits for that semaphore again.
+    private async Task StopRecoveryAsync()
+    {
+        if (_recovery is null) return;
+        try
+        {
+            await Task.WhenAll(_recovery.CancelAsync(), _recoveryTask ?? Task.CompletedTask);
+        }
+        finally
+        {
+            _recovery.Dispose();
+            _recovery = null;
+            _recoveryTask = null;
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _control.WaitAsync(CancellationToken.None);
+        try { _disposed = true; await StopRecoveryAsync(); }
+        finally { _control.Release(); }
+    }
 
     private async Task ApplyEnabledAsync(bool enabled)
     {
@@ -75,18 +99,26 @@ internal sealed class BrowserConnectionController(BridgeHost bridge, AppSettings
 
     public async Task ImportIdentityAsync(string path)
     {
-        if (preview) return;
+        await _control.WaitAsync(CancellationToken.None);
         try
         {
+            if (preview || _disposed) return;
+            await StopRecoveryAsync();
             var certificates = BridgeTls.Load(path);
             foreach (var certificate in certificates) certificate.Dispose();
             var destination = BridgeTls.IdentityPath;
             Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
             if (!string.Equals(Path.GetFullPath(path), Path.GetFullPath(destination), StringComparison.OrdinalIgnoreCase))
                 File.Copy(path, destination, overwrite: true);
-            if (preferences.BridgeEnabled) { await bridge.StopAsync(); await SetEnabledAsync(true); }
+            if (preferences.BridgeEnabled)
+            {
+                await bridge.StopAsync();
+                await ApplyEnabledAsync(true);
+                StartRecoveryIfNeeded();
+            }
             else publish(false, Loc.Get("Bridge_IdentityImported"));
         }
         catch (Exception error) { AppLog.Error(error); publish(preferences.BridgeEnabled, Loc.Get("Bridge_IdentityInvalid")); }
+        finally { _control.Release(); }
     }
 }

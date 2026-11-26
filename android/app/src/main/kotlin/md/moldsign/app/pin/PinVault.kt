@@ -26,7 +26,8 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 import kotlin.coroutines.resume
 
-private val Context.pinStore by preferencesDataStore(name = "pin_vault")
+/** One DataStore per process for the vault file (internal for the record-handling tests). */
+internal val Context.pinStore by preferencesDataStore(name = "pin_vault")
 
 /**
  * PinVault (docs/09 §3.5, AND-06): the PIN QSCD encrypted with an AES-256-GCM key that lives in the

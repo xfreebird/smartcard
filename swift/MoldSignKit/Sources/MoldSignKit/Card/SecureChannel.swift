@@ -32,7 +32,7 @@ struct SecureChannel {
 
     /// Wrap an APDU in secure messaging
     mutating func wrap(_ apdu: Data) throws -> Data {
-        guard apdu.count >= 4 else { throw CryptoError.invalidLength }
+        guard sessENC.count == 32, sessMAC.count == 32, ssc.count == 16, apdu.count >= 4 else { throw CryptoError.invalidLength }
         let header = Data(apdu.prefix(4))
         let cla = header[0] | 0x0C, ins = header[1], p1 = header[2], p2 = header[3]
         let body = Data(apdu.dropFirst(4))
@@ -65,7 +65,7 @@ struct SecureChannel {
 
         // Encrypt data if present
         if !cmdData.isEmpty {
-            let iv = aesENC.ecbEncrypt(ssc1)
+            let iv = try aesENC.ecbEncrypt(ssc1)
             let padded = AES.iso9797Pad(cmdData)
             let enc = try aesENC.cbcEncrypt(padded, iv: iv)
 
@@ -89,7 +89,7 @@ struct SecureChannel {
 
         // MAC: SSC1 + calcMac, ISO padded, AES-CMAC truncated to 8
         let toMac = AES.iso9797Pad(ssc1 + calcMac)
-        let fullMac = AES.cmac(key: sessMAC, message: toMac)
+        let fullMac = try AES.cmac(key: sessMAC, message: toMac)
         let mac8 = fullMac.prefix(8)
         dataField += buildTLV(0x8E, mac8)
 
@@ -104,6 +104,7 @@ struct SecureChannel {
 
     /// Unwrap an SM response
     mutating func unwrap(_ response: Data) throws -> (data: Data, sw: Data) {
+        guard sessENC.count == 32, sessMAC.count == 32, ssc.count == 16 else { throw CryptoError.invalidLength }
         guard response.count >= 2 else { throw CardError.cardNotResponding }
         let ssc1 = incSSC()
         let outer = Data(response.suffix(2))
@@ -129,7 +130,7 @@ struct SecureChannel {
               let status = parts.first(where: { $0.tag == 0x99 }), status.content.count == 2,
               let mac = parts.last, mac.content.count == 8 else { throw CardError.macVerificationFailed }
         let authenticated = body.subdata(in: 0..<mac.range.lowerBound)
-        let expected = Data(AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc1 + authenticated)).prefix(8))
+        let expected = Data(try AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc1 + authenticated)).prefix(8))
         let actual = body.subdata(in: mac.content)
         var difference: UInt8 = 0
         for (a, b) in zip(expected, actual) { difference |= a ^ b }

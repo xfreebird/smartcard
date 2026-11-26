@@ -3,7 +3,7 @@ import sys, time, os
 from vncdotool import api
 port = sys.argv[1]; args = sys.argv[2:]
 c = api.connect(f'127.0.0.1::{port}')
-SHIFTED = dict(zip('~!@#$%^&*()_+{}|:"<>?', "`1234567890-=[]\;',./"))
+SHIFTED = dict(zip('~!@#$%^&*()_+{}|:"<>?', "`1234567890-=[]\\;',./"))
 def typech(ch):
     # QEMU's VNC server maps keysyms to scancodes without adding Shift: press it explicitly.
     base = SHIFTED.get(ch) or (ch.lower() if ch.isupper() else None)

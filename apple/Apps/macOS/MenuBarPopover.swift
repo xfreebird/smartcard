@@ -216,14 +216,35 @@ struct WindowReader: NSViewRepresentable {
 
     final class ReaderView: NSView {
         var onWindow: ((NSWindow?) -> Void)?
+        private var reopenObserver: NSObjectProtocol?
 
         override func viewDidMoveToWindow() {
             super.viewDidMoveToWindow()
+            observeReopening()
             // Deliver outside SwiftUI's view update, after AppKit attaches the actual window.
             DispatchQueue.main.async { [weak self] in
                 guard let self else { return }
                 self.onWindow?(self.window)
             }
+        }
+
+        /// SwiftUI reopens a closed `Window` scene in the same NSWindow, so this view never moves again.
+        /// Deliver the window once more whenever it is back on screen; closing it delivers nothing.
+        private func observeReopening() {
+            if let reopenObserver { NotificationCenter.default.removeObserver(reopenObserver) }
+            reopenObserver = window.map { window in
+                NotificationCenter.default.addObserver(forName: NSWindow.didChangeOcclusionStateNotification,
+                                                       object: window, queue: .main) { [weak self] _ in
+                    MainActor.assumeIsolated {
+                        guard let self, let window = self.window, window.isVisible else { return }
+                        self.onWindow?(window)
+                    }
+                }
+            }
+        }
+
+        deinit {
+            if let reopenObserver { NotificationCenter.default.removeObserver(reopenObserver) }
         }
     }
 

@@ -2,10 +2,10 @@
   "solution": {
     "path": "MoldSign.slnx",
     "projects": [
-      "src/MoldSign.Core/MoldSign.Core.csproj",
-      "src/MoldSign.Cli/MoldSign.Cli.csproj",
-      "tests/MoldSign.Core.Tests/MoldSign.Core.Tests.csproj",
-      "src/MoldSign.Desktop/MoldSign.Desktop.csproj"
+      "src\\MoldSign.Core\\MoldSign.Core.csproj",
+      "src\\MoldSign.Cli\\MoldSign.Cli.csproj",
+      "tests\\MoldSign.Core.Tests\\MoldSign.Core.Tests.csproj",
+      "src\\MoldSign.Desktop\\MoldSign.Desktop.csproj"
     ]
   }
 }

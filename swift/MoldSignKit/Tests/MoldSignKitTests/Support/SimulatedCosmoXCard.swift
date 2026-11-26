@@ -128,7 +128,7 @@ final class SimulatedCosmoXCard: CardTransport {
         let kenc = (base + Data(hex: "00000002")).sha256()
         let kmac = (base + Data(hex: "00000003")).sha256()
         let ct = payload.prefix(80), mac = payload.suffix(16)
-        guard AES.cmac(key: kmac, message: ct) == mac else { return sw(0x6300) }
+        guard try AES.cmac(key: kmac, message: ct) == mac else { return sw(0x6300) }
         let aes = AES(key: kenc)
         let plain = try aes.cbcDecrypt(Data(ct), iv: Data(count: 16))
         let rndIFD = plain.prefix(16), snIFD = plain.subdata(in: 16..<24), kIFD = plain.subdata(in: 48..<80)
@@ -141,7 +141,7 @@ final class SimulatedCosmoXCard: CardTransport {
         sessMAC = (secret + Data(hex: "00000002")).sha256()
         ssc = Data(rndICC.suffix(8) + rndIFD.suffix(8))
         verified = false
-        return replyCT + AES.cmac(key: kmac, message: replyCT) + sw(0x9000)
+        return replyCT + (try AES.cmac(key: kmac, message: replyCT)) + sw(0x9000)
     }
 
     // MARK: - Secure messaging
@@ -171,7 +171,7 @@ final class SimulatedCosmoXCard: CardTransport {
         }
         end = pos
         let header = AES.iso9797Pad(Data(a[0..<4]))
-        guard AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc + header + macInput)).prefix(8) == mac else {
+        guard try AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc + header + macInput)).prefix(8) == mac else {
             return sw(0x6988)
         }
         var body = Data()
@@ -185,7 +185,7 @@ final class SimulatedCosmoXCard: CardTransport {
             out += tlv(0x87, Data([0x01]) + ct)
         }
         out += Data([0x99, 0x02, UInt8(status >> 8), UInt8(status & 0xFF)])
-        let respMAC = AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc + out)).prefix(8)
+        let respMAC = try AES.cmac(key: sessMAC, message: AES.iso9797Pad(ssc + out)).prefix(8)
         return out + Data([0x8E, 0x08]) + respMAC + sw(mirrorsEOFWarning && [0x6282,0x6b00].contains(status) ? status : 0x9000)
     }
 

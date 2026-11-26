@@ -19,13 +19,21 @@ public static class BridgeTls
         : File.Exists(IdentityPath) ? IdentityPath
         : BundledPath;
 
+    // Schannel cannot serve TLS with an ephemeral PKCS#12 private key on Windows, and macOS has no ephemeral key
+    // storage (the portable bridge tests run there); Linux keeps the key in memory only.
+    internal static X509KeyStorageFlags KeyStorageFor(bool windows, bool macOS) => (windows, macOS) switch
+    {
+        (true, _) => X509KeyStorageFlags.UserKeySet,
+        (_, true) => X509KeyStorageFlags.DefaultKeySet,
+        _ => X509KeyStorageFlags.EphemeralKeySet,
+    };
+
     public static X509Certificate2Collection Load(string path)
     {
         if (!File.Exists(path))
             throw new FileNotFoundException("localhost.p12", path);
-        // Schannel cannot serve TLS with an ephemeral PKCS#12 private key on Windows.
-        var storage = OperatingSystem.IsWindows() ? X509KeyStorageFlags.UserKeySet : X509KeyStorageFlags.EphemeralKeySet;
-        var certificates = X509CertificateLoader.LoadPkcs12CollectionFromFile(path, Password, storage);
+        var certificates = X509CertificateLoader.LoadPkcs12CollectionFromFile(path, Password,
+            KeyStorageFor(OperatingSystem.IsWindows(), OperatingSystem.IsMacOS()));
         var leaf = certificates.FirstOrDefault(c => c.HasPrivateKey);
         if (leaf is null || !string.Equals(leaf.GetNameInfo(X509NameType.DnsName, false), "localhost.cts.md",
                 StringComparison.OrdinalIgnoreCase) || leaf.NotAfter.ToUniversalTime() <= DateTime.UtcNow)

@@ -16,6 +16,8 @@
     <RootNamespace>MoldSign.Cli</RootNamespace>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsAotCompatible>true</IsAotCompatible>
+    <!-- LibraryImport (source-generated P/Invoke) needs unsafe code. -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <InvariantGlobalization>true</InvariantGlobalization>
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
   </PropertyGroup>

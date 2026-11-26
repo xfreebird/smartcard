@@ -7,7 +7,7 @@ ADB=os.environ.get('GUIDE_ADB',str(pathlib.Path.home()/'Library/Android/sdk/plat
 SERIAL=os.environ.get('GUIDE_ANDROID_SERIAL','emulator-5562')
 if not re.fullmatch(r'emulator-\d+', SERIAL): raise SystemExit('Choose an explicit Android emulator serial.')
 APK=ROOT/'android/app/build/outputs/apk/debug/app-debug.apk'
-OUT=ROOT/'website/static/img/guide'; XML=pathlib.Path('/tmp/esemnbun-android-guide-layouts'); XML.mkdir(exist_ok=True)
+OUT=ROOT/'website/static/img/guide'; XML=ROOT/'.local/guide-layouts/android'; XML.mkdir(parents=True, exist_ok=True, mode=0o700)
 STATES=[('connect','permission','sign',None,None,False),('sign','batch','sign',None,None,False),('format','documents','sign','format-menu',None,False),('stamp','documents','sign',None,None,True),('pin','pin','sign',None,None,False),('results','results','sign',None,None,False),('verify','verify-valid','verify',None,None,False),('certificate','verify-valid','verify',None,'certificate',False),('original','verify-xml-missing','verify',None,None,False),('documents','cards','activity',None,None,False),('details','cards','activity','document-details',None,False),('history','history-review','activity','history',None,False),('browser','cards','browser',None,None,False),('card','cards','card',None,None,False),('about','cards','sign','about',None,False)]
 STATES += [('sign-failure','sign-failure','sign',None,None,False),('sign-progress','documents','sign',None,None,False),('verify-invalid','verify-invalid','verify',None,None,False),('verify-unconfirmed','verify-unconfirmed','verify',None,None,False),('verify-none','verify-none','verify',None,None,False)]
 STATES += [('settings','cards','sign','settings',None,False)]
@@ -40,7 +40,7 @@ sh('am','force-stop','md.esemnbun.app')
 sh('run-as','md.esemnbun.app','mkdir','-p','cache/qa-capture','shared_prefs')
 run('push',ROOT/'android/core/build/pades-test/sample-signed.pdf','/data/local/tmp/esb-guide-signed.pdf')
 sh('run-as','md.esemnbun.app','cp','/data/local/tmp/esb-guide-signed.pdf','cache/qa-capture/signed.pdf')
-notice=pathlib.Path('/tmp/esb-guide-notice.xml');notice.write_text('<?xml version="1.0" encoding="utf-8"?><map><boolean name="independence_notice_v1" value="true" /></map>')
+notice=XML/'notice.xml';notice.write_text('<?xml version="1.0" encoding="utf-8"?><map><boolean name="independence_notice_v1" value="true" /></map>')
 run('push',notice,'/data/local/tmp/esb-guide-notice.xml');sh('run-as','md.esemnbun.app','cp','/data/local/tmp/esb-guide-notice.xml','shared_prefs/public_information.xml')
 # Let AppCompat complete its one-time stored-language migration before choosing
 # the first capture locale; migration can otherwise overwrite that first choice.

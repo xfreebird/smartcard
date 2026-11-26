@@ -125,9 +125,11 @@ final class CardWallet {
         onKeyPressed(keys) { [weak self] keyval, modifiers in self?.keyPressed(keyval, modifiers) ?? false }
         gtk_widget_add_controller(root, keys)
 
-        // the placeholders follow light/dark (the ID-card face has fixed colors)
+        // the placeholders follow light/dark (the ID-card face has fixed colors); the style manager outlives
+        // this wallet's widgets (card dialogs come and go), so the handler goes with them.
         if let manager = adw_style_manager_get_default() {
-            onSignal(manager, "notify::dark") { [weak self] _ in self?.placeholder.redraw() }
+            let handler = onSignal(manager, "notify::dark") { [weak self] _ in self?.placeholder.redraw() }
+            onSignal(root, "destroy") { g_signal_handler_disconnect(manager.raw, handler) }
         }
 
         onFrame(root) { [weak self] in self?.centerSelection() }

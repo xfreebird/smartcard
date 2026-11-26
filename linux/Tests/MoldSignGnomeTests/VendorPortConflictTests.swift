@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MoldSignGnome
 
-final class VendorPortConflictTests: XCTestCase {
+final class VendorPortConflictTests: GnomeTestCase {
     func testOnlyExactVendorJarIsRecognized() {
         func command(_ args: [String]) -> Data { Data((args.joined(separator: "\0") + "\0").utf8) }
         XCTAssertTrue(VendorPortConflict.isVendorServer(command(["java", "-jar", "/opt/MoldSign/lib/ClientCardServer-2.0.jar"])))

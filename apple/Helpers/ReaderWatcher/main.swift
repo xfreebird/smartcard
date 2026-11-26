@@ -30,59 +30,77 @@ let preferenceDomain: String = {
 let preferences = UserDefaults(suiteName: preferenceDomain) ?? .standard
 #endif
 let manager = mockPath == nil ? TKSmartCardSlotManager.default : nil
-var policy = ReaderInsertionPolicy()
-var lastOpen = Date.distantPast
+#if APP_STORE
+var monitor = ReaderInsertionMonitor(storeEdition: true)
+#else
+var monitor = ReaderInsertionMonitor(storeEdition: false)
+#endif
 
 func sample() {
     let current: [String: Bool]
     if let mockPath {
         guard let data = try? Data(contentsOf: URL(filePath: mockPath)),
-              let snapshot = try? JSONDecoder().decode([String: Bool].self, from: data) else { return }
+              let snapshot = ReaderInsertionMonitor.mockSnapshot(data) else { return }
         current = snapshot
     } else {
         guard let manager else { return }
         current = Dictionary(uniqueKeysWithValues: manager.slotNames.map { name in
-            let state = manager.slotNamed(name)?.state ?? .missing
-            return (name, state != .missing && state != .empty)
+            (name, ReaderInsertionMonitor.cardPresent(manager.slotNamed(name)?.state))
         })
     }
     preferences.synchronize()
-    #if APP_STORE
-    // Only monitor for activation once the containing app has published its mode.
-    let demo = preferences.object(forKey: "demoModeEnabled") as? Bool ?? true
-    #else
-    let demo = preferences.bool(forKey: "demoModeEnabled")
-    #endif
-    let inserted = policy.shouldOpen(for: current, demoMode: demo)
+    let demo = monitor.demoMode(stored: preferences.object(forKey: "demoModeEnabled"),
+                                flag: preferences.bool(forKey: "demoModeEnabled"))
+    let deliver = monitor.shouldDeliver(for: current, demoMode: demo, at: Date())
     #if DEBUG
     if mockPath != nil && demo {
         FileHandle.standardOutput.write(Data("MOCK_WATCHER_DEMO_SUPPRESSED\n".utf8))
     }
     #endif
-    guard inserted, Date().timeIntervalSince(lastOpen) > 1 else { return }
-    lastOpen = Date()
-    let configuration = NSWorkspace.OpenConfiguration()
-    configuration.activates = true
-    #if APP_STORE
-    // Launch Services delivers this URL on both cold launch and reopen.
-    NSWorkspace.shared.open([URL(string: "esemnbun-reader://inserted")!],
-                            withApplicationAt: app, configuration: configuration) { _, _ in }
-    #else
-    configuration.arguments = ["--show-main-window"]
+    guard deliver else { return }
+    // Only this bundle counts, not another installed edition. The mock fixture starts its own isolated
+    // instance unless a QA run explicitly targets the isolated instance it already launched.
     #if DEBUG
-    if mockPath != nil {
-        configuration.createsNewApplicationInstance = true
-        configuration.environment = ["MSIGN_DEMO_CARDS": "none", "MSIGN_DEMO_PREVIEW": "0", "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.helper"]
-    }
+    let detectsRunningApp = mockPath == nil || ProcessInfo.processInfo.environment["MSIGN_QA_HELPER_RUNNING_APP"] == "1"
+    #else
+    let detectsRunningApp = true
     #endif
-    NSWorkspace.shared.openApplication(at: app, configuration: configuration) { _, error in
+    let bundlePath = app.resolvingSymlinksInPath().path
+    let running = detectsRunningApp && NSRunningApplication.runningApplications(
+        withBundleIdentifier: Bundle(url: app)?.bundleIdentifier ?? "").contains { process in
+            !process.isTerminated && process.bundleURL?.resolvingSymlinksInPath().path == bundlePath
+        }
+    let delivery = monitor.delivery(appRunning: running)
+    let configuration = NSWorkspace.OpenConfiguration()
+    configuration.activates = delivery.activates
+    switch delivery.route {
+    case .readerURL:
+        // Launch Services delivers this URL on both cold launch and reopen.
+        NSWorkspace.shared.open([URL(string: "esemnbun-reader://inserted")!],
+                                withApplicationAt: app, configuration: configuration) { _, error in
+            #if DEBUG
+            if mockPath != nil {
+                let outcome = error == nil ? "MOCK_WATCHER_DELIVERED activates=\(delivery.activates)" : "MOCK_WATCHER_FAILED"
+                FileHandle.standardOutput.write(Data((outcome + "\n").utf8))
+            }
+            #endif
+        }
+    case .launchApplication:
+        configuration.arguments = ["--show-main-window"]
         #if DEBUG
         if mockPath != nil {
-            FileHandle.standardOutput.write(Data((error == nil ? "MOCK_WATCHER_OPENED\n" : "MOCK_WATCHER_FAILED\n").utf8))
+            configuration.createsNewApplicationInstance = true
+            configuration.environment = ["MSIGN_DEMO_CARDS": "none", "MSIGN_DEMO_PREVIEW": "0", "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.helper"]
         }
         #endif
+        NSWorkspace.shared.openApplication(at: app, configuration: configuration) { _, error in
+            #if DEBUG
+            if mockPath != nil {
+                FileHandle.standardOutput.write(Data((error == nil ? "MOCK_WATCHER_OPENED\n" : "MOCK_WATCHER_FAILED\n").utf8))
+            }
+            #endif
+        }
     }
-    #endif
 }
 sample()
 let timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in sample() }

@@ -2,7 +2,7 @@ import XCTest
 import MoldSignKit
 @testable import MoldSignGnome
 
-final class BridgeAuthorizationCoordinatorTests: XCTestCase {
+final class BridgeAuthorizationCoordinatorTests: GnomeTestCase {
     func testStoppedSessionIgnoresLateConsentAndNeverRequestsPin() {
         let coordinator = BridgeAuthorizationCoordinator()
         var reply: ((Bool, Bool) -> Void)?

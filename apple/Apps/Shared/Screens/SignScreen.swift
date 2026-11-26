@@ -303,7 +303,7 @@ struct SignScreen: View {
             #if os(iOS)
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
-                    Label(L10n.text(model.demoMode ? .demo_simulation_complete : .saved_signed), systemImage: "checkmark.circle.fill")
+                    Label(L10n.text(model.demoNotices.simulatedResults ? .demo_simulation_complete : .saved_signed), systemImage: "checkmark.circle.fill")
                         .font(.headline).foregroundStyle(.green)
                     Spacer(minLength: 8)
                     Button { model.lastSigned = [] } label: {
@@ -327,7 +327,7 @@ struct SignScreen: View {
                         .padding(12)
                         .background(.background, in: RoundedRectangle(cornerRadius: 12))
                 }
-                if model.demoMode { Text(L10n.text(.demo_output_notice)).font(.caption).foregroundStyle(.secondary) }
+                if model.demoNotices.simulatedResults { Text(L10n.text(.demo_output_notice)).font(.caption).foregroundStyle(.secondary) }
                 Text(L10n.text(.results_hint)).font(.footnote).foregroundStyle(.secondary)
                 Button(action: onOpenDocuments) {
                     Label(L10n.text(.results_documents), systemImage: "folder")
@@ -338,9 +338,9 @@ struct SignScreen: View {
             .background(Color.green.opacity(0.06), in: RoundedRectangle(cornerRadius: 20))
             .overlay(RoundedRectangle(cornerRadius: 20).strokeBorder(Color.green.opacity(0.18)))
             #else
-            if model.demoMode { Text(L10n.text(.demo_output_notice)).font(.callout).foregroundStyle(.secondary) }
+            if model.demoNotices.simulatedResults { Text(L10n.text(.demo_output_notice)).font(.callout).foregroundStyle(.secondary) }
             VStack(alignment: .leading, spacing: 12) {
-                Text(L10n.text(model.demoMode ? .demo_simulation_complete : .saved_signed)).font(.headline)
+                Text(L10n.text(model.demoNotices.simulatedResults ? .demo_simulation_complete : .saved_signed)).font(.headline)
                 ForEach(model.lastSigned, id: \.self) { url in SignedRow(url: url) }
             }
             #endif

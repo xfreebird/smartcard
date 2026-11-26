@@ -193,18 +193,19 @@ class SigningBridgeRoutesTest {
         val answer = CountDownLatch(1)
         val r = routes(Consent { _ ->
             asked.countDown()
-            answer.await(5, TimeUnit.SECONDS)
+            // Only the test releases the PIN sheet; the limit just keeps a broken run from hanging.
+            answer.await(60, TimeUnit.SECONDS)
             ConsentResult.Pin("1234".toCharArray())
         })
         val id = sessionOf(r.handle(request("POST", "/sign/data", body = signBody())))
         var response: BridgeResponse? = null
         val poller = Thread { response = r.handle(request("GET", "/sign/data/PKCS11/$id/Any")) }.apply { start() }
 
-        assertTrue(asked.await(5, TimeUnit.SECONDS))
+        assertTrue(asked.await(60, TimeUnit.SECONDS))
         poller.join(300)
         assertTrue("the poll is held while the PIN sheet is open", poller.isAlive)
         answer.countDown()
-        poller.join(5_000)
+        poller.join(60_000)
 
         assertEquals(200, response?.status)
     }

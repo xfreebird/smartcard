@@ -30,6 +30,8 @@ The localhost PKCS#12 import must stay in memory: persisting it in the login key
 
 Use the Gradle wrapper under `android/`, its pinned JDK/SDK requirements, `:core:test` and `:app:assembleDebug` for development. Release APK/AAB signing uses environment inputs in `scripts/package-android.sh`; never substitute a debug key. Keep the existing application ID and signing key. Check versionCode against uploaded bundles, not only active tracks.
 
+Android dependency verification is mandatory. Treat an unknown checksum as a dependency-review failure, not a reason to disable verification or regenerate hashes automatically. The dedicated `resolveDependencyVerification` task resolves app/test/compiler/lint artifacts and AAPT2 host classifiers without compiling the app. Refresh its metadata only for reviewed changes, then validate a clean-cache native build; resolution alone does not prove compilation or runtime compatibility.
+
 ## Windows
 
 Use `windows/global.json`, `Directory.Build.props`, and `windows/scripts/package-windows.ps1`. Portable tests can run elsewhere; WinUI/XAML compilation and installer/runtime validation require Windows. Respect x64/ARM64 and toolchain support for Native AOT. `windows/MoldSign.Portable.slnf` does not cover the app's UI.
@@ -43,3 +45,9 @@ Before size optimization, inventory compressed and unpacked package entries. The
 Read `linux/README.md` for GTK/libadwaita, PC/SC, OpenSSL and Secret Service requirements. Build in the intended guest/distribution and use `scripts/package-linux.sh`; don't assume a Mac portable build proves GTK integration. `scripts/test-portable-macos.sh` exercises OpenSSL/POSIX paths, not the Linux desktop UI. Live PKI tests are opt-in.
 
 Report artifact paths, commit/configuration, checks actually run, and unverified hardware/UI cases. Launching a previous installed app does not validate a new build.
+
+
+Android R8 follow-up: AGP 9.0.1 uses Gradle 9.1.0 and built-in Android Kotlin, aligned with the Kotlin/JVM/Compose compiler 2.2.10. Optimized resource shrinking is explicit; preserve Release minification and the Gradle distribution checksum. Validate the actual optimized Release app's resources and real reader/NFC/portal flows, then inspect its APK/AAB metadata. Debug journeys or dependency resolution do not establish that Play's uploaded-bundle advisory is cleared.
+
+
+Android Actions use the shared `scripts/ci/android_build_policy.py` preflight and artifact metadata gate. All four builders check the selected wrapper/daemon policy; secret-free CI also builds/lints an unsigned optimized Release bundle. Signed packaging checks before signing and records the final AAB hash with mapping/configuration under the existing artifact's `optimization/` directory. Keep those records in Actions evidence, preserve the public installer filter and do not treat artifact-only publishers as rebuilding old bundles. Hosted passes require an authorized push/run; local uncommitted wiring is not CI execution.

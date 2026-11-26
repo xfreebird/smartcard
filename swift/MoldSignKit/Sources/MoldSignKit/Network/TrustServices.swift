@@ -96,10 +96,10 @@ enum PlainHTTP {
             }
             if size == 0 { return out }
             let start = lineEnd.upperBound
-            guard data.distance(from: start, to: data.endIndex) >= size else { break }
+            // Chunk data plus its CRLF must be present; offsetting past endIndex would trap.
+            guard data.distance(from: start, to: data.endIndex) >= size + 2 else { break }
             out += data[start..<data.index(start, offsetBy: size)]
             pos = data.index(start, offsetBy: size + 2)
-            guard pos <= data.endIndex else { break }
         }
         throw TrustServices.NetworkError.transport(url, "truncated chunked body")
     }

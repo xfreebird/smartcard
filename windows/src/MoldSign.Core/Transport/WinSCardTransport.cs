@@ -67,7 +67,7 @@ public sealed class WinSCardTransport : ICardTransport
         }
         finally
         {
-            SCardReleaseContext(ctx);
+            _ = SCardReleaseContext(ctx);
         }
     }
 
@@ -94,7 +94,7 @@ public sealed class WinSCardTransport : ICardTransport
             {
                 var rv = SCardConnect(ctx, reader, SCARD_SHARE_SHARED, SCARD_PROTOCOL_T0 | SCARD_PROTOCOL_T1,
                                       out var card, out _);
-                if (rv == SCARD_S_SUCCESS) SCardDisconnect(card, SCARD_LEAVE_CARD);
+                if (rv == SCARD_S_SUCCESS) _ = SCardDisconnect(card, SCARD_LEAVE_CARD);
                 // A sharing violation means another process holds the card: it is present.
                 var present = rv == SCARD_S_SUCCESS || unchecked((uint)rv) == SCARD_E_SHARING_VIOLATION;
                 result.Add(new SmartCardReaderInfo(reader, present));
@@ -103,7 +103,7 @@ public sealed class WinSCardTransport : ICardTransport
         }
         finally
         {
-            SCardReleaseContext(ctx);
+            _ = SCardReleaseContext(ctx);
         }
     }
 
@@ -167,7 +167,7 @@ public sealed class WinSCardTransport : ICardTransport
         finally
         {
             foreach (var name in names) Marshal.FreeHGlobal(name);
-            SCardReleaseContext(ctx);
+            _ = SCardReleaseContext(ctx);
         }
     }
 
@@ -182,7 +182,7 @@ public sealed class WinSCardTransport : ICardTransport
             if (readers.Count == 0)
                 throw new CardException(CardErrorKind.NoReader, "No smart-card reader found");
 
-            IReadOnlyList<string> candidates = readers;
+            var candidates = readers;
             if (options.ReaderName is { } wanted)
             {
                 var match = readers.FirstOrDefault(r => string.Equals(r, wanted, StringComparison.Ordinal))
@@ -213,7 +213,7 @@ public sealed class WinSCardTransport : ICardTransport
                     }
                     catch
                     {
-                        SCardDisconnect(card, SCARD_LEAVE_CARD);
+                        _ = SCardDisconnect(card, SCARD_LEAVE_CARD);
                         throw; // the outer catch releases the context
                     }
                 }
@@ -224,7 +224,7 @@ public sealed class WinSCardTransport : ICardTransport
         }
         catch
         {
-            SCardReleaseContext(ctx);
+            _ = SCardReleaseContext(ctx);
             throw;
         }
     }
@@ -257,12 +257,12 @@ public sealed class WinSCardTransport : ICardTransport
     {
         if (_card != 0)
         {
-            SCardDisconnect(_card, SCARD_LEAVE_CARD);
+            _ = SCardDisconnect(_card, SCARD_LEAVE_CARD);
             _card = 0;
         }
         if (_context != 0)
         {
-            SCardReleaseContext(_context);
+            _ = SCardReleaseContext(_context);
             _context = 0;
         }
     }
@@ -304,7 +304,7 @@ public sealed class WinSCardTransport : ICardTransport
             .ToList();
     }
 
-    private static CardException Map(uint code, string call, bool noCardByDefault = false)
+    internal static CardException Map(uint code, string call, bool noCardByDefault = false)
     {
         var kind = code switch
         {

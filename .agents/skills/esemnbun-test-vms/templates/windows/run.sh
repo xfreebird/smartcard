@@ -3,7 +3,7 @@
 # INSTALL=1 attaches the Windows ISO + unattend ISO.
 cd "$(dirname "$0")"
 inst=()
-if [ -n "$INSTALL" ]; then
+if [[ -n "$INSTALL" ]]; then
   inst=(-drive if=none,id=inst,file=../images/Win11_ARM64_Pro_en-US.iso,media=cdrom,readonly=on -device usb-storage,drive=inst,bootindex=1
         -drive if=none,id=unatt,file=unattend.iso,media=cdrom,readonly=on -device usb-storage,drive=unatt)
 fi

@@ -8,7 +8,7 @@ final class MockWorkflowUITests: XCTestCase {
     func testSigningSuccessMixedFailureAndFatalStop() {
         for (scenario, outputs, queued) in [("sign-success", 2, 0), ("sign-mixed", 1, 1), ("sign-fatal", 0, 2)] {
             let app = launch(scenario)
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             let sign = app.buttons["sign.submit"].firstMatch
             XCTAssertTrue(sign.waitForPresence(timeout: 15))
             XCTAssertTrue(sign.isEnabled)
@@ -33,7 +33,7 @@ final class MockWorkflowUITests: XCTestCase {
 
     func testRemoveInputThroughItsMenuDoesNotSignAnything() {
         let app = launch("sign-success")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         expand(app)
         let options = app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch
         XCTAssertTrue(options.waitForPresence(timeout: 10))
@@ -49,7 +49,7 @@ final class MockWorkflowUITests: XCTestCase {
 
     func testChangingFormatThenRemovingBatch() {
         let app = launch("sign-success")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         let menu = app.buttons["sign.batchOptions"].firstMatch
         // Desktop and wide layouts expose per-file options when no collapsed group is needed.
         if menu.waitForPresence(timeout: 3) {
@@ -77,7 +77,7 @@ final class MockWorkflowUITests: XCTestCase {
 
     func testCancelStampDoesNotSignOrRemoveInputs() {
         let app = launch("sign-success")
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         expand(app)
         app.descendants(matching: .any)["sign.options.Sample-contract.pdf"].firstMatch.activateControl()
         let edit = app.descendants(matching: .any)["sign.editStamp"].firstMatch
@@ -96,7 +96,7 @@ final class MockWorkflowUITests: XCTestCase {
         let tab = "documents"
         #endif
         let app = launch("sign-success", fixture: "history-populated", tab: tab)
-        defer { app.terminate() }
+        defer { app.finishMockScenario() }
         openHistoryClear(in: app)
         let confirm = app.buttons["documents.confirmClear"].firstMatch
         XCTAssertTrue(confirm.waitForPresence(timeout: 5))
@@ -125,7 +125,7 @@ final class MockWorkflowUITests: XCTestCase {
     func testRefuseSingleAndBatchWebsiteConsent() {
         for fixture in ["consent", "consent-batch"] {
             let app = launch("sign-success", fixture: fixture)
-            defer { app.terminate() }
+            defer { app.finishMockScenario() }
             let refuse = app.buttons["consent.refuse"].firstMatch
             XCTAssertTrue(refuse.waitForPresence(timeout: 15)); refuse.activateControl()
             XCTAssertTrue(refuse.waitForNonExistence(timeout: 5))
@@ -155,11 +155,11 @@ final class MockWorkflowUITests: XCTestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [expectation], timeout: 15), .completed, message)
     }
     private func attach(_ app: XCUIApplication, name: String) {
-        let image = XCTAttachment(screenshot: app.screenshot()); image.name = name; image.lifetime = .keepAlways; add(image)
+        let image = XCTAttachment(screenshot: app.workspaceScreenshot()); image.name = name; image.lifetime = .keepAlways; add(image)
     }
     private func launch(_ scenario: String, fixture: String = "ready", tab: String = "sign") -> XCUIApplication {
         #if os(macOS)
-        let app = XCUIApplication(bundleIdentifier: "md.esemnbun.mac")
+        let app = makeMacTestApplication()
         #else
         let app = XCUIApplication(bundleIdentifier: "md.esemnbun.ios")
         XCUIDevice.shared.orientation = .portrait

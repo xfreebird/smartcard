@@ -12,7 +12,7 @@ final class SettingsNavigationUITests: XCTestCase {
             "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.settings.\(UUID())"]
         app.launchArguments = ["-appLanguage", "en", "-AppleLanguages", "(en)", "-appTheme", "light"]
         app.launch()
-        defer { app.terminate(); XCUIDevice.shared.orientation = .portrait }
+        defer { XCUIDevice.shared.orientation = .portrait }
         XCTAssertTrue(app.buttons["sign.pickFiles"].waitForPresence(timeout: 20))
         XCTAssertTrue(app.buttons["sign.pickFiles"].isHittable)
         XCTAssertTrue(app.buttons["signing.nfc.help"].isHittable)
@@ -72,7 +72,6 @@ final class SettingsNavigationUITests: XCTestCase {
         app.buttons["documents.protectFiles"].tapWhenReady()
         XCTAssertTrue(app.buttons["protect.chooseFile"].waitForPresence(timeout: 5))
         capture(app, "documents-direct-protection")
-        app.terminate()
         XCUIDevice.shared.orientation = .portrait
         app.launchEnvironment = ["MSIGN_QA_NO_HARDWARE": "1", "MSIGN_SCREENSHOT_CAPTURE": "1",
             "MSIGN_DEMO_PREFERENCES_SUITE": "md.esemnbun.qa.browser-authentication",

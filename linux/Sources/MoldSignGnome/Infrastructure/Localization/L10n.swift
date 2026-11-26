@@ -224,6 +224,7 @@ enum L10n {
         case ui_failed_value_value
         case ui_signing_with_the_card_of_value
         case linux_demo_mode
+        case linux_demo_mode_description
         case linux_keyring_unavailable
         case linux_verified_result
         case linux_pin_blocked
@@ -1544,6 +1545,11 @@ enum L10n {
     "ro": "Mod demonstrativ",
     "en": "Demo mode",
     "ru": "Демонстрационный режим"
+  },
+  "linux_demo_mode_description": {
+    "ro": "Încearcă eSemnBun într-o fereastră separată, fără cititor de carduri. Setările, documentele și PIN-urile salvate nu sunt folosite.",
+    "en": "Try eSemnBun in a separate window, without a card reader. Your settings, documents and saved PINs are not used.",
+    "ru": "Попробуйте eSemnBun в отдельном окне без считывателя карт. Ваши настройки, документы и сохранённые PIN-коды не используются."
   },
   "linux_keyring_unavailable": {
     "ro": "Serviciul de chei (GNOME Keyring) nu este disponibil",

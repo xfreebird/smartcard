@@ -16,9 +16,19 @@ import MoldSignKit
 /// TODO(LNX-08): block in SCardGetStatusChange on `\\?PnP?\Notification` + the reader list
 /// (INFINITE timeout, cancelled with SCardCancel) instead of polling, once the core exposes it.
 final class ReaderMonitor: CardMonitoring {
+    /// One reader as PC/SC reports it, without connecting.
+    struct Observation: Equatable {
+        let name: String
+        let cardPresent: Bool
+        let mute: Bool
+        let eventCount: Int
+    }
+
     /// Called on the GTK main thread, only when the snapshot changes.
     var onChange: ((ReaderSnapshot) -> Void)?
 
+    private let readerStates: () -> [Observation]
+    private let serviceAvailable: () -> Bool
     private let queue = DispatchQueue(label: "md.moldsign.reader-monitor")
     private var timer: DispatchSourceTimer?
     private var last: ReaderSnapshot?
@@ -26,6 +36,16 @@ final class ReaderMonitor: CardMonitoring {
     private var generations: [String: Int] = [:]
     private var present: [String: Bool] = [:]
     private var eventCounts: [String: Int] = [:]
+
+    init(readerStates: @escaping () -> [Observation] = {
+            PCSCTransport.readerStates().map {
+                Observation(name: $0.name, cardPresent: $0.cardPresent, mute: $0.mute, eventCount: $0.eventCount)
+            }
+         },
+         serviceAvailable: @escaping () -> Bool = PCSCTransport.isServiceAvailable) {
+        self.readerStates = readerStates
+        self.serviceAvailable = serviceAvailable
+    }
 
     func start(interval: DispatchTimeInterval = .seconds(1)) {
         guard timer == nil else { return }
@@ -50,7 +70,7 @@ final class ReaderMonitor: CardMonitoring {
     }
 
     private func poll() {
-        let states = PCSCTransport.readerStates()
+        let states = readerStates()
         for state in states {
             let wasPresent = present[state.name] ?? false
             let counterMoved = eventCounts[state.name].map { $0 != state.eventCount } ?? false
@@ -70,7 +90,7 @@ final class ReaderMonitor: CardMonitoring {
             let kind: ReaderSlot.State = !state.cardPresent ? .empty : (state.mute ? .mute : .card)
             return ReaderSlot(name: state.name, state: kind, generation: generations[state.name] ?? 0)
         })
-        if states.isEmpty { snapshot.serviceAvailable = PCSCTransport.isServiceAvailable() }
+        if states.isEmpty { snapshot.serviceAvailable = serviceAvailable() }
         guard snapshot != last else { return }
         last = snapshot
         onMain { [weak self] in self?.onChange?(snapshot) }

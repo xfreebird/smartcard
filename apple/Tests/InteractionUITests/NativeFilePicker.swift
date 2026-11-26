@@ -54,7 +54,9 @@ struct NativeFilePicker {
         // Do not snapshot a disappearing remote view. It can vanish after `exists`
         // succeeds, making snapshot() retry a stale element past the wait deadline.
         let dismissed = NSPredicate { _, _ in !self.app.filePicker.exists }
-        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: dismissed, object: nil)], timeout: 10), .completed)
+        // Presenting may take 30 s on a loaded CI simulator; closing the remote view can take as long.
+        XCTAssertEqual(XCTWaiter.wait(for: [XCTNSPredicateExpectation(predicate: dismissed, object: nil)], timeout: 30), .completed,
+                       "Files must close after its action")
     }
 
     private func openFolder(_ identifier: String) throws {

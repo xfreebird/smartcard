@@ -10,6 +10,13 @@ const publicRoot = new URL(baseURL, siteURL);
 const locales = ['en', 'ro', 'ru'];
 const discovery = JSON.parse(await readFile(new URL('../src/data/search-discovery.json', import.meta.url), 'utf8'));
 const routes = ['', 'docs/moldsign/', 'docs/platforms/windows/', 'docs/platforms/macos/', 'docs/platforms/linux/', 'docs/mcp-moldsign/'];
+const onPublicSite = value => {
+  try {
+    return new URL(value).origin === publicRoot.origin;
+  } catch {
+    return false;
+  }
+};
 const absolute = (locale, route = '') => new URL(`${locale === 'en' ? '' : `${locale}/`}${route}`, publicRoot).href;
 const readOutput = url => {
   const parsed = new URL(url);
@@ -20,7 +27,7 @@ const readOutput = url => {
 };
 const tags = (html, name) => [...html.matchAll(new RegExp(`<${name}\\b[^>]*>`, 'g'))].map(match => {
   const attrs = {};
-  for (const attr of match[0].matchAll(/([\w:-]+)="([^"]*)"/g)) attrs[attr[1]] = attr[2];
+  for (const attr of match[0].matchAll(/\s([\w:-]+)="([^"]*)"/g)) attrs[attr[1]] = attr[2];
   return attrs;
 });
 
@@ -48,7 +55,7 @@ for (const locale of locales) {
     for (const alternate of locales) assert.ok(links.some(t => t.rel === 'alternate' && t.hreflang === alternate && t.href === absolute(alternate, route)), `${locale}/${route}: incorrect ${alternate} alternate`);
     assert.ok(!tags(html, 'meta').some(t => t.name === 'robots' && /noindex/.test(t.content)), `${locale}/${route}: noindex`);
     assert.match(html, /MoldSign/);
-    assert.ok(tags(html, 'meta').some(t => t.property === 'og:image' && t.content?.startsWith(siteURL)), `${locale}/${route}: social image`);
+    assert.ok(tags(html, 'meta').some(t => t.property === 'og:image' && onPublicSite(t.content)), `${locale}/${route}: social image`);
     assert.ok(links.some(t => t.rel === 'alternate' && t.type === 'text/plain' && t.href === absolute(locale, 'llms.txt')), `${locale}/${route}: missing text discovery link`);
     assert.ok(links.some(t => t.rel === 'describedby' && t.href === absolute(locale, 'discovery.json')), `${locale}/${route}: missing JSON discovery link`);
     assert.ok(sitemap.includes(absolute(locale, route)), `${locale}/${route}: missing from sitemap`);
@@ -89,7 +96,7 @@ for (const locale of locales) {
     const prose = markdown.replace(/^```[^\n]*\n[\s\S]*?^```[ \t]*(?:\n|$)/gm, '');
     assert.equal((prose.match(/^# /gm) || []).length, 1, `Duplicate Markdown title: ${doc.id}`);
     assert.ok(markdown.includes(doc.url), `Missing source citation: ${doc.id}`);
-    assert.doesNotMatch(markdown, /^import |<Guide(?:Directory|AnchorRedirect)|pathname:\/\//m);
+    assert.doesNotMatch(markdown, /(?:^import )|(?:<Guide(?:Directory|AnchorRedirect))|(?:pathname:\/\/)/m);
     assert.ok(index.includes(doc.markdown) && index.includes(doc.url));
     assert.ok(full.includes(markdown), `Full text does not match: ${doc.id}`);
   }

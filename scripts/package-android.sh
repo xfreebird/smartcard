@@ -10,6 +10,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/dist/android"
+python3 "$ROOT/scripts/ci/android_build_policy.py" --verify-wrapper
 rm -rf "$OUT" && mkdir -p "$OUT"
 cd "$ROOT/android"
 VER="$(sed -n 's/^ *versionName *= *"\(.*\)".*/\1/p' app/build.gradle.kts | head -1)"
@@ -20,6 +21,8 @@ echo "▸ Gradle release build"
 
 APK_IN="$(ls app/build/outputs/apk/release/*.apk | head -1)"
 AAB_IN="$(ls app/build/outputs/bundle/release/*.aab | head -1)"
+# Fail before signing if the actual AAB lacks the selected AGP/R8 optimization.
+python3 "$ROOT/scripts/ci/android_build_policy.py" --aab "$AAB_IN"
 BT="$(ls -d "${ANDROID_HOME:-$HOME/Library/Android/sdk}"/build-tools/* | sort -V | tail -1)"
 
 if [[ -n "${ANDROID_KEYSTORE:-}" ]]; then
@@ -37,5 +40,13 @@ else
   rm "$OUT/$NAME-aligned.apk"
   cp "$AAB_IN" "$OUT/$NAME-unsigned.aab"
 fi
+# Retain retracing/build evidence with the exact signed AAB. Only APK/AAB files
+# are public Release assets; optimization evidence remains in Actions artifacts.
+mkdir -p "$OUT/optimization"
+cp app/build/outputs/mapping/release/mapping.txt "$OUT/optimization/"
+cp app/build/outputs/mapping/release/configuration.txt "$OUT/optimization/"
+FINAL_AAB=("$OUT"/*.aab)
+python3 "$ROOT/scripts/ci/android_build_policy.py" --aab "${FINAL_AAB[0]}" > "$OUT/optimization/build-policy.json"
+cat "$OUT/optimization/build-policy.json"
 "$BT/apksigner" verify --print-certs "$OUT"/*.apk | head -3
 echo "✔ $(ls "$OUT")"

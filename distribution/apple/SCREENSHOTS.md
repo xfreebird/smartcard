@@ -26,8 +26,10 @@ Use a current Debug application with presentation fixtures. The isolated capture
 The all-platform entry point is `python3 distribution/tools/create-store-screenshots.py --output /path/output`. Apple alone: `python3 distribution/tools/apple_capture_all.py --output /path/output`. It builds current SDK applications, chooses the latest installed stable iOS 26 runtime, creates task-owned simulators and deletes only those simulators after capture. Manifests record the exact runtime and SDK; iOS 18 captures are rejected so the real system Liquid Glass tab bar is retained.
 
 ```sh
-python3 distribution/tools/apple_capture.py --app /path/eSemnBun.app --device DISPOSABLE_SIMULATOR_UDID --family iphone --output /path/raw
-python3 distribution/tools/apple_capture.py --app /path/eSemnBun.app --device DISPOSABLE_SIMULATOR_UDID --family ipad --output /path/raw
+repo="$PWD"
+mkdir -p /path/raw
+(cd /path/raw && python3 "$repo/distribution/tools/apple_capture.py" --app /path/eSemnBun.app --device DISPOSABLE_SIMULATOR_UDID --family iphone)
+(cd /path/raw && python3 "$repo/distribution/tools/apple_capture.py" --app /path/eSemnBun.app --device DISPOSABLE_SIMULATOR_UDID --family ipad)
 python3 distribution/tools/apple_capture_macos.py --app /path/macOS/eSemnBun.app --output /path/raw
 python3 distribution/tools/apple_render.py --raw /path/raw --output /path/screenshots
 ```

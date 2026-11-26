@@ -35,7 +35,7 @@ export default function AgentConfigurator() {
    ['verify','Verify signatures','Offline checks; no card or PIN needed.'],
    ['approval','Sign with desktop approval','Review and approve each PDF in the native app.'],
    ['unattended','Sign unattended','An operator-provisioned credential and matching card are required.'],
-  ].map(([value,label,hint])=><label className={styles.mode} key={value}><input type="radio" name="agent-signing-mode" value={value} checked={settings.mode===value} onChange={()=>update('mode',value)}/><span><strong>{label}</strong><small>{hint}</small></span></label>)}</fieldset>
+  ].map(([value,label,hint])=><label className={styles.mode} key={value}><input type="radio" name="agent-signing-mode" value={value} checked={settings.mode===value} onChange={()=>update('mode',value)}/><span className={styles.modeLabel}>{label}<small>{hint}</small></span></label>)}</fieldset>
   {settings.client==='claude-desktop'&&settings.platform==='linux'&&<p className={styles.notice}>Confirm that your Claude Desktop build supports Linux before using this example. Otherwise choose a supported local client, such as Claude Code.</p>}
   <details className={styles.paths} open><summary>Paths on your computer</summary>
    {field('command','Installed MCP executable',settings.platform==='macos'?'Apple Silicon Homebrew example. Intel Homebrew commonly uses /usr/local/bin/esemnbun-mcp.':'Use the actual installed executable, not a shell command.')}

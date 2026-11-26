@@ -11,8 +11,13 @@ enum SharedDocumentInbox {
         let fm = FileManager.default
         guard let group = fm.containerURL(forSecurityApplicationGroupIdentifier: "group.md.esemnbun.shared"),
               let documents = fm.urls(for: .documentDirectory, in: .userDomainMask).first else { return [] }
-        let inbox = group.appendingPathComponent("ShareInbox", isDirectory: true)
-        let destination = documents.appendingPathComponent("Shared Imports", isDirectory: true)
+        return takeDocuments(from: group.appendingPathComponent("ShareInbox", isDirectory: true),
+                             into: documents.appendingPathComponent("Shared Imports", isDirectory: true))
+    }
+
+    /// Moves every delivery folder that carries a `.ready` marker from `inbox` into `destination` and
+    /// returns the files inside it. Incomplete deliveries stay where they are for a later launch.
+    static func takeDocuments(from inbox: URL, into destination: URL, fileManager fm: FileManager = .default) -> [URL] {
         guard let deliveries = try? fm.contentsOfDirectory(at: inbox, includingPropertiesForKeys: nil) else { return [] }
         var result: [URL] = []
         for delivery in deliveries where fm.fileExists(atPath: delivery.appendingPathComponent(".ready").path) {

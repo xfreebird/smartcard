@@ -113,7 +113,7 @@ final class ShortcutNavigation {
     }
     private func activate() {
         #if os(macOS)
-        NotificationCenter.default.post(name: .showInsertedCard, object: nil)
+        NotificationCenter.default.post(name: .showMainWindow, object: nil)
         #endif
     }
     /// A generation also protects preparation while a file provider copies its input.

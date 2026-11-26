@@ -30,7 +30,7 @@ jobs:
       android: ${{ steps.select.outputs.android }}
       windows: ${{ steps.select.outputs.windows }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with: { fetch-depth: 0 }
       - id: select
         run: python3 scripts/ci/select_jobs.py
@@ -39,6 +39,21 @@ jobs:
           python3 -m unittest discover -s scripts/ci -p 'test_*.py'
           python3 -m unittest discover -s scripts -p test_play_publish.py
           python3 scripts/check-journey-coverage.py
+  automation:
+    timeout-minutes: 25
+    name: Automation and publishing tools
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with: { persist-credentials: false }
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with: { python-version: '3.12' }
+      - name: Test automation scripts with their pinned dependencies
+        run: |
+          python -m pip install --only-binary=:all: --require-hashes -r scripts/requirements/sonar-coverage.txt -r scripts/requirements/store-publish.txt
+          for suite in scripts scripts/agents scripts/tests apple/Tests/Scripts; do
+            python -m unittest discover -s "$suite" -p 'test_*.py'
+          done
   localization:
     timeout-minutes: 10
     needs: changes
@@ -46,7 +61,7 @@ jobs:
     name: Shared localization exports
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: python3 scripts/localize.py --check --require-complete
       - run: python3 scripts/export-browser-services.py --check
       - run: python3 scripts/prepare-store-metadata.py --check
@@ -58,7 +73,9 @@ jobs:
     name: Swift core + CLI (macOS, Apple + portable backends)
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - name: Test (Apple frameworks)
         working-directory: swift/MoldSignKit
         run: swift test
@@ -76,21 +93,21 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
       - run: bash apple/scripts/require-siri-sdk.sh
       - name: Build mock-capable macOS app
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Debug -derivedDataPath "$RUNNER_TEMP/macos-build" CODE_SIGNING_ALLOWED=NO build
       - name: Application integration tests
         run: |
-          swift build --package-path apple --target DesignSystem
-          swift test --package-path apple
+          swift build --package-path apple --target DesignSystem --force-resolved-versions
+          swift test --package-path apple --force-resolved-versions
       - name: Native macOS mock UI journeys
         run: |
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/test-apple-ui.sh macos "$RUNNER_TEMP/macos-build/Build/Products/Debug/eSemnBun.app" "$RUNNER_TEMP/macos-ui"
       - name: macOS UI evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: macos-ui-${{ github.sha }}
           retention-days: 7
@@ -103,9 +120,8 @@ jobs:
       - run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme esemnbun-cli CODE_SIGN_IDENTITY=- build
 
   ios-app:
-    # Hosted native journeys run about 1.8x slower than local; retain all 35 cases.
-    # Two isolated jobs cap iOS execution at 90 runner minutes plus bounded cleanup.
-    timeout-minutes: 45
+    # On slow hosts both device families reached the verification suite before the old limit expired.
+    timeout-minutes: 65
     strategy:
       # Finish independent families so a phone host failure does not hide tablet results.
       fail-fast: false
@@ -120,7 +136,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         timeout-minutes: 2
       - name: Require iPhone Duo SDK
         timeout-minutes: 2
@@ -132,14 +148,15 @@ jobs:
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/prepare-ios-ui-resources.sh "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui-build"
       - name: Native iOS mock UI journeys
-        # Cold simulator startup is included; the outer job cap also includes compilation.
-        timeout-minutes: 40
+        # Cold simulator startup is included, and one rerun on an erased simulator after XCTest loses the app;
+        # the outer job cap also includes compilation.
+        timeout-minutes: 60
         run: |
           MSIGN_UI_SINGLE_SESSION=1 MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
       - name: iOS UI evidence
         if: always()
         timeout-minutes: 3
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: ios-ui-${{ matrix.family }}-${{ github.sha }}
           retention-days: 7
@@ -165,11 +182,12 @@ jobs:
       # Avoid the intermittent hosted-container resolver failure for Ubuntu archives.
       options: --dns 1.1.1.1 --dns 8.8.8.8
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - name: System libraries + packaging tools
         run: |
-          apt-get -o Acquire::Retries=3 update --error-on=any
-          apt-get -o Acquire::Retries=3 install -y --no-install-recommends pkg-config libpcsclite-dev libssl-dev \
+          bash scripts/ci/apt-install.sh pkg-config libpcsclite-dev libssl-dev \
             libpoppler-glib-dev libadwaita-1-dev libgtk-4-dev libsecret-1-dev \
             dpkg-dev debhelper rpm binutils desktop-file-utils appstream \
             python3-pyatspi gir1.2-atspi-2.0 dbus-x11 xvfb xauth xdotool
@@ -180,11 +198,14 @@ jobs:
         run: python3 scripts/test-mcp-process.py swift/MoldSignKit/.build/debug/esemnbun-mcp
       - name: GNOME app (debug, includes the MSIGN_DEMO_CARDS demo mode)
         working-directory: linux
-        run: swift build
+        run: swift build --force-resolved-versions
       - name: GNOME application integration tests
+        env:
+          GDK_BACKEND: x11
+          MSIGN_REQUIRE_DISPLAY: '1'
         run: |
           python3 scripts/ci/check-linux-design-system.py
-          swift test --package-path linux
+          xvfb-run -a -s "-screen 0 1440x1080x24" swift test --package-path linux --force-resolved-versions
       - name: Native GTK mock UI journeys
         env:
           GDK_BACKEND: x11
@@ -193,7 +214,7 @@ jobs:
         run: dbus-run-session -- xvfb-run -a -s "-screen 0 1440x1080x24" python3 linux/scripts/test-ui-journeys.py linux/.build/debug/esemnbun-gnome "$RUNNER_TEMP/linux-ui"
       - name: Linux UI evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: linux-ui-${{ github.sha }}
           retention-days: 7
@@ -203,7 +224,7 @@ jobs:
       # (LNX-07, LNX-15). The Flatpak bundle is skipped here: flatpak-builder needs a privileged container.
       - name: Packages
         run: scripts/package-linux.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-linux-${{ github.sha }}
           retention-days: 1
@@ -216,9 +237,14 @@ jobs:
     if: needs.changes.outputs.android == 'true'
     name: Android integration and mock UI
     runs-on: ubuntu-24.04
+    env:
+      # Maven Central rate-limits CI's shared addresses; android/settings.gradle.kts reads it through this mirror.
+      MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-java@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
+      - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
         with:
           distribution: temurin
           java-version: 17
@@ -227,8 +253,42 @@ jobs:
             android/**/*.gradle*
             android/gradle.properties
             android/gradle/wrapper/gradle-wrapper.properties
+            android/gradle/verification-metadata.xml
+            android/gradle/libs.versions.toml
+            android/gradle/gradle-daemon-jvm.properties
+            android/gradle/wrapper/gradle-wrapper.jar
+      # Maven Central rate-limits CI, so Gradle takes Robolectric's 151 MB framework jar only from a local Maven
+      # folder (ROBOLECTRIC_LOCAL_REPOSITORY in android/settings.gradle.kts), kept in the Actions cache.
+      - name: Locate the local Maven folder for Robolectric's Android framework jar
+        id: robolectric
+        run: |
+          scripts/ci/robolectric-cache.sh outputs >> "$GITHUB_OUTPUT"
+          scripts/ci/robolectric-cache.sh outputs | sed -n 's/^path=/ROBOLECTRIC_LOCAL_REPOSITORY=/p' >> "$GITHUB_ENV"
+      - name: Restore Robolectric's Android framework jar
+        id: robolectric-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.robolectric.outputs.path }}
+          key: robolectric-repository-${{ steps.robolectric.outputs.version }}
+      - name: Check the jar's pinned SHA-256, downloading it with backoff if the cache missed
+        run: scripts/ci/robolectric-cache.sh seed
+      - name: Save Robolectric's Android framework jar
+        if: steps.robolectric-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.robolectric.outputs.path }}
+          key: robolectric-repository-${{ steps.robolectric.outputs.version }}
+      - name: Require selected Android toolchain and optimization policy
+        run: |
+          python3 scripts/ci/android_build_policy.py --verify-wrapper > "$RUNNER_TEMP/android-toolchain.json"
+          cat "$RUNNER_TEMP/android-toolchain.json"
       - name: Build and test Android (bounded dependency-download retries)
         run: scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :core:test :transport-usb:testDebugUnitTest :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest
+      - name: Validate optimized unsigned Release (no signing or publishing)
+        run: |
+          scripts/gradle-ci.sh --no-daemon -Pkotlin.compiler.execution.strategy=in-process :app:assembleRelease :app:bundleRelease :app:lintRelease
+          python3 scripts/ci/android_build_policy.py --aab android/app/build/outputs/bundle/release/app-release.aab > "$RUNNER_TEMP/android-release-optimization.json"
+          cat "$RUNNER_TEMP/android-release-optimization.json"
       - run: python3 scripts/check-android-abis.py android/app/build/outputs/apk/debug/app-debug.apk
       - name: Enable KVM for the test emulator
         run: |
@@ -246,7 +306,7 @@ jobs:
           sudo rm -rf /usr/share/dotnet
           df -h "$HOME"
       - name: Native Android mock UI journeys
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: reactivecircus/android-emulator-runner@a421e43855164a8197daf9d8d40fe71c6996bb0d # v2
         with:
           api-level: 36
           # Native mock journeys do not need Google Play services or first-boot updates.
@@ -263,7 +323,7 @@ jobs:
             bash android/scripts/test-journeys.sh emulator-5554 android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk "$RUNNER_TEMP/android-ui"
       - name: Android test evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: android-tests-${{ github.sha }}
           retention-days: 7
@@ -271,6 +331,9 @@ jobs:
             ${{ runner.temp }}/android-ui/
             ${{ runner.temp }}/android-ui-boot/
             android/**/build/test-results/
+            android/app/build/outputs/mapping/release/
+            ${{ runner.temp }}/android-toolchain.json
+            ${{ runner.temp }}/android-release-optimization.json
           if-no-files-found: warn
 
   windows:
@@ -285,8 +348,11 @@ jobs:
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        shell: bash
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
           global-json-file: windows/global.json
           cache: true
@@ -333,7 +399,7 @@ jobs:
           & windows/scripts/test-insertion-helper.ps1 -App $app -Helper $helper -Output "$env:RUNNER_TEMP/windows-ui-helper"
       - name: Windows UI evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: windows-ui-${{ github.sha }}
           retention-days: 7
@@ -342,7 +408,7 @@ jobs:
       - name: Package (Native AOT CLI, WinUI app, MSI, MSIX, winget manifests)
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: esemnbun-windows-x64
           retention-days: 1
@@ -356,7 +422,7 @@ jobs:
   result:
     name: CI result
     if: always()
-    needs: [changes, localization, swift-macos, apple-apps, ios-app, linux, android, windows]
+    needs: [changes, automation, localization, swift-macos, apple-apps, ios-app, linux, android, windows]
     runs-on: ubuntu-latest
     steps:
       - name: Require selected checks to succeed

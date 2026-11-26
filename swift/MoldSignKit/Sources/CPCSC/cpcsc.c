@@ -1,5 +1,6 @@
 #include "cpcsc.h"
 #include <string.h>
+#include <limits.h>
 
 #if defined(__APPLE__)
 #include <TargetConditionals.h>
@@ -140,33 +141,36 @@ static int32_t evp_aes(int encrypt, const EVP_CIPHER *cipher, const uint8_t *key
 }
 
 int32_t c_aes256_ecb_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t *in, uint8_t *out) {
-    (void)key_len;
+    if (!key || key_len != 32 || !in || !out) return -1;
     return evp_aes(1, EVP_aes_256_ecb(), key, NULL, in, 16, out, NULL);
 }
 
 int32_t c_aes256_cbc_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t *iv, const uint8_t *in, uint32_t in_len, uint8_t *out, uint32_t *out_len) {
-    (void)key_len;
+    if (!key || key_len != 32 || !iv || (in_len && !in) || !out || !out_len ||
+        in_len % 16 || in_len > INT_MAX || *out_len < in_len) return -1;
     return evp_aes(1, EVP_aes_256_cbc(), key, iv, in, in_len, out, out_len);
 }
 
 int32_t c_aes256_cbc_decrypt(const uint8_t *key, uint32_t key_len, const uint8_t *iv, const uint8_t *in, uint32_t in_len, uint8_t *out, uint32_t *out_len) {
-    (void)key_len;
+    if (!key || key_len != 32 || !iv || (in_len && !in) || !out || !out_len ||
+        in_len % 16 || in_len > INT_MAX || *out_len < in_len) return -1;
     return evp_aes(0, EVP_aes_256_cbc(), key, iv, in, in_len, out, out_len);
 }
 
-static void aes_block(const uint8_t *key, uint32_t key_len, const uint8_t in[16], uint8_t out[16]) {
-    c_aes256_ecb_encrypt(key, key_len, in, out);
-}
+
 
 #else
 
 int32_t c_aes256_ecb_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t *in, uint8_t *out) {
+    if (!key || key_len != 32 || !in || !out) return -1;
     size_t outLen = 16;
     return CCCrypt(kCCEncrypt, kCCAlgorithmAES, kCCOptionECBMode,
                     key, key_len, NULL, in, 16, out, 16, &outLen);
 }
 
 int32_t c_aes256_cbc_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t *iv, const uint8_t *in, uint32_t in_len, uint8_t *out, uint32_t *out_len) {
+    if (!key || key_len != 32 || !iv || (in_len && !in) || !out || !out_len ||
+        in_len % 16 || in_len > INT_MAX || *out_len < in_len) return -1;
     size_t moved = 0;
     CCCryptorStatus st = CCCrypt(kCCEncrypt, kCCAlgorithmAES, 0,
                     key, key_len, iv, in, in_len, out, *out_len, &moved);
@@ -175,6 +179,8 @@ int32_t c_aes256_cbc_encrypt(const uint8_t *key, uint32_t key_len, const uint8_t
 }
 
 int32_t c_aes256_cbc_decrypt(const uint8_t *key, uint32_t key_len, const uint8_t *iv, const uint8_t *in, uint32_t in_len, uint8_t *out, uint32_t *out_len) {
+    if (!key || key_len != 32 || !iv || (in_len && !in) || !out || !out_len ||
+        in_len % 16 || in_len > INT_MAX || *out_len < in_len) return -1;
     size_t moved = 0;
     CCCryptorStatus st = CCCrypt(kCCDecrypt, kCCAlgorithmAES, 0,
                     key, key_len, iv, in, in_len, out, *out_len, &moved);
@@ -182,20 +188,26 @@ int32_t c_aes256_cbc_decrypt(const uint8_t *key, uint32_t key_len, const uint8_t
     return st;
 }
 
-static void aes_block(const uint8_t *key, uint32_t key_len, const uint8_t in[16], uint8_t out[16]) {
-    size_t outLen;
-    CCCrypt(kCCEncrypt, kCCAlgorithmAES, kCCOptionECBMode, key, key_len, NULL, in, 16, out, 16, &outLen);
-}
+
 
 #endif
 
 // MARK: - AES-CMAC (RFC 4493), backend-independent
 
-void c_aes256_cmac(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uint32_t msg_len, uint8_t *out) {
+int32_t c_aes256_cmac(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uint32_t msg_len, uint8_t *out) {
+    return c_aes256_cmac_with_block(key, key_len, msg, msg_len, out, c_aes256_ecb_encrypt);
+}
+
+int32_t c_aes256_cmac_with_block(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uint32_t msg_len,
+                                uint8_t *out, c_aes_block_encryptor encrypt) {
+    if (!out) return -1;
+    memset(out, 0, 16);
+    if (!key || key_len != 32 || (msg_len && !msg) || !encrypt) return -1;
     uint8_t zero[16] = {0}, L[16], K1[16], K2[16], X[16] = {0}, Y[16], M_last[16];
 
     // L = AES(K, 0^128) — use separate buffers!
-    aes_block(key, key_len, zero, L);
+    int32_t status = encrypt(key, key_len, zero, L);
+    if (status != 0) return status;
 
     // K1 = L << 1 (with R128 reduction)
     for (int i = 0; i < 15; i++) K1[i] = (L[i] << 1) | (L[i+1] >> 7);
@@ -207,7 +219,7 @@ void c_aes256_cmac(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uin
     K2[15] = K1[15] << 1;
     if (K1[0] & 0x80) K2[15] ^= 0x87;
 
-    uint32_t n = (msg_len + 15) / 16;
+    uint32_t n = msg_len / 16 + (msg_len % 16 != 0);
     if (n == 0) n = 1;
 
     int last_complete = (msg_len > 0 && msg_len % 16 == 0);
@@ -224,11 +236,14 @@ void c_aes256_cmac(const uint8_t *key, uint32_t key_len, const uint8_t *msg, uin
 
     for (uint32_t i = 0; i < n - 1; i++) {
         for (int j = 0; j < 16; j++) Y[j] = X[j] ^ msg[i*16 + j];
-        aes_block(key, key_len, Y, X);
+        status = encrypt(key, key_len, Y, X);
+        if (status != 0) return status;
     }
 
     for (int j = 0; j < 16; j++) Y[j] = X[j] ^ M_last[j];
-    aes_block(key, key_len, Y, out);
+    status = encrypt(key, key_len, Y, out);
+    if (status != 0) memset(out, 0, 16);
+    return status;
 }
 
 // MARK: - OpenSSL helpers (digests, RSA verify, TLS server)

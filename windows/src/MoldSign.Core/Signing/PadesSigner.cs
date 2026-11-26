@@ -27,31 +27,34 @@ public sealed class PadesSigner
     public byte[] Sign(byte[] pdf, byte[] certificateDer, Func<byte[], byte[]> signDigestInfo, PdfStampPlacement? placement = null)
     {
         ArgumentNullException.ThrowIfNull(pdf);
+        DocumentRegex.CheckLength(pdf.Length);
         ArgumentNullException.ThrowIfNull(signDigestInfo);
         if (placement?.DocumentSHA256 is { } expected && !string.Equals(expected, Convert.ToHexString(SHA256.HashData(pdf)), StringComparison.OrdinalIgnoreCase))
             throw Format("The PDF changed after stamp placement. Open the preview again");
+        using var processing = DocumentRegex.BeginProcessing();
         var signingDate = DateTimeOffset.Now;
+        DocumentRegex.CheckLength(pdf.Length);
         var text = Encoding.Latin1.GetString(pdf);
         if (!text.StartsWith("%PDF-", StringComparison.Ordinal)) throw Format("Not a PDF");
-        if (Regex.IsMatch(text, @"/Encrypt\b")) throw Format("Encrypted PDFs are not supported");
+        if (DocumentRegex.IsMatch(text, @"/Encrypt\b")) throw Format("Encrypted PDFs are not supported");
         var end = text.LastIndexOf("%%EOF", StringComparison.Ordinal);
         var start = text.LastIndexOf("startxref", StringComparison.Ordinal);
         if (end < 0 || start < 0 || start > end ||
             !long.TryParse(text[(start + 9)..end].Trim(), NumberStyles.None, CultureInfo.InvariantCulture, out var previousXref))
             throw Format("Cannot find the PDF trailer");
-        var roots = Regex.Matches(text, @"/Root\s+(\d+)\s+0\s+R\b");
+        var roots = DocumentRegex.Matches(text, @"/Root\s+(\d+)\s+0\s+R\b");
         if (roots.Count == 0) throw Format("No uncompressed PDF root (object streams are not supported)");
         var root = int.Parse(roots[^1].Groups[1].Value, CultureInfo.InvariantCulture);
         var catalog = ObjectDictionary(text, root);
-        var objects = Regex.Matches(text, @"(?<!\d)(\d+)\s+0\s+obj\b");
+        var objects = DocumentRegex.Matches(text, @"(?<!\d)(\d+)\s+0\s+obj\b");
         var max = objects.Max(m => int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture));
-        var declaredSizes = Regex.Matches(text, @"/Size\s+(\d+)\b");
+        var declaredSizes = DocumentRegex.Matches(text, @"/Size\s+(\d+)\b");
         if (declaredSizes.Count > 0)
             max = Math.Max(max, declaredSizes.Max(m => int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture)) - 1);
         var sig = checked(max + 1);
         var acro = checked(max + 2);
         var field = checked(max + 3);
-        var names = Regex.Matches(text, @"/T\s*\(\s*Signature(\d+)");
+        var names = DocumentRegex.Matches(text, @"/T\s*\(\s*Signature(\d+)");
         var next = names.Count == 0 ? 1 : names.Max(m => int.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture)) + 1;
         const int reserve = 37960;
         const string dummy = "/ByteRange [0 0000000000 0000000000 0000000000 ]";
@@ -61,7 +64,7 @@ public sealed class PadesSigner
             $"/Contents<{new string('0', reserve)}> /M({date}) /Reason(MoldSign Signature) /Location(Moldova) " +
             "/ContactInfo() /Prop_Build<</App<</Name/>>>> >>"));
         chunks.Add((field, $"<< /FT/Sig /T(Signature{next}) /Type/Annot /Subtype/Widget /Rect[0 0 0 0] /F 0 /V {sig} 0 R >>"));
-        var existing = Regex.Match(catalog, @"/AcroForm\s+(\d+)\s+0\s+R\b");
+        var existing = DocumentRegex.Match(catalog, @"/AcroForm\s+(\d+)\s+0\s+R\b");
         string? acroDictionary = null;
         if (existing.Success)
         {
@@ -70,25 +73,25 @@ public sealed class PadesSigner
         }
         else
         {
-            var inline = Regex.Match(catalog, @"/AcroForm\s*(?=<<)");
+            var inline = DocumentRegex.Match(catalog, @"/AcroForm\s*(?=<<)");
             if (inline.Success)
             {
                 var at = inline.Index + inline.Length;
                 acroDictionary = ReadDictionary(catalog, at);
                 catalog = catalog[..inline.Index] + $"/AcroForm {acro} 0 R " + catalog[(at + acroDictionary.Length)..];
             }
-            else if (Regex.IsMatch(catalog, @"/AcroForm\b"))
+            else if (DocumentRegex.IsMatch(catalog, @"/AcroForm\b"))
                 throw Format("Unsupported AcroForm reference");
         }
         if (acroDictionary is not null)
         {
             acroDictionary = StampPdf.AppendSignatureField(text, acroDictionary, field);
-            var flags = Regex.Match(acroDictionary, @"/SigFlags\s+(\d+)\b");
+            var flags = DocumentRegex.Match(acroDictionary, @"/SigFlags\s+(\d+)\b");
             if (flags.Success)
                 acroDictionary = acroDictionary[..flags.Index] +
                     FormattableString.Invariant($"/SigFlags {int.Parse(flags.Groups[1].Value, CultureInfo.InvariantCulture) | 3}") +
                     acroDictionary[(flags.Index + flags.Length)..];
-            else if (!Regex.IsMatch(acroDictionary, @"/SigFlags\b")) acroDictionary = Insert(acroDictionary, "/SigFlags 3");
+            else if (!DocumentRegex.IsMatch(acroDictionary, @"/SigFlags\b")) acroDictionary = Insert(acroDictionary, "/SigFlags 3");
         }
         else
         {
@@ -98,7 +101,7 @@ public sealed class PadesSigner
         chunks.Add((acro, acroDictionary));
         if (!existing.Success)
         {
-            if (!Regex.IsMatch(catalog, @"/Extensions\b"))
+            if (!DocumentRegex.IsMatch(catalog, @"/Extensions\b"))
                 catalog = Insert(catalog, "/Extensions<</ESIC<</BaseVersion/1.7/ExtensionLevel 2>>>>");
             chunks.Add((root, catalog));
         }
@@ -121,8 +124,8 @@ public sealed class PadesSigner
         append.Append("xref\n0 1\n0000000000 65535 f \n");
         foreach (var (number, offset) in offsets.OrderBy(o => o.Number))
             append.Append(CultureInfo.InvariantCulture, $"{number} 1\n{offset:D10} 00000 n \n");
-        var ids = Regex.Matches(text, @"/ID\s*\[\s*<[0-9A-Fa-f]+>\s*<[0-9A-Fa-f]+>\s*\]");
-        var infos = Regex.Matches(text, @"/Info\s+\d+\s+\d+\s+R\b");
+        var ids = DocumentRegex.Matches(text, @"/ID\s*\[\s*<[0-9A-Fa-f]+>\s*<[0-9A-Fa-f]+>\s*\]");
+        var infos = DocumentRegex.Matches(text, @"/Info\s+\d+\s+\d+\s+R\b");
         append.Append(CultureInfo.InvariantCulture, $"trailer\n<</Size {nextObject} /Root {root} 0 R /Prev {previousXref} ");
         if (ids.Count > 0) append.Append(ids[^1].Value);
         if (infos.Count > 0) append.Append(' ').Append(infos[^1].Value);
@@ -179,7 +182,7 @@ public sealed class PadesSigner
     private static string Insert(string dictionary, string entries) => dictionary[..^2] + " " + entries + " >>";
     private static string ObjectDictionary(string text, int number)
     {
-        var matches = Regex.Matches(text, FormattableString.Invariant($@"(?<!\d){number}\s+0\s+obj\b"));
+        var matches = DocumentRegex.Matches(text, FormattableString.Invariant($@"(?<!\d){number}\s+0\s+obj\b"));
         if (matches.Count == 0) throw Format("PDF dictionary is compressed or missing");
         var at = matches[^1].Index + matches[^1].Length;
         while (at < text.Length && char.IsWhiteSpace(text[at])) at++;

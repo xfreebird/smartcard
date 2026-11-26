@@ -42,7 +42,7 @@ private final class SimulatedCard: CardTransport {
             body += Data([0x87, 0x81, UInt8(ct.count + 1), 0x01]) + ct
         }
         body += Data([0x99, 0x02, 0x90, 0x00])
-        let tag = AES.cmac(key: mac, message: AES.iso9797Pad(ssc + body)).prefix(8)
+        let tag = try! AES.cmac(key: mac, message: AES.iso9797Pad(ssc + body)).prefix(8)
         return body + Data([0x8E, 0x08]) + tag + Data([0x90, 0x00])
     }
 }

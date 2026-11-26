@@ -3,7 +3,7 @@
 import pathlib,subprocess,time,re,json,hashlib,xml.etree.ElementTree as ET,io
 from PIL import Image
 ROOT=pathlib.Path(__file__).resolve().parents[2];ADB=str(pathlib.Path.home()/'Library/Android/sdk/platform-tools/adb');S='emulator-5562'
-XML=pathlib.Path('/tmp/esemnbun-android-guide-layouts');EVIDENCE=ROOT/'docs/user-guide/android-evidence.json'
+XML=ROOT/'.local/guide-layouts/android';EVIDENCE=ROOT/'docs/user-guide/android-evidence.json'
 def run(*a):return subprocess.check_output([ADB,'-s',S,*map(str,a)],timeout=60,stderr=subprocess.STDOUT)
 def sh(*a):return run('shell',*a)
 def layout():

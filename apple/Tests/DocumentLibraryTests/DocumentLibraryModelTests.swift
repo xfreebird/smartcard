@@ -64,4 +64,53 @@ final class DocumentLibraryModelTests: XCTestCase {
         XCTAssertEqual(try Data(contentsOf: otherURL), Data("keep".utf8))
         XCTAssertTrue(store.loadOrMigrateDocuments().isEmpty)
     }
+
+    @MainActor
+    func testRecentsListExistingFilesUntilClearedAndPruningDropsMissingOnes() throws {
+        let suite = "md.esemnbun.qa.recents.\(UUID().uuidString)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        defer {
+            defaults.removePersistentDomain(forName: suite)
+            try? FileManager.default.removeItem(at: directory)
+        }
+        let present = directory.appendingPathComponent("present-semnat.pdf")
+        try Data("%PDF".utf8).write(to: present)
+        let model = DocumentLibraryModel(store: PreferencesActivityStore(defaults: defaults)) {}
+        model.log(ActivityItem(title: "present-semnat.pdf", subtitle: "", ok: true, fileURL: present, signedOutput: true))
+        model.log(ActivityItem(title: "gone.pdf", subtitle: "", ok: true,
+                               fileURL: directory.appendingPathComponent("gone.pdf"), signedOutput: true))
+        model.log(ActivityItem(title: "portal request", subtitle: "", ok: true))
+
+        XCTAssertEqual(model.recentDocuments.map(\.title), ["present-semnat.pdf"])
+        model.pruneMissingFiles()
+        XCTAssertEqual(model.activity.map(\.title), ["portal request", "present-semnat.pdf"])
+        model.pruneMissingFiles()
+        XCTAssertEqual(model.activity.count, 2)
+
+        model.clearRecents()
+        XCTAssertTrue(model.recentDocuments.isEmpty, "clearing recents keeps the history")
+        XCTAssertEqual(model.activity.count, 2)
+        let relaunched = DocumentLibraryModel(store: PreferencesActivityStore(defaults: defaults)) {}
+        XCTAssertEqual(relaunched.recentsClearedAt, model.recentsClearedAt)
+        XCTAssertTrue(relaunched.recentDocuments.isEmpty)
+        XCTAssertEqual(relaunched.activity.map(\.title), ["portal request", "present-semnat.pdf"])
+    }
+
+    @MainActor
+    func testDeletingAnAlreadyRemovedSavedFileForgetsIt() {
+        let store = MemoryActivityStore()
+        var changes = 0
+        let model = DocumentLibraryModel(store: store) { changes += 1 }
+        let missing = ActivityItem(title: "moved-semnat.pdf", subtitle: "", ok: true,
+                                   fileURL: FileManager.default.temporaryDirectory.appendingPathComponent("\(UUID().uuidString).pdf"),
+                                   signedOutput: true)
+        model.log(missing)
+        XCTAssertEqual(model.savedDocuments, [missing])
+        XCTAssertTrue(model.deleteSavedDocuments([missing]))
+        XCTAssertTrue(model.savedDocuments.isEmpty)
+        XCTAssertEqual(store.loadOrMigrateDocuments(), [])
+        XCTAssertEqual(changes, 2)
+    }
 }

@@ -29,7 +29,7 @@ class CryptoTests: XCTestCase {
 
         let plain = rndIFD + snIFD + rndICC + snICC + kIFD
         let ct = try kenc.cbcEncrypt(plain, iv: Data(repeating: 0, count: 16))
-        let mac = AES.cmac(key: kmac, message: ct)
+        let mac = try AES.cmac(key: kmac, message: ct)
 
         // CBC encryption verified against middleware capture
         XCTAssertEqual(ct.hexString,
@@ -51,7 +51,7 @@ class CryptoTests: XCTestCase {
         let respMAC = fullResponse.suffix(16)  // MAC
 
         // CMAC of the 80-byte ciphertext (verified with openssl)
-        let calcMAC = AES.cmac(key: kmac, message: respCT)
+        let calcMAC = try AES.cmac(key: kmac, message: respCT)
         XCTAssertEqual(calcMAC.hexString, respMAC.hexString)
 
         // Decrypt: first 16 bytes should be the session's challenge

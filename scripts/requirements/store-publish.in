@@ -1,0 +1,4 @@
+# Resolve with CPython 3.12 for the Ubuntu x86_64 publisher jobs, wheel-only.
+requests==2.34.2
+PyJWT==2.15.1
+cryptography==50.0.2

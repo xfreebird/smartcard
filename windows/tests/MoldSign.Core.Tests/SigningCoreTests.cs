@@ -5,12 +5,22 @@ using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace MoldSign.Core.Tests;
 
-public sealed class SigningCoreTests
+public sealed partial class SigningCoreTests
 {
+    [GeneratedRegex(@"/Root\s+(\d+)\s+0\s+R")] private static partial Regex RootReference();
+    [GeneratedRegex(@"/AcroForm\s+(\d+)\s+0\s+R")] private static partial Regex AcroFormReference();
+    [GeneratedRegex(@"/Size\s+(\d+)")] private static partial Regex TrailerSize();
+    [GeneratedRegex(@"startxref\s+(\d+)")] private static partial Regex StartXref();
+    [GeneratedRegex(@"/Fields\s*(\[[^\]]*\])")] private static partial Regex FieldsArray();
+    [GeneratedRegex(@"/Fields\s*\[([^\]]*)\]")] private static partial Regex FieldsArrayContent();
+    [GeneratedRegex(@"/Contents<([a-f0-9]+)>")] private static partial Regex SignatureContents();
+    [GeneratedRegex(@"/ByteRange \[0 (\d+) (\d+) (\d+) \]")] private static partial Regex SignedByteRange();
+
     [Fact]
     public void Counter_signing_resolves_indirect_fields_and_preserves_existing_signature()
     {
@@ -19,13 +29,13 @@ public sealed class SigningCoreTests
         var signer = new PadesSigner(pki.Trust);
         var first = signer.Sign(MinimalPdf(), identity.Certificate, identity.Sign);
         var text = Encoding.Latin1.GetString(first);
-        int Last(string pattern) => int.Parse(System.Text.RegularExpressions.Regex.Matches(text, pattern)[^1].Groups[1].Value,
+        int Last(Regex pattern) => int.Parse(pattern.Matches(text)[^1].Groups[1].Value,
             System.Globalization.CultureInfo.InvariantCulture);
-        var root = Last(@"/Root\s+(\d+)\s+0\s+R");
-        var acro = Last(@"/AcroForm\s+(\d+)\s+0\s+R");
-        var array = Last(@"/Size\s+(\d+)");
-        var previous = Last(@"startxref\s+(\d+)");
-        var fields = System.Text.RegularExpressions.Regex.Matches(text, @"/Fields\s*(\[[^\]]*\])")[^1].Groups[1].Value;
+        var root = Last(RootReference());
+        var acro = Last(AcroFormReference());
+        var array = Last(TrailerSize());
+        var previous = Last(StartXref());
+        var fields = FieldsArray().Matches(text)[^1].Groups[1].Value;
         var form = $"{acro} 0 obj\n<< /Fields {array} 0 R /SigFlags 3 >>\nendobj\n";
         var arrayObject = $"{array} 0 obj\n{fields}\nendobj\n";
         var xref = first.Length + form.Length + arrayObject.Length;
@@ -36,10 +46,10 @@ public sealed class SigningCoreTests
         var indirect = first.Concat(Encoding.Latin1.GetBytes(revision)).ToArray();
         var second = signer.Sign(indirect, identity.Certificate, identity.Sign);
         Assert.Equal(indirect, second[..indirect.Length]);
-        var reports = new Validator().ValidatePdf(second);
+        var reports = Validator.ValidatePdf(second);
         Assert.Equal(2, reports.Count);
         Assert.All(reports, report => { Assert.True(report.ContentIntact); Assert.True(report.SignatureValid); });
-        var updatedFields = System.Text.RegularExpressions.Regex.Matches(Encoding.Latin1.GetString(second), @"/Fields\s*\[([^\]]*)\]")[^1].Groups[1].Value;
+        var updatedFields = FieldsArrayContent().Matches(Encoding.Latin1.GetString(second))[^1].Groups[1].Value;
         Assert.StartsWith(fields[1..^1].Trim(), updatedFields);
     }
 
@@ -99,7 +109,7 @@ public sealed class SigningCoreTests
         var twice = signer.Sign(once, identity.Certificate, identity.Sign);
         Assert.Equal(original, twice[..original.Length]);
         Assert.Equal(once, twice[..once.Length]);
-        var reports = new Validator().ValidatePdf(twice);
+        var reports = Validator.ValidatePdf(twice);
         Assert.Equal(["Signature1", "Signature2"], reports.Select(r => r.Name));
         Assert.All(reports, report =>
         {
@@ -123,14 +133,14 @@ public sealed class SigningCoreTests
             a => a.Oid.Value == "1.2.840.113549.1.9.16.2.47");
         var tampered = (byte[])twice.Clone();
         tampered[Encoding.ASCII.GetString(original).IndexOf("Hello", StringComparison.Ordinal)] ^= 1;
-        Assert.All(new Validator().ValidatePdf(tampered), r =>
+        Assert.All(Validator.ValidatePdf(tampered), r =>
         {
             Assert.Equal(Verdict.Invalid, r.Verdict);
             Assert.False(r.ContentIntact);
             Assert.True(r.SignatureValid);
         });
         var appended = twice.Concat(Encoding.ASCII.GetBytes("unsigned data")).ToArray();
-        Assert.Equal(Verdict.Invalid, new Validator().ValidatePdf(appended)[^1].Verdict);
+        Assert.Equal(Verdict.Invalid, Validator.ValidatePdf(appended)[^1].Verdict);
     }
 
     [Fact]
@@ -142,7 +152,7 @@ public sealed class SigningCoreTests
         var first = signer.Sign(MinimalPdf(), identity.Certificate, identity.Sign);
         var second = signer.Sign(first, identity.Certificate, identity.Sign, new PdfStampPlacement());
         Assert.Equal(first, second[..first.Length]);
-        Assert.All(new Validator().ValidatePdf(second), report => {
+        Assert.All(Validator.ValidatePdf(second), report => {
             Assert.True(report.ContentIntact, report.Notes);
             Assert.True(report.SignatureValid, report.Notes);
         });
@@ -162,7 +172,7 @@ public sealed class SigningCoreTests
         Assert.Contains("/NeedAppearances false", update);
         Assert.Contains("/SigFlags 3", update);
         Assert.DoesNotContain("1 0 obj", update);
-        Assert.True(new Validator().ValidatePdf(signed)[0].SignatureValid);
+        Assert.True(Validator.ValidatePdf(signed)[0].SignatureValid);
     }
 
     [Theory]
@@ -181,7 +191,7 @@ public sealed class SigningCoreTests
         var path = files.Write("document.txt", Encoding.UTF8.GetBytes("Știință <&> document"));
         var bytes = File.ReadAllBytes(path);
         var xml = new XadesSigner(pki.Trust).Sign([path], level, packaging, identity.Certificate, identity.Chain, identity.Sign, digest);
-        var report = Assert.Single(new Validator().ValidateXades(xml, new Dictionary<string, byte[]> { ["document.txt"] = bytes }));
+        var report = Assert.Single(Validator.ValidateXades(xml, new Dictionary<string, byte[]> { ["document.txt"] = bytes }));
         Assert.True(report.ContentIntact, report.Notes);
         Assert.True(report.SignatureValid, report.Notes);
         Assert.False(report.ChainTrusted);
@@ -209,7 +219,7 @@ public sealed class SigningCoreTests
             obj.InnerText = Convert.ToBase64String(Encoding.UTF8.GetBytes("modified"));
         }
         var tamperedReferences = new Dictionary<string, byte[]> { ["document.txt"] = Encoding.UTF8.GetBytes("modified") };
-        var tamperedReport = Assert.Single(new Validator().ValidateXades(Encoding.UTF8.GetBytes(tamperedDoc.OuterXml), tamperedReferences));
+        var tamperedReport = Assert.Single(Validator.ValidateXades(Encoding.UTF8.GetBytes(tamperedDoc.OuterXml), tamperedReferences));
         Assert.Equal(Verdict.Invalid, tamperedReport.Verdict);
         if (level == XadesFormat.C)
         {
@@ -231,20 +241,20 @@ public sealed class SigningCoreTests
         var path = files.Write("payload.txt", [1, 2, 3]);
         var xml = new XadesSigner(pki.Trust).Sign([path], XadesFormat.Bes, XadesPackaging.Detached,
             identity.Certificate, identity.Chain, identity.Sign);
-        Assert.Equal(Verdict.Invalid, Assert.Single(new Validator().ValidateXades(xml, new Dictionary<string, byte[]>())).Verdict);
+        Assert.Equal(Verdict.Invalid, Assert.Single(Validator.ValidateXades(xml, new Dictionary<string, byte[]>())).Verdict);
         var doc = XadesXml.Parse(xml);
         var signature = doc.DocumentElement!;
         var raw = Convert.FromBase64String(XadesXml.Child(signature, "SignatureValue").InnerText);
         raw[0] ^= 1;
         XadesXml.Child(signature, "SignatureValue").InnerText = Convert.ToBase64String(raw);
         var references = new Dictionary<string, byte[]> { ["payload.txt"] = [1, 2, 3] };
-        var report = Assert.Single(new Validator().ValidateXades(Encoding.UTF8.GetBytes(doc.OuterXml), references));
+        var report = Assert.Single(Validator.ValidateXades(Encoding.UTF8.GetBytes(doc.OuterXml), references));
         Assert.True(report.ContentIntact);
         Assert.False(report.SignatureValid);
         var duplicate = doc.CreateElement("duplicate");
         duplicate.SetAttribute("Id", XadesXml.Child(signature, "SignedInfo").GetAttribute("Id"));
         signature.AppendChild(duplicate);
-        Assert.Equal(Verdict.Invalid, Assert.Single(new Validator().ValidateXades(Encoding.UTF8.GetBytes(doc.OuterXml), references)).Verdict);
+        Assert.Equal(Verdict.Invalid, Assert.Single(Validator.ValidateXades(Encoding.UTF8.GetBytes(doc.OuterXml), references)).Verdict);
         Assert.Equal(0, pki.TimestampRequests + pki.OcspRequests + pki.CrlRequests);
     }
 
@@ -261,7 +271,7 @@ public sealed class SigningCoreTests
         var xml = new XadesSigner(pki.Trust).Sign([first, second], XadesFormat.Bes, packaging,
             identity.Certificate, identity.Chain, identity.Sign);
         var references = new Dictionary<string, byte[]> { ["empty.txt"] = [], ["știință.txt"] = [0, 0x80, 0xff] };
-        var report = Assert.Single(new Validator().ValidateXades(xml, references));
+        var report = Assert.Single(Validator.ValidateXades(xml, references));
         Assert.True(report.ContentIntact, report.Notes);
         Assert.True(report.SignatureValid, report.Notes);
         var document = XadesXml.Parse(xml);
@@ -371,7 +381,7 @@ public sealed class SigningCoreTests
         var doc = XadesXml.Parse(xml);
         doc.GetElementsByTagName("EncapsulatedTimeStamp", XadesXml.Xades)[0]!.InnerText =
             Convert.ToBase64String(pki.TimestampToken(new byte[32]));
-        var report = Assert.Single(new Validator().ValidateXades(Encoding.UTF8.GetBytes(doc.OuterXml), new Dictionary<string, byte[]>()));
+        var report = Assert.Single(Validator.ValidateXades(Encoding.UTF8.GetBytes(doc.OuterXml), new Dictionary<string, byte[]>()));
         Assert.True(report.ContentIntact);
         Assert.True(report.SignatureValid);
         Assert.False(report.TimestampImprintValid);
@@ -410,14 +420,14 @@ public sealed class SigningCoreTests
     private static byte[] ExtractCms(byte[] pdf)
     {
         var text = Encoding.Latin1.GetString(pdf);
-        var match = System.Text.RegularExpressions.Regex.Match(text, @"/Contents<([a-f0-9]+)>");
+        var match = SignatureContents().Match(text);
         var bytes = Convert.FromHexString(match.Groups[1].Value);
         AsnDecoder.ReadEncodedValue(bytes, AsnEncodingRules.BER, out _, out _, out var consumed);
         return bytes[..consumed];
     }
     private static byte[] ExtractPdfContent(byte[] pdf)
     {
-        var match = System.Text.RegularExpressions.Regex.Match(Encoding.Latin1.GetString(pdf), @"/ByteRange \[0 (\d+) (\d+) (\d+) \]");
+        var match = SignedByteRange().Match(Encoding.Latin1.GetString(pdf));
         var a = int.Parse(match.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture);
         var b = int.Parse(match.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture);
         var c = int.Parse(match.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture);

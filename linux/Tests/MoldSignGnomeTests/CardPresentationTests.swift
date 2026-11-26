@@ -1,7 +1,7 @@
 import XCTest
 @testable import MoldSignGnome
 
-final class CardPresentationTests: XCTestCase {
+final class CardPresentationTests: GnomeTestCase {
     func testReadingCardUsesPlaceholdersAndKeepsReaderIdentity() {
         let card = CardSlot(reader: "Reader A", generation: 1)
         let content = CardItemContent(card: card, index: 0, count: 2, busy: false, selected: true, expanded: false)

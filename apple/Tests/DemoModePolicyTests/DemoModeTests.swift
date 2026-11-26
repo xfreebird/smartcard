@@ -41,4 +41,38 @@ final class DemoModeTests: XCTestCase {
         XCTAssertTrue(rendered.string?.contains("NOT A VALID ELECTRONIC SIGNATURE") == true)
         XCTAssertEqual(try inputs.map { try Data(contentsOf: $0) }, original)
     }
+
+    func testNoDemoWordingOutsideDemoMode() {
+        // Real reader/NFC sessions: no banner, tray/status demo text, sample notice or simulated result.
+        for capture in [false, true] {
+            let live = DemoNotices(demoMode: false, screenshotCapture: capture)
+            XCTAssertFalse(live.banner)
+            XCTAssertFalse(live.simulatedResults)
+            XCTAssertFalse(live.replacesBrowser)
+        }
+    }
+
+    func testDemoModeLabelsEverySimulatedSurface() {
+        let demo = DemoNotices(demoMode: true, screenshotCapture: false)
+        XCTAssertEqual(demo, DemoNotices(demoMode: true, screenshotCapture: false))
+        XCTAssertTrue(demo.banner)
+        XCTAssertTrue(demo.simulatedResults)
+        XCTAssertTrue(demo.replacesBrowser)
+        // Store screenshots hide only the banner chrome; results still say they are samples.
+        let capture = DemoNotices(demoMode: true, screenshotCapture: true)
+        XCTAssertFalse(capture.banner)
+        XCTAssertFalse(capture.replacesBrowser)
+        XCTAssertTrue(capture.simulatedResults)
+    }
+
+    func testDemoSamplesStayOutsideTheUsersDocuments() throws {
+        let root = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        defer { try? FileManager.default.removeItem(at: root) }
+        let files = DemoDocumentFiles(directory: root, notice: "Sample document")
+        let produced = try files.inputs() + [try files.output()]
+        for url in produced {
+            XCTAssertEqual(url.deletingLastPathComponent().standardizedFileURL, root.standardizedFileURL)
+        }
+        XCTAssertTrue(produced.last?.lastPathComponent.hasPrefix("DEMO-result-") == true)
+    }
 }

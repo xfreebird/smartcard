@@ -21,12 +21,12 @@ final class ReaderSession {
     private let monitor: any CardMonitoring
     private let transportFactory: ((String?) throws -> CardTransport)?
     private let selectedReader = SelectedReader()
-    private let demo = DemoMode.current
+    private let demo: DemoMode?
 
     init(service: SigningService, vault: any PINStoring, monitor: any CardMonitoring,
          transportFactory: ((String?) throws -> CardTransport)?,
-         cardData: (any CardDataProviding)? = nil) {
-        self.service = service; self.monitor = monitor; self.transportFactory = transportFactory
+         cardData: (any CardDataProviding)? = nil, demo: DemoMode? = DemoMode.current) {
+        self.service = service; self.monitor = monitor; self.transportFactory = transportFactory; self.demo = demo
         self.cardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
     }
 

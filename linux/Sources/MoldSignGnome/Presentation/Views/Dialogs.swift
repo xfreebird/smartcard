@@ -238,13 +238,15 @@ func presentPreferences(parent: Widget, controller: AppController) {
     let demoGroup = preferencesGroup(title: nil)
     let demo = adw_switch_row_new()!
     adw_preferences_row_set_title(demo.cast(), L10n.text(.linux_demo_mode))
-    adw_action_row_set_subtitle(demo.cast(), L10n.text(.ui_demo_data_no_real_card_pin_or_signatures))
+    // The demo-data notice belongs to the preview window only; the real app describes the option.
+    adw_action_row_set_subtitle(demo.cast(), L10n.text(controller.isDemo ? .ui_demo_data_no_real_card_pin_or_signatures : .linux_demo_mode_description))
     adw_switch_row_set_active(demo.opaque, controller.isDemo ? 1 : 0)
     gtk_widget_set_sensitive(demo, controller.isSigning || controller.bridgeSigning ? 0 : 1)
     var updatingDemo = false
     onSignal(demo, "notify::active") { _ in
-        guard !updatingDemo else { return }
         let enabled = adw_switch_row_get_active(demo.opaque) != 0
+        // Resetting the switch below may notify again after `updatingDemo` is cleared: only a change of mode counts.
+        guard !updatingDemo, enabled != controller.isDemo else { return }
         controller.requestDemoMode?(enabled)
         // The preview has its own window and cannot modify real settings or saved PINs.
         updatingDemo = true
@@ -469,11 +471,12 @@ func presentAbout(parent: Widget) {
         L10n.text(.ui_pades_and_xades_and_the_browser_connection_for_msign_gov_md))
     let language = L10n.language ?? Locale.current.language.languageCode?.identifier ?? "ro"
     let legalBase = "https://esemnbun.md" + (["ro", "ru"].contains(language) ? "/\(language)" : "")
+    // Link titles are Pango markup: "Terms & Conditions" would otherwise render empty.
     adw_about_dialog_add_legal_section(about.opaque, L10n.text(.about_legal_title), nil,
-                                     GTK_LICENSE_CUSTOM, L10n.text(.about_disclaimer_body))
-    adw_about_dialog_add_link(about.opaque, L10n.text(.about_terms), legalBase + "/terms/")
-    adw_about_dialog_add_link(about.opaque, L10n.text(.about_privacy), legalBase + "/privacy/")
-    adw_about_dialog_add_link(about.opaque, L10n.text(.about_disclaimer), legalBase + "/terms/")
+                                     GTK_LICENSE_CUSTOM, escapeMarkup(L10n.text(.about_disclaimer_body)))
+    adw_about_dialog_add_link(about.opaque, escapeMarkup(L10n.text(.about_terms)), legalBase + "/terms/")
+    adw_about_dialog_add_link(about.opaque, escapeMarkup(L10n.text(.about_privacy)), legalBase + "/privacy/")
+    adw_about_dialog_add_link(about.opaque, escapeMarkup(L10n.text(.about_disclaimer)), legalBase + "/terms/")
     adw_dialog_present(about, parent)
 }
 

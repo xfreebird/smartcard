@@ -28,7 +28,7 @@ public sealed class BridgeOriginPolicy
         ArgumentNullException.ThrowIfNull(patterns);
         Patterns = patterns.ToArray();
         _regexes = Patterns
-            .Select(p => new Regex(@"\A(?:" + ToRegex(p) + @")\z", RegexOptions.CultureInvariant))
+            .Select(p => new Regex(@"\A(?:" + ToRegex(p) + @")\z", RegexOptions.CultureInvariant, TimeSpan.FromMilliseconds(100)))
             .ToArray();
     }
 
@@ -46,10 +46,13 @@ public sealed class BridgeOriginPolicy
     {
         if (origin is not null)
         {
-            foreach (var regex in _regexes)
+            if (origin.Length > 4096) return false;
+            try
             {
-                if (regex.IsMatch(origin)) return true;
+                foreach (var regex in _regexes)
+                    if (regex.IsMatch(origin)) return true;
             }
+            catch (RegexMatchTimeoutException) { return false; }
             return false;
         }
         return string.Equals(moldSignHeader, DesktopClientHeaderValue, StringComparison.Ordinal);

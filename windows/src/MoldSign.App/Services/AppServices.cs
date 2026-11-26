@@ -67,6 +67,12 @@ public sealed class AppServices : IAsyncDisposable
         Bridge = new BridgeHost(BridgeOriginPolicy.Default, BridgeTls.ResolvePath,
             () => Volatile.Read(ref _bridgeCards), Signing, _authorize,
             allowsLegacyDesktopClient: Settings.LegacyDesktopClientEnabled && !StartupRegistration.IsPackaged);
+        Bridge.AuthorizeCancellable = (request, token) =>
+        {
+            token.ThrowIfCancellationRequested();
+            if (_disposed || IsDemo) return ConsentResult.Cancelled;
+            return dependencies.Authorize is { } custom ? custom(request) : Consent.Request(request, token);
+        };
         Bridge.PreviewPdfEnabled = () => Settings.BrowserStampsEnabled;
         Bridge.PreviewPdf = async (bytes, card, origin, token) =>
         {
@@ -159,7 +165,7 @@ public sealed class AppServices : IAsyncDisposable
 
     public async Task<bool> SetMcpApprovalEnabledAsync(bool enabled)
     {
-        await _mcpConfiguration.WaitAsync();
+        await _mcpConfiguration.WaitAsync(CancellationToken.None);
         try
         {
             if (_disposed || IsDemo) enabled = false;
@@ -224,7 +230,7 @@ public sealed class AppServices : IAsyncDisposable
                     cancellation.ThrowIfCancellationRequested();
                     if (!consent.IsCancelled) signing();
                     return consent;
-                }, requester: "MCP", reader: reader));
+                }, requester: "MCP", reader: reader), CancellationToken.None);
                 Consent.LastRemainingAttempts = null;
                 answer.TrySetResult(signed);
             }
@@ -348,13 +354,13 @@ public sealed class AppServices : IAsyncDisposable
                     {
                         outputs.AddRange(signed.OutputFiles);
                         completedInputs.Add(job.Path);
-                        Record(Path.GetFileName(signed.OutputFiles.FirstOrDefault() ?? job.Path), IsDemo ? Loc.Get("demo_sign_success") : $"{Loc.Get("Activity_Signed")} · {SignatureFormats.Label(job.Format)}",
+                        Record(Path.GetFileName(signed.OutputFiles.FirstOrDefault() ?? job.Path), IsDemo ? Loc.Get(OutcomeMessages.SignedActivityKey(demo: true)) : $"{Loc.Get(OutcomeMessages.SignedActivityKey(demo: false))} · {SignatureFormats.Label(job.Format)}",
                             true, signed.OutputFiles.FirstOrDefault(), signedOutput: true);
                     }, failed: (job, error) => failures[job.Path] = error is CardException cardError ? (cardError.Kind == CardErrorKind.Format ? "This document could not be signed. It may be damaged or use an unsupported format." : AppState.ErrorText(cardError.Kind)) : "The signed document could not be saved. Check the destination folder and available disk space.");
                 if (result.Error is { } failure) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(failure).Throw();
             });
             Consent.LastRemainingAttempts = null;
-            return Outcome(failures.Count == 0, failures.Count == 0 ? (IsDemo ? Loc.Get("demo_sign_success") : Loc.Format("Sign_Done", outputs.Count)) : "", failed: false);
+            return Outcome(failures.Count == 0, failures.Count == 0 ? Loc.Format(OutcomeMessages.BatchSignedKey(IsDemo), outputs.Count) : "", failed: false);
         }
         catch (CardException e) when (e.Kind == CardErrorKind.Cancelled)
         {
@@ -399,26 +405,15 @@ public sealed class AppServices : IAsyncDisposable
                 if (result.Status != VerificationStatus.Completed)
                 {
                     if (result.Status == VerificationStatus.Failed && result.Error is { } error) AppLog.Error(error);
-                    var message = result.Status switch
-                    {
-                        VerificationStatus.Rejected => Loc.Get("demo_fixture_only"),
-                        VerificationStatus.Unsupported => Loc.Get("Error_NotImplemented"),
-                        VerificationStatus.Unreadable => result.Error!.Message,
-                        _ => Loc.Get("Verify_Failed"),
-                    };
+                    var message = result.Status == VerificationStatus.Unreadable ? result.Error!.Message
+                        : Loc.Get(OutcomeMessages.VerificationFailureKey(result.Status));
                     return new OperationOutcome(false, message, []);
                 }
                 var allValid = result.Verdict == Verdict.Valid;
-                if (recordActivity) Record(Path.GetFileName(path), IsDemo ? Loc.Get("demo_verify_success") : Loc.Get("Activity_Verified"), allValid, path);
-                var key = result.Verdict switch
-                {
-                    Verdict.Valid => "Verdict_Valid",
-                    Verdict.Invalid => "Verdict_Invalid",
-                    Verdict.Indeterminate => "Verdict_Unknown",
-                    _ => "Verdict_Unsigned",
-                };
-                return new OperationOutcome(allValid, IsDemo && !DemoMode.ScreenshotCapture
-                    ? Loc.Get("demo_verify_success") : Loc.Get(key), []) { Reports = result.Reports };
+                if (recordActivity) Record(Path.GetFileName(path), Loc.Get(OutcomeMessages.VerifiedActivityKey(IsDemo)), allValid, path);
+                return new OperationOutcome(allValid,
+                    Loc.Get(OutcomeMessages.VerificationKey(IsDemo, DemoMode.ScreenshotCapture, result.Verdict)), [])
+                    { Reports = result.Reports };
             }
             catch (Exception error)
             {
@@ -429,11 +424,15 @@ public sealed class AppServices : IAsyncDisposable
         });
     }
 
-    public async ValueTask DisposeAsync()
+    private Task? _disposeTask;
+    public ValueTask DisposeAsync() => new(_disposeTask ??= DisposeCoreAsync());
+
+    private async Task DisposeCoreAsync()
     {
         _disposed = true;
-        Updates.Stop();
-        await _mcpConfiguration.WaitAsync();
+        await Consent.CancelPendingAsync();
+        await Updates.StopAsync();
+        await _mcpConfiguration.WaitAsync(CancellationToken.None);
         try
         {
             if (_mcpBroker is not null) await _mcpBroker.DisposeAsync();
@@ -442,11 +441,12 @@ public sealed class AppServices : IAsyncDisposable
         finally { _mcpConfiguration.Release(); }
         State.WalletChanged -= OnWalletChanged;
         Readers.Dispose();
-        Consent.CancelPending();
-        (BrowserConnection as IDisposable)?.Dispose();
+        if (BrowserConnection is IAsyncDisposable asyncBrowser) await asyncBrowser.DisposeAsync();
+        else (BrowserConnection as IDisposable)?.Dispose();
         await Bridge.DisposeAsync();
         // Old in-flight reads / browser work must finish before a new service generation is visible.
         while (Volatile.Read(ref _activeOperations) > 0) await Task.Delay(25);
+        Consent.Dispose();
         _demo?.Dispose();
     }
 

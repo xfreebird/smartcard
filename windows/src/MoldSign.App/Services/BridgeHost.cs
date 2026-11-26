@@ -50,6 +50,8 @@ public sealed class BridgeHost(
     private WebApplication? _app;
     private Channel<Job>? _jobs;
     private CancellationTokenSource? _shutdown;
+    private Task? _worker;
+    public Func<ConsentRequest, CancellationToken, ConsentResult>? AuthorizeCancellable { get; set; }
     private X509Certificate2Collection? _identity;
 
     public Func<bool>? PreviewPdfEnabled { get; set; }
@@ -131,7 +133,7 @@ public sealed class BridgeHost(
                 var token = _shutdown.Token;
                 _jobs = jobs;
                 _app = app;
-                _ = Task.Run(() => ProcessJobsAsync(jobs.Reader, token));
+                _worker = Task.Run(() => ProcessJobsAsync(jobs.Reader, token), CancellationToken.None);
             }
             catch
             {
@@ -145,12 +147,12 @@ public sealed class BridgeHost(
 
     public async Task StopAsync()
     {
-        await _lifecycle.WaitAsync();
+        await _lifecycle.WaitAsync(CancellationToken.None);
         try
         {
             if (_app is not { } app) return;
             _app = null;
-            _shutdown?.Cancel();
+            if (_shutdown is not null) await _shutdown.CancelAsync();
             _jobs?.Writer.TryComplete();
             _jobs = null;
             foreach (var session in _sessions.Values)
@@ -162,6 +164,8 @@ public sealed class BridgeHost(
             finally
             {
                 await app.DisposeAsync();
+                if (_worker is not null) await _worker;
+                _worker = null;
                 if (_identity is { } identity)
                     foreach (var certificate in identity) certificate.Dispose();
                 _identity = null;
@@ -347,9 +351,8 @@ public sealed class BridgeHost(
         }
     }
 
-    private async Task PollAsync(HttpContext context)
+    private async Task PollAsync(HttpContext context, string id)
     {
-        var id = context.Request.RouteValues["id"]?.ToString() ?? "";
         var origin = context.Request.Headers.Origin.ToString();
         if (!_sessions.TryGetValue(id, out var session) || session.Origin != origin)
         {
@@ -415,7 +418,8 @@ public sealed class BridgeHost(
                             _pins[batch] = stored with { LastUse = DateTimeOffset.UtcNow };
                             accepted = stored.Consent;
                         }
-                        else accepted = consent(request);
+                        else accepted = AuthorizeCancellable is { } authorize ? authorize(request, token) : consent(request);
+                        token.ThrowIfCancellationRequested();
                         return accepted;
                     }
                     Result result;
@@ -435,6 +439,7 @@ public sealed class BridgeHost(
                         {
                             if (!request.Certificate.Sha1.Equals(job.Card.Certificate.Sha1, StringComparison.OrdinalIgnoreCase))
                                 return ConsentResult.Cancelled;
+                            token.ThrowIfCancellationRequested();
                             return decision;
                         }
                         if (fileRequest.Pdf && PreviewPdf is not null)

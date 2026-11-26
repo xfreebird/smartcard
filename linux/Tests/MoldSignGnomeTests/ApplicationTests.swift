@@ -3,7 +3,7 @@ import XCTest
 import MoldSignKit
 @testable import MoldSignGnome
 
-final class ApplicationTests: XCTestCase {
+final class ApplicationTests: GnomeTestCase {
     func testBackgroundCannotSuppressFirstPresentation() {
         let store = LaunchMemory()
         let policy = ActivationPolicy(store: store)

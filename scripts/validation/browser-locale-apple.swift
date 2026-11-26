@@ -23,6 +23,13 @@ import UIKit
             web.loadHTMLString(html, baseURL: URL(string: url))
         }
     }
+    // Only the in-memory fixture documents load; every other navigation is refused.
+    private let fixtureOrigins: Set<String> = ["msign.gov.md", "example.com"]
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction) async -> WKNavigationActionPolicy {
+        guard let url = navigationAction.request.url, url.scheme == "https",
+              let host = url.host, fixtureOrigins.contains(host) else { return .cancel }
+        return .allow
+    }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         continuation?.resume(); continuation = nil
     }

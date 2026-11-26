@@ -94,11 +94,18 @@ final class ActivityPage {
             #endif
         }
         controller.observe { [weak self] in self?.render() }
-        // Relative times ("acum 2 min") age: refresh once a minute.
-        every(seconds: 60) { [weak self] in
-            self?.renderedKey = ""
-            self?.render()
-            return self != nil
+        // Relative times ("acum 2 min") age: refresh once a minute, while the page exists.
+        var ticking = true
+        let refresh = every(seconds: 60) { [weak self] in
+            guard ticking, let self else { ticking = false; return false }
+            self.renderedKey = ""
+            self.render()
+            return true
+        }
+        onSignal(root, "destroy") {
+            guard ticking else { return }
+            ticking = false
+            g_source_remove(refresh)
         }
     }
 

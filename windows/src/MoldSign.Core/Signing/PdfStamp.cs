@@ -61,7 +61,7 @@ internal static class StampPdf
         try
         {
             var fields = Value(form, "/Fields") ?? throw Fail();
-            if (!fields.StartsWith("[", StringComparison.Ordinal)) fields = ObjectText(text, Ref(fields));
+            if (!fields.StartsWith('[')) fields = ObjectText(text, Ref(fields));
             var updated = "[" + string.Join(" ", Refs(fields).Append(field).Select(n => $"{n} 0 R")) + "]";
             return Set(form, "/Fields", updated);
         }
@@ -135,7 +135,7 @@ internal static class StampPdf
     }
     private static string ObjectText(string text, int n)
     {
-        var matches = Regex.Matches(text, FormattableString.Invariant($@"(?<!\d){n}\s+0\s+obj\b")); if (matches.Count == 0) throw Fail();
+        var matches = DocumentRegex.Matches(text, FormattableString.Invariant($@"(?<!\d){n}\s+0\s+obj\b")); if (matches.Count == 0) throw Fail();
         var start = matches[^1].Index + matches[^1].Length; var end = text.IndexOf("endobj", start, StringComparison.Ordinal);
         if (end < 0) throw Fail(); return text[start..end].Trim();
     }
@@ -171,7 +171,7 @@ internal static class StampPdf
                     numbers = [Math.Max(numbers[0], bounds[0]), Math.Max(numbers[1], bounds[1]), Math.Min(numbers[2], bounds[2]), Math.Min(numbers[3], bounds[3])];
                 }
                 var rotation = int.Parse(props.GetValueOrDefault("/Rotate", "0"), CultureInfo.InvariantCulture);
-                if (numbers[2] <= numbers[0] || numbers[3] <= numbers[1] || rotation % 90 != 0 || double.Parse(props.GetValueOrDefault("/UserUnit", "1"), CultureInfo.InvariantCulture) != 1) throw Fail();
+                if (numbers[2] <= numbers[0] || numbers[3] <= numbers[1] || rotation % 90 != 0 || !IsUnitScale(props.GetValueOrDefault("/UserUnit", "1"))) throw Fail();
                 result.Add(new Page(n, dict, numbers, (rotation % 360 + 360) % 360));
             }
         }
@@ -181,14 +181,20 @@ internal static class StampPdf
     {
         try
         {
+            using var processing = DocumentRegex.BeginProcessing();
+            DocumentRegex.CheckLength(data.Length);
             var text = Encoding.Latin1.GetString(data);
-            var roots = Regex.Matches(text, @"/Root\s+(\d+)\s+0\s+R\b");
+            var roots = DocumentRegex.Matches(text, @"/Root\s+(\d+)\s+0\s+R\b");
             if (roots.Count == 0) return false;
             var root = int.Parse(roots[^1].Groups[1].Value, CultureInfo.InvariantCulture);
             return placement.Page >= 0 && placement.Page < Pages(text, ObjectText(text, root)).Count;
         }
         catch (Exception error) when (error is CardException or FormatException or OverflowException) { return false; }
     }
+    // Only unit scale is supported. The range comparison also rejects NaN and infinities.
+    private static bool IsUnitScale(string userUnit) => Math.Abs(double.Parse(userUnit, CultureInfo.InvariantCulture) - 1) < 1e-9;
+    // Baseline (PDF points from the stamp's bottom edge) of each of the six stamp text lines.
+    private static readonly int[] LineBaselines = [82, 67, 52, 37, 16, 2];
     private static string Num(double n) => n.ToString("F5", CultureInfo.InvariantCulture);
     private static string Stream(byte[] bytes, string extra = "")
     {
@@ -221,7 +227,7 @@ internal static class StampPdf
                 used[glyph.Glyph] = (rune.Value, glyph.Advance); width += glyph.Advance; hex.Append(glyph.Glyph.ToString("X4", CultureInfo.InvariantCulture));
             }
             var size = Math.Min(index == 5 ? 7.0 : 13.0, (index == 4 ? 164000.0 : 228000.0) / Math.Max(width, 1));
-            content.Append(FormattableString.Invariant($"BT /F {Num(size)} Tf 1 0 0 1 {(index == 4 ? 5 : 0)} {new[] {82,67,52,37,16,2}[index]} Tm <{hex}> Tj ET\n"));
+            content.Append(string.Create(CultureInfo.InvariantCulture, $"BT /F {Num(size)} Tf 1 0 0 1 {(index == 4 ? 5 : 0)} {LineBaselines[index]} Tm <{hex}> Tj ET\n"));
         }
         content.Append('Q');
         var mappings = used.Select(e => $"<{e.Key:X4}> <{Convert.ToHexString(Encoding.BigEndianUnicode.GetBytes(char.ConvertFromUtf32(e.Value.Scalar)))}>");

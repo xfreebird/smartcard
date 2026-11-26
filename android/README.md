@@ -26,9 +26,8 @@ The bridge allow-list is not copied: `:core` packages `../spec/bridge/allowed-or
 ## Build and test
 
 Requirements: Android SDK at the path in `local.properties` (`sdk.dir=…`, gitignored, create it per machine)
-and a JDK 17 installed. `gradle/gradle-daemon-jvm.properties` asks Gradle for a JDK 17 daemon, so
-`./gradlew` also works when the default `java` is newer (Gradle 8.13 cannot run on JDK 25/26). If Gradle cannot
-find one, set `JAVA_HOME` to a JDK 17.
+and a JDK 17 installed. `gradle/gradle-daemon-jvm.properties` selects a JDK 17 daemon. If Gradle
+cannot find one, or the launcher's default Java is unsupported, set `JAVA_HOME` to JDK 17.
 
 ```bash
 cd android
@@ -38,18 +37,25 @@ cd android
 ./gradlew :app:lintDebug
 ```
 
-Toolchain: Gradle 8.13, AGP 8.10.1, Kotlin 2.1.0 (Compose compiler plugin 2.1.0), Compose BOM 2026.03.01
+Toolchain: Gradle 9.1.0, AGP 9.0.1, Kotlin 2.2.10 (Compose compiler plugin 2.2.10), Compose BOM 2026.03.01
 (Material 3 1.4.0), minSdk 26, compile/target SDK 36. Versions are in `gradle/libs.versions.toml`.
 
 ### Optimized releases and edge-to-edge
 
 Release builds enable R8 shrinking, optimization and obfuscation using
-`proguard-android-optimize.txt`, plus resource shrinking. Debug stays unminified. AndroidX/Compose
+`proguard-android-optimize.txt`, plus R8's optimized resource shrinking. AGP 9 enables the integrated
+code/resource optimizer by default, and `android.r8.optimizedResourceShrinking=true` records the
+release policy explicitly. Android modules use AGP's built-in Kotlin; only `:core` applies the
+Kotlin/JVM plugin, and both compiler paths target JVM 17. Debug stays unminified. AndroidX/Compose
 consumer rules cover their dynamic entry points; avoid package-wide keep rules that defeat optimization.
 The bridge allow-list and TLS identity use absolute classpath paths to survive class/package renaming.
 
 Build the optimized artifacts with `./gradlew :app:assembleRelease :app:bundleRelease :app:lintRelease`.
 Keep `app/build/outputs/mapping/release/mapping.txt` with the exact build for crash retracing.
+Inspect the final Release APK/AAB rather than only Debug: check localized screens, launcher/splash,
+widget, USB device filter, notifications, document/PDF stamp assets, and embedded-browser/TLS resources.
+Keep R8/resource-shrinking metadata and compare it with the previous artifact; Play's advisory applies
+to an uploaded version and cannot clear merely because local configuration changed.
 For distribution use `../scripts/package-android.sh` and the existing upload key. Before rollout,
 exercise startup, saved PIN/biometrics, reader/NFC signing, browser authentication, PDF stamps,
 file protection, document sharing and the widget in the optimized Release APK. Debug checks alone
@@ -157,6 +163,18 @@ per insertion, late reads for replaced cards, selection fallback, re-read and th
 preflight, 403 without CORS headers, and a real-socket round trip. `SigningBridgeRoutesTest` covers the portal flow
 (certificate list, `201` + absolute `Location` + empty body, the long-poll, PIN sessions per origin and card, XAdES
 with the requested digest) and `BridgeTlsTest` the HTTPS listener with the vendor identity.
+`:app` unit tests run on Robolectric (SDK 34 on the JDK 17 test runtime; the framework jar is a verified Gradle
+dependency used offline; CI provides it from a local Maven folder, see `ROBOLECTRIC_LOCAL_REPOSITORY` in
+`settings.gradle.kts`) with the Compose UI test rule. They render every destination, sheet and dialog in the
+debug fixture states (cards, reader states, documents, batches, PIN, verification verdicts, file protection,
+browser window, dark theme, tablet and short landscape), drive the real non-demo app against fake reader and
+card adapters (pickers answered like the system, the PIN sheet, results, verification, protection), and test
+`MainViewModel`, the NFC reader-mode gate and controller, the bridge service, widget and storage adapters. NFC
+screens also run through Robolectric's `NfcAdapter` (`NfcUiTest`): PIN before the antenna, the scan dialog, reader
+mode held after a card was seen until the activity pauses, and an immediate release when no card was seen.
+`:transport-usb` tests drive `CcidTransport` and `UsbReaderMonitor` against a simulated CCID reader.
+Coverage: `../scripts/gradle-ci.sh -PsonarCoverage=true :core:jacocoTestReport :transport-usb:createDebugUnitTestCoverageReport :app:createDebugUnitTestCoverageReport`.
+
 `XadesDocumentSignerTest` validates BES / T / C / enveloping output with the JDK's XML-DSig engine (an independent
 canonicalizer); `OfflineValidatorTest` signs with a software key and a test CA / root, then checks valid, tampered,
 re-timestamped, counter-signed and detached-without-document cases; `MdTrustServicesTest` runs the PKI client against a
@@ -276,8 +294,12 @@ visible on every screen. Demo history uses its own preferences, separate from re
 
 The simulated batch produces one new **DEMO-…-NOT-SIGNED.pdf** per selected sample. These are fixed
 fixture pages carrying **DEMO - NOT A VALID SIGNATURE** and **DEMO ONLY - UNSIGNED** watermarks,
-with no cryptographic signature. Their names/URIs are separately available in Activity for Open,
-Share and Save as. The store inserts new files rather than overwriting inputs or previous outputs.
+with no cryptographic signature. They are written to app-private storage, never to Downloads/eSemnBun
+next to real signed documents, and are listed only in the demo Activity for Open, Share and Save as.
+The store inserts new files rather than overwriting inputs or previous outputs. Demo notices, DEMO
+file names and fictional cards appear only while demo mode is on (`DemoIsolationTest`). The debug-only
+screenshot fixtures (`--es demo …`) keep their fictional activity in memory and never replace the
+persisted history or the widget.
 
 Hardware-free verification:
 

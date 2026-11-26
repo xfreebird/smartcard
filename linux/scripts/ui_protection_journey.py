@@ -5,6 +5,7 @@ import stat
 import subprocess
 import time
 import pyatspi
+from gi.repository import GLib
 from ui_automation import descendants, invoke, reveal_named, visible_named, wait
 
 
@@ -34,9 +35,18 @@ def protection_workflow(app, root, process, title):
         wait(lambda: visible_named(app, title('protect_choose_file')), 'protection dialog', process)
 
     def chooser(title_key="protect_choose_file"):
-        return next((node for node in descendants(app) if node.getRole() == pyatspi.ROLE_DIALOG
-                     and node.name == title(title_key)
-                     and node.getState().contains(pyatspi.STATE_SHOWING)), None)
+        # GTK exposes native chooser windows directly below the application.
+        # Searching the document tree first also walks the chooser's directory
+        # listing, whose remote accessibility children can change during a poll.
+        for node in app:
+            try:
+                if (node.getRole() == pyatspi.ROLE_DIALOG and node.name == title(title_key)
+                        and node.getState().contains(pyatspi.STATE_SHOWING)):
+                    return node
+            except GLib.GError:
+                # Closing a native chooser can invalidate a node after traversal found it.
+                continue
+        return None
 
     def choose(path):
         click('protect_choose_file')

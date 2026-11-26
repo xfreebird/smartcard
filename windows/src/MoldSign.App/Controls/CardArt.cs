@@ -50,7 +50,9 @@ internal static class CardArt
         {
             var d = max - min;
             s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-            h = max == r ? (g - b) / d + (g < b ? 6 : 0) : max == g ? (b - r) / d + 2 : (r - g) / d + 4;
+            // Pick the dominant channel from the exact byte values (red wins ties, then green).
+            h = color.R >= color.G && color.R >= color.B ? (g - b) / d + (g < b ? 6 : 0)
+                : color.G >= color.B ? (b - r) / d + 2 : (r - g) / d + 4;
             h *= 60;
         }
         var rotated = FromHsl(h + degrees, s, l);

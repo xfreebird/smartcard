@@ -15,6 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
+import javax.net.ssl.SSLServerSocket
 
 /** One parsed HTTP/1.1 request. Header names are lower-cased. */
 class BridgeRequest(
@@ -100,6 +101,7 @@ class BridgeServer(
         serverSocket?.let { if (!it.isClosed) return it.localPort }
         val ss = tls?.serverSocketFactory?.createServerSocket() ?: ServerSocket()
         try {
+            if (ss is SSLServerSocket) configureBridgeTls(ss)
             ss.reuseAddress = true
             ss.bind(InetSocketAddress(bindAddress, port), 16)
         } catch (error: Exception) {
@@ -279,4 +281,12 @@ class BridgeServer(
             else -> "Status"
         }
     }
+}
+
+/** Keep Android/provider defaults from enabling legacy TLS on the loopback HTTPS listener. */
+internal fun configureBridgeTls(socket: SSLServerSocket) {
+    val modern = socket.supportedProtocols.filter { it == "TLSv1.2" || it == "TLSv1.3" }
+    require(modern.isNotEmpty()) { "The bridge requires TLS 1.2 or later." }
+    socket.useClientMode = false
+    socket.enabledProtocols = modern.toTypedArray()
 }

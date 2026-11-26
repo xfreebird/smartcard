@@ -3,6 +3,7 @@ param([Parameter(Mandatory=$true)][string]$App,
       [Parameter(Mandatory=$true)][string]$Helper,
       [Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 New-Item -ItemType Directory -Force $Output | Out-Null
 $scenario = Join-Path $Output 'reader-snapshots.json'
 $preferences = Join-Path $Output 'helper-preferences.json'
@@ -88,5 +89,5 @@ try {
 } finally {
     foreach ($child in $children) { if (-not $child.HasExited) { Stop-Process -Id $child.Id -Force } }
     if ($null -ne $helperProcess -and -not $helperProcess.HasExited) { Stop-Process -Id $helperProcess.Id -Force }
-    foreach ($name in $original.Keys) { [Environment]::SetEnvironmentVariable($name,$original[$name]) }
+    foreach ($name in $original.Keys) { Set-TestEnvironmentVariable $name $original[$name] }
 }

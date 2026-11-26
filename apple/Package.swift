@@ -16,16 +16,30 @@ let package = Package(
         .testTarget(name: "VerificationPoliciesTests", dependencies: ["VerificationPolicies"], path: "Tests/VerificationPoliciesTests"),
         .target(name: "AppBatch", path: "Apps/Shared/Services",
                 exclude: ["SelectedReader.swift", "BridgeDecisionBox.swift", "StampDecisionBox.swift", "PinVault.swift", "ReaderMonitor.swift", "MockReaderMonitor.swift", "MemoryPinVault.swift", "Activity", "Documents", "L10n.swift", "AppPreferencesStore.swift", "BrowserLocale.swift", "BrowserLocaleScript.swift", "Demo"],
-                sources: ["SavedCardIdentityStore.swift", "NFCSigningIdentity.swift", "NFCSessionDiagnostics.swift", "BlockingCardCommand.swift", "CancellableRequestScope.swift", "DecisionChannel.swift", "DroppedDocumentLoader.swift", "SigningBatchRunner.swift", "ReaderSelectionPolicy.swift", "UpdateManifest.swift", "BrowserBookmark.swift", "ProcessShutdown.swift"]),
+                sources: ["BrowserNavigationPolicy.swift", "SavedCardIdentityStore.swift", "NFCSigningIdentity.swift", "NFCSessionDiagnostics.swift", "BlockingCardCommand.swift", "CancellableRequestScope.swift", "DecisionChannel.swift", "DroppedDocumentLoader.swift", "SigningBatchRunner.swift", "ReaderSelectionPolicy.swift", "UpdateManifest.swift", "BrowserBookmark.swift", "ProcessShutdown.swift"]),
         .target(name: "DemoModePolicy", path: "Apps/Shared/Services/Demo",
-                exclude: ["ProtectionPreview.swift", "ScenarioDocumentSigner.swift", "DemoScenarioState.swift", "GatedCardTransport.swift", "DemoDocumentSigner.swift", "DemoDocumentVerifier.swift", "DemoServiceProviding.swift", "DemoServices.swift", "ScreenshotFixtures.swift"], sources: ["DemoHardwareGate.swift", "DemoDocumentProviding.swift", "DemoDocumentFiles.swift"]),
+                exclude: ["ProtectionPreview.swift", "ScenarioDocumentSigner.swift", "DemoScenarioState.swift", "GatedCardTransport.swift", "DemoDocumentSigner.swift", "DemoDocumentVerifier.swift", "DemoServiceProviding.swift", "DemoServices.swift", "ScreenshotFixtures.swift"], sources: ["DemoHardwareGate.swift", "DemoDocumentProviding.swift", "DemoDocumentFiles.swift", "DemoNotices.swift"]),
         .testTarget(name: "DemoModePolicyTests", dependencies: ["DemoModePolicy"], path: "Tests/DemoModePolicyTests"),
         .testTarget(name: "AppBatchTests", dependencies: ["AppBatch"], path: "Tests/AppBatchTests"),
         .target(name: "DocumentLibrary", path: "Apps/Shared/Services/Activity"),
         .testTarget(name: "DocumentLibraryTests", dependencies: ["DocumentLibrary"], path: "Tests/DocumentLibraryTests"),
         .target(name: "ReaderInsertionPolicy", path: "Helpers/ReaderWatcher",
                 exclude: ["main.swift", "md.esemnbun.reader-watcher.plist", "StoreInfo.plist", "README.md", "ReaderWatcher.entitlements"], sources: ["InsertionPolicy.swift"]),
-        .testTarget(name: "ReaderInsertionPolicyTests", dependencies: ["ReaderInsertionPolicy"], path: "Tests/ReaderInsertionPolicyTests")
+        .testTarget(name: "ReaderInsertionPolicyTests", dependencies: ["ReaderInsertionPolicy"], path: "Tests/ReaderInsertionPolicyTests"),
+        .target(name: "MainWindowPolicy", path: "Apps/macOS/WindowPolicy"),
+        // iOS logic that runs on any Apple platform: share-extension inbox and the NFC bridge transport.
+        .target(name: "MobileServices", dependencies: [.product(name: "MoldSignKit", package: "MoldSignKit")],
+                path: "Apps/iOS",
+                exclude: ["Assets.xcassets", "en.lproj", "ro.lproj", "ru.lproj", "Info.plist", "LaunchResources",
+                          "LaunchScreen.storyboard", "PrivacyInfo.xcprivacy", "eSemnBun.entitlements",
+                          "BrowserAuthenticationOptions.swift", "BrowserScreen.swift", "DocumentActions.swift",
+                          "HomeScreenQuickActions.swift", "MobileSettingsView.swift", "MoldSigniOSApp.swift",
+                          "Services/NFCBrowserCoordinator.swift", "Services/NFCSigningSession.swift",
+                          "Services/SigningCardChoice.swift"],
+                sources: ["SharedDocumentInbox.swift", "Services/NFCBrowserTransport.swift"]),
+        .testTarget(name: "MobileServicesTests", dependencies: ["MobileServices", .product(name: "MoldSignKit", package: "MoldSignKit")],
+                    path: "Tests/MobileServicesTests"),
+        .testTarget(name: "MainWindowPolicyTests", dependencies: ["MainWindowPolicy"], path: "Tests/MainWindowPolicyTests")
     ],
     swiftLanguageModes: [.v5]
 )

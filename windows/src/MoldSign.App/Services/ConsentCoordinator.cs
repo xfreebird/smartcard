@@ -11,10 +11,13 @@ namespace MoldSign.App.Services;
 /// thread; it shows UI on the dispatcher and blocks until the user answers.
 /// Stored PIN → Windows Hello only; otherwise the PIN window (docs/10 §4.3).
 /// </summary>
-public sealed class ConsentCoordinator(DispatcherQueue ui, IPinVault pins, AppSettings settings)
+public sealed class ConsentCoordinator(DispatcherQueue ui, IPinVault pins, AppSettings settings) : IDisposable
 {
     private readonly CancellationTokenSource _shutdown = new();
     public void CancelPending() => _shutdown.Cancel();
+    public Task CancelPendingAsync() => _shutdown.CancelAsync();
+    // The owner cancels and drains signing/bridge operations before releasing this source.
+    public void Dispose() => _shutdown.Dispose();
 
     /// <summary>SHA-1 of the certificate the last PIN was given for (deleted from the vault on WrongPin).</summary>
     public string? LastCertificateSha1 { get; private set; }

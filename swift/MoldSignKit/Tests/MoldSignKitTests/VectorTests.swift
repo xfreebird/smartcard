@@ -31,11 +31,11 @@ final class VectorTests: XCTestCase {
         let plain = hex(c["rnd_ifd"]) + hex(c["sn_ifd"]) + hex(ea["rnd_icc"]) + Data((ea["sn_icc_ascii"] as! String).utf8) + hex(c["k_ifd"])
         let ct = try AES(key: kenc).cbcEncrypt(plain, iv: Data(count: 16))
         XCTAssertEqual(ct.hexString, ea["ciphertext"] as? String)
-        XCTAssertEqual(AES.cmac(key: kmac, message: ct).hexString, ea["cmac"] as? String)
+        XCTAssertEqual(try AES.cmac(key: kmac, message: ct).hexString, ea["cmac"] as? String)
 
         let rd = try XCTUnwrap(v["response_decode"] as? [String: Any])
         let resp = hex(rd["response"])
-        XCTAssertEqual(AES.cmac(key: kmac, message: resp.prefix(80)), resp.suffix(16))
+        XCTAssertEqual(try AES.cmac(key: kmac, message: resp.prefix(80)), resp.suffix(16))
         XCTAssertEqual(try AES(key: kenc).cbcDecrypt(resp.prefix(80), iv: Data(count: 16)).prefix(16).hexString, rd["challenge"] as? String)
 
         let sk = try XCTUnwrap(v["session_keys"] as? [String: Any])
@@ -47,7 +47,7 @@ final class VectorTests: XCTestCase {
     func testSecureMessaging() throws {
         let sm = try XCTUnwrap(try vectors()["sm"] as? [String: Any])
         let enc = hex(sm["sess_enc"]), mac = hex(sm["sess_mac"]), ssc = hex(sm["ssc_initial"])
-        XCTAssertEqual(AES(key: enc).ecbEncrypt(ssc).hexString, sm["iv_for_ssc_initial"] as? String)
+        XCTAssertEqual(try AES(key: enc).ecbEncrypt(ssc).hexString, sm["iv_for_ssc_initial"] as? String)
         for case let w as [String: Any] in sm["wrap"] as? [Any] ?? [] {
             var channel = SecureChannel(sessENC: enc, sessMAC: mac, ssc: ssc)
             XCTAssertEqual(try channel.wrap(hex(w["apdu"])).hexString, w["wrapped"] as? String, w["name"] as? String ?? "")
@@ -64,7 +64,7 @@ final class VectorTests: XCTestCase {
         let v = try vectors()
         let cmac = try XCTUnwrap(v["cmac"] as? [String: Any])
         for case let c as [String: Any] in cmac["cases"] as? [Any] ?? [] {
-            XCTAssertEqual(AES.cmac(key: hex(cmac["key"]), message: hex(c["message"])).hexString, c["tag"] as? String,
+            XCTAssertEqual(try AES.cmac(key: hex(cmac["key"]), message: hex(c["message"])).hexString, c["tag"] as? String,
                            "message=\(c["message"] ?? "")")
         }
         for case let p as [String: Any] in v["iso9797"] as? [Any] ?? [] {

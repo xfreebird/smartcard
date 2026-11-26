@@ -52,17 +52,10 @@ export default function DownloadsPage() {
    </nav>
    <div className="download-platform-grid">
     {platforms.map(platform => <section className={`download-platform-card${selectedPlatform === platform.id ? ' download-platform-card-selected' : ''}`} id={platform.id} key={platform.id} aria-labelledby={`${platform.id}-title`}
-     tabIndex={0}
-     onClick={() => selectCard(platform.id)}
-     onKeyDown={event => {
-      if (event.target === event.currentTarget && (event.key === 'Enter' || event.key === ' ')) {
-       event.preventDefault();
-       selectCard(platform.id);
-      }
-     }}>
+     onClick={() => selectCard(platform.id)}>
      <div className="download-platform-heading">
       <span className="download-platform-symbol"><PlatformIcon name={platform.icon}/></span>
-      <div className="download-platform-title"><h2 id={`${platform.id}-title`}>{text(platform.name)}</h2><p>{platform.id === 'linux' ? text({en: 'Desktop app and command-line tools · x86-64', ro: 'Aplicație desktop și instrumente în linia de comandă · x86-64', ru: 'Настольное приложение и инструменты командной строки · x86-64'}) : text(platform.requirements)}</p></div>
+      <div className="download-platform-title"><h2 id={`${platform.id}-title`}><button type="button" className="download-platform-select" aria-pressed={selectedPlatform === platform.id} onClick={() => selectCard(platform.id)}>{text(platform.name)}</button></h2><p>{platform.id === 'linux' ? text({en: 'Desktop app and command-line tools · x86-64', ro: 'Aplicație desktop și instrumente în linia de comandă · x86-64', ru: 'Настольное приложение и инструменты командной строки · x86-64'}) : text(platform.requirements)}</p></div>
       {platform.store && <div className={['ios','android'].includes(platform.id) ? 'download-stores mobile-store-badges' : 'download-stores'}>
        {[platform.store, ...(platform.additionalStores || [])].map(store => <StoreBadge key={store.url} store={store} locale={currentLocale}/>)}
       </div>}

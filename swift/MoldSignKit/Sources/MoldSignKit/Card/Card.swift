@@ -102,7 +102,9 @@ public final class CosmoXCard {
 
     func smTransmit(_ apdu: Data) throws -> (data: Data, sw: Data) {
         guard var ch = channel else { throw CardError.cardNotResponding }
-        let wrapped = try ch.wrap(apdu)
+        let wrapped: Data
+        do { wrapped = try ch.wrap(apdu) }
+        catch { channel = nil; throw error }
         channel = ch
         let (rawResp, rawSW) = try transmitFull(wrapped)
         if rawResp.isEmpty {
@@ -116,7 +118,9 @@ public final class CosmoXCard {
         }
         ch = channel!
         MSLog.debug("    [unwrap: calling with \(rawResp.count + rawSW.count)B...]")
-        let (data, sw) = try ch.unwrap(rawResp + rawSW)
+        let data: Data, sw: Data
+        do { (data, sw) = try ch.unwrap(rawResp + rawSW) }
+        catch { channel = nil; throw error }
         channel = ch
         MSLog.debug("    [unwrap: OK, data=\(data.count)B, sw=\(sw.hexString)]")
         return (data, sw)
@@ -178,7 +182,7 @@ public final class CosmoXCard {
         let plainBuf = terminalRandom + Self.snIFD + rndICC + snICC + terminalKey
         let aesKenc = AES(key: kenc)
         let ct = try aesKenc.cbcEncrypt(plainBuf, iv: Data(repeating: 0, count: 16))
-        let mac = AES.cmac(key: kmac, message: ct)
+        let mac = try AES.cmac(key: kmac, message: ct)
         var extAuth = Data([0x00, 0x82, 0x00, 0x00, 0x60])
         extAuth += ct + mac.prefix(16)
         let (respData, swEA) = try transmitFull(extAuth)
@@ -188,7 +192,7 @@ public final class CosmoXCard {
         // 9. Verify response MAC and decode
         let respCT = respData.prefix(80)
         let respMAC = respData.dropFirst(80).prefix(16)
-        guard Self.authenticationBytesEqual(Data(AES.cmac(key: kmac, message: respCT).prefix(16)), Data(respMAC)) else {
+        guard Self.authenticationBytesEqual(Data(try AES.cmac(key: kmac, message: respCT).prefix(16)), Data(respMAC)) else {
             throw CardError.macVerificationFailed
         }
         let respPlain = try aesKenc.cbcDecrypt(respCT, iv: Data(repeating: 0, count: 16))

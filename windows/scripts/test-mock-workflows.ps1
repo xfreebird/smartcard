@@ -1,7 +1,9 @@
 param([Parameter(Mandatory=$true)][string]$App, [Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference = 'Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+. (Join-Path $PSScriptRoot 'ui-automation.ps1')
 if (Test-Path $Output) { throw 'Use a fresh output directory.' }
 New-Item -ItemType Directory $Output | Out-Null
 $Output = (Resolve-Path $Output).Path
@@ -18,7 +20,7 @@ function Elements($id, $process) {
     $condition = [System.Windows.Automation.AndCondition]::new(
         [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty, $process.Id),
         [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::AutomationIdProperty, $id))
-    return @([System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants, $condition))
+    return @(Find-AppAutomationElements $process $condition)
 }
 function Wait-State($message, $process, [scriptblock]$predicate) {
     $deadline = [DateTime]::UtcNow.AddSeconds(25)
@@ -28,6 +30,11 @@ function Wait-State($message, $process, [scriptblock]$predicate) {
         Start-Sleep -Milliseconds 100
     }
     throw "Timed out: $message"
+}
+# Menus and pages render their items asynchronously: wait until one is on screen before reading it.
+function Wait-Element($id, $process) {
+    Wait-State $id $process { @(Elements $id $process | Where-Object { -not $_.Current.IsOffscreen }).Count -gt 0 }
+    return @(Elements $id $process | Where-Object { -not $_.Current.IsOffscreen })[0]
 }
 function Click($id, $process) {
     Wait-State $id $process { @(Elements $id $process | Where-Object { -not $_.Current.IsOffscreen -and $_.Current.IsEnabled }).Count -gt 0 }
@@ -71,9 +78,9 @@ try {
             } elseif ($scenario -eq 'change-format') {
                 Click 'SignFileOptions' $process; Click 'SignFormat1' $process
                 Click 'SignFileOptions' $process
-                $option = @(Elements 'SignFormat1' $process)[0]
+                $option = Wait-Element 'SignFormat1' $process
                 $toggle = $option.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern)
-                if ($toggle.Current.ToggleState -ne [System.Windows.Automation.ToggleState]::On) { throw 'Selected format was not retained' }
+                Wait-State 'selected format retained' $process { $toggle.Current.ToggleState -eq [System.Windows.Automation.ToggleState]::On }
             } else {
                 Click 'SignDocuments' $process
                 $expected = @{ 'sign-success'=2; 'sign-mixed'=1; 'sign-fatal'=0; 'history-clear'=2 }[$scenario]
@@ -87,14 +94,14 @@ try {
                     Click 'NavDocuments' $process
                     Wait-State 'saved output library' $process { @(Elements 'SavedDocumentName' $process).Count -ge 2 }
                     $saved = @(Elements 'SavedDocumentName' $process | ForEach-Object { $_.Current.Name } | Sort-Object)
-                    $filter = @(Elements 'DocumentFilter' $process)[0]
+                    $filter = Wait-Element 'DocumentFilter' $process
                     $filter.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
                     Click 'HistoryFilter' $process
                     Click 'ClearDocuments' $process; Click 'CloseButton' $process
                     Wait-State 'cancel retains history' $process { @(Elements 'SavedDocumentName' $process).Count -ge 2 }
                     Click 'ClearDocuments' $process; Click 'PrimaryButton' $process
                     Wait-State 'history cleared' $process { @(Elements 'SavedDocumentName' $process).Count -eq 0 }
-                    $filter = @(Elements 'DocumentFilter' $process)[0]
+                    $filter = Wait-Element 'DocumentFilter' $process
                     $filter.GetCurrentPattern([System.Windows.Automation.ExpandCollapsePattern]::Pattern).Expand()
                     Click 'SignedFilter' $process
                     Wait-State 'saved outputs retained' $process { @(Elements 'SavedDocumentName' $process).Count -eq $saved.Count }
@@ -111,4 +118,4 @@ try {
             ConvertTo-Json -InputObject @($results) -Depth 5 | Set-Content (Join-Path $Output 'results.json')
         }
     }
-} finally { foreach ($name in $names) { [Environment]::SetEnvironmentVariable($name, $before[$name]) } }
+} finally { foreach ($name in $names) { Set-TestEnvironmentVariable $name $before[$name] } }

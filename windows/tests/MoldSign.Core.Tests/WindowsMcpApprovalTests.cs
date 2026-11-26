@@ -74,7 +74,7 @@ public sealed class WindowsMcpApprovalTests
         finally { directory.Delete(true); }
     }
 
-    private static void Private(DirectoryInfo directory)
+    internal static void Private(DirectoryInfo directory)
     {
         if (OperatingSystem.IsWindows())
         {

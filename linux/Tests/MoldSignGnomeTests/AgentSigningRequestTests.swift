@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import MoldSignGnome
 
-final class AgentSigningRequestTests: XCTestCase {
+final class AgentSigningRequestTests: GnomeTestCase {
     private let id = UUID().uuidString
     private func packet(_ changes: [String: Any] = [:]) throws -> Data {
         var value: [String: Any] = ["schemaVersion": 1, "operation": "prepare", "jobId": id,

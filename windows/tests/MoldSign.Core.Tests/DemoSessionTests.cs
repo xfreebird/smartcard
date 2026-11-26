@@ -19,7 +19,7 @@ public class DemoSessionTests
         Assert.Equal(before, File.ReadAllBytes(input));
         Assert.Equal("ISTRATI ELENA", signed.Certificate.CommonName);
         Assert.Equal("DEMO", signed.Format);
-        Assert.Empty(new Validator().ValidatePdf(File.ReadAllBytes(output))); // no real PDF signature
+        Assert.Empty(Validator.ValidatePdf(File.ReadAllBytes(output))); // no real PDF signature
         var report = Assert.Single(demo.Verify(output));
         Assert.Equal("DEMO", report.Kind);
         Assert.Equal(Verdict.Valid, report.Verdict); // explicitly simulated happy-state model
@@ -56,6 +56,35 @@ public class DemoSessionTests
         Assert.Contains("legallyValid=\"false\"", xml);
         Assert.DoesNotContain("<ds:Signature", xml);
         Assert.DoesNotContain("SignatureValue", xml);
+    }
+
+    [Fact]
+    public void DebugScreenshotFixturesNeedEveryCaptureVariableAndStayOnSampleFiles()
+    {
+        string[] names = ["MSIGN_SCREENSHOT_CAPTURE", "MSIGN_DEMO_CARDS", "MSIGN_DEMO_VERIFY"];
+        var previous = names.ToDictionary(name => name, Environment.GetEnvironmentVariable);
+        using var demo = new DemoSession();
+        var sample = demo.Documents[0];
+        try
+        {
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", "invalid");
+            Assert.Equal("DEMO", Assert.Single(demo.Verify(sample)).Kind); // capture mode is off
+            Environment.SetEnvironmentVariable("MSIGN_SCREENSHOT_CAPTURE", "1");
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_CARDS", "2");
+            foreach (var (state, verdict) in new[] { ("valid", Verdict.Valid), ("invalid", Verdict.Invalid), ("unknown", Verdict.Indeterminate) })
+            {
+                Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", state);
+                var report = Assert.Single(demo.Verify(sample));
+                Assert.Equal(verdict, report.Verdict);
+                Assert.Equal("POPESCU ION", report.Signer);
+            }
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", "unsigned");
+            Assert.Empty(demo.Verify(sample));
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", "tampered");
+            Assert.Throws<InvalidOperationException>(() => demo.Verify(sample));
+            Assert.Throws<InvalidOperationException>(() => demo.Verify(Path.Combine(Path.GetTempPath(), "private.pdf")));
+        }
+        finally { foreach (var (name, value) in previous) Environment.SetEnvironmentVariable(name, value); }
     }
 
     [Fact]

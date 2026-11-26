@@ -3,9 +3,6 @@ package md.moldsign.app.nfc
 import android.app.Activity
 import android.content.Context
 import android.nfc.NfcAdapter
-import android.nfc.Tag
-import android.nfc.tech.IsoDep
-import android.os.Bundle
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,22 +12,37 @@ import md.moldsign.core.*
 import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 
-/** One foreground reader-mode session, one tag, one authentication attempt. Never reconnects. */
-class NfcSigningController(context: Context) {
+/**
+ * One foreground reader-mode session, one tag, one authentication attempt. Never reconnects.
+ *
+ * Reader mode itself is owned by [NfcReaderModeGate]: after a session has seen a card it stays enabled,
+ * absorbing the card, until the activity pauses. Releasing it while the eID is still on the phone would
+ * hand the card to the system dispatcher ("No supported app for this NFC tag").
+ */
+class NfcSigningController internal constructor(
+    private val radio: NfcRadio,
+    private val diagnosticsContext: Context,
+    private val scanTimeoutMs: Long = SCAN_TIMEOUT_MS,
+) {
+    constructor(context: Context) : this(AndroidNfcRadio(NfcAdapter.getDefaultAdapter(context)), context.applicationContext)
+
     enum class Phase { Waiting, Reading, Signing }
-    private val adapter = NfcAdapter.getDefaultAdapter(context)
-    private val diagnosticsContext = context.applicationContext
+    private val gate = NfcReaderModeGate(radio)
     private var host = WeakReference<Activity>(null)
     private var active: Session? = null
     private val state = MutableStateFlow<Phase?>(null)
     val phase = state.asStateFlow()
     val progress = MutableStateFlow(SigningStep.Idle)
-    val available: Boolean get() = adapter != null
-    val enabled: Boolean get() = adapter?.isEnabled == true
+    val available: Boolean get() = radio.available
+    val enabled: Boolean get() = radio.enabled
+
+    /** Reader mode is on: waiting for a card, or holding one after a session. */
+    internal val readerModeActive: Boolean get() = gate.active
 
     @Synchronized fun resumed(activity: Activity) { host = WeakReference(activity) }
     @Synchronized fun paused(activity: Activity) {
         if (host.get() === activity) { cancel(); host.clear() }
+        gate.paused(activity)
     }
     @Synchronized fun cancel() { active?.finish("cancelled") }
 
@@ -48,12 +60,7 @@ class NfcSigningController(context: Context) {
             activity.runOnUiThread {
                 synchronized(this) {
                     if (active !== session || session.closed.get()) return@runOnUiThread
-                    try {
-                        adapter!!.enableReaderMode(activity, session::discovered,
-                            NfcAdapter.FLAG_READER_NFC_A or NfcAdapter.FLAG_READER_NFC_B or
-                                NfcAdapter.FLAG_READER_SKIP_NDEF_CHECK or NfcAdapter.FLAG_READER_NO_PLATFORM_SOUNDS,
-                            Bundle().apply { putInt(NfcAdapter.EXTRA_READER_PRESENCE_CHECK_DELAY, 250) })
-                    } catch (error: Exception) { session.failure(error) }
+                    try { gate.open(activity, session.route) } catch (error: Exception) { session.failure(error) }
                 }
             }
         }
@@ -63,15 +70,16 @@ class NfcSigningController(context: Context) {
 
     inner class Session internal constructor(private val activity: Activity) : ApduTransport {
         internal val closed = AtomicBoolean(false)
-        private val tag = CompletableDeferred<Tag>()
-        private var iso: IsoDep? = null
+        private val tag = CompletableDeferred<NfcTagHandle>()
+        private var iso: IsoDepLink? = null
         private val report = NfcDiagnostics(diagnosticsContext)
         override val readerName = "NFC"
 
-        internal fun discovered(value: Tag) { if (!closed.get()) tag.complete(value) }
+        /** Reader-mode callback; the first card wins and late callbacks cannot reactivate a closed session. */
+        internal val route = NfcReaderModeGate.Route<NfcTagHandle> { if (!closed.get()) tag.complete(it) }
         internal fun connect() {
-            val value = runBlocking { withTimeoutOrNull(60_000) { tag.await() } } ?: throw NfcScanTimeout()
-            val connection = IsoDep.get(value) ?: throw NfcUnsupportedCard()
+            val value = runBlocking { withTimeoutOrNull(scanTimeoutMs) { tag.await() } } ?: throw NfcScanTimeout()
+            val connection = value.isoDep() ?: throw NfcUnsupportedCard()
             synchronized(this@NfcSigningController) {
                 if (closed.get()) throw CardError.Cancelled()
                 iso = connection
@@ -79,7 +87,7 @@ class NfcSigningController(context: Context) {
             try { connection.connect() }
             catch (_: java.io.IOException) { if (closed.get()) throw CardError.Cancelled() else throw NfcConnectionLost() }
             if (closed.get()) { connection.close(); throw CardError.Cancelled() }
-            connection.timeout = 8_000
+            connection.timeout = TRANSCEIVE_TIMEOUT_MS
             report.event("connected", value = connection.maxTransceiveLength)
             state.value = Phase.Reading
         }
@@ -116,15 +124,21 @@ class NfcSigningController(context: Context) {
             synchronized(this@NfcSigningController) {
                 if (active === this) { active = null; state.value = null }
             }
+            // Every outcome (signature, failure, cancel, timeout) goes through the gate: it keeps reader mode
+            // while a seen card may still be in the field, and never releases a later scan's reader mode.
             activity.runOnUiThread {
                 synchronized(this@NfcSigningController) {
-                    // A later explicit scan must not be disabled by this session's queued cleanup.
-                    if (active == null) runCatching { adapter?.disableReaderMode(activity) }
+                    if (gate.finished(route)) report.event("reader_mode_held")
                 }
             }
             report.finish(outcome)
         }
         override fun close() { finish("closed") }
+    }
+
+    private companion object {
+        const val SCAN_TIMEOUT_MS = 60_000L
+        const val TRANSCEIVE_TIMEOUT_MS = 8_000
     }
 }
 

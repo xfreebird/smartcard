@@ -4,7 +4,7 @@ import XCTest
 import MoldSignKit
 @testable import MoldSignGnome
 
-final class CardDataProviderTests: XCTestCase {
+final class CardDataProviderTests: GnomeTestCase {
     func testLateReadCannotOverwriteAReplacementCard() {
         let source = DeferredCardData()
         let session = ReaderSession(service: SigningService(), vault: UnusedVault(), monitor: UnusedMonitor(),

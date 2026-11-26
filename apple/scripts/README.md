@@ -29,7 +29,15 @@ For expanded Duo set `MSIGN_CAPTURE_DISPLAY=3` when running the native tests. `c
 swift test --package-path apple --scratch-path /tmp/esemnbun-app-policy-tests
 ```
 
-The package also tests the exact insertion transition policy compiled into the separate reader watcher: initial state/removals are silent, reader/card insertions each emit once.
+The package also tests the exact insertion transition policy compiled into the separate reader watcher: initial state/removals are silent, reader/card insertions each emit once. `ReaderInsertionDeliveryTests` and `MainWindowPresentationPolicyTests` cover how an insertion reaches a running app (URL without activation) and when the macOS main window may come forward (never while it is already showing).
+
+`test-macos-insertion-window.sh DEBUG_APP FRESH_OUTPUT_DIR` checks that path in the real Debug macOS app on an otherwise idle desktop: the bundled helper reads fake snapshots and targets an isolated QA instance; Finder must stay frontmost while the main window is showing, an explicit reopen still brings it forward, and an insertion presents a closed window. No reader, card, PIN or background item is involved.
+
+The Python automation scripts validate their command-line inputs before doing any work: simulators are a UDID or `booted`, `MSIGN_CAPTURE_DISPLAY` is 1–4, capture names stay `[a-z0-9-]+`, output and fixture paths must resolve inside the repository, `$RUNNER_TEMP`, the temporary directory or `/tmp` (seeded app containers inside `~/Library/Developer/CoreSimulator/Devices`), and the helper check only runs the watcher inside a macOS `md.esemnbun.mac` `.app` bundle. They have unit tests that run on any OS with fake native tools:
+
+```sh
+python3 -m unittest discover -s apple/Tests/Scripts -p 'test_*.py'
+```
 
 The app uses the same `SigningBatchRunner.swift` tested by this small package. Tests suspend authorization and mutate the queue/card selection, attempt a concurrent batch, cancel and reauthorize, and inject a rejected credential/disconnection. They assert one authorization per immutable batch, no automatic retries, and preservation of pending/new documents after partial failure. No card transport, keychain or production PIN is used.
 

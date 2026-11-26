@@ -35,8 +35,13 @@ class WorkflowContracts(unittest.TestCase):
         for path in (ROOT/'.github/workflows').glob('*.yml'):
             text = path.read_text()
             triggers = text.split('\non:\n', 1)[1].split('\npermissions:', 1)[0]
-            if path.name not in ('ci.yml', 'website.yml', 'release.yml'):
+            if path.name not in ('ci.yml', 'website.yml', 'release.yml', 'sonar-coverage.yml'):
                 self.assertNotRegex(triggers, r'(?m)^  push:', path.name)
+            if path.name == 'sonar-coverage.yml':
+                self.assertIn('branches: [main]', triggers)
+                self.assertNotIn('pull_request_target:', triggers)
+                self.assertNotRegex(text, r'(?m)^\s+\w+: write$')
+                self.assertEqual(set(re.findall(r'secrets\.([A-Z][A-Z0-9_]*)', text)), {'SONAR_TOKEN'})
             if path.name == 'release.yml':
                 push = triggers.split('  push:', 1)[1].split('  workflow_dispatch:', 1)[0]
                 self.assertIn('tags: ["v*"]', push)
@@ -47,6 +52,50 @@ class WorkflowContracts(unittest.TestCase):
                 sources = re.search(r'workflows: \[([^\]]+)\]', triggers).group(1)
                 self.assertTrue(set(s.strip() for s in sources.split(',')) <=
                                 {'Release', 'CLI package repositories'}, path.name)
+
+    def test_android_jobs_take_robolectric_from_the_cache_before_gradle(self):
+        # Maven Central rate-limits the 151 MB framework jar from CI addresses; Gradle must find it cached.
+        for name, job in [('ci.yml', '\n  android:\n'), ('sonar-coverage.yml', '\n  android-web:\n')]:
+            text = (ROOT/'.github/workflows'/name).read_text().split(job, 1)[1]
+            order = [text.index(step) for step in ['robolectric-cache.sh outputs', 'ROBOLECTRIC_LOCAL_REPOSITORY=',
+                                                   'actions/cache/restore@', 'robolectric-cache.sh seed',
+                                                   'actions/cache/save@', 'gradle-ci.sh']]
+            self.assertEqual(order, sorted(order), name)
+            self.assertIn('>> "$GITHUB_ENV"', text.split('ROBOLECTRIC_LOCAL_REPOSITORY=', 1)[1].split('\n', 1)[0], name)
+            # The seed step also checks a restored jar's SHA-256, so it runs on cache hits too.
+            seed = text.split('robolectric-cache.sh seed', 1)[0].rsplit('- name:', 1)[1]
+            self.assertNotIn('if:', seed, name)
+        settings = (ROOT/'android/settings.gradle.kts').read_text()
+        local = settings.split('environmentVariable("ROBOLECTRIC_LOCAL_REPOSITORY")', 1)[1].split('google()', 1)[0]
+        self.assertIn('exclusiveContent', local)
+        self.assertIn('includeModule("org.robolectric", "android-all-instrumented")', local)
+
+    def test_android_jobs_read_maven_central_through_the_mirror_with_a_gradle_cache(self):
+        # Maven Central answers CI's shared addresses with HTTP 429; every Android job uses the mirror and the cache.
+        mirror = 'MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2'
+        for name, job in [('ci.yml', 'android'), ('sonar-coverage.yml', 'android-web'),
+                          ('android-runtime.yml', 'x86-64')]:
+            body = (ROOT/'.github/workflows'/name).read_text().split(f'\n  {job}:\n', 1)[1]
+            body = re.split(r'\n  [a-z][a-z0-9-]*:\n', body, maxsplit=1)[0]
+            self.assertIn(mirror, body.split('steps:', 1)[0], name)
+            self.assertIn('cache: gradle', body, name)
+        settings = (ROOT/'android/settings.gradle.kts').read_text()
+        plugins, dependencies = settings.split('dependencyResolutionManagement', 1)
+        for block in (plugins, dependencies):
+            self.assertLess(block.index('MAVEN_CENTRAL_MIRROR'), block.index('mavenCentral()'))
+
+    def test_every_python_test_module_is_a_sonar_test_source(self):
+        # A test module left out of sonar.tests counts as uncovered production code and lowers new-code coverage.
+        settings = dict(line.split('=', 1) for line in (ROOT/'.sonarcloud.properties').read_text().splitlines()
+                        if line.startswith(('sonar.tests=', 'sonar.exclusions=')))
+        tests = settings['sonar.tests'].split(',')
+        exclusions = settings['sonar.exclusions'].split(',')
+        modules = [p.relative_to(ROOT).as_posix() for p in ROOT.glob('scripts/**/test_*.py')]
+        self.assertGreater(len(modules), 20)
+        for module in modules:
+            self.assertTrue(any(module == entry or module.startswith(entry + '/') for entry in tests), module)
+            self.assertTrue(any(module == entry or (entry.endswith('/**') and module.startswith(entry[:-2]))
+                                for entry in exclusions), module)
 
     def test_every_native_job_runs_mock_ui_and_remains_required(self):
         ci = (ROOT/'.github/workflows/ci.yml').read_text()
@@ -89,21 +138,18 @@ class WorkflowContracts(unittest.TestCase):
     def test_ios_budget_limits_preserve_failure_evidence(self):
         ci = (ROOT / '.github/workflows/ci.yml').read_text()
         ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
-        job_limit = int(re.search(r'\n    timeout-minutes: (\d+)', ios).group(1))
+        self.assertIn('\n    timeout-minutes: 65\n', ios)
         self.assertIn('family: [iPhone, iPad]', ios)
         self.assertIn('max-parallel: 1', ios)
         self.assertIn('fail-fast: false', ios)
         self.assertIn('"${{ matrix.family }}"', ios)
         self.assertIn('name: ios-ui-${{ matrix.family }}-${{ github.sha }}', ios)
-        self.assertLessEqual(job_limit * 2, 90)
-        caps = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
-                'Native iOS mock UI journeys': 40, 'iOS UI evidence': 3}
-        for name, cap in caps.items():
+        limits = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
+                  'Native iOS mock UI journeys': 60, 'iOS UI evidence': 3}
+        for name, expected in limits.items():
             step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
             limit = int(re.search(r'timeout-minutes: (\d+)', step).group(1))
-            self.assertGreater(limit, 0, name)
-            self.assertLessEqual(limit, cap, name)
-            self.assertLess(limit, job_limit, name)
+            self.assertEqual(limit, expected, name)
         build = ios.split('- name: Build iOS and share extension', 1)[1].split('- name: Native iOS mock UI journeys', 1)[0]
         self.assertIn('prepare-ios-ui-resources.sh', build)
         self.assertIn('MSIGN_UI_RESOURCES_DIR=', ios)

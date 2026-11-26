@@ -49,6 +49,13 @@ func chooseFiles(parent: UnsafeMutablePointer<GtkWindow>?, title: String, multip
     }
 }
 
+/// Hands a file to the desktop ("Open folder", "Open with"). The app uses the GTK launchers below; tests replace
+/// them, because a test run must never start the file manager or another application.
+enum DesktopLauncher {
+    static var revealFile: (_ path: String, _ parent: UnsafeMutablePointer<GtkWindow>?) -> Void = revealInFolder
+    static var openFile: (_ path: String, _ parent: UnsafeMutablePointer<GtkWindow>?) -> Void = openWithApplication
+}
+
 /// Shows the file selected in its folder (file manager via the OpenURI portal / D-Bus FileManager1).
 func revealInFolder(_ path: String, parent: UnsafeMutablePointer<GtkWindow>?) {
     let file = g_file_new_for_path(path)

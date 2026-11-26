@@ -1,8 +1,10 @@
 # Interactive Windows QA. Uses the production Settings switch and restores the guest's preferences/history.
 param([Parameter(Mandatory=$true)][string]$App,[Parameter(Mandatory=$true)][string]$Output)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'test-environment.ps1')
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
+. (Join-Path $PSScriptRoot 'ui-automation.ps1')
 Add-Type -AssemblyName System.Drawing
 Add-Type @'
 using System; using System.Runtime.InteropServices;
@@ -18,12 +20,12 @@ New-Item -ItemType Directory -Force $Output|Out-Null
 [xml]$resources=Get-Content (Join-Path $PSScriptRoot '../src/MoldSign.App/Strings/en-US/Resources.resw') -Raw -Encoding UTF8
 $strings=@{};foreach($entry in $resources.root.data){$strings[$entry.name]=[string]$entry.value}
 # Debug automation uses a dedicated profile; never back up/overwrite the developer's live files.
-$profile=Join-Path $Output ('profile-'+[Guid]::NewGuid().ToString('N'))
-New-Item -ItemType Directory -Force $profile|Out-Null
-$prefs=Join-Path $profile 'settings.json'
-$history=Join-Path $profile 'activity.json'
-$original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES'){
- $original[$name]=[Environment]::GetEnvironmentVariable($name);[Environment]::SetEnvironmentVariable($name,$null)
+$testProfile=Join-Path $Output ('profile-'+[Guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Force $testProfile|Out-Null
+$prefs=Join-Path $testProfile 'settings.json'
+$history=Join-Path $testProfile 'activity.json'
+$original=@{};foreach($name in 'MSIGN_DEMO_CARDS','MSIGN_DEMO_PAGE','MSIGN_TEST_PREFERENCES','MSIGN_UI_TEST_SCENARIO','MSIGN_SCREENSHOT_CAPTURE','MSIGN_DEMO_PIN_ONLY','MSIGN_DEMO_READY_FILE','MSIGN_DEMO_SELECTED','MSIGN_DEMO_DARK'){
+ $original[$name]=[Environment]::GetEnvironmentVariable($name);Set-TestEnvironmentVariable $name $null
 }
 $env:MSIGN_TEST_PREFERENCES=$prefs
 $beforeDirs=@(Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Select-Object -ExpandProperty FullName)
@@ -32,7 +34,7 @@ function Elements($property,$value){
  $filter=[System.Windows.Automation.AndCondition]::new(
   [System.Windows.Automation.PropertyCondition]::new([System.Windows.Automation.AutomationElement]::ProcessIdProperty,$process.Id),
   [System.Windows.Automation.PropertyCondition]::new($property,$value))
- return [System.Windows.Automation.AutomationElement]::RootElement.FindAll([System.Windows.Automation.TreeScope]::Descendants,$filter)
+ return @(Find-AppAutomationElements $process $filter)
 }
 function Find([string]$id){
  for($i=0;$i -lt 180;$i++){
@@ -54,7 +56,7 @@ function Navigate([string]$name){
    $pattern=$null
    if($node.TryGetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern,[ref]$pattern)){
     $pattern.Select()
-    $pageId=if($name -eq $strings['NavSign.Content']){'SignPageTitle'}elseif($name -eq $strings['NavVerify.Content']){'VerifyPageTitle'}else{'SettingsPageTitle'}
+    $pageId=if($name -eq $strings['NavSign.Content']){'SignPageTitle'}elseif($name -eq $strings['NavVerify.Content']){'VerifyPageTitle'}elseif($name -eq $strings['NavActivity.Content']){'DocumentsActions'}else{'SettingsPageTitle'}
     $null=Find $pageId
     return
    }
@@ -62,6 +64,20 @@ function Navigate([string]$name){
  };throw "Missing native navigation $name"
 }
 function Read-Prefs {Get-Content $prefs -Raw|ConvertFrom-Json}
+# Demo-only wording: results, banners, sample notices and simulated output names. The Settings switch may still
+# describe demo mode (demo_mode_title/description), but nothing may claim fictional data or simulated signatures.
+$demoOnly=@('demo_sign_success','demo_verify_success','demo_mode_disclaimer','demo_banner','demo_output_notice','demo_mode_result','demo_simulation_complete','demo_fixture_only'|ForEach-Object {$strings[$_]})+@('DEMO-NOT-SIGNED','FICTIONAL DEMO','Fictional demonstration card','DEMO ONLY','DEMO CA')
+function Assert-NoDemoUi([string]$phase){
+ $pages=@($strings['NavSign.Content'],$strings['NavVerify.Content'],$strings['NavActivity.Content'],$strings['SettingsPageTitle.Text'])
+ foreach($page in $pages){
+  Navigate $page;Start-Sleep -Milliseconds 300
+  foreach($node in (Find-AppAutomationElements $process ([System.Windows.Automation.Condition]::TrueCondition))){
+   try{$name=$node.Current.Name}catch [System.Windows.Automation.ElementNotAvailableException]{continue}
+   if([string]::IsNullOrEmpty($name)){continue}
+   foreach($text in $demoOnly){if($name.Contains($text)){throw "Demo-only text outside demo mode ($phase, $page): $text"}}
+  }
+ }
+}
 function Wait-Demo([bool]$enabled){
  for($i=0;$i -lt 180;$i++){
   if((Read-Prefs).DemoModeEnabled -eq $enabled){
@@ -99,7 +115,7 @@ try{
  if(Get-Process eSemnBun -ErrorAction SilentlyContinue){throw 'Close running eSemnBun before this isolated guest test'}
  New-Item -ItemType Directory -Force (Split-Path $prefs)|Out-Null
  @{Language='en-US';BridgeEnabled=$false;DemoModeEnabled=$false;RememberPin=$true;FirstRunDone=$true}|ConvertTo-Json|Set-Content $prefs
- Launch;Navigate $strings['SettingsPageTitle.Text'];$toggle=Find 'DemoModeToggle'
+ Launch;Wait-Demo $false;Assert-NoDemoUi 'before-demo';Navigate $strings['SettingsPageTitle.Text'];$toggle=Find 'DemoModeToggle'
  $historyHash=History-Hash
  Toggle $toggle;$null=Find 'DemoModeConfirmation';Capture 'release-demo-confirmation';Invoke (Find 'CloseButton')
  for($i=0;$i -lt 100 -and $toggle.GetCurrentPattern([System.Windows.Automation.TogglePattern]::Pattern).Current.ToggleState -ne 0;$i++){Start-Sleep -Milliseconds 100}
@@ -123,8 +139,10 @@ try{
  $connections=@(Get-NetTCPConnection -OwningProcess $process.Id -ErrorAction SilentlyContinue)
  if($connections.Count -ne 0){throw 'Demo unexpectedly opened a network connection'}
  Scroll 0;Toggle (Find 'DemoModeToggle');Wait-Demo $false;Capture 'release-normal-restored'
+ Assert-NoDemoUi 'after-demo'
+ Stop-Owned;Launch;Wait-Demo $false;Assert-NoDemoUi 'after-restart'
  if(-not (Read-Prefs).RememberPin){throw 'Real-mode preferences changed unexpectedly'}
- @{passed=$true;isolatedDebugApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true}|
+ @{passed=$true;isolatedDebugApp=$true;appAssemblySha256=(Get-FileHash ([IO.Path]::ChangeExtension($App,'.dll'))).Hash;confirmationCancelPreservedState=$true;persistedAcrossRestart=$true;simulatedBatchOutputs=$outputs.Count;sourceUnchanged=$true;realHistoryUnchanged=$true;demoTcpConnections=$connections.Count;pinVaultImplementation='DemoPinVault';pinEntered=$false;physicalCardUsed=$false;normalModeRestored=$true;normalModeWithoutDemoUi=@('before-demo','after-demo','after-restart')}|
  ConvertTo-Json|Set-Content (Join-Path $Output 'release-demo-validation.json')
 }catch{
  try{Capture 'failure-context'}catch{}
@@ -132,7 +150,7 @@ try{
  throw
 }finally{
  Stop-Owned
- Remove-Item -LiteralPath $profile -Recurse -Force -ErrorAction SilentlyContinue
- foreach($name in $original.Keys){[Environment]::SetEnvironmentVariable($name,$original[$name])}
+ Remove-Item -LiteralPath $testProfile -Recurse -Force -ErrorAction SilentlyContinue
+ foreach($name in $original.Keys){Set-TestEnvironmentVariable $name $original[$name]}
  foreach($directory in (Get-ChildItem $env:TEMP -Directory -Filter eSemnBun-Demo-*|Where-Object {$_.FullName -notin $beforeDirs})){Remove-Item -LiteralPath $directory.FullName -Recurse -Force}
 }

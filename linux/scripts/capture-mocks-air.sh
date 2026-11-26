@@ -15,7 +15,7 @@ wait_ready() {
   remote "cat '$marker'" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d.get("ready") is True and d.get("scenario")=="baseline" and d.get("run")==sys.argv[1] and d.get("page")==sys.argv[2] and d.get("language")==sys.argv[3], d' "$run" "$page" "$language"
 }
 for theme in light dark; do
-  dark=0; [ "$theme" = dark ] && dark=1
+  dark=0; [[ "$theme" = dark ]] && dark=1
   for state in noreader empty pcscd error 1 2 4; do
     for page in sign card; do
       marker="$base/$state-$page-$theme.json"
@@ -29,7 +29,7 @@ for theme in light dark; do
 # Prove centering and preferences in all three languages and both themes.
 for language in ro en ru; do
   for theme in light dark; do
-    dark=0; [ "$theme" = dark ] && dark=1
+    dark=0; [[ "$theme" = dark ]] && dark=1
     marker="$base/middle-$language-$theme.json"
     remote "pkill -x esemnbun-gnome || true; export XDG_RUNTIME_DIR=/run/user/1000 WAYLAND_DISPLAY=wayland-0 DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus XDG_CONFIG_HOME='$base/config' XDG_DATA_HOME='$base/data'; MSIGN_SCREENSHOT_CAPTURE=1 MSIGN_DEMO_RUN_ID=$run MSIGN_DEMO_READY_FILE='$marker' MSIGN_DEMO_LANGUAGE=$language MSIGN_DEMO_DARK=$dark MSIGN_DEMO_CARDS=4 MSIGN_DEMO_SELECTED=2 MSIGN_DEMO_WINDOW=1100x780 nohup ~/smartcard/linux/.build/debug/esemnbun-gnome >/tmp/esemnbun-demo.log 2>&1 </dev/null &"
     wait_ready "$marker" sign "$language"
