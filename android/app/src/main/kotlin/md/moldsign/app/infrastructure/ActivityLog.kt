@@ -84,12 +84,18 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
         }
     }
 
-    /** Debug demo mode only: replaces the list (then [prune] applies the same rules as for real entries). */
+    /**
+     * Debug fixture lists are screenshot state: they live in memory only, so fictional entries never overwrite the
+     * persisted history or reach the home-screen widget. [prune] applies the same rules as for real entries.
+     */
+    @Volatile private var fixture = false
+
+    /** Debug demo mode only: replaces the list for this process (then [prune] applies the same rules as for real entries). */
     @Synchronized
     internal fun replaceForDemo(entries: List<ActivityEntry>) {
+        fixture = true
         _entries.value = entries
         _signedDocuments.value = SignedDocumentLibrary.migrate(entries)
-        save()
         prune()
     }
 
@@ -130,6 +136,7 @@ class ActivityLog(context: Context, private val scope: CoroutineScope, private v
 
     @Synchronized
     private fun save() {
+        if (fixture) return
         prefs.edit {
             putString(KEY, encode(_entries.value))
             putString(DOCUMENTS_KEY, encode(_signedDocuments.value))

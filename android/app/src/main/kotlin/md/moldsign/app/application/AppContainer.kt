@@ -2,6 +2,7 @@ package md.moldsign.app.application
 
 import md.moldsign.app.R
 import md.moldsign.app.infrastructure.ActivityLog
+import md.moldsign.app.infrastructure.ProtectedFileStore
 import md.moldsign.app.infrastructure.SignedFileStore
 import md.moldsign.app.infrastructure.UsbReaderGateway
 import md.moldsign.app.infrastructure.demo.DemoReaderGateway
@@ -59,10 +60,13 @@ class AppContainer(
     val activity = ActivityLog(app, scope, if (userDemoMode) "demo-activity" else "activity")
     val signedFiles = SignedFileStore(app)
 
-    /** Both modes execute the same batch policy; demo persistence accepts only provider-owned sample bytes. */
+    /**
+     * Both modes execute the same batch policy; demo persistence accepts only provider-owned sample bytes. Demo
+     * outputs stay in app-private storage: the DEMO files never join real signed documents in Downloads/eSemnBun.
+     */
     fun signingWorkflow(data: DocumentDataProvider): SignDocuments = if (userDemoMode) {
         SignDocuments(signingService, previewData,
-            DocumentOutputStore { name, _, _ -> signedFiles.save(name, "application/pdf", previewData.outputBytes()) },
+            DocumentOutputStore { name, _, _ -> ProtectedFileStore(app).save(name, previewData.outputBytes()) },
             outputName = { previewData.outputName(it.doc.name) })
     } else SignDocuments(signingService, data, signedFiles)
 

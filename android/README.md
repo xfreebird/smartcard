@@ -163,6 +163,15 @@ per insertion, late reads for replaced cards, selection fallback, re-read and th
 preflight, 403 without CORS headers, and a real-socket round trip. `SigningBridgeRoutesTest` covers the portal flow
 (certificate list, `201` + absolute `Location` + empty body, the long-poll, PIN sessions per origin and card, XAdES
 with the requested digest) and `BridgeTlsTest` the HTTPS listener with the vendor identity.
+`:app` unit tests run on Robolectric (SDK 34 on the JDK 17 test runtime; the framework jar is a verified Gradle
+dependency used offline) with the Compose UI test rule. They render every destination, sheet and dialog in the
+debug fixture states (cards, reader states, documents, batches, PIN, verification verdicts, file protection,
+browser window, dark theme, tablet and short landscape), drive the real non-demo app against fake reader and
+card adapters (pickers answered like the system, the PIN sheet, results, verification, protection), and test
+`MainViewModel`, the NFC reader-mode gate and controller, the bridge service, widget and storage adapters.
+`:transport-usb` tests drive `CcidTransport` and `UsbReaderMonitor` against a simulated CCID reader.
+Coverage: `../scripts/gradle-ci.sh -PsonarCoverage=true :core:jacocoTestReport :transport-usb:createDebugUnitTestCoverageReport :app:createDebugUnitTestCoverageReport`.
+
 `XadesDocumentSignerTest` validates BES / T / C / enveloping output with the JDK's XML-DSig engine (an independent
 canonicalizer); `OfflineValidatorTest` signs with a software key and a test CA / root, then checks valid, tampered,
 re-timestamped, counter-signed and detached-without-document cases; `MdTrustServicesTest` runs the PKI client against a
@@ -282,8 +291,12 @@ visible on every screen. Demo history uses its own preferences, separate from re
 
 The simulated batch produces one new **DEMO-…-NOT-SIGNED.pdf** per selected sample. These are fixed
 fixture pages carrying **DEMO - NOT A VALID SIGNATURE** and **DEMO ONLY - UNSIGNED** watermarks,
-with no cryptographic signature. Their names/URIs are separately available in Activity for Open,
-Share and Save as. The store inserts new files rather than overwriting inputs or previous outputs.
+with no cryptographic signature. They are written to app-private storage, never to Downloads/eSemnBun
+next to real signed documents, and are listed only in the demo Activity for Open, Share and Save as.
+The store inserts new files rather than overwriting inputs or previous outputs. Demo notices, DEMO
+file names and fictional cards appear only while demo mode is on (`DemoIsolationTest`). The debug-only
+screenshot fixtures (`--es demo …`) keep their fictional activity in memory and never replace the
+persisted history or the widget.
 
 Hardware-free verification:
 
