@@ -176,7 +176,7 @@ public class CliCardCommandTests
     [Fact]
     public void Pcsc_access_on_windows_without_a_reader_exits_5()
     {
-        if (!OperatingSystem.IsWindows() || WinSCardTransport.GetReaderStates().Count > 0) return; // a reader is attached
+        if (!OperatingSystem.IsWindows() || WinSCardTransportTests.PcscRefusal(out var readers) is not null || readers > 0) return;
         foreach (var command in new[] { "readers", "cert" })
         {
             var (code, output, error) = Run([command, "--quiet"], new WinSCardAccess());

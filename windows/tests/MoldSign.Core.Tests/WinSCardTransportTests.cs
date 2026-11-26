@@ -33,10 +33,34 @@ public sealed class WinSCardTransportTests
         Assert.Equal(CardErrorKind.CardNotResponding, WinSCardTransport.Map(0x80100008, "SCardTransmit").Kind);
     }
 
+    /// <summary>Null when PC/SC answers; the refusal when the Smart Card service denies this session (e.g. over SSH).</summary>
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+    internal static CardException? PcscRefusal(out int readers)
+    {
+        readers = 0;
+        try { readers = WinSCardTransport.GetReaderStates().Count; return null; }
+        catch (CardException refused) { return refused; }
+    }
+
+    [Fact]
+    public void Without_pcsc_access_every_entry_point_fails_with_the_same_card_error()
+    {
+        if (!OperatingSystem.IsWindows() || PcscRefusal(out _) is not { } refused) return; // PC/SC answers here
+        foreach (var entryPoint in EntryPoints()) Assert.Equal(refused.Message, Assert.Throws<CardException>(entryPoint).Message);
+    }
+
+    [System.Runtime.Versioning.SupportedOSPlatform("windows")]
+    private static Action[] EntryPoints() =>
+    [
+        () => WinSCardTransport.ListReadersWithCardPresence(),
+        () => WinSCardTransport.ListReaders(),
+        () => WinSCardTransport.Connect(),
+    ];
+
     [Fact]
     public void Without_a_reader_every_entry_point_reports_no_reader()
     {
-        if (!OperatingSystem.IsWindows() || WinSCardTransport.GetReaderStates().Count > 0) return; // a reader is attached
+        if (!OperatingSystem.IsWindows() || PcscRefusal(out var readers) is not null || readers > 0) return; // refused or a reader is attached
 
         Assert.Empty(WinSCardTransport.ListReadersWithCardPresence());
         try { Assert.Empty(WinSCardTransport.ListReaders()); }
