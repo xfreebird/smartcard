@@ -45,8 +45,17 @@ processed the PIN; never infer remaining attempts from a transport error.
 - `NfcSigningController` uses foreground Android reader mode with NFC-A/NFC-B, skips NDEF
   checks and suppresses the early system tag sound. ISO-DEP connect/transceive run off the
   main thread. Waiting for a card is bounded to 60 seconds; each transceive to 8 seconds.
-  Cancel/background closes the connection and disables reader mode. Late callbacks cannot
-  replace the accepted tag or reactivate a cancelled session. No reconnect/authentication loop exists.
+  Every session end (card signature, failure, cancel, timeout) closes the connection. Late callbacks
+  cannot replace the accepted tag or reactivate a cancelled session. No reconnect/authentication loop exists.
+- Reader mode is owned by `NfcReaderModeGate`, not by a session. Turning reader mode off while the eID is
+  still at the antenna hands the card back to Android's dispatcher, which finds no app for an ISO-DEP card
+  without NDEF and shows "No supported app for this NFC tag". After a session that saw a card, reader mode
+  therefore stays on and absorbs (never connects to) further discoveries until the activity pauses. On
+  pause the last tag is passed to `NfcAdapter.ignore` with a 1 s debounce before reader mode is released, so
+  a card that keeps its UID is not dispatched while it stays in range. A session that never saw a card
+  releases reader mode at once. The next document of a batch reuses the enabled reader mode and asks the
+  platform to present the held card again; it still opens its own connection. While reader mode is held,
+  other NFC uses (for example tap-to-pay) wait until eSemnBun leaves the foreground.
 - `ContactlessCertificateReader` selects IAS, Generic ADF and EF0001 without authentication.
   Reads are exact, at most 128 bytes each, with a 4096-byte certificate limit and bounded
   GET RESPONSE chaining. The selected certificate must match **exact DER** before authentication.
@@ -131,6 +140,9 @@ screenshots also stay private under `.local/`.
 - Two cards: select card A, present B and verify rejection before PIN; explicitly choose Another card for B.
 - USB connected: sign by NFC while a different card remains in the reader.
 - Cancel/background/rotation: waiting and in-progress scan; confirm closure and no automatic retry.
+- Keep the card on the phone after a signature, a failure and a cancel: no "No supported app for this NFC
+  tag" message while eSemnBun is in front; then leave the app with the card still there. A card with a
+  random UID may still be dispatched once by the system after the app has left the foreground.
 - XAdES and multi-document NFC batches, other Android devices and other card generations.
 - Certificate trust/revocation and external portal validation remain distinct from cryptographic integrity.
 
