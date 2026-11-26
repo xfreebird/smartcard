@@ -30,7 +30,7 @@ jobs:
       android: ${{ steps.select.outputs.android }}
       windows: ${{ steps.select.outputs.windows }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { fetch-depth: 0 }
       - id: select
         run: python3 scripts/ci/select_jobs.py
@@ -44,9 +44,9 @@ jobs:
     name: Automation and publishing tools
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with: { python-version: '3.12' }
       - name: Test automation scripts with their pinned dependencies
         run: |
@@ -61,7 +61,7 @@ jobs:
     name: Shared localization exports
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: python3 scripts/localize.py --check --require-complete
       - run: python3 scripts/export-browser-services.py --check
       - run: python3 scripts/prepare-store-metadata.py --check
@@ -73,7 +73,7 @@ jobs:
     name: Swift core + CLI (macOS, Apple + portable backends)
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Report test and build failures as annotations
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - name: Test (Apple frameworks)
@@ -93,7 +93,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - run: bash apple/scripts/require-siri-sdk.sh
       - name: Build mock-capable macOS app
         run: xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-macOS -configuration Debug -derivedDataPath "$RUNNER_TEMP/macos-build" CODE_SIGNING_ALLOWED=NO build
@@ -107,7 +107,7 @@ jobs:
           bash scripts/ci/test-apple-ui.sh macos "$RUNNER_TEMP/macos-build/Build/Products/Debug/eSemnBun.app" "$RUNNER_TEMP/macos-ui"
       - name: macOS UI evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: macos-ui-${{ github.sha }}
           retention-days: 7
@@ -136,7 +136,7 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         timeout-minutes: 2
       - name: Require iPhone Duo SDK
         timeout-minutes: 2
@@ -156,7 +156,7 @@ jobs:
       - name: iOS UI evidence
         if: always()
         timeout-minutes: 3
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: ios-ui-${{ matrix.family }}-${{ github.sha }}
           retention-days: 7
@@ -182,7 +182,7 @@ jobs:
       # Avoid the intermittent hosted-container resolver failure for Ubuntu archives.
       options: --dns 1.1.1.1 --dns 8.8.8.8
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Report test and build failures as annotations
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - name: System libraries + packaging tools
@@ -214,7 +214,7 @@ jobs:
         run: dbus-run-session -- xvfb-run -a -s "-screen 0 1440x1080x24" python3 linux/scripts/test-ui-journeys.py linux/.build/debug/esemnbun-gnome "$RUNNER_TEMP/linux-ui"
       - name: Linux UI evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: linux-ui-${{ github.sha }}
           retention-days: 7
@@ -224,7 +224,7 @@ jobs:
       # (LNX-07, LNX-15). The Flatpak bundle is skipped here: flatpak-builder needs a privileged container.
       - name: Packages
         run: scripts/package-linux.sh
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: esemnbun-linux-${{ github.sha }}
           retention-days: 1
@@ -241,7 +241,7 @@ jobs:
       # Maven Central rate-limits CI's shared addresses; android/settings.gradle.kts reads it through this mirror.
       MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Report test and build failures as annotations
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
@@ -323,7 +323,7 @@ jobs:
             bash android/scripts/test-journeys.sh emulator-5554 android/app/build/outputs/apk/debug/app-debug.apk android/app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk "$RUNNER_TEMP/android-ui"
       - name: Android test evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: android-tests-${{ github.sha }}
           retention-days: 7
@@ -348,11 +348,11 @@ jobs:
       MOLDSIGN_MSIX_PUBLISHER: ${{ vars.MOLDSIGN_MSIX_PUBLISHER }}
       MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME: ${{ vars.MOLDSIGN_MSIX_PUBLISHER_DISPLAY_NAME }}
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Report test and build failures as annotations
         shell: bash
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
-      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with:
           global-json-file: windows/global.json
           cache: true
@@ -399,7 +399,7 @@ jobs:
           & windows/scripts/test-insertion-helper.ps1 -App $app -Helper $helper -Output "$env:RUNNER_TEMP/windows-ui-helper"
       - name: Windows UI evidence
         if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: windows-ui-${{ github.sha }}
           retention-days: 7
@@ -408,7 +408,7 @@ jobs:
       - name: Package (Native AOT CLI, WinUI app, MSI, MSIX, winget manifests)
         shell: pwsh
         run: windows/scripts/package-windows.ps1 -Platforms x64
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: esemnbun-windows-x64
           retention-days: 1
