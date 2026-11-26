@@ -17,6 +17,9 @@ android {
 
     testCoverage { jacocoVersion = libs.versions.jacoco.get() }
 
+    // android.util.Log in the monitor's error paths returns quietly on the JVM.
+    testOptions { unitTests.isReturnDefaultValues = true }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

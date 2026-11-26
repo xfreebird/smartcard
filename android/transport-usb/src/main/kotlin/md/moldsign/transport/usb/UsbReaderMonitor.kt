@@ -36,13 +36,14 @@ import md.moldsign.core.TransportProvider
  * is attached with a card. [transportProvider] opens a session on the reader the caller names (the selected
  * card), so signing and the PIN go to that card only. While a session is open on a reader, its polling pauses.
  */
-class UsbReaderMonitor(
-    context: Context,
+class UsbReaderMonitor internal constructor(
+    private val host: UsbHost,
     private val scope: CoroutineScope,
     private val pollIntervalMs: Long = 1_000,
 ) {
-    private val appContext = context.applicationContext
-    private val usbManager: UsbManager = appContext.getSystemService(UsbManager::class.java)
+    constructor(context: Context, scope: CoroutineScope, pollIntervalMs: Long = 1_000) :
+        this(AndroidUsbHost(context.applicationContext), scope, pollIntervalMs)
+
     private val generations = CardGenerations()
 
     /** Attached CCID readers by USB device path, in attach order. Guarded by [lock]. */
@@ -61,9 +62,9 @@ class UsbReaderMonitor(
 
     private var registered = false
 
-    private inner class Slot(val device: UsbDevice) {
-        val id: String = device.deviceName
-        val productName: String = CcidTransport.displayName(device)
+    private inner class Slot(val device: UsbHost.Reader) {
+        val id: String = device.id
+        val productName: String = device.name
 
         @Volatile var transport: CcidTransport? = null
 
@@ -75,30 +76,16 @@ class UsbReaderMonitor(
         var pollJob: Job? = null
     }
 
-    private val receiver = object : BroadcastReceiver() {
-        override fun onReceive(ctx: Context, intent: Intent) {
-            val dev = IntentCompat.getParcelableExtra(intent, UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
-            when (intent.action) {
-                UsbManager.ACTION_USB_DEVICE_ATTACHED -> dev?.let(::onAttached)
-                UsbManager.ACTION_USB_DEVICE_DETACHED -> dev?.let { onDetached(it.deviceName) }
-                ACTION_USB_PERMISSION -> {
-                    val granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)
-                    if (dev != null) onPermissionResult(dev, granted)
-                }
-            }
-        }
+    private val events = object : UsbHost.Events {
+        override fun attached(reader: UsbHost.Reader) = onAttached(reader)
+        override fun detached(id: String) = onDetached(id)
+        override fun permission(reader: UsbHost.Reader, granted: Boolean) = onPermissionResult(reader, granted)
     }
 
     @Synchronized
     fun start() {
         if (registered) return
-        val filter = IntentFilter().apply {
-            addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
-            addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
-            addAction(ACTION_USB_PERMISSION)
-        }
-        // System USB broadcasts still reach a NOT_EXPORTED receiver; the permission result is our own PendingIntent.
-        ContextCompat.registerReceiver(appContext, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        host.listen(events)
         registered = true
         rescan()
     }
@@ -106,7 +93,7 @@ class UsbReaderMonitor(
     @Synchronized
     fun stop() {
         if (registered) {
-            appContext.unregisterReceiver(receiver)
+            host.stopListening()
             registered = false
         }
         val all = synchronized(lock) { slots.keys.toList() }
@@ -115,8 +102,8 @@ class UsbReaderMonitor(
 
     /** Syncs with the attached devices (app start, or the activity's USB_DEVICE_ATTACHED intent). */
     fun rescan() {
-        val attached = usbManager.deviceList.values.filter { CcidTransport.isCcidReader(it) }
-        val gone = synchronized(lock) { slots.keys.filter { id -> attached.none { it.deviceName == id } } }
+        val attached = host.readers()
+        val gone = synchronized(lock) { slots.keys.filter { id -> attached.none { it.id == id } } }
         gone.forEach(::onDetached)
         attached.forEach(::onAttached)
         publish()
@@ -130,12 +117,7 @@ class UsbReaderMonitor(
         val slot = synchronized(lock) {
             readerId?.let { slots[it] } ?: slots.values.firstOrNull { it.presence == ReaderSlot.State.PermissionRequired }
         } ?: return
-        // FLAG_MUTABLE is required on API 31+: the system fills in EXTRA_DEVICE / EXTRA_PERMISSION_GRANTED.
-        // The intent is explicit (setPackage), which API 34+ requires for mutable PendingIntents.
-        val mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
-        val intent = Intent(ACTION_USB_PERMISSION).setPackage(appContext.packageName)
-        val pi = PendingIntent.getBroadcast(appContext, slot.id.hashCode(), intent, mutable or PendingIntent.FLAG_UPDATE_CURRENT)
-        usbManager.requestPermission(slot.device, pi)
+        host.requestPermission(slot.device)
     }
 
     /**
@@ -180,13 +162,12 @@ class UsbReaderMonitor(
         scope.launch(Dispatchers.IO) { poll(slot, t) }
     }
 
-    private fun onAttached(dev: UsbDevice) {
-        if (!CcidTransport.isCcidReader(dev)) return
+    private fun onAttached(dev: UsbHost.Reader) {
         val slot = synchronized(lock) {
-            slots[dev.deviceName]?.let { existing -> if (existing.transport != null || existing.pollJob != null) return }
-            slots.getOrPut(dev.deviceName) { Slot(dev) }
+            slots[dev.id]?.let { existing -> if (existing.transport != null || existing.pollJob != null) return }
+            slots.getOrPut(dev.id) { Slot(dev) }
         }
-        if (usbManager.hasPermission(dev)) {
+        if (host.hasPermission(dev)) {
             openAndPoll(slot)
         } else {
             slot.presence = ReaderSlot.State.PermissionRequired
@@ -204,8 +185,8 @@ class UsbReaderMonitor(
         publish()
     }
 
-    private fun onPermissionResult(dev: UsbDevice, granted: Boolean) {
-        val slot = synchronized(lock) { slots.getOrPut(dev.deviceName) { Slot(dev) } }
+    private fun onPermissionResult(dev: UsbHost.Reader, granted: Boolean) {
+        val slot = synchronized(lock) { slots.getOrPut(dev.id) { Slot(dev) } }
         if (granted) {
             openAndPoll(slot)
         } else {
@@ -218,7 +199,7 @@ class UsbReaderMonitor(
         slot.pollJob?.cancel()
         slot.pollJob = scope.launch(Dispatchers.IO) {
             val t = try {
-                CcidTransport.open(usbManager, slot.device)
+                host.open(slot.device)
             } catch (e: CardError) {
                 Log.w(TAG, "${slot.productName}: open failed: ${e.javaClass.simpleName}: ${e.message}")
                 slot.presence = ReaderSlot.State.Error
@@ -282,5 +263,77 @@ class UsbReaderMonitor(
     companion object {
         const val ACTION_USB_PERMISSION = "md.moldsign.transport.usb.USB_PERMISSION"
         private const val TAG = "MoldSignUsb"
+    }
+}
+
+/** The Android USB host as the monitor uses it; tests substitute simulated readers. */
+internal interface UsbHost {
+    /** An attached CCID reader: [id] is the USB device path, [device] the platform object. */
+    class Reader(val id: String, val name: String, val device: Any? = null)
+
+    interface Events {
+        fun attached(reader: Reader)
+        fun detached(id: String)
+        fun permission(reader: Reader, granted: Boolean)
+    }
+
+    /** Attached devices that expose a CCID interface. */
+    fun readers(): List<Reader>
+    fun hasPermission(reader: Reader): Boolean
+    /** Opens and claims the reader; throws [CardError] when it cannot. */
+    fun open(reader: Reader): CcidTransport
+    /** Shows the system "allow access" dialog; the answer arrives as [Events.permission]. */
+    fun requestPermission(reader: Reader)
+    fun listen(events: Events)
+    fun stopListening()
+}
+
+private class AndroidUsbHost(private val context: Context) : UsbHost {
+    private val usbManager: UsbManager = context.getSystemService(UsbManager::class.java)
+    private var receiver: BroadcastReceiver? = null
+
+    private fun reader(device: UsbDevice) = UsbHost.Reader(device.deviceName, CcidTransport.displayName(device), device)
+    private val UsbHost.Reader.usbDevice get() = device as UsbDevice
+
+    override fun readers() = usbManager.deviceList.values.filter { CcidTransport.isCcidReader(it) }.map(::reader)
+    override fun hasPermission(reader: UsbHost.Reader) = usbManager.hasPermission(reader.usbDevice)
+    override fun open(reader: UsbHost.Reader) = CcidTransport.open(usbManager, reader.usbDevice)
+
+    override fun requestPermission(reader: UsbHost.Reader) {
+        // FLAG_MUTABLE is required on API 31+: the system fills in EXTRA_DEVICE / EXTRA_PERMISSION_GRANTED.
+        // The intent is explicit (setPackage), which API 34+ requires for mutable PendingIntents.
+        val mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
+        val intent = Intent(UsbReaderMonitor.ACTION_USB_PERMISSION).setPackage(context.packageName)
+        val pi = PendingIntent.getBroadcast(context, reader.id.hashCode(), intent, mutable or PendingIntent.FLAG_UPDATE_CURRENT)
+        usbManager.requestPermission(reader.usbDevice, pi)
+    }
+
+    override fun listen(events: UsbHost.Events) {
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(ctx: Context, intent: Intent) {
+                val dev = IntentCompat.getParcelableExtra(intent, UsbManager.EXTRA_DEVICE, UsbDevice::class.java)
+                when (intent.action) {
+                    UsbManager.ACTION_USB_DEVICE_ATTACHED -> dev?.takeIf { CcidTransport.isCcidReader(it) }?.let { events.attached(reader(it)) }
+                    UsbManager.ACTION_USB_DEVICE_DETACHED -> dev?.let { events.detached(it.deviceName) }
+                    UsbReaderMonitor.ACTION_USB_PERMISSION -> {
+                        val granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)
+                        if (dev != null) events.permission(reader(dev), granted)
+                    }
+                }
+            }
+        }
+        val filter = IntentFilter().apply {
+            addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
+            addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
+            addAction(UsbReaderMonitor.ACTION_USB_PERMISSION)
+        }
+        // System USB broadcasts still reach a NOT_EXPORTED receiver; the permission result is our own PendingIntent.
+        ContextCompat.registerReceiver(context, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+        this.receiver = receiver
+    }
+
+    override fun stopListening() {
+        receiver?.let(context::unregisterReceiver)
+        receiver = null
     }
 }

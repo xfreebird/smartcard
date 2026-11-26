@@ -21,11 +21,8 @@ import md.moldsign.core.CardError
  * Thread-safe at the message level: every CCID command/response pair holds [lock], so status
  * polling from [UsbReaderMonitor] cannot interleave with an APDU exchange.
  */
-class CcidTransport private constructor(
-    private val connection: UsbDeviceConnection,
-    private val ccidInterface: UsbInterface,
-    private val bulkIn: UsbEndpoint,
-    private val bulkOut: UsbEndpoint,
+class CcidTransport internal constructor(
+    private val link: CcidLink,
     /** Interrupt IN for RDR_to_PC_NotifySlotChange. TODO(AND-02): read it instead of polling GetSlotStatus. */
     val interruptIn: UsbEndpoint?,
     override val readerName: String,
@@ -182,8 +179,7 @@ class CcidTransport private constructor(
             closed = true
             atr = null
         }
-        connection.releaseInterface(ccidInterface)
-        connection.close()
+        link.release()
     }
 
     /** Sends one CCID message (built with the next bSeq) and returns the matching, final response. */
@@ -192,7 +188,7 @@ class CcidTransport private constructor(
         val expectedSeq = seq
         seq = Ccid.nextSeq(seq)
         val command = build(expectedSeq)
-        val sent = connection.bulkTransfer(bulkOut, command, command.size, timeoutMs)
+        val sent = link.send(command, timeoutMs)
         if (sent != command.size) throw CardError.CardNotResponding("USB bulk OUT failed ($sent of ${command.size} B)")
 
         var extensions = 0
@@ -214,7 +210,7 @@ class CcidTransport private constructor(
         var needed = Ccid.HEADER_SIZE
         var message = ByteArray(0)
         while (total < needed) {
-            val n = connection.bulkTransfer(bulkIn, readBuffer, readBuffer.size, timeoutMs)
+            val n = link.receive(readBuffer, timeoutMs)
             if (n < 0) throw CardError.CardNotResponding("USB bulk IN timeout")
             if (n == 0) continue
             message += readBuffer.copyOf(n)
@@ -285,7 +281,31 @@ class CcidTransport private constructor(
                 connection.close()
                 throw CardError.NoReader("${displayName(device)} needs ${descriptor.exchangeLevel} exchange, not supported")
             }
-            return CcidTransport(connection, iface, bulkIn, bulkOut, intIn, displayName(device), descriptor, timeoutMs)
+            return CcidTransport(UsbCcidLink(connection, iface, bulkIn, bulkOut), intIn, displayName(device), descriptor, timeoutMs)
         }
+    }
+}
+
+/** The claimed CCID interface's bulk pipes: one message out, reads until a whole reply arrived. */
+internal interface CcidLink {
+    /** Bulk OUT; the number of bytes sent, negative on failure. */
+    fun send(message: ByteArray, timeoutMs: Int): Int
+    /** Bulk IN into [buffer]; the number of bytes received, negative on timeout. */
+    fun receive(buffer: ByteArray, timeoutMs: Int): Int
+    /** Releases the interface and closes the device connection. */
+    fun release()
+}
+
+private class UsbCcidLink(
+    private val connection: UsbDeviceConnection,
+    private val ccidInterface: UsbInterface,
+    private val bulkIn: UsbEndpoint,
+    private val bulkOut: UsbEndpoint,
+) : CcidLink {
+    override fun send(message: ByteArray, timeoutMs: Int) = connection.bulkTransfer(bulkOut, message, message.size, timeoutMs)
+    override fun receive(buffer: ByteArray, timeoutMs: Int) = connection.bulkTransfer(bulkIn, buffer, buffer.size, timeoutMs)
+    override fun release() {
+        connection.releaseInterface(ccidInterface)
+        connection.close()
     }
 }

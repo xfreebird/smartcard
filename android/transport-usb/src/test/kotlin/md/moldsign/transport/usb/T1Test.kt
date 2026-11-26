@@ -12,7 +12,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /** A T=1 card that answers whole APDUs through [handler] and chains with the IFSD the host negotiated. */
-private class FakeT1Card(private val handler: (ByteArray) -> ByteArray) {
+internal class FakeT1Card(private val handler: (ByteArray) -> ByteArray) {
     var ifsd = 32
     var corruptNextReply = false
     var wtxBeforeReply = 0
