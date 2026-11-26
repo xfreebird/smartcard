@@ -157,4 +157,29 @@ class NfcReaderModeGateTest {
         gate.paused("activity")
         assertFalse(gate.active)
     }
+
+    @Test fun failedEnableLeavesANewerOwnerInPlace() {
+        // The platform call fails after another scan took over reader mode (re-entrant open from the callback).
+        lateinit var gate: NfcReaderModeGate<String, String>
+        val newer = Waiting()
+        val radio = object : NfcReaderModeGate.Radio<String, String> {
+            var first = true
+            override fun enable(host: String, onTag: (String) -> Unit) {
+                if (first) { first = false; gate.open("other", newer); throw IllegalStateException("paused") }
+            }
+            override fun disable(host: String) = Unit
+            override fun ignore(tag: String) = true
+        }
+        gate = NfcReaderModeGate(radio)
+        try { gate.open("activity", Waiting()); fail("enable must fail") } catch (_: IllegalStateException) {}
+        assertTrue(gate.active)
+        assertFalse(gate.finished(Waiting()))
+        assertFalse(gate.finished(newer))
+    }
+
+    @Test fun pauseWithoutACardOnlyDisables() {
+        gate.open("activity", Waiting())
+        gate.paused("activity")
+        assertEquals(listOf("enable:activity", "disable:activity"), radio.calls)
+    }
 }

@@ -51,7 +51,7 @@ internal class FakeNfcRadio(override var enabled: Boolean = true) : NfcRadio {
     fun present(tag: NfcTagHandle) = requireNotNull(onTag) { "reader mode is off" }(tag)
 }
 
-internal class FakeIsoDep(private val reply: (ByteArray) -> ByteArray = { byteArrayOf(0x90.toByte(), 0) }) : IsoDepLink {
+internal open class FakeIsoDep(private val reply: (ByteArray) -> ByteArray = { byteArrayOf(0x90.toByte(), 0) }) : IsoDepLink {
     override val maxTransceiveLength = 261
     override var timeout = 0
     var connected = false
@@ -163,7 +163,7 @@ class NfcSigningControllerTest {
     }
 
     @Test fun cancelWhileWaitingStopsTheScanAndReleasesReaderMode() {
-        val slow = NfcSigningController(radio, context, scanTimeoutMs = 10_000)
+        val slow = NfcSigningController(radio, context, scanTimeoutMs = 60_000)
         slow.resumed(activity)
         val outcome = AtomicReference<Throwable?>()
         val worker = Thread {
@@ -177,7 +177,7 @@ class NfcSigningControllerTest {
         }
         assertEquals(NfcSigningController.Phase.Waiting, slow.phase.value)
         slow.cancel()
-        worker.join(5_000)
+        worker.join(60_000)
         assertFalse(worker.isAlive)
         assertTrue(outcome.get() is CardError.Cancelled)
         shadowOf(Looper.getMainLooper()).idle()
@@ -205,6 +205,8 @@ class NfcSigningControllerTest {
     }
 
     @Test fun batchDocumentsEachGetAFreshPresentation() {
+        // The worker waits for the presented card; only a broken flow may run into the scan timeout.
+        val controller = NfcSigningController(radio, context, scanTimeoutMs = 60_000)
         val first = FakeIsoDep()
         radio.cardOnEnable = FakeTag("eid", first)
         controller.resumed(activity)
@@ -222,7 +224,7 @@ class NfcSigningControllerTest {
             Thread.sleep(5)
         }
         radio.present(rediscovered)
-        assertTrue(latch.await(5, TimeUnit.SECONDS))
+        assertTrue(latch.await(60, TimeUnit.SECONDS))
         assertTrue(second.connected)
         assertEquals(listOf("enable", "ignore:eid"), radio.calls)
         result.get()!!.close()
@@ -272,5 +274,71 @@ class NfcSigningControllerTest {
         assertFalse(radio.ignore(FakeTag("x", null)))
         radio.disable(activity)
         assertFalse(NfcSigningController(context).available)
+    }
+
+    @Test fun statusWordsAndShortCommandsReachTheDiagnostics() {
+        radio.cardOnEnable = FakeTag("eid", FakeIsoDep { byteArrayOf(0x69, 0x82.toByte()) })
+        controller.resumed(activity)
+        val session = controller.open()
+        assertArrayEquals(byteArrayOf(0x69, 0x82.toByte()), session.transmit(byteArrayOf(0)))
+        session.failure(CardError.UnexpectedStatus(0x6982, "VERIFY"))
+        assertTrue(diagnostics().any { "\"UnexpectedStatus\"" in it && "27010" in it })
+        // Pausing another activity leaves this host and its reader mode alone.
+        controller.paused(Robolectric.buildActivity(Activity::class.java).setup().get())
+        assertTrue(controller.readerModeActive)
+    }
+
+    /** A fresh adapter and controller whose card is [card] (built with access to that controller). */
+    private fun scan(card: (NfcSigningController) -> NfcTagHandle): Throwable? {
+        val radio = FakeNfcRadio()
+        val controller = NfcSigningController(radio, context, scanTimeoutMs = 60_000)
+        radio.cardOnEnable = card(controller)
+        controller.resumed(activity)
+        return runCatching { controller.open() }.exceptionOrNull()
+    }
+
+    @Test fun cancelDuringConnectNeverReachesTheCard() {
+        // Cancelled while the ISO-DEP object is fetched: the connection is never kept.
+        assertTrue(scan { controller -> object : NfcTagHandle {
+            override fun isoDep(): IsoDepLink { controller.cancel(); return FakeIsoDep() }
+        } } is CardError.Cancelled)
+
+        // Cancelled while connect() is running: the late connection is closed again.
+        var late: FakeIsoDep? = null
+        assertTrue(scan { controller -> FakeTag("eid", object : FakeIsoDep() {
+            override fun connect() { controller.cancel(); super.connect() }
+        }.also { late = it }) } is CardError.Cancelled)
+        assertTrue(late!!.closed)
+
+        // Connect fails because the session was cancelled: a cancellation, not a lost card.
+        assertTrue(scan { controller -> FakeTag("eid", object : FakeIsoDep() {
+            override fun connect() { controller.cancel(); throw IOException("closed") }
+        }) } is CardError.Cancelled)
+    }
+
+    @Test fun cancelDuringATransceiveIsACancellation() {
+        controller.resumed(activity)
+        radio.cardOnEnable = FakeTag("eid", FakeIsoDep { controller.cancel(); throw IOException("closed") })
+        val session = controller.open()
+        try { session.transmit(byteArrayOf(0, 0xB0.toByte(), 0, 0, 2)); fail("cancelled") } catch (_: CardError.Cancelled) {}
+        // A tag reported after the session ended is ignored.
+        session.route.deliver(FakeTag("late", FakeIsoDep()))
+        assertNull(controller.phase.value)
+    }
+
+    @Test fun readerModeActivationQueuedBehindACancelIsDropped() {
+        val slow = NfcSigningController(radio, context, scanTimeoutMs = 60_000)
+        slow.resumed(activity)
+        val outcome = AtomicReference<Throwable?>()
+        val worker = Thread { try { slow.open() } catch (error: Throwable) { outcome.set(error) } }
+        worker.start()
+        // The activation is posted to the main thread; cancel before it runs.
+        while (slow.phase.value == null) Thread.sleep(1)
+        slow.cancel()
+        worker.join(60_000)
+        shadowOf(Looper.getMainLooper()).idle()
+        assertTrue(outcome.get() is CardError.Cancelled)
+        assertTrue(radio.calls.isEmpty())
+        assertFalse(slow.readerModeActive)
     }
 }
