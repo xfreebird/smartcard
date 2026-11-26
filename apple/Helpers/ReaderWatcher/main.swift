@@ -30,42 +30,34 @@ let preferenceDomain: String = {
 let preferences = UserDefaults(suiteName: preferenceDomain) ?? .standard
 #endif
 let manager = mockPath == nil ? TKSmartCardSlotManager.default : nil
-var policy = ReaderInsertionPolicy()
-var lastOpen = Date.distantPast
+#if APP_STORE
+var monitor = ReaderInsertionMonitor(storeEdition: true)
+#else
+var monitor = ReaderInsertionMonitor(storeEdition: false)
+#endif
 
 func sample() {
     let current: [String: Bool]
     if let mockPath {
         guard let data = try? Data(contentsOf: URL(filePath: mockPath)),
-              let snapshot = try? JSONDecoder().decode([String: Bool].self, from: data) else { return }
+              let snapshot = ReaderInsertionMonitor.mockSnapshot(data) else { return }
         current = snapshot
     } else {
         guard let manager else { return }
         current = Dictionary(uniqueKeysWithValues: manager.slotNames.map { name in
-            let state = manager.slotNamed(name)?.state ?? .missing
-            return (name, state != .missing && state != .empty)
+            (name, ReaderInsertionMonitor.cardPresent(manager.slotNamed(name)?.state))
         })
     }
     preferences.synchronize()
-    #if APP_STORE
-    // Only monitor for activation once the containing app has published its mode.
-    let demo = preferences.object(forKey: "demoModeEnabled") as? Bool ?? true
-    #else
-    let demo = preferences.bool(forKey: "demoModeEnabled")
-    #endif
-    let inserted = policy.shouldOpen(for: current, demoMode: demo)
+    let demo = monitor.demoMode(stored: preferences.object(forKey: "demoModeEnabled"),
+                                flag: preferences.bool(forKey: "demoModeEnabled"))
+    let deliver = monitor.shouldDeliver(for: current, demoMode: demo, at: Date())
     #if DEBUG
     if mockPath != nil && demo {
         FileHandle.standardOutput.write(Data("MOCK_WATCHER_DEMO_SUPPRESSED\n".utf8))
     }
     #endif
-    guard inserted, Date().timeIntervalSince(lastOpen) > 1 else { return }
-    lastOpen = Date()
-    #if APP_STORE
-    let storeEdition = true
-    #else
-    let storeEdition = false
-    #endif
+    guard deliver else { return }
     // Only this bundle counts, not another installed edition. The mock fixture starts its own isolated
     // instance unless a QA run explicitly targets the isolated instance it already launched.
     #if DEBUG
@@ -78,7 +70,7 @@ func sample() {
         withBundleIdentifier: Bundle(url: app)?.bundleIdentifier ?? "").contains { process in
             !process.isTerminated && process.bundleURL?.resolvingSymlinksInPath().path == bundlePath
         }
-    let delivery = ReaderInsertionDelivery.choose(appRunning: running, storeEdition: storeEdition)
+    let delivery = monitor.delivery(appRunning: running)
     let configuration = NSWorkspace.OpenConfiguration()
     configuration.activates = delivery.activates
     switch delivery.route {
