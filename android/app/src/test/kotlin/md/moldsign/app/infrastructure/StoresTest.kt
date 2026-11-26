@@ -71,8 +71,9 @@ class StoresTest {
         // The document library is not pruned with the history.
         assertEquals(3, log.signedDocuments.value.size)
 
+        // The pruned list is written from the background prune; a new log reads it back.
+        awaitMain { ActivityLog(app, scope).entries.value == log.entries.value }
         val reloaded = ActivityLog(app, scope)
-        assertEquals(log.entries.value, reloaded.entries.value)
         reloaded.removeSignedDocuments(setOf(reloaded.signedDocuments.value.first().id))
         assertEquals(2, reloaded.signedDocuments.value.size)
         reloaded.clear()

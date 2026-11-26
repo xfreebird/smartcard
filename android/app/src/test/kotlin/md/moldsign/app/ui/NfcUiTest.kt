@@ -68,6 +68,8 @@ class NfcUiTest : AppUiTest() {
         compose.mainClock.advanceTimeBy(100)
         clickTag("pin.confirm")
         compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value != null }
+        // Reader mode is switched on by a task posted to the main thread.
+        compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); adapter.isInReaderMode }
         compose.mainClock.advanceTimeBy(500)
     }
 
@@ -86,6 +88,7 @@ class NfcUiTest : AppUiTest() {
 
             adapter.dispatchTagDiscovered(ShadowNfcAdapter.createMockTag())
             awaitText(string(R.string.nfc_unsupported))
+            compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
             drawAll()
             // The card that was seen may still be on the phone: reader mode is held, nothing goes to the system.
             assertTrue(adapter.isInReaderMode)
