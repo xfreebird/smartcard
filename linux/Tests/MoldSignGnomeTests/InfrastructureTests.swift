@@ -133,13 +133,10 @@ final class InfrastructureTests: GnomeTestCase {
             .sign(SignItem(url: input), pin: "1", reader: "R", certificateSHA1: "aa") { _ in })
     }
 
-    func testDocumentSignerFallsBackWhenTheFolderIsReadOnly() throws {
-        let readOnly = folder.appendingPathComponent("readonly")
-        try FileManager.default.createDirectory(at: readOnly, withIntermediateDirectories: true)
-        let input = try Fixtures.file(in: readOnly, name: "note.txt")
-        try FileManager.default.setAttributes([.posixPermissions: 0o500], ofItemAtPath: readOnly.path)
-        defer { try? FileManager.default.setAttributes([.posixPermissions: 0o700], ofItemAtPath: readOnly.path) }
-        guard !FileManager.default.isWritableFile(atPath: readOnly.path) else { throw XCTSkip("Running as root: folders stay writable") }
+    func testDocumentSignerFallsBackWhenTheOriginalsFolderIsNotWritable() throws {
+        // A folder that cannot take the output (here: not exposed at all, like a portal file's folder). Unlike a
+        // read-only folder this also holds for root, which CI containers run as.
+        let input = folder.appendingPathComponent("not-exposed/note.txt")
         let fallback = folder.appendingPathComponent("Documents/MoldSign")
         let output = try DocumentSigner(producer: Producer(), fallbackFolder: { fallback })
             .sign(SignItem(url: input), pin: "1", reader: "R", certificateSHA1: "aa") { _ in }

@@ -94,8 +94,23 @@ final class FileProtectionTests: GnomeTestCase {
         XCTAssertEqual(harness.controller.signedDocuments.first?.kind, .decrypted)
     }
 
+    /// The core removes only files on a local volume; container /tmp is overlayfs, so fall back to tmpfs.
+    private func localVolumeFolder() throws -> URL {
+        for base in [folder!, URL(fileURLWithPath: "/dev/shm")] {
+            let candidate = base.appendingPathComponent("removal-\(UUID().uuidString)")
+            guard (try? FileManager.default.createDirectory(at: candidate, withIntermediateDirectories: true,
+                                                             attributes: [.posixPermissions: 0o700])) != nil else { continue }
+            addTeardownBlock { try? FileManager.default.removeItem(at: candidate) }
+            let probe = candidate.appendingPathComponent("probe")
+            if (try? Data("probe".utf8).write(to: probe)) != nil, (try? ProtectedFileIO.overwriteAndRemove(probe)) != nil {
+                return candidate
+            }
+        }
+        throw XCTSkip("No local volume accepts file removal here")
+    }
+
     func testRemovalNeedsExplicitConfirmation() throws {
-        let doomed = try Fixtures.file(in: folder, name: "old.txt")
+        let doomed = try Fixtures.file(in: localVolumeFolder(), name: "old.txt")
         let root = open(operation: 2, source: doomed)
         let run = GTKTest.buttons(root, labelled: L10n.text(.protect_remove)).last!
         XCTAssertNotEqual(gtk_widget_has_css_class(run, "destructive-action"), 0)
