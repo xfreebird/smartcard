@@ -23,6 +23,16 @@ pluginManagement {
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        // Maven Central rate-limits CI addresses, even for requests about Robolectric's 151 MB framework jar
+        // that Gradle has cached. CI therefore restores that jar into a local Maven folder
+        // (scripts/ci/robolectric-cache.sh), and Gradle takes it only from there; dependency verification still
+        // checks its pinned SHA-256. Without the variable, Maven Central serves it as before.
+        providers.environmentVariable("ROBOLECTRIC_LOCAL_REPOSITORY").orNull?.let { folder ->
+            exclusiveContent {
+                forRepository { maven(file(folder)) { name = "RobolectricAndroidAll" } }
+                filter { includeModule("org.robolectric", "android-all-instrumented") }
+            }
+        }
         google()
         mavenCentral()
     }

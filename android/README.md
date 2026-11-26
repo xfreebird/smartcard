@@ -164,7 +164,8 @@ preflight, 403 without CORS headers, and a real-socket round trip. `SigningBridg
 (certificate list, `201` + absolute `Location` + empty body, the long-poll, PIN sessions per origin and card, XAdES
 with the requested digest) and `BridgeTlsTest` the HTTPS listener with the vendor identity.
 `:app` unit tests run on Robolectric (SDK 34 on the JDK 17 test runtime; the framework jar is a verified Gradle
-dependency used offline) with the Compose UI test rule. They render every destination, sheet and dialog in the
+dependency used offline; CI provides it from a local Maven folder, see `ROBOLECTRIC_LOCAL_REPOSITORY` in
+`settings.gradle.kts`) with the Compose UI test rule. They render every destination, sheet and dialog in the
 debug fixture states (cards, reader states, documents, batches, PIN, verification verdicts, file protection,
 browser window, dark theme, tablet and short landscape), drive the real non-demo app against fake reader and
 card adapters (pickers answered like the system, the PIN sheet, results, verification, protection), and test

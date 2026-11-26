@@ -71,24 +71,27 @@ jobs:
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
         with: { distribution: temurin, java-version: '17' }
-      - name: Locate Robolectric's Android framework jar in the Gradle cache
+      # Maven Central rate-limits CI, so Gradle takes Robolectric's 151 MB framework jar only from a local Maven
+      # folder (ROBOLECTRIC_LOCAL_REPOSITORY in android/settings.gradle.kts), kept in the Actions cache.
+      - name: Locate the local Maven folder for Robolectric's Android framework jar
         id: robolectric
-        run: scripts/ci/robolectric-cache.sh outputs >> "$GITHUB_OUTPUT"
+        run: |
+          scripts/ci/robolectric-cache.sh outputs >> "$GITHUB_OUTPUT"
+          scripts/ci/robolectric-cache.sh outputs | sed -n 's/^path=/ROBOLECTRIC_LOCAL_REPOSITORY=/p' >> "$GITHUB_ENV"
       - name: Restore Robolectric's Android framework jar
         id: robolectric-cache
         uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.robolectric.outputs.path }}
-          key: robolectric-android-all-${{ steps.robolectric.outputs.version }}
-      - name: Download Robolectric's Android framework jar with backoff (Maven Central rate-limits CI)
-        if: steps.robolectric-cache.outputs.cache-hit != 'true'
+          key: robolectric-repository-${{ steps.robolectric.outputs.version }}
+      - name: Check the jar's pinned SHA-256, downloading it with backoff if the cache missed
         run: scripts/ci/robolectric-cache.sh seed
       - name: Save Robolectric's Android framework jar
         if: steps.robolectric-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.robolectric.outputs.path }}
-          key: robolectric-android-all-${{ steps.robolectric.outputs.version }}
+          key: robolectric-repository-${{ steps.robolectric.outputs.version }}
       - name: Measure Kotlin unit test coverage
         working-directory: android
         run: |

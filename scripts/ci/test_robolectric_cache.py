@@ -1,4 +1,4 @@
-"""Seed Gradle's file cache with Robolectric's framework jar only when it matches the pinned SHA-256."""
+"""Fill the local Maven folder with Robolectric's framework jar only when it matches the pinned SHA-256."""
 import hashlib
 import os
 from pathlib import Path
@@ -11,9 +11,7 @@ ROOT = Path(__file__).resolve().parents[2]
 VERSION = '14-robolectric-1-i7'
 JAR = f'android-all-instrumented-{VERSION}.jar'
 POM = f'android-all-instrumented-{VERSION}.pom'
-# Gradle names each cached file's directory after the file's SHA-1; these are the fixtures' digests.
-GRADLE_DIRECTORIES = {JAR: '28bde5518817a8693a20a6085bad7ed00590450a',
-                      POM: '31a6e1717665b9fb4646a906d52abae65a7eefbc'}
+MODULE = f'org/robolectric/android-all-instrumented/{VERSION}'
 
 
 class RobolectricCacheTests(unittest.TestCase):
@@ -26,13 +24,17 @@ class RobolectricCacheTests(unittest.TestCase):
         shutil.copy(ROOT / 'scripts/ci/robolectric-cache.sh', self.root / 'scripts/ci')
         (self.root / 'android/gradle/libs.versions.toml').write_text(
             f'[versions]\nrobolectric = "4.17"\nrobolectricAndroidAll = "{VERSION}"\n')
-        self.repository = self.root / 'maven/org/robolectric/android-all-instrumented' / VERSION
-        self.repository.mkdir(parents=True)
         self.published = {JAR: b'framework classes', POM: b'<project/>'}
-        for name, content in self.published.items():
-            (self.repository / name).write_bytes(content)
-        self.home = self.root / 'gradle-home'
-        self.cache = self.home / 'caches/modules-2/files-2.1/org.robolectric/android-all-instrumented' / VERSION
+        self.mirror = self.publish('mirror', self.published)
+        self.central = self.publish('central', self.published)
+        self.local = self.root / 'local-repository'
+
+    def publish(self, name, files):
+        folder = self.root / name / MODULE
+        folder.mkdir(parents=True)
+        for file, content in files.items():
+            (folder / file).write_bytes(content)
+        return self.root / name
 
     def pin(self, jar_sha256=None):
         pins = {name: hashlib.sha256(content).hexdigest() for name, content in self.published.items()}
@@ -45,45 +47,66 @@ class RobolectricCacheTests(unittest.TestCase):
             f'<sha256 value="{"0" * 64}"/>\n</artifact>\n</component>\n'
             f'<component group="org.robolectric" name="android-all-instrumented" version="{VERSION}">\n{artifacts}</component>\n')
 
-    def run_script(self, mode):
-        env = dict(os.environ, GRADLE_USER_HOME=str(self.home), RUNNER_TEMP=str(self.root),
-                   ROBOLECTRIC_REPOSITORY=(self.root / 'maven').as_uri())
+    def run_script(self, mode, **env):
+        env = dict(os.environ, RUNNER_TEMP=str(self.root), ROBOLECTRIC_LOCAL_REPOSITORY=str(self.local),
+                   ROBOLECTRIC_MIRRORS=f'{self.mirror.as_uri()} {self.central.as_uri()}') | env
         return subprocess.run(['bash', str(self.root / 'scripts/ci/robolectric-cache.sh'), mode],
                               env=env, text=True, capture_output=True, check=False)
 
-    def cached(self):
-        return {path.name: (path.parent.name, path.read_bytes()) for path in self.cache.glob('*/*')}
+    def stored(self):
+        return {path.name: path.read_bytes() for path in (self.local / MODULE).glob('*')}
 
-    def test_outputs_name_the_version_and_its_gradle_cache_directory(self):
+    def test_outputs_name_the_version_and_the_local_maven_folder(self):
         result = self.run_script('outputs')
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.splitlines(), [f'version={VERSION}', f'path={self.cache}'])
+        self.assertEqual(result.stdout.splitlines(), [f'version={VERSION}', f'path={self.local}'])
+        home = dict(os.environ)
+        home.pop('ROBOLECTRIC_LOCAL_REPOSITORY', None)
+        result = subprocess.run(['bash', str(self.root / 'scripts/ci/robolectric-cache.sh'), 'outputs'],
+                                env=home | {'HOME': str(self.root)}, text=True, capture_output=True, check=False)
+        self.assertIn(f'path={self.root}/.cache/robolectric-repository', result.stdout.splitlines())
 
-    def test_seed_stores_each_file_under_its_sha1_like_gradle(self):
+    def test_seed_lays_out_a_maven_module_gradle_can_read(self):
         self.pin()
         result = self.run_script('seed')
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(self.cached(), {name: (GRADLE_DIRECTORIES[name], content)
-                                         for name, content in self.published.items()})
+        self.assertEqual(self.stored(), self.published)
+        self.assertIn(f'Downloaded {JAR} from {self.mirror.as_uri()}', result.stdout)
         self.assertEqual([path.name for path in self.root.glob('robolectric.*')], [])
 
-    def test_seed_rejects_a_jar_that_differs_from_the_pinned_sha256(self):
+    def test_seed_falls_back_to_maven_central_when_the_mirror_lacks_or_alters_a_file(self):
+        self.pin()
+        (self.mirror / MODULE / POM).unlink()
+        (self.mirror / MODULE / JAR).write_bytes(b'altered')
+        result = self.run_script('seed')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.stored(), self.published)
+        self.assertIn(f'Downloaded {JAR} from {self.central.as_uri()}', result.stdout)
+        self.assertIn('SHA-256 of ' + JAR, result.stderr)
+
+    def test_seed_rejects_a_jar_that_no_source_serves_with_the_pinned_sha256(self):
         self.pin(jar_sha256='f' * 64)
         result = self.run_script('seed')
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('pins ' + 'f' * 64, result.stderr)
-        self.assertNotIn(JAR, self.cached())
+        self.assertIn(f'No source provided {JAR}', result.stderr)
+        self.assertNotIn(JAR, self.stored())
 
-    def test_seed_skips_files_the_cache_already_holds(self):
+    def test_seed_keeps_verified_files_and_replaces_a_corrupt_restored_one(self):
         self.pin()
         self.assertEqual(self.run_script('seed').returncode, 0)
-        shutil.rmtree(self.root / 'maven')
+        (self.local / MODULE / JAR).write_bytes(b'truncated')
+        shutil.rmtree(self.mirror)
         result = self.run_script('seed')
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(result.stdout.splitlines(), [f'Already cached: {POM}', f'Already cached: {JAR}'])
+        self.assertEqual(result.stdout.splitlines(), [f'Already present: {POM}',
+                                                      f'Downloaded {JAR} from {self.central.as_uri()}'])
+        self.assertEqual(self.stored(), self.published)
 
-    def test_unknown_mode_and_missing_version_fail(self):
+    def test_unknown_mode_and_missing_pin_or_version_fail(self):
         self.assertEqual(self.run_script('download').returncode, 2)
+        (self.root / 'android/gradle/verification-metadata.xml').write_text('<components/>\n')
+        self.assertIn('pins no SHA-256', self.run_script('seed').stderr)
         (self.root / 'android/gradle/libs.versions.toml').write_text('[versions]\nrobolectric = "4.17"\n')
         self.assertEqual(self.run_script('outputs').returncode, 1)
 

@@ -57,9 +57,18 @@ class WorkflowContracts(unittest.TestCase):
         # Maven Central rate-limits the 151 MB framework jar from CI addresses; Gradle must find it cached.
         for name, job in [('ci.yml', '\n  android:\n'), ('sonar-coverage.yml', '\n  android-web:\n')]:
             text = (ROOT/'.github/workflows'/name).read_text().split(job, 1)[1]
-            order = [text.index(step) for step in ['robolectric-cache.sh outputs', 'actions/cache/restore@',
-                                                   'robolectric-cache.sh seed', 'actions/cache/save@', 'gradle-ci.sh']]
+            order = [text.index(step) for step in ['robolectric-cache.sh outputs', 'ROBOLECTRIC_LOCAL_REPOSITORY=',
+                                                   'actions/cache/restore@', 'robolectric-cache.sh seed',
+                                                   'actions/cache/save@', 'gradle-ci.sh']]
             self.assertEqual(order, sorted(order), name)
+            self.assertIn('>> "$GITHUB_ENV"', text.split('ROBOLECTRIC_LOCAL_REPOSITORY=', 1)[1].split('\n', 1)[0], name)
+            # The seed step also checks a restored jar's SHA-256, so it runs on cache hits too.
+            seed = text.split('robolectric-cache.sh seed', 1)[0].rsplit('- name:', 1)[1]
+            self.assertNotIn('if:', seed, name)
+        settings = (ROOT/'android/settings.gradle.kts').read_text()
+        local = settings.split('environmentVariable("ROBOLECTRIC_LOCAL_REPOSITORY")', 1)[1].split('google()', 1)[0]
+        self.assertIn('exclusiveContent', local)
+        self.assertIn('includeModule("org.robolectric", "android-all-instrumented")', local)
 
     def test_every_python_test_module_is_a_sonar_test_source(self):
         # A test module left out of sonar.tests counts as uncovered production code and lowers new-code coverage.
