@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.os.Looper
+import org.robolectric.Shadows.shadowOf
 import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsNode
@@ -121,7 +123,37 @@ abstract class AppUiTest {
     protected fun showsTag(tag: String): Boolean = compose.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
     /** Also produces frames when a test drives the clock by hand. */
-    private fun frame() { if (!compose.mainClock.autoAdvance) compose.mainClock.advanceTimeByFrame() }
+    /**
+     * One deterministic step: run what other threads posted to the main thread (StateFlow collection, reader-mode
+     * activation, dialogs), then one Compose frame when the test drives the clock by hand.
+     */
+    private fun frame() {
+        shadowOf(Looper.getMainLooper()).idle()
+        if (!compose.mainClock.autoAdvance) compose.mainClock.advanceTimeByFrame()
+        shadowOf(Looper.getMainLooper()).idle()
+    }
+
+    /** Runs posted main-thread work and [millis] of Compose frames (manual clock) or until idle. */
+    protected fun settle(millis: Long = 500) {
+        shadowOf(Looper.getMainLooper()).idle()
+        if (compose.mainClock.autoAdvance) compose.waitForIdle() else compose.mainClock.advanceTimeBy(millis)
+        shadowOf(Looper.getMainLooper()).idle()
+    }
+
+    /**
+     * Waits for work on another thread (signing and IO workers): every step drains the main looper and renders a
+     * frame, so the outcome never depends on timing. The limit only stops a broken run; it reports the screen.
+     */
+    protected fun until(what: String, detail: () -> String = { "" }, condition: () -> Boolean) {
+        val deadline = System.nanoTime() + 120_000_000_000L
+        while (true) {
+            frame()
+            if (compose.mainClock.autoAdvance) compose.waitForIdle()
+            if (condition()) return
+            if (System.nanoTime() > deadline) throw AssertionError("$what did not happen. ${detail()} On screen: ${dump()}")
+            Thread.sleep(2)
+        }
+    }
 
     protected fun awaitText(text: String, timeoutMs: Long = 30_000) {
         try { compose.waitUntil(timeoutMs) { frame(); shows(text) || showsDescription(text) } }
@@ -156,7 +188,7 @@ abstract class AppUiTest {
         runCatching { node.performScrollTo() }
         if (SemanticsActions.OnClick in node.fetchSemanticsNode().config) node.performSemanticsAction(SemanticsActions.OnClick)
         else node.performClick()
-        if (!compose.mainClock.autoAdvance) compose.mainClock.advanceTimeBy(300)
+        if (!compose.mainClock.autoAdvance) settle(300)
         compose.waitForIdle()
     }
 

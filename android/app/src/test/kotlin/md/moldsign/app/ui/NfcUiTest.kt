@@ -2,6 +2,7 @@ package md.moldsign.app.ui
 
 import android.net.Uri
 import android.nfc.NfcAdapter
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.performTextReplacement
 import androidx.lifecycle.Lifecycle
 import md.moldsign.app.R
@@ -59,19 +60,25 @@ class NfcUiTest : AppUiTest() {
     private fun queueAndEnterPin(scenario: androidx.test.core.app.ActivityScenario<md.moldsign.app.MainActivity>) {
         clickTag("sign.pickFiles")
         answerPicker(scenario, Uri.fromFile(File(app.filesDir, "nfc.pdf").apply { writeText("%PDF-1.7\n%%EOF\n") }))
-        awaitTag("sign.submit")
+        until("the queued document") { showsTag("sign.submit") }
         clickTag("sign.submit")
-        compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.consentBroker.pending.value != null }
-        compose.mainClock.advanceTimeBy(500)
+        // The PIN is asked for on the signing worker; its request reaches the sheet through the main thread.
+        until("the PIN sheet") { app.container.consentBroker.pending.value != null && showsTag("pin.field") }
+        settle()
         drawAll()
         tag("pin.field").performTextReplacement("1234")
-        compose.mainClock.advanceTimeBy(100)
+        settle()
+        until("an enabled PIN confirmation") { runCatching { tag("pin.confirm").assertIsEnabled() }.isSuccess }
         clickTag("pin.confirm")
-        compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value != null }
-        // Reader mode is switched on by a task posted to the main thread.
-        compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); adapter.isInReaderMode }
-        compose.mainClock.advanceTimeBy(500)
+        // The worker opens the session, then posts reader-mode activation to the main thread.
+        until("reader mode for the scan", { nfcState(scenario) }) { app.container.nfc.phase.value != null && adapter.isInReaderMode }
+        settle()
     }
+
+    /** What the session did, for a failure message. */
+    private fun nfcState(scenario: androidx.test.core.app.ActivityScenario<md.moldsign.app.MainActivity>) =
+        "phase=${app.container.nfc.phase.value} readerMode=${adapter.isInReaderMode} busy=${app.container.busy.value} " +
+            "message=${vm(scenario).message.value}"
 
     @Test fun unsupportedCardKeepsReaderModeUntilPause() {
         compose.mainClock.autoAdvance = false
@@ -86,9 +93,11 @@ class NfcUiTest : AppUiTest() {
             assertTrue(shows(string(R.string.nfc_scan_hold)))
             drawAll()
 
+            // The reader-mode callback runs the card check on the waiting worker; its failure ends the scan.
             adapter.dispatchTagDiscovered(ShadowNfcAdapter.createMockTag())
-            awaitText(string(R.string.nfc_unsupported))
-            compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
+            until("the unsupported-card result", { nfcState(scenario) }) {
+                app.container.nfc.phase.value == null && !app.container.busy.value && shows(string(R.string.nfc_unsupported))
+            }
             drawAll()
             // The card that was seen may still be on the phone: reader mode is held, nothing goes to the system.
             assertTrue(adapter.isInReaderMode)
@@ -106,7 +115,7 @@ class NfcUiTest : AppUiTest() {
             queueAndEnterPin(scenario)
             assertTrue(adapter.isInReaderMode)
             clickText(string(R.string.action_cancel))
-            compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
+            until("the cancelled scan") { app.container.nfc.phase.value == null && !app.container.busy.value }
             assertFalse(adapter.isInReaderMode)
             // The queued document stays for an explicit new attempt; nothing was retried.
             assertTrue(showsTag("sign.submit"))
@@ -137,9 +146,9 @@ class NfcUiTest : AppUiTest() {
             clickTag("browser.card.${identity.sha1Hex}")
             assertEquals(identity.sha1Hex, app.container.browserNfc.certificate.value?.sha1Hex)
             clickTag("browser.readNfc")
-            compose.waitUntil(30_000) { adapter.isInReaderMode }
+            until("reader mode for the browser card") { adapter.isInReaderMode && app.container.nfc.phase.value != null }
             adapter.dispatchTagDiscovered(ShadowNfcAdapter.createMockTag())
-            awaitText(string(R.string.nfc_unsupported))
+            until("the unsupported-card message") { shows(string(R.string.nfc_unsupported)) }
 
             navigate("settings")
             clickTag("card.savedPins")
@@ -147,7 +156,7 @@ class NfcUiTest : AppUiTest() {
             drawAll()
             clickText(string(R.string.card_forget))
             click(compose.onAllNodes(androidx.compose.ui.test.hasText(string(R.string.card_forget)) and androidx.compose.ui.test.hasClickAction())[1])
-            compose.waitUntil(30_000) { vm(scenario).knownCards.value.isEmpty() }
+            until("the forgotten card") { vm(scenario).knownCards.value.isEmpty() }
             assertTrue(SavedCardIdentities(app).read().isEmpty())
         }
     }

@@ -118,14 +118,11 @@ class DemoScenarioScreensTest : AppUiTest() {
         // The focused PIN field blinks its cursor forever: drive frames by hand.
         compose.mainClock.autoAdvance = false
         launch("pin", "sign").use {
-            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
-            compose.mainClock.advanceTimeBy(1_000)
+            until("the fictional PIN sheet") { app.container.consentBroker.pending.value != null && showsTag("pin.dialog") }
             drawAll()
-            assertTrue(showsTag("pin.dialog"))
         }
         launch("pin-warning", "sign").use {
-            compose.waitUntil(30_000) { app.container.consentBroker.pending.value?.request?.attemptsLeft == 2 }
-            compose.mainClock.advanceTimeBy(1_000)
+            until("the warning PIN sheet") { app.container.consentBroker.pending.value?.request?.attemptsLeft == 2 && showsTag("pin.dialog") }
             drawAll()
             awaitText(string(R.string.pin_attempts, 2))
         }

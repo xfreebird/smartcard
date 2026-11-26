@@ -1,6 +1,7 @@
 package md.moldsign.app.ui
 
 import android.net.Uri
+import androidx.compose.ui.test.assertIsEnabled
 import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.performTextReplacement
 import md.moldsign.app.R
@@ -46,15 +47,15 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             drawAll()
             compose.mainClock.autoAdvance = false
             clickTag("sign.submit")
-            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
-            compose.mainClock.advanceTimeBy(500)
+            until("the PIN sheet") { app.container.consentBroker.pending.value != null && showsTag("pin.field") }
             drawAll()
-            compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes()
             tag("pin.field").performTextReplacement("1234")
+            settle()
+            until("an enabled PIN confirmation") { runCatching { tag("pin.confirm").assertIsEnabled() }.isSuccess }
             compose.mainClock.advanceTimeBy(100)
             clickTag("pin.confirm")
             compose.mainClock.autoAdvance = true
-            compose.waitUntil(30_000) { signing.signed.size == 2 }
+            until("both signatures") { signing.signed.size == 2 }
             awaitText("contract-semnat.pdf")
             drawAll()
             assertTrue(FakeMediaStore.names().containsAll(listOf("contract-semnat.pdf", "note-semnat.xml")))
@@ -80,11 +81,10 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             awaitTag("sign.submit")
             compose.mainClock.autoAdvance = false
             clickTag("sign.submit")
-            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
-            compose.mainClock.advanceTimeBy(500)
+            until("the PIN sheet") { app.container.consentBroker.pending.value != null && showsTag("pin.cancel") }
             clickTag("pin.cancel")
             compose.mainClock.autoAdvance = true
-            compose.waitUntil(30_000) { app.container.consentBroker.pending.value == null && !app.container.busy.value }
+            until("the cancelled signing") { app.container.consentBroker.pending.value == null && !app.container.busy.value }
             assertTrue(signing.signed.isEmpty())
             assertTrue(showsTag("sign.submit"))
         }
@@ -170,8 +170,8 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             }
             worker.start()
             compose.mainClock.autoAdvance = false
-            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
-            compose.mainClock.advanceTimeBy(500)
+            // The request comes from another thread; the sheet appears once the main thread has seen it.
+            until("the browser PIN sheet") { app.container.consentBroker.pending.value != null && showsTag("pin.cancel") }
             drawAll()
             assertEquals("https://msign.gov.md", app.container.consentBroker.pending.value!!.request.requester)
             clickTag("pin.cancel")
