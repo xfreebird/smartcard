@@ -51,7 +51,7 @@ jobs:
       - name: Measure Swift core and Apple app policy coverage
         run: |
           bash scripts/ci/sonar-swift-coverage.sh swift/MoldSignKit swift/MoldSignKit/Sources "$RUNNER_TEMP/coverage/core.xml" "$RUNNER_TEMP/core-coverage-build"
-          bash scripts/ci/sonar-swift-coverage.sh apple apple/Apps "$RUNNER_TEMP/coverage/apple.xml" "$RUNNER_TEMP/apple-coverage-build"
+          bash scripts/ci/sonar-swift-coverage.sh apple apple "$RUNNER_TEMP/coverage/apple.xml" "$RUNNER_TEMP/apple-coverage-build"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sonar-swift
