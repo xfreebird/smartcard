@@ -61,6 +61,19 @@ class WorkflowContracts(unittest.TestCase):
                                                    'robolectric-cache.sh seed', 'actions/cache/save@', 'gradle-ci.sh']]
             self.assertEqual(order, sorted(order), name)
 
+    def test_every_python_test_module_is_a_sonar_test_source(self):
+        # A test module left out of sonar.tests counts as uncovered production code and lowers new-code coverage.
+        settings = dict(line.split('=', 1) for line in (ROOT/'.sonarcloud.properties').read_text().splitlines()
+                        if line.startswith(('sonar.tests=', 'sonar.exclusions=')))
+        tests = settings['sonar.tests'].split(',')
+        exclusions = settings['sonar.exclusions'].split(',')
+        modules = [p.relative_to(ROOT).as_posix() for p in ROOT.glob('scripts/**/test_*.py')]
+        self.assertGreater(len(modules), 20)
+        for module in modules:
+            self.assertTrue(any(module == entry or module.startswith(entry + '/') for entry in tests), module)
+            self.assertTrue(any(module == entry or (entry.endswith('/**') and module.startswith(entry[:-2]))
+                                for entry in exclusions), module)
+
     def test_every_native_job_runs_mock_ui_and_remains_required(self):
         ci = (ROOT/'.github/workflows/ci.yml').read_text()
         commands = {
