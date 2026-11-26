@@ -71,6 +71,13 @@ public sealed class AppDemoSourcesTests
         finally { Environment.SetEnvironmentVariable("MSIGN_TLS_P12", previous); }
     }
 
+    [Theory]
+    [InlineData(true, false, X509KeyStorageFlags.UserKeySet)]       // Schannel needs a persisted user key
+    [InlineData(false, true, X509KeyStorageFlags.DefaultKeySet)]    // macOS has no ephemeral key storage
+    [InlineData(false, false, X509KeyStorageFlags.EphemeralKeySet)] // Linux keeps the key in memory only
+    public void Bridge_identity_key_storage_follows_the_platform(bool windows, bool macOS, X509KeyStorageFlags expected) =>
+        Assert.Equal(expected, BridgeTls.KeyStorageFor(windows, macOS));
+
     [Fact]
     public void Bridge_identity_must_exist_and_be_a_current_localhost_cts_md_key()
     {

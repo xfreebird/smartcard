@@ -84,6 +84,54 @@ public sealed class McpTrustedRootTests : IDisposable
     }
 
     [Fact]
+    public void Removal_and_publication_never_touch_a_directory_in_place_of_a_file()
+    {
+        var folder = _directory.CreateSubdirectory("dosar");
+        File.WriteAllBytes(Path.Combine(folder.FullName, "kept.pdf"), [1]);
+        using var root = new McpTrustedRoot(_directory.FullName);
+
+        Assert.Equal("PATH_DENIED", Code(() => root.Remove("dosar")));
+        Assert.Equal("PATH_DENIED", Code(() => root.Publish("dosar", [2], replace: true)));
+        Assert.Equal("PATH_DENIED", Code(() => root.WriteExclusive("dosar", [2])));
+        Assert.True(File.Exists(Path.Combine(folder.FullName, "kept.pdf")));
+        Assert.Empty(_directory.GetFiles("*.tmp"));
+    }
+
+    [Fact]
+    public void A_read_that_fails_after_admission_is_reported_as_denied()
+    {
+        var path = Path.Combine(_directory.FullName, "locked.pdf");
+        File.WriteAllBytes(path, [1, 2, 3, 4]);
+        using var root = new McpTrustedRoot(_directory.FullName);
+        Assert.Equal(new byte[] { 1, 2, 3, 4 }, root.Read("locked.pdf", 16));
+        if (!OperatingSystem.IsWindows()) return; // byte-range locks are advisory (or unsupported) elsewhere
+        using var holder = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+        holder.Lock(0, 4); // Windows enforces it: the admitted handle cannot read the locked bytes
+        try { Assert.Equal("PATH_DENIED", Code(() => root.Read("locked.pdf", 16))); }
+        finally { holder.Unlock(0, 4); }
+        Assert.Equal(new byte[] { 1, 2, 3, 4 }, root.Read("locked.pdf", 16));
+    }
+
+    [Fact]
+    public void A_lease_is_never_taken_through_a_symbolic_link()
+    {
+        var target = Path.Combine(_directory.FullName, "target.lease");
+        File.WriteAllBytes(target, [9]);
+        var link = Path.Combine(_directory.FullName, ".lease");
+        try { File.CreateSymbolicLink(link, target); }
+        catch (Exception error) when (error is UnauthorizedAccessException or IOException)
+        {
+            // Unprivileged Windows accounts without Developer Mode cannot create symbolic links.
+            Assert.True(OperatingSystem.IsWindows(), error.Message);
+            return;
+        }
+        using var root = new McpTrustedRoot(_directory.FullName);
+        Assert.Equal("PATH_DENIED", Code(() => root.AcquireLease(".lease")));
+        Assert.Equal("PATH_DENIED", Code(() => root.Read(".lease", 16)));
+        Assert.Equal(new byte[] { 9 }, File.ReadAllBytes(target));
+    }
+
+    [Fact]
     public void A_disposed_root_refuses_every_operation()
     {
         File.WriteAllBytes(Path.Combine(_directory.FullName, "kept.pdf"), [1]);
