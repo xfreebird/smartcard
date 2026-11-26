@@ -34,8 +34,11 @@ def python_command(source):
     return [sys.executable, '-c', textwrap.dedent(source)]
 
 
+UDID = '76B17219-A89A-4293-9A37-C4B465894385'
+
+
 class CaptureTestDisplayTests(unittest.TestCase):
-    def run_capture(self, command, env, screenshot_codes=()):
+    def run_capture(self, command, env, screenshot_codes=(), device=UDID):
         calls = []
         codes = list(screenshot_codes)
 
@@ -46,7 +49,7 @@ class CaptureTestDisplayTests(unittest.TestCase):
         output = io.StringIO()
         with tempfile.TemporaryDirectory() as directory, mock.patch.object(capture.subprocess, 'run', screenshot), \
                 contextlib.redirect_stdout(output):
-            code = capture.main(['device-1', str(Path(directory) / 'shots'), *command], env=env)
+            code = capture.main([device, str(Path(directory) / 'shots'), *command], env=env)
             created = (Path(directory) / 'shots').is_dir()
         return code, calls, output.getvalue(), created
 
@@ -60,7 +63,7 @@ class CaptureTestDisplayTests(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertTrue(created)
         self.assertEqual(len(calls), 1)
-        self.assertEqual(calls[0][:6], ['xcrun', 'simctl', 'io', 'device-1', 'screenshot', '--display=3'])
+        self.assertEqual(calls[0][:6], ['xcrun', 'simctl', 'io', UDID, 'screenshot', '--display=3'])
         self.assertTrue(calls[0][6].endswith('wallet-open.png'))
         self.assertIn('ordinary output', output)
         self.assertIn('captured', output)
@@ -101,6 +104,46 @@ class CaptureTestDisplayTests(unittest.TestCase):
                                                   {'MSIGN_UI_STOP_ON_FAILURE': '1'})
         self.assertEqual(code, 1)
         self.assertIn('failed', output)
+
+    def test_lowercase_udid_and_booted_are_accepted(self):
+        command = python_command('print("MSIGN_UI_CAPTURE closed")')
+        _, calls, _, _ = self.run_capture(command, {'MSIGN_CAPTURE_DISPLAY': '1'}, device=UDID.lower())
+        self.assertEqual(calls[0][3], UDID)
+        _, calls, _, _ = self.run_capture(command, {'MSIGN_CAPTURE_DISPLAY': '1'}, device='booted')
+        self.assertEqual(calls[0][3], 'booted')
+
+    def test_untrusted_device_display_and_output_are_refused_before_running(self):
+        command = python_command('raise SystemExit("must not run")')
+        for device in ['--set', 'booted --help', '../../device', UDID[:-1], '']:
+            with self.subTest(device=device), self.assertRaisesRegex(SystemExit, 'simulator UDID'):
+                self.run_capture(command, {'MSIGN_CAPTURE_DISPLAY': '3'}, device=device)
+        for display in ['0', '5', '3 --type=jpeg', '--display=1', '1;2', '../3']:
+            with self.subTest(display=display), self.assertRaisesRegex(SystemExit, 'MSIGN_CAPTURE_DISPLAY'):
+                self.run_capture(command, {'MSIGN_CAPTURE_DISPLAY': display})
+        outside = Path.home().resolve() / 'esemnbun-capture-outside'
+        for output in [str(outside), '/etc/esemnbun', str(Path(tempfile.gettempdir()) / '..' / '..' / 'escape')]:
+            with self.subTest(output=output), self.assertRaisesRegex(SystemExit, 'Output directory'):
+                capture.main([UDID, output, *command], env={'MSIGN_CAPTURE_DISPLAY': '3'})
+        self.assertFalse(outside.exists())
+        with self.assertRaisesRegex(SystemExit, 'Usage'):
+            capture.main([UDID, tempfile.gettempdir()], env={})
+
+    def test_symbolic_link_cannot_lead_the_output_outside(self):
+        with tempfile.TemporaryDirectory() as directory:
+            link = Path(directory) / 'link'
+            link.symlink_to('/etc')
+            with self.assertRaisesRegex(SystemExit, 'Output directory'):
+                capture.main([UDID, str(link / 'shots'), sys.executable, '-c', 'pass'],
+                             env={'MSIGN_CAPTURE_DISPLAY': '3'})
+
+    def test_checkpoint_names_cannot_name_other_paths(self):
+        command = python_command('''
+            print("MSIGN_UI_CAPTURE ../../escape")
+            print("MSIGN_UI_CAPTURE a/b")
+            print("MSIGN_UI_CAPTURE Upper")
+        ''')
+        code, calls, _, _ = self.run_capture(command, {'MSIGN_CAPTURE_DISPLAY': '3'})
+        self.assertEqual((code, calls), (0, []))
 
     def test_command_line_entry_point(self):
         with mock.patch.object(sys, 'argv', ['capture-test-display.py', 'device', tempfile.gettempdir(),
@@ -143,6 +186,7 @@ class DemoInsertionHelperCheckTests(unittest.TestCase):
         self.app = root / 'eSemnBun.app'
         helper = self.app / 'Contents/Helpers/esemnbun-reader-watcher'
         helper.parent.mkdir(parents=True)
+        (self.app / 'Contents/Info.plist').write_bytes(plistlib.dumps({'CFBundleIdentifier': 'md.esemnbun.mac'}))
         helper.write_text(FAKE_HELPER.format(python=sys.executable))
         helper.chmod(helper.stat().st_mode | stat.S_IXUSR)
         self.helper = helper
@@ -185,6 +229,36 @@ class DemoInsertionHelperCheckTests(unittest.TestCase):
         with self.assertRaisesRegex(SystemExit, 'Debug helper'):
             self.run_check()
         self.assertEqual(self.choices, [])
+
+    def run_check_at(self, app):
+        with contextlib.redirect_stdout(io.StringIO()):
+            helper_check.run(app, choice=self.choice, cleanup=self.cleanup, quiet_interval=0.3)
+
+    def test_only_the_watcher_inside_a_macos_esemnbun_bundle_runs(self):
+        root = Path(self.directory.name)
+        not_bundle = root / 'eSemnBun'
+        not_bundle.mkdir()
+        for app in [not_bundle, root / 'missing.app']:
+            with self.subTest(app=app), self.assertRaisesRegex(SystemExit, 'eSemnBun.app bundle'):
+                self.run_check_at(app)
+        other = root / 'Other.app'
+        (other / 'Contents').mkdir(parents=True)
+        (other / 'Contents/Info.plist').write_bytes(plistlib.dumps({'CFBundleIdentifier': 'md.esemnbun.ios'}))
+        with self.assertRaisesRegex(SystemExit, 'not the macOS eSemnBun app'):
+            self.run_check_at(other)
+        (other / 'Contents/Info.plist').write_text('not a property list')
+        with self.assertRaisesRegex(SystemExit, 'not the macOS eSemnBun app'):
+            self.run_check_at(other)
+        # A watcher that links to an executable elsewhere is not part of the bundle.
+        outside = root / 'outside-watcher'
+        self.helper.rename(outside)
+        self.helper.symlink_to(outside)
+        with self.assertRaisesRegex(SystemExit, 'no reader watcher inside the bundle'):
+            self.run_check()
+        self.helper.unlink()
+        with self.assertRaisesRegex(SystemExit, 'no reader watcher inside the bundle'):
+            self.run_check()
+        self.assertEqual(self.choices, [], 'nothing runs before validation')
 
     def test_wait_times_out_with_the_log(self):
         log = Path(self.directory.name) / 'log'
@@ -255,6 +329,23 @@ class SeedDocumentFixturesTests(unittest.TestCase):
             (fixtures / 'second.txt').write_text('another original')
             with self.assertRaises(AssertionError):
                 seeding.seed(root / 'other', fixtures, sample)
+
+    def test_paths_outside_simulator_containers_and_run_directories_are_refused(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            fixtures, sample = self.inputs(root)
+            outside = str(Path.home().resolve() / 'esemnbun-seed-outside')
+            repository_container = str(SCRIPTS.parent / 'container')
+            for arguments, message in [([outside, str(fixtures), str(sample)], 'app container'),
+                                       ([repository_container, str(fixtures), str(sample)], 'app container'),
+                                       ([str(root / 'container'), '/etc', str(sample)], 'fixtures directory'),
+                                       ([str(root / 'container'), str(fixtures), '/etc/hosts'], 'sample PDF')]:
+                with self.subTest(arguments=arguments), self.assertRaisesRegex(SystemExit, message):
+                    seeding.main(arguments)
+            with self.assertRaisesRegex(SystemExit, 'Usage'):
+                seeding.main([str(root)])
+            self.assertFalse((root / 'container').exists())
+            self.assertFalse(Path(outside).exists())
 
     def test_command_line_entry_point(self):
         with tempfile.TemporaryDirectory() as directory:

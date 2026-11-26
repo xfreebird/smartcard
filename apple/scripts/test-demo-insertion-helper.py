@@ -4,11 +4,14 @@ import argparse
 import json
 import os
 from pathlib import Path
+import plistlib
 import subprocess
 import tempfile
 import time
 
 SUITE = 'md.esemnbun.qa.helper-demo-policy'
+APP_IDENTIFIER = 'md.esemnbun.mac'
+HELPER = 'Contents/Helpers/esemnbun-reader-watcher'
 
 
 def defaults_choice(enabled):
@@ -30,8 +33,25 @@ def wait_for(log, process, predicate, timeout=15):
     raise AssertionError('Helper state timed out: ' + log.read_text())
 
 
+def bundled_helper(app):
+    """The reader watcher inside a macOS eSemnBun .app bundle; anything else is refused."""
+    bundle = os.path.realpath(app)
+    if not bundle.endswith('.app') or not os.path.isdir(bundle):
+        raise SystemExit(f'Pass the Debug eSemnBun.app bundle, not: {app}')
+    try:
+        info = plistlib.loads(Path(bundle, 'Contents/Info.plist').read_bytes())
+    except (OSError, plistlib.InvalidFileException):
+        info = {}
+    if info.get('CFBundleIdentifier') != APP_IDENTIFIER:
+        raise SystemExit(f'{app} is not the macOS eSemnBun app ({APP_IDENTIFIER}).')
+    helper = os.path.realpath(os.path.join(bundle, HELPER))
+    if os.path.commonpath([bundle, helper]) != bundle or not os.path.isfile(helper):
+        raise SystemExit(f'{app} has no reader watcher inside the bundle.')
+    return Path(helper)
+
+
 def run(app, choice=defaults_choice, cleanup=defaults_cleanup, quiet_interval=1.1):
-    helper = Path(app) / 'Contents/Helpers/esemnbun-reader-watcher'
+    helper = bundled_helper(app)
     # The fixture string is a literal in the Debug executable (what `strings` would list).
     if b'MOCK_WATCHER_DEMO_SUPPRESSED' not in helper.read_bytes():
         raise SystemExit('Use the current Debug helper with its mock-only fixture.')
@@ -44,8 +64,8 @@ def run(app, choice=defaults_choice, cleanup=defaults_cleanup, quiet_interval=1.
         env = dict(os.environ, MSIGN_DEMO_PREFERENCES_SUITE=SUITE)
         with log.open('wb') as output:
             # BundleProgram starts the executable with a relative argv[0] under launchd.
-            process = subprocess.Popen(['Contents/Helpers/esemnbun-reader-watcher', '--mock-snapshot', str(snapshot)],
-                                       executable=str(helper.resolve()), env=env, stdout=output, stderr=subprocess.STDOUT)
+            process = subprocess.Popen([HELPER, '--mock-snapshot', str(snapshot)],
+                                       executable=str(helper), env=env, stdout=output, stderr=subprocess.STDOUT)
             try:
                 wait_for(log, process, lambda text: 'MOCK_WATCHER_DEMO_SUPPRESSED' in text)
                 before = log.read_text().count('MOCK_WATCHER_DEMO_SUPPRESSED')

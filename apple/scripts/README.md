@@ -33,7 +33,7 @@ The package also tests the exact insertion transition policy compiled into the s
 
 `test-macos-insertion-window.sh DEBUG_APP FRESH_OUTPUT_DIR` checks that path in the real Debug macOS app on an otherwise idle desktop: the bundled helper reads fake snapshots and targets an isolated QA instance; Finder must stay frontmost while the main window is showing, an explicit reopen still brings it forward, and an insertion presents a closed window. No reader, card, PIN or background item is involved.
 
-The Python automation scripts in this folder have unit tests that run on any OS with fake native tools:
+The Python automation scripts validate their command-line inputs before doing any work: simulators are a UDID or `booted`, `MSIGN_CAPTURE_DISPLAY` is 1–4, capture names stay `[a-z0-9-]+`, output and fixture paths must resolve inside the repository, `$RUNNER_TEMP`, the temporary directory or `/tmp` (seeded app containers inside `~/Library/Developer/CoreSimulator/Devices`), and the helper check only runs the watcher inside a macOS `md.esemnbun.mac` `.app` bundle. They have unit tests that run on any OS with fake native tools:
 
 ```sh
 python3 -m unittest discover -s apple/Tests/Scripts -p 'test_*.py'
