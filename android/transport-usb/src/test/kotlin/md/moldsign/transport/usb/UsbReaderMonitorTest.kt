@@ -1,12 +1,10 @@
 package md.moldsign.transport.usb
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestCoroutineScheduler
 import md.moldsign.core.CardError
 import md.moldsign.core.ReaderSlot
 import md.moldsign.core.ReaderState
@@ -14,17 +12,21 @@ import md.moldsign.core.decodeHex
 import org.junit.After
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
-import java.util.concurrent.ConcurrentHashMap
 
+/**
+ * The monitor on virtual time: polling, opening and closing run on a test dispatcher, so every state is reached
+ * by advancing the clock, never by waiting on threads.
+ */
 class UsbReaderMonitorTest {
     private class Host : UsbHost {
         val attached = mutableListOf<UsbHost.Reader>()
-        val permitted = ConcurrentHashMap.newKeySet<String>()
-        val simulated = ConcurrentHashMap<String, SimulatedCcidReader>()
-        val failOpen = ConcurrentHashMap.newKeySet<String>()
+        val permitted = mutableSetOf<String>()
+        val simulated = HashMap<String, SimulatedCcidReader>()
+        val failOpen = mutableSetOf<String>()
         val requests = mutableListOf<String>()
         var events: UsbHost.Events? = null
         var listening = false
@@ -43,54 +45,70 @@ class UsbReaderMonitorTest {
             if (reader.id in failOpen) throw CardError.NoReader("Cannot open ${reader.name}")
             return CcidTransport(requireNotNull(simulated[reader.id]), null, reader.name, SimulatedCcidReader.SHORT_APDU, 100)
         }
-        override fun requestPermission(reader: UsbHost.Reader) { synchronized(requests) { requests += reader.id } }
+        override fun requestPermission(reader: UsbHost.Reader) { requests += reader.id }
         override fun listen(events: UsbHost.Events) { this.events = events; listening = true }
         override fun stopListening() { listening = false }
     }
 
     private val host = Host()
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val monitor = UsbReaderMonitor(host, scope, pollIntervalMs = 10)
+    private val scheduler = TestCoroutineScheduler()
+    private val dispatcher = StandardTestDispatcher(scheduler)
+    private val scope = CoroutineScope(SupervisorJob() + dispatcher)
+    private val monitor = UsbReaderMonitor(host, scope, pollIntervalMs = POLL, io = dispatcher)
 
     @After fun tearDown() {
         monitor.stop()
+        scheduler.runCurrent()
         scope.cancel()
     }
 
-    private fun readersUntil(predicate: (List<ReaderSlot>) -> Boolean): List<ReaderSlot> =
-        runBlocking { withTimeout(5_000) { monitor.readers.first(predicate) } }
+    /** Runs whatever is due now (opening, the first poll). */
+    private fun settle() = scheduler.runCurrent()
 
-    private fun stateUntil(predicate: (ReaderState) -> Boolean): ReaderState =
-        runBlocking { withTimeout(5_000) { monitor.state.first(predicate) } }
+    /** One more poll period. */
+    private fun nextPoll() { scheduler.advanceTimeBy(POLL); scheduler.runCurrent() }
+
+    private val slot get() = monitor.readers.value.single()
 
     @Test fun readerWithCardIsPolledAndGetsAGeneration() {
         host.plug("/dev/bus/usb/001/002")
         monitor.start()
         monitor.start() // idempotent
         assertTrue(host.listening)
-        val slot = readersUntil { it.singleOrNull()?.state == ReaderSlot.State.Card }.single()
+        // Attached readers are listed before the first poll, waiting for their transport.
+        assertEquals(ReaderSlot.State.PermissionRequired, slot.state)
+        settle()
+        assertEquals(ReaderSlot.State.Card, slot.state)
         assertEquals("miniLector EVO", slot.name)
         assertTrue(slot.generation > 0)
-        assertEquals(ReaderState.CardPresent("miniLector EVO"), stateUntil { it is ReaderState.CardPresent })
+        assertEquals(ReaderState.CardPresent("miniLector EVO"), monitor.state.value)
+        // Unchanged presence keeps the same generation.
+        val generation = slot.generation
+        nextPoll()
+        assertEquals(generation, slot.generation)
     }
 
     @Test fun removingAndReinsertingTheCardChangesTheGeneration() {
         val reader = host.plug("r1")
         monitor.start()
-        val first = readersUntil { it.singleOrNull()?.state == ReaderSlot.State.Card }.single().generation
+        settle()
+        val first = slot.generation
         reader.cardPresent = false
-        readersUntil { it.single().state == ReaderSlot.State.Empty }
-        assertEquals(ReaderState.Empty("miniLector EVO"), stateUntil { it is ReaderState.Empty })
+        nextPoll()
+        assertEquals(ReaderSlot.State.Empty, slot.state)
+        assertEquals(ReaderState.Empty("miniLector EVO"), monitor.state.value)
         reader.cardPresent = true
-        val second = readersUntil { it.single().state == ReaderSlot.State.Card }.single().generation
-        assertTrue(second != first)
+        nextPoll()
+        assertEquals(ReaderSlot.State.Card, slot.state)
+        assertTrue(slot.generation != first)
     }
 
     @Test fun permissionIsRequestedAndGrantedThroughEvents() {
         host.plug("r1", permission = false)
         monitor.start()
-        readersUntil { it.singleOrNull()?.state == ReaderSlot.State.PermissionRequired }
-        assertEquals(ReaderState.PermissionRequired("miniLector EVO"), stateUntil { it is ReaderState.PermissionRequired })
+        settle()
+        assertEquals(ReaderSlot.State.PermissionRequired, slot.state)
+        assertEquals(ReaderState.PermissionRequired("miniLector EVO"), monitor.state.value)
         monitor.requestPermission()
         monitor.requestPermission("r1")
         // An unknown id falls back to the first reader still waiting for access.
@@ -98,10 +116,23 @@ class UsbReaderMonitorTest {
         assertEquals(listOf("r1", "r1", "r1"), host.requests)
 
         host.events!!.permission(host.attached.single(), granted = false)
-        assertEquals(ReaderSlot.State.PermissionRequired, monitor.readers.value.single().state)
+        assertEquals(ReaderSlot.State.PermissionRequired, slot.state)
         host.permitted += "r1"
         host.events!!.permission(host.attached.single(), granted = true)
-        readersUntil { it.single().state == ReaderSlot.State.Card }
+        settle()
+        assertEquals(ReaderSlot.State.Card, slot.state)
+        // Once granted nobody waits for access any more.
+        monitor.requestPermission()
+        assertEquals(3, host.requests.size)
+    }
+
+    @Test fun permissionForAReaderSeenOnlyThroughTheResult() {
+        monitor.start()
+        host.plug("late")
+        host.events!!.permission(host.attached.single(), granted = true)
+        settle()
+        assertEquals(listOf("late"), monitor.readers.value.map { it.id })
+        assertEquals(ReaderSlot.State.Card, slot.state)
     }
 
     @Test fun identicalReadersAreNumberedAndDetachedOnes() {
@@ -110,82 +141,116 @@ class UsbReaderMonitorTest {
         host.events!!.attached(host.attached[0])
         host.plug("r2")
         host.events!!.attached(host.attached[1])
-        val both = readersUntil { list -> list.size == 2 && list.all { it.state == ReaderSlot.State.Card } }
-        assertEquals(listOf("miniLector EVO", "miniLector EVO #2"), both.map { it.name })
+        settle()
+        assertEquals(listOf("miniLector EVO", "miniLector EVO #2"), monitor.readers.value.map { it.name })
+        assertTrue(monitor.readers.value.all { it.state == ReaderSlot.State.Card })
         // A repeated attach for a reader that is already open is ignored.
         host.events!!.attached(host.attached[0])
+        settle()
+        assertEquals(2, monitor.readers.value.size)
         host.events!!.detached("r1")
-        assertEquals(listOf("r2"), readersUntil { it.size == 1 }.map { it.id })
+        assertEquals(listOf("r2"), monitor.readers.value.map { it.id })
         host.events!!.detached("unknown")
-        host.attached.removeAt(0)
         host.attached.clear()
         monitor.rescan()
-        readersUntil { it.isEmpty() }
+        settle()
+        assertTrue(monitor.readers.value.isEmpty())
         assertEquals(ReaderState.NoReader, monitor.state.value)
+        assertTrue(host.simulated.values.all { it.released })
     }
 
     @Test fun openFailureShowsAnError() {
         host.plug("r1")
         host.failOpen += "r1"
         monitor.start()
-        readersUntil { it.singleOrNull()?.state == ReaderSlot.State.Error }
-        assertEquals(ReaderState.Error("miniLector EVO"), stateUntil { it is ReaderState.Error })
+        settle()
+        assertEquals(ReaderSlot.State.Error, slot.state)
+        assertEquals(ReaderState.Error("miniLector EVO"), monitor.state.value)
     }
 
-    @Test fun slotStatusFailureShowsAnError() {
+    @Test fun slotStatusFailureShowsAnErrorAndRecovers() {
         val reader = host.plug("r1")
         monitor.start()
-        readersUntil { it.singleOrNull()?.state == ReaderSlot.State.Card }
+        settle()
         reader.receiveTimeout = true
-        readersUntil { it.single().state == ReaderSlot.State.Error }
+        nextPoll()
+        assertEquals(ReaderSlot.State.Error, slot.state)
+        reader.receiveTimeout = false
+        nextPoll()
+        assertEquals(ReaderSlot.State.Card, slot.state)
     }
 
     @Test fun sessionsGoToTheNamedReaderAndPausePolling() {
         host.plug("r1")
-        host.plug("r2")
+        val second = host.plug("r2")
         monitor.start()
-        readersUntil { list -> list.size == 2 && list.all { it.state == ReaderSlot.State.Card } }
+        settle()
 
         val session = monitor.transportProvider.open("r2")
         assertEquals("miniLector EVO", session.readerName)
-        assertEquals(ReaderState.Busy, stateUntil { it == ReaderState.Busy })
+        assertEquals(ReaderState.Busy, monitor.state.value)
+        // Polling pauses for the reader in session: a removed card is not noticed meanwhile.
+        second.cardPresent = false
+        nextPoll()
+        assertEquals(ReaderState.Busy, monitor.state.value)
+        second.cardPresent = true
         assertArrayEquals("00A4000C9000".decodeHex(), session.transmit("00A4000C".decodeHex()))
         session.close()
-        stateUntil { it is ReaderState.CardPresent }
+        settle()
+        assertTrue(monitor.state.value is ReaderState.CardPresent)
 
         monitor.transportProvider.open(null).close()
+        settle()
         try { monitor.transportProvider.open("missing"); fail("unknown reader") } catch (_: CardError.NoReader) {}
     }
 
     @Test fun sessionWithoutAccessOrCardIsRefused() {
         host.plug("r1", permission = false)
         monitor.start()
-        readersUntil { it.singleOrNull()?.state == ReaderSlot.State.PermissionRequired }
+        settle()
         try { monitor.transportProvider.open("r1"); fail("no USB access") } catch (error: CardError.NoReader) {
             assertTrue(error.message!!.contains("no USB access"))
         }
         try { monitor.transportProvider.open(null); fail("no reader with access") } catch (_: CardError.NoReader) {}
 
-        val empty = UsbReaderMonitor(Host(), scope, 10)
+        val empty = UsbReaderMonitor(Host(), scope, POLL, dispatcher)
         try { empty.transportProvider.open(null); fail("no reader") } catch (_: CardError.NoReader) {}
+    }
+
+    @Test fun firstReaderWithAccessIsUsedWhenNoCardIsPresent() {
+        val reader = host.plug("r1")
+        reader.cardPresent = false
+        monitor.start()
+        settle()
+        assertEquals(ReaderSlot.State.Empty, slot.state)
+        reader.cardPresent = true
+        monitor.transportProvider.open(null).use { assertEquals("miniLector EVO", it.readerName) }
     }
 
     @Test fun failedSessionResumesPolling() {
         val reader = host.plug("r1")
         monitor.start()
-        readersUntil { it.singleOrNull()?.state == ReaderSlot.State.Card }
+        settle()
         reader.failNext = Ccid.ERR_HW_ERROR
         try { monitor.transportProvider.open("r1"); fail("power-on failed") } catch (_: CardError.CardNotResponding) {}
-        stateUntil { it is ReaderState.CardPresent }
+        settle()
+        assertEquals(ReaderState.CardPresent("miniLector EVO"), monitor.state.value)
+        reader.cardPresent = false
+        nextPoll()
+        assertEquals(ReaderSlot.State.Empty, slot.state)
     }
 
     @Test fun stopReleasesEveryReader() {
         val reader = host.plug("r1")
         monitor.start()
-        readersUntil { it.singleOrNull()?.state == ReaderSlot.State.Card }
+        settle()
         monitor.stop()
-        assertTrue(!host.listening)
-        readersUntil { it.isEmpty() }
-        runBlocking { withTimeout(5_000) { while (!reader.released) kotlinx.coroutines.delay(5) } }
+        assertFalse(host.listening)
+        settle()
+        assertTrue(monitor.readers.value.isEmpty())
+        assertTrue(reader.released)
+        monitor.stop() // idempotent
     }
+
+    private companion object { const val POLL = 1_000L }
 }

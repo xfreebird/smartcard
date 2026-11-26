@@ -12,6 +12,7 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -40,6 +41,8 @@ class UsbReaderMonitor internal constructor(
     private val host: UsbHost,
     private val scope: CoroutineScope,
     private val pollIntervalMs: Long = 1_000,
+    /** Where USB transfers run; tests pass a virtual-time dispatcher. */
+    private val io: CoroutineDispatcher = Dispatchers.IO,
 ) {
     constructor(context: Context, scope: CoroutineScope, pollIntervalMs: Long = 1_000) :
         this(AndroidUsbHost(context.applicationContext), scope, pollIntervalMs)
@@ -159,7 +162,7 @@ class UsbReaderMonitor internal constructor(
     private fun endSession(slot: Slot, t: CcidTransport) {
         slot.sessionActive = false
         publish()
-        scope.launch(Dispatchers.IO) { poll(slot, t) }
+        scope.launch(io) { poll(slot, t) }
     }
 
     private fun onAttached(dev: UsbHost.Reader) {
@@ -179,7 +182,7 @@ class UsbReaderMonitor internal constructor(
         val slot = synchronized(lock) { slots.remove(readerId) } ?: return
         slot.pollJob?.cancel()
         slot.pollJob = null
-        slot.transport?.let { t -> scope.launch(Dispatchers.IO) { runCatching { t.close() } } }
+        slot.transport?.let { t -> scope.launch(io) { runCatching { t.close() } } }
         slot.transport = null
         generations.forget(readerId)
         publish()
@@ -197,7 +200,7 @@ class UsbReaderMonitor internal constructor(
 
     private fun openAndPoll(slot: Slot) {
         slot.pollJob?.cancel()
-        slot.pollJob = scope.launch(Dispatchers.IO) {
+        slot.pollJob = scope.launch(io) {
             val t = try {
                 host.open(slot.device)
             } catch (e: CardError) {
@@ -288,7 +291,7 @@ internal interface UsbHost {
     fun stopListening()
 }
 
-private class AndroidUsbHost(private val context: Context) : UsbHost {
+internal class AndroidUsbHost(private val context: Context) : UsbHost {
     private val usbManager: UsbManager = context.getSystemService(UsbManager::class.java)
     private var receiver: BroadcastReceiver? = null
 
