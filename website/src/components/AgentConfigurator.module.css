@@ -9,6 +9,7 @@
 .mode {display:flex;gap:.75rem;align-items:flex-start;cursor:pointer;padding:.65rem 0;}
 .mode input {width:20px;height:20px;flex-shrink:0;margin-top:3px;accent-color:var(--ifm-color-primary);}
 .mode small {display:block;margin-top:.2rem;}
+.modeLabel {font-weight:var(--ifm-font-weight-bold);}
 .paths summary {font-weight:600;cursor:pointer;padding:.5rem 0;}
 .paths {margin:1rem 0;}
 .error {color:var(--ifm-color-danger-dark);font-size:.9rem;}

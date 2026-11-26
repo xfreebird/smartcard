@@ -52,7 +52,8 @@ export function storyScrollProgress(bounds,viewport,screen,openingScreenFraction
 }
 
 // Short viewports also constrain the platform's target screen width.
-export function mobileSceneWidth(viewport,screen,frame={height:600},screenWidthFraction=.85){
+const DEFAULT_PHONE_FRAME=Object.freeze({height:600});
+export function mobileSceneWidth(viewport,screen,frame=DEFAULT_PHONE_FRAME,screenWidthFraction=.85){
  const screenWidth=Math.min(viewport.width*screenWidthFraction,Math.max(240,viewport.height-76)*screen.width/frame.height);
  return screenWidth*650/screen.width;
 }
