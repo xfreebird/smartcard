@@ -196,9 +196,12 @@ jobs:
         working-directory: linux
         run: swift build --force-resolved-versions
       - name: GNOME application integration tests
+        env:
+          GDK_BACKEND: x11
+          MSIGN_REQUIRE_DISPLAY: '1'
         run: |
           python3 scripts/ci/check-linux-design-system.py
-          swift test --package-path linux --force-resolved-versions
+          xvfb-run -a -s "-screen 0 1440x1080x24" swift test --package-path linux --force-resolved-versions
       - name: Native GTK mock UI journeys
         env:
           GDK_BACKEND: x11
