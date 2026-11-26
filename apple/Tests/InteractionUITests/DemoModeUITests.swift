@@ -57,7 +57,20 @@ final class DemoModeUITests: XCTestCase {
         waitForValue("0", on: persisted)
         navigate("Sign", in: app)
         XCTAssertFalse(app.descendants(matching: .any).matching(identifier: "demo.banner").firstMatch.exists)
+        assertNoDemoWording(in: app)
         attach(app, "06-return-to-live-mock")
+        // The simulated output stayed in the demo library; the live documents never list it.
+        navigate("Documents", in: app)
+        XCTAssertFalse(app.staticTexts.containing(NSPredicate(format: "label BEGINSWITH 'DEMO-result'")).firstMatch
+            .waitForPresence(timeout: 2))
+        assertNoDemoWording(in: app)
+        attach(app, "07-live-documents")
+    }
+
+    /// Demo banner text, sample-output notice, simulated completion and fictional-data wording are demo-only.
+    private func assertNoDemoWording(in app: XCUIApplication) {
+        let demoOnly = NSPredicate(format: "label CONTAINS[c] 'fictional' OR label CONTAINS[c] 'Sample document' OR label CONTAINS[c] 'Demo signing' OR label CONTAINS[c] 'Demo mode'")
+        XCTAssertFalse(app.staticTexts.containing(demoOnly).firstMatch.exists, app.debugDescription)
     }
 
     private func waitForValue(_ value: String, on element: XCUIElement) {
