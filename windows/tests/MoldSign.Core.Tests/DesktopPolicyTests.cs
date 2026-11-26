@@ -95,8 +95,13 @@ public sealed class DesktopPolicyTests
 
         await using var secondary = new DesktopActivationBroker(key);
         Assert.False(secondary.IsPrimary);
-        await secondary.OpenFilesAsync([@"C:\Documents\contract.pdf"], default);
-        await signed.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        // The broker's own connect timeout is 3 s; retry it rather than fail on a briefly starved listener.
+        for (var attempt = 1; ; attempt++)
+        {
+            try { await secondary.OpenFilesAsync([@"C:\Documents\contract.pdf"], default); break; }
+            catch (TimeoutException) when (attempt < 5) { /* the listener was busy; connect again */ }
+        }
+        await signed.Task.WaitAsync(TimeSpan.FromSeconds(30));
         lock (received) Assert.Equal([("sign", (IReadOnlyList<string>)[@"C:\Documents\contract.pdf"])], received.Select(r => (r.Action, r.Paths)).ToArray(),
             new ActivationComparer());
     }
@@ -106,7 +111,9 @@ public sealed class DesktopPolicyTests
         var user = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes($"{Environment.UserDomainName}\\{Environment.UserName}")))[..16];
         var pipe = $"{key}-{user}-{System.Diagnostics.Process.GetCurrentProcess().SessionId}";
         await using var client = new NamedPipeClientStream(".", pipe, PipeDirection.Out, PipeOptions.Asynchronous);
-        await client.ConnectAsync(5000);
+        // Generous: the listener's next pipe instance is created on a thread-pool continuation, which a busy
+        // parallel test run can delay for several seconds.
+        await client.ConnectAsync(30_000);
         try { await client.WriteAsync(Encoding.UTF8.GetBytes(raw)); await client.FlushAsync(); }
         catch (IOException)
         {

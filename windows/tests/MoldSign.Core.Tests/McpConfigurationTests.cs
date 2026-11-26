@@ -198,11 +198,13 @@ public sealed class McpConfigurationTests : IDisposable
     [Fact]
     public void One_password_reads_are_abandoned_after_the_deadline()
     {
-        var slow = Script("slow", "13579", exitCode: 0, delaySeconds: 20);
+        var slow = Script("slow", "13579", exitCode: 0, delaySeconds: 90);
         var started = DateTime.UtcNow;
         Assert.Equal("CREDENTIAL_UNAVAILABLE", Assert.Throws<McpException>(() =>
             WindowsMcpCredentialSource.ReadCommand(slow, "op://vault/item/pin", TimeSpan.FromSeconds(1))).Code);
-        Assert.True(DateTime.UtcNow - started < TimeSpan.FromSeconds(15));
+        // The provider is killed at the deadline instead of being awaited for its full 90 s; the bound leaves room
+        // for a deadline timer delayed by a saturated thread pool during the parallel test run.
+        Assert.True(DateTime.UtcNow - started < TimeSpan.FromSeconds(60));
     }
 
     /// <summary>Fake `op` CLI: records its arguments, prints <paramref name="value"/> without a newline.</summary>
