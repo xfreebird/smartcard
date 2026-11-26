@@ -254,6 +254,24 @@ jobs:
             android/gradle/libs.versions.toml
             android/gradle/gradle-daemon-jvm.properties
             android/gradle/wrapper/gradle-wrapper.jar
+      - name: Locate Robolectric's Android framework jar in the Gradle cache
+        id: robolectric
+        run: scripts/ci/robolectric-cache.sh outputs >> "$GITHUB_OUTPUT"
+      - name: Restore Robolectric's Android framework jar
+        id: robolectric-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.robolectric.outputs.path }}
+          key: robolectric-android-all-${{ steps.robolectric.outputs.version }}
+      - name: Download Robolectric's Android framework jar with backoff (Maven Central rate-limits CI)
+        if: steps.robolectric-cache.outputs.cache-hit != 'true'
+        run: scripts/ci/robolectric-cache.sh seed
+      - name: Save Robolectric's Android framework jar
+        if: steps.robolectric-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.robolectric.outputs.path }}
+          key: robolectric-android-all-${{ steps.robolectric.outputs.version }}
       - name: Require selected Android toolchain and optimization policy
         run: |
           python3 scripts/ci/android_build_policy.py --verify-wrapper > "$RUNNER_TEMP/android-toolchain.json"

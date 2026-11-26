@@ -67,8 +67,28 @@ jobs:
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with: { persist-credentials: false }
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
         with: { distribution: temurin, java-version: '17' }
+      - name: Locate Robolectric's Android framework jar in the Gradle cache
+        id: robolectric
+        run: scripts/ci/robolectric-cache.sh outputs >> "$GITHUB_OUTPUT"
+      - name: Restore Robolectric's Android framework jar
+        id: robolectric-cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.robolectric.outputs.path }}
+          key: robolectric-android-all-${{ steps.robolectric.outputs.version }}
+      - name: Download Robolectric's Android framework jar with backoff (Maven Central rate-limits CI)
+        if: steps.robolectric-cache.outputs.cache-hit != 'true'
+        run: scripts/ci/robolectric-cache.sh seed
+      - name: Save Robolectric's Android framework jar
+        if: steps.robolectric-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.robolectric.outputs.path }}
+          key: robolectric-android-all-${{ steps.robolectric.outputs.version }}
       - name: Measure Kotlin unit test coverage
         working-directory: android
         run: |

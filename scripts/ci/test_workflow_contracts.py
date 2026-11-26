@@ -53,6 +53,14 @@ class WorkflowContracts(unittest.TestCase):
                 self.assertTrue(set(s.strip() for s in sources.split(',')) <=
                                 {'Release', 'CLI package repositories'}, path.name)
 
+    def test_android_jobs_take_robolectric_from_the_cache_before_gradle(self):
+        # Maven Central rate-limits the 151 MB framework jar from CI addresses; Gradle must find it cached.
+        for name, job in [('ci.yml', '\n  android:\n'), ('sonar-coverage.yml', '\n  android-web:\n')]:
+            text = (ROOT/'.github/workflows'/name).read_text().split(job, 1)[1]
+            order = [text.index(step) for step in ['robolectric-cache.sh outputs', 'actions/cache/restore@',
+                                                   'robolectric-cache.sh seed', 'actions/cache/save@', 'gradle-ci.sh']]
+            self.assertEqual(order, sorted(order), name)
+
     def test_every_native_job_runs_mock_ui_and_remains_required(self):
         ci = (ROOT/'.github/workflows/ci.yml').read_text()
         commands = {
