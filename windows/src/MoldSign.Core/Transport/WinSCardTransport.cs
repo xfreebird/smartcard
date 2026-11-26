@@ -304,7 +304,7 @@ public sealed class WinSCardTransport : ICardTransport
             .ToList();
     }
 
-    private static CardException Map(uint code, string call, bool noCardByDefault = false)
+    internal static CardException Map(uint code, string call, bool noCardByDefault = false)
     {
         var kind = code switch
         {

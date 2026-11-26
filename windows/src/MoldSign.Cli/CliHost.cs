@@ -22,21 +22,22 @@ internal sealed class CliHost
         Error = Console.Error,
         GetEnvironmentVariable = Environment.GetEnvironmentVariable,
         IsInputRedirected = () => Console.IsInputRedirected,
-        PromptHidden = ReadHiddenFromConsole,
+        PromptHidden = prompt => ReadHidden(prompt, Console.Error, () => Console.ReadKey(intercept: true)), // no echo
         Cards = new WinSCardAccess(),
     };
 
-    private static string? ReadHiddenFromConsole(string prompt)
+    /// <summary>Line editor for a secret typed on <paramref name="readKey"/>: Enter ends, Escape (or nothing) cancels.</summary>
+    internal static string? ReadHidden(string prompt, TextWriter error, Func<ConsoleKeyInfo> readKey)
     {
-        Console.Error.Write(prompt);
+        error.Write(prompt);
         var pin = new StringBuilder();
         while (true)
         {
-            var key = Console.ReadKey(intercept: true); // no echo
+            var key = readKey();
             if (key.Key == ConsoleKey.Enter) break;
             if (key.Key == ConsoleKey.Escape)
             {
-                Console.Error.WriteLine();
+                error.WriteLine();
                 return null;
             }
             if (key.Key == ConsoleKey.Backspace)
@@ -46,7 +47,7 @@ internal sealed class CliHost
             }
             if (!char.IsControl(key.KeyChar)) pin.Append(key.KeyChar);
         }
-        Console.Error.WriteLine();
+        error.WriteLine();
         return pin.Length == 0 ? null : pin.ToString();
     }
 }

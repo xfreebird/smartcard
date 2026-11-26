@@ -113,6 +113,78 @@ public sealed class BridgeHostTests : IAsyncLifetime
     }
 
     [Fact]
+    public async Task NativePdfStampPreviewIsAskedOncePerBatchAndBoundToTheDocument()
+    {
+        var signer = new RecordingFileSigner();
+        await RestartWithFileSignerAsync(signer);
+        var previews = 0;
+        var previewEnabled = true;
+        _server.PreviewPdfEnabled = () => previewEnabled;
+        _server.PreviewPdf = (_, card, origin, _) =>
+        {
+            previews++;
+            Assert.Equal("", origin);
+            Assert.Equal(_cards[0].Certificate.Sha1, card.Certificate.Sha1);
+            return Task.FromResult<PdfStampPlacement?>(new PdfStampPlacement(X: .1, Y: .2));
+        };
+        _consent = _ => ConsentResult.WithPin("fixture-pin");
+        _client.DefaultRequestHeaders.Remove("Origin");
+        var directory = Directory.CreateTempSubdirectory("moldsign-bridge-stamp-");
+        try
+        {
+            var input = Path.Combine(directory.FullName, "contract.pdf");
+            File.WriteAllBytes(input, SigningCoreTests.MinimalPdf());
+            async Task<string> SignAsync(string output, string? batch = null)
+            {
+                var body = JsonSerializer.Serialize(new { originalFile = input, signedFile = Path.Combine(directory.FullName, output) });
+                using var created = await _client.PostAsync("/sign/pdf" + (batch is null ? "" : $"?use_pin_session={batch}"),
+                    new StringContent(body, Encoding.UTF8, "application/json"));
+                Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+                // The portal keeps the first PIN session for the rest of its batch.
+                using var result = JsonDocument.Parse(await _client.GetStringAsync(created.Headers.Location + "?keep_pin_session=1"));
+                Assert.EndsWith(output, result.RootElement.GetProperty("path").GetString());
+                return created.Headers.GetValues("sessionId").Single();
+            }
+
+            var first = await SignAsync("one.pdf");
+            var expectedHash = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(input)));
+            Assert.Equal(new PdfStampPlacement(X: .1, Y: .2, DocumentSHA256: expectedHash), signer.LastRequest!.Stamp);
+            await SignAsync("two.pdf", batch: first);
+            Assert.Equal(expectedHash, signer.LastRequest!.Stamp!.DocumentSHA256);
+            Assert.Equal(1, previews); // the batch keeps its placement
+            Assert.Equal(1, _consents); // and its consent
+            previewEnabled = false;
+            await SignAsync("three.pdf", batch: first);
+            Assert.Null(signer.LastRequest!.Stamp);
+            Assert.Equal(1, previews);
+            Assert.Equal(3, signer.Calls);
+        }
+        finally { directory.Delete(true); }
+    }
+
+    [Fact]
+    public async Task ResultsAreReleasedOnlyToTheCreatingNativeClient()
+    {
+        var signer = new RecordingFileSigner();
+        await RestartWithFileSignerAsync(signer);
+        _consent = _ => ConsentResult.WithPin("fixture-pin");
+        using var unknown = await _client.GetAsync($"/sign/data/PKCS11/{Guid.NewGuid()}/Any");
+        Assert.Equal(HttpStatusCode.NotFound, unknown.StatusCode);
+
+        _client.DefaultRequestHeaders.Remove("Origin");
+        var body = JsonSerializer.Serialize(new { originalFile = Path.Combine(Path.GetTempPath(), "in.pdf"),
+            signedFile = Path.Combine(Path.GetTempPath(), "out.pdf") });
+        using var created = await _client.PostAsync("/sign/pdf", new StringContent(body, Encoding.UTF8, "application/json"));
+        Assert.Equal(HttpStatusCode.Created, created.StatusCode);
+        using var browserPoll = new HttpRequestMessage(HttpMethod.Get, created.Headers.Location);
+        browserPoll.Headers.Add("Sec-Fetch-Mode", "cors");
+        using var rejected = await _client.SendAsync(browserPoll);
+        Assert.Equal(HttpStatusCode.Forbidden, rejected.StatusCode);
+        using var result = await _client.GetAsync(created.Headers.Location);
+        Assert.Equal(HttpStatusCode.OK, result.StatusCode);
+    }
+
+    [Fact]
     public async Task NativeXadesPreservesDigestPackagingAndActualHttpLocation()
     {
         var signer = new RecordingFileSigner();

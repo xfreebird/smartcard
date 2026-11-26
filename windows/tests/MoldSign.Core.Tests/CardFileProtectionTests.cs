@@ -6,13 +6,13 @@ namespace MoldSign.Core.Tests;
 public sealed class CardFileProtectionTests
 {
     private static byte[] W(byte tag,params byte[][] contents){var body=contents.SelectMany(b=>b).ToArray();Assert.True(body.Length<128);return [tag,(byte)body.Length,..body];}
-    private static (byte[] Key,byte[] Cert,byte[] Pin) Metadata(bool consent=false,byte usage=0x40,byte pin=3,byte pinType=1) {
+    internal static (byte[] Key,byte[] Cert,byte[] Pin) Metadata(bool consent=false,byte usage=0x40,byte pin=3,byte pinType=1) {
         var common=W(0x30,W(12,"Encryption key"u8.ToArray()),W(4,[1]),consent?W(2,[1]):[]);
         var attrs=W(0x30,W(4,[2]),W(3,[6,usage]),W(2,[2]));var type=W(0xa1,W(0x30,W(0x30,W(4,[])),W(2,[8,0])));
         return (W(0x30,common,attrs,type),W(0x30,W(0x30,[]),W(0x30,W(4,[2])),W(0xa1,W(0x30,W(0x30,W(4,[0,2]))))),
             W(0x30,W(0x30,[]),W(0x30,W(4,[1])),W(0xa1,W(0x30,W(3,[0,8]),W(10,[pinType]),W(2,[4]),W(2,[8]),W(0x80,[pin])))));
     }
-    private static byte[] Fixture(string name){var directory=new DirectoryInfo(AppContext.BaseDirectory);while(directory!=null){var path=Path.Combine(directory.FullName,"spec/vectors/encryption",name);if(File.Exists(path))return File.ReadAllBytes(path);directory=directory.Parent;}throw new FileNotFoundException(name);}
+    internal static byte[] Fixture(string name){var directory=new DirectoryInfo(AppContext.BaseDirectory);while(directory!=null){var path=Path.Combine(directory.FullName,"spec/vectors/encryption",name);if(File.Exists(path))return File.ReadAllBytes(path);directory=directory.Parent;}throw new FileNotFoundException(name);}
     private static (CosmoXCard Card,CosmoXCardTests.SimulatedSmCard Sim,RSA Rsa) Setup(bool signingOnly=false,bool mirrorEof=false,bool paddedDirectories=false) {
         var sim=new CosmoXCardTests.SimulatedSmCard(Bytes("sm","sess_enc"),Bytes("sm","sess_mac"),Bytes("sm","ssc_initial"));
         var metadata=Metadata(pinType:2);sim.ExtraFiles.Add(0x7001,metadata.Pin);sim.ExtraFiles.Add(0x7002,metadata.Key);sim.ExtraFiles.Add(0x7005,metadata.Cert);sim.ExtraFiles.Add(2,Fixture(signingOnly?"test-signing-only.der":"test-recipient.der"));
