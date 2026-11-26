@@ -95,4 +95,38 @@ class StoresTest {
         assertTrue(second.path!!.endsWith("/document"))
         assertArrayEquals("b".toByteArray(), app.contentResolver.openInputStream(second)!!.use { it.readBytes() })
     }
+
+    @Test fun savedIdentitiesKeepOnlyVerifiedPublicMetadata() {
+        val store = md.moldsign.app.pin.SavedCardIdentities(app)
+        val identity = md.moldsign.core.CertificateSummary.parse(md.moldsign.core.ChainCerts.chain.first())
+        store.save(identity)
+        store.save(identity.copy(der = null))
+        store.save(identity.copy(sha1Hex = "0000"))
+        assertEquals(listOf(identity.sha1Hex), store.read().map { it.sha1Hex })
+        app.getSharedPreferences("saved_card_identities", 0).edit().putString("forged", "AAAA").putString(identity.sha1Hex.lowercase() + "x", "%%").commit()
+        assertEquals(listOf(identity.sha1Hex), store.read().map { it.sha1Hex })
+        store.delete(identity.sha1Hex)
+        assertTrue(store.read().isEmpty())
+    }
+
+    @Test fun stampBrokerAsksOnlyWhenEnabled() {
+        val broker = md.moldsign.app.application.StampBroker(app)
+        val identity = md.moldsign.core.CertificateSummary.parse(md.moldsign.core.ChainCerts.chain.first())
+        val document = md.moldsign.core.Document("cerere.pdf", "%PDF-1.7\n".toByteArray())
+        broker.enabled = false
+        assertEquals(md.moldsign.core.PdfStampDecision.Proceed(null), broker.obtain(document, identity, "https://msign.gov.md"))
+        broker.enabled = true
+        val answer = Thread {
+            val end = System.currentTimeMillis() + 5_000
+            while (broker.pending.value == null && System.currentTimeMillis() < end) Thread.sleep(5)
+            val pending = requireNotNull(broker.pending.value)
+            assertEquals("cerere.pdf", pending.item.doc.name)
+            assertEquals("https://msign.gov.md", pending.requester)
+            pending.answer(md.moldsign.core.PdfStampDecision.Cancel)
+        }.apply { start() }
+        assertEquals(md.moldsign.core.PdfStampDecision.Cancel, broker.obtain(document, identity, "https://msign.gov.md"))
+        answer.join(5_000)
+        assertEquals(null, broker.pending.value)
+        broker.cancelPending()
+    }
 }

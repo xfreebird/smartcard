@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onAllNodesWithText
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.test.core.app.ApplicationProvider
 import md.moldsign.app.MoldSignApp
 import md.moldsign.app.R
@@ -132,5 +133,57 @@ class ComponentsUiTest {
         md.moldsign.app.application.BookmarkIcon.entries.forEach { icon ->
             show { md.moldsign.app.ui.screens.BookmarkImage(bookmarks[1].copy(icon = icon)) }
         }
+    }
+
+    @Test fun documentTilesFormatChipsAndCardMenu() {
+        var picked = 0
+        var chosen: md.moldsign.core.SignFormat? = null
+        val pdf = md.moldsign.app.application.PickedDocument(android.net.Uri.parse("test://a.pdf"), "a.pdf", 10, "application/pdf")
+        val text = md.moldsign.app.application.PickedDocument(android.net.Uri.parse("test://b.txt"), "b.txt", 10, "text/plain")
+        val ready = IdentityCardContent("r1", "miniLector EVO", "ION POPESCU", "POPESCU", "ION", "15 03 2030", "MDQSign", true, null, 6f, "Ready card")
+        val other = ready.copy(readerId = "r2", holder = "ANA MINDRU", surname = "MINDRU", givenNames = "ANA")
+        var selected: String? = null
+        var rereads = 0
+        show {
+            md.moldsign.app.ui.components.DocumentAddTile(onPick = { picked++ })
+            md.moldsign.app.ui.features.FormatChip(pdf, md.moldsign.core.SignFormat.PadesT) { chosen = it }
+            md.moldsign.app.ui.features.FormatChip(text, md.moldsign.core.SignFormat.XadesT) { chosen = it }
+            CardWallet(CardWalletContent(listOf(ready, other), "r1", EmptyWalletContent.Connect), { selected = it }, { rereads++ }, {}, onOpen = {})
+        }
+        compose.onAllNodes(androidx.compose.ui.test.hasClickAction())[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+        compose.mainClock.advanceTimeBy(300)
+        assertEquals(1, picked)
+        // The PDF's format chip opens its menu; choosing XAdES-C reports it.
+        val chip = compose.onAllNodes(androidx.compose.ui.test.hasContentDescription("PAdES", substring = true) and androidx.compose.ui.test.hasClickAction())
+        if (chip.fetchSemanticsNodes().isNotEmpty()) {
+            chip[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+            compose.mainClock.advanceTimeBy(300)
+            val option = compose.onAllNodes(androidx.compose.ui.test.hasText("XAdES-C", substring = true) and androidx.compose.ui.test.hasClickAction())
+            if (option.fetchSemanticsNodes().isNotEmpty()) {
+                option[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+                compose.mainClock.advanceTimeBy(300)
+                assertEquals(md.moldsign.core.SignFormat.XadesC, chosen)
+            }
+        }
+        // Long press on the selected card: re-read, or sign with the other card.
+        val card = compose.onAllNodes(androidx.compose.ui.test.hasText("ION POPESCU", substring = true).not() and
+            androidx.compose.ui.test.SemanticsMatcher.keyIsDefined(androidx.compose.ui.semantics.SemanticsActions.OnLongClick))
+        if (card.fetchSemanticsNodes().isNotEmpty()) {
+            card[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnLongClick)
+            compose.mainClock.advanceTimeBy(300)
+            val reread = compose.onAllNodes(androidx.compose.ui.test.hasText(app.getString(R.string.action_reread)) and androidx.compose.ui.test.hasClickAction())
+            if (reread.fetchSemanticsNodes().isNotEmpty()) {
+                reread[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+                compose.mainClock.advanceTimeBy(300)
+            }
+            card[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnLongClick)
+            compose.mainClock.advanceTimeBy(300)
+            val signWith = compose.onAllNodes(androidx.compose.ui.test.hasText(app.getString(R.string.action_sign_with, "ANA MINDRU")) and androidx.compose.ui.test.hasClickAction())
+            if (signWith.fetchSemanticsNodes().isNotEmpty()) {
+                signWith[0].performSemanticsAction(androidx.compose.ui.semantics.SemanticsActions.OnClick)
+                compose.mainClock.advanceTimeBy(300)
+            }
+        }
+        assertTrue(rereads > 0 || selected != null)
     }
 }

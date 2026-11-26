@@ -48,6 +48,7 @@ class AppContainer(
     readerFactory: (Application, CoroutineScope) -> ReaderGateway = ::UsbReaderGateway,
     val previewData: PreviewDataProvider = md.moldsign.app.infrastructure.demo.DemoDataProvider(),
     demoSigningFactory: (() -> SigningService)? = null,
+    nfcFactory: (Application) -> md.moldsign.app.nfc.NfcSigningController = { md.moldsign.app.nfc.NfcSigningController(it) },
 ) {
     val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     val readerMonitor: ReaderGateway = if (userDemoMode) DemoReaderGateway() else readerFactory(app, scope)
@@ -55,7 +56,7 @@ class AppContainer(
     val stampBroker = StampBroker(app)
     val pinVault = PinVault(app)
     val savedCardIdentities = md.moldsign.app.pin.SavedCardIdentities(app)
-    val nfc = md.moldsign.app.nfc.NfcSigningController(app)
+    val nfc = nfcFactory(app)
     val browserNfc = md.moldsign.app.nfc.NfcBrowserCoordinator(nfc, app)
     val activity = ActivityLog(app, scope, if (userDemoMode) "demo-activity" else "activity")
     val signedFiles = SignedFileStore(app)
