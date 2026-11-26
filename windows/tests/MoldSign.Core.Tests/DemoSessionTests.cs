@@ -59,6 +59,35 @@ public class DemoSessionTests
     }
 
     [Fact]
+    public void DebugScreenshotFixturesNeedEveryCaptureVariableAndStayOnSampleFiles()
+    {
+        string[] names = ["MSIGN_SCREENSHOT_CAPTURE", "MSIGN_DEMO_CARDS", "MSIGN_DEMO_VERIFY"];
+        var previous = names.ToDictionary(name => name, Environment.GetEnvironmentVariable);
+        using var demo = new DemoSession();
+        var sample = demo.Documents[0];
+        try
+        {
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", "invalid");
+            Assert.Equal("DEMO", Assert.Single(demo.Verify(sample)).Kind); // capture mode is off
+            Environment.SetEnvironmentVariable("MSIGN_SCREENSHOT_CAPTURE", "1");
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_CARDS", "2");
+            foreach (var (state, verdict) in new[] { ("valid", Verdict.Valid), ("invalid", Verdict.Invalid), ("unknown", Verdict.Indeterminate) })
+            {
+                Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", state);
+                var report = Assert.Single(demo.Verify(sample));
+                Assert.Equal(verdict, report.Verdict);
+                Assert.Equal("POPESCU ION", report.Signer);
+            }
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", "unsigned");
+            Assert.Empty(demo.Verify(sample));
+            Environment.SetEnvironmentVariable("MSIGN_DEMO_VERIFY", "tampered");
+            Assert.Throws<InvalidOperationException>(() => demo.Verify(sample));
+            Assert.Throws<InvalidOperationException>(() => demo.Verify(Path.Combine(Path.GetTempPath(), "private.pdf")));
+        }
+        finally { foreach (var (name, value) in previous) Environment.SetEnvironmentVariable(name, value); }
+    }
+
+    [Fact]
     public async Task DemoVaultRetainsNothingAndHasNoCredentialContainer()
     {
         var vault = new DemoPinVault();
