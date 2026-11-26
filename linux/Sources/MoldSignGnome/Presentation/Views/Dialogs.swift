@@ -469,11 +469,12 @@ func presentAbout(parent: Widget) {
         L10n.text(.ui_pades_and_xades_and_the_browser_connection_for_msign_gov_md))
     let language = L10n.language ?? Locale.current.language.languageCode?.identifier ?? "ro"
     let legalBase = "https://esemnbun.md" + (["ro", "ru"].contains(language) ? "/\(language)" : "")
+    // Link titles are Pango markup: "Terms & Conditions" would otherwise render empty.
     adw_about_dialog_add_legal_section(about.opaque, L10n.text(.about_legal_title), nil,
-                                     GTK_LICENSE_CUSTOM, L10n.text(.about_disclaimer_body))
-    adw_about_dialog_add_link(about.opaque, L10n.text(.about_terms), legalBase + "/terms/")
-    adw_about_dialog_add_link(about.opaque, L10n.text(.about_privacy), legalBase + "/privacy/")
-    adw_about_dialog_add_link(about.opaque, L10n.text(.about_disclaimer), legalBase + "/terms/")
+                                     GTK_LICENSE_CUSTOM, escapeMarkup(L10n.text(.about_disclaimer_body)))
+    adw_about_dialog_add_link(about.opaque, escapeMarkup(L10n.text(.about_terms)), legalBase + "/terms/")
+    adw_about_dialog_add_link(about.opaque, escapeMarkup(L10n.text(.about_privacy)), legalBase + "/privacy/")
+    adw_about_dialog_add_link(about.opaque, escapeMarkup(L10n.text(.about_disclaimer)), legalBase + "/terms/")
     adw_dialog_present(about, parent)
 }
 
