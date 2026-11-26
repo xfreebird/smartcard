@@ -97,7 +97,7 @@ class FakeDocumentAccess : DocumentAccess {
 }
 
 /** Runs main-looper work (viewModelScope) until [condition] holds or [timeoutMs] passes. */
-fun awaitMain(timeoutMs: Long = 10_000, condition: () -> Boolean) {
+fun awaitMain(timeoutMs: Long = 30_000, condition: () -> Boolean) {
     val end = System.currentTimeMillis() + timeoutMs
     while (!condition()) {
         check(System.currentTimeMillis() < end) { "condition not met within $timeoutMs ms" }

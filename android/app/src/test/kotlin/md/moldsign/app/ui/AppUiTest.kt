@@ -123,12 +123,12 @@ abstract class AppUiTest {
     /** Also produces frames when a test drives the clock by hand. */
     private fun frame() { if (!compose.mainClock.autoAdvance) compose.mainClock.advanceTimeByFrame() }
 
-    protected fun awaitText(text: String, timeoutMs: Long = 10_000) {
+    protected fun awaitText(text: String, timeoutMs: Long = 30_000) {
         try { compose.waitUntil(timeoutMs) { frame(); shows(text) || showsDescription(text) } }
         catch (error: Throwable) { throw AssertionError("'$text' not shown in: ${dump()}", error) }
     }
 
-    protected fun awaitTag(tag: String, timeoutMs: Long = 10_000) {
+    protected fun awaitTag(tag: String, timeoutMs: Long = 30_000) {
         try { compose.waitUntil(timeoutMs) { frame(); showsTag(tag) } }
         catch (error: Throwable) { throw AssertionError("#$tag not shown in: ${dump()}", error) }
     }

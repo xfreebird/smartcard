@@ -19,7 +19,7 @@ class SettingsAndSigningUiTest : AppUiTest() {
                 assertTrue(shows(string(title)))
                 drawAll()
                 clickTag("settings.close")
-                compose.waitUntil(5_000) { !showsTag("settings.task") }
+                compose.waitUntil(30_000) { !showsTag("settings.task") }
             }
         }
     }

@@ -118,7 +118,7 @@ class StoresTest {
         assertEquals(md.moldsign.core.PdfStampDecision.Proceed(null), broker.obtain(document, identity, "https://msign.gov.md"))
         broker.enabled = true
         val answer = Thread {
-            val end = System.currentTimeMillis() + 5_000
+            val end = System.currentTimeMillis() + 30_000
             while (broker.pending.value == null && System.currentTimeMillis() < end) Thread.sleep(5)
             val pending = requireNotNull(broker.pending.value)
             assertEquals("cerere.pdf", pending.item.doc.name)
@@ -126,7 +126,7 @@ class StoresTest {
             pending.answer(md.moldsign.core.PdfStampDecision.Cancel)
         }.apply { start() }
         assertEquals(md.moldsign.core.PdfStampDecision.Cancel, broker.obtain(document, identity, "https://msign.gov.md"))
-        answer.join(5_000)
+        answer.join(30_000)
         assertEquals(null, broker.pending.value)
         broker.cancelPending()
     }

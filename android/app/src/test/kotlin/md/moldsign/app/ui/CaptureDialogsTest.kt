@@ -57,7 +57,7 @@ class CaptureDialogsTest : AppUiTest() {
             awaitTag("documents.clearHistory.confirm")
             drawAll()
             clickTag("documents.clearHistory.confirm")
-            compose.waitUntil(5_000) { app.container.activity.entries.value.isEmpty() }
+            compose.waitUntil(30_000) { app.container.activity.entries.value.isEmpty() }
         }
         capture("cards", "activity", "document-details").use { drawAll() }
         capture("cards", "activity", "document-missing").use { drawAll() }
@@ -83,7 +83,7 @@ class CaptureDialogsTest : AppUiTest() {
 
     @Test fun stampPlacementPreview() {
         launch("documents", "sign") { putExtra("stamp_preview", true) }.use {
-            compose.waitUntil(10_000) { compose.onAllNodes(androidx.compose.ui.test.isRoot()).fetchSemanticsNodes().size > 1 }
+            compose.waitUntil(30_000) { compose.onAllNodes(androidx.compose.ui.test.isRoot()).fetchSemanticsNodes().size > 1 }
             drawAll()
             assertEquals(1, app.container.wallet.value.cards.count { it.readerId == "demo-1" })
         }

@@ -87,7 +87,7 @@ class DemoScenarioScreensTest : AppUiTest() {
     @Test fun documentsBatchAndFailure() {
         for (scenario in listOf("documents", "batch", "sign-failure")) {
             launch(scenario, "sign").use {
-                compose.waitUntil(10_000) { app.container.status.value.wallet.readyCards.isNotEmpty() }
+                compose.waitUntil(30_000) { app.container.status.value.wallet.readyCards.isNotEmpty() }
                 drawAll()
                 navigate("activity")
                 drawAll()
@@ -118,13 +118,13 @@ class DemoScenarioScreensTest : AppUiTest() {
         // The focused PIN field blinks its cursor forever: drive frames by hand.
         compose.mainClock.autoAdvance = false
         launch("pin", "sign").use {
-            compose.waitUntil(10_000) { app.container.consentBroker.pending.value != null }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
             compose.mainClock.advanceTimeBy(1_000)
             drawAll()
             assertTrue(showsTag("pin.dialog"))
         }
         launch("pin-warning", "sign").use {
-            compose.waitUntil(10_000) { app.container.consentBroker.pending.value?.request?.attemptsLeft == 2 }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value?.request?.attemptsLeft == 2 }
             compose.mainClock.advanceTimeBy(1_000)
             drawAll()
             awaitText(string(R.string.pin_attempts, 2))

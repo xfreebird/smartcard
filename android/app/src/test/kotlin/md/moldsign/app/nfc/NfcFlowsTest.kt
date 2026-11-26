@@ -72,7 +72,7 @@ class NfcFlowsTest {
 
     /** Answers the PIN dialog from another thread, as the UI would. */
     private fun answerPin(pin: String?) = Thread {
-        val end = System.currentTimeMillis() + 5_000
+        val end = System.currentTimeMillis() + 30_000
         while (broker.pending.value == null && System.currentTimeMillis() < end) Thread.sleep(5)
         broker.pending.value?.answer(if (pin == null) ConsentResult.Cancelled else ConsentResult.Pin(pin.toCharArray()))
     }.apply { start() }

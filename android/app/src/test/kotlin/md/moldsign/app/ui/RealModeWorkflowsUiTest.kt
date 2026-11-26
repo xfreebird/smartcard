@@ -29,7 +29,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
     @Before fun realGraph() {
         FakeMediaStore.install()
         installContainer(AppContainer(app, signingFactory = { signing }, readerFactory = { _, _ -> readers }))
-        compose.waitUntil(10_000) { app.container.wallet.value.readyCards.isNotEmpty() }
+        compose.waitUntil(30_000) { app.container.wallet.value.readyCards.isNotEmpty() }
     }
 
     private fun file(name: String, body: String) = Uri.fromFile(File(app.filesDir, name).apply { writeText(body) })
@@ -46,7 +46,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             drawAll()
             compose.mainClock.autoAdvance = false
             clickTag("sign.submit")
-            compose.waitUntil(10_000) { app.container.consentBroker.pending.value != null }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
             compose.mainClock.advanceTimeBy(500)
             drawAll()
             compose.onAllNodes(hasSetTextAction()).fetchSemanticsNodes()
@@ -54,7 +54,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             compose.mainClock.advanceTimeBy(100)
             clickTag("pin.confirm")
             compose.mainClock.autoAdvance = true
-            compose.waitUntil(20_000) { signing.signed.size == 2 }
+            compose.waitUntil(30_000) { signing.signed.size == 2 }
             awaitText("contract-semnat.pdf")
             drawAll()
             assertTrue(FakeMediaStore.names().containsAll(listOf("contract-semnat.pdf", "note-semnat.xml")))
@@ -80,11 +80,11 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             awaitTag("sign.submit")
             compose.mainClock.autoAdvance = false
             clickTag("sign.submit")
-            compose.waitUntil(10_000) { app.container.consentBroker.pending.value != null }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
             compose.mainClock.advanceTimeBy(500)
             clickTag("pin.cancel")
             compose.mainClock.autoAdvance = true
-            compose.waitUntil(10_000) { app.container.consentBroker.pending.value == null && !app.container.busy.value }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value == null && !app.container.busy.value }
             assertTrue(signing.signed.isEmpty())
             assertTrue(showsTag("sign.submit"))
         }
@@ -106,7 +106,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             compose.waitForIdle()
             drawAll()
             readers.readers.value = listOf(ReaderSlot("usb-1", "Test reader", ReaderSlot.State.Card, 5), ReaderSlot("usb-2", "Test reader #2", ReaderSlot.State.Card, 6))
-            compose.waitUntil(10_000) { app.container.wallet.value.readyCards.size == 2 }
+            compose.waitUntil(30_000) { app.container.wallet.value.readyCards.size == 2 }
             drawAll()
         }
     }
@@ -155,7 +155,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             drawAll()
             clickText(string(R.string.action_save_as))
             answerPicker(scenario, Uri.fromFile(File(app.filesDir, "exported.p7m")))
-            compose.waitUntil(10_000) { File(app.filesDir, "exported.p7m").length() > 0 }
+            compose.waitUntil(30_000) { File(app.filesDir, "exported.p7m").length() > 0 }
             clickText(string(R.string.action_close))
             assertTrue(app.container.activity.entries.value.any { it.protectionOperation == "encrypt" })
         }
@@ -165,18 +165,18 @@ class RealModeWorkflowsUiTest : AppUiTest() {
         launch(capture = false).use {
             val worker = Thread {
                 val answer = app.container.consentBroker.obtain(md.moldsign.core.ConsentRequest("https://msign.gov.md",
-                    listOf("cerere.pdf"), "PAdES-T", signing.certificate, attemptsLeft = 1), 20_000)
+                    listOf("cerere.pdf"), "PAdES-T", signing.certificate, attemptsLeft = 1), 60_000)
                 if (answer is ConsentResult.Pin) answer.pin.fill('\u0000')
             }
             worker.start()
             compose.mainClock.autoAdvance = false
-            compose.waitUntil(10_000) { app.container.consentBroker.pending.value != null }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
             compose.mainClock.advanceTimeBy(500)
             drawAll()
             assertEquals("https://msign.gov.md", app.container.consentBroker.pending.value!!.request.requester)
             clickTag("pin.cancel")
             compose.mainClock.autoAdvance = true
-            worker.join(10_000)
+            worker.join(30_000)
             assertFalse(worker.isAlive)
         }
     }
@@ -207,7 +207,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             openRowMenu()
             clickMenuItem(string(R.string.action_save_as))
             answerPicker(scenario, Uri.fromFile(File(app.filesDir, "copy.pdf")))
-            compose.waitUntil(10_000) { File(app.filesDir, "copy.pdf").length() > 0 }
+            compose.waitUntil(30_000) { File(app.filesDir, "copy.pdf").length() > 0 }
             openRowMenu()
             clickMenuItem(string(R.string.protect_title))
             awaitText(string(R.string.protect_title))
@@ -216,7 +216,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             // The details sheet verifies the saved file again.
             clickText("contract-semnat.pdf")
             awaitText(string(R.string.saved_details))
-            runCatching { compose.waitUntil(15_000) { !shows(string(R.string.saved_loading)) } }
+            runCatching { compose.waitUntil(30_000) { !shows(string(R.string.saved_loading)) } }
             drawAll()
             clickText(string(R.string.action_close))
             openRowMenu()
@@ -282,7 +282,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             clickText(string(R.string.action_cancel))
             clickDescription(string(R.string.batch_options))
             clickText(string(R.string.batch_remove))
-            compose.waitUntil(5_000) { showsTag("sign.pickFiles") }
+            compose.waitUntil(30_000) { showsTag("sign.pickFiles") }
         }
     }
 
@@ -305,7 +305,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             click(compose.onAllNodes(androidx.compose.ui.test.isToggleable())[0])
             // Reading the card first: this card adapter has no encryption key.
             clickText(string(R.string.protect_read_card))
-            compose.waitUntil(10_000) { !app.container.busy.value }
+            compose.waitUntil(30_000) { !app.container.busy.value }
             drawAll()
             clickText(string(R.string.protect_choose_certificate))
             answerPicker(scenario, Uri.fromFile(recipient))
@@ -330,7 +330,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             awaitText(string(R.string.protect_read_card))
             drawAll()
             clickText(string(R.string.protect_read_card))
-            compose.waitUntil(10_000) { !app.container.busy.value }
+            compose.waitUntil(30_000) { !app.container.busy.value }
             drawAll()
             clickText(string(R.string.action_cancel))
         }

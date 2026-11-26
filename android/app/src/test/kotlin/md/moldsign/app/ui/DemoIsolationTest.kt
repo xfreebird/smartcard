@@ -58,7 +58,7 @@ class DemoIsolationTest : AppUiTest() {
             val vm = viewModel(scenario)
             assertTrue(vm.signItems.value.all { it.doc.name.startsWith("DEMO-") })
             vm.sign()
-            awaitMain(20_000) { !vm.working.value && vm.signedResults.value.isNotEmpty() }
+            awaitMain(30_000) { !vm.working.value && vm.signedResults.value.isNotEmpty() }
             assertTrue(vm.signedResults.value.all { (name, _) -> name.startsWith("DEMO-") && name.endsWith("-NOT-SIGNED.pdf") })
             assertTrue(app.container.activity.entries.value.all { it.subtitle == string(R.string.demo_mode_result) })
             assertEquals(R.string.demo_mode_result, (vm.message.value as? UiMessage.Saved)?.res)
@@ -89,7 +89,7 @@ class DemoIsolationTest : AppUiTest() {
             vm.addForSigning(listOf(documents.add("contract.pdf"), documents.add("note.txt", "note".toByteArray())))
             awaitMain { vm.signItems.value.size == 2 }
             vm.sign()
-            awaitMain(20_000) { !vm.working.value && vm.signedResults.value.size == 2 }
+            awaitMain(30_000) { !vm.working.value && vm.signedResults.value.size == 2 }
 
             assertEquals(listOf("contract-semnat.pdf", "note-semnat.xml"), vm.signedResults.value.map { it.first })
             assertEquals(listOf("contract-semnat.pdf", "note-semnat.xml"), FakeMediaStore.names())

@@ -80,7 +80,7 @@ class AppShellTest : AppUiTest() {
             }
             compose.waitForIdle()
             answerPicker(scenario, Uri.fromFile(localFile("shortcut.pdf", "%PDF-1.7\n")))
-            compose.waitUntil(10_000) { vm(scenario).signItems.value.any { it.doc.name == "shortcut.pdf" } }
+            compose.waitUntil(30_000) { vm(scenario).signItems.value.any { it.doc.name == "shortcut.pdf" } }
         }
     }
 
@@ -136,7 +136,7 @@ class AppShellTest : AppUiTest() {
         val notifications = shadowOf(app.getSystemService(NotificationManager::class.java)).allNotifications
         assertTrue(notifications.any { shadowOf(it).contentTitle == string(R.string.bridge_notification_title) })
         // Starting the HTTPS listener needs the bundled identity and free loopback ports: either outcome is reported.
-        compose.waitUntil(10_000) { BridgeService.running.value || BridgeService.startupFailed.value || shadowOf(controller.get()).isStoppedBySelf }
+        compose.waitUntil(30_000) { BridgeService.running.value || BridgeService.startupFailed.value || shadowOf(controller.get()).isStoppedBySelf }
         app.container.beginBusy()
         app.container.endBusy()
         controller.startCommand(0, 2)

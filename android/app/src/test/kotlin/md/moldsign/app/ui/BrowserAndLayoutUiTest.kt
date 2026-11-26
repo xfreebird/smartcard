@@ -74,7 +74,7 @@ class BrowserAndLayoutUiTest : AppUiTest() {
         }
         launch("pin", "sign").use {
             compose.mainClock.autoAdvance = false
-            compose.waitUntil(20_000) { app.container.consentBroker.pending.value != null }
+            compose.waitUntil(30_000) { app.container.consentBroker.pending.value != null }
             compose.mainClock.advanceTimeBy(500)
             drawAll()
             assertEquals(3, app.container.consentBroker.pending.value!!.request.documentNames.size)

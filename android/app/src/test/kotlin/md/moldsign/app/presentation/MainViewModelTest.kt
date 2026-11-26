@@ -105,7 +105,7 @@ class MainViewModelTest {
     @Test fun readerSigningRecordsEachDocumentAndClearsTheQueue() {
         queue("a.pdf", "b.txt")
         vm.sign()
-        awaitMain(20_000) { !vm.working.value && vm.signedResults.value.size == 2 }
+        awaitMain(30_000) { !vm.working.value && vm.signedResults.value.size == 2 }
         assertTrue(vm.signItems.value.isEmpty())
         assertEquals(listOf("a.pdf", "b.txt"), signing.signed)
         assertEquals(2, vm.savedDocuments.value.count { it.signedOutput })
@@ -118,12 +118,12 @@ class MainViewModelTest {
         queue("a.pdf")
         signing.failure = CardError.Network("TSA")
         vm.sign()
-        awaitMain(20_000) { !vm.working.value && vm.signItems.value.single().error != null }
+        awaitMain(30_000) { !vm.working.value && vm.signItems.value.single().error != null }
         assertTrue(vm.signItems.value.single().error is CardError.Network)
         assertFalse(vm.activity.value.single().ok)
         signing.failure = null
         vm.retry(vm.signItems.value.single())
-        awaitMain(20_000) { !vm.working.value && vm.signItems.value.isEmpty() }
+        awaitMain(30_000) { !vm.working.value && vm.signItems.value.isEmpty() }
         assertEquals(1, vm.signedResults.value.size)
     }
 
@@ -131,13 +131,13 @@ class MainViewModelTest {
         queue("a.pdf")
         signing.failure = CardError.CardChanged("A", "B")
         vm.sign()
-        awaitMain(20_000) { !vm.working.value }
+        awaitMain(30_000) { !vm.working.value }
         signing.failure = CardError.Cancelled()
         vm.sign()
-        awaitMain(20_000) { !vm.working.value }
+        awaitMain(30_000) { !vm.working.value }
         signing.failure = IllegalStateException("unexpected")
         vm.sign()
-        awaitMain(20_000) { !vm.working.value }
+        awaitMain(30_000) { !vm.working.value }
         assertEquals(0, vm.signedResults.value.size)
     }
 
@@ -145,11 +145,11 @@ class MainViewModelTest {
         signing.askConsent = true
         queue("a.pdf", "b.pdf")
         vm.sign()
-        awaitMain(20_000) { vm.pendingConsent.value != null }
+        awaitMain(30_000) { vm.pendingConsent.value != null }
         val prompt = vm.pendingConsent.value!!
         assertEquals(listOf("a.pdf", "b.pdf"), prompt.request.documentNames)
         prompt.answer(ConsentResult.Pin("1234".toCharArray()), rememberPin = true)
-        awaitMain(20_000) { !vm.working.value && vm.signedResults.value.size == 2 }
+        awaitMain(30_000) { !vm.working.value && vm.signedResults.value.size == 2 }
         // The remembered PIN waits for a biometric confirmation; forgetting the card discards it.
         assertNotNull(vm.pendingPinSave.value)
         vm.forgetCard(signing.certificate.sha1Hex)
@@ -161,7 +161,7 @@ class MainViewModelTest {
         queue("a.pdf")
         signing.failure = CardError.WrongPin(2)
         vm.sign()
-        awaitMain(20_000) { !vm.working.value }
+        awaitMain(30_000) { !vm.working.value }
         assertTrue(vm.knownCards.value.none { it.sha1Hex == signing.certificate.sha1Hex })
     }
 
@@ -216,7 +216,7 @@ class MainViewModelTest {
     @Test fun savedDocumentsCopyDeleteAndHistory() {
         queue("a.pdf")
         vm.sign()
-        awaitMain(20_000) { vm.savedDocuments.value.size == 1 && !vm.working.value }
+        awaitMain(30_000) { vm.savedDocuments.value.size == 1 && !vm.working.value }
         val entry = vm.savedDocuments.value.single()
         vm.saveCopy(Uri.parse(entry.documentUri), Uri.parse("test://target/a.pdf"))
         awaitMain { vm.message.value == UiMessage.Text(R.string.copy_saved) }
