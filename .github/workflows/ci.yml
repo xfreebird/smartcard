@@ -74,6 +74,8 @@ jobs:
     runs-on: macos-15
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - name: Test (Apple frameworks)
         working-directory: swift/MoldSignKit
         run: swift test
@@ -180,6 +182,8 @@ jobs:
       options: --dns 1.1.1.1 --dns 8.8.8.8
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - name: System libraries + packaging tools
         run: |
           apt-get -o Acquire::Retries=3 update --error-on=any
@@ -235,6 +239,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Report test and build failures as annotations
+        run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
         with:
           distribution: temurin
