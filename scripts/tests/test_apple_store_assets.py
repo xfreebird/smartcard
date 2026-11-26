@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 
 from PIL import Image, ImageDraw
 
-from support import REPO, TempCase, completed, fast_pillow, load, png, run
+from support import REPO, TempCase, completed, fast_pillow, image_size, load, png, run
 
 TOOLS = 'distribution/tools/'
 
@@ -104,7 +104,7 @@ class RenderTests(FrameTestCase):
         official = json.loads((self.tmp / 'shots/manifest.json').read_text())
         self.assertEqual([(item['locale'], item['family']) for item in official], [('ro', 'macos'), ('en', 'iphone')])
         self.assertEqual(official[0]['sourceRuntime'], '26.1')
-        self.assertEqual(Image.open(self.tmp / 'shots/ro/macos/01-sign.png').size, (2880, 1800))
+        self.assertEqual(image_size(self.tmp / 'shots/ro/macos/01-sign.png'), (2880, 1800))
         phone = Image.open(self.tmp / 'shots/en/iphone/02-reader.png')
         self.assertEqual((phone.size, phone.mode), ((1320, 2868), 'RGB'))
         supplemental = json.loads((self.tmp / 'duo/manifest.json').read_text())
@@ -156,7 +156,7 @@ class CreativeTests(FrameTestCase):
         left, top, right, bottom = header['appleTemplateSafeArea']
         self.assertTrue(all(left <= box[0] and box[2] <= right and top <= box[1] and box[3] <= bottom
                             for box in header['messageBounds']))
-        self.assertEqual(Image.open(source / 'en-search-results.png').size, (3840, 2560))
+        self.assertEqual(image_size(source / 'en-search-results.png'), (3840, 2560))
 
         exported = self.tmp / 'creative'
         with fast_pillow():

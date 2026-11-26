@@ -10,7 +10,7 @@ import zipfile
 
 from PIL import Image
 
-from support import REPO, TempCase, completed, copy_into, load, png, run
+from support import REPO, TempCase, completed, copy_into, image_size, load, png, run
 
 
 def elf(machine, bits=2, little=True):
@@ -144,9 +144,9 @@ class AppIconTests(TempCase):
         self.assertEqual((ios.size, ios.mode), ((1024, 1024), 'RGB'))
         mac = json.loads((self.tmp / 'apple/Apps/macOS/Assets.xcassets/AppIcon.appiconset/Contents.json').read_text())
         self.assertEqual(len(mac['images']), 10)
-        self.assertEqual(Image.open(self.tmp / 'apple/Apps/macOS/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png').size,
+        self.assertEqual(image_size(self.tmp / 'apple/Apps/macOS/Assets.xcassets/AppIcon.appiconset/icon_512x512@2x.png'),
                          (1024, 1024))
-        self.assertEqual(Image.open(self.tmp / 'android/app/src/main/res/drawable-xxxhdpi/ic_launcher_foreground.png').size,
+        self.assertEqual(image_size(self.tmp / 'android/app/src/main/res/drawable-xxxhdpi/ic_launcher_foreground.png'),
                          (432, 432))
         self.assertIn('android:color="#FF3F6EF5"', (self.tmp / 'android/app/src/main/res/drawable/ic_launcher_background.xml').read_text())
         self.assertEqual(commands[-1][1], str(self.tmp / 'windows/scripts/make-icons.py'))
@@ -167,8 +167,8 @@ class AppIconTests(TempCase):
             result = run('scripts/make-launch-assets.py', root=self.tmp)
         self.assertEqual(result.code, 0, result.stderr)
         self.assertIn('eSemnBun</text>', (self.tmp / 'design/launch-screen/AndroidLaunchBranding.svg').read_text())
-        self.assertEqual(Image.open(self.tmp / 'apple/Apps/iOS/LaunchResources/LaunchMark.png').size, (384, 384))
-        self.assertEqual(Image.open(self.tmp / 'android/app/src/main/res/drawable-xxxhdpi/launch_icon.png').size, (1152, 1152))
+        self.assertEqual(image_size(self.tmp / 'apple/Apps/iOS/LaunchResources/LaunchMark.png'), (384, 384))
+        self.assertEqual(image_size(self.tmp / 'android/app/src/main/res/drawable-xxxhdpi/launch_icon.png'), (1152, 1152))
         with patch('shutil.which', return_value=None):
             self.assertIn('Install librsvg', run('scripts/make-launch-assets.py', root=self.tmp).code)
 

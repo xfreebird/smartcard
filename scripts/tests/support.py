@@ -136,6 +136,14 @@ def fast_pillow():
         yield
 
 
+def image_size(path):
+    """Pixel size of an image file, closing it afterwards."""
+    from PIL import Image
+
+    with Image.open(path) as image:
+        return image.size
+
+
 def completed(args=(), returncode=0, stdout=b'', stderr=b''):
     return subprocess.CompletedProcess(list(args), returncode, stdout, stderr)
 

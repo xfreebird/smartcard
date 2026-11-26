@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 from PIL import Image
 
-from support import TempCase, completed, load, png, run
+from support import TempCase, completed, image_size, load, png, run
 
 
 class LinuxGuideTests(TempCase):
@@ -261,7 +261,7 @@ class AppleGuideImageTests(TempCase):
         left, top, right, bottom = guide.IPAD_CROPS[name]
         ipad = next(item for item in evidence['records'] if item['platform'] == 'ipad')
         self.assertEqual(ipad['cropPixels'], [round(left * 200), round(top * 100), round(right * 200), round(bottom * 100)])
-        self.assertEqual(Image.open(self.tmp / f'website/static/img/guide/ipad/en/{name}.png').size,
+        self.assertEqual(image_size(self.tmp / f'website/static/img/guide/ipad/en/{name}.png'),
                          (ipad['cropPixels'][2] - ipad['cropPixels'][0], ipad['cropPixels'][3] - ipad['cropPixels'][1]))
         self.assertIn('Validated 2 native images', result.stdout)
         manifests['ipad'].write_text(json.dumps({'device': 'ipad', 'binarySha256': 'b',
