@@ -110,6 +110,15 @@
           "message": 1
         }
       ]
+    },
+    {
+      "owner": "esemnbun-apt",
+      "pattern": [
+        {
+          "regexp": "^((?:E: |apt-get failed; retrying).+)$",
+          "message": 1
+        }
+      ]
     }
   ]
 }
