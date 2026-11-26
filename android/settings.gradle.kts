@@ -1,6 +1,8 @@
 pluginManagement {
     repositories {
         google()
+        // CI: see MAVEN_CENTRAL_MIRROR below.
+        System.getenv("MAVEN_CENTRAL_MIRROR")?.let { maven(it) { name = "MavenCentralMirror" } }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -34,6 +36,10 @@ dependencyResolutionManagement {
             }
         }
         google()
+        // Maven Central answers bursts from CI's shared addresses with HTTP 429, so CI sets MAVEN_CENTRAL_MIRROR to
+        // Google's mirror of it. Gradle falls back to Maven Central only for a file the mirror does not have (404);
+        // dependency verification pins every file's SHA-256, whichever host serves it.
+        providers.environmentVariable("MAVEN_CENTRAL_MIRROR").orNull?.let { maven(it) { name = "MavenCentralMirror" } }
         mavenCentral()
     }
 }

@@ -64,13 +64,28 @@ jobs:
     if: needs.select.outputs.collect == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    env:
+      # Maven Central rate-limits CI's shared addresses; android/settings.gradle.kts reads it through this mirror.
+      MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with: { persist-credentials: false }
       - name: Report test and build failures as annotations
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
-        with: { distribution: temurin, java-version: '17' }
+        with:
+          distribution: temurin
+          java-version: 17
+          # Shares the dependency cache the CI Android job saves, so coverage runs download little.
+          cache: gradle
+          cache-dependency-path: |
+            android/**/*.gradle*
+            android/gradle.properties
+            android/gradle/wrapper/gradle-wrapper.properties
+            android/gradle/verification-metadata.xml
+            android/gradle/libs.versions.toml
+            android/gradle/gradle-daemon-jvm.properties
+            android/gradle/wrapper/gradle-wrapper.jar
       # Maven Central rate-limits CI, so Gradle takes Robolectric's 151 MB framework jar only from a local Maven
       # folder (ROBOLECTRIC_LOCAL_REPOSITORY in android/settings.gradle.kts), kept in the Actions cache.
       - name: Locate the local Maven folder for Robolectric's Android framework jar

@@ -70,6 +70,20 @@ class WorkflowContracts(unittest.TestCase):
         self.assertIn('exclusiveContent', local)
         self.assertIn('includeModule("org.robolectric", "android-all-instrumented")', local)
 
+    def test_android_jobs_read_maven_central_through_the_mirror_with_a_gradle_cache(self):
+        # Maven Central answers CI's shared addresses with HTTP 429; every Android job uses the mirror and the cache.
+        mirror = 'MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2'
+        for name, job in [('ci.yml', 'android'), ('sonar-coverage.yml', 'android-web'),
+                          ('android-runtime.yml', 'x86-64')]:
+            body = (ROOT/'.github/workflows'/name).read_text().split(f'\n  {job}:\n', 1)[1]
+            body = re.split(r'\n  [a-z][a-z0-9-]*:\n', body, maxsplit=1)[0]
+            self.assertIn(mirror, body.split('steps:', 1)[0], name)
+            self.assertIn('cache: gradle', body, name)
+        settings = (ROOT/'android/settings.gradle.kts').read_text()
+        plugins, dependencies = settings.split('dependencyResolutionManagement', 1)
+        for block in (plugins, dependencies):
+            self.assertLess(block.index('MAVEN_CENTRAL_MIRROR'), block.index('mavenCentral()'))
+
     def test_every_python_test_module_is_a_sonar_test_source(self):
         # A test module left out of sonar.tests counts as uncovered production code and lowers new-code coverage.
         settings = dict(line.split('=', 1) for line in (ROOT/'.sonarcloud.properties').read_text().splitlines()
