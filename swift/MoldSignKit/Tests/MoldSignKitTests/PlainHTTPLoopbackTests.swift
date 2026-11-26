@@ -67,8 +67,9 @@ final class PlainHTTPLoopbackTests: XCTestCase {
     func testSilentServerTimesOut() throws {
         let server = try serve { _ in nil }
         XCTAssertThrowsError(try PlainHTTP.send(method: "GET", url: server.url, body: nil, contentType: nil, timeout: 1)) { error in
-            #if MOLDSIGN_PORTABLE
-            // POSIX sockets surface the receive timeout as a failed read.
+            #if !canImport(Network) || MOLDSIGN_PORTABLE
+            // POSIX sockets (Linux, or the portable macOS build) surface the receive timeout as a failed read.
+            // MOLDSIGN_PORTABLE alone is only defined for the library target on Linux, not for this test target.
             guard case TrustServices.NetworkError.transport(server.url, _) = error else { return XCTFail("\(error)") }
             #else
             XCTAssertEqual(error.localizedDescription, "Network error for \(server.url): timed out")
