@@ -91,6 +91,8 @@ jobs:
       - name: Measure website module coverage
         run: |
           node --test --experimental-test-coverage --test-coverage-include='website/src/**' \
+            --test-coverage-include='website/scripts/**' --test-coverage-include='website/plugins/**' \
+            --test-coverage-include='website/*.js' \
             --test-reporter=spec --test-reporter=lcov \
             --test-reporter-destination=stdout --test-reporter-destination="$RUNNER_TEMP/coverage/website.lcov" \
             website/tests/*.test.mjs
