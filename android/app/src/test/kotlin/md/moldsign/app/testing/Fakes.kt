@@ -96,6 +96,14 @@ class FakeDocumentAccess : DocumentAccess {
     override fun writeBytes(target: Uri, bytes: ByteArray): Boolean { written[target] = bytes; return true }
 }
 
+/**
+ * Waits until the card is ready in [AppContainer.status], which the view model reads before signing. That flow is
+ * derived from the wallet on a background dispatcher, so the wallet alone being ready says nothing about it yet.
+ */
+fun awaitReadyCard(container: md.moldsign.app.application.AppContainer) = awaitMain {
+    container.status.value.let { !it.busy && it.wallet.selectedCard?.certificate != null }
+}
+
 /** Runs main-looper work (viewModelScope) until [condition] holds or [timeoutMs] passes. */
 fun awaitMain(timeoutMs: Long = 30_000, condition: () -> Boolean) {
     val end = System.currentTimeMillis() + timeoutMs

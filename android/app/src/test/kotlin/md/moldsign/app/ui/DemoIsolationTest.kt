@@ -82,7 +82,7 @@ class DemoIsolationTest : AppUiTest() {
         val container = AppContainer(app, signingFactory = { signing }, readerFactory = { _, _ -> readers })
         container.start()
         try {
-            awaitMain { container.wallet.value.readyCards.isNotEmpty() }
+            md.moldsign.app.testing.awaitReadyCard(container)
             val documents = FakeDocumentAccess()
             val vm = MainViewModel(app, documents = documents, container = container)
             vm.selectSigningMethod(MainViewModel.SigningMethod.Reader)

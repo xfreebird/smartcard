@@ -12,6 +12,7 @@ import md.moldsign.app.testing.FakeMediaStore
 import md.moldsign.app.testing.FakeReaderGateway
 import md.moldsign.app.testing.FakeSigningService
 import md.moldsign.app.testing.awaitMain
+import md.moldsign.app.testing.awaitReadyCard
 import md.moldsign.app.testing.resetStaticAndroidState
 import md.moldsign.core.CardError
 import md.moldsign.core.ConsentResult
@@ -51,12 +52,18 @@ class MainViewModelTest {
         FakeMediaStore.install()
         container = AppContainer(app, signingFactory = { signing }, readerFactory = { _, _ -> readers })
         container.start()
-        awaitMain { container.wallet.value.readyCards.isNotEmpty() }
+        awaitReadyCard(container)
         vm = MainViewModel(app, documents = documents, container = container)
         vm.selectSigningMethod(MainViewModel.SigningMethod.Reader)
     }
 
     @After fun tearDown() = container.stop()
+
+    /**
+     * Nothing runs any more as far as sign() can tell: it checks the derived [AppContainer.status], which follows
+     * the busy light on a background dispatcher, so the next signing must wait for that too.
+     */
+    private fun idle() = !vm.working.value && !container.status.value.busy
 
     private fun queue(vararg names: String): List<Uri> {
         val uris = names.map { documents.add(it, if (it.endsWith(".pdf")) "%PDF-1.7\n%%EOF\n".toByteArray() else it.toByteArray()) }
@@ -105,7 +112,7 @@ class MainViewModelTest {
     @Test fun readerSigningRecordsEachDocumentAndClearsTheQueue() {
         queue("a.pdf", "b.txt")
         vm.sign()
-        awaitMain(30_000) { !vm.working.value && vm.signedResults.value.size == 2 }
+        awaitMain(30_000) { idle() && vm.signedResults.value.size == 2 }
         assertTrue(vm.signItems.value.isEmpty())
         assertEquals(listOf("a.pdf", "b.txt"), signing.signed)
         assertEquals(2, vm.savedDocuments.value.count { it.signedOutput })
@@ -118,12 +125,12 @@ class MainViewModelTest {
         queue("a.pdf")
         signing.failure = CardError.Network("TSA")
         vm.sign()
-        awaitMain(30_000) { !vm.working.value && vm.signItems.value.single().error != null }
+        awaitMain(30_000) { idle() && vm.signItems.value.single().error != null }
         assertTrue(vm.signItems.value.single().error is CardError.Network)
         assertFalse(vm.activity.value.single().ok)
         signing.failure = null
         vm.retry(vm.signItems.value.single())
-        awaitMain(30_000) { !vm.working.value && vm.signItems.value.isEmpty() }
+        awaitMain(30_000) { idle() && vm.signItems.value.isEmpty() }
         assertEquals(1, vm.signedResults.value.size)
     }
 
@@ -131,13 +138,13 @@ class MainViewModelTest {
         queue("a.pdf")
         signing.failure = CardError.CardChanged("A", "B")
         vm.sign()
-        awaitMain(30_000) { !vm.working.value }
+        awaitMain(30_000) { idle() }
         signing.failure = CardError.Cancelled()
         vm.sign()
-        awaitMain(30_000) { !vm.working.value }
+        awaitMain(30_000) { idle() }
         signing.failure = IllegalStateException("unexpected")
         vm.sign()
-        awaitMain(30_000) { !vm.working.value }
+        awaitMain(30_000) { idle() }
         assertEquals(0, vm.signedResults.value.size)
     }
 
@@ -149,7 +156,7 @@ class MainViewModelTest {
         val prompt = vm.pendingConsent.value!!
         assertEquals(listOf("a.pdf", "b.pdf"), prompt.request.documentNames)
         prompt.answer(ConsentResult.Pin("1234".toCharArray()), rememberPin = true)
-        awaitMain(30_000) { !vm.working.value && vm.signedResults.value.size == 2 }
+        awaitMain(30_000) { idle() && vm.signedResults.value.size == 2 }
         // The remembered PIN waits for a biometric confirmation; forgetting the card discards it.
         assertNotNull(vm.pendingPinSave.value)
         vm.forgetCard(signing.certificate.sha1Hex)
@@ -161,13 +168,14 @@ class MainViewModelTest {
         queue("a.pdf")
         signing.failure = CardError.WrongPin(2)
         vm.sign()
-        awaitMain(30_000) { !vm.working.value }
+        awaitMain(30_000) { idle() }
         assertTrue(vm.knownCards.value.none { it.sha1Hex == signing.certificate.sha1Hex })
     }
 
     @Test fun signingNeedsAReadyCard() {
         readers.readers.value = emptyList()
-        awaitMain { container.wallet.value.readyCards.isEmpty() }
+        // Wait for the derived status, which is what sign() checks.
+        awaitMain { container.status.value.wallet.readyCards.isEmpty() }
         queue("a.pdf")
         assertEquals(MainViewModel.SigningMethod.Reader, vm.signingMethod.value)
         vm.sign()

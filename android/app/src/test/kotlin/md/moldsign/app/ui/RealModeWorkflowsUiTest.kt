@@ -30,7 +30,7 @@ class RealModeWorkflowsUiTest : AppUiTest() {
     @Before fun realGraph() {
         FakeMediaStore.install()
         installContainer(AppContainer(app, signingFactory = { signing }, readerFactory = { _, _ -> readers }))
-        compose.waitUntil(30_000) { app.container.wallet.value.readyCards.isNotEmpty() }
+        md.moldsign.app.testing.awaitReadyCard(app.container)
     }
 
     private fun file(name: String, body: String) = Uri.fromFile(File(app.filesDir, name).apply { writeText(body) })
