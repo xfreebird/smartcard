@@ -18,5 +18,5 @@ vm_ssh() { local port; case "$1" in fedora) port=2222 ;; windows) port=2223 ;; *
 vm_tunnel() { ssh -f -N -o ExitOnForwardFailure=yes -L 15901:127.0.0.1:5901 -L 15902:127.0.0.1:5902 "$AIR"; }
 VNCENV=${VNCENV:-$HOME/.cache/esemnbun-vncenv}
 vm_shot() { local p; case "$1" in fedora) p=15901 ;; windows) p=15902 ;; esac
-  [ -x "$VNCENV/bin/vncdo" ] || { python3 -m venv "$VNCENV" && "$VNCENV/bin/pip" -q install vncdotool; }
+  [[ -x "$VNCENV/bin/vncdo" ]] || { python3 -m venv "$VNCENV" && "$VNCENV/bin/pip" -q install vncdotool; }
   "$VNCENV/bin/vncdo" -s "127.0.0.1::$p" capture "${2:-/tmp/$1.png}" 2>/dev/null; }
