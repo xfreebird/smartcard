@@ -11,6 +11,7 @@ from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 import urllib.error
+from urllib.parse import urlsplit
 import zipfile
 
 from cryptography.hazmat.primitives import hashes, serialization
@@ -466,7 +467,7 @@ class MicrosoftScreenshotTests(TempCase):
                 return FakeResponse({'access_token': 'tok'})
             if url.endswith('/applications/9PDPR6RNT42S'):
                 return FakeResponse({'pendingApplicationSubmission': {'id': 'S1'} if pending else None})
-            if url.startswith('https://acct.blob'):
+            if urlsplit(url).hostname == 'acct.blob.core.windows.net':
                 state['uploaded'] = request.data
                 return FakeResponse(b'', upload_status)
             if request.get_method() == 'PUT':
