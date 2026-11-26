@@ -33,6 +33,8 @@ internal class FakeNfcRadio(override var enabled: Boolean = true) : NfcRadio {
     var cardOnEnable: NfcTagHandle? = null
     val enabledLatch = CountDownLatch(1)
     var tagStillPresent = true
+    /** Like Android in reader mode: an ignored card that is still in the field is discovered again. */
+    var representOnIgnore: NfcTagHandle? = null
 
     override fun enable(host: Activity, onTag: (NfcTagHandle) -> Unit) {
         synchronized(calls) { calls += "enable" }
@@ -43,6 +45,7 @@ internal class FakeNfcRadio(override var enabled: Boolean = true) : NfcRadio {
     override fun disable(host: Activity) { synchronized(calls) { calls += "disable" } }
     override fun ignore(tag: NfcTagHandle): Boolean {
         synchronized(calls) { calls += "ignore:${(tag as FakeTag).name}" }
+        representOnIgnore?.let { again -> onTag?.invoke(again) }
         return tagStillPresent
     }
     fun present(tag: NfcTagHandle) = requireNotNull(onTag) { "reader mode is off" }(tag)

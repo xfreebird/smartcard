@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.ViewRootForTest
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
@@ -53,6 +54,8 @@ abstract class AppUiTest {
 
     @Before fun acknowledgeDisclosure() {
         resetStaticAndroidState()
+        // AppCompat keeps the per-app language statically across Robolectric tests.
+        androidx.appcompat.app.AppCompatDelegate.setApplicationLocales(androidx.core.os.LocaleListCompat.getEmptyLocaleList())
         app.getSharedPreferences("public_information", Context.MODE_PRIVATE).edit().putBoolean("independence_notice_v1", true).commit()
     }
 
@@ -117,28 +120,43 @@ abstract class AppUiTest {
 
     protected fun showsTag(tag: String): Boolean = compose.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
+    /** Also produces frames when a test drives the clock by hand. */
+    private fun frame() { if (!compose.mainClock.autoAdvance) compose.mainClock.advanceTimeByFrame() }
+
     protected fun awaitText(text: String, timeoutMs: Long = 10_000) {
-        try { compose.waitUntil(timeoutMs) { shows(text) || showsDescription(text) } }
+        try { compose.waitUntil(timeoutMs) { frame(); shows(text) || showsDescription(text) } }
         catch (error: Throwable) { throw AssertionError("'$text' not shown in: ${dump()}", error) }
     }
 
     protected fun awaitTag(tag: String, timeoutMs: Long = 10_000) {
-        compose.waitUntil(timeoutMs) { showsTag(tag) }
+        try { compose.waitUntil(timeoutMs) { frame(); showsTag(tag) } }
+        catch (error: Throwable) { throw AssertionError("#$tag not shown in: ${dump()}", error) }
     }
 
-    protected fun text(text: String): SemanticsNodeInteraction = compose.onAllNodes(hasText(text, substring = true)).onFirst()
+    /** The first node showing [text], preferring one that can be clicked (a button over its own caption). */
+    protected fun text(text: String): SemanticsNodeInteraction {
+        val clickable = compose.onAllNodes(hasText(text, substring = true) and hasClickAction())
+        if (clickable.fetchSemanticsNodes().isNotEmpty()) return clickable.onFirst()
+        return compose.onAllNodes(hasText(text, substring = true)).onFirst()
+    }
     protected fun tag(tag: String): SemanticsNodeInteraction = compose.onAllNodes(hasTestTag(tag)).onFirst()
 
     protected fun clickText(text: String) = click(text(text))
+
+    /** An item of the open dropdown menu (not a same-named button behind it). */
+    protected fun clickMenuItem(text: String) =
+        click(compose.onAllNodes(hasText(text) and hasClickAction() and androidx.compose.ui.test.hasAnyAncestor(androidx.compose.ui.test.isPopup())).onFirst())
     protected fun clickTag(tag: String) = click(tag(tag))
     protected fun clickDescription(text: String) =
         click(compose.onAllNodes(hasContentDescription(text, substring = true)).onFirst())
 
     /** Semantic click (what TalkBack does); touch injection is unreliable for rows inside scrolling sheets. */
     protected fun click(node: SemanticsNodeInteraction) {
+        try { node.assertExists() } catch (error: AssertionError) { throw AssertionError("${error.message}\nOn screen: ${dump()}", error) }
         runCatching { node.performScrollTo() }
         if (SemanticsActions.OnClick in node.fetchSemanticsNode().config) node.performSemanticsAction(SemanticsActions.OnClick)
         else node.performClick()
+        if (!compose.mainClock.autoAdvance) compose.mainClock.advanceTimeBy(300)
         compose.waitForIdle()
     }
 

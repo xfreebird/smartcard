@@ -119,6 +119,8 @@ tasks.withType<Test>().configureEach {
     systemProperty("robolectric.offline", "true")
     jvmArgumentProviders += CommandLineArgumentProvider { listOf("-Drobolectric.dependency.dir=${directory.get()}") }
     maxHeapSize = "3g"
+    // Robolectric UI tests dominate the suite; two JVMs halve the wall time on 4-core CI runners.
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).coerceIn(1, 2)
 }
 // Robolectric defines app classes in its sandbox class loader without a code source; JaCoCo skips such
 // classes unless told otherwise, which would drop every Robolectric-executed line from the report. Only the
