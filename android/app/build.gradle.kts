@@ -1,3 +1,5 @@
+import org.gradle.testing.jacoco.plugins.JacocoTaskExtension
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -47,6 +49,9 @@ android {
 
     testCoverage { jacocoVersion = libs.versions.jacoco.get() }
 
+    // Robolectric renders the Compose UI and runs Android adapters on the JVM (merged resources/manifest).
+    testOptions { unitTests.isIncludeAndroidResources = true }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -63,6 +68,14 @@ android {
 }
 
 // Built-in Kotlin inherits JVM 17 from android.compileOptions.
+
+// Robolectric's Android framework jar is a Gradle dependency, so dependency verification checks it and the
+// tests never download it at run time (offline mode reads it from this directory).
+val robolectricRuntimeClasspath: Configuration by configurations.creating {
+    isCanBeConsumed = false
+    isTransitive = false
+}
+
 
 dependencies {
     implementation(project(":core"))
@@ -89,4 +102,33 @@ dependencies {
     debugImplementation(libs.compose.ui.tooling)
 
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
+    robolectricRuntimeClasspath(libs.robolectric.android.all)
+}
+
+val robolectricDependencies = tasks.register<Sync>("robolectricDependencies") {
+    from(robolectricRuntimeClasspath)
+    into(layout.buildDirectory.dir("robolectric"))
+}
+tasks.withType<Test>().configureEach {
+    dependsOn(robolectricDependencies)
+    val directory = robolectricDependencies.map { it.destinationDir.absolutePath }
+    inputs.files(robolectricRuntimeClasspath).withPropertyName("robolectricAndroidAll").withNormalizer(ClasspathNormalizer::class.java)
+    systemProperty("robolectric.offline", "true")
+    jvmArgumentProviders += CommandLineArgumentProvider { listOf("-Drobolectric.dependency.dir=${directory.get()}") }
+    maxHeapSize = "3g"
+}
+// Robolectric defines app classes in its sandbox class loader without a code source; JaCoCo skips such
+// classes unless told otherwise, which would drop every Robolectric-executed line from the report. Only the
+// project's own packages are instrumented: the Android framework jar would otherwise slow every test.
+pluginManager.withPlugin("jacoco") {
+    tasks.withType<Test>().configureEach {
+        extensions.configure<JacocoTaskExtension> {
+            isIncludeNoLocationClasses = true
+            includes = listOf("md.moldsign.*")
+            excludes = listOf("jdk.internal.*")
+        }
+    }
 }
