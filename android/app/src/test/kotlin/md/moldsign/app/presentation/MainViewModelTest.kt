@@ -46,6 +46,8 @@ class MainViewModelTest {
 
     @Before fun setUp() {
         resetStaticAndroidState()
+        // Reader-method tests: no NFC hardware, whatever an earlier test in this JVM enabled.
+        org.robolectric.shadows.ShadowNfcAdapter.setNfcHardwareExists(false)
         FakeMediaStore.install()
         container = AppContainer(app, signingFactory = { signing }, readerFactory = { _, _ -> readers })
         container.start()
@@ -167,9 +169,9 @@ class MainViewModelTest {
         readers.readers.value = emptyList()
         awaitMain { container.wallet.value.readyCards.isEmpty() }
         queue("a.pdf")
+        assertEquals(MainViewModel.SigningMethod.Reader, vm.signingMethod.value)
         vm.sign()
-        awaitMain { vm.message.value != null }
-        assertTrue(vm.message.value is UiMessage.Status)
+        awaitMain { vm.message.value is UiMessage.Status }
         assertTrue(signing.signed.isEmpty())
     }
 
