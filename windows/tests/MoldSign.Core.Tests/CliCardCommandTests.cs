@@ -173,6 +173,19 @@ public class CliCardCommandTests
         Assert.Contains(WinSCardAccess.NotWindowsMessage, error);
     }
 
+    [Fact]
+    public void Pcsc_access_on_windows_without_a_reader_exits_5()
+    {
+        if (!OperatingSystem.IsWindows() || WinSCardTransport.GetReaderStates().Count > 0) return; // a reader is attached
+        foreach (var command in new[] { "readers", "cert" })
+        {
+            var (code, output, error) = Run([command, "--quiet"], new WinSCardAccess());
+            Assert.Equal(5, code);
+            Assert.Equal("", output);
+            Assert.StartsWith("error: ", error);
+        }
+    }
+
     private static (int Code, string Out, string Err) Run(string[] args, ICardAccess cards, string stdin = "",
         string? environmentPin = null, bool redirected = true, Func<string, string?>? prompt = null)
     {

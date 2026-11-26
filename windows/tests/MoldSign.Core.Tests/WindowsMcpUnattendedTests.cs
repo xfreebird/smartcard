@@ -83,6 +83,31 @@ public sealed class WindowsMcpUnattendedTests
         Assert.Equal(1, fixture.VerifyAttempts);
     }
 
+    [Theory]
+    [InlineData("card", "NO_CARD")]
+    [InlineData("io", "OUTCOME_UNKNOWN")]
+    [InlineData("selection", "CARD_CHANGED")]
+    public void Failures_before_the_signature_keep_the_gate_closed(string failure, string code)
+    {
+        var directory = Directory.CreateTempSubdirectory("esemnbun-unattended-");
+        try
+        {
+            using var output = new McpTrustedRoot(directory.FullName);
+            var service = new SigningService(() => failure == "card"
+                ? throw new CardException(CardErrorKind.NoCard, "no card in the reader")
+                : throw new IOException("reader driver failed"));
+            var signer = new WindowsMcpUnattendedSigner(output, new string('c', 64), () => "1234", service,
+                selectReader: failure == "selection" ? () => throw new McpException("CARD_CHANGED") : null);
+            Assert.Equal(code, Assert.Throws<McpException>(() => signer.Sign(SigningCoreTests.MinimalPdf())).Code);
+            Assert.Equal("SIGNING_DISABLED", Assert.Throws<McpException>(() => signer.Sign(SigningCoreTests.MinimalPdf())).Code);
+            Assert.Equal("UNSUPPORTED", Assert.Throws<McpException>(() => signer.Sign("GIF89a"u8.ToArray())).Code);
+            Assert.Equal("LIMIT_EXCEEDED", Assert.Throws<McpException>(() => signer.Sign(new byte[8 * 1024 * 1024 + 1])).Code);
+            Assert.Equal("INVALID_ARGUMENT", Assert.Throws<McpException>(() =>
+                new WindowsMcpUnattendedSigner(output, "not-a-fingerprint", () => "1234", service)).Code);
+        }
+        finally { directory.Delete(true); }
+    }
+
     [Fact]
     public void Missing_or_malformed_credential_never_reaches_verify()
     {
