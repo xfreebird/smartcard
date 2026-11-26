@@ -2,33 +2,95 @@
   "problemMatcher": [
     {
       "owner": "esemnbun-swift-diagnostic",
-      "pattern": [{ "regexp": "^(/\\S+\\.swift):(\\d+):(?:(\\d+):)? error: (.+)$", "file": 1, "line": 2, "column": 3, "message": 4 }]
+      "pattern": [
+        {
+          "regexp": "^(/\\S+\\.swift):(\\d+):(?:(\\d+):)? error: (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
     },
     {
       "owner": "esemnbun-swift-testing",
-      "pattern": [{ "regexp": "^\\S* ?Test (.+) recorded an issue at ([^:\\s]+\\.swift):(\\d+):(\\d+): (.+)$", "file": 2, "line": 3, "column": 4, "message": 5 }]
+      "pattern": [
+        {
+          "regexp": "^\\S* ?Test (.+) recorded an issue at ([^:\\s]+\\.swift):(\\d+):(\\d+): (.+)$",
+          "file": 2,
+          "line": 3,
+          "column": 4,
+          "message": 5
+        }
+      ]
     },
     {
       "owner": "esemnbun-swift-crash",
-      "pattern": [{ "regexp": "^((?:Fatal error: |error: Exited with ).+)$", "message": 1 }]
+      "pattern": [
+        {
+          "regexp": "^((?:Fatal error: |error: Exited with ).+)$",
+          "message": 1
+        }
+      ]
     },
     {
       "owner": "esemnbun-gradle-test",
-      "pattern": [{ "regexp": "^(\\S+ > .+ FAILED)$", "message": 1 }]
+      "pattern": [
+        {
+          "regexp": "^(\\S+ > .+ FAILED)$",
+          "message": 1
+        }
+      ]
     },
     {
       "owner": "esemnbun-gradle-test-cause",
-      "pattern": [{ "regexp": "^ {4}(\\S+(?:Error|Exception)\\S*(?::.*)? at \\S+\\.(?:kt|java):\\d+)$", "message": 1 }]
+      "pattern": [
+        {
+          "regexp": "^ {4}(\\S+(?:Error|Exception)\\S*(?::.*)? at \\S+\\.(?:kt|java):\\d+)$",
+          "message": 1
+        }
+      ]
     },
     {
       "owner": "esemnbun-kotlin-compiler",
-      "pattern": [{ "regexp": "^e: (?:file://)?(/\\S+\\.kts?):(\\d+):(\\d+):? (.+)$", "file": 1, "line": 2, "column": 3, "message": 4 }]
+      "pattern": [
+        {
+          "regexp": "^e: (?:file://)?(/\\S+\\.kts?):(\\d+):(\\d+):? (.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
     },
     {
       "owner": "esemnbun-gradle-build",
       "pattern": [
-        { "regexp": "^\\* What went wrong:$" },
-        { "regexp": "^(.+)$", "message": 1 }
+        {
+          "regexp": "^\\* What went wrong:$"
+        },
+        {
+          "regexp": "^(.+)$",
+          "message": 1
+        }
+      ]
+    },
+    {
+      "owner": "esemnbun-powershell-throw",
+      "pattern": [
+        {
+          "regexp": "^\\s*\\+ FullyQualifiedErrorId : (.+)$",
+          "message": 1
+        }
+      ]
+    },
+    {
+      "owner": "esemnbun-dotnet-test",
+      "pattern": [
+        {
+          "regexp": "^\\s*Failed (\\S+) \\[[^\\]]+\\]$",
+          "message": 1
+        }
       ]
     }
   ]
