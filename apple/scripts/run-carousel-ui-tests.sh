@@ -34,6 +34,9 @@ if [[ -n ${MSIGN_UI_XCTESTRUN:-} && ${MSIGN_UI_BUILD_ONLY:-0} != 1 ]]; then
     for selected in ${MSIGN_UI_TEST_SUITES:-$suite}; do
         selections+=("-only-testing:GestureTests/$selected")
     done
+    for passed in ${MSIGN_UI_SKIP_TESTS:-}; do
+        selections+=("-skip-testing:GestureTests/$passed")
+    done
     python3 "$repo/apple/scripts/capture-test-display.py" "$device" "$out/active-display" \
         xcodebuild test-without-building -xctestrun "$MSIGN_UI_XCTESTRUN" \
         "${selections[@]}" -destination "id=$device" -parallel-testing-enabled NO \
