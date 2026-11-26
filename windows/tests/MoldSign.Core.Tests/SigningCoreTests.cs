@@ -5,12 +5,22 @@ using System.Security.Cryptography.Pkcs;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Cryptography.Xml;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 
 namespace MoldSign.Core.Tests;
 
-public sealed class SigningCoreTests
+public sealed partial class SigningCoreTests
 {
+    [GeneratedRegex(@"/Root\s+(\d+)\s+0\s+R")] private static partial Regex RootReference();
+    [GeneratedRegex(@"/AcroForm\s+(\d+)\s+0\s+R")] private static partial Regex AcroFormReference();
+    [GeneratedRegex(@"/Size\s+(\d+)")] private static partial Regex TrailerSize();
+    [GeneratedRegex(@"startxref\s+(\d+)")] private static partial Regex StartXref();
+    [GeneratedRegex(@"/Fields\s*(\[[^\]]*\])")] private static partial Regex FieldsArray();
+    [GeneratedRegex(@"/Fields\s*\[([^\]]*)\]")] private static partial Regex FieldsArrayContent();
+    [GeneratedRegex(@"/Contents<([a-f0-9]+)>")] private static partial Regex SignatureContents();
+    [GeneratedRegex(@"/ByteRange \[0 (\d+) (\d+) (\d+) \]")] private static partial Regex SignedByteRange();
+
     [Fact]
     public void Counter_signing_resolves_indirect_fields_and_preserves_existing_signature()
     {
@@ -19,13 +29,13 @@ public sealed class SigningCoreTests
         var signer = new PadesSigner(pki.Trust);
         var first = signer.Sign(MinimalPdf(), identity.Certificate, identity.Sign);
         var text = Encoding.Latin1.GetString(first);
-        int Last(string pattern) => int.Parse(System.Text.RegularExpressions.Regex.Matches(text, pattern)[^1].Groups[1].Value,
+        int Last(Regex pattern) => int.Parse(pattern.Matches(text)[^1].Groups[1].Value,
             System.Globalization.CultureInfo.InvariantCulture);
-        var root = Last(@"/Root\s+(\d+)\s+0\s+R");
-        var acro = Last(@"/AcroForm\s+(\d+)\s+0\s+R");
-        var array = Last(@"/Size\s+(\d+)");
-        var previous = Last(@"startxref\s+(\d+)");
-        var fields = System.Text.RegularExpressions.Regex.Matches(text, @"/Fields\s*(\[[^\]]*\])")[^1].Groups[1].Value;
+        var root = Last(RootReference());
+        var acro = Last(AcroFormReference());
+        var array = Last(TrailerSize());
+        var previous = Last(StartXref());
+        var fields = FieldsArray().Matches(text)[^1].Groups[1].Value;
         var form = $"{acro} 0 obj\n<< /Fields {array} 0 R /SigFlags 3 >>\nendobj\n";
         var arrayObject = $"{array} 0 obj\n{fields}\nendobj\n";
         var xref = first.Length + form.Length + arrayObject.Length;
@@ -39,7 +49,7 @@ public sealed class SigningCoreTests
         var reports = Validator.ValidatePdf(second);
         Assert.Equal(2, reports.Count);
         Assert.All(reports, report => { Assert.True(report.ContentIntact); Assert.True(report.SignatureValid); });
-        var updatedFields = System.Text.RegularExpressions.Regex.Matches(Encoding.Latin1.GetString(second), @"/Fields\s*\[([^\]]*)\]")[^1].Groups[1].Value;
+        var updatedFields = FieldsArrayContent().Matches(Encoding.Latin1.GetString(second))[^1].Groups[1].Value;
         Assert.StartsWith(fields[1..^1].Trim(), updatedFields);
     }
 
@@ -410,14 +420,14 @@ public sealed class SigningCoreTests
     private static byte[] ExtractCms(byte[] pdf)
     {
         var text = Encoding.Latin1.GetString(pdf);
-        var match = System.Text.RegularExpressions.Regex.Match(text, @"/Contents<([a-f0-9]+)>");
+        var match = SignatureContents().Match(text);
         var bytes = Convert.FromHexString(match.Groups[1].Value);
         AsnDecoder.ReadEncodedValue(bytes, AsnEncodingRules.BER, out _, out _, out var consumed);
         return bytes[..consumed];
     }
     private static byte[] ExtractPdfContent(byte[] pdf)
     {
-        var match = System.Text.RegularExpressions.Regex.Match(Encoding.Latin1.GetString(pdf), @"/ByteRange \[0 (\d+) (\d+) (\d+) \]");
+        var match = SignedByteRange().Match(Encoding.Latin1.GetString(pdf));
         var a = int.Parse(match.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture);
         var b = int.Parse(match.Groups[2].Value, System.Globalization.CultureInfo.InvariantCulture);
         var c = int.Parse(match.Groups[3].Value, System.Globalization.CultureInfo.InvariantCulture);
