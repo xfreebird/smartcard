@@ -57,6 +57,7 @@ class DemoIsolationTest : AppUiTest() {
             navigate("sign")
             val vm = viewModel(scenario)
             assertTrue(vm.signItems.value.all { it.doc.name.startsWith("DEMO-") })
+            md.moldsign.app.testing.awaitReadyCard(app.container)
             vm.sign()
             awaitMain(30_000) { !vm.working.value && vm.signedResults.value.isNotEmpty() }
             assertTrue(vm.signedResults.value.all { (name, _) -> name.startsWith("DEMO-") && name.endsWith("-NOT-SIGNED.pdf") })
