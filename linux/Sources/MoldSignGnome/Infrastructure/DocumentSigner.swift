@@ -1,22 +1,46 @@
 import Foundation
 import MoldSignKit
 
+/// Produces the signature bytes for one document (the card, through the core).
+protocol SignatureProducing {
+    func signature(for item: SignItem, pin: String, reader: String, certificateSHA1: String,
+                   progress: @escaping (SigningService.Step) -> Void) throws -> Data
+}
+
+/// PAdES-T for PDF, detached XAdES otherwise.
+struct CardSignatureProducer: SignatureProducing {
+    let service: SigningService
+    func signature(for item: SignItem, pin: String, reader: String, certificateSHA1: String,
+                   progress: @escaping (SigningService.Step) -> Void) throws -> Data {
+        if let xades = item.format.xades {
+            return try service.signXAdES(files: [item.url], format: xades, type: .detached, pin: pin, reader: reader,
+                                         expectedCertificateSHA1: certificateSHA1, progress: progress)
+        }
+        return try service.signPDF(try Data(contentsOf: item.url), pin: pin, reader: reader,
+                                   expectedCertificateSHA1: certificateSHA1, appearance: item.stamp, progress: progress)
+    }
+}
+
 /// Signs and writes a single document; no UI, queue management, or PIN retention.
 final class DocumentSigner: DocumentSigning {
-    private let service: SigningService
-    init(service: SigningService) { self.service = service }
-    /// One file: PAdES-T for PDF, XAdES (detached) otherwise; written next to the original.
+    private let producer: any SignatureProducing
+    private let fallbackFolder: () -> URL
+
+    convenience init(service: SigningService) { self.init(producer: CardSignatureProducer(service: service)) }
+
+    /// `fallbackFolder`: where outputs go when the original's folder is not writable (`~/Documents/MoldSign`).
+    init(producer: any SignatureProducing,
+         fallbackFolder: @escaping () -> URL = { URL(fileURLWithPath: documentsDir).appendingPathComponent("MoldSign") }) {
+        self.producer = producer
+        self.fallbackFolder = fallbackFolder
+    }
+
+    /// One file, written next to the original.
     func sign(_ item: SignItem, pin: String, reader: String, certificateSHA1: String,
                              progress: @escaping (SigningService.Step) -> Void) throws -> URL {
         let input = item.url
-        let signed: Data
-        if let xades = item.format.xades {
-            signed = try service.signXAdES(files: [input], format: xades, type: .detached, pin: pin, reader: reader,
-                                           expectedCertificateSHA1: certificateSHA1, progress: progress)
-        } else {
-            signed = try service.signPDF(try Data(contentsOf: input), pin: pin, reader: reader,
-                                         expectedCertificateSHA1: certificateSHA1, appearance: item.stamp, progress: progress)
-        }
+        let signed = try producer.signature(for: item, pin: pin, reader: reader, certificateSHA1: certificateSHA1,
+                                            progress: progress)
         progress(.writing)
         let preferred = SigningService.outputURL(for: input, pathExtension: item.format.outputExtension)
         do {
@@ -26,7 +50,7 @@ final class DocumentSigner: DocumentSigning {
             // Read-only folder, or a Flatpak document-portal file whose folder is not exposed:
             // fall back to ~/Documents/MoldSign (granted by --filesystem=xdg-documents).
             // TODO(LNX-13): offer a GtkFileDialog save instead when the fallback also fails.
-            let folder = URL(fileURLWithPath: documentsDir).appendingPathComponent("MoldSign")
+            let folder = fallbackFolder()
             try FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
             let fallback = SigningService.outputURL(for: folder.appendingPathComponent(input.lastPathComponent),
                                                     pathExtension: item.format.outputExtension)

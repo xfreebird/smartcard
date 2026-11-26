@@ -14,6 +14,8 @@ final class BackgroundPortal {
     private var lastStatus: String?
     private var statusUnsupported = false
     private var requested = false
+    /// How long a RequestBackground may stay unanswered before it counts as refused.
+    var responseTimeout: UInt32 = 60_000
 
     private static let bus = "org.freedesktop.portal.Desktop"
     private static let path = "/org/freedesktop/portal/desktop"
@@ -21,8 +23,13 @@ final class BackgroundPortal {
     /// The portal rejects longer messages.
     static let maxStatusLength = 96
 
-    init(application: UnsafeMutablePointer<AdwApplication>) {
-        connection = g_application_get_dbus_connection(application.cast())
+    convenience init(application: UnsafeMutablePointer<AdwApplication>) {
+        self.init(connection: g_application_get_dbus_connection(application.cast()))
+    }
+
+    /// `connection`: the session bus the application registered on (nil without one).
+    init(connection: OpaquePointer?) {
+        self.connection = connection
         if connection == nil {
             logInfo("background portal: no D-Bus session bus, status stays in the window")
         }
@@ -104,7 +111,7 @@ final class BackgroundPortal {
             }
         }
         // Avoid holding Preferences disabled indefinitely if the portal disappears or never responds.
-        after(milliseconds: 60_000) {
+        after(milliseconds: responseTimeout) {
             guard !completed else { return }
             g_dbus_connection_call(connection, Self.bus, requestPath,
                 "org.freedesktop.portal.Request", "Close", nil, nil,

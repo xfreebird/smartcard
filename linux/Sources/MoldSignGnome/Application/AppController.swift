@@ -96,8 +96,10 @@ final class AppController {
          transportFactory: ((String?) throws -> CardTransport)? = nil,
          batchSigner: (any BatchSigning)? = nil, documentVerifier: (any DocumentVerifying)? = nil,
          cardData: (any CardDataProviding)? = nil, activityStore: (any ActivityStoring)? = nil,
-         settingsStore: any SettingsStoring = JSONSettingsStore(), bridge: any BridgeHosting = BridgeHost()) {
-        let demoSession = DemoMode.current != nil
+         settingsStore: any SettingsStoring = JSONSettingsStore(), bridge: any BridgeHosting = BridgeHost(),
+         demo: DemoMode? = DemoMode.current) {
+        self.demo = demo
+        let demoSession = demo != nil
         let vault: any PINStoring = demoSession ? DemoPINStore() : vault
         let resolvedActivityStore: any ActivityStoring = activityStore ??
             (demoSession ? MemoryActivityStore() as any ActivityStoring : JSONActivityStore())
@@ -122,13 +124,13 @@ final class AppController {
         self.service = service
         self.vault = vault
         let resolvedCardData: any CardDataProviding
-        if let demo = DemoMode.current {
+        if let demo {
             resolvedCardData = cardData ?? DemoCardDataProvider(demo: demo)
         } else {
             resolvedCardData = cardData ?? LiveCardDataProvider(service: service, vault: vault)
         }
         self.readers = ReaderSession(service: service, vault: vault, monitor: monitor,
-                                     transportFactory: transportFactory, cardData: resolvedCardData)
+                                     transportFactory: transportFactory, cardData: resolvedCardData, demo: demo)
         readers.isBusy = { [weak self] in self?.isSigning ?? false }
         readers.onChange = { [weak self] in self?.changed() }
         readers.onInsertion = { [weak self] in self?.presentWindow?() }
@@ -147,7 +149,7 @@ final class AppController {
     private let verifyQueue = DispatchQueue(label: "md.moldsign.verify")
 
     /// The interactive demo has no card, keyring or bridge I/O.
-    private let demo = DemoMode.current
+    private let demo: DemoMode?
     var isDemo: Bool { demo != nil }
     var requestDemoMode: ((Bool) -> Void)?
     #if MOLDSIGN_DEMO

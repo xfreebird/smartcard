@@ -61,7 +61,8 @@ struct DemoMode {
         "Generic Smart Card Reader 03 00",
     ]
 
-    private init(_ value: String) {
+    /// `value`: an `MSIGN_DEMO_CARDS` value. Internal so tests can build a preview session without the environment.
+    init(_ value: String) {
         switch value {
         case "noreader":
             snapshot = ReaderSnapshot(slots: [], serviceAvailable: true)

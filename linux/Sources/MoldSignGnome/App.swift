@@ -6,7 +6,7 @@ final class MoldSignApp {
     static let id = "md.moldsign.MoldSign"
 
     let app: UnsafeMutablePointer<AdwApplication>
-    let controller = AppController()
+    let controller: AppController
     private var window: MainWindow?
     private var onboardingPresented = false
     private var onboardingPreview: Bool {
@@ -16,7 +16,7 @@ final class MoldSignApp {
         return false
         #endif
     }
-    private let updates = UpdateChecker()
+    private let updates: UpdateChecker
     private var updateTimer: Task<Void, Never>?
     /// Status light → Quick Settings "Background Apps" (UX-01); created at startup (needs the D-Bus connection).
     private var portal: BackgroundPortal?
@@ -26,8 +26,12 @@ final class MoldSignApp {
     private var startHidden: Bool
     private let activation: ActivationPolicy
 
-    init(startHidden: Bool, launchState: any LaunchStateStoring = JSONLaunchStateStore()) {
+    /// `nonUnique`: run as a separate local instance (demo previews, tests) instead of the session-bus singleton.
+    init(startHidden: Bool, launchState: any LaunchStateStoring = JSONLaunchStateStore(),
+         controller: AppController = AppController(), updates: UpdateChecker = UpdateChecker(), nonUnique: Bool = false) {
         activation = ActivationPolicy(store: launchState)
+        self.controller = controller
+        self.updates = updates
         self.startHidden = startHidden
         // G_APPLICATION_HANDLES_OPEN (1 << 2). Recent GLib marks GApplicationFlags as a flag enum, which
         // renames its constants in Swift; the raw value imports the same on every GLib version.
@@ -37,7 +41,7 @@ final class MoldSignApp {
         #else
         let preview = false
         #endif
-        app = adw_application_new(Self.id, GApplicationFlags(rawValue: (1 << 2) | ((preview || controller.isDemo) ? (1 << 5) : 0)))!
+        app = adw_application_new(Self.id, GApplicationFlags(rawValue: (1 << 2) | ((preview || nonUnique || controller.isDemo) ? (1 << 5) : 0)))!
         onSignal(app, "startup") { [unowned self] in startup() }
         onSignal(app, "activate") { [unowned self] in activate() }
         onOpenFiles(app) { [unowned self] paths in open(paths) }
@@ -97,7 +101,7 @@ final class MoldSignApp {
         }
         controller.toast = { window.toast($0) }
         controller.toastWithAction = { text, button, action in window.toast(text, button: button, action: action) }
-        controller.reveal = { url in revealInFolder(url.path, parent: window.window) }
+        controller.reveal = { url in DesktopLauncher.revealFile(url.path, window.window) }
         controller.presentWindow = { [unowned self] in presentWindow() }
         controller.requestDemoMode = { [unowned self] enabled in
             guard !controller.isSigning, !controller.bridgeSigning else { return }
