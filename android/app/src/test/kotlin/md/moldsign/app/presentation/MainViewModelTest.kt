@@ -281,5 +281,25 @@ class MainViewModelTest {
         assertNull(ProtectionHeader.detect(ByteArray(4)))
     }
 
+
+    @Test fun certificateProtectionAndCardKeys() = runBlocking {
+        val der = md.moldsign.core.ChainCerts.chain.first()
+        val certificateFile = documents.add("recipient.cer", der)
+        try { vm.importRecipient(certificateFile); throw AssertionError("a CA certificate is no encryption certificate") }
+        catch (_: IllegalArgumentException) {}
+        val cardKey = vm.importRecipient(certificateFile, md.moldsign.core.protection.CertificateRecipientPolicy.CARD_PUBLIC_KEY)
+        val source = documents.add("plan.txt", "plan".toByteArray())
+        val encrypted = vm.encryptForRecipient(source, cardKey, md.moldsign.core.protection.CertificateRecipientPolicy.CARD_PUBLIC_KEY)
+        val envelope = app.contentResolver.openInputStream(encrypted)!!.use { it.readBytes() }
+        assertEquals(true, md.moldsign.core.protection.ProtectionHeader.detect(envelope)?.certificate)
+        try { vm.encryptForRecipient(source, cardKey); throw AssertionError("encryption certificate policy") }
+        catch (_: IllegalArgumentException) {}
+        // This card adapter has no decryption key: both card operations report it.
+        try { vm.encryptionIdentities(); throw AssertionError("no card encryption") } catch (_: CardError.Format) {}
+        assertTrue(vm.exportPublicCertificate(der, Uri.parse("test://export/recipient.cer")))
+        assertArrayEquals(der, documents.written[Uri.parse("test://export/recipient.cer")])
+        try { vm.protectionPreview(decrypt = false); throw AssertionError("preview needs demo mode") } catch (_: IllegalStateException) {}
+    }
+
     private fun string(id: Int, vararg args: Any) = app.getString(id, *args)
 }

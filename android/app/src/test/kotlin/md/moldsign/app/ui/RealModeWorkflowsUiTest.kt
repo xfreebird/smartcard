@@ -285,4 +285,54 @@ class RealModeWorkflowsUiTest : AppUiTest() {
             compose.waitUntil(5_000) { showsTag("sign.pickFiles") }
         }
     }
+
+    @Test fun certificateProtectionWithACardPublicKey() {
+        val recipient = File(app.filesDir, "recipient.cer").apply { writeBytes(md.moldsign.core.ChainCerts.chain.first()) }
+        launch(capture = false).use { scenario ->
+            navigate("activity")
+            clickDescription(string(R.string.action_more))
+            clickMenuItem(string(R.string.protect_title))
+            clickText(string(R.string.protect_choose_file))
+            answerPicker(scenario, file("plan.txt", "plan"))
+            awaitText("plan.txt")
+            clickText(string(R.string.protect_rsa_recipient))
+            drawAll()
+            // A CA certificate is no encryption certificate.
+            clickText(string(R.string.protect_choose_certificate))
+            answerPicker(scenario, Uri.fromFile(recipient))
+            awaitText(string(R.string.protect_no_key))
+            // The card's own public key accepts any suitable RSA key.
+            click(compose.onAllNodes(androidx.compose.ui.test.isToggleable())[0])
+            // Reading the card first: this card adapter has no encryption key.
+            clickText(string(R.string.protect_read_card))
+            compose.waitUntil(10_000) { !app.container.busy.value }
+            drawAll()
+            clickText(string(R.string.protect_choose_certificate))
+            answerPicker(scenario, Uri.fromFile(recipient))
+            awaitText(string(R.string.protect_recipient))
+            drawAll()
+            click(compose.onAllNodes(androidx.compose.ui.test.hasText(string(R.string.protect_encrypt)) and androidx.compose.ui.test.hasClickAction()).let { it[it.fetchSemanticsNodes().size - 1] })
+            awaitText(string(R.string.protect_saved))
+            assertTrue(app.container.activity.entries.value.any { it.title.endsWith(md.moldsign.core.protection.CertificateFileProtection.SUFFIX) })
+            clickText(string(R.string.action_close))
+
+            // Decrypting the result needs the card: the dialog detects a certificate envelope.
+            val saved = app.container.activity.entries.value.first { it.title.endsWith(md.moldsign.core.protection.CertificateFileProtection.SUFFIX) }
+            val bytes = app.contentResolver.openInputStream(Uri.parse(saved.documentUri))!!.use { it.readBytes() }
+            clickDescription(string(R.string.action_more))
+            clickMenuItem(string(R.string.protect_title))
+            clickText(string(R.string.protect_decrypt))
+            // The toolbar tools start empty; a document row's menu starts with its file.
+            if (shows(string(R.string.protect_choose_file))) {
+                clickText(string(R.string.protect_choose_file))
+                answerPicker(scenario, Uri.fromFile(File(app.filesDir, "plan.txt.asymmetric.p7m").apply { writeBytes(bytes) }))
+            }
+            awaitText(string(R.string.protect_read_card))
+            drawAll()
+            clickText(string(R.string.protect_read_card))
+            compose.waitUntil(10_000) { !app.container.busy.value }
+            drawAll()
+            clickText(string(R.string.action_cancel))
+        }
+    }
 }

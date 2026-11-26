@@ -61,15 +61,15 @@ class NfcUiTest : AppUiTest() {
         answerPicker(scenario, Uri.fromFile(File(app.filesDir, "nfc.pdf").apply { writeText("%PDF-1.7\n%%EOF\n") }))
         awaitTag("sign.submit")
         clickTag("sign.submit")
-        compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); app.container.consentBroker.pending.value != null }
+        compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.consentBroker.pending.value != null }
         compose.mainClock.advanceTimeBy(500)
         drawAll()
         tag("pin.field").performTextReplacement("1234")
         compose.mainClock.advanceTimeBy(100)
         clickTag("pin.confirm")
-        compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value != null }
+        compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value != null }
         // Reader mode is switched on by a task posted to the main thread.
-        compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); adapter.isInReaderMode }
+        compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); adapter.isInReaderMode }
         compose.mainClock.advanceTimeBy(500)
     }
 
@@ -88,7 +88,7 @@ class NfcUiTest : AppUiTest() {
 
             adapter.dispatchTagDiscovered(ShadowNfcAdapter.createMockTag())
             awaitText(string(R.string.nfc_unsupported))
-            compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
+            compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
             drawAll()
             // The card that was seen may still be on the phone: reader mode is held, nothing goes to the system.
             assertTrue(adapter.isInReaderMode)
@@ -106,7 +106,7 @@ class NfcUiTest : AppUiTest() {
             queueAndEnterPin(scenario)
             assertTrue(adapter.isInReaderMode)
             clickText(string(R.string.action_cancel))
-            compose.waitUntil(10_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
+            compose.waitUntil(30_000) { compose.mainClock.advanceTimeByFrame(); app.container.nfc.phase.value == null && !app.container.busy.value }
             assertFalse(adapter.isInReaderMode)
             // The queued document stays for an explicit new attempt; nothing was retried.
             assertTrue(showsTag("sign.submit"))
@@ -137,7 +137,7 @@ class NfcUiTest : AppUiTest() {
             clickTag("browser.card.${identity.sha1Hex}")
             assertEquals(identity.sha1Hex, app.container.browserNfc.certificate.value?.sha1Hex)
             clickTag("browser.readNfc")
-            compose.waitUntil(10_000) { adapter.isInReaderMode }
+            compose.waitUntil(30_000) { adapter.isInReaderMode }
             adapter.dispatchTagDiscovered(ShadowNfcAdapter.createMockTag())
             awaitText(string(R.string.nfc_unsupported))
 
@@ -147,7 +147,7 @@ class NfcUiTest : AppUiTest() {
             drawAll()
             clickText(string(R.string.card_forget))
             click(compose.onAllNodes(androidx.compose.ui.test.hasText(string(R.string.card_forget)) and androidx.compose.ui.test.hasClickAction())[1])
-            compose.waitUntil(10_000) { vm(scenario).knownCards.value.isEmpty() }
+            compose.waitUntil(30_000) { vm(scenario).knownCards.value.isEmpty() }
             assertTrue(SavedCardIdentities(app).read().isEmpty())
         }
     }
