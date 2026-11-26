@@ -78,6 +78,17 @@ dotnet run --project src/MoldSign.Cli -- --help
 dotnet run --project src/MoldSign.Cli -- readers # non-Windows: "error: PC/SC transport is only available on Windows", exit 5
 ```
 
+The MCP roots refuse symlinked path components, and macOS's default `TMPDIR` (`/var/folders/…`) sits under the
+`/var` → `/private/var` link. On macOS run the suite with the resolved directory:
+`TMPDIR="$(realpath "$TMPDIR")/" dotnet test MoldSign.Portable.slnf`.
+
+Coverage is measured on Windows exactly like `.github/workflows/sonar-coverage.yml` (dotnet-coverage 18.12.0):
+
+```powershell
+dotnet tool install dotnet-coverage --version 18.12.0 --tool-path .tools --allow-roll-forward
+.tools/dotnet-coverage collect 'dotnet test windows/MoldSign.Portable.slnf' -f xml -o coverage/windows.xml   # from the repo root
+```
+
 Windows:
 
 ```powershell
