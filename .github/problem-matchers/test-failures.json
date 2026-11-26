@@ -92,6 +92,24 @@
           "message": 1
         }
       ]
+    },
+    {
+      "owner": "esemnbun-gradle-cause",
+      "pattern": [
+        {
+          "regexp": "^\\s*> ((?:Could not|Could not resolve|Failed to|.*[Tt]imed out|.*Connection reset|.*status code \\d{3}|Checksum|Dependency verification failed).*)$",
+          "message": 1
+        }
+      ]
+    },
+    {
+      "owner": "esemnbun-gradle-retry",
+      "pattern": [
+        {
+          "regexp": "^((?:Transient dependency transfer failure|Plugin repository resolution failed); retrying.*)$",
+          "message": 1
+        }
+      ]
     }
   ]
 }
