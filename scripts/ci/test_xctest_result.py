@@ -135,3 +135,26 @@ class XCTestRetryPlanTests(unittest.TestCase):
                 patch.dict(os.environ, GITHUB_ACTIONS='false'), contextlib.redirect_stdout(output):
             self.assertEqual(xctest.main(['First.xcresult', '--report-failures']), 0)
         self.assertEqual(output.getvalue(), f'Mock/testB(): {LOST}\n')
+
+
+class XCTestResultPathTests(unittest.TestCase):
+    def test_paths_inside_the_run_directories_are_resolved(self):
+        with tempfile.TemporaryDirectory() as folder:
+            self.assertEqual(xctest.run_path(folder + '/./First.xcresult'),
+                             os.path.realpath(folder) + '/First.xcresult')
+            with patch.dict(os.environ, RUNNER_TEMP=folder):
+                self.assertTrue(xctest.run_path(folder + '/NativeBatch/passed.txt').endswith('/passed.txt'))
+
+    def test_paths_outside_the_run_directories_and_unknown_reports_are_refused(self):
+        for value in ('/etc/passwd', '/Library/Preferences/x.xcresult', '/usr/../etc/hosts'):
+            with self.subTest(value=value), self.assertRaises(SystemExit):
+                xctest.run_path(value)
+        with self.assertRaises(ValueError):
+            xctest.load('--help', 'First.xcresult')
+
+    def test_a_skip_list_outside_the_run_directories_is_never_written(self):
+        loaded = {'summary': failures(('Mock/testB()', LOST)), 'tests': tree(Mock_testB='Failed')}
+        with patch.object(xctest, 'load', lambda kind, path: loaded[kind]), \
+                contextlib.redirect_stdout(io.StringIO()), self.assertRaises(SystemExit):
+            xctest.main(['First.xcresult', '--retry-plan', '/etc/esemnbun-passed.txt'])
+        self.assertFalse(os.path.exists('/etc/esemnbun-passed.txt'))

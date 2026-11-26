@@ -71,7 +71,9 @@ class XCTestResultTests(TempCase):
     def check(self, *args, env=None):
         with patch('subprocess.check_output', return_value=json.dumps(self.SUMMARY).encode()) as xcresult:
             result = run('scripts/ci/check-xctest-result.py', 'Result.xcresult', *args, env=env or {})
-        self.assertEqual(xcresult.call_args.args[0][-1], 'Result.xcresult')
+        # The bundle path reaches xcresulttool resolved, so it cannot read as an option.
+        self.assertTrue(os.path.isabs(xcresult.call_args.args[0][-1]))
+        self.assertTrue(xcresult.call_args.args[0][-1].endswith('/Result.xcresult'))
         return result
 
     def test_failures_are_reported_as_single_workflow_commands(self):

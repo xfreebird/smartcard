@@ -8,9 +8,11 @@
 """
 import json
 import os
+from pathlib import Path
 import re
 import subprocess
 import sys
+import tempfile
 
 # XCTest reports these when it loses the app process on a loaded CI simulator; no assertion reads like them.
 INFRASTRUCTURE = re.compile(r"does not have a process ID|Failed to terminate md\.esemnbun\.ios"
@@ -77,8 +79,23 @@ def require_combined(first, rerun_summary, rerun, expected):
         raise ValueError(f'The rerun must pass exactly the {expected - len(first)} cases the first run did not')
 
 
+def run_path(value):
+    """A result bundle or skip list must resolve inside the repository, $RUNNER_TEMP or a temporary directory."""
+    candidate = os.path.realpath(value)
+    roots = [Path(__file__).resolve().parents[2], Path(tempfile.gettempdir()).resolve(), Path('/tmp').resolve()]
+    if os.environ.get('RUNNER_TEMP'):
+        roots.append(Path(os.environ['RUNNER_TEMP']).resolve())
+    for root in map(str, roots):
+        if os.path.commonpath([root, candidate]) == root:
+            return candidate
+    raise SystemExit(f'Result paths must be inside the repository, $RUNNER_TEMP or the temporary directory: {value}')
+
+
 def load(kind, path):
-    return json.loads(subprocess.check_output(['xcrun', 'xcresulttool', 'get', 'test-results', kind, '--path', path]))
+    if kind not in ('summary', 'tests'):
+        raise ValueError(f'Unknown xcresulttool report: {kind}')
+    return json.loads(subprocess.check_output(
+        ['xcrun', 'xcresulttool', 'get', 'test-results', kind, '--path', run_path(path)]))
 
 
 def main(argv):
@@ -92,7 +109,7 @@ def main(argv):
             report_failures(summary)
             return 1
         annotate(summary, 'warning', 'XCTest lost the app; rerunning the cases that did not pass')
-        with open(rest[0], 'w') as output:
+        with open(run_path(rest[0]), 'w') as output:
             output.writelines(identifier.removesuffix('()') + '\n' for identifier in skip)
     elif mode == '--combined':
         rerun, expected = rest
