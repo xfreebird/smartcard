@@ -7,7 +7,12 @@ plugins {
 
 android {
     namespace = "md.moldsign.app"
-    compileSdk = 36
+    // Compose 1.13 requires Android API 37.1 or later to compile against; targetSdk stays separate.
+    compileSdk {
+        version = release(37) {
+            minorApiLevel = 2
+        }
+    }
 
     androidResources {
         generateLocaleConfig = true

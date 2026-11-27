@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
 }
 
-// AGP 9.0.1 loads these tools lazily during packaging/lint. Resolve every supported
+// AGP 9.5.3 loads these tools lazily during packaging/lint. Resolve every supported
 // host classifier when refreshing checksums, even from a Mac-only development host.
 val verificationProject = project(":core")
 val verificationTooling = verificationProject.configurations.create("verificationToolingClasspath") {
@@ -23,9 +23,9 @@ val verificationTooling = verificationProject.configurations.create("verificatio
         attribute(TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
     }
 }
-verificationProject.dependencies.add(verificationTooling.name, "com.android.tools.lint:lint-gradle:32.0.1")
+verificationProject.dependencies.add(verificationTooling.name, "com.android.tools.lint:lint-gradle:32.5.3")
 listOf("linux", "osx", "windows").forEach { host ->
-    verificationProject.dependencies.add(verificationTooling.name, "com.android.tools.build:aapt2:9.0.1-14304508:$host")
+    verificationProject.dependencies.add(verificationTooling.name, "com.android.tools.build:aapt2:9.5.3-16666295:$host")
 }
 
 // Resolve only from each configuration's owning project: Gradle 9 requires its
@@ -34,7 +34,7 @@ val verificationAgpVersion = libs.versions.agp.get()
 subprojects {
     tasks.register("resolveDependencyVerification") {
         doLast {
-            require(verificationAgpVersion == "9.0.1") { "Refresh verification tooling coordinates for the new AGP version." }
+            require(verificationAgpVersion == "9.5.3") { "Refresh verification tooling coordinates for the new AGP version." }
             project.configurations.filter {
                 it.isCanBeResolved && (it.name.contains("Classpath", ignoreCase = true) ||
                     it.name.contains("aapt2", ignoreCase = true))
