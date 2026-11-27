@@ -28,7 +28,7 @@ For Spotlight/Siri discovery, enable Find signed documents in Siri and Spotlight
 
 1. Click the menu-bar eSemnBun icon to reopen the main window, Settings or About. Closing a window can leave the app running; choose **Quit** to end it.
 2. In **Settings → General**, scroll to startup settings. Choose **Start at sign-in** if desired. If macOS asks for approval, use **System Settings → General → Login Items**.
-3. In the standalone edition, enable **Open the app when a reader or card is inserted** at first launch or in **Settings → General**, and approve the background item in System Settings if macOS asks. A separate helper then opens eSemnBun on insertion, even after Quit. The Mac App Store edition cannot do this: insertion opens its window only while eSemnBun is running in the menu bar. After Quit, reopen it manually, or choose **Start at sign-in** so that it runs after you sign in.
+3. Enable **Open the app when a reader or card is inserted** at first launch or in **Settings → General**, and approve the background item in System Settings if macOS asks. A separate helper then opens eSemnBun on insertion, even after Quit. This works in both the Mac App Store and standalone editions.
 4. In standalone installations, use **Check for updates** and install the newer DMG. App Store copies update through the App Store. Keep the same distribution when updating.
 5. Use **About eSemnBun** to find the installed version; use Help or the [support page](/support) with app/macOS version, reader/adapter model and reproduction steps. Never send a PIN.
 

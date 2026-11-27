@@ -89,8 +89,8 @@ Store app on 18 November 2026; see [the acceptance record](reports/macos-app-sto
 Keep browser requests enabled and the app running on the same Mac; an external browser may request
 local-network permission. The Store build still excludes arbitrary filesystem-path bridge routes,
 vendor-process controls and the standalone local-automation approval broker. Export signed files to
-a user-chosen destination. The separate helper that can relaunch a fully quit app on reader/card
-insertion remains standalone-only; Store detection while running does not require that helper.
+a user-chosen destination. The separate helper that relaunches a fully quit app on reader/card
+insertion is available in both the Store and standalone editions.
 
 ## Notes
 

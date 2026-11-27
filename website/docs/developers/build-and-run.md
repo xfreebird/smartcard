@@ -49,7 +49,7 @@ open dist/dev-macos/Build/Products/Debug/eSemnBun.app
 
 Use your authorized development signing setup. Keep the smart-card entitlement and the nested helper's entitlements; an ad-hoc launch without them may compile yet fail reader discovery. Close an older running copy before checking your new app, and verify the launched path. The sandboxed `eSemnBun-macOS-AppStore` scheme is a separate distribution configuration.
 
-The Mac App Store app uses CryptoTokenKit to detect compatible USB readers and cards. Its local bridge supports both the built-in Browser and compatible external browsers while the app runs. The Store sandbox restricts filesystem-path requests and output locations; it does not make the bridge exclusive to the built-in Browser. The separate reader-insertion helper that relaunches a fully quit app and the local-automation approval broker belong to the standalone edition.
+The Mac App Store app uses CryptoTokenKit to detect compatible USB readers and cards. Its local bridge supports both the built-in Browser and compatible external browsers while the app runs. The Store sandbox restricts filesystem-path requests and output locations; it does not make the bridge exclusive to the built-in Browser. The reader-insertion helper that relaunches a fully quit app is part of both editions; the local-automation approval broker belongs to the standalone edition.
 
 For fictional card UI, launch the Debug binary directly with its demo environment:
 
