@@ -28,6 +28,5 @@ export default function MobileStores({platform}){
   </a>
   {additionalStores.map(item => <StoreBadge key={item.url} store={item} locale={currentLocale}/>)}
   {platform!=='macos' && <p>{t(`storeStatus_${platform}`)}</p>}
-  {platform==='macos' && <p className="store-version-limitations">{t('macAppStoreLimitations')}</p>}
  </div>;
 }

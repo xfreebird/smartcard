@@ -135,8 +135,7 @@
           "ro": "/img/badges/mac-app-store-ro.svg",
           "ru": "/img/badges/mac-app-store-ru.svg"
         }
-      },
-      "noteKey": "macAppStoreLimitations"
+      }
     },
     {
       "id": "windows",

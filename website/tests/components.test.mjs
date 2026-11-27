@@ -121,7 +121,7 @@ test('mobile and desktop store badges match release data', async () => {
   assert.ok(android.text().includes(catalog.storeStatus_android.ro));
   const mac = render(jsx(MobileStores, {platform: 'macos'}));
   assert.deepEqual([mac.find('img').props.width, mac.find('img').props.className], [250, 'apple-store-badge']);
-  assert.equal(mac.find('p').props.className, 'store-version-limitations');
+  assert.equal(mac.findAll('p').length, 0);
   const ios = render(jsx(MobileStores, {platform: 'ios'}));
   assert.equal(ios.find('img').props.height, 50);
   assert.ok(ios.text().includes(catalog.storeStatus_ios.ro));

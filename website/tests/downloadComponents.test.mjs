@@ -166,7 +166,7 @@ test('download page groups standalone apps before command-line tools', () => {
   assert.ok(textOf(installers[0]).startsWith('Aplicație desktop · '));
   assert.ok(installers.some(node => textOf(node).startsWith('Instrumente CLI și MCP · ')));
   const mac = textOf(root.byId('macos'));
-  assert.ok(mac.includes('Aplicație desktop · DMG') && mac.includes(catalog.macAppStoreLimitations.ro));
+  assert.ok(mac.includes('Aplicație desktop · DMG') && !mac.includes('Mac App Store nu are'));
   const windows = textOf(root.byId('windows'));
   assert.ok(windows.includes('Program de instalare desktop · MSI'));
   assert.ok(windows.includes(release.platforms.find(item => item.id === 'windows').installerNote.ro));
