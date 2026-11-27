@@ -164,7 +164,7 @@ class DeveloperDiagramTests(TempCase):
         with patch.object(Path, 'mkdir'), \
                 patch.object(Path, 'write_text', lambda path, text, encoding=None: written.__setitem__(path.name, text)):
             run('website/scripts/generate-developer-diagrams.py')
-        self.assertEqual(sorted(written), ['architecture.svg', 'card-sequence.svg'])
+        self.assertEqual(sorted(written), ['architecture.svg', 'card-sequence.svg', 'release-pipeline.svg'])
         for name, text in written.items():
             self.assertEqual(text, (REPO / 'website/static/img/developers' / name).read_text(encoding='utf-8'))
         self.assertIn('role="img" aria-labelledby="title description"', written['architecture.svg'])

@@ -1868,3 +1868,9 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - Release: a first `tag` job creates or checks the release tag before any build. Every build job needs it, and the publish job reuses its output instead of creating the ref after the builds (the 0.2.15 HTTP 403). It refuses a tag on another commit that has no release.
 - CLI feeds: `SHA256SUMS.txt` from the Windows Chocolatey job is written with LF line endings; the weekly or next feed run replaces the 0.2.15 file.
 - Validation: automation suites (`scripts` 37, `scripts/agents` 7, `scripts/tests` 145, `apple/Tests/Scripts` 22) and 137 CI routing/contract tests passed; official actionlint 1.7.12 passed. No store mutation was made to test these paths.
+
+### 2026-11-27 — Release pipeline in the developer handbook
+
+- New page `website/docs/developers/release-pipeline.md` (Build and deliver → Release pipeline): the end-to-end path of a version, from the prepared commit through the three lanes (downloads with Microsoft Store, Apple, Android with Huawei) to verification. It covers which outcomes count as released, which version and build identities must match, the seven steps with commands, how the workflows trigger each other, the built-in guards, credential names and recovery. It records the two steps that still run outside Actions: Certum signing of the Windows MSI and CLI, and attaching the Android build's APK to the GitHub Release.
+- Diagram `release-pipeline.svg` from `website/scripts/generate-developer-diagrams.py`, local and accessible like the other handbook diagrams. Linked from the overview and the operation reference, and added to the English agent exports.
+- Website tests (74), the diagram reproducibility test, the full three-locale Docusaurus build and the SEO check pass; the rendered page was checked in a browser.

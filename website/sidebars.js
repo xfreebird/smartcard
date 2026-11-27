@@ -18,6 +18,7 @@ export default {
     {type:'category',label:'Build and deliver',collapsed:false,items:[
       'developers/build-and-run',
       'developers/testing',
+      'developers/release-pipeline',
       'developers/releasing',
       'developers/website',
     ]},

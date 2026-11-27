@@ -18,7 +18,8 @@ This handbook explains the implementation for contributors and curious readers. 
 | Change a native screen consistently | [Design system across platforms](design-system.md) |
 | Compile and launch an app | [Build and run](build-and-run.md) |
 | Run unit, integration or native automation tests | [Testing and automation](testing.md) |
-| Package and distribute a version | [Release and store delivery](releasing.md) |
+| Follow a version from commit to downloads and stores | [Release pipeline](release-pipeline.md) |
+| Choose one packaging or store operation | [Release and store delivery](releasing.md) |
 | Edit, preview and publish this website | [Website development and publishing](website.md) |
 | Work with a coding agent | [Agent reference](agents.md) |
 | Look up an unfamiliar abbreviation | [Glossary](glossary.md) |

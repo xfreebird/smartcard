@@ -5,7 +5,7 @@ description: Prepare versions, package native applications and choose the correc
 
 A release has several independent outcomes: a binary was built, an artifact was uploaded, a listing was prepared, a store accepted a review submission, and a version became available. Record each one separately.
 
-The authoritative operation guide is `docs/14-github-actions.md`; workflow inputs live in `.github/workflows/`, signing lanes in `fastlane/`, and packaging scripts in `scripts/` and `windows/scripts/`. Inspect the current inputs before dispatching: these are operational commands with external effects.
+For the complete order of a release, from the prepared commit to every store, read [Release pipeline](release-pipeline.md). This page helps choose and run one operation. The authoritative operation guide is `docs/14-github-actions.md`; workflow inputs live in `.github/workflows/`, signing lanes in `fastlane/`, and packaging scripts in `scripts/` and `windows/scripts/`. Inspect the current inputs before dispatching: these are operational commands with external effects.
 
 ## Prepare a version
 

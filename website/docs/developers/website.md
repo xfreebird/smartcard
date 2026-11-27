@@ -47,7 +47,7 @@ Generated platform indexes have their own authoring inputs under `docs/user-guid
 
 ## Diagrams and accessibility
 
-The layered architecture and signing sequence are local SVGs, with no remote diagram service or browser-side renderer dependency. Regenerate them from the repository root after editing their authoring script:
+The layered architecture, signing sequence and release pipeline are local SVGs, with no remote diagram service or browser-side renderer dependency. Regenerate them from the repository root after editing their authoring script:
 
 ```sh
 python3 website/scripts/generate-developer-diagrams.py
