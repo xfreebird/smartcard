@@ -1,0 +1,67 @@
+name: Apple App Review
+# Inspect, prepare or submit an App Store version for a build already uploaded through Apple TestFlight.
+# No build, upload, metadata beyond What's New, or cancellation of an existing review (scripts/app_store_submit.py).
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: Apple platforms
+        type: choice
+        options: [both, ios, macos]
+        default: both
+      version:
+        description: Marketing version of the processed build (x.y.z)
+        type: string
+        required: true
+      build_number:
+        description: Build number already uploaded and processed (VALID)
+        type: string
+        required: true
+      operation:
+        description: status is read-only; prepare sets What's New and the build; submit also sends it to App Review
+        type: choice
+        options: [status, prepare, submit]
+        default: status
+permissions:
+  contents: read
+jobs:
+  review:
+    if: github.ref == 'refs/heads/main'
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(inputs.platform == 'both' && '["ios","macos"]' || format('["{0}"]', inputs.platform)) }}
+    runs-on: ubuntu-24.04
+    # Shared with TestFlight uploads: never submit while a build for the same platform is still uploading.
+    concurrency:
+      group: apple-store-${{ matrix.platform }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with: { python-version: '3.12' }
+      - run: |
+          python -m pip install --only-binary=:all: --require-hashes -r scripts/requirements/store-publish.txt
+      - name: Validate submission guards (no network or credentials)
+        run: python -m unittest discover -s scripts -p test_app_store_submit.py
+      - name: ${{ inputs.operation }} ${{ matrix.platform }}
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          PLATFORM: ${{ matrix.platform }}
+          VERSION: ${{ inputs.version }}
+          BUILD: ${{ inputs.build_number }}
+          OPERATION: ${{ inputs.operation }}
+        run: |
+          python scripts/app_store_submit.py --platform "$PLATFORM" --version "$VERSION" --build "$BUILD" \
+            --operation "$OPERATION" --result "$RUNNER_TEMP/app-review-result.json"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: app-review-result-${{ matrix.platform }}-${{ github.run_id }}
+          retention-days: 30
+          path: ${{ runner.temp }}/app-review-result.json
+          if-no-files-found: warn

@@ -16,19 +16,21 @@ longer Apple UI batch occupies the available runner; neither job changes host au
 | Build a new Android binary (manual only) | `android-build.yml`, optional `build_number`; leave `upload_play=false` | Reserves an Android version code and produces signed APK/AAB Actions artifacts. No track change. |
 | Upload an existing Android bundle only | `android-play-publish.yml`: exact `android_run_id`, `operation=artifact_only` | Uploads the AAB without changing any track or submitting a rollout. Same SHA-256 is a no-op. |
 | Publish to closed Android testing | Same workflow, `operation=closed_testing`, `closed_track=alpha` or `beta` | Submits only the selected existing closed track. Production/internal and tester lists are preserved. Review is not approval. |
+| Roll out Android to production | Same workflow, `operation=production`, `expected_version=x.y.z` | Assigns the exact bundle to production at 100% with the catalog notes. Refuses a versionName mismatch, a downgrade, or a production track that holds a staged, halted or draft release; other tracks are preserved. Google review still applies. |
 | Build and immediately upload a new Play artifact | `android-build.yml`, explicit `upload_play=true` | Legacy convenience path: builds/signs and runs `android_artifact`. Upload only; no closed-track promotion. Prefer build once, then publish the exact artifact. |
 | Check Android phone/tablet runtime | `android-runtime.yml` manually | Debug mock screenshots on x86-64 emulator, no reader/PIN or publishing. |
 | Upload iOS, macOS or both to TestFlight | `apple-testflight.yml`, `platform=ios|macos|both`, required `build_number` | Selected uploads only; no App Review selection/submission. Only selected runner jobs are allocated. |
 | Existing macOS-only upload shortcut | `macos-app-store.yml`, required `build_number` | Same sandboxed macOS TestFlight route. Prefer Apple TestFlight with `platform=macos`; retained for existing callers. |
+| Inspect or submit Apple App Review | `apple-app-review.yml`, `platform=ios|macos|both`, `version`, `build_number`, `operation=status|prepare|submit` | `status` is read-only. `prepare` creates or reuses the editable App Store version (release type inherited from the previous version), sets What's New for every existing locale from `distribution/apple/<platform>/<locale>/release_notes.txt` and attaches the processed build. `submit` then submits it for App Review. It never replaces an active review, another unfinished version or a version in review with another build. |
 | Produce Windows installer inputs | `windows-build.yml`, required `build_number` | MSI/MSIX/CLI/checksums/winget artifacts; no Partner Center submission. Signing is optional when configured. |
 | Validate Windows Store access | `windows-store-credentials.yml` | OAuth and read-only app lookup, no submission. |
-| Publish GitHub installers | `release.yml`, `only=all|desktop|macos|ios|android|linux|flatpak|windows`, optional `tag`, explicit store-safe build numbers | Creates/replaces selected public release assets and checksums. A `v*` tag builds all platforms. Store actions are opt-in; see below. |
+| Publish GitHub installers | `release.yml`, `only=all|desktop|macos|ios|android|linux|flatpak|windows`, optional `tag`, explicit store-safe build numbers | Creates/replaces selected public release assets and checksums. A first `tag` job creates or checks the release tag before any build starts. A `v*` tag builds all platforms. Store actions are opt-in; see below. |
 | Publish signed CLI package feeds | `cli-packages.yml`; after successful Release, weekly, or manual | Builds APT/RPM repositories and brew/Chocolatey definitions from a complete existing release. Uploads feed/definition assets and a tested `.nupkg` to GitHub. It does not submit to Chocolatey Community or winget upstream. |
 | Stage a Huawei APK draft | `huawei-appgallery.yml`, exact completed main `android_run_id` | Draft only. Existing review defers the workflow; it never cancels or submits production review. |
 
 **Release store flags:** `upload_ios_testflight=true`, `upload_android_play=true`, and `submit_windows_store=true` are separate manual choices. All default false; tag pushes do not activate them. The first uploads a signed IPA to TestFlight, the second uploads an AAB artifact without changing tracks, and the third starts a Microsoft Store submission. IPA/AAB/MSIX/PKG store inputs remain Actions artifacts, not public installer assets. The standalone macOS DMG/CLI use Developer ID/notarization; Mac App Store/TestFlight use the separate sandboxed target.
 
-App Store review selection/submission, Microsoft manual release after certification, Huawei cancellation/resubmission and Play listing changes remain explicit store operations in the [store skill reference](../.agents/skills/esemnbun-release-stores/references/stores.md). They are not implied by uploading a build. A skill documents a flow; it does not grant authorization to publish or replace a review.
+App Review submission is its own workflow (`apple-app-review.yml`) and Play production its own publisher operation. Microsoft manual release after certification, Huawei cancellation/resubmission and Play listing changes remain explicit store operations in the [store skill reference](../.agents/skills/esemnbun-release-stores/references/stores.md). None of them is implied by uploading a build. A skill documents a flow; it does not grant authorization to publish or replace a review.
 
 ## CI selection and cost
 
@@ -80,7 +82,7 @@ Gradle and NuGet caches contain dependency downloads only. NuGet keys include pr
 1. Inspect Publishing overview for unrelated pending app changes; Play commit/review operates at app scope, so resolve those within the intended authorization before submitting another rollout. Confirm CI for the intended source. Dispatch `android-build.yml` and use its successful manual run. Its `esemnbun-android` artifact must contain one signed APK and one AAB. Keep the source run ID.
 2. Check the highest uploaded Play version code and the reserved `android-play-vc-*` tags. `scripts/ci/reserve-android-version.sh` is shared by Android build and Release; both serialize through `android-play-version-code`. An explicit reserved code can be reused only for the identical source SHA. Failed builds may leave harmless gaps. Build numbers are integers, not marketing versions.
 3. Dispatch the new publisher with the exact source run. It accepts the main Android workflow or a completed Release run from main/a stable version tag, verifies package identity and the pinned public upload-certificate fingerprint, and checks the AAB signature. A completed source run with a later upload failure is usable only if its already packaged artifact passes these checks.
-4. Select `artifact_only` for an inactive bundle or `closed_testing` and the intended existing closed track for submission. Review EN/RO/RU notes in `localization/catalog.json` first; `notes_json` can explicitly supply a releaseNotes array. No listing images, descriptions, testers or other tracks are edited.
+4. Select `artifact_only` for an inactive bundle, `closed_testing` and the intended existing closed track for submission, or `production` with `expected_version` set to the artifact's marketing version for a full production rollout. Review EN/RO/RU notes in `localization/catalog.json` first; `notes_json` can explicitly supply a releaseNotes array. No listing images, descriptions, testers or other tracks are edited.
 5. The publisher verifies Google's returned version code/hash, validates the edit, commits with `ERROR_IF_IN_REVIEW`, then performs an independent read to verify the bundle and unchanged tracks. A byte-identical bundle is reused. It refuses a selected-track downgrade.
 6. Read the workflow result artifact and Play Console **Publishing overview**. `submitted` means submitted for Google review; `completed` on a track does not prove tester availability. Managed publishing and approval may still delay availability.
 
@@ -90,9 +92,26 @@ Examples (owner's main Mac):
 GH_HOST=github.com gh workflow run android-build.yml -R xfreebird/smartcard -f upload_play=false
 GH_HOST=github.com gh workflow run android-play-publish.yml -R xfreebird/smartcard \
   -f android_run_id=EXACT_RUN_ID -f operation=closed_testing -f closed_track=alpha
+GH_HOST=github.com gh workflow run android-play-publish.yml -R xfreebird/smartcard \
+  -f android_run_id=EXACT_RUN_ID -f operation=production -f expected_version=X.Y.Z
 ```
 
 Replace `EXACT_RUN_ID` with the numeric run you inspected. The publisher accepts the Android build workflow on main, or Release on main/a stable version tag. It does not build again or consume another version code. Legacy `bundle exec fastlane android_testing` changes **both internal and closed** tracks and is guarded by `PLAY_ALLOW_INTERNAL_AND_CLOSED=true`; it is not the one-track flow.
+
+## Apple: submit an uploaded build for review
+
+1. Upload with `apple-testflight.yml` and wait until App Store Connect shows the build as processed (VALID) with its export-compliance answer.
+2. Commit the What's New text in `distribution/apple/<platform>/<locale>/release_notes.txt` (generated from `localization/catalog.json` by `scripts/prepare-store-metadata.py`). Every locale the App Store version has needs a file; a missing one stops before any change.
+3. Run `operation=status`, then `submit` (or `prepare` to stop before the review submission). The job waits for the TestFlight upload concurrency of the same platform.
+4. `submitted` means waiting for review, not approval. The release type (manual or after approval) comes from the previous version; App Store Connect shows the review result.
+
+```sh
+GH_HOST=github.com gh workflow run apple-app-review.yml -R xfreebird/smartcard \
+  -f platform=both -f version=X.Y.Z -f build_number=EXACT_BUILD -f operation=status
+# The same with -f operation=submit after checking the status output.
+```
+
+The owner can run the same script locally with the secrets folder's App Store Connect key (`ASC_KEY_ID`, `ASC_ISSUER_ID` and `ASC_KEY_PATH`): `python3 scripts/app_store_submit.py --platform ios --version X.Y.Z --build EXACT_BUILD --operation status`.
 
 ## Expected cases and recovery
 
@@ -106,6 +125,10 @@ Replace `EXACT_RUN_ID` with the numeric run you inspected. The publisher accepts
 | App is still a Play draft | A completed closed rollout may be rejected. Finish the app setup or explicitly stage a draft through the intended flow; never describe a draft as published. |
 | API cannot edit listings (403) | Use Console for an authorized listing update. Setting `PLAY_UPLOAD_METADATA=true` does not grant permissions. |
 | Play rejects an existing halted-track state | Inspect/resolve only within separately authorized track changes, or use Console's artifact-only upload. Do not resume another track to make an artifact-only edit succeed. |
+| Play: `Production has a staged, halted or draft release` | The publisher will not supersede a partial rollout or discard a draft. Complete, halt or remove it in Play Console as authorized, then rerun. |
+| Apple App Review `already_submitted` | The version already holds this build in review, approved or live; nothing changed. |
+| Apple App Review `outcome_unknown` | The submit request was sent, or timed out, and App Store Connect did not confirm the review state. Run `operation=status` before anything else; never resubmit blindly. A `stopped` result with `changesMade: true` means What's New or the build changed but nothing was submitted. |
+| Release `tag` job: tag points elsewhere and has no release | A stale tag from an earlier failed run. Delete it with the owner's account or pass another `tag`; the job refuses to publish a build under a tag on a different commit. |
 | Apple build already used / missing profile | Read App Store Connect's actual maximum, select a larger build, or obtain an authorized profile refresh. Build/signature success is not TestFlight processing success. |
 | Windows submission in certification / Huawei review active | Preserve it until replacement is authorized. Credential checks and draft uploads are not publication. |
 | Partial GitHub release | Inspect per-platform job results and assets; rebuild only the missing/broken platform using `only`, preserve other assets, then verify checksums/feeds/Pages. |
@@ -117,11 +140,11 @@ Configured values are managed under [repository Actions secrets](https://github.
 
 | Repository secret(s) | Consumer / purpose | Owner backup location relative to external folder |
 | --- | --- | --- |
-| `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8` | Apple TestFlight, Mac Store, Release: App Store Connect auth, match, notarization | `secrets.env`; `apple/AuthKey_<KEY_ID>.p8` (`ASC_KEY_PATH` is the local file alternative) |
+| `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_KEY_P8` | Apple TestFlight, Mac Store, Apple App Review, Release: App Store Connect auth, match, notarization, review submission | `secrets.env`; `apple/AuthKey_<KEY_ID>.p8` (`ASC_KEY_PATH` is the local file alternative) |
 | `APPLE_TEAM_ID` | Release macOS signing identity/team | `secrets.env`; public team identifier, stored as a secret for existing workflow compatibility |
 | `MATCH_PASSWORD` | Decrypt Apple signing storage | `secrets.env`; Apple certificates/profiles are encrypted in `github.com/xfreebird/fastlanecerts`, branch `master` |
 | `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` | Android build/Release: sign upload APK/AAB | `android/esemnbun-upload.jks` and `secrets.env` |
-| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Play artifact/closed submission; no use in normal CI | `google/GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.json` |
+| `GOOGLE_PLAY_SERVICE_ACCOUNT_JSON` | Play artifact, closed-track and production submission (production permission granted 27 November 2026); no use in normal CI | `google/GOOGLE_PLAY_SERVICE_ACCOUNT_JSON.json` |
 | `HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON` | Huawei draft API | `huawei/HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON.json` |
 | `MSSTORE_TENANT_ID`, `MSSTORE_CLIENT_ID`, `MSSTORE_CLIENT_SECRET`, `MSSTORE_SELLER_ID` | Windows credential check; explicitly opted-in Store submission. Client ID also supplies package identity integration. | `windows/MSSTORE_CREDENTIALS.json` (legacy notes in `windows/secrets.txt`) |
 | `WINDOWS_MSI_CERTIFICATE_PFX_BASE64`, `WINDOWS_MSI_CERTIFICATE_PASSWORD` | Windows build/Release: current optional self-signed MSI signing | `windows/esemnbun-msi-self-signed.pfx`, `windows/esemnbun-msi-password.txt`; `.cer` is the public certificate |

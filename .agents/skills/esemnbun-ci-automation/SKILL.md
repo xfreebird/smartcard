@@ -15,7 +15,7 @@ Read [the workflow decision guide](../../../docs/14-github-actions.md) before ch
 - Retain native postcheck proof with UI artifacts, including each iOS protection `roundtrip.json`; a passing XCTest bundle alone does not report the filesystem assertions performed afterward.
 - Cancel superseded validation, never an active publishing/signing operation to save time. Android build/upload/publish operations share `android-play-version-code`; Apple Store uploads share `apple-store-ios`/`apple-store-macos`. Do not promise an unlimited publishing queue.
 - Cache dependency downloads, not keys/keychains, signed outputs, mutable edits or provider credentials. Preserve bounded dependency-only retries, signature/digest checks and explicit source-run selection.
-- Build once when the exact signed artifact already contains the requested source. For Play, use `android-play-publish.yml` with the inspected Android-build/Release run ID; `artifact_only` and `closed_testing` have different effects. A deferred review is a visible non-submission, not a publish success. Uncertain commits require a live read before retrying.
+- Build once when the exact signed artifact already contains the requested source. For Play, use `android-play-publish.yml` with the inspected Android-build/Release run ID; `artifact_only`, `closed_testing` and `production` have different effects. App Review submission is `apple-app-review.yml` (shares the `apple-store-<platform>` group). Release reserves its tag in a first job, before builds, because `GITHUB_TOKEN` cannot tag a commit whose workflow files differ from main's. A deferred review is a visible non-submission, not a publish success. Uncertain commits require a live read before retrying.
 - Public installer releases, artifact uploads, TestFlight uploads, review submissions and rollouts are independent. Use [the release skill](../esemnbun-release-stores/SKILL.md) for actual delivery, within the user's requested scope. Optimizing a workflow does not authorize a store mutation.
 - Secret names and backup locations belong in the guide's inventory. Audit with `gh secret list`/`gh variable list`, never print values. On the owner's setup, gh/push/dispatch run on the main Mac or the MacBook Air with `GH_HOST=github.com`; other developers resolve their own approved environment.
 
@@ -23,7 +23,7 @@ Batch validation after edits:
 
 ```sh
 python3 -m unittest discover -s scripts/ci -p 'test_*.py'
-python3 -m unittest discover -s scripts -p test_play_publish.py
+python3 -m unittest discover -s scripts -p 'test_*.py'   # Play, AppGallery and App Store publishers
 # Needs Pillow, requests, PyJWT and cryptography (scripts/requirements/sonar-coverage.txt + store-publish.txt).
 python3 -m unittest discover -s scripts/tests -p 'test_*.py'
 (cd website && npm ci --ignore-scripts && node --test tests/*.test.mjs)

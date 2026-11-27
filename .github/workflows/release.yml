@@ -60,7 +60,48 @@ env:
   FASTLANE_OPT_OUT_USAGE: "1"
 
 jobs:
+  tag:
+    name: Reserve release tag
+    # Runs before any build, while main still points at this run's commit. GITHUB_TOKEN may not create a tag on a
+    # commit whose workflow files differ from main's, so a workflow change pushed during a long build broke the
+    # final tag creation (0.2.15).
+    permissions:
+      contents: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      tag: ${{ steps.reserve.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with: { persist-credentials: false }
+      - id: reserve
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            VERSION=$(sed -n 's/.*MARKETING_VERSION = \([^;]*\);.*/\1/p' apple/eSemnBun.xcodeproj/project.pbxproj | head -1)
+            TAG="${INPUT_TAG:-v$VERSION}"
+          fi
+          [[ "$TAG" =~ ^v[0-9][0-9A-Za-z._-]*$ ]] || { echo "::error::Unexpected release tag '$TAG'"; exit 1; }
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          if commit=$(gh api "repos/$GITHUB_REPOSITORY/commits/tags/$TAG" --jq .sha 2>/dev/null); then
+            # A platform rebuild may add files to an existing release from a newer commit; a bare tag elsewhere is stale.
+            if [[ "$commit" != "$GITHUB_SHA" ]] && ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+              echo "::error::Tag $TAG points at ${commit::7}, not ${GITHUB_SHA::7}, and has no release. Delete the stale tag or pass another tag."
+              exit 1
+            fi
+            echo "Tag $TAG exists at ${commit::7}." >> "$GITHUB_STEP_SUMMARY"
+          else
+            gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" -f "ref=refs/tags/$TAG" -f "sha=$GITHUB_SHA" >/dev/null
+            echo "Tag $TAG created at ${GITHUB_SHA::7}." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
   macos:
+    needs: tag
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'macos' }}
     name: macOS app (DMG, Developer ID, notarized) + CLI
     runs-on: xcode-27
@@ -100,6 +141,7 @@ jobs:
     concurrency:
       group: apple-store-ios
       cancel-in-progress: false
+    needs: tag
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'ios' }}
     name: iOS signed IPAs (optional TestFlight upload)
     runs-on: xcode-27
@@ -132,6 +174,7 @@ jobs:
   android:
     permissions:
       contents: write
+    needs: tag
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'android' }}
     name: Android (APK + AAB, upload key)
     runs-on: ubuntu-24.04
@@ -200,6 +243,7 @@ jobs:
         run: bundle exec fastlane android_artifact
 
   linux:
+    needs: tag
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'linux' }}
     name: Linux (CLI tarball, .deb, .rpm)
     runs-on: ubuntu-24.04
@@ -224,6 +268,7 @@ jobs:
           if-no-files-found: error
 
   flatpak:
+    needs: tag
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'flatpak' }}
     name: Linux (Flatpak bundle)
     runs-on: ubuntu-24.04
@@ -254,6 +299,7 @@ jobs:
           if-no-files-found: error
 
   windows:
+    needs: tag
     if: ${{ !inputs.only || inputs.only == 'all' || inputs.only == 'desktop' || inputs.only == 'windows' }}
     name: Windows (MSI, MSIX, winget manifests)
     runs-on: windows-latest
@@ -354,8 +400,8 @@ jobs:
       contents: write
     name: GitHub Release
     # publish whatever was built, even when a platform failed (it is named in the notes and can be re-run alone)
-    if: ${{ !cancelled() }}
-    needs: [macos, ios, android, linux, flatpak, windows]
+    if: ${{ !cancelled() && needs.tag.result == 'success' }}
+    needs: [tag, macos, ios, android, linux, flatpak, windows]
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -364,31 +410,20 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-          INPUT_TAG: ${{ inputs.tag }}
+          TAG: ${{ needs.tag.outputs.tag }}
           RESULTS: ${{ toJSON(needs) }}
         run: |
-          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
-            TAG="$GITHUB_REF_NAME"
-          else
-            VERSION=$(sed -n 's/.*MARKETING_VERSION = \([^;]*\);.*/\1/p' apple/eSemnBun.xcodeproj/project.pbxproj | head -1)
-            TAG="${INPUT_TAG:-v$VERSION}"
-          fi
           mapfile -t FILES < <(find artifacts -type f \( -name '*.dmg' -o -name '*.tar.gz' \
             -o -name '*.apk' -o -name '*.deb' -o -name '*.rpm' -o -name '*.flatpak' \
             -o -name '*.msi' -o -name '*.cer' -o -name 'esemnbun-cli-*-windows-*.zip' \) | sort)
           if (( ${#FILES[@]} == 0 )); then echo "::error::nothing was built"; exit 1; fi
-          FAILED=$(jq -r 'to_entries[] | select(.value.result == "failure") | .key' <<<"$RESULTS" | paste -sd, - | sed 's/,/, /g')
+          FAILED=$(jq -r 'to_entries[] | select(.key != "tag" and .value.result == "failure") | .key' <<<"$RESULTS" | paste -sd, - | sed 's/,/, /g')
           NOTE="Built by run ${GITHUB_RUN_NUMBER} from ${GITHUB_SHA::7}."
           [[ -n "$FAILED" ]] && NOTE="$NOTE Not built in this run: $FAILED (re-run the Release workflow with \`only\` set to add them)."
           if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
             gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber "${FILES[@]}"
           else
-            # Reserve the exact existing commit separately. Release creation against an older
-            # branch commit can otherwise require workflow-write permission after main advances.
-            if ! gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$TAG" >/dev/null 2>&1; then
-              gh api --method POST "repos/$GITHUB_REPOSITORY/git/refs" \
-                -f "ref=refs/tags/$TAG" -f "sha=$GITHUB_SHA" >/dev/null
-            fi
+            # The tag job created or checked the tag before the builds started.
             gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --verify-tag \
               --title "eSemnBun ${TAG#v}" --notes "$NOTE" --generate-notes "${FILES[@]}"
           fi

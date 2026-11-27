@@ -7,15 +7,19 @@ on:
         type: string
         required: true
       operation:
-        description: Upload only, or submit an existing closed-testing track
+        description: Upload only, submit an existing closed-testing track, or roll out to production (100%)
         type: choice
-        options: [artifact_only, closed_testing]
+        options: [artifact_only, closed_testing, production]
         default: artifact_only
       closed_track:
         description: Used only for closed_testing; never internal or production
         type: choice
         options: [alpha, beta]
         default: alpha
+      expected_version:
+        description: Required for production; the artifact's versionName must equal it (e.g. 0.2.15)
+        type: string
+        required: false
       notes_json:
         description: Optional localized releaseNotes JSON array; defaults to current catalog Android notes
         type: string
@@ -44,6 +48,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
           SOURCE_RUN: ${{ inputs.android_run_id }}
+          OPERATION: ${{ inputs.operation }}
+          EXPECTED_VERSION: ${{ inputs.expected_version }}
           UPLOAD_CERT: ${{ vars.ANDROID_UPLOAD_CERT_SHA256 || '0bd6c7ce1a0e57b3f959917d6c166c433184a3101cad5ddd5333b82bce9324cf' }}
         run: |
           set -euo pipefail
@@ -75,10 +81,13 @@ jobs:
           text=open(os.environ['RUNNER_TEMP']+'/badging.txt').read()
           p=re.search(r"^package: name='([^']+)' versionCode='(\d+)' versionName='([^']+)'",text)
           assert p and p[1]=='md.esemnbun.app'
+          expected=os.environ['EXPECTED_VERSION'].strip()
+          if os.environ['OPERATION']=='production' or expected:
+            assert expected and p[3]==expected, f"Artifact versionName {p[3]} does not match expected_version {expected or '(empty)'}"
           with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'PLAY_VERSION_CODE={p[2]}\nPLAY_VERSION_NAME={p[3]}\n')
           PY
           echo "AAB_PATH=${aabs[0]}" >> "$GITHUB_ENV"
-      - name: Upload or submit the selected closed track
+      - name: Upload, or submit the selected closed track or production
         env:
           GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           OPERATION: ${{ inputs.operation }}
@@ -87,12 +96,10 @@ jobs:
         run: |
           set -euo pipefail
           args=(--aab "$AAB_PATH" --version-code "$PLAY_VERSION_CODE" --version-name "$PLAY_VERSION_NAME" --operation "$OPERATION" --result "$RUNNER_TEMP/play-result.json")
-          if [[ "$OPERATION" == closed_testing ]]; then
-            args+=(--track "$CLOSED_TRACK")
-            if [[ -n "$NOTES_JSON" ]]; then
-              printf '%s' "$NOTES_JSON" > "$RUNNER_TEMP/play-notes.json"
-              args+=(--notes "$RUNNER_TEMP/play-notes.json")
-            fi
+          if [[ "$OPERATION" == closed_testing ]]; then args+=(--track "$CLOSED_TRACK"); fi
+          if [[ "$OPERATION" != artifact_only && -n "$NOTES_JSON" ]]; then
+            printf '%s' "$NOTES_JSON" > "$RUNNER_TEMP/play-notes.json"
+            args+=(--notes "$RUNNER_TEMP/play-notes.json")
           fi
           python scripts/play_publish.py "${args[@]}"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2

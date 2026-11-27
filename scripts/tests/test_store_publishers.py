@@ -172,7 +172,7 @@ class PlayClientTests(TempCase):
             self.assertEqual(states[-1]['state'], 'outcome_unknown')
             self.assertIn(('DELETE', 'edits/2'), [call.args[:2] for call in api.call.call_args_list])
         api, states = scenario(uploaded, [{'track': 'alpha'}, {'track': 'internal'}])
-        with self.assertRaisesRegex(ValueError, 'closed track verification'):
+        with self.assertRaisesRegex(ValueError, 'track verification failed'):
             self.play.publish(api, aab, 2, '1.0', 'closed_testing', 'alpha', [{'language': 'en-US', 'text': 'n'}])
 
     def test_rejected_commit_records_reason_and_keeps_edit(self):

@@ -33,7 +33,8 @@ bundle exec fastlane nuke_all         # DESTRUCTIVE, local only: revoke all cert
 Android main builds produce signed Actions artifacts without changing a track. Manual
 `upload_play=true` is artifact-only. Prefer `android-play-publish.yml` to reuse an exact
 signed build: `artifact_only` uploads without track changes; `closed_testing` submits one
-existing `alpha`/`beta` track and preserves internal/production. The legacy `android_testing`
+existing `alpha`/`beta` track and preserves internal/production; `production` rolls the same bundle
+out to production (requires `expected_version`). App Review submission is `apple-app-review.yml`. The legacy `android_testing`
 lane changes both internal and closed tracks and requires `PLAY_ALLOW_INTERNAL_AND_CLOSED=true`.
 See [the workflow and credentials guide](../docs/14-github-actions.md) for review guards,
 uncertain-result recovery, build identities and external backup paths.

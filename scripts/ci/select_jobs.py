@@ -25,7 +25,8 @@ APPLE = ('macos', 'ios')
 EXACT_RULES = (
     # The automation job and the routing checks run these on every event.
     (('scripts/ci/test_', 'scripts/ci/select_jobs.py', 'scripts/tests/', 'scripts/agents/',
-      'scripts/test_play_publish.py', 'scripts/test_appgallery.py', 'apple/Tests/Scripts/'), ()),
+      'scripts/test_play_publish.py', 'scripts/test_appgallery.py', 'scripts/test_app_store_submit.py',
+      'apple/Tests/Scripts/'), ()),
     # Used only by the Sonar or release workflows, which validate them.
     (('scripts/ci/sonar-', 'scripts/ci/lock-publisher-wheels.py', 'scripts/ci/reserve-android-version.sh',
       '.sonarcloud.properties', '.github/dependabot.yml'), ()),
@@ -114,7 +115,7 @@ def select(paths, workflow=None):
             jobs.update(JOBS)
         elif path.startswith(('docs/', 'website/', '.agents/', 'scripts/docs/', 'scripts/documentation/',
                               'scripts/packages/', '.github/workflows/')) or path.endswith('.md') or path in (
-                              '.gitignore', '.github/actionlint.yaml') or path.startswith(('scripts/play_publish', 'scripts/test_play_publish')):
+                              '.gitignore', '.github/actionlint.yaml') or path.startswith(('scripts/play_publish', 'scripts/test_play_publish', 'scripts/app_store_submit')):
             pass  # Automation contract checks still run. Website has its own validation workflow.
         else:
             jobs.update(JOBS)

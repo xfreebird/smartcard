@@ -136,7 +136,8 @@ jobs:
           python - <<'PY'
           import json,re
           r=json.load(open('release.json'))
-          with open('SHA256SUMS.txt','w') as f:
+          # LF line endings on this Windows runner too, or sha256sum -c rejects every line.
+          with open('SHA256SUMS.txt','w',newline='\n') as f:
             for a in sorted(r['assets'],key=lambda a:a['name']):
               if a['name']=='SHA256SUMS.txt':continue
               assert re.fullmatch(r'sha256:[0-9a-f]{64}',a.get('digest',''))

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Publish an exact signed AAB; no builds, internal promotion, listing edits, or review cancellation."""
+"""Publish an exact signed AAB; no builds, internal promotion, listing edits, or review cancellation.
+
+Operations: artifact_only (upload, no track change), closed_testing (one existing alpha/beta track) and
+production (full rollout of the exact bundle, refused while production has a staged, halted or draft release).
+"""
 import argparse
 import hashlib
 import json
@@ -9,6 +13,7 @@ import sys
 import time
 
 PACKAGE = 'md.esemnbun.app'
+OPERATIONS = ('artifact_only', 'closed_testing', 'production')
 
 
 class PlayError(Exception):
@@ -57,13 +62,14 @@ class PlayAPI:
 
 
 def publish(api, aab, version_code, version_name, mode, track=None, notes=None, checkpoint=None):
-    if mode not in ('artifact_only', 'closed_testing'):
+    if mode not in OPERATIONS:
         raise ValueError('Unsupported operation')
-    if (mode == 'closed_testing' and track not in ('alpha', 'beta')) or (mode == 'artifact_only' and track is not None):
+    if (mode == 'closed_testing' and track not in ('alpha', 'beta')) or (mode != 'closed_testing' and track is not None):
         raise ValueError('Only an explicitly selected closed track may change')
     if not 0 < version_code <= 2100000000 or not version_name or not aab.is_file():
         raise ValueError('Invalid artifact identity')
-    if mode == 'closed_testing' and (not notes or any(not n.get('text') or len(n['text']) > 500 for n in notes)):
+    target = 'production' if mode == 'production' else track
+    if target and (not notes or any(not n.get('text') or len(n['text']) > 500 for n in notes)):
         raise ValueError('Localized release notes are required (maximum 500 characters per locale)')
     digest = hashlib.sha256(aab.read_bytes()).hexdigest()
     edit = api.call('POST', 'edits', {})['id']
@@ -77,18 +83,21 @@ def publish(api, aab, version_code, version_name, mode, track=None, notes=None, 
         existing = next((b for b in bundles if b['sha256'].lower() == digest), None)
         if existing and int(existing['versionCode']) != version_code:
             raise ValueError('Bundle identity differs from the selected APK')
-        if mode == 'closed_testing':
-            current = next((t for t in before if t['track'] == track), None)
+        if target:
+            current = next((t for t in before if t['track'] == target), None)
             if current is None:
-                raise ValueError('Selected closed track does not already exist')
+                raise ValueError('Selected track does not already exist')
             assigned = [int(c) for release in current.get('releases', []) for c in release.get('versionCodes', [])]
             if assigned and max(assigned) > version_code:
                 raise ValueError('Refusing to downgrade the selected track')
-            wanted = {'track': track, 'releases': [{'name': f'{version_name} ({version_code})',
+            wanted = {'track': target, 'releases': [{'name': f'{version_name} ({version_code})',
                 'versionCodes': [str(version_code)], 'status': 'completed', 'releaseNotes': notes}]}
             if existing and current == wanted:
                 api.call('DELETE', f'edits/{edit}')
-                return dict(result, state='already_configured', track=track)
+                return dict(result, state='already_configured', track=target)
+            if mode == 'production' and any(r.get('status') != 'completed' for r in current.get('releases', [])):
+                # A full rollout would supersede a staged or halted rollout, or discard a draft.
+                raise ValueError('Production has a staged, halted or draft release; resolve it in Play Console first')
         if existing and mode == 'artifact_only':
             api.call('DELETE', f'edits/{edit}')
             return dict(result, state='already_uploaded')
@@ -98,10 +107,10 @@ def publish(api, aab, version_code, version_name, mode, track=None, notes=None, 
             bundle = api.call('POST', f'edits/{edit}/bundles?uploadType=media', upload=aab)
             if int(bundle['versionCode']) != version_code or bundle['sha256'].lower() != digest:
                 raise ValueError('Uploaded bundle hash or version code mismatch')
-        if mode == 'closed_testing':
-            api.call('PUT', f'edits/{edit}/tracks/{track}', wanted)
+        if target:
+            api.call('PUT', f'edits/{edit}/tracks/{target}', wanted)
         after = api.call('GET', f'edits/{edit}/tracks').get('tracks', [])
-        untouched = lambda tracks: sorted((t for t in tracks if mode == 'artifact_only' or t['track'] != track), key=lambda t: t['track'])
+        untouched = lambda tracks: sorted((t for t in tracks if t['track'] != target), key=lambda t: t['track'])
         if untouched(before) != untouched(after):
             raise ValueError('An unrequested track changed')
         api.call('POST', f'edits/{edit}:validate')
@@ -126,15 +135,15 @@ def publish(api, aab, version_code, version_name, mode, track=None, notes=None, 
             live_tracks = api.call('GET', f'edits/{verify}/tracks').get('tracks', [])
             if untouched(before) != untouched(live_tracks):
                 raise ValueError('Post-commit unrequested track drift')
-            if mode == 'closed_testing' and next((t for t in live_tracks if t['track'] == track), None) != wanted:
-                raise ValueError('Post-commit closed track verification failed')
+            if target and next((t for t in live_tracks if t['track'] == target), None) != wanted:
+                raise ValueError('Post-commit track verification failed')
         finally:
             api.call('DELETE', f'edits/{verify}')
-        return dict(result, state='submitted' if mode == 'closed_testing' else 'uploaded', track=track)
+        return dict(result, state='submitted' if target else 'uploaded', track=target)
     except PlayError as error:
         if error.reason == 'CHANGES_ALREADY_IN_REVIEW':
             api.call('DELETE', f'edits/{edit}')
-            return dict(result, state='deferred_review', track=track)
+            return dict(result, state='deferred_review', track=target)
         record(dict(result, state='outcome_unknown' if commit_started else 'stopped', reason=error.reason))
         if not commit_started:
             api.call('DELETE', f'edits/{edit}')
@@ -151,13 +160,13 @@ def main():
     parser.add_argument('--aab', type=Path, required=True)
     parser.add_argument('--version-code', type=int, required=True)
     parser.add_argument('--version-name', required=True)
-    parser.add_argument('--operation', choices=['artifact_only', 'closed_testing'], required=True)
+    parser.add_argument('--operation', choices=OPERATIONS, required=True)
     parser.add_argument('--track', choices=['alpha', 'beta'])
     parser.add_argument('--notes', type=Path, help='JSON releaseNotes array; otherwise use the shared catalog')
     parser.add_argument('--result', type=Path, required=True)
     args = parser.parse_args()
     notes = None
-    if args.operation == 'closed_testing':
+    if args.operation != 'artifact_only':
         if args.notes:
             notes = json.loads(args.notes.read_text())
         else:
@@ -175,7 +184,7 @@ def main():
     if summary:
         with open(summary, 'a') as out:
             out.write(f"## Play result: {result['state']}\n\nVersion: {args.version_name} ({args.version_code})\n\n")
-            out.write('Submitted is not approved or available to testers. Verify Publishing overview.\n')
+            out.write('Submitted is not approved or available to testers or users. Verify Publishing overview.\n')
 
 
 if __name__ == '__main__':

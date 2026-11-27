@@ -31,6 +31,34 @@ class WorkflowContracts(unittest.TestCase):
         self.assertIn('group: android-play-version-code',publish)
         self.assertNotIn('cancel-in-progress: true',publish)
 
+    def test_store_operations_are_explicit_and_serialized(self):
+        flows=ROOT/'.github/workflows'
+        review=(flows/'apple-app-review.yml').read_text()
+        self.assertIn('options: [status, prepare, submit]\n        default: status',review)
+        self.assertIn('group: apple-store-${{ matrix.platform }}',review)
+        self.assertIn('group: apple-store-${{ matrix.platform }}',(flows/'apple-testflight.yml').read_text())
+        self.assertNotRegex(review,r'(?m)^\s+\w+: write$')
+        self.assertNotIn('cancel-in-progress: true',review)
+        play=(flows/'android-play-publish.yml').read_text()
+        self.assertIn('options: [artifact_only, closed_testing, production]\n        default: artifact_only',play)
+        self.assertIn("if os.environ['OPERATION']=='production' or expected:",play)
+
+    def test_release_reserves_its_tag_before_building(self):
+        release=(ROOT/'.github/workflows/release.yml').read_text()
+        jobs=release.split('\njobs:\n',1)[1]
+        self.assertTrue(jobs.startswith('  tag:\n'))
+        for job in ['macos','ios','android','linux','flatpak','windows']:
+            header=jobs.split(f'\n  {job}:\n',1)[1].split('\n    steps:',1)[0]
+            self.assertIn('    needs: tag\n',header,job)
+        publish=jobs.split('\n  release:\n',1)[1]
+        self.assertIn("needs.tag.result == 'success'",publish)
+        self.assertIn('TAG: ${{ needs.tag.outputs.tag }}',publish)
+        self.assertNotIn('git/refs',publish)
+
+    def test_windows_checksum_file_keeps_unix_line_endings(self):
+        packages=(ROOT/'.github/workflows/cli-packages.yml').read_text()
+        self.assertIn("open('SHA256SUMS.txt','w',newline='\\n')",packages)
+
     def test_branch_pushes_only_validate_or_deploy_documentation(self):
         for path in (ROOT/'.github/workflows').glob('*.yml'):
             text = path.read_text()

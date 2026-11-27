@@ -50,8 +50,10 @@ The landing page no longer says the Mac App Store edition has no card-insertion 
 
 ## Follow-ups
 
-- `cli-packages.yml` writes `SHA256SUMS.txt` with CRLF line endings (also in 0.2.14), so `sha256sum -c` on Linux/macOS reports missing files; the hashes themselves are correct.
-- `android-play-publish.yml` has no production operation, and Apple review submission has no lane; both were done with guarded API calls this time.
-- The Release workflow cannot tag an older commit once `main` has a newer workflow change; dispatch Release before pushing workflow edits, or tag first.
+All three were addressed the same day (PLAN.md, "Close the 0.2.15 automation gaps"):
+
+- `cli-packages.yml` wrote `SHA256SUMS.txt` with CRLF line endings on its Windows runner (also in 0.2.14), so `sha256sum -c` on Linux/macOS reported missing files; the hashes themselves are correct. It now writes LF; the 0.2.15 file is replaced on the next feed run.
+- `android-play-publish.yml` had no production operation, and Apple review submission had no lane; both were done with guarded API calls this time. Now `operation=production` and `apple-app-review.yml` cover them.
+- The Release workflow could not tag an older commit once `main` had a newer workflow change. Release now creates or checks the tag in a first job, before any build.
 
 Store review/rollout is asynchronous. Submission and upload success do not establish approval. No credentials, tokens or private keys were printed or committed.

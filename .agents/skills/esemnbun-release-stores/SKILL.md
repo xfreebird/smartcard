@@ -24,12 +24,13 @@ Marketing version is shared across Apple project settings, `windows/Directory.Bu
 | Workflow | Meaning |
 | --- | --- |
 | `apple-testflight.yml` | Explicit `platform=both|ios|macos`, required higher `build_number`; uploads, no App Review |
+| `apple-app-review.yml` | `status` (read-only), `prepare` (version, What's New, build) or `submit` for App Review of a processed build; never replaces an active review |
 | `macos-app-store.yml` | Sandboxed macOS package and TestFlight upload; pass explicit higher build |
 | `release.yml` | Public assets, selected `only`, optional `tag` and build overrides; has store side effects—inspect selected job/conditions |
 | `windows-build.yml` | Build-only Windows artifacts, not Partner Center submission |
 | `windows-store-credentials.yml` | Read-only OAuth/app-access validation |
 | `android-build.yml` | Build/sign Android; optional artifact-only upload, no track promotion |
-| `android-play-publish.yml` | Reuse exact signed Android-build/Release artifact: upload only or submit one existing closed track |
+| `android-play-publish.yml` | Reuse exact signed Android-build/Release artifact: upload only, submit one existing closed track, or full production rollout (`expected_version` required) |
 | `huawei-appgallery.yml` | Upload/draft operations; active-review guard applies |
 | `website.yml` | Regenerates downloads/update manifests from latest GitHub release, tests/builds/deploys Pages |
 
@@ -48,4 +49,4 @@ Never print API tokens, client secrets, keystore passwords or key contents. Use 
 
 ## Reuse Android artifacts
 
-Prefer `android-play-publish.yml` over rebuilding or the legacy two-track lane. Inspect the exact Android-build/Release source run and choose `artifact_only` or `closed_testing` with `alpha`/`beta`. Confirm the catalog Android notes or supply explicit localized `notes_json`. The workflow validates the signed APK identity, upload certificate and AAB; the publisher verifies Google's returned code/hash, preserves other tracks, guards existing review and reads state after commit. `deferred_review` means no submission. An `outcome_unknown` result requires live inspection before retrying. Check Play Console for review/approval/tester availability; do not infer availability from track `completed`.
+Prefer `android-play-publish.yml` over rebuilding or the legacy two-track lane. Inspect the exact Android-build/Release source run and choose `artifact_only`, `closed_testing` with `alpha`/`beta`, or `production` with `expected_version` (only when production was requested; it refuses a staged, halted or draft production release). Confirm the catalog Android notes or supply explicit localized `notes_json`. The workflow validates the signed APK identity, upload certificate and AAB; the publisher verifies Google's returned code/hash, preserves other tracks, guards existing review and reads state after commit. `deferred_review` means no submission. An `outcome_unknown` result requires live inspection before retrying. Check Play Console for review/approval/tester availability; do not infer availability from track `completed`.

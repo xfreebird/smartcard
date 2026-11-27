@@ -112,3 +112,41 @@ class PublishingTests(unittest.TestCase):
             publish(api,self.aab,2,'0.2.6','closed_testing','alpha',self.notes,checkpoint=states.append)
         self.assertEqual(states[-1]['state'],'outcome_unknown')
         self.assertEqual(states[-1]['editId'],'1')
+
+
+class ProductionTests(unittest.TestCase):
+    setUp=PublishingTests.setUp
+    def production(self,api,notes='default'):
+        return publish(api,self.aab,2,'0.2.6','production',None,self.notes if notes=='default' else notes)
+    def test_production_changes_only_production_and_verifies_after_commit(self):
+        api=FakeAPI(self.bundle);api.tracks[2]={'track':'production','releases':[{'versionCodes':['1'],'status':'completed'}]}
+        others=api.tracks[:2]
+        result=self.production(api)
+        self.assertEqual((result['state'],result['track']),('submitted','production'))
+        self.assertEqual(api.tracks[:2],others)
+        self.assertEqual(api.tracks[2]['releases'],[{'name':'0.2.6 (2)','versionCodes':['2'],'status':'completed','releaseNotes':self.notes}])
+        puts=[c for c in api.calls if c[0]=='PUT'];self.assertEqual([c[1] for c in puts],['edits/1/tracks/production'])
+        commit=next(c[1] for c in api.calls if ':commit' in c[1])
+        self.assertIn('ERROR_IF_IN_REVIEW',commit);self.assertNotIn('changesNotSentForReview',commit)
+    def test_production_takes_no_track_and_requires_notes_before_api(self):
+        for track,notes in [('alpha',[{'language':'en-US','text':'n'}]),('production',[{'language':'en-US','text':'n'}]),(None,None)]:
+            api=FakeAPI(self.bundle)
+            with self.assertRaises(ValueError):publish(api,self.aab,2,'0.2.6','production',track,notes)
+            self.assertEqual(api.calls,[])
+    def test_production_downgrade_rejected(self):
+        api=FakeAPI(self.bundle);api.tracks[2]['releases']=[{'versionCodes':['3'],'status':'completed'}]
+        with self.assertRaisesRegex(ValueError,'downgrade'):self.production(api)
+        self.assertFalse(any(c[0]=='PUT' or 'uploadType' in c[1] for c in api.calls))
+    def test_staged_halted_or_draft_production_is_not_superseded(self):
+        for status in ['inProgress','halted','draft']:
+            api=FakeAPI(self.bundle);api.tracks[2]['releases']=[{'versionCodes':['1'],'status':status,'userFraction':0.2}]
+            with self.subTest(status=status),self.assertRaisesRegex(ValueError,'staged, halted or draft'):self.production(api)
+            self.assertFalse(any(c[0]=='PUT' or 'uploadType' in c[1] or ':commit' in c[1] for c in api.calls))
+            self.assertIn(('DELETE','edits/1',None),api.calls)
+    def test_production_review_in_progress_is_deferred(self):
+        api=FakeAPI(self.bundle,reviewing=True)
+        self.assertEqual(self.production(api)['state'],'deferred_review')
+    def test_configured_production_is_idempotent(self):
+        api=FakeAPI(self.bundle,existing=True);self.production(api);api.calls=[]
+        self.assertEqual(self.production(api)['state'],'already_configured')
+        self.assertFalse(any(':commit' in c[1] or c[0]=='PUT' for c in api.calls))

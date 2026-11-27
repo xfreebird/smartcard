@@ -26,7 +26,9 @@ Android reserves version codes with the shared `android-play-version-code` concu
 | Build signed Android artifacts | `android-build.yml` | APK/AAB; Play upload is optional and off by default |
 | Upload an existing AAB | `android-play-publish.yml`, `artifact_only` | Reuses an exact source run; does not promote a track |
 | Submit one closed Play track | Same publisher, `closed_testing` | Selects `alpha` or `beta`; preserves unrelated tracks/review boundaries |
+| Roll out to Play production | Same publisher, `production` with `expected_version` | 100% rollout of the exact bundle; refuses downgrades and staged/halted/draft production releases |
 | Upload Apple beta builds | `apple-testflight.yml` | `ios`, `macos` or `both`; no App Review submission |
+| Submit Apple App Review | `apple-app-review.yml` | `status` (read-only), `prepare` or `submit` for a processed build; sets What's New from `distribution/apple`; never replaces an active review |
 | Build Windows installers | `windows-build.yml` | Installer artifacts; no Partner Center submission |
 | Check Windows Store access | `windows-store-credentials.yml` | Read-only credential/application check |
 | Stage Huawei metadata/binary | `huawei-appgallery.yml` | Draft path with active-review guard; no automatic production review submission |
@@ -70,7 +72,7 @@ GH_HOST=github.com gh workflow run android-play-publish.yml -R xfreebird/smartca
   -f android_run_id=EXACT_RUN_ID -f operation=artifact_only
 ```
 
-For an explicitly intended closed-testing submission, use `operation=closed_testing` and the requested `closed_track=alpha` or `beta`. Check localized release notes and existing review state first. Avoid the legacy `android_testing` lane for this task: it changes internal plus closed tracks and requires separate opt-in.
+For an explicitly intended closed-testing submission, use `operation=closed_testing` and the requested `closed_track=alpha` or `beta`. For production, use `operation=production` with `expected_version=X.Y.Z`; the run stops if the artifact's version differs. Check localized release notes and existing review state first. Avoid the legacy `android_testing` lane for this task: it changes internal plus closed tracks and requires separate opt-in.
 
 `deferred_review` means the publisher preserved an active review rather than submitting. An `outcome_unknown` result requires live inspection before retrying. A track marked completed does not prove testers can already install it.
 
