@@ -14,3 +14,7 @@
 - Retrieved 14 November 2026, retained unchanged as appgallery-en.svg.
 - Official badge guidance: https://developer.huawei.com/consumer/en/doc/appgallery-connect-Guides/agdlink-getlink-agc-0000001164321881
 - The English badge is used as the fallback for Romanian and Russian. The link targets the eSemnBun listing.
+
+## Google Play (README)
+
+- `google-play-en-cropped.png` is `google-play-en.png` with Google's 41 px transparent margin removed (564 × 168), so the badge lines up with the other 40 px store badges in the repository README, where CSS cannot compensate. The website keeps the padded original and offsets it in `custom.css`.

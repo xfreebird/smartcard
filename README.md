@@ -23,7 +23,7 @@ Sign and verify documents with a Moldovan electronic identity card. eSemnBun sup
 <p>
 <a href="https://apps.apple.com/app/id6826865290"><img src="website/static/img/badges/app-store-en.svg" alt="Download on the App Store" height="40"></a>
 <a href="https://apps.apple.com/app/id6829451042"><img src="website/static/img/badges/mac-app-store-en.svg" alt="Download on the Mac App Store" height="40"></a>
-<a href="https://play.google.com/store/apps/details?id=md.esemnbun.app"><img src="website/static/img/badges/google-play-en.png" alt="Get it on Google Play" height="58"></a>
+<a href="https://play.google.com/store/apps/details?id=md.esemnbun.app"><img src="website/static/img/badges/google-play-en-cropped.png" alt="Get it on Google Play" height="40"></a>
 <a href="https://apps.microsoft.com/detail/9pdpr6rnt42s?hl=en-US&amp;gl=MD"><img src="website/static/img/badges/microsoft-store.svg" alt="Get it from Microsoft" height="40"></a>
 <a href="https://appgallery.huawei.com/app/C119651007"><img src="website/static/img/badges/appgallery-en.svg" alt="Explore it on AppGallery" height="40"></a>
 </p>
