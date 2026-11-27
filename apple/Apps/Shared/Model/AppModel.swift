@@ -211,6 +211,17 @@ final class AppModel {
         }
     }
 
+    /// Experimental USB token recognition (Phase TOK), off by default. Re-reads the inserted cards so a
+    /// token's message changes at once.
+    var experimentalTokens = false {
+        didSet {
+            guard experimentalTokens != oldValue else { return }
+            AppPreferencesStore.defaults.set(experimentalTokens, forKey: "experimentalTokensEnabled")
+            service.experimentalTokens = experimentalTokens
+            rereadCards()
+        }
+    }
+
     /// macOS brings the auth panel forward (the request may come from the menu bar or the browser).
     @ObservationIgnored var presentInsertedCard: (() -> Void)?
     @ObservationIgnored var presentAuthUI: (() -> Void)?
@@ -368,6 +379,9 @@ final class AppModel {
         self.transportFactory = transportFactory
         #endif
         bridgeEnabled = AppDistribution.browserBridge && (AppPreferencesStore.defaults.object(forKey: "bridgeEnabled") as? Bool ?? true)
+        let tokens = AppPreferencesStore.defaults.bool(forKey: "experimentalTokensEnabled")
+        experimentalTokens = tokens
+        service.experimentalTokens = tokens
         library = DocumentLibraryModel(store: demo ? demoActivityStore : self.liveActivityStore,
                                        onDocumentsChanged: demo ? {} : { DocumentDiscovery.refresh() })
         restoreSavedCards()
@@ -1204,6 +1218,8 @@ final class AppModel {
             return PresentedError(messageText: .verbatim("This document could not be signed. It may be damaged or use an unsupported format."), recoveryText: .verbatim(""))
         case is TrustServices.NetworkError:
             return PresentedError(messageText: .localized(.ui_pki_services_are_not_responding), recoveryText: .localized(.ui_check_the_connection_and_try_again))
+        case let token as UnsupportedTokenError:
+            return PresentedError(messageText: .formatted(.token_recognized_unsupported, token.family.displayName), recoveryText: .localized(.ui_))
         #if os(iOS)
         case NFCSigningError.unavailable:
             return PresentedError(messageText: .localized(.nfc_unavailable), recoveryText: .localized(.ui_))

@@ -432,6 +432,9 @@ enum L10n {
         case protect_card_public_key
         case protect_card_public_key_help
         case protect_export_public_certificate
+        case token_experimental_title
+        case token_experimental_detail
+        case token_recognized_unsupported
     }
     static var language: String?
     static func text(_ key: Key) -> String {
@@ -2585,6 +2588,21 @@ enum L10n {
     "en": "Export public certificate",
     "ro": "Exportă certificatul public",
     "ru": "Экспорт открытого сертификата"
+  },
+  "token_experimental_title": {
+    "ro": "Token-uri USB (experimental)",
+    "en": "USB tokens (experimental)",
+    "ru": "USB-токены (экспериментально)"
+  },
+  "token_experimental_detail": {
+    "ro": "Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă.",
+    "en": "Recognizes Feitian ePass2003 and SafeNet tokens. Signing with them is not available yet.",
+    "ru": "Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно."
+  },
+  "token_recognized_unsupported": {
+    "ro": "%1$s recunoscut. Semnarea cu token-uri USB nu este încă disponibilă.",
+    "en": "%1$s recognized. Signing with USB tokens is not available yet.",
+    "ru": "Обнаружен %1$s. Подписание USB-токенами пока недоступно."
   }
 }
 """#.utf8)

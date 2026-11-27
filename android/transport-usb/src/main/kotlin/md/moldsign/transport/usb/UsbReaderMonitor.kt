@@ -149,6 +149,7 @@ class UsbReaderMonitor internal constructor(
         object : ApduTransport {
             override val readerName: String get() = session.readerName
             override fun transmit(apdu: ByteArray): ByteArray = session.transmit(apdu)
+            override fun answerToReset(): ByteArray? = session.answerToReset()
             override fun close() {
                 try {
                     session.close()

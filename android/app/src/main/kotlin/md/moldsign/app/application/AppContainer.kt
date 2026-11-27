@@ -1,5 +1,6 @@
 package md.moldsign.app.application
 
+import androidx.core.content.edit
 import md.moldsign.app.R
 import md.moldsign.app.infrastructure.ActivityLog
 import md.moldsign.app.infrastructure.ProtectedFileStore
@@ -81,7 +82,16 @@ class AppContainer(
         xades = XadesDocumentSigner(trust),
         chainDer = ChainCerts.chain,
         log = { Log.d(TAG, it) },
+        experimentalTokens = { experimentalTokens },
     )
+
+    /** Phase TOK: recognize USB signing tokens (experimental, off by default). Re-reads the inserted cards. */
+    var experimentalTokens: Boolean
+        get() = app.getSharedPreferences("settings", 0).getBoolean(EXPERIMENTAL_TOKENS, false)
+        set(value) {
+            app.getSharedPreferences("settings", 0).edit { putBoolean(EXPERIMENTAL_TOKENS, value) }
+            if (!isDemo) rereadCards()
+        }
 
     private val _wallet = MutableStateFlow(WalletState())
 
@@ -196,5 +206,6 @@ class AppContainer(
 
     private companion object {
         const val TAG = "MoldSign"
+        const val EXPERIMENTAL_TOKENS = "experimentalTokens"
     }
 }

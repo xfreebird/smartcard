@@ -136,6 +136,7 @@ final class AppController {
         readers.onInsertion = { [weak self] in self?.presentWindow?() }
         readers.onSelection = { [weak self] in self?.lastAttemptsLeft = nil }
         readers.showOnCardInsertion = { [weak self] in self?.settings.showOnCardInsertion ?? false }
+        service.experimentalTokens = settings.experimentalTokensEnabled
     }
     private let bridge: any BridgeHosting
     private let authorization = BridgeAuthorizationCoordinator()
@@ -606,6 +607,15 @@ final class AppController {
 
     func setBrowserStampsEnabled(_ on: Bool) {
         preferences.update { $0.browserStampsEnabled = on }; changed()
+    }
+
+    /// Phase TOK: a recognized token is named instead of failing as an eID; re-read the inserted cards at once.
+    func setExperimentalTokensEnabled(_ on: Bool) {
+        guard on != settings.experimentalTokensEnabled else { return }
+        preferences.update { $0.experimentalTokensEnabled = on }
+        service.experimentalTokens = on
+        readers.rereadCards()
+        changed()
     }
 
     func setBridgeEnabled(_ on: Bool) {

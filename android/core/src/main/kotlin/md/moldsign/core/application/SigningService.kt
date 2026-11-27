@@ -106,6 +106,11 @@ class CardSigningService(
     private val log: (String) -> Unit = {},
     private val onCardSignature: () -> Unit = {},
     private val onProgress: (SigningStep) -> Unit = {},
+    /**
+     * Experimental USB token recognition (Phase TOK), read on every card session. On: a token recognized by
+     * [TokenRecognizer] fails with [UnsupportedTokenException] before any APDU. Off (default): eID only.
+     */
+    private val experimentalTokens: () -> Boolean = { false },
 ) : SigningService {
     private val progressFlow = MutableStateFlow(SigningStep.Idle)
     override val progress: StateFlow<SigningStep> = progressFlow.asStateFlow()
@@ -188,6 +193,7 @@ class CardSigningService(
         step(SigningStep.Connecting)
         try {
             transports.open(reader).use { transport ->
+                if (experimentalTokens()) TokenRecognizer.family(transport.answerToReset())?.let { throw UnsupportedTokenException(it) }
                 val card = CosmoXCard(transport, log)
                 step(SigningStep.Authenticating)
                 card.authenticate()

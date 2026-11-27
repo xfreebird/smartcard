@@ -20,6 +20,9 @@ extern int32_t c_scard_transmit(void *card, const uint8_t *send, uint32_t send_l
 /// Non-blocking reader state (SCardGetStatusChange, timeout 0). *state_out gets SCARD_STATE_* bits
 /// (0x10 EMPTY, 0x20 PRESENT, 0x200 MUTE…). Returns the PC/SC status code.
 extern int32_t c_scard_reader_state(void *ctx, const char *reader, uint32_t *state_out);
+/// ATR of the card in `reader` without connecting (SCardGetStatusChange, timeout 0). On entry *atr_len is the
+/// capacity of `atr`; on return the ATR length, 0 when no card is present. Returns the PC/SC status code.
+extern int32_t c_scard_reader_atr(void *ctx, const char *reader, uint8_t *atr, uint32_t *atr_len);
 /// 1 when the PC/SC stack is usable on this platform build.
 extern int32_t c_scard_available(void);
 

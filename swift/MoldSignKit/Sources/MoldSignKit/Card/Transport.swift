@@ -8,8 +8,14 @@ import CPCSC
 /// `CosmoXCard` handles `61xx` GET RESPONSE itself.
 public protocol CardTransport: AnyObject {
     var readerName: String { get }
+    /// Answer-to-reset of the card, when the transport knows it (token recognition, TOK-04). nil by default.
+    var atr: Data? { get }
     func transmit(_ apdu: Data) throws -> Data
     func disconnect()
+}
+
+extension CardTransport {
+    public var atr: Data? { nil }
 }
 
 public enum CardTransports {
@@ -98,6 +104,23 @@ public final class PCSCTransport: CardTransport {
                                eventCount: Int(state >> 16))
         }
     }
+
+    /// ATR of the card in `reader`, read without connecting (no APDU reaches the card). nil if absent.
+    public static func atr(reader: String) -> Data? {
+        var ctx: Int64 = 0
+        guard c_scard_establish(0, &ctx) == 0 else { return nil }
+        defer { _ = c_scard_release(&ctx) }
+        return atr(context: &ctx, reader: reader)
+    }
+
+    private static func atr(context: inout Int64, reader: String) -> Data? {
+        var buffer = [UInt8](repeating: 0, count: 40)
+        var length = UInt32(buffer.count)
+        guard c_scard_reader_atr(&context, reader, &buffer, &length) == 0, length > 0 else { return nil }
+        return Data(buffer.prefix(Int(length)))
+    }
+
+    public var atr: Data? { Self.atr(context: &ctx, reader: readerName) }
 
     /// Automation uses EXCLUSIVE ownership so another process cannot interleave APDUs.
     /// Existing interactive callers retain SHARED, T0|T1 behavior.
@@ -201,6 +224,8 @@ public final class TKSmartCardTransport: CardTransport {
               let response, response.count >= 2 else { throw CardError.cardNotResponding }
         return response
     }
+
+    public var atr: Data? { card.slot.atr?.bytes }
 
     public func disconnect() { card.endSession() }
 }

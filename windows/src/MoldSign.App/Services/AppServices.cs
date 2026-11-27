@@ -49,7 +49,7 @@ public sealed class AppServices : IAsyncDisposable
         Func<string?, ICardTransport> transport = IsDemo
             ? _ => throw new InvalidOperationException("Demo mode never opens a card transport.")
             : dependencies.Transport ?? (reader => WinSCardTransport.Connect(new WinSCardOptions { ReaderName = reader }));
-        Signing = new SigningService(transport);
+        Signing = new SigningService(transport) { ExperimentalTokens = Settings.ExperimentalTokensEnabled };
         FileProtection = dependencies.FileProtection ?? new PasswordFileProcessor();
         _documentSigner = IsDemo ? _demo! : dependencies.Documents ?? Signing;
 #if DEBUG
@@ -257,6 +257,15 @@ public sealed class AppServices : IAsyncDisposable
     public void SelectCard(string reader) => State.Select(reader);
 
     /// <summary>"Recitește cardul": one card (its context menu) or every card (toolbar button).</summary>
+    /// <summary>Phase TOK: recognize USB signing tokens (experimental, off by default); re-reads the inserted cards.</summary>
+    public void SetExperimentalTokens(bool on)
+    {
+        Settings.ExperimentalTokensEnabled = on;
+        Settings.Save();
+        Signing.ExperimentalTokens = on;
+        if (!IsDemo) RereadCards();
+    }
+
     public void RereadCards(string? reader = null)
     {
         foreach (var card in State.Reread(reader)) _ = ReadCertificateAsync(card);

@@ -30,7 +30,10 @@ Legacy form (kept for scripts): esemnbun <in.pdf> <out.pdf>   ==  esemnbun sign 
 ```
 
 Global options: `--reader <name>` (default: first reader with a card), `--quiet` (no protocol traces),
-`--pin-stdin` (read the PIN from the first line of stdin).
+`--pin-stdin` (read the PIN from the first line of stdin), `--experimental-tokens` (also
+`MSIGN_EXPERIMENTAL_TOKENS=1`; Phase TOK, off by default). With it, `readers` names a recognized USB token
+(by ATR, `spec/tokens/token-families.json`) and card commands stop at a token with "not available yet"
+(exit 1) before sending it any APDU. No token can sign yet. Without it, behavior is unchanged.
 
 ## Capability discovery and structured output
 

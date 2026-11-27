@@ -28,6 +28,8 @@ enum UserFacingError {
             return ("This document could not be signed. It may be damaged or use an unsupported format.", "")
         case is TrustServices.NetworkError:
             return (L10n.text(.ui_pki_services_are_not_responding), L10n.text(.ui_check_the_connection_and_try_again))
+        case let token as UnsupportedTokenError:
+            return (localized(.token_recognized_unsupported, token.family.displayName), "")
         case let error as CocoaError where error.code == .fileWriteNoPermission || error.code == .fileWriteFileExists:
             return (L10n.text(.ui_the_signed_file_could_not_be_saved), L10n.text(.ui_choose_a_folder_you_have_permission_to_write_to))
         default:

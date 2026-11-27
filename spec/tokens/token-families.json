@@ -1,0 +1,58 @@
+{
+  "comment": "USB signing tokens recognized by ATR (Phase TOK, experimental, off by default). Every core (Swift, Kotlin, C#) carries this table and its tests compare it with this file. A pattern matches an ATR of the same length when (atr & mask) == (pattern & mask) byte by byte. Patterns come from the ATR tables inside the token modules shipped with MoldSign Desktop Suite 2.4.12 (macOS, /Applications/STISC/MoldSign/native_lib); 'source' names the module and file offset. The CosmoX eID is never a token. ACOS5 (CryptoMate) is absent: its module carries no ATR table, so it needs a real token first.",
+  "families": [
+    {
+      "id": "epass2003",
+      "name": "Feitian ePass2003",
+      "patterns": [
+        {
+          "atr": "3B9F958131FE9F006646530500000071DF000000000000",
+          "mask": "FFFFFFFFFFFFFFFFFFFFFFFF000000FFFFFFFFFFFFFF00",
+          "source": "libcastle.1.0.0.dylib 0x23ac00 (mask 0x23ac20)"
+        }
+      ]
+    },
+    {
+      "id": "safenet-etoken-java",
+      "name": "SafeNet eToken",
+      "patterns": [
+        { "atr": "3BD518008131FE7D8073C82110F4", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa4011" },
+        { "atr": "3BD5180081313A7D8073C8211030", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa401f" },
+        { "atr": "3BD518008131FE7D68BF81AA4547", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa402d" },
+        { "atr": "3BD5180081313A7D68BF81AA4583", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa403b" },
+        { "atr": "3BD518008131FE7DDE2D8E7400F7", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa4049" },
+        { "atr": "3BD5180081313A7DDE2D8E740033", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa4057" },
+        { "atr": "3BD518008131FE7D9DAB4639D661", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa4065" },
+        { "atr": "3BD5180081313A7D9DAB4639D6A5", "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFF", "source": "libeToken.dylib 0xa4073" }
+      ]
+    },
+    {
+      "id": "idprime",
+      "name": "SafeNet IDPrime",
+      "patterns": [
+        {
+          "atr": "3BFF9600008131FE4380318065B00000000012917882900069",
+          "mask": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
+          "source": "libIDPrimeTokenEngine.dylib 0x71b70"
+        },
+        {
+          "atr": "3BFF0000008131004380318065B00000000012021082900000",
+          "mask": "FFFF00FFFFFFFF00FFFFFFFFFFFF00000000FFFFFFFFFFFF00",
+          "source": "libeToken.dylib 0xa4090 (mask 0xa40b0; the module's 24-byte pattern omits TCK, masked here)"
+        }
+      ]
+    }
+  ],
+  "vectors": [
+    { "comment": "CosmoX ID-A eID (AGENTS.md section 1)", "atr": "3BDF96008131FE4580738421E0574D44415F415350810F78", "family": null },
+    { "comment": "ePass2003 with other bytes where the mask is 00 (COS version, TCK)", "atr": "3B9F958131FE9F006646530501001171DF00000000005A", "family": "epass2003" },
+    { "comment": "ePass2003 table entry itself", "atr": "3B9F958131FE9F006646530500000071DF000000000000", "family": "epass2003" },
+    { "comment": "ePass2003 prefix with a changed historical byte", "atr": "3B9F958131FE9F006646530500000071DE000000000000", "family": null },
+    { "comment": "eToken Java", "atr": "3BD5180081313A7D8073C8211030", "family": "safenet-etoken-java" },
+    { "comment": "eToken Java ATR cut short", "atr": "3BD5180081313A7D8073C82110", "family": null },
+    { "comment": "IDPrime exact", "atr": "3BFF9600008131FE4380318065B00000000012917882900069", "family": "idprime" },
+    { "comment": "IDPrime with TA1 18, TA3 80 and another chip serial", "atr": "3BFF1800008131804380318065B0A1B2C3D412021082900055", "family": "idprime" },
+    { "comment": "IDPrime pattern, different product bytes", "atr": "3BFF1800008131804380318065B0A1B2C3D412021182900055", "family": null },
+    { "comment": "empty", "atr": "", "family": null }
+  ]
+}

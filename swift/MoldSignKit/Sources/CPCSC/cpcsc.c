@@ -101,6 +101,24 @@ int32_t c_scard_reader_state(void *ctx, const char *reader, uint32_t *state_out)
     return (int32_t)rv;
 }
 
+int32_t c_scard_reader_atr(void *ctx, const char *reader, uint8_t *atr, uint32_t *atr_len) {
+    SCARDCONTEXT c = (SCARDCONTEXT)*(int64_t *)ctx;
+    SCARD_READERSTATE rs;
+    memset(&rs, 0, sizeof rs);
+    rs.szReader = reader;
+    rs.dwCurrentState = SCARD_STATE_UNAWARE;
+    LONG rv = SCardGetStatusChange(c, 0, &rs, 1);
+    uint32_t n = 0;
+    if (rv == SCARD_S_SUCCESS && (rs.dwEventState & SCARD_STATE_PRESENT)) {
+        n = (uint32_t)rs.cbAtr;
+        if (n > sizeof rs.rgbAtr) n = (uint32_t)sizeof rs.rgbAtr;
+        if (n > *atr_len) n = *atr_len;
+        memcpy(atr, rs.rgbAtr, n);
+    }
+    *atr_len = n;
+    return (int32_t)rv;
+}
+
 #else  // iOS and other platforms without PC/SC: CryptoTokenKit is used instead
 
 int32_t c_scard_available(void) { return 0; }
@@ -118,6 +136,9 @@ int32_t c_scard_transmit(void *card, const uint8_t *send, uint32_t send_len, uin
     (void)card; (void)send; (void)send_len; (void)recv; *recv_len = 0; return -1;
 }
 int32_t c_scard_reader_state(void *ctx, const char *reader, uint32_t *state_out) { (void)ctx; (void)reader; *state_out = 0; return -1; }
+int32_t c_scard_reader_atr(void *ctx, const char *reader, uint8_t *atr, uint32_t *atr_len) {
+    (void)ctx; (void)reader; (void)atr; *atr_len = 0; return -1;
+}
 
 #endif
 

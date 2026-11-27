@@ -340,6 +340,18 @@ final class AppControllerTests: GnomeTestCase {
         XCTAssertEqual(h.bridge.starts, 2)
     }
 
+    func testExperimentalTokensFollowTheSetting() {
+        let service = SigningService()
+        let h = make(service: service)
+        XCTAssertFalse(h.controller.settings.experimentalTokensEnabled)
+        XCTAssertFalse(service.experimentalTokens, "off by default")
+        h.controller.setExperimentalTokensEnabled(true)
+        XCTAssertTrue(h.controller.settings.experimentalTokensEnabled)
+        XCTAssertTrue(service.experimentalTokens)
+        h.controller.setExperimentalTokensEnabled(false)
+        XCTAssertFalse(service.experimentalTokens)
+    }
+
     func testBrowserRequestNeedsConsentThenAPINAndMarksSigning() {
         let h = make()
         h.controller.setBridgeEnabled(true)

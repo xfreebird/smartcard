@@ -188,6 +188,7 @@ class UsbReaderMonitorTest {
 
         val session = monitor.transportProvider.open("r2")
         assertEquals("miniLector EVO", session.readerName)
+        assertArrayEquals(second.atr, session.answerToReset())
         assertEquals(ReaderState.Busy, monitor.state.value)
         // Polling pauses for the reader in session: a removed card is not noticed meanwhile.
         second.cardPresent = false

@@ -132,6 +132,9 @@ class CcidTransport internal constructor(
         }
     }
 
+    /** The ATR of the current power-on (the session powers the card on before any APDU). */
+    override fun answerToReset(): ByteArray? = atr
+
     override fun transmit(apdu: ByteArray): ByteArray = synchronized(lock) {
         if (atr == null) resetCard()
         t1?.let { engine ->
@@ -168,6 +171,7 @@ class CcidTransport internal constructor(
         return object : ApduTransport {
             override val readerName: String get() = this@CcidTransport.readerName
             override fun transmit(apdu: ByteArray): ByteArray = this@CcidTransport.transmit(apdu)
+            override fun answerToReset(): ByteArray? = this@CcidTransport.atr
             override fun close() = powerOff()
         }
     }

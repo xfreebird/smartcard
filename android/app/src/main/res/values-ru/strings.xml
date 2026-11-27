@@ -510,4 +510,7 @@ eSemnBun</string>
   <string name="protect_export_public_certificate">Экспорт открытого сертификата</string>
   <string name="verify_choose_another">Выбрать другой документ</string>
   <string name="browser_nfc_saved_cards">Известные карты</string>
+  <string name="token_experimental_title">USB-токены (экспериментально)</string>
+  <string name="token_experimental_detail">Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно.</string>
+  <string name="token_recognized_unsupported">Обнаружен %1$s. Подписание USB-токенами пока недоступно.</string>
 </resources>

@@ -154,6 +154,7 @@ final class DomainTests: GnomeTestCase {
         for (error, message) in cases { XCTAssertEqual(UserFacingError.describe(error).message, message, "\(error)") }
         XCTAssertTrue(UserFacingError.describe(CardError.wrongPIN(remaining: 2)).recovery.contains("2"))
         XCTAssertFalse(UserFacingError.describe(CardError.signFailed("bad PDF")).message.isEmpty)
+        XCTAssertTrue(UserFacingError.describe(UnsupportedTokenError(family: .ePass2003)).message.contains("Feitian ePass2003"))
         XCTAssertEqual(UserFacingError.describe(NSError(domain: "x", code: 1)).recovery, L10n.text(.ui_try_again))
         XCTAssertEqual(AppController.describe(CardError.pinBlocked).recovery, L10n.text(.ui_unblock_it_at_cev))
     }

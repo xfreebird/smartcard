@@ -35,7 +35,7 @@ public sealed partial class SettingsPage : Page
         // WinUI's built-in state text follows the OS resources, which may differ from the app language.
         foreach (var toggle in new[] { DemoModeToggle, StartAtLoginToggle, ToastsToggle,
             OpenOnInsertionToggle, OpenOnReaderInsertionToggle, RememberPinToggle,
-            BridgeToggle, BrowserStampsToggle, LegacyClientToggle, McpApprovalToggle })
+            BridgeToggle, BrowserStampsToggle, LegacyClientToggle, McpApprovalToggle, ExperimentalTokensToggle })
         {
             toggle.OnContent = Loc.Get("toggle_on");
             toggle.OffContent = Loc.Get("toggle_off");
@@ -55,6 +55,10 @@ public sealed partial class SettingsPage : Page
         RememberPinToggle.IsOn = settings.RememberPin;
         LanguagePicker.SelectedIndex = settings.Language switch { "ro-RO" => 1, "en-US" => 2, "ru-RU" => 3, _ => 0 };
         ThemePicker.SelectedItem = ThemePicker.Items.OfType<ComboBoxItem>().FirstOrDefault(i => (string)i.Tag == settings.Theme);
+        ExperimentalTokensToggle.Header = Loc.Get("Token_ExperimentalTitle");
+        ExperimentalTokensDescription.Text = Loc.Get("Token_ExperimentalDetail");
+        ExperimentalTokensToggle.IsOn = settings.ExperimentalTokensEnabled && !App.Current.Services.IsDemo;
+        ExperimentalTokensToggle.IsEnabled = !App.Current.Services.IsDemo;
         McpApprovalToggle.Header = Loc.Get("MCP_Enabled");
         McpApprovalToggle.IsOn = settings.McpApprovalEnabled && !App.Current.Services.IsDemo;
         McpApprovalToggle.IsEnabled = !App.Current.Services.IsDemo;
@@ -111,6 +115,12 @@ public sealed partial class SettingsPage : Page
             _loadingPreferences = false;
         }
         finally { McpApprovalToggle.IsEnabled = !App.Current.Services.IsDemo; }
+    }
+
+    private void OnExperimentalTokensToggled(object sender, RoutedEventArgs e)
+    {
+        if (_loadingPreferences) return;
+        App.Current.Services.SetExperimentalTokens(ExperimentalTokensToggle.IsOn);
     }
 
     private void OnBrowserStampsToggled(object sender, RoutedEventArgs e)

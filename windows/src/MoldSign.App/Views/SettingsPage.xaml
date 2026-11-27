@@ -157,6 +157,8 @@
 
               </StackPanel>
 <StackPanel x:Name="AdvancedSection" Spacing="16" Visibility="Collapsed">
+            <ToggleSwitch x:Name="ExperimentalTokensToggle" Toggled="OnExperimentalTokensToggled" />
+            <TextBlock x:Name="ExperimentalTokensDescription" TextWrapping="Wrap" />
             <ToggleSwitch x:Name="McpApprovalToggle" Toggled="OnMcpApprovalToggled" />
             <TextBlock x:Name="McpApprovalDescription" TextWrapping="Wrap" />
             <TextBlock x:Name="McpApprovalDirectory" TextWrapping="Wrap" IsTextSelectionEnabled="True" />

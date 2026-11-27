@@ -265,6 +265,9 @@ class MainViewModel @JvmOverloads constructor(
     var browserStampsEnabled: Boolean
         get() = container.stampBroker.enabled
         set(value) { container.stampBroker.enabled = value }
+    var experimentalTokensEnabled: Boolean
+        get() = container.experimentalTokens
+        set(value) { container.experimentalTokens = value }
     val bridgeRunning = BridgeService.running
     val bridgeStartupFailed = BridgeService.startupFailed
     val pinVaultAvailable: Boolean get() = !demoMode && container.pinVault.isAvailable()

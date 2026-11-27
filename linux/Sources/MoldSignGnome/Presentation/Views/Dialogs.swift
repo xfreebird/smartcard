@@ -264,6 +264,10 @@ func presentPreferences(parent: Widget, controller: AppController) {
     groupAdd(cardsGroup, preferencesAction(title: L10n.text(.ui_saved_pins), icon: "dialog-password-symbolic") {
         presentSavedPINSettings(parent: parent, controller: controller)
     })
+    let tokens = adw_switch_row_new()!
+    adw_preferences_row_set_title(tokens.cast(), L10n.text(.token_experimental_title))
+    adw_action_row_set_subtitle(tokens.cast(), L10n.text(.token_experimental_detail))
+    groupAdd(cardsGroup, tokens)
     adw_preferences_page_add(page.cast(), cardsGroup.cast())
 
     let bridge = preferencesGroup(title: L10n.text(.ui_browser_connection),
@@ -363,6 +367,7 @@ func presentPreferences(parent: Widget, controller: AppController) {
         adw_switch_row_set_active(agents.opaque, controller.settings.agentApprovalEnabled ? 1 : 0)
         gtk_widget_set_sensitive(agents, controller.isDemo ? 0 : 1)
         adw_switch_row_set_active(stamps.opaque, controller.settings.browserStampsEnabled ? 1 : 0)
+        adw_switch_row_set_active(tokens.opaque, controller.settings.experimentalTokensEnabled ? 1 : 0)
         adw_switch_row_set_active(bridgeRow.opaque, controller.settings.bridgeEnabled ? 1 : 0)
         adw_switch_row_set_active(legacy.opaque, controller.settings.legacyDesktopClientEnabled ? 1 : 0)
         adw_action_row_set_subtitle(bridgeRow.cast(), escapeMarkup(controller.bridgeState.description))
@@ -379,6 +384,10 @@ func presentPreferences(parent: Widget, controller: AppController) {
     onSignal(stamps, "notify::active") { _ in
         guard !updating else { return }
         controller.setBrowserStampsEnabled(adw_switch_row_get_active(stamps.opaque) != 0)
+    }
+    onSignal(tokens, "notify::active") { _ in
+        guard !updating else { return }
+        controller.setExperimentalTokensEnabled(adw_switch_row_get_active(tokens.opaque) != 0)
     }
     onSignal(bridgeRow, "notify::active") { _ in
         guard !updating else { return }

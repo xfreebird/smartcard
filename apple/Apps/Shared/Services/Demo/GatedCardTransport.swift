@@ -6,6 +6,7 @@ final class GatedCardTransport: CardTransport {
     private let gate: DemoHardwareGate
     private var connected = true
     var readerName: String { base.readerName }
+    var atr: Data? { connected ? base.atr : nil }
     init(base: CardTransport, gate: DemoHardwareGate) { self.base = base; self.gate = gate }
     func transmit(_ apdu: Data) throws -> Data {
         guard connected else { throw CardError.noCard }

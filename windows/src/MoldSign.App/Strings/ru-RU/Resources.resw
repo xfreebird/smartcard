@@ -418,4 +418,7 @@ eSemnBun</value></data>
   <data name="protect_card_public_key" xml:space="preserve"><value>Совместимость с открытым ключом карты</value></data>
   <data name="protect_card_public_key_help" xml:space="preserve"><value>Для карт с подтверждённой поддержкой расшифровки RSA, в том числе с сертификатом только для подписи. Передайте открытый сертификат, чтобы другие могли зашифровать файлы для вас. Включите этот режим с обеих сторон. Для расшифровки нужны соответствующая карта и её PIN.</value></data>
   <data name="protect_export_public_certificate" xml:space="preserve"><value>Экспорт открытого сертификата</value></data>
+  <data name="Token_ExperimentalTitle" xml:space="preserve"><value>USB-токены (экспериментально)</value></data>
+  <data name="Token_ExperimentalDetail" xml:space="preserve"><value>Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно.</value></data>
+  <data name="Error_UnsupportedToken" xml:space="preserve"><value>Обнаружен USB-токен. Подписание USB-токенами пока недоступно.</value></data>
 </root>

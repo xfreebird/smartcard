@@ -21,6 +21,7 @@ import md.moldsign.app.presentation.MainViewModel
 import md.moldsign.app.ui.components.*
 import md.moldsign.app.ui.features.AppearanceSettings
 import md.moldsign.app.ui.features.BrowserSigningSettings
+import md.moldsign.app.ui.features.ExperimentalTokenSettings
 import md.moldsign.app.ui.features.DocumentSettings
 
 /** Preferences stay together; focused card, PIN and help tasks return to the same place. */
@@ -41,6 +42,8 @@ fun SettingsScreen(vm: MainViewModel, enabled: Boolean, page: String, onPageChan
                 SettingsDivider()
                 ChoiceRow(Icons.Outlined.Key, stringResource(R.string.pin_saved_title),
                     onClick = { onPageChange("pins") }, modifier = Modifier.testTag("card.savedPins"))
+                SettingsDivider()
+                ExperimentalTokenSettings(vm, enabled && !vm.demoMode)
             }
             SettingsSection(stringResource(R.string.settings_appearance_language)) { AppearanceSettings(enabled) }
             SettingsSection(stringResource(R.string.nav_activity)) { DocumentSettings(enabled) }

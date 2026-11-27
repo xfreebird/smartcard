@@ -12232,6 +12232,72 @@
           }
         }
       }
+    },
+    "token_experimental_title": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Token-uri USB (experimental)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB tokens (experimental)"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "USB-токены (экспериментально)"
+          }
+        }
+      }
+    },
+    "token_experimental_detail": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognizes Feitian ePass2003 and SafeNet tokens. Signing with them is not available yet."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно."
+          }
+        }
+      }
+    },
+    "token_recognized_unsupported": {
+      "localizations": {
+        "ro": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ recunoscut. Semnarea cu token-uri USB nu este încă disponibilă."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ recognized. Signing with USB tokens is not available yet."
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Обнаружен %@. Подписание USB-токенами пока недоступно."
+          }
+        }
+      }
     }
   },
   "version": "1.0"

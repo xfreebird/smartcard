@@ -14,6 +14,18 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
     private readonly PadesSigner _pades;
     private readonly XadesSigner _xades;
     private ReaderState _readerState = new ReaderState.NoReader();
+    private volatile bool _experimentalTokens;
+
+    /// <summary>
+    /// Experimental USB token support (Phase TOK), off by default and switched from the app's settings. On: a reader
+    /// holding a recognized token (<see cref="TokenRecognizer"/>, by ATR) fails with
+    /// <see cref="CardErrorKind.UnsupportedToken"/> before any APDU is sent. Off: exactly the eID-only behavior.
+    /// </summary>
+    public bool ExperimentalTokens
+    {
+        get => _experimentalTokens;
+        set => _experimentalTokens = value;
+    }
 
     /// <param name="connect">Opens a fresh transport per operation (e.g. <c>() =&gt; WinSCardTransport.Connect()</c>).</param>
     /// <param name="trust">TSA/OCSP/CRL client; a default <see cref="TrustServices"/> when null.</param>
@@ -257,6 +269,9 @@ public sealed class SigningService : IDocumentSigner, IDocumentVerifier
                 var idle = previous as ReaderState.CardPresent ?? new ReaderState.CardPresent(connected, null);
                 try
                 {
+                    if (ExperimentalTokens && TokenRecognizer.Family(transport.Atr) is { } token)
+                        throw new CardException(CardErrorKind.UnsupportedToken,
+                            $"{token.DisplayName()} recognized; signing with USB tokens is not available yet");
                     PublishReaderState(new ReaderState.Busy(connected, SigningStep.Authenticating));
                     Report(SigningStep.Authenticating);
                     var card = new CosmoXCard(transport, _trace);
