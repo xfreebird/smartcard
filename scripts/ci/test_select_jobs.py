@@ -50,7 +50,7 @@ class SelectionTests(unittest.TestCase):
     def test_ci_tools_run_only_the_jobs_that_use_them(self):
         for path in ('scripts/ci/test_workflow_contracts.py', 'scripts/ci/select_jobs.py', 'scripts/tests/test_ci_tools.py',
                      'scripts/agents/test_agents.py', 'apple/Tests/Scripts/test_apple_scripts.py',
-                     'scripts/ci/sonar-lcov.py', 'scripts/test_play_publish.py'):
+                     'scripts/ci/sonar-lcov.py', 'scripts/test_play_publish.py', '.sonarcloud.properties'):
             self.assertEqual(chosen(path), set(), path)
         self.assertEqual(chosen('scripts/ci/robolectric-cache.sh'), {'android'})
         self.assertEqual(chosen('scripts/ci/apt-install.sh'), {'linux'})
