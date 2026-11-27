@@ -144,12 +144,13 @@ internal static class StampPdf
     {
         if (text.Contains("/Encrypt", StringComparison.Ordinal)) throw Fail();
         var visited = new HashSet<int>(); var result = new List<Page>();
-        void Walk(int n, Dictionary<string, string> inherited, int depth)
+        // The list is passed rather than captured, so analyzers see that Walk fills it.
+        void Walk(int n, Dictionary<string, string> inherited, int depth, List<Page> pages)
         {
             if (depth >= 100 || !visited.Add(n)) throw Fail();
             var dict = ObjectText(text, n); var props = new Dictionary<string, string>(inherited);
             foreach (var key in new[] { "/MediaBox", "/CropBox", "/Rotate", "/UserUnit" }) if (Value(dict, key) is { } v) props[key] = v;
-            if (Value(dict, "/Type") == "/Pages") foreach (var child in Refs(Value(dict, "/Kids") ?? throw Fail())) Walk(child, props, depth + 1);
+            if (Value(dict, "/Type") == "/Pages") foreach (var child in Refs(Value(dict, "/Kids") ?? throw Fail())) Walk(child, props, depth + 1, pages);
             else
             {
                 if (Value(dict, "/Type") != "/Page") throw Fail();
@@ -172,10 +173,10 @@ internal static class StampPdf
                 }
                 var rotation = int.Parse(props.GetValueOrDefault("/Rotate", "0"), CultureInfo.InvariantCulture);
                 if (numbers[2] <= numbers[0] || numbers[3] <= numbers[1] || rotation % 90 != 0 || !IsUnitScale(props.GetValueOrDefault("/UserUnit", "1"))) throw Fail();
-                result.Add(new Page(n, dict, numbers, (rotation % 360 + 360) % 360));
+                pages.Add(new Page(n, dict, numbers, (rotation % 360 + 360) % 360));
             }
         }
-        Walk(Ref(Value(catalog, "/Pages") ?? throw Fail()), [], 0); if (result.Count == 0) throw Fail(); return result;
+        Walk(Ref(Value(catalog, "/Pages") ?? throw Fail()), [], 0, result); if (result.Count == 0) throw Fail(); return result;
     }
     public static bool CanApply(PdfStampPlacement placement, byte[] data)
     {
