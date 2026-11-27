@@ -17,7 +17,7 @@ Read [the workflow decision guide](../../../docs/14-github-actions.md) before ch
 - Cache dependency downloads, not keys/keychains, signed outputs, mutable edits or provider credentials. Preserve bounded dependency-only retries, signature/digest checks and explicit source-run selection.
 - Build once when the exact signed artifact already contains the requested source. For Play, use `android-play-publish.yml` with the inspected Android-build/Release run ID; `artifact_only` and `closed_testing` have different effects. A deferred review is a visible non-submission, not a publish success. Uncertain commits require a live read before retrying.
 - Public installer releases, artifact uploads, TestFlight uploads, review submissions and rollouts are independent. Use [the release skill](../esemnbun-release-stores/SKILL.md) for actual delivery, within the user's requested scope. Optimizing a workflow does not authorize a store mutation.
-- Secret names and backup locations belong in the guide's inventory. Audit with `gh secret list`/`gh variable list`, never print values. On the owner's setup, gh/push/dispatch run only on the main Mac with `GH_HOST=github.com`; other developers resolve their own approved environment.
+- Secret names and backup locations belong in the guide's inventory. Audit with `gh secret list`/`gh variable list`, never print values. On the owner's setup, gh/push/dispatch run on the main Mac or the MacBook Air with `GH_HOST=github.com`; other developers resolve their own approved environment.
 
 Batch validation after edits:
 

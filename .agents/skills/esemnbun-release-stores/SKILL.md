@@ -13,7 +13,7 @@ The canonical [workflow decision guide and credential inventory](../../../docs/1
 
 Distinguish build, artifact upload, draft preparation, submission for review and public rollout. A request for one does not authorize all five. Preserve existing reviews unless replacement/cancellation is requested. A skill does not itself grant access or permission. Prefer existing APIs/lanes; use browser UI when a required capability or permission is absent, and explain the fallback.
 
-Inspect git status, remote, intended commit, current release assets and pending store submissions before mutations. On the owner's setup, push/gh/release dispatch run only on the main Mac as the requested author; `GH_HOST=github.com` avoids the employer Enterprise session. On another developer's setup, verify their authorized publishing host and identity instead of impersonating the owner.
+Inspect git status, remote, intended commit, current release assets and pending store submissions before mutations. On the owner's setup, push/gh/release dispatch run on the main Mac or the MacBook Air as the requested author; `GH_HOST=github.com` avoids the employer Enterprise session. On another developer's setup, verify their authorized publishing host and identity instead of impersonating the owner.
 
 For manual Certum signing of Windows MSI/CLI files from macOS, use [Certum signing](../esemnbun-certum-sign/SKILL.md). It signs local copies through SimplySign and Jsign; certificate connection, signing, verification and publication remain distinct operations.
 

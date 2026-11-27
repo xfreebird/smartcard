@@ -32,12 +32,14 @@ These procedures describe the November 2026 setup. Verify current account/API st
 - An artifact-only commit can also fail with `HALTED release must have fraction` because Play validates existing track state. Do not repair or resume tracks during an artifact-only request; use the Console upload fallback and preserve review state.
 - If API commit is blocked but the Console supports All app bundles upload, UI can fulfill artifact-only scope. Confirm uploaded versionCode and inactive status; don't change tracks or send changes for review unless requested. Existing-bundle handling was tested; don't assume all fallback branches were exercised by that test.
 - Android upload key/signature must remain compatible with the existing Play app. VersionCode must exceed all uploaded bundles, including inactive ones.
+- Since 27 November 2026 the service account may also release to production (owner granted it in Users and permissions). `android-play-publish.yml` still has no production operation: 0.2.15 went to production as a separate API edit that assigned the already uploaded and verified bundle, refused downgrades, left other tracks untouched and was read back after commit. Before that grant, validating a production edit returned 403 PERMISSION_DENIED.
 
 ## Huawei AppGallery
 
 - Existing app ID 119651007. Credentials: `HUAWEI_APPGALLERY_SERVICE_ACCOUNT_JSON`. Use `scripts/appgallery.py` and its `--draft` mode; inspect CLI help and current status first.
 - An active older production review can block a new draft. The script intentionally prevents automatic cancellation. The owner explicitly chose to keep the old review and leave the newer upload pending in November 2026. Preserve that decision until changed; don't treat repeated workflow failures as permission to cancel.
 - Prepare/verify the signed APK and metadata independently while blocked. Record exact APK hash/version and why draft creation is pending. An available APK is not proof that AppGallery has a draft.
+- For 0.2.15 the workflow attached the draft and `scripts/appgallery.py` (without `--draft`, same APK and version code) submitted it through the API; state 5 (Reviewing) followed. No browser step was needed.
 - `scripts/test_appgallery.py` covers guards. Run it when modifying upload behavior. Never submit a draft for review when only draft preparation was requested.
 
 ## APIs versus UI

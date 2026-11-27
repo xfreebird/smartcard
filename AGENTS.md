@@ -327,8 +327,9 @@ Moved to [`PLAN.md`](PLAN.md) (phases, IDs, decisions) and [`docs/09-architectur
 
 ## 8. Test machines and screenshots
 
-* **Rules from the owner:** git push, `gh` and release dispatch run only from the main MacBook Pro, as
-  `xfreebird <xfreebird@gmail.com>`, with `GH_HOST=github.com`; never touch the other `gh` host's session there.
+* **Rules from the owner:** git push, `gh` and release dispatch run from the main MacBook Pro or (since 2026-11-27) the
+  MacBook Air, as `xfreebird <xfreebird@gmail.com>`, with `GH_HOST=github.com`; never touch another `gh` host's session.
+  The Air also holds the store credentials and Certum SimplySign/Jsign signing: [`docs/14`](docs/14-github-actions.md).
   Release builds: `GH_HOST=github.com gh workflow run release.yml -R xfreebird/smartcard -f only=all`.
 * **Test VMs** (Fedora 44 GNOME aarch64, Windows 11 Pro ARM64) run under QEMU+HVF on the MacBook Air, with the bit4id
   reader handed to a VM on demand (`vm start <vm> --reader`, `vm reader attach|detach <vm>`, snapshots). Everything
@@ -346,7 +347,7 @@ Read [GitHub Actions and publishing operations](docs/14-github-actions.md) for t
 - Reuse the exact signed Android Actions artifact when its source matches. `android-play-publish.yml` distinguishes upload-only from one selected closed track and preserves existing review/other tracks. The legacy `android_testing` lane changes internal plus closed and requires explicit opt-in.
 - Release's iOS TestFlight, Play artifact and Windows Store flags default off, including tag builds. Apple TestFlight uploads are not App Review submission. Huawei automation stages a draft only.
 - Cancel obsolete validation runs, not publishing. Preserve shared version-counter and per-platform Apple Store concurrency. Verify actual store build maxima, review state, signatures and hashes before mutation.
-- Distribution secrets live in repository Actions secrets; the owner's external backup is `~/Desktop/eSemnBun-secrets/` on the main Mac. Apple certificates/profiles are encrypted in the separate match repository. Document names/locations only; never copy secret values into git, inputs, artifacts or logs. Runtime card PINs are not distribution secrets.
+- Distribution secrets live in repository Actions secrets; the owner's external backup is `~/Desktop/eSemnBun-secrets/` on the main Mac and the MacBook Air. Apple certificates/profiles are encrypted in the separate match repository. Document names/locations only; never copy secret values into git, inputs, artifacts or logs. Runtime card PINs are not distribution secrets.
 
 ## Developer workflows and repo skills
 

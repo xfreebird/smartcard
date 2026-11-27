@@ -14,9 +14,9 @@ Built 2026-10-27. The VMs live on the **MacBook Air** (`ssh user@192.168.50.126`
 macOS 27). The card reader (bit4id miniLector POCKET EVO, USB `25dd:3111`) is plugged into the Air.
 Everything below can be done on the Air in Terminal, or remotely from the main Mac with `scripts/air.sh`.
 
-**Rule from the owner:** git push, `gh` and release dispatch run **only from the main MacBook Pro**, never from the Air.
-On the main Mac `gh` defaults to another host: always pass `GH_HOST=github.com` and never log out of or switch the other
-host's session.
+**Rule from the owner:** git push, `gh` and release dispatch run from the main MacBook Pro or, since 2026-11-27, the Air
+(logged in to github.com as xfreebird). On both Macs `gh` also knows another host: always pass `GH_HOST=github.com` and never
+log out of or switch the other host's session.
 
 ## Layout on the Air
 
