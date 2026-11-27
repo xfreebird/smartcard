@@ -94,7 +94,9 @@ jobs:
     timeout-minutes: 90
     needs: changes
     if: needs.changes.outputs.macos == 'true'
-    name: macOS build, integration and mock UI
+    # The macOS, iPhone and iPad UI journeys run only when the repository variable APPLE_UI_TESTS is 'true';
+    # otherwise the Apple jobs still build every app variant and run the application integration tests.
+    name: macOS build, integration${{ vars.APPLE_UI_TESTS == 'true' && ' and mock UI' || ' (UI journeys paused)' }}
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
@@ -108,11 +110,12 @@ jobs:
           swift build --package-path apple --target DesignSystem --force-resolved-versions
           swift test --package-path apple --force-resolved-versions
       - name: Native macOS mock UI journeys
+        if: vars.APPLE_UI_TESTS == 'true'
         run: |
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/test-apple-ui.sh macos "$RUNNER_TEMP/macos-build/Build/Products/Debug/eSemnBun.app" "$RUNNER_TEMP/macos-ui"
       - name: macOS UI evidence
-        if: always()
+        if: always() && vars.APPLE_UI_TESTS == 'true'
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: macos-ui-${{ github.sha }}
@@ -133,11 +136,12 @@ jobs:
       fail-fast: false
       max-parallel: 1
       matrix:
-        family: [iPhone, iPad]
+        # One build leg while the UI journeys are paused; the iPad leg only adds its own UI run.
+        family: ${{ fromJSON(vars.APPLE_UI_TESTS == 'true' && '["iPhone", "iPad"]' || '["iPhone"]') }}
     # The Xcode 27 pool can service one Apple job at a time. Avoid expiring queued acquisitions.
     needs: [changes, apple-apps]
     if: ${{ !cancelled() && needs.changes.result == 'success' && needs.changes.outputs.ios == 'true' }}
-    name: iOS build and ${{ matrix.family }} mock UI
+    name: iOS build${{ vars.APPLE_UI_TESTS == 'true' && format(' and {0} mock UI', matrix.family) || ' (UI journeys paused)' }}
     runs-on: xcode-27
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
@@ -151,16 +155,21 @@ jobs:
         timeout-minutes: 5
         run: |
           xcodebuild -project apple/eSemnBun.xcodeproj -scheme eSemnBun-iOS -configuration Debug -destination 'generic/platform=iOS Simulator' -derivedDataPath "$RUNNER_TEMP/ios-build" ARCHS="$(uname -m)" CODE_SIGNING_ALLOWED=NO build
+      - name: Prepare the UI test harness and fixtures
+        if: vars.APPLE_UI_TESTS == 'true'
+        timeout-minutes: 5
+        run: |
           command -v xcodegen >/dev/null || brew install xcodegen
           bash scripts/ci/prepare-ios-ui-resources.sh "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui-build"
       - name: Native iOS mock UI journeys
+        if: vars.APPLE_UI_TESTS == 'true'
         # Cold simulator startup is included, and one rerun on an erased simulator after XCTest loses the app;
         # the outer job cap also includes compilation.
         timeout-minutes: 60
         run: |
           MSIGN_UI_SINGLE_SESSION=1 MSIGN_UI_RESOURCES_DIR="$RUNNER_TEMP/ios-ui-build" bash scripts/ci/test-apple-ui.sh ios "$RUNNER_TEMP/ios-build/Build/Products/Debug-iphonesimulator/eSemnBun.app" "$RUNNER_TEMP/ios-ui" "${{ matrix.family }}"
       - name: iOS UI evidence
-        if: always()
+        if: always() && vars.APPLE_UI_TESTS == 'true'
         timeout-minutes: 3
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:

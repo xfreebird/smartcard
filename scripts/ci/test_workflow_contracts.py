@@ -118,6 +118,10 @@ class WorkflowContracts(unittest.TestCase):
             body = re.split(r'\n  [a-z][a-z-]*:', body, maxsplit=1)[0]
             self.assertIn(command, body, job)
             self.assertNotIn('continue-on-error:', body, job)
+            if job in ('apple-apps', 'ios-app'):
+                # Apple UI journeys are paused unless the repository variable enables them.
+                step = body.split(command, 1)[0].rsplit('\n      - ', 1)[1]
+                self.assertIn("if: vars.APPLE_UI_TESTS == 'true'", step, job)
             self.assertIn('if: always()', body, job)
             self.assertIn(job, re.search(r'needs: \[([^\]]+)\]', aggregate).group(1))
         self.assertIn('windows/scripts/test-verification-journeys.ps1', ci)
@@ -145,19 +149,20 @@ class WorkflowContracts(unittest.TestCase):
         ci = (ROOT / '.github/workflows/ci.yml').read_text()
         ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
         self.assertIn('\n    timeout-minutes: 65\n', ios)
-        self.assertIn('family: [iPhone, iPad]', ios)
+        self.assertIn("""family: ${{ fromJSON(vars.APPLE_UI_TESTS == 'true' && '["iPhone", "iPad"]' || '["iPhone"]') }}""", ios)
         self.assertIn('max-parallel: 1', ios)
         self.assertIn('fail-fast: false', ios)
         self.assertIn('"${{ matrix.family }}"', ios)
         self.assertIn('name: ios-ui-${{ matrix.family }}-${{ github.sha }}', ios)
         limits = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
-                  'Native iOS mock UI journeys': 60, 'iOS UI evidence': 3}
+                  'Prepare the UI test harness and fixtures': 5, 'Native iOS mock UI journeys': 60, 'iOS UI evidence': 3}
         for name, expected in limits.items():
             step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
             limit = int(re.search(r'timeout-minutes: (\d+)', step).group(1))
             self.assertEqual(limit, expected, name)
-        build = ios.split('- name: Build iOS and share extension', 1)[1].split('- name: Native iOS mock UI journeys', 1)[0]
+        build = ios.split('- name: Prepare the UI test harness and fixtures', 1)[1].split('- name: Native iOS mock UI journeys', 1)[0]
         self.assertIn('prepare-ios-ui-resources.sh', build)
+        self.assertIn("if: vars.APPLE_UI_TESTS == 'true'", build)
         self.assertIn('MSIGN_UI_RESOURCES_DIR=', ios)
         evidence = ios.split('- name: iOS UI evidence', 1)[1]
         self.assertIn('if: always()', evidence)
