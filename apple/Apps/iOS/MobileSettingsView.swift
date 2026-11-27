@@ -30,6 +30,7 @@ struct MobileSettingsView: View {
                     setting(.pins, title: .card_saved_identities_title, icon: "key", id: "card.savedPINs")
                     setting(.help, title: .nfc_how_it_works, icon: "questionmark.circle", id: "settings.help")
                 }
+                ExperimentalTokenSettings()
                 Section(L10n.text(.ui_appearance_and_language)) {
                     Picker(L10n.text(.ui_language), selection: languageChoice) {
                         Text(L10n.text(.ui_system)).tag("system")

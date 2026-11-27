@@ -239,6 +239,19 @@ public sealed class WinSCardTransport : ICardTransport
         _activeProtocol = protocol;
     }
 
+    /// <summary>The connected card's ATR (SCardGetAttrib, no APDU), or null if the reader does not report it.</summary>
+    public byte[]? Atr
+    {
+        get
+        {
+            if (_card == 0) return null;
+            var buffer = new byte[36];
+            var length = (uint)buffer.Length;
+            if (SCardGetAttrib(_card, SCARD_ATTR_ATR_STRING, buffer, ref length) != SCARD_S_SUCCESS || length == 0) return null;
+            return buffer.AsSpan(0, (int)Math.Min(length, (uint)buffer.Length)).ToArray();
+        }
+    }
+
     public byte[] Transmit(byte[] apdu)
     {
         ArgumentNullException.ThrowIfNull(apdu);

@@ -39,6 +39,7 @@ private struct GeneralSettings: View {
                     Label(L10n.text(.settings_card_reader), systemImage: "person.text.rectangle")
                 }.accessibilityIdentifier("settings.card")
             }
+            ExperimentalTokenSettings()
             Section(L10n.text(.ui_appearance_and_language)) {
                 Picker(L10n.text(.ui_language), selection: languageChoice) {
                     Text(L10n.text(.ui_system)).tag("system")

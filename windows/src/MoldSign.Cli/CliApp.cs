@@ -58,6 +58,7 @@ internal static class CliApp
           --reader <name>   Reader name or substring (default: first reader with a card)
           --quiet           No protocol traces on stderr
           --pin-stdin       Read the PIN from the first line of stdin
+          --experimental-tokens   Recognize USB tokens (also MSIGN_EXPERIMENTAL_TOKENS=1); they cannot sign yet
 
         PIN: --pin-stdin, else the MSIGN_PIN variable, else a prompt without echo.
              The PIN is never accepted as an argument.
@@ -276,6 +277,9 @@ internal static class CliApp
     private static SigningService Service(CliHost host, CliOptions options)
     {
         Action<string>? trace = options.Quiet ? null : line => host.Error.WriteLine($"  {line}");
-        return new SigningService(() => host.Cards.Connect(options.Reader), trace: trace);
+        return new SigningService(() => host.Cards.Connect(options.Reader), trace: trace)
+        {
+            ExperimentalTokens = options.ExperimentalTokens || host.GetEnvironmentVariable("MSIGN_EXPERIMENTAL_TOKENS") == "1",
+        };
     }
 }

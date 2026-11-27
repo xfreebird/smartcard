@@ -797,6 +797,28 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 - [x] X-10 Card simulator for tests (`Tests/…/Support/SimulatedCosmoXCard.swift`): full mutual auth + SM, PIN retry counter, real RSA signatures with a generated test key/cert; drives SigningService and bridge end-to-end
 - [ ] X-09 Clean the pre-existing compiler warnings in the core (unused variables in Signing/Validation/XAdES/SecureChannel), with byte-identical output checks
 
+### Phase TOK: USB tokens and other signing devices
+
+The vendor suite is a generic PKCS#11 host: it loads Feitian ePass2003 (`libcastle`), SafeNet eToken/IDPrime
+(`libeToken`) and bit4id (`libbit4xpki`) modules on macOS, ACS ACOS5 on Windows, any user-added module, and the
+Windows certificate store (MSCSP). STISC issues ePass2003 (1–2 year certificates) and ACOS5T2 (5-year, RSA-4096)
+tokens. We support only the CosmoX eID. Evidence and approach: `docs/reports/additional-signing-devices-2026-11-27.md`.
+Route (D-16): our own user-space token drivers over the transports we already have, on all five platforms, behind an
+experimental switch that is off by default. Vendor middleware (PKCS#11, Windows CNG, macOS CTK identities) is not used.
+
+- [x] TOK-01 (P1) Experimental switch, off by default: macOS and iOS (Settings → Signing), Android (Settings → Signing), Windows (Settings → Advanced), GNOME (Preferences → Signing), and both CLIs (`--experimental-tokens` or `MSIGN_EXPERIMENTAL_TOKENS=1`). Off keeps the eID-only behavior unchanged. Built and unit-tested on every platform (2026-11-27); not yet tried with a real token
+- [x] TOK-02 (P1) Token recognition by ATR before any APDU: `spec/tokens/token-families.json` (ePass2003, SafeNet eToken Java, SafeNet IDPrime; the ATR tables inside the vendor's own token modules), Swift/Kotlin/C# recognizers with spec and vector tests. With the switch on, a recognized token is named with "signing is not available yet" instead of the eID error. ATRs not yet confirmed on a real token
+- [ ] TOK-03 (P1) `SigningCredential` seam in the three cores; `CosmoXCredential` adapts the card path; service, bridge and CLI sign through it; certificate identity guard before every PIN
+- [ ] TOK-04 (P1) Algorithm-agile CMS/XAdES/validator: RSA-2048–4096 and ECDSA P-256/P-384 (SignerInfo algorithm from the key, DER ECDSA signatures, EC verification)
+- [ ] TOK-05 (P1) Issuer-agnostic trust: bundled public CA set (vendor `trusted.jks` contents), AKI/SKI chain building with AIA fallback, CRL/OCSP URLs from the certificate for XAdES-C, generalized `Validator` (today MDQSign → mdtrustca is hard-coded)
+- [ ] TOK-06 (P1) Hardware and capture: buy an ePass2003 (later an eToken 5110 and an ACOS5T2), record its ATR and one APDU trace of the vendor module signing (`re/pcsc_trace.c`), confirm or correct `spec/tokens`
+- [ ] TOK-07 (P1) ePass2003 protocol spec in `docs/` from the capture and public documents (secure messaging, PIN, key and certificate files, signature commands) with vectors in `spec/vectors/`; no LGPL code copied
+- [ ] TOK-08 (P1) ePass2003 driver: Swift first against a simulator (like `SimulatedCosmoXCard`), then Kotlin and C# against the shared vectors; one PIN attempt, never retried
+- [ ] TOK-09 (P2) SafeNet eToken / IDPrime driver (TOK-06…08 again for that family)
+- [ ] TOK-10 (P2) Token UI and bridge: token face in the card list, PIN rules from the token, `/certificates` and routing for token certificates, user guide
+- [ ] TOK-11 (P3) ACOS5-64 v3 (CryptoMate T2): the vendor module has no ATR table, so recognition and the driver need a token first
+- [ ] TOK-12 (P3) Earlier eID generations (bit4xpki `nxpias`, `oberthur` drivers): confirm whether any carry signing certificates
+
 ### Cross-cutting security (P0: must ship before any public build)
 
 - [x] SEC-01 Bridge origin enforcement: vendor allow-list; `moldSign: DesktopSuiteClient` only without `Origin`; denied → 403 without CORS (verified live)
@@ -828,6 +850,7 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 | D-14 | The Swift core lives at `swift/MoldSignKit/` (not under `apple/`) | Shared by the Apple apps and Linux |
 | D-07 | Public product name **eSemnBun** (user decision, 2026-10-25); CLI `esemnbun`. Store identifiers follow it: Apple `md.esemnbun.ios` / `.mac` / `.cli`, Android `md.esemnbun.app` (user decision when signing was set up). `MoldSign` stays the codename in code (modules, namespaces, Kotlin package), Linux/Windows IDs, storage and keychain names, `MSIGN_PIN`; "MoldSign" in UI text only where it means the vendor suite | Distinct from the vendor trademark. The ID change resets saved PIN/settings of existing dev installs once |
 | D-15 | Signing uses the owner's own accounts only: Apple team H86U5Z8HYB (fastlane match in `github.com/xfreebird/fastlanecerts`), an Android upload key generated for the project; never the employer identities on the dev Mac (nor the employer GitHub Enterprise host `gh` defaults to: pass `GH_HOST=github.com`) | Personal project; the owner provided the Apple account and asked for match |
+| D-16 | USB tokens use our own user-space drivers over the existing transports (PC/SC, CryptoTokenKit, Android USB CCID), not vendor middleware (PKCS#11, Windows CNG, macOS CTK), and ship behind an experimental switch that is off by default | Owner decision, 2026-11-27. One route for all five platforms (token middleware exists only for desktops), no third-party libraries in the Mac App Store build, no middleware touching the eID while its secure channel is open |
 
 ### Open (recommendation first)
 
@@ -852,6 +875,7 @@ GNOME app (`linux/`, Swift + GTK4/libadwaita C API; compiles and runs on macOS w
 | R-09 | No Linux toolchain on the dev Mac (no Docker, no Swift Linux SDK) | Linux code paths run on macOS via `MOLDSIGN_PORTABLE` (30/30 tests); the CI `linux` job (`swift:6.2-noble`) does the real build once the repo has a remote |
 | R-11 | The portal requests XAdES with `algorithm:"SHA-1"` (vendor honours it) | **Mitigated (0.1.2):** the bridge honours the requested digest for XAdES (vendor-faithful); SHA-256 stays the default elsewhere. Open: confirm on a live Xml/Text document; SHA-1 DigestInfo on the real card unproven (INTERNAL AUTHENTICATE pads whatever DigestInfo it gets, so it should work) |
 | R-10 | The vendor Java suite holds 18480/18443 while running (seen 2026-10-25) | MAC-08: detect and offer to quit; `portBusy` state already surfaced |
+| R-12 | Our token drivers are written from captures: a wrong command can burn a token PIN attempt (few allowed) or desync its secure messaging; the vendor ATR tables may be narrower than tokens in the field; we own no token | Experimental switch off by default; recognition sends no APDU; a driver only after a capture from a real token (TOK-06); one PIN attempt, never retried; simulator-first tests; an unrecognized token behaves as today (eID error) |
 
 ---
 
@@ -1874,3 +1898,18 @@ The authoritative results and coverage limits are in [commit CI validation](docs
 - New page `website/docs/developers/release-pipeline.md` (Build and deliver → Release pipeline): the end-to-end path of a version, from the prepared commit through the three lanes (downloads with Microsoft Store, Apple, Android with Huawei) to verification. It covers which outcomes count as released, which version and build identities must match, the seven steps with commands, how the workflows trigger each other, the built-in guards, credential names and recovery. It records the two steps that still run outside Actions: Certum signing of the Windows MSI and CLI, and attaching the Android build's APK to the GitHub Release.
 - Diagram `release-pipeline.svg` from `website/scripts/generate-developer-diagrams.py`, local and accessible like the other handbook diagrams. Linked from the overview and the operation reference, and added to the English agent exports.
 - Website tests (74), the diagram reproducibility test, the full three-locale Docusaurus build and the SEO check pass; the rendered page was checked in a browser.
+
+### 2026-11-27 — Additional signing devices (investigation)
+
+- Inspected the installed vendor suite 2.4.12: a PKCS#11 host with Feitian ePass2003, SafeNet eToken/IDPrime and bit4id modules on macOS (all three load per its log). Also ACS ACOS5 on Windows (the bundled macOS copy is i386/x86_64 and links the removed `libssl.0.9.8`), user-added modules and the Windows certificate store. It trusts 19 public CAs, including the STISC token hierarchy (MoldSign QCA/AdvCA 3A under mdtrustrootca).
+- Added Phase TOK (TOK-01…10) and R-12. Report: `docs/reports/additional-signing-devices-2026-11-27.md`. No code changed, no card or token touched, nothing validated on hardware.
+
+### 2026-11-27 — USB tokens: own drivers, experimental switch and recognition
+
+- Owner chose our own user-space token drivers (D-16) and asked for an experimental settings switch. Phase TOK rewritten: TOK-01 (switch) and TOK-02 (recognition) done, then the core seam, algorithm agility, trust, and the ePass2003 driver once a token is in hand. The PKCS#11, CNG and CTK middleware tasks are dropped.
+- `spec/tokens/token-families.json`: ATR patterns with masks from the vendor's own modules (`libcastle` for ePass2003, `libeToken` for eToken Java and IDPrime, `libIDPrimeTokenEngine`), file offsets recorded; the ACOS5 module has none. Ten vectors, including the CosmoX ATR (never a token).
+- Swift: `TokenRecognizer`, `UnsupportedTokenError`, `CardTransport.atr` (PC/SC through a new `c_scard_reader_atr` shim, CryptoTokenKit through `slot.atr`), `SigningService.experimentalTokens` checked in `withCard` before `CosmoXCard`; apps and bridge share `SigningService.shared`. Kotlin: `ApduTransport.answerToReset()` (the CCID session already powers the card on), `CardSigningService(experimentalTokens:)`. C#: `ICardTransport.Atr` (`SCardGetAttrib`), `CardErrorKind.UnsupportedToken`, `SigningService.ExperimentalTokens`. CLI: `--experimental-tokens`; the Swift `readers` names a recognized token.
+- Windows: `DesktopPreferenceStore.Save` serialized the declared base type, so app-only settings (browser stamps, MCP approval, legacy client, now tokens) were never written; it now serializes the runtime type (the insertion helper only reads the file). Test added.
+- Strings: three per platform in `localization/catalog.json`, exported. Windows shows a generic "USB token recognized" (its wallet keeps only the error kind); the other apps name the product.
+- Validation on the MacBook Air: Swift core 161 tests (155 passed, 5 skipped, 1 failed) and portable mode 152 (146 passed, 5 skipped, 1 failed; the failure, `testInstalledVendorJavaClientListsAndSignsWithSimulatedCard`, HTTP 503 from the installed vendor client, fails the same on untouched main); Xcode macOS, App Store, CLI and iOS Simulator builds and the app policy package tests; Android core 173, USB 57, app 126 unit tests, debug APK and lint (the settings UI test now counts four switches); .NET portable suite 435/435 on macOS (with the documented resolved `TMPDIR`). Fedora 44 VM: core 115 tests against pcsc-lite (108 passed, 7 skipped, 0 failed), GNOME build, design check, GNOME tests 153/153 and the 21 GTK UI journeys. Windows 11 ARM64 VM: full solution with the WinUI app, x64, 0 warnings; x64 tests 433/435, the two failures being timeouts (activation broker, consent dispatch) that passed in the first Windows run and on macOS; ARM64 native build and tests in progress. The macOS build caught an initializer bug (reading the new AppModel property before initialization), fixed. Not tried with a real token or reader: the bit4id reader was not attached; no card touched.
+

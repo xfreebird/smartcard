@@ -18,12 +18,14 @@ internal sealed record CliOptions
     public bool PinStdin { get; init; }
     public string? Out { get; init; }
     public bool Enveloping { get; init; }
+    /// <summary>Phase TOK: recognize USB tokens and stop at them before any APDU (also MSIGN_EXPERIMENTAL_TOKENS=1).</summary>
+    public bool ExperimentalTokens { get; init; }
 
     public static CliOptions Parse(IReadOnlyList<string> args)
     {
         var positionals = new List<string>();
         string? reader = null, output = null;
-        bool quiet = false, pinStdin = false, enveloping = false, help = false, endOfOptions = false;
+        bool quiet = false, pinStdin = false, enveloping = false, help = false, endOfOptions = false, experimentalTokens = false;
 
         for (var i = 0; i < args.Count; i++)
         {
@@ -51,6 +53,9 @@ internal sealed record CliOptions
                     break;
                 case "--enveloping":
                     enveloping = true;
+                    break;
+                case "--experimental-tokens":
+                    experimentalTokens = true;
                     break;
                 case "--reader":
                     reader = inlineValue ?? Next(args, ref i, name);
@@ -95,6 +100,7 @@ internal sealed record CliOptions
             PinStdin = pinStdin,
             Out = output,
             Enveloping = enveloping,
+            ExperimentalTokens = experimentalTokens,
         };
         options.Validate();
         return options;

@@ -86,6 +86,16 @@ public final class SigningService: @unchecked Sendable {
 
     private let cardLock = NSLock()
     private let cacheLock = NSLock()
+    private let optionsLock = NSLock()
+    private var tokensEnabled = false
+
+    /// Experimental USB token support (Phase TOK), off by default and switched from the apps' settings.
+    /// On: a reader holding a recognized token (`TokenRecognizer`, by ATR) fails with `UnsupportedTokenError`
+    /// before any APDU is sent, instead of the eID error. Off: exactly the eID-only behavior.
+    public var experimentalTokens: Bool {
+        get { optionsLock.lock(); defer { optionsLock.unlock() }; return tokensEnabled }
+        set { optionsLock.lock(); tokensEnabled = newValue; optionsLock.unlock() }
+    }
     private var certificateByReader: [String: CertificateSummary] = [:]
 
     public init() {}
@@ -96,7 +106,12 @@ public final class SigningService: @unchecked Sendable {
         cardLock.lock()
         defer { cardLock.unlock() }
         progress?(.connecting)
-        let card = CosmoXCard(transport: try transportFactory(reader))
+        let transport = try transportFactory(reader)
+        if experimentalTokens, let family = TokenRecognizer.family(atr: transport.atr) {
+            transport.disconnect()
+            throw UnsupportedTokenError(family: family)
+        }
+        let card = CosmoXCard(transport: transport)
         defer { card.disconnect() }
         progress?(.authenticating)
         try card.authenticate()

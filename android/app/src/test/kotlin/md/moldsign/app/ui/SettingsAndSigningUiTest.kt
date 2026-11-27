@@ -5,6 +5,7 @@ import androidx.compose.ui.test.onAllNodesWithText
 import md.moldsign.app.R
 import md.moldsign.app.presentation.MainViewModel
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -26,12 +27,14 @@ class SettingsAndSigningUiTest : AppUiTest() {
 
     @Test fun appearanceAndDocumentPreferences() {
         launchRecreatable("cards", "settings").let { scenario ->
-            // Switches: demo mode, recent documents in the widget, visible browser stamps.
+            // Switches: demo mode, experimental USB tokens, recent documents in the widget, visible browser stamps.
             val switches = compose.onAllNodes(androidx.compose.ui.test.isToggleable())
-            assertEquals(3, switches.fetchSemanticsNodes().size)
-            click(switches[1])
-            assertTrue(md.moldsign.app.widget.DocumentsWidget.showsRecents(app))
+            assertEquals(4, switches.fetchSemanticsNodes().size)
+            assertTrue(showsTag("settings.experimentalTokens"))
+            assertFalse("USB tokens are off by default", app.container.experimentalTokens)
             click(switches[2])
+            assertTrue(md.moldsign.app.widget.DocumentsWidget.showsRecents(app))
+            click(switches[3])
             assertTrue(app.container.stampBroker.enabled)
             // Last: a new language recreates the activity in that language.
             clickText(string(R.string.settings_language))

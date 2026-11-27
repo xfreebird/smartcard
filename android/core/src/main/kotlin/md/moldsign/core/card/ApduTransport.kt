@@ -12,6 +12,9 @@ interface ApduTransport : java.io.Closeable {
 
     /** Throws [CardError] (NoReader / NoCard / CardNotResponding) on transport failure. */
     fun transmit(apdu: ByteArray): ByteArray
+
+    /** Answer-to-reset of the powered card, when the transport knows it (token recognition, Phase TOK). */
+    fun answerToReset(): ByteArray? = null
 }
 
 /** Response APDU split into data and status word. */

@@ -155,6 +155,13 @@ if let i = args.firstIndex(of: "--reader"), i + 1 < args.count {
     readerName = args[i + 1]
     args.removeSubrange(i...(i + 1))
 }
+/// Experimental USB token recognition (Phase TOK): `--experimental-tokens` or MSIGN_EXPERIMENTAL_TOKENS=1.
+var experimentalTokens = ProcessInfo.processInfo.environment["MSIGN_EXPERIMENTAL_TOKENS"] == "1"
+if let i = args.firstIndex(of: "--experimental-tokens") {
+    args.remove(at: i)
+    experimentalTokens = true
+}
+SigningService.shared.experimentalTokens = experimentalTokens
 
 // MARK: - Helpers
 
@@ -167,8 +174,12 @@ func cliPIN() -> String {
 }
 
 func openCard() throws -> CosmoXCard {
-    let card = CosmoXCard(transport: try PCSCTransport(readerName: readerName))
-    return card
+    let transport = try PCSCTransport(readerName: readerName)
+    if experimentalTokens, let family = TokenRecognizer.family(atr: transport.atr) {
+        transport.disconnect()
+        throw UnsupportedTokenError(family: family)
+    }
+    return CosmoXCard(transport: transport)
 }
 
 /// Exit codes from spec/cli.md.
@@ -202,6 +213,7 @@ func usage() -> Never {
       sign-hex <digestinfo_hex>                raw card signature (developer)
       cms-for-hash <sha256_hex>                detached CMS for a content digest (developer)
     Options: --reader <name>  --quiet  --pin-stdin      PIN: MSIGN_PIN or prompt
+             --experimental-tokens (or MSIGN_EXPERIMENTAL_TOKENS=1): recognize USB tokens (not signing yet)
     """)
     exit(1)
 }
@@ -252,7 +264,11 @@ case "readers":
     MSLog.sink = nil
     for name in names {
         let state: String
-        if let t = try? PCSCTransport(readerName: name) { t.disconnect(); state = "card present" } else { state = "no card" }
+        if let t = try? PCSCTransport(readerName: name) {
+            let token = experimentalTokens ? TokenRecognizer.family(atr: t.atr) : nil
+            t.disconnect()
+            state = token.map { "card present — USB token \($0.displayName), not supported yet" } ?? "card present"
+        } else { state = "no card" }
         print("\(name) — \(state)")
     }
     MSLog.sink = saved

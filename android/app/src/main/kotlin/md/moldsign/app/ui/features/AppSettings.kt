@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import md.moldsign.app.MainActivity
 import md.moldsign.app.R
@@ -85,6 +86,24 @@ fun BrowserSigningSettings(vm: MainViewModel, enabled: Boolean) {
         },
     )
 
+}
+
+/** Phase TOK: USB signing tokens, experimental and off by default (recognition only until the drivers land). */
+@Composable
+fun ExperimentalTokenSettings(vm: MainViewModel, enabled: Boolean) {
+    var tokens by remember { mutableStateOf(vm.experimentalTokensEnabled) }
+    ListItem(
+        colors = ListItemDefaults.colors(containerColor = Color.Transparent),
+        modifier = Modifier.testTag("settings.experimentalTokens"),
+        headlineContent = { Text(stringResource(R.string.token_experimental_title)) },
+        supportingContent = { Text(stringResource(R.string.token_experimental_detail)) },
+        trailingContent = {
+            Switch(checked = tokens, enabled = enabled, onCheckedChange = {
+                tokens = it
+                vm.experimentalTokensEnabled = it
+            })
+        },
+    )
 }
 
 @Composable

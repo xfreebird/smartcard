@@ -559,6 +559,9 @@ enum L10n {
         case protect_card_public_key
         case protect_card_public_key_help
         case protect_export_public_certificate
+        case token_experimental_title
+        case token_experimental_detail
+        case token_recognized_unsupported
     }
     static func text(_ key: Key, _ arguments: CVarArg...) -> String {
         let preference = AppPreferencesStore.defaults.string(forKey: "appLanguage") ?? "system"

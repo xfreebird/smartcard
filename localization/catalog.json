@@ -17087,6 +17087,114 @@
         "en": "Known cards",
         "ru": "Известные карты"
       }
+    },
+    {
+      "platform": "apple",
+      "key": "token_experimental_title",
+      "translations": {
+        "ro": "Token-uri USB (experimental)",
+        "en": "USB tokens (experimental)",
+        "ru": "USB-токены (экспериментально)"
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "token_experimental_detail",
+      "translations": {
+        "ro": "Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă.",
+        "en": "Recognizes Feitian ePass2003 and SafeNet tokens. Signing with them is not available yet.",
+        "ru": "Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно."
+      }
+    },
+    {
+      "platform": "apple",
+      "key": "token_recognized_unsupported",
+      "translations": {
+        "ro": "%@ recunoscut. Semnarea cu token-uri USB nu este încă disponibilă.",
+        "en": "%@ recognized. Signing with USB tokens is not available yet.",
+        "ru": "Обнаружен %@. Подписание USB-токенами пока недоступно."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "token_experimental_title",
+      "translations": {
+        "ro": "Token-uri USB (experimental)",
+        "en": "USB tokens (experimental)",
+        "ru": "USB-токены (экспериментально)"
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "token_experimental_detail",
+      "translations": {
+        "ro": "Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă.",
+        "en": "Recognizes Feitian ePass2003 and SafeNet tokens. Signing with them is not available yet.",
+        "ru": "Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно."
+      }
+    },
+    {
+      "platform": "linux",
+      "key": "token_recognized_unsupported",
+      "translations": {
+        "ro": "%1$s recunoscut. Semnarea cu token-uri USB nu este încă disponibilă.",
+        "en": "%1$s recognized. Signing with USB tokens is not available yet.",
+        "ru": "Обнаружен %1$s. Подписание USB-токенами пока недоступно."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "token_experimental_title",
+      "translations": {
+        "ro": "Token-uri USB (experimental)",
+        "en": "USB tokens (experimental)",
+        "ru": "USB-токены (экспериментально)"
+      }
+    },
+    {
+      "platform": "android",
+      "key": "token_experimental_detail",
+      "translations": {
+        "ro": "Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă.",
+        "en": "Recognizes Feitian ePass2003 and SafeNet tokens. Signing with them is not available yet.",
+        "ru": "Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно."
+      }
+    },
+    {
+      "platform": "android",
+      "key": "token_recognized_unsupported",
+      "translations": {
+        "ro": "%1$s recunoscut. Semnarea cu token-uri USB nu este încă disponibilă.",
+        "en": "%1$s recognized. Signing with USB tokens is not available yet.",
+        "ru": "Обнаружен %1$s. Подписание USB-токенами пока недоступно."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Token_ExperimentalTitle",
+      "translations": {
+        "ro": "Token-uri USB (experimental)",
+        "en": "USB tokens (experimental)",
+        "ru": "USB-токены (экспериментально)"
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Token_ExperimentalDetail",
+      "translations": {
+        "ro": "Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă.",
+        "en": "Recognizes Feitian ePass2003 and SafeNet tokens. Signing with them is not available yet.",
+        "ru": "Распознаёт токены Feitian ePass2003 и SafeNet. Подписание ими пока недоступно."
+      }
+    },
+    {
+      "platform": "windows",
+      "key": "Error_UnsupportedToken",
+      "translations": {
+        "ro": "Token USB recunoscut. Semnarea cu token-uri USB nu este încă disponibilă.",
+        "en": "USB token recognized. Signing with USB tokens is not available yet.",
+        "ru": "Обнаружен USB-токен. Подписание USB-токенами пока недоступно."
+      }
     }
   ],
   "storeMetadata": {

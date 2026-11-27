@@ -358,6 +358,7 @@ public sealed class AppState : INotifyPropertyChanged
         CardErrorKind.SmOutOfSync => Loc.Get("Error_SmOutOfSync"),
         CardErrorKind.CardChanged => Loc.Get("Error_CardChanged"),
         CardErrorKind.Network => Loc.Get("Error_Network"),
+        CardErrorKind.UnsupportedToken => Loc.Get("Error_UnsupportedToken"),
         _ => Loc.Get("Error_Generic"),
     };
 

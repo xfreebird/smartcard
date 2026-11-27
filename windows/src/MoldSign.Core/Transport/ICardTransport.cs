@@ -8,5 +8,8 @@ public interface ICardTransport : IDisposable
 {
     string ReaderName { get; }
 
+    /// <summary>Answer-to-reset of the connected card, when the transport knows it (token recognition, Phase TOK).</summary>
+    byte[]? Atr => null;
+
     byte[] Transmit(byte[] apdu);
 }

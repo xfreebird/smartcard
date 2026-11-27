@@ -24,6 +24,8 @@ internal static partial class WinSCardNative
 
     // dwDisposition / dwInitialization
     public const uint SCARD_LEAVE_CARD = 0;
+    /// <summary>SCardGetAttrib: the card's answer-to-reset.</summary>
+    public const uint SCARD_ATTR_ATR_STRING = 0x00090303;
     public const uint SCARD_RESET_CARD = 1;
 
     // SCARD_READERSTATE dwCurrentState / dwEventState bits; the upper 16 bits of dwEventState count card events.
@@ -117,6 +119,9 @@ internal static partial class WinSCardNative
     [LibraryImport(Lib, EntryPoint = "SCardGetStatusChangeW")]
     public static unsafe partial int SCardGetStatusChange(nint hContext, uint dwTimeout,
         ScardReaderState* rgReaderStates, uint cReaders);
+
+    [LibraryImport(Lib)]
+    public static partial int SCardGetAttrib(nint hCard, uint dwAttrId, [Out] byte[] pbAttr, ref uint pcbAttrLen);
 
     [LibraryImport(Lib)]
     public static partial int SCardTransmit(nint hCard, nint pioSendPci,

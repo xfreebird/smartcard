@@ -38,6 +38,11 @@ public enum CardErrorKind
     Format,
     /// <summary>User dismissed PIN/consent. Silent in the UI.</summary>
     Cancelled,
+    /// <summary>
+    /// A USB token recognized by ATR (Phase TOK, only with <see cref="SigningService.ExperimentalTokens"/>): no APDU
+    /// was sent and signing with it is not available yet.
+    /// </summary>
+    UnsupportedToken,
 }
 
 /// <summary>Every failure surfaced by the card stack and the signing facade.</summary>

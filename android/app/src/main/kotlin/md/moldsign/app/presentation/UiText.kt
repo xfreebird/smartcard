@@ -40,6 +40,7 @@ fun errorText(context: Context, e: Throwable): String = when (e) {
     is CardError.CardNotResponding, is CardError.UnexpectedStatus, is CardError.Protocol ->
         context.appString(R.string.error_card_stuck)
     is NotImplementedError -> context.appString(R.string.error_not_ported)
+    is md.moldsign.core.UnsupportedTokenException -> context.appString(R.string.token_recognized_unsupported, e.family.displayName)
     else -> context.appString(R.string.operation_failed_safe)
 }
 

@@ -8,6 +8,8 @@ public sealed class AppSettings : DesktopPreferences
     public bool McpApprovalEnabled { get; set; }
     public bool BrowserStampsEnabled { get; set; }
     public bool LegacyDesktopClientEnabled { get; set; }
+    /// <summary>Phase TOK: recognize USB signing tokens (experimental, off by default).</summary>
+    public bool ExperimentalTokensEnabled { get; set; }
     internal static string PreferencesPath
     {
         get

@@ -43,7 +43,10 @@ public sealed class DesktopPreferenceStore(string path)
         var temporary = Path.Combine(directory, $".settings-{Guid.NewGuid():N}.tmp");
         try
         {
-            File.WriteAllText(temporary, JsonSerializer.Serialize(preferences, new JsonSerializerOptions { WriteIndented = true }));
+            // The runtime type, so the app's own settings (a derived class) are written too; the insertion helper
+            // reads the same file as the base type and ignores them.
+            File.WriteAllText(temporary, JsonSerializer.Serialize(preferences, preferences.GetType(),
+                new JsonSerializerOptions { WriteIndented = true }));
             File.Move(temporary, path, overwrite: true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }

@@ -418,4 +418,7 @@ eSemnBun</value></data>
   <data name="protect_card_public_key" xml:space="preserve"><value>Compatibilitate cu cheia publică a cardului</value></data>
   <data name="protect_card_public_key_help" xml:space="preserve"><value>Pentru carduri care permit decriptarea RSA, inclusiv cu un certificat destinat doar semnării. Distribuie certificatul public pentru ca alții să poată cripta fișiere pentru tine. Activează opțiunea pe ambele părți. Decriptarea necesită cardul corespunzător și PIN-ul său.</value></data>
   <data name="protect_export_public_certificate" xml:space="preserve"><value>Exportă certificatul public</value></data>
+  <data name="Token_ExperimentalTitle" xml:space="preserve"><value>Token-uri USB (experimental)</value></data>
+  <data name="Token_ExperimentalDetail" xml:space="preserve"><value>Recunoaște token-urile Feitian ePass2003 și SafeNet. Semnarea cu ele nu este încă disponibilă.</value></data>
+  <data name="Error_UnsupportedToken" xml:space="preserve"><value>Token USB recunoscut. Semnarea cu token-uri USB nu este încă disponibilă.</value></data>
 </root>
