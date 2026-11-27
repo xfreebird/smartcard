@@ -23,6 +23,9 @@ jobs:
     timeout-minutes: 35
     name: Android (APK + AAB, upload key)
     runs-on: ubuntu-24.04
+    env:
+      # Maven Central rate-limits CI's shared addresses; android/settings.gradle.kts reads it through this mirror.
+      MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6
