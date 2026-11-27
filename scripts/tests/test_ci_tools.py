@@ -205,10 +205,10 @@ class JobSelectionCommandTests(TempCase):
         with patch('subprocess.check_output', return_value=changed) as git:
             result = run('scripts/ci/select_jobs.py', '--event', event, '--output', output,
                          env={'GITHUB_STEP_SUMMARY': str(summary)})
-        self.assertEqual(git.call_args.args[0], ['git', 'diff', '--name-only', '-z', 'a...b'])
+        self.assertEqual(git.call_args_list[0].args[0], ['git', 'diff', '--name-only', '-z', 'a...b'])
         self.assertEqual(output.read_text(), result.stdout)
         self.assertIn('windows=true', result.stdout)
-        self.assertIn('2 changed paths.', summary.read_text())
+        self.assertIn('2 changed paths since the merge base.', summary.read_text())
 
     def test_unavailable_history_runs_everything(self):
         event = self.tmp / 'event.json'
@@ -218,7 +218,7 @@ class JobSelectionCommandTests(TempCase):
         self.assertIn('Full CI: history unavailable.', (self.tmp / 's').read_text())
         selector = load('scripts/ci/select_jobs.py')
         failing = Mock(side_effect=subprocess.CalledProcessError(128, 'git'))
-        self.assertIsNone(selector.changed_paths({'before': 'a', 'after': 'b'}, git=failing))
+        self.assertIsNone(selector.changed_paths({'before': 'a', 'after': 'b'}, git=failing).paths)
         self.assertEqual(failing.call_args.args[0][-1], 'a..b')
 
 

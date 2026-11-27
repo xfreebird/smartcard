@@ -21,6 +21,10 @@ jobs:
     timeout-minutes: 10
     name: Select affected platforms
     runs-on: ubuntu-latest
+    # Reading earlier CI runs lets a pull request push skip platforms that passed and have not changed since.
+    permissions:
+      contents: read
+      actions: read
     outputs:
       localization: ${{ steps.select.outputs.localization }}
       swift: ${{ steps.select.outputs.swift }}
@@ -33,6 +37,8 @@ jobs:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with: { fetch-depth: 0 }
       - id: select
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python3 scripts/ci/select_jobs.py
       - name: Check workflow routing and publishing guards
         run: |
