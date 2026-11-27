@@ -28,7 +28,7 @@ EXACT_RULES = (
       'scripts/test_play_publish.py', 'scripts/test_appgallery.py', 'apple/Tests/Scripts/'), ()),
     # Used only by the Sonar or release workflows, which validate them.
     (('scripts/ci/sonar-', 'scripts/ci/lock-publisher-wheels.py', 'scripts/ci/reserve-android-version.sh',
-      '.sonarcloud.properties'), ()),
+      '.sonarcloud.properties', '.github/dependabot.yml'), ()),
     (('scripts/ci/android_build_policy.py', 'scripts/ci/check-emulator-resources.py',
       'scripts/ci/prepare-android-ui.py', 'scripts/ci/robolectric-cache.sh'), ('android',)),
     (('scripts/ci/apt-install.sh', 'scripts/ci/check-linux-design-system.py'), ('linux',)),
