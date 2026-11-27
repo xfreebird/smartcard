@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Select native CI from the event diff; unknown or unavailable history fails open to full CI.
 
-A pull request push is compared with the newest earlier commit of the same pull request whose CI run
+A push is compared with the newest earlier commit of the same pull request or branch whose CI run
 passed, when that commit is an ancestor of the new head: every platform was validated there, so only
-what changed since needs to run again. Without such a run, or when the GitHub API is unavailable,
-the whole pull request is compared with its merge base. A ci.yml change runs only the jobs whose
+what changed since needs to run again, including what a cancelled run left unchecked. Without such a
+run, or when the GitHub API is unavailable, a pull request is compared with its merge base and a
+branch push with its previous head. A ci.yml change runs only the jobs whose
 blocks changed, unless its header or another job changed.
 """
 import argparse
@@ -132,15 +133,20 @@ def github_json(url, token):
 
 
 def last_validated_commit(event, git=subprocess.check_output, fetch=github_json, environ=os.environ):
-    """The newest earlier head of this pull request whose CI run passed and that the new head contains."""
+    """The newest earlier head of this pull request or branch whose CI run passed and that the new head contains."""
     token, repository = environ.get('GITHUB_TOKEN'), environ.get('GITHUB_REPOSITORY', '')
-    pull = event['pull_request']
-    head, branch = pull['head']['sha'], pull['head'].get('ref')
-    head_repository = (pull['head'].get('repo') or {}).get('full_name')
-    if not token or not REPOSITORY.fullmatch(repository) or not branch or not head_repository:
+    if 'pull_request' in event:
+        pull = event['pull_request']
+        trigger, head, branch = 'pull_request', pull['head']['sha'], pull['head'].get('ref')
+        source = (pull['head'].get('repo') or {}).get('full_name')
+    else:
+        ref = event.get('ref') or ''
+        trigger, head, source = 'push', event.get('after'), repository
+        branch = ref.removeprefix('refs/heads/') if ref.startswith('refs/heads/') else None
+    if not token or not REPOSITORY.fullmatch(repository) or not branch or not source or not head:
         return None
     owner, name = (urllib.parse.quote(part, safe='') for part in repository.split('/'))
-    query = urllib.parse.urlencode({'event': 'pull_request', 'status': 'success', 'branch': branch, 'per_page': 50})
+    query = urllib.parse.urlencode({'event': trigger, 'status': 'success', 'branch': branch, 'per_page': 50})
     try:
         runs = fetch(f'{API}/repos/{owner}/{name}/actions/workflows/ci.yml/runs?{query}', token).get('workflow_runs', [])
         # Git, not the API response, supplies the commit used in later commands.
@@ -151,7 +157,7 @@ def last_validated_commit(event, git=subprocess.check_output, fetch=github_json,
     for run in runs:
         validated = ancestors.get(run.get('head_sha'))
         if (validated and validated != head and run.get('conclusion') == 'success'
-                and (run.get('head_repository') or {}).get('full_name') == head_repository):
+                and (run.get('head_repository') or {}).get('full_name') == source):
             return validated
     return None
 
@@ -190,6 +196,11 @@ def changed_paths(event, git=subprocess.check_output, baseline=None):
             fork = None
         return Comparison(paths, 'the merge base', fork, head)
     base, head = event.get('before', ''), event.get('after', '')
+    validated = baseline(event) if baseline and head else None
+    if validated:
+        paths = diff(validated + '..' + head, git)
+        if paths is not None:
+            return Comparison(paths, f'the last commit that passed CI ({validated[:12]})', validated, head)
     if not base or not head or set(base) == {'0'}:
         return Comparison(None)
     paths = diff(base + '..' + head, git)

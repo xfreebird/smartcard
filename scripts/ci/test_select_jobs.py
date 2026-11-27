@@ -92,6 +92,15 @@ class ChangedPathTests(unittest.TestCase):
             comparison = changed_paths(pull(), git, baseline=baseline)
             self.assertEqual((comparison.description, comparison.old), ('the merge base', None))
 
+    def test_branch_push_compares_with_the_last_commit_that_passed(self):
+        def git(command, **kwargs):
+            self.assertEqual(command[-1], GREEN + '..' + HEAD)
+            return b'windows/src/A.cs\0'
+        comparison = changed_paths({'before': OLDER, 'after': HEAD, 'ref': 'refs/heads/main'}, git, baseline=lambda event: GREEN)
+        self.assertEqual((comparison.paths, comparison.old, comparison.new), (['windows/src/A.cs'], GREEN, HEAD))
+        unchanged = changed_paths({'before': OLDER, 'after': HEAD}, lambda *a, **k: b'', baseline=lambda event: None)
+        self.assertEqual(tuple(unchanged), ([], 'the previous push', OLDER, HEAD))
+
     def test_push_and_missing_history(self):
         self.assertIsNone(changed_paths({'before': '0000', 'after': 'head'}).paths)
         def missing(*args, **kwargs): raise subprocess.CalledProcessError(1, 'git')
@@ -172,6 +181,18 @@ class ValidatedCommitTests(unittest.TestCase):
         self.assertTrue(urls[0].startswith('https://api.github.com/repos/owner/repo/actions/workflows/ci.yml/runs?'))
         self.assertIn('branch=feature', urls[0])
         self.assertIn('status=success', urls[0])
+
+    def test_branch_pushes_look_up_push_runs_of_their_branch(self):
+        urls = []
+        def fetch(url, token):
+            urls.append(url)
+            return {'workflow_runs': [run(GREEN, repository='fork/repo'), run(OLDER, repository='owner/repo')]}
+        push = {'before': GREEN, 'after': HEAD, 'ref': 'refs/heads/main'}
+        self.assertEqual(last_validated_commit(push, self.history(HEAD, GREEN, OLDER), fetch, ENVIRONMENT), OLDER)
+        self.assertIn('event=push', urls[0])
+        self.assertIn('branch=main', urls[0])
+        for event in ({'before': GREEN, 'after': HEAD, 'ref': 'refs/tags/v1'}, {'before': GREEN, 'after': HEAD}):
+            self.assertIsNone(last_validated_commit(event, self.history(HEAD), lambda *a: self.fail('no request'), ENVIRONMENT))
 
     def test_no_token_repository_or_history_means_no_baseline(self):
         never = lambda *a, **k: self.fail('no request expected')
