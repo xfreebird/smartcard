@@ -44,15 +44,15 @@ jobs:
     env:
       DEVELOPER_DIR: /Applications/Xcode_27.1.app/Contents/Developer
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with: { python-version: '3.12' }
       - name: Measure Swift core and Apple app policy coverage
         run: |
           bash scripts/ci/sonar-swift-coverage.sh swift/MoldSignKit swift/MoldSignKit/Sources "$RUNNER_TEMP/coverage/core.xml" "$RUNNER_TEMP/core-coverage-build"
           bash scripts/ci/sonar-swift-coverage.sh apple apple "$RUNNER_TEMP/coverage/apple.xml" "$RUNNER_TEMP/apple-coverage-build"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sonar-swift
           path: ${{ runner.temp }}/coverage/*.xml
@@ -68,7 +68,7 @@ jobs:
       # Maven Central rate-limits CI's shared addresses; android/settings.gradle.kts reads it through this mirror.
       MAVEN_CENTRAL_MIRROR: https://maven-central.storage-download.googleapis.com/maven2
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
       - name: Report test and build failures as annotations
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
@@ -118,7 +118,7 @@ jobs:
           for report in "$RUNNER_TEMP/coverage/"android-*.xml; do
             grep -Eq 'ci="[1-9][0-9]*"' "$report"
           done
-      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22
           cache: npm
@@ -133,7 +133,7 @@ jobs:
             --test-reporter-destination=stdout --test-reporter-destination="$RUNNER_TEMP/coverage/website.lcov" \
             website/tests/*.test.mjs
           grep -q '^SF:website/src/' "$RUNNER_TEMP/coverage/website.lcov"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sonar-android-web
           path: ${{ runner.temp }}/coverage/
@@ -149,7 +149,7 @@ jobs:
       image: swift:6.2-noble
       options: --dns 1.1.1.1 --dns 8.8.8.8
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
       - name: Report test and build failures as annotations
         run: echo "::add-matcher::$GITHUB_WORKSPACE/.github/problem-matchers/test-failures.json"
@@ -163,7 +163,7 @@ jobs:
           GDK_BACKEND: x11
           MSIGN_REQUIRE_DISPLAY: '1'
         run: xvfb-run -a -s "-screen 0 1440x1080x24" bash scripts/ci/sonar-swift-coverage.sh linux linux/Sources "$RUNNER_TEMP/coverage/linux.xml" "$RUNNER_TEMP/linux-coverage-build"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sonar-linux
           path: ${{ runner.temp }}/coverage/linux.xml
@@ -176,9 +176,9 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 40
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { persist-credentials: false }
-      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with: { global-json-file: windows/global.json }
       - name: Install pinned coverage collector
         run: dotnet tool install dotnet-coverage --version 18.12.0 --tool-path "$env:RUNNER_TEMP/sonar-tools" --allow-roll-forward
@@ -196,7 +196,7 @@ jobs:
             }
           }
           $env:GITHUB_WORKSPACE | Set-Content -Encoding utf8 "$env:RUNNER_TEMP/coverage/windows-source-root.txt"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
           name: sonar-windows
           path: ${{ runner.temp }}/coverage/
@@ -210,9 +210,9 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with: { fetch-depth: 0, persist-credentials: false }
-      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+      - uses: actions/setup-dotnet@0f4a354dd5547a28c70b7853dbd95d5b67886e73 # v6.1.0
         with: { global-json-file: windows/global.json }
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
