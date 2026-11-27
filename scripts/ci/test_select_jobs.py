@@ -36,15 +36,18 @@ class SelectionTests(unittest.TestCase):
 
     def test_apple_changes_run_only_the_affected_apps(self):
         for path in ('apple/Apps/iOS/MobileRootView.swift', 'apple/ShareExtension/ShareViewController.swift',
-                     'apple/scripts/run-ios-ui-batch.sh', 'scripts/ci/prepare-ios-ui-resources.sh'):
+                     'apple/scripts/run-ios-ui-batch.sh', 'scripts/ci/prepare-ios-ui-resources.sh',
+                     'apple/scripts/run-ios-unit-tests.sh'):
             self.assertEqual(chosen(path) - {'localization'}, {'ios'}, path)
         for path in ('apple/Apps/macOS/MoldSignMacApp.swift', 'apple/Helpers/ReaderWatcher/main.swift',
-                     'apple/Tests/MainWindowPolicyTests/MainWindowPresentationPolicyTests.swift',
-                     'apple/scripts/test-macos-insertion-window.sh', 'apple/Package.swift'):
+                     'apple/scripts/test-macos-insertion-window.sh'):
             self.assertEqual(chosen(path) - {'localization'}, {'macos'}, path)
         for path in ('apple/Apps/Shared/Model/AppModel.swift', 'apple/eSemnBun.xcodeproj/project.pbxproj',
                      'apple/Tests/InteractionUITests/DocumentsUITests.swift', 'apple/scripts/run-mock-ui-tests.sh',
-                     'apple/NewTarget/File.swift'):
+                     'apple/NewTarget/File.swift', 'apple/Package.swift',
+                     'apple/Tests/MainWindowPolicyTests/MainWindowPresentationPolicyTests.swift',
+                     'apple/Apps/macOS/WindowPolicy/MainWindowPresentationPolicy.swift',
+                     'apple/Helpers/ReaderWatcher/InsertionPolicy.swift', 'apple/Apps/iOS/SharedDocumentInbox.swift'):
             self.assertEqual(chosen(path), {'macos', 'ios', 'localization'}, path)
 
     def test_ci_tools_run_only_the_jobs_that_use_them(self):

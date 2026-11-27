@@ -304,6 +304,8 @@ final class BridgeEndToEndTests: XCTestCase {
 
     /// Optional integration probe uses the installed, unmodified vendor Java clients rather
     /// than a handwritten wire client. It never opens a physical reader or submits a real PIN.
+    // The vendor's Java client is a macOS installation launched as a separate process.
+    #if os(macOS)
     func testInstalledVendorJavaClientListsAndSignsWithSimulatedCard() throws {
         let vendorLib = "/Applications/STISC/MoldSign/lib"
         try XCTSkipUnless(FileManager.default.fileExists(atPath: vendorLib + "/MoldSignClientCardManagement-2.0.jar"),
@@ -386,6 +388,7 @@ final class BridgeEndToEndTests: XCTestCase {
         XCTAssertEqual(consents, 1)
         XCTAssertEqual(card.verifyAttempts, 1)
     }
+    #endif
 
     func testLegacyDesktopRequiresFullFilesystemHostAndConsentCallback() throws {
         for (port, filesystem, callback) in [(28654, false, true), (28656, true, false)] {

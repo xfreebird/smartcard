@@ -4,7 +4,7 @@ import PackageDescription
 // Hardware-free tests for the app's authorization/session policy. UI apps remain Xcode targets.
 let package = Package(
     name: "AppleAppPolicies",
-    platforms: [.macOS(.v15)],
+    platforms: [.macOS(.v15), .iOS(.v17)],
     dependencies: [.package(path: "../swift/MoldSignKit")],
     targets: [
         // Compiles reusable UI without access to the signing core or application models.

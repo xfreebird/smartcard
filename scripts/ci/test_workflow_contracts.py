@@ -148,13 +148,14 @@ class WorkflowContracts(unittest.TestCase):
     def test_ios_budget_limits_preserve_failure_evidence(self):
         ci = (ROOT / '.github/workflows/ci.yml').read_text()
         ios = ci.split('\n  ios-app:', 1)[1].split('\n  linux:', 1)[0]
-        self.assertIn('\n    timeout-minutes: 65\n', ios)
-        self.assertIn("""family: ${{ fromJSON(vars.APPLE_UI_TESTS == 'true' && '["iPhone", "iPad"]' || '["iPhone"]') }}""", ios)
+        self.assertIn('\n    timeout-minutes: 90\n', ios)
+        self.assertIn('family: [iPhone, iPad]', ios)
         self.assertIn('max-parallel: 1', ios)
         self.assertIn('fail-fast: false', ios)
         self.assertIn('"${{ matrix.family }}"', ios)
         self.assertIn('name: ios-ui-${{ matrix.family }}-${{ github.sha }}', ios)
         limits = {'Require iPhone Duo SDK': 2, 'Build iOS and share extension': 5,
+                  'Swift core and app policy unit tests on the simulator': 20,
                   'Prepare the UI test harness and fixtures': 5, 'Native iOS mock UI journeys': 60, 'iOS UI evidence': 3}
         for name, expected in limits.items():
             step = ios.split(f'- name: {name}\n', 1)[1].split('\n      - ', 1)[0]
@@ -164,6 +165,11 @@ class WorkflowContracts(unittest.TestCase):
         self.assertIn('prepare-ios-ui-resources.sh', build)
         self.assertIn("if: vars.APPLE_UI_TESTS == 'true'", build)
         self.assertIn('MSIGN_UI_RESOURCES_DIR=', ios)
+        # Unit tests run on both families even while the UI journeys are paused.
+        unit = ios.split('- name: Swift core and app policy unit tests on the simulator\n', 1)[1].split('\n      - ', 1)[0]
+        self.assertNotIn('if:', unit)
+        self.assertIn('run-ios-unit-tests.sh "${{ matrix.family }}"', unit)
         evidence = ios.split('- name: iOS UI evidence', 1)[1]
-        self.assertIn('if: always()', evidence)
+        self.assertIn('if: always()\n', evidence)
+        self.assertIn('ios-unit/*.xcresult', evidence)
         self.assertIn('actions/upload-artifact@', evidence)

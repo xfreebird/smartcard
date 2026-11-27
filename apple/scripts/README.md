@@ -45,3 +45,5 @@ The app uses the same `SigningBatchRunner.swift` tested by this small package. T
 action above bottom navigation on phone/tablet, fixed placement while scrolling, portrait/landscape,
 accessibility text, light/dark appearance and disabled states. It also checks minimum browser touch targets. Commit CI requires all four methods.
 Run the suite on iOS 26+ for Liquid Glass and an older supported runtime for the native fallback.
+
+`run-ios-unit-tests.sh iPhone|iPad FRESH_OUTPUT_DIR` runs the Swift core (`MoldSignKitTests`) and app policy (`apple/Package.swift`) unit tests on that family's iOS simulator, chosen as for the UI journeys or set with `MSIGN_UNIT_DEVICE`. It stages both packages as symlinks, because `xcodebuild` opens the Xcode project beside `apple/Package.swift` and the core's macOS-only MCP targets do not build for iOS, and fails when a suite runs no tests or any test fails.

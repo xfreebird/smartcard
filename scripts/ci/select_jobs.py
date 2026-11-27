@@ -34,15 +34,17 @@ EXACT_RULES = (
     (('scripts/ci/apt-install.sh', 'scripts/ci/check-linux-design-system.py'), ('linux',)),
     (('scripts/ci/prepare-ios-ui-resources.sh', 'scripts/ci/run-ios-ui-devices.py'), ('ios',)),
     (('scripts/ci/check-xctest-result.py', 'scripts/ci/test-apple-ui.sh', 'scripts/ci/select_apple_ui_targets.py'), APPLE),
-    # iOS app, its share extension and the scripts only the iOS job runs.
+    # apple/Package.swift compiles these into the unit tests that run on macOS and on the iOS simulators.
+    (('apple/Apps/macOS/WindowPolicy/', 'apple/Helpers/ReaderWatcher/InsertionPolicy.swift',
+      'apple/Apps/iOS/SharedDocumentInbox.swift', 'apple/Apps/iOS/Services/NFCBrowserTransport.swift'), APPLE + ('localization',)),
+    # iOS app, its share extension and the scripts only the iOS jobs run.
     (('apple/Apps/iOS/', 'apple/ShareExtension/', 'apple/scripts/run-ios-ui-batch.sh', 'apple/scripts/require-ios-sdk.sh',
-      'apple/scripts/capture-phone-screenshots.sh', 'apple/scripts/collect-nfc-diagnostics.sh'), ('ios', 'localization')),
-    # macOS app, its reader watcher, the package tests the macOS job runs and macOS-only scripts.
+      'apple/scripts/run-ios-unit-tests.sh', 'apple/scripts/capture-phone-screenshots.sh',
+      'apple/scripts/collect-nfc-diagnostics.sh'), ('ios', 'localization')),
+    # macOS app, its reader watcher and macOS-only scripts. The package and its tests run on both platforms.
     (('apple/Apps/macOS/', 'apple/Helpers/', 'apple/scripts/build-reader-watcher.sh', 'apple/scripts/require-siri-sdk.sh',
       'apple/scripts/test-macos-', 'apple/scripts/test-demo-insertion-helper.py', 'apple/scripts/verify-macos-distribution.sh',
-      'apple/scripts/package-app-store.sh', 'apple/Package.swift', 'apple/Package.resolved', 'apple/Tests/AppBatchTests/', 'apple/Tests/DemoModePolicyTests/',
-      'apple/Tests/DocumentLibraryTests/', 'apple/Tests/MainWindowPolicyTests/', 'apple/Tests/MobileServicesTests/',
-      'apple/Tests/ReaderInsertionPolicyTests/', 'apple/Tests/VerificationPoliciesTests/'), ('macos', 'localization')),
+      'apple/scripts/package-app-store.sh'), ('macos', 'localization')),
 )
 
 
