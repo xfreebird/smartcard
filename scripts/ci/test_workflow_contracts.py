@@ -84,18 +84,24 @@ class WorkflowContracts(unittest.TestCase):
         for block in (plugins, dependencies):
             self.assertLess(block.index('MAVEN_CENTRAL_MIRROR'), block.index('mavenCentral()'))
 
-    def test_every_python_test_module_is_a_sonar_test_source(self):
-        # A test module left out of sonar.tests counts as uncovered production code and lowers new-code coverage.
+    def test_sonar_analyzes_only_shipped_runtime_code(self):
         settings = dict(line.split('=', 1) for line in (ROOT/'.sonarcloud.properties').read_text().splitlines()
-                        if line.startswith(('sonar.tests=', 'sonar.exclusions=')))
-        tests = settings['sonar.tests'].split(',')
-        exclusions = settings['sonar.exclusions'].split(',')
-        modules = [p.relative_to(ROOT).as_posix() for p in ROOT.glob('scripts/**/test_*.py')]
-        self.assertGreater(len(modules), 20)
-        for module in modules:
-            self.assertTrue(any(module == entry or module.startswith(entry + '/') for entry in tests), module)
-            self.assertTrue(any(module == entry or (entry.endswith('/**') and module.startswith(entry[:-2]))
-                                for entry in exclusions), module)
+                        if line.startswith('sonar.'))
+        runtime = ('swift/MoldSignKit/Sources/', 'apple/Apps/', 'apple/Helpers/', 'apple/ShareExtension/',
+                   'apple/WidgetExtension/', 'linux/Sources/', 'android/core/src/main/', 'android/transport-usb/src/main/',
+                   'android/app/src/main/', 'android/app/src/release/', 'windows/src/', 'website/src/')
+        inclusions = settings['sonar.inclusions'].split(',')
+        self.assertEqual(sorted(entry.removesuffix('**') for entry in inclusions), sorted(runtime))
+        for entry in inclusions:
+            self.assertTrue((ROOT/entry.removesuffix('/**')).is_dir(), entry)
+        self.assertEqual(settings['sonar.test.exclusions'], '**/*')
+        self.assertNotIn('sonar.tests', settings)
+        workflow = (ROOT/'.github/workflows/sonar-coverage.yml').read_text()
+        self.assertIn("grep -E '^sonar\\.(inclusions|exclusions|test\\.exclusions|sourceEncoding)=' .sonarcloud.properties",
+                      workflow)
+        # Only runtime code is measured: no automation coverage report, website coverage of its pages only.
+        self.assertNotIn('python.coverage', workflow)
+        self.assertNotIn("--test-coverage-include='website/scripts", workflow)
 
     def test_every_native_job_runs_mock_ui_and_remains_required(self):
         ci = (ROOT/'.github/workflows/ci.yml').read_text()

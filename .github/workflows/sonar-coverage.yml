@@ -129,25 +129,10 @@ jobs:
       - name: Measure website module coverage
         run: |
           node --test --experimental-test-coverage --test-coverage-include='website/src/**' \
-            --test-coverage-include='website/scripts/**' --test-coverage-include='website/plugins/**' \
-            --test-coverage-include='website/*.js' \
             --test-reporter=spec --test-reporter=lcov \
             --test-reporter-destination=stdout --test-reporter-destination="$RUNNER_TEMP/coverage/website.lcov" \
             website/tests/*.test.mjs
           grep -q '^SF:website/src/' "$RUNNER_TEMP/coverage/website.lcov"
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
-        with: { python-version: '3.12' }
-      - name: Measure Python automation test coverage
-        env:
-          COVERAGE_RCFILE: scripts/ci/sonar-python.coveragerc
-        run: |
-          export COVERAGE_FILE="$RUNNER_TEMP/python-coverage.data"
-          python -m pip install --only-binary=:all: --require-hashes -r scripts/requirements/sonar-coverage.txt -r scripts/requirements/store-publish.txt
-          for suite in scripts/ci scripts scripts/agents scripts/tests apple/Tests/Scripts; do
-            python -m coverage run --parallel-mode -m unittest discover -s "$suite" -p 'test_*.py'
-          done
-          python -m coverage combine
-          python -m coverage xml -o "$RUNNER_TEMP/coverage/python.xml"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: sonar-android-web
@@ -246,7 +231,7 @@ jobs:
         run: |
           : "${SONAR_TOKEN:?Configure the SONAR_TOKEN secret before enabling CI analysis.}"
           reports="$RUNNER_TEMP/coverage"
-          mapfile -t scope < <(grep -E '^sonar\.(exclusions|sourceEncoding|python\.version)=' .sonarcloud.properties)
+          mapfile -t scope < <(grep -E '^sonar\.(inclusions|exclusions|test\.exclusions|sourceEncoding)=' .sonarcloud.properties)
           "$RUNNER_TEMP/sonar-tools/dotnet-sonarscanner" begin /k:xfreebird_smartcard /o:xfreebird \
             /d:sonar.host.url=https://sonarcloud.io "/d:sonar.token=$SONAR_TOKEN" \
             "/d:sonar.projectBaseDir=$GITHUB_WORKSPACE" /d:sonar.scanner.scanAll=true "${scope[@]/#//d:}" \
@@ -254,7 +239,6 @@ jobs:
             "/d:sonar.coverageReportPaths=$reports/core.xml,$reports/apple.xml,$reports/linux.xml" \
             "/d:sonar.coverage.jacoco.xmlReportPaths=$reports/android-core.xml,$reports/android-transport.xml,$reports/android-app.xml" \
             "/d:sonar.javascript.lcov.reportPaths=$reports/website.lcov" \
-            "/d:sonar.python.coverage.reportPaths=$reports/python.xml" \
             "/d:sonar.cs.vscoveragexml.reportsPaths=$reports/windows-rebased.xml"
       - name: Build portable .NET projects for static analysis
         run: dotnet build windows/MoldSign.Portable.slnf --no-incremental -p:SonarIncludeNativeSources=true
