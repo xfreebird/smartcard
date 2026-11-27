@@ -1,1 +1,1 @@
-Preview and Share actions fit localized text. Browser authentication is easier to identify. Clear verification results from the navigation bar. Updated RSA protection controls and illustrated guides.
+Security and reliability improvements, including stricter card-communication checks and safer navigation in the built-in browser. Updated components.

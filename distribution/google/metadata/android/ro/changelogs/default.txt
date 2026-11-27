@@ -1,1 +1,1 @@
-Alege alt document direct din Verifică și șterge rezultatele din bara de navigare. Selectare NFC și cititor de carduri mai clară, cu o singură intrare pentru fiecare card cunoscut. Controale RSA și ghiduri ilustrate actualizate.
+Aplicație mai mică și mai rapidă. La semnarea prin NFC, telefonul nu mai afișează mesajul „aplicație neacceptată” pentru card. Ecranele și dialogul PIN se încadrează corect între barele sistemului și deasupra tastaturii. Securitate consolidată și componente actualizate.

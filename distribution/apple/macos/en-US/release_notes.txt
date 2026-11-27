@@ -1,1 +1,1 @@
-Explicit card-public-key compatibility for RSA file protection, with clearer encryption and decryption guidance. Updated illustrated guides in English, Romanian and Russian.
+Inserting a card while the main window is open now updates that window instead of opening it again. Security and reliability improvements, including stricter card-communication checks. Updated components.

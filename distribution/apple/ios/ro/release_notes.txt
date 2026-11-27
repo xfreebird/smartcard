@@ -1,1 +1,1 @@
-Acțiunile Previzualizare și Partajează se adaptează textului localizat. Autentificarea în browser este mai vizibilă. Șterge rezultatele verificării din bara de navigare. Controale RSA și ghiduri ilustrate actualizate.
+Îmbunătățiri de securitate și fiabilitate, inclusiv verificări mai stricte ale comunicării cu cardul și navigare mai sigură în browserul integrat. Componente actualizate.

@@ -1,1 +1,1 @@
-Choose another document directly from Verify and clear results from its navigation bar. Clearer NFC and card-reader selection with one entry per known card. Updated RSA protection controls and illustrated guides.
+Smaller, faster app. NFC signing no longer lets the phone show an "app not supported" message for your card. Screens and the PIN dialog fit correctly between the system bars and above the keyboard. Security hardening and updated components.

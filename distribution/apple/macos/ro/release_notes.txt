@@ -1,1 +1,1 @@
-Compatibilitate explicită cu cheia publică a cardului pentru protecția fișierelor RSA, cu instrucțiuni de criptare și decriptare mai clare. Ghiduri ilustrate actualizate în română, engleză și rusă.
+Introducerea unui card cu fereastra principală deschisă actualizează acum fereastra, fără a o redeschide. Îmbunătățiri de securitate și fiabilitate, inclusiv verificări mai stricte ale comunicării cu cardul. Componente actualizate.
