@@ -37,7 +37,7 @@ cd android
 ./gradlew :app:lintDebug
 ```
 
-Toolchain: Gradle 9.1.0, AGP 9.0.1, Kotlin 2.2.10 (Compose compiler plugin 2.2.10), Compose BOM 2026.03.01
+Toolchain: Gradle 9.9.2, AGP 9.5.3, Kotlin 2.4.21 (Compose compiler plugin 2.4.21), Compose BOM 2026.11.01
 (Material 3 1.4.0), minSdk 26, compile/target SDK 36. Versions are in `gradle/libs.versions.toml`.
 
 ### Optimized releases and edge-to-edge

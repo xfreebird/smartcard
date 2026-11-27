@@ -28,6 +28,9 @@ updates:
       android:
         patterns: ["*"]
     open-pull-requests-limit: 2
+    ignore:
+      # The SDK 34 framework jar matches robolectric.properties (sdk=34) on the JDK 17 test runtime.
+      - dependency-name: "org.robolectric:android-all-instrumented"
   - package-ecosystem: nuget
     directory: /windows
     schedule: { interval: weekly }

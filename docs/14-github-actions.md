@@ -202,7 +202,7 @@ The Android build policy command emits JSON to stdout. CI and packaging select t
 The uncommitted changes and complete automated/real integration acceptance matrix are recorded in [the hardening handoff](reports/scanner-hardening-integration-2026-11-22.md). A successful dependency-resolution task is not a passing application build or test run.
 
 
-Android optimization follow-up: the local toolchain is AGP 9.0.1 / Gradle 9.1.0 / Kotlin 2.2.10, with built-in Kotlin for Android modules and an explicit optimized-resource policy. Update matched lint/AAPT2 verification coordinates with AGP; preserve the checked Gradle distribution checksum. Dependency resolution does not validate the optimized output: require clean Release APK/AAB, lint and real resource-sensitive integration before an authorized upload. Existing Play notices remain tied to their uploaded bundle.
+Android optimization follow-up: the local toolchain is AGP 9.5.3 / Gradle 9.9.2 / Kotlin 2.4.21 (compileSdk 37.2, targetSdk 36), with built-in Kotlin for Android modules and an explicit optimized-resource policy. Update matched lint/AAPT2 verification coordinates with AGP; preserve the checked Gradle distribution checksum. Dependency resolution does not validate the optimized output: require clean Release APK/AAB, lint and real resource-sensitive integration before an authorized upload. Existing Play notices remain tied to their uploaded bundle.
 
 
 ### Actions enforcement of the Android R8 toolchain
