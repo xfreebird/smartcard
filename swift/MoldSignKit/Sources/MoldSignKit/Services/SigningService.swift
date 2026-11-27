@@ -107,10 +107,7 @@ public final class SigningService: @unchecked Sendable {
         defer { cardLock.unlock() }
         progress?(.connecting)
         let transport = try transportFactory(reader)
-        if experimentalTokens, let family = TokenRecognizer.family(atr: transport.atr) {
-            transport.disconnect()
-            throw UnsupportedTokenError(family: family)
-        }
+        try ExperimentalTokens.refuseRecognizedToken(on: transport, enabled: experimentalTokens)
         let card = CosmoXCard(transport: transport)
         defer { card.disconnect() }
         progress?(.authenticating)

@@ -32,6 +32,13 @@ class SettingsAndSigningUiTest : AppUiTest() {
             assertEquals(4, switches.fetchSemanticsNodes().size)
             assertTrue(showsTag("settings.experimentalTokens"))
             assertFalse("USB tokens are off by default", app.container.experimentalTokens)
+            scenario.onActivity { activity ->
+                val model = vm(activity)
+                model.experimentalTokensEnabled = true
+                assertTrue(app.container.experimentalTokens)
+                model.experimentalTokensEnabled = false
+                assertFalse(model.experimentalTokensEnabled)
+            }
             click(switches[2])
             assertTrue(md.moldsign.app.widget.DocumentsWidget.showsRecents(app))
             click(switches[3])

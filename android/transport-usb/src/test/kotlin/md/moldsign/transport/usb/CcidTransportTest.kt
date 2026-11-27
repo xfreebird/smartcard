@@ -37,6 +37,17 @@ class CcidTransportTest {
         assertEquals(CcidTransport.SlotState.Absent, t.slotStatus())
     }
 
+    @Test fun answerToResetIsThePowerOnAtr() {
+        val reader = SimulatedCcidReader(apdu = { command -> command + "9000".decodeHex() })
+        val t = transport(reader)
+        assertNull("not powered yet", t.answerToReset())
+        val session = t.session()
+        assertArrayEquals(SimulatedCcidReader.COSMOX_ATR, session.answerToReset())
+        assertArrayEquals(SimulatedCcidReader.COSMOX_ATR, t.answerToReset())
+        session.close()
+        assertNull("powered off", t.answerToReset())
+    }
+
     @Test fun repliesSplitAcrossTransfersAndTimeExtensionsAreReassembled() {
         val big = ByteArray(600) { it.toByte() } + "9000".decodeHex()
         val reader = SimulatedCcidReader(apdu = { big })

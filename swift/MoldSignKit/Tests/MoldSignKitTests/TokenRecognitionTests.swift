@@ -57,6 +57,42 @@ final class TokenRecognitionTests: XCTestCase {
         XCTAssertFalse(token.sent.isEmpty, "off: the card is treated as an eID, as before")
     }
 
+    func testErrorNamesTheToken() {
+        XCTAssertEqual(UnsupportedTokenError(family: .idPrime).errorDescription,
+                       "SafeNet IDPrime recognized; signing with USB tokens is not available yet")
+    }
+
+    func testCLIFlagAndEnvironment() {
+        var arguments = ["esemnbun", "--experimental-tokens", "readers"]
+        XCTAssertTrue(ExperimentalTokens.enabled(arguments: &arguments, environment: [:]))
+        XCTAssertEqual(arguments, ["esemnbun", "readers"], "the flag is consumed")
+        XCTAssertTrue(ExperimentalTokens.enabled(arguments: &arguments, environment: ["MSIGN_EXPERIMENTAL_TOKENS": "1"]))
+        XCTAssertFalse(ExperimentalTokens.enabled(arguments: &arguments, environment: ["MSIGN_EXPERIMENTAL_TOKENS": "0"]))
+        XCTAssertFalse(ExperimentalTokens.enabled(arguments: &arguments, environment: [:]))
+    }
+
+    func testReadersStateNamesATokenOnlyWhenEnabled() {
+        let token = Data(hex: "3BD5180081313A7D8073C8211030")
+        XCTAssertEqual(ExperimentalTokens.cardState(atr: token, enabled: true), "card present — USB token SafeNet eToken, not supported yet")
+        XCTAssertEqual(ExperimentalTokens.cardState(atr: token, enabled: false), "card present")
+        XCTAssertEqual(ExperimentalTokens.cardState(atr: nil, enabled: true), "card present")
+    }
+
+    #if os(macOS) || os(Linux)
+    func testPCSCAnswerToResetOfAnUnknownReaderIsNil() {
+        XCTAssertNil(PCSCTransport.atr(reader: "eSemnBun test reader that does not exist"))
+    }
+    #endif
+
+    #if canImport(Security)
+    func testTheEIDStillReadsWithTheSwitchOn() throws {
+        let service = SigningService()
+        service.transportFactory = { _ in SimulatedCosmoXCard(state: SimulatedCardState()) }
+        service.experimentalTokens = true
+        XCTAssertEqual(try service.readCertificate(reader: "eid").der, TestIdentity.shared.certDER)
+    }
+    #endif
+
     func testEIDIsNotATokenWhenEnabled() {
         let eid = RecordingTransport(atr: Data(hex: "3BDF96008131FE4580738421E0574D44415F415350810F78"))
         let service = SigningService()

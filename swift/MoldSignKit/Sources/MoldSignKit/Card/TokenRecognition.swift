@@ -63,6 +63,33 @@ public enum TokenRecognizer {
     }
 }
 
+/// The experimental switch's shared rules: apps pass their setting, the CLI its flag or environment variable.
+public enum ExperimentalTokens {
+    public static let argument = "--experimental-tokens"
+    public static let environmentVariable = "MSIGN_EXPERIMENTAL_TOKENS"
+
+    /// Removes `--experimental-tokens` from `arguments`; on when it was there or MSIGN_EXPERIMENTAL_TOKENS=1.
+    public static func enabled(arguments: inout [String], environment: [String: String]) -> Bool {
+        let flag = arguments.contains(argument)
+        arguments.removeAll { $0 == argument }
+        return flag || environment[environmentVariable] == "1"
+    }
+
+    /// When `enabled` and `transport` holds a recognized token: disconnects and throws `UnsupportedTokenError`,
+    /// before any APDU. Otherwise does nothing (the eID path).
+    public static func refuseRecognizedToken(on transport: CardTransport, enabled: Bool) throws {
+        guard enabled, let family = TokenRecognizer.family(atr: transport.atr) else { return }
+        transport.disconnect()
+        throw UnsupportedTokenError(family: family)
+    }
+
+    /// The CLI `readers` state of a reader that holds a card.
+    public static func cardState(atr: Data?, enabled: Bool) -> String {
+        guard enabled, let family = TokenRecognizer.family(atr: atr) else { return "card present" }
+        return "card present — USB token \(family.displayName), not supported yet"
+    }
+}
+
 /// A recognized USB token in a reader. Raised before any APDU reaches it; signing with it is not available yet.
 public struct UnsupportedTokenError: Error, LocalizedError, Equatable {
     public let family: TokenFamily

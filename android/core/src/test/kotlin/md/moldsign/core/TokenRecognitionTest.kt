@@ -62,6 +62,23 @@ class TokenRecognitionTest {
         assertFalse(eid.sent.isEmpty())
     }
 
+    @Test fun transportsWithoutAnAtrKeepTheEidPath() {
+        val plain = PlainTransport()
+        val service = CardSigningService(TransportProvider { plain }, MutableStateFlow(ReaderState.NoReader),
+            experimentalTokens = { true })
+        val failure = runCatching { service.certificate("plain") }.exceptionOrNull()
+        assertFalse(failure is UnsupportedTokenException)
+        assertFalse("no ATR: treated as an eID", plain.sent.isEmpty())
+    }
+
+    /** No [ApduTransport.answerToReset] override: the default (no ATR known). */
+    private class PlainTransport : ApduTransport {
+        override val readerName = "Plain reader"
+        val sent = mutableListOf<ByteArray>()
+        override fun transmit(apdu: ByteArray): ByteArray { sent += apdu; return byteArrayOf(0x6A, 0x82.toByte()) }
+        override fun close() {}
+    }
+
     /** Answers every APDU with 6A82, like a token asked for the IAS/ECC application. */
     private class RecordingTransport(private val atr: ByteArray) : ApduTransport {
         override val readerName = "Recording reader"

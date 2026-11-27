@@ -156,11 +156,7 @@ if let i = args.firstIndex(of: "--reader"), i + 1 < args.count {
     args.removeSubrange(i...(i + 1))
 }
 /// Experimental USB token recognition (Phase TOK): `--experimental-tokens` or MSIGN_EXPERIMENTAL_TOKENS=1.
-var experimentalTokens = ProcessInfo.processInfo.environment["MSIGN_EXPERIMENTAL_TOKENS"] == "1"
-if let i = args.firstIndex(of: "--experimental-tokens") {
-    args.remove(at: i)
-    experimentalTokens = true
-}
+let experimentalTokens = ExperimentalTokens.enabled(arguments: &args, environment: ProcessInfo.processInfo.environment)
 SigningService.shared.experimentalTokens = experimentalTokens
 
 // MARK: - Helpers
@@ -175,10 +171,7 @@ func cliPIN() -> String {
 
 func openCard() throws -> CosmoXCard {
     let transport = try PCSCTransport(readerName: readerName)
-    if experimentalTokens, let family = TokenRecognizer.family(atr: transport.atr) {
-        transport.disconnect()
-        throw UnsupportedTokenError(family: family)
-    }
+    try ExperimentalTokens.refuseRecognizedToken(on: transport, enabled: experimentalTokens)
     return CosmoXCard(transport: transport)
 }
 
@@ -265,9 +258,8 @@ case "readers":
     for name in names {
         let state: String
         if let t = try? PCSCTransport(readerName: name) {
-            let token = experimentalTokens ? TokenRecognizer.family(atr: t.atr) : nil
+            state = ExperimentalTokens.cardState(atr: experimentalTokens ? t.atr : nil, enabled: experimentalTokens)
             t.disconnect()
-            state = token.map { "card present — USB token \($0.displayName), not supported yet" } ?? "card present"
         } else { state = "no card" }
         print("\(name) — \(state)")
     }

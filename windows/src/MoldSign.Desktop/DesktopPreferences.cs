@@ -22,6 +22,8 @@ public class DesktopPreferences
 /// <summary>Atomic preferences persistence; it contains no PINs or credential-vault operations.</summary>
 public sealed class DesktopPreferenceStore(string path)
 {
+    private static readonly JsonSerializerOptions s_writeOptions = new() { WriteIndented = true };
+
     public static string DefaultPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
         "MoldSign", "settings.json");
 
@@ -45,8 +47,7 @@ public sealed class DesktopPreferenceStore(string path)
         {
             // The runtime type, so the app's own settings (a derived class) are written too; the insertion helper
             // reads the same file as the base type and ignores them.
-            File.WriteAllText(temporary, JsonSerializer.Serialize(preferences, preferences.GetType(),
-                new JsonSerializerOptions { WriteIndented = true }));
+            File.WriteAllText(temporary, JsonSerializer.Serialize(preferences, preferences.GetType(), s_writeOptions));
             File.Move(temporary, path, overwrite: true);
         }
         finally { if (File.Exists(temporary)) File.Delete(temporary); }

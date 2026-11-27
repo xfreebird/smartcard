@@ -83,6 +83,32 @@ public class TokenRecognitionTests
     }
 
     [Fact]
+    public void A_transport_without_an_atr_keeps_the_eid_path()
+    {
+        var plain = new PlainTransport();
+        var service = new SigningService(() => plain) { ExperimentalTokens = true };
+
+        var e = Assert.Throws<CardException>(() => service.Certificate());
+
+        Assert.NotEqual(CardErrorKind.UnsupportedToken, e.Kind);
+        Assert.NotEmpty(plain.Sent);
+    }
+
+    [Fact]
+    public void An_unknown_family_value_is_refused()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() => ((TokenFamily)42).Id());
+        Assert.Throws<ArgumentOutOfRangeException>(() => ((TokenFamily)42).DisplayName());
+    }
+
+    [Fact]
+    public void The_cli_flag_turns_recognition_on()
+    {
+        Assert.True(MoldSign.Cli.CliOptions.Parse(["--experimental-tokens", "readers"]).ExperimentalTokens);
+        Assert.False(MoldSign.Cli.CliOptions.Parse(["readers"]).ExperimentalTokens);
+    }
+
+    [Fact]
     public void Derived_preferences_survive_a_save()
     {
         var path = Path.Combine(Path.GetTempPath(), $"esemnbun-prefs-{Guid.NewGuid():N}.json");
@@ -103,6 +129,21 @@ public class TokenRecognitionTests
     private sealed class AppLikePreferences : DesktopPreferences
     {
         public bool ExperimentalTokensEnabled { get; set; }
+    }
+
+    /// <summary>No <see cref="ICardTransport.Atr"/> member: the interface default (no ATR known).</summary>
+    private sealed class PlainTransport : ICardTransport
+    {
+        public List<byte[]> Sent { get; } = [];
+        public string ReaderName => "Plain reader";
+
+        public byte[] Transmit(byte[] apdu)
+        {
+            Sent.Add(apdu);
+            return [0x6A, 0x82];
+        }
+
+        public void Dispose() { }
     }
 
     /// <summary>Answers every APDU with 6A82, like a token asked for the IAS/ECC application.</summary>

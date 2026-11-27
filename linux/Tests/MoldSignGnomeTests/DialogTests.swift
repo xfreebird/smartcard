@@ -162,6 +162,8 @@ final class DialogTests: GnomeTestCase {
         XCTAssertEqual(h.bridge.starts, 1)
         GTKTest.setActive(row(.stamp_browser), true)
         XCTAssertTrue(h.controller.settings.browserStampsEnabled)
+        GTKTest.setActive(row(.token_experimental_title), true)
+        XCTAssertTrue(h.controller.settings.experimentalTokensEnabled)
         GTKTest.setActive(row(.legacy_client_title), true)
         XCTAssertTrue(h.controller.settings.legacyDesktopClientEnabled)
         GTKTest.setActive(row(.automation_enable), true)
